@@ -1,0 +1,17 @@
+.main-content {
+  position: relative;
+  top: var(--nav-link-height);
+  width: calc(100vw - var(--aside-bar-width));
+  height: calc(100vh - var(--nav-link-height));
+  margin-left: var(--aside-bar-width);
+  padding: 15px 20px;
+  transition: var(--toggled-transition);
+  -webkit-transition: var(--toggled-transition);
+  -moz-transition: var(--toggled-transition);
+  -ms-transition: var(--toggled-transition);
+  -o-transition: var(--toggled-transition);
+}
+.main-content.toggled {
+  width: calc(100vw - var(--aside-bar-width-toggled));
+  margin-left: var(--aside-bar-width-toggled);
+}

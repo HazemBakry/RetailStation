@@ -1,0 +1,153 @@
+<header id="main_header" class="fixed-top">
+  <nav class="navbar navbar-expand-lg bg-header py-0">
+    <div class="container-fluid">
+      <a class="navbar-brand text-uppercase logo-font text-white">Erp System</a>
+      <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button> -->
+      <button class="hamburger hamburger--stand navbar-toggler border p-2">
+        <span class="d-flex">
+          <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+          </span>
+        </span>
+      </button>
+      <div class="collapse navbar-collapse setting-menu" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link menu-toggler me-4" (click)="onToggler()">
+              <span class="sidebar-menu"></span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">
+              <i class="uil uil-search"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">
+              <i class="uil uil-focus"></i>
+            </a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link nav-link-pump">
+              <span class="position-relative">
+                <i class="uil uil-envelope"></i>
+                <span class="circle green"></span>
+              </span>
+            </a>
+          </li>
+          <li class="nav-item" ngbDropdown display="dynamic">
+            <a class="nav-link nav-link-pump" tabindex="0" ngbDropdownToggle id="userAlarm" role="button">
+              <span class="position-relative">
+                <i class="uil uil-bell"></i>
+                <span class="circle red"></span>
+              </span>
+            </a>
+            <div ngbDropdownMenu aria-labelledby="userAlarm"
+              class="dropdown-menu notification-dropdown p-0 shadow-md overflow-hidden">
+              <div class="d-flex align-items-center justify-content-between cursor-pointer alarm-area py-3"
+                ngbDropdownItem>
+                <h6 class="fw-bold m-0 text-white">Notifications</h6>
+                <div class="d-flexalign-items-center">
+                  <a class="text-undeline text-white me-2">Mark as read</a>
+                  <a class="text-undeline text-white">Clear all</a>
+                </div>
+              </div>
+              <div class="notification-box small-scroll">
+                <h5 class="notification-status text-uppercase px-4 pt-3 pb-2 fs-6">New</h5>
+                <a class="notification-item d-flex align-items-center cursor-pointer py-2" ngbDropdownItem>
+                  <img src="../../../assets/images/user-img.jpg" class="profile-img" alt="user-image" loading="lazy" />
+                  <div class="w-100 ms-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <h6 class="m-0 fw-bold">Hany Salaam</h6>
+                      <div class="d-flex align-items-center text-muted n-time">
+                        <i class="uil uil-clock-nine me-3"></i>
+                        5 Min
+                      </div>
+                    </div>
+                    <p class="m-0">New Ticket Added</p>
+                  </div>
+                </a>
+                <h5 class="notification-status text-uppercase px-4 pt-3 pb-2 fs-6">Earlier</h5>
+                <a class="notification-item d-flex align-items-center cursor-pointer py-2" ngbDropdownItem>
+                  <img src="../../../assets/images/user-img.jpg" class="profile-img" alt="user-image" loading="lazy" />
+                  <div class="w-100 ms-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <h6 class="m-0 fw-bold">Hazeem Bakry</h6>
+                      <div class="d-flex align-items-center text-muted n-time">
+                        <i class="uil uil-clock-nine me-3"></i>
+                        5 Min
+                      </div>
+                    </div>
+                    <p class="m-0">New Ticket Added</p>
+                  </div>
+                </a>
+                <a class="notification-item d-flex align-items-center cursor-pointer py-2" ngbDropdownItem>
+                  <img src="../../../assets/images/user-img.jpg" class="profile-img" alt="user-image" loading="lazy" />
+                  <div class="w-100 ms-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <h6 class="m-0 fw-bold">Abo Nasr</h6>
+                      <div class="d-flex align-items-center text-muted n-time">
+                        <i class="uil uil-clock-nine me-3"></i>
+                        6 Min
+                      </div>
+                    </div>
+                    <p class="m-0">New Ticket Added</p>
+                  </div>
+                </a>
+                <a class="notification-item d-flex align-items-center cursor-pointer py-2" ngbDropdownItem>
+                  <img src="../../../assets/images/user-img.jpg" class="profile-img" alt="user-image" loading="lazy" />
+                  <div class="w-100 ms-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <h6 class="m-0 fw-bold">Salam Hany</h6>
+                      <div class="d-flex align-items-center text-muted n-time">
+                        <i class="uil uil-clock-nine me-3"></i>
+                        10 Min
+                      </div>
+                    </div>
+                    <p class="m-0">New Ticket Added</p>
+                  </div>
+                </a>
+              </div>
+              <div class="notification-show-all">
+                <a class="text-underline text-dark cursor-pointer fs-6">Show all</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item" ngbDropdown display="dynamic">
+            <a class="nav-link" tabindex="0" ngbDropdownToggle id="userProfileImage" role="button">
+              <img src="../../../assets/images/user-img.jpg" class="profile-img" alt="user-image" loading="lazy" />
+            </a>
+            <div ngbDropdownMenu aria-labelledby="userProfileImage"
+              class="dropdown-menu profile-dropdown p-0 shadow-md">
+              <div class="d-flex align-items-center justify-content-between cursor-pointer user-area py-3"
+                ngbDropdownItem>
+                <div class="d-flex align-items-center">
+                  <img src="../../../assets/images/user-img.jpg" class="profile-img" alt="user-image" loading="lazy" />
+                  <span class="ms-2 text-white">Hazeem Bakry</span>
+                </div>
+                <i class="uil uil-sign-out-alt signout-btn text-white cursor-pointer"></i>
+              </div>
+              <a class="d-flex align-items-center cursor-pointer" ngbDropdownItem>
+                <i class="uil uil-user"></i>
+                <span class="ms-2">Profile</span>
+              </a>
+              <a class="d-flex align-items-center cursor-pointer" ngbDropdownItem>
+                <i class="uil uil-envelope-download"></i>
+                <span class="ms-2">My Messages</span>
+              </a>
+              <a class="d-flex align-items-center cursor-pointer" ngbDropdownItem>
+                <i class="uil uil-padlock"></i>
+                <span class="ms-2">Lock Screen</span>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
