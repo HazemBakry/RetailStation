@@ -16,7 +16,7 @@
   --aside-bar-width-toggled: 70px;
   --active: rgba(202, 202, 202, 0.3);
 
-  --scroll-color: #9ea9d4;
+  --scroll-color: #ccc;
 }
 html,
 body {
@@ -84,6 +84,9 @@ hr {
 .table-blue th {
   background-color: var(--main-color);
   color: #fff;
+}
+.table th {
+  min-width: 100px;
 }
 /* End Main Classes */
 

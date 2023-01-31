@@ -145,6 +145,11 @@
   text-align: center;
   background: #f6f7fb;
 }
+.dropdown-toggle::after {
+  border-top: 5px solid;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+}
 
 @keyframes pump {
   0% {
@@ -154,5 +159,17 @@
   100% {
     transform: scale(4);
     opacity: 0;
+  }
+}
+
+@media (max-width: 575px) {
+  .navbar-brand {
+    min-width: auto;
+    height: auto;
+    width: 100%;
+    justify-content: center;
+  }
+  .setting-menu {
+    margin-top: -35px;
   }
 }
