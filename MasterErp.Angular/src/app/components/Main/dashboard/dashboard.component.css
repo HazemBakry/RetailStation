@@ -1,0 +1,12 @@
+::ng-deep .stats-row .stats-col:nth-child(1) .stats-card {
+  background: linear-gradient(45deg, #4099ff, #73b4ff);
+}
+::ng-deep .stats-row .stats-col:nth-child(2) .stats-card {
+  background: linear-gradient(45deg, #2ed8b6, #59e0c5);
+}
+::ng-deep .stats-row .stats-col:nth-child(3) .stats-card {
+  background: linear-gradient(45deg, #ffb64d, #ffcb80);
+}
+::ng-deep .stats-row .stats-col:nth-child(4) .stats-card {
+  background: linear-gradient(45deg, #ff5370, #ff869a);
+}

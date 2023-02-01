@@ -15,3 +15,19 @@
   width: calc(100vw - var(--aside-bar-width-toggled));
   margin-left: var(--aside-bar-width-toggled);
 }
+@media (min-width: 767px) and (max-width: 1199px) {
+  .main-content {
+    width: calc(100vw - var(--aside-bar-width-toggled));
+    margin-left: var(--aside-bar-width-toggled);
+  }
+}
+@media (max-width: 766px) {
+  .main-content {
+    width: 100%;
+    margin-left: 0;
+  }
+  .main-content.toggled {
+    width: 100%;
+    margin-left: 0;
+  }
+}

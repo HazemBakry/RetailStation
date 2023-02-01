@@ -1,26 +1,26 @@
 <aside id="main_sidebar" class="main-sidebar" [ngClass]="{'toggled': toggler}">
   <ul class="nav list-unstyled flex-column p-0 m-0">
-    <li class="nav-item nav-item-title">
+    <li class="nav-item nav-item-title item-sidebar">
       <a class="nav-link title cursor-pointer text-lowercase fw-bold text-dark">Home</a>
     </li>
     <li class="nav-item nav-item-item">
       <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
         routerLink="/" routerLinkActive="active">
         <div class="nav-text d-flex align-items-center w-100">
-          <i class="uil uil-estate nav-icon me-3"></i>
-          <span class="nav-link-text main-nav-link">Dashboard</span>
+          <i class="uil uil-estate nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">Dashboard</span>
         </div>
       </a>
     </li>
-    <li class="nav-item nav-item-title">
+    <li class="nav-item nav-item-title item-sidebar">
       <a class="nav-link title cursor-pointer text-lowercase fw-bold text-dark">navigation</a>
     </li>
     <li class="nav-item nav-item-item">
       <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
         (click)="toggleMenu(menu1)" [ngClass]="{'active': menu1.classList.contains('show')}">
         <div class="nav-text d-flex align-items-center w-100">
-          <i class="uil uil-estate nav-icon me-3"></i>
-          <span class="nav-link-text main-nav-link">Navigator One Level</span>
+          <i class="uil uil-estate nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">Navigator One Level</span>
         </div>
         <div class="nav-collapse">
           <i class="uil uil-angle-right-b"></i>
@@ -29,30 +29,30 @@
       <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu1>
         <li class="nav-item">
           <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-            <span class="nav-link-sub-text">Navigator 1</span>
+            <span class="nav-link-sub-text item-sidebar">Navigator 1</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-            <span class="nav-link-sub-text">Navigator 2</span>
+            <span class="nav-link-sub-text item-sidebar">Navigator 2</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-            <span class="nav-link-sub-text">Navigator 3</span>
+            <span class="nav-link-sub-text item-sidebar">Navigator 3</span>
           </a>
         </li>
       </ul>
     </li>
-    <li class="nav-item nav-item-title">
+    <li class="nav-item nav-item-title item-sidebar">
       <a class="nav-link title cursor-pointer text-lowercase fw-bold text-dark">navigation</a>
     </li>
     <li class="nav-item nav-item-item">
       <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
         (click)="toggleMenu(menu2)" [ngClass]="{'active': menu2.classList.contains('show')}">
         <div class="nav-text d-flex align-items-center w-100">
-          <i class="uil uil-estate nav-icon me-3"></i>
-          <span class="nav-link-text main-nav-link">Navigator Two Level</span>
+          <i class="uil uil-estate nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">Navigator Two Level</span>
         </div>
         <div class="nav-collapse">
           <i class="uil uil-angle-right-b"></i>
@@ -62,7 +62,7 @@
         <li class="nav-item">
           <a class="nav-link sub-nav cursor-pointer d-flex align-items-center justify-content-between"
             (click)="toggleMenu(subMenu1)" [ngClass]="{'active': subMenu1.classList.contains('show')}">
-            <span class="nav-link-text main-nav-link">Navigator</span>
+            <span class="nav-link-text item-sidebar main-nav-link">Navigator</span>
             <div class="nav-collapse">
               <i class="uil uil-angle-right-b"></i>
             </div>
@@ -70,29 +70,29 @@
           <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #subMenu1>
             <li class="nav-item">
               <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-                <span class="nav-link-sub-text">Navigator Sub 1</span>
+                <span class="nav-link-sub-text item-sidebar">Navigator Sub 1</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-                <span class="nav-link-sub-text">Navigator Sub 2</span>
+                <span class="nav-link-sub-text item-sidebar">Navigator Sub 2</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-                <span class="nav-link-sub-text">Navigator Sub 3</span>
+                <span class="nav-link-sub-text item-sidebar">Navigator Sub 3</span>
               </a>
             </li>
           </ul>
         </li>
         <li class="nav-item">
           <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-            <span class="nav-link-sub-text">Navigator Sub 2</span>
+            <span class="nav-link-sub-text item-sidebar">Navigator Sub 2</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-            <span class="nav-link-sub-text">Navigator Sub 3</span>
+            <span class="nav-link-sub-text item-sidebar">Navigator Sub 3</span>
           </a>
         </li>
       </ul>
