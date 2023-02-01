@@ -66,6 +66,36 @@ img {
 hr {
   border-color: #ccc;
 }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  border: 0;
+  letter-spacing: 0.5px;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+  font-weight: bold;
+  border-radius: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
+}
+.page-link {
+  cursor: pointer;
+}
+.main-card-action button:not(:last-child) {
+  margin-right: 5px;
+}
+.modal-content {
+  overflow: hidden;
+  border: 0;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+}
 /* _____________________________________________ */
 /* Start Main Classes */
 .logo-font {
@@ -87,6 +117,8 @@ hr {
 }
 .table th {
   min-width: 100px;
+  height: 45px;
+  vertical-align: middle;
 }
 /* End Main Classes */
 
