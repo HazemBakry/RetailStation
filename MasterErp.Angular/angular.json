@@ -25,12 +25,12 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               {
-                "input": "node_modules/bootstrap/dist/css/bootstrap.rtl.min.css",
+                "input": "node_modules/bootstrap/dist/css/bootstrap.min.css",
                 "inject": false,
                 "bundleName": "BootstrapAr"
               },
               {
-                "input": "node_modules/bootstrap/dist/css/bootstrap.min.css",
+                "input": "node_modules/bootstrap/dist/css/bootstrap.rtl.min.css",
                 "bundleName": "BootstrapEn"
               },
               "src/styles.css"

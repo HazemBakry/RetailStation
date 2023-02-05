@@ -20,6 +20,7 @@
 }
 html,
 body {
+  direction: rtl;
   width: 100%;
   min-height: 100vh;
   padding: 0;
@@ -84,7 +85,7 @@ hr {
   cursor: pointer;
 }
 .main-card-action button:not(:last-child) {
-  margin-right: 5px;
+  margin-left: 5px;
 }
 .modal-content {
   overflow: hidden;

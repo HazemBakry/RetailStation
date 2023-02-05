@@ -1,89 +1,363 @@
 <aside id="main_sidebar" class="main-sidebar" [ngClass]="{'toggled': toggler}">
-  <ul class="nav list-unstyled flex-column p-0 m-0">
+  <ul class="nav list-unstyled flex-column p-0 m-0 small-scroll overflow-auto h-100 flex-column flex-nowrap">
     <li class="nav-item nav-item-title item-sidebar">
-      <a class="nav-link title cursor-pointer text-lowercase fw-bold text-dark">Home</a>
+      <a class="nav-link title cursor-pointer text-lowercase fw-bold text-dark">الرئيسية</a>
     </li>
     <li class="nav-item nav-item-item">
       <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
         routerLink="/" routerLinkActive="active">
         <div class="nav-text d-flex align-items-center w-100">
           <i class="uil uil-estate nav-icon"></i>
-          <span class="nav-link-text item-sidebar main-nav-link ms-3">Dashboard</span>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">لوحة التحكم</span>
         </div>
       </a>
     </li>
     <li class="nav-item nav-item-title item-sidebar">
-      <a class="nav-link title cursor-pointer text-lowercase fw-bold text-dark">navigation</a>
+      <a class="nav-link title cursor-pointer text-lowercase fw-bold text-dark">الحسابات العامة</a>
     </li>
     <li class="nav-item nav-item-item">
       <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
         (click)="toggleMenu(menu1)" [ngClass]="{'active': menu1.classList.contains('show')}">
         <div class="nav-text d-flex align-items-center w-100">
-          <i class="uil uil-estate nav-icon"></i>
-          <span class="nav-link-text item-sidebar main-nav-link ms-3">Navigator One Level</span>
+          <i class="uil uil-database nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">البيانات الاساسية</span>
         </div>
         <div class="nav-collapse">
-          <i class="uil uil-angle-right-b"></i>
+          <i class="uil uil-angle-left-b"></i>
         </div>
       </a>
       <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu1>
         <li class="nav-item">
-          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-            <span class="nav-link-sub-text item-sidebar">Navigator 1</span>
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/generalAccounts/currency"
+            routerLinkActive="active">
+            <span class="nav-link-sub-text item-sidebar">العملة</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-            <span class="nav-link-sub-text item-sidebar">Navigator 2</span>
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/generalAccounts/featured"
+            routerLinkActive="active">
+            <span class="nav-link-sub-text item-sidebar">المميز</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-            <span class="nav-link-sub-text item-sidebar">Navigator 3</span>
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/generalAccounts/fiscalYear"
+            routerLinkActive="active">
+            <span class="nav-link-sub-text item-sidebar">السنة المالية</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+            routerLink="/generalAccounts/receiptBooks" routerLinkActive="active">
+            <span class="nav-link-sub-text item-sidebar">دفاتر الايصال</span>
           </a>
         </li>
       </ul>
-    </li>
-    <li class="nav-item nav-item-title item-sidebar">
-      <a class="nav-link title cursor-pointer text-lowercase fw-bold text-dark">navigation</a>
     </li>
     <li class="nav-item nav-item-item">
       <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
         (click)="toggleMenu(menu2)" [ngClass]="{'active': menu2.classList.contains('show')}">
         <div class="nav-text d-flex align-items-center w-100">
-          <i class="uil uil-estate nav-icon"></i>
-          <span class="nav-link-text item-sidebar main-nav-link ms-3">Navigator Two Level</span>
+          <i class="uil uil-files-landscapes nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">الادلة</span>
         </div>
         <div class="nav-collapse">
-          <i class="uil uil-angle-right-b"></i>
+          <i class="uil uil-angle-left-b"></i>
         </div>
       </a>
       <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu2>
         <li class="nav-item">
-          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center justify-content-between"
-            (click)="toggleMenu(subMenu1)" [ngClass]="{'active': subMenu1.classList.contains('show')}">
-            <span class="nav-link-text item-sidebar main-nav-link">Navigator</span>
-            <div class="nav-collapse">
-              <i class="uil uil-angle-right-b"></i>
-            </div>
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">الادلة 1</span>
           </a>
-          <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #subMenu1>
-            <li class="nav-item">
-              <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-                <span class="nav-link-sub-text item-sidebar">Navigator Sub 1</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-                <span class="nav-link-sub-text item-sidebar">Navigator Sub 2</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-                <span class="nav-link-sub-text item-sidebar">Navigator Sub 3</span>
-              </a>
-            </li>
-          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">الادلة 2</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+        (click)="toggleMenu(menu3)" [ngClass]="{'active': menu3.classList.contains('show')}">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-money-withdrawal nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">العمليات المالية</span>
+        </div>
+        <div class="nav-collapse">
+          <i class="uil uil-angle-left-b"></i>
+        </div>
+      </a>
+      <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu3>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">العمليات المالية 1</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">العمليات المالية 2</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+        (click)="toggleMenu(menu4)" [ngClass]="{'active': menu4.classList.contains('show')}">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-receipt nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">تقارير مالية</span>
+        </div>
+        <div class="nav-collapse">
+          <i class="uil uil-angle-left-b"></i>
+        </div>
+      </a>
+      <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu4>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">تقارير مالية 1</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">تقارير مالية 2</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+        (click)="toggleMenu(menu5)" [ngClass]="{'active': menu5.classList.contains('show')}">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-calculator-alt nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">الحسابات الختامية</span>
+        </div>
+        <div class="nav-collapse">
+          <i class="uil uil-angle-left-b"></i>
+        </div>
+      </a>
+      <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu5>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">الحسابات الختامية 1</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">الحسابات الختامية 2</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+        (click)="toggleMenu(menu6)" [ngClass]="{'active': menu6.classList.contains('show')}">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-calculator-alt nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">الحسابات الختامية</span>
+        </div>
+        <div class="nav-collapse">
+          <i class="uil uil-angle-left-b"></i>
+        </div>
+      </a>
+      <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu6>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">الحسابات الختامية 1</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">الحسابات الختامية 2</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+        (click)="toggleMenu(menu7)" [ngClass]="{'active': menu7.classList.contains('show')}">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-chart-growth nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">تقارير مراكز التكلفة</span>
+        </div>
+        <div class="nav-collapse">
+          <i class="uil uil-angle-left-b"></i>
+        </div>
+      </a>
+      <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu7>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">تقارير مراكز التكلفة 1</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">تقارير مراكز التكلفة 2</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+        (click)="toggleMenu(menu8)" [ngClass]="{'active': menu8.classList.contains('show')}">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-bill nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">مراجعه المعاملات المالية</span>
+        </div>
+        <div class="nav-collapse">
+          <i class="uil uil-angle-left-b"></i>
+        </div>
+      </a>
+      <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu8>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">مراجعه المعاملات المالية 1</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">مراجعه المعاملات المالية 2</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <li class="nav-item nav-item-title item-sidebar">
+      <a class="nav-link title cursor-pointer text-lowercase fw-bold text-dark">المدفوعات</a>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+        (click)="toggleMenu(menu9)" [ngClass]="{'active': menu9.classList.contains('show')}">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-clipboard-alt nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">الايصالات</span>
+        </div>
+        <div class="nav-collapse">
+          <i class="uil uil-angle-left-b"></i>
+        </div>
+      </a>
+      <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu9>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">الايصالات 1</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">الايصالات 2</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+        (click)="toggleMenu(menu10)" [ngClass]="{'active': menu10.classList.contains('show')}">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-servers nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">البيانات الاساسية</span>
+        </div>
+        <div class="nav-collapse">
+          <i class="uil uil-angle-left-b"></i>
+        </div>
+      </a>
+      <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu10>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">البيانات الاساسية 1</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">البيانات الاساسية 2</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <li class="nav-item nav-item-title item-sidebar">
+      <a class="nav-link title cursor-pointer text-lowercase fw-bold text-dark">المقبوضات</a>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+        (click)="toggleMenu(menu11)" [ngClass]="{'active': menu11.classList.contains('show')}">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-clipboard-alt nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">الايصالات</span>
+        </div>
+        <div class="nav-collapse">
+          <i class="uil uil-angle-left-b"></i>
+        </div>
+      </a>
+      <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu11>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">الايصالات 1</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">الايصالات 2</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+        (click)="toggleMenu(menu12)" [ngClass]="{'active': menu12.classList.contains('show')}">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-servers nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">البيانات الاساسية</span>
+        </div>
+        <div class="nav-collapse">
+          <i class="uil uil-angle-left-b"></i>
+        </div>
+      </a>
+      <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu12>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">البيانات الاساسية 1</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">البيانات الاساسية 2</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</aside>
+
+
+<!-- Two Levels Menu Code -->
+<!-- <li class="nav-item nav-item-title item-sidebar">
+  <a class="nav-link title cursor-pointer text-lowercase fw-bold text-dark">navigation</a>
+</li>
+<li class="nav-item nav-item-item">
+  <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+    (click)="toggleMenu(menu2)" [ngClass]="{'active': menu2.classList.contains('show')}">
+    <div class="nav-text d-flex align-items-center w-100">
+      <i class="uil uil-estate nav-icon"></i>
+      <span class="nav-link-text item-sidebar main-nav-link ms-3">Navigator Two Level</span>
+    </div>
+    <div class="nav-collapse">
+      <i class="uil uil-angle-left-b"></i>
+    </div>
+  </a>
+  <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu2>
+    <li class="nav-item">
+      <a class="nav-link sub-nav cursor-pointer d-flex align-items-center justify-content-between"
+        (click)="toggleMenu(subMenu1)" [ngClass]="{'active': subMenu1.classList.contains('show')}">
+        <span class="nav-link-text item-sidebar main-nav-link">Navigator</span>
+        <div class="nav-collapse">
+          <i class="uil uil-angle-left-b"></i>
+        </div>
+      </a>
+      <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #subMenu1>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+            <span class="nav-link-sub-text item-sidebar">Navigator Sub 1</span>
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
@@ -97,5 +371,15 @@
         </li>
       </ul>
     </li>
+    <li class="nav-item">
+      <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+        <span class="nav-link-sub-text item-sidebar">Navigator Sub 2</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+        <span class="nav-link-sub-text item-sidebar">Navigator Sub 3</span>
+      </a>
+    </li>
   </ul>
-</aside>
+</li> -->
