@@ -1,6 +1,6 @@
 <aside id="main_sidebar" class="main-sidebar" [ngClass]="{'toggled': toggler}">
   <ul class="nav list-unstyled flex-column p-0 m-0 small-scroll overflow-auto h-100 flex-column flex-nowrap">
-    <li class="nav-item nav-item-title item-sidebar">
+    <!-- <li class="nav-item nav-item-title item-sidebar">
       <a class="nav-link title cursor-pointer text-lowercase fw-bold text-dark">الرئيسية</a>
     </li>
     <li class="nav-item nav-item-item">
@@ -300,8 +300,136 @@
           </a>
         </li>
       </ul>
+    </li> -->
+
+    <li class="nav-item nav-item-title item-sidebar">
+      <a class="nav-link title cursor-pointer text-lowercase fw-bold text-dark">الموارد البشرية</a>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100">
+        <div class="nav-text d-flex align-items-center w-100" routerLink="/Hr/hrEmployees">
+          <i class="uil uil-database nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">بيانات الموظفين</span>
+        </div>
+      </a>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+      routerLink="/Hr/HrVacation">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-database nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">الاجازات</span>
+        </div>
+      </a>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-database nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">ساعات العمل الاضافية</span>
+        </div>
+      </a>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-database nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">الجزاءات</span>
+        </div>
+      </a>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-database nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">الاجازات المرضية</span>
+        </div>
+      </a>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-database nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">الترقيات والتنقلات</span>
+        </div>
+      </a>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-database nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">الخصم</span>
+        </div>
+      </a>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-database nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">السلف</span>
+        </div>
+      </a>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-database nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">مستحقات الموظفين</span>
+        </div>
+      </a>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-database nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">الحضور والانصراف</span>
+        </div>
+      </a>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-database nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">العلاوات</span>
+        </div>
+      </a>
+    </li>
+    <li class="nav-item nav-item-item">
+      <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-database nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">الراتب الشهري</span>
+        </div>
+      </a>
     </li>
   </ul>
+  <li class="nav-item nav-item-title item-sidebar">
+    <a class="nav-link title cursor-pointer text-lowercase fw-bold text-dark">التقارير</a>
+  </li>
+  <li class="nav-item nav-item-item">
+    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100">
+      <div class="nav-text d-flex align-items-center w-100">
+        <i class="uil uil-database nav-icon"></i>
+        <span class="nav-link-text item-sidebar main-nav-link ms-3">الراتب الشهري</span>
+      </div>
+    </a>
+  </li>
+  <li class="nav-item nav-item-item">
+    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100">
+      <div class="nav-text d-flex align-items-center w-100">
+        <i class="uil uil-database nav-icon"></i>
+        <span class="nav-link-text item-sidebar main-nav-link ms-3">الراتب الشهري</span>
+      </div>
+    </a>
+  </li>
+  <li class="nav-item nav-item-item">
+    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100">
+      <div class="nav-text d-flex align-items-center w-100">
+        <i class="uil uil-database nav-icon"></i>
+        <span class="nav-link-text item-sidebar main-nav-link ms-3">الراتب الشهري</span>
+      </div>
+    </a>
+  </li>
 </aside>
 
 
