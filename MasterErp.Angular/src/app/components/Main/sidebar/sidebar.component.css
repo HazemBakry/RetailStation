@@ -101,7 +101,7 @@
   position: absolute;
   top: 50%;
   right: 20px;
-  background-color: var(--main-color);
+  background-color: var(--green-color);
   opacity: 0;
   transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
@@ -120,7 +120,7 @@
 }
 .main-sidebar .nav-sub-list .sub-nav:hover,
 .main-sidebar .nav-sub-list .sub-nav.active {
-  color: var(--main-color);
+  color: var(--green-color);
 }
 .main-sidebar .nav-sub-list .sub-nav.active {
   font-weight: bold;

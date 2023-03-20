@@ -5,12 +5,12 @@ import { HrVacationComponent } from './hr-vacation/hr-vacation.component';
 
 const routes: Routes = [
   {
-    path:'HrVacation',
-    component:HrVacationComponent
+    path: 'HrVacation',
+    component: HrVacationComponent
   },
   {
-    path:'HrEmployees',
-    component:HrEmployeesComponent
+    path: 'HrEmployees',
+    component: HrEmployeesComponent
   }
 ];
 

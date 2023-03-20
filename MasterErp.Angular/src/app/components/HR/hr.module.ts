@@ -6,7 +6,6 @@ import { HrComponent } from './hr.component';
 import { HrVacationComponent } from './hr-vacation/hr-vacation.component';
 import { HrEmployeesComponent } from './hr-employees/hr-employees.component';
 
-
 @NgModule({
   declarations: [
     HrComponent,

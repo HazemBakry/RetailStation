@@ -8,7 +8,7 @@ import { ErpLoginComponent } from './erp-login/erp-login.component';
 import { DashboardComponent } from './components/Main/dashboard/dashboard.component';
 import { HeaderComponent } from './components/Main/header/header.component';
 import { SidebarComponent } from './components/Main/sidebar/sidebar.component';
-import { StatsCardComponent } from './components/Shared/stats-card/stats-card.component';
+import { StatsCardComponent } from './components/shared/stats-card/stats-card.component';
 @NgModule({
   declarations: [
     AppComponent,
