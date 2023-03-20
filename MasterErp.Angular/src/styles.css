@@ -102,7 +102,7 @@ select {
   position: relative;
   background-image: url("./assets/select-arrow.png");
   background-repeat: no-repeat;
-  background-position-x: 10px;
+  background-position-x: 15px;
   background-position-y: 50%;
   background-size: 12px;
   cursor: pointer;
