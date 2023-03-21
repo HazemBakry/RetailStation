@@ -1,0 +1,184 @@
+<div class="card radius-10 border-0 card-shadow">
+  <div class="card-body">
+    <div class="main-card-action d-flex align-items-center flex-wrap">
+      <button class="btn btn-primary mb-1">
+        <i class="uil uil-plus-circle"></i>
+        <span class="ms-2">Add New</span>
+      </button>
+      <button class="btn btn-dark mb-1">
+        <i class="uil uil-eye"></i>
+        <span class="ms-2">Preview</span>
+      </button>
+      <button class="btn btn-warning mb-1">
+        <i class="uil uil-location-arrow"></i>
+        <span class="ms-2">Update</span>
+      </button>
+      <button class="btn btn-secondary mb-1">
+        <i class="uil uil-print"></i>
+        <span class="ms-2">Print</span>
+      </button>
+      <button class="btn btn-danger mb-1">
+        <i class="uil uil-times-circle"></i>
+        <span class="ms-2">Exist</span>
+      </button>
+    </div>
+    <div class="mt-3 mb-4 border-top"></div>
+    <div class="main-card-paging d-flex justify-content-end">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item disabled">
+            <a class="page-link">Previous</a>
+          </li>
+          <li class="page-item"><a class="page-link">1</a></li>
+          <li class="page-item active" aria-current="page">
+            <a class="page-link">2</a>
+          </li>
+          <li class="page-item"><a class="page-link">3</a></li>
+          <li class="page-item"><a class="page-link">4</a></li>
+          <li class="page-item"><a class="page-link">5</a></li>
+          <li class="page-item">
+            <a class="page-link">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="table-responsive">
+      <table class="table align-middle table-blue align-middle mb-0 table-hover">
+        <thead class="table-light">
+          <tr>
+            <th>Table head1</th>
+            <th>Table head2</th>
+            <th>Table head3</th>
+            <th>Table head4</th>
+            <th>Table head5</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Table Cell1</td>
+            <td>Table Cell2</td>
+            <td>Table Cell3</td>
+            <td>Table Cell4</td>
+            <td>Table Cell5</td>
+            <td>
+              <div class="d-flex align-items-center justify-content-center">
+                <button class="btn btn-primary text-white me-2" (click)="openEditModal(editModal)">
+                  <i class="uil uil-edit"></i>
+                  <span class="ms-2">Edit</span>
+                </button>
+                <button class="btn btn-danger">
+                  <i class="uil uil-trash-alt"></i>
+                  <span class="ms-2">Delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Table Cell1</td>
+            <td>Table Cell2</td>
+            <td>Table Cell3</td>
+            <td>Table Cell4</td>
+            <td>Table Cell5</td>
+            <td>
+              <div class="d-flex align-items-center justify-content-center">
+                <button class="btn btn-primary text-white me-2" (click)="openEditModal(editModal)">
+                  <i class="uil uil-edit"></i>
+                  <span class="ms-2">Edit</span>
+                </button>
+                <button class="btn btn-danger">
+                  <i class="uil uil-trash-alt"></i>
+                  <span class="ms-2">Delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Table Cell1</td>
+            <td>Table Cell2</td>
+            <td>Table Cell3</td>
+            <td>Table Cell4</td>
+            <td>Table Cell5</td>
+            <td>
+              <div class="d-flex align-items-center justify-content-center">
+                <button class="btn btn-primary text-white me-2" (click)="openEditModal(editModal)">
+                  <i class="uil uil-edit"></i>
+                  <span class="ms-2">Edit</span>
+                </button>
+                <button class="btn btn-danger">
+                  <i class="uil uil-trash-alt"></i>
+                  <span class="ms-2">Delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Table Cell1</td>
+            <td>Table Cell2</td>
+            <td>Table Cell3</td>
+            <td>Table Cell4</td>
+            <td>Table Cell5</td>
+            <td>
+              <div class="d-flex align-items-center justify-content-center">
+                <button class="btn btn-primary text-white me-2" (click)="openEditModal(editModal)">
+                  <i class="uil uil-edit"></i>
+                  <span class="ms-2">Edit</span>
+                </button>
+                <button class="btn btn-danger">
+                  <i class="uil uil-trash-alt"></i>
+                  <span class="ms-2">Delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #editModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit</h4>
+    <button type="button" class="btn btn-danger py-0 px-3 rounded fs-4 fw-bold" (click)="modal.dismiss()">
+      <i class="uil uil-times"></i>
+    </button>
+  </div>
+  <div class="modal-body bg-light">
+    <form>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" placeholder="editor1">
+            <label for="floatingInput">Editor 1</label>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" placeholder="editor2">
+            <label for="floatingInput">Editor 2</label>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" placeholder="editor3">
+            <label for="floatingInput">Editor 3</label>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" placeholder="editor4">
+            <label for="floatingInput">Editor 4</label>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <button class="btn btn-success" type="submit" (click)="modal.close()">
+            <i class="uil uil-save"></i>
+            <span class="ms-2">Save</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>

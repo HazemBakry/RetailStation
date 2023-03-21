@@ -7,8 +7,8 @@ const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'login', component: ErpLoginComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'hr', loadChildren: () => import('./components/HR/hr-routing.module').then(erp => erp.HrRoutingModule) },
-  { path: 'generalAccounts', loadChildren: () => import('./components/GeneralAccounts/general-account.module').then(erp => erp.GeneralAccountModule) }
+  { path: 'Hr', loadChildren: () => import('./components/HR/hr-routing.module').then(erp => erp.HrRoutingModule) },
+  { path: 'generalAccounts', loadChildren: () => import('./components/Finance/general-account.module').then(erp => erp.GeneralAccountModule) }
 ];
 
 @NgModule({

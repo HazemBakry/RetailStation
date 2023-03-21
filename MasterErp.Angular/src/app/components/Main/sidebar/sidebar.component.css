@@ -1,12 +1,12 @@
 .main-sidebar {
   position: fixed;
   top: var(--nav-link-height);
-  left: 0;
+  right: 0;
   z-index: 2;
   width: var(--aside-bar-width);
   background-color: #fff;
   height: calc(100vh - var(--nav-link-height));
-  box-shadow: 2px 0 2.94px 0.06px rgb(4 26 55 / 16%);
+  box-shadow: -2px 0 2.94px 0.06px rgb(4 26 55 / 16%);
   perspective: 2000px;
   transition: var(--toggled-transition);
   -webkit-transition: var(--toggled-transition);
@@ -21,13 +21,16 @@
 .main-sidebar .nav-item-item {
   width: 100%;
 }
-.main-sidebar .nav-item-item:not(:last-of-type) {
-  border-bottom: 1px solid #e2e5e8;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
+.nav-item.nav-item-title:not(:first-child) {
+  border-top: 1px solid #e2e5e8;
+  margin-top: 20px;
+}
+.nav-item.nav-item-title {
+  padding-top: 15px;
+  padding-bottom: 5px;
 }
 .main-sidebar .main-nav {
-  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
   font-size: 15px;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -35,12 +38,12 @@
 
 .main-sidebar .main-nav:hover,
 .main-sidebar .main-nav.active {
-  border-left-color: var(--main-color);
+  border-right-color: var(--main-color);
   background-color: var(--active);
 }
 .main-sidebar .nav-sub-list {
   position: relative;
-  margin-left: 20px !important;
+  margin-right: 20px !important;
   display: none;
 }
 .main-sidebar .nav-sub-list.show {
@@ -53,7 +56,7 @@
   position: absolute;
   z-index: -1;
   top: -15px;
-  left: 2px;
+  right: 2px;
   background-color: rgba(185, 199, 212, 0.5);
 }
 .main-sidebar .nav-collapse {
@@ -72,7 +75,7 @@
   -o-transform: rotate(90deg);
 }
 .main-sidebar .nav-sub-list .sub-nav {
-  padding-left: 40px;
+  padding-right: 40px;
   font-size: 15px;
   position: relative;
   color: #333;
@@ -81,7 +84,7 @@
   content: "";
   position: absolute;
   top: 50%;
-  left: 2px;
+  right: 2px;
   width: 20px;
   height: 1px;
   background-color: rgba(185, 199, 212, 0.5);
@@ -97,8 +100,8 @@
   height: 6px;
   position: absolute;
   top: 50%;
-  left: 20px;
-  background-color: var(--main-color);
+  right: 20px;
+  background-color: var(--green-color);
   opacity: 0;
   transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
@@ -117,7 +120,10 @@
 }
 .main-sidebar .nav-sub-list .sub-nav:hover,
 .main-sidebar .nav-sub-list .sub-nav.active {
-  color: var(--main-color);
+  color: var(--green-color);
+}
+.main-sidebar .nav-sub-list .sub-nav.active {
+  font-weight: bold;
 }
 .nav-icon {
   font-size: 17px;
@@ -156,15 +162,15 @@
 .main-sidebar.toggled:hover .nav-sub-list.show {
   display: block;
 }
-.main-sidebar.toggled .nav-item-item:not(:last-of-type) {
-  border-bottom: 0;
-  margin-bottom: 0;
+.main-sidebar.toggled .nav-item.nav-item-title:not(:first-child) {
+  border-top: 0;
+  margin-top: 0;
   padding-bottom: 0;
 }
-.main-sidebar.toggled:hover .nav-item-item:not(:last-of-type) {
-  border-bottom: 1px solid #e2e5e8;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
+.main-sidebar.toggled:hover .nav-item.nav-item-title:not(:first-child) {
+  border-top: 1px solid #e2e5e8;
+  margin-top: 20px;
+  padding-bottom: 10px;
 }
 
 @media (min-width: 767px) and (max-width: 1199px) {
@@ -184,10 +190,17 @@
     -ms-transform: scale(0);
     -o-transform: scale(0);
   }
-  .main-sidebar .nav-item-item:not(:last-of-type) {
-    border-bottom: 0;
-    margin-bottom: 0;
-    padding-bottom: 0;
+  .nav-item.nav-item-title:not(:first-child) {
+    border-top: 1px solid #e2e5e8;
+    margin-top: 20px;
+  }
+  .nav-item.nav-item-title {
+    padding-top: 20px;
+    padding-bottom: 5px;
+  }
+  .nav-item.nav-item-title {
+    margin-top: 20px;
+    padding-top: 20px;
   }
   .main-sidebar:hover .nav-item-item:not(:last-of-type),
   .main-sidebar.toggled:hover .nav-item-item:not(:last-of-type) {
@@ -207,14 +220,14 @@
 @media (max-width: 767px) {
   .main-sidebar {
     width: var(--aside-bar-width-toggled);
-    left: calc(var(--aside-bar-width) * -1);
+    right: calc(var(--aside-bar-width) * -1);
   }
   .main-sidebar:hover {
     width: var(--aside-bar-width);
   }
   .main-sidebar.toggled {
     width: var(--aside-bar-width-toggled);
-    left: 0;
+    right: 0;
   }
   .main-sidebar.toggled:hover {
     width: var(--aside-bar-width);

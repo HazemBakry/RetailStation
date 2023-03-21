@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalDismissReasons, NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -39,13 +39,11 @@ export class DashboardComponent implements OnInit {
     },
   ];
 
-  constructor(private modalService: NgbModal) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
 
-  openEditModal(content: any) {
-    this.modalService.open(content, { centered: true, size: 'lg' });
-  }
+
 
 }
