@@ -101,7 +101,7 @@
   position: absolute;
   top: 50%;
   right: 20px;
-  background-color: var(--green-color);
+  background-color: var(--main-color);
   opacity: 0;
   transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
@@ -114,13 +114,16 @@
   -ms-border-radius: 50%;
   -o-border-radius: 50%;
 }
+.main-sidebar .nav-sub-list .sub-nav:hover::after {
+  background-color: var(--green-color);
+}
 .main-sidebar .nav-sub-list .sub-nav:hover::after,
 .main-sidebar .nav-sub-list .sub-nav.active::after {
   opacity: 1;
 }
 .main-sidebar .nav-sub-list .sub-nav:hover,
 .main-sidebar .nav-sub-list .sub-nav.active {
-  color: var(--green-color);
+  color: var(--main-color);
 }
 .main-sidebar .nav-sub-list .sub-nav.active {
   font-weight: bold;
