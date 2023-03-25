@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 export class HrEmployeesComponent implements OnInit {
 
   active = 1;
+  isActive = false;
 
   constructor() { }
 

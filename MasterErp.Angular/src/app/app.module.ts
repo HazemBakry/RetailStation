@@ -8,20 +8,21 @@ import { ErpLoginComponent } from './erp-login/erp-login.component';
 import { DashboardComponent } from './components/Main/dashboard/dashboard.component';
 import { HeaderComponent } from './components/Main/header/header.component';
 import { SidebarComponent } from './components/Main/sidebar/sidebar.component';
-import { StatsCardComponent } from './components/shared/stats-card/stats-card.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
     ErpLoginComponent,
     HeaderComponent,
     SidebarComponent,
-    DashboardComponent,
-    StatsCardComponent
+    DashboardComponent
   ],
   imports: [
+    CommonModule,
+    FormsModule,
     BrowserModule,
-    AppRoutingModule,
-    NgbModule
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
