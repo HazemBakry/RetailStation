@@ -79,6 +79,7 @@
   font-size: 15px;
   position: relative;
   color: #333;
+  white-space: nowrap;
 }
 .main-sidebar .nav-sub-list .sub-nav::before {
   content: "";
