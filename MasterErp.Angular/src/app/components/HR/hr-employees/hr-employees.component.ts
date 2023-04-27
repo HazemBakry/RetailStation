@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { HrService } from '../hr.service';
 @Component({
   selector: 'app-hr-employees',
   templateUrl: './hr-employees.component.html',
   styleUrls: ['./hr-employees.component.css']
 })
 export class HrEmployeesComponent implements OnInit {
-
   active = 1;
-  isActive = false;
+  arry = [1, 2, 3, 4, 5];
 
-  constructor() { }
+  constructor(private offcanvasService: NgbOffcanvas, private hrService: HrService) { }
 
   ngOnInit(): void {
+    this.GetIqamaIssuePlaceData();
   }
 
   onActive(index: number) {
@@ -28,5 +30,15 @@ export class HrEmployeesComponent implements OnInit {
     } else if (index === 6) {
       this.active = 6;
     }
+  }
+
+  OpenDetailsSidePanel(content: any) {
+    this.offcanvasService.open(content, { position: 'end' });
+  }
+
+  GetIqamaIssuePlaceData(){
+    this.hrService.GetIqamaIssuePlaceData().subscribe(data => {
+
+    })
   }
 }

@@ -4,7 +4,7 @@
       <div class="employee-image mb-2 me-4">
         <img src="../../../../assets/images/default-image.png" class="emp-img" alt="default-image" loading="lazy" />
       </div>
-      <div class="employee-info" *ngIf="isActive">
+      <div class="employee-info">
         <h3 class="mb-2 d-flex align-items-center">
           <span class="fw-bold me-2">حازم بكرى</span>
           <span class="tag active fs-6 rounded shadow-sm px-2 py-1">نشيط</span>
@@ -19,49 +19,59 @@
         </div>
       </div>
     </div>
-    <div class="employee-card-content card-shadow bg-light border">
+    <div class="employee-card-content card-shadow bg-light border mb-3">
       <div class="employee-card-tabs d-flex mb-5">
         <div class="employee-tab-item" [class.active]="active === 1" (click)="onActive(1)">
           <i class="uil uil-user"></i>
-          <span>Tab 1</span>
+          <span>البيانات الأساسية</span>
         </div>
         <div class="employee-tab-item" [class.active]="active === 2" (click)="onActive(2)">
           <i class="uil uil-user"></i>
-          <span>Tab 2</span>
+          <span>جواز السفر</span>
         </div>
         <div class="employee-tab-item" [class.active]="active === 3" (click)="onActive(3)">
           <i class="uil uil-user"></i>
-          <span>Tab 3</span>
+          <span>بيانات العقد</span>
         </div>
         <div class="employee-tab-item" [class.active]="active === 4" (click)="onActive(4)">
           <i class="uil uil-user"></i>
-          <span>Tab 4</span>
-        </div>
-        <div class="employee-tab-item" [class.active]="active === 5" (click)="onActive(5)">
-          <i class="uil uil-user"></i>
-          <span>Tab 5</span>
+          <span>بيانات اخرى</span>
         </div>
       </div>
       <div class="employee-card-tabs-content px-4 pb-2">
-        <ng-container>
+        <ng-container *ngIf="active == 1">
           <div class="employee-card-body row">
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="any">
-                <label for="floatingInput">النص التعريفى هنا</label>
+                <input type="text" class="form-control" id="floatingInput1" placeholder="any">
+                <label for="floatingInput1">الاسم بالعربي</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="any">
-                <label for="floatingInput">النص التعريفى هنا</label>
+                <input type="text" class="form-control" id="floatingInput2" placeholder="any">
+                <label for="floatingInput2">الاسم بالانكليزي</label>
               </div>
             </div>
-
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput3" placeholder="any">
+                <label for="floatingInput3">رقم الاقامة</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput4" placeholder="any">
+                <label for="floatingInput4">مكان الاصدار</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <select class="form-control mb-3 py-3">
-                <option value="0" selected disabled>اختر من فضلك</option>
+                <option value="0" selected disabled>الكفيل</option>
                 <option value="1">اختيار 1</option>
                 <option value="2">اختيار 2</option>
                 <option value="3">اختيار 3</option>
@@ -70,28 +80,55 @@
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="any">
-                <label for="floatingInput">النص التعريفى هنا</label>
-              </div>
-            </div>
-
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="any">
-                <label for="floatingInput">النص التعريفى هنا</label>
+                <input type="text" class="form-control" id="floatingInput5" placeholder="any">
+                <label for="floatingInput5">نوع الاقامة</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="any">
-                <label for="floatingInput">النص التعريفى هنا</label>
+                <input type="date" class="form-control" id="floatingInput6" placeholder="any">
+                <label for="floatingInput6">تاريخ الاصدار</label>
               </div>
             </div>
-
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="floatingInput7" placeholder="any">
+                <label for="floatingInput7">تاريخ الانتهاء</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <select class="form-control mb-3 py-3">
-                <option value="0" selected disabled>اختر من فضلك</option>
+                <option value="0" selected disabled>الجنسية</option>
+                <option value="1">اختيار 1</option>
+                <option value="2">اختيار 2</option>
+                <option value="3">اختيار 3</option>
+              </select>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <select class="form-control mb-3 py-3">
+                <option value="0" selected disabled>الديانة</option>
+                <option value="1">اختيار 1</option>
+                <option value="2">اختيار 2</option>
+                <option value="3">اختيار 3</option>
+              </select>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <select class="form-control mb-3 py-3">
+                <option value="0" selected disabled>العمل</option>
+                <option value="1">اختيار 1</option>
+                <option value="2">اختيار 2</option>
+                <option value="3">اختيار 3</option>
+              </select>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <select class="form-control mb-3 py-3">
+                <option value="0" selected disabled>الفرع</option>
                 <option value="1">اختيار 1</option>
                 <option value="2">اختيار 2</option>
                 <option value="3">اختيار 3</option>
@@ -100,14 +137,325 @@
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="any">
-                <label for="floatingInput">النص التعريفى هنا</label>
+                <input type="text" class="form-control" id="floatingInput8" placeholder="any">
+                <label for="floatingInput8">مكان الولادة</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="floatingInput9" placeholder="any">
+                <label for="floatingInput9">تاريخ الميلاد</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-8">
+              <div class="form-floating mb-3">
+                <textarea type="text" class="form-control" id="floatingInput10" placeholder="العنوان"></textarea>
+                <label for="floatingInput10">العنوان</label>
+              </div>
+            </div>
+            <div class="col-xl-5">
+              <div class="d-flex mb-3">
+                <label for="floatingInput11" class="me-2">سائق</label>
+                <input type="checkbox" id="floatingInput11">
+              </div>
+            </div>
+            <div class="col-xl-5">
+              <div class="d-flex mb-3">
+                <label for="floatingInput12" class="me-2">يشمل بصمة يد</label>
+                <input type="checkbox" id="floatingInput12">
               </div>
             </div>
           </div>
         </ng-container>
 
+        <ng-container *ngIf="active == 2">
+          <div class="employee-card-body row">
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput1" placeholder="any">
+                <label for="floatingInput1">Border Number</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="floatingInput2" placeholder="any">
+                <label for="floatingInput2">تاريخ الدخول</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput3" placeholder="any">
+                <label for="floatingInput3">مكان الوصول</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput4" placeholder="any">
+                <label for="floatingInput4">رقم جواز السفر</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput5" placeholder="any">
+                <label for="floatingInput5">مكان الاصدار</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="floatingInput6" placeholder="any">
+                <label for="floatingInput6">تاريخ الوصول</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="floatingInput7" placeholder="any">
+                <label for="floatingInput7">تاريخ الانتهاء</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput8" placeholder="any">
+                <label for="floatingInput8">رقم الفيزا</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="floatingInput9" placeholder="any">
+                <label for="floatingInput9">تاريخ اصدار الفيزا</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <textarea type="text" class="form-control" id="floatingInput10" placeholder="العنوان"></textarea>
+                <label for="floatingInput10">ملاحظات</label>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="active == 3">
+          <div class="employee-card-body row mb-3">
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="floatingInput1" placeholder="any">
+                <label for="floatingInput1">تاريخ الانضمام</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="floatingInput2" placeholder="any">
+                <label for="floatingInput2">Last Join Date</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput3" placeholder="any">
+                <label for="floatingInput3">عدد سنوات العمل</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput4" placeholder="any">
+                <label for="floatingInput4">تاريخ انتهاء العمل</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput5" placeholder="any">
+                <label for="floatingInput5">الاجازات كل</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput6" placeholder="any">
+                <label for="floatingInput6">فترة الاجازات</label>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="employee-card-body row">
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput1" placeholder="any">
+                <label for="floatingInput1">الراتب الاساسي</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput2" placeholder="any">
+                <label for="floatingInput2">الراتب الاضافي</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput3" placeholder="any">
+                <label for="floatingInput3">التنقلات</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput4" placeholder="any">
+                <label for="floatingInput4">المنزل</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput5" placeholder="any">
+                <label for="floatingInput5">رقم التلفون</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput6" placeholder="any">
+                <label for="floatingInput6">طبيعة العمل</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput6" placeholder="any">
+                <label for="floatingInput6">الوجبة</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput6" placeholder="any">
+                <label for="floatingInput6">اخرى</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput6" placeholder="any">
+                <label for="floatingInput6">الراتب الكلي</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="d-flex mb-3">
+                <input type="checkbox" class="me-2" id="floatingInput" placeholder="any">
+                <label for="floatingInput">Is Gossi</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput6" placeholder="any">
+                <label for="floatingInput6">الحساب البنكي</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput6" placeholder="any">
+                <label for="floatingInput6">ايام العمل</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput6" placeholder="any">
+                <label for="floatingInput6">الدفع بالفيزا</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <select class="form-control mb-3 py-3">
+                <option value="0" selected disabled>اسم البمك</option>
+                <option value="1">اختيار 1</option>
+                <option value="2">اختيار 2</option>
+                <option value="3">اختيار 3</option>
+              </select>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput6" placeholder="any">
+                <label for="floatingInput6">الدفع نقدي</label>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary" (click)="OpenDetailsSidePanel(detailsSidepanel)">التفاصيل</button>
+        </ng-container>
+
+        <ng-container *ngIf="active == 4">
+          <div class="employee-card-body row mb-3">
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="floatingInput1" placeholder="any">
+                <label for="floatingInput1">تاريخ اصدار الرخصة</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="floatingInput2" placeholder="any">
+                <label for="floatingInput2">تاريخ انتهاء الرخصة</label>
+              </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput6" placeholder="any">
+                <label for="floatingInput6">رقم السيارة</label>
+              </div>
+            </div>
+          </div>
+        </ng-container>
       </div>
     </div>
+    <button class="btn btn-primary">حفظ</button>
   </div>
 </div>
+
+
+<ng-template #detailsSidepanel let-offcanvas style="width: 817px;">
+  <div class="offcanvas-header pb-0">
+    <div>
+      <h4 class="offcanvas-title m-0 d-flex align-items-center w-100"><i
+          class="fas fa-history fa-2x main-color me-2"></i> التفاصيل</h4>
+    </div>
+    <button type="button" class="btn bg-danger text-white rounded" aria-label="Close" (click)="offcanvas.dismiss()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="offcanvas-body pt-0">
+    <div class="table-responsive">
+      <table class="table align-middle table-blue mb-0 table-hover">
+        <thead class="table-light">
+          <tr>
+            <th>عدد سنوات العمل</th>
+            <th>تاريخ بداية العقد</th>
+            <th>تاريخ انتهاء العقد</th>
+            <th>الاجازات</th>
+            <th>عدد ايام العمل</th>
+            <th>الاجازة القادمة</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</ng-template>

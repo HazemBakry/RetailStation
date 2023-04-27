@@ -23,8 +23,15 @@ namespace MasterErp.Entities.Models
 
         }
 
-        public DbSet<Employee> Employees { get; set; }
-        public DbSet<Nationality> Nationalities { get; set; }
+        public DbSet<Employee> Employee { get; set; }
+        public DbSet<Nationality> Nationalitie { get; set; }
+        public DbSet<Sponsor> Sponsor { get; set; }
+        public DbSet<IqamaIssuePlace> IqamaIssuePlace { get; set; }
+        public DbSet<IqamaJob> IqamaJob { get; set; }
+        public DbSet<Job> Job { get; set; }
+        public DbSet<Branch> Branche { get; set; }
+        public DbSet<Bank> Bank { get; set; }
+        public DbSet<EmployeeContract> EmployeeContract { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

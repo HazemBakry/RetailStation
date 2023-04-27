@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Common;
 using MasterErp.Service.Common;
+using MasterErp.Interface.Common;
 
 namespace MasterErp.Service.Common
 {

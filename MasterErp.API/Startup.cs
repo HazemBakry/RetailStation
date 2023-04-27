@@ -1,4 +1,8 @@
 using MasterErp.Entities.Models;
+using MasterErp.Interface.Common;
+using MasterErp.Interface.HR;
+using MasterErp.Service.Common;
+using MasterErp.Service.HR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +47,8 @@ namespace MasterErp.API
 
             services.AddControllers();
             services.AddDbContext<DBContext>();
+            services.AddScoped<ISQLHelper, SQLHelper>();
+            services.AddScoped<IEmployeesService, EmployeesService>();
             services
                 .AddMvc(options =>
                 {
