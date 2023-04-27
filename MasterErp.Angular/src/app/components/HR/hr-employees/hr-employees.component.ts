@@ -23,20 +23,16 @@ export class HrEmployeesComponent implements OnInit {
       this.active = 2;
     } else if (index === 3) {
       this.active = 3;
-    } else if (index === 4) {
+    } else
       this.active = 4;
-    } else if (index === 5) {
-      this.active = 5;
-    } else if (index === 6) {
-      this.active = 6;
-    }
+
   }
 
   OpenDetailsSidePanel(content: any) {
     this.offcanvasService.open(content, { position: 'end' });
   }
 
-  GetIqamaIssuePlaceData(){
+  GetIqamaIssuePlaceData() {
     this.hrService.GetIqamaIssuePlaceData().subscribe(data => {
 
     })
