@@ -10,6 +10,7 @@ namespace MasterErp.Interface.HR
     public interface IEmployeesService
     {
         List<IqamaIssuePlace> GetIqamaIssuePlaceData();
+        List<PassportIssuePlace> GetPassportIssuePlaceData();
         List<Sponsor> GetSponsorData();
         List<IqamaJob> GetIqamaJobData();
         List<Nationality> GetNationalityData();

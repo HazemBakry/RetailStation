@@ -28,6 +28,13 @@ namespace MasterErp.API.Controllers
         }
 
         [HttpGet]
+        [Route("GetPassportIssuePlaceData")]
+        public List<PassportIssuePlace> GetPassportIssuePlaceData()
+        {
+            return _employeesService.GetPassportIssuePlaceData();
+        }
+
+        [HttpGet]
         [Route("GetSponsorData")]
         public List<Sponsor> GetSponsorData()
         {

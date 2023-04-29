@@ -23,6 +23,12 @@ namespace MasterErp.Service.HR
             return results;
         }
 
+        public List<PassportIssuePlace> GetPassportIssuePlaceData()
+        {
+            var results = Context.PassportIssuePlace.ToList();
+            return results;
+        }
+
         public List<Sponsor> GetSponsorData()
         {
             var results = Context.Sponsor.ToList();
@@ -37,7 +43,7 @@ namespace MasterErp.Service.HR
 
         public List<Nationality> GetNationalityData()
         {
-            var results = Context.Nationalitie.ToList();
+            var results = Context.Nationality.ToList();
             return results;
         }
 
@@ -49,7 +55,7 @@ namespace MasterErp.Service.HR
 
         public List<Branch> GetBranchData()
         {
-            var results = Context.Branche.ToList();
+            var results = Context.Branch.ToList();
             return results;
         }
 

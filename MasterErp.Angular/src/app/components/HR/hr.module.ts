@@ -5,6 +5,7 @@ import { HrRoutingModule } from './hr-routing.module';
 import { HrComponent } from './hr.component';
 import { HrVacationComponent } from './hr-vacation/hr-vacation.component';
 import { HrEmployeesComponent } from './hr-employees/hr-employees.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -15,6 +16,8 @@ import { HrEmployeesComponent } from './hr-employees/hr-employees.component';
   ],
   imports: [
     HrRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     CommonModule,
   ]
 })

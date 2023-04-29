@@ -24,12 +24,13 @@ namespace MasterErp.Entities.Models
         }
 
         public DbSet<Employee> Employee { get; set; }
-        public DbSet<Nationality> Nationalitie { get; set; }
+        public DbSet<Nationality> Nationality { get; set; }
         public DbSet<Sponsor> Sponsor { get; set; }
         public DbSet<IqamaIssuePlace> IqamaIssuePlace { get; set; }
+        public DbSet<PassportIssuePlace> PassportIssuePlace { get; set; }
         public DbSet<IqamaJob> IqamaJob { get; set; }
         public DbSet<Job> Job { get; set; }
-        public DbSet<Branch> Branche { get; set; }
+        public DbSet<Branch> Branch { get; set; }
         public DbSet<Bank> Bank { get; set; }
         public DbSet<EmployeeContract> EmployeeContract { get; set; }
 

@@ -10,10 +10,12 @@ namespace MasterErp.Entities.Models
     {
 		public int EmployeeContractID { get; set; }
 		public int EmployeeID { get; set; }
-		public int NoYears { get; set; }
+		public int NoYears { get; set; }//
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }
-		public int VacationEvery { get; set; }
-		public int VacationDays { get; set; }
+		public int VacationEvery { get; set; }//
+		public int VacationDays { get; set; }//
+
+		// Contract Ending
 	}
 }

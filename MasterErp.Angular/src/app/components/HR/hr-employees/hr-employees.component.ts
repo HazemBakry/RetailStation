@@ -1,19 +1,47 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { HrService } from '../hr.service';
+import { SaveEmployeeModel } from 'src/app/Models/SaveEmployeeModel';
 @Component({
   selector: 'app-hr-employees',
   templateUrl: './hr-employees.component.html',
   styleUrls: ['./hr-employees.component.css']
 })
 export class HrEmployeesComponent implements OnInit {
+  IqamaIssueList: any[] = [];
+  PassportIssueList: any[] = [];
+  SponsorList: any[] = [];
+  IqamaJobList: any[] = [];
+  NationalityList: any[] = [];
+  JobList: any[] = [];
+  BranchList: any[] = [];
+  BankList: any[] = [];
+  SaveEmployeeModel: SaveEmployeeModel = {
+    employee: {},
+    employeeContract: {},
+    employeeSalary: {}
+  } as SaveEmployeeModel;
   active = 1;
-  arry = [1, 2, 3, 4, 5];
 
   constructor(private offcanvasService: NgbOffcanvas, private hrService: HrService) { }
 
   ngOnInit(): void {
     this.GetIqamaIssuePlaceData();
+    this.GetPassportIssuePlaceData();
+    this.GetSponsorData();
+    this.GetIqamaJobData();
+    this.GetNationalityData();
+    this.GetJobData();
+    this.GetBranchData();
+    this.GetBankData();
+    this.SaveEmployeeModel.employee.iqamaIssuePlaceId = 0;
+    this.SaveEmployeeModel.employee.iqamaJobId = 0;
+    this.SaveEmployeeModel.employee.nationalityId = 0;
+    this.SaveEmployeeModel.employee.sponsorId = 0;
+    this.SaveEmployeeModel.employee.jobId = 0;
+    this.SaveEmployeeModel.employee.branchId = 0;
+    this.SaveEmployeeModel.employee.bankId = 0;
+    this.SaveEmployeeModel.employee.passportIssunacePlace = '';
   }
 
   onActive(index: number) {
@@ -34,7 +62,54 @@ export class HrEmployeesComponent implements OnInit {
 
   GetIqamaIssuePlaceData() {
     this.hrService.GetIqamaIssuePlaceData().subscribe(data => {
+      this.IqamaIssueList = data;
+    });
+  }
 
-    })
+  GetPassportIssuePlaceData() {
+    this.hrService.GetPassportIssuePlaceData().subscribe(data => {
+      this.PassportIssueList = data;
+    });
+  }
+
+  GetSponsorData() {
+    this.hrService.GetSponsorData().subscribe(data => {
+      this.SponsorList = data;
+    });
+  }
+
+  GetIqamaJobData() {
+    this.hrService.GetIqamaJobData().subscribe(data => {
+      this.IqamaJobList = data;
+    });
+  }
+
+  GetNationalityData() {
+    this.hrService.GetNationalityData().subscribe(data => {
+      this.NationalityList = data;
+    });
+  }
+
+  GetJobData() {
+    this.hrService.GetJobData().subscribe(data => {
+      this.JobList = data;
+    });
+  }
+
+  GetBranchData() {
+    this.hrService.GetBranchData().subscribe(data => {
+      this.BranchList = data;
+    });
+  }
+
+  GetBankData() {
+    this.hrService.GetBankData().subscribe(data => {
+      this.BankList = data;
+    });
+  }
+
+  SaveEmployeeDate() {
+    console.log(this.SaveEmployeeModel);
+
   }
 }
