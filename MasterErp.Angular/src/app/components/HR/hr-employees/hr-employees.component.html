@@ -2,7 +2,7 @@
   <div class="card-body pb-5">
     <div class="employee-card-header d-flex align-items-center flex-wrap mb-5">
       <div class="employee-image mb-2 me-4">
-        <img src="../../../../assets/images/default-image.png" class="emp-img" alt="default-image" loading="lazy" />
+        <img [src]="URLs[0]" (error)="$event.target.src = DefaultImage" class="emp-img" alt="default-image" loading="lazy" />
       </div>
       <div class="employee-info">
         <h3 class="mb-2 d-flex align-items-center">
@@ -17,6 +17,10 @@
           <i class="uil uil-map-marker main-color"></i>
           <span class="ms-2">القاهرة</span>
         </div>
+        <button class="file-upload-button">
+          <input type="file" (change)="onSelectedFile($event)" style="cursor: pointer;"
+            />
+        </button>
       </div>
     </div>
     <div class="employee-card-content card-shadow bg-light border mb-3">
@@ -43,49 +47,57 @@
           <div class="employee-card-body row">
             <div class="col-xl-3">
               <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.firstNameAR" class="form-control" id="floatingInput1" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.firstNameAR" class="form-control"
+                  id="floatingInput1" placeholder="any">
                 <label for="floatingInput1">الاسم الاول</label>
               </div>
             </div>
             <div class="col-xl-3">
               <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.fatherNameAR" class="form-control" id="floatingInput2" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.fatherNameAR" class="form-control"
+                  id="floatingInput2" placeholder="any">
                 <label for="floatingInput2">اسم الاب</label>
               </div>
             </div>
             <div class="col-xl-3">
               <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.grandNameAR" class="form-control" id="floatingInput3" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.grandNameAR" class="form-control"
+                  id="floatingInput3" placeholder="any">
                 <label for="floatingInput3">اسم الجد</label>
               </div>
             </div>
             <div class="col-xl-3">
               <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.lastNameAR" class="form-control" id="floatingInput2" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.lastNameAR" class="form-control"
+                  id="floatingInput2" placeholder="any">
                 <label for="floatingInput2">اسم العائلة</label>
               </div>
             </div>
             <div class="col-xl-3">
               <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.firstNameEN" class="form-control" id="floatingInput1" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.firstNameEN" class="form-control"
+                  id="floatingInput1" placeholder="any">
                 <label for="floatingInput1">First Name</label>
               </div>
             </div>
             <div class="col-xl-3">
               <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.fatherNameEN" class="form-control" id="floatingInput2" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.fatherNameEN" class="form-control"
+                  id="floatingInput2" placeholder="any">
                 <label for="floatingInput2">Father Name</label>
               </div>
             </div>
             <div class="col-xl-3">
               <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.grandNameEN" class="form-control" id="floatingInput3" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.grandNameEN" class="form-control"
+                  id="floatingInput3" placeholder="any">
                 <label for="floatingInput3">Grand Name</label>
               </div>
             </div>
             <div class="col-xl-3">
               <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.lastNameEN" class="form-control" id="floatingInput2" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.lastNameEN" class="form-control"
+                  id="floatingInput2" placeholder="any">
                 <label for="floatingInput2">Family Name</label>
               </div>
             </div>
@@ -98,14 +110,16 @@
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.iqamaIssueDate" class="form-control" id="floatingInput6" placeholder="any">
+                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.iqamaIssueDate" class="form-control"
+                  id="floatingInput6" placeholder="any">
                 <label for="floatingInput6">تاريخ الاصدار</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.iqamaExpireDate" class="form-control" id="floatingInput7" placeholder="any">
+                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.iqamaExpireDate" class="form-control"
+                  id="floatingInput7" placeholder="any">
                 <label for="floatingInput7">تاريخ الانتهاء</label>
               </div>
             </div>
@@ -133,7 +147,8 @@
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.religion" class="form-control" id="floatingInput5" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.religion" class="form-control"
+                  id="floatingInput5" placeholder="any">
                 <label for="floatingInput5">الديانة</label>
               </div>
             </div>
@@ -154,14 +169,16 @@
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.birthPlace" class="form-control" id="floatingInput8" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.birthPlace" class="form-control"
+                  id="floatingInput8" placeholder="any">
                 <label for="floatingInput8">مكان الولادة</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.birthDate" class="form-control" id="floatingInput9" placeholder="any">
+                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.birthDate" class="form-control"
+                  id="floatingInput9" placeholder="any">
                 <label for="floatingInput9">تاريخ الميلاد</label>
               </div>
             </div>
@@ -175,14 +192,16 @@
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.bankAccount" class="form-control" id="floatingInput6" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.bankAccount" class="form-control"
+                  id="floatingInput6" placeholder="any">
                 <label for="floatingInput6">الحساب البنكي</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-8">
               <div class="form-floating mb-3">
-                <textarea type="text" [(ngModel)]="SaveEmployeeModel.employee.address" class="form-control" id="floatingInput10" placeholder="العنوان"></textarea>
+                <textarea type="text" [(ngModel)]="SaveEmployeeModel.employee.address" class="form-control"
+                  id="floatingInput10" placeholder="العنوان"></textarea>
                 <label for="floatingInput10">العنوان</label>
               </div>
             </div>
@@ -193,56 +212,64 @@
           <div class="employee-card-body row">
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.borderEntryNumber" class="form-control" id="floatingInput1" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.borderEntryNumber" class="form-control"
+                  id="floatingInput1" placeholder="any">
                 <label for="floatingInput1">الرقم الحدودي</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.passportNumber" class="form-control" id="floatingInput4" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.passportNumber" class="form-control"
+                  id="floatingInput4" placeholder="any">
                 <label for="floatingInput4">رقم جواز السفر</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.borderEntryDate" class="form-control" id="floatingInput2" placeholder="any">
+                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.borderEntryDate" class="form-control"
+                  id="floatingInput2" placeholder="any">
                 <label for="floatingInput2">تاريخ الدخول</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.arrivalPort" class="form-control" id="floatingInput3" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.arrivalPort" class="form-control"
+                  id="floatingInput3" placeholder="any">
                 <label for="floatingInput3">مكان الوصول</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.passportIssuanceDate" class="form-control" id="floatingInput7" placeholder="any">
+                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.passportIssuanceDate" class="form-control"
+                  id="floatingInput7" placeholder="any">
                 <label for="floatingInput7">تاريخ الاصدار</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.passportExpireDate" class="form-control" id="floatingInput7" placeholder="any">
+                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.passportExpireDate" class="form-control"
+                  id="floatingInput7" placeholder="any">
                 <label for="floatingInput7">تاريخ الانتهاء</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.visaNumber" class="form-control" id="floatingInput8" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.visaNumber" class="form-control"
+                  id="floatingInput8" placeholder="any">
                 <label for="floatingInput8">رقم الفيزا</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.visaIssueDate" class="form-control" id="floatingInput9" placeholder="any">
+                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.visaIssueDate" class="form-control"
+                  id="floatingInput9" placeholder="any">
                 <label for="floatingInput9">تاريخ اصدار الفيزا</label>
               </div>
             </div>
@@ -250,7 +277,8 @@
             <div class="col-xl-5">
               <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.passportIssunacePlace">
                 <option [defaultSelected]=true value="" disabled>مكان الاصدار</option>
-                <option [value]="item.passportIssuePlaceID" *ngFor="let item of PassportIssueList">{{item.nameAR}}</option>
+                <option [value]="item.passportIssuePlaceID" *ngFor="let item of PassportIssueList">{{item.nameAR}}
+                </option>
               </select>
             </div>
           </div>
@@ -260,35 +288,40 @@
           <div class="employee-card-body row mb-3">
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="date" class="form-control" id="floatingInput1" placeholder="any">
+                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.joinDate" class="form-control"
+                  id="floatingInput1" placeholder="any">
                 <label for="floatingInput1">تاريخ بدء العمل</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="date" class="form-control" id="floatingInput2" placeholder="any">
+                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.lastJoinDate" class="form-control"
+                  id="floatingInput2" placeholder="any">
                 <label for="floatingInput2">تاريخ انتهاء العمل</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput3" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeContract.noYears" class="form-control"
+                  id="floatingInput3" placeholder="any">
                 <label for="floatingInput3">عدد سنوات العمل</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput5" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeContract.vacationEvery" class="form-control"
+                  id="floatingInput5" placeholder="any">
                 <label for="floatingInput5">الاجازات كل</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput6" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeContract.vacationDays" class="form-control"
+                  id="floatingInput6" placeholder="any">
                 <label for="floatingInput6">فترة الاجازات</label>
               </div>
             </div>
@@ -298,63 +331,72 @@
           <div class="employee-card-body row">
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput1" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.basicSalary" class="form-control"
+                  id="floatingInput1" placeholder="any">
                 <label for="floatingInput1">الراتب الاساسي</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput2" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.extraSalary" class="form-control"
+                  id="floatingInput2" placeholder="any">
                 <label for="floatingInput2">الراتب الاضافي</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput3" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.transport" class="form-control"
+                  id="floatingInput3" placeholder="any">
                 <label for="floatingInput3">التنقلات</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput4" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.home" class="form-control"
+                  id="floatingInput4" placeholder="any">
                 <label for="floatingInput4">المنزل</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput5" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.mopile" class="form-control"
+                  id="floatingInput5" placeholder="any">
                 <label for="floatingInput5">رقم التلفون</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput6" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.workNature" class="form-control"
+                  id="floatingInput6" placeholder="any">
                 <label for="floatingInput6">طبيعة العمل</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput6" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.food" class="form-control"
+                  id="floatingInput6" placeholder="any">
                 <label for="floatingInput6">الوجبة</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput6" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.other" class="form-control"
+                  id="floatingInput6" placeholder="any">
                 <label for="floatingInput6">اخرى</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput6" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.totalSalary" class="form-control"
+                  id="floatingInput6" placeholder="any">
                 <label for="floatingInput6">الراتب الكلي</label>
               </div>
             </div>
@@ -367,7 +409,8 @@
             </div>
             <div class="col-xl-5">
               <div class="d-flex mb-3">
-                <input type="checkbox" class="me-2" id="floatingInput" placeholder="any">
+                <input type="checkbox" [(ngModel)]="SaveEmployeeModel.employee.isGossi" class="me-2" id="floatingInput"
+                  placeholder="any">
                 <label for="floatingInput">Is Gossi</label>
               </div>
             </div>
@@ -379,21 +422,24 @@
           <div class="employee-card-body row mb-3">
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="date" class="form-control" id="floatingInput1" placeholder="any">
+                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.drivingLicenseIssue" class="form-control"
+                  id="floatingInput1" placeholder="any">
                 <label for="floatingInput1">تاريخ اصدار الرخصة</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="date" class="form-control" id="floatingInput2" placeholder="any">
+                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.drivingLicenseExpire" class="form-control"
+                  id="floatingInput2" placeholder="any">
                 <label for="floatingInput2">تاريخ انتهاء الرخصة</label>
               </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput6" placeholder="any">
+                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.drivingLicenseNumber" class="form-control"
+                  id="floatingInput6" placeholder="any">
                 <label for="floatingInput6">رقم السيارة</label>
               </div>
             </div>

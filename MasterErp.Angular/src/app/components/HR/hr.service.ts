@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { SaveEmployeeModel } from 'src/app/Models/SaveEmployeeModel';
 
 @Injectable({
   providedIn: 'root'
@@ -40,5 +41,9 @@ export class HrService {
 
   GetBankData() {
     return this.http.get<any>(this.URL + 'Employees/GetBankData');
+  }
+
+  AddNewEmployee(model: SaveEmployeeModel) {
+    return this.http.post<any>(this.URL + 'Employees/AddNewEmployee', model);
   }
 }

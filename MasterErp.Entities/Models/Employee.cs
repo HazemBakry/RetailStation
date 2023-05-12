@@ -52,7 +52,6 @@ namespace MasterErp.Entities.Models
         public DateTime JoinDate { get; set; }//
         public DateTime LastJoinDate { get; set; }//
         public int ContractPeriod { get; set; }
-        // is that contract ending
         public string Religion { get; set; }//
         public string BorderEntryNumber { get; set; }//
         public string BorderEntryDate { get; set; }// 
@@ -60,7 +59,7 @@ namespace MasterErp.Entities.Models
         public string Address { get; set; }//
         public int? VacationPeriods { get; set; }
         public int? VacationDates { get; set; }
-        public bool IsGossi { get; set; }
+        public bool IsGossi { get; set; }//
         public string Image { get; set; }
         public string FilesPath { get; set; }
         public int? InsertUser { get; set; }

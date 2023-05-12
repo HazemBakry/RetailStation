@@ -33,6 +33,7 @@ namespace MasterErp.Entities.Models
         public DbSet<Branch> Branch { get; set; }
         public DbSet<Bank> Bank { get; set; }
         public DbSet<EmployeeContract> EmployeeContract { get; set; }
+        public DbSet<EmployeeSalary> EmployeeSalary { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

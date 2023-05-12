@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MasterErp.Entities.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Common
 {
-    class SaveEmployeeModel
+    public class SaveEmployeeModel
     {
+        public Employee Employee { get; set; }
+        public EmployeeSalary EmployeeSalary { get; set; }
+        public EmployeeContract EmployeeContract { get; set; }
     }
 }

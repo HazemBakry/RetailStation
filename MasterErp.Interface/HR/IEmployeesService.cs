@@ -1,4 +1,5 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,6 @@ namespace MasterErp.Interface.HR
         List<Job> GetJobData();
         List<Branch> GetBranchData();
         List<Bank> GetBankData();
+        bool AddNewEmployee(SaveEmployeeModel model);
     }
 }

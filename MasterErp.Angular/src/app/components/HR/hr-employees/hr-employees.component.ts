@@ -16,12 +16,14 @@ export class HrEmployeesComponent implements OnInit {
   JobList: any[] = [];
   BranchList: any[] = [];
   BankList: any[] = [];
+  URLs: any[] = [];
   SaveEmployeeModel: SaveEmployeeModel = {
     employee: {},
     employeeContract: {},
     employeeSalary: {}
   } as SaveEmployeeModel;
   active = 1;
+  DefaultImage = '../../../../assets/images/default-image.png';
 
   constructor(private offcanvasService: NgbOffcanvas, private hrService: HrService) { }
 
@@ -34,6 +36,16 @@ export class HrEmployeesComponent implements OnInit {
     this.GetJobData();
     this.GetBranchData();
     this.GetBankData();
+    this.resetEmployeeModel();
+
+  }
+
+  resetEmployeeModel() {
+    this.SaveEmployeeModel = {
+      employee: {},
+      employeeContract: {},
+      employeeSalary: {}
+    }
     this.SaveEmployeeModel.employee.iqamaIssuePlaceId = 0;
     this.SaveEmployeeModel.employee.iqamaJobId = 0;
     this.SaveEmployeeModel.employee.nationalityId = 0;
@@ -108,8 +120,25 @@ export class HrEmployeesComponent implements OnInit {
     });
   }
 
+  onSelectedFile(event: any) {
+    this.URLs = [];
+    if (event.target.files) {
+      for (let x = 0; x < event.target.files.length; x++) {
+        var reader = new FileReader();
+        reader.readAsDataURL(event.target.files[x]);
+        reader.onload = (events: any) => {
+          this.URLs.push(events.target.result);
+        }
+      }
+    }
+  }
+
   SaveEmployeeDate() {
     console.log(this.SaveEmployeeModel);
+
+    // this.hrService.AddNewEmployee(this.SaveEmployeeModel).subscribe(data => {
+
+    // })
 
   }
 }

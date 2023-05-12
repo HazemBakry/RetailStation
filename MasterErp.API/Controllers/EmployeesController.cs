@@ -1,4 +1,5 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Models;
 using MasterErp.Interface.HR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -74,6 +75,13 @@ namespace MasterErp.API.Controllers
         public List<Bank> GetBankData()
         {
             return _employeesService.GetBankData();
+        }
+
+        [HttpPost]
+        [Route("AddNewEmployee")]
+        public bool AddNewEmployee(SaveEmployeeModel model)
+        {
+            return _employeesService.AddNewEmployee(model);
         }
     }
 }
