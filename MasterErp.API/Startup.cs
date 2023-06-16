@@ -49,6 +49,11 @@ namespace MasterErp.API
             services.AddDbContext<DBContext>();
             services.AddScoped<ISQLHelper, SQLHelper>();
             services.AddScoped<IEmployeesService, EmployeesService>();
+            services.AddScoped<IAttendanceService, AttendanceService>();
+            services.AddScoped<IOverTimeService, OverTimeService>();
+            services.AddScoped<IPenaltyService, PenaltyService>();
+            services.AddScoped<ISickLeaveService, SickLeaveService>();
+            services.AddScoped<IVacationService, VacationService>();
             services
                 .AddMvc(options =>
                 {

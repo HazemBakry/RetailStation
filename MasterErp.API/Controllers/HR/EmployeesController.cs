@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,6 +20,13 @@ namespace MasterErp.API.Controllers
         public EmployeesController(IEmployeesService employeesService)
         {
             _employeesService = employeesService;
+        }
+
+        [HttpGet]
+        [Route("GetAllEmployees")]
+        public List<EmployeesModel> GetAllEmployees()
+        {
+            return _employeesService.GetAllEmployees();
         }
 
         [HttpGet]
@@ -75,6 +83,20 @@ namespace MasterErp.API.Controllers
         public List<Bank> GetBankData()
         {
             return _employeesService.GetBankData();
+        }
+
+        [HttpGet]
+        [Route("GetAllEmployeeSalary")]
+        public DataTable GetAllEmployeeSalary()
+        {
+            return _employeesService.GetAllEmployeeSalary();
+        }
+
+        [HttpPost]
+        [Route("EditEmployeeSalary")]
+        public bool EditEmployeeSalary(EmployeeSalary model)
+        {
+            return _employeesService.EditEmployeeSalary(model);
         }
 
         [HttpPost]

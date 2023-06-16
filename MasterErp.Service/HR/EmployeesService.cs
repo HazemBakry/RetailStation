@@ -1,8 +1,10 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.HR;
+using MasterErp.Service.Common;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +18,12 @@ namespace MasterErp.Service.HR
         public EmployeesService(DBContext dbContext)
         {
             Context = dbContext;
+        }
+
+        public List<EmployeesModel> GetAllEmployees()
+        {
+            var results = Context.Employee.Select(i => new EmployeesModel { EmployeeId = i.EmployeeId, EmployeeName = i.FirstNameEN + " " + i.LastNameEN }).ToList();
+            return results;
         }
 
         public List<IqamaIssuePlace> GetIqamaIssuePlaceData()
@@ -64,6 +72,47 @@ namespace MasterErp.Service.HR
         {
             var results = Context.Bank.ToList();
             return results;
+        }
+
+        public DataTable GetAllEmployeeSalary()
+        {
+            var results = (from emp in Context.Employee.ToList()
+                           join salary in Context.EmployeeSalary.ToList() on emp.EmployeeId equals salary.EmployeeSalaryId
+                           select new
+                           {
+                               salary,
+                               EmployeeName = emp.FirstNameEN + " " + emp.LastNameEN
+                           }).ToList().ToDataTable();
+            return results;
+        }
+
+        public bool EditEmployeeSalary(EmployeeSalary model)
+        {
+            try
+            {
+                var Emp = Context.EmployeeSalary.FirstOrDefault(i => i.EmployeeSalaryId == model.EmployeeSalaryId);
+                if (Emp != null)
+                {
+                    Emp.BasicSalary = model.BasicSalary;
+                    Emp.ExtraSalary = model.ExtraSalary;
+                    Emp.Transport = model.Transport;
+                    Emp.Home = model.Home;
+                    Emp.Mopile = model.Mopile;
+                    Emp.WorkNature = model.WorkNature;
+                    Emp.Food = model.Food;
+                    Emp.Other = model.Other;
+                    Emp.TotalSalary = model.TotalSalary;
+
+                    Context.SaveChanges();
+                    return true;
+                }
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         public bool AddNewEmployee(SaveEmployeeModel model)

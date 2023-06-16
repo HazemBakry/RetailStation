@@ -1,23 +1,23 @@
 <div class="card radius-10 border-0 card-shadow mb-3">
   <div class="card-body">
-    <h5 class="mb-3 fw-bold">Add Vacation</h5>
+    <h5 class="mb-3 fw-bold">Add SickLeave</h5>
     <div class="main-card-action d-flex align-items-center flex-wrap">
       <!-- <button class="btn btn-dark mb-1">
-        <i class="uil uil-eye"></i>
-        <span class="ms-2">Preview</span>
-      </button>
-      <button class="btn btn-warning mb-1">
-        <i class="uil uil-location-arrow"></i>
-        <span class="ms-2">Update</span>
-      </button>
-      <button class="btn btn-secondary mb-1">
-        <i class="uil uil-print"></i>
-        <span class="ms-2">Print</span>
-      </button>
-      <button class="btn btn-danger mb-1">
-        <i class="uil uil-times-circle"></i>
-        <span class="ms-2">Exist</span>
-      </button> -->
+          <i class="uil uil-eye"></i>
+          <span class="ms-2">Preview</span>
+        </button>
+        <button class="btn btn-warning mb-1">
+          <i class="uil uil-location-arrow"></i>
+          <span class="ms-2">Update</span>
+        </button>
+        <button class="btn btn-secondary mb-1">
+          <i class="uil uil-print"></i>
+          <span class="ms-2">Print</span>
+        </button>
+        <button class="btn btn-danger mb-1">
+          <i class="uil uil-times-circle"></i>
+          <span class="ms-2">Exist</span>
+        </button> -->
     </div>
     <form [formGroup]="form" autocomplete="off">
       <div class="row">
@@ -29,42 +29,33 @@
         </div>
         <div class="col-lg-4">
           <div class="form-floating mb-3">
-            <input type="date" class="form-control" formControlName="fromDate" id="floatingInput"
-              placeholder="name@example.com">
-            <label for="floatingInput">Start Date</label>
+            <input type="date" class="form-control" formControlName="requestDate" id="floatingInput" placeholder="name@example.com"
+              autocomplete="off">
+            <label for="floatingInput">Request Date</label>
           </div>
         </div>
         <div class="col-lg-4">
           <div class="form-floating mb-3">
-            <input type="date" class="form-control" formControlName="toDate" id="floatingInput"
-              placeholder="name@example.com">
-            <label for="floatingInput">End Date</label>
+            <input type="date" class="form-control" formControlName="executionDate" id="floatingInput" placeholder="name@example.com"
+              autocomplete="off">
+            <label for="floatingInput">Execution Date</label>
           </div>
         </div>
         <div class="col-lg-4">
           <div class="form-floating mb-3">
-            <input type="date" class="form-control" formControlName="lastDayWork" id="floatingInput"
-              placeholder="name@example.com">
-            <label for="floatingInput">Last Day Work</label>
+            <input type="number" class="form-control" formControlName="noDays" id="floatingInput" placeholder="name@example.com">
+            <label for="floatingInput">No Days</label>
           </div>
         </div>
         <div class="col-lg-4">
           <div class="form-floating mb-3">
-            <input type="number" class="form-control" formControlName="period" id="floatingInput"
-              placeholder="name@example.com">
-            <label for="floatingInput">Period</label>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="form-floating mb-3">
-            <input type="number" class="form-control" formControlName="alternativeEmployee" id="floatingInput"
-              placeholder="name@example.com" autocomplete="off">
-            <label for="floatingInput">Alternative Employee</label>
+            <input type="number" class="form-control" formControlName="moneyAmount" id="floatingInput" placeholder="name@example.com">
+            <label for="floatingInput">Money Amount</label>
           </div>
         </div>
       </div>
     </form>
-    <button class="btn btn-primary mb-1" (click)="AddNewVacation()">
+    <button class="btn btn-primary mb-1" (click)="AddNewSickLeave()">
       <i class="uil uil-plus-circle"></i>
       <span class="ms-2">Add New</span>
     </button>
@@ -79,29 +70,29 @@
         <thead class="table-light">
           <tr>
             <th>Employee</th>
-            <th>Alternative Employee</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Last Day Work</th>
-            <th>Period</th>
+            <th>Request Date</th>
+            <th>Execution Date</th>
+            <th>No Days</th>
+            <th>Money Amount</th>
+            <th>IsActive</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of VacationData">
+          <tr *ngFor="let item of SickLeaveData">
             <td>{{item.employeeName}}</td>
-            <td>{{item.alternativeEmployee}}</td>
-            <td>{{item.fromDate | date}}</td>
-            <td>{{item.toDate | date}}</td>
-            <td>{{item.lastDayWork | date}}</td>
-            <td>{{item.period}}</td>
+            <td>{{item.requestDate | date}}</td>
+            <td>{{item.executionDate | date}}</td>
+            <td>{{item.noDays}}</td>
+            <td>{{item.moneyAmount}}</td>
+            <td>{{item.isActive}}</td>
             <td>
               <div class="d-flex align-items-center justify-content-center text-center">
                 <button class="btn btn-warning text-white me-2" (click)="openEditModal(editModal,item)">
                   <i class="uil uil-edit"></i>
                   <span class="ms-2">Edit</span>
                 </button>
-                <button class="btn btn-danger" (click)="openDeleteModal(deleteModal,item.vacationId)">
+                <button class="btn btn-danger" (click)="openDeleteModal(deleteModal,item.sickLeaveId)">
                   <i class="uil uil-trash-alt"></i>
                   <span class="ms-2">Delete</span>
                 </button>
@@ -126,44 +117,35 @@
       <div class="row">
         <div class="col-lg-4">
           <div class="form-floating mb-3">
-            <input type="date" class="form-control" formControlName="fromDate" id="floatingInput"
-              placeholder="name@example.com">
-            <label for="floatingInput">Start Date</label>
+            <input type="date" class="form-control" formControlName="requestDate" id="floatingInput" placeholder="name@example.com"
+              autocomplete="off">
+            <label for="floatingInput">Request Date</label>
           </div>
         </div>
         <div class="col-lg-4">
           <div class="form-floating mb-3">
-            <input type="date" class="form-control" formControlName="toDate" id="floatingInput"
-              placeholder="name@example.com">
-            <label for="floatingInput">End Date</label>
+            <input type="date" class="form-control" formControlName="executionDate" id="floatingInput" placeholder="name@example.com"
+              autocomplete="off">
+            <label for="floatingInput">Execution Date</label>
           </div>
         </div>
         <div class="col-lg-4">
           <div class="form-floating mb-3">
-            <input type="date" class="form-control" formControlName="lastDayWork" id="floatingInput"
-              placeholder="name@example.com">
-            <label for="floatingInput">Last Day Work</label>
+            <input type="number" class="form-control" formControlName="noDays" id="floatingInput" placeholder="name@example.com">
+            <label for="floatingInput">No Days</label>
           </div>
         </div>
         <div class="col-lg-4">
           <div class="form-floating mb-3">
-            <input type="number" class="form-control" formControlName="period" id="floatingInput"
-              placeholder="name@example.com">
-            <label for="floatingInput">Period</label>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="form-floating mb-3">
-            <input type="number" class="form-control" formControlName="alternativeEmployee" id="floatingInput"
-              placeholder="name@example.com" autocomplete="off">
-            <label for="floatingInput">Alternative Employee</label>
+            <input type="number" class="form-control" formControlName="moneyAmount" id="floatingInput" placeholder="name@example.com">
+            <label for="floatingInput">Money Amount</label>
           </div>
         </div>
       </div>
     </form>
   </div>
   <div class="modal-footer justify-content-start">
-    <button type="button" class="btn btn-primary" (click)="modal.close('Save click');EditVacation()">
+    <button type="button" class="btn btn-primary" (click)="modal.close('Save click');EditSickLeave()">
       <i class="fas fa-save"></i>
       <span class="ms-2">Save</span>
     </button>
@@ -180,10 +162,10 @@
     <h4 class="modal-title">Confirm Action</h4>
   </div>
   <div class="modal-body">
-    <p class="fs-5 m-0">Are you sure you want remove this Vacation?</p>
+    <p class="fs-5 m-0">Are you sure you want remove this SickLeave?</p>
   </div>
   <div class="modal-footer justify-content-start">
-    <button type="button" class="btn btn-success" (click)="modal.close('Save click');DeleteVacation()">
+    <button type="button" class="btn btn-success" (click)="modal.close('Save click');DeleteSickLeave()">
       <i class="fas fa-check"></i>
       <span class="ms-2">Yes</span>
     </button>

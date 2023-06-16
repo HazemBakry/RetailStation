@@ -34,6 +34,11 @@ namespace MasterErp.Entities.Models
         public DbSet<Bank> Bank { get; set; }
         public DbSet<EmployeeContract> EmployeeContract { get; set; }
         public DbSet<EmployeeSalary> EmployeeSalary { get; set; }
+        public DbSet<Attendance> Attendance { get; set; }
+        public DbSet<OverTime> OverTime { get; set; }
+        public DbSet<Penalty> Penalty { get; set; }
+        public DbSet<SickLeave> SickLeave { get; set; }
+        public DbSet<Vacation> Vacation { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
