@@ -4,12 +4,14 @@ import { CurrencyComponent } from './BasicInformation/currency/currency.componen
 import { FeaturedComponent } from './BasicInformation/featured/featured.component';
 import { FiscalYearComponent } from './BasicInformation/fiscal-year/fiscal-year.component';
 import { ReceiptBooksComponent } from './BasicInformation/receipt-books/receipt-books.component';
+import { AccountTreeComponent } from './GeneralAccounts/components/account-tree/account-tree.component';
 
 const routes: Routes = [
   {path:'currency',component:CurrencyComponent},
   {path:'featured',component:FeaturedComponent},
   {path:'fiscalYear',component:FiscalYearComponent},
-  {path:'receiptBooks',component:ReceiptBooksComponent}
+  {path:'receiptBooks',component:ReceiptBooksComponent},
+  {path:'accountTree',component:AccountTreeComponent}
 ];
 
 @NgModule({

@@ -16,7 +16,7 @@ import { FormsModule } from '@angular/forms';
     ErpLoginComponent,
     HeaderComponent,
     SidebarComponent,
-    DashboardComponent
+    DashboardComponent,
   ],
   imports: [
     CommonModule,

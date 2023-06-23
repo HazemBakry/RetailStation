@@ -6,6 +6,8 @@ import { CurrencyComponent } from './BasicInformation/currency/currency.componen
 import { FeaturedComponent } from './BasicInformation/featured/featured.component';
 import { FiscalYearComponent } from './BasicInformation/fiscal-year/fiscal-year.component';
 import { ReceiptBooksComponent } from './BasicInformation/receipt-books/receipt-books.component';
+import { AccountTreeComponent } from './GeneralAccounts/components/account-tree/account-tree.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -13,11 +15,13 @@ import { ReceiptBooksComponent } from './BasicInformation/receipt-books/receipt-
     CurrencyComponent,
     FeaturedComponent,
     FiscalYearComponent,
-    ReceiptBooksComponent
+    ReceiptBooksComponent,
+    AccountTreeComponent
   ],
   imports: [
     CommonModule,
-    GeneralAccountRoutingModule
+    GeneralAccountRoutingModule,
+    NgbModule
   ]
 })
 export class GeneralAccountModule { }

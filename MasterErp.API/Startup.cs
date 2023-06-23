@@ -1,7 +1,9 @@
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
+using MasterErp.Interface.Finance.GeneralAccounts;
 using MasterErp.Interface.HR;
 using MasterErp.Service.Common;
+using MasterErp.Service.Finance.GeneralAccounts;
 using MasterErp.Service.HR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -54,6 +56,7 @@ namespace MasterErp.API
             services.AddScoped<IPenaltyService, PenaltyService>();
             services.AddScoped<ISickLeaveService, SickLeaveService>();
             services.AddScoped<IVacationService, VacationService>();
+            services.AddScoped<IAccountTreeService, AccountTreeService>();
             services
                 .AddMvc(options =>
                 {

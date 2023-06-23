@@ -1,0 +1,81 @@
+.Z2Container {
+    padding: 15px;
+    width: 100% !important;
+    min-width: 100% !important;
+}
+
+.z2-boxstyle1 {
+    background: #ffffff;
+    width: calc(100%);
+    border: 1px solid #b2afaf;
+    margin-bottom: 15px;
+    -webkit-box-shadow: 0px 1px 0px 0px rgba(0,0,0,0.42);
+    -moz-box-shadow: 0px 1px 0px 0px rgba(0,0,0,0.42);
+    box-shadow: 0px 1px 0px 0px rgba(0,0,0,0.42);
+}
+
+.z2-boxstyle1-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 20px 0px 20px;
+}
+
+.z2-boxstyle1-header-left {
+    font-size: 1.4rem;
+    font-weight: 300;
+    flex: 1;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+.z2-boxstyle1-header-left .z2iconfont {
+    margin-right: 15px;
+    font-weight: 300;
+    color: #4a4a4a;
+}
+
+.z2-boxstyle1-content.hastable {
+    margin-top: 20px;
+    padding: 0px 0px 0px 0px;
+}
+
+.table {
+    font-size: .85rem;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+.bg-white {
+    background-color: #FFFFFF !important;
+}
+
+.fa-caret-right:before {
+    content: "\f0da";
+}
+
+.fa-caret-right.rotate {
+    transform: rotate(90deg);
+}
+
+.NewPortalDes .font-small-3 {
+    font-size: 0.8rem !important;
+}
+
+.fa-minus:before {
+    content: "\f068";
+}
+
+.fa-plus:before {
+    content: "\f067";
+}
+
+.fa,.fab,.fal,.far,.fas {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1
+}
