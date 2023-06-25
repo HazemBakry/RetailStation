@@ -57,6 +57,7 @@ namespace MasterErp.API
             services.AddScoped<ISickLeaveService, SickLeaveService>();
             services.AddScoped<IVacationService, VacationService>();
             services.AddScoped<IAccountTreeService, AccountTreeService>();
+            services.AddScoped<ICostCenterTreeService, CostCenterTreeService>();
             services
                 .AddMvc(options =>
                 {

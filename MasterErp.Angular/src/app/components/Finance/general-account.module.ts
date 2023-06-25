@@ -8,6 +8,7 @@ import { FiscalYearComponent } from './BasicInformation/fiscal-year/fiscal-year.
 import { ReceiptBooksComponent } from './BasicInformation/receipt-books/receipt-books.component';
 import { AccountTreeComponent } from './GeneralAccounts/components/account-tree/account-tree.component';
 import { SharedModule } from '../Shared/shared.module';
+import { CostCenterTreeComponent } from './GeneralAccounts/components/cost-center-tree/cost-center-tree.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { SharedModule } from '../Shared/shared.module';
     FeaturedComponent,
     FiscalYearComponent,
     ReceiptBooksComponent,
-    AccountTreeComponent
+    AccountTreeComponent,
+    CostCenterTreeComponent
     
   ],
   imports: [

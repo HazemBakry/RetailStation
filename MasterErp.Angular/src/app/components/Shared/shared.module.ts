@@ -5,7 +5,8 @@ import { StatsCardComponent } from './components/stats-card/stats-card.component
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ngxLoadingAnimationTypes, NgxLoadingModule } from "ngx-loading";
 import { SearchArryPipe } from './Pipes/search-arry.pipe';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { CostCentersTreeComponent } from './components/cost-center-tree/cost-centers-tree.component';
 
 
 
@@ -13,7 +14,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
     AccountsTreeComponent,
     StatsCardComponent,
-    SearchArryPipe
+    SearchArryPipe,
+    CostCentersTreeComponent
   ],
 
   imports: [
@@ -33,6 +35,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
   exports:[
     AccountsTreeComponent,
+    CostCentersTreeComponent,
     NgxLoadingModule,
     SearchArryPipe
   ]

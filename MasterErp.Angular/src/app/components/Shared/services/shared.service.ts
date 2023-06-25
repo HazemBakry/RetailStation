@@ -11,7 +11,14 @@ export class SharedService {
   constructor(private http: HttpClient) { }
 
   //================================== AccountTree ===============================
+
   GetAccountTreeData() {
     return this.http.get<any>(this.URL + 'AccountTree/GetAccountTreeData');
+  }
+
+  //================================== CostCenterTree ===============================
+
+  GetCostCenterTreeData() {
+    return this.http.get<any>(this.URL + 'CostCenterTree/GetCostCenterTreeData');
   }
 }

@@ -40,6 +40,7 @@ namespace MasterErp.Entities.Models
         public DbSet<SickLeave> SickLeave { get; set; }
         public DbSet<Vacation> Vacation { get; set; }
         public DbSet<AccountTree> AccountTree { get; set; }
+        public DbSet<CostCenterTree> CostCenterTree { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

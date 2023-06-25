@@ -1,78 +1,77 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-accounts-tree',
-  templateUrl: './accounts-tree.component.html',
-  styleUrls: ['./accounts-tree.component.css']
+  selector: 'app-cost-centers-tree',
+  templateUrl: './cost-centers-tree.component.html',
+  styleUrls: ['./cost-centers-tree.component.css']
 })
-export class AccountsTreeComponent implements OnInit {
-  AccountTreeData: any[] = [];
-  AccountData: any[] = [];
+export class CostCentersTreeComponent implements OnInit {
+  CenterControleData: any[] = [];
+  CenterData: any[] = [];
   showLoader: boolean;
   SearchText: any;
 
-  constructor(private sharedService: SharedService, private toaster: ToastrService) { }
+  constructor(private sharedService: SharedService) { }
 
   ngOnInit(): void {
-    this.GetAccountTreeData(true);
+    this.GetCostCenterTreeData(true);
   }
 
-  GetAccountTreeData(firstLoad = false) {
+  GetCostCenterTreeData(firstLoad = false) {
     if (firstLoad)
       this.showLoader = true;
-    this.sharedService.GetAccountTreeData().subscribe(data => {
+    this.sharedService.GetCostCenterTreeData().subscribe(data => {
+      debugger;
       this.showLoader = false;
-      this.AccountTreeData = data;
-      this.AccountTreeData.map(i => {
-        if (i.accountLevel != 5)
-          i['level' + (i.accountLevel + 1)] = [];
+      this.CenterControleData = data;
+      this.CenterControleData.map(i => {
+        if (i.costLevel != 5)
+          i['level' + (i.costLevel + 1)] = [];
         i.isCollapse = true;
       });
-      this.CreateTreeAccountList();
+      this.CreateCenterTreeList();
     });
-    console.log(this.AccountData);
-
+    console.log(this.CenterData);
   }
 
-  CreateTreeAccountList() {
-    let AccountLevels = [...new Set(this.AccountTreeData.filter(i => i.accountLevel).map(i => i.accountLevel))];
-    AccountLevels.forEach(level => {
-      this.AccountTreeData.filter(i => i.accountLevel == level).forEach(data => {
-        this.CreateAccountLevel(data, level);
+  CreateCenterTreeList() {
+    let CenterLevels = [...new Set(this.CenterControleData.filter(i => i.costLevel).map(i => i.costLevel))];
+    CenterLevels.forEach(level => {
+      this.CenterControleData.filter(i => i.costLevel == level).forEach(data => {
+        this.CreateCenterLevel(data, level);
       });
     });
   }
 
-  CreateAccountLevel(accountObj: any, level: number) {
+  CreateCenterLevel(centerObj: any, level: number) {
     if (level == 1) {
-      this.AccountData.push(accountObj);
+      this.CenterData.push(centerObj);
     } else if (level == 2) {
-      let parent = this.AccountData.find(i => i.accountID == accountObj.parentID);
+      let parent = this.CenterData.find(i => i.costCenterID == centerObj.parentID);
       if (parent)
-        parent.level2.push(accountObj);
+        parent.level2.push(centerObj);
     } else if (level == 3) {
-      this.AccountData.forEach(level => {
-        let children = level.level2.find(i => i.accountID == accountObj.parentID);
+      this.CenterData.forEach(level => {
+        let children = level.level2.find(i => i.costCenterID == centerObj.parentID);
         if (children)
-          children.level3.push(accountObj);
+          children.level3.push(centerObj);
       });
     } else if (level == 4) {
-      this.AccountData.forEach(item => {
+      this.CenterData.forEach(item => {
         item.level2.forEach(level => {
-          let children = level.level3.find(i => i.accountID == accountObj.parentID);
+          let children = level.level3.find(i => i.costCenterID == centerObj.parentID);
           if (children)
-            children.level4.push(accountObj);
+            children.level4.push(centerObj);
         });
       });
     } else if (level == 5) {
-      this.AccountData.forEach(item => {
+      this.CenterData.forEach(item => {
         item.level2.forEach(level => {
           level.level3.forEach(sup => {
-            let children = sup.level4.find(i => i.accountID == accountObj.parentID);
+            let children = sup.level4.find(i => i.costCenterID == centerObj.parentID);
             if (children)
-              children.level5.push(accountObj);
+              children.level5.push(centerObj);
           });
         });
       });
@@ -83,7 +82,7 @@ export class AccountsTreeComponent implements OnInit {
     if (!isCollapse)
       return;
     if (parent) {
-      this.AccountData.forEach(app => {
+      this.CenterData.forEach(app => {
         app.isCollapse = true;
         app.level2.forEach(level2 => {
           level2.isCollapse = true;
@@ -96,7 +95,7 @@ export class AccountsTreeComponent implements OnInit {
         });
       });
     } else {
-      let levelNum = children.accountLevel;
+      let levelNum = children.costLevel;
       if (levelNum == 2) {
         children.level3.forEach(level3 => {
           level3.isCollapse = true;
@@ -114,7 +113,7 @@ export class AccountsTreeComponent implements OnInit {
 
   OnSearchClick() {
     if (this.SearchText) {
-      this.AccountData.map(app => {
+      this.CenterData.map(app => {
         app.level2.map(level2 => {
           level2.level3.map(level3 => {
             level3.level4.map(level4 => {
@@ -130,8 +129,8 @@ export class AccountsTreeComponent implements OnInit {
         });
       });
     } else {
-      this.AccountData = [];
-      this.GetAccountTreeData();
+      this.CenterData = [];
+      this.GetCostCenterTreeData();
     }
   }
 }

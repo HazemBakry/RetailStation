@@ -5,13 +5,15 @@ import { FeaturedComponent } from './BasicInformation/featured/featured.componen
 import { FiscalYearComponent } from './BasicInformation/fiscal-year/fiscal-year.component';
 import { ReceiptBooksComponent } from './BasicInformation/receipt-books/receipt-books.component';
 import { AccountTreeComponent } from './GeneralAccounts/components/account-tree/account-tree.component';
+import { CostCenterTreeComponent } from './GeneralAccounts/components/cost-center-tree/cost-center-tree.component';
 
 const routes: Routes = [
   {path:'currency',component:CurrencyComponent},
   {path:'featured',component:FeaturedComponent},
   {path:'fiscalYear',component:FiscalYearComponent},
   {path:'receiptBooks',component:ReceiptBooksComponent},
-  {path:'accountTree',component:AccountTreeComponent}
+  {path:'accountTree',component:AccountTreeComponent},
+  {path:'costCenterTree',component:CostCenterTreeComponent}
 ];
 
 @NgModule({
