@@ -16,11 +16,12 @@ export class AccountsTreeComponent implements OnInit {
   constructor(private sharedService: SharedService, private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.GetAccountTreeData();
+    this.GetAccountTreeData(true);
   }
 
-  GetAccountTreeData() {
-    this.showLoader = true;
+  GetAccountTreeData(firstLoad = false) {
+    if (firstLoad)
+      this.showLoader = true;
     this.sharedService.GetAccountTreeData().subscribe(data => {
       this.showLoader = false;
       this.AccountTreeData = data;
@@ -38,7 +39,7 @@ export class AccountsTreeComponent implements OnInit {
   CreateTreeAccountList() {
     let AccountLevels = [...new Set(this.AccountTreeData.filter(i => i.accountLevel).map(i => i.accountLevel))];
     AccountLevels.forEach(level => {
-      this.AccountTreeData.filter(i => i.accountLevel == level).forEach((data, i) => {
+      this.AccountTreeData.filter(i => i.accountLevel == level).forEach(data => {
         this.CreateAccountLevel(data, level);
       });
     });
