@@ -39,6 +39,7 @@ namespace MasterErp.Entities.Models
         public DbSet<Penalty> Penalty { get; set; }
         public DbSet<SickLeave> SickLeave { get; set; }
         public DbSet<Vacation> Vacation { get; set; }
+        public DbSet<AccountTree> AccountTree { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

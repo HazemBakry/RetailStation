@@ -8,10 +8,11 @@
     background: #ffffff;
     width: calc(100%);
     border: 1px solid #b2afaf;
-    margin-bottom: 15px;
-    -webkit-box-shadow: 0px 1px 0px 0px rgba(0,0,0,0.42);
-    -moz-box-shadow: 0px 1px 0px 0px rgba(0,0,0,0.42);
-    box-shadow: 0px 1px 0px 0px rgba(0,0,0,0.42);
+    max-height: 700px;
+    height: 700px;
+    -webkit-box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.42);
+    -moz-box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.42);
+    box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.42);
 }
 
 .z2-boxstyle1-header {
@@ -29,11 +30,6 @@
     align-items: center;
 }
 
-.z2-boxstyle1-header-left .z2iconfont {
-    margin-right: 15px;
-    font-weight: 300;
-    color: #4a4a4a;
-}
 
 .z2-boxstyle1-content.hastable {
     margin-top: 20px;
@@ -41,41 +37,75 @@
 }
 
 .table {
-    font-size: .85rem;
+    font-size: .95rem;
     border-collapse: collapse;
     background: #fff;
+    max-height: 700px;
+}
+
+tr {
+    height: 45px;
+}
+
+.table-bordered {
+    border: 1px solid #c2c4c5;
 }
 
 .bg-white {
     background-color: #FFFFFF !important;
 }
 
-.fa-caret-right:before {
-    content: "\f0da";
-}
-
-.fa-caret-right.rotate {
-    transform: rotate(90deg);
-}
-
 .NewPortalDes .font-small-3 {
     font-size: 0.8rem !important;
 }
 
-.fa-minus:before {
-    content: "\f068";
+tbody.collapse.show {
+    display: table-row-group;
 }
 
-.fa-plus:before {
-    content: "\f067";
+.table thead th {
+    background: #d6dee4;
+    vertical-align: middle;
+    border-bottom: 1px solid #b8c2ca;
+    border-top: 1px solid #b8c2ca;
+    color: #000000;
+    font-weight: 500;
+    height: 30px;
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.25;
 }
 
-.fa,.fab,.fal,.far,.fas {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    display: inline-block;
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-    line-height: 1
+/* 
+.table thead th {
+    background: #d6dee4;
+    vertical-align: middle;
+    border-bottom: 1px solid #b8c2ca;
+    border-top: 1px solid #b8c2ca;
+    color: #000000;
+    font-weight: 500;
+    height: 30px;
+    font-size: 14px;
+    line-height: 1.25;
+} */
+
+
+.min-width-30 {
+    min-width: 33px;
+}
+
+.ps-2 {
+    padding-right: 1.6rem !important;
+}
+
+.ps-3 {
+    padding-right: 2.6rem !important;
+}
+
+.ps-4 {
+    padding-right: 3.6rem !important;
+}
+
+.ps-5 {
+    padding-right: 5.6rem !important;
 }

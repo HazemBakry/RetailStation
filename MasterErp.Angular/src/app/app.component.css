@@ -10,6 +10,7 @@
   -moz-transition: var(--toggled-transition);
   -ms-transition: var(--toggled-transition);
   -o-transition: var(--toggled-transition);
+  background: #e6edf0;
 }
 .main-content.toggled {
   width: calc(100vw - var(--aside-bar-width-toggled));

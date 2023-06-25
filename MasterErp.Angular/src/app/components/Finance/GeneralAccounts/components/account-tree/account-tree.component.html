@@ -9,137 +9,131 @@
     </div>
 </div>
 
-<!-- <div class="Z2Container">
-    <div class="z2-boxstyle1 table-responsive">
+<div class="card radius-10 border-0 card-shadow mb-3">
+    <div class="z2-boxstyle1">
         <div class="z2-boxstyle1-header">
             <div class="z2-boxstyle1-header-left">
-                <div class="z2iconfont icon-Basic-Info"></div>
-                Platform
+                <div class="uil uil-user-check nav-icon me-2"></div>
+                Accounts
             </div>
         </div>
+
         <div class="z2-boxstyle1-content hastable">
-            <table class="table table-borderless switcher-table table-hover border bg-white bigtitle mb-0">
-                <tbody>
+            <table class="table table-bordered table-middle table-hover m-0 bg-white bigtitle">
+                <thead>
                     <tr>
-                        <td>Application Name</td>
-                        <td></td>
-                        <td>Start Date</td>
-                        <td>End Date</td>
-                        <td>Category</td>
-                        <td>Status</td>
+                        <!-- <th>Account Number</th> -->
+                        <th>NameAr</th>
+                        <th>NameEn</th>
+                        <th>Account Type</th>
+                        <th>Asset Type</th>
+                        <th>Depreciation Method</th>
                     </tr>
-                </tbody>
-                <ng-container>
+                </thead>
+                <ng-container *ngFor="let app of AccountData">
                     <tbody>
                         <tr>
-                            <td class="cursor-pointer"
-                                [attr.aria-expanded]="!isCollapse">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-caret-right mr-05 rotate"></i>
-                                    <div class="font-weight-bold">ApplicationName</div>
+                            <td>
+                                <div class="d-flex align-items-center collapser-title cursor-pointer ps-1"
+                                    (click)="app.isCollapse = !app.isCollapse;CloseCollapse(app,app.isCollapse)" [attr.aria-expanded]="!app.isCollapse">
+                                    <i *ngIf="app.isCollapse"
+                                        class="fas fa-plus font-small-3 cursor-pointer min-width-30"></i>
+                                    <i *ngIf="!app.isCollapse"
+                                        class="fas fa-minus font-small-3 cursor-pointer min-width-30"></i>
+                                    <div>{{app.nameAr}}</div>
                                 </div>
                             </td>
-                            <td>
-                                <label class="jtoggler-wrapper m-0 mx-0">
-                                    <input type="checkbox" class="jtoggler"
-                                        id="chk_8beb30c9-e0c7-4444-9a9d-6852dc0c0253">
-                                    <div class="jtoggler-control switcher-color">
-                                        <div class="jtoggler-handle"></div>
-                                    </div>
-                                </label>
-                            </td>
-                            <td>
-                                <div class="height-35">
-                                    <input type="date" class="form-control form-control-sm" />
-                                </div>
-                            </td>
-                            <td>
-                                <div class="height-35">
-                                    <input type="date" class="form-control form-control-sm" />
-                                </div>
-                            </td>
-                            <td>
-                                <div class="height-35">
-                                    <select class="form-control" name="SubCustomerCategory">
-                                        <option value="" disabled>Select Category</option>
-                                        <option>Select Category</option>
-                                    </select>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="height-35">
-                                    <select class="form-control" name="SubCustomerStatus">
-                                        <option value="" disabled>Select Status</option>
-                                        <option>Select Status</option>
-                                    </select>
-                                </div>
-                            </td>
+                            <td>{{app.nameEn}}</td>
+                            <td>{{app.accountType}}</td>
+                            <td>{{app.assetType}}</td>
+                            <td>{{app.depreciationMethod}}</td>
                         </tr>
                     </tbody>
-                    <ng-container>
-                        <tbody #collapse="ngbCollapse" [(ngbCollapse)]="appisCollapse">
+                    <ng-container *ngFor="let level2 of app.level2">
+                        <tbody #collapse="ngbCollapse" [(ngbCollapse)]="app.isCollapse">
                             <tr>
-                                <td class="p-sub"
-                                    (click)="appisCollapse = !appisCollapse"
-                                    [attr.aria-expanded]="!appisCollapse">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fas fa-caret-right mr-05 rotate"></i>
-                                        <div class="font-weight-bold">applicationName</div>
+                                <td>
+                                    <div class="d-flex align-items-center collapser-title cursor-pointer ps-2"
+                                        (click)="level2.isCollapse = !level2.isCollapse"
+                                        [attr.aria-expanded]="!level2.isCollapse">
+                                        <i *ngIf="level2.isCollapse"
+                                            class="fas fa-plus font-small-3 cursor-pointer min-width-30"></i>
+                                        <i *ngIf="!level2.isCollapse"
+                                            class="fas fa-minus font-small-3 cursor-pointer min-width-30"></i>
+                                        <div>{{level2.nameAr}}</div>
                                     </div>
                                 </td>
-                                <td>
-                                    <label class="jtoggler-wrapper m-0 mx-0">
-                                        <input type="checkbox" class="jtoggler"
-                                            id="chk_8beb30c9-e0c7-4444-9a9d">
-                                        <div class="jtoggler-control">
-                                            <div class="jtoggler-handle"></div>
-                                        </div>
-                                    </label>
-                                </td>
-                                <td>
-                                    <input type="date"
-                                        class="form-control form-control-sm" />
-                                </td>
-                                <td>
-                                    <input type="date"
-                                        class="form-control form-control-sm" />
-                                </td>
-                                <td>
-                                    <select class="form-control" name="SubCustomerCategory">
-                                        <option>Select Category</option>
-                                        <option>Select Category</option>
-
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control" name="SubCustomerStatus">
-                                        <option>Select Status</option>
-                                        <option>Select Status</option>
-                                    </select>
-                                </td>
+                                <td>{{level2.nameEn}}</td>
+                                <td>{{level2.accountType}}</td>
+                                <td>{{level2.assetType}}</td>
+                                <td>{{level2.depreciationMethod}}</td>
                             </tr>
                         </tbody>
-                        <tbody #collapse="ngbCollapse" [(ngbCollapse)]="!appisCollapse">
-                            <tr>
-                                <td class="p-sub-sub">
-                                    name
-                                </td>
-                                <td>
-                                    <label class="jtoggler-wrapper m-0 mx-0">
-                                        <input type="checkbox" class="jtoggler" id="chk_8beb30c9-e0c7-4444-9a9d">
-                                        <div class="jtoggler-control">
-                                            <div class="jtoggler-handle"></div>
+                        <ng-container *ngFor="let level3 of level2.level3">
+                            <tbody #collapse="ngbCollapse" [(ngbCollapse)]="level2.isCollapse">
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center collapser-title cursor-pointer ps-3"
+                                            (click)="level3.isCollapse = !level3.isCollapse"
+                                            [attr.aria-expanded]="!level3.isCollapse">
+                                            <i *ngIf="level3.isCollapse"
+                                                class="fas fa-plus font-small-3 cursor-pointer min-width-30"></i>
+                                            <i *ngIf="!level3.isCollapse"
+                                                class="fas fa-minus font-small-3 cursor-pointer min-width-30"></i>
+                                            <div>{{level3.nameAr}}</div>
                                         </div>
-                                    </label>
-                                </td>
-                            </tr>
-                        </tbody>
+                                    </td>
+                                    <td>{{level3.nameEn}}</td>
+                                    <td>{{level3.accountType}}</td>
+                                    <td>{{level3.assetType}}</td>
+                                    <td>{{level3.depreciationMethod}}</td>
+                                </tr>
+                            </tbody>
+                            <ng-container *ngFor="let level4 of level3.level4">
+                                <tbody #collapse="ngbCollapse" [(ngbCollapse)]="level3.isCollapse">
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center collapser-title cursor-pointer ps-4"
+                                                (click)="level4.isCollapse = !level4.isCollapse"
+                                                [attr.aria-expanded]="!level4.isCollapse">
+                                                <i *ngIf="level4.isCollapse"
+                                                    class="fas fa-plus font-small-3 cursor-pointer min-width-30"></i>
+                                                <i *ngIf="!level4.isCollapse"
+                                                    class="fas fa-minus font-small-3 cursor-pointer min-width-30"></i>
+                                                <div>{{level4.nameAr}}</div>
+                                            </div>
+                                        </td>
+                                        <td>{{level4.nameEn}}</td>
+                                        <td>{{level4.accountType}}</td>
+                                        <td>{{level4.assetType}}</td>
+                                        <td>{{level4.depreciationMethod}}</td>
+                                    </tr>
+                                </tbody>
+                                <ng-container *ngFor="let level5 of level4.level5">
+                                    <tbody #collapse="ngbCollapse" [(ngbCollapse)]="level4.isCollapse">
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center collapser-title cursor-pointer ps-5"
+                                                    (click)="level5.isCollapse = !level5.isCollapse"
+                                                    [attr.aria-expanded]="!level5.isCollapse">
+                                                    <div>{{level5.nameAr}}</div>
+                                                </div>
+                                            </td>
+                                            <td>{{level5.nameEn}}</td>
+                                            <td>{{level5.accountType}}</td>
+                                            <td>{{level5.assetType}}</td>
+                                            <td>{{level5.depreciationMethod}}</td>
+                                        </tr>
+                                    </tbody>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
                     </ng-container>
                 </ng-container>
             </table>
         </div>
     </div>
-</div> -->
+</div>
 
 
 <ng-template #ContentModal let-modal>
@@ -186,109 +180,3 @@
         </form>
     </div>
 </ng-template>
-
-
-<div class="Z2Container">
-    <div class="z2-boxstyle1 table-responsive">
-        <div class="z2-boxstyle1-header">
-            <div class="z2-boxstyle1-header-left">
-                <div class="z2iconfont icon-Basic-Info"></div>
-                Platform
-            </div>
-        </div>
-
-        <div class="z2-boxstyle1-content hastable">
-            <table class="table table-bordered table-middle table-hover m-0 bg-white bigtitle">
-                <thead>
-                    <tr>
-                        <th>Pools</th>
-                        <th>Limits</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center collapser-title cursor-pointer"
-                                (click)="isQuota1 = !isQuota1" [attr.aria-expanded]="!isQuota1">
-                                <i class="fas fa-plus font-small-3 cursor-pointer collapseArrow min-width-30"></i>
-                                <div>Number of Parts</div>
-                            </div>
-                        </td>
-                        <td>
-                            <input type="number" class="form-control" value="0">
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody #collapse="ngbCollapse" [(ngbCollapse)]="isQuota1">
-                    <tr>
-                        <td class="pl-3">ManageParts</td>
-                        <td>
-                            <input type="number" class="form-control" value="0">
-                        </td>
-                    </tr>
-                </tbody>
-
-                <tbody>
-                    <tr>
-                        <td>Users</td>
-                        <td>
-                            <input type="number" class="form-control" value="0">
-                        </td>
-                    </tr>
-                </tbody>
-
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center collapser-title cursor-pointer"
-                                (click)="isQuota2 = !isQuota2" [attr.aria-expanded]="!isQuota2">
-                                <i class="fas fa-plus font-small-3 cursor-pointer collapseArrow min-width-30"></i>
-                                <div>Number of Suppliers</div>
-                            </div>
-                        </td>
-                        <td>
-                            <input type="number" class="form-control" value="0">
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody #collapse="ngbCollapse" [(ngbCollapse)]="isQuota2">
-                    <tr>
-                        <td class="pl-3">ManageSupplier</td>
-                        <td>
-                            <input type="number" class="form-control" value="0">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="pl-3">FollowSupplier</td>
-                        <td>
-                            <input type="number" class="form-control" value="0">
-                        </td>
-                    </tr>
-                </tbody>
-
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center collapser-title cursor-pointer"
-                                (click)="isQuota3 = !isQuota3" [attr.aria-expanded]="!isQuota3">
-                                <i class="fas fa-plus font-small-3 cursor-pointer collapseArrow min-width-30"></i>
-                                <div>Number of Sites</div>
-                            </div>
-                        </td>
-                        <td>
-                            <input type="number" class="form-control" value="0">
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody #collapse="ngbCollapse" [(ngbCollapse)]="isQuota3">
-                    <tr>
-                        <td class="pl-3">FollowSites</td>
-                        <td>
-                            <input type="number" class="form-control" value="0">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>

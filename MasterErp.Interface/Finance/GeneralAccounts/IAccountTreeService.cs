@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MasterErp.Entities.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
 {
     public interface IAccountTreeService
     {
+        List<AccountTree> GetAccountTreeData();
     }
 }
