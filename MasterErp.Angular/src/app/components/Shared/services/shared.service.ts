@@ -5,10 +5,13 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class GeneralAccountService {
+export class SharedService {
   URL = environment.apiURL;
 
   constructor(private http: HttpClient) { }
 
   //================================== AccountTree ===============================
+  GetAccountTreeData() {
+    return this.http.get<any>(this.URL + 'AccountTree/GetAccountTreeData');
+  }
 }

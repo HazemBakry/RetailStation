@@ -7,7 +7,7 @@ import { FeaturedComponent } from './BasicInformation/featured/featured.componen
 import { FiscalYearComponent } from './BasicInformation/fiscal-year/fiscal-year.component';
 import { ReceiptBooksComponent } from './BasicInformation/receipt-books/receipt-books.component';
 import { AccountTreeComponent } from './GeneralAccounts/components/account-tree/account-tree.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from '../Shared/shared.module';
 
 
 @NgModule({
@@ -22,7 +22,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     CommonModule,
     GeneralAccountRoutingModule,
-    NgbModule
+    SharedModule
   ]
 })
 export class GeneralAccountModule { }
