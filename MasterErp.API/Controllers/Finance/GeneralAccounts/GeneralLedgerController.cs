@@ -9,8 +9,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountTreeController : ControllerBase
+    public class GeneralLedgerController : ControllerBase
     {
-
     }
 }

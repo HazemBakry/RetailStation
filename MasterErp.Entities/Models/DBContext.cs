@@ -23,6 +23,8 @@ namespace MasterErp.Entities.Models
 
         }
 
+        public DbSet<AccountTree> AccountTrees { get; set; }
+        public DbSet<AccountType> AccountTypes { get; set; }
         public DbSet<Employee> Employee { get; set; }
         public DbSet<Nationality> Nationality { get; set; }
         public DbSet<Sponsor> Sponsor { get; set; }
