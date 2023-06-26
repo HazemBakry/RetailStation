@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,10 +9,11 @@ namespace MasterErp.Entities.Models
 {
     public class AccountTree
     {
+        [Key]
         public int AccountID { get; set; }
         public string AccountNumber { get; set; }
         public int ParentID { get; set; }
-        public int AccountLevel { get; set; }
+        public int? AccountLevel { get; set; }
         public int? AccountTypeID { get; set; }
         public string NameAr { get; set; }
         public string NameEn { get; set; }
@@ -27,9 +29,8 @@ namespace MasterErp.Entities.Models
         public int? DepreciationID { get; set; }
         public int? AccumulatedDepreciationID { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime CreateDate { get; set; }
+        public DateTime? CreateDate { get; set; }
         public string ModifiedBy { get; set; }
-        public DateTime ModifyDate { get; set; }
-
+        public DateTime? ModifyDate { get; set; }
     }
 }

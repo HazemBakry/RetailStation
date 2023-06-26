@@ -1,0 +1,119 @@
+.Z2Container {
+    padding: 15px;
+    width: 100% !important;
+    min-width: 100% !important;
+}
+
+.z2-boxstyle1 {
+    background: #ffffff;
+    width: calc(100%);
+    border: 1px solid #b2afaf;
+    max-height: 700px;
+    height: 700px;
+    -webkit-box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.42);
+    -moz-box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.42);
+    box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.42);
+}
+
+.z2-boxstyle1-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 20px 0px 20px;
+}
+
+.z2-boxstyle1-header-left {
+    font-size: 1.4rem;
+    font-weight: 300;
+    flex: 1;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+
+.z2-boxstyle1-content.hastable {
+    margin-top: 20px;
+    padding: 0px 0px 0px 0px;
+}
+
+.table {
+    font-size: .95rem;
+    border-collapse: collapse;
+    background: #fff;
+    max-height: 700px;
+}
+
+tr {
+    height: 45px;
+}
+
+.table-bordered {
+    border: 1px solid #c2c4c5;
+}
+
+.bg-white {
+    background-color: #FFFFFF !important;
+}
+
+.NewPortalDes .font-small-3 {
+    font-size: 0.8rem !important;
+}
+
+tbody.collapse.show {
+    display: table-row-group;
+}
+
+.table thead th {
+    background: #d6dee4;
+    vertical-align: middle;
+    border-bottom: 1px solid #b8c2ca;
+    border-top: 1px solid #b8c2ca;
+    color: #000000;
+    font-weight: 500;
+    height: 30px;
+    font-size: 14px;
+    line-height: 1.25;
+}
+
+.min-width-30 {
+    min-width: 33px;
+}
+
+.ps-2 {
+    padding-right: 1.6rem !important;
+}
+
+.ps-3 {
+    padding-right: 2.6rem !important;
+}
+
+.ps-4 {
+    padding-right: 3.6rem !important;
+}
+
+.ps-5 {
+    padding-right: 5.6rem !important;
+}
+
+.cursor-pointer{
+    cursor: pointer !important;
+}
+
+.search-box {
+    margin-right: 5px;
+    min-width: 200px;
+}
+
+.search-box .search-icon {
+    position: absolute;
+    right: auto !important;
+    left: 10px;
+    top: 50%;
+    font-size: 15px;
+    cursor: pointer;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+}

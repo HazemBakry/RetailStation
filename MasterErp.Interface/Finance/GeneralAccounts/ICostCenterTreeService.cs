@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Interface.Finance.GeneralAccounts
 {
-    public interface IAccountTreeService
+    public interface ICostCenterTreeService
     {
-        List<AccountTree> GetAccountTreeData();
+        List<CostCenterTree> GetCostCenterTreeData();
     }
 }

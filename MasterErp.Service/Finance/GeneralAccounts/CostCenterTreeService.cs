@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Service.Finance.GeneralAccounts
 {
-    public class AccountTreeService : IAccountTreeService
+    public class CostCenterTreeService: ICostCenterTreeService
     {
         private readonly DBContext Context;
 
-        public AccountTreeService(DBContext dBContext)
+        public CostCenterTreeService(DBContext dBContext)
         {
             Context = dBContext;
         }
 
-        public List<AccountTree> GetAccountTreeData()
+        public List<CostCenterTree> GetCostCenterTreeData()
         {
-            return Context.AccountTree.ToList();
+            return Context.CostCenterTree.ToList();
         }
     }
 }
