@@ -31,6 +31,7 @@ export class AccountsTreeComponent implements OnInit {
         i.isCollapse = true;
       });
       this.CreateTreeAccountList();
+      console.log(this.AccountTreeData);
     });
     console.log(this.AccountData);
 
@@ -113,17 +114,23 @@ export class AccountsTreeComponent implements OnInit {
   }
 
   OnSearchClick() {
+    let returnFunc = false;
     if (this.SearchText) {
-      this.AccountData.map(app => {
-        app.level2.map(level2 => {
-          level2.level3.map(level3 => {
-            level3.level4.map(level4 => {
-              level4.level5 = level4.level5.filter(i => i.nameAr.includes(this.SearchText));
-              if (level4.level5.length > 0) {
+      this.AccountData.forEach(app => {
+        if (returnFunc) {
+          return;
+        }
+        app.level2.forEach(level2 => {
+          level2.level3.forEach(level3 => {
+            level3.level4.forEach(level4 => {
+              let list = level4.level5.filter(i => i.nameAr.includes(this.SearchText));
+              if (list.length > 0) {
+                level4.level5 = level4.level5.filter(i => i.nameAr.includes(this.SearchText));
                 level4.isCollapse = false;
                 level3.isCollapse = false;
                 level2.isCollapse = false;
                 app.isCollapse = false;
+                returnFunc = true;
               }
             });
           });
@@ -134,4 +141,6 @@ export class AccountsTreeComponent implements OnInit {
       this.GetAccountTreeData();
     }
   }
+
+
 }
