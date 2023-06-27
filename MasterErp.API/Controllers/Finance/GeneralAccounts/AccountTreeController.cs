@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,9 +23,9 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpGet]
         [Route("GetAccountTreeData")]
-        public List<AccountTree> GetAccountTreeData()
+        public DataTable GetAccountTreeData(string SearchText)
         {
-            return _accountTreeService.GetAccountTreeData();
+            return _accountTreeService.GetAccountTreeData(SearchText);
         }
     }
 }

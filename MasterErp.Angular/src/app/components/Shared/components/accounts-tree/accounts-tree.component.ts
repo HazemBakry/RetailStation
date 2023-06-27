@@ -11,9 +11,10 @@ export class AccountsTreeComponent implements OnInit {
   AccountTreeData: any[] = [];
   AccountData: any[] = [];
   showLoader: boolean;
-  SearchText: any;
+  SearchText = '';
+  isSearchMode = false;
 
-  constructor(private sharedService: SharedService, private toaster: ToastrService) { }
+  constructor(private sharedService: SharedService) { }
 
   ngOnInit(): void {
     this.GetAccountTreeData(true);
@@ -22,22 +23,24 @@ export class AccountsTreeComponent implements OnInit {
   GetAccountTreeData(firstLoad = false) {
     if (firstLoad)
       this.showLoader = true;
-    this.sharedService.GetAccountTreeData().subscribe(data => {
+    this.sharedService.GetAccountTreeData(this.SearchText).subscribe(data => {
       this.showLoader = false;
+      this.isSearchMode = true;
       this.AccountTreeData = data;
-      this.AccountTreeData.map(i => {
-        if (i.accountLevel != 5)
-          i['level' + (i.accountLevel + 1)] = [];
-        i.isCollapse = true;
-      });
-      this.CreateTreeAccountList();
-      console.log(this.AccountTreeData);
+      if (!this.SearchText) {
+        this.isSearchMode = false;
+        this.AccountTreeData.map(i => {
+          if (i.accountLevel != 5)
+            i['level' + (i.accountLevel + 1)] = [];
+          i.isCollapse = true;
+        });
+        this.CreateTreeAccountList();
+      }
     });
-    console.log(this.AccountData);
-
   }
 
   CreateTreeAccountList() {
+    this.AccountData = [];
     let AccountLevels = [...new Set(this.AccountTreeData.filter(i => i.accountLevel).map(i => i.accountLevel))];
     AccountLevels.forEach(level => {
       this.AccountTreeData.filter(i => i.accountLevel == level).forEach(data => {
@@ -113,34 +116,34 @@ export class AccountsTreeComponent implements OnInit {
     }
   }
 
-  OnSearchClick() {
-    let returnFunc = false;
-    if (this.SearchText) {
-      this.AccountData.forEach(app => {
-        if (returnFunc) {
-          return;
-        }
-        app.level2.forEach(level2 => {
-          level2.level3.forEach(level3 => {
-            level3.level4.forEach(level4 => {
-              let list = level4.level5.filter(i => i.nameAr.includes(this.SearchText));
-              if (list.length > 0) {
-                level4.level5 = level4.level5.filter(i => i.nameAr.includes(this.SearchText));
-                level4.isCollapse = false;
-                level3.isCollapse = false;
-                level2.isCollapse = false;
-                app.isCollapse = false;
-                returnFunc = true;
-              }
-            });
-          });
-        });
-      });
-    } else {
-      this.AccountData = [];
-      this.GetAccountTreeData();
-    }
-  }
+  // OnSearchClick() {
+  //   let returnFunc = false;
+  //   if (this.SearchText) {
+  //     this.AccountData.forEach(app => {
+  //       if (returnFunc) {
+  //         return;
+  //       }
+  //       app.level2.forEach(level2 => {
+  //         level2.level3.forEach(level3 => {
+  //           level3.level4.forEach(level4 => {
+  //             let list = level4.level5.filter(i => i.nameAr.includes(this.SearchText));
+  //             if (list.length > 0) {
+  //               level4.level5 = level4.level5.filter(i => i.nameAr.includes(this.SearchText));
+  //               level4.isCollapse = false;
+  //               level3.isCollapse = false;
+  //               level2.isCollapse = false;
+  //               app.isCollapse = false;
+  //               returnFunc = true;
+  //             }
+  //           });
+  //         });
+  //       });
+  //     });
+  //   } else {
+  //     this.AccountData = [];
+  //     this.GetAccountTreeData();
+  //   }
+  // }
 
 
 }
