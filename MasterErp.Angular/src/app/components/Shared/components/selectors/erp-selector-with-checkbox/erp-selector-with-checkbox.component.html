@@ -1,0 +1,33 @@
+<div ngbDropdown class="dropdown-filter-wrapper dropdown-as-input d-inline-block mb-2 w-100">
+  <button type="button" class="btn-filter promotion-filter py-3" id="filterInput1" [ngStyle]="{'height': Height}"
+    ngbDropdownToggle>
+    {{SelectorName}}
+  </button>
+  <div ngbDropdownMenu aria-labelledby="filterInput1" class="dropdown-filter p-0 overflow-hidden w-100 shadow-sm">
+    <div class="p-2 bg-light border-bottom">
+      <input type="text" class="form-control form-control-sm" [(ngModel)]="SearchText" placeholder="بحث..." />
+    </div>
+    <div class="check-row px-2 p-1 bg-light border-bottom mb-1">
+      <div class="form-check m-0">
+        <input class="form-check-input" type="checkbox" id="Master" (change)="SelectAllItems($event.target.checked)">
+        <label class="form-check-label d-flex align-items-center justify-content-between w-100 ms-2" for="Master">
+          <span>تحديد الكل</span>
+        </label>
+      </div>
+    </div>
+    <div class="max-height-150 min-width-200 overflow-auto small-scroll">
+      <div class="check-row px-2 mb-1" *ngFor="let item of ItemsList | searchArry: SearchText:'nameEn';let i = index">
+        <div class="form-check m-0">
+          <input class="form-check-input" [(ngModel)]="item.isChecked" type="checkbox" id="Item_{{i}}"
+            (change)="onItemChange()">
+          <label class="form-check-label d-flex align-items-center justify-content-between w-100 ms-2" for="Item_{{i}}">
+            <span>{{item.nameEn}}</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="alert text-danger validate-style" *ngIf="isValid">
+  {{ValidateMessage}}
+</div>

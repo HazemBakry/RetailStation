@@ -1,0 +1,17 @@
+<div ngbDropdown class="dropdown-filter-wrapper dropdown-as-input d-inline-block mb-3 w-100">
+    <button type="button" class="btn-filter promotion-filter py-3" [ngStyle]="{'height': Height}" id="filterInput1"
+        ngbDropdownToggle>
+        {{SelectorName}}
+    </button>
+    <div ngbDropdownMenu aria-labelledby="filterInput1" class="dropdown-filter p-0 overflow-hidden w-100 shadow-sm">
+        <div class="max-height-150 min-width-200 overflow-auto small-scroll">
+            <div class="check-row" *ngFor="let item of ItemsList">
+                <a class="dropdown-item" (click)="onItemClick(item)"
+                    [ngClass]="{'DropDownSelected': SelectorName == item.nameEn}">{{item.nameEn}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="alert text-danger validate-style" *ngIf="isValid">
+    {{ValidateMessage}}
+</div>

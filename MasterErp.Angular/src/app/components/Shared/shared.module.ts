@@ -7,6 +7,9 @@ import { ngxLoadingAnimationTypes, NgxLoadingModule } from "ngx-loading";
 import { SearchArryPipe } from './Pipes/search-arry.pipe';
 import { FormsModule } from '@angular/forms';
 import { CostCentersTreeComponent } from './components/cost-center-tree/cost-centers-tree.component';
+import { ErpSelectorComponent } from './components/selectors/erp-selector/erp-selector.component';
+import { ErpSelectorWithSearchComponent } from './components/selectors/erp-selector-with-search/erp-selector-with-search.component';
+import { ErpSelectorWithCheckboxComponent } from './components/selectors/erp-selector-with-checkbox/erp-selector-with-checkbox.component';
 
 
 
@@ -15,7 +18,10 @@ import { CostCentersTreeComponent } from './components/cost-center-tree/cost-cen
     AccountsTreeComponent,
     StatsCardComponent,
     SearchArryPipe,
-    CostCentersTreeComponent
+    CostCentersTreeComponent,
+    ErpSelectorComponent,
+    ErpSelectorWithSearchComponent,
+    ErpSelectorWithCheckboxComponent
   ],
 
   imports: [
@@ -33,11 +39,14 @@ import { CostCentersTreeComponent } from './components/cost-center-tree/cost-cen
     })
   ],
 
-  exports:[
+  exports: [
     AccountsTreeComponent,
     CostCentersTreeComponent,
     NgxLoadingModule,
-    SearchArryPipe
+    SearchArryPipe,
+    ErpSelectorComponent,
+    ErpSelectorWithSearchComponent,
+    ErpSelectorWithCheckboxComponent
   ]
 })
 export class SharedModule { }
