@@ -1,9 +1,13 @@
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Finance.GeneralAccounts;
+using MasterErp.Interface.Finance.Purchase;
+using MasterErp.Interface.Finance.Sales;
 using MasterErp.Interface.HR;
 using MasterErp.Service.Common;
 using MasterErp.Service.Finance.GeneralAccounts;
+using MasterErp.Service.Finance.Purchase;
+using MasterErp.Service.Finance.Sales;
 using MasterErp.Service.HR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -58,6 +62,8 @@ namespace MasterErp.API
             services.AddScoped<IVacationService, VacationService>();
             services.AddScoped<IAccountTreeService, AccountTreeService>();
             services.AddScoped<ICostCenterTreeService, CostCenterTreeService>();
+            services.AddScoped<IPurchaseInvoiceService, PurchaseInvoiceService>();
+            services.AddScoped<ISalesInvoiceService, SalesInvoiceService>();
             services
                 .AddMvc(options =>
                 {

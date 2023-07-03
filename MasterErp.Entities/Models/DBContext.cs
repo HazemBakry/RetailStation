@@ -43,6 +43,14 @@ namespace MasterErp.Entities.Models
         public DbSet<Vacation> Vacation { get; set; }
         public DbSet<AccountTree> AccountTree { get; set; }
         public DbSet<CostCenterTree> CostCenterTree { get; set; }
+        public DbSet<Supplier> Supplier { get; set; }
+        public DbSet<ItemLookups> ItemLookups { get; set; }
+        public DbSet<Item> Item { get; set; }
+        public DbSet<Units> Units { get; set; }
+        public DbSet<PurchaseInvoice> PurchaseInvoice { get; set; }
+        public DbSet<PurchaseInvoiceDetails> PurchaseInvoiceDetails { get; set; }
+        public DbSet<SalesInvoice> SalesInvoice { get; set; }
+        public DbSet<SalesInvoiceDetails> SalesInvoiceDetails { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

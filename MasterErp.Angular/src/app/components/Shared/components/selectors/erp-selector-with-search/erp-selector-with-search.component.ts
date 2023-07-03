@@ -20,7 +20,7 @@ export class ErpSelectorWithSearchComponent implements OnInit {
   }
 
   onItemClick(item: any) {
-    this.SelectorName = item.nameEn;
+    this.SelectorName = item.nameEN;
     this.isValid = false;
     this.ItemObj.emit(item);
   }

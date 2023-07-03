@@ -9,9 +9,9 @@
                 placeholder="بحث..." />
         </div>
         <div class="max-height-150 min-width-200 overflow-auto small-scroll">
-            <div class="check-row" *ngFor="let item of ItemsList | searchArry: SearchText:'nameEn'">
+            <div class="check-row" *ngFor="let item of ItemsList | searchArry: SearchText:'nameEN'">
                 <a class="dropdown-item" (click)="onItemClick(item)"
-                    [ngClass]="{'DropDownSelected': SelectorName == item.nameEn}">{{item.nameEn}}</a>
+                    [ngClass]="{'DropDownSelected': SelectorName == item.nameEN}">{{item.nameEN}}</a>
             </div>
         </div>
     </div>

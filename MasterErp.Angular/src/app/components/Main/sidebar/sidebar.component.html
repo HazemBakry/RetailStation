@@ -311,110 +311,25 @@
         class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100 active">
         <div class="nav-text d-flex align-items-center w-100">
           <i class="uil uil-database nav-icon"></i>
-          <span class="nav-link-text item-sidebar main-nav-link ms-3">الموارد البشرية</span>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">العمليات الحسابية</span>
         </div>
       </a>
-      <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu1>
+      <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu2>
         <li class="nav-item">
-          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Hr/HrEmployees"
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Finance/generalAccounts/accountTree"
             routerLinkActive="active">
             <div class="nav-text d-flex align-items-center w-100">
               <i class="uil uil-users-alt nav-icon"></i>
-              <span class="nav-link-text item-sidebar main-nav-link ms-3">بيانات الموظفين</span>
+              <span class="nav-link-text item-sidebar main-nav-link ms-3">شجرة الحسابات</span>
             </div>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Hr/HrVacation"
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Finance/generalAccounts/costCenterTree"
             routerLinkActive="active">
             <div class="nav-text d-flex align-items-center w-100">
-              <i class="uil uil-user-check nav-icon"></i>
-              <span class="nav-link-text item-sidebar main-nav-link ms-3">الاجازات</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Hr/HrOverTime"
-          routerLinkActive="active">
-            <div class="nav-text d-flex align-items-center w-100">
-              <i class="uil uil-presentation-plus nav-icon"></i>
-              <span class="nav-link-text item-sidebar main-nav-link ms-3">ساعات العمل الاضافية</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Hr/HrPenalty"
-          routerLinkActive="active">
-            <div class="nav-text d-flex align-items-center w-100">
-              <i class="uil uil-user-minus nav-icon"></i>
-              <span class="nav-link-text item-sidebar main-nav-link ms-3">الجزاءات</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Hr/HrSickLeave"
-          routerLinkActive="active">
-            <div class="nav-text d-flex align-items-center w-100">
-              <i class="uil uil-user-nurse nav-icon"></i>
-              <span class="nav-link-text item-sidebar main-nav-link ms-3">الاجازات المرضية</span>
-            </div>
-          </a>
-        </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-            <div class="nav-text d-flex align-items-center w-100">
-              <i class="uil uil-transaction nav-icon"></i>
-              <span class="nav-link-text item-sidebar main-nav-link ms-3">الترقيات والتنقلات</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-            <div class="nav-text d-flex align-items-center w-100">
-              <i class="uil uil-pricetag-alt nav-icon"></i>
-              <span class="nav-link-text item-sidebar main-nav-link ms-3">الخصم</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-            <div class="nav-text d-flex align-items-center w-100">
-              <i class="uil uil-money-insert nav-icon"></i>
-              <span class="nav-link-text item-sidebar main-nav-link ms-3">السلف</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-            <div class="nav-text d-flex align-items-center w-100">
-              <i class="uil uil-invoice nav-icon"></i>
-              <span class="nav-link-text item-sidebar main-nav-link ms-3">مستحقات الموظفين</span>
-            </div>
-          </a>
-        </li> -->
-        <li class="nav-item">
-          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Hr/HrAttendance"
-          routerLinkActive="active">
-            <div class="nav-text d-flex align-items-center w-100">
-              <i class="uil uil-file-check-alt nav-icon"></i>
-              <span class="nav-link-text item-sidebar main-nav-link ms-3">الحضور والانصراف</span>
-            </div>
-          </a>
-        </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
-            <div class="nav-text d-flex align-items-center w-100">
-              <i class="uil uil-bill nav-icon"></i>
-              <span class="nav-link-text item-sidebar main-nav-link ms-3">العلاوات</span>
-            </div>
-          </a>
-        </li> -->
-        <li class="nav-item">
-          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Hr/HrSalary"
-          routerLinkActive="active">
-            <div class="nav-text d-flex align-items-center w-100">
-              <i class="uil uil-dollar-sign-alt nav-icon"></i>
-              <span class="nav-link-text item-sidebar main-nav-link ms-3">الراتب الشهري</span>
+              <i class="uil uil-users-alt nav-icon"></i>
+              <span class="nav-link-text item-sidebar main-nav-link ms-3">مركز الحسابات</span>
             </div>
           </a>
         </li>
@@ -424,33 +339,153 @@
         class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100 active">
         <div class="nav-text d-flex align-items-center w-100">
           <i class="uil uil-database nav-icon"></i>
-          <span class="nav-link-text item-sidebar main-nav-link ms-3">Finance</span>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">المبيعات</span>
         </div>
       </a>
-      <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu1>
+      <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu3>
         <li class="nav-item">
-          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Finance/generalAccounts/accountTree"
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Finance/generalAccounts/addPurchase"
             routerLinkActive="active">
             <div class="nav-text d-flex align-items-center w-100">
               <i class="uil uil-users-alt nav-icon"></i>
-              <span class="nav-link-text item-sidebar main-nav-link ms-3">Account Tree</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Finance/generalAccounts/costCenterTree"
-            routerLinkActive="active">
-            <div class="nav-text d-flex align-items-center w-100">
-              <i class="uil uil-users-alt nav-icon"></i>
-              <span class="nav-link-text item-sidebar main-nav-link ms-3">Cost Center Tree</span>
+              <span class="nav-link-text item-sidebar main-nav-link ms-3">عملية البيع</span>
             </div>
           </a>
         </li>
       </ul>
+
+      <a
+        class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100 active">
+        <div class="nav-text d-flex align-items-center w-100">
+          <i class="uil uil-database nav-icon"></i>
+          <span class="nav-link-text item-sidebar main-nav-link ms-3">المشتريات</span>
+        </div>
+      </a>
+      <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu4>
+        <li class="nav-item">
+          <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Finance/generalAccounts/addSales"
+            routerLinkActive="active">
+            <div class="nav-text d-flex align-items-center w-100">
+              <i class="uil uil-users-alt nav-icon"></i>
+              <span class="nav-link-text item-sidebar main-nav-link ms-3">عملية الشراء</span>
+            </div>
+          </a>
+        </li>
+      </ul>
+
+      <a
+      class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100 active">
+      <div class="nav-text d-flex align-items-center w-100">
+        <i class="uil uil-database nav-icon"></i>
+        <span class="nav-link-text item-sidebar main-nav-link ms-3">الموارد البشرية</span>
+      </div>
+    </a>
+    <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu1>
+      <li class="nav-item">
+        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Hr/HrEmployees"
+          routerLinkActive="active">
+          <div class="nav-text d-flex align-items-center w-100">
+            <i class="uil uil-users-alt nav-icon"></i>
+            <span class="nav-link-text item-sidebar main-nav-link ms-3">بيانات الموظفين</span>
+          </div>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Hr/HrVacation"
+          routerLinkActive="active">
+          <div class="nav-text d-flex align-items-center w-100">
+            <i class="uil uil-user-check nav-icon"></i>
+            <span class="nav-link-text item-sidebar main-nav-link ms-3">الاجازات</span>
+          </div>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Hr/HrOverTime"
+        routerLinkActive="active">
+          <div class="nav-text d-flex align-items-center w-100">
+            <i class="uil uil-presentation-plus nav-icon"></i>
+            <span class="nav-link-text item-sidebar main-nav-link ms-3">ساعات العمل الاضافية</span>
+          </div>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Hr/HrPenalty"
+        routerLinkActive="active">
+          <div class="nav-text d-flex align-items-center w-100">
+            <i class="uil uil-user-minus nav-icon"></i>
+            <span class="nav-link-text item-sidebar main-nav-link ms-3">الجزاءات</span>
+          </div>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Hr/HrSickLeave"
+        routerLinkActive="active">
+          <div class="nav-text d-flex align-items-center w-100">
+            <i class="uil uil-user-nurse nav-icon"></i>
+            <span class="nav-link-text item-sidebar main-nav-link ms-3">الاجازات المرضية</span>
+          </div>
+        </a>
+      </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+          <div class="nav-text d-flex align-items-center w-100">
+            <i class="uil uil-transaction nav-icon"></i>
+            <span class="nav-link-text item-sidebar main-nav-link ms-3">الترقيات والتنقلات</span>
+          </div>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+          <div class="nav-text d-flex align-items-center w-100">
+            <i class="uil uil-pricetag-alt nav-icon"></i>
+            <span class="nav-link-text item-sidebar main-nav-link ms-3">الخصم</span>
+          </div>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+          <div class="nav-text d-flex align-items-center w-100">
+            <i class="uil uil-money-insert nav-icon"></i>
+            <span class="nav-link-text item-sidebar main-nav-link ms-3">السلف</span>
+          </div>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+          <div class="nav-text d-flex align-items-center w-100">
+            <i class="uil uil-invoice nav-icon"></i>
+            <span class="nav-link-text item-sidebar main-nav-link ms-3">مستحقات الموظفين</span>
+          </div>
+        </a>
+      </li> -->
+      <li class="nav-item">
+        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Hr/HrAttendance"
+        routerLinkActive="active">
+          <div class="nav-text d-flex align-items-center w-100">
+            <i class="uil uil-file-check-alt nav-icon"></i>
+            <span class="nav-link-text item-sidebar main-nav-link ms-3">الحضور والانصراف</span>
+          </div>
+        </a>
+      </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center">
+          <div class="nav-text d-flex align-items-center w-100">
+            <i class="uil uil-bill nav-icon"></i>
+            <span class="nav-link-text item-sidebar main-nav-link ms-3">العلاوات</span>
+          </div>
+        </a>
+      </li> -->
+      <li class="nav-item">
+        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/Hr/HrSalary"
+        routerLinkActive="active">
+          <div class="nav-text d-flex align-items-center w-100">
+            <i class="uil uil-dollar-sign-alt nav-icon"></i>
+            <span class="nav-link-text item-sidebar main-nav-link ms-3">الراتب الشهري</span>
+          </div>
+        </a>
+      </li>
+    </ul>
     </li>
-
-
-
   </ul>
   <!-- <li class="nav-item nav-item-title item-sidebar">
     <a class="nav-link title cursor-pointer text-lowercase fw-bold text-dark">التقارير</a>

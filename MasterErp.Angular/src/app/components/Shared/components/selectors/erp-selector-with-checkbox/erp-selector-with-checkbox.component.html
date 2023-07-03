@@ -16,12 +16,12 @@
       </div>
     </div>
     <div class="max-height-150 min-width-200 overflow-auto small-scroll">
-      <div class="check-row px-2 mb-1" *ngFor="let item of ItemsList | searchArry: SearchText:'nameEn';let i = index">
+      <div class="check-row px-2 mb-1" *ngFor="let item of ItemsList | searchArry: SearchText:'nameEN';let i = index">
         <div class="form-check m-0">
           <input class="form-check-input" [(ngModel)]="item.isChecked" type="checkbox" id="Item_{{i}}"
             (change)="onItemChange()">
           <label class="form-check-label d-flex align-items-center justify-content-between w-100 ms-2" for="Item_{{i}}">
-            <span>{{item.nameEn}}</span>
+            <span>{{item.nameEN}}</span>
           </label>
         </div>
       </div>
