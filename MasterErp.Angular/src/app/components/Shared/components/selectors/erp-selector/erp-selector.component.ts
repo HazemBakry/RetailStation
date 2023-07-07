@@ -16,6 +16,7 @@ export class ErpSelectorComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
   onItemClick(item: any) {
