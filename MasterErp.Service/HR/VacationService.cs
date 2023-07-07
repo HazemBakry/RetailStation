@@ -22,8 +22,8 @@ namespace MasterErp.Service.HR
 
         public DataTable GetVacationData()
         {
-            var results = (from emp in Context.Employee.ToList()
-                           join vacation in Context.Vacation.ToList() on emp.EmployeeId equals vacation.EmployeeID
+            var results = (from emp in Context.Employees.ToList()
+                           join vacation in Context.Vacations.ToList() on emp.EmployeeId equals vacation.EmployeeID
                            select new
                            {
                                EmployeeId = emp.EmployeeId,
@@ -44,7 +44,7 @@ namespace MasterErp.Service.HR
         {
             try
             {
-                Context.Vacation.Add(new Vacation
+                Context.Vacations.Add(new Vacation
                 {
                     EmployeeID = model.EmployeeID,
                     AlternativeEmployee = model.AlternativeEmployee,
@@ -69,7 +69,7 @@ namespace MasterErp.Service.HR
         {
             try
             {
-                var Vacation = Context.Vacation.FirstOrDefault(i => i.VacationID == model.VacationID);
+                var Vacation = Context.Vacations.FirstOrDefault(i => i.VacationID == model.VacationID);
                 if (Vacation != null)
                 {
                     Vacation.AlternativeEmployee = model.AlternativeEmployee;
@@ -97,7 +97,7 @@ namespace MasterErp.Service.HR
         {
             try
             {
-                var Vacation = Context.Vacation.FirstOrDefault(i => i.VacationID == VacationId);
+                var Vacation = Context.Vacations.FirstOrDefault(i => i.VacationID == VacationId);
                 if (Vacation != null)
                 {
                     Context.Remove(Vacation);

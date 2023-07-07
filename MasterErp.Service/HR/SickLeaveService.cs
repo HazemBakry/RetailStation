@@ -21,8 +21,8 @@ namespace MasterErp.Service.HR
 
         public DataTable GetSickLeaveData()
         {
-            var results = (from emp in Context.Employee.ToList()
-                           join sickleave in Context.SickLeave.ToList() on emp.EmployeeId equals sickleave.EmployeeID
+            var results = (from emp in Context.Employees.ToList()
+                           join sickleave in Context.SickLeaves.ToList() on emp.EmployeeId equals sickleave.EmployeeID
                            select new
                            {
                                EmployeeId = emp.EmployeeId,
@@ -42,7 +42,7 @@ namespace MasterErp.Service.HR
         {
             try
             {
-                Context.SickLeave.Add(new SickLeave
+                Context.SickLeaves.Add(new SickLeave
                 {
                     EmployeeID = model.EmployeeID,
                     RequestDate = model.RequestDate,
@@ -66,7 +66,7 @@ namespace MasterErp.Service.HR
         {
             try
             {
-                var SickLeave = Context.SickLeave.FirstOrDefault(i => i.SickLeaveID == model.SickLeaveID);
+                var SickLeave = Context.SickLeaves.FirstOrDefault(i => i.SickLeaveID == model.SickLeaveID);
                 if (SickLeave != null)
                 {
                     SickLeave.RequestDate = model.RequestDate;
@@ -93,7 +93,7 @@ namespace MasterErp.Service.HR
         {
             try
             {
-                var SickLeave = Context.SickLeave.FirstOrDefault(i => i.SickLeaveID == SickLeaveId);
+                var SickLeave = Context.SickLeaves.FirstOrDefault(i => i.SickLeaveID == SickLeaveId);
                 if (SickLeave != null)
                 {
                     Context.Remove(SickLeave);

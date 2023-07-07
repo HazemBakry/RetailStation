@@ -22,62 +22,62 @@ namespace MasterErp.Service.HR
 
         public List<EmployeesModel> GetAllEmployees()
         {
-            var results = Context.Employee.Select(i => new EmployeesModel { EmployeeId = i.EmployeeId, EmployeeName = i.FirstNameEN + " " + i.LastNameEN }).ToList();
+            var results = Context.Employees.Select(i => new EmployeesModel { EmployeeId = i.EmployeeId, EmployeeName = i.FirstNameEN + " " + i.LastNameEN }).ToList();
             return results;
         }
 
         public List<IqamaIssuePlace> GetIqamaIssuePlaceData()
         {
-            var results = Context.IqamaIssuePlace.ToList();
+            var results = Context.IqamaIssuePlaces.ToList();
             return results;
         }
 
         public List<PassportIssuePlace> GetPassportIssuePlaceData()
         {
-            var results = Context.PassportIssuePlace.ToList();
+            var results = Context.PassportIssuePlaces.ToList();
             return results;
         }
 
         public List<Sponsor> GetSponsorData()
         {
-            var results = Context.Sponsor.ToList();
+            var results = Context.Sponsors.ToList();
             return results;
         }
 
         public List<IqamaJob> GetIqamaJobData()
         {
-            var results = Context.IqamaJob.ToList();
+            var results = Context.IqamaJobs.ToList();
             return results;
         }
 
         public List<Nationality> GetNationalityData()
         {
-            var results = Context.Nationality.ToList();
+            var results = Context.Nationalities.ToList();
             return results;
         }
 
         public List<Job> GetJobData()
         {
-            var results = Context.Job.ToList();
+            var results = Context.Jobs.ToList();
             return results;
         }
 
         public List<Branch> GetBranchData()
         {
-            var results = Context.Branch.ToList();
+            var results = Context.Branches.ToList();
             return results;
         }
 
         public List<Bank> GetBankData()
         {
-            var results = Context.Bank.ToList();
+            var results = Context.Banks.ToList();
             return results;
         }
 
         public DataTable GetAllEmployeeSalary()
         {
-            var results = (from emp in Context.Employee.ToList()
-                           join salary in Context.EmployeeSalary.ToList() on emp.EmployeeId equals salary.EmployeeSalaryId
+            var results = (from emp in Context.Employees.ToList()
+                           join salary in Context.EmployeeSalaries.ToList() on emp.EmployeeId equals salary.EmployeeSalaryId
                            select new
                            {
                                salary,
@@ -90,7 +90,7 @@ namespace MasterErp.Service.HR
         {
             try
             {
-                var Emp = Context.EmployeeSalary.FirstOrDefault(i => i.EmployeeSalaryId == model.EmployeeSalaryId);
+                var Emp = Context.EmployeeSalaries.FirstOrDefault(i => i.EmployeeSalaryId == model.EmployeeSalaryId);
                 if (Emp != null)
                 {
                     Emp.BasicSalary = model.BasicSalary;
@@ -153,10 +153,10 @@ namespace MasterErp.Service.HR
                 Employee.IsGossi = model.Employee.IsGossi;
                 Employee.InsertDate = DateTime.Now;
 
-                Context.Employee.Add(Employee);
+                Context.Employees.Add(Employee);
                 Context.SaveChanges();
 
-                var NewEmp = Context.Employee.FirstOrDefault(i => i.EmployeeId == Employee.EmployeeId);
+                var NewEmp = Context.Employees.FirstOrDefault(i => i.EmployeeId == Employee.EmployeeId);
                 if (NewEmp == null)
                     return false;
 
@@ -166,7 +166,7 @@ namespace MasterErp.Service.HR
                 EmployeeContract.VacationEvery = model.EmployeeContract.VacationEvery;
                 EmployeeContract.VacationDays = model.EmployeeContract.VacationDays;
 
-                Context.EmployeeContract.Add(EmployeeContract);
+                Context.EmployeeContracts.Add(EmployeeContract);
                 Context.SaveChanges();
 
                 var EmployeeSalary = new EmployeeSalary();
@@ -180,7 +180,7 @@ namespace MasterErp.Service.HR
                 EmployeeSalary.Other = model.EmployeeSalary.Other;
                 EmployeeSalary.TotalSalary = model.EmployeeSalary.TotalSalary;
 
-                Context.EmployeeSalary.Add(EmployeeSalary);
+                Context.EmployeeSalaries.Add(EmployeeSalary);
                 Context.SaveChanges();
 
                 return true;

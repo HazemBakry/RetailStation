@@ -21,8 +21,8 @@ namespace MasterErp.Service.HR
 
         public DataTable GetPenaltyData()
         {
-            var results = (from emp in Context.Employee.ToList()
-                           join penalty in Context.Penalty.ToList() on emp.EmployeeId equals penalty.EmployeeID
+            var results = (from emp in Context.Employees.ToList()
+                           join penalty in Context.Penalties.ToList() on emp.EmployeeId equals penalty.EmployeeID
                            select new
                            {
                                EmployeeId = emp.EmployeeId,
@@ -44,7 +44,7 @@ namespace MasterErp.Service.HR
         {
             try
             {
-                Context.Penalty.Add(new Penalty
+                Context.Penalties.Add(new Penalty
                 {
                     EmployeeID = model.EmployeeID,
                     PenaltyDate = model.PenaltyDate,
@@ -70,7 +70,7 @@ namespace MasterErp.Service.HR
         {
             try
             {
-                var Penalty = Context.Penalty.FirstOrDefault(i => i.PenaltyID == model.PenaltyID);
+                var Penalty = Context.Penalties.FirstOrDefault(i => i.PenaltyID == model.PenaltyID);
                 if (Penalty != null)
                 {
                     Penalty.PenaltyDate = model.PenaltyDate;
@@ -99,7 +99,7 @@ namespace MasterErp.Service.HR
         {
             try
             {
-                var Penalty = Context.Penalty.FirstOrDefault(i => i.PenaltyID == PenaltyId);
+                var Penalty = Context.Penalties.FirstOrDefault(i => i.PenaltyID == PenaltyId);
                 if (Penalty != null)
                 {
                     Context.Remove(Penalty);

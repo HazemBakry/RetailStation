@@ -25,32 +25,34 @@ namespace MasterErp.Entities.Models
 
         public DbSet<AccountTree> AccountTrees { get; set; }
         public DbSet<AccountType> AccountTypes { get; set; }
-        public DbSet<Employee> Employee { get; set; }
-        public DbSet<Nationality> Nationality { get; set; }
-        public DbSet<Sponsor> Sponsor { get; set; }
-        public DbSet<IqamaIssuePlace> IqamaIssuePlace { get; set; }
-        public DbSet<PassportIssuePlace> PassportIssuePlace { get; set; }
-        public DbSet<IqamaJob> IqamaJob { get; set; }
-        public DbSet<Job> Job { get; set; }
-        public DbSet<Branch> Branch { get; set; }
-        public DbSet<Bank> Bank { get; set; }
-        public DbSet<EmployeeContract> EmployeeContract { get; set; }
-        public DbSet<EmployeeSalary> EmployeeSalary { get; set; }
         public DbSet<Attendance> Attendance { get; set; }
-        public DbSet<OverTime> OverTime { get; set; }
-        public DbSet<Penalty> Penalty { get; set; }
-        public DbSet<SickLeave> SickLeave { get; set; }
-        public DbSet<Vacation> Vacation { get; set; }
-        public DbSet<AccountTree> AccountTree { get; set; }
-        public DbSet<CostCenterTree> CostCenterTree { get; set; }
-        public DbSet<Supplier> Supplier { get; set; }
+        public DbSet<Branch> Branches { get; set; }
+        public DbSet<Bank> Banks { get; set; }
+        public DbSet<CostCenterTree> CostCenterTrees { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<EmployeeContract> EmployeeContracts { get; set; }
+        public DbSet<EmployeeSalary> EmployeeSalaries { get; set; }
+        public DbSet<IqamaIssuePlace> IqamaIssuePlaces { get; set; }
+        public DbSet<IqamaJob> IqamaJobs { get; set; }
         public DbSet<ItemLookups> ItemLookups { get; set; }
-        public DbSet<Item> Item { get; set; }
-        public DbSet<Units> Units { get; set; }
-        public DbSet<PurchaseInvoice> PurchaseInvoice { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+        public DbSet<JournalEntryType> JournalEntryTypes { get; set; }
+        public DbSet<JournalTemplate> JournalTemplates { get; set; }
+        public DbSet<JournalTemplateDetails> JournalTemplateDetail { get; set; }
+        public DbSet<Nationality> Nationalities { get; set; }
+        public DbSet<OverTime> OverTimes { get; set; }
+        public DbSet<Penalty> Penalties { get; set; }
+        public DbSet<PassportIssuePlace> PassportIssuePlaces { get; set; }
+        public DbSet<PurchaseInvoice> PurchaseInvoices { get; set; }
         public DbSet<PurchaseInvoiceDetails> PurchaseInvoiceDetails { get; set; }
-        public DbSet<SalesInvoice> SalesInvoice { get; set; }
+        public DbSet<SalesInvoice> SalesInvoices { get; set; }
         public DbSet<SalesInvoiceDetails> SalesInvoiceDetails { get; set; }
+        public DbSet<Sponsor> Sponsors { get; set; }
+        public DbSet<SickLeave> SickLeaves { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Units> Units { get; set; }
+        public DbSet<Vacation> Vacations { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

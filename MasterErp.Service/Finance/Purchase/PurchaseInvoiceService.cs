@@ -37,17 +37,17 @@ namespace MasterErp.Service.Finance.Purchase
 
         public List<PurchaseInvoice> GetPurchaseInvoiceData()
         {
-            return Context.PurchaseInvoice.ToList();
+            return Context.PurchaseInvoices.ToList();
         }
 
         public List<Supplier> GetSuppliersData()
         {
-            return Context.Supplier.ToList();
+            return Context.Suppliers.ToList();
         }
 
         public List<Branch> GetBranchesData()
         {
-            return Context.Branch.ToList();
+            return Context.Branches.ToList();
         }
 
         public List<ItemLookups> GetItemLookupsData()
@@ -57,7 +57,7 @@ namespace MasterErp.Service.Finance.Purchase
 
         public DataTable GetItemsData()
         {
-            var results = (from item in Context.Item.ToList()
+            var results = (from item in Context.Items.ToList()
                            join unit in Context.Units.ToList() on item.UnitID equals unit.UnitId
                            select new
                            {
@@ -105,9 +105,9 @@ namespace MasterErp.Service.Finance.Purchase
                 order_tbl.InvoiceDate = DateTime.Now;
                 order_tbl.InvoiceTotalValue = model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0;
                 order_tbl.SupplierID = model.SupplierId;
-                order_tbl.InvoiceNumber = "po_" + (Context.PurchaseInvoice.Count() > 0 ? Context.PurchaseInvoice.Max(x => x.PurchaseInvoiceID) + 1 : 1);
+                order_tbl.InvoiceNumber = "po_" + (Context.PurchaseInvoices.Count() > 0 ? Context.PurchaseInvoices.Max(x => x.PurchaseInvoiceID) + 1 : 1);
 
-                Context.PurchaseInvoice.Add(order_tbl);
+                Context.PurchaseInvoices.Add(order_tbl);
                 Context.SaveChanges();
 
                 foreach (PurchaseInvoiceDetails item in model.Items)
