@@ -34,7 +34,7 @@ namespace MasterErp.Service.Finance.Sales
 
         public List<SalesInvoice> GetSalesInvoiceData()
         {
-            return Context.SalesInvoice.ToList();
+            return Context.SalesInvoices.ToList();
         }
 
         public (bool HasError, int InvoiceNumber) SaveNewSalesInvoice(SalesInvoiceModel model)
@@ -50,9 +50,9 @@ namespace MasterErp.Service.Finance.Sales
                 order_tbl.Notes = model.Notes;
                 order_tbl.InvoiceDate = DateTime.Now;
                 order_tbl.TotalValue = model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0;
-                order_tbl.InvoiceNumber = (Context.SalesInvoice.Count() > 0 ? Context.SalesInvoice.Max(x => x.SalesInvoiceID) + 1 : 1);
+                order_tbl.InvoiceNumber = (Context.SalesInvoices.Count() > 0 ? Context.SalesInvoices.Max(x => x.SalesInvoiceID) + 1 : 1);
 
-                Context.SalesInvoice.Add(order_tbl);
+                Context.SalesInvoices.Add(order_tbl);
                 Context.SaveChanges();
 
                 foreach (SalesInvoiceDetails item in model.Items)

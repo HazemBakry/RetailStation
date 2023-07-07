@@ -21,8 +21,8 @@ namespace MasterErp.Service.HR
 
         public DataTable GetOverTimeData()
         {
-            var results = (from emp in Context.Employee.ToList()
-                           join overtime in Context.OverTime.ToList() on emp.EmployeeId equals overtime.EmployeeID
+            var results = (from emp in Context.Employees.ToList()
+                           join overtime in Context.OverTimes.ToList() on emp.EmployeeId equals overtime.EmployeeID
                            select new
                            {
                                EmployeeId = emp.EmployeeId,
@@ -42,7 +42,7 @@ namespace MasterErp.Service.HR
         {
             try
             {
-                Context.OverTime.Add(new OverTime
+                Context.OverTimes.Add(new OverTime
                 {
                     EmployeeID = model.EmployeeID,
                     ExecutionDate = model.ExecutionDate,
@@ -66,7 +66,7 @@ namespace MasterErp.Service.HR
         {
             try
             {
-                var OverTime = Context.OverTime.FirstOrDefault(i => i.OverTimeID == model.OverTimeID);
+                var OverTime = Context.OverTimes.FirstOrDefault(i => i.OverTimeID == model.OverTimeID);
                 if (OverTime != null)
                 {
                     OverTime.ExecutionDate = model.ExecutionDate;
@@ -93,7 +93,7 @@ namespace MasterErp.Service.HR
         {
             try
             {
-                var OverTime = Context.OverTime.FirstOrDefault(i => i.OverTimeID == OverTimeId);
+                var OverTime = Context.OverTimes.FirstOrDefault(i => i.OverTimeID == OverTimeId);
                 if (OverTime != null)
                 {
                     Context.Remove(OverTime);

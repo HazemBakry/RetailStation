@@ -21,7 +21,7 @@ namespace MasterErp.Service.HR
 
         public DataTable GetAttendanceData()
         {
-            var results = (from emp in Context.Employee.ToList()
+            var results = (from emp in Context.Employees.ToList()
                            join attendance in Context.Attendance.ToList() on emp.EmployeeId equals attendance.EmployeeID
                            select new
                            {
