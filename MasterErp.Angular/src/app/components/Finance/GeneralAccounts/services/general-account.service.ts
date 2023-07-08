@@ -30,8 +30,12 @@ export class GeneralAccountService {
     return this.http.post<any>(this.URL + 'JournalEntry/SaveNewJouranlEntry', model);
   }
 
-  GetDailyJournalEntries(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntries', model);
+  GetDailyJournalEntriesSummary(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesSummary', model);
+  }
+
+  GetDailyJournalEntriesFilters(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesFilters', model);
   }
 
   DropDailyJournalEntries(JournalEntryIds: number[]) {

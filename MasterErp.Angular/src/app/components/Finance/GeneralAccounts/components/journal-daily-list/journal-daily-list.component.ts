@@ -24,14 +24,21 @@ export class JournalDailyListComponent implements OnInit {
   constructor(private generalService: GeneralAccountService, private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.GetDailyJournalEntries();
+    this.GetDailyJournalEntriesSummary();
+    this.GetDailyJournalEntriesFilters();
   }
 
-  GetDailyJournalEntries() {
-    this.generalService.GetDailyJournalEntries(this.filterModel).subscribe(data => {
+  GetDailyJournalEntriesSummary() {
+    this.generalService.GetDailyJournalEntriesSummary(this.filterModel).subscribe(data => {
       this.DailyJournal = data;
       this.totalCount = this.DailyJournal.length;
       this.DailyJournal.map(i => i.isChecked == false);
+    });
+  }
+
+  GetDailyJournalEntriesFilters() {
+    this.generalService.GetDailyJournalEntriesFilters(this.filterModel).subscribe(data => {
+      this.filterList = data;
     });
   }
 
