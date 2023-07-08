@@ -90,7 +90,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                                where journal_details.JournalEntryID == entry.JournalEntryID
                                join Accounts in Context.AccountTrees on journal_details.AccountID equals Accounts.AccountID
                                //join costs in Context.CostCenterTrees on journal_details.CostCenterID equals costs.CostCenterID
-                               orderby journal_details.JournalDetialID
+                               //orderby journal_details.JournalDetialID
                                select new JournalEntryAccount
                                {
                                    AccountID = Accounts.AccountID,
@@ -138,7 +138,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                     PeriodID = Context.FinancialPeriods.OrderByDescending(x => x.FinancialPeriodID).FirstOrDefault().FinancialPeriodID,
                     EntryDate = model.EntryDate,
                     ActionTypeID = 1,
-                    //ActionID = Entry_tbl.JournalID;
+                    ActionID = 0,
                     CreateDate = DateTime.Now,
                     CreatedBy = ""
                 };

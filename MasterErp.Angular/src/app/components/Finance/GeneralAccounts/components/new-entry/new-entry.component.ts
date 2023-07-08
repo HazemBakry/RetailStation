@@ -34,7 +34,8 @@ export class NewEntryComponent implements OnInit {
   DocNumber: any;
   Notes: any;
   CurrencyType = [{ currencyId: 1, nameEN: 'Egypt' }, { currencyId: 1, nameEN: 'Rial' }]
-
+  JournalTypeName = 'نوع القيد';
+  CurrencyName = 'العملة';
   constructor(private modalService: NgbModal, private sharedService: SharedService, private toaster: ToastrService,
     private generalService: GeneralAccountService) { }
 
@@ -137,8 +138,6 @@ export class NewEntryComponent implements OnInit {
     } else {
       this.GetAccountsByTemplateId();
     }
-    console.log(this.inputs);
-
   }
 
   InputFocus() {
@@ -152,9 +151,6 @@ export class NewEntryComponent implements OnInit {
 
   RemoveAccount(index: number) {
     this.AccountsListTable.splice(index, 1);
-    this.inputs._results.splice(index, 1);
-    console.log(this.inputs);
-    
   }
 
   FocusDownAndUp(elementId: any, index: number, type: string) {
@@ -233,11 +229,24 @@ export class NewEntryComponent implements OnInit {
 
     this.generalService.SaveNewJouranlEntry(model).subscribe(data => {
       if (data.item1) {
+        this.ClearAllFields();
         this.toaster.success(data.item2);
       } else {
         this.toaster.error(data.item2);
       }
     });
+  }
+
+  ClearAllFields() {
+    this.TemplateId = '';
+    this.SelectedAccounts = [];
+    this.AccountsListTable = [];
+    this.EntryNumber = '';
+    this.EntryDate = '';
+    this.DocNumber = '';
+    this.Notes = '';
+    this.Defference = 0;
+    this.activeTab = 'Account';
   }
 
 }
