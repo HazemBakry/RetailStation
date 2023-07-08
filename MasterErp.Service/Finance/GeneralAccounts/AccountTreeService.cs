@@ -48,5 +48,12 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
             return result;
         }
+
+        public List<AccountTree> GetChildAccountsList()
+        {
+            var result = Context.AccountTrees.Where(x => x.AccountLevel == 5).ToList();
+
+            return result;
+        }
     }
 }

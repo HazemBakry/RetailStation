@@ -12,7 +12,7 @@ namespace MasterErp.Entities.Models
         [Key]
         public int JournalTemplateId { get; set; }
         public string DocNumber { get; set; }
-        public string NameEN { get; set; }
+        public string NameAR { get; set; }
         public string Notes { get; set; }
         public int JournalTypeID { get; set; }
         public int PeriodID { get; set; }

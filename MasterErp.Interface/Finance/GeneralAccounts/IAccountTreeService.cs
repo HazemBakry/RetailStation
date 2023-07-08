@@ -12,5 +12,6 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
     {
         DataTable GetAccountTreeData(string SearchText);
         List<AccountTree> GetAccountsList(bool IsParent);
+        List<AccountTree> GetChildAccountsList();
     }
 }

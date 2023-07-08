@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralAccountService } from '../../services/general-account.service';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { JournalEntryAccount, JournalEntryModel } from '../../models/GeneralAccounts/JurnalEntryModel';
+import { ErpSelectorWithSearchComponent } from 'src/app/components/Shared/components/selectors/erp-selector-with-search/erp-selector-with-search.component';
 
 @Component({
   selector: 'app-new-entry',
@@ -14,6 +15,8 @@ export class NewEntryComponent implements OnInit {
   @ViewChildren('inputs') inputs;
   @ViewChildren('inputs2') inputs2;
   @ViewChildren('inputs3') inputs3;
+  @ViewChild('Selector') Selector: ErpSelectorWithSearchComponent;
+  @ViewChild('Selector1') Selector1: ErpSelectorWithSearchComponent;
   AccountsList: any[] = [];
   CostCenterList: any[] = [];
   AccountsListTable: any[] = [];
@@ -33,14 +36,14 @@ export class NewEntryComponent implements OnInit {
   EntryDate: any;
   DocNumber: any;
   Notes: any;
-  CurrencyType = [{ currencyId: 1, nameEN: 'Egypt' }, { currencyId: 1, nameEN: 'Rial' }]
+  CurrencyType = [{ currencyId: 1, nameAR: 'جنيه' }, { currencyId: 1, nameAR: 'ريال' }]
   JournalTypeName = 'نوع القيد';
   CurrencyName = 'العملة';
   constructor(private modalService: NgbModal, private sharedService: SharedService, private toaster: ToastrService,
     private generalService: GeneralAccountService) { }
 
   ngOnInit(): void {
-    this.GetAccountTreeData();
+    this.GetChildAccountsList();
     this.GetCostCenterTreeData();
     this.GetJournalEntryTypes();
     this.GetSavedJournalTemplates();
@@ -48,11 +51,12 @@ export class NewEntryComponent implements OnInit {
 
   openAccountModal(content: any) {
     this.AccountNumber = '';
+    this.SelectedAccounts = [];
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
-  GetAccountTreeData() {
-    this.sharedService.GetAccountTreeData('').subscribe(data => {
+  GetChildAccountsList() {
+    this.generalService.GetChildAccountsList().subscribe(data => {
       this.AccountsList = data;
     });
   }
@@ -79,6 +83,9 @@ export class NewEntryComponent implements OnInit {
           let checked = this.AccountsListTable.find(i => i.accountID == account.accountID);
           if (!checked)
             this.AccountsListTable.push(account);
+          account.creditor = '';
+          account.debtor = '';
+          account.notes = '';
         }
       });
       this.modalService.dismissAll();
@@ -132,6 +139,9 @@ export class NewEntryComponent implements OnInit {
         let checked = this.AccountsListTable.find(i => i.accountID == account.accountID);
         if (!checked)
           this.AccountsListTable.push(account);
+        account.creditor = '';
+        account.debtor = '';
+        account.notes = '';
       });
       this.InputFocus();
       this.modalService.dismissAll();
@@ -191,6 +201,12 @@ export class NewEntryComponent implements OnInit {
     this.Defference = debtor - creditor;
   }
 
+  NumbersOnly(key: any): boolean {
+    let patt = /^([0-9\+])$/;
+    let result = patt.test(key);
+    return result;
+  }
+
   SaveNewAccount() {
     if (this.AccountsListTable.length == 0) {
       this.toaster.warning('Please Enter Accounts First');
@@ -247,6 +263,8 @@ export class NewEntryComponent implements OnInit {
     this.Notes = '';
     this.Defference = 0;
     this.activeTab = 'Account';
+    this.Selector.ResetSelectorName('نوع القيد');
+    this.Selector1.ResetSelectorName('العملة');
   }
 
 }

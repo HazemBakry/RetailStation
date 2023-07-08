@@ -26,4 +26,8 @@ export class ErpSelectorWithSearchComponent implements OnInit {
     this.ItemObj.emit(item);
   }
 
+  ResetSelectorName(selectorName: string) {
+    this.SelectorName = selectorName;
+  }
+
 }

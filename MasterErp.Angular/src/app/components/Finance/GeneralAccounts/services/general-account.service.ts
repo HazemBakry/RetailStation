@@ -29,4 +29,10 @@ export class GeneralAccountService {
     return this.http.post<any>(this.URL + 'JournalEntry/SaveNewJouranlEntry', model);
   }
 
+  //================================== AccountTree ===============================
+
+  GetChildAccountsList() {
+    return this.http.get<any[]>(this.URL + 'AccountTree/GetChildAccountsList');
+  }
+
 }

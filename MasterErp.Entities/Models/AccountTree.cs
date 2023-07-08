@@ -15,8 +15,8 @@ namespace MasterErp.Entities.Models
         public int ParentID { get; set; }
         public int? AccountLevel { get; set; }
         public int? AccountTypeID { get; set; }
-        public string NameAr { get; set; }
-        public string NameEn { get; set; }
+        public string NameAR { get; set; }
+        public string NameEN { get; set; }
         public bool IsParent { get; set; }
         public string AccountNature { get; set; }
         public string FName { get; set; }
