@@ -50,7 +50,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             return EntryService.GetJournalEntryDetailsByID(journalId);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetDailyJournalEntries")]
         public DataTable GetDailyJournalEntries(FilterModel model)
         {
@@ -62,6 +62,34 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         public (bool result, string message) SaveNewJouranlEntry(JournalEntryModel model)
         {
             return EntryService.SaveNewJouranlEntry(model);
+        }
+
+        [HttpPost]
+        [Route("DropDailyJournalEntries")]
+        public bool DropDailyJournalEntries(List<int> JournalEntryIds)
+        {
+            return EntryService.DropDailyJournalEntries(JournalEntryIds);
+        }
+
+        [HttpPost]
+        [Route("ExpulsionDailyJournalEntries")]
+        public bool ExpulsionDailyJournalEntries(List<int> JournalEntryIds)
+        {
+            return EntryService.ExpulsionDailyJournalEntries(JournalEntryIds);
+        }
+
+        [HttpPost]
+        [Route("ReverseDailyJournalEntries")]
+        public bool ReverseDailyJournalEntries(List<int> JournalEntryIds)
+        {
+            return EntryService.ReverseDailyJournalEntries(JournalEntryIds);
+        }
+
+        [HttpPost]
+        [Route("PrintDailyJournalEntries")]
+        public bool PrintDailyJournalEntries(List<int> JournalEntryIds)
+        {
+            return EntryService.PrintDailyJournalEntries(JournalEntryIds);
         }
     }
 }

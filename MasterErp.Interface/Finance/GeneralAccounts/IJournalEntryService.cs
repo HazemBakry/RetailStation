@@ -17,5 +17,9 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
         JournalEntryModel GetJournalEntryDetailsByID(int journalId);
         (bool result, string message) SaveNewJouranlEntry(JournalEntryModel model);
         DataTable GetDailyJournalEntries(FilterModel model);
+        bool DropDailyJournalEntries(List<int> JournalEntryIds);
+        bool ExpulsionDailyJournalEntries(List<int> JournalEntryIds);
+        bool ReverseDailyJournalEntries(List<int> JournalEntryIds);
+        bool PrintDailyJournalEntries(List<int> JournalEntryIds);
     }
 }

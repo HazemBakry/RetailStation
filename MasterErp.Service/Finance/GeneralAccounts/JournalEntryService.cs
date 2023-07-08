@@ -181,14 +181,20 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             DataTable dt = new DataTable();
             dt.Clear();
             dt.Columns.Add("CategoryDisplayName");
+            dt.Columns.Add("CategoryName");
+            dt.Columns.Add("ItemKey");
             dt.Columns.Add("ItemValue");
+            dt.Columns.Add("DisplayOrder");
 
             foreach (FilterItem item in model.FilterItems)
             {
                 DataRow row = dt.NewRow();
 
                 row["CategoryDisplayName"] = item.CategoryDisplayName;
+                row["CategoryName"] = item.ItemKey;
+                row["ItemKey"] = item.ItemKey;
                 row["ItemValue"] = item.ItemKey;
+                row["DisplayOrder"] = 0;
                 dt.Rows.Add(row);
             }
 
@@ -198,6 +204,26 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
             DataTable result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetDailyJournalEntries]", ConnectionString, Params);
             return result;
+        }
+
+        public bool DropDailyJournalEntries(List<int> JournalEntryIds)
+        {
+            return true;
+        }
+
+        public bool ExpulsionDailyJournalEntries(List<int> JournalEntryIds)
+        {
+            return true;
+        }
+
+        public bool ReverseDailyJournalEntries(List<int> JournalEntryIds)
+        {
+            return true;
+        }
+
+        public bool PrintDailyJournalEntries(List<int> JournalEntryIds)
+        {
+            return true;
         }
 
     }

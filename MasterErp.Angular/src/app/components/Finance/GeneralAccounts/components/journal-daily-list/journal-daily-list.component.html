@@ -14,8 +14,7 @@
                 </div>
                 <div class="col-md-4">
                     <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="currentPage"
-                        [pageSize]="pageSize" [totalCount]="totalCount"
-                        [totalPages]="totalPages"></app-erp-pagination>
+                        [pageSize]="pageSize" [totalCount]="totalCount" [totalPages]="totalPages"></app-erp-pagination>
                 </div>
             </div>
         </div>
@@ -26,9 +25,10 @@
                     العمليات
                 </button>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <button ngbDropdownItem>اسقاط</button>
-                    <button ngbDropdownItem>ترحيل</button>
-                    <button ngbDropdownItem>طباعة</button>
+                    <button ngbDropdownItem (click)="DropDailyJournalEntries()">اسقاط</button>
+                    <button ngbDropdownItem (click)="ExpulsionDailyJournalEntries()">ترحيل</button>
+                    <button ngbDropdownItem (click)="ReverseDailyJournalEntries()">عكس</button>
+                    <button ngbDropdownItem (click)="PrintDailyJournalEntries()">طباعة</button>
                 </div>
             </div>
             <button class="btn btn-primary btn-lg fs-6 me-2" routerLink="/Finance/generalAccounts/newEntry">
@@ -40,7 +40,8 @@
             <table class="table table-bordered table-middle bg-white m-0">
                 <thead>
                     <tr>
-                        <th class="min-width-50 width-50 max-width-50"><input type="checkbox" class="big-checkbox" />
+                        <th class="min-width-50 width-50 max-width-50">
+                            <input type="checkbox" class="big-checkbox" [(ngModel)]="SelectAll" (change)="SelectedAll($event.target.checked)" />
                         </th>
                         <th>م</th>
                         <th>نوع القيد</th>
@@ -55,6 +56,21 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <ng-container *ngFor="let item of DailyJournal">
+                        <tr (click)="item.isChecked = !item.isChecked">
+                            <td><input type="checkbox" class="big-checkbox" [(ngModel)]="item.isChecked"></td>
+                            <td>{{item.docNumber}}</td>
+                            <td>-</td>
+                            <td>{{item.entryNumber}}</td>
+                            <td>{{item.actionGroup}}</td>
+                            <td>{{item.actionType}}</td>
+                            <td>-</td>
+                            <td>{{item.entryDate}}</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>{{item.notes}}</td>
+                        </tr>
+                    </ng-container>
 
                 </tbody>
             </table>
