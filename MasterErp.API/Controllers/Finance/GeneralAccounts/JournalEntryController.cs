@@ -50,11 +50,18 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             return EntryService.GetJournalEntryDetailsByID(journalId);
         }
 
-        [HttpGet]
-        [Route("GetDailyJournalEntries")]
-        public DataTable GetDailyJournalEntries(FilterModel model)
+        [HttpPost]
+        [Route("GetDailyJournalEntriesSummary")]
+        public DataTable GetDailyJournalEntriesSummary(FilterModel model)
         {
-            return EntryService.GetDailyJournalEntries(model);
+            return EntryService.GetDailyJournalEntriesSummary(model);
+        }
+
+        [HttpPost]
+        [Route("GetDailyJournalEntriesFilters")]
+        public DataTable GetDailyJournalEntriesFilters(FilterModel model)
+        {
+            return EntryService.GetDailyJournalEntriesFilters(model);
         }
 
         [HttpPost]

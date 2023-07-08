@@ -176,7 +176,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             }
         }
 
-        public DataTable GetDailyJournalEntries(FilterModel model)
+        public DataTable GetDailyJournalEntriesSummary(FilterModel model)
         {
             DataTable dt = new DataTable();
             dt.Clear();
@@ -196,9 +196,34 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             Params[0] = new SqlParameter("@dt", SqlDbType.Structured);
             Params[0].Value = dt;
 
-            DataTable result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetDailyJournalEntries]", ConnectionString, Params);
+            DataTable result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetDailyJournalEntries_Summary]", ConnectionString, Params);
             return result;
         }
+
+        public DataTable GetDailyJournalEntriesFilters(FilterModel model)
+        {
+            DataTable dt = new DataTable();
+            dt.Clear();
+            dt.Columns.Add("CategoryDisplayName");
+            dt.Columns.Add("ItemValue");
+
+            foreach (FilterItem item in model.FilterItems)
+            {
+                DataRow row = dt.NewRow();
+
+                row["CategoryDisplayName"] = item.CategoryDisplayName;
+                row["ItemValue"] = item.ItemKey;
+                dt.Rows.Add(row);
+            }
+
+            SqlParameter[] Params = new SqlParameter[1];
+            Params[0] = new SqlParameter("@dt", SqlDbType.Structured);
+            Params[0].Value = dt;
+
+            DataTable result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetDailyJournalEntries_Filters]", ConnectionString, Params);
+            return result;
+        }
+
 
     }
 
