@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -47,6 +48,13 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         public JournalEntryModel GetJournalEntryDetailsByID(int journalId)
         {
             return EntryService.GetJournalEntryDetailsByID(journalId);
+        }
+
+        [HttpGet]
+        [Route("GetDailyJournalEntries")]
+        public DataTable GetDailyJournalEntries(FilterModel model)
+        {
+            return EntryService.GetDailyJournalEntries(model);
         }
 
         [HttpPost]

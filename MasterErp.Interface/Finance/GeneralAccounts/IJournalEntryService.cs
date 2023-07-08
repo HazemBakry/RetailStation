@@ -16,5 +16,6 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
         List<JournalTemplateDetails> GetAccountsByTemplateId(int templateId);
         JournalEntryModel GetJournalEntryDetailsByID(int journalId);
         (bool result, string message) SaveNewJouranlEntry(JournalEntryModel model);
+        DataTable GetDailyJournalEntries(FilterModel model);
     }
 }
