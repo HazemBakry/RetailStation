@@ -137,7 +137,8 @@ export class NewEntryComponent implements OnInit {
     } else {
       this.GetAccountsByTemplateId();
     }
-
+  console.log(this.inputs);
+  
   }
 
   InputFocus() {
