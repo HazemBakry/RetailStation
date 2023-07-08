@@ -37,7 +37,7 @@
             </button>
         </div>
         <div class="table-responsive table-vp-height small-scroll">
-            <table class="table table-bordered table-middle bg-white m-0">
+            <table class="table table-bordered table-hover table-middle bg-white m-0">
                 <thead>
                     <tr>
                         <th class="min-width-50 width-50 max-width-50">
@@ -65,7 +65,7 @@
                             <td>{{item.actionGroup}}</td>
                             <td>{{item.actionType}}</td>
                             <td>-</td>
-                            <td>{{item.entryDate}}</td>
+                            <td>{{item.entryDate | date}}</td>
                             <td>-</td>
                             <td>-</td>
                             <td>{{item.notes}}</td>

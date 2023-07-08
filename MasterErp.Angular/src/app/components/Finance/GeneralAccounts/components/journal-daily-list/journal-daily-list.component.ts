@@ -46,8 +46,9 @@ export class JournalDailyListComponent implements OnInit {
 
   }
 
-  filterChecked(filterList: FilterItem[]) {
-
+  filterChecked(filterItems: FilterItem[]) {
+    this.filterModel.filterItems = filterItems;
+    this.GetDailyJournalEntriesSummary();
   }
 
   SelectedAll(isSelected: boolean) {
