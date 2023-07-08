@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace MasterErp.Entities.Models
 {
     public class JournalEntryDetail
     {
+        [Key]
         public int JournalDetialID { get; set; }
         public int JournalEntryID { get; set; }
         public int AccountID { get; set; }

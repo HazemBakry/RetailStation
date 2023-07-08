@@ -21,11 +21,6 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             EntryService = _entryService;
         }
 
-        public JournalEntryController(IJournalEntryService journalEntryService)
-        {
-            _entryService = journalEntryService;
-        }
-
         [HttpGet]
         [Route("GetJournalEntryTypes")]
         public List<JournalEntryType> GetJournalEntryTypes()

@@ -137,8 +137,8 @@ export class NewEntryComponent implements OnInit {
     } else {
       this.GetAccountsByTemplateId();
     }
-  console.log(this.inputs);
-  
+    console.log(this.inputs);
+
   }
 
   InputFocus() {
@@ -152,6 +152,9 @@ export class NewEntryComponent implements OnInit {
 
   RemoveAccount(index: number) {
     this.AccountsListTable.splice(index, 1);
+    this.inputs._results.splice(index, 1);
+    console.log(this.inputs);
+    
   }
 
   FocusDownAndUp(elementId: any, index: number, type: string) {
@@ -228,8 +231,13 @@ export class NewEntryComponent implements OnInit {
     model.journalTypeID = this.JurnalTypeId;
     model.journalEntryAccounts = journalEntryAccounts;
 
-    console.log(model);
-
+    this.generalService.SaveNewJouranlEntry(model).subscribe(data => {
+      if (data.item1) {
+        this.toaster.success(data.item2);
+      } else {
+        this.toaster.error(data.item2);
+      }
+    });
   }
 
 }
