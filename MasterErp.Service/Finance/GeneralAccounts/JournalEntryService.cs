@@ -181,14 +181,20 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             DataTable dt = new DataTable();
             dt.Clear();
             dt.Columns.Add("CategoryDisplayName");
+            dt.Columns.Add("CategoryName");
+            dt.Columns.Add("ItemKey");
             dt.Columns.Add("ItemValue");
+            dt.Columns.Add("DisplayOrder");
 
             foreach (FilterItem item in model.FilterItems)
             {
                 DataRow row = dt.NewRow();
 
                 row["CategoryDisplayName"] = item.CategoryDisplayName;
+                row["CategoryName"] = item.ItemKey;
+                row["ItemKey"] = item.ItemKey;
                 row["ItemValue"] = item.ItemKey;
+                row["DisplayOrder"] = item.ItemKey;
                 dt.Rows.Add(row);
             }
 
@@ -205,14 +211,20 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             DataTable dt = new DataTable();
             dt.Clear();
             dt.Columns.Add("CategoryDisplayName");
+            dt.Columns.Add("CategoryName");
+            dt.Columns.Add("ItemKey");
             dt.Columns.Add("ItemValue");
+            dt.Columns.Add("DisplayOrder");
 
             foreach (FilterItem item in model.FilterItems)
             {
                 DataRow row = dt.NewRow();
 
                 row["CategoryDisplayName"] = item.CategoryDisplayName;
+                row["CategoryName"] = item.ItemKey;
+                row["ItemKey"] = item.ItemKey;
                 row["ItemValue"] = item.ItemKey;
+                row["DisplayOrder"] = item.ItemKey;
                 dt.Rows.Add(row);
             }
 
