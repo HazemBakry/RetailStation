@@ -6,7 +6,7 @@
         <div class="row mb-3">
             <div class="col-lg-3 offset-lg-1">
                 <div class="form-floating">
-                    <input type="text" class="form-control input-size" id="floatingInput2" placeholder="any"
+                    <input type="text" class="form-control input-size" [(ngModel)]="EntryNumber" id="floatingInput2" placeholder="any"
                         autocomplete="off">
                     <label for="floatingInput2">رقم القيد</label>
                 </div>
@@ -15,30 +15,32 @@
         <div class="row">
             <div class="col-lg-3 offset-lg-1">
                 <div class="form-floating">
-                    <input type="date" class="form-control input-size" id="floatingInput2" placeholder="any"
+                    <input type="date" class="form-control input-size" [(ngModel)]="EntryDate" id="floatingInput2" placeholder="any"
                         autocomplete="off">
                     <label for="floatingInput2">تاريخ القيد</label>
                 </div>
             </div>
             <div class="col-lg-3 offset-lg-1">
-                <app-erp-selector [SelectorName]="'نوع القيد'" [Height]="'35px'"></app-erp-selector>
+                <app-erp-selector-with-search [ItemsList]="JournalEntryTypes" [SelectorName]="'نوع القيد'"
+                    (ItemObj)="GetSelectedJurnalTypes($event)" [Height]="'35px'"></app-erp-selector-with-search>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-3 offset-lg-1">
                 <div class="form-floating">
-                    <input type="text" class="form-control input-size" id="floatingInput2" placeholder="any"
+                    <input type="text" class="form-control input-size" [(ngModel)]="DocNumber" id="floatingInput2" placeholder="any"
                         autocomplete="off">
                     <label for="floatingInput2">رقم الدفتر</label>
                 </div>
             </div>
             <div class="col-lg-3 offset-lg-1">
-                <app-erp-selector [SelectorName]="'العملة'" [Height]="'35px'"></app-erp-selector>
+                <app-erp-selector-with-search [ItemsList]="CurrencyType" [SelectorName]="'العملة'"
+                    (ItemObj)="GetSelectedCurrency($event)" [Height]="'35px'"></app-erp-selector-with-search>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-lg-9 offset-lg-1 h-100">
-                <textarea class="form-control" placeholder="Notes *" autocomplete="off"></textarea>
+                <textarea class="form-control" placeholder="Notes *" [(ngModel)]="Notes" autocomplete="off"></textarea>
             </div>
         </div>
     </div>
@@ -77,13 +79,15 @@
                         <td>{{item.nameAr}}</td>
                         <td>
                             <input type="text" #inputs class="form-control" [(ngModel)]="item.debtor" id="Input1"
-                                autocomplete="off" (keyup.arrowdown)="FocusDownAndUp('Input1',i,'down')"
+                                autocomplete="off" (input)="CalcDefference()"
+                                (keyup.arrowdown)="FocusDownAndUp('Input1',i,'down')"
                                 (keyup.arrowup)="FocusDownAndUp('Input1',i,'up')"
                                 (keyup.arrowleft)="FocusLeftAndRight('Input2',i)" focus>
                         </td>
                         <td>
                             <input type="text" #inputs2 class="form-control" [(ngModel)]="item.creditor" id="Input2"
-                                autocomplete="off" (keyup.arrowdown)="FocusDownAndUp('Input2',i,'down')"
+                                autocomplete="off" (input)="CalcDefference()"
+                                (keyup.arrowdown)="FocusDownAndUp('Input2',i,'down')"
                                 (keyup.arrowup)="FocusDownAndUp('Input2',i,'up')"
                                 (keyup.arrowleft)="FocusLeftAndRight('Input3',i)"
                                 (keyup.arrowright)="FocusLeftAndRight('Input1', i)">
@@ -108,11 +112,16 @@
                 </tbody>
             </table>
         </div>
+        <table>
+            <thead>
+                <th>الفرق : {{Defference}}</th>
+            </thead>
+        </table>
     </div>
 </div>
 
 <div class="mt-3">
-    <button class="btn btn-primary btn-lg fs-6 me-2" (click)="SaveAccount()">
+    <button class="btn btn-primary btn-lg fs-6 me-2" (click)="SaveNewAccount()">
         <i class="fas fa-check-circle"></i>
         <span class="ms-2">حفظ</span>
     </button>
@@ -144,7 +153,7 @@
                 <div class="card order-card-payment shadow-sm cursor-pointer w-50 me-3"
                     (click)="ItemTypeChange('Template')" [ngClass]="{'active': activeTab == 'Template'}">
                     <div class="card-body d-flex align-items-center">
-                        <span class="ms-3">اضافة قالب</span>
+                        <span class="ms-3">تحميل من القالب</span>
                     </div>
                 </div>
             </div>
@@ -167,8 +176,7 @@
             </div>
             <div class="row" *ngIf="activeTab == 'Template'">
                 <div class="col-lg-12">
-                    <app-erp-selector-with-search [ItemsList]="AccountsList" [SelectorName]="'القوالب'"
-                        [SearchKey]="'accountNumber'"
+                    <app-erp-selector-with-search [ItemsList]="JournalTemplates" [SelectorName]="'القوالب'"
                         (ItemObj)="GetSelectedTemplate($event)"></app-erp-selector-with-search>
                 </div>
             </div>

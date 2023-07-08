@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralAccountService } from '../../services/general-account.service';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
+import { JournalEntryAccount, JournalEntryModel } from '../../models/GeneralAccounts/JurnalEntryModel';
 
 @Component({
   selector: 'app-new-entry',
@@ -18,15 +19,30 @@ export class NewEntryComponent implements OnInit {
   AccountsListTable: any[] = [];
   EditQuantityList: any[] = [];
   SelectedAccounts: any[] = [];
+  JournalEntryTypes: any[] = [];
+  JournalTemplates: any[] = [];
+  AccountsByTemplate: any[] = [];
   Item: any;
   AccountNumber: string;
-  activeTab = 'Account'
+  activeTab = 'Account';
+  JurnalTypeId: any;
+  CurrencyId: any;
+  TemplateId: any;
+  Defference = 0;
+  EntryNumber: any;
+  EntryDate: any;
+  DocNumber: any;
+  Notes: any;
+  CurrencyType = [{ currencyId: 1, nameEN: 'Egypt' }, { currencyId: 1, nameEN: 'Rial' }]
 
-  constructor(private modalService: NgbModal, private sharedService: SharedService, private toaster: ToastrService) { }
+  constructor(private modalService: NgbModal, private sharedService: SharedService, private toaster: ToastrService,
+    private generalService: GeneralAccountService) { }
 
   ngOnInit(): void {
     this.GetAccountTreeData();
     this.GetCostCenterTreeData();
+    this.GetJournalEntryTypes();
+    this.GetSavedJournalTemplates();
   }
 
   openAccountModal(content: any) {
@@ -37,6 +53,35 @@ export class NewEntryComponent implements OnInit {
   GetAccountTreeData() {
     this.sharedService.GetAccountTreeData('').subscribe(data => {
       this.AccountsList = data;
+    });
+  }
+
+  GetJournalEntryTypes() {
+    this.generalService.GetJournalEntryTypes().subscribe(data => {
+      this.JournalEntryTypes = data;
+    });
+  }
+
+  GetSavedJournalTemplates() {
+    this.generalService.GetSavedJournalTemplates().subscribe(data => {
+      this.JournalTemplates = data;
+    });
+  }
+
+  GetAccountsByTemplateId() {
+    this.AccountsListTable = [];
+    this.generalService.GetAccountsByTemplateId(this.TemplateId).subscribe(data => {
+      this.AccountsByTemplate = data;
+      this.AccountsByTemplate.forEach(item => {
+        let account = this.AccountsList.find(i => i.accountID == item.accountId);
+        if (account) {
+          let checked = this.AccountsListTable.find(i => i.accountID == account.accountID);
+          if (!checked)
+            this.AccountsListTable.push(account);
+        }
+      });
+      this.modalService.dismissAll();
+      this.InputFocus();
     });
   }
 
@@ -60,25 +105,42 @@ export class NewEntryComponent implements OnInit {
   }
 
   GetSelectedTemplate(item: any) {
+    this.TemplateId = item.journalTemplateId;
+  }
 
+  GetSelectedJurnalTypes(item: any) {
+    this.JurnalTypeId = item.journalTypeID;
+  }
+
+  GetSelectedCurrency(item: any) {
+    this.CurrencyId = item.currencyId;
   }
 
   GetSelectedCostCenter(obj: any, item: any) {
-    item.costCenter = obj.nameAR;
+    item.costCenter = obj.costCenterID;
   }
 
   SaveSelectedAccount() {
-    if (this.SelectedAccounts.length > 0) {
+    if (!this.TemplateId && this.SelectedAccounts.length == 0) {
+      this.toaster.warning('Please Select Account Or Template');
+      return;
+    }
+
+    if (this.activeTab == 'Account') {
       this.SelectedAccounts.forEach((account, index) => {
         let checked = this.AccountsListTable.find(i => i.accountID == account.accountID);
         if (!checked)
           this.AccountsListTable.push(account);
       });
+      this.InputFocus();
       this.modalService.dismissAll();
+    } else {
+      this.GetAccountsByTemplateId();
     }
-    else
-      this.toaster.warning('Please Select Account');
 
+  }
+
+  InputFocus() {
     if (this.AccountsListTable.length > 0) {
       setTimeout(() => {
         let inputEls = this.inputs.toArray();
@@ -89,11 +151,6 @@ export class NewEntryComponent implements OnInit {
 
   RemoveAccount(index: number) {
     this.AccountsListTable.splice(index, 1);
-  }
-
-  SaveAccount() {
-    console.log(this.AccountsListTable);
-
   }
 
   FocusDownAndUp(elementId: any, index: number, type: string) {
@@ -122,6 +179,56 @@ export class NewEntryComponent implements OnInit {
       this.activeTab = 'Account';
     else
       this.activeTab = 'Template';
+  }
+
+  CalcDefference() {
+    let debtor = 0;
+    let creditor = 0;
+    this.AccountsListTable.forEach(item => {
+      debtor += item.debtor ? Number(item.debtor) : 0;
+      creditor += item.creditor ? Number(item.creditor) : 0;
+    });
+    this.Defference = debtor - creditor;
+  }
+
+  SaveNewAccount() {
+    if (this.AccountsListTable.length == 0) {
+      this.toaster.warning('Please Enter Accounts First');
+      return;
+    }
+
+    let month = ("0" + ((new Date(this.EntryDate)).getMonth() + 1)).slice(-2);
+    let year = (new Date(this.EntryDate)).getFullYear();
+
+    let journalEntryAccounts = this.AccountsListTable.map<JournalEntryAccount>(item => {
+      {
+        return {
+          accountID: item.accountID,
+          costCenterID: item.costCenter ? item.costCenter : 0,
+          costPercent: 0,
+          costValue: 0,
+          currencyID: 0,
+          credit: item.creditor ? Number(item.creditor) : 0,
+          debit: item.debtor ? Number(item.debtor) : 0,
+          description: ''
+        }
+      }
+    })
+
+    let model: JournalEntryModel = {} as JournalEntryModel;
+
+    model.docNumber = this.DocNumber;
+    model.entryNumber = this.EntryNumber;
+    model.entryDate = this.EntryDate;
+    model.descirption = '';
+    model.notes = this.Notes;
+    model.month = Number(month);
+    model.year = year;
+    model.journalTypeID = this.JurnalTypeId;
+    model.journalEntryAccounts = journalEntryAccounts;
+
+    console.log(model);
+
   }
 
 }

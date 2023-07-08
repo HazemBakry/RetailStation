@@ -35,13 +35,13 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
         public List<JournalTemplate> GetSavedJournalTemplates()
         {
-            var List = Context.JournalTemplates.ToList();
+            var List = Context.JournalTemplate.ToList();
             return List;
         }
 
         public List<JournalTemplateDetails> GetAccountsByTemplateId(int templateId)
         {
-            var List = Context.JournalTemplateDetail.Where(x => x.JournalTemplateId == templateId).ToList();
+            var List = Context.JournalTemplateDetails.Where(x => x.JournalTemplateId == templateId).ToList();
             return List;
         }
         

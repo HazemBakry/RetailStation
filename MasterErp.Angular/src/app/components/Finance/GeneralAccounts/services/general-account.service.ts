@@ -10,6 +10,18 @@ export class GeneralAccountService {
 
   constructor(private http: HttpClient) { }
 
-  //================================== AccountTree ===============================
+  //================================== JournalEntry ===============================
+
+  GetJournalEntryTypes() {
+    return this.http.get<any[]>(this.URL + 'JournalEntry/GetJournalEntryTypes');
+  }
+
+  GetSavedJournalTemplates() {
+    return this.http.get<any[]>(this.URL + 'JournalEntry/GetSavedJournalTemplates');
+  }
+
+  GetAccountsByTemplateId(templateId: number) {
+    return this.http.get<any[]>(this.URL + 'JournalEntry/GetAccountsByTemplateId?templateId=' + templateId);
+  }
 
 }

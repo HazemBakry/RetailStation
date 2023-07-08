@@ -15,6 +15,11 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
     {
         private readonly IJournalEntryService _entryService;
 
+        public JournalEntryController(IJournalEntryService journalEntryService)
+        {
+            _entryService = journalEntryService;
+        }
+
         [HttpGet]
         [Route("GetJournalEntryTypes")]
         public List<JournalEntryType> GetJournalEntryTypes()
@@ -24,13 +29,13 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpGet]
         [Route("GetSavedJournalTemplates")]
-        public List<JournalTemplate> GetSavedJournalTemplates( )
+        public List<JournalTemplate> GetSavedJournalTemplates()
         {
             return _entryService.GetSavedJournalTemplates();
         }
 
         [HttpGet]
-        [Route("GetAccountTreeData")]
+        [Route("GetAccountsByTemplateId")]
         public List<JournalTemplateDetails> GetAccountTreeData(int templateId)
         {
             return _entryService.GetAccountsByTemplateId(templateId);
