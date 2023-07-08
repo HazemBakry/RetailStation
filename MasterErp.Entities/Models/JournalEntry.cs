@@ -19,7 +19,7 @@ namespace MasterErp.Entities.Models
         public bool? IsLocked { get; set; }
         public bool? IsCancelled { get; set; }
         public int JournalTypeID { get; set; }
-        public int PeriodID { get; set; }
+        public int? PeriodID { get; set; }
         public int? ActionTypeID { get; set; }
         public int? ActionID { get; set; }
         public string CreatedBy { get; set; }
