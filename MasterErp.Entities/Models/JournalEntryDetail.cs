@@ -8,7 +8,7 @@ namespace MasterErp.Entities.Models
 {
     public class JournalEntryDetail
     {
-        public int JournalDetialID { get; set; }
+        public int JournalEntryDetailID { get; set; }
         public int JournalEntryID { get; set; }
         public int AccountID { get; set; }
         public double? Debit { get; set; }

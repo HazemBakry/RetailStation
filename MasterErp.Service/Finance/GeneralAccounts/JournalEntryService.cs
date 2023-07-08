@@ -128,7 +128,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 JournalEntry Entry_tbl = new JournalEntry
                 {
                     //EntryNumber = Context.JournalEntries.Where(x => x.EntryDate.Month == month).DefaultIfEmpty(0).Max(x => x.EntryNumber) + 1,
-                    EntryNumber = Context.JournalEntries.Where(x => x.EntryDate.Month == model.Month).Select(x => x.EntryNumber).DefaultIfEmpty("0").Max() + 1,
+                    EntryNumber = "1",// Context.JournalEntries.Where(x => x.EntryDate.Month == model.Month).Select(x => x.EntryNumber).DefaultIfEmpty("0").Max() + 1,
                     Description = model.Descirption,
                     DocNumber = model.DocNumber,
                     Notes = model.Notes,
