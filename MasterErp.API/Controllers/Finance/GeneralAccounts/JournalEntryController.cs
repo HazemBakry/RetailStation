@@ -48,5 +48,12 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         {
             return EntryService.GetJournalEntryDetailsByID(journalId);
         }
+
+        [HttpPost]
+        [Route("SaveNewJouranlEntry")]
+        public (bool result, string message) SaveNewJouranlEntry(JournalEntryModel model)
+        {
+            return EntryService.SaveNewJouranlEntry(model);
+        }
     }
 }
