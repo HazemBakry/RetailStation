@@ -395,3 +395,20 @@ tr {
   -ms-border-radius: 50%;
   -o-border-radius: 50%;
 }
+
+.max-width-50 {
+  max-width: 50px;
+}
+
+.width-50 {
+  width: 50px;
+}
+
+.min-width-50 {
+  min-width: 50px!important;
+}
+
+.big-checkbox{
+  height: 20px;
+  width: 30px;
+}

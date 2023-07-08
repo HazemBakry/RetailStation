@@ -15,6 +15,8 @@ import { SalesInvoiceComponent } from './Sales/components/sales-invoice/sales-in
 import { AddSalesComponent } from './Sales/components/add-sales/add-sales.component';
 import { FormsModule } from '@angular/forms';
 import { NewEntryComponent } from './GeneralAccounts/components/new-entry/new-entry.component';
+import { JournalDailyListComponent } from './GeneralAccounts/components/journal-daily-list/journal-daily-list.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -29,12 +31,14 @@ import { NewEntryComponent } from './GeneralAccounts/components/new-entry/new-en
     AddPurchaseComponent,
     SalesInvoiceComponent,
     AddSalesComponent,
-    NewEntryComponent
+    NewEntryComponent,
+    JournalDailyListComponent
     
   ],
   imports: [
     CommonModule,
     FormsModule,
+    NgbModule,
     GeneralAccountRoutingModule,
     SharedModule
   ]

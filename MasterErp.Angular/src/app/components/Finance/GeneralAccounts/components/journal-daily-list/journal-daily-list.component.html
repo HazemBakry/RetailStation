@@ -1,0 +1,67 @@
+<div class="card radius-10 border-0 card-shadow">
+    <div class="card-body">
+        <div class="main-card-action pb-3">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="col-md-12">
+                        <div class="d-flex align-items-center flex-wrap">
+                            <ng-container>
+                                <app-erp-filters [FilterList]="filterList"
+                                    (filterChanged)="filterChecked($event)"></app-erp-filters>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="currentPage"
+                        [pageSize]="pageSize" [totalCount]="totalCount"
+                        [totalPages]="totalPages"></app-erp-pagination>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="w-100 d-flex align-items-center mb-3">
+            <div ngbDropdown class="d-inline-block me-2">
+                <button type="button" class="btn btn-secondary btn-lg fs-6 me-2" id="dropdownBasic1" ngbDropdownToggle>
+                    العمليات
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button ngbDropdownItem>اسقاط</button>
+                    <button ngbDropdownItem>ترحيل</button>
+                    <button ngbDropdownItem>طباعة</button>
+                </div>
+            </div>
+            <button class="btn btn-primary btn-lg fs-6 me-2" routerLink="/Finance/generalAccounts/newEntry">
+                <i class="fas fa-check-circle"></i>
+                <span class="ms-2">القيود اليومية</span>
+            </button>
+        </div>
+        <div class="table-responsive table-vp-height small-scroll">
+            <table class="table table-bordered table-middle bg-white m-0">
+                <thead>
+                    <tr>
+                        <th class="min-width-50 width-50 max-width-50"><input type="checkbox" class="big-checkbox" />
+                        </th>
+                        <th>م</th>
+                        <th>نوع القيد</th>
+                        <th>رقم القيد</th>
+                        <th>المجموعة</th>
+                        <th>نوع العملية</th>
+                        <th>الشهر</th>
+                        <th>التاريخ</th>
+                        <th>مدين كلي</th>
+                        <th>دائن كلي</th>
+                        <th>ملاحظات</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<ngx-loading [show]="showLoader"></ngx-loading>

@@ -1,0 +1,31 @@
+.select-box {
+    margin-right: 5px;
+    min-width: 200px;
+  }
+  .select-box {
+    margin-right: 5px;
+    min-width: 100px;
+    max-width: 100px;
+  }
+  .dropdown-filter-wrapper .btn-filter {
+    background-color: #f9f5f7;
+    border: 1px solid #b8c2ca;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+  }
+  .dropdown-filter {
+    top: 3px !important;
+  }
+  .check-row {
+    padding: 5px 5px 5px 15px;
+    cursor: pointer;
+  }
+  .check-row:hover {
+    background-color: var(--hover-link);
+  }
+  

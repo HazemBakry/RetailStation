@@ -11,6 +11,7 @@ import { AddPurchaseComponent } from './Purchase/components/add-purchase/add-pur
 import { SalesInvoiceComponent } from './Sales/components/sales-invoice/sales-invoice.component';
 import { AddSalesComponent } from './Sales/components/add-sales/add-sales.component';
 import { NewEntryComponent } from './GeneralAccounts/components/new-entry/new-entry.component';
+import { JournalDailyListComponent } from './GeneralAccounts/components/journal-daily-list/journal-daily-list.component';
 
 const routes: Routes = [
   {path:'currency',component:CurrencyComponent},
@@ -23,7 +24,8 @@ const routes: Routes = [
   {path:'addPurchase',component:AddPurchaseComponent},
   {path:'salesInvoice',component:SalesInvoiceComponent},
   {path:'addSales',component:AddSalesComponent},
-  {path:'newEntry',component:NewEntryComponent}
+  {path:'newEntry',component:NewEntryComponent},
+  {path:'journalDailyList',component:JournalDailyListComponent}
 ];
 
 @NgModule({

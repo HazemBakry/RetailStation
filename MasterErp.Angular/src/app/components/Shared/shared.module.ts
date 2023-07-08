@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { AccountsTreeComponent } from './components/accounts-tree/accounts-tree.component';
 import { StatsCardComponent } from './components/stats-card/stats-card.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -10,6 +11,8 @@ import { CostCentersTreeComponent } from './components/cost-center-tree/cost-cen
 import { ErpSelectorComponent } from './components/selectors/erp-selector/erp-selector.component';
 import { ErpSelectorWithSearchComponent } from './components/selectors/erp-selector-with-search/erp-selector-with-search.component';
 import { ErpSelectorWithCheckboxComponent } from './components/selectors/erp-selector-with-checkbox/erp-selector-with-checkbox.component';
+import { ErpPaginationComponent } from './components/erp-pagination/erp-pagination.component';
+import { ErpFiltersComponent } from './components/erp-filters/erp-filters.component';
 
 
 
@@ -21,13 +24,16 @@ import { ErpSelectorWithCheckboxComponent } from './components/selectors/erp-sel
     CostCentersTreeComponent,
     ErpSelectorComponent,
     ErpSelectorWithSearchComponent,
-    ErpSelectorWithCheckboxComponent
+    ErpSelectorWithCheckboxComponent,
+    ErpPaginationComponent,
+    ErpFiltersComponent
   ],
 
   imports: [
     CommonModule,
     NgbModule,
     FormsModule,
+    PaginationModule.forRoot(),
     NgxLoadingModule.forRoot({
       animationType: ngxLoadingAnimationTypes.threeBounce,
       backdropBackgroundColour: 'rgba(0, 18, 59, 0.6)',
@@ -46,7 +52,9 @@ import { ErpSelectorWithCheckboxComponent } from './components/selectors/erp-sel
     SearchArryPipe,
     ErpSelectorComponent,
     ErpSelectorWithSearchComponent,
-    ErpSelectorWithCheckboxComponent
+    ErpSelectorWithCheckboxComponent,
+    ErpPaginationComponent,
+    ErpFiltersComponent
   ]
 })
 export class SharedModule { }
