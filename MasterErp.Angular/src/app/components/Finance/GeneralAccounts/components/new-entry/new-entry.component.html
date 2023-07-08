@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="col-lg-3 offset-lg-1">
-                <app-erp-selector-with-search [ItemsList]="JournalEntryTypes" [SelectorName]="'نوع القيد'"
+                <app-erp-selector-with-search [ItemsList]="JournalEntryTypes" [SelectorName]="JournalTypeName"
                     (ItemObj)="GetSelectedJurnalTypes($event)" [Height]="'35px'"></app-erp-selector-with-search>
             </div>
         </div>
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="col-lg-3 offset-lg-1">
-                <app-erp-selector-with-search [ItemsList]="CurrencyType" [SelectorName]="'العملة'"
+                <app-erp-selector-with-search [ItemsList]="CurrencyType" [SelectorName]="CurrencyName"
                     (ItemObj)="GetSelectedCurrency($event)" [Height]="'35px'"></app-erp-selector-with-search>
             </div>
         </div>
@@ -125,7 +125,7 @@
         <i class="fas fa-check-circle"></i>
         <span class="ms-2">حفظ</span>
     </button>
-    <button class="btn btn-warning btn-lg fs-6 me-2">
+    <button class="btn btn-warning btn-lg fs-6 me-2" (click)="ClearAllFields()">
         <i class="fas fa-times"></i>
         <span class="ms-2">مسح</span>
     </button>
