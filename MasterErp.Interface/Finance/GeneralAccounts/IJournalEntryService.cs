@@ -1,4 +1,5 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,5 +14,6 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
         List<JournalEntryType> GetJournalEntryTypes();
         List<JournalTemplate> GetSavedJournalTemplates();
         List<JournalTemplateDetails> GetAccountsByTemplateId(int templateId);
+        JournalEntryModel GetJournalEntryDetailsByID(int journalId);
     }
 }

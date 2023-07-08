@@ -27,5 +27,14 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         {
             return _accountTreeService.GetAccountTreeData(SearchText);
         }
+
+        [HttpGet]
+        [Route("GetAccountsList")]
+        public List<AccountTree> GetAccountsList(bool IsParent)
+        {
+            return _accountTreeService.GetAccountsList(IsParent);
+        }
+
+
     }
 }

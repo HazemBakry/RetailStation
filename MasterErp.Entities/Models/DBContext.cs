@@ -37,12 +37,15 @@ namespace MasterErp.Entities.Models
         public DbSet<ItemLookups> ItemLookups { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Job> Jobs { get; set; }
+        public DbSet<JournalEntry> JournalEntries { get; set; }
+        public DbSet<JournalEntryDetail> JournalEntryDetails { get; set; }
         public DbSet<JournalEntryType> JournalEntryTypes { get; set; }
         public DbSet<JournalTemplate> JournalTemplate { get; set; }
         public DbSet<JournalTemplateDetails> JournalTemplateDetails { get; set; }
         public DbSet<Nationality> Nationalities { get; set; }
         public DbSet<OverTime> OverTimes { get; set; }
         public DbSet<Penalty> Penalties { get; set; }
+        public DbSet<FinancialPeriod> FinancialPeriods { get; set; }
         public DbSet<PassportIssuePlace> PassportIssuePlaces { get; set; }
         public DbSet<PurchaseInvoice> PurchaseInvoices { get; set; }
         public DbSet<PurchaseInvoiceDetails> PurchaseInvoiceDetails { get; set; }
