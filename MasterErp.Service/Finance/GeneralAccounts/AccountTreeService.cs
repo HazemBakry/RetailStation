@@ -41,5 +41,12 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             var dt = SQLHelper.ExecuteDataTable("[dbo].[SP_GetAccountTreeData]", ConnectionString, param);
             return dt;
         }
+
+        public List<AccountTree> GetAccountsList(bool IsParent)
+        {
+            var result = Context.AccountTrees.Where(x => x.IsParent == IsParent).ToList();
+
+            return result;
+        }
     }
 }

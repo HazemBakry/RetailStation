@@ -64,6 +64,7 @@ namespace MasterErp.API
             services.AddScoped<ICostCenterTreeService, CostCenterTreeService>();
             services.AddScoped<IPurchaseInvoiceService, PurchaseInvoiceService>();
             services.AddScoped<ISalesInvoiceService, SalesInvoiceService>();
+            services.AddScoped<IJournalEntryService, JournalEntryService>();
             services
                 .AddMvc(options =>
                 {
