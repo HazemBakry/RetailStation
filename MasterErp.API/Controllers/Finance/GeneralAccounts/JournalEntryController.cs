@@ -36,7 +36,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         }
 
         [HttpGet]
-        [Route("GetAccountTreeData")]
+        [Route("GetAccountsByTemplateId")]
         public List<JournalTemplateDetails> GetAccountTreeData(int templateId)
         {
             return EntryService.GetAccountsByTemplateId(templateId);

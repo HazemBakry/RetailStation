@@ -14,6 +14,7 @@ import { AddPurchaseComponent } from './Purchase/components/add-purchase/add-pur
 import { SalesInvoiceComponent } from './Sales/components/sales-invoice/sales-invoice.component';
 import { AddSalesComponent } from './Sales/components/add-sales/add-sales.component';
 import { FormsModule } from '@angular/forms';
+import { NewEntryComponent } from './GeneralAccounts/components/new-entry/new-entry.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { FormsModule } from '@angular/forms';
     PurchaseInvoiceComponent,
     AddPurchaseComponent,
     SalesInvoiceComponent,
-    AddSalesComponent
+    AddSalesComponent,
+    NewEntryComponent
     
   ],
   imports: [

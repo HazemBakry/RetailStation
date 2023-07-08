@@ -19,7 +19,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
         public List<CostCenterTree> GetCostCenterTreeData()
         {
-            return Context.CostCenterTrees.ToList();
+            return Context.CostCenterTree.ToList();
         }
     }
 }

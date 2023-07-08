@@ -10,6 +10,7 @@ export class ErpSelectorWithSearchComponent implements OnInit {
   @Input() SelectorName: any;
   @Input() Height = '50px';
   @Input() ValidateMessage: string;
+  @Input() SearchKey = 'nameEN';
   @Input() isValid = false;
   @Output() ItemObj = new EventEmitter<any>();
   SearchText: any;

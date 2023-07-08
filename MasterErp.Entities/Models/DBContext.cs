@@ -28,7 +28,7 @@ namespace MasterErp.Entities.Models
         public DbSet<Attendance> Attendance { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<Bank> Banks { get; set; }
-        public DbSet<CostCenterTree> CostCenterTrees { get; set; }
+        public DbSet<CostCenterTree> CostCenterTree { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeContract> EmployeeContracts { get; set; }
         public DbSet<EmployeeSalary> EmployeeSalaries { get; set; }
@@ -40,8 +40,8 @@ namespace MasterErp.Entities.Models
         public DbSet<JournalEntry> JournalEntries { get; set; }
         public DbSet<JournalEntryDetail> JournalEntryDetails { get; set; }
         public DbSet<JournalEntryType> JournalEntryTypes { get; set; }
-        public DbSet<JournalTemplate> JournalTemplates { get; set; }
-        public DbSet<JournalTemplateDetails> JournalTemplateDetail { get; set; }
+        public DbSet<JournalTemplate> JournalTemplate { get; set; }
+        public DbSet<JournalTemplateDetails> JournalTemplateDetails { get; set; }
         public DbSet<Nationality> Nationalities { get; set; }
         public DbSet<OverTime> OverTimes { get; set; }
         public DbSet<Penalty> Penalties { get; set; }

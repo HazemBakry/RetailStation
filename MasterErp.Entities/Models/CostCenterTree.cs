@@ -12,8 +12,8 @@ namespace MasterErp.Entities.Models
 		[Key]
 		public int CostCenterID { get; set; }
 		public string CostCenterNumber { get; set; }
-		public string NameArabic { get; set; }
-		public string NameEnglish { get; set; }
+		public string NameAR { get; set; }
+		public string NameEN { get; set; }
 		public int? ParentID { get; set; }
         public int? CostLevel { get; set; }
         public bool? IsActive { get; set; }
