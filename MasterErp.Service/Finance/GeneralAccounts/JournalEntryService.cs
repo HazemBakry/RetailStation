@@ -224,6 +224,26 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             return result;
         }
 
+        public bool DropDailyJournalEntries(List<int> JournalEntryIds)
+        {
+            return true;
+        }
+
+        public bool ExpulsionDailyJournalEntries(List<int> JournalEntryIds)
+        {
+            return true;
+        }
+
+        public bool ReverseDailyJournalEntries(List<int> JournalEntryIds)
+        {
+            return true;
+        }
+
+        public bool PrintDailyJournalEntries(List<int> JournalEntryIds)
+        {
+            return true;
+        }
+
 
     }
 
