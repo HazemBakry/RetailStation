@@ -12,8 +12,24 @@ import { SalesInvoiceComponent } from './Sales/components/sales-invoice/sales-in
 import { AddSalesComponent } from './Sales/components/add-sales/add-sales.component';
 import { NewEntryComponent } from './GeneralAccounts/components/new-entry/new-entry.component';
 import { JournalDailyListComponent } from './GeneralAccounts/components/journal-daily-list/journal-daily-list.component';
+import { CreatePurchasesInvoiceComponent } from './Purchase/components/create-purchases-invoice/create-purchases-invoice.component';
+import { CreatePurchasesOrderComponent } from './Purchase/components/create-purchases-order/create-purchases-order.component';
+import { CreatePurchasesReturnsComponent } from './Purchase/components/create-purchases-returns/create-purchases-returns.component';
+import { PurchasesInvoicesComponent } from './Purchase/components/purchases-invoices/purchases-invoices.component';
+import { PurchasesLayoutComponent } from './Purchase/purchases-layout.component';
 
 const routes: Routes = [
+  {
+    path:'purchases',
+    component:PurchasesLayoutComponent,
+    children:[
+      {path:'purchasesInvoices',component:PurchasesInvoicesComponent},
+      {path:'newPurchasesInvoice',component:CreatePurchasesInvoiceComponent},
+      {path:'newPurchasesOrder',component:CreatePurchasesOrderComponent},
+      {path:'newPurchasesReturns',component:CreatePurchasesReturnsComponent},
+    ]
+  },
+
   {path:'currency',component:CurrencyComponent},
   {path:'featured',component:FeaturedComponent},
   {path:'fiscalYear',component:FiscalYearComponent},
@@ -32,4 +48,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class GeneralAccountRoutingModule { }
+export class FinanceRoutingModule { }

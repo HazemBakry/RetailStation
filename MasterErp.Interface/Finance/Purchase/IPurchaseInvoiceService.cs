@@ -12,6 +12,7 @@ namespace MasterErp.Interface.Finance.Purchase
     public interface IPurchaseInvoiceService
     {
         List<PurchaseInvoice> GetPurchaseInvoiceData();
+        bool CancelPurchaseInvoice(int InvoiceId);
         List<Supplier> GetSuppliersData();
         List<Branch> GetBranchesData();
         List<ItemLookups> GetItemLookupsData();
@@ -19,5 +20,7 @@ namespace MasterErp.Interface.Finance.Purchase
         DataTable GetItemsByLookupId(int LookupId);
         DataTable GetItemsBySupplierId(int SupplierId);
         (bool HasError, string InvoiceNumber) SaveNewPurchaseInvoice(PurchaseInvoiceModel model);
+        CreateModifyReturnsModel SaveNewPurchaseOrder(PurchaseInvoiceModel model);
+        CreateModifyReturnsModel SaveNewPurchaseReturns(PurchaseInvoiceModel model);
     }
 }

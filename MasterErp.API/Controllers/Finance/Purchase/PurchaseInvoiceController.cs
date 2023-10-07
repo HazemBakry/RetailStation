@@ -30,6 +30,14 @@ namespace MasterErp.API.Controllers.Finance.Purchase
         }
 
         [HttpGet]
+        [Route("CancelPurchaseInvoice")]
+        public IActionResult CancelPurchaseInvoice(int InvoiceId)
+        {
+            
+            var result =_purchaseInvoiceService.CancelPurchaseInvoice(InvoiceId);
+            return Ok(result);
+        }
+        [HttpGet]
         [Route("GetSuppliersData")]
         public List<Supplier> GetSuppliersData()
         {
@@ -76,6 +84,24 @@ namespace MasterErp.API.Controllers.Finance.Purchase
         public (bool HasError, string InvoiceNumber) SaveNewPurchaseInvoice(PurchaseInvoiceModel model)
         {
             return _purchaseInvoiceService.SaveNewPurchaseInvoice(model);
+        }
+
+
+        [HttpPost]
+        [Route("SaveNewPurchaseOrder")]
+        public IActionResult SaveNewPurchaseOrder(PurchaseInvoiceModel model)
+        {
+            var result = _purchaseInvoiceService.SaveNewPurchaseOrder(model);
+            return Ok(result);
+        }
+
+
+        [HttpPost]
+        [Route("SaveNewPurchaseReturns")]
+        public IActionResult SaveNewPurchaseReturns(PurchaseInvoiceModel model)
+        {
+            var result = _purchaseInvoiceService.SaveNewPurchaseReturns(model);
+            return Ok(result);
         }
     }
 }

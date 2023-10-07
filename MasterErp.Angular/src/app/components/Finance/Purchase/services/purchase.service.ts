@@ -15,6 +15,9 @@ export class PurchaseService {
     return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetPurchaseInvoiceData');
   }
 
+  CancelPurchaseInvoice(InvoiceId:number) {
+    return this.http.get<any[]>(this.URL + 'PurchaseInvoice/CancelPurchaseInvoice?InvoiceId='+InvoiceId);
+  }
   GetSuppliersData() {
     return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetSuppliersData');
   }
@@ -43,5 +46,11 @@ export class PurchaseService {
     return this.http.post<any>(this.URL + 'PurchaseInvoice/SaveNewPurchaseInvoice', model);
   }
 
+  SaveNewPurchaseOrder(model: PurchaseInvoiceModel) {
+    return this.http.post<any>(this.URL + 'PurchaseInvoice/SaveNewPurchaseOrder', model);
+  }
 
+  SaveNewPurchaseReturns(model: PurchaseInvoiceModel) {
+    return this.http.post<any>(this.URL + 'PurchaseInvoice/SaveNewPurchaseReturns', model);
+  }
 }

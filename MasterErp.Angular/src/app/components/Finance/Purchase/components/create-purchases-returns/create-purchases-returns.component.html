@@ -1,0 +1,45 @@
+<div class="card radius-10 border-0 card-shadow mb-3">
+    <div class="card-header bg-white">
+        <!-- <h5 class="m-0 fw-bold">عملية الشراء رقم : {{InvoiceNumber}}</h5> -->
+        <h5 class="m-0 fw-bold">انشاء مرتجعات  جديدة</h5>
+    </div>
+    <div class="card-body bg-light">
+        <div class="row mb-3">
+            <div class="col-lg-4 offset-lg-1">
+                <app-erp-selector [SelectorName]="BranchName" [ItemsList]="BranchesList"
+                    (ItemObj)="GetSelectedBranch($event)"></app-erp-selector>
+            </div>
+
+            <div class="col-lg-4 offset-lg-1">
+                <app-erp-selector [SelectorName]="SupplierName" [ItemsList]="SuppliersList"
+                    (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector>
+            </div>
+            <div class="col-lg-2 mt-2">
+                <button class="btn btn-secondary" (click)="LoadItemsBySupplier()">
+                    <i class="fas fa-upload"></i>
+                    <span class="ms-2">تحميل عناصر المورد</span>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-9 offset-lg-1 h-100">
+                <textarea class="form-control" placeholder="Notes *" [(ngModel)]="notes"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<app-order-products [selectedSupplierProducts]="ItemsBySupplier" [clearAllProducts]="clearAllProducts" (selectedProductsList)="GetSelectedProductsList($event)"></app-order-products>
+
+<div class="mt-3">
+    <button class="btn btn-primary btn-lg fs-6 me-2" (click)="SaveNewPurchaseOrder()">
+        <i class="fas fa-check-circle"></i>
+        <span class="ms-2">حفظ</span>
+    </button>
+    <button class="btn btn-warning btn-lg fs-6 me-2" (click)="ClearAllFields()">
+        <i class="fas fa-times"></i>
+        <span class="ms-2">مسح</span>
+    </button>
+</div>

@@ -39,7 +39,19 @@ namespace MasterErp.Service.Finance.Purchase
         {
             return Context.PurchaseInvoices.ToList();
         }
+        public bool CancelPurchaseInvoice(int InvoiceId)
+        {
 
+            var Invoice = Context.PurchaseInvoices.FirstOrDefault(x => x.PurchaseInvoiceID == InvoiceId);
+            if(Invoice is null)
+            {
+                return false;
+            }
+            //Context.PurchaseInvoices.Remove(Invoice);
+            Invoice.IsCancelled= true;
+            Context.SaveChanges();
+            return true;
+        }
         public List<Supplier> GetSuppliersData()
         {
             return Context.Suppliers.ToList();
@@ -57,8 +69,8 @@ namespace MasterErp.Service.Finance.Purchase
 
         public DataTable GetItemsData()
         {
-            var results = (from item in Context.Items.ToList()
-                           join unit in Context.Units.ToList() on item.UnitID equals unit.UnitId
+            var results = (from item in Context.Items
+                           join unit in Context.Units on item.UnitID equals unit.UnitId
                            select new
                            {
                                ItemId = item.ItemID,
@@ -134,5 +146,103 @@ namespace MasterErp.Service.Finance.Purchase
                 return (false, "0");
             }
         }
+
+        public CreateModifyReturnsModel SaveNewPurchaseOrder(PurchaseInvoiceModel model)
+        {
+            try
+            {
+                //PurchaseInvoice order_tbl = new PurchaseInvoice();
+
+                //order_tbl.DueDate = DateTime.Now;
+                //order_tbl.InsertDate = DateTime.Now;
+                //order_tbl.InsertUser = model.UserId;
+                //order_tbl.IsCancelled = false;
+                //order_tbl.IsLocked = false;
+                //order_tbl.Notes = model.Notes;
+                //order_tbl.InvoiceDate = DateTime.Now;
+                //order_tbl.InvoiceTotalValue = model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0;
+                //order_tbl.SupplierID = model.SupplierId;
+                //order_tbl.InvoiceNumber = "po_" + (Context.PurchaseInvoices.Count() > 0 ? Context.PurchaseInvoices.Max(x => x.PurchaseInvoiceID) + 1 : 1);
+
+                //Context.PurchaseInvoices.Add(order_tbl);
+                //Context.SaveChanges();
+
+                //foreach (PurchaseInvoiceDetails item in model.Items)
+                //{
+                //    var detail = new PurchaseInvoiceDetails
+                //    {
+                //        Price = item.Price,
+                //        ItemID = item.ItemID,
+                //        Notes = item.Notes,
+                //        Quantity = item.Quantity,
+                //        TotalValue = item.TotalValue,
+                //        PurchaseInvoiceID = order_tbl.PurchaseInvoiceID,
+                //        UnitID = item.UnitID
+                //    };
+
+                //    Context.PurchaseInvoiceDetails.Add(detail);
+                //    Context.SaveChanges();
+                //}
+
+                return new CreateModifyReturnsModel { };
+            }
+            catch (Exception ex)
+            {
+                return new CreateModifyReturnsModel { };
+            }
+        }
+
+
+        public CreateModifyReturnsModel SaveNewPurchaseReturns(PurchaseInvoiceModel model)
+        {
+            try
+            {
+                //PurchaseInvoice order_tbl = new PurchaseInvoice();
+
+                //order_tbl.DueDate = DateTime.Now;
+                //order_tbl.InsertDate = DateTime.Now;
+                //order_tbl.InsertUser = model.UserId;
+                //order_tbl.IsCancelled = false;
+                //order_tbl.IsLocked = false;
+                //order_tbl.Notes = model.Notes;
+                //order_tbl.InvoiceDate = DateTime.Now;
+                //order_tbl.InvoiceTotalValue = model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0;
+                //order_tbl.SupplierID = model.SupplierId;
+                //order_tbl.InvoiceNumber = "po_" + (Context.PurchaseInvoices.Count() > 0 ? Context.PurchaseInvoices.Max(x => x.PurchaseInvoiceID) + 1 : 1);
+
+                //Context.PurchaseInvoices.Add(order_tbl);
+                //Context.SaveChanges();
+
+                //foreach (PurchaseInvoiceDetails item in model.Items)
+                //{
+                //    var detail = new PurchaseInvoiceDetails
+                //    {
+                //        Price = item.Price,
+                //        ItemID = item.ItemID,
+                //        Notes = item.Notes,
+                //        Quantity = item.Quantity,
+                //        TotalValue = item.TotalValue,
+                //        PurchaseInvoiceID = order_tbl.PurchaseInvoiceID,
+                //        UnitID = item.UnitID
+                //    };
+
+                //    Context.PurchaseInvoiceDetails.Add(detail);
+                //    Context.SaveChanges();
+                //}
+
+                return new CreateModifyReturnsModel
+                {
+
+                };
+            }
+            catch (Exception ex)
+            {
+                return new CreateModifyReturnsModel
+                {
+
+                };
+            }
+        }
+
     }
 }
