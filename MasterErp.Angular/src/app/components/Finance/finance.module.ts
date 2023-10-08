@@ -23,6 +23,9 @@ import { CreatePurchasesReturnsComponent } from './Purchase/components/create-pu
 import { PurchasesInvoicesComponent } from './Purchase/components/purchases-invoices/purchases-invoices.component';
 import { PurchasesLayoutComponent } from './Purchase/purchases-layout.component';
 import { OrderProductsComponent } from './Purchase/components/order-products/order-products.component';
+import { PurchasesOrdersComponent } from './Purchase/components/purchases-orders/purchases-orders.component';
+import { PurchasesReturnsComponent } from './Purchase/components/purchases-returns/purchases-returns.component';
+import { SuppliersAccountStatementComponent } from './Purchase/components/suppliers-account-statement/suppliers-account-statement.component';
 
 
 @NgModule({
@@ -44,7 +47,10 @@ import { OrderProductsComponent } from './Purchase/components/order-products/ord
     CreatePurchasesOrderComponent,
     CreatePurchasesReturnsComponent,
     PurchasesInvoicesComponent,
-    OrderProductsComponent
+    OrderProductsComponent,
+    PurchasesOrdersComponent,
+    PurchasesReturnsComponent,
+    SuppliersAccountStatementComponent
     
   ],
   imports: [

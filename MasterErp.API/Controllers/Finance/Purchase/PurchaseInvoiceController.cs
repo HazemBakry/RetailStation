@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Finance.Purchase;
 using Microsoft.AspNetCore.Http;
@@ -89,7 +90,7 @@ namespace MasterErp.API.Controllers.Finance.Purchase
 
         [HttpPost]
         [Route("SaveNewPurchaseOrder")]
-        public IActionResult SaveNewPurchaseOrder(PurchaseInvoiceModel model)
+        public IActionResult SaveNewPurchaseOrder(PurchaseOrderModel model)
         {
             var result = _purchaseInvoiceService.SaveNewPurchaseOrder(model);
             return Ok(result);
@@ -103,5 +104,53 @@ namespace MasterErp.API.Controllers.Finance.Purchase
             var result = _purchaseInvoiceService.SaveNewPurchaseReturns(model);
             return Ok(result);
         }
+
+
+
+
+
+
+
+
+        [HttpGet]
+        [Route("GetPurchasesOrdersData")]
+        public List<PurchaseOrder> GetPurchasesOrdersData()
+        {
+            return _purchaseInvoiceService.GetPurchasesOrdersData();
+        }
+
+        [HttpGet]
+        [Route("CancelPurchaseOrder")]
+        public IActionResult CancelPurchaseOrder(int OrderId)
+        {
+
+            var result = _purchaseInvoiceService.CancelPurchaseOrder(OrderId);
+            return Ok(result);
+        }
+
+
+
+
+
+        [HttpGet]
+        [Route("GetPurchasesReturnsData")]
+        public List<PurchaseInvoice> GetPurchasesReturnsData()
+        {
+            return _purchaseInvoiceService.GetPurchasesReturnsData();
+        }
+
+        [HttpGet]
+        [Route("CancelPurchaseInvoice")]
+        public IActionResult CancelPurchaseReturns(int ReturnsId)
+        {
+
+            var result = _purchaseInvoiceService.CancelPurchaseReturns(ReturnsId);
+            return Ok(result);
+        }
+
+
+
+
+
     }
 }

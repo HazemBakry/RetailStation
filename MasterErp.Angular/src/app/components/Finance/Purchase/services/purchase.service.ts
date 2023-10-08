@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { PurchaseInvoiceModel } from '../models/PurchaseInvoiceModel';
+import { PurchaseOrderModel } from '../models/PurchaseOrder';
 
 @Injectable({
   providedIn: 'root'
@@ -46,11 +47,34 @@ export class PurchaseService {
     return this.http.post<any>(this.URL + 'PurchaseInvoice/SaveNewPurchaseInvoice', model);
   }
 
-  SaveNewPurchaseOrder(model: PurchaseInvoiceModel) {
+  SaveNewPurchaseOrder(model: PurchaseOrderModel) {
     return this.http.post<any>(this.URL + 'PurchaseInvoice/SaveNewPurchaseOrder', model);
   }
 
   SaveNewPurchaseReturns(model: PurchaseInvoiceModel) {
     return this.http.post<any>(this.URL + 'PurchaseInvoice/SaveNewPurchaseReturns', model);
   }
+
+
+
+  // Purchases Orders
+
+  GetPurchasesOrdersData() {
+    return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetPurchasesOrdersData');
+  }
+
+  CancelPurchaseOrder(orderId:number) {
+    return this.http.get<any[]>(this.URL + 'PurchaseInvoice/CancelPurchaseOrder?OrderId='+orderId);
+  }
+
+
+    // Purchases Returns
+
+    GetPurchasesReturnsData() {
+      return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetPurchasesReturnsData');
+    }
+  
+    CancelPurchaseReturns(returnsId:number) {
+      return this.http.get<any[]>(this.URL + 'PurchaseInvoice/CancelPurchaseReturns?ReturnsId='+returnsId);
+    }
 }

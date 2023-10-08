@@ -164,6 +164,7 @@ export class OrderProductsComponent implements OnInit , OnChanges {
   }
   emitSelectedProductsList()
   {
-    this.selectedProductsList.emit(this.productsList);
+    var list=this.productsList.filter(x=>x.quantity&&x.quantity>0);
+    this.selectedProductsList.emit(list);
   }
 }

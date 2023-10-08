@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Finance.Purchase;
@@ -147,48 +148,57 @@ namespace MasterErp.Service.Finance.Purchase
             }
         }
 
-        public CreateModifyReturnsModel SaveNewPurchaseOrder(PurchaseInvoiceModel model)
+        public CreateModifyReturnsModel SaveNewPurchaseOrder(PurchaseOrderModel model)
         {
             try
             {
-                //PurchaseInvoice order_tbl = new PurchaseInvoice();
+                PurchaseOrder order_tbl = new PurchaseOrder();
 
-                //order_tbl.DueDate = DateTime.Now;
-                //order_tbl.InsertDate = DateTime.Now;
-                //order_tbl.InsertUser = model.UserId;
-                //order_tbl.IsCancelled = false;
-                //order_tbl.IsLocked = false;
-                //order_tbl.Notes = model.Notes;
-                //order_tbl.InvoiceDate = DateTime.Now;
-                //order_tbl.InvoiceTotalValue = model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0;
-                //order_tbl.SupplierID = model.SupplierId;
-                //order_tbl.InvoiceNumber = "po_" + (Context.PurchaseInvoices.Count() > 0 ? Context.PurchaseInvoices.Max(x => x.PurchaseInvoiceID) + 1 : 1);
+                order_tbl.DueDate = DateTime.Now;
+                order_tbl.InsertDate = DateTime.Now;
 
-                //Context.PurchaseInvoices.Add(order_tbl);
-                //Context.SaveChanges();
 
-                //foreach (PurchaseInvoiceDetails item in model.Items)
-                //{
-                //    var detail = new PurchaseInvoiceDetails
-                //    {
-                //        Price = item.Price,
-                //        ItemID = item.ItemID,
-                //        Notes = item.Notes,
-                //        Quantity = item.Quantity,
-                //        TotalValue = item.TotalValue,
-                //        PurchaseInvoiceID = order_tbl.PurchaseInvoiceID,
-                //        UnitID = item.UnitID
-                //    };
+                order_tbl.InsertUser = string.Empty;
+                order_tbl.IsCancelled = false;
+                order_tbl.IsLocked = false;
+                order_tbl.Notes = model.Notes;
+                order_tbl.OrderDate = DateTime.Now;
+                order_tbl.TotalValue = model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0;
+                order_tbl.SupplierID = model.SupplierId;
+                order_tbl.OrderNumber =  (Context.PurchaseOrder.Count() > 0 ? Context.PurchaseOrder.Max(x => x.PurchaseOrderID) + 1 : 1);
 
-                //    Context.PurchaseInvoiceDetails.Add(detail);
-                //    Context.SaveChanges();
-                //}
+                Context.PurchaseOrder.Add(order_tbl);
+                Context.SaveChanges();
 
-                return new CreateModifyReturnsModel { };
+                foreach (PurchaseOrderDetails item in model.Items)
+                {
+                    var detail = new PurchaseOrderDetails
+                    {
+                        Price = item.Price,
+                        ItemID = item.ItemID,
+                        Notes = item.Notes,
+                        Quantity = item.Quantity,
+                        TotalValue = item.TotalValue,
+                        PurchaseOrderID = order_tbl.PurchaseOrderID,
+                        UnitID = item.UnitID
+                    };
+
+                    Context.PurchaseOrderDetails.Add(detail);
+                    Context.SaveChanges();
+                }
+
+                return new CreateModifyReturnsModel {
+                    Status= 1,
+                    Message= "Purchase Order Created"
+
+                };
             }
             catch (Exception ex)
             {
-                return new CreateModifyReturnsModel { };
+                return new CreateModifyReturnsModel {
+                    Status = 0,
+                    Message = ex.Message
+                };
             }
         }
 
@@ -243,6 +253,64 @@ namespace MasterErp.Service.Finance.Purchase
                 };
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+        public List<PurchaseOrder> GetPurchasesOrdersData()
+        {
+            return Context.PurchaseOrder.ToList();
+        }
+        public bool CancelPurchaseOrder(int OrderId)
+        {
+
+            var Invoice = Context.PurchaseOrder.FirstOrDefault(x => x.PurchaseOrderID== OrderId);
+            if (Invoice is null)
+            {
+                return false;
+            }
+            //Context.PurchaseInvoices.Remove(Invoice);
+            Invoice.IsCancelled = true;
+            Context.SaveChanges();
+            return true;
+        }
+
+
+
+
+
+
+
+
+        public List<PurchaseInvoice> GetPurchasesReturnsData()
+        {
+            return Context.PurchaseInvoices.ToList();
+        }
+        public bool CancelPurchaseReturns(int ReturnsId)
+        {
+
+            var Invoice = Context.PurchaseInvoices.FirstOrDefault(x => x.PurchaseInvoiceID == ReturnsId);
+            if (Invoice is null)
+            {
+                return false;
+            }
+            //Context.PurchaseInvoices.Remove(Invoice);
+            Invoice.IsCancelled = true;
+            Context.SaveChanges();
+            return true;
+        }
+
+
+
+
+
 
     }
 }

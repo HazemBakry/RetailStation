@@ -4,6 +4,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { PurchaseInvoiceDetails } from '../../models/PurchaseInvoiceDetailsModel';
 import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
+import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { PurchaseOrderModel } from '../../models/PurchaseOrder';
 
 @Component({
   selector: 'app-create-purchases-order',
@@ -65,21 +67,20 @@ export class CreatePurchasesOrderComponent implements OnInit {
       return;
     }
 
-    let model: PurchaseInvoiceModel = {} as PurchaseInvoiceModel;
-    model.purchaseInvoiceId = 0;
+    let model: PurchaseOrderModel = {} as PurchaseOrderModel;
+
     model.branchId = this.BranchId;
     model.supplierId = this.SupplierId;
-    model.userId = 0;
     model.notes = this.notes;
     model.items = this.ProductsList;
 
-    this.purchaseService.SaveNewPurchaseOrder(model).subscribe(data => {
-      if (data.item1) {
+    this.purchaseService.SaveNewPurchaseOrder(model).subscribe((data:CreateModifyReturnsModel) => {
+      if (data?.status) {
         this.ClearAllFields();
-        this.InvoiceNumber = data.item2;
-        this.toaster.success('New Purchase Saved Successfully');
+        // this.InvoiceNumber = data.item2;
+        this.toaster.success(data?.message);
       } else {
-        this.toaster.error('New Purchase Saved Failed');
+        this.toaster.error(data?.message);
       }
     });
 

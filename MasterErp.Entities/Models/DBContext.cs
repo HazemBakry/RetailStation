@@ -57,6 +57,10 @@ namespace MasterErp.Entities.Models
         public DbSet<Units> Units { get; set; }
         public DbSet<Vacation> Vacations { get; set; }
 
+
+        //Elassal
+        public DbSet<PurchaseOrder> PurchaseOrder { get; set; }
+        public DbSet<PurchaseOrderDetails> PurchaseOrderDetails { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

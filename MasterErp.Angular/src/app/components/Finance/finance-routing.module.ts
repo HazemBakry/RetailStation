@@ -17,6 +17,9 @@ import { CreatePurchasesOrderComponent } from './Purchase/components/create-purc
 import { CreatePurchasesReturnsComponent } from './Purchase/components/create-purchases-returns/create-purchases-returns.component';
 import { PurchasesInvoicesComponent } from './Purchase/components/purchases-invoices/purchases-invoices.component';
 import { PurchasesLayoutComponent } from './Purchase/purchases-layout.component';
+import { PurchasesOrdersComponent } from './Purchase/components/purchases-orders/purchases-orders.component';
+import { PurchasesReturnsComponent } from './Purchase/components/purchases-returns/purchases-returns.component';
+import { SuppliersAccountStatementComponent } from './Purchase/components/suppliers-account-statement/suppliers-account-statement.component';
 
 const routes: Routes = [
   {
@@ -24,9 +27,12 @@ const routes: Routes = [
     component:PurchasesLayoutComponent,
     children:[
       {path:'purchasesInvoices',component:PurchasesInvoicesComponent},
+      {path:'purchasesOrders',component:PurchasesOrdersComponent},
+      {path:'purchasesReturns',component:PurchasesReturnsComponent},
       {path:'newPurchasesInvoice',component:CreatePurchasesInvoiceComponent},
       {path:'newPurchasesOrder',component:CreatePurchasesOrderComponent},
       {path:'newPurchasesReturns',component:CreatePurchasesReturnsComponent},
+      {path:'suppliersAccountStatement',component:SuppliersAccountStatementComponent},
     ]
   },
 

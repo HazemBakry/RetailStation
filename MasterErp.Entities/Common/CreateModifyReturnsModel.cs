@@ -11,6 +11,7 @@ namespace MasterErp.Entities.Common
         public int Id { get; set; }
         public bool HasError { get; set; }
         public string Message { get; set; }
-        public string Status { get; set; }
+        public string ErrorMessage { get; set; }
+        public int Status { get; set; }
     }
 }

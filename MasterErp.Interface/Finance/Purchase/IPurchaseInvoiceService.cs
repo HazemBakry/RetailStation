@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,18 @@ namespace MasterErp.Interface.Finance.Purchase
         DataTable GetItemsByLookupId(int LookupId);
         DataTable GetItemsBySupplierId(int SupplierId);
         (bool HasError, string InvoiceNumber) SaveNewPurchaseInvoice(PurchaseInvoiceModel model);
-        CreateModifyReturnsModel SaveNewPurchaseOrder(PurchaseInvoiceModel model);
+        CreateModifyReturnsModel SaveNewPurchaseOrder(PurchaseOrderModel model);
         CreateModifyReturnsModel SaveNewPurchaseReturns(PurchaseInvoiceModel model);
+
+
+
+
+        List<PurchaseOrder> GetPurchasesOrdersData();
+        bool CancelPurchaseOrder(int OrderId);
+
+
+
+        List<PurchaseInvoice> GetPurchasesReturnsData();
+        bool CancelPurchaseReturns(int ReturnsId);
     }
 }
