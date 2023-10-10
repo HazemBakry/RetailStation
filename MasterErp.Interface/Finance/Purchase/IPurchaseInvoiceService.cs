@@ -12,27 +12,51 @@ namespace MasterErp.Interface.Finance.Purchase
 {
     public interface IPurchaseInvoiceService
     {
+        #region PurchasesInvoices
+
         List<PurchaseInvoice> GetPurchaseInvoiceData();
+        (bool HasError, string InvoiceNumber) SaveNewPurchaseInvoice(PurchaseInvoiceModel model);
         bool CancelPurchaseInvoice(int InvoiceId);
+        List<PurchaseInvoiceItemsModel>  GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate);
+
+        #endregion
+
+
+        #region PurchasesOrders
+
+        List<PurchaseOrder> GetPurchasesOrdersData();
+        CreateModifyReturnsModel SaveNewPurchaseOrder(PurchaseOrderModel model);
+        bool CancelPurchaseOrder(int OrderId);
+
+
+        #endregion
+
+
+        #region PurchasesReturns
+
+        List<PurchaseReturns> GetPurchasesReturnsData();
+        CreateModifyReturnsModel SaveNewPurchaseReturns(PurchaseReturnsModel model);
+        bool CancelPurchaseReturns(int ReturnsId);
+
+        #endregion
+
+
+
+        #region SuppliersStatement
+        List<SupplierStatementModel> GetSupplierStatementData(int SupplierId);
+
+
+        #endregion
+
+
+
         List<Supplier> GetSuppliersData();
         List<Branch> GetBranchesData();
         List<ItemLookups> GetItemLookupsData();
         DataTable GetItemsData();
         DataTable GetItemsByLookupId(int LookupId);
         DataTable GetItemsBySupplierId(int SupplierId);
-        (bool HasError, string InvoiceNumber) SaveNewPurchaseInvoice(PurchaseInvoiceModel model);
-        CreateModifyReturnsModel SaveNewPurchaseOrder(PurchaseOrderModel model);
-        CreateModifyReturnsModel SaveNewPurchaseReturns(PurchaseInvoiceModel model);
 
 
-
-
-        List<PurchaseOrder> GetPurchasesOrdersData();
-        bool CancelPurchaseOrder(int OrderId);
-
-
-
-        List<PurchaseInvoice> GetPurchasesReturnsData();
-        bool CancelPurchaseReturns(int ReturnsId);
     }
 }

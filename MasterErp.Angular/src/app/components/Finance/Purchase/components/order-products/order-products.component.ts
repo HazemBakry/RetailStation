@@ -12,6 +12,7 @@ import { PurchaseInvoiceDetails } from '../../models/PurchaseInvoiceDetailsModel
 export class OrderProductsComponent implements OnInit , OnChanges {
   @Input() selectedSupplierProducts:any[]=[];
   @Input() clearAllProducts:boolean=false;
+  @Input() showAddNew:boolean=true;
   @Output() selectedProductsList =new EventEmitter<any[]>();
 
   productsList:any[]=[];

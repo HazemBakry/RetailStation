@@ -26,6 +26,7 @@ import { OrderProductsComponent } from './Purchase/components/order-products/ord
 import { PurchasesOrdersComponent } from './Purchase/components/purchases-orders/purchases-orders.component';
 import { PurchasesReturnsComponent } from './Purchase/components/purchases-returns/purchases-returns.component';
 import { SuppliersAccountStatementComponent } from './Purchase/components/suppliers-account-statement/suppliers-account-statement.component';
+import { InvoiceSearchSidepanelComponent } from './Purchase/components/invoice-search-sidepanel/invoice-search-sidepanel.component';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { SuppliersAccountStatementComponent } from './Purchase/components/suppli
     OrderProductsComponent,
     PurchasesOrdersComponent,
     PurchasesReturnsComponent,
-    SuppliersAccountStatementComponent
+    SuppliersAccountStatementComponent,
+    InvoiceSearchSidepanelComponent
     
   ],
   imports: [

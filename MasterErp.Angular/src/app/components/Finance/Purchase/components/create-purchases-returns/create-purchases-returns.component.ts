@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { PurchaseInvoiceDetails } from '../../models/PurchaseInvoiceDetailsModel';
 import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
+import { PurchaseReturnsModel } from '../../models/PurchaseReturns';
 @Component({
   selector: 'app-create-purchases-returns',
   templateUrl: './create-purchases-returns.component.html',
@@ -23,6 +24,8 @@ export class CreatePurchasesReturnsComponent implements OnInit {
   BranchName = 'الفروع';
   SupplierName = 'الموردين';
   clearAllProducts:boolean=false;
+
+  selectedInvoice:any;
   constructor(private purchaseService: PurchaseService, private modalService: NgbModal, private toaster: ToastrService) { }
 
   ngOnInit(): void {
@@ -65,11 +68,9 @@ export class CreatePurchasesReturnsComponent implements OnInit {
       return;
     }
 
-    let model: PurchaseInvoiceModel = {} as PurchaseInvoiceModel;
-    model.purchaseInvoiceId = 0;
+    let model: PurchaseReturnsModel = {} as PurchaseReturnsModel;
     model.branchId = this.BranchId;
     model.supplierId = this.SupplierId;
-    model.userId = 0;
     model.notes = this.notes;
     model.items = this.ProductsList;
 
@@ -90,24 +91,7 @@ export class CreatePurchasesReturnsComponent implements OnInit {
       this.toaster.warning('Please Select Supplier');
       return;
     }
-    this.purchaseService.GetItemsBySupplierId(this.SupplierId).subscribe(data => {
-      let Items: any[] = data;
-      this.ItemsBySupplier = Items.map<PurchaseInvoiceDetails>(item => {
-        {
-          return {
-            purchaseInvoiceDetailsID: 0,
-            purchaseInvoiceID: 0,
-            itemID: item.itemID,
-            itemName: item.nameEN,
-            unitID: item.unitID,
-            unitName: item.unitNameEn,
-            price: item.cost,
-            quantity: item.quantity,
-            totalValue: item.cost
-          }
-        };
-      });
-    });
+
     // this.ItemsBySupplier.forEach(item => {
     //   let itemChecked = this.RawItemsList.find(i => i.itemID == item.itemID);
     //   if (!itemChecked) {
@@ -131,5 +115,28 @@ export class CreatePurchasesReturnsComponent implements OnInit {
     this.clearAllProducts=!this.clearAllProducts;
     // this.AddNewItem = {};
     // this.EditQuantityList = [];
+  }
+
+  SelectInvoice(inv){
+    this.selectedInvoice=inv;
+    console.log("inv",inv);
+
+    this.ItemsBySupplier = this.selectedInvoice?.items?.map(item => {
+      {
+        return {
+          purchaseInvoiceDetailsID: item.purchaseInvoiceDetailsId,
+          purchaseInvoiceID: item.purchaseInvoiceId,
+          itemID: item.itemId,
+          itemName: item.itemNameEN,
+          unitID: item.unitID,
+          unitName: item.unitNameEn,
+          price: item.price,
+          quantity: item.quantity,
+          totalValue: item.itemTotalValue
+        }
+      }
+    })
+    console.log("this.ItemsBySupplier",this.ItemsBySupplier);
+    
   }
 }

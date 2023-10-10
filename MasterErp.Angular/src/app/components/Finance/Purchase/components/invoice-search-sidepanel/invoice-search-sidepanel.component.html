@@ -1,0 +1,83 @@
+<button class="btn btn-primary" (click)="OpenSidePanel(InvoiceSearchSidepanel)">
+    <i class="fas fa-upload"></i>
+    <span class="ms-2">تحميل فاتورة</span>
+</button>
+<ng-template #InvoiceSearchSidepanel let-offcanvas >
+    <div class="m-1">
+
+        <div class="offcanvas-header pb-0" style="z-index: 9999;">
+            <div>
+                <h4 class="offcanvas-title m-0 d-flex align-items-center w-100"><i
+                        class="fas fa-history fa-2x main-color me-2"></i> التفاصيل</h4>
+            </div>
+            <button type="button" class="btn bg-danger text-white rounded" aria-label="Close" (click)="offcanvas.dismiss()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="offcanvas-body m-2 row">
+            <div class="col-lg-3">
+                <app-erp-selector [SelectorName]="SupplierName" [ItemsList]="SuppliersList"
+                    (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" [(ngModel)]="invoiceNumber" class="form-control"
+                      id="floatingInput1" placeholder="any">
+                    <label for="floatingInput1">رقم الفاتورة</label>
+                  </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="date" [(ngModel)]="invoiceDate" class="form-control"
+                      id="floatingInput6" placeholder="any">
+                    <label for="floatingInput6">تاريخ الاصدار</label>
+                  </div>
+            </div>
+            <div class="col-lg-3">
+                <button (click)="loadData()" class="btn btn-primary mt-2">بحث</button>
+            </div>
+        </div>
+        
+        
+        <div class="offcanvas-body pt-0">
+
+
+            <div class="z2-boxstyle1-content hastable">
+                <table class="table table-bordered table-responsive table-middle table-hover m-0 bg-white bigtitle">
+                    <thead>
+                        <tr>
+                            <th>Invoice Number</th>
+                            <th>Invoice Date</th>
+                            <th>Total Value</th>
+                            <th>Supplier Name AR</th>
+                            <th>Supplier Name EN</th>
+                            
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of PurchaseList">
+                            <td>{{item.invoiceNumber}}</td>
+                            <td>{{item.invoiceDate | date}}</td>
+                            <td>{{item.invoiceTotalValue}}</td>
+                            <td>{{item.supplierNameAR}}</td>
+                            <td>{{item.supplierNameEN }}</td>
+                            
+                            <td>
+                                <div class="w-100 d-flex align-items-center justify-content-center">
+                                    <button (click)="SelectInvoice(item)" class="btn btn-secondary">
+                                        <i class="far fa-eye"></i>
+                                        <span class="ms-2">تفاصيل</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+</ng-template>

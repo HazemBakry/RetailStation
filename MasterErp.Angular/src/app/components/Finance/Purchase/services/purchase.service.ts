@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { PurchaseInvoiceModel } from '../models/PurchaseInvoiceModel';
 import { PurchaseOrderModel } from '../models/PurchaseOrder';
+import { PurchaseReturnsModel } from '../models/PurchaseReturns';
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +52,7 @@ export class PurchaseService {
     return this.http.post<any>(this.URL + 'PurchaseInvoice/SaveNewPurchaseOrder', model);
   }
 
-  SaveNewPurchaseReturns(model: PurchaseInvoiceModel) {
+  SaveNewPurchaseReturns(model: PurchaseReturnsModel) {
     return this.http.post<any>(this.URL + 'PurchaseInvoice/SaveNewPurchaseReturns', model);
   }
 
@@ -76,5 +77,22 @@ export class PurchaseService {
   
     CancelPurchaseReturns(returnsId:number) {
       return this.http.get<any[]>(this.URL + 'PurchaseInvoice/CancelPurchaseReturns?ReturnsId='+returnsId);
+    }
+
+
+
+
+    //
+
+    GetSupplierStatementData(supplierId) {
+      return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetSupplierStatementData?SupplierId='+supplierId);
+    }
+
+
+    GetInvoicesSearchData(supplierId:number,invoiceNumber:string,invoiceDate:string) {
+      supplierId=supplierId?supplierId:0;
+      invoiceNumber=invoiceNumber?invoiceNumber:'';
+      invoiceDate=invoiceDate?invoiceDate:'';
+      return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetInvoicesSearchData?SupplierId='+supplierId+'&InvoiceNumber='+invoiceNumber+'&InvoiceDate='+invoiceDate);
     }
 }
