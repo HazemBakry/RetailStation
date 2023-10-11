@@ -44,3 +44,13 @@ export class SuppliersAccountStatementComponent implements OnInit {
 
 
 }
+export interface SupplierStatementModel {
+  supplierStatementId: number | null;
+  supplierId: number | null;
+  isOpeningBalance: boolean | null;
+  date: string | null;
+  description: string;
+  credit: number | null;
+  debit: number | null;
+  balance: number | null;
+}
