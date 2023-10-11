@@ -10,6 +10,7 @@ namespace MasterErp.Entities.Common.Finance.Purchases
         public string InvoiceNumber { get; set; }
         public int SupplierId { get; set; }
         public int BranchId { get; set; }
+        public int InvoiceTypeId { get; set; }
         public string Notes { get; set; }
         public string SupplierNameAR { get; set; }
         public string SupplierNameEN { get; set; }

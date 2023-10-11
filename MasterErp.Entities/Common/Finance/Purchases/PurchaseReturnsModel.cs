@@ -12,6 +12,7 @@ namespace MasterErp.Entities.Common.Finance.Purchases
     {
         public int? PurchaseReturnsId { get; set; }
         public int? InvoiceId { get; set; }
+        public int? InvoiceTypeId { get; set; }
         public string InvoiceNumber { get; set; }
         public int SupplierId { get; set; }
         public int BranchId { get; set; }

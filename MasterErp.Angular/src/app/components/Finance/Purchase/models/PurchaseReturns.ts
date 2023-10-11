@@ -1,6 +1,7 @@
 export interface PurchaseReturnsModel{
     invoiceId:number;
     invoiceNumber: string;
+    invoiceTypeId: string;
     orderDate: string;
     supplierId: number;
     branchId: number;

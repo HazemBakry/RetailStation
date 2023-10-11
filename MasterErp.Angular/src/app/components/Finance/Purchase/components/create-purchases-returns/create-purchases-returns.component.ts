@@ -67,10 +67,17 @@ export class CreatePurchasesReturnsComponent implements OnInit {
       this.toaster.warning('Please Enter Items');
       return;
     }
-
+    if (!this.selectedInvoice) {
+      this.toaster.warning('Please Enter Invoice');
+      return;
+    }
+    
     let model: PurchaseReturnsModel = {} as PurchaseReturnsModel;
     model.branchId = this.BranchId;
     model.supplierId = this.SupplierId;
+    model.invoiceId=this.selectedInvoice?.invoiceId
+    model.invoiceNumber=this.selectedInvoice?.invoiceNumber
+    model.invoiceTypeId=this.selectedInvoice?.invoiceTypeId
     model.notes = this.notes;
     model.items = this.ProductsList;
 
@@ -113,6 +120,7 @@ export class CreatePurchasesReturnsComponent implements OnInit {
     this.SupplierName = 'الموردين';
     this.ProductsList = [];
     this.clearAllProducts=!this.clearAllProducts;
+    this.selectedInvoice=null;
     // this.AddNewItem = {};
     // this.EditQuantityList = [];
   }

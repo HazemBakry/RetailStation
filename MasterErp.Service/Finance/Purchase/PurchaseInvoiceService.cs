@@ -167,6 +167,7 @@ namespace MasterErp.Service.Finance.Purchase
                 {
                     InvoiceNumber= obj.FirstOrDefault()?.InvoiceNumber,
                     PurchaseInvoiceId = obj.FirstOrDefault()?.PurchaseInvoiceId,
+                    InvoiceTypeId = obj.FirstOrDefault().InvoiceTypeId,
                     SupplierId = obj.FirstOrDefault().SupplierId,
                     SupplierNameAR = obj.FirstOrDefault()?.SupplierNameAR,
                     SupplierNameEN= obj.FirstOrDefault()?.SupplierNameEN,
@@ -284,13 +285,16 @@ namespace MasterErp.Service.Finance.Purchase
                 PurchaseReturns order_tbl = new PurchaseReturns();
 
                 order_tbl.InsertDate = DateTime.Now;
+                order_tbl.ReturnsDate = DateTime.Now;
                 order_tbl.InsertUser = string.Empty;
 
+                order_tbl.InvoiceNumber = model.InvoiceNumber;
+                order_tbl.InvoiceTypeID = model.InvoiceTypeId??0;
                 order_tbl.Notes = model.Notes;
                 order_tbl.InvoiceDate = DateTime.Now;
                 order_tbl.ReturnsInvoiceTotal = model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0;
                 order_tbl.SupplierID = model.SupplierId;
-                order_tbl.InvoiceNumber = "po_" + (Context.PurchaseReturns.Count() > 0 ? Context.PurchaseReturns.Max(x => x.PurchaseReturnsID) + 1 : 1);
+                //order_tbl.InvoiceNumber = "po_" + (Context.PurchaseReturns.Count() > 0 ? Context.PurchaseReturns.Max(x => x.PurchaseReturnsID) + 1 : 1);
 
                 Context.PurchaseReturns.Add(order_tbl);
                 Context.SaveChanges();
