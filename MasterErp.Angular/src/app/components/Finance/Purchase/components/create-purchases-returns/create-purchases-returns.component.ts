@@ -20,7 +20,7 @@ export class CreatePurchasesReturnsComponent implements OnInit {
   BranchId: any;
   SupplierId: any;
   ItemsBySupplier: any[] = [];
-  InvoiceNumber = '-';
+  InvoiceNumber = '';
   BranchName = 'الفروع';
   SupplierName = 'الموردين';
   clearAllProducts:boolean=false;
@@ -119,8 +119,8 @@ export class CreatePurchasesReturnsComponent implements OnInit {
 
   SelectInvoice(inv){
     this.selectedInvoice=inv;
-    console.log("inv",inv);
-
+    // console.log("inv",inv);
+    this.InvoiceNumber=this.selectedInvoice?.invoiceNumber;
     this.ItemsBySupplier = this.selectedInvoice?.items?.map(item => {
       {
         return {

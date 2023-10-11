@@ -56,10 +56,10 @@ export class InvoiceSearchSidepanelComponent implements OnInit {
   }
 
 
-  SelectInvoice(inv,content: any)
+  SelectInvoice(inv)
   {
 
-    this.offcanvasService.dismiss(content);
+    this.offcanvasService.dismiss();
 
     this.selectedInvoice.emit(inv);
   }

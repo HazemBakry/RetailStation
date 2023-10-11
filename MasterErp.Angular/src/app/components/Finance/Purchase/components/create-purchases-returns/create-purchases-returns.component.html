@@ -6,14 +6,21 @@
     </div>
     <div class="card-body bg-light">
         <div class="row mb-3">
-            <div class="col-lg-4 offset-lg-1">
+            <div class="col-lg-3 offset-lg-1">
                 <app-erp-selector [SelectorName]="BranchName" [ItemsList]="BranchesList"
                     (ItemObj)="GetSelectedBranch($event)"></app-erp-selector>
             </div>
 
-            <div class="col-lg-4 offset-lg-1">
+            <div class="col-lg-3 offset-lg-1">
                 <app-erp-selector [SelectorName]="SupplierName" [ItemsList]="SuppliersList"
                     (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector>
+            </div>
+            <div class="col-lg-2 ">
+                <div class="form-floating mb-3">
+                    <input type="text" [(ngModel)]="InvoiceNumber" disabled class="form-control"
+                      id="floatingInput1" placeholder="any">
+                    <label for="floatingInput1">رقم الفاتورة</label>
+                  </div>
             </div>
             <div class="col-lg-2 mt-2">
                 <app-invoice-search-sidepanel (selectedInvoice)="SelectInvoice($event)"></app-invoice-search-sidepanel>
