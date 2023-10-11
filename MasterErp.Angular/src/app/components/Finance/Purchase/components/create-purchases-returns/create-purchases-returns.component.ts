@@ -82,12 +82,12 @@ export class CreatePurchasesReturnsComponent implements OnInit {
     model.items = this.ProductsList;
 
     this.purchaseService.SaveNewPurchaseReturns(model).subscribe(data => {
-      if (data.item1) {
+      if (data?.status) {
         this.ClearAllFields();
-        this.InvoiceNumber = data.item2;
-        this.toaster.success('New Purchase Saved Successfully');
+        // this.InvoiceNumber = data.item2;
+        this.toaster.success(data?.message);
       } else {
-        this.toaster.error('New Purchase Saved Failed');
+        this.toaster.error(data?.message);
       }
     });
 

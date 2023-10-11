@@ -308,7 +308,7 @@ namespace MasterErp.Service.Finance.Purchase
                         Notes = item.Notes,
                         Quantity = item.Quantity,
                         TotalValue = item.TotalValue,
-                        PurchaseReturnsDetailsID = order_tbl.PurchaseReturnsID,
+                        PurchaseReturnsID = order_tbl.PurchaseReturnsID,
                         UnitID = item.UnitID
                     };
 
