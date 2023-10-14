@@ -38,8 +38,15 @@ export class SuppliersAccountStatementComponent implements OnInit {
     if (!this.SupplierId) {
       this.toaster.warning('يرجى اختيار مورد');
     }
+    this.showLoader=true;
     this.purchaseService.GetSupplierStatementData(this.SupplierId).subscribe(data => {
       this.PurchaseList = data;
+      this.showLoader=false;
+
+    },(err)=>{
+      this.showLoader=false;
+    },()=>{
+      this.showLoader=false;
     })
   }
 

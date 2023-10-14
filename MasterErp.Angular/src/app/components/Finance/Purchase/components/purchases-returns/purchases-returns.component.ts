@@ -17,8 +17,16 @@ export class PurchasesReturnsComponent implements OnInit {
   }
 
   loadData() {
+    this.showLoader=true;
+
     this.purchaseService.GetPurchasesReturnsData().subscribe(data => {
       this.PurchaseList = data;
+      this.showLoader=false;
+
+    },(err)=>{
+      this.showLoader=false;
+    },()=>{
+      this.showLoader=false;
     })
   }
 

@@ -21,8 +21,15 @@ export class PurchasesOrdersComponent implements OnInit {
   }
 
   loadData() {
+    this.showLoader=true;
+
     this.purchaseService.GetPurchasesOrdersData().subscribe(data => {
       this.PurchaseList = data;
+      this.showLoader=false;
+    },(err)=>{
+      this.showLoader=false;
+    },()=>{
+      this.showLoader=false;
     })
   }
 

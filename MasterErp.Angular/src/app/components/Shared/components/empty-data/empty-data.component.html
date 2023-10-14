@@ -1,6 +1,23 @@
 <div *ngIf="showContainer" class="bg-white bigtitle  table-bordered">
-    <div 
-        class="z2-boxstyle1-content hastable loading-mess-stl text-center">
+    <div class="z2-boxstyle1-content hastable loading-mess-stl text-center">
         <span>No Data</span>
+    </div>
+</div>
+
+<div *ngIf="showLoader && !showContainer" class="bg-white bigtitle  table-bordered btm-inertia" >
+    <div class="prcs flex-box  hastable loading-mess-stl ">
+        <div class="prcs-lbl-container">
+            <span class="prcs-lbl" id="prcs_lbl">Loading Data ...</span>
+        </div>
+        <div class="lds-container">
+            <div class="lds-overlay flex-box">
+                <div class="lds-css ng-scope">
+                    <div class="lds-rolling">
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </div>
 </div>

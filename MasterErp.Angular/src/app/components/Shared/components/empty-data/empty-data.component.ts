@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class EmptyDataComponent implements OnInit {
   @Input() showContainer:boolean=false;
+  @Input() showLoader:boolean=false;
   constructor() { }
 
   ngOnInit(): void {

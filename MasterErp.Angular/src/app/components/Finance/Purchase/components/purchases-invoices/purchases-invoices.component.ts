@@ -19,8 +19,14 @@ export class PurchasesInvoicesComponent implements OnInit {
   }
 
   GetPurchaseInvoiceData() {
+    this.showLoader=true;
     this.purchaseService.GetPurchaseInvoiceData().subscribe(data => {
       this.PurchaseList = data;
+      this.showLoader=false;
+    },(err)=>{
+      this.showLoader=false;
+    },()=>{
+      this.showLoader=false;
     })
   }
 

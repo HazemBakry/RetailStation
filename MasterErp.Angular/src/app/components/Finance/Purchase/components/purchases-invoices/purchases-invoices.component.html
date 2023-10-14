@@ -17,8 +17,8 @@
                         <th>Total Value</th>
                         <th>Insert User</th>
                         <th>Insert Date</th>
-                        <th>IsLoked</th>
-                        <th>IsCancelled</th>
+                        <th>Is Locked</th>
+                        <th>Is Cancelled</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -53,9 +53,9 @@
 
             </table>
         </div>
-        <app-empty-data [showContainer]="!PurchaseList?.length&&!showLoader"></app-empty-data>
+        <app-empty-data [showContainer]="!PurchaseList?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
 
     </div>
 </div>
 
-<ngx-loading [show]="showLoader"></ngx-loading>
+<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->
