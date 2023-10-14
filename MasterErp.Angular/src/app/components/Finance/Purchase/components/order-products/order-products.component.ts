@@ -14,7 +14,7 @@ export class OrderProductsComponent implements OnInit , OnChanges {
   @Input() clearAllProducts:boolean=false;
   @Input() showAddNew:boolean=true;
   @Output() selectedProductsList =new EventEmitter<any[]>();
-
+  showLoader:boolean=false;
   productsList:any[]=[];
   SuppliersList: any[] = [];
   BranchesList: any[] = [];
@@ -126,7 +126,7 @@ export class OrderProductsComponent implements OnInit , OnChanges {
     this.selectedItem.unitID = item.unitId;
     this.selectedItem.unitName = item.unitName;
     this.selectedItem.price = item.cost;
-    this.selectedItem.quantity = 0;
+    // this.selectedItem.quantity = 0;
     this.selectedItem.totalValue = item.cost;
   }
   GetSelectedLookup(item: any) {

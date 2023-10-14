@@ -9,8 +9,6 @@ import { ReceiptBooksComponent } from './BasicInformation/receipt-books/receipt-
 import { AccountTreeComponent } from './GeneralAccounts/components/account-tree/account-tree.component';
 import { SharedModule } from '../Shared/shared.module';
 import { CostCenterTreeComponent } from './GeneralAccounts/components/cost-center-tree/cost-center-tree.component';
-import { PurchaseInvoiceComponent } from './Purchase/components/purchase-invoice/purchase-invoice.component';
-import { AddPurchaseComponent } from './Purchase/components/add-purchase/add-purchase.component';
 import { SalesInvoiceComponent } from './Sales/components/sales-invoice/sales-invoice.component';
 import { AddSalesComponent } from './Sales/components/add-sales/add-sales.component';
 import { FormsModule } from '@angular/forms';
@@ -27,6 +25,7 @@ import { PurchasesOrdersComponent } from './Purchase/components/purchases-orders
 import { PurchasesReturnsComponent } from './Purchase/components/purchases-returns/purchases-returns.component';
 import { SuppliersAccountStatementComponent } from './Purchase/components/suppliers-account-statement/suppliers-account-statement.component';
 import { InvoiceSearchSidepanelComponent } from './Purchase/components/invoice-search-sidepanel/invoice-search-sidepanel.component';
+import { InvoiceDetailsSidepanelComponent } from './Purchase/components/invoice-details-sidepanel/invoice-details-sidepanel.component';
 
 
 @NgModule({
@@ -37,8 +36,6 @@ import { InvoiceSearchSidepanelComponent } from './Purchase/components/invoice-s
     ReceiptBooksComponent,
     AccountTreeComponent,
     CostCenterTreeComponent,
-    PurchaseInvoiceComponent,
-    AddPurchaseComponent,
     SalesInvoiceComponent,
     AddSalesComponent,
     NewEntryComponent,
@@ -52,7 +49,8 @@ import { InvoiceSearchSidepanelComponent } from './Purchase/components/invoice-s
     PurchasesOrdersComponent,
     PurchasesReturnsComponent,
     SuppliersAccountStatementComponent,
-    InvoiceSearchSidepanelComponent
+    InvoiceSearchSidepanelComponent,
+    InvoiceDetailsSidepanelComponent
     
   ],
   imports: [

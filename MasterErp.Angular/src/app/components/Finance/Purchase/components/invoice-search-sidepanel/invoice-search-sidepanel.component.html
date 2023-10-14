@@ -43,7 +43,7 @@
         <div class="offcanvas-body pt-0">
 
 
-            <div class="z2-boxstyle1-content hastable">
+            <div class="z2-boxstyle1-content hastable table-responsive table-vp-height small-scroll">
                 <table class="table table-bordered table-responsive table-middle table-hover m-0 bg-white bigtitle">
                     <thead>
                         <tr>
@@ -77,6 +77,8 @@
 
                 </table>
             </div>
+            <app-empty-data [showContainer]="!PurchaseList?.length&&!showLoader"></app-empty-data>
+
         </div>
     </div>
 

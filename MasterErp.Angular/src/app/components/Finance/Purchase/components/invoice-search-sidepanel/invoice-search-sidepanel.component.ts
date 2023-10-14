@@ -45,7 +45,7 @@ export class InvoiceSearchSidepanelComponent implements OnInit {
     }
 
     this.purchaseService.GetInvoicesSearchData(this.SupplierId,this.invoiceNumber,this.invoiceDate).subscribe(data => {
-      console.log("data",data);
+      // console.log("data",data);
       this.PurchaseList=data;
     });
     

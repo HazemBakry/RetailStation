@@ -13,6 +13,7 @@ import { ErpSelectorWithSearchComponent } from './components/selectors/erp-selec
 import { ErpSelectorWithCheckboxComponent } from './components/selectors/erp-selector-with-checkbox/erp-selector-with-checkbox.component';
 import { ErpPaginationComponent } from './components/erp-pagination/erp-pagination.component';
 import { ErpFiltersComponent } from './components/erp-filters/erp-filters.component';
+import { EmptyDataComponent } from './components/empty-data/empty-data.component';
 
 
 
@@ -26,8 +27,10 @@ import { ErpFiltersComponent } from './components/erp-filters/erp-filters.compon
     ErpSelectorWithSearchComponent,
     ErpSelectorWithCheckboxComponent,
     ErpPaginationComponent,
-    ErpFiltersComponent
+    ErpFiltersComponent,
+    EmptyDataComponent
   ],
+  
 
   imports: [
     CommonModule,
@@ -54,7 +57,8 @@ import { ErpFiltersComponent } from './components/erp-filters/erp-filters.compon
     ErpSelectorWithSearchComponent,
     ErpSelectorWithCheckboxComponent,
     ErpPaginationComponent,
-    ErpFiltersComponent
+    ErpFiltersComponent,
+    EmptyDataComponent
   ]
 })
 export class SharedModule { }

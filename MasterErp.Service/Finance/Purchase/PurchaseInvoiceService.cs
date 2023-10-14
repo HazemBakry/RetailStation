@@ -154,14 +154,15 @@ namespace MasterErp.Service.Finance.Purchase
 
             return finalRes;
         }
-        public List<PurchaseInvoiceItemsModel> GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate)
+        public List<PurchaseInvoiceItemsModel> GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate,int InvoiceId=0)
         {
 
 
-            SqlParameter[] param = new SqlParameter[3];
+            SqlParameter[] param = new SqlParameter[4];
             param[0] = new SqlParameter("@SupplierId", SupplierId);
             param[1] = new SqlParameter("@InvoiceNumber", InvoiceNumber);
             param[2] = new SqlParameter("@InvoiceDate", !string.IsNullOrEmpty(InvoiceDate) ? DateTime.Parse(InvoiceDate):DBNull.Value);
+            param[3] = new SqlParameter("@InvoiceId", InvoiceId);
 
             var lst = SQLHelper.SQLQuery<PurchaseInvoiceItemsModel>("[dbo].[SP_GetInvoicesSearchData]", ConnectionString, param);
             
@@ -188,6 +189,15 @@ namespace MasterErp.Service.Finance.Purchase
 
 
             return finalRes;
+        }
+
+        public PurchaseInvoiceItemsModel GetInvoiceDetailsById(int InvoiceId)
+        {
+
+            var result = GetInvoicesSearchData(0, null, null, InvoiceId);
+
+
+            return result.FirstOrDefault();
         }
 
 

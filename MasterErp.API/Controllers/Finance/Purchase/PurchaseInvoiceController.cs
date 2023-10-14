@@ -60,6 +60,16 @@ namespace MasterErp.API.Controllers.Finance.Purchase
             var result = _purchaseInvoiceService.GetInvoicesSearchData(SupplierId,InvoiceNumber,InvoiceDate);
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("GetInvoiceDetailsById")]
+        public IActionResult GetInvoiceDetailsById(int InvoiceId)
+        {
+
+            var result = _purchaseInvoiceService.GetInvoiceDetailsById(InvoiceId);
+            return Ok(result);
+        }
+
         #endregion
 
 

@@ -16,6 +16,7 @@ export class SuppliersAccountStatementComponent implements OnInit {
 
 
   SuppliersList: any[] = [];
+  selectedSupplier: any;
   SupplierId: any;
   SupplierName = 'الموردين';
 
@@ -30,6 +31,7 @@ export class SuppliersAccountStatementComponent implements OnInit {
     });
   }
   GetSelectedSupplier(item: any) {
+    this.selectedSupplier=item;
     this.SupplierId = item.supplierID;
   }
   loadData() {
@@ -44,13 +46,4 @@ export class SuppliersAccountStatementComponent implements OnInit {
 
 
 }
-export interface SupplierStatementModel {
-  supplierStatementId: number | null;
-  supplierId: number | null;
-  isOpeningBalance: boolean | null;
-  date: string | null;
-  description: string;
-  credit: number | null;
-  debit: number | null;
-  balance: number | null;
-}
+

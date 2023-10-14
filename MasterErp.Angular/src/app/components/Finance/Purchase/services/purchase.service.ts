@@ -95,4 +95,9 @@ export class PurchaseService {
       invoiceDate=invoiceDate?invoiceDate:'';
       return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetInvoicesSearchData?SupplierId='+supplierId+'&InvoiceNumber='+invoiceNumber+'&InvoiceDate='+invoiceDate);
     }
+
+    GetInvoiceDetailsById(invoiceId:number) {
+     
+      return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetInvoiceDetailsById?InvoiceId='+invoiceId);
+    }
 }
