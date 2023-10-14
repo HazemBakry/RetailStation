@@ -127,7 +127,7 @@ namespace MasterErp.API.Controllers.Finance.Purchase
 
 
         [HttpGet]
-        [Route("CancelPurchaseInvoice")]
+        [Route("CancelPurchaseReturns")]
         public IActionResult CancelPurchaseReturns(int ReturnsId)
         {
 
