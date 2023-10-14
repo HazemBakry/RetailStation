@@ -45,7 +45,7 @@ namespace MasterErp.Service.Finance.Purchase
             return Context.PurchaseInvoices.ToList();
         }
 
-        public (bool HasError, string InvoiceNumber) SaveNewPurchaseInvoice(PurchaseInvoiceModel model)
+        public CreateModifyReturnsModel SaveNewPurchaseInvoice(PurchaseInvoiceModel model)
         {
             try
             {
@@ -81,12 +81,19 @@ namespace MasterErp.Service.Finance.Purchase
                     Context.PurchaseInvoiceDetails.Add(detail);
                     Context.SaveChanges();
                 }
-
-                return (true, order_tbl.InvoiceNumber);
+                return new CreateModifyReturnsModel
+                {
+                    Status = 1,
+                    Message = "Purchase Order Created"
+                };
             }
             catch (Exception ex)
             {
-                return (false, "0");
+                return new CreateModifyReturnsModel
+                {
+                    Status = 0,
+                    Message = ex.Message
+                };
             }
         }
 

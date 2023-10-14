@@ -15,7 +15,7 @@ namespace MasterErp.Interface.Finance.Purchase
         #region PurchasesInvoices
 
         List<PurchaseInvoice> GetPurchaseInvoiceData();
-        (bool HasError, string InvoiceNumber) SaveNewPurchaseInvoice(PurchaseInvoiceModel model);
+        CreateModifyReturnsModel SaveNewPurchaseInvoice(PurchaseInvoiceModel model);
         bool CancelPurchaseInvoice(int InvoiceId);
         List<PurchaseInvoiceItemsModel>  GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate);
 

@@ -24,7 +24,7 @@ export class CreatePurchasesOrderComponent implements OnInit {
   InvoiceNumber = '-';
   BranchName = 'الفروع';
   SupplierName = 'الموردين';
-  clearAllProducts:boolean=false;
+  clearAllProducts:boolean=false; 
   constructor(private purchaseService: PurchaseService, private modalService: NgbModal, private toaster: ToastrService) { }
 
   ngOnInit(): void {

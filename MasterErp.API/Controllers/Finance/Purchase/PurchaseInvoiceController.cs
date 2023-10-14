@@ -34,9 +34,10 @@ namespace MasterErp.API.Controllers.Finance.Purchase
 
         [HttpPost]
         [Route("SaveNewPurchaseInvoice")]
-        public (bool HasError, string InvoiceNumber) SaveNewPurchaseInvoice(PurchaseInvoiceModel model)
+        public IActionResult SaveNewPurchaseInvoice(PurchaseInvoiceModel model)
         {
-            return _purchaseInvoiceService.SaveNewPurchaseInvoice(model);
+            var result= _purchaseInvoiceService.SaveNewPurchaseInvoice(model);
+            return Ok(result);
         }
 
 
