@@ -33,17 +33,24 @@ const routes: Routes = [
       {path:'suppliersAccountStatement',component:SuppliersAccountStatementComponent},
     ]
   },
+  {
+    path:'generalAccounts',
+    component:PurchasesLayoutComponent,
+    children:[
+      {path:'currency',component:CurrencyComponent},
+      {path:'featured',component:FeaturedComponent},
+      {path:'fiscalYear',component:FiscalYearComponent},
+      {path:'receiptBooks',component:ReceiptBooksComponent},
+      {path:'accountTree',component:AccountTreeComponent},
+      {path:'costCenterTree',component:CostCenterTreeComponent},
+      {path:'salesInvoice',component:SalesInvoiceComponent},
+      {path:'addSales',component:AddSalesComponent},
+      {path:'newEntry',component:NewEntryComponent},
+      {path:'journalDailyList',component:JournalDailyListComponent}
+    ]
+  },
 
-  {path:'currency',component:CurrencyComponent},
-  {path:'featured',component:FeaturedComponent},
-  {path:'fiscalYear',component:FiscalYearComponent},
-  {path:'receiptBooks',component:ReceiptBooksComponent},
-  {path:'accountTree',component:AccountTreeComponent},
-  {path:'costCenterTree',component:CostCenterTreeComponent},
-  {path:'salesInvoice',component:SalesInvoiceComponent},
-  {path:'addSales',component:AddSalesComponent},
-  {path:'newEntry',component:NewEntryComponent},
-  {path:'journalDailyList',component:JournalDailyListComponent}
+
 ];
 
 @NgModule({
