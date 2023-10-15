@@ -92,22 +92,23 @@ export class CreatePurchasesOrderComponent implements OnInit {
       return;
     }
     this.purchaseService.GetItemsBySupplierId(this.SupplierId).subscribe(data => {
-      let Items: any[] = data;
-      this.ItemsBySupplier = Items.map<PurchaseInvoiceDetails>(item => {
-        {
-          return {
-            purchaseInvoiceDetailsID: 0,
-            purchaseInvoiceID: 0,
-            itemID: item.itemID,
-            itemName: item.nameEN,
-            unitID: item.unitID,
-            unitName: item.unitNameEn,
-            price: item.cost,
-            quantity: item.quantity,
-            totalValue: item.cost
-          }
-        };
-      });
+      this.ItemsBySupplier=data;
+      // let Items: any[] = data;
+      // this.ItemsBySupplier = Items.map<PurchaseInvoiceDetails>(item => {
+      //   {
+      //     return {
+      //       purchaseInvoiceDetailsID: 0,
+      //       purchaseInvoiceID: 0,
+      //       itemID: item.itemID,
+      //       itemName: item.nameEN,
+      //       unitID: item.unitID,
+      //       unitName: item.unitNameEn,
+      //       price: item.cost,
+      //       quantity: item.quantity,
+      //       totalValue: item.cost
+      //     }
+      //   };
+      // });
     });
     // this.ItemsBySupplier.forEach(item => {
     //   let itemChecked = this.RawItemsList.find(i => i.itemID == item.itemID);

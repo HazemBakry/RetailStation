@@ -14,6 +14,7 @@ import { ErpSelectorWithCheckboxComponent } from './components/selectors/erp-sel
 import { ErpPaginationComponent } from './components/erp-pagination/erp-pagination.component';
 import { ErpFiltersComponent } from './components/erp-filters/erp-filters.component';
 import { EmptyDataComponent } from './components/empty-data/empty-data.component';
+import { OrderProductsComponent } from '../Finance/Purchase/components/order-products/order-products.component';
 
 
 
@@ -28,7 +29,9 @@ import { EmptyDataComponent } from './components/empty-data/empty-data.component
     ErpSelectorWithCheckboxComponent,
     ErpPaginationComponent,
     ErpFiltersComponent,
-    EmptyDataComponent
+    EmptyDataComponent,
+    OrderProductsComponent
+
   ],
   
 
@@ -58,7 +61,8 @@ import { EmptyDataComponent } from './components/empty-data/empty-data.component
     ErpSelectorWithCheckboxComponent,
     ErpPaginationComponent,
     ErpFiltersComponent,
-    EmptyDataComponent
+    EmptyDataComponent,
+    OrderProductsComponent
   ]
 })
 export class SharedModule { }

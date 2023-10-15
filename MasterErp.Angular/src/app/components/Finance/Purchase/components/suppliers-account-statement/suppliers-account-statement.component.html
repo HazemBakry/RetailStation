@@ -1,4 +1,7 @@
 <div class="card radius-10 border-0 card-shadow mb-3">
+    <div class="card-header bg-white">
+        <h5 class="m-0 fw-bold">حسابات الموردين</h5>
+    </div>
     <div class="card-body bg-light">
         <div class="row mb-3">
             <div class="col-lg-4 offset-lg-1">
@@ -6,8 +9,10 @@
                     (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector>
             </div>
             <div class="col-lg-4 mt-2">
-                <button class="btn btn-info" (click)="loadData()">
-                    بحث
+                <button class="btn btn-primary " (click)="loadData()">
+                    
+                    <i class="fas fa-search"></i>
+                    <span class="ms-2">بحث</span>
                 </button>
             </div>
         </div>

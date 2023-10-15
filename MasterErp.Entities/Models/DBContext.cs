@@ -65,6 +65,10 @@ namespace MasterErp.Entities.Models
 
         public DbSet<PurchaseReturns> PurchaseReturns { get; set; }
         public DbSet<PurchaseReturnsDetails> PurchaseReturnsDetails { get; set; }
+        public DbSet<PurchaseInvoiceType> PurchaseInvoiceType { get; set; }
+        public DbSet<ReceiveOrder> ReceiveOrder { get; set; }
+        public DbSet<ReceiveOrderDetails> ReceiveOrderDetails { get; set; }
+        public DbSet<InventoryDataModel> Inventory { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -161,6 +161,14 @@ namespace MasterErp.API.Controllers.Finance.Purchase
         }
 
         [HttpGet]
+        [Route("GetInvoiceTypesData")]
+        public IActionResult GetInvoiceTypesData()
+        {
+            var results= _purchaseInvoiceService.GetInvoiceTypesData();
+            return Ok(results);
+        }
+
+        [HttpGet]
         [Route("GetBranchesData")]
         public List<Branch> GetBranchesData()
         {
@@ -176,23 +184,26 @@ namespace MasterErp.API.Controllers.Finance.Purchase
 
         [HttpGet]
         [Route("GetItemsData")]
-        public DataTable GetItemsData()
+        public IActionResult GetItemsData()
         {
-            return _purchaseInvoiceService.GetItemsData();
+            var result= _purchaseInvoiceService.GetItemsData();
+            return Ok(result);
         }
 
         [HttpGet]
         [Route("GetItemsByLookupId")]
-        public DataTable GetItemsByLookupId(int LookupId)
+        public IActionResult GetItemsByLookupId(int LookupId)
         {
-            return _purchaseInvoiceService.GetItemsByLookupId(LookupId);
+            var result = _purchaseInvoiceService.GetItemsByLookupId(LookupId);
+            return Ok(result);
         }
 
         [HttpGet]
         [Route("GetItemsBySupplierId")]
-        public DataTable GetItemsBySupplierId(int SupplierId)
+        public IActionResult GetItemsBySupplierId(int SupplierId)
         {
-            return _purchaseInvoiceService.GetItemsBySupplierId(SupplierId);
+            var result = _purchaseInvoiceService.GetItemsBySupplierId(SupplierId);
+            return Ok(result);
         }
 
 

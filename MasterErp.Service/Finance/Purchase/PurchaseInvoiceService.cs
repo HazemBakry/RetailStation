@@ -60,22 +60,23 @@ namespace MasterErp.Service.Finance.Purchase
                 order_tbl.InvoiceDate = DateTime.Now;
                 order_tbl.InvoiceTotalValue = model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0;
                 order_tbl.SupplierID = model.SupplierId;
+                order_tbl.InvoiceTypeID = model.InvoiceTypeID;
                 order_tbl.InvoiceNumber = "po_" + (Context.PurchaseInvoices.Count() > 0 ? Context.PurchaseInvoices.Max(x => x.PurchaseInvoiceID) + 1 : 1);
 
                 Context.PurchaseInvoices.Add(order_tbl);
                 Context.SaveChanges();
 
-                foreach (PurchaseInvoiceDetails item in model.Items)
+                foreach (ItemModel item in model.Items)
                 {
                     var detail = new PurchaseInvoiceDetails
                     {
                         Price = item.Price,
-                        ItemID = item.ItemID,
-                        Notes = item.Notes,
+                        ItemID = item.ItemId,
+                        Notes = model.Notes,
                         Quantity = item.Quantity,
                         TotalValue = item.TotalValue,
                         PurchaseInvoiceID = order_tbl.PurchaseInvoiceID,
-                        UnitID = item.UnitID
+                        UnitID = item.UnitId
                     };
 
                     Context.PurchaseInvoiceDetails.Add(detail);
@@ -147,7 +148,15 @@ namespace MasterErp.Service.Finance.Purchase
                                 PurchaseInvoiceId = inv.PurchaseInvoiceID,
                                 InvoiceNumber = inv.InvoiceNumber,
                                 SupplierId = inv.SupplierID,
-                                Items = details.Where(x=>x.PurchaseInvoiceID==inv.PurchaseInvoiceID).ToList()
+                                Items = details.Where(x=>x.PurchaseInvoiceID==inv.PurchaseInvoiceID).Select(item =>new ItemModel
+                                {
+                                    ItemId=item.ItemID,
+                                    Quantity= item.Quantity,
+                                    //Price= item.Price,
+                                    TotalValue= item.TotalValue,
+                                    UnitId=item.UnitID,
+
+                                }).ToList()
 
                             }).ToList();
 
@@ -235,17 +244,17 @@ namespace MasterErp.Service.Finance.Purchase
                 Context.PurchaseOrder.Add(order_tbl);
                 Context.SaveChanges();
 
-                foreach (PurchaseOrderDetails item in model.Items)
+                foreach (ItemModel item in model.Items)
                 {
                     var detail = new PurchaseOrderDetails
                     {
                         Price = item.Price,
-                        ItemID = item.ItemID,
-                        Notes = item.Notes,
+                        ItemID = item.ItemId,
+                        Notes = model.Notes,
                         Quantity = item.Quantity,
                         TotalValue = item.TotalValue,
                         PurchaseOrderID = order_tbl.PurchaseOrderID,
-                        UnitID = item.UnitID
+                        UnitID = item.UnitId
                     };
 
                     Context.PurchaseOrderDetails.Add(detail);
@@ -392,17 +401,21 @@ namespace MasterErp.Service.Finance.Purchase
         {
             return Context.Branches.ToList();
         }
+        public List<PurchaseInvoiceType> GetInvoiceTypesData()
+        {
+            return Context.PurchaseInvoiceType.ToList();
+        }
 
         public List<ItemLookups> GetItemLookupsData()
         {
             return Context.ItemLookups.ToList();
         }
 
-        public DataTable GetItemsData()
+        public List<ItemModel> GetItemsData()
         {
             var results = (from item in Context.Items
                            join unit in Context.Units on item.UnitID equals unit.UnitId
-                           select new
+                           select new ItemModel
                            {
                                ItemId = item.ItemID,
                                NameEN = item.NameEN,
@@ -410,27 +423,27 @@ namespace MasterErp.Service.Finance.Purchase
                                Cost = item.Cost,
                                UnitId = item.UnitID,
                                UnitName = unit.UnitNameEn
-                           }).ToList().ToDataTable();
+                           }).ToList();
 
             return results;
         }
 
-        public DataTable GetItemsBySupplierId(int SupplierId)
+        public List<ItemModel> GetItemsBySupplierId(int SupplierId)
         {
             SqlParameter[] param = new SqlParameter[1];
             param[0] = new SqlParameter("@SupplierId", SupplierId);
 
-            var dt = SQLHelper.ExecuteDataTable("[dbo].[SP_GetItemsBySupplierId]", ConnectionString, param);
-            return dt;
+            var result = SQLHelper.SQLQuery<ItemModel>("[dbo].[SP_GetItemsBySupplierId]", ConnectionString, param);
+            return result;
         }
 
-        public DataTable GetItemsByLookupId(int LookupId)
+        public List<ItemModel> GetItemsByLookupId(int LookupId)
         {
             SqlParameter[] param = new SqlParameter[1];
             param[0] = new SqlParameter("@LookupId", LookupId);
 
-            var dt = SQLHelper.ExecuteDataTable("[dbo].[SP_GetItemsByLookupId]", ConnectionString, param);
-            return dt;
+            var result = SQLHelper.SQLQuery<ItemModel>("[dbo].[SP_GetItemsByLookupId]", ConnectionString, param);
+            return result;
         }
 
 

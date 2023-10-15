@@ -23,7 +23,12 @@
         </div>
         <div class="row">
             <div class="col-lg-9 offset-lg-1 h-100">
-                <textarea class="form-control" placeholder="Notes *" [(ngModel)]="notes"></textarea>
+                <!-- <textarea class="form-control" placeholder="Notes *" [(ngModel)]="notes"></textarea> -->
+                <div class="form-floating ">
+                    <textarea  [(ngModel)]="notes" class="form-control"
+                      id="floatingInput6" placeholder="any"></textarea>
+                    <label for="floatingInput6">Notes</label>
+                </div>
             </div>
         </div>
     </div>

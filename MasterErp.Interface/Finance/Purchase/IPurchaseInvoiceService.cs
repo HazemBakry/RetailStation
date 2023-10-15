@@ -51,12 +51,13 @@ namespace MasterErp.Interface.Finance.Purchase
 
 
 
+        List<PurchaseInvoiceType> GetInvoiceTypesData();
         List<Supplier> GetSuppliersData();
         List<Branch> GetBranchesData();
         List<ItemLookups> GetItemLookupsData();
-        DataTable GetItemsData();
-        DataTable GetItemsByLookupId(int LookupId);
-        DataTable GetItemsBySupplierId(int SupplierId);
+        List<ItemModel> GetItemsData();
+        List<ItemModel> GetItemsByLookupId(int LookupId);
+        List<ItemModel> GetItemsBySupplierId(int SupplierId);
 
 
     }

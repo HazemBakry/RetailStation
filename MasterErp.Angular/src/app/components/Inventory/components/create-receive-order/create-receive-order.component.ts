@@ -1,35 +1,41 @@
 import { Component, OnInit } from '@angular/core';
-import { PurchaseService } from '../../services/purchase.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { PurchaseInvoiceDetails } from '../../models/PurchaseInvoiceDetailsModel';
-import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
-import { PurchaseReturnsModel } from '../../models/PurchaseReturns';
+import { InventoryService } from '../../services/inventory.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PurchaseService } from 'src/app/components/Finance/Purchase/services/purchase.service';
+import { ReceiveOrderModel } from '../../models/inventory';
+
 @Component({
-  selector: 'app-create-purchases-returns',
-  templateUrl: './create-purchases-returns.component.html',
-  styleUrls: ['./create-purchases-returns.component.css']
+  selector: 'app-create-receive-order',
+  templateUrl: './create-receive-order.component.html',
+  styleUrls: ['./create-receive-order.component.css']
 })
 
-export class CreatePurchasesReturnsComponent implements OnInit {
+
+
+
+export class CreateReceiveOrderComponent implements OnInit {
 
   SuppliersList: any[] = [];
+  InventoryList:any[]=[];
   BranchesList: any[] = [];
   ProductsList: any[] = [];
   notes: any;
   BranchId: any;
   SupplierId: any;
+  InventoryId: any;
   ItemsBySupplier: any[] = [];
-  InvoiceNumber = '';
+  OrderNumber :any;
   BranchName = 'الفروع';
+  InventoryName = 'المخازن';
   SupplierName = 'الموردين';
   clearAllProducts:boolean=false;
-  selectedSupplier:any;
-  selectedInvoice:any;
-  constructor(private purchaseService: PurchaseService, private modalService: NgbModal, private toaster: ToastrService) { }
+
+  selectedOrder:any;
+  constructor(private inventoryService: InventoryService,private purchaseService: PurchaseService, private modalService: NgbModal, private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.GetBranchesData();
+    this.GetInventoryList();
     this.GetSuppliersData();
   }
 
@@ -38,7 +44,11 @@ export class CreatePurchasesReturnsComponent implements OnInit {
       this.SuppliersList = data;
     });
   }
-
+  GetInventoryList() {
+    this.inventoryService.GetInventoryList().subscribe(data => {
+      this.InventoryList = data;
+    });
+  }
   GetBranchesData() {
     this.purchaseService.GetBranchesData().subscribe(data => {
       this.BranchesList = data;
@@ -50,7 +60,10 @@ export class CreatePurchasesReturnsComponent implements OnInit {
   }
   GetSelectedSupplier(item: any) {
     this.SupplierId = item.supplierID;
-    this.selectedSupplier=item;
+
+  }
+  GetSelectedInventory(item: any) {
+    this.InventoryId = item.inventoryId;
 
   }
   GetSelectedProductsList(products:any[])
@@ -59,8 +72,8 @@ export class CreatePurchasesReturnsComponent implements OnInit {
     // console.log(" ~ this.ProductsList:", this.ProductsList);
   }
   SaveNewPurchaseOrder() {
-    if (!this.BranchId) {
-      this.toaster.warning('Please Select Branch');
+    if (!this.InventoryId) {
+      this.toaster.warning('Please Select Inventory');
       return;
     }
 
@@ -68,21 +81,22 @@ export class CreatePurchasesReturnsComponent implements OnInit {
       this.toaster.warning('Please Enter Items');
       return;
     }
-    if (!this.selectedInvoice) {
+    if (!this.selectedOrder) {
       this.toaster.warning('Please Enter Invoice');
       return;
     }
     
-    let model: PurchaseReturnsModel = {} as PurchaseReturnsModel;
-    model.branchId = this.BranchId;
+    let model: ReceiveOrderModel = {} as ReceiveOrderModel;
+    // model.branchId = this.BranchId;
     model.supplierId = this.SupplierId;
-    model.invoiceId=this.selectedInvoice?.invoiceId
-    model.invoiceNumber=this.selectedInvoice?.invoiceNumber
-    model.invoiceTypeId=this.selectedInvoice?.invoiceTypeId
+    model.inventoryId = this.InventoryId;
+    model.purchaseOrderId=this.selectedOrder?.purchaseOrderId;
+    model.orderNumber=this.selectedOrder?.orderNumber;
+    model.totalValue=this.selectedOrder?.totalValue;
     model.notes = this.notes;
     model.items = this.ProductsList;
 
-    this.purchaseService.SaveNewPurchaseReturns(model).subscribe(data => {
+    this.inventoryService.SaveNewReceiveOrder(model).subscribe(data => {
       if (data?.status) {
         this.ClearAllFields();
         // this.InvoiceNumber = data.item2;
@@ -111,7 +125,7 @@ export class CreatePurchasesReturnsComponent implements OnInit {
 
   }
   ClearAllFields() {
-    this.InvoiceNumber = '-';
+    this.OrderNumber ='';
     this.SupplierId = '';
     this.BranchId = '';
     this.BranchId = '';
@@ -121,31 +135,32 @@ export class CreatePurchasesReturnsComponent implements OnInit {
     this.SupplierName = 'الموردين';
     this.ProductsList = [];
     this.clearAllProducts=!this.clearAllProducts;
-    this.selectedInvoice=null;
+    this.selectedOrder=null;
     // this.AddNewItem = {};
     // this.EditQuantityList = [];
   }
 
-  SelectInvoice(inv){
-    this.selectedInvoice=inv;
-    // console.log("inv",inv);
-    this.InvoiceNumber=this.selectedInvoice?.invoiceNumber;
-    this.ItemsBySupplier = this.selectedInvoice?.items?.map(item => {
-      {
-        return {
-          purchaseInvoiceDetailsId: item.purchaseInvoiceDetailsId,
-          purchaseInvoiceId: item.purchaseInvoiceId,
-          itemId: item.itemId,
-          nameEN: item.itemNameEN,
-          unitId: item.unitID,
-          unitName: item.unitNameEn,
-          price: item.price,
-          cost: item.price,
-          quantity: item.quantity,
-          totalValue: item.itemTotalValue
-        }
-      }
-    })
+  SelectOrder(ord){
+    this.selectedOrder=ord;
+    this.OrderNumber=this.selectedOrder?.orderNumber;
+    this.ItemsBySupplier=this.selectedOrder?.items;
+
+
+    // this.ItemsBySupplier = this.selectedOrder?.items?.map(item => {
+    //   {
+    //     return {
+    //       purchaseInvoiceDetailsID: item.purchaseInvoiceDetailsId,
+    //       purchaseInvoiceID: item.purchaseInvoiceId,
+    //       itemID: item.itemId,
+    //       itemName: item.itemNameEN,
+    //       unitID: item.unitID,
+    //       unitName: item.unitNameEn,
+    //       price: item.price,
+    //       quantity: item.quantity,
+    //       totalValue: item.itemTotalValue
+    //     }
+    //   }
+    // })
     // console.log("this.ItemsBySupplier",this.ItemsBySupplier);
     
   }
