@@ -148,6 +148,7 @@ export class NewEntryComponent implements OnInit {
     } else {
       this.GetAccountsByTemplateId();
     }
+    
   }
 
   InputFocus() {
@@ -212,7 +213,10 @@ export class NewEntryComponent implements OnInit {
       this.toaster.warning('Please Enter Accounts First');
       return;
     }
-
+    if (!this.validateData()) {
+      
+      return;
+    }
     let month = ("0" + ((new Date(this.EntryDate)).getMonth() + 1)).slice(-2);
     let year = (new Date(this.EntryDate)).getFullYear();
 
@@ -236,7 +240,7 @@ export class NewEntryComponent implements OnInit {
     model.docNumber = this.DocNumber;
     model.entryNumber = this.EntryNumber;
     model.entryDate = this.EntryDate;
-    model.descirption = '';
+    // model.descirption = '';
     model.notes = this.Notes;
     model.month = Number(month);
     model.year = year;
@@ -244,15 +248,45 @@ export class NewEntryComponent implements OnInit {
     model.journalEntryAccounts = journalEntryAccounts;
 
     this.generalService.SaveNewJouranlEntry(model).subscribe(data => {
-      if (data.item1) {
-        this.ClearAllFields();
-        this.toaster.success(data.item2);
+      if (data?.status) {
+        // this.ClearAllFields();
+        this.EntryNumber = data.number;
+        this.toaster.success(data?.message);
       } else {
-        this.toaster.error(data.item2);
+        this.toaster.error(data?.message);
       }
+      // if (data.item1) {
+      //   this.ClearAllFields();
+      //   this.toaster.success(data.item2);
+      // } else {
+      //   this.toaster.error(data.item2);
+      // }
     });
   }
+  validateData():boolean{
+    
+    if (!this.DocNumber||!this.EntryDate||!this.JurnalTypeId) {
+      this.toaster.warning('Please Fill Fields');
+      return false;
+      
+    }
+    if (this.AccountsListTable.some(x=>!x.creditor&&!x.debtor)) {
+      this.toaster.warning('Please Fill Debtor or Creditor filed for each row');
+      return false;
+    }
+    if (this.AccountsListTable.some(x=>x.isDisToCostCenter&&!x.costCenter)) {
+      this.toaster.warning('Please Select Cost Center');
 
+      return false;
+    }
+    if (this.Defference!=0) {
+      this.toaster.warning('Difference Between Debtor and Creditor Must Equals 0');
+      return false;
+    }
+
+    return true;
+
+  }
   ClearAllFields() {
     this.TemplateId = '';
     this.SelectedAccounts = [];

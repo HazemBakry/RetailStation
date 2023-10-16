@@ -66,9 +66,10 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("SaveNewJouranlEntry")]
-        public (bool result, string message) SaveNewJouranlEntry(JournalEntryModel model)
+        public IActionResult SaveNewJouranlEntry(JournalEntryModel model)
         {
-            return EntryService.SaveNewJouranlEntry(model);
+            var results= EntryService.SaveNewJouranlEntry(model);
+            return Ok(results) ;
         }
 
         [HttpPost]
