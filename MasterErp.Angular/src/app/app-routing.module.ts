@@ -8,7 +8,8 @@ const routes: Routes = [
   { path: 'login', component: ErpLoginComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'Hr', loadChildren: () => import('./components/HR/hr.module').then(erp => erp.HrModule) },
-  { path: 'Finance', loadChildren: () => import('./components/Finance/finance.module').then(erp => erp.FinanceModule) }
+  { path: 'Finance', loadChildren: () => import('./components/Finance/finance.module').then(erp => erp.FinanceModule) },
+  { path: 'Inventory', loadChildren: () => import('./components/Inventory/inventory.module').then(erp => erp.InventoryModule) }
 ];
 
 @NgModule({

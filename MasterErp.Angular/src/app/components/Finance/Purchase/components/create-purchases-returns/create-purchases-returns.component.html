@@ -6,12 +6,12 @@
     </div>
     <div class="card-body bg-light">
         <div class="row mb-3">
-            <div class="col-lg-3 offset-lg-1">
+            <div class="col-lg-3">
                 <app-erp-selector [SelectorName]="BranchName" [ItemsList]="BranchesList"
                     (ItemObj)="GetSelectedBranch($event)"></app-erp-selector>
             </div>
 
-            <div class="col-lg-3 offset-lg-1">
+            <div class="col-lg-3">
                 <app-erp-selector [SelectorName]="SupplierName" [ItemsList]="SuppliersList"
                     (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector>
             </div>
@@ -23,12 +23,19 @@
                   </div>
             </div>
             <div class="col-lg-2 mt-2">
-                <app-invoice-search-sidepanel (selectedInvoice)="SelectInvoice($event)"></app-invoice-search-sidepanel>
+                <app-invoice-search-sidepanel [SupplierId]="SupplierId" [supplierName]="selectedSupplier?.nameAR" (selectedInvoice)="SelectInvoice($event)" ></app-invoice-search-sidepanel>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-9 offset-lg-1 h-100">
-                <textarea class="form-control" placeholder="Notes *" [(ngModel)]="notes"></textarea>
+            <div class="col-lg-9 h-100">
+                <!-- <textarea class="form-control" placeholder="Notes *" [(ngModel)]="notes"></textarea> -->
+            
+            
+                <div class="form-floating ">
+                    <textarea  [(ngModel)]="notes" class="form-control"
+                      id="floatingInput6" placeholder="any"></textarea>
+                    <label for="floatingInput6">Notes</label>
+                </div>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
@@ -10,6 +10,8 @@ import { ToastrService } from 'ngx-toastr';
   encapsulation: ViewEncapsulation.None,
 })
 export class InvoiceSearchSidepanelComponent implements OnInit {
+  @Input() SupplierId: any;
+  @Input() supplierName: string='';
 
   @Output() selectedInvoice=new EventEmitter<any>()
   PurchaseList: any[] = [];
@@ -17,7 +19,6 @@ export class InvoiceSearchSidepanelComponent implements OnInit {
 
 
   SuppliersList: any[] = [];
-  SupplierId: any;
   SupplierName = 'الموردين';
   invoiceNumber:string = '';
   invoiceDate:string ;
@@ -26,7 +27,7 @@ export class InvoiceSearchSidepanelComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.GetSuppliersData();
+    // this.GetSuppliersData();
   }
   GetSuppliersData() {
     this.purchaseService.GetSuppliersData().subscribe(data => {

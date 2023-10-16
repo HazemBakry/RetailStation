@@ -24,7 +24,7 @@ export class CreatePurchasesReturnsComponent implements OnInit {
   BranchName = 'الفروع';
   SupplierName = 'الموردين';
   clearAllProducts:boolean=false;
-
+  selectedSupplier:any;
   selectedInvoice:any;
   constructor(private purchaseService: PurchaseService, private modalService: NgbModal, private toaster: ToastrService) { }
 
@@ -50,6 +50,7 @@ export class CreatePurchasesReturnsComponent implements OnInit {
   }
   GetSelectedSupplier(item: any) {
     this.SupplierId = item.supplierID;
+    this.selectedSupplier=item;
 
   }
   GetSelectedProductsList(products:any[])
@@ -132,19 +133,20 @@ export class CreatePurchasesReturnsComponent implements OnInit {
     this.ItemsBySupplier = this.selectedInvoice?.items?.map(item => {
       {
         return {
-          purchaseInvoiceDetailsID: item.purchaseInvoiceDetailsId,
-          purchaseInvoiceID: item.purchaseInvoiceId,
-          itemID: item.itemId,
-          itemName: item.itemNameEN,
-          unitID: item.unitID,
+          purchaseInvoiceDetailsId: item.purchaseInvoiceDetailsId,
+          purchaseInvoiceId: item.purchaseInvoiceId,
+          itemId: item.itemId,
+          nameEN: item.itemNameEN,
+          unitId: item.unitID,
           unitName: item.unitNameEn,
           price: item.price,
+          cost: item.price,
           quantity: item.quantity,
           totalValue: item.itemTotalValue
         }
       }
     })
-    console.log("this.ItemsBySupplier",this.ItemsBySupplier);
+    // console.log("this.ItemsBySupplier",this.ItemsBySupplier);
     
   }
 }

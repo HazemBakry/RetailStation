@@ -1,3 +1,5 @@
+import { ItemModel } from "src/app/Models/ItemModel";
+
 export interface PurchaseOrderModel{
 
     orderNumber: number;
@@ -8,7 +10,7 @@ export interface PurchaseOrderModel{
     totalValue: number;
     notes: string | null;
     userId: string | null;
-    items: PurchaseOrderDetails[];
+    items: ItemModel[];
 }
 
 export interface PurchaseOrderDetails {

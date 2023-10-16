@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseInvoiceDetails } from '../../models/PurchaseInvoiceDetailsModel';
 import { ToastrService } from 'ngx-toastr';
 import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
+import { ItemModel } from 'src/app/Models/ItemModel';
 
 @Component({
   selector: 'app-create-purchases-invoice',
@@ -13,16 +14,19 @@ import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
 
 export class CreatePurchasesInvoiceComponent implements OnInit {
   SuppliersList: any[] = [];
+  InvoiceTypesList: any[] = [];
   BranchesList: any[] = [];
-  ProductsList: any[] = [];
-  ItemsBySupplier: any[] = [];
+  ProductsList: ItemModel[] = [];
+  ItemsBySupplier: ItemModel[] = [];
   activeTab = 'Item';
   notes: any;
   BranchId: any;
   SupplierId: any;
+  InvoiceTypeId: any;
   InvoiceNumber = '-';
   BranchName = 'الفروع';
   SupplierName = 'الموردين';
+  TypeName = 'نوع الفاتورة';
   clearAllProducts:boolean=false;
 
 
@@ -32,6 +36,8 @@ export class CreatePurchasesInvoiceComponent implements OnInit {
   ngOnInit(): void {
     this.GetBranchesData();
     this.GetSuppliersData();
+    this.GetInvoiceTypesData();
+    
   }
 
   GetSuppliersData() {
@@ -39,7 +45,11 @@ export class CreatePurchasesInvoiceComponent implements OnInit {
       this.SuppliersList = data;
     });
   }
-
+  GetInvoiceTypesData() {
+    this.purchaseService.GetInvoiceTypesData().subscribe(data => {
+      this.InvoiceTypesList = data;
+    });
+  }
   GetBranchesData() {
     this.purchaseService.GetBranchesData().subscribe(data => {
       this.BranchesList = data;
@@ -51,6 +61,11 @@ export class CreatePurchasesInvoiceComponent implements OnInit {
   }
   GetSelectedSupplier(item: any) {
     this.SupplierId = item.supplierID;
+
+  }
+
+  GetSelectedInvoiceType(item: any) {
+    this.InvoiceTypeId = item.invoiceTypeId;
 
   }
   GetSelectedProductsList(products:any[])
@@ -65,22 +80,23 @@ export class CreatePurchasesInvoiceComponent implements OnInit {
       return;
     }
     this.purchaseService.GetItemsBySupplierId(this.SupplierId).subscribe(data => {
-      let Items: any[] = data;
-      this.ItemsBySupplier = Items.map<PurchaseInvoiceDetails>(item => {
-        {
-          return {
-            purchaseInvoiceDetailsID: 0,
-            purchaseInvoiceID: 0,
-            itemID: item.itemID,
-            itemName: item.nameEN,
-            unitID: item.unitID,
-            unitName: item.unitNameEn,
-            price: item.cost,
-            quantity: item.quantity,
-            totalValue: item.cost
-          }
-        };
-      });
+      let Items: ItemModel[] = data;
+      this.ItemsBySupplier=Items;
+      // this.ItemsBySupplier = Items.map<PurchaseInvoiceDetails>(item => {
+      //   {
+      //     return {
+      //       purchaseInvoiceDetailsID: 0,
+      //       purchaseInvoiceID: 0,
+      //       itemID: item.itemID,
+      //       itemName: item.nameEN,
+      //       unitID: item.unitID,
+      //       unitName: item.unitNameEn,
+      //       price: item.cost,
+      //       quantity: item.quantity,
+      //       totalValue: item.cost
+      //     }
+      //   };
+      // });
     });
     // this.ItemsBySupplier.forEach(item => {
     //   let itemChecked = this.RawItemsList.find(i => i.itemID == item.itemID);
@@ -113,17 +129,26 @@ export class CreatePurchasesInvoiceComponent implements OnInit {
       this.toaster.warning('Please Select Branch');
       return;
     }
-
+    if (!this.SupplierId) {
+      this.toaster.warning('Please Select Supplier');
+      return;
+    }
+    if (!this.InvoiceTypeId) {
+      this.toaster.warning('Please Select Invoice Type');
+      return;
+    }
     if (this.ProductsList.length == 0) {
       this.toaster.warning('Please Enter Items');
       return;
     }
+
 
     let model: PurchaseInvoiceModel = {} as PurchaseInvoiceModel;
 
     model.purchaseInvoiceId = 0;
     model.branchId = this.BranchId;
     model.supplierId = this.SupplierId;
+    model.InvoiceTypeId = this.InvoiceTypeId;
     model.userId = 0;
     model.notes = this.notes;
     model.items = this.ProductsList;

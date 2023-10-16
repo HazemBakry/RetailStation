@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { PurchaseInvoiceModel } from '../models/PurchaseInvoiceModel';
 import { PurchaseOrderModel } from '../models/PurchaseOrder';
 import { PurchaseReturnsModel } from '../models/PurchaseReturns';
+import { ItemModel } from 'src/app/Models/ItemModel';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,9 @@ export class PurchaseService {
   GetSuppliersData() {
     return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetSuppliersData');
   }
-
+  GetInvoiceTypesData() {
+    return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetInvoiceTypesData');
+  }
   GetBranchesData() {
     return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetBranchesData');
   }
@@ -33,15 +36,15 @@ export class PurchaseService {
   }
 
   GetItemsData() {
-    return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetItemsData');
+    return this.http.get<ItemModel[]>(this.URL + 'PurchaseInvoice/GetItemsData');
   }
 
   GetItemsByLookupId(LookupId: number) {
-    return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetItemsByLookupId?LookupId=' + LookupId);
+    return this.http.get<ItemModel[]>(this.URL + 'PurchaseInvoice/GetItemsByLookupId?LookupId=' + LookupId);
   }
 
   GetItemsBySupplierId(SupplierId: number) {
-    return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetItemsBySupplierId?SupplierId=' + SupplierId);
+    return this.http.get<ItemModel[]>(this.URL + 'PurchaseInvoice/GetItemsBySupplierId?SupplierId=' + SupplierId);
   }
 
   SaveNewPurchaseInvoice(model: PurchaseInvoiceModel) {

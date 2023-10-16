@@ -1,6 +1,6 @@
 <button class="btn btn-primary" (click)="OpenSidePanel(InvoiceSearchSidepanel)">
-    <i class="fas fa-upload"></i>
-    <span class="ms-2">تحميل فاتورة</span>
+    <i class="fas fa-search"></i>
+    <span class="ms-2">بحث عن فاتورة</span>
 </button>
 <ng-template #InvoiceSearchSidepanel let-offcanvas >
     <div class="m-1">
@@ -14,12 +14,17 @@
                 <i class="fas fa-times"></i>
             </button>
         </div>
+        <div class="offcanvas-sub-header m-3" >
+            <div>
+                <h5 class="m-0"> اسم المورد : {{supplierName}}</h5>
 
+            </div>
+        </div>
         <div class="offcanvas-body m-2 row">
-            <div class="col-lg-3">
+            <!-- <div class="col-lg-3">
                 <app-erp-selector [SelectorName]="SupplierName" [ItemsList]="SuppliersList"
                     (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector>
-            </div>
+            </div> -->
             <div class="col-lg-3">
                 <div class="form-floating mb-3">
                     <input type="text" [(ngModel)]="invoiceNumber" class="form-control"
@@ -32,7 +37,7 @@
                     <input type="date" [(ngModel)]="invoiceDate" class="form-control"
                       id="floatingInput6" placeholder="any">
                     <label for="floatingInput6">تاريخ الاصدار</label>
-                  </div>
+                </div>
             </div>
             <div class="col-lg-3">
                 <button (click)="loadData()" class="btn btn-primary mt-2">بحث</button>
@@ -68,7 +73,7 @@
                                 <div class="w-100 d-flex align-items-center justify-content-center">
                                     <button (click)="SelectInvoice(item)" class="btn btn-secondary">
                                         <i class="far fa-eye"></i>
-                                        <span class="ms-2">تفاصيل</span>
+                                        <span class="ms-2">تحميل</span>
                                     </button>
                                 </div>
                             </td>

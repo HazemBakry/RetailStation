@@ -11,7 +11,7 @@ namespace MasterErp.Entities.Models
     {
         [Key]
         public int JournalEntryID { get; set; }
-        public string EntryNumber { get; set; }
+        public int EntryNumber { get; set; }
         public string DocNumber { get; set; }
         public DateTime EntryDate { get; set; }
         public string Description { get; set; }

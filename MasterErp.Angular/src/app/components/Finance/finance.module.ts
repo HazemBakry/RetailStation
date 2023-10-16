@@ -20,7 +20,6 @@ import { CreatePurchasesOrderComponent } from './Purchase/components/create-purc
 import { CreatePurchasesReturnsComponent } from './Purchase/components/create-purchases-returns/create-purchases-returns.component';
 import { PurchasesInvoicesComponent } from './Purchase/components/purchases-invoices/purchases-invoices.component';
 import { PurchasesLayoutComponent } from './Purchase/purchases-layout.component';
-import { OrderProductsComponent } from './Purchase/components/order-products/order-products.component';
 import { PurchasesOrdersComponent } from './Purchase/components/purchases-orders/purchases-orders.component';
 import { PurchasesReturnsComponent } from './Purchase/components/purchases-returns/purchases-returns.component';
 import { SuppliersAccountStatementComponent } from './Purchase/components/suppliers-account-statement/suppliers-account-statement.component';
@@ -45,7 +44,6 @@ import { InvoiceDetailsSidepanelComponent } from './Purchase/components/invoice-
     CreatePurchasesOrderComponent,
     CreatePurchasesReturnsComponent,
     PurchasesInvoicesComponent,
-    OrderProductsComponent,
     PurchasesOrdersComponent,
     PurchasesReturnsComponent,
     SuppliersAccountStatementComponent,

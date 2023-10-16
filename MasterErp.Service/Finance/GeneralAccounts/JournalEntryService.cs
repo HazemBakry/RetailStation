@@ -109,7 +109,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             return EntryModel;
         }
 
-        public (bool result, string message) SaveNewJouranlEntry(JournalEntryModel model)
+        public CreateModifyReturnsModel SaveNewJouranlEntry(JournalEntryModel model)
         {
             //if (Check_Entered_Data())
             //{
@@ -128,7 +128,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 JournalEntry Entry_tbl = new JournalEntry
                 {
                     //EntryNumber = Context.JournalEntries.Where(x => x.EntryDate.Month == month).DefaultIfEmpty(0).Max(x => x.EntryNumber) + 1,
-                    EntryNumber = "1",// Context.JournalEntries.Where(x => x.EntryDate.Month == model.Month).Select(x => x.EntryNumber).DefaultIfEmpty("0").Max() + 1,
+                    EntryNumber = 1,// Context.JournalEntries.Where(x => x.EntryDate.Month == model.Month).Select(x => x.EntryNumber).DefaultIfEmpty("0").Max() + 1,
                     Description = model.Descirption,
                     DocNumber = model.DocNumber,
                     Notes = model.Notes,
@@ -148,7 +148,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
                 foreach (JournalEntryAccount row in model.JournalEntryAccounts)
                 {
-                    if (row.Debit != 0 && row.Credit != 0)
+                    if (row.Debit != 0 || row.Credit != 0)
                     {
                         JournalEntryDetail JournalDetials = new JournalEntryDetail
                         {
@@ -167,12 +167,22 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                         Context.SaveChanges();
                     }
                 }
+                return new CreateModifyReturnsModel
+                {
+                    Status = 1,
+                    Message = "New Entry Saved Successfully",
+                    Number= Entry_tbl.EntryNumber.ToString()
 
-                return (true, "New Entry Saved Successfully");
+                };
             }
             catch (Exception Ex)
             {
-                return (false, "Error in Saving New Entry");
+                return new CreateModifyReturnsModel
+                {
+                    Status = 0,
+                    //Message = Ex.Message,
+                    Message = "Error in Saving New Entry"
+                };
             }
         }
 
