@@ -20,4 +20,7 @@ export interface JournalEntryAccount {
     costPercent?: number | null;
     currencyID?: number | null;
     description?: string;
+    accountNumber?: string;
+    accountName?: string;
+    notes?: string;
 }

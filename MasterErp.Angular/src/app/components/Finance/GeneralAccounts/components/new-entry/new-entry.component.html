@@ -45,14 +45,20 @@
         </div>
     </div>
     <div class="card-body ">
-        <button class="btn btn-primary btn-lg fs-6 me-2" (click)="SaveNewAccount()">
+        <button  class="btn btn-primary btn-lg fs-6 me-2" (click)="SaveNewAccount()">
             <i class="fas fa-check-circle"></i>
             <span class="ms-2">حفظ</span>
         </button>
+        <!-- <button *ngIf="EntryNumber && entryModel" class="btn btn-secondary btn-lg fs-6 me-2" (click)="Print()">
+            <i class="fas fa-print"></i>
+            <span class="ms-2">Print</span>
+        </button> -->
         <button class="btn btn-warning btn-lg fs-6 me-2" (click)="ClearAllFields()">
             <i class="fas fa-times"></i>
             <span class="ms-2">مسح</span>
         </button>
+
+        
     </div>
 </div>
 
