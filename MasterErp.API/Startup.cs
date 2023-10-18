@@ -5,12 +5,14 @@ using MasterErp.Interface.Finance.Purchase;
 using MasterErp.Interface.Finance.Sales;
 using MasterErp.Interface.HR;
 using MasterErp.Interface.Inventory;
+using MasterErp.Interface.Shared;
 using MasterErp.Service.Common;
 using MasterErp.Service.Finance.GeneralAccounts;
 using MasterErp.Service.Finance.Purchase;
 using MasterErp.Service.Finance.Sales;
 using MasterErp.Service.HR;
 using MasterErp.Service.Inventory;
+using MasterErp.Service.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -68,6 +70,8 @@ namespace MasterErp.API
             services.AddScoped<ISalesInvoiceService, SalesInvoiceService>();
             services.AddScoped<IJournalEntryService, JournalEntryService>();
             services.AddScoped<IInventoryService, InventoryService>();
+            services.AddScoped<ISharedService, SharedService>();
+            services.AddScoped<IPaymentService, PaymentService>();
             services
                 .AddMvc(options =>
                 {

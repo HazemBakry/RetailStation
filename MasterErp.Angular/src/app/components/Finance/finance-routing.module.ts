@@ -18,9 +18,14 @@ import { PurchasesLayoutComponent } from './Purchase/purchases-layout.component'
 import { PurchasesOrdersComponent } from './Purchase/components/purchases-orders/purchases-orders.component';
 import { PurchasesReturnsComponent } from './Purchase/components/purchases-returns/purchases-returns.component';
 import { SuppliersAccountStatementComponent } from './Purchase/components/suppliers-account-statement/suppliers-account-statement.component';
+import { CreatePaymentReceiptComponent } from './GeneralAccounts/components/create-payment-receipt/create-payment-receipt.component';
+import { CreateReceiveReceiptComponent } from './GeneralAccounts/components/create-receive-receipt/create-receive-receipt.component';
 
 const routes: Routes = [
+  // {path:'newReceiveReceipt',component:CashReceiveReceiptComponent},
+
   {
+    
     path:'purchases',
     component:PurchasesLayoutComponent,
     children:[
@@ -31,12 +36,14 @@ const routes: Routes = [
       {path:'newPurchasesOrder',component:CreatePurchasesOrderComponent},
       {path:'newPurchasesReturns',component:CreatePurchasesReturnsComponent},
       {path:'suppliersAccountStatement',component:SuppliersAccountStatementComponent},
+
     ]
   },
   {
     path:'generalAccounts',
     component:PurchasesLayoutComponent,
     children:[
+
       {path:'currency',component:CurrencyComponent},
       {path:'featured',component:FeaturedComponent},
       {path:'fiscalYear',component:FiscalYearComponent},
@@ -46,7 +53,10 @@ const routes: Routes = [
       {path:'salesInvoice',component:SalesInvoiceComponent},
       {path:'addSales',component:AddSalesComponent},
       {path:'newEntry',component:NewEntryComponent},
-      {path:'journalDailyList',component:JournalDailyListComponent}
+      {path:'journalDailyList',component:JournalDailyListComponent},
+      {path:'createPaymentReceipt',component:CreatePaymentReceiptComponent},
+      {path:'createReceiveReceipt',component:CreateReceiveReceiptComponent},
+
     ]
   },
 
