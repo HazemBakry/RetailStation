@@ -3,4 +3,131 @@
         <h5 class="m-0 fw-bold">سندات الصرف</h5>
     </div>
     <div class="card-body bg-light">
+        <div class="row ">
+            <div class="col-lg-3 offset-lg-1 mb-3">
+                <div class="form-floating">
+                    <input type="text" disabled [(ngModel)]="receiveReceiptModel.receiptNumber"
+                        class="form-control input-size" id="floatingInput2" placeholder="any" autocomplete="off">
+                    <label for="floatingInput2"> رقم الايصال</label>
+                </div>
             </div>
+            <div class="col-lg-3 offset-lg-1 mb-3">
+                <div class="form-floating">
+                    <input type="text" [(ngModel)]="receiveReceiptModel.benefitPerson" class="form-control input-size"
+                        id="floatingInput2" placeholder="any" autocomplete="off">
+                    <label for="floatingInput2"> اسم المستفيد</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 offset-lg-1 mb-3">
+                <app-erp-selector-with-search #Selector [SelectorName]="'طريقه الدفع'" [ItemsList]="paymentTypeList"
+                    [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedReceiveType($event)">
+                </app-erp-selector-with-search>
+            </div>
+            <div class="col-lg-3 offset-lg-1 mb-3">
+
+                <app-erp-selector-with-search #Selector [SelectorName]="'دفتر ايصال'" [ItemsList]="receiptLedgerList"
+                    [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedReceiptLedger($event)">
+                </app-erp-selector-with-search>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 offset-lg-1 mb-3">
+                <app-erp-selector-with-search #Selector [SelectorName]="'نوع جهةالتعامل'" [ItemsList]="agencyTypeList"
+                    [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAgencyType($event)">
+                </app-erp-selector-with-search>
+
+            </div>
+            <div class="col-lg-3 offset-lg-1 mb-3">
+                <app-erp-selector-with-search #Selector [SelectorName]="'جهةالتعامل'" [ItemsList]="agencyList"
+                    [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAgency($event)">
+                </app-erp-selector-with-search>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 offset-lg-1 mb-3">
+                <app-erp-selector-with-search #Selector [SelectorName]="'حساب الواجهه'" [ItemsList]="accountList"
+                    [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAccount($event)">
+                </app-erp-selector-with-search>
+
+            </div>
+            <div class="col-lg-3 offset-lg-1 mb-3" *ngIf="receiveReceiptModel?.receiveTypeId==3">
+                <div class="form-floating">
+                    <input type="text" [(ngModel)]="receiveReceiptModel.chequeNumber" class="form-control input-size"
+                        id="floatingInput2" placeholder="any" autocomplete="off">
+                    <label for="floatingInput2"> رقم الشيك</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-3 offset-lg-1 mb-3">
+
+                <div class="form-floating">
+                    <input type="date" class="form-control input-size" [(ngModel)]="receiveReceiptModel.releaseDate"
+                        id="floatingInput2" placeholder="any" autocomplete="off">
+                    <label for="floatingInput2">تاريخ </label>
+                </div>
+            </div>
+            <div class="col-lg-3 offset-lg-1 mb-3">
+                <div class="form-floating">
+                    <input type="text" [(ngModel)]="receiveReceiptModel.docNumber" class="form-control input-size"
+                        id="floatingInput2" placeholder="any" autocomplete="off">
+                    <label for="floatingInput2"> الرقم الدفتري</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-lg-6 offset-lg-1 mb-3">
+                <div class="form-floating">
+                    <input type="number" [(ngModel)]="receiveReceiptModel.moneyAmount" class="form-control input-size"
+                        id="floatingInput2" placeholder="any" autocomplete="off">
+                    <label for="floatingInput2"> المبلغ</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-lg-9 offset-lg-1 h-100">
+                <div class="form-floating">
+                    <textarea type="text" [(ngModel)]="receiveReceiptModel.notes" class="form-control "
+                        id="floatingInput2" placeholder="any" autocomplete="off">
+                    </textarea>
+                    <label for="floatingInput2">البيان</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="row">
+        <div class="col-lg-3 offset-lg-1 mb-3">
+            <div class="justify-content-center">
+
+                <span class="m-2 "> تحويل داخلي</span>
+                <input class="mt-5" type="checkbox" class="big-checkbox">
+            </div>
+
+
+        </div>
+    </div> -->
+        <div class="card-body ">
+            <div class="offset-lg-1">
+
+                <button class="btn btn-primary btn-lg fs-6 me-2" (click)="SaveNewReceiveReceipt()">
+                    <i class="fas fa-check-circle"></i>
+                    <span class="ms-2">حفظ</span>
+                </button>
+
+                <button class="btn btn-warning btn-lg fs-6 me-2" (click)="ClearAllFields()">
+                    <i class="fas fa-times"></i>
+                    <span class="ms-2">مسح</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>

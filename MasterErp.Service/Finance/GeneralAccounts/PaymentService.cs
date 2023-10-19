@@ -68,7 +68,8 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 return new CreateModifyReturnsModel
                 {
                     Status = 1,
-                    Message = "Payment Receipt Created"
+                    Message = "Payment Receipt Created",
+                    Id= tbl.ReceiptNumber
                 };
             }
             catch (Exception ex)
@@ -90,34 +91,35 @@ namespace MasterErp.Service.Finance.GeneralAccounts
         {
             try
             {
-                //ReceiveReceipt tbl = new ReceiveReceipt();
+                ReceiveReceipt tbl = new ReceiveReceipt();
 
-                //tbl.ReceiptNumber = (Context.ReceiveReceipt.Count() > 0 ? Context.ReceiveReceipt.Max(x => x.ReceiptNumber) + 1 : 1);
-                //tbl.ReceiptLedgerId = Model.ReceiptLedgerId;
-                //tbl.re = Model.PaymentTypeId;
-                //tbl.ReleaseDate = Model.ReleaseDate;
-                //tbl.BenefitPerson = Model.BenefitPerson;
-                //tbl.Notes = Model.Notes;
-                //tbl.ChequeNumber = Model.ChequeNumber;
-                //tbl.MoneyAmount = Model.MoneyAmount;
-                //tbl.DocNumber = Model.DocNumber;
-                //tbl.AgencyTypeId = Model.AgencyTypeId;
-                //tbl.AgencyId = Model.AgencyId;
-                //tbl.AccountId = Model.AccountId;
-                //tbl.InsertDate = DateTime.Now;
-                //tbl.InsertUser = "";
-                //tbl.IsCancelled = false;
-                //tbl.IsLocked = false;
+                tbl.ReceiptNumber = (Context.ReceiveReceipt.Count() > 0 ? Context.ReceiveReceipt.Max(x => x.ReceiptNumber) + 1 : 1);
+                tbl.ReceiptLedgerId = Model.ReceiptLedgerId;
+                tbl.ReceiveTypeId = Model.ReceiveTypeId;
+                tbl.ReleaseDate = Model.ReleaseDate;
+                tbl.BenefitPerson = Model.BenefitPerson;
+                tbl.Notes = Model.Notes;
+                tbl.ChequeNumber = Model.ChequeNumber;
+                tbl.MoneyAmount = Model.MoneyAmount;
+                tbl.DocNumber = Model.DocNumber;
+                tbl.AgencyTypeId = Model.AgencyTypeId;
+                tbl.AgencyId = Model.AgencyId;
+                tbl.AccountId = Model.AccountId;
+                tbl.InsertDate = DateTime.Now;
+                tbl.InsertUser = "";
+                tbl.IsCancelled = false;
+                tbl.IsLocked = false;
 
 
-                //Context.ReceiveReceipt.Add(tbl);
-                //Context.SaveChanges();
+                Context.ReceiveReceipt.Add(tbl);
+                Context.SaveChanges();
 
 
                 return new CreateModifyReturnsModel
                 {
                     Status = 1,
-                    Message = "Receive Receipt Created"
+                    Message = "Payment Receipt Created",
+                    Id = tbl.ReceiptNumber
                 };
             }
             catch (Exception ex)

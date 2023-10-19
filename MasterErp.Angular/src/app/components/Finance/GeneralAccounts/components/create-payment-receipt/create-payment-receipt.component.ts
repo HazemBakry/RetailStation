@@ -11,38 +11,10 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./create-payment-receipt.component.css']
 })
 export class CreatePaymentReceiptComponent implements OnInit {
+  agencyTypeList:any[]=[];
+  paymentTypeList:any[]=[];
 
 
-  agencyTypeList:any[]=[
-    // {
-    //   id:1,
-    //   nameAR:'عميل',
-    //   nameEN:'Customer'
-    // },
-    {
-      id:2,
-      nameAR:'مورد',
-      nameEN:'Supplier'
-    },
-    {
-      id:3,
-      nameAR:'حساب',
-      nameEN:'Account'
-    }
-  ]
-
-  paymentTypeList:any[]=[
-    {
-      id:3,
-      nameAR:'شيكات',
-      nameEN:'Cheque'
-    },
-    {
-      id:4,
-      nameAR:'نقدي',
-      nameEN:'Cash'
-    }
-  ]
   selectedAgencyType:number;
   agencyList:any[]=[];
   accountList:any[]=[];
@@ -52,6 +24,8 @@ export class CreatePaymentReceiptComponent implements OnInit {
   constructor(private sharedService:SharedService,private paymentService:PaymentService,private toaster:ToastrService) { }
 
   ngOnInit(): void {
+    this.agencyTypeList=this.paymentService.agencyTypeList;
+    this.paymentTypeList=this.paymentService.paymentTypeList;
     this.loadReceiptLedgersData();
 
   }

@@ -9,6 +9,39 @@ import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/Creat
   providedIn: 'root'
 })
 export class PaymentService {
+
+  agencyTypeList:any[]=[
+    // {
+    //   id:1,
+    //   nameAR:'عميل',
+    //   nameEN:'Customer'
+    // },
+    {
+      id:2,
+      nameAR:'مورد',
+      nameEN:'Supplier'
+    },
+    {
+      id:3,
+      nameAR:'حساب',
+      nameEN:'Account'
+    }
+  ]
+
+  paymentTypeList:any[]=[
+    {
+      id:3,
+      nameAR:'شيكات',
+      nameEN:'Cheque'
+    },
+    {
+      id:4,
+      nameAR:'نقدي',
+      nameEN:'Cash'
+    }
+  ]
+
+
   URL = environment.apiURL;
   constructor(private http:HttpClient) { }
 
@@ -27,7 +60,7 @@ export class PaymentService {
   }
 
   SaveNewReceiveReceipt(model:ReceiveReceipt) {
-    return this.http.post<any[]>(this.URL + 'Payment/SaveNewReceiveReceipt',model);
+    return this.http.post<CreateModifyReturnsModel>(this.URL + 'Payment/SaveNewReceiveReceipt',model);
 
   }
 }
