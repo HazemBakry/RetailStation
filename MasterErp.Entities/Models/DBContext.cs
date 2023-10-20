@@ -69,6 +69,10 @@ namespace MasterErp.Entities.Models
         public DbSet<ReceiveOrder> ReceiveOrder { get; set; }
         public DbSet<ReceiveOrderDetails> ReceiveOrderDetails { get; set; }
         public DbSet<InventoryDataModel> Inventory { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<PaymentReceipt> PaymentReceipt { get; set; }
+        public DbSet<ReceiveReceipt> ReceiveReceipt { get; set; }
+        public DbSet<ReceiptLedger> ReceiptLedger { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -11,7 +11,7 @@ import { SharedModule } from '../Shared/shared.module';
 import { CostCenterTreeComponent } from './GeneralAccounts/components/cost-center-tree/cost-center-tree.component';
 import { SalesInvoiceComponent } from './Sales/components/sales-invoice/sales-invoice.component';
 import { AddSalesComponent } from './Sales/components/add-sales/add-sales.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewEntryComponent } from './GeneralAccounts/components/new-entry/new-entry.component';
 import { JournalDailyListComponent } from './GeneralAccounts/components/journal-daily-list/journal-daily-list.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -25,6 +25,8 @@ import { PurchasesReturnsComponent } from './Purchase/components/purchases-retur
 import { SuppliersAccountStatementComponent } from './Purchase/components/suppliers-account-statement/suppliers-account-statement.component';
 import { InvoiceSearchSidepanelComponent } from './Purchase/components/invoice-search-sidepanel/invoice-search-sidepanel.component';
 import { InvoiceDetailsSidepanelComponent } from './Purchase/components/invoice-details-sidepanel/invoice-details-sidepanel.component';
+import { CreateReceiveReceiptComponent } from './GeneralAccounts/components/create-receive-receipt/create-receive-receipt.component';
+import { CreatePaymentReceiptComponent } from './GeneralAccounts/components/create-payment-receipt/create-payment-receipt.component';
 
 
 @NgModule({
@@ -48,7 +50,10 @@ import { InvoiceDetailsSidepanelComponent } from './Purchase/components/invoice-
     PurchasesReturnsComponent,
     SuppliersAccountStatementComponent,
     InvoiceSearchSidepanelComponent,
-    InvoiceDetailsSidepanelComponent
+    InvoiceDetailsSidepanelComponent,
+
+    CreateReceiveReceiptComponent,
+    CreatePaymentReceiptComponent
     
   ],
   imports: [
@@ -56,7 +61,8 @@ import { InvoiceDetailsSidepanelComponent } from './Purchase/components/invoice-
     FormsModule,
     NgbModule,
     FinanceRoutingModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule,
   ]
 })
 export class FinanceModule { }

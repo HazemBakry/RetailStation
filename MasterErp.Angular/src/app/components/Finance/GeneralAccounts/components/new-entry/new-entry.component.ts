@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { JournalEntryAccount, JournalEntryModel } from '../../models/GeneralAccounts/JurnalEntryModel';
 import { ErpSelectorWithSearchComponent } from 'src/app/components/Shared/components/selectors/erp-selector-with-search/erp-selector-with-search.component';
-
+import { PDFExportService } from 'src/app/components/Shared/services/pdfexport-service.service';
 @Component({
   selector: 'app-new-entry',
   templateUrl: './new-entry.component.html',
@@ -39,8 +39,11 @@ export class NewEntryComponent implements OnInit {
   CurrencyType = [{ currencyId: 1, nameAR: 'جنيه' }, { currencyId: 1, nameAR: 'ريال' }]
   JournalTypeName = 'نوع القيد';
   CurrencyName = 'العملة';
+  entryModel:JournalEntryModel={} as JournalEntryModel;
   constructor(private modalService: NgbModal, private sharedService: SharedService, private toaster: ToastrService,
-    private generalService: GeneralAccountService) { }
+    private generalService: GeneralAccountService,
+    private pdfExportService:PDFExportService
+    ) { }
 
   ngOnInit(): void {
     this.GetChildAccountsList();
@@ -224,6 +227,9 @@ export class NewEntryComponent implements OnInit {
       {
         return {
           accountID: item.accountID,
+          accountName:item.nameEN,
+          notes:item.notes,
+          accountNumber:item.accountNumber,
           costCenterID: item.costCenter ? item.costCenter : 0,
           costPercent: 0,
           costValue: 0,
@@ -251,6 +257,8 @@ export class NewEntryComponent implements OnInit {
       if (data?.status) {
         // this.ClearAllFields();
         this.EntryNumber = data.number;
+        this.entryModel=model;
+        this.entryModel.entryNumber=this.EntryNumber;
         this.toaster.success(data?.message);
       } else {
         this.toaster.error(data?.message);
@@ -299,6 +307,12 @@ export class NewEntryComponent implements OnInit {
     this.activeTab = 'Account';
     this.Selector.ResetSelectorName('نوع القيد');
     this.Selector1.ResetSelectorName('العملة');
+    this.entryModel={};
+  }
+
+  Print()
+  {
+    this.pdfExportService.generatePDF(this.entryModel,'print');
   }
 
 }
