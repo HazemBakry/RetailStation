@@ -23,6 +23,7 @@ export class CreatePurchasesInvoiceComponent implements OnInit {
   BranchId: any;
   SupplierId: any;
   InvoiceTypeId: any;
+  InvoiceDate: any;
   InvoiceNumber = '-';
   BranchName = 'الفروع';
   SupplierName = 'الموردين';
@@ -125,10 +126,10 @@ export class CreatePurchasesInvoiceComponent implements OnInit {
   }
 
   SaveNewPurchaseOrder() {
-    if (!this.BranchId) {
-      this.toaster.warning('Please Select Branch');
-      return;
-    }
+    // if (!this.BranchId) {
+    //   this.toaster.warning('Please Select Branch');
+    //   return;
+    // }
     if (!this.SupplierId) {
       this.toaster.warning('Please Select Supplier');
       return;

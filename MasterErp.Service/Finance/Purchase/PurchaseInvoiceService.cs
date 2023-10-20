@@ -2,6 +2,7 @@
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
+using MasterErp.Interface.Finance.GeneralAccounts;
 using MasterErp.Interface.Finance.Purchase;
 using MasterErp.Service.Common;
 using Microsoft.Data.SqlClient;
@@ -22,6 +23,7 @@ namespace MasterErp.Service.Finance.Purchase
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
+        private readonly IJournalEntryService JournalEntryService;
 
         private string ConnectionString
         {
@@ -31,11 +33,12 @@ namespace MasterErp.Service.Finance.Purchase
             }
         }
 
-        public PurchaseInvoiceService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration)
+        public PurchaseInvoiceService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration, IJournalEntryService _journalEntryService)
         {
             Context = dBContext;
             SQLHelper = iSQLHelper;
             Configuration = _configuration;
+            JournalEntryService = _journalEntryService;
         }
 
         #region PurchasesInvoices
@@ -82,6 +85,15 @@ namespace MasterErp.Service.Finance.Purchase
                     Context.PurchaseInvoiceDetails.Add(detail);
                     Context.SaveChanges();
                 }
+
+                CreateModifyReturnsModel result = new CreateModifyReturnsModel();
+                var AccountsList = new List<JournalEntryAccount>();
+                var InvoiceType = Context.PurchaseInvoiceTypes.Where(x => x.InvoiceTypeId == model.InvoiceTypeID).FirstOrDefault();
+
+                if (InvoiceType != null && InvoiceType.IsBindToGeneralAccounting)
+                {
+                    CreateJournalEntryModel(order_tbl);
+                }
                 return new CreateModifyReturnsModel
                 {
                     Status = 1,
@@ -96,6 +108,61 @@ namespace MasterErp.Service.Finance.Purchase
                     Message = ex.Message
                 };
             }
+        }
+
+        private void CreateJournalEntryModel(PurchaseInvoice invoice)
+        {
+            var supplierName = Context.Suppliers.Where(x => x.SupplierID == invoice.SupplierID).FirstOrDefault()?.NameAR;
+            var supplier_account = Context.AccountTrees.Where(x => x.AccountTypeID == 5).FirstOrDefault();
+            var invoice_type = Context.PurchaseInvoiceTypes.Where(x => x.InvoiceTypeId == invoice.InvoiceTypeID).FirstOrDefault();
+
+            List<JournalEntryAccount> accounts = new List<JournalEntryAccount>();
+
+            accounts.Add(new JournalEntryAccount
+            {
+                AccountID = supplier_account.AccountID,
+                Debit = 0,
+                Credit = invoice.InvoiceNetValue,
+                Description = " فواتير شهر " + invoice.InvoiceDate.Date.Month + " فاتورة مشتريات رقم " + invoice.InvoiceNumber.ToString() + (supplierName ?? " للمورد " + supplierName),
+                CurrencyID = 1
+            });
+            accounts.Add(new JournalEntryAccount
+            {
+                AccountID = (int)invoice_type.DebitId,
+                Debit = invoice.InvoiceNetValue,
+                Credit = 0,
+                CurrencyID = 1,
+                Description = "فاتورة مشتريات رقم  " + invoice.InvoiceNumber.ToString() + (supplierName ?? " للمورد " + supplierName)
+
+            });
+
+            if (invoice.TaxAmount > 0)
+            {
+                var tax_account = Context.AccountTrees.Where(x => x.AccountTypeID == 7).FirstOrDefault();
+
+                accounts.Add(new JournalEntryAccount
+                {
+                    AccountID = tax_account.AccountID,
+                    Debit = invoice.TaxAmount,
+                    Credit = 0,
+                    CurrencyID = 1,
+                    Description = " فاتورة مشتريات رقم  " + invoice.InvoiceNumber.ToString() + (supplierName ?? " للمورد " + supplierName)
+                });
+            }
+
+            JournalEntryModel entry = new JournalEntryModel
+            {
+                Descirption = " فواتير شهر " + invoice.InvoiceDate.Month + " فاتورة مشتريات رقم " + invoice.PurchaseInvoiceID.ToString() + (supplierName ?? " للمورد " + supplierName),
+                DocNumber = invoice.PurchaseInvoiceID.ToString(),
+                EntryDate = invoice.InvoiceDate,
+                Month = invoice.InvoiceDate.Month,
+                Year = invoice.InvoiceDate.Year,
+                Notes = invoice.Notes,
+                JournalTypeID = 1,   // "قيد تسوية" 
+                JournalEntryAccounts = accounts
+            };
+
+            JournalEntryService.SaveNewJouranlEntry(entry);
         }
 
         public bool CancelPurchaseInvoice(int InvoiceId)
@@ -118,16 +185,16 @@ namespace MasterErp.Service.Finance.Purchase
             var results = Context.PurchaseInvoices.AsQueryable();
             if (!string.IsNullOrEmpty(InvoiceNumber))
             {
-                results = results.Where(s => s.InvoiceNumber.ToLower()== InvoiceNumber.ToLower());
+                results = results.Where(s => s.InvoiceNumber.ToLower() == InvoiceNumber.ToLower());
             }
-            if (SupplierId>0)
+            if (SupplierId > 0)
             {
                 results = results.Where(s => s.SupplierID == SupplierId);
 
             }
             if (!string.IsNullOrEmpty(InvoiceDate))
             {
-                
+
                 var parsedDate = DateTime.Parse(InvoiceDate);
                 results = results.Where(s => s.InsertDate.Value.Date == parsedDate.Date);
 
@@ -139,22 +206,22 @@ namespace MasterErp.Service.Finance.Purchase
             //           on inv.PurchaseInvoiceID equals det.PurchaseInvoiceID
             //            select new { inv,det}).GroupBy(x => x.inv.PurchaseInvoiceID)
 
-            var details = Context.PurchaseInvoiceDetails.Where(x=>results.Any(x=>x.PurchaseInvoiceID==x.PurchaseInvoiceID)).ToList();
+            var details = Context.PurchaseInvoiceDetails.Where(x => results.Any(x => x.PurchaseInvoiceID == x.PurchaseInvoiceID)).ToList();
 
 
-            var   finalRes= (from inv in results
+            var finalRes = (from inv in results
                             select new PurchaseInvoiceModel
                             {
                                 PurchaseInvoiceId = inv.PurchaseInvoiceID,
                                 InvoiceNumber = inv.InvoiceNumber,
                                 SupplierId = inv.SupplierID,
-                                Items = details.Where(x=>x.PurchaseInvoiceID==inv.PurchaseInvoiceID).Select(item =>new ItemModel
+                                Items = details.Where(x => x.PurchaseInvoiceID == inv.PurchaseInvoiceID).Select(item => new ItemModel
                                 {
-                                    ItemId=item.ItemID,
-                                    Quantity= item.Quantity,
+                                    ItemId = item.ItemID,
+                                    Quantity = item.Quantity,
                                     //Price= item.Price,
-                                    TotalValue= item.TotalValue,
-                                    UnitId=item.UnitID,
+                                    TotalValue = item.TotalValue,
+                                    UnitId = item.UnitID,
 
                                 }).ToList()
 
@@ -163,34 +230,34 @@ namespace MasterErp.Service.Finance.Purchase
 
             return finalRes;
         }
-        public List<PurchaseInvoiceItemsModel> GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate,int InvoiceId=0)
+        public List<PurchaseInvoiceItemsModel> GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate, int InvoiceId = 0)
         {
 
 
             SqlParameter[] param = new SqlParameter[4];
             param[0] = new SqlParameter("@SupplierId", SupplierId);
             param[1] = new SqlParameter("@InvoiceNumber", InvoiceNumber);
-            param[2] = new SqlParameter("@InvoiceDate", !string.IsNullOrEmpty(InvoiceDate) ? DateTime.Parse(InvoiceDate):DBNull.Value);
+            param[2] = new SqlParameter("@InvoiceDate", !string.IsNullOrEmpty(InvoiceDate) ? DateTime.Parse(InvoiceDate) : DBNull.Value);
             param[3] = new SqlParameter("@InvoiceId", InvoiceId);
 
             var lst = SQLHelper.SQLQuery<PurchaseInvoiceItemsModel>("[dbo].[SP_GetInvoicesSearchData]", ConnectionString, param);
-            
-            var result= lst.GroupBy(x=>x.PurchaseInvoiceId).Select(p => new { Id = p.Key, lstInvoices = p.Select(prt => prt).ToList() }).ToList();
+
+            var result = lst.GroupBy(x => x.PurchaseInvoiceId).Select(p => new { Id = p.Key, lstInvoices = p.Select(prt => prt).ToList() }).ToList();
             var finalRes = new List<PurchaseInvoiceItemsModel>();
             foreach (var item in result)
             {
                 var obj = item.lstInvoices;
                 var invoice = new PurchaseInvoiceItemsModel
                 {
-                    InvoiceNumber= obj.FirstOrDefault()?.InvoiceNumber,
+                    InvoiceNumber = obj.FirstOrDefault()?.InvoiceNumber,
                     PurchaseInvoiceId = obj.FirstOrDefault()?.PurchaseInvoiceId,
                     InvoiceTypeId = obj.FirstOrDefault().InvoiceTypeId,
                     SupplierId = obj.FirstOrDefault().SupplierId,
                     SupplierNameAR = obj.FirstOrDefault()?.SupplierNameAR,
-                    SupplierNameEN= obj.FirstOrDefault()?.SupplierNameEN,
+                    SupplierNameEN = obj.FirstOrDefault()?.SupplierNameEN,
                     InvoiceTotalValue = obj.FirstOrDefault().InvoiceTotalValue,
                     InvoiceDate = obj.FirstOrDefault().InvoiceDate,
-                    Items =obj
+                    Items = obj
 
                 };
                 finalRes.Add(invoice);
@@ -315,7 +382,7 @@ namespace MasterErp.Service.Finance.Purchase
                 order_tbl.InsertUser = string.Empty;
 
                 order_tbl.InvoiceNumber = model.InvoiceNumber;
-                order_tbl.InvoiceTypeID = model.InvoiceTypeId??0;
+                order_tbl.InvoiceTypeID = model.InvoiceTypeId ?? 0;
                 order_tbl.Notes = model.Notes;
                 order_tbl.InvoiceDate = DateTime.Now;
                 order_tbl.ReturnsInvoiceTotal = model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0;
@@ -403,7 +470,7 @@ namespace MasterErp.Service.Finance.Purchase
         }
         public List<PurchaseInvoiceType> GetInvoiceTypesData()
         {
-            return Context.PurchaseInvoiceType.ToList();
+            return Context.PurchaseInvoiceTypes.ToList();
         }
 
         public List<ItemLookups> GetItemLookupsData()

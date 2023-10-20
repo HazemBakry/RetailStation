@@ -111,31 +111,23 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
         public CreateModifyReturnsModel SaveNewJouranlEntry(JournalEntryModel model)
         {
-            //if (Check_Entered_Data())
-            //{
             try
             {
-                //int month = model.EntryDate.Month;
-                //try
-                //{
-                //    Entry_tbl.EntryNumber = Context.JournalEntries.Where(x => x.EntryDate.Month == month).Max(x => x.EntryNumber) + 1;
-                //}
-                //catch (Exception)
-                //{
-                //    Entry_tbl.EntryNumber = 1;
-                //}
+                int month = model.EntryDate.Month;
+                int year = model.EntryDate.Year;
+                var PreEntries = Context.JournalEntries.Where(x => x.EntryDate.Month == month && x.EntryDate.Year == year).ToList();
+                var CurrentPeriod = Context.FinancialPeriods.OrderByDescending(x => x.FinancialPeriodID).FirstOrDefault();
 
                 JournalEntry Entry_tbl = new JournalEntry
                 {
-                    //EntryNumber = Context.JournalEntries.Where(x => x.EntryDate.Month == month).DefaultIfEmpty(0).Max(x => x.EntryNumber) + 1,
-                    EntryNumber = 1,// Context.JournalEntries.Where(x => x.EntryDate.Month == model.Month).Select(x => x.EntryNumber).DefaultIfEmpty("0").Max() + 1,
+                    EntryNumber = PreEntries.Count > 0 ? PreEntries.Max(x => x.EntryNumber) + 1 : 1,
                     Description = model.Descirption,
                     DocNumber = model.DocNumber,
                     Notes = model.Notes,
                     JournalTypeID = model.JournalTypeID,
                     IsCancelled = false,
                     IsLocked = false,
-                    PeriodID = Context.FinancialPeriods.OrderByDescending(x => x.FinancialPeriodID).FirstOrDefault().FinancialPeriodID,
+                    PeriodID = CurrentPeriod != null ? CurrentPeriod.FinancialPeriodID : 0,
                     EntryDate = model.EntryDate,
                     ActionTypeID = 1,
                     ActionID = 0,
@@ -171,7 +163,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 {
                     Status = 1,
                     Message = "New Entry Saved Successfully",
-                    Number= Entry_tbl.EntryNumber.ToString()
+                    Number = Entry_tbl.EntryNumber.ToString()
 
                 };
             }
