@@ -71,7 +71,7 @@ export class CreateReceiveOrderComponent implements OnInit {
     this.ProductsList=products;
     // console.log(" ~ this.ProductsList:", this.ProductsList);
   }
-  SaveNewPurchaseOrder() {
+  CreateNewReceiveOrder() {
     if (!this.InventoryId) {
       this.toaster.warning('Please Select Inventory');
       return;
@@ -96,7 +96,7 @@ export class CreateReceiveOrderComponent implements OnInit {
     model.notes = this.notes;
     model.items = this.ProductsList;
 
-    this.inventoryService.SaveNewReceiveOrder(model).subscribe(data => {
+    this.inventoryService.CreateNewReceiveOrder(model).subscribe(data => {
       if (data?.status) {
         this.ClearAllFields();
         // this.InvoiceNumber = data.item2;

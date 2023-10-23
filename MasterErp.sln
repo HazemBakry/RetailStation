@@ -26,11 +26,11 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MasterErp.Angular", "Master
 		SlnRelativePath = "MasterErp.Angular\"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterErp.Entities", "MasterErp.Entities\MasterErp.Entities.csproj", "{89D96539-5DF1-4E53-A6DC-8F1F440491A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterErp.Entities", "MasterErp.Entities\MasterErp.Entities.csproj", "{89D96539-5DF1-4E53-A6DC-8F1F440491A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterErp.Service", "MasterErp.Service\MasterErp.Service.csproj", "{788FDB6D-9CF8-473B-883E-03D4FE789BB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterErp.Service", "MasterErp.Service\MasterErp.Service.csproj", "{788FDB6D-9CF8-473B-883E-03D4FE789BB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterErp.Interface", "MasterErp.Interface\MasterErp.Interface.csproj", "{4694445C-17ED-4BC6-8055-599F30745BFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterErp.Interface", "MasterErp.Interface\MasterErp.Interface.csproj", "{4694445C-17ED-4BC6-8055-599F30745BFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,7 +43,6 @@ Global
 		{FE1D4CED-E6BD-4263-8759-ED8AC3105D22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE1D4CED-E6BD-4263-8759-ED8AC3105D22}.Release|Any CPU.Build.0 = Release|Any CPU
 		{47759F95-99E4-40AC-BDD0-EA2CEE86A2FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{47759F95-99E4-40AC-BDD0-EA2CEE86A2FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47759F95-99E4-40AC-BDD0-EA2CEE86A2FA}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{47759F95-99E4-40AC-BDD0-EA2CEE86A2FA}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{89D96539-5DF1-4E53-A6DC-8F1F440491A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

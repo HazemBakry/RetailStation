@@ -13,3 +13,17 @@ export interface FilterItem {
     itemValue?: string;
     isChecked?: boolean;
 }
+
+export interface SearchFilterModel {
+    fromDate?: string;
+    toDate?: string;
+    branchID?: number;
+    userName?: string;
+    currentPage?: number;
+    pageSize?: number;
+    searchType?: string;
+    transferType?: string;
+    SearchText?: string;
+    isExport?: boolean;
+    filterModel?: FilterModel;
+}

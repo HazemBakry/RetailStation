@@ -18,8 +18,8 @@ export class InventoryService {
   GetInventoryList() {
     return this.http.get<any[]>(this.URL + 'Inventory/GetInventoryList');
   }
-  SaveNewReceiveOrder(model: ReceiveOrderModel) {
-    return this.http.post<any>(this.URL + 'Inventory/SaveNewReceiveOrder', model);
+  CreateNewReceiveOrder(model: ReceiveOrderModel) {
+    return this.http.post<any>(this.URL + 'Inventory/CreateNewReceiveOrder', model);
   }
 
   GetOrdersSearchData(supplierId:number,orderNumber:string,orderDate:string) {

@@ -10,7 +10,7 @@ namespace MasterErp.Entities.Models
     public class Supplier
     {
 		[Key]
-		public int SupplierID { get; set; }
+		public int SupplierId { get; set; }
 		public string Code { get; set; }
 		public string NameAR { get; set; }
 		public string NameEN { get; set; }
@@ -19,11 +19,11 @@ namespace MasterErp.Entities.Models
 		public string Address { get; set; }
 		public double? BeginningBalance { get; set; }
 		public string BalanceType { get; set; }
-		public int? GroupID { get; set; }
+		public int? GroupId { get; set; }
 		public string ContactPerson { get; set; }
 		public string ContactMobile { get; set; }
 		public string Notes { get; set; }
-		public bool? IsActive { get; set; }
+		public bool IsActive { get; set; }
 		public int? InsertUser { get; set; }
 		public DateTime? InsertDate { get; set; }
 		public int? UpdateUser { get; set; }

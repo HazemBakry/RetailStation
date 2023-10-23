@@ -1,25 +1,42 @@
-<div class="card radius-10 border-0 card-shadow mb-3">
-    <div class="z2-boxstyle1">
-        <div class="z2-boxstyle1-header">
-            <div class="z2-boxstyle1-header-left">
-                <button class="btn btn-primary" routerLink="/Finance/purchases/newPurchasesOrder">
-                    <i class="fas fa-plus-circle"></i>
-                    <span class="ms-2">New Purchases Order</span>
-                </button>
-            </div>
+<div class="boxstyle1">
+    <div class="boxstyle1-header bg-light">
+        <div class="boxstyle1-header-left mb-3">
+            <button class="btn btn-primary" routerLink="/Finance/purchases/add-purchase-order">
+                <i class="fas fa-plus-circle"></i>
+                <span class="ms-2">انشاء أمر</span>
+            </button>
         </div>
-        <div class="z2-boxstyle1-content hastable table-responsive table-vp-height small-scroll">
+    </div>
+    <div class="card radius-10 border-0 card-shadow">
+        <div class="card-body">
+            <div class="main-card-action pb-3">
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- <div class="col-md-12">
+                            <div class="d-flex align-items-center flex-wrap">
+                                <ng-container *ngIf="filterList.length > 0">
+                                    <app-pos-filters [FilterList]="filterList"
+                                        (filterChanged)="filterChecked($event)"></app-pos-filters>
+                                </ng-container>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="col-md-4">
+                        <app-erp-pagination (pageChanged)="pageChanged($event)"
+                            [currentPage]="FilterModel.currentPage" [pageSize]="FilterModel.pageSize"
+                            [totalCount]="TotalCount" [totalPages]="TotalPages"></app-erp-pagination>
+                    </div>
+                </div>
+            </div>
             <table class="table table-bordered table-middle table-hover m-0 bg-white bigtitle">
                 <thead>
                     <tr>
-                        <th>Order Number</th>
-                        <th>Order Date</th>
-                        <th>Total Value</th>
-                        <th>Insert User</th>
-                        <th>Insert Date</th>
-                        <th>Is Locked</th>
-                        <th>Is Cancelled</th>
-                        <th>Action</th>
+                        <th>رقم الأمر</th>
+                        <th>تاريخ الأمر</th>
+                        <th>القيمة الإجمالية</th>
+                        <th>مغلق</th>
+                        <th>ملغى</th>
+                        <th>عمليات</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,8 +44,8 @@
                         <td>{{item.orderNumber}}</td>
                         <td>{{item.orderDate | date}}</td>
                         <td>{{item.totalValue}}</td>
-                        <td>{{item.insertUser}}</td>
-                        <td>{{item.insertDate | date}}</td>
+                        <!-- <td>{{item.insertUser}}</td>
+                        <td>{{item.insertDate | date}}</td> -->
                         <td>{{item.isLocked}}</td>
                         <td>{{item.isCancelled}}</td>
                         <td>

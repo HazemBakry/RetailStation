@@ -298,7 +298,7 @@ select::after {
   min-width: 100% !important;
 }
 
-.z2-boxstyle1 {
+.boxstyle1 {
   background: #ffffff;
   width: calc(100%);
   border: 1px solid #b2afaf;
@@ -309,13 +309,13 @@ select::after {
   box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.42);
 }
 
-.z2-boxstyle1-header {
+.boxstyle1-header {
   display: flex;
   align-items: center;
-  padding: 20px 20px 0px 20px;
+  padding: 15px 20px 0px 20px;
 }
 
-.z2-boxstyle1-header-left {
+.boxstyle1-header-left {
   font-size: 1.4rem;
   font-weight: 300;
   flex: 1;
@@ -325,7 +325,7 @@ select::after {
 }
 
 
-.z2-boxstyle1-content.hastable {
+.boxstyle1-content.hastable {
   margin-top: 20px;
   padding: 0px 0px 0px 0px;
 }

@@ -10,10 +10,9 @@ namespace MasterErp.Entities.Models
     public class Branch
     {
 		[Key]
-		public int BranchID { get; set; }
+		public int BranchId { get; set; }
 		public string Code { get; set; }
 		public int BranchOrder { get; set; }
-		public int? BranchIDNewPOS { get; set; }
 		public string NameAR { get; set; }
 		public string NameEN { get; set; }
 		public bool IsActive { get; set; }

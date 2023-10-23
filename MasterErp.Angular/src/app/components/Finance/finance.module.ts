@@ -15,13 +15,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewEntryComponent } from './GeneralAccounts/components/new-entry/new-entry.component';
 import { JournalDailyListComponent } from './GeneralAccounts/components/journal-daily-list/journal-daily-list.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CreatePurchasesInvoiceComponent } from './Purchase/components/create-purchases-invoice/create-purchases-invoice.component';
-import { CreatePurchasesOrderComponent } from './Purchase/components/create-purchases-order/create-purchases-order.component';
-import { CreatePurchasesReturnsComponent } from './Purchase/components/create-purchases-returns/create-purchases-returns.component';
-import { PurchasesInvoicesComponent } from './Purchase/components/purchases-invoices/purchases-invoices.component';
+import { AddPurchaseInvoiceComponent } from './Purchase/components/add-purchase-invoice/add-purchase-invoice.component';
+import { AddPurchaseOrderComponent } from './Purchase/components/add-purchase-order/add-purchase-order.component';
+import { AddPurchaseReturnsComponent } from './Purchase/components/add-purchase-returns/add-purchase-returns.component';
+import { PurchaseInvoicesComponent } from './Purchase/components/purchase-invoices/purchase-invoices.component';
 import { PurchasesLayoutComponent } from './Purchase/purchases-layout.component';
-import { PurchasesOrdersComponent } from './Purchase/components/purchases-orders/purchases-orders.component';
-import { PurchasesReturnsComponent } from './Purchase/components/purchases-returns/purchases-returns.component';
+import { PurchaseOrdersComponent } from './Purchase/components/purchase-orders/purchase-orders.component';
+import { PurchaseReturnsComponent } from './Purchase/components/purchase-returns/purchase-returns.component';
 import { SuppliersAccountStatementComponent } from './Purchase/components/suppliers-account-statement/suppliers-account-statement.component';
 import { InvoiceSearchSidepanelComponent } from './Purchase/components/invoice-search-sidepanel/invoice-search-sidepanel.component';
 import { InvoiceDetailsSidepanelComponent } from './Purchase/components/invoice-details-sidepanel/invoice-details-sidepanel.component';
@@ -42,12 +42,12 @@ import { CreatePaymentReceiptComponent } from './GeneralAccounts/components/crea
     NewEntryComponent,
     JournalDailyListComponent,
     PurchasesLayoutComponent,
-    CreatePurchasesInvoiceComponent,
-    CreatePurchasesOrderComponent,
-    CreatePurchasesReturnsComponent,
-    PurchasesInvoicesComponent,
-    PurchasesOrdersComponent,
-    PurchasesReturnsComponent,
+    AddPurchaseInvoiceComponent,
+    AddPurchaseOrderComponent,
+    AddPurchaseReturnsComponent,
+    PurchaseInvoicesComponent,
+    PurchaseOrdersComponent,
+    PurchaseReturnsComponent,
     SuppliersAccountStatementComponent,
     InvoiceSearchSidepanelComponent,
     InvoiceDetailsSidepanelComponent,
