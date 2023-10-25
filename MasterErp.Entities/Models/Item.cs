@@ -14,7 +14,7 @@ namespace MasterErp.Entities.Models
 		public string NameEN { get; set; }
 		public string NameAR { get; set; }
 		public int UnitID { get; set; }
-		public double Cost { get; set; }
+		public double Price { get; set; }
 		public bool? IsActive { get; set; }
 		public int? InsertUser { get; set; }
 		public DateTime? InsertDate { get; set; }

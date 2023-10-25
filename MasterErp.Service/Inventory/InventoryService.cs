@@ -75,18 +75,18 @@ namespace MasterErp.Service.Inventory
                     DueDate = obj.FirstOrDefault().DueDate,
                     IsLocked = obj.FirstOrDefault().IsLocked,
                     IsCancelled = obj.FirstOrDefault().IsCancelled,
-                    Items = obj.Select(x=>new ItemModel
+                    Items = obj.Select(x => new ItemModel
                     {
-                        ItemId= x.ItemId,
-                        NameAR= x.NameAR,
-                        NameEN= x.NameEN,
-                        UnitId= x.UnitId,
-                        Cost= x.Cost,
-                        Quantity= x.Quantity,
+                        ItemId = x.ItemId,
+                        ItemNameAr = x.NameAR,
+                        ItemNameEn = x.NameEN,
+                        UnitId = x.UnitId,
+                        Price = x.Cost,
+                        Quantity = x.Quantity,
                         //Price= x.Cost,
                         TotalValue = x.ItemTotalValue,
-                        IsActive= x.IsActive,
-                        UnitName= x.UnitName,
+                        IsActive = x.IsActive,
+                        UnitNameEn = x.UnitName,
 
                     }).ToList(),
 
@@ -125,15 +125,15 @@ namespace MasterErp.Service.Inventory
                 {
                     var detail = new ReceiveOrderDetails
                     {
-                        Price = item.Cost,
+                        Price = item.Price,
                         ItemId = item.ItemId,
                         Quantity = item.Quantity,
                         TotalValue = item.TotalValue,
                         ReceiveOrderId = order_tbl.ReceiveOrderId,
                         UnitId = item.UnitId,
-                        RemainQuantity=0,
-                        ItemBalance=0,
-                        IsLocked=false,
+                        RemainQuantity = 0,
+                        ItemBalance = 0,
+                        IsLocked = false,
                         Notes = model.Notes,
 
                     };

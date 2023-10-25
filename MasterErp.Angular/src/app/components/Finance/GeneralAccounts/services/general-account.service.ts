@@ -18,6 +18,10 @@ export class GeneralAccountService {
     return this.http.get<any[]>(this.URL + 'JournalEntry/GetJournalEntryTypes');
   }
 
+  GetCurrencyList(){
+    return this.http.get<any[]>(this.URL + 'JournalEntry/GetCurrencyList');
+  }
+
   GetSavedJournalTemplates() {
     return this.http.get<any[]>(this.URL + 'JournalEntry/GetSavedJournalTemplates');
   }
@@ -38,20 +42,20 @@ export class GeneralAccountService {
     return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesFilters', model);
   }
 
-  DropDailyJournalEntries(JournalEntryIds: number[]) {
-    return this.http.post<any>(this.URL + 'JournalEntry/DropDailyJournalEntries', JournalEntryIds);
+  CancelJournalEntry(JournalEntryIds: number[]) {
+    return this.http.post<any>(this.URL + 'JournalEntry/CancelJournalEntry', JournalEntryIds);
   }
 
-  ExpulsionDailyJournalEntries(JournalEntryIds: number[]) {
-    return this.http.post<any>(this.URL + 'JournalEntry/ExpulsionDailyJournalEntries', JournalEntryIds);
+  PostJournalEntry(JournalEntryIds: number[]) {
+    return this.http.post<any>(this.URL + 'JournalEntry/PostJournalEntry', JournalEntryIds);
   }
 
-  ReverseDailyJournalEntries(JournalEntryIds: number[]) {
-    return this.http.post<any>(this.URL + 'JournalEntry/ReverseDailyJournalEntries', JournalEntryIds);
+  ReverseJournalEntry(JournalEntryIds: number[]) {
+    return this.http.post<any>(this.URL + 'JournalEntry/ReverseJournalEntry', JournalEntryIds);
   }
 
-  PrintDailyJournalEntries(JournalEntryIds: number[]) {
-    return this.http.post<any>(this.URL + 'JournalEntry/PrintDailyJournalEntries', JournalEntryIds);
+  PrintJournalEntry(JournalEntryIds: number[]) {
+    return this.http.post<any>(this.URL + 'JournalEntry/PrintJournalEntry', JournalEntryIds);
   }
 
   //================================== AccountTree ===============================

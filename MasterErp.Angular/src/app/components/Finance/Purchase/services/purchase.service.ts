@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { PurchaseInvoiceModel } from '../models/PurchaseInvoiceModel';
 import { PurchaseOrderModel } from '../models/PurchaseOrder';
 import { PurchaseReturnsModel } from '../models/PurchaseReturns';
-import { ItemModel } from 'src/app/Models/ItemModel';
+import { OrderDetailModel } from 'src/app/Models/ItemModel';
 import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 @Injectable({
@@ -54,9 +54,9 @@ export class PurchaseService {
     return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetInvoicesSearchData?SupplierId='+supplierId+'&InvoiceNumber='+invoiceNumber+'&InvoiceDate='+invoiceDate);
   }
 
-  GetInvoiceDetailsById(invoiceId:number) {
+  GetPurchaseInvoiceDetails(invoiceId:number) {
    
-    return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetInvoiceDetailsById?InvoiceId='+invoiceId);
+    return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetPurchaseInvoiceDetails?InvoiceId='+invoiceId);
   }
   //------------------------------------- Purchase Order ----------------------------------
 
@@ -74,20 +74,20 @@ export class PurchaseService {
 
   //---------------------------------------- Items ----------------------------------------
 
-  GetItemLookupsData() {
-    return this.http.get<any[]>(this.URL + 'Item/GetItemLookupsData');
+  GetItemsLookups() {
+    return this.http.get<any[]>(this.URL + 'Item/GetItemsLookups');
   }
 
   GetItemsData() {
-    return this.http.get<ItemModel[]>(this.URL + 'Item/GetItemsData');
+    return this.http.get<OrderDetailModel[]>(this.URL + 'Item/GetItemsData');
   }
 
   GetItemsByLookupId(LookupId: number) {
-    return this.http.get<ItemModel[]>(this.URL + 'Item/GetItemsByLookupId?LookupId=' + LookupId);
+    return this.http.get<OrderDetailModel[]>(this.URL + 'Item/GetItemsByLookupId?LookupId=' + LookupId);
   }
 
   GetItemsBySupplierId(SupplierId: number) {
-    return this.http.get<ItemModel[]>(this.URL + 'Item/GetItemsBySupplierId?SupplierId=' + SupplierId);
+    return this.http.get<OrderDetailModel[]>(this.URL + 'Item/GetItemsBySupplierId?SupplierId=' + SupplierId);
   }
 
   //--------------------------------------- Suppliers ---------------------------------------

@@ -15,8 +15,8 @@ namespace MasterErp.Interface.Finance.Purchase
         DataTable GetPurchaseInvoiceData(FilterModel model);
         CreateModifyReturnsModel CreateNewPurchaseInvoice(PurchaseInvoiceModel model);
         bool CancelPurchaseInvoice(int InvoiceId);
-        List<PurchaseInvoiceItemsModel> GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate, int InvoiceId = 0);
-        PurchaseInvoiceItemsModel GetInvoiceDetailsById(int InvoiceId);
+        List<PurchaseInvoiceModel> GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate, int InvoiceId = 0);
+        List<PurchaseInvoiceModel> GetPurchaseInvoiceDetails(int InvoiceId);
         List<PurchaseReturns> GetPurchasesReturnsData();
         CreateModifyReturnsModel SaveNewPurchaseReturns(PurchaseReturnsModel model);
         bool CancelPurchaseReturns(int ReturnsId);

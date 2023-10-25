@@ -57,11 +57,10 @@ namespace MasterErp.API.Controllers.Finance.Purchase
         }
 
         [HttpGet]
-        [Route("GetInvoiceDetailsById")]
-        public IActionResult GetInvoiceDetailsById(int InvoiceId)
+        [Route("GetPurchaseInvoiceDetails")]
+        public IActionResult GetPurchaseInvoiceDetails(int InvoiceId)
         {
-
-            var result = _purchaseInvoiceService.GetInvoiceDetailsById(InvoiceId);
+            var result = _purchaseInvoiceService.GetPurchaseInvoiceDetails(InvoiceId);
             return Ok(result);
         }
 

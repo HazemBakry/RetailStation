@@ -4,10 +4,12 @@ using MasterErp.Entities.Common.Inventory.ReceiveOrder;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Inventory;
+using MasterErp.Service.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,43 +38,44 @@ namespace MasterErp.Service.Inventory
             Configuration = _configuration;
         }
 
-        public List<ItemLookups> GetItemLookupsData()
+        public List<ItemLookups> GetItemsLookups()
         {
             return Context.ItemLookups.ToList();
         }
 
-        public List<ItemModel> GetItemsData()
+        public DataTable GetItemsData()
         {
             var results = (from item in Context.Items
                            join unit in Context.Units on item.UnitID equals unit.UnitId
                            select new ItemModel
                            {
                                ItemId = item.ItemID,
-                               NameEN = item.NameEN,
-                               NameAR = item.NameAR,
-                               Cost = item.Cost,
+                               ItemNameEn = item.NameEN,
+                               ItemNameAr = item.NameAR,
+                               Price = item.Price,
                                UnitId = item.UnitID,
-                               UnitName = unit.UnitNameEn
-                           }).ToList();
+                               UnitNameEn = unit.UnitNameEn,
+                               UnitNameAr = unit.UnitNameAr
+                           }).ToList().ToDataTable();
 
             return results;
         }
 
-        public List<ItemModel> GetItemsBySupplierId(int SupplierId)
+        public DataTable GetItemsBySupplierId(int SupplierId)
         {
             SqlParameter[] param = new SqlParameter[1];
             param[0] = new SqlParameter("@SupplierId", SupplierId);
 
-            var result = SQLHelper.SQLQuery<ItemModel>("[dbo].[SP_GetItemsBySupplierId]", ConnectionString, param);
+            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetItemsBySupplierId]", ConnectionString, param);
             return result;
         }
 
-        public List<ItemModel> GetItemsByLookupId(int LookupId)
+        public DataTable GetItemsByLookupId(int LookupId)
         {
             SqlParameter[] param = new SqlParameter[1];
             param[0] = new SqlParameter("@LookupId", LookupId);
 
-            var result = SQLHelper.SQLQuery<ItemModel>("[dbo].[SP_GetItemsByLookupId]", ConnectionString, param);
+            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetItemsByLookupId]", ConnectionString, param);
             return result;
         }
 

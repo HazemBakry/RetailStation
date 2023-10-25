@@ -14,45 +14,38 @@ import { ToastrService } from 'ngx-toastr';
 
 })
 export class InvoiceDetailsSidepanelComponent implements OnInit {
-  @Input() invoiceId :number;
+  @Input() invoiceId: number;
 
   invoiceData: any;
   showLoader: boolean;
 
-
-  constructor(private offcanvasService: NgbOffcanvas,private purchaseService: PurchaseService, private toaster: ToastrService) { }
-
+  constructor(private offcanvasService: NgbOffcanvas, private purchaseService: PurchaseService, private toaster: ToastrService) { }
 
   ngOnInit(): void {
   }
 
-
-  loadData()
-  {
+  GetInvoiceDetails() {
     if (!this.invoiceId) {
       this.toaster.warning('حدث خطأ');
       return;
     }
-
-    this.showLoader=true;
-    this.purchaseService.GetInvoiceDetailsById(this.invoiceId).subscribe(data => {
+    this.showLoader = true;
+    this.purchaseService.GetPurchaseInvoiceDetails(this.invoiceId).subscribe(data => {
       // console.log("data",data);
       if (data) {
-        this.invoiceData=data;
+        this.invoiceData = data[0];
       }
-      this.showLoader=false;
-
-    },(err)=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
-    
-    
   }
+
   OpenSidePanel(content: any) {
-    this.loadData()
-    this.offcanvasService.open(content, {panelClass: 'details-panel', position: 'end' });
+    this.GetInvoiceDetails()
+    this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
   }
 
 }

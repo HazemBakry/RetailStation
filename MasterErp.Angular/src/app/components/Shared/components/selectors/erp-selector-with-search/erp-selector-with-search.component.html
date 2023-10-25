@@ -1,17 +1,14 @@
 <div ngbDropdown class="dropdown-filter-wrapper dropdown-as-input d-inline-block mb-3 w-100">
-    <button type="button" class="btn-filter promotion-filter py-3" [ngStyle]="{'height': Height}" id="filterInput1"
-        ngbDropdownToggle>
+    <button type="button" class="btn-filter promotion-filter py-3" [ngStyle]="{'height': Height}" id="filterInput1" ngbDropdownToggle>
         {{SelectorName}}
     </button>
     <div ngbDropdownMenu aria-labelledby="filterInput1" class="dropdown-filter p-0 overflow-hidden w-100 shadow-sm">
         <div class="p-2 bg-light border-bottom">
-            <input type="text" name="Search" class="form-control form-control-sm" [(ngModel)]="SearchText"
-                placeholder="بحث..." />
+            <input type="text" name="Search" class="form-control form-control-sm" [(ngModel)]="SearchText" placeholder="بحث..." />
         </div>
         <div class="max-height-150 min-width-200 overflow-auto small-scroll">
             <div class="check-row" *ngFor="let item of ItemsList | searchArry: SearchText:SearchKey">
-                <a class="dropdown-item" (click)="onItemClick(item)"
-                    [ngClass]="{'DropDownSelected': SelectorName == item.nameEN}">{{item.nameAR}}</a>
+                <a class="dropdown-item" (click)="onItemClick(item)" [ngClass]="{'DropDownSelected': SelectorName == item.nameAR}">{{item.nameAR}}</a>
             </div>
         </div>
     </div>

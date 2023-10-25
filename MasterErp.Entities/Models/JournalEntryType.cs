@@ -10,7 +10,7 @@ namespace MasterErp.Entities.Models
     public class JournalEntryType
     {
         [Key]
-        public int JournalTypeID { get; set; }
+        public int JournalTypeId { get; set; }
         public string Code { get; set; }
         public string NameAR { get; set; }
         public string NameEN { get; set; }

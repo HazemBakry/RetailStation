@@ -140,7 +140,6 @@ export class AddPurchaseReturnsComponent implements OnInit {
           unitId: item.unitID,
           unitName: item.unitNameEn,
           price: item.price,
-          cost: item.price,
           quantity: item.quantity,
           totalValue: item.itemTotalValue
         }

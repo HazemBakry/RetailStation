@@ -28,7 +28,7 @@ export class NewEntryComponent implements OnInit {
   Item: any;
   AccountNumber: string;
   activeTab = 'Account';
-  JurnalTypeId: any;
+  journalTypeId: any;
   CurrencyId: any;
   TemplateId: any;
   Defference = 0;
@@ -50,6 +50,7 @@ export class NewEntryComponent implements OnInit {
     this.GetCostCenterTreeData();
     this.GetJournalEntryTypes();
     this.GetSavedJournalTemplates();
+    this.GetCurrencyList();
   }
 
   openAccountModal(content: any) {
@@ -67,6 +68,12 @@ export class NewEntryComponent implements OnInit {
   GetJournalEntryTypes() {
     this.generalService.GetJournalEntryTypes().subscribe(data => {
       this.JournalEntryTypes = data;
+    });
+  }
+
+  GetCurrencyList(){
+    this.generalService.GetCurrencyList().subscribe(data => {
+      this.CurrencyType = data;
     });
   }
 
@@ -120,7 +127,7 @@ export class NewEntryComponent implements OnInit {
   }
 
   GetSelectedJurnalTypes(item: any) {
-    this.JurnalTypeId = item.journalTypeID;
+    this.journalTypeId = item.journalTypeId;
   }
 
   GetSelectedCurrency(item: any) {
@@ -220,8 +227,8 @@ export class NewEntryComponent implements OnInit {
       
       return;
     }
-    let month = ("0" + ((new Date(this.EntryDate)).getMonth() + 1)).slice(-2);
-    let year = (new Date(this.EntryDate)).getFullYear();
+    //let month = ("0" + ((new Date(this.EntryDate)).getMonth() + 1)).slice(-2);
+    //let year = (new Date(this.EntryDate)).getFullYear();
 
     let journalEntryAccounts = this.AccountsListTable.map<JournalEntryAccount>(item => {
       {
@@ -248,9 +255,9 @@ export class NewEntryComponent implements OnInit {
     model.entryDate = this.EntryDate;
     // model.descirption = '';
     model.notes = this.Notes;
-    model.month = Number(month);
-    model.year = year;
-    model.journalTypeID = this.JurnalTypeId;
+    //model.month = Number(month);
+    //model.year = year;
+    model.journalTypeId = this.journalTypeId;
     model.journalEntryAccounts = journalEntryAccounts;
 
     this.generalService.SaveNewJouranlEntry(model).subscribe(data => {
@@ -272,8 +279,8 @@ export class NewEntryComponent implements OnInit {
     });
   }
   validateData():boolean{
-    
-    if (!this.DocNumber||!this.EntryDate||!this.JurnalTypeId) {
+    debugger;
+    if (!this.DocNumber||!this.EntryDate||!this.journalTypeId) {
       this.toaster.warning('Please Fill Fields');
       return false;
       

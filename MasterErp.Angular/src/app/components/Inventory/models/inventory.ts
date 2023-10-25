@@ -1,4 +1,4 @@
-import { ItemModel } from "src/app/Models/ItemModel";
+import { OrderDetailModel } from "src/app/Models/ItemModel";
 
 export interface InventoryModel {
    
@@ -16,5 +16,5 @@ export interface ReceiveOrderModel {
     isCancelled: boolean;
     notes: string;
     docNumber: string;
-    items: ItemModel[];
+    items: OrderDetailModel[];
 }

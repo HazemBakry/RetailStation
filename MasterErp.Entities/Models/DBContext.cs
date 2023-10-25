@@ -25,10 +25,12 @@ namespace MasterErp.Entities.Models
 
         public DbSet<AccountTree> AccountTrees { get; set; }
         public DbSet<AccountType> AccountTypes { get; set; }
+        public DbSet<ActionType> ActionTypes { get; set; }
         public DbSet<Attendance> Attendance { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<Bank> Banks { get; set; }
         public DbSet<CostCenterTree> CostCenterTree { get; set; }
+        public DbSet<Currency> Currency { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeContract> EmployeeContracts { get; set; }
         public DbSet<EmployeeSalary> EmployeeSalaries { get; set; }

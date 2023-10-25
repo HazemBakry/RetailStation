@@ -30,7 +30,6 @@
     align-items: center;
 }
 
-
 .boxstyle1-content.hastable {
     margin-top: 20px;
     padding: 0px 0px 0px 0px;
@@ -69,9 +68,9 @@ tbody.collapse.show {
     border-bottom: 1px solid #b8c2ca;
     border-top: 1px solid #b8c2ca;
     color: #000000;
-    font-weight: 500;
+    font-weight: 600;
     height: 30px;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.25;
 }
 
@@ -95,7 +94,7 @@ tbody.collapse.show {
     padding-right: 5.6rem !important;
 }
 
-.cursor-pointer{
+.cursor-pointer {
     cursor: pointer !important;
 }
 

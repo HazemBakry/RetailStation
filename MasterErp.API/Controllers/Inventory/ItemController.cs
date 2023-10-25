@@ -19,10 +19,10 @@ namespace MasterErp.API.Controllers.Inventory
         }
 
         [HttpGet]
-        [Route("GetItemLookupsData")]
-        public List<ItemLookups> GetItemLookupsData()
+        [Route("GetItemsLookups")]
+        public List<ItemLookups> GetItemsLookups()
         {
-            return ItemService.GetItemLookupsData();
+            return ItemService.GetItemsLookups();
         }
 
         [HttpGet]

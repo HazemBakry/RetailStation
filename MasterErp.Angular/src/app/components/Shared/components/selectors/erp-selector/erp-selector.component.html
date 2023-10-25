@@ -24,10 +24,8 @@
             <!-- <input type="text" class="form-control form-control-sm" [(ngModel)]="CategorySearch"
                 placeholder="Search..." /> -->
         </div>
-        <ng-container
-            *ngFor="let item of ItemsList">
-            <a class="dropdown-item" (click)="onItemClick(item)"
-                [ngClass]="{'DropDownSelected': SelectorName == item.nameEN}">{{item.nameEN}}</a>
+        <ng-container *ngFor="let item of ItemsList">
+            <a class="dropdown-item" (click)="onItemClick(item)" [ngClass]="{'DropDownSelected': SelectorName == item.nameAR}">{{item.nameAR}}</a>
         </ng-container>
     </div>
 </div>

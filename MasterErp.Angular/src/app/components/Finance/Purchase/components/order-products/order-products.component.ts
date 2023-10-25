@@ -2,29 +2,29 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { PurchaseService } from '../../services/purchase.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { ItemModel } from 'src/app/Models/ItemModel';
+import { OrderDetailModel } from 'src/app/Models/ItemModel';
 
 @Component({
   selector: 'app-order-products',
   templateUrl: './order-products.component.html',
   styleUrls: ['./order-products.component.css']
 })
-export class OrderProductsComponent implements OnInit , OnChanges {
-  @Input() selectedSupplierProducts:ItemModel[]=[];
-  @Input() clearAllProducts:boolean=false;
-  @Input() showAddNew:boolean=true;
-  @Output() selectedProductsList =new EventEmitter<ItemModel[]>();
-  showLoader:boolean=false;
-  productsList:ItemModel[]=[];
+export class OrderProductsComponent implements OnInit, OnChanges {
+  @Input() selectedSupplierProducts: OrderDetailModel[] = [];
+  @Input() clearAllProducts: boolean = false;
+  @Input() showAddNew: boolean = true;
+  @Output() selectedProductsList = new EventEmitter<OrderDetailModel[]>();
+  showLoader: boolean = false;
+  productsList: OrderDetailModel[] = [];
   SuppliersList: any[] = [];
   BranchesList: any[] = [];
   LookupsList: any[] = [];
-  ItemsList: ItemModel[] = [];
-  ItemsByLookup: ItemModel[] = [];
+  ItemsList: OrderDetailModel[] = [];
+  ItemsByLookup: OrderDetailModel[] = [];
   ItemsBySupplier: any[] = [];
   // RawItemsList: any[] = [];
-  EditQuantityList: ItemModel[] = [];
-  selectedItem: ItemModel;
+  EditQuantityList: OrderDetailModel[] = [];
+  selectedItem: OrderDetailModel;
   // selectedItem: any={} ;
   activeTab = 'Item';
   notes: any;
@@ -39,16 +39,15 @@ export class OrderProductsComponent implements OnInit , OnChanges {
     this.AddSupplierProducts();
   }
   ngOnChanges(changes: any): void {
-    if (changes&&changes.selectedSupplierProducts) {
+    if (changes && changes.selectedSupplierProducts) {
       this.AddSupplierProducts();
     }
-    
-    if (changes&&changes.clearAllProducts&&!changes.clearAllProducts?.firstChange) {
-      this.productsList=[];
+
+    if (changes && changes.clearAllProducts && !changes.clearAllProducts?.firstChange) {
+      this.productsList = [];
     }
   }
-  AddSupplierProducts()
-  {
+  AddSupplierProducts() {
 
     this.selectedSupplierProducts.forEach(item => {
       let checked = this.productsList?.find(i => i.itemId == item.itemId);
@@ -62,15 +61,15 @@ export class OrderProductsComponent implements OnInit , OnChanges {
       this.ItemsList = data;
     });
   }
-  GetItemLookupsData() {
-    this.purchaseService.GetItemLookupsData().subscribe(data => {
+  GetItemsLookups() {
+    this.purchaseService.GetItemsLookups().subscribe(data => {
       this.LookupsList = data;
     });
   }
   openItemsModal(content: any) {
-    this.selectedItem ={} as ItemModel;
+    this.selectedItem = {} as OrderDetailModel;
     this.GetItemsData();
-    this. GetItemLookupsData();
+    this.GetItemsLookups();
     this.modalService.open(content, { centered: true, size: 'md' });
   }
   openEditQuantityModal(content: any) {
@@ -102,7 +101,7 @@ export class OrderProductsComponent implements OnInit , OnChanges {
         if (!checked)
           this.productsList.push(this.selectedItem);
         else
-          this.toaster.warning(this.selectedItem.nameAR + ' Is Exist In Purchase Item List')
+          this.toaster.warning(this.selectedItem.itemNameAr + ' Is Exist In Purchase Item List')
         this.modalService.dismissAll();
       }
       else
@@ -113,33 +112,34 @@ export class OrderProductsComponent implements OnInit , OnChanges {
         if (!itemChecked) {
           this.productsList.push(item);
         } else {
-          this.toaster.warning(item.nameAR + ' Is Exist In Purchase Item List');
+          this.toaster.warning(item.itemNameAr + ' is already exist');
         }
       });
       this.modalService.dismissAll();
     }
     this.emitSelectedProductsList();
   }
-  GetSelectedItem(item: ItemModel) {
+  GetSelectedItem(item: OrderDetailModel) {
 
     // let model: ItemModel = {} as ItemModel;
     this.selectedItem.itemId = item.itemId;
-    this.selectedItem.nameEN = item.nameEN;
-    this.selectedItem.nameAR = item.nameAR;
+    this.selectedItem.itemNameAr = item.itemNameAr;
+    this.selectedItem.itemNameEn = item.itemNameEn;
     this.selectedItem.unitId = item.unitId;
-    this.selectedItem.unitName = item.unitName;
-    this.selectedItem.price = item.cost;
-    this.selectedItem.cost = item.cost;
+    this.selectedItem.unitNameAr = item.unitNameAr;
+    this.selectedItem.unitNameEn = item.unitNameEn;
+    this.selectedItem.unitId = item.unitId;
+    this.selectedItem.price = item.price;
     this.selectedItem.quantity = 0;
-    this.selectedItem.totalValue = item.cost && item.quantity ? item.cost * item.quantity:0;
-    
+    this.selectedItem.itemTotalValue = item.price && item.quantity ? item.price * item.quantity : 0;
+
     // this.selectedItem=model;
   }
   GetSelectedLookup(item: any) {
-    const lookupId=item.itemLookupId;
+    const lookupId = item.itemLookupId;
     this.purchaseService.GetItemsByLookupId(lookupId).subscribe(data => {
       let Items: any[] = data;
-      this.ItemsByLookup=Items;
+      this.ItemsByLookup = Items;
       // this.ItemsByLookup = Items.map<PurchaseInvoiceDetails>(item => {
       //   {
       //     return {
@@ -149,9 +149,9 @@ export class OrderProductsComponent implements OnInit , OnChanges {
       //       itemName: item.nameEN,
       //       unitID: item.unitID,
       //       unitName: item.unitNameEn,
-      //       price: item.cost,
+      //       price: item.price,
       //       quantity: item.quantity,
-      //       totalValue: item.cost
+      //       totalValue: item.price
       //     }
       //   };
       // });
@@ -165,14 +165,13 @@ export class OrderProductsComponent implements OnInit , OnChanges {
     this.EditQuantityList.forEach(item => {
       let Item = this.productsList.find(i => i.itemId == item.itemId);
       Item.quantity = item.quantity;
-      Item.totalValue = item.cost * item.quantity;
+      Item.itemTotalValue = item.price * item.quantity;
     });
     this.emitSelectedProductsList();
     this.modalService.dismissAll();
   }
-  emitSelectedProductsList()
-  {
-    var list=this.productsList.filter(x=>x.quantity&&x.quantity>0);
+  emitSelectedProductsList() {
+    var list = this.productsList.filter(x => x.quantity && x.quantity > 0);
     this.selectedProductsList.emit(list);
   }
 }

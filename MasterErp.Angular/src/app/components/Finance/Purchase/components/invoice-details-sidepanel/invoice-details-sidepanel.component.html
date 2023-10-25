@@ -3,58 +3,59 @@
     <span class="ms-2">تفاصيل</span>
 </button>
 
-<ng-template #InvoiceDetailsSidepanel let-offcanvas >
-    <div class="m-1">
-
-        <div class="offcanvas-header pb-0" style="z-index: 9999;">
-            <div>
-                <h4 class="offcanvas-title m-0 d-flex align-items-center w-100"><i
-                        class="fas fa-history fa-2x main-color me-2"></i> التفاصيل</h4>
+<ng-template #InvoiceDetailsSidepanel let-offcanvas>
+    <div class="offcanvas-header mb-2" style="background-color: lightgray;">
+        <div>
+            <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
+                <i class="fas fa-info-circle fa-1x me-2"></i> رقم الفاتورة : {{invoiceData?.invoiceNumber}}
+            </h4>
+            <div class="sub-header ps-4 m-2">
+                <span class="fw-bold">اسم المورد :</span> {{invoiceData?.supplierName}}
             </div>
-            <button type="button" class="btn bg-danger text-white rounded" aria-label="Close" (click)="offcanvas.dismiss()">
-                <i class="fas fa-times"></i>
+            <div class="sub-header ps-4 m-2">
+                <span class="fw-bold">تاريخ الفاتورة :</span> {{invoiceData?.invoiceDate | date:'medium' }}
+            </div>
+        </div>
+    </div>
+
+    <div class="offcanvas-body pt-0">
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-dark mb-3" (click)="PrintOrders()">
+                <i class="fas fa-print"></i><span class="ms-2">{{"Print"}}</span>
+            </button>
+
+            <button class="btn btn-danger mb-3 ms-2" (click)="offcanvas.dismiss()">
+                <i class="fas fa-times"></i><span class="ms-2">{{"Close"}}</span>
             </button>
         </div>
-        <div class="offcanvas-sub-header m-3" >
-            <div>
-                <!-- <h5 class="offcanvas-sub-header m-0 d-flex align-items-center w-100">التفاصيل</h5> -->
-                <h5 class="m-0"> رقم الفاتورة : {{invoiceData?.invoiceNumber}}</h5>
-                <h5 class="m-0"> تاريخ الفاتورة : {{invoiceData?.invoiceDate| date}}</h5>
-                <h5 class="m-0"> اسم المورد : {{invoiceData?.supplierNameAR}}<span *ngIf="invoiceData"> - </span>{{invoiceData?.supplierNameEN}}</h5>
-                <h5 class="m-0"> قيمة الفاتورة : {{invoiceData?.invoiceTotalValue}}</h5>
 
-            </div>
+
+        <div class="table-responsive sidepanel-table-h large-scroll">
+            <table class="table table-bordered table-responsive table-middle table-hover m-0 bg-white bigtitle">
+                <thead>
+                    <tr>
+                        <th>اسم الصنف (Ar)</th>
+                        <th>اسم الصنف (En)</th>
+                        <th>الوحدة</th>
+                        <th>سعر الوحدة</th>
+                        <th>الكمية</th>
+                        <th>إجمالى القيمة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of invoiceData?.items">
+                        <td>{{item.itemNameAr}}</td>
+                        <td>{{item.itemNameEn}}</td>
+                        <td>{{item.unitNameEn}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.quantity}}</td>
+                        <td>{{item.itemTotalValue }}</td>
+                    </tr>
+                </tbody>
+
+            </table>
         </div>
-        <div class="offcanvas-body pt-0">
-
-           
-            <div class="boxstyle1-content hastable table-responsive table-vp-height small-scroll">
-                <table class="table table-bordered table-responsive table-middle table-hover m-0 bg-white bigtitle">
-                    <thead>
-                        <tr>
-                            <th>Item Name AR</th>
-                            <th>Item Name EN</th>
-                            <th>Item Price</th>
-                            <th>Quantity</th>
-                            <th>Total Value</th>
-                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of invoiceData?.items">
-                            <td>{{item.itemNameAR}}</td>
-                            <td>{{item.itemNameEN}}</td>
-                            <td>{{item.price}}</td>
-                            <td>{{item.quantity}}</td>
-                            <td>{{item.itemTotalValue }}</td>
-                            
-                        </tr>
-                    </tbody>
-
-                </table>
-            </div>
-            <app-empty-data [showContainer]="!invoiceData?.items?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
-        </div>
+        <app-empty-data [showContainer]="!invoiceData?.items?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
     </div>
 
 </ng-template>

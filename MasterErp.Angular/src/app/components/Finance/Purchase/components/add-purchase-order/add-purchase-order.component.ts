@@ -101,9 +101,9 @@ export class AddPurchaseOrderComponent implements OnInit {
       //       itemName: item.nameEN,
       //       unitID: item.unitID,
       //       unitName: item.unitNameEn,
-      //       price: item.cost,
+      //       price: item.price,
       //       quantity: item.quantity,
-      //       totalValue: item.cost
+      //       totalValue: item.price
       //     }
       //   };
       // });

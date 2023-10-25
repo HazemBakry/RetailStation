@@ -1,14 +1,11 @@
-export class ItemModel {
+export class OrderDetailModel {
     itemId: number;
-    nameEN: string;
-    nameAR: string;
+    itemNameAr: string;
+    itemNameEn: string;
     unitId: number;
-    unitName: number;
-    cost: number;
-    quantity: number;
+    unitNameAr: string;
+    unitNameEn: string;
     price: number;
-    totalValue: number;
-    isActive: boolean;
-    insertUser: number;
-    insertDate: string;
+    quantity: number;
+    itemTotalValue: number;
 }

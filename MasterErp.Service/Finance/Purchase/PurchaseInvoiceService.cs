@@ -64,26 +64,28 @@ namespace MasterErp.Service.Finance.Purchase
                 order_tbl.IsCancelled = false;
                 order_tbl.IsLocked = false;
                 order_tbl.Notes = model.Notes;
-                order_tbl.InvoiceDate = DateTime.Now;
-                order_tbl.InvoiceTotalValue = model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0;
-                order_tbl.SupplierId = model.SupplierId;
+                order_tbl.InvoiceDate = model.InvoiceDate ?? DateTime.Now;
+                order_tbl.InvoiceTotalValue = model.Items != null ? model.Items.Sum(x => x.ItemTotalValue) : 0;
+                order_tbl.SupplierId = model.SupplierId ?? 0;
                 order_tbl.InvoiceTypeId = model.InvoiceTypeId;
-                order_tbl.InvoiceNumber = (Context.PurchaseInvoices.Count() > 0 ? Context.PurchaseInvoices.Max(x => x.PurchaseInvoiceId) + 1 : 1);
+                order_tbl.InvoiceNumber = (Context.PurchaseInvoices.Count() > 0 ? Context.PurchaseInvoices.Max(x => x.InvoiceNumber) + 1 : 1);
 
                 Context.PurchaseInvoices.Add(order_tbl);
                 Context.SaveChanges();
 
-                foreach (ItemModel item in model.Items)
+                foreach (var item in model.Items)
                 {
                     var detail = new PurchaseInvoiceDetails
                     {
                         Price = item.Price,
-                        ItemID = item.ItemId,
+                        ItemId = item.ItemId,
                         Notes = model.Notes,
                         Quantity = item.Quantity,
-                        TotalValue = item.TotalValue,
-                        PurchaseInvoiceID = order_tbl.PurchaseInvoiceId,
-                        UnitID = item.UnitId
+                        TotalValue = item.ItemTotalValue,
+                        PurchaseInvoiceId = order_tbl.PurchaseInvoiceId,
+                        UnitId = item.UnitId,
+                        Discount = 0,
+                        NetValue = item.ItemTotalValue
                     };
 
                     Context.PurchaseInvoiceDetails.Add(detail);
@@ -101,7 +103,7 @@ namespace MasterErp.Service.Finance.Purchase
                 return new CreateModifyReturnsModel
                 {
                     Status = 1,
-                    Message = "Purchase Order Created"
+                    Message = "تم حفظ الفاتورة بنجاح"
                 };
             }
             catch (Exception ex)
@@ -171,7 +173,6 @@ namespace MasterErp.Service.Finance.Purchase
 
         public bool CancelPurchaseInvoice(int InvoiceId)
         {
-
             var Invoice = Context.PurchaseInvoices.FirstOrDefault(x => x.PurchaseInvoiceId == InvoiceId);
             if (Invoice is null)
             {
@@ -183,58 +184,7 @@ namespace MasterErp.Service.Finance.Purchase
             return true;
         }
 
-        public List<PurchaseInvoiceModel> GetInvoicesSearchDataOld(int SupplierId, int InvoiceNumber, string InvoiceDate)
-        {
-            var results = Context.PurchaseInvoices.AsQueryable();
-            if (InvoiceNumber > 0)
-            {
-                results = results.Where(s => s.InvoiceNumber == InvoiceNumber);
-            }
-            if (SupplierId > 0)
-            {
-                results = results.Where(s => s.SupplierId == SupplierId);
-
-            }
-            if (!string.IsNullOrEmpty(InvoiceDate))
-            {
-
-                var parsedDate = DateTime.Parse(InvoiceDate);
-                results = results.Where(s => s.InsertDate.Value.Date == parsedDate.Date);
-
-            }
-
-            //var query =
-            //           (from inv in results  
-            //           join det in Context.PurchaseInvoiceDetails.AsQueryable()
-            //           on inv.PurchaseInvoiceID equals det.PurchaseInvoiceID
-            //            select new { inv,det}).GroupBy(x => x.inv.PurchaseInvoiceID)
-
-            var details = Context.PurchaseInvoiceDetails.Where(x => results.Any(x => x.PurchaseInvoiceId == x.PurchaseInvoiceId)).ToList();
-
-
-            var finalRes = (from inv in results
-                            select new PurchaseInvoiceModel
-                            {
-                                PurchaseInvoiceId = inv.PurchaseInvoiceId,
-                                //InvoiceNumber = inv.InvoiceNumber,
-                                SupplierId = inv.SupplierId,
-                                Items = details.Where(x => x.PurchaseInvoiceID == inv.PurchaseInvoiceId).Select(item => new ItemModel
-                                {
-                                    ItemId = item.ItemID,
-                                    Quantity = item.Quantity,
-                                    //Price= item.Price,
-                                    TotalValue = item.TotalValue,
-                                    UnitId = item.UnitID,
-
-                                }).ToList()
-
-                            }).ToList();
-
-
-            return finalRes;
-        }
-
-        public List<PurchaseInvoiceItemsModel> GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate, int InvoiceId = 0)
+        public List<PurchaseInvoiceModel> GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate, int InvoiceId = 0)
         {
             SqlParameter[] param = new SqlParameter[4];
             param[0] = new SqlParameter("@SupplierId", SupplierId);
@@ -242,38 +192,73 @@ namespace MasterErp.Service.Finance.Purchase
             param[2] = new SqlParameter("@InvoiceDate", !string.IsNullOrEmpty(InvoiceDate) ? DateTime.Parse(InvoiceDate) : DBNull.Value);
             param[3] = new SqlParameter("@InvoiceId", InvoiceId);
 
-            var lst = SQLHelper.SQLQuery<PurchaseInvoiceItemsModel>("[dbo].[SP_GetInvoicesSearchData]", ConnectionString, param);
+            var result = SQLHelper.SQLQuery<PurchaseInvoiceItemsModel>("[dbo].[SP_GetInvoicesSearchData]", ConnectionString, param);
 
-            var result = lst.GroupBy(x => x.PurchaseInvoiceId).Select(p => new { Id = p.Key, lstInvoices = p.Select(prt => prt).ToList() }).ToList();
-            var finalRes = new List<PurchaseInvoiceItemsModel>();
-            foreach (var item in result)
+            var grpList = result.GroupBy(x => new
             {
-                var obj = item.lstInvoices;
-                var invoice = new PurchaseInvoiceItemsModel
+                x.PurchaseInvoiceId,
+                x.InvoiceDate,
+                x.InvoiceNumber,
+                x.InvoiceTotalValue,
+                x.SupplierNameEN
+            }).Select(p => new PurchaseInvoiceModel
+            {
+                InvoiceNumber = p.Key.InvoiceNumber,
+                SupplierName = p.Key.SupplierNameEN,
+                InvoiceDate = p.Key.InvoiceDate,
+                InvoiceTotalValue = p.Key.InvoiceTotalValue,
+                Items = p.Select(y => new OrderDetailModel
                 {
-                    InvoiceNumber = obj.FirstOrDefault()?.InvoiceNumber,
-                    PurchaseInvoiceId = obj.FirstOrDefault()?.PurchaseInvoiceId,
-                    InvoiceTypeId = obj.FirstOrDefault().InvoiceTypeId,
-                    SupplierId = obj.FirstOrDefault().SupplierId,
-                    SupplierNameAR = obj.FirstOrDefault()?.SupplierNameAR,
-                    SupplierNameEN = obj.FirstOrDefault()?.SupplierNameEN,
-                    InvoiceTotalValue = obj.FirstOrDefault().InvoiceTotalValue,
-                    InvoiceDate = obj.FirstOrDefault().InvoiceDate,
-                    Items = obj
+                    ItemId = y.ItemId,
+                    Price = y.Price,
+                    ItemNameEn = y.ItemNameEN,
+                    ItemNameAr = y.ItemNameAR,
+                    Quantity = y.Quantity,
+                    ItemTotalValue = y.ItemTotalValue,
+                    UnitNameAr = y.UnitNameAr,
+                    UnitNameEn = y.UnitNameEn,
+                    UnitId = y.UnitId
+                }).ToList()
+            }).ToList();
 
-                };
-                finalRes.Add(invoice);
-            }
-
-
-            return finalRes;
+            return grpList;
         }
 
-        public PurchaseInvoiceItemsModel GetInvoiceDetailsById(int InvoiceId)
+        public List<PurchaseInvoiceModel> GetPurchaseInvoiceDetails(int InvoiceId)
         {
-            var result = GetInvoicesSearchData(0, null, null, InvoiceId);
+            SqlParameter[] Param = new SqlParameter[1];
+            Param[0] = new SqlParameter("@PurchaseInvoiceId", InvoiceId);
 
-            return result.FirstOrDefault();
+            var result = SQLHelper.SQLQuery<PurchaseInvoiceItemsModel>("[dbo].[SP_GetPurchaseInvoiceDetails]", ConnectionString, Param);
+
+            var grp = result.GroupBy(x => new
+            {
+                x.PurchaseInvoiceId,
+                x.InvoiceDate,
+                x.InvoiceNumber,
+                x.InvoiceTotalValue,
+                x.SupplierNameEN
+            }).Select(p => new PurchaseInvoiceModel
+            {
+                InvoiceNumber = p.Key.InvoiceNumber,
+                SupplierName = p.Key.SupplierNameEN,
+                InvoiceDate = p.Key.InvoiceDate,
+                InvoiceTotalValue = p.Key.InvoiceTotalValue,
+                Items = p.Select(y => new OrderDetailModel
+                {
+                    ItemId = y.ItemId,
+                    Price = y.Price,
+                    ItemNameEn = y.ItemNameEN,
+                    ItemNameAr = y.ItemNameAR,
+                    Quantity = y.Quantity,
+                    ItemTotalValue = y.ItemTotalValue,
+                    UnitNameAr = y.UnitNameAr,
+                    UnitNameEn = y.UnitNameEn,
+                    UnitId = y.UnitId
+                }).ToList()
+            }).ToList();
+
+            return grp;
         }
 
         public List<PurchaseReturns> GetPurchasesReturnsData()
