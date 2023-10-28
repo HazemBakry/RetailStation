@@ -4,53 +4,54 @@ import { environment } from 'src/environments/environment';
 import { PaymentReceipt } from '../models/GeneralAccounts/PaymentReceipt';
 import { ReceiveReceipt } from '../models/GeneralAccounts/ReceiveReceipt';
 import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentService {
 
-  agencyTypeList:any[]=[
+  agencyTypeList: any[] = [
     // {
     //   id:1,
     //   nameAR:'عميل',
     //   nameEN:'Customer'
     // },
     {
-      id:2,
-      nameAR:'مورد',
-      nameEN:'Supplier'
+      id: 2,
+      nameAR: 'مورد',
+      nameEN: 'Supplier'
     },
     {
-      id:3,
-      nameAR:'حساب',
-      nameEN:'Account'
+      id: 3,
+      nameAR: 'حساب',
+      nameEN: 'Account'
     }
   ]
 
-  paymentTypeList:any[]=[
+  paymentTypeList: any[] = [
     {
-      id:3,
-      nameAR:'شيكات',
-      nameEN:'Cheque'
+      id: 3,
+      nameAR: 'شيكات',
+      nameEN: 'Cheque'
     },
     {
-      id:4,
-      nameAR:'نقدي',
-      nameEN:'Cash'
+      id: 4,
+      nameAR: 'نقدي',
+      nameEN: 'Cash'
     }
   ]
 
 
   URL = environment.apiURL;
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   GetPaymentReceiptData() {
     return this.http.get<any[]>(this.URL + 'Payment/GetPaymentReceiptData');
   }
-  
-  SaveNewPaymentReceipt(model:PaymentReceipt) {
-    return this.http.post<CreateModifyReturnsModel>(this.URL + 'Payment/SaveNewPaymentReceipt',model);
+
+  SaveNewPaymentReceipt(model: PaymentReceipt) {
+    return this.http.post<CreateModifyReturnsModel>(this.URL + 'Payment/SaveNewPaymentReceipt', model);
 
   }
 
@@ -59,8 +60,26 @@ export class PaymentService {
 
   }
 
-  SaveNewReceiveReceipt(model:ReceiveReceipt) {
-    return this.http.post<CreateModifyReturnsModel>(this.URL + 'Payment/SaveNewReceiveReceipt',model);
+  SaveNewReceiveReceipt(model: ReceiveReceipt) {
+    return this.http.post<CreateModifyReturnsModel>(this.URL + 'Payment/SaveNewReceiveReceipt', model);
 
   }
+
+  GetReceiveReceiptsSummary(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'Payment/GetReceiveReceiptsSummary', model);
+  }
+
+  CancelReceiveReceipt(ReceiptId: any) {
+    return this.http.get<any[]>(this.URL + 'Payment/CancelReceiveReceipt?ReceiptId=' + ReceiptId);
+  }
+
+  GetPaymentReceiptsSummary(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'Payment/GetPaymentReceiptsSummary', model);
+  }
+
+  CancelPaymentReceipt(ReceiptId: any) {
+    return this.http.get<any[]>(this.URL + 'Payment/CancelPaymentReceipt?ReceiptId=' + ReceiptId);
+  }
+
+
 }

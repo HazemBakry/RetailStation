@@ -20,42 +20,46 @@ import { PurchaseReturnsComponent } from './Purchase/components/purchase-returns
 import { SuppliersAccountStatementComponent } from './Purchase/components/suppliers-account-statement/suppliers-account-statement.component';
 import { CreatePaymentReceiptComponent } from './GeneralAccounts/components/create-payment-receipt/create-payment-receipt.component';
 import { CreateReceiveReceiptComponent } from './GeneralAccounts/components/create-receive-receipt/create-receive-receipt.component';
+import { PaymentReceiptsComponent } from './GeneralAccounts/components/payment-receipts/payment-receipts.component';
+import { ReceiveReceiptsComponent } from './GeneralAccounts/components/receive-receipts/receive-receipts.component';
 
 const routes: Routes = [
   // {path:'newReceiveReceipt',component:CashReceiveReceiptComponent},
 
   {
-    
-    path:'purchases',
-    component:PurchasesLayoutComponent,
-    children:[
-      {path:'purchase-invoices',component:PurchaseInvoicesComponent},
-      {path:'purchase-orders',component:PurchaseOrdersComponent},
-      {path:'purchase-returns',component:PurchaseReturnsComponent},
-      {path:'add-purchase-invoice',component:AddPurchaseInvoiceComponent},
-      {path:'add-purchase-order',component:AddPurchaseOrderComponent},
-      {path:'add-purchase-returns',component:AddPurchaseReturnsComponent},
-      {path:'suppliers-account-statement',component:SuppliersAccountStatementComponent},
+
+    path: 'purchases',
+    component: PurchasesLayoutComponent,
+    children: [
+      { path: 'purchase-invoices', component: PurchaseInvoicesComponent },
+      { path: 'purchase-orders', component: PurchaseOrdersComponent },
+      { path: 'purchase-returns', component: PurchaseReturnsComponent },
+      { path: 'add-purchase-invoice', component: AddPurchaseInvoiceComponent },
+      { path: 'add-purchase-order', component: AddPurchaseOrderComponent },
+      { path: 'add-purchase-returns', component: AddPurchaseReturnsComponent },
+      { path: 'suppliers-account-statement', component: SuppliersAccountStatementComponent },
 
     ]
   },
   {
-    path:'generalAccounts',
-    component:PurchasesLayoutComponent,
-    children:[
+    path: 'generalAccounts',
+    component: PurchasesLayoutComponent,
+    children: [
 
-      {path:'currency',component:CurrencyComponent},
-      {path:'featured',component:FeaturedComponent},
-      {path:'fiscalYear',component:FiscalYearComponent},
-      {path:'receiptBooks',component:ReceiptBooksComponent},
-      {path:'account-tree',component:AccountTreeComponent},
-      {path:'cost-center-tree',component:CostCenterTreeComponent},
-      {path:'sales-invoice',component:SalesInvoiceComponent},
-      {path:'add-sales',component:AddSalesComponent},
-      {path:'new-entry',component:NewEntryComponent},
-      {path:'journal-daily-list',component:JournalDailyListComponent},
-      {path:'create-payment-receipt',component:CreatePaymentReceiptComponent},
-      {path:'create-receive-receipt',component:CreateReceiveReceiptComponent},
+      { path: 'currency', component: CurrencyComponent },
+      { path: 'featured', component: FeaturedComponent },
+      { path: 'fiscalYear', component: FiscalYearComponent },
+      { path: 'receiptBooks', component: ReceiptBooksComponent },
+      { path: 'account-tree', component: AccountTreeComponent },
+      { path: 'cost-center-tree', component: CostCenterTreeComponent },
+      { path: 'sales-invoice', component: SalesInvoiceComponent },
+      { path: 'add-sales', component: AddSalesComponent },
+      { path: 'new-entry', component: NewEntryComponent },
+      { path: 'journal-daily-list', component: JournalDailyListComponent },
+      { path: 'create-payment-receipt', component: CreatePaymentReceiptComponent },
+      { path: 'create-receive-receipt', component: CreateReceiveReceiptComponent },
+      { path: 'payment-receipts', component: PaymentReceiptsComponent },
+      { path: 'receive-receipts', component: ReceiveReceiptsComponent },
 
     ]
   },

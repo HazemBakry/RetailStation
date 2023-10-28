@@ -25,6 +25,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   InvoiceTypeId: any;
   InvoiceDate: any;
   InvoiceNumber = '-';
+  DocNumber: any;
   BranchName = 'الفروع';
   SupplierName = 'الموردين';
   TypeName = 'نوع الفاتورة';
@@ -143,7 +144,6 @@ export class AddPurchaseInvoiceComponent implements OnInit {
       return;
     }
 
-
     let model: PurchaseInvoiceModel = {} as PurchaseInvoiceModel;
 
     model.purchaseInvoiceId = 0;
@@ -152,6 +152,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
     model.InvoiceTypeId = this.InvoiceTypeId;
     model.userId = 0;
     model.notes = this.notes;
+    model.docNumber = this.DocNumber;
     model.invoiceDate = this.InvoiceDate;
     model.items = this.ProductsList;
     this.showLoader = true;
@@ -169,4 +170,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
 
   }
 
+  PrintOrder(){
+    
+  }
 }

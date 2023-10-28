@@ -54,21 +54,26 @@
             </div>
         </div>
     </div>
+
+    <div class="m-3">
+        <button class="btn btn-primary btn-lg fs-6 me-2" (click)="CreateNewPurchaseOrder()">
+            <i class="fas fa-check-circle"></i>
+            <span class="ms-2">حفظ</span>
+        </button>
+        <button class="btn btn-secondary btn-lg fs-6 me-2" (click)="PrintOrder()">
+            <i class="fas fa-print"></i>
+            <span class="ms-2">طباعة</span>
+        </button>
+        <button class="btn btn-warning btn-lg fs-6 me-2 font-white" (click)="ClearAllFields()">
+            <i class="fas fa-trash"></i>
+            <span class="ms-2">افراغ الخانات</span>
+        </button>
+    </div>
 </div>
 
 
 
 <app-order-products [selectedSupplierProducts]="ItemsBySupplier" [clearAllProducts]="clearAllProducts" (selectedProductsList)="GetSelectedProductsList($event)"></app-order-products>
 
-<div class="mt-3">
-    <button class="btn btn-primary btn-lg fs-6 me-2" (click)="CreateNewPurchaseOrder()">
-        <i class="fas fa-check-circle"></i>
-        <span class="ms-2">حفظ</span>
-    </button>
-    <button class="btn btn-warning btn-lg fs-6 me-2" (click)="ClearAllFields()">
-        <i class="fas fa-times"></i>
-        <span class="ms-2">مسح</span>
-    </button>
-</div>
 
 <ngx-loading [show]="showLoader"></ngx-loading>

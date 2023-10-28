@@ -27,17 +27,25 @@
 
 .nav-item.nav-item-title:not(:first-child) {
     border-top: 1px solid #e2e5e8;
-    margin-top: 20px;
+    /* margin-top: 20px; */
 }
 
 .nav-item.nav-item-title {
-    padding-top: 15px;
+    padding-top: 5px;
     padding-bottom: 5px;
+    font-size: 14px;
+    background-color: var(--active);
+}
+
+.nav-item.item-home {
+    font-size: 15px;
+    background: linear-gradient(45deg, #1e59af, #6078ea)!important;
+    /* background: linear-gradient(45deg, #7e2f2fe8, #ff0000)!important; */
 }
 
 .main-sidebar .main-nav {
     border-right: 4px solid transparent;
-    font-size: 15px;
+    font-size: 12px;
     padding-top: 10px;
     padding-bottom: 10px;
 }

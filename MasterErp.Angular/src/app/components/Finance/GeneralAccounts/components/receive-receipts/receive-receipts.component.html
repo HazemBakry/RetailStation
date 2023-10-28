@@ -2,9 +2,9 @@
     <div class="boxstyle1">
         <div class="boxstyle1-header bg-light">
             <div class="boxstyle1-header-left mb-3">
-                <button class="btn btn-primary" routerLink="/Finance/purchases/add-purchase-invoice">
+                <button class="btn btn-primary" routerLink="/Finance/generalAccounts/create-receive-receipt">
                     <i class="fas fa-plus-circle"></i>
-                    <span class="ms-2">انشاء فاتورة</span>
+                    <span class="ms-2">انشاء سند قبض</span>
                 </button>
             </div>
         </div>
@@ -44,7 +44,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of PurchaseList">
+                        <tr *ngFor="let item of List">
                             <td>{{item.invoiceNumber}}</td>
                             <td>{{item.docNumber}}</td>
                             <td>{{item.invoiceDate | date}}</td>
@@ -83,8 +83,7 @@
             </div>
         </div>
     </div>
-    <app-empty-data [showContainer]="!PurchaseList?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+    <app-empty-data [showContainer]="!List?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
 </div>
 
-
-<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->
+<ngx-loading [show]="showLoader"></ngx-loading>

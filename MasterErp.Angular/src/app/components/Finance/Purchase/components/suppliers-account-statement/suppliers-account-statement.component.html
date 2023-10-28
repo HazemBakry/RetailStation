@@ -1,12 +1,11 @@
 <div class="card radius-10 border-0 card-shadow mb-3">
     <div class="card-header bg-white">
-        <h5 class="m-0 fw-bold">حسابات الموردين</h5>
+        <h5 class="m-0 fw-bold">كشف حساب مورد</h5>
     </div>
     <div class="card-body bg-light">
         <div class="row mb-3">
             <div class="col-lg-4 offset-lg-1">
-                <app-erp-selector [SelectorName]="SupplierName" [ItemsList]="SuppliersList"
-                    (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector>
+                <app-erp-selector [SelectorName]="SupplierName" [ItemsList]="SuppliersList" (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector>
             </div>
             <div class="col-lg-4 mt-2">
                 <button class="btn btn-primary " (click)="loadData()">
@@ -71,7 +70,7 @@
                 </tbody>
 
             </table>
-           
+
         </div>
         <app-empty-data [showContainer]="!PurchaseList?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
     </div>

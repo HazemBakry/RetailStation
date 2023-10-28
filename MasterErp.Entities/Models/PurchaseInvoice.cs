@@ -10,7 +10,8 @@ namespace MasterErp.Entities.Models
     {
 		public int PurchaseInvoiceId { get; set; }
 		public int InvoiceNumber { get; set; }
-		public DateTime InvoiceDate { get; set; }
+        public string DocNumber { get; set; }
+        public DateTime InvoiceDate { get; set; }
 		public int? InvoiceTypeId { get; set; }
 		public DateTime DueDate { get; set; }
 		public int SupplierId { get; set; }

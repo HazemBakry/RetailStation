@@ -27,6 +27,8 @@ import { InvoiceSearchSidepanelComponent } from './Purchase/components/invoice-s
 import { InvoiceDetailsSidepanelComponent } from './Purchase/components/invoice-details-sidepanel/invoice-details-sidepanel.component';
 import { CreateReceiveReceiptComponent } from './GeneralAccounts/components/create-receive-receipt/create-receive-receipt.component';
 import { CreatePaymentReceiptComponent } from './GeneralAccounts/components/create-payment-receipt/create-payment-receipt.component';
+import { PaymentReceiptsComponent } from './GeneralAccounts/components/payment-receipts/payment-receipts.component';
+import { ReceiveReceiptsComponent } from './GeneralAccounts/components/receive-receipts/receive-receipts.component';
 
 
 @NgModule({
@@ -53,7 +55,9 @@ import { CreatePaymentReceiptComponent } from './GeneralAccounts/components/crea
     InvoiceDetailsSidepanelComponent,
 
     CreateReceiveReceiptComponent,
-    CreatePaymentReceiptComponent
+    CreatePaymentReceiptComponent,
+    PaymentReceiptsComponent,
+    ReceiveReceiptsComponent
     
   ],
   imports: [

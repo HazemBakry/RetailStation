@@ -1,20 +1,18 @@
 <div class="card radius-10 border-0 card-shadow mb-3">
     <div class="card-header bg-white">
-        <h5 class="m-0 fw-bold">سندات القبض</h5>
+        <h5 class="m-0 fw-bold">سندات الصرف</h5>
     </div>
     <div class="card-body bg-light">
         <div class="row ">
             <div class="col-lg-3 offset-lg-1 mb-3">
                 <div class="form-floating">
-                    <input type="text" disabled [(ngModel)]="paymentReceiptModel.receiptNumber"
-                        class="form-control input-size" id="floatingInput2" placeholder="any" autocomplete="off">
+                    <input type="text" disabled [(ngModel)]="paymentReceiptModel.receiptNumber" class="form-control input-size" id="floatingInput2" placeholder="any" autocomplete="off">
                     <label for="floatingInput2"> رقم الايصال</label>
                 </div>
             </div>
             <div class="col-lg-3 offset-lg-1 mb-3">
                 <div class="form-floating">
-                    <input type="text" [(ngModel)]="paymentReceiptModel.benefitPerson" class="form-control input-size"
-                        id="floatingInput2" placeholder="any" autocomplete="off">
+                    <input type="text" [(ngModel)]="paymentReceiptModel.benefitPerson" class="form-control input-size" id="floatingInput2" placeholder="any" autocomplete="off">
                     <label for="floatingInput2"> اسم المستفيد</label>
                 </div>
             </div>
@@ -22,42 +20,36 @@
 
         <div class="row">
             <div class="col-lg-3 offset-lg-1 mb-3">
-                <app-erp-selector-with-search #Selector [SelectorName]="'طريقه الدفع'" [ItemsList]="paymentTypeList"
-                    [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedPaymentType($event)">
+                <app-erp-selector-with-search #Selector [SelectorName]="'طريقه الدفع'" [ItemsList]="paymentTypeList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedPaymentType($event)">
                 </app-erp-selector-with-search>
             </div>
             <div class="col-lg-3 offset-lg-1 mb-3">
 
-                <app-erp-selector-with-search #Selector [SelectorName]="'دفتر ايصال'" [ItemsList]="receiptLedgerList"
-                    [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedReceiptLedger($event)">
+                <app-erp-selector-with-search #Selector [SelectorName]="'دفتر ايصال'" [ItemsList]="receiptLedgerList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedReceiptLedger($event)">
                 </app-erp-selector-with-search>
             </div>
         </div>
 
         <div class="row">
             <div class="col-lg-3 offset-lg-1 mb-3">
-                <app-erp-selector-with-search #Selector [SelectorName]="'نوع جهةالتعامل'" [ItemsList]="agencyTypeList"
-                    [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAgencyType($event)">
+                <app-erp-selector-with-search #Selector [SelectorName]="'نوع جهةالتعامل'" [ItemsList]="agencyTypeList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAgencyType($event)">
                 </app-erp-selector-with-search>
 
             </div>
             <div class="col-lg-3 offset-lg-1 mb-3">
-                <app-erp-selector-with-search #Selector [SelectorName]="'جهةالتعامل'" [ItemsList]="agencyList"
-                    [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAgency($event)">
+                <app-erp-selector-with-search #Selector [SelectorName]="'جهةالتعامل'" [ItemsList]="agencyList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAgency($event)">
                 </app-erp-selector-with-search>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-3 offset-lg-1 mb-3">
-                <app-erp-selector-with-search #Selector [SelectorName]="'حساب الواجهه'" [ItemsList]="accountList"
-                    [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAccount($event)">
+                <app-erp-selector-with-search #Selector [SelectorName]="'حساب الواجهه'" [ItemsList]="accountList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAccount($event)">
                 </app-erp-selector-with-search>
 
             </div>
             <div class="col-lg-3 offset-lg-1 mb-3" *ngIf="paymentReceiptModel?.paymentTypeId==3">
                 <div class="form-floating">
-                    <input type="text" [(ngModel)]="paymentReceiptModel.chequeNumber" class="form-control input-size"
-                        id="floatingInput2" placeholder="any" autocomplete="off">
+                    <input type="text" [(ngModel)]="paymentReceiptModel.chequeNumber" class="form-control input-size" id="floatingInput2" placeholder="any" autocomplete="off">
                     <label for="floatingInput2"> رقم الشيك</label>
                 </div>
             </div>
@@ -68,15 +60,13 @@
             <div class="col-lg-3 offset-lg-1 mb-3">
 
                 <div class="form-floating">
-                    <input type="date" class="form-control input-size" [(ngModel)]="paymentReceiptModel.releaseDate"
-                        id="floatingInput2" placeholder="any" autocomplete="off">
+                    <input type="date" class="form-control input-size" [(ngModel)]="paymentReceiptModel.releaseDate" id="floatingInput2" placeholder="any" autocomplete="off">
                     <label for="floatingInput2">تاريخ </label>
                 </div>
             </div>
             <div class="col-lg-3 offset-lg-1 mb-3">
                 <div class="form-floating">
-                    <input type="text" [(ngModel)]="paymentReceiptModel.docNumber" class="form-control input-size"
-                        id="floatingInput2" placeholder="any" autocomplete="off">
+                    <input type="text" [(ngModel)]="paymentReceiptModel.docNumber" class="form-control input-size" id="floatingInput2" placeholder="any" autocomplete="off">
                     <label for="floatingInput2"> الرقم الدفتري</label>
                 </div>
             </div>
@@ -85,8 +75,7 @@
 
             <div class="col-lg-6 offset-lg-1 mb-3">
                 <div class="form-floating">
-                    <input type="number" [(ngModel)]="paymentReceiptModel.moneyAmount" class="form-control input-size"
-                        id="floatingInput2" placeholder="any" autocomplete="off">
+                    <input type="number" [(ngModel)]="paymentReceiptModel.moneyAmount" class="form-control input-size" id="floatingInput2" placeholder="any" autocomplete="off">
                     <label for="floatingInput2"> المبلغ</label>
                 </div>
             </div>
@@ -95,8 +84,7 @@
         <div class="row mb-3">
             <div class="col-lg-9 offset-lg-1 h-100">
                 <div class="form-floating">
-                    <textarea type="text" [(ngModel)]="paymentReceiptModel.notes" class="form-control "
-                        id="floatingInput2" placeholder="any" autocomplete="off">
+                    <textarea type="text" [(ngModel)]="paymentReceiptModel.notes" class="form-control " id="floatingInput2" placeholder="any" autocomplete="off">
                     </textarea>
                     <label for="floatingInput2">البيان</label>
                 </div>

@@ -8,6 +8,8 @@ import { SharedModule } from '../Shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { OrderSearchSidepanelComponent } from './components/order-search-sidepanel/order-search-sidepanel.component';
+import { RawItemsComponent } from './components/raw-items/raw-items.component';
+import { ItemsCategoryComponent } from './components/items-category/items-category.component';
 
 
 @NgModule({
@@ -15,7 +17,9 @@ import { OrderSearchSidepanelComponent } from './components/order-search-sidepan
     InventoryLayoutComponent,
     CreateReceiveOrderComponent,
     ReceivedOrdersComponent,
-    OrderSearchSidepanelComponent
+    OrderSearchSidepanelComponent,
+    RawItemsComponent,
+    ItemsCategoryComponent
   ],
   imports: [
     CommonModule,

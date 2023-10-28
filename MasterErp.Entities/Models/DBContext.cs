@@ -68,7 +68,7 @@ namespace MasterErp.Entities.Models
         public DbSet<PurchaseReturns> PurchaseReturns { get; set; }
         public DbSet<PurchaseReturnsDetails> PurchaseReturnsDetails { get; set; }
         public DbSet<PurchaseInvoiceType> PurchaseInvoiceTypes { get; set; }
-        public DbSet<ReceiveOrder> ReceiveOrder { get; set; }
+        public DbSet<ReceiveOrder> ReceiveOrders { get; set; }
         public DbSet<ReceiveOrderDetails> ReceiveOrderDetails { get; set; }
         public DbSet<InventoryDataModel> Inventory { get; set; }
         public DbSet<Customer> Customers { get; set; }

@@ -4,10 +4,12 @@ using MasterErp.Entities.Common.Inventory.ReceiveOrder;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Inventory;
+using MasterErp.Service.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,9 +39,32 @@ namespace MasterErp.Service.Inventory
         }
 
 
-        public List<ReceiveOrder> GetReceiveOrdersData()
+        public DataTable GetReceiveOrdersSummary(FilterModel model)
         {
-            return Context.ReceiveOrder.ToList();
+            SqlParameter[] param = new SqlParameter[2];
+
+            param[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
+            param[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
+
+            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetReceiveOrdersSummary]", ConnectionString, param);
+            return result;
+
+            //var result = Context.ReceiveOrders.Join(Context.Suppliers,
+            //         o => o.SupplierId,
+            //         s => s.SupplierId,
+            //         (o, s) => new
+            //         {
+            //             OrderNumber = o.OrderNumber,
+            //             ReceiveDate = o.ReceiveDate,
+            //             DocNumber = o.DocNumber,
+            //             IsLocked = o.IsLocked,
+            //             PurchaseOrderId = o.PurchaseOrderId,
+            //             ReceiveOrderId = o.ReceiveOrderId,
+            //             TotalValue = o.TotalValue,
+            //             SupplierName = s.NameAR
+            //         }).ToList().ToDataTable();
+
+            //return result;
         }
 
         public List<InventoryDataModel> GetInventoryList()
@@ -107,7 +132,7 @@ namespace MasterErp.Service.Inventory
 
                 order_tbl.ReceiveDate = DateTime.Now;
                 order_tbl.InsertDate = DateTime.Now;
-                order_tbl.OrderNumber = (Context.ReceiveOrder.Count() > 0 ? Context.ReceiveOrder.Max(x => x.ReceiveOrderId) + 1 : 1);
+                order_tbl.OrderNumber = (Context.ReceiveOrders.Count() > 0 ? Context.ReceiveOrders.Max(x => x.OrderNumber) + 1 : 1);
                 order_tbl.DocNumber = string.Empty;
                 order_tbl.InsertUser = string.Empty;
                 order_tbl.PurchaseOrderId = model.PurchaseOrderId;
@@ -118,7 +143,7 @@ namespace MasterErp.Service.Inventory
                 order_tbl.SupplierId = model.SupplierId;
                 order_tbl.InventoryId = model.InventoryId;
 
-                Context.ReceiveOrder.Add(order_tbl);
+                Context.ReceiveOrders.Add(order_tbl);
                 Context.SaveChanges();
 
                 foreach (ItemModel item in model.Items)

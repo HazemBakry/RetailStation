@@ -41,14 +41,14 @@ namespace MasterErp.Service.Finance.Purchase
             JournalEntryService = _journalEntryService;
         }
 
-        public DataTable GetPurchaseInvoiceData(FilterModel model)
+        public DataTable GetPurchaseInvoicesSummary(FilterModel model)
         {
             SqlParameter[] param = new SqlParameter[2];
 
             param[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
             param[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
 
-            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetPurchaseInvoiceData]", ConnectionString, param);
+            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetPurchaseInvoicesSummary]", ConnectionString, param);
             return result;
         }
 

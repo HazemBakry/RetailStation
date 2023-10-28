@@ -24,10 +24,10 @@ namespace MasterErp.API.Controllers.Finance.Purchase
         }
 
         [HttpPost]
-        [Route("GetPurchaseInvoiceData")]
-        public DataTable GetPurchaseInvoiceData(FilterModel model)
+        [Route("GetPurchaseInvoicesSummary")]
+        public DataTable GetPurchaseInvoicesSummary(FilterModel model)
         {
-            return _purchaseInvoiceService.GetPurchaseInvoiceData(model);
+            return _purchaseInvoiceService.GetPurchaseInvoicesSummary(model);
         }
 
         [HttpPost]

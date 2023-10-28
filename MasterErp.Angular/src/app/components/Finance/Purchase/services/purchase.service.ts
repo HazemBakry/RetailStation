@@ -15,8 +15,8 @@ export class PurchaseService {
 
   constructor(private http: HttpClient) { }
 
-  GetPurchaseInvoiceData(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'PurchaseInvoice/GetPurchaseInvoiceData', model);
+  GetPurchaseInvoicesSummary(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'PurchaseInvoice/GetPurchaseInvoicesSummary', model);
   }
 
   CancelPurchaseInvoice(InvoiceId:number) {

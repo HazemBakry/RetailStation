@@ -4,6 +4,7 @@ import { PurchaseInvoiceDetails } from "./PurchaseInvoiceDetailsModel";
 export interface PurchaseInvoiceModel {
     purchaseInvoiceId: number | null;
     invoiceNumber: string;
+    docNumber: string;
     invoiceDate: Date;
     supplierId: number;
     InvoiceTypeId: number;

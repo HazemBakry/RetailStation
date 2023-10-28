@@ -15,11 +15,11 @@ namespace MasterErp.API.Controllers.Inventory
         {
             _inventoryService= inventoryService;
         }
-        [HttpGet]
-        [Route("GetReceiveOrdersData")]
-        public IActionResult GetReceiveOrdersData()
+        [HttpPost]
+        [Route("GetReceiveOrdersSummary")]
+        public IActionResult GetReceiveOrdersSummary(FilterModel model)
         {
-            var results = _inventoryService.GetReceiveOrdersData();
+            var results = _inventoryService.GetReceiveOrdersSummary(model);
             return Ok(results); 
         }
 
