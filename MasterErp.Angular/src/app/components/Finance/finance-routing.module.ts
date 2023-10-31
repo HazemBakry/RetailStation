@@ -20,6 +20,7 @@ import { PurchasesReturnsComponent } from './Purchase/components/purchases-retur
 import { SuppliersAccountStatementComponent } from './Purchase/components/suppliers-account-statement/suppliers-account-statement.component';
 import { CreatePaymentReceiptComponent } from './GeneralAccounts/components/create-payment-receipt/create-payment-receipt.component';
 import { CreateReceiveReceiptComponent } from './GeneralAccounts/components/create-receive-receipt/create-receive-receipt.component';
+import { PaymentReceiptsComponent } from './GeneralAccounts/components/payment-receipts/payment-receipts.component';
 
 const routes: Routes = [
   // {path:'newReceiveReceipt',component:CashReceiveReceiptComponent},
@@ -56,6 +57,7 @@ const routes: Routes = [
       {path:'journalDailyList',component:JournalDailyListComponent},
       {path:'createPaymentReceipt',component:CreatePaymentReceiptComponent},
       {path:'createReceiveReceipt',component:CreateReceiveReceiptComponent},
+      {path:'paymentReceipts',component:PaymentReceiptsComponent},
 
     ]
   },
