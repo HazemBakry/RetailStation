@@ -2,17 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { PurchaseService } from '../../services/purchase.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { PurchaseInvoiceDetails } from '../../models/PurchaseInvoiceDetailsModel';
-import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
 import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
 import { PurchaseOrderModel } from '../../models/PurchaseOrder';
 
 @Component({
-  selector: 'app-create-purchases-order',
-  templateUrl: './create-purchases-order.component.html',
-  styleUrls: ['./create-purchases-order.component.css']
+  selector: 'app-add-purchase-order',
+  templateUrl: './add-purchase-order.component.html',
+  styleUrls: ['./add-purchase-order.component.css']
 })
-export class CreatePurchasesOrderComponent implements OnInit {
+export class AddPurchaseOrderComponent implements OnInit {
 
   SuppliersList: any[] = [];
   BranchesList: any[] = [];
@@ -56,7 +54,7 @@ export class CreatePurchasesOrderComponent implements OnInit {
     this.ProductsList=products;
     // console.log(" ~ this.ProductsList:", this.ProductsList);
   }
-  SaveNewPurchaseOrder() {
+  CreateNewPurchaseOrder() {
     if (!this.BranchId) {
       this.toaster.warning('Please Select Branch');
       return;
@@ -74,7 +72,7 @@ export class CreatePurchasesOrderComponent implements OnInit {
     model.notes = this.notes;
     model.items = this.ProductsList;
 
-    this.purchaseService.SaveNewPurchaseOrder(model).subscribe((data:CreateModifyReturnsModel) => {
+    this.purchaseService.CreateNewPurchaseOrder(model).subscribe((data:CreateModifyReturnsModel) => {
       if (data?.status) {
         this.ClearAllFields();
         // this.InvoiceNumber = data.item2;
@@ -103,9 +101,9 @@ export class CreatePurchasesOrderComponent implements OnInit {
       //       itemName: item.nameEN,
       //       unitID: item.unitID,
       //       unitName: item.unitNameEn,
-      //       price: item.cost,
+      //       price: item.price,
       //       quantity: item.quantity,
-      //       totalValue: item.cost
+      //       totalValue: item.price
       //     }
       //   };
       // });

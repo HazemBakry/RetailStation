@@ -2,9 +2,11 @@
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Finance.GeneralAccounts;
+using MasterErp.Service.Common;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,9 +34,9 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             Configuration = _configuration;
         }
 
-        public List<PaymentReceipt> GetPaymentReceiptData()
+        public DataTable GetPaymentReceiptsSummary(FilterModel model)
         {
-            return Context.PaymentReceipt.ToList();
+            return Context.PaymentReceipt.ToList().ToDataTable();
         }
 
         public CreateModifyReturnsModel SaveNewPaymentReceipt(PaymentReceipt Model)
@@ -82,9 +84,9 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             }
         }
 
-        public List<ReceiveReceipt> GetReceiveReceiptData()
+        public DataTable GetReceiveReceiptsSummary(FilterModel model)
         {
-            return Context.ReceiveReceipt.ToList();
+            return Context.ReceiveReceipt.ToList().ToDataTable();
         }
 
         public CreateModifyReturnsModel SaveNewReceiveReceipt(ReceiveReceipt Model)

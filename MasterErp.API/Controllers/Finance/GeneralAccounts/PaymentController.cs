@@ -1,7 +1,9 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Models;
 using MasterErp.Interface.Finance.GeneralAccounts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 {
@@ -15,12 +17,12 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             _paymentService = paymentService;
 
         }
-        [HttpGet]
-        [Route("GetPaymentReceiptData")]
-        public IActionResult GetPaymentReceiptData()
+
+        [HttpPost]
+        [Route("GetPaymentReceiptsSummary")]
+        public DataTable GetPaymentReceiptsSummary(FilterModel model)
         {
-            var results = _paymentService.GetPaymentReceiptData();
-            return Ok(results);
+            return _paymentService.GetPaymentReceiptsSummary(model);
         }
 
         [HttpPost]
@@ -32,11 +34,11 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         }
 
 
-        [HttpGet]
-        [Route("GetReceiveReceiptData")]
-        public IActionResult GetReceiveReceiptData()
+        [HttpPost]
+        [Route("GetReceiveReceiptsSummary")]
+        public IActionResult GetReceiveReceiptsSummary(FilterModel model)
         {
-            var results = _paymentService.GetReceiveReceiptData();
+            var results = _paymentService.GetReceiveReceiptsSummary(model);
             return Ok(results);
         }
 

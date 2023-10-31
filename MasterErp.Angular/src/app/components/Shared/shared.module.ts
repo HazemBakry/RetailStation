@@ -15,6 +15,7 @@ import { ErpPaginationComponent } from './components/erp-pagination/erp-paginati
 import { ErpFiltersComponent } from './components/erp-filters/erp-filters.component';
 import { EmptyDataComponent } from './components/empty-data/empty-data.component';
 import { OrderProductsComponent } from '../Finance/Purchase/components/order-products/order-products.component';
+import { AppBreadcrumbComponent } from './components/app-breadcrumb/app-breadcrumb.component';
 
 
 
@@ -30,7 +31,8 @@ import { OrderProductsComponent } from '../Finance/Purchase/components/order-pro
     ErpPaginationComponent,
     ErpFiltersComponent,
     EmptyDataComponent,
-    OrderProductsComponent
+    OrderProductsComponent,
+    AppBreadcrumbComponent
 
   ],
   
@@ -62,7 +64,8 @@ import { OrderProductsComponent } from '../Finance/Purchase/components/order-pro
     ErpPaginationComponent,
     ErpFiltersComponent,
     EmptyDataComponent,
-    OrderProductsComponent
+    OrderProductsComponent,
+    AppBreadcrumbComponent
   ]
 })
 export class SharedModule { }

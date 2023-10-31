@@ -1,4 +1,4 @@
-import { ItemModel } from "src/app/Models/ItemModel";
+import { OrderDetailModel } from "src/app/Models/ItemModel";
 
 export interface PurchaseOrderModel{
 
@@ -10,7 +10,7 @@ export interface PurchaseOrderModel{
     totalValue: number;
     notes: string | null;
     userId: string | null;
-    items: ItemModel[];
+    items: OrderDetailModel[];
 }
 
 export interface PurchaseOrderDetails {

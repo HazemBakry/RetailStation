@@ -12,53 +12,15 @@ namespace MasterErp.Interface.Finance.Purchase
 {
     public interface IPurchaseInvoiceService
     {
-        #region PurchasesInvoices
-
-        List<PurchaseInvoice> GetPurchaseInvoiceData();
-        CreateModifyReturnsModel SaveNewPurchaseInvoice(PurchaseInvoiceModel model);
+        DataTable GetPurchaseInvoicesSummary(FilterModel model);
+        CreateModifyReturnsModel CreateNewPurchaseInvoice(PurchaseInvoiceModel model);
         bool CancelPurchaseInvoice(int InvoiceId);
-        List<PurchaseInvoiceItemsModel>  GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate, int InvoiceId = 0);
-        PurchaseInvoiceItemsModel GetInvoiceDetailsById(int InvoiceId);
-
-        #endregion
-
-
-        #region PurchasesOrders
-
-        List<PurchaseOrder> GetPurchasesOrdersData();
-        CreateModifyReturnsModel SaveNewPurchaseOrder(PurchaseOrderModel model);
-        bool CancelPurchaseOrder(int OrderId);
-
-
-        #endregion
-
-
-        #region PurchasesReturns
-
+        List<PurchaseInvoiceModel> GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate, int InvoiceId = 0);
+        List<PurchaseInvoiceModel> GetPurchaseInvoiceDetails(int InvoiceId);
         List<PurchaseReturns> GetPurchasesReturnsData();
         CreateModifyReturnsModel SaveNewPurchaseReturns(PurchaseReturnsModel model);
         bool CancelPurchaseReturns(int ReturnsId);
-
-        #endregion
-
-
-
-        #region SuppliersStatement
         List<SupplierStatementModel> GetSupplierStatementData(int SupplierId);
-
-
-        #endregion
-
-
-
         List<PurchaseInvoiceType> GetInvoiceTypesData();
-        List<Supplier> GetSuppliersData();
-        List<Branch> GetBranchesData();
-        List<ItemLookups> GetItemLookupsData();
-        List<ItemModel> GetItemsData();
-        List<ItemModel> GetItemsByLookupId(int LookupId);
-        List<ItemModel> GetItemsBySupplierId(int SupplierId);
-
-
     }
 }

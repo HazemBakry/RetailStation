@@ -2,6 +2,7 @@
 using MasterErp.Entities.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,10 +11,14 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
 {
     public interface IPaymentService
     {
-         List<PaymentReceipt> GetPaymentReceiptData();
-         CreateModifyReturnsModel SaveNewPaymentReceipt(PaymentReceipt Model);
-         List<ReceiveReceipt> GetReceiveReceiptData();
-        CreateModifyReturnsModel SaveNewReceiveReceipt(ReceiveReceipt Model);
+        #region Payment Receipt
+        DataTable GetPaymentReceiptsSummary(FilterModel model);
+        CreateModifyReturnsModel SaveNewPaymentReceipt(PaymentReceipt Model);
+        #endregion
 
+        #region Receive Receipt
+        DataTable GetReceiveReceiptsSummary(FilterModel model);
+        CreateModifyReturnsModel SaveNewReceiveReceipt(ReceiveReceipt Model);
+        #endregion
     }
 }

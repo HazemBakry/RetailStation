@@ -7,7 +7,7 @@ export interface JournalEntryModel {
     notes?: string;
     month?: number;
     year?: number;
-    journalTypeID?: number;
+    journalTypeId?: number;
     journalEntryAccounts?: JournalEntryAccount[];
 }
 

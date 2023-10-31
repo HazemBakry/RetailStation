@@ -40,7 +40,7 @@ export class AddSalesComponent implements OnInit {
     this.GetSuppliersData();
     this.GetBranchesData();
     this.GetItemsData();
-    this.GetItemLookupsData();
+    this.GetItemsLookups();
   }
 
   openItemsModal(content: any) {
@@ -73,8 +73,8 @@ export class AddSalesComponent implements OnInit {
     });
   }
 
-  GetItemLookupsData() {
-    this.purchaseService.GetItemLookupsData().subscribe(data => {
+  GetItemsLookups() {
+    this.purchaseService.GetItemsLookups().subscribe(data => {
       this.LookupsList = data;
     });
   }
@@ -102,9 +102,9 @@ export class AddSalesComponent implements OnInit {
             itemName: item.nameEN,
             unitID: item.unitID,
             unitName: item.unitNameEn,
-            price: item.cost,
+            price: item.price,
             quantity: item.quantity,
-            totalValue: item.cost
+            totalValue: item.price
           }
         };
       });

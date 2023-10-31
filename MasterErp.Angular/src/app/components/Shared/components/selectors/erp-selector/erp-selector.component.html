@@ -1,4 +1,4 @@
-<div ngbDropdown class="dropdown-filter-wrapper dropdown-as-input d-inline-block mb-3 w-100">
+<!-- <div ngbDropdown class="dropdown-filter-wrapper dropdown-as-input d-inline-block mb-3 w-100">
     <button type="button" class="btn-filter promotion-filter py-3" [ngStyle]="{'height': Height}"
         id="filterInput1" ngbDropdownToggle>
         {{SelectorName}}
@@ -12,7 +12,26 @@
             </div>
         </div>
     </div>
+</div> -->
+
+
+<div ngbDropdown class="dropdown-as-input">
+    <button type="button" id="dropdownBasic1" ngbDropdownToggle style="height: calc(3rem)">
+        <span>{{SelectorName}} <sup>*</sup></span>
+    </button>
+    <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-h large-scroll w-100">
+        <div class="p-2 bg-light border-bottom">
+            <!-- <input type="text" class="form-control form-control-sm" [(ngModel)]="CategorySearch"
+                placeholder="Search..." /> -->
+        </div>
+        <ng-container *ngFor="let item of ItemsList">
+            <a class="dropdown-item" (click)="onItemClick(item)" [ngClass]="{'DropDownSelected': SelectorName == item.nameAR}">{{item.nameAR}}</a>
+        </ng-container>
+    </div>
 </div>
+
+
+
 <div class="alert text-danger validate-style" *ngIf="isValid">
     {{ValidateMessage}}
 </div>

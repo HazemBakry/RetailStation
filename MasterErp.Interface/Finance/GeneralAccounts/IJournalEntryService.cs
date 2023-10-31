@@ -12,15 +12,16 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
     public interface IJournalEntryService
     {
         List<JournalEntryType> GetJournalEntryTypes();
+        List<Currency> GetCurrencyList();
         List<JournalTemplate> GetSavedJournalTemplates();
         List<JournalTemplateDetails> GetAccountsByTemplateId(int templateId);
         JournalEntryModel GetJournalEntryDetailsByID(int journalId);
         CreateModifyReturnsModel SaveNewJouranlEntry(JournalEntryModel model);
         DataTable GetDailyJournalEntriesSummary(FilterModel model);
-        DataTable GetDailyJournalEntriesFilters(FilterModel model);
-        bool DropDailyJournalEntries(List<int> JournalEntryIds);
-        bool ExpulsionDailyJournalEntries(List<int> JournalEntryIds);
-        bool ReverseDailyJournalEntries(List<int> JournalEntryIds);
-        bool PrintDailyJournalEntries(List<int> JournalEntryIds);
+        List<FilterModel> GetDailyJournalEntriesFilters(FilterModel model);
+        bool CancelJournalEntry(List<int> JournalEntryIds);
+        bool PostJournalEntry(List<int> JournalEntryIds);
+        bool ReverseJournalEntry(List<int> JournalEntryIds);
+        bool PrintJournalEntry(List<int> JournalEntryIds);
     }
 }

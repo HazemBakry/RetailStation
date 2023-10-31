@@ -22,24 +22,21 @@ namespace MasterErp.API.Controllers.Finance.Purchase
         {
             _purchaseInvoiceService = purchaseInvoiceService;
         }
-        #region PurchasesInvoices
-
-        [HttpGet]
-        [Route("GetPurchaseInvoiceData")]
-        public List<PurchaseInvoice> GetPurchaseInvoiceData()
-        {
-            return _purchaseInvoiceService.GetPurchaseInvoiceData();
-        }
-
 
         [HttpPost]
-        [Route("SaveNewPurchaseInvoice")]
-        public IActionResult SaveNewPurchaseInvoice(PurchaseInvoiceModel model)
+        [Route("GetPurchaseInvoicesSummary")]
+        public DataTable GetPurchaseInvoicesSummary(FilterModel model)
         {
-            var result= _purchaseInvoiceService.SaveNewPurchaseInvoice(model);
-            return Ok(result);
+            return _purchaseInvoiceService.GetPurchaseInvoicesSummary(model);
         }
 
+        [HttpPost]
+        [Route("CreateNewPurchaseInvoice")]
+        public IActionResult CreateNewPurchaseInvoice(PurchaseInvoiceModel model)
+        {
+            var result= _purchaseInvoiceService.CreateNewPurchaseInvoice(model);
+            return Ok(result);
+        }
 
         [HttpGet]
         [Route("CancelPurchaseInvoice")]
@@ -49,8 +46,6 @@ namespace MasterErp.API.Controllers.Finance.Purchase
             var result = _purchaseInvoiceService.CancelPurchaseInvoice(InvoiceId);
             return Ok(result);
         }
-
-
 
         [HttpGet]
         [Route("GetInvoicesSearchData")]
@@ -62,52 +57,19 @@ namespace MasterErp.API.Controllers.Finance.Purchase
         }
 
         [HttpGet]
-        [Route("GetInvoiceDetailsById")]
-        public IActionResult GetInvoiceDetailsById(int InvoiceId)
+        [Route("GetPurchaseInvoiceDetails")]
+        public IActionResult GetPurchaseInvoiceDetails(int InvoiceId)
         {
-
-            var result = _purchaseInvoiceService.GetInvoiceDetailsById(InvoiceId);
-            return Ok(result);
-        }
-
-        #endregion
-
-
-
-
-
-        #region PurchasesOrders
-
-
-        [HttpGet]
-        [Route("GetPurchasesOrdersData")]
-        public List<PurchaseOrder> GetPurchasesOrdersData()
-        {
-            return _purchaseInvoiceService.GetPurchasesOrdersData();
-        }
-
-        [HttpPost]
-        [Route("SaveNewPurchaseOrder")]
-        public IActionResult SaveNewPurchaseOrder(PurchaseOrderModel model)
-        {
-            var result = _purchaseInvoiceService.SaveNewPurchaseOrder(model);
+            var result = _purchaseInvoiceService.GetPurchaseInvoiceDetails(InvoiceId);
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("CancelPurchaseOrder")]
-        public IActionResult CancelPurchaseOrder(int OrderId)
+        [Route("GetSupplierStatementData")]
+        public List<SupplierStatementModel> GetSupplierStatementData(int SupplierId)
         {
-
-            var result = _purchaseInvoiceService.CancelPurchaseOrder(OrderId);
-            return Ok(result);
+            return _purchaseInvoiceService.GetSupplierStatementData(SupplierId);
         }
-
-        #endregion
-
-
-        #region PurchasesReturns
-
 
         [HttpGet]
         [Route("GetPurchasesReturnsData")]
@@ -116,7 +78,6 @@ namespace MasterErp.API.Controllers.Finance.Purchase
             return _purchaseInvoiceService.GetPurchasesReturnsData();
         }
 
-
         [HttpPost]
         [Route("SaveNewPurchaseReturns")]
         public IActionResult SaveNewPurchaseReturns(PurchaseReturnsModel model)
@@ -124,7 +85,6 @@ namespace MasterErp.API.Controllers.Finance.Purchase
             var result = _purchaseInvoiceService.SaveNewPurchaseReturns(model);
             return Ok(result);
         }
-
 
         [HttpGet]
         [Route("CancelPurchaseReturns")]
@@ -135,31 +95,6 @@ namespace MasterErp.API.Controllers.Finance.Purchase
             return Ok(result);
         }
 
-
-
-        #endregion
-
-
-
-        #region SuppliersStatement
-
-        [HttpGet]
-        [Route("GetSupplierStatementData")]
-        public List<SupplierStatementModel> GetSupplierStatementData(int SupplierId)
-        {
-            return _purchaseInvoiceService.GetSupplierStatementData(SupplierId);
-        }
-
-        #endregion
-
-
-        [HttpGet]
-        [Route("GetSuppliersData")]
-        public List<Supplier> GetSuppliersData()
-        {
-            return _purchaseInvoiceService.GetSuppliersData();
-        }
-
         [HttpGet]
         [Route("GetInvoiceTypesData")]
         public IActionResult GetInvoiceTypesData()
@@ -167,46 +102,6 @@ namespace MasterErp.API.Controllers.Finance.Purchase
             var results= _purchaseInvoiceService.GetInvoiceTypesData();
             return Ok(results);
         }
-
-        [HttpGet]
-        [Route("GetBranchesData")]
-        public List<Branch> GetBranchesData()
-        {
-            return _purchaseInvoiceService.GetBranchesData();
-        }
-
-        [HttpGet]
-        [Route("GetItemLookupsData")]
-        public List<ItemLookups> GetItemLookupsData()
-        {
-            return _purchaseInvoiceService.GetItemLookupsData();
-        }
-
-        [HttpGet]
-        [Route("GetItemsData")]
-        public IActionResult GetItemsData()
-        {
-            var result= _purchaseInvoiceService.GetItemsData();
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route("GetItemsByLookupId")]
-        public IActionResult GetItemsByLookupId(int LookupId)
-        {
-            var result = _purchaseInvoiceService.GetItemsByLookupId(LookupId);
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route("GetItemsBySupplierId")]
-        public IActionResult GetItemsBySupplierId(int SupplierId)
-        {
-            var result = _purchaseInvoiceService.GetItemsBySupplierId(SupplierId);
-            return Ok(result);
-        }
-
-
 
     }
 }

@@ -30,6 +30,13 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         }
 
         [HttpGet]
+        [Route("GetCurrencyList")]
+        public List<Currency> GetCurrencyList()
+        {
+            return EntryService.GetCurrencyList();
+        }
+
+        [HttpGet]
         [Route("GetSavedJournalTemplates")]
         public List<JournalTemplate> GetSavedJournalTemplates()
         {
@@ -59,7 +66,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("GetDailyJournalEntriesFilters")]
-        public DataTable GetDailyJournalEntriesFilters(FilterModel model)
+        public List<FilterModel> GetDailyJournalEntriesFilters(FilterModel model)
         {
             return EntryService.GetDailyJournalEntriesFilters(model);
         }
@@ -68,36 +75,36 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         [Route("SaveNewJouranlEntry")]
         public IActionResult SaveNewJouranlEntry(JournalEntryModel model)
         {
-            var results= EntryService.SaveNewJouranlEntry(model);
-            return Ok(results) ;
+            var results = EntryService.SaveNewJouranlEntry(model);
+            return Ok(results);
         }
 
         [HttpPost]
-        [Route("DropDailyJournalEntries")]
-        public bool DropDailyJournalEntries(List<int> JournalEntryIds)
+        [Route("CancelJournalEntry")]
+        public bool CancelJournalEntry(List<int> JournalEntryIds)
         {
-            return EntryService.DropDailyJournalEntries(JournalEntryIds);
+            return EntryService.CancelJournalEntry(JournalEntryIds);
         }
 
         [HttpPost]
-        [Route("ExpulsionDailyJournalEntries")]
-        public bool ExpulsionDailyJournalEntries(List<int> JournalEntryIds)
+        [Route("PostJournalEntry")]
+        public bool PostJournalEntry(List<int> JournalEntryIds)
         {
-            return EntryService.ExpulsionDailyJournalEntries(JournalEntryIds);
+            return EntryService.PostJournalEntry(JournalEntryIds);
         }
 
         [HttpPost]
-        [Route("ReverseDailyJournalEntries")]
-        public bool ReverseDailyJournalEntries(List<int> JournalEntryIds)
+        [Route("ReverseJournalEntry")]
+        public bool ReverseJournalEntry(List<int> JournalEntryIds)
         {
-            return EntryService.ReverseDailyJournalEntries(JournalEntryIds);
+            return EntryService.ReverseJournalEntry(JournalEntryIds);
         }
 
         [HttpPost]
-        [Route("PrintDailyJournalEntries")]
-        public bool PrintDailyJournalEntries(List<int> JournalEntryIds)
+        [Route("PrintJournalEntry")]
+        public bool PrintJournalEntry(List<int> JournalEntryIds)
         {
-            return EntryService.PrintDailyJournalEntries(JournalEntryIds);
+            return EntryService.PrintJournalEntry(JournalEntryIds);
         }
     }
 }

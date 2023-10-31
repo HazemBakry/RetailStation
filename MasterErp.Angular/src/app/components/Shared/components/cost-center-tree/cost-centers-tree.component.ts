@@ -22,7 +22,6 @@ export class CostCentersTreeComponent implements OnInit {
     if (firstLoad)
       this.showLoader = true;
     this.sharedService.GetCostCenterTreeData().subscribe(data => {
-      debugger;
       this.showLoader = false;
       this.CenterControleData = data;
       this.CenterControleData.map(i => {

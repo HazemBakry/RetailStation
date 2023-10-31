@@ -18,6 +18,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
+        private readonly ISharedFilterService SharedFilterService;
 
         private string ConnectionString
         {
@@ -27,11 +28,12 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             }
         }
 
-        public JournalEntryService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration)
+        public JournalEntryService(DBContext Context, ISQLHelper SQLHelper, IConfiguration Configuration, ISharedFilterService SharedFilterService)
         {
-            Context = dBContext;
-            SQLHelper = iSQLHelper;
-            Configuration = _configuration;
+            this.Context = Context;
+            this.SQLHelper = SQLHelper;
+            this.Configuration = Configuration;
+            this.SharedFilterService = SharedFilterService;
         }
 
         private string GenerateNewEntryNumber(int month, int year)
@@ -70,9 +72,15 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             return List;
         }
 
+        public List<Currency> GetCurrencyList()
+        {
+            var List = Context.Currency.Where(x => x.IsActive).ToList();
+            return List;
+        }
+
         public JournalEntryModel GetJournalEntryDetailsByID(int journalId)
         {
-            var entry = Context.JournalEntries.Where(x => x.JournalEntryID == journalId).FirstOrDefault();
+            var entry = Context.JournalEntries.Where(x => x.JournalEntryId == journalId).FirstOrDefault();
             JournalEntryModel EntryModel = new JournalEntryModel();
 
             if (entry != null)
@@ -81,13 +89,13 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 EntryModel.Month = entry.EntryDate.Month;
                 EntryModel.DocNumber = entry.DocNumber;
                 EntryModel.Descirption = entry.Description;
-                EntryModel.JournalTypeID = entry.JournalTypeID;
+                EntryModel.JournalTypeID = entry.JournalTypeId;
                 EntryModel.EntryDate = entry.EntryDate;
 
                 //------------------------------Fill Entry Details-----------------------------------//
 
                 var details = (from journal_details in Context.JournalEntryDetails
-                               where journal_details.JournalEntryID == entry.JournalEntryID
+                               where journal_details.JournalEntryId == entry.JournalEntryId
                                join Accounts in Context.AccountTrees on journal_details.AccountID equals Accounts.AccountID
                                //join costs in Context.CostCenterTrees on journal_details.CostCenterID equals costs.CostCenterID
                                //orderby journal_details.JournalDetialID
@@ -97,10 +105,10 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                                    Debit = journal_details.Debit,
                                    Credit = journal_details.Credit,
                                    Description = journal_details.Description,
-                                   CostCenterID = journal_details.CostCenterID,
+                                   CostCenterID = journal_details.CostCenterId,
                                    CostPercent = journal_details.CostPercent,
                                    CostValue = journal_details.CostValue,
-                                   CurrencyID = journal_details.CurrencyID
+                                   CurrencyID = journal_details.CurrencyId
                                }).ToList();
 
                 EntryModel.JournalEntryAccounts = details;
@@ -111,34 +119,26 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
         public CreateModifyReturnsModel SaveNewJouranlEntry(JournalEntryModel model)
         {
-            //if (Check_Entered_Data())
-            //{
             try
             {
-                //int month = model.EntryDate.Month;
-                //try
-                //{
-                //    Entry_tbl.EntryNumber = Context.JournalEntries.Where(x => x.EntryDate.Month == month).Max(x => x.EntryNumber) + 1;
-                //}
-                //catch (Exception)
-                //{
-                //    Entry_tbl.EntryNumber = 1;
-                //}
+                int month = model.EntryDate.Month;
+                int year = model.EntryDate.Year;
+                var PreEntries = Context.JournalEntries.Where(x => x.EntryDate.Month == month && x.EntryDate.Year == year).ToList();
+                var CurrentPeriod = Context.FinancialPeriods.OrderByDescending(x => x.FinancialPeriodID).FirstOrDefault();
 
                 JournalEntry Entry_tbl = new JournalEntry
                 {
-                    //EntryNumber = Context.JournalEntries.Where(x => x.EntryDate.Month == month).DefaultIfEmpty(0).Max(x => x.EntryNumber) + 1,
-                    EntryNumber = 1,// Context.JournalEntries.Where(x => x.EntryDate.Month == model.Month).Select(x => x.EntryNumber).DefaultIfEmpty("0").Max() + 1,
+                    EntryNumber = PreEntries.Count > 0 ? PreEntries.Max(x => x.EntryNumber) + 1 : 1,
                     Description = model.Descirption,
                     DocNumber = model.DocNumber,
                     Notes = model.Notes,
-                    JournalTypeID = model.JournalTypeID,
+                    JournalTypeId = model.JournalTypeID,
                     IsCancelled = false,
                     IsLocked = false,
-                    PeriodID = Context.FinancialPeriods.OrderByDescending(x => x.FinancialPeriodID).FirstOrDefault().FinancialPeriodID,
+                    PeriodId = CurrentPeriod != null ? CurrentPeriod.FinancialPeriodID : 0,
                     EntryDate = model.EntryDate,
-                    ActionTypeID = 1,
-                    ActionID = 0,
+                    ActionTypeId = 1,
+                    ActionId = 0,
                     CreateDate = DateTime.Now,
                     CreatedBy = ""
                 };
@@ -152,13 +152,13 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                     {
                         JournalEntryDetail JournalDetials = new JournalEntryDetail
                         {
-                            JournalEntryID = Entry_tbl.JournalEntryID,
+                            JournalEntryId = Entry_tbl.JournalEntryId,
                             AccountID = row.AccountID,
-                            Debit = row.Debit,
-                            Credit = row.Credit,
-                            CurrencyID = row.CurrencyID,
+                            Debit = row.Debit ?? 0,
+                            Credit = row.Credit ?? 0,
+                            CurrencyId = row.CurrencyID,
                             Description = row.Description,
-                            CostCenterID = row.CostCenterID,
+                            CostCenterId = row.CostCenterID,
                             CostValue = row.CostValue,
                             CostPercent = row.CostPercent
                         };
@@ -171,7 +171,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 {
                     Status = 1,
                     Message = "New Entry Saved Successfully",
-                    Number= Entry_tbl.EntryNumber.ToString()
+                    Number = Entry_tbl.EntryNumber.ToString()
 
                 };
             }
@@ -190,51 +190,41 @@ namespace MasterErp.Service.Finance.GeneralAccounts
         {
             DataTable dt = new DataTable();
             dt.Clear();
-            dt.Columns.Add("CategoryDisplayName");
             dt.Columns.Add("CategoryName");
             dt.Columns.Add("ItemKey");
-            dt.Columns.Add("ItemValue");
-            dt.Columns.Add("DisplayOrder");
 
             foreach (FilterItem item in model.FilterItems)
             {
                 DataRow row = dt.NewRow();
 
-                row["CategoryDisplayName"] = item.CategoryDisplayName;
-                row["CategoryName"] = item.ItemKey;
+                row["CategoryName"] = item.CategoryName;
                 row["ItemKey"] = item.ItemKey;
-                row["ItemValue"] = item.ItemKey;
-                row["DisplayOrder"] = item.ItemKey;
                 dt.Rows.Add(row);
             }
 
-            SqlParameter[] Params = new SqlParameter[1];
-            Params[0] = new SqlParameter("@dt", SqlDbType.Structured);
-            Params[0].Value = dt;
+            SqlParameter[] Params = new SqlParameter[3];
+            Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
+            Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
+            Params[2] = new SqlParameter("@dt", SqlDbType.Structured);
+            Params[2].Value = dt;
 
-            DataTable result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetDailyJournalEntries_Summary]", ConnectionString, Params);
+            DataTable result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetDailyJournalEntriesSummary]", ConnectionString, Params);
             return result;
         }
 
-        public DataTable GetDailyJournalEntriesFilters(FilterModel model)
+        public List<FilterModel> GetDailyJournalEntriesFilters(FilterModel model)
         {
             DataTable dt = new DataTable();
             dt.Clear();
-            dt.Columns.Add("CategoryDisplayName");
             dt.Columns.Add("CategoryName");
             dt.Columns.Add("ItemKey");
-            dt.Columns.Add("ItemValue");
-            dt.Columns.Add("DisplayOrder");
 
             foreach (FilterItem item in model.FilterItems)
             {
                 DataRow row = dt.NewRow();
 
-                row["CategoryDisplayName"] = item.CategoryDisplayName;
-                row["CategoryName"] = item.ItemKey;
+                row["CategoryName"] = item.CategoryName;
                 row["ItemKey"] = item.ItemKey;
-                row["ItemValue"] = item.ItemKey;
-                row["DisplayOrder"] = item.ItemKey;
                 dt.Rows.Add(row);
             }
 
@@ -242,28 +232,83 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             Params[0] = new SqlParameter("@dt", SqlDbType.Structured);
             Params[0].Value = dt;
 
-            DataTable result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetDailyJournalEntries_Filters]", ConnectionString, Params);
-            return result;
+            DataTable result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetDailyJournalEntriesFilters]", ConnectionString, Params);
+            var GroupFilters = SharedFilterService.GroupedFilter(result);
+            return GroupFilters;
         }
 
-        public bool DropDailyJournalEntries(List<int> JournalEntryIds)
+        public bool CancelJournalEntry(List<int> JournalEntryIds)
         {
             return true;
         }
 
-        public bool ExpulsionDailyJournalEntries(List<int> JournalEntryIds)
+        public bool PostJournalEntry(List<int> JournalEntryIds)
         {
-            return true;
+            try
+            {
+                foreach (var entryId in JournalEntryIds)
+                {
+                    var Entry = Context.JournalEntries.Where(x => x.JournalEntryId == entryId).FirstOrDefault();
+                    if (Entry != null)
+                    {
+                        Entry.IsLocked = true;
+                        Entry.PostDate = DateTime.Now;
+
+                        Context.SaveChanges();
+                    }
+                }
+                return true;
+            }
+            catch (Exception Ex)
+            {
+                return true;
+            }
         }
 
-        public bool ReverseDailyJournalEntries(List<int> JournalEntryIds)
+        public bool ReverseJournalEntry(List<int> JournalEntryIds)
         {
-            return true;
+            try
+            {
+                foreach (var entryId in JournalEntryIds)
+                {
+                    var Entry = Context.JournalEntries.Where(x => x.JournalEntryId == entryId).FirstOrDefault();
+                    if (Entry != null)
+                    {
+                        Entry.IsLocked = false;
+                        Entry.PostDate = null;
+
+                        Context.SaveChanges();
+                    }
+                }
+                return true;
+            }
+            catch (Exception Ex)
+            {
+                return true;
+            }
         }
 
-        public bool PrintDailyJournalEntries(List<int> JournalEntryIds)
+        public bool PrintJournalEntry(List<int> JournalEntryIds)
         {
-            return true;
+            try
+            {
+                //foreach (var entryId in JournalEntryIds)
+                //{
+                //    var Entry = Context.JournalEntries.Where(x => x.JournalEntryId == entryId).FirstOrDefault();
+                //    if (Entry != null)
+                //    {
+                //        Entry.IsLocked = true;
+                //        Entry.PostDate = DateTime.Now;
+
+                //        Context.SaveChanges();
+                //    }
+                //}
+                return true;
+            }
+            catch (Exception Ex)
+            {
+                return true;
+            }
         }
 
 

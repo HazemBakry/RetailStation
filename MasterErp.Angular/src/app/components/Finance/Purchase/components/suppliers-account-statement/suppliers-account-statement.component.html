@@ -1,12 +1,11 @@
 <div class="card radius-10 border-0 card-shadow mb-3">
     <div class="card-header bg-white">
-        <h5 class="m-0 fw-bold">حسابات الموردين</h5>
+        <h5 class="m-0 fw-bold">كشف حساب مورد</h5>
     </div>
     <div class="card-body bg-light">
         <div class="row mb-3">
             <div class="col-lg-4 offset-lg-1">
-                <app-erp-selector [SelectorName]="SupplierName" [ItemsList]="SuppliersList"
-                    (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector>
+                <app-erp-selector [SelectorName]="SupplierName" [ItemsList]="SuppliersList" (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector>
             </div>
             <div class="col-lg-4 mt-2">
                 <button class="btn btn-primary " (click)="loadData()">
@@ -20,9 +19,9 @@
 </div>
 
 <div class="card radius-10 border-0 card-shadow mb-3">
-    <div class="z2-boxstyle1">
-        <div class="z2-boxstyle1-header">
-            <div class="z2-boxstyle1-header-left">
+    <div class="boxstyle1">
+        <div class="boxstyle1-header">
+            <div class="boxstyle1-header-left">
                 <!-- <button class="btn btn-primary" routerLink="/Finance/purchases/newPurchasesInvoice">
                     <i class="fas fa-plus-circle"></i>
                     <span class="ms-2">New Purchase</span>
@@ -31,7 +30,7 @@
 
             </div>
         </div>
-        <div class="z2-boxstyle1-content hastable table-responsive table-vp-height small-scroll">
+        <div class="boxstyle1-content hastable table-responsive table-vp-height small-scroll">
             <table class="table table-bordered table-middle table-hover m-0 bg-white bigtitle">
                 <thead>
                     <tr>
@@ -71,7 +70,7 @@
                 </tbody>
 
             </table>
-           
+
         </div>
         <app-empty-data [showContainer]="!PurchaseList?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
     </div>

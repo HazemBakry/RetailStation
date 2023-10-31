@@ -25,10 +25,12 @@ namespace MasterErp.Entities.Models
 
         public DbSet<AccountTree> AccountTrees { get; set; }
         public DbSet<AccountType> AccountTypes { get; set; }
+        public DbSet<ActionType> ActionTypes { get; set; }
         public DbSet<Attendance> Attendance { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<Bank> Banks { get; set; }
         public DbSet<CostCenterTree> CostCenterTree { get; set; }
+        public DbSet<Currency> Currency { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeContract> EmployeeContracts { get; set; }
         public DbSet<EmployeeSalary> EmployeeSalaries { get; set; }
@@ -49,6 +51,8 @@ namespace MasterErp.Entities.Models
         public DbSet<PassportIssuePlace> PassportIssuePlaces { get; set; }
         public DbSet<PurchaseInvoice> PurchaseInvoices { get; set; }
         public DbSet<PurchaseInvoiceDetails> PurchaseInvoiceDetails { get; set; }
+        public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+        public DbSet<PurchaseOrderDetails> PurchaseOrderDetails { get; set; }
         public DbSet<SalesInvoice> SalesInvoices { get; set; }
         public DbSet<SalesInvoiceDetails> SalesInvoiceDetails { get; set; }
         public DbSet<Sponsor> Sponsors { get; set; }
@@ -59,14 +63,12 @@ namespace MasterErp.Entities.Models
 
 
         //Elassal
-        public DbSet<PurchaseOrder> PurchaseOrder { get; set; }
-        public DbSet<PurchaseOrderDetails> PurchaseOrderDetails { get; set; }
 
 
         public DbSet<PurchaseReturns> PurchaseReturns { get; set; }
         public DbSet<PurchaseReturnsDetails> PurchaseReturnsDetails { get; set; }
-        public DbSet<PurchaseInvoiceType> PurchaseInvoiceType { get; set; }
-        public DbSet<ReceiveOrder> ReceiveOrder { get; set; }
+        public DbSet<PurchaseInvoiceType> PurchaseInvoiceTypes { get; set; }
+        public DbSet<ReceiveOrder> ReceiveOrders { get; set; }
         public DbSet<ReceiveOrderDetails> ReceiveOrderDetails { get; set; }
         public DbSet<InventoryDataModel> Inventory { get; set; }
         public DbSet<Customer> Customers { get; set; }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InventoryService } from '../../services/inventory.service';
 import { ToastrService } from 'ngx-toastr';
+import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 
 
@@ -14,42 +15,60 @@ import { ToastrService } from 'ngx-toastr';
 export class ReceivedOrdersComponent implements OnInit {
   OrderList: any[] = [];
   showLoader: boolean;
+  TotalCount: any;
+  TotalPages: any;
+  FilterModel: FilterModel = {
+    currentPage: 1,
+    pageSize: 25
+  };
 
   constructor(private inventoryService: InventoryService, private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.loadData();
+    this.GetReceiveOrdersSummary();
   }
 
-  loadData() {
-    this.showLoader=true;
-    this.inventoryService.GetReceiveOrdersData().subscribe(data => {
+  GetReceiveOrdersSummary() {
+    this.showLoader = true;
+    this.inventoryService.GetReceiveOrdersSummary(this.FilterModel).subscribe(data => {
       this.OrderList = data;
-      this.showLoader=false;
-    },(err)=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     })
   }
 
-  // CancelPurchaseInvoice(InvoiceId:number)
-  // {
-  //   this.purchaseService.CancelPurchaseInvoice(InvoiceId).subscribe(data => {
-  //     if (data) {
-  //       this.toaster.success('تم الغاء الطلب بنجاح');
-  //       this.GetPurchaseInvoiceData();
-  //     }
-  //     else{
-  //       this.toaster.error('حدث خطأ اثناء الألغاء');
+  pageChanged(obj: any) {
+    this.FilterModel.currentPage = obj.page;
+    this.GetReceiveOrdersSummary();
+  }
 
-  //     }
-  //   },(error)=>{
-  //     this.toaster.error('حدث خطأ اثناء الألغاء');
+  CancelReceiveOrder(InvoiceId: number) {
+    this.inventoryService.CancelReceiveOrder(InvoiceId).subscribe(data => {
+      if (data) {
+        this.toaster.success('تم الغاء الطلب بنجاح');
+        this.GetReceiveOrdersSummary();
+      }
+      else {
+        this.toaster.error('حدث خطأ اثناء الألغاء');
 
-  //   })
+      }
+    }, (error) => {
+      this.toaster.error('حدث خطأ اثناء الألغاء');
+
+    })
 
 
-  // }
+  }
+
+  getStatusColor(status: boolean) {
+    if (status == true)
+      return "locked";
+    else
+      return "open";
+  }
 
 }

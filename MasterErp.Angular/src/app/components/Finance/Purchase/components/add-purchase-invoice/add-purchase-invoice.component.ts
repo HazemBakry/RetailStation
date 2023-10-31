@@ -4,30 +4,34 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseInvoiceDetails } from '../../models/PurchaseInvoiceDetailsModel';
 import { ToastrService } from 'ngx-toastr';
 import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
-import { ItemModel } from 'src/app/Models/ItemModel';
+import { OrderDetailModel } from 'src/app/Models/ItemModel';
 
 @Component({
-  selector: 'app-create-purchases-invoice',
-  templateUrl: './create-purchases-invoice.component.html',
-  styleUrls: ['./create-purchases-invoice.component.css']
+  selector: 'app-add-purchase-invoice',
+  templateUrl: './add-purchase-invoice.component.html',
+  styleUrls: ['./add-purchase-invoice.component.css']
 })
 
-export class CreatePurchasesInvoiceComponent implements OnInit {
+export class AddPurchaseInvoiceComponent implements OnInit {
   SuppliersList: any[] = [];
   InvoiceTypesList: any[] = [];
   BranchesList: any[] = [];
-  ProductsList: ItemModel[] = [];
-  ItemsBySupplier: ItemModel[] = [];
+  ProductsList: OrderDetailModel[] = [];
+  ItemsBySupplier: OrderDetailModel[] = [];
   activeTab = 'Item';
   notes: any;
   BranchId: any;
   SupplierId: any;
   InvoiceTypeId: any;
+  InvoiceDate: any;
   InvoiceNumber = '-';
+  DocNumber: any;
   BranchName = 'الفروع';
   SupplierName = 'الموردين';
   TypeName = 'نوع الفاتورة';
-  clearAllProducts:boolean=false;
+  showLoader: boolean;
+
+  clearAllProducts: boolean = false;
 
 
 
@@ -37,7 +41,7 @@ export class CreatePurchasesInvoiceComponent implements OnInit {
     this.GetBranchesData();
     this.GetSuppliersData();
     this.GetInvoiceTypesData();
-    
+
   }
 
   GetSuppliersData() {
@@ -60,28 +64,26 @@ export class CreatePurchasesInvoiceComponent implements OnInit {
     this.BranchId = item.branchID;
   }
   GetSelectedSupplier(item: any) {
-    this.SupplierId = item.supplierID;
+    this.SupplierId = item.supplierId;
 
   }
 
   GetSelectedInvoiceType(item: any) {
     this.InvoiceTypeId = item.invoiceTypeId;
-
-  }
-  GetSelectedProductsList(products:any[])
-  {
-    this.ProductsList=products;
-    // console.log(" ~ this.ProductsList:", this.ProductsList);
   }
 
-  LoadItemsBySupplier() {
+  GetSelectedProductsList(products: any[]) {
+    this.ProductsList = products;
+  }
+
+  LoadSupplierItems() {
     if (!this.SupplierId) {
       this.toaster.warning('Please Select Supplier');
       return;
     }
     this.purchaseService.GetItemsBySupplierId(this.SupplierId).subscribe(data => {
-      let Items: ItemModel[] = data;
-      this.ItemsBySupplier=Items;
+      let Items: OrderDetailModel[] = data;
+      this.ItemsBySupplier = Items;
       // this.ItemsBySupplier = Items.map<PurchaseInvoiceDetails>(item => {
       //   {
       //     return {
@@ -91,9 +93,9 @@ export class CreatePurchasesInvoiceComponent implements OnInit {
       //       itemName: item.nameEN,
       //       unitID: item.unitID,
       //       unitName: item.unitNameEn,
-      //       price: item.cost,
+      //       price: item.price,
       //       quantity: item.quantity,
-      //       totalValue: item.cost
+      //       totalValue: item.price
       //     }
       //   };
       // });
@@ -119,16 +121,16 @@ export class CreatePurchasesInvoiceComponent implements OnInit {
     this.BranchName = 'الفروع';
     this.SupplierName = 'الموردين';
     this.ProductsList = [];
-    this.clearAllProducts=!this.clearAllProducts;
+    this.clearAllProducts = !this.clearAllProducts;
     // this.AddNewItem = {};
     // this.EditQuantityList = [];
   }
 
-  SaveNewPurchaseOrder() {
-    if (!this.BranchId) {
-      this.toaster.warning('Please Select Branch');
-      return;
-    }
+  CreateNewPurchaseOrder() {
+    // if (!this.BranchId) {
+    //   this.toaster.warning('Please Select Branch');
+    //   return;
+    // }
     if (!this.SupplierId) {
       this.toaster.warning('Please Select Supplier');
       return;
@@ -142,7 +144,6 @@ export class CreatePurchasesInvoiceComponent implements OnInit {
       return;
     }
 
-
     let model: PurchaseInvoiceModel = {} as PurchaseInvoiceModel;
 
     model.purchaseInvoiceId = 0;
@@ -151,10 +152,11 @@ export class CreatePurchasesInvoiceComponent implements OnInit {
     model.InvoiceTypeId = this.InvoiceTypeId;
     model.userId = 0;
     model.notes = this.notes;
+    model.docNumber = this.DocNumber;
+    model.invoiceDate = this.InvoiceDate;
     model.items = this.ProductsList;
-
-    
-    this.purchaseService.SaveNewPurchaseInvoice(model).subscribe(data => {
+    this.showLoader = true;
+    this.purchaseService.CreateNewPurchaseInvoice(model).subscribe(data => {
       if (data?.status) {
         this.ClearAllFields();
         // this.InvoiceNumber = data.item2;
@@ -162,9 +164,13 @@ export class CreatePurchasesInvoiceComponent implements OnInit {
       } else {
         this.toaster.error(data?.message);
       }
+      this.showLoader = false;
     });
 
 
   }
 
+  PrintOrder(){
+    
+  }
 }

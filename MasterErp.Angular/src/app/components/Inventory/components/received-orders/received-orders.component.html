@@ -1,43 +1,65 @@
 <div class="card radius-10 border-0 card-shadow mb-3">
-    <div class="z2-boxstyle1">
-        <div class="z2-boxstyle1-header">
-            <div class="z2-boxstyle1-header-left">
-                <button class="btn btn-primary" routerLink="/Inventory/newReceiveOrders">
+    <div class="boxstyle1">
+        <div class="boxstyle1-header bg-light">
+            <div class="boxstyle1-header-left mb-3">
+                <button class="btn btn-primary" routerLink="/Finance/purchases/add-purchase-invoice">
                     <i class="fas fa-plus-circle"></i>
-                    <span class="ms-2">New Receive Order</span>
+                    <span class="ms-2">اذن إضافة جديد</span>
                 </button>
             </div>
         </div>
-        <div class="z2-boxstyle1-content hastable table-responsive table-vp-height small-scroll">
-            <table class="table table-bordered table-middle table-hover m-0 bg-white bigtitle">
-                <thead>
-                    <tr>
-                        <th>Order Number</th>
-                        <th>Order Date</th>
-                        <th>Total Value</th>
-                        <th>Insert User</th>
-                        <th>Insert Date</th>
-                        <th>Is Locked</th>
-                        <th>Is Cancelled</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of OrderList">
-                        <td>{{item.orderNumber}}</td>
-                        <td>{{item.receiveDate | date}}</td>
-                        <td>{{item.totalValue}}</td>
-                        <td>{{item.insertUser}}</td>
-                        <td>{{item.insertDate | date}}</td>
-                        <td>{{item.isLocked}}</td>
-                        <td>{{item.isCancelled}}</td>
-                        <td>
-                            <div class="w-100 d-flex align-items-center justify-content-center">
-                                <!-- <button class="btn btn-danger me-2" (click)="CancelPurchaseInvoice(item.purchaseInvoiceID)">
-                                    <i class="fas fa-times"></i>
-                                    <span class="ms-2">الغاء</span>
-                                </button> -->
-                                <!-- <button class="btn btn-secondary me-2">
+        <div class="card radius-10 border-0 card-shadow">
+            <div class="card-body">
+                <div class="main-card-action pb-3">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- <div class="col-md-12">
+                                <div class="d-flex align-items-center flex-wrap">
+                                    <ng-container *ngIf="filterList.length > 0">
+                                        <app-pos-filters [FilterList]="filterList"
+                                            (filterChanged)="filterChecked($event)"></app-pos-filters>
+                                    </ng-container>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="col-md-4">
+                            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="FilterModel.currentPage" [pageSize]="FilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="TotalPages"></app-erp-pagination>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive table-vp-height large-scroll">
+
+                    <table class="table table-bordered table-middle bg-white m-0 table-hover bigtitle">
+                        <thead>
+                            <tr>
+                                <th>رقم الفاتورة</th>
+                                <th>الرقم الدفترى</th>
+                                <th>تاريخ الفاتورة</th>
+                                <th>اسم المورد</th>
+                                <th>القيمة الإجمالية</th>
+                                <th>حالة الفاتورة</th>
+                                <th class="text-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of OrderList">
+                                <td>{{item.orderNumber}}</td>
+                                <td>{{item.docNumber}}</td>
+                                <td>{{item.receiveDate | date}}</td>
+                                <td>{{item.supplierName}}</td>
+                                <td>{{item.totalValue}}</td>
+                                <td>
+                                    <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
+                                        {{item.orderStatus}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="w-100 d-flex align-items-center justify-content-center">
+                                        <button class="btn btn-danger me-2" (click)="CancelOrder(item.receiveOrderId)">
+                                        <i class="fas fa-times"></i>
+                                        <span class="ms-2">الغاء</span>
+                                    </button>
+                                        <!-- <button class="btn btn-secondary me-2">
                                     <i class="far fa-eye"></i>
                                     <span class="ms-2">Lock Order</span>
                                 </button>
@@ -45,17 +67,17 @@
                                     <i class="fas fa-edit"></i>
                                     <span class="ms-2">Edit</span>
                                 </button> -->
-                                <!-- <app-invoice-details-sidepanel [invoiceId]="item.purchaseInvoiceID"></app-invoice-details-sidepanel> -->
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
+                                        <app-invoice-details-sidepanel [invoiceId]="item.receiveOrderId">
+                                        </app-invoice-details-sidepanel>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
 
-            </table>
+                    </table>
+                </div>
+            </div>
         </div>
-        <app-empty-data [showContainer]="!OrderList?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
-
     </div>
+    <app-empty-data [showContainer]="!OrderList?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
 </div>
-
-<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->

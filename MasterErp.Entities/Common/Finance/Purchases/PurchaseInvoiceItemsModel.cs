@@ -7,7 +7,7 @@ namespace MasterErp.Entities.Common.Finance.Purchases
     public class PurchaseInvoiceItemsModel
     {
         public int? PurchaseInvoiceId { get; set; }
-        public string InvoiceNumber { get; set; }
+        public int InvoiceNumber { get; set; }
         public int SupplierId { get; set; }
         public int BranchId { get; set; }
         public int InvoiceTypeId { get; set; }
@@ -15,11 +15,8 @@ namespace MasterErp.Entities.Common.Finance.Purchases
         public string SupplierNameAR { get; set; }
         public string SupplierNameEN { get; set; }
         public double InvoiceTotalValue { get; set; }
-
         public int? UserId { get; set; }
         public DateTime? InvoiceDate { get; set; }
-
-
         public string ItemNameAR { get; set; }
         public string ItemNameEN { get; set; }
         public int PurchaseInvoiceDetailsId { get; set; }
@@ -27,7 +24,9 @@ namespace MasterErp.Entities.Common.Finance.Purchases
         public double Quantity { get; set; }
         public double Price { get; set; }
         public double ItemTotalValue { get; set; }
-        public List<PurchaseInvoiceItemsModel> Items { get; set; }
+        public int? UnitId { get; set; }
+        public string UnitNameAr { get; set; }
+        public string UnitNameEn { get; set; }
 
     }
     public class PurchaseInvoiceItemsDetails

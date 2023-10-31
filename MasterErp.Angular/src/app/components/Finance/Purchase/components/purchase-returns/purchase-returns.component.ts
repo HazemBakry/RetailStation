@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
 @Component({
-  selector: 'app-purchases-returns',
-  templateUrl: './purchases-returns.component.html',
-  styleUrls: ['./purchases-returns.component.css']
+  selector: 'app-purchase-returns',
+  templateUrl: './purchase-returns.component.html',
+  styleUrls: ['./purchase-returns.component.css']
 })
-export class PurchasesReturnsComponent implements OnInit {
+export class PurchaseReturnsComponent implements OnInit {
   PurchaseList: any[] = [];
   showLoader: boolean;
 

@@ -6,12 +6,12 @@ import { PurchaseInvoiceDetails } from '../../models/PurchaseInvoiceDetailsModel
 import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
 import { PurchaseReturnsModel } from '../../models/PurchaseReturns';
 @Component({
-  selector: 'app-create-purchases-returns',
-  templateUrl: './create-purchases-returns.component.html',
-  styleUrls: ['./create-purchases-returns.component.css']
+  selector: 'app-add-purchase-returns',
+  templateUrl: './add-purchase-returns.component.html',
+  styleUrls: ['./add-purchase-returns.component.css']
 })
 
-export class CreatePurchasesReturnsComponent implements OnInit {
+export class AddPurchaseReturnsComponent implements OnInit {
 
   SuppliersList: any[] = [];
   BranchesList: any[] = [];
@@ -58,7 +58,7 @@ export class CreatePurchasesReturnsComponent implements OnInit {
     this.ProductsList=products;
     // console.log(" ~ this.ProductsList:", this.ProductsList);
   }
-  SaveNewPurchaseOrder() {
+  CreateNewPurchaseOrder() {
     if (!this.BranchId) {
       this.toaster.warning('Please Select Branch');
       return;
@@ -82,7 +82,7 @@ export class CreatePurchasesReturnsComponent implements OnInit {
     model.notes = this.notes;
     model.items = this.ProductsList;
 
-    this.purchaseService.SaveNewPurchaseReturns(model).subscribe(data => {
+    this.purchaseService.CreateNewPurchaseReturns(model).subscribe(data => {
       if (data?.status) {
         this.ClearAllFields();
         // this.InvoiceNumber = data.item2;
@@ -140,7 +140,6 @@ export class CreatePurchasesReturnsComponent implements OnInit {
           unitId: item.unitID,
           unitName: item.unitNameEn,
           price: item.price,
-          cost: item.price,
           quantity: item.quantity,
           totalValue: item.itemTotalValue
         }
