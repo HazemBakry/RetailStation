@@ -8,7 +8,9 @@ const routes: Routes = [
   { path: 'login', component: ErpLoginComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'Hr', loadChildren: () => import('./components/HR/hr.module').then(erp => erp.HrModule) },
-  { path: 'Finance', loadChildren: () => import('./components/Finance/finance.module').then(erp => erp.FinanceModule) },
+  { path: 'Purchases', loadChildren: () => import('./components/Purchases/purchases.module').then(erp => erp.PurchasesModule) },
+  { path: 'Sales', loadChildren: () => import('./components/Sales/sales.module').then(erp => erp.SalesModule) },
+  { path: 'GeneralAccounts', loadChildren: () => import('./components/GeneralAccounts/general-accounts.module').then(erp => erp.GeneralAccountsModule) },
   { path: 'Inventory', loadChildren: () => import('./components/Inventory/inventory.module').then(erp => erp.InventoryModule) }
 ];
 

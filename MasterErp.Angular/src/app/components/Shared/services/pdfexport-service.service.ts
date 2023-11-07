@@ -6,7 +6,7 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 
 import { TDocumentDefinitions, TFontDictionary } from 'pdfmake/interfaces';
 import { environment } from 'src/environments/environment';
-import { JournalEntryModel } from '../../Finance/GeneralAccounts/models/GeneralAccounts/JurnalEntryModel';
+import { JournalEntryModel } from '../../GeneralAccounts/models/GeneralAccounts/JurnalEntryModel';
 
 @Injectable({
   providedIn: 'root',

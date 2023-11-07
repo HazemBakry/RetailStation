@@ -14,11 +14,13 @@ import { ErpSelectorWithCheckboxComponent } from './components/selectors/erp-sel
 import { ErpPaginationComponent } from './components/erp-pagination/erp-pagination.component';
 import { ErpFiltersComponent } from './components/erp-filters/erp-filters.component';
 import { EmptyDataComponent } from './components/empty-data/empty-data.component';
-import { OrderProductsComponent } from '../Finance/Purchase/components/order-products/order-products.component';
 import { AppBreadcrumbComponent } from './components/app-breadcrumb/app-breadcrumb.component';
 import { AccountsReportHeaderComponent } from './components/accounts-report-header/accounts-report-header.component';
-
-
+import { OrderProductsComponent } from './components/order-products/order-products.component';
+import { CurrencyComponent } from './components/BasicInformation/currency/currency.component';
+import { FeaturedComponent } from './components/BasicInformation/featured/featured.component';
+import { FiscalYearComponent } from './components/BasicInformation/fiscal-year/fiscal-year.component';
+import { ReceiptBooksComponent } from './components/BasicInformation/receipt-books/receipt-books.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,13 @@ import { AccountsReportHeaderComponent } from './components/accounts-report-head
     EmptyDataComponent,
     OrderProductsComponent,
     AppBreadcrumbComponent,
-    AccountsReportHeaderComponent
+    AccountsReportHeaderComponent,
+
+    //Basic Information Components
+    CurrencyComponent,
+    FeaturedComponent,
+    FiscalYearComponent,
+    ReceiptBooksComponent
 
   ],
   

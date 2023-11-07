@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { GeneralAccountService } from 'src/app/components/Finance/GeneralAccounts/services/general-account.service';
+import { GeneralAccountService } from 'src/app/components/GeneralAccounts/services/general-account.service';
 
 @Component({
   selector: 'app-accounts-report-header',

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { InventoryService } from '../../services/inventory.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PurchaseService } from 'src/app/components/Finance/Purchase/services/purchase.service';
+import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
 import { ReceiveOrderModel } from '../../models/inventory';
 
 @Component({

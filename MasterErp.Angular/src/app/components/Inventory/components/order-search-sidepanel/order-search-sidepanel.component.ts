@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@ang
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { InventoryService } from '../../services/inventory.service';
-import { PurchaseService } from 'src/app/components/Finance/Purchase/services/purchase.service';
+import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
 
 @Component({
   selector: 'app-order-search-sidepanel',
