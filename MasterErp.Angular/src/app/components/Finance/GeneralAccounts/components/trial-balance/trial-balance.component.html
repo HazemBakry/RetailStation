@@ -1,0 +1,122 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="card radius-10 border-0 card-shadow mb-3">
+    <div class="card-body">
+        <div class="row ps-3">
+            <div class="col-lg-3">
+                <app-erp-selector-with-search #Selector [SelectorName]="'رقم الحساب'" [ItemsList]="AccountsList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetAccountNumberSelected($event)">
+                </app-erp-selector-with-search>
+            </div>
+            <div class="col-lg-4">
+                <app-erp-selector-with-search #Selector [SelectorName]="'اسم الحساب'" [ItemsList]="AccountsList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetAccountNameSelected($event)">
+                </app-erp-selector-with-search>
+            </div>
+        </div>
+        <div class="row ps-3">
+            <div class="col-lg-3 mb-3">
+                <input type="text" class="form-control" style="height: calc(3rem)" [(ngModel)]="LevelNumber" placeholder="التفرع">
+            </div>
+            <div class="col-lg-3 offset-lg-1 mb-3">
+                <app-erp-selector #Selector [SelectorName]="'نوع التفرع'" [ItemsList]="LevelTypes" [Height]="'35px'" (ItemObj)="GetTypeSelected($event)">
+                </app-erp-selector>
+            </div>
+            <div class="col-lg-4 ps-3">
+                <div class="d-flex align-items-center">
+                    <label class="label-info white-space-nowrap m-3" for="HideEmptyAccounts" style="cursor: pointer;">
+                        اخفاء الحسابات بدون رصيد</label>
+                    <input type="checkbox" id="HideEmptyAccounts" [(ngModel)]="HideEmptyAccounts">
+
+                </div>
+            </div>
+        </div>
+        <div class="row ps-3">
+            <div class="col-lg-3 mb-2">
+                <div class="form-floating">
+                    <input _ngcontent-ntw-c119="" type="date" id="FromDate" placeholder="From Date" class="form-control ng-pristine ng-valid ng-touched">
+                    <label for="FromDate"> من تاريخ : <sup>*</sup></label>
+                </div>
+            </div>
+            <div class="col-lg-3 offset-lg-1 mb-2">
+                <div class="form-floating mb-3">
+                    <input type="date" class="form-control" [(ngModel)]="ToDate" id="ToDate" placeholder="From Date">
+                    <label for="ToDate">حتى تاريخ : <sup>*</sup></label>
+                </div>
+            </div>
+        </div>
+        <div class="row ps-3">
+            <div class="col-xl-12 mt-3">
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-primary me-2" (click)="onSearchClick($event)">
+                        <i class="fas fa-search"></i>
+                        <span class="ms-2">بحث</span>
+                    </button>
+                    <button class="btn btn-success me-2" (click)="onExportClick($event)">
+                        <i class="fas fa-file-export"></i>
+                        <span class="ms-2">تصدير</span>
+                    </button>
+                    <button class="btn btn-secondary me-2" (click)="onPrintClick($event)">
+                        <i class="fas fa-print"></i>
+                        <span class="ms-2">طباعة</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mb-3">
+    <div class="card radius-10 border-0 card-shadow">
+        <div class="card-body">
+            <div class="main-card-action">
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- <div class="col-md-12">
+                        <div class="d-flex align-items-center flex-wrap">
+                            <ng-container *ngIf="filterList.length > 0">
+                                <app-pos-filters [FilterList]="filterList"
+                                    (filterChanged)="filterChecked($event)"></app-pos-filters>
+                            </ng-container>
+                        </div>
+                    </div> -->
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="SearchFilterModel.currentPage" [pageSize]="SearchFilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="TotalPages"></app-erp-pagination>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive large-scroll table-vp-height">
+                <table class="table table-bordered table-middle table-hover bg-white mb-3 table-fixed-width">
+                    <thead>
+                        <tr>
+                            <th>الكـود</th>
+                            <th>الحســاب</th>
+                            <th>رصيد ما قبل (مدين)</th>
+                            <th>رصيد ما قبل (دائن)</th>
+                            <th>الحركة (مدين)</th>
+                            <th>الحركة (دائن)</th>
+                            <th>الإجمالى (مدين)</th>
+                            <th>الإجمالى (دائن)</th>
+                            <th>الصافى (مدين)</th>
+                            <th>الصافى (دائن)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of SearchResult">
+                            <td>{{item.accountCode}}</td>
+                            <td>{{item.accountName}}</td>
+                            <td>{{item.preDebit}}</td>
+                            <td>{{item.preCredit}}</td>
+                            <td>{{item.debit}}</td>
+                            <td>{{item.credit}}</td>
+                            <td>{{item.totalDebit}}</td>
+                            <td>{{item.totalCredit}}</td>
+                            <td>{{item.balanceDebit}}</td>
+                            <td>{{item.balanceCredit}}</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

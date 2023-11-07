@@ -15,7 +15,7 @@ namespace MasterErp.Entities.Common
         public int CurrentPage { get; set; }
         public int PageSize { get; set; }
         public string SearchType { get; set; }
-        public string TransferType { get; set; }
+        public string SearchLevel { get; set; }
         public bool IsExport { get; set; }
         public FilterModel FilterModel { get; set; }
     }

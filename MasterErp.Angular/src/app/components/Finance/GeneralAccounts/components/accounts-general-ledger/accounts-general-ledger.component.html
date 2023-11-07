@@ -1,0 +1,58 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="mb-3">
+    <app-accounts-report-header [ShowAllBranch]="true" (SearchAction)="onSearchClick($event)" (ExportAction)="onExportClick($event)" (PrintAction)="onPrintClick($event)"></app-accounts-report-header>
+</div>
+
+<div class="mb-3">
+    <div class="card radius-10 border-0 card-shadow">
+        <div class="card-body">
+            <div class="main-card-action">
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- <div class="col-md-12">
+                        <div class="d-flex align-items-center flex-wrap">
+                            <ng-container *ngIf="filterList.length > 0">
+                                <app-pos-filters [FilterList]="filterList"
+                                    (filterChanged)="filterChecked($event)"></app-pos-filters>
+                            </ng-container>
+                        </div>
+                    </div> -->
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="SearchFilterModel.currentPage" [pageSize]="SearchFilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="TotalPages"></app-erp-pagination>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive large-scroll table-vp-height">
+                <table class="table table-bordered table-middle table-hover bg-white mb-3 table-fixed-width">
+                    <thead>
+                        <tr>
+                            <th>الكـود</th>
+                            <th>الحســاب</th>
+                            <th>رصيد ما قبل (مدين)</th>
+                            <th>رصيد ما قبل (دائن)</th>
+                            <th>الحركة (مدين)</th>
+                            <th>الحركة (دائن)</th>
+                            <th>الإجمالى (مدين)</th>
+                            <th>الإجمالى (دائن)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of SearchResult">
+                            <td>{{item.accountCode}}</td>
+                            <td>{{item.accountName}}</td>
+                            <td>{{item.preDebit}}</td>
+                            <td>{{item.preCredit}}</td>
+                            <td>{{item.debit}}</td>
+                            <td>{{item.credit}}</td>
+                            <td>{{item.totalDebit}}</td>
+                            <td>{{item.totalCredit}}</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

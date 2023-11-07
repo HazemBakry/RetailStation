@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { JournalEntryModel } from '../models/GeneralAccounts/JurnalEntryModel';
-import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class GeneralAccountService {
     return this.http.get<any[]>(this.URL + 'JournalEntry/GetJournalEntryTypes');
   }
 
-  GetCurrencyList(){
+  GetCurrencyList() {
     return this.http.get<any[]>(this.URL + 'JournalEntry/GetCurrencyList');
   }
 
@@ -62,6 +62,14 @@ export class GeneralAccountService {
 
   GetChildAccountsList() {
     return this.http.get<any[]>(this.URL + 'AccountTree/GetChildAccountsList');
+  }
+
+  GetAccountsGeneralLedger(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'AccountTree/GetAccountsGeneralLedger', model);
+  }
+
+  ExportAccountsGeneralLedger(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'AccountTree/GetAccountsGeneralLedger', model);
   }
 
 }

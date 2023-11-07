@@ -10,28 +10,32 @@ import { ErpLoginComponent } from './components/Shared/components/erp-login/erp-
 import { DashboardComponent } from './components/Main/dashboard/dashboard.component';
 import { HeaderComponent } from './components/Main/header/header.component';
 import { SidebarComponent } from './components/Main/sidebar/sidebar.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SharedModule } from "./components/Shared/shared.module";
 @NgModule({
-  declarations: [
-    AppComponent,
-    ErpLoginComponent,
-    HeaderComponent,
-    SidebarComponent,
-    DashboardComponent
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    ToastrModule.forRoot({
-      preventDuplicates: true
-    })
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        ErpLoginComponent,
+        HeaderComponent,
+        SidebarComponent,
+        DashboardComponent
+    ],
+    providers: [
+        DatePipe,
+    ],
+    bootstrap: [AppComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        BrowserModule,
+        HttpClientModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        ToastrModule.forRoot({
+            preventDuplicates: true
+        }),
+        SharedModule
+    ]
 })
 export class AppModule { }

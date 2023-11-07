@@ -1,5 +1,5 @@
-.DropDownSelected{
-    background: rgba(0,0,0,.12);
+.DropDownSelected {
+    background: rgba(0, 0, 0, .12);
     color: #1976d2;
 }
 
@@ -34,9 +34,9 @@
 .dropdown-as-input>button:focus {
     color: #212529;
     background-color: #fff;
-    border-color: #86b7fe;
+    border-color: #4f5a66;
     outline: 0;
-    box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
+    box-shadow: 0 0 0 0.25rem rgba(1, 1, 1, 0.25);
 }
 
 .dropdown-as-input>button::after {
@@ -45,12 +45,12 @@
     left: 0;
     width: 30px;
     height: 100%;
-    background-color: var(--main-color);
+    background-color: #4f5a66;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
-    border: 1px solid var(--main-color);
+    border: 1px solid #212529;
 }
 
 .dropdown-toggle:after {

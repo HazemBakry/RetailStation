@@ -22,6 +22,12 @@ import { CreatePaymentReceiptComponent } from './GeneralAccounts/components/crea
 import { CreateReceiveReceiptComponent } from './GeneralAccounts/components/create-receive-receipt/create-receive-receipt.component';
 import { PaymentReceiptsComponent } from './GeneralAccounts/components/payment-receipts/payment-receipts.component';
 import { ReceiveReceiptsComponent } from './GeneralAccounts/components/receive-receipts/receive-receipts.component';
+import { AccountsGeneralLedgerComponent } from './GeneralAccounts/components/accounts-general-ledger/accounts-general-ledger.component';
+import { AccountsAssistantLedgerComponent } from './GeneralAccounts/components/accounts-assistant-ledger/accounts-assistant-ledger.component';
+import { TrialBalanceComponent } from './GeneralAccounts/components/trial-balance/trial-balance.component';
+import { MonthlyAssistantLedgerComponent } from './GeneralAccounts/components/monthly-assistant-ledger/monthly-assistant-ledger.component';
+import { CostGeneralLedgerComponent } from './GeneralAccounts/components/cost-general-ledger/cost-general-ledger.component';
+import { CostAssistantLedgerComponent } from './GeneralAccounts/components/cost-assistant-ledger/cost-assistant-ledger.component';
 
 const routes: Routes = [
   // {path:'newReceiveReceipt',component:CashReceiveReceiptComponent},
@@ -60,6 +66,12 @@ const routes: Routes = [
       { path: 'create-receive-receipt', component: CreateReceiveReceiptComponent },
       { path: 'payment-receipts', component: PaymentReceiptsComponent },
       { path: 'receive-receipts', component: ReceiveReceiptsComponent },
+      { path: 'accounts-general-ledger', component: AccountsGeneralLedgerComponent },
+      { path: 'accounts-assistant-ledger', component: AccountsAssistantLedgerComponent },
+      { path: 'monthly-assistant-ledger', component: MonthlyAssistantLedgerComponent },
+      { path: 'trial-balance', component: TrialBalanceComponent },
+      { path: 'cost-general-ledger', component: CostGeneralLedgerComponent},
+      { path: 'cost-assistant-ledger', component: CostAssistantLedgerComponent}
 
     ]
   },

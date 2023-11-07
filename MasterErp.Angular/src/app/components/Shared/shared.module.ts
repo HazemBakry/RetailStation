@@ -16,6 +16,7 @@ import { ErpFiltersComponent } from './components/erp-filters/erp-filters.compon
 import { EmptyDataComponent } from './components/empty-data/empty-data.component';
 import { OrderProductsComponent } from '../Finance/Purchase/components/order-products/order-products.component';
 import { AppBreadcrumbComponent } from './components/app-breadcrumb/app-breadcrumb.component';
+import { AccountsReportHeaderComponent } from './components/accounts-report-header/accounts-report-header.component';
 
 
 
@@ -32,7 +33,8 @@ import { AppBreadcrumbComponent } from './components/app-breadcrumb/app-breadcru
     ErpFiltersComponent,
     EmptyDataComponent,
     OrderProductsComponent,
-    AppBreadcrumbComponent
+    AppBreadcrumbComponent,
+    AccountsReportHeaderComponent
 
   ],
   
@@ -65,7 +67,8 @@ import { AppBreadcrumbComponent } from './components/app-breadcrumb/app-breadcru
     ErpFiltersComponent,
     EmptyDataComponent,
     OrderProductsComponent,
-    AppBreadcrumbComponent
+    AppBreadcrumbComponent,
+    AccountsReportHeaderComponent
   ]
 })
 export class SharedModule { }

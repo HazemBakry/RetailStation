@@ -369,7 +369,7 @@
     }
     
     .breadcrumb-nav {
-        background-color: lightsteelblue;
+        background-color: #bbd9ff;
         padding: 8px;
         border-radius: 5px;
         margin-bottom: 20px;
@@ -413,7 +413,7 @@
         color: #000000;
         font-weight: 600;
         height: 35px;
-        font-size: 12px;
+        font-size: 11px;
         line-height: 1.25;
         min-width: 100px;
     }
@@ -502,4 +502,29 @@
     
     input[type=number] {
         -moz-appearance: textfield;
+    }
+    
+    .form-floating>.form-control,
+    .form-floating>.form-control-plaintext,
+    .form-floating>.form-select {
+        height: calc(-15rem + calc(var(--bs-border-width) * 2));
+        min-height: calc(3.2rem + calc(var(--bs-border-width) * 2));
+        line-height: 1.25;
+    }
+    
+    .form-floating>.form-control-plaintext:focus,
+    .form-floating>.form-control-plaintext:not(:placeholder-shown),
+    .form-floating>.form-control:focus,
+    .form-floating>.form-control:not(:placeholder-shown) {
+        padding-top: 2.025rem;
+        padding-bottom: 0.425rem;
+    }
+    
+    .table-vp-height {
+        height: calc(100vh - 392px);
+    }
+    
+    .recent-h {
+        min-height: 400px;
+        max-height: 400px;
     }

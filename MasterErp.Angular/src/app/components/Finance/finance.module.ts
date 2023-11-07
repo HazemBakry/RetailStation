@@ -29,6 +29,14 @@ import { CreateReceiveReceiptComponent } from './GeneralAccounts/components/crea
 import { CreatePaymentReceiptComponent } from './GeneralAccounts/components/create-payment-receipt/create-payment-receipt.component';
 import { PaymentReceiptsComponent } from './GeneralAccounts/components/payment-receipts/payment-receipts.component';
 import { ReceiveReceiptsComponent } from './GeneralAccounts/components/receive-receipts/receive-receipts.component';
+import { AccountsGeneralLedgerComponent } from './GeneralAccounts/components/accounts-general-ledger/accounts-general-ledger.component';
+import { MonthlyAssistantLedgerComponent } from './GeneralAccounts/components/monthly-assistant-ledger/monthly-assistant-ledger.component';
+import { TrialBalanceComponent } from './GeneralAccounts/components/trial-balance/trial-balance.component';
+import { AccountsAssistantLedgerComponent } from './GeneralAccounts/components/accounts-assistant-ledger/accounts-assistant-ledger.component';
+import { CostGeneralLedgerComponent } from './GeneralAccounts/components/cost-general-ledger/cost-general-ledger.component';
+import { CostAssistantLedgerComponent } from './GeneralAccounts/components/cost-assistant-ledger/cost-assistant-ledger.component';
+import { CostTrialBalanceComponent } from './GeneralAccounts/components/cost-trial-balance/cost-trial-balance.component';
+import { CostCenterMatrixComponent } from './GeneralAccounts/components/cost-center-matrix/cost-center-matrix.component';
 
 
 @NgModule({
@@ -57,7 +65,15 @@ import { ReceiveReceiptsComponent } from './GeneralAccounts/components/receive-r
     CreateReceiveReceiptComponent,
     CreatePaymentReceiptComponent,
     PaymentReceiptsComponent,
-    ReceiveReceiptsComponent
+    ReceiveReceiptsComponent,
+    AccountsGeneralLedgerComponent,
+    MonthlyAssistantLedgerComponent,
+    TrialBalanceComponent,
+    AccountsAssistantLedgerComponent,
+    CostGeneralLedgerComponent,
+    CostAssistantLedgerComponent,
+    CostTrialBalanceComponent,
+    CostCenterMatrixComponent
     
   ],
   imports: [
