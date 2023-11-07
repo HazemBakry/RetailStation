@@ -56,7 +56,12 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             return new DataTable();
         }
 
-        public DataTable GetAccountsAssistantLedger(FilterModel model)
+        public DataTable GetAccountsAssistantLedger(SearchFilterModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DataTable GetTrialBalanceReport(SearchFilterModel model)
         {
             throw new NotImplementedException();
         }
@@ -194,9 +199,5 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             }
         }
 
-        public DataTable GetAccountsGeneralLedger(FilterModel model)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

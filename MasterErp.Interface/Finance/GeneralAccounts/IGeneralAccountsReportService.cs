@@ -13,5 +13,6 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
     {
         DataTable GetAccountsGeneralLedger(SearchFilterModel model);
         DataTable GetAccountsAssistantLedger(SearchFilterModel model);
+        DataTable GetTrialBalanceReport(SearchFilterModel model);
     }
 }

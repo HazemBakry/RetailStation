@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,12 +21,25 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             this.ReportService = ReportService;
         }
 
-
         [HttpPost]
         [Route("GetAccountsGeneralLedger")]
-        public List<SearchFilterModel> GetAccountsGeneralLedger(SearchFilterModel model)
+        public DataTable GetAccountsGeneralLedger(SearchFilterModel model)
         {
             return ReportService.GetAccountsGeneralLedger(model);
+        }
+
+        [HttpPost]
+        [Route("GetAccountsAssistantLedger")]
+        public DataTable GetAccountsAssistantLedger(SearchFilterModel model)
+        {
+            return ReportService.GetAccountsAssistantLedger(model);
+        }
+
+        [HttpPost]
+        [Route("GetTrialBalanceReport")]
+        public DataTable GetTrialBalanceReport(SearchFilterModel model)
+        {
+            return ReportService.GetTrialBalanceReport(model);
         }
     }
 }
