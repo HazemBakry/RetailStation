@@ -1,0 +1,18 @@
+<div class="overview-card rounded h-100" [class]="data.statusBgClass">
+  <div class="p-3">
+    <h5 class="">{{ data.title }}</h5>
+    <div class="d-flex justify-content-between">
+      <div>
+        <div class="fw-bold fs-4">${{ data.number }}</div>
+        <div>{{ data.status }}</div>
+      </div>
+      <div class="d-flex align-items-center">
+        <i class="fas {{ data.statusIcon }}"></i>
+        <span class="ms-2">{{ data.subscribers }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-graph-line">
+    <img src="../../../../../assets/images/ov-card-graph-1.svg" class="w-100 h-30" alt="" loading="lazy" />
+  </div>
+</div>

@@ -13,29 +13,31 @@ import { SidebarComponent } from './components/Main/sidebar/sidebar.component';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from "./components/Shared/shared.module";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
-    declarations: [
-        AppComponent,
-        ErpLoginComponent,
-        HeaderComponent,
-        SidebarComponent,
-        DashboardComponent
-    ],
-    providers: [
-        DatePipe,
-    ],
-    bootstrap: [AppComponent],
-    imports: [
-        CommonModule,
-        FormsModule,
-        BrowserModule,
-        HttpClientModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        ToastrModule.forRoot({
-            preventDuplicates: true
-        }),
-        SharedModule
-    ]
+  declarations: [
+    AppComponent,
+    ErpLoginComponent,
+    HeaderComponent,
+    SidebarComponent,
+    DashboardComponent
+  ],
+  providers: [
+    DatePipe,
+  ],
+  bootstrap: [AppComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    NgbModule,
+    ToastrModule.forRoot({
+      preventDuplicates: true
+    }),
+    SharedModule
+  ]
 })
 export class AppModule { }

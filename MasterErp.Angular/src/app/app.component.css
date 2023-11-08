@@ -2,9 +2,9 @@
   position: relative;
   top: var(--nav-link-height);
   width: calc(100vw - var(--aside-bar-width));
-  height: calc(100vh - var(--nav-link-height));
-  margin-right: var(--aside-bar-width);
-  padding: 15px 20px;
+  min-height: calc(100vh - var(--nav-link-height));
+  margin-right: 260px;
+  padding: 15px 30px 20px 20px;
   transition: var(--toggled-transition);
   -webkit-transition: var(--toggled-transition);
   -moz-transition: var(--toggled-transition);
@@ -18,7 +18,7 @@
 }
 @media (min-width: 767px) and (max-width: 1199px) {
   .main-content {
-    width: calc(100vw - var(--aside-bar-width-toggled));
+    width: calc(100vw - 80px);
     margin-right: var(--aside-bar-width-toggled);
   }
 }

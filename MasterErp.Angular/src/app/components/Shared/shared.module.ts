@@ -21,6 +21,7 @@ import { CurrencyComponent } from './components/BasicInformation/currency/curren
 import { FeaturedComponent } from './components/BasicInformation/featured/featured.component';
 import { FiscalYearComponent } from './components/BasicInformation/fiscal-year/fiscal-year.component';
 import { ReceiptBooksComponent } from './components/BasicInformation/receipt-books/receipt-books.component';
+import { OverviewCardComponent } from './components/overview-card/overview-card.component';
 
 @NgModule({
   declarations: [
@@ -42,10 +43,11 @@ import { ReceiptBooksComponent } from './components/BasicInformation/receipt-boo
     CurrencyComponent,
     FeaturedComponent,
     FiscalYearComponent,
-    ReceiptBooksComponent
+    ReceiptBooksComponent,
+    OverviewCardComponent
 
   ],
-  
+
 
   imports: [
     CommonModule,
@@ -76,7 +78,9 @@ import { ReceiptBooksComponent } from './components/BasicInformation/receipt-boo
     EmptyDataComponent,
     OrderProductsComponent,
     AppBreadcrumbComponent,
-    AccountsReportHeaderComponent
+    AccountsReportHeaderComponent,
+    StatsCardComponent,
+    OverviewCardComponent
   ]
 })
 export class SharedModule { }

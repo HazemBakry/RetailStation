@@ -10,6 +10,50 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class DashboardComponent implements OnInit {
 
+
+  overviewList = [
+    {
+      title: 'عدد الطلبات',
+      number: 574.12,
+      status: 'مقارنة بالاسبوع الماضى',
+      statusIcon: 'fa-arrow-circle-up',
+      subscribers: 427,
+      statusBgClass: 'bg-primary-gradient'
+    },
+    {
+      title: 'إجمالى المبيعات',
+      number: 1230.17,
+      status: 'مقارنة بالعام الماضى',
+      statusIcon: 'fa-arrow-circle-up',
+      subscribers: 523,
+      statusBgClass: 'bg-success-gradient'
+    },
+    {
+      title: 'الطلبات الملغية',
+      number: -12,
+      status: 'مقارنة بالامس',
+      statusIcon: 'fa-arrow-circle-down',
+      subscribers: 312,
+      statusBgClass: 'bg-danger-gradient'
+    },
+    {
+      title: 'الطلبات المعلقة',
+      number: 993.74,
+      status: 'مقارنة بأخر 10 أيام',
+      statusIcon: 'fa-arrow-circle-up',
+      subscribers: 12,
+      statusBgClass: 'bg-warning-gradient'
+    },
+    {
+      title: 'الطلبات المنتهية',
+      number: 486,
+      status: 'مقارنة بالشهر الماضى',
+      statusIcon: 'fa-arrow-circle-up',
+      subscribers: 150,
+      statusBgClass: 'bg-secondary-gradient'
+    },
+  ];
+
   statsList = [
     {
       title: 'Orders Received',
@@ -47,16 +91,16 @@ export class DashboardComponent implements OnInit {
   FromDate = new Date();
   ToDate = new Date();
   branchId = 0;
-  SalesSummaryStatistics:any;
+  SalesSummaryStatistics: any;
 
 
-  constructor(private modalService: NgbModal,private datepipe: DatePipe) { }
+  constructor(private modalService: NgbModal, private datepipe: DatePipe) { }
 
   ngOnInit(): void {
     this.GetSalesSummary();
   }
 
-  GetSalesSummary(){
+  GetSalesSummary() {
     // let FromDate = this.datepipe.transform(this.FromDate, 'yyyy-MM-dd');
     // let ToDate = this.datepipe.transform(this.ToDate, 'yyyy-MM-dd');
     // this.AdminService.GetSalesSummary(FromDate,ToDate,this.branchId).subscribe(data => {
