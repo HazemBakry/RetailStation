@@ -75,6 +75,7 @@ namespace MasterErp.API
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IItemService, ItemService>();
             services.AddScoped<ISharedFilterService, SharedFilterService>();
+            services.AddScoped<IGeneralAccountsReportService, GeneralAccountsReportService>();
 
             services
                 .AddMvc(options =>

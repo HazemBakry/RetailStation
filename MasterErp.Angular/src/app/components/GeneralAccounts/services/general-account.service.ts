@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { JournalEntryModel } from '../models/GeneralAccounts/JurnalEntryModel';
 import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { SearchLevelTypeEnum } from '../../Shared/Enums/SearchLevelTypeEnum';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,23 @@ export class GeneralAccountService {
 
   constructor(private http: HttpClient) { }
 
+  searchTypeList: any[] = [
+    {
+      id:SearchLevelTypeEnum.GroupsAndAccounts,
+      nameAR:'مجموعات و حسابات معا',
+      nameEN:'Groups And Accounts'
+    },
+    {
+      id: SearchLevelTypeEnum.GroupsOnly,
+      nameAR: 'مجموعات',
+      nameEN: 'Groups'
+    },
+    {
+      id: SearchLevelTypeEnum.AccountsOnly,
+      nameAR: 'حسابات',
+      nameEN: 'Accounts'
+    }
+  ]
   //================================== JournalEntry ===============================
 
   GetJournalEntryTypes() {
@@ -65,11 +83,40 @@ export class GeneralAccountService {
   }
 
   GetAccountsGeneralLedger(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'AccountTree/GetAccountsGeneralLedger', model);
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetAccountsGeneralLedger', model);
   }
 
   ExportAccountsGeneralLedger(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'AccountTree/GetAccountsGeneralLedger', model);
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetAccountsGeneralLedger', model);
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ////////////////// General Accounts Reports ///////
+  GetAccountsAssistantLedger(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetAccountsAssistantLedger', model);
+  }
+  ExportAccountsAssistantLedger(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/ExportAccountsAssistantLedger', model);
+  }
+  GetTrialBalanceReport(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetTrialBalanceReport', model);
+  }
+  ExportTrialBalanceReport(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/ExportTrialBalanceReport', model);
+  }
 }

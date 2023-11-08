@@ -23,7 +23,11 @@ export interface SearchFilterModel {
     pageSize?: number;
     searchType?: string;
     transferType?: string;
-    SearchText?: string;
+    searchText?: string;
+    searchLevel?: string;
+    hideEmptyAccounts?: boolean ;
     isExport?: boolean;
     filterModel?: FilterModel;
+    filterItems?: FilterItem[];
 }
+

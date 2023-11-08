@@ -1,19 +1,33 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { GeneralAccountService } from 'src/app/components/GeneralAccounts/services/general-account.service';
+import { SharedService } from '../../services/shared.service';
+import { SearchFilterModel } from '../../models/FilterModel';
+import { ErpSelectorWithSearchComponent } from '../selectors/erp-selector-with-search/erp-selector-with-search.component';
 
 @Component({
   selector: 'app-accounts-report-header',
   templateUrl: './accounts-report-header.component.html',
   styleUrls: ['./accounts-report-header.component.css']
 })
-export class AccountsReportHeaderComponent implements OnInit {
-  @Input() Transfering = false;
+export class AccountsReportHeaderComponent implements OnInit  {
+  @Input() IsParentAccount:boolean = false;
+  @Output() SearchData = new EventEmitter<SearchFilterModel>();
+
+
+  @Input() Transferring = false;
   @Input() ShowAllBranch = false;
   @Input() ShowSearchInput = false;
   @Output() SearchAction = new EventEmitter<any>();
   @Output() ExportAction = new EventEmitter<any>();
   @Output() PrintAction = new EventEmitter<any>();
+
+  SearchModel: SearchFilterModel = {
+    currentPage: 1,
+    pageSize: 25,
+    isExport: false,
+    filterItems: []
+  };
   FromDate: any;
   ToDate: any;
   branchId: any;
@@ -24,9 +38,11 @@ export class AccountsReportHeaderComponent implements OnInit {
   SearchText = '';
   Lang = 'en';
   TransferType = 'Transfer Types';
-  //SwitcherType = 'Summary';
 
-  constructor(private datepipe: DatePipe,private generalService: GeneralAccountService ) { }
+  //SwitcherType = 'Summary';
+  @ViewChild('Selector') Selector: ErpSelectorWithSearchComponent;
+  @ViewChild('Selector1') Selector1: ErpSelectorWithSearchComponent;
+  constructor(private sharedService:SharedService,private datepipe: DatePipe,private generalService: GeneralAccountService ) { }
 
   ngOnInit(): void {
     this.Lang = localStorage.getItem('lang');
@@ -37,8 +53,19 @@ export class AccountsReportHeaderComponent implements OnInit {
     // this.ToDate = this.datepipe.transform(endDate, 'yyyy-MM-dd');
     // this.FromDate = this.datepipe.transform(endDate, 'yyyy-MM-dd');
     this.getBranches();
+    this.loadAccountsTreeData();
   }
 
+  emitSearchModel() {
+    this.SearchData.emit(this.SearchModel);
+  }
+  loadAccountsTreeData()
+  {
+    this.sharedService.GetAccountsList(this.IsParentAccount).subscribe(data=>{
+      this.AccountsList=data;
+      
+    })
+  }
   getBranches() {
     // this.generalService.GetChildAccountsList().subscribe(data => {
     //   this.Branches = data;
@@ -53,11 +80,18 @@ export class AccountsReportHeaderComponent implements OnInit {
     // });
   }
 
-  GetSelectedPaymentType(type)
+  GetSelectedAccount(acc)
   {
-
-    // this.paymentReceiptModel.paymentTypeId=type.id;
-    // this.loadAccountsByTypeData(type.id);
+    this.Selector.SelectorName=acc.accountNumber;
+    this.Selector1.SelectorName=acc.nameAR;
+    
+    this.SearchModel.filterItems=[];
+    this.SearchModel.filterItems.push({
+      categoryName:'accountId',
+      itemKey:acc.accountID?.toString(),
+      itemFlag:acc.accountID?.toString()
+    });
+    this.emitSearchModel();
   }
 
   onBranchChange(branch: any) {

@@ -21,6 +21,7 @@ import { PaymentReceiptsComponent } from './components/payment-receipts/payment-
 import { ReceiveReceiptsComponent } from './components/receive-receipts/receive-receipts.component';
 import { TrialBalanceComponent } from './components/trial-balance/trial-balance.component';
 import { GeneralAccountsLayoutComponent } from './general-accounts-layout/general-accounts-layout.component';
+import { CostTrialBalanceComponent } from './components/cost-trial-balance/cost-trial-balance.component';
 
 const routes: Routes = [
   {
@@ -47,7 +48,9 @@ const routes: Routes = [
       { path: 'monthly-assistant-ledger', component: MonthlyAssistantLedgerComponent },
       { path: 'trial-balance', component: TrialBalanceComponent },
       { path: 'cost-general-ledger', component: CostGeneralLedgerComponent},
-      { path: 'cost-assistant-ledger', component: CostAssistantLedgerComponent}
+      { path: 'cost-assistant-ledger', component: CostAssistantLedgerComponent},
+      { path: 'cost-trial-balance', component: CostTrialBalanceComponent},
+      
 
     ]
   }

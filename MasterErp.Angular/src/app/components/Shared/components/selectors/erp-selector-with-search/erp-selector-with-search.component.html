@@ -8,7 +8,7 @@
         </div>
         <div class="max-height-150 min-width-200 overflow-auto small-scroll">
             <div class="check-row" *ngFor="let item of ItemsList | searchArry: SearchText:SearchKey">
-                <a class="dropdown-item" (click)="onItemClick(item)" [ngClass]="{'DropDownSelected': SelectorName == item.nameAR}">{{item.nameAR}}</a>
+                <a class="dropdown-item" (click)="onItemClick(item)" [ngClass]="{'DropDownSelected': SelectorName == item[innerTextKey]}">{{item[innerTextKey]}}</a>
             </div>
         </div>
     </div>
