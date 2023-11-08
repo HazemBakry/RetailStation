@@ -3,33 +3,31 @@
         <h5 class="m-0 fw-bold">قيود اليومية</h5>
     </div>
     <div class="card-body bg-light">
-        <div class="row mb-3">
+        <div class="row mb-2">
             <div class="col-lg-3 offset-lg-1">
                 <div class="form-floating">
                     <input type="text" disabled class="form-control input-size" [(ngModel)]="EntryNumber" id="floatingInput2" placeholder="any" autocomplete="off">
                     <label for="floatingInput2">رقم القيد</label>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 offset-lg-1 mb-3">
+            <div class="col-lg-3">
                 <div class="form-floating">
                     <input type="date" class="form-control input-size" [(ngModel)]="EntryDate" id="floatingInput2" placeholder="any" autocomplete="off">
                     <label for="floatingInput2">تاريخ القيد</label>
                 </div>
             </div>
-            <div class="col-lg-3 offset-lg-1">
+            <div class="col-lg-3 mb-3">
                 <app-erp-selector #Selector [ItemsList]="JournalEntryTypes" [SelectorName]="'نوع القيد'" (ItemObj)="GetSelectedJurnalTypes($event)" [Height]="'35px'"></app-erp-selector>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-3 offset-lg-1 mb-3">
+        <div class="row mb-2">
+            <div class="col-lg-3 offset-lg-1">
                 <div class="form-floating">
                     <input type="text" class="form-control input-size" [(ngModel)]="DocNumber" id="floatingInput2" placeholder="any" autocomplete="off">
                     <label for="floatingInput2">رقم الدفتر</label>
                 </div>
             </div>
-            <div class="col-lg-3 offset-lg-1">
+            <div class="col-lg-3">
                 <app-erp-selector #Selector1 [ItemsList]="CurrencyType" [SelectorName]="'العملة'" (ItemObj)="GetSelectedCurrency($event)" [Height]="'35px'"></app-erp-selector>
             </div>
         </div>

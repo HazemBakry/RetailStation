@@ -1,86 +1,77 @@
 <div class="card radius-10 border-0 card-shadow mb-3">
-    <div class="boxstyle1">
-        <div class="boxstyle1-header bg-light">
-            <div class="boxstyle1-header-left mb-3">
-                <div ngbDropdown class="d-inline-block me-2">
-                    <button type="button" class="btn btn-secondary btn-lg me-2" id="dropdownBasic1" ngbDropdownToggle>
-                        العمليات
-                    </button>
-                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                        <button ngbDropdownItem (click)="CancelJournalEntry()">اسقاط</button>
-                        <button ngbDropdownItem (click)="PostJournalEntry()">ترحيل</button>
-                        <button ngbDropdownItem (click)="ReverseJournalEntry()">عكس</button>
-                        <button ngbDropdownItem (click)="PrintJournalEntry()">طباعة</button>
-                    </div>
-                </div>
-                <button class="btn btn-primary btn-lg me-2" routerLink="/GeneralAccounts/new-entry">
-                    <i class="fas fa-check-circle"></i>
-                    <span class="ms-2">انشاء قيد جديد</span>
-                </button>
+    <div class="card-header py-3">
+        <div ngbDropdown class="d-inline-block me-2">
+            <button type="button" class="btn btn-secondary btn-lg me-2" id="dropdownBasic1" ngbDropdownToggle>
+                العمليات
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <button ngbDropdownItem (click)="CancelJournalEntry()">اسقاط</button>
+                <button ngbDropdownItem (click)="PostJournalEntry()">ترحيل</button>
+                <button ngbDropdownItem (click)="ReverseJournalEntry()">عكس</button>
+                <button ngbDropdownItem (click)="PrintJournalEntry()">طباعة</button>
             </div>
         </div>
-
-        <div class="card radius-10 border-0 card-shadow">
-            <div class="card-body">
-                <div class="main-card-action">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="d-flex align-items-center flex-wrap">
-                                <ng-container>
-                                    <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-erp-filters>
-                                </ng-container>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="FilterModel.currentPage" [pageSize]="FilterModel.pageSize" [totalCount]="totalCount" [totalPages]="totalPages"></app-erp-pagination>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="table-responsive table-vp-height small-scroll">
-                    <table class="table table-bordered table-hover table-middle bg-white m-0">
-                        <thead>
-                            <tr>
-                                <th class="min-width-50 width-50 max-width-50">
-                                    <input type="checkbox" class="big-checkbox" [(ngModel)]="SelectAll" (change)="SelectedAll($event.target.checked)" />
-                                </th>
-                                <!-- <th>م</th> -->
-                                <th>رقم القيد</th>
-                                <th>نوع القيد</th>
-                                <th>حالة القيد</th>
-                                <th>المجموعة</th>
-                                <th>نوع العملية</th>
-                                <th>الشهر</th>
-                                <th>التاريخ</th>
-                                <th>مدين كلي</th>
-                                <th>دائن كلي</th>
-                                <th>ملاحظات</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <ng-container *ngFor="let item of DailyJournal">
-                                <tr (click)="item.isChecked = !item.isChecked">
-                                    <td><input type="checkbox" class="big-checkbox" [(ngModel)]="item.isChecked"></td>
-                                    <td>{{item.entryNumber}}</td>
-                                    <!-- <td>{{item.docNumber}}</td> -->
-                                    <td>{{item.journalTypeAr}}</td>
-                                    <td>{{item.entryStatus}}</td>
-                                    <td>{{item.actionGroup}}</td>
-                                    <td>{{item.actionTypeAr}}</td>
-                                    <td>{{item.entryMonth}}</td>
-                                    <td>{{item.entryDate | date}}</td>
-                                    <td>{{item.totalDebit}}</td>
-                                    <td>{{item.totalCredit}}</td>
-                                    <td>{{item.description}}</td>
-                                </tr>
-                            </ng-container>
-
-                        </tbody>
-                    </table>
+        <button class="btn btn-primary btn-lg me-2" routerLink="/GeneralAccounts/new-entry">
+            <i class="fas fa-check-circle"></i>
+            <span class="ms-2">انشاء قيد جديد</span>
+        </button>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="d-flex align-items-center flex-wrap">
+                    <ng-container>
+                        <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-erp-filters>
+                    </ng-container>
                 </div>
             </div>
+            <div class="col-md-4">
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="FilterModel.currentPage" [pageSize]="FilterModel.pageSize" [totalCount]="totalCount" [totalPages]="totalPages"></app-erp-pagination>
+            </div>
         </div>
+        <hr>
+        <div class="table-responsive">
+            <table class="table table-borderless align-middle table-middle mb-0 table-hover">
+                <thead>
+                    <tr>
+                        <th class="min-width-50 width-50 max-width-50">
+                            <input type="checkbox" class="big-checkbox" [(ngModel)]="SelectAll" (change)="SelectedAll($event.target.checked)" />
+                        </th>
+                        <!-- <th>م</th> -->
+                        <th>رقم القيد</th>
+                        <th>نوع القيد</th>
+                        <th>حالة القيد</th>
+                        <th>المجموعة</th>
+                        <th>نوع العملية</th>
+                        <th>الشهر</th>
+                        <th>التاريخ</th>
+                        <th>مدين كلي</th>
+                        <th>دائن كلي</th>
+                        <th>ملاحظات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let item of DailyJournal">
+                        <tr (click)="item.isChecked = !item.isChecked">
+                            <td><input type="checkbox" class="big-checkbox" [(ngModel)]="item.isChecked">
+                            </td>
+                            <td>{{item.entryNumber}}</td>
+                            <!-- <td>{{item.docNumber}}</td> -->
+                            <td>{{item.journalTypeAr}}</td>
+                            <td>{{item.entryStatus}}</td>
+                            <td>{{item.actionGroup}}</td>
+                            <td>{{item.actionTypeAr}}</td>
+                            <td>{{item.entryMonth}}</td>
+                            <td>{{item.entryDate | date}}</td>
+                            <td>{{item.totalDebit}}</td>
+                            <td>{{item.totalCredit}}</td>
+                            <td>{{item.description}}</td>
+                        </tr>
+                    </ng-container>
 
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
