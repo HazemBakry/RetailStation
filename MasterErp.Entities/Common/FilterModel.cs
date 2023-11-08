@@ -18,14 +18,13 @@ namespace MasterErp.Entities.Common
         public string SearchLevel { get; set; }
         public bool? HideEmptyAccounts { get; set; }
         public bool IsExport { get; set; }
-        public FilterModel FilterModel { get; set; }
+        public List<FilterItem> FilterItems { get; set; }
     }
 
     public class FilterModel
     {
         public int CurrentPage { get; set; }
         public int PageSize { get; set; }
-
         public string CategoryDisplayName { get; set; }
         public List<FilterItem> FilterItems { get; set; }
     }
