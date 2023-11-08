@@ -14,17 +14,17 @@ export class GeneralAccountService {
 
   searchTypeList: any[] = [
     {
-      id:1,
+      id:SearchLevelTypeEnum.GroupsAndAccounts,
       nameAR:'مجموعات و حسابات معا',
       nameEN:'Groups And Accounts'
     },
     {
-      id: 2,
+      id: SearchLevelTypeEnum.GroupsOnly,
       nameAR: 'مجموعات',
       nameEN: 'Groups'
     },
     {
-      id: 3,
+      id: SearchLevelTypeEnum.AccountsOnly,
       nameAR: 'حسابات',
       nameEN: 'Accounts'
     }
