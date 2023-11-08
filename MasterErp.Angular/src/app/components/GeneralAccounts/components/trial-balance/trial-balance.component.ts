@@ -24,6 +24,7 @@ export class TrialBalanceComponent implements OnInit {
     currentPage: 1,
     pageSize: 25,
     isExport: false,
+    filterItems: [],
     filterModel: { filterItems: [] },
   };
 
