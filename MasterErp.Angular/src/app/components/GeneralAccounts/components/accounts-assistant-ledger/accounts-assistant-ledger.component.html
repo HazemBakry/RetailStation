@@ -1,8 +1,46 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
-<div class="mb-3">
-    <app-accounts-report-header [ShowAllBranch]="true" (SearchAction)="onSearchClick($event)" (ExportAction)="onExportClick($event)" (PrintAction)="onPrintClick($event)"></app-accounts-report-header>
+
+<div class="card radius-10 border-0 card-shadow mb-3">
+    <div class="card-body bg-light">
+        <app-accounts-report-header  (SearchData)="headerSearchChanged($event)"></app-accounts-report-header>
+        <!-- <div class="row">
+           
+            <div class="col-lg-4  mb-3">
+                <div class="d-flex align-items-center">
+                    <input type="checkbox" id="HideEmptyAccounts" [(ngModel)]="SearchFilterModel.hideEmptyAccounts">
+                    <label class="label-info white-space-nowrap m-3" for="HideEmptyAccounts" style="cursor: pointer;">
+                        اخفاء الحسابات بدون رصيد</label>
+
+                </div>
+            </div>
+        </div> -->
+
+        <div class="row ps-3">
+            <div class="col-xl-12 mt-3">
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-primary me-2" (click)="loadData()">
+                        <i class="fas fa-search"></i>
+                        <span class="ms-2">بحث</span>
+                    </button>
+                    <button class="btn btn-success me-2" (click)="exportData()">
+                        <i class="fas fa-file-export"></i>
+                        <span class="ms-2">تصدير</span>
+                    </button>
+                    <button class="btn btn-secondary me-2" (click)="printData()">
+                        <i class="fas fa-print"></i>
+                        <span class="ms-2">طباعة</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+<!-- <div class="mb-3">
+    <app-accounts-report-header [ShowAllBranch]="true" (SearchAction)="onSearchClick($event)" (ExportAction)="onExportClick($event)" (PrintAction)="onPrintClick($event)"></app-accounts-report-header>
+</div> -->
 
 <div class="mb-3">
     <div class="card radius-10 border-0 card-shadow">

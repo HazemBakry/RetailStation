@@ -12,6 +12,23 @@ export class GeneralAccountService {
 
   constructor(private http: HttpClient) { }
 
+  searchTypeList: any[] = [
+    {
+      id:1,
+      nameAR:'مجموعات و حسابات معا',
+      nameEN:'Groups And Accounts'
+    },
+    {
+      id: 2,
+      nameAR: 'مجموعات',
+      nameEN: 'Groups'
+    },
+    {
+      id: 3,
+      nameAR: 'حسابات',
+      nameEN: 'Accounts'
+    }
+  ]
   //================================== JournalEntry ===============================
 
   GetJournalEntryTypes() {
@@ -65,11 +82,40 @@ export class GeneralAccountService {
   }
 
   GetAccountsGeneralLedger(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'AccountTree/GetAccountsGeneralLedger', model);
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetAccountsGeneralLedger', model);
   }
 
   ExportAccountsGeneralLedger(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'AccountTree/GetAccountsGeneralLedger', model);
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetAccountsGeneralLedger', model);
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ////////////////// General Accounts Reports ///////
+  GetAccountsAssistantLedger(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetAccountsAssistantLedger', model);
+  }
+  ExportAccountsAssistantLedger(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/ExportAccountsAssistantLedger', model);
+  }
+  GetTrialBalanceReport(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetTrialBalanceReport', model);
+  }
+  ExportTrialBalanceReport(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/ExportTrialBalanceReport', model);
+  }
 }

@@ -1,37 +1,53 @@
-<div class="card radius-10 border-0 card-shadow">
-    <div class="card-body">
-        <div class="row ps-3 pt-3">
+<!-- <div class="card radius-10 border-0 card-shadow">
+    <div class="card-body bg-light"> -->
+        <div class="row ">
             <div class="col-lg-3">
-                <app-erp-selector-with-search #Selector [SelectorName]="'رقم الحساب'" [ItemsList]="AccountsList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedPaymentType($event)">
+                <app-erp-selector-with-search #Selector 
+                    [SelectorName]="'رقم الحساب'" 
+                    [ItemsList]="AccountsList" 
+                    [Height]="'35px'" 
+                    [SearchKey]="'nameAR'" 
+                    [innerTextKey]="'accountNumber'" 
+                    (ItemObj)="GetSelectedAccount($event)">
                 </app-erp-selector-with-search>
             </div>
             <div class="col-lg-4">
-                <app-erp-selector-with-search #Selector [SelectorName]="'اسم الحساب'" [ItemsList]="AccountsList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedPaymentType($event)">
+                <app-erp-selector-with-search #Selector1 
+                    [SelectorName]="'اسم الحساب'" 
+                    [ItemsList]="AccountsList" 
+                    [Height]="'35px'" 
+                    [SearchKey]="'nameAR'"  
+                    (ItemObj)="GetSelectedAccount($event)">
                 </app-erp-selector-with-search>
+
             </div>
         </div>
-        <div class="row ps-3">
-            <div class="col-xl-2" *ngIf="ShowSearchInput">
-                <div class="search-box position-relative mb-2">
-                    <input type="text" class="form-control" [(ngModel)]="SearchText" placeholder="Search By Phone" style="height: 50px;">
+        <div class="row" *ngIf="ShowSearchInput">
+            <div class="col-lg-3 mb-6" >
+                <div class="form-floating search-box position-relative mb-2">
+                    <input type="text" class="form-control" [(ngModel)]="SearchModel.searchText" (ngModelChange)="emitSearchModel()" placeholder="Search By Phone" style="height: 35px;">
                     <i class="fas fa-search search-icon text-muted cursor-pointer"></i>
                 </div>
             </div>
-            <div class="col-xl-3">
+            
+        </div>
+        <div class="row ">
+          
+            <div class="col-lg-3 mb-3">
                 <div class="form-floating mb-3">
-                    <input _ngcontent-ntw-c119="" type="date" id="FromDate" placeholder="From Date" class="form-control ng-pristine ng-valid ng-touched">
+                    <input  type="date" id="FromDate" [(ngModel)]="SearchModel.fromDate" (ngModelChange)="emitSearchModel()" placeholder="From Date" class="form-control ng-pristine ng-valid ng-touched">
                     <!-- <input type="date" class="form-control" [(ngModel)]="FromDate" id="FromDate" placeholder="From Date"> -->
                     <label for="FromDate"> من تاريخ : <sup>*</sup></label>
                 </div>
             </div>
-            <div class="col-xl-3 offset-lg-1">
+            <div class="col-lg-3 mb-3">
                 <div class="form-floating mb-3">
-                    <input type="date" class="form-control" [(ngModel)]="ToDate" id="ToDate" placeholder="From Date">
+                    <input type="date" class="form-control" [(ngModel)]="SearchModel.toDate" (ngModelChange)="emitSearchModel()" id="ToDate" placeholder="From Date">
                     <label for="ToDate">حتى تاريخ : <sup>*</sup></label>
                 </div>
             </div>
         </div>
-        <div class="row ps-3">
+        <!-- <div class="row ps-3">
             <div class="col-xl-12 mt-3">
                 <div class="d-flex align-items-center">
                     <button class="btn btn-primary me-2" (click)="ReportSearchClick()">
@@ -48,6 +64,6 @@
                     </button>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+        </div> -->
+    <!-- </div>
+</div> -->

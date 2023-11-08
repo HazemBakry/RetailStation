@@ -11,6 +11,7 @@ export class ErpSelectorWithSearchComponent implements OnInit {
   @Input() Height = '50px';
   @Input() ValidateMessage: string;
   @Input() SearchKey = 'nameEN';
+  @Input() innerTextKey:string = 'nameAR';
   @Input() isValid = false;
   @Output() ItemObj = new EventEmitter<any>();
   SearchText: any;
@@ -21,7 +22,7 @@ export class ErpSelectorWithSearchComponent implements OnInit {
   }
 
   onItemClick(item: any) {
-    this.SelectorName = item.nameAR;
+    this.SelectorName = item[this.innerTextKey];
     this.isValid = false;
     this.ItemObj.emit(item);
   }

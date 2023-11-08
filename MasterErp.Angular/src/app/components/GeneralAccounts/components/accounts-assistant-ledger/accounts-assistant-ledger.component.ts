@@ -25,12 +25,53 @@ export class AccountsAssistantLedgerComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  GetAccountsGeneralLedger() {
-    this.generalService.GetAccountsGeneralLedger(this.SearchFilterModel).subscribe(data => {
+  loadData() {
+
+    if (!this.validateSearchModel()) {
+      return;
+    }
+    this.SearchFilterModel.isExport = false;
+    this.generalService.GetAccountsAssistantLedger(this.SearchFilterModel).subscribe(data => {
       this.SearchResult = data;
       this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
     });
   }
+
+  exportData() {
+    if (!this.validateSearchModel()) {
+      return;
+    }
+    this.SearchFilterModel.isExport = true;
+
+    this.generalService.ExportAccountsAssistantLedger(this.SearchFilterModel).subscribe(data => {
+      if (data.url != null) {
+        window.location.href = data.url;
+        this.toaster.success("File exported successfully");
+      } else {
+        this.toaster.error("an Error happened , file can not export");
+      }
+    });
+  }
+
+  printData()
+  {
+    
+  }
+
+
+
+
+  headerSearchChanged(filter:SearchFilterModel)
+  {
+    this.SearchFilterModel.fromDate=filter.fromDate;
+    this.SearchFilterModel.toDate=filter.toDate;
+    this.SearchFilterModel.filterItems=this.SearchFilterModel.filterItems.concat(filter.filterItems);
+    
+    this.SearchFilterModel.filterModel.filterItems=
+    this.SearchFilterModel.filterItems=[...new Set(this.SearchFilterModel.filterItems.map(item => item))]
+  
+  }
+
 
   onSearchClick(obj: any) {
     if (obj.FromDate == null || obj.ToDate == null || obj.BranchId == undefined) {
@@ -39,15 +80,25 @@ export class AccountsAssistantLedgerComponent implements OnInit {
       this.SearchFilterModel.branchID = obj.BranchId;
       this.SearchFilterModel.fromDate = obj.FromDate;
       this.SearchFilterModel.toDate = obj.ToDate;
-      this.GetAccountsGeneralLedger();
+      this.loadData();
     }
   }
 
   pageChanged(obj: any) {
     this.SearchFilterModel.currentPage = obj.page;
-    this.GetAccountsGeneralLedger();
+    this.loadData();
   }
-
+  validateSearchModel(): boolean {
+    if (
+      !this.SearchFilterModel.fromDate ||
+      !this.SearchFilterModel.toDate ||
+      this.SearchFilterModel.filterItems.length == 0
+    ) {
+      this.toaster.warning('يرجي ملئ جميع الخانات');
+      return false;
+    }
+    return true;
+  }
   onExportClick(obj: any) {
     this.SearchFilterModel.branchID = obj.BranchId;
     this.SearchFilterModel.fromDate = obj.FromDate;
