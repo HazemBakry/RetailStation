@@ -2,26 +2,26 @@
 
 <div class="card radius-10 border-0 card-shadow mb-3">
     <div class="card-body">
-        <app-accounts-report-header  (SearchData)="headerSearchChanged($event)"></app-accounts-report-header>
-        
-        
-        
+        <app-accounts-report-header (SearchData)="headerSearchChanged($event)"></app-accounts-report-header>
+
+
+
         <div class="row">
             <div class="col-lg-3 mb-3">
                 <!-- <input type="number" class="form-control" style="height: calc(3rem)" [(ngModel)]="SearchFilterModel.searchLevel" placeholder="التفرع"> -->
-            
+
                 <div class="form-floating">
                     <input type="number" [(ngModel)]="SearchFilterModel.searchLevel" class="form-control input-size" id="floatingInput2" placeholder="any" autocomplete="off">
                     <label for="floatingInput2"> التفرع</label>
                 </div>
             </div>
-            <div class="col-lg-3  mb-3">
+            <div class="col-lg-3 offset-lg-1  mb-3">
                 <app-erp-selector #Selector [SelectorName]="'نوع التفرع'" [ItemsList]="LevelTypes" [Height]="'35px'" (ItemObj)="GetTypeSelected($event)">
                 </app-erp-selector>
             </div>
         </div>
         <div class="row">
-           
+
             <div class="col-lg-4  mb-3">
                 <div class="d-flex align-items-center">
                     <input type="checkbox" id="HideEmptyAccounts" [(ngModel)]="SearchFilterModel.hideEmptyAccounts">
