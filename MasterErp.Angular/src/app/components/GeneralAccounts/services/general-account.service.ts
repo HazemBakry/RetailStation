@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { JournalEntryModel } from '../models/GeneralAccounts/JurnalEntryModel';
 import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { SearchLevelTypeEnum } from '../../Shared/Enums/SearchLevelTypeEnum';
 
 @Injectable({
   providedIn: 'root'
