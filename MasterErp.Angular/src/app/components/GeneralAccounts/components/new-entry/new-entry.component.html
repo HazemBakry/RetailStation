@@ -1,174 +1,208 @@
 <div class="card radius-10 border-0 card-shadow mb-3">
-    <div class="card-header bg-white">
-        <h5 class="m-0 fw-bold">قيود اليومية</h5>
+  <div class="card-header bg-white">
+    <h5 class="m-0 fw-bold">قيود اليومية</h5>
+  </div>
+  <div class="card-body bg-light">
+    <div class="row mb-2">
+      <div class="col-lg-3 offset-lg-1">
+        <div class="form-floating">
+          <input type="text" disabled class="form-control input-size" [(ngModel)]="EntryNumber" id="floatingInput2"
+            placeholder="any" autocomplete="off">
+          <label for="floatingInput2">رقم القيد</label>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="form-floating">
+          <input type="date" class="form-control input-size" [(ngModel)]="EntryDate" id="floatingInput2"
+            placeholder="any" autocomplete="off">
+          <label for="floatingInput2">تاريخ القيد</label>
+        </div>
+
+      </div>
+      <div class="col-lg-3 mb-3">
+        <app-erp-selector #Selector [ItemsList]="JournalEntryTypes" [SelectorName]="'نوع القيد'"
+          (ItemObj)="GetSelectedJurnalTypes($event)" [Height]="'35px'"></app-erp-selector>
+      </div>
     </div>
-    <div class="card-body bg-light">
-        <div class="row mb-2">
-            <div class="col-lg-3 offset-lg-1">
-                <div class="form-floating">
-                    <input type="text" disabled class="form-control input-size" [(ngModel)]="EntryNumber" id="floatingInput2" placeholder="any" autocomplete="off">
-                    <label for="floatingInput2">رقم القيد</label>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="form-floating">
-                    <input type="date" class="form-control input-size" [(ngModel)]="EntryDate" id="floatingInput2" placeholder="any" autocomplete="off">
-                    <label for="floatingInput2">تاريخ القيد</label>
-                </div>
-            </div>
-            <div class="col-lg-3 mb-3">
-                <app-erp-selector #Selector [ItemsList]="JournalEntryTypes" [SelectorName]="'نوع القيد'" (ItemObj)="GetSelectedJurnalTypes($event)" [Height]="'35px'"></app-erp-selector>
-            </div>
+    <div class="row mb-2">
+      <div class="col-lg-3 offset-lg-1">
+        <div class="form-floating">
+          <input type="text" class="form-control input-size" [(ngModel)]="DocNumber" id="floatingInput2"
+            placeholder="any" autocomplete="off">
+          <label for="floatingInput2">رقم الدفتر</label>
         </div>
-        <div class="row mb-2">
-            <div class="col-lg-3 offset-lg-1">
-                <div class="form-floating">
-                    <input type="text" class="form-control input-size" [(ngModel)]="DocNumber" id="floatingInput2" placeholder="any" autocomplete="off">
-                    <label for="floatingInput2">رقم الدفتر</label>
-                </div>
+      </div>
+      <div class="col-lg-3">
+        <app-erp-selector #Selector1 [ItemsList]="CurrencyType" [SelectorName]="'العملة'"
+          (ItemObj)="GetSelectedCurrency($event)" [Height]="'35px'"></app-erp-selector>
+      </div>
+      <div class="col-lg-3">
+        <div class="input-group d-block">
+          <input class="date-picker-input form-control w-100 border bg-white rounded" placeholder="yyyy-mm-dd" name="dp"
+            [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" [footerTemplate]="footerTemplate" />
+          <button class="btn bg-transparent text-black fs-4 px-0 picker-btn" (click)="d.toggle()" type="button">
+            <i class="far fa-calendar-minus"></i>
+          </button>
+          <ng-template #footerTemplate>
+            <div class="bg-light border-top d-flex align-items-center justify-content-between px-4 py-2">
+              <button class="btn btn-primary btn-sm" (click)="model = today; d.close()">Today</button>
+              <button class="btn btn-secondary btn-sm" (click)="d.close()">Close</button>
             </div>
-            <div class="col-lg-3">
-                <app-erp-selector #Selector1 [ItemsList]="CurrencyType" [SelectorName]="'العملة'" (ItemObj)="GetSelectedCurrency($event)" [Height]="'35px'"></app-erp-selector>
-            </div>
+          </ng-template>
         </div>
-        <div class="row mb-3">
-            <div class="col-lg-9 offset-lg-1 h-100">
-                <textarea class="form-control" placeholder="Notes *" [(ngModel)]="Notes" autocomplete="off"></textarea>
-            </div>
-        </div>
+      </div>
     </div>
-    <div class="card-body ">
-        <button class="btn btn-primary btn-lg fs-6 me-2" (click)="SaveNewAccount()">
-            <i class="fas fa-check-circle"></i>
-            <span class="ms-2">حفظ</span>
-        </button>
-        <!-- <button *ngIf="EntryNumber && entryModel" class="btn btn-secondary btn-lg fs-6 me-2" (click)="Print()">
+    <div class="row mb-3">
+      <div class="col-lg-9 offset-lg-1 h-100">
+        <textarea class="form-control" placeholder="Notes *" [(ngModel)]="Notes" autocomplete="off"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="card-body ">
+    <button class="btn btn-primary btn-lg fs-6 me-2" (click)="SaveNewAccount()">
+      <i class="fas fa-check-circle"></i>
+      <span class="ms-2">حفظ</span>
+    </button>
+    <!-- <button *ngIf="EntryNumber && entryModel" class="btn btn-secondary btn-lg fs-6 me-2" (click)="Print()">
             <i class="fas fa-print"></i>
             <span class="ms-2">Print</span>
         </button> -->
-        <button class="btn btn-warning btn-lg fs-6 me-2" (click)="ClearAllFields()">
-            <i class="fas fa-times"></i>
-            <span class="ms-2">مسح</span>
-        </button>
+    <button class="btn btn-warning btn-lg fs-6 me-2" (click)="ClearAllFields()">
+      <i class="fas fa-times"></i>
+      <span class="ms-2">مسح</span>
+    </button>
 
 
-    </div>
+  </div>
 </div>
 
 
 <div class="card radius-10 border-0 card-shadow mb-3">
-    <div class="card-header bg-white">
-        <div class="d-flex justify-content-between align-items-center">
-            <h5 class="fw-bold m-0">الحسابات</h5>
-            <div>
-                <button class="btn btn-secondary me-2" (click)="openAccountModal(AccountModal)">
-                    <i class="fas fa-plus-circle"></i>
-                    <span class="ms-2">اضافة حساب</span>
-                </button>
-            </div>
-        </div>
+  <div class="card-header bg-white">
+    <div class="d-flex justify-content-between align-items-center">
+      <h5 class="fw-bold m-0">الحسابات</h5>
+      <div>
+        <button class="btn btn-secondary me-2" (click)="openAccountModal(AccountModal)">
+          <i class="fas fa-plus-circle"></i>
+          <span class="ms-2">اضافة حساب</span>
+        </button>
+      </div>
     </div>
-    <div class="card-body bg-light">
-        <div class="table-responsive table-vp-height small-scroll">
-            <table class="table table-bordered table-middle table-hover bg-white m-0">
-                <thead>
-                    <tr>
-                        <th>رقم الحساب</th>
-                        <th>الحساب</th>
-                        <th>مدين</th>
-                        <th>دائن</th>
-                        <th style="width: 290px;">مركز التكلفة</th>
-                        <th>ملاحظات</th>
-                        <th>العملية</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of AccountsListTable;let i = index">
-                        <td>{{item.accountNumber}}</td>
-                        <td>{{item.nameAR}}</td>
-                        <td>
-                            <input type="text" #inputs class="form-control" [(ngModel)]="item.debtor" id="Input1" autocomplete="off" (input)="CalcDefference()" (keypress)="NumbersOnly($event.key)" (keyup.arrowdown)="FocusDownAndUp('Input1',i,'down')" (keyup.arrowup)="FocusDownAndUp('Input1',i,'up')"
-                                (keyup.arrowleft)="FocusLeftAndRight('Input2',i)" focus [disabled]="item.creditor>0">
-                        </td>
-                        <td>
-                            <input type="text" #inputs2 class="form-control" [(ngModel)]="item.creditor" id="Input2" autocomplete="off" (input)="CalcDefference()" (keypress)="NumbersOnly($event.key)" (keyup.arrowdown)="FocusDownAndUp('Input2',i,'down')" (keyup.arrowup)="FocusDownAndUp('Input2',i,'up')"
-                                (keyup.arrowleft)="FocusLeftAndRight('Input3',i)" (keyup.arrowright)="FocusLeftAndRight('Input1', i)" [disabled]="item.debtor>0">
-                        </td>
-                        <td>
-                            <app-erp-selector-with-search [ItemsList]="CostCenterList" [SelectorName]="'مركز التكلفة'" [SearchKey]="'costCenterNumber'" [Height]="'35px'" (ItemObj)="GetSelectedCostCenter($event,item)"></app-erp-selector-with-search>
-                        </td>
-                        <td>
-                            <input type="text" #inputs3 class="form-control" [(ngModel)]="item.notes" id="Input3" autocomplete="off" (keyup.arrowdown)="FocusDownAndUp('Input3',i,'down')" (keyup.arrowup)="FocusDownAndUp('Input3',i,'up')" (keyup.arrowright)="FocusLeftAndRight('Input2', i)">
-                        </td>
-                        <td>
-                            <button class="btn btn-danger btn-rounded" (click)="RemoveAccount(i)">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <table>
-            <thead>
-                <th>الفرق : {{Defference}}</th>
-            </thead>
-        </table>
+  </div>
+  <div class="card-body bg-light">
+    <div class="table-responsive table-vp-height small-scroll">
+      <table class="table table-bordered table-middle table-hover bg-white m-0">
+        <thead>
+          <tr>
+            <th>رقم الحساب</th>
+            <th>الحساب</th>
+            <th>مدين</th>
+            <th>دائن</th>
+            <th style="width: 290px;">مركز التكلفة</th>
+            <th>ملاحظات</th>
+            <th>العملية</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of AccountsListTable;let i = index">
+            <td>{{item.accountNumber}}</td>
+            <td>{{item.nameAR}}</td>
+            <td>
+              <input type="text" #inputs class="form-control" [(ngModel)]="item.debtor" id="Input1" autocomplete="off"
+                (input)="CalcDefference()" (keypress)="NumbersOnly($event.key)"
+                (keyup.arrowdown)="FocusDownAndUp('Input1',i,'down')" (keyup.arrowup)="FocusDownAndUp('Input1',i,'up')"
+                (keyup.arrowleft)="FocusLeftAndRight('Input2',i)" focus [disabled]="item.creditor>0">
+            </td>
+            <td>
+              <input type="text" #inputs2 class="form-control" [(ngModel)]="item.creditor" id="Input2"
+                autocomplete="off" (input)="CalcDefference()" (keypress)="NumbersOnly($event.key)"
+                (keyup.arrowdown)="FocusDownAndUp('Input2',i,'down')" (keyup.arrowup)="FocusDownAndUp('Input2',i,'up')"
+                (keyup.arrowleft)="FocusLeftAndRight('Input3',i)" (keyup.arrowright)="FocusLeftAndRight('Input1', i)"
+                [disabled]="item.debtor>0">
+            </td>
+            <td>
+              <app-erp-selector-with-search [ItemsList]="CostCenterList" [SelectorName]="'مركز التكلفة'"
+                [SearchKey]="'costCenterNumber'" [Height]="'35px'"
+                (ItemObj)="GetSelectedCostCenter($event,item)"></app-erp-selector-with-search>
+            </td>
+            <td>
+              <input type="text" #inputs3 class="form-control" [(ngModel)]="item.notes" id="Input3" autocomplete="off"
+                (keyup.arrowdown)="FocusDownAndUp('Input3',i,'down')" (keyup.arrowup)="FocusDownAndUp('Input3',i,'up')"
+                (keyup.arrowright)="FocusLeftAndRight('Input2', i)">
+            </td>
+            <td>
+              <button class="btn btn-danger btn-rounded" (click)="RemoveAccount(i)">
+                <i class="fas fa-times"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    <table>
+      <thead>
+        <th>الفرق : {{Defference}}</th>
+      </thead>
+    </table>
+  </div>
 </div>
 
 
 
 
 <ng-template #AccountModal let-modal>
-    <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="d-flex align-items-center m-0">
-                <div class="ms-3">اضافة حساب</div>
-            </h4>
-            <button class="btn btn-danger" (click)="modal.dismiss()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-body bg-light">
-            <div class="d-flex align-items-center mb-2">
-                <div class="card order-card-payment shadow-sm cursor-pointer w-50 me-2" (click)="ItemTypeChange('Account')" [ngClass]="{'active': activeTab == 'Account' }">
-                    <div class="card-body d-flex align-items-center">
-                        <span class="ms-3">اضافة حساب</span>
-                    </div>
-                </div>
-                <div class="card order-card-payment shadow-sm cursor-pointer w-50 me-3" (click)="ItemTypeChange('Template')" [ngClass]="{'active': activeTab == 'Template'}">
-                    <div class="card-body d-flex align-items-center">
-                        <span class="ms-3">تحميل من القالب</span>
-                    </div>
-                </div>
-            </div>
-            <hr class="border-dark">
-            <div class="row" *ngIf="activeTab == 'Account'">
-                <div class="col-lg-12">
-                    <app-erp-selector-with-search [ItemsList]="AccountsList" [SelectorName]="'الحسابات'" [SearchKey]="'accountNumber'" (ItemObj)="GetSelectedAccount($event)"></app-erp-selector-with-search>
-                </div>
-                <div>
-                    <div class="d-flex align-items-center flex-wrap">
-                        <span *ngFor="let item of SelectedAccounts let i = index" style="font-size: 15px;" class="badge badge-size bg-primary me-1 mb-1">{{item.nameAR}}
-                            <i class="fas fa-times-circle ms-1 icon-close cursor-pointer"
-                                (click)="ClearSelectedAccount(i)"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="row" *ngIf="activeTab == 'Template'">
-                <div class="col-lg-12">
-                    <app-erp-selector-with-search [ItemsList]="JournalTemplates" [SelectorName]="'القوالب'" (ItemObj)="GetSelectedTemplate($event)"></app-erp-selector-with-search>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer flex-nowrap">
-            <button class="btn btn-primary w-100 justify-content-center py-3 fs-5 radius-10" (click)="SaveSelectedAccount()">
-                <i class="fas fa-check-square"></i>
-                <span class="ms-2">حفظ</span>
-            </button>
-        </div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="d-flex align-items-center m-0">
+        <div class="ms-3">اضافة حساب</div>
+      </h4>
+      <button class="btn btn-danger" (click)="modal.dismiss()">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
+    <div class="modal-body bg-light">
+      <div class="d-flex align-items-center mb-2">
+        <div class="card order-card-payment shadow-sm cursor-pointer w-50 me-2" (click)="ItemTypeChange('Account')"
+          [ngClass]="{'active': activeTab == 'Account' }">
+          <div class="card-body d-flex align-items-center">
+            <span class="ms-3">اضافة حساب</span>
+          </div>
+        </div>
+        <div class="card order-card-payment shadow-sm cursor-pointer w-50 me-3" (click)="ItemTypeChange('Template')"
+          [ngClass]="{'active': activeTab == 'Template'}">
+          <div class="card-body d-flex align-items-center">
+            <span class="ms-3">تحميل من القالب</span>
+          </div>
+        </div>
+      </div>
+      <hr class="border-dark">
+      <div class="row" *ngIf="activeTab == 'Account'">
+        <div class="col-lg-12">
+          <app-erp-selector-with-search [ItemsList]="AccountsList" [SelectorName]="'الحسابات'"
+            [SearchKey]="'accountNumber'" (ItemObj)="GetSelectedAccount($event)"></app-erp-selector-with-search>
+        </div>
+        <div>
+          <div class="d-flex align-items-center flex-wrap">
+            <span *ngFor="let item of SelectedAccounts let i = index" style="font-size: 15px;"
+              class="badge badge-size bg-primary me-1 mb-1">{{item.nameAR}}
+              <i class="fas fa-times-circle ms-1 icon-close cursor-pointer" (click)="ClearSelectedAccount(i)"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="activeTab == 'Template'">
+        <div class="col-lg-12">
+          <app-erp-selector-with-search [ItemsList]="JournalTemplates" [SelectorName]="'القوالب'"
+            (ItemObj)="GetSelectedTemplate($event)"></app-erp-selector-with-search>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer flex-nowrap">
+      <button class="btn btn-primary w-100 justify-content-center py-3 fs-5 radius-10" (click)="SaveSelectedAccount()">
+        <i class="fas fa-check-square"></i>
+        <span class="ms-2">حفظ</span>
+      </button>
+    </div>
+  </div>
 
 </ng-template>

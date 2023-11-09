@@ -6,10 +6,11 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { JournalEntryAccount, JournalEntryModel } from '../../models/GeneralAccounts/JurnalEntryModel';
 import { ErpSelectorWithSearchComponent } from 'src/app/components/Shared/components/selectors/erp-selector-with-search/erp-selector-with-search.component';
 import { PDFExportService } from 'src/app/components/Shared/services/pdfexport-service.service';
+import { NgbAlertModule, NgbDatepickerModule, NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-new-entry',
   templateUrl: './new-entry.component.html',
-  styleUrls: ['./new-entry.component.css']
+  styleUrls: ['./new-entry.component.css'],
 })
 export class NewEntryComponent implements OnInit {
   @ViewChildren('inputs') inputs;
@@ -39,11 +40,12 @@ export class NewEntryComponent implements OnInit {
   CurrencyType = [{ currencyId: 1, nameAR: 'جنيه' }, { currencyId: 1, nameAR: 'ريال' }]
   JournalTypeName = 'نوع القيد';
   CurrencyName = 'العملة';
-  entryModel:JournalEntryModel={} as JournalEntryModel;
+  entryModel: JournalEntryModel = {} as JournalEntryModel;
   constructor(private modalService: NgbModal, private sharedService: SharedService, private toaster: ToastrService,
     private generalService: GeneralAccountService,
-    private pdfExportService:PDFExportService
-    ) { }
+    private pdfExportService: PDFExportService,
+    private calendar: NgbCalendar
+  ) { }
 
   ngOnInit(): void {
     this.GetChildAccountsList();
@@ -71,7 +73,7 @@ export class NewEntryComponent implements OnInit {
     });
   }
 
-  GetCurrencyList(){
+  GetCurrencyList() {
     this.generalService.GetCurrencyList().subscribe(data => {
       this.CurrencyType = data;
     });
@@ -158,7 +160,7 @@ export class NewEntryComponent implements OnInit {
     } else {
       this.GetAccountsByTemplateId();
     }
-    
+
   }
 
   InputFocus() {
@@ -224,7 +226,7 @@ export class NewEntryComponent implements OnInit {
       return;
     }
     if (!this.validateData()) {
-      
+
       return;
     }
     //let month = ("0" + ((new Date(this.EntryDate)).getMonth() + 1)).slice(-2);
@@ -234,9 +236,9 @@ export class NewEntryComponent implements OnInit {
       {
         return {
           accountID: item.accountID,
-          accountName:item.nameEN,
-          notes:item.notes,
-          accountNumber:item.accountNumber,
+          accountName: item.nameEN,
+          notes: item.notes,
+          accountNumber: item.accountNumber,
           costCenterID: item.costCenter ? item.costCenter : 0,
           costPercent: 0,
           costValue: 0,
@@ -264,8 +266,8 @@ export class NewEntryComponent implements OnInit {
       if (data?.status) {
         // this.ClearAllFields();
         this.EntryNumber = data.number;
-        this.entryModel=model;
-        this.entryModel.entryNumber=this.EntryNumber;
+        this.entryModel = model;
+        this.entryModel.entryNumber = this.EntryNumber;
         this.toaster.success(data?.message);
       } else {
         this.toaster.error(data?.message);
@@ -278,23 +280,23 @@ export class NewEntryComponent implements OnInit {
       // }
     });
   }
-  validateData():boolean{
+  validateData(): boolean {
     debugger;
-    if (!this.DocNumber||!this.EntryDate||!this.journalTypeId) {
+    if (!this.DocNumber || !this.EntryDate || !this.journalTypeId) {
       this.toaster.warning('Please Fill Fields');
       return false;
-      
+
     }
-    if (this.AccountsListTable.some(x=>!x.creditor&&!x.debtor)) {
+    if (this.AccountsListTable.some(x => !x.creditor && !x.debtor)) {
       this.toaster.warning('Please Fill Debtor or Creditor filed for each row');
       return false;
     }
-    if (this.AccountsListTable.some(x=>x.isDisToCostCenter&&!x.costCenter)) {
+    if (this.AccountsListTable.some(x => x.isDisToCostCenter && !x.costCenter)) {
       this.toaster.warning('Please Select Cost Center');
 
       return false;
     }
-    if (this.Defference!=0) {
+    if (this.Defference != 0) {
       this.toaster.warning('Difference Between Debtor and Creditor Must Equals 0');
       return false;
     }
@@ -314,12 +316,15 @@ export class NewEntryComponent implements OnInit {
     this.activeTab = 'Account';
     this.Selector.ResetSelectorName('نوع القيد');
     this.Selector1.ResetSelectorName('العملة');
-    this.entryModel={};
+    this.entryModel = {};
   }
 
-  Print()
-  {
-    this.pdfExportService.generatePDF(this.entryModel,'print');
+  Print() {
+    this.pdfExportService.generatePDF(this.entryModel, 'print');
   }
+
+  model: NgbDateStruct;
+  model_2: NgbDateStruct;
+  today = this.calendar.getToday();
 
 }
