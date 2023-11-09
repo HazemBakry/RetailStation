@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { JournalEntryModel } from '../models/GeneralAccounts/JurnalEntryModel';
 import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
-import { SearchLevelTypeEnum } from '../../Shared/Enums/SearchLevelTypeEnum';
+import { CostCenterType, SearchLevelType } from '../../Shared/Enums/GeneralAccountsEnums';
 
 @Injectable({
   providedIn: 'root'
@@ -15,19 +15,32 @@ export class GeneralAccountService {
 
   searchTypeList: any[] = [
     {
-      id:SearchLevelTypeEnum.GroupsAndAccounts,
+      id:SearchLevelType.GroupsAndAccounts,
       nameAR:'مجموعات و حسابات معا',
       nameEN:'Groups And Accounts'
     },
     {
-      id: SearchLevelTypeEnum.GroupsOnly,
+      id: SearchLevelType.GroupsOnly,
       nameAR: 'مجموعات',
       nameEN: 'Groups'
     },
     {
-      id: SearchLevelTypeEnum.AccountsOnly,
+      id: SearchLevelType.AccountsOnly,
       nameAR: 'حسابات',
       nameEN: 'Accounts'
+    }
+  ];
+
+  costCenterTypeList: any[] = [
+    {
+      id:CostCenterType.Expenses,
+      nameAR:'مصروفات',
+      nameEN:'Expenses'
+    },
+    {
+      id: CostCenterType.Withdrawals,
+      nameAR: 'مسحوبات',
+      nameEN: 'Withdrawals'
     }
   ]
   //================================== JournalEntry ===============================
@@ -82,31 +95,19 @@ export class GeneralAccountService {
     return this.http.get<any[]>(this.URL + 'AccountTree/GetChildAccountsList');
   }
 
+
+
+
+  ////////////////// General Accounts Reports ///////
+
   GetAccountsGeneralLedger(model: SearchFilterModel) {
     return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetAccountsGeneralLedger', model);
   }
 
   ExportAccountsGeneralLedger(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetAccountsGeneralLedger', model);
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/ExportAccountsGeneralLedger', model);
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  ////////////////// General Accounts Reports ///////
   GetAccountsAssistantLedger(model: SearchFilterModel) {
     return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetAccountsAssistantLedger', model);
   }
@@ -119,4 +120,47 @@ export class GeneralAccountService {
   ExportTrialBalanceReport(model: SearchFilterModel) {
     return this.http.post<any>(this.URL + 'GeneralAccountsReport/ExportTrialBalanceReport', model);
   }
+
+
+
+  
+
+  //////////////////////// Cost Center /////////////////
+
+  GetCostGeneralLedger(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetCostGeneralLedger', model);
+  }
+
+  ExportCostGeneralLedger(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/ExportCostGeneralLedger', model);
+  }
+
+
+  GetCostAssistantLedger(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetCostAssistantLedger', model);
+  }
+
+  ExportCostAssistantLedger(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/ExportCostAssistantLedger', model);
+  }
+
+
+  GetCostTrialBalanceReport(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetCostTrialBalanceReport', model);
+  }
+
+  ExportCostTrialBalanceReport(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/ExportCostTrialBalanceReport', model);
+  }
+
+
+  GetCostCenterMatrix(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetCostCenterMatrix', model);
+  }
+
+  ExportCostCenterMatrix(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'GeneralAccountsReport/ExportCostCenterMatrix', model);
+  }
+
+
 }

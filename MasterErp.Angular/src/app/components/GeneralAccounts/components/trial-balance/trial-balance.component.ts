@@ -9,7 +9,7 @@ import { SearchFilterModel } from 'src/app/components/Shared/models/FilterModel'
   styleUrls: ['./trial-balance.component.css'],
 })
 export class TrialBalanceComponent implements OnInit {
-  TitleList = ['الحسابات العامة', 'دفتر الأستاذ العام'];
+  TitleList = ['الحسابات العامة', 'ميزان المراجعة'];
   AccountsList: any[] = [];
   FromDate: any;
   ToDate: any;

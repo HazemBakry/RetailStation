@@ -22,7 +22,7 @@
     </div>
     
 </div>
-<div class="row ">
+<div class="row " *ngIf="showAccountFilter">
     <div class="col-lg-3">
         <app-erp-selector-with-search #Selector 
             [SelectorName]="'رقم الحساب'" 

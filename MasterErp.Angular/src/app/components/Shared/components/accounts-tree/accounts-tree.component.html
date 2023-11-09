@@ -18,7 +18,7 @@
                     <tr>
 
                         <th>اسم الحساب</th>
-                        <th>رفم الحساب</th>
+                        <th>رقم الحساب</th>
                         <th>نوع الحساب</th>
                         <th>نوع الاصول</th>
                         <th>طريقة الاهلاك</th>
@@ -146,8 +146,10 @@
                     </tbody>
                 </ng-container>
             </table>
+            <app-empty-data [showContainer]="!AccountData?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+
         </div>
     </div>
 </div>
 
-<ngx-loading [show]="showLoader"></ngx-loading>
+<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->

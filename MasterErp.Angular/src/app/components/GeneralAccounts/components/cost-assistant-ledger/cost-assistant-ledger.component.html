@@ -1,1 +1,93 @@
-<p>cost-assistant-ledger works!</p>
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+
+<div class="card radius-10 border-0 card-shadow mb-3">
+    <div class="card-body bg-light">
+        <app-accounts-report-header [showCostCenterFilter]="true" [showAccountFilter]="true" (SearchData)="headerSearchChanged($event)"></app-accounts-report-header>
+        <!-- <div class="row">
+           
+            <div class="col-lg-4  mb-3">
+                <div class="d-flex align-items-center">
+                    <input type="checkbox" id="HideEmptyAccounts" [(ngModel)]="SearchFilterModel.hideEmptyAccounts">
+                    <label class="label-info white-space-nowrap m-3" for="HideEmptyAccounts" style="cursor: pointer;">
+                        اخفاء الحسابات بدون رصيد</label>
+
+                </div>
+            </div>
+        </div> -->
+
+        <div class="row ps-3">
+            <div class="col-xl-12 mt-3">
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-primary me-2" (click)="loadData()">
+                        <i class="fas fa-search"></i>
+                        <span class="ms-2">بحث</span>
+                    </button>
+                    <button class="btn btn-success me-2" (click)="exportData()">
+                        <i class="fas fa-file-export"></i>
+                        <span class="ms-2">تصدير</span>
+                    </button>
+                    <button class="btn btn-secondary me-2" (click)="printData()">
+                        <i class="fas fa-print"></i>
+                        <span class="ms-2">طباعة</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mb-3">
+    <div class="card radius-10 border-0 card-shadow">
+        <div class="card-body">
+            <div class="main-card-action">
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- <div class="col-md-12">
+                        <div class="d-flex align-items-center flex-wrap">
+                            <ng-container *ngIf="filterList.length > 0">
+                                <app-pos-filters [FilterList]="filterList"
+                                    (filterChanged)="filterChecked($event)"></app-pos-filters>
+                            </ng-container>
+                        </div>
+                    </div> -->
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="SearchFilterModel.currentPage" [pageSize]="SearchFilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="TotalPages"></app-erp-pagination>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive large-scroll table-vp-height">
+                <table class="table table-bordered table-middle table-hover bg-white mb-3 table-fixed-width">
+                    <thead>
+                        <tr>
+                            <th>تاريخ القيد</th>
+                            <!-- <th>المميز</th> -->
+                            <th>قيد اليومية</th>
+                            <!-- <th>رقم الشيك</th> -->
+                            <th>البيان</th>
+                            <th>الحركة (مدين)</th>
+                            <th>الحركة (دائن)</th>
+                            <th>الرصيد (مدين)</th>
+                            <th>الرصيد (دائن)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of SearchResult">
+                            <td>{{item.entryDate}}</td>
+                            <!-- <td>{{item.entryType}}</td> -->
+                            <td>{{item.entryNumber}}</td>
+                            <!-- <td>{{item.chequeNumber}}</td> -->
+                            <td>{{item.description}}</td>
+                            <td>{{item.debit}}</td>
+                            <td>{{item.credit}}</td>
+                            <td>{{item.totalDebit}}</td>
+                            <td>{{item.totalCredit}}</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

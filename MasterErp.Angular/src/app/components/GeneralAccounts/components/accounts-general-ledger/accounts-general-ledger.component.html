@@ -1,7 +1,7 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 <div class="card radius-10 border-0 card-shadow mb-3">
     <div class="card-body bg-light">
-        <app-accounts-report-header  (SearchData)="headerSearchChanged($event)" [IsParentAccount]="true"></app-accounts-report-header>
+        <app-accounts-report-header [showAccountFilter]="true" (SearchData)="headerSearchChanged($event)" [IsParentAccount]="true"></app-accounts-report-header>
         <div class="row">
            
             <div class="col-lg-4  mb-3">
@@ -34,10 +34,7 @@
         </div>
     </div>
 </div>
-<!-- <div class="mb-3">
-    <app-accounts-report-header  (SearchData)="headerSearchChanged($event)" ></app-accounts-report-header>
-    <app-accounts-report-header [ShowAllBranch]="true" (SearchData)="headerSearchData($event)" (SearchAction)="onSearchClick($event)" (ExportAction)="onExportClick($event)" (PrintAction)="onPrintClick($event)"></app-accounts-report-header>
-</div> -->
+
 
 <div class="mb-3">
     <div class="card radius-10 border-0 card-shadow">

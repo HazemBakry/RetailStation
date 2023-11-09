@@ -14,6 +14,7 @@ import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 export class AccountsReportHeaderComponent implements OnInit  {
   @Input() IsParentAccount:boolean = false;
   @Input() showCostCenterFilter:boolean = false;
+  @Input() showAccountFilter:boolean = false;
   @Output() SearchData = new EventEmitter<SearchFilterModel>();
 
   SearchModel: SearchFilterModel = {
