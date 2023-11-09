@@ -12,8 +12,8 @@
             </div>
         </div>
 
-        <div class="boxstyle1-content hastable">
-            <table class="table table-bordered table-middle table-hover m-0 bg-white bigtitle">
+        <div class="boxstyle1-content hastable table-responsive table-vp-height small-scroll">
+            <table class="table table-bordered table-responsive table-middle table-hover m-0 bg-white bigtitle">
                 <thead>
                     <tr>
 
@@ -40,7 +40,7 @@
                                         <div>{{app.nameAr}}</div>
                                     </div>
                                 </td>
-                                <td>{{app.accountNumber}}</td>
+                                <td (click)="selectAccount(app)" class="cursor-pointer">{{app.accountNumber}}</td>
                                 <td>{{app.accountType ?? '-'}}</td>
                                 <td>{{app.assetType ?? '-'}}</td>
                                 <td>{{app.depreciationMethod ?? '-'}}</td>
@@ -61,7 +61,7 @@
                                             <div>{{level2.nameAr}}</div>
                                         </div>
                                     </td>
-                                    <td>{{level2.accountNumber}}</td>
+                                    <td (click)="selectAccount(level2)" class="cursor-pointer">{{level2.accountNumber}}</td>
                                     <td>{{level2.accountType ?? '-'}}</td>
                                     <td>{{level2.assetType ?? '-'}}</td>
                                     <td>{{level2.depreciationMethod ?? '-'}}</td>
@@ -82,7 +82,7 @@
                                                 <div>{{level3.nameAr}}</div>
                                             </div>
                                         </td>
-                                        <td>{{level3.accountNumber}}</td>
+                                        <td (click)="selectAccount(level3)" class="cursor-pointer">{{level3.accountNumber}}</td>
                                         <td>{{level3.accountType ?? '-'}}</td>
                                         <td>{{level3.assetType ?? '-'}}</td>
                                         <td>{{level3.depreciationMethod ?? '-'}}</td>
@@ -103,7 +103,7 @@
                                                     <div>{{level4.nameAr}}</div>
                                                 </div>
                                             </td>
-                                            <td>{{level4.accountNumber}}</td>
+                                            <td (click)="selectAccount(level4)" class="cursor-pointer">{{level4.accountNumber}}</td>
                                             <td>{{level4.accountType ?? '-'}}</td>
                                             <td>{{level4.assetType ?? '-'}}</td>
                                             <td>{{level4.depreciationMethod ?? '-'}}</td>
@@ -120,7 +120,8 @@
                                                         <div>{{level5.nameAr}}</div>
                                                     </div>
                                                 </td>
-                                                <td>{{level5.accountNumber}}</td>
+                                                
+                                                <td (click)="selectAccount(level5)" class="cursor-pointer">{{level5.accountNumber}}</td>
                                                 <td>{{level5.accountType ?? '-'}}</td>
                                                 <td>{{level5.assetType ?? '-'}}</td>
                                                 <td>{{level5.depreciationMethod ?? '-'}}</td>

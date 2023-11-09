@@ -1,91 +1,75 @@
-.DropDownSelected {
-    background: rgba(0, 0, 0, 0.12);
-    color: #1976d2;
+.sidepanel-table-h {
+    height: calc(100vh - 145px);
 }
 
-.jtoggler-wrapper {
-    display: inline-flex;
-    align-items: center;
+.sub-header {
+    margin-left: 58px;
+    font-size: 16px;
+}
+
+.offcanvas {
+    width: 50% !important;
+    background: #f0f0f0;
+    min-width: 250px;
+    box-shadow: -2px 0px 5px 0px rgb(65 73 91);
+}
+
+::ng-deep .details-panel {
+    width: 50% !important;
+    /* background-color: red; */
+}
+
+@media (max-width: 767px) {
+    .offcanvas {
+        width: 90% !important;
+    }
+}
+
+.sidepanel-close {
+    background: #3c3c3c;
+    color: #ffffff;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 7px;
     cursor: pointer;
 }
 
-.jtoggler {
-    display: none;
+.offcanvas-title {
+    line-height: 1;
+    margin-bottom: 5px;
 }
 
-.jtoggler-control {
-    position: relative;
-    width: 55px;
-    height: 20px;
-    background: #fff;
-    border-radius: 30px;
-    border: 1px solid #ddd;
-    transition: background-color 0.3s;
+.offcanvas-sub-header {
+    font-size: 1.1rem;
 }
 
-.jtoggler-control {
-    height: 17px;
-    background: #1976d2 !important;
-    width: 40px;
+.form-control:focus {
+    color: #212529;
+    background-color: #fff;
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: none;
 }
 
-.jtoggler-control .jtoggler-handle {
-    display: block;
-    position: absolute;
-    width: 22px;
-    height: 22px;
-    top: calc(50% - 11px);
-    left: 33px;
-    background: #1e9ff2;
-    border-radius: 50%;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
-    transition: left 0.3s;
+.sidepanel-card-wrapper {
+    max-height: calc(100vh - 340px);
 }
 
-.jtoggler-control .jtoggler-handle {
-    width: 15px;
-    height: 15px;
-    top: calc(50% - 8px);
-    background: #fff;
-    left: 3px !important;
+.sidepanel-card:not(:last-child) {
+    margin-bottom: 10px;
 }
 
-.jtoggler:checked+.jtoggler-control .jtoggler-handle {
-    left: 0px;
+.sidepanel-card-img {
+    max-width: 100%;
+    height: 90px;
 }
 
-.jtoggler:checked+.jtoggler-control .jtoggler-handle {
-    left: 22px !important;
+.sl-dots{
+    width: 35px;
+    height: 35px;
 }
 
-.switcherPosition {
-    position: relative;
-    bottom: 2.8em;
-    height: 0;
-    float: left;
-}
-
-input[type="checkbox"] {
-    transform: scale(1.5);
-}
-
-.DropDownSelected {
-    background: rgba(0, 0, 0, 0.12);
-    color: #1976d2;
-}
-
-.Disabled {
-    pointer-events: none;
-}
-
-.search-row {
-    padding-top: 13px;
-    padding-bottom: 13px;
-    border-bottom: 1px solid var(--main-border-color);
-    top: 77px;
-    z-index: 100;
-}
-
-.search-wrapper .custom-select-list {
-    top: 100%;
+::ng-deep .table-vp-height{
+    height :calc(100vh - 150px)
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -8,16 +8,34 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./accounts-tree.component.css']
 })
 export class AccountsTreeComponent implements OnInit {
+
+  @Input() isParentAccount:boolean = false;
+  @Output() selectedAccount = new EventEmitter<any>();
+
   AccountTreeData: any[] = [];
   AccountData: any[] = [];
   showLoader: boolean;
   SearchText = '';
   isSearchMode = false;
 
-  constructor(private sharedService: SharedService) { }
+  constructor(private sharedService: SharedService,private toaster:ToastrService) { }
 
   ngOnInit(): void {
     this.GetAccountTreeData(true);
+  }
+
+  selectAccount(account)
+  {
+    if (!this.isParentAccount && account.accountLevel!=5) {
+      this.toaster.warning('please select child account');
+      return;
+    }
+    else if (this.isParentAccount && account.accountLevel==5) {
+      this.toaster.warning('please select parent account');
+      return;
+    }
+    // console.log(" account:", account);
+    this.selectedAccount.emit(account);
   }
 
   GetAccountTreeData(firstLoad = false) {

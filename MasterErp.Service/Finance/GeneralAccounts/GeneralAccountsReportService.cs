@@ -58,7 +58,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
         public DataTable GetAccountsAssistantLedger(SearchFilterModel model)
         {
-            if(model.SearchType)
+            //if(model.SearchType)
             throw new NotImplementedException();
         }
 

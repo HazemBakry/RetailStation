@@ -1,25 +1,62 @@
 <!-- <div class="card radius-10 border-0 card-shadow">
     <div class="card-body bg-light"> -->
-<div class="row ">
+<div class="row " *ngIf="showCostCenterFilter">
     <div class="col-lg-3">
-        <app-erp-selector-with-search #Selector [SelectorName]="'رقم الحساب'" [ItemsList]="AccountsList" [Height]="'35px'" [SearchKey]="'nameAR'" [innerTextKey]="'accountNumber'" (ItemObj)="GetSelectedAccount($event)">
+        <app-erp-selector-with-search #Selector2 
+                [SelectorName]="'رقم مركز التكلفه'" 
+                [ItemsList]="CostCenterList" 
+                [Height]="'35px'" 
+                [SearchKey]="'nameAR'" 
+                [innerTextKey]="'costCenterNumber'" 
+                (ItemObj)="GetSelectedCostCenter($event)">
         </app-erp-selector-with-search>
     </div>
     <div class="col-lg-4">
-        <app-erp-selector-with-search #Selector1 [SelectorName]="'اسم الحساب'" [ItemsList]="AccountsList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAccount($event)">
+        <app-erp-selector-with-search #Selector3 
+                [SelectorName]="'اسم مركز التكلفه'" 
+                [ItemsList]="CostCenterList" 
+                [Height]="'35px'" 
+                [SearchKey]="'nameAR'" 
+                (ItemObj)="GetSelectedCostCenter($event)">
+        </app-erp-selector-with-search>
+    </div>
+    
+</div>
+<div class="row ">
+    <div class="col-lg-3">
+        <app-erp-selector-with-search #Selector 
+            [SelectorName]="'رقم الحساب'" 
+            [ItemsList]="AccountsList" 
+            [Height]="'35px'" 
+            [SearchKey]="'nameAR'" 
+            [innerTextKey]="'accountNumber'" 
+            (ItemObj)="GetSelectedAccount($event)">
+        </app-erp-selector-with-search>
+    </div>
+    <div class="col-lg-4">
+        <app-erp-selector-with-search #Selector1 
+            [SelectorName]="'اسم الحساب'" 
+            [ItemsList]="AccountsList" 
+            [Height]="'35px'" 
+            [SearchKey]="'nameAR'" 
+            (ItemObj)="GetSelectedAccount($event)">
         </app-erp-selector-with-search>
 
     </div>
-</div>
-<div class="row" *ngIf="ShowSearchInput">
-    <div class="col-lg-3 mb-6">
-        <div class="form-floating search-box position-relative mb-2">
-            <input type="text" class="form-control" [(ngModel)]="SearchModel.searchText" (ngModelChange)="emitSearchModel()" placeholder="Search By Phone" style="height: 35px;">
-            <i class="fas fa-search search-icon text-muted cursor-pointer"></i>
-        </div>
+    <div class="col-lg-3 mb-3">
+        <!-- <div class="form-floating mb-3">
+            <button class="btn  mb-1" (click)="OpenSidePanel(AccountTreeSidePanel)">
+                <i class="uil uil-analysis"></i>
+                <span class="ms-2">Preview</span>
+              </button>
+              
+        </div> -->
+        <button class="btn-sm-action sm-action-dropdown sl-dots" (click)="OpenSidePanel(AccountTreeSidePanel)">
+            <i class="fas fa-ellipsis-v"></i>
+        </button>
     </div>
-
 </div>
+
 <div class="row ">
 
     <div class="col-lg-3 mb-3">
@@ -36,23 +73,30 @@
         </div>
     </div>
 </div>
-<!-- <div class="row ps-3">
-            <div class="col-xl-12 mt-3">
-                <div class="d-flex align-items-center">
-                    <button class="btn btn-primary me-2" (click)="ReportSearchClick()">
-                        <i class="fas fa-search"></i>
-                        <span class="ms-2">بحث</span>
-                    </button>
-                    <button class="btn btn-success me-2" (click)="ReportExportClick()">
-                        <i class="fas fa-file-export"></i>
-                        <span class="ms-2">تصدير</span>
-                    </button>
-                    <button class="btn btn-secondary me-2" (click)="PrintClick()">
-                        <i class="fas fa-print"></i>
-                        <span class="ms-2">طباعة</span>
-                    </button>
-                </div>
-            </div>
-        </div> -->
+
 <!-- </div>
 </div> -->
+
+
+<ng-template #AccountTreeSidePanel let-offcanvas>
+    <div class="m-1">
+
+        <div class="offcanvas-header pb-1" style="z-index: 9999;">
+            <div>
+                <!-- <h4 class="offcanvas-title m-0 d-flex align-items-center w-100"><i
+                        class="fas fa-history fa-2x main-color me-2"></i> التفاصيل</h4> -->
+            </div>
+            <button type="button" class="btn bg-danger text-white rounded" aria-label="Close"
+                (click)="offcanvas.dismiss()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="offcanvas-body my-1 py-1">
+            <app-accounts-tree [isParentAccount]="IsParentAccount" (selectedAccount)="GetSelectedAccount($event)"></app-accounts-tree>
+            <!-- <div class="boxstyle1-content hastable table-responsive table-vp-height small-scroll">
+            </div> -->
+        </div>
+    </div>
+
+</ng-template>
+

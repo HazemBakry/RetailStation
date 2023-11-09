@@ -64,7 +64,9 @@ export class AccountsGeneralLedgerComponent implements OnInit {
   {
     this.SearchFilterModel.fromDate=filter.fromDate;
     this.SearchFilterModel.toDate=filter.toDate;
-    this.SearchFilterModel.filterItems=this.SearchFilterModel.filterItems.concat(filter.filterItems);
+    
+    this.SearchFilterModel.filterItems=[];
+    this.SearchFilterModel.filterItems=filter.filterItems;
     
     this.SearchFilterModel.filterModel.filterItems=
     this.SearchFilterModel.filterItems=[...new Set(this.SearchFilterModel.filterItems.map(item => item))]

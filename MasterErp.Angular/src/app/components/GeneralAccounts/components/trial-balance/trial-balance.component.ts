@@ -78,8 +78,10 @@ export class TrialBalanceComponent implements OnInit {
   headerSearchChanged(filter: SearchFilterModel) {
     this.SearchFilterModel.fromDate = filter.fromDate;
     this.SearchFilterModel.toDate = filter.toDate;
-    this.SearchFilterModel.filterItems =
-      this.SearchFilterModel.filterItems.concat(filter.filterItems);
+    
+    this.SearchFilterModel.filterItems=[];
+    this.SearchFilterModel.filterItems=filter.filterItems;
+    
 
     this.SearchFilterModel.filterModel.filterItems =
       this.SearchFilterModel.filterItems = [
