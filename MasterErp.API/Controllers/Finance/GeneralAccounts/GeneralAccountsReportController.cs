@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Models;
 using MasterErp.Interface.Finance.GeneralAccounts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("GetAccountsGeneralLedger")]
-        public DataTable GetAccountsGeneralLedger(SearchFilterModel model)
+        public List<JournalEntry> GetAccountsGeneralLedger(SearchFilterModel model)
         {
             return ReportService.GetAccountsGeneralLedger(model);
         }
@@ -37,7 +38,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("GetTrialBalanceReport")]
-        public DataTable GetTrialBalanceReport(SearchFilterModel model)
+        public List<JournalEntryViewModel> GetTrialBalanceReport(SearchFilterModel model)
         {
             return ReportService.GetTrialBalanceReport(model);
         }
