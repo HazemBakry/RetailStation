@@ -19,6 +19,7 @@ namespace MasterErp.Entities.Common
         public bool? HideEmptyAccounts { get; set; }
         public bool IsExport { get; set; }
         public List<FilterItem> FilterItems { get; set; }
+
     }
 
     public class FilterModel

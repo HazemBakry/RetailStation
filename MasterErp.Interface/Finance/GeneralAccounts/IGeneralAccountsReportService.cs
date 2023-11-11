@@ -11,8 +11,8 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
 {
     public interface IGeneralAccountsReportService
     {
-        DataTable GetAccountsGeneralLedger(SearchFilterModel model);
+        List<JournalEntry> GetAccountsGeneralLedger(SearchFilterModel model);
         DataTable GetAccountsAssistantLedger(SearchFilterModel model);
-        DataTable GetTrialBalanceReport(SearchFilterModel model);
+        List<JournalEntryViewModel> GetTrialBalanceReport(SearchFilterModel model);
     }
 }

@@ -79,15 +79,15 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of SearchResult">
-                            <td>{{item.entryDate}}</td>
+                            <td>{{item.entryDate | date}}</td>
                             <td>{{item.entryType}}</td>
                             <td>{{item.entryNumber}}</td>
                             <td>{{item.chequeNumber}}</td>
                             <td>{{item.description}}</td>
                             <td>{{item.debit}}</td>
                             <td>{{item.credit}}</td>
-                            <td>{{item.totalDebit}}</td>
-                            <td>{{item.totalCredit}}</td>
+                            <td>{{item.balanceDebit}}</td>
+                            <td>{{item.balanceCredit}}</td>
                         </tr>
                     </tbody>
 
