@@ -1,6 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GeneralAccountService } from '../../GeneralAccounts/services/general-account.service';
+import { FilterModel } from '../../Shared/models/FilterModel';
+import { PurchaseService } from '../../Purchases/services/purchase.service';
+import { PaymentService } from '../../GeneralAccounts/services/payment.service';
 
 
 @Component({
@@ -93,11 +97,27 @@ export class DashboardComponent implements OnInit {
   branchId = 0;
   SalesSummaryStatistics: any;
 
-
-  constructor(private modalService: NgbModal, private datepipe: DatePipe) { }
+  journalEntriesList:any[]=[];
+  purchasesInvoicesList:any[]=[];
+  paymentReceiptsList:any[]=[];
+  receiveReceiptsList:any[]=[];
+  FilterModel: FilterModel = {
+    currentPage: 1,
+    pageSize: 5,
+    filterItems: []
+  }
+  constructor(private modalService: NgbModal,
+              private datepipe: DatePipe,
+              private generalAccountService:GeneralAccountService,
+              private purchaseService:PurchaseService,
+              private paymentService:PaymentService) { }
 
   ngOnInit(): void {
     this.GetSalesSummary();
+    this.GetDailyJournalEntriesSummary();
+    this.GetPurchaseInvoicesSummary();
+    this.GetPaymentReceiptsSummary();
+    this.GetReceiveReceiptsSummary();
   }
 
   GetSalesSummary() {
@@ -113,5 +133,56 @@ export class DashboardComponent implements OnInit {
     this.modalService.open(content, { centered: true, scrollable: true, size: 'xl' })
   }
 
+  
+  GetDailyJournalEntriesSummary() {
+    this.generalAccountService.GetDailyJournalEntriesSummary(this.FilterModel).subscribe(data => {
+        // console.log("🚀  ~ data:", data)
+        this.journalEntriesList=data;
+    },
+    (error) => {
+      console.log("error",error);
+      
+    },
+    () => {});
+  }
+  GetPurchaseInvoicesSummary() {
+    // this.showLoader=true;
+    this.purchaseService.GetPurchaseInvoicesSummary(this.FilterModel).subscribe(data => {
+      this.purchasesInvoicesList = data;
+      
+    },(err)=>{
+      // this.showLoader=false;
+    },()=>{
+      // this.showLoader=false;
+    })
+  }
+  GetPaymentReceiptsSummary() {
+    // this.showLoader = true;
+    this.paymentService.GetPaymentReceiptsSummary(this.FilterModel).subscribe(data => {
+      this.paymentReceiptsList = data;
+      
+    }, (err) => {
+      // this.showLoader = false;
+    }, () => {
+      // this.showLoader = false;
+    })
+  }
 
+  GetReceiveReceiptsSummary() {
+    // this.showLoader=true;
+    this.paymentService.GetReceiveReceiptsSummary(this.FilterModel).subscribe(data => {
+      this.receiveReceiptsList = data;
+
+    },(err)=>{
+      // this.showLoader=false;
+    },()=>{
+      // this.showLoader=false;
+    })
+  }
+  getStatusColor(status: boolean) {
+    if (status == true)
+      return "locked";
+    else
+      return "open";
+  }
 }

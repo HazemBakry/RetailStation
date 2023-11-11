@@ -22,6 +22,7 @@ import { FeaturedComponent } from './components/BasicInformation/featured/featur
 import { FiscalYearComponent } from './components/BasicInformation/fiscal-year/fiscal-year.component';
 import { ReceiptBooksComponent } from './components/BasicInformation/receipt-books/receipt-books.component';
 import { OverviewCardComponent } from './components/overview-card/overview-card.component';
+import { ColorWithStatusDirective } from './directives/color-with-status.directive';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { OverviewCardComponent } from './components/overview-card/overview-card.
     FeaturedComponent,
     FiscalYearComponent,
     ReceiptBooksComponent,
-    OverviewCardComponent
+    OverviewCardComponent,
+    ColorWithStatusDirective
 
   ],
 
@@ -80,7 +82,8 @@ import { OverviewCardComponent } from './components/overview-card/overview-card.
     AppBreadcrumbComponent,
     AccountsReportHeaderComponent,
     StatsCardComponent,
-    OverviewCardComponent
+    OverviewCardComponent,
+    ColorWithStatusDirective
   ]
 })
 export class SharedModule { }

@@ -15,148 +15,30 @@
                     <table class="table table-borderless align-middle table-middle mb-0 table-hover">
                         <thead>
                             <tr>
-                                <th>Invoice ID</th>
-                                <th>Date</th>
-                                <th>Clients</th>
-                                <th>Amounts</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th>رقم القيد</th>
+                                <th>نوع القيد</th>
+                                <th>التاريخ</th>
+                                <th>مدين كلي</th>
+                                <th>دائن كلي</th>
+                                <th>حالة القيد</th>
+                                <th></th>
+
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr *ngFor="let item of journalEntriesList">
+                                <td>{{item.entryNumber}}</td>
+                                <td>{{item.journalTypeAr}}</td>
+                                <td>{{item.entryDate | date}}</td>
+                                <td>{{item.totalDebit}}</td>
+                                <td>{{item.totalCredit}}</td>
                                 <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="icon-box blue">
-                                            <i class="fas fa-times"></i>
-                                        </div>
-                                        <div class="ms-3">12198758</div>
-                                    </div>
+                                    <!-- {{item.entryStatus}} -->
+                                    <div appColorWithStatus status="entryStatus" [text]="item.entryStatus"></div>
                                 </td>
-                                <td>15 May 2023</td>
-                                <td>Xi - Xian Group</td>
-                                <td>$158.00</td>
-                                <td>
-                                    <div class="status-box blue">
-                                        <i class="fas fa-times"></i>
-                                        <div class="ms-2">Unpaid</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <button class="btn-sm-action sm-action-dropdown me-2"><i
-                                                class="far fa-file-alt"></i></button>
-                                        <div ngbDropdown container="body">
-                                            <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                            <div ngbDropdownMenu class="border">
-                                                <button ngbDropdownItem>Action - 1</button>
-                                                <button ngbDropdownItem>Another Action</button>
-                                                <button ngbDropdownItem>Something else is here</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
+                                <td></td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="icon-box green">
-                                            <i class="fas fa-check"></i>
-                                        </div>
-                                        <div class="ms-3">12198758</div>
-                                    </div>
-                                </td>
-                                <td>15 May 2023</td>
-                                <td>Xi - Xian Group</td>
-                                <td>$158.00</td>
-                                <td>
-                                    <div class="status-box green">
-                                        <i class="fas fa-check"></i>
-                                        <div class="ms-2">Paid</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <button class="btn-sm-action me-2"><i class="far fa-file-alt"></i></button>
-                                        <div ngbDropdown container="body">
-                                            <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                            <div ngbDropdownMenu class="border">
-                                                <button ngbDropdownItem>Action - 1</button>
-                                                <button ngbDropdownItem>Another Action</button>
-                                                <button ngbDropdownItem>Something else is here</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="icon-box orange">
-                                            <i class="fas fa-chevron-up"></i>
-                                        </div>
-                                        <div class="ms-3">12198758</div>
-                                    </div>
-                                </td>
-                                <td>15 May 2023</td>
-                                <td>Xi - Xian Group</td>
-                                <td>$158.00</td>
-                                <td>
-                                    <div class="status-box orange">
-                                        <i class="fas fa-chevron-up"></i>
-                                        <div class="ms-2">Overdue</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <button class="btn-sm-action me-2"><i class="far fa-file-alt"></i></button>
-                                        <div ngbDropdown container="body">
-                                            <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                            <div ngbDropdownMenu class="border">
-                                                <button ngbDropdownItem>Action - 1</button>
-                                                <button ngbDropdownItem>Another Action</button>
-                                                <button ngbDropdownItem>Something else is here</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="icon-box red">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </div>
-                                        <div class="ms-3">12198758</div>
-                                    </div>
-                                </td>
-                                <td>15 May 2023</td>
-                                <td>Xi - Xian Group</td>
-                                <td>$158.00</td>
-                                <td>
-                                    <div class="status-box red">
-                                        <i class="fas fa-chevron-left"></i>
-                                        <div class="ms-2">Draft</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <button class="btn-sm-action me-2"><i class="far fa-file-alt"></i></button>
-                                        <div ngbDropdown container="body">
-                                            <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                            <div ngbDropdownMenu class="border">
-                                                <button ngbDropdownItem>Action - 1</button>
-                                                <button ngbDropdownItem>Another Action</button>
-                                                <button ngbDropdownItem>Something else is here</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                        
                         </tbody>
                     </table>
                 </div>
@@ -175,155 +57,46 @@
                     <table class="table table-borderless align-middle table-middle mb-0 table-hover">
                         <thead>
                             <tr>
-                                <th>Invoice ID</th>
-                                <th>Date</th>
-                                <th>Clients</th>
-                                <th>Amounts</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th>رقم الفاتورة</th>
+                                <th>تاريخ الفاتورة</th>
+                                <th>اسم المورد</th>
+                                <th>نوع الفاتورة</th>
+                                <th>القيمة الإجمالية</th>
+                                <th>حالة الفاتورة</th>
+                                <th class="text-center"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr *ngFor="let item of purchasesInvoicesList">
+                                <td>{{item.invoiceNumber}}</td>
+                                <td>{{item.invoiceDate | date}}</td>
+                                <td>{{item.supplierName}}</td>
+                                <td>{{item.invoiceTypeName}}</td>
+                                <td>{{item.invoiceTotalValue}}</td>
                                 <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="icon-box blue">
+                                    <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
+                                        {{item.orderStatus}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="w-100 d-flex align-items-center justify-content-center">
+                                        <!-- <button class="btn btn-danger me-2" (click)="CancelPurchaseInvoice(item.purchaseInvoiceID)">
                                             <i class="fas fa-times"></i>
-                                        </div>
-                                        <div class="ms-3">12198758</div>
-                                    </div>
-                                </td>
-                                <td>15 May 2023</td>
-                                <td>Xi - Xian Group</td>
-                                <td>$158.00</td>
-                                <td>
-                                    <div class="status-box blue">
-                                        <i class="fas fa-times"></i>
-                                        <div class="ms-2">Unpaid</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <button class="btn-sm-action sm-action-dropdown me-2"><i
-                                                class="far fa-file-alt"></i></button>
-                                        <div ngbDropdown container="body">
-                                            <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                            <div ngbDropdownMenu class="border">
-                                                <button ngbDropdownItem>Action - 1</button>
-                                                <button ngbDropdownItem>Another Action</button>
-                                                <button ngbDropdownItem>Something else is here</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="icon-box green">
-                                            <i class="fas fa-check"></i>
-                                        </div>
-                                        <div class="ms-3">12198758</div>
-                                    </div>
-                                </td>
-                                <td>15 May 2023</td>
-                                <td>Xi - Xian Group</td>
-                                <td>$158.00</td>
-                                <td>
-                                    <div class="status-box green">
-                                        <i class="fas fa-check"></i>
-                                        <div class="ms-2">Paid</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <button class="btn-sm-action me-2"><i class="far fa-file-alt"></i></button>
-                                        <div ngbDropdown container="body">
-                                            <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                            <div ngbDropdownMenu class="border">
-                                                <button ngbDropdownItem>Action - 1</button>
-                                                <button ngbDropdownItem>Another Action</button>
-                                                <button ngbDropdownItem>Something else is here</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="icon-box orange">
-                                            <i class="fas fa-chevron-up"></i>
-                                        </div>
-                                        <div class="ms-3">12198758</div>
-                                    </div>
-                                </td>
-                                <td>15 May 2023</td>
-                                <td>Xi - Xian Group</td>
-                                <td>$158.00</td>
-                                <td>
-                                    <div class="status-box orange">
-                                        <i class="fas fa-chevron-up"></i>
-                                        <div class="ms-2">Overdue</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <button class="btn-sm-action me-2"><i class="far fa-file-alt"></i></button>
-                                        <div ngbDropdown container="body">
-                                            <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                            <div ngbDropdownMenu class="border">
-                                                <button ngbDropdownItem>Action - 1</button>
-                                                <button ngbDropdownItem>Another Action</button>
-                                                <button ngbDropdownItem>Something else is here</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="icon-box red">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </div>
-                                        <div class="ms-3">12198758</div>
-                                    </div>
-                                </td>
-                                <td>15 May 2023</td>
-                                <td>Xi - Xian Group</td>
-                                <td>$158.00</td>
-                                <td>
-                                    <div class="status-box red">
-                                        <i class="fas fa-chevron-left"></i>
-                                        <div class="ms-2">Draft</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <button class="btn-sm-action me-2"><i class="far fa-file-alt"></i></button>
-                                        <div ngbDropdown container="body">
-                                            <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                            <div ngbDropdownMenu class="border">
-                                                <button ngbDropdownItem>Action - 1</button>
-                                                <button ngbDropdownItem>Another Action</button>
-                                                <button ngbDropdownItem>Something else is here</button>
-                                            </div>
-                                        </div>
+                                            <span class="ms-2">الغاء</span>
+                                        </button> -->
+                                        
+                                        <!-- <app-invoice-details-sidepanel [invoiceId]="item.purchaseInvoiceId"></app-invoice-details-sidepanel> -->
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
+
                     </table>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-6">
+    <!-- <div class="col-lg-6">
         <div class="card radius-10 border-0 card-shadow h-100">
             <div class="card-body">
                 <h5 class="mb-0 fw-bold">فواتير المبيعات</h5>
@@ -479,10 +252,57 @@
                 </div>
             </div>
         </div>
+    </div> -->
+</div>
+<div class="row">
+
+    <div class="col-lg-6">
+        <div class="card radius-10 border-0 card-shadow h-100">
+            <div class="card-body">
+                <h5 class="mb-0 fw-bold">سندات القبض</h5>
+                <hr class="my-4">
+                <div class="widget-line">
+                    <div *ngFor="let item of paymentReceiptsList" class="d-flex align-items-center justify-content-between widget-mb">
+                        <div class="d-flex align-items-center">
+                            <div class="w-icon bg-primary-gradient">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <div class="ms-3">
+                                <div class="fs-5 fw-bold">{{item.benefitPerson}}</div>
+                                <div class="text-muted fs-6">{{item.moneyAmount}}</div>
+                            </div>
+                        </div>
+                        <div class="text-muted">{{item.insertDate|date}}</div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card radius-10 border-0 card-shadow h-100">
+            <div class="card-body">
+                <h5 class="mb-0 fw-bold">سندات الصرف</h5>
+                <hr class="my-4">
+                <div class="widget-line">
+                    <div *ngFor="let item of receiveReceiptsList" class="d-flex align-items-center justify-content-between widget-mb">
+                        <div class="d-flex align-items-center">
+                            <div class="w-icon bg-success-gradient bg-warning-gradient">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <div class="ms-3">
+                                <div class="fs-5 fw-bold">{{item.benefitPerson}}</div>
+                                <div class="text-muted fs-6">{{item.moneyAmount}}</div>
+                            </div>
+                        </div>
+                        <div class="text-muted">{{item.insertDate|date}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-<div class="row">
+<!-- <div class="row">
     <div class="col-lg-6">
         <div class="card radius-10 border-0 card-shadow h-100">
             <div class="card-body">
@@ -636,7 +456,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- ****************************************************************** -->
 
 <!-- OLD CONTENT -->

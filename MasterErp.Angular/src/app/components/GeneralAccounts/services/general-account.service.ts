@@ -88,7 +88,9 @@ export class GeneralAccountService {
   PrintJournalEntry(JournalEntryIds: number[]) {
     return this.http.post<any>(this.URL + 'JournalEntry/PrintJournalEntry', JournalEntryIds);
   }
-
+  GetDailyJournalEntriesLastFiveRecords() {
+    return this.http.get<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesLastFiveRecords');
+  }
   //================================== AccountTree ===============================
 
   GetChildAccountsList() {
