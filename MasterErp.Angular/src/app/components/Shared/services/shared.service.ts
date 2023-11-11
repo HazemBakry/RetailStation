@@ -46,7 +46,7 @@ export class SharedService {
   // }
 
   GetSuppliersData() {
-    return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetSuppliersData');
+    return this.http.get<any[]>(this.URL + 'Supplier/GetSuppliersData');
   }
 
   GetAccountsList(isParent:boolean=false) {
