@@ -6,7 +6,7 @@
 </div>
 
 <div class="row mb-3">
-    <div class="col-lg-12">
+    <div class="col-lg-12" *ngIf="journalEntriesList?.length>0">
         <div class="card radius-10 border-0 card-shadow h-100">
             <div class="card-body">
                 <h5 class="mb-0 fw-bold">سجل القيود</h5>
@@ -36,7 +36,18 @@
                                     <!-- {{item.entryStatus}} -->
                                     <div appColorWithStatus status="entryStatus" [text]="item.entryStatus"></div>
                                 </td>
-                                <td></td>
+                                <td>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <div ngbDropdown container="body">
+                                            <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle><i
+                                                    class="fas fa-ellipsis-v"></i></button>
+                                            <div ngbDropdownMenu class="border">
+                                                <button ngbDropdownItem (click)="CancelJournalEntry(item.journalEntryId)">اسقاط</button>
+                                                <button ngbDropdownItem (click)="PostJournalEntry(item.journalEntryId)">ترحيل</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                         
                         </tbody>
@@ -48,7 +59,7 @@
 </div>
 
 <div class="row mb-3">
-    <div class="col-lg-6">
+    <div class="col-lg-12" *ngIf="purchasesInvoicesList?.length>0">
         <div class="card radius-10 border-0 card-shadow h-100">
             <div class="card-body">
                 <h5 class="mb-0 fw-bold">فواتير المشتريات</h5>
@@ -63,7 +74,7 @@
                                 <th>نوع الفاتورة</th>
                                 <th>القيمة الإجمالية</th>
                                 <th>حالة الفاتورة</th>
-                                <th class="text-center"></th>
+                                <!-- <th class="text-center"></th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -78,16 +89,16 @@
                                         {{item.orderStatus}}
                                     </span>
                                 </td>
-                                <td>
+                                <!-- <td>
                                     <div class="w-100 d-flex align-items-center justify-content-center">
-                                        <!-- <button class="btn btn-danger me-2" (click)="CancelPurchaseInvoice(item.purchaseInvoiceID)">
+                                        <button class="btn btn-danger me-2" (click)="CancelPurchaseInvoice(item.purchaseInvoiceID)">
                                             <i class="fas fa-times"></i>
                                             <span class="ms-2">الغاء</span>
-                                        </button> -->
+                                        </button>
                                         
-                                        <!-- <app-invoice-details-sidepanel [invoiceId]="item.purchaseInvoiceId"></app-invoice-details-sidepanel> -->
                                     </div>
-                                </td>
+                                    
+                                </td> -->
                             </tr>
                         </tbody>
 
@@ -256,7 +267,7 @@
 </div>
 <div class="row">
 
-    <div class="col-lg-6">
+    <div class="col-lg-6" *ngIf="paymentReceiptsList?.length>0">
         <div class="card radius-10 border-0 card-shadow h-100">
             <div class="card-body">
                 <h5 class="mb-0 fw-bold">سندات القبض</h5>
@@ -264,8 +275,8 @@
                 <div class="widget-line">
                     <div *ngFor="let item of paymentReceiptsList" class="d-flex align-items-center justify-content-between widget-mb">
                         <div class="d-flex align-items-center">
-                            <div class="w-icon bg-primary-gradient">
-                                <i class="fas fa-chart-pie"></i>
+                            <div appColorWithStatus status="receiptsStatus" [text]="''">
+                                <!-- <i class="fas fa-chart-pie"></i> -->
                             </div>
                             <div class="ms-3">
                                 <div class="fs-5 fw-bold">{{item.benefitPerson}}</div>
@@ -279,7 +290,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-6" *ngIf="receiveReceiptsList?.length>0">
         <div class="card radius-10 border-0 card-shadow h-100">
             <div class="card-body">
                 <h5 class="mb-0 fw-bold">سندات الصرف</h5>
@@ -287,8 +298,8 @@
                 <div class="widget-line">
                     <div *ngFor="let item of receiveReceiptsList" class="d-flex align-items-center justify-content-between widget-mb">
                         <div class="d-flex align-items-center">
-                            <div class="w-icon bg-success-gradient bg-warning-gradient">
-                                <i class="fas fa-chart-pie"></i>
+                            <div appColorWithStatus status="receiptsStatus" [text]="''">
+                                <!-- <i class="fas fa-chart-pie"></i> -->
                             </div>
                             <div class="ms-3">
                                 <div class="fs-5 fw-bold">{{item.benefitPerson}}</div>
