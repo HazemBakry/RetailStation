@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/Main/dashboard/dashboard.component';
+import { ReviewsComponent } from './components/Main/reviews/reviews.component';
 import { ErpLoginComponent } from './components/Shared/components/erp-login/erp-login.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'login', component: ErpLoginComponent },
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'reviews', component: ReviewsComponent },
   { path: 'Hr', loadChildren: () => import('./components/HR/hr.module').then(erp => erp.HrModule) },
   { path: 'Purchases', loadChildren: () => import('./components/Purchases/purchases.module').then(erp => erp.PurchasesModule) },
   { path: 'Sales', loadChildren: () => import('./components/Sales/sales.module').then(erp => erp.SalesModule) },
