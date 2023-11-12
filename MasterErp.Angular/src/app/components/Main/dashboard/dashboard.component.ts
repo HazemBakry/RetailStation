@@ -5,6 +5,7 @@ import { GeneralAccountService } from '../../GeneralAccounts/services/general-ac
 import { FilterModel } from '../../Shared/models/FilterModel';
 import { PurchaseService } from '../../Purchases/services/purchase.service';
 import { PaymentService } from '../../GeneralAccounts/services/payment.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -96,7 +97,7 @@ export class DashboardComponent implements OnInit {
   ToDate = new Date();
   branchId = 0;
   SalesSummaryStatistics: any;
-
+  showLoader:boolean=false;
   journalEntriesList:any[]=[];
   purchasesInvoicesList:any[]=[];
   paymentReceiptsList:any[]=[];
@@ -110,7 +111,8 @@ export class DashboardComponent implements OnInit {
               private datepipe: DatePipe,
               private generalAccountService:GeneralAccountService,
               private purchaseService:PurchaseService,
-              private paymentService:PaymentService) { }
+              private paymentService:PaymentService,
+              private toaster:ToastrService) { }
 
   ngOnInit(): void {
     this.GetSalesSummary();
@@ -145,6 +147,37 @@ export class DashboardComponent implements OnInit {
     },
     () => {});
   }
+  CancelJournalEntry(journalEntryId:number) {
+    let journalEntryIds =[];
+    journalEntryIds.push(journalEntryId);
+    this.showLoader = true;
+    this.generalAccountService.CancelJournalEntry(journalEntryIds).subscribe(data => {
+      if (data) {
+        this.GetDailyJournalEntriesSummary();
+        this.toaster.success('تم اسقاط القيود بنجاح');
+      }
+      else
+        this.toaster.error('حدث خطأ');
+      this.showLoader = false;
+    });
+  }
+
+  PostJournalEntry(journalEntryId:number) {
+    let journalEntryIds =[];
+    journalEntryIds.push(journalEntryId);
+    this.showLoader = true;
+    this.generalAccountService.PostJournalEntry(journalEntryIds).subscribe(data => {
+      if (data) {
+        this.GetDailyJournalEntriesSummary();
+        this.toaster.success('تم ترحيل القيوم بنجاح');
+      }
+      else
+        this.toaster.error('حدث خطأ');
+
+      this.showLoader = false;
+    });
+  }
+
   GetPurchaseInvoicesSummary() {
     // this.showLoader=true;
     this.purchaseService.GetPurchaseInvoicesSummary(this.FilterModel).subscribe(data => {

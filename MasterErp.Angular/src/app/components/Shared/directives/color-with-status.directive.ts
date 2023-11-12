@@ -43,6 +43,26 @@ export class ColorWithStatusDirective implements OnInit {
         }
       }
     }
+    else if (this.status&&this.status=='receiptsStatus') {
+      // if (this.text) {
+        switch (this.text) {
+          case '':
+            this.renderer.setAttribute(this.elem.nativeElement, 'class', 'bg-success-gradient w-icon');
+            break;
+          case 'y':
+            this.renderer.setAttribute(this.elem.nativeElement, 'class', 'bg-warning-gradient w-icon');
+          
+            break;
+          default:
+            this.renderer.setAttribute(this.elem.nativeElement, 'class', 'bg-secondary-gradient w-icon');
+
+            break;
+        }
+        this.elem.nativeElement.innerHTML = '&nbsp;<i class="fas fa-chart-pie"></i>';
+
+
+      // }
+    }
   }
 
   
