@@ -39,7 +39,7 @@ export class OrderSearchSidepanelComponent implements OnInit {
     });
   }
   GetSelectedSupplier(item: any) {
-    this.SupplierId = item.supplierID;
+    this.SupplierId = item.supplierId;
   }
 
   loadData()

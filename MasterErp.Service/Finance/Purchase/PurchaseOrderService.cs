@@ -52,7 +52,7 @@ namespace MasterErp.Service.Finance.Purchase
 
         }
 
-        public CreateModifyReturnsModel SaveNewPurchaseOrder(PurchaseOrderModel model)
+        public CreateModifyReturnsModel CreateNewPurchaseOrder(PurchaseOrderModel model)
         {
             try
             {

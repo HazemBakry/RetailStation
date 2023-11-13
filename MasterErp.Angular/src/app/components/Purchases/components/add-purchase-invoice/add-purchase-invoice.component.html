@@ -19,7 +19,8 @@
                 </div>
             </div>
             <div class="col-lg-4 offset-lg-1">
-                <app-erp-selector [SelectorName]="TypeName" [ItemsList]="InvoiceTypesList" (ItemObj)="GetSelectedInvoiceType($event)"></app-erp-selector>
+                <app-erp-selector-with-search [SelectorName]="TypeName" [ItemsList]="InvoiceTypesList" (ItemObj)="GetSelectedInvoiceType($event)"></app-erp-selector-with-search>
+
             </div>
             <!-- <div class="col-lg-4 offset-lg-1">
                 <app-erp-selector [SelectorName]="BranchName" [ItemsList]="BranchesList"
@@ -34,7 +35,8 @@
                 </div>
             </div>
             <div class="col-lg-4 offset-lg-1">
-                <app-erp-selector [SelectorName]="SupplierName" [ItemsList]="SuppliersList" (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector>
+                <app-erp-selector-with-search [SelectorName]="SupplierName" [ItemsList]="SuppliersList" (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector-with-search>
+
             </div>
             <div class="col-lg-2">
                 <button class="btn btn-secondary me-2" (click)="LoadSupplierItems()">

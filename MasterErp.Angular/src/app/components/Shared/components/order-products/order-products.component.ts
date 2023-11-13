@@ -95,6 +95,8 @@ export class OrderProductsComponent implements OnInit, OnChanges {
       this.activeTab = 'Lookups';
   }
   SaveSelectedItem() {
+    this.selectedItem.itemTotalValue = this.selectedItem.price && this.selectedItem.quantity ? this.selectedItem.price * this.selectedItem.quantity : 0;
+    
     if (this.activeTab == 'Item') {
       if (this.selectedItem.itemId) {
         let checked = this.productsList.find(i => i.itemId == this.selectedItem.itemId);

@@ -84,11 +84,11 @@ export class AddSalesComponent implements OnInit {
   }
 
   GetSelectedBranch(item: any) {
-    this.BranchId = item.branchID;
+    this.BranchId = item.branchId;
   }
 
   GetSelectedSupplier(item: any) {
-    this.SupplierId = item.supplierID;
+    this.SupplierId = item.supplierId;
     this.purchaseService.GetItemsBySupplierId(item.supplierID).subscribe(data => {
       let Items: any[] = data;
       this.ItemsBySupplier = Items.map<SalesInvoiceDetails>(item => {

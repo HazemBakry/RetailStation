@@ -61,7 +61,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   }
 
   GetSelectedBranch(item: any) {
-    this.BranchId = item.branchID;
+    this.BranchId = item.branchId;
   }
   GetSelectedSupplier(item: any) {
     this.SupplierId = item.supplierId;
