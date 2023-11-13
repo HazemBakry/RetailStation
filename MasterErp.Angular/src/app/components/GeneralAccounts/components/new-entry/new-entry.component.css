@@ -62,6 +62,16 @@
 .date-picker-input:active {
   box-shadow: none;
 }
+.date-picker-input::placeholder {
+  text-align: left;
+}
+.date-label {
+  position: absolute;
+  top: 1px;
+  right: 10px;
+  font-size: 10px;
+  color: gray;
+}
 
 ::ng-deep ngb-datepicker.dropdown-menu {
   border-color: #dee2e6 !important;

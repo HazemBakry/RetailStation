@@ -40,9 +40,10 @@
         <div class="input-group d-block">
           <input class="date-picker-input form-control w-100 border bg-white rounded" placeholder="yyyy-mm-dd" name="dp"
             [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" [footerTemplate]="footerTemplate" />
-          <button class="btn bg-transparent text-black fs-4 px-0 picker-btn" (click)="d.toggle()" type="button">
+          <button class="btn bg-transparent text-black px-0 pt-4 picker-btn" (click)="d.toggle()" type="button">
             <i class="far fa-calendar-minus"></i>
           </button>
+          <label class="date-label" for="floatingInput2">تاريخ القيد</label>
           <ng-template #footerTemplate>
             <div class="bg-light border-top d-flex align-items-center justify-content-between px-4 py-2">
               <button class="btn btn-primary btn-sm" (click)="model = today; d.close()">Today</button>

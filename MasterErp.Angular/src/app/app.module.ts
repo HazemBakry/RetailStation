@@ -14,13 +14,15 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from "./components/Shared/shared.module";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReviewsComponent } from './components/Main/reviews/reviews.component';
 @NgModule({
   declarations: [
     AppComponent,
     ErpLoginComponent,
     HeaderComponent,
     SidebarComponent,
-    DashboardComponent
+    DashboardComponent,
+    ReviewsComponent
   ],
   providers: [
     DatePipe,
