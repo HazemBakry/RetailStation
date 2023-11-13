@@ -6,6 +6,9 @@
   background-color: #1b4c85 !important;
   color: #fff;
 }
+.emoji-list > li:not(.active):hover {
+  background-color: #fff !important;
+}
 .emoji-list > li i {
   color: red;
 }
