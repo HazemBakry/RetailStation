@@ -10,10 +10,10 @@ namespace MasterErp.Entities.Common
     public class SalesInvoiceModel
     {
         public int? SalesInvoiceId { get; set; }
-        public string InvoiceNumber { get; set; }
+        public int InvoiceNumber { get; set; }
         public int BranchId { get; set; }
         public string Notes { get; set; }
-        public int? UserId { get; set; }
+        public string UserId { get; set; }
         public List<SalesInvoiceDetails> Items { get; set; }
     }
 }

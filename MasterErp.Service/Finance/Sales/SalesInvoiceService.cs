@@ -50,7 +50,7 @@ namespace MasterErp.Service.Finance.Sales
                 order_tbl.Notes = model.Notes;
                 order_tbl.InvoiceDate = DateTime.Now;
                 order_tbl.TotalValue = model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0;
-                order_tbl.InvoiceNumber = (Context.SalesInvoices.Count() > 0 ? Context.SalesInvoices.Max(x => x.SalesInvoiceID) + 1 : 1);
+                order_tbl.InvoiceNumber = (Context.SalesInvoices.Count() > 0 ? Context.SalesInvoices.Max(x => x.SalesInvoiceId) + 1 : 1);
 
                 Context.SalesInvoices.Add(order_tbl);
                 Context.SaveChanges();
@@ -64,7 +64,7 @@ namespace MasterErp.Service.Finance.Sales
                         Notes = item.Notes,
                         Quantity = item.Quantity,
                         TotalValue = item.TotalValue,
-                        SalesInvoiceID = order_tbl.SalesInvoiceID,
+                        SalesInvoiceID = order_tbl.SalesInvoiceId,
                     };
 
                     Context.SalesInvoiceDetails.Add(detail);
