@@ -58,7 +58,9 @@
                             <td>{{item.entryNumber}}</td>
                             <!-- <td>{{item.docNumber}}</td> -->
                             <td>{{item.journalTypeAr}}</td>
-                            <td>{{item.entryStatus}}</td>
+                            <td>                                    
+                                <div appColorWithStatus status="entryStatus" [text]="item.entryStatus"></div>
+                            </td>
                             <td>{{item.actionGroup}}</td>
                             <td>{{item.actionTypeAr}}</td>
                             <td>{{item.entryMonth}}</td>
