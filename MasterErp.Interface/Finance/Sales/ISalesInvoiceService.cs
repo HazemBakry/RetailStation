@@ -10,7 +10,7 @@ namespace MasterErp.Interface.Finance.Sales
 {
     public interface ISalesInvoiceService
     {
-        List<SalesInvoice> GetSalesInvoiceData();
-        (bool HasError, int InvoiceNumber) SaveNewSalesInvoice(SalesInvoiceModel model);
+        PagedResponseDTO<SalesInvoice> GetSalesInvoicesData(FilterModel model);
+        CreateModifyReturnsModel CreateNewSalesInvoice(SalesInvoiceModel model);
     }
 }

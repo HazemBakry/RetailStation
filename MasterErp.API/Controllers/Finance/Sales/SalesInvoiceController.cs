@@ -1,6 +1,8 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Finance.Sales;
+using MasterErp.Service.Finance.Purchase;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,18 +23,20 @@ namespace MasterErp.API.Controllers.Finance.Sales
             _salesInvoiceService = salesInvoiceService;
         }
 
-        [HttpGet]
-        [Route("GetSalesInvoiceData")]
-        public List<SalesInvoice> GetSalesInvoiceData()
+        [HttpPost]
+        [Route("GetSalesInvoicesData")]
+        public IActionResult GetSalesInvoicesData(FilterModel model)
         {
-            return _salesInvoiceService.GetSalesInvoiceData();
+            var result= _salesInvoiceService.GetSalesInvoicesData(model);
+            return Ok(result);
         }
 
         [HttpPost]
-        [Route("SaveNewSalesInvoice")]
-        public (bool HasError, int InvoiceNumber) SaveNewSalesInvoice(SalesInvoiceModel model)
+        [Route("CreateNewSalesInvoice")]
+        public IActionResult CreateNewSalesInvoice(SalesInvoiceModel model)
         {
-            return _salesInvoiceService.SaveNewSalesInvoice(model);
+            var result = _salesInvoiceService.CreateNewSalesInvoice(model);
+            return Ok(result);
         }
     }
 }

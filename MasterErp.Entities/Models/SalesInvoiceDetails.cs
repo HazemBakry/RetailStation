@@ -8,9 +8,9 @@ namespace MasterErp.Entities.Models
 {
     public class SalesInvoiceDetails
     {
-		public int SalesInvoiceDetailsID { get; set; }
-		public int SalesInvoiceID { get; set; }
-		public int ItemID { get; set; }
+		public int SalesInvoiceDetailsId { get; set; }
+		public int SalesInvoiceId { get; set; }
+		public int ItemId { get; set; }
 		public double Quantity { get; set; }
 		public double Price { get; set; }
 		public double? SubTotal { get; set; }

@@ -18,9 +18,9 @@ namespace MasterErp.Entities.Models
 		public double? Discount { get; set; }
 		public double? DiscountPercent { get; set; }
 		public double TotalValue { get; set; }
-		public double? Tax { get; set; }
+		//public double? Tax { get; set; }
 		public double? TaxPercent { get; set; }
-		public double NetValue { get; set; }
+		//public double NetValue { get; set; }
 		public bool IsCancelled { get; set; }
 		public string Notes { get; set; }
 		public string InsertUser { get; set; }

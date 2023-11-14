@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddSalesComponent } from '../Sales/components/add-sales/add-sales.component';
-import { SalesInvoiceComponent } from '../Sales/components/sales-invoice/sales-invoice.component';
 import { CurrencyComponent } from '../Shared/components/BasicInformation/currency/currency.component';
 import { FeaturedComponent } from '../Shared/components/BasicInformation/featured/featured.component';
 import { FiscalYearComponent } from '../Shared/components/BasicInformation/fiscal-year/fiscal-year.component';
@@ -36,8 +34,6 @@ const routes: Routes = [
       { path: 'receiptBooks', component: ReceiptBooksComponent },
       { path: 'account-tree', component: AccountTreeComponent },
       { path: 'cost-center-tree', component: CostCenterTreeComponent },
-      { path: 'sales-invoice', component: SalesInvoiceComponent },
-      { path: 'add-sales', component: AddSalesComponent },
       { path: 'new-entry', component: NewEntryComponent },
       { path: 'journal-daily-list', component: JournalDailyListComponent },
       { path: 'create-payment-receipt', component: CreatePaymentReceiptComponent },

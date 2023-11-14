@@ -8,10 +8,19 @@ import { CustomerModel } from '../../GeneralAccounts/models/GeneralAccounts/Cust
   providedIn: 'root'
 })
 export class SharedService {
+  taxPercent:number=0.15;
   URL = environment.apiURL;
 
   constructor(private http: HttpClient) { }
 
+  calculateTaxValue(totalAmount:number):number{
+    var taxValue=0;
+    if(totalAmount&&totalAmount>0)
+    {
+      taxValue=totalAmount-(totalAmount/(1+this.taxPercent));
+    }
+    return taxValue;
+  }
   //================================== AccountTree ===============================
 
   GetAccountTreeData(SearchText: string) {

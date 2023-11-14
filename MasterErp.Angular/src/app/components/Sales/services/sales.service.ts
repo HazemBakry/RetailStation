@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { SalesInvoiceModel } from '../models/SalesInvoiceModel';
+import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +13,11 @@ export class SalesService {
 
   constructor(private http: HttpClient) { }
 
-  GetSalesInvoiceData() {
-    return this.http.get<any[]>(this.URL + 'SalesInvoice/GetSalesInvoiceData');
+  GetSalesInvoicesData(model:FilterModel) {
+    return this.http.post<any[]>(this.URL + 'SalesInvoice/GetSalesInvoicesData',model);
   }
 
-  SaveNewSalesInvoice(model: SalesInvoiceModel) {
-    return this.http.post<any>(this.URL + 'SalesInvoice/SaveNewSalesInvoice', model);
+  CreateNewSalesInvoice(model: SalesInvoiceModel) {
+    return this.http.post<any>(this.URL + 'SalesInvoice/CreateNewSalesInvoice', model);
   }
 }
