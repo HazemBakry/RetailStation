@@ -46,10 +46,10 @@ export class AddPurchaseReturnsComponent implements OnInit {
   }
 
   GetSelectedBranch(item: any) {
-    this.BranchId = item.branchID;
+    this.BranchId = item.branchId;
   }
   GetSelectedSupplier(item: any) {
-    this.SupplierId = item.supplierID;
+    this.SupplierId = item.supplierId;
     this.selectedSupplier=item;
 
   }
@@ -58,7 +58,7 @@ export class AddPurchaseReturnsComponent implements OnInit {
     this.ProductsList=products;
     // console.log(" ~ this.ProductsList:", this.ProductsList);
   }
-  CreateNewPurchaseOrder() {
+  CreateNewPurchaseReturns() {
     if (!this.BranchId) {
       this.toaster.warning('Please Select Branch');
       return;
@@ -130,21 +130,8 @@ export class AddPurchaseReturnsComponent implements OnInit {
     this.selectedInvoice=inv;
     // console.log("inv",inv);
     this.InvoiceNumber=this.selectedInvoice?.invoiceNumber;
-    this.ItemsBySupplier = this.selectedInvoice?.items?.map(item => {
-      {
-        return {
-          purchaseInvoiceDetailsId: item.purchaseInvoiceDetailsId,
-          purchaseInvoiceId: item.purchaseInvoiceId,
-          itemId: item.itemId,
-          nameEN: item.itemNameEN,
-          unitId: item.unitID,
-          unitName: item.unitNameEn,
-          price: item.price,
-          quantity: item.quantity,
-          totalValue: item.itemTotalValue
-        }
-      }
-    })
+    this.ItemsBySupplier = this.selectedInvoice?.items;
+
     // console.log("this.ItemsBySupplier",this.ItemsBySupplier);
     
   }

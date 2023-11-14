@@ -32,7 +32,7 @@ export class SuppliersAccountStatementComponent implements OnInit {
   }
   GetSelectedSupplier(item: any) {
     this.selectedSupplier=item;
-    this.SupplierId = item.supplierID;
+    this.SupplierId = item.supplierId;
   }
   loadData() {
     if (!this.SupplierId) {

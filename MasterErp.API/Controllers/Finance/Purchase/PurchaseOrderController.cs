@@ -31,10 +31,10 @@ namespace MasterErp.API.Controllers.Finance.Purchase
         }
 
         [HttpPost]
-        [Route("SaveNewPurchaseOrder")]
-        public IActionResult SaveNewPurchaseOrder(PurchaseOrderModel model)
+        [Route("CreateNewPurchaseOrder")]
+        public IActionResult CreateNewPurchaseOrder(PurchaseOrderModel model)
         {
-            var result = PurchaseOrderService.SaveNewPurchaseOrder(model);
+            var result = PurchaseOrderService.CreateNewPurchaseOrder(model);
             return Ok(result);
         }
 

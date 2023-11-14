@@ -32,50 +32,81 @@ namespace MasterErp.Service.Finance.Sales
             Configuration = _configuration;
         }
 
-        public List<SalesInvoice> GetSalesInvoiceData()
+        public PagedResponseDTO<SalesInvoice> GetSalesInvoicesData(FilterModel model)
         {
-            return Context.SalesInvoices.ToList();
+            //var data= Context.SalesInvoices.ToList();
+
+            int totalCount = Context.SalesInvoices.Count();
+
+            int skip = (model.CurrentPage - 1) * model.PageSize;
+
+            var data = Context.SalesInvoices
+                .OrderByDescending(e => e.InvoiceDate)
+                .Skip(skip)
+                .Take(model.PageSize)
+                .ToList();
+
+
+            return new PagedResponseDTO<SalesInvoice>
+            {
+                TotalCount = totalCount,
+                Results = data,
+                CurrentPage = model.CurrentPage,
+                PageSize = model.PageSize
+            };
         }
 
-        public (bool HasError, int InvoiceNumber) SaveNewSalesInvoice(SalesInvoiceModel model)
+        public CreateModifyReturnsModel CreateNewSalesInvoice(SalesInvoiceModel model)
         {
             try
             {
                 SalesInvoice order_tbl = new SalesInvoice();
 
                 order_tbl.InsertDate = DateTime.Now;
-                order_tbl.InsertUser = model.UserId;
-                order_tbl.InvoiceDate = DateTime.Now;
+                order_tbl.InsertUser = string.Empty;
+                order_tbl.InvoiceDate = model.InvoiceDate;
                 order_tbl.IsCancelled = false;
                 order_tbl.Notes = model.Notes;
-                order_tbl.InvoiceDate = DateTime.Now;
+                order_tbl.TaxPercent = model.TaxPercent;
+                order_tbl.SubTotal = model.SubTotal;
+                order_tbl.Discount = model.Discount;
+                order_tbl.DiscountPercent = model.DiscountPercent;
+                order_tbl.DocNumber = model.DocNumber;
+                order_tbl.TotalValue = model.TotalValue;
                 order_tbl.TotalValue = model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0;
                 order_tbl.InvoiceNumber = (Context.SalesInvoices.Count() > 0 ? Context.SalesInvoices.Max(x => x.SalesInvoiceId) + 1 : 1);
 
                 Context.SalesInvoices.Add(order_tbl);
                 Context.SaveChanges();
 
-                foreach (SalesInvoiceDetails item in model.Items)
+                foreach (ItemModel item in model.Items)
                 {
                     var detail = new SalesInvoiceDetails
                     {
                         Price = item.Price,
-                        ItemID = item.ItemID,
-                        Notes = item.Notes,
+                        ItemId = item.ItemId,
                         Quantity = item.Quantity,
                         TotalValue = item.TotalValue,
-                        SalesInvoiceID = order_tbl.SalesInvoiceId,
+                        SalesInvoiceId = order_tbl.SalesInvoiceId,
                     };
 
                     Context.SalesInvoiceDetails.Add(detail);
                     Context.SaveChanges();
                 }
-
-                return (true, order_tbl.InvoiceNumber);
+                return new CreateModifyReturnsModel
+                {
+                    Id=order_tbl.InvoiceNumber,
+                    Status = 1,
+                    Message = "Sales Invoice Created"
+                };
             }
             catch (Exception ex)
             {
-                return (false, 0);
+                return new CreateModifyReturnsModel
+                {
+                    Status = 0,
+                    Message = ex.Message
+                };
             }
         }
     }

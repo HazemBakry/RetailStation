@@ -8,7 +8,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 export class ErpSelectorWithSearchComponent implements OnInit {
   @Input() ItemsList: any[] = [];
   @Input() SelectorName: any;
-  @Input() Height = '50px';
+  @Input() Height = '35px';
   @Input() ValidateMessage: string;
   @Input() SearchKey = 'nameEN';
   @Input() innerTextKey:string = 'nameAR';

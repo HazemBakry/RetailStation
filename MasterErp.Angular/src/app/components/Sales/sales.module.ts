@@ -4,17 +4,17 @@ import { CommonModule } from '@angular/common';
 import { SalesRoutingModule } from './sales-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AddSalesComponent } from './components/add-sales/add-sales.component';
-import { SalesInvoiceComponent } from './components/sales-invoice/sales-invoice.component';
 import { SalesLayoutComponent } from './sales-layout/sales-layout.component';
 import { SharedModule } from '../Shared/shared.module';
+import { SalesInvoicesComponent } from './components/sales-invoices/sales-invoices.component';
+import { AddSalesInvoiceComponent } from './components/add-sales-invoice/add-sales-invoice.component';
 
 
 @NgModule({
   declarations: [
     SalesLayoutComponent,
-    SalesInvoiceComponent,
-    AddSalesComponent
+    SalesInvoicesComponent,
+    AddSalesInvoiceComponent
   ],
   imports: [
     CommonModule,

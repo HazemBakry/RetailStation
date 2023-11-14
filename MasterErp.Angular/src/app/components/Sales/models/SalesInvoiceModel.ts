@@ -1,25 +1,19 @@
-
+import { OrderDetailModel } from "src/app/Models/ItemModel";
 export interface SalesInvoiceModel {
-    salesInvoiceId?: number | null;
-    invoiceNumber?: string;
-    branchId?: number;
-    notes?: string;
-    userId?: number | null;
-    items?: SalesInvoiceDetails[];
-}
-
-
-export interface SalesInvoiceDetails {
-    salesInvoiceDetailsID?: number;
-    salesInvoiceID?: number;
-    itemID?: number;
-    quantity?: number;
-    price?: number;
-    itemName?: string;
-    unitID?: number;
-    unitName?: string;
-    subTotal?: number | null;
-    discount?: number | null;
-    totalValue?: number;
-    notes?: string;
+    salesInvoiceId: number | null;
+    invoiceNumber: number;
+    supplierId: number | null;
+    branchId: number | null;
+    totalValue: number;
+    taxPercent: number;
+    subTotal: number;
+    discount: number;
+    discountPercent: number;
+    netValue: number;
+    invoiceDate: string;
+    docNumber: string;
+    notes: string;
+    userId: string;
+    customerId: string;
+    items: OrderDetailModel[];
 }
