@@ -16,7 +16,7 @@
     </div>
     <div class="card-body bg-light">
         <div class="table-responsive table-vp-height small-scroll">
-            <table class="table table-bordered table-middle table-hover bg-white m-0">
+            <table class="table table-borderless align-middle table-middle mb-0 table-hover">
                 <thead>
                     <tr>
                         <th>اسم الصنف (Ar)</th>
@@ -135,7 +135,7 @@
             <div class="col-lg-12" *ngFor="let item of EditQuantityList">
                 <div class="mb-3">
                     <i class="fas fa-info-circle ms-2 text-muted cursor-pointer me-2" ngbPopover="Here will be information about field!" placement="end" triggers="mouseenter:mouseleave"></i>
-                    <label for="exampleFormControlInput1" class="form-label">{{item.nameAR ?item.nameAR :item.nameEN}} <sup
+                    <label for="exampleFormControlInput1" class="form-label">{{item.itemNameAr ?item.itemNameAr :item.itemNameEn}} <sup
                             class="text-danger">*</sup>
 
                     </label>

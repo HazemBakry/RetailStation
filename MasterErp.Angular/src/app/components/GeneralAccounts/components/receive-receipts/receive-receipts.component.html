@@ -30,38 +30,37 @@
                 <table class="table table-bordered table-middle table-hover m-0 bg-white bigtitle">
                     <thead>
                         <tr>
-                            <th>رقم الفاتورة</th>
+                            <th>رقم الايصال</th>
+                            <th>اسم المستفيد</th>
                             <th>الرقم الدفترى</th>
-                            <th>تاريخ الفاتورة</th>
-                            <th>اسم المورد</th>
-                            <th>نوع الفاتورة</th>
-                            <!-- <th>Insert User</th>
-                        <th>Insert Date</th>
-                        <th>Is Locked</th> -->
-                            <th>القيمة الإجمالية</th>
-                            <th>حالة الفاتورة</th>
+                            <th>تاريخ الاصدار</th>
+                            <th>طريقة الدفع</th>
+                            <th>نوع جهة التعامل</th>
+                            <th>جهة التعامل</th>
+                            <th>المبلغ</th>
+                            <th>ملاحظات</th>
                             <th class="text-center"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of List">
-                            <td>{{item.invoiceNumber}}</td>
-                            <td>{{item.docNumber}}</td>
-                            <td>{{item.invoiceDate | date}}</td>
-                            <td>{{item.supplierName}}</td>
-                            <td>{{item.invoiceTypeName}}</td>
-                            <!-- <td>{{item.insertUser}}</td>
-                        <td>{{item.insertDate | date}}</td>
-                        <td>{{item.isLocked}}</td> -->
-                            <td>{{item.invoiceTotalValue}}</td>
-                            <td>
+                            <td>{{item.receiptNumber}}</td>
+                            <td>{{item.benefitPerson}}</td>
+                            <td>{{item.docNumber }}</td>
+                            <td>{{item.releaseDate | date}}</td>
+                            <td>{{item.receiveTypeId}}</td>
+                            <td>{{item.agencyTypeId}}</td>
+                            <td>{{item.agencyId}}</td>
+                            <td>{{item.moneyAmount}}</td>
+                            <td>{{item.notes}}</td>
+                            <!-- <td>
                                 <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
                                     {{item.orderStatus}}
                                 </span>
-                            </td>
+                            </td> -->
                             <td>
                                 <div class="w-100 d-flex align-items-center justify-content-center">
-                                    <button class="btn btn-danger me-2" (click)="CancelPurchaseInvoice(item.purchaseInvoiceID)">
+                                    <button class="btn btn-danger me-2" (click)="CancelReceiveReceipt(item.receiveReceiptId)">
                                         <i class="fas fa-times"></i>
                                         <span class="ms-2">الغاء</span>
                                     </button>

@@ -29,6 +29,7 @@ export class PaymentReceiptsComponent implements OnInit {
     this.showLoader = true;
     this.paymentService.GetPaymentReceiptsSummary(this.FilterModel).subscribe(data => {
       this.List = data;
+
       this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
       this.showLoader = false;
     }, (err) => {
@@ -44,7 +45,7 @@ export class PaymentReceiptsComponent implements OnInit {
   }
 
   CancelPurchaseInvoice(InvoiceId: number) {
-    this.paymentService.CancelReceiveReceipt(InvoiceId).subscribe(data => {
+    this.paymentService.CancelPaymentReceipt(InvoiceId).subscribe(data => {
       if (data) {
         this.toaster.success('تم الغاء السند بنجاح');
         this.GetPaymentReceiptsSummary();
