@@ -4,6 +4,8 @@ import { CreateReceiveOrderComponent } from './components/create-receive-order/c
 import { ReceivedOrdersComponent } from './components/received-orders/received-orders.component';
 import { RawItemsComponent } from './components/raw-items/raw-items.component';
 import { InventoryLayoutComponent } from './inventory-layout/inventory-layout.component';
+import { CreatePurchasesRequestComponent } from './components/create-purchases-request/create-purchases-request.component';
+import { PurchasesRequestsComponent } from './components/purchases-requests/purchases-requests.component';
 
 const routes: Routes = [
   {
@@ -13,6 +15,8 @@ const routes: Routes = [
       { path: 'receive-orders', component: ReceivedOrdersComponent },
       { path: 'new-receive-orders', component: CreateReceiveOrderComponent },
       { path: 'raw-items', component: RawItemsComponent },
+      { path: 'purchases-requests', component: PurchasesRequestsComponent },
+      { path: 'add-purchases-request', component: CreatePurchasesRequestComponent },
     ],
   },
 ];

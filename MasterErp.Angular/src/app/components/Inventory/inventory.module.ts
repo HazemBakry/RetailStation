@@ -10,6 +10,8 @@ import { OrderSearchSidepanelComponent } from './components/order-search-sidepan
 import { RawItemsComponent } from './components/raw-items/raw-items.component';
 import { ItemsCategoryComponent } from './components/items-category/items-category.component';
 import { InventoryLayoutComponent } from './inventory-layout/inventory-layout.component';
+import { CreatePurchasesRequestComponent } from './components/create-purchases-request/create-purchases-request.component';
+import { PurchasesRequestsComponent } from './components/purchases-requests/purchases-requests.component';
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { InventoryLayoutComponent } from './inventory-layout/inventory-layout.co
     ReceivedOrdersComponent,
     OrderSearchSidepanelComponent,
     RawItemsComponent,
-    ItemsCategoryComponent
+    ItemsCategoryComponent,
+    CreatePurchasesRequestComponent,
+    PurchasesRequestsComponent
   ],
   imports: [
     CommonModule,

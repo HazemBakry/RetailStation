@@ -73,7 +73,7 @@ namespace MasterErp.Service.Finance.Sales
                 order_tbl.DiscountPercent = model.DiscountPercent;
                 order_tbl.DocNumber = model.DocNumber;
                 order_tbl.TotalValue = model.TotalValue;
-                order_tbl.TotalValue = model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0;
+                //order_tbl.TotalValue = model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0;
                 order_tbl.InvoiceNumber = (Context.SalesInvoices.Count() > 0 ? Context.SalesInvoices.Max(x => x.SalesInvoiceId) + 1 : 1);
 
                 Context.SalesInvoices.Add(order_tbl);

@@ -6,6 +6,7 @@ import { PurchaseOrderModel } from '../models/PurchaseOrder';
 import { PurchaseReturnsModel } from '../models/PurchaseReturns';
 import { OrderDetailModel } from 'src/app/Models/ItemModel';
 import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { SupplierReturnsVoucherModel } from '../models/SupplierReturnsVoucherModel';
 
 @Injectable({
   providedIn: 'root'
@@ -102,4 +103,12 @@ export class PurchaseService {
     return this.http.get<any[]>(this.URL + 'Branch/GetBranchesData');
   }
 
+  
+  GetSupplierReturnsVoucherData(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'SupplierReturnsVoucher/GetSupplierReturnsVoucherData', model);
+  }
+
+  CreateNewSupplierReturnsVoucher(model: SupplierReturnsVoucherModel) {
+    return this.http.post<any>(this.URL + 'SupplierReturnsVoucher/CreateNewSupplierReturnsVoucher', model);
+  }
 }

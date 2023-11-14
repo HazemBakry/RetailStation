@@ -17,6 +17,7 @@ namespace MasterErp.Entities.Common
         public double Price { get; set; }
         public double Quantity { get; set; }
         public double TotalValue { get; set; }
+        public double ItemTotalValue { get; set; }
         public bool? IsActive { get; set; }
         public string InsertUser { get; set; }
         public DateTime? InsertDate { get; set; }
