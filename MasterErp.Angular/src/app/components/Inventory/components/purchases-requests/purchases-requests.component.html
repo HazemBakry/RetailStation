@@ -1,1 +1,59 @@
-<p>purchases-requests works!</p>
+<div class="card radius-10 border-0 card-shadow mb-3">
+    <div class="boxstyle1">
+        <div class="boxstyle1-header bg-light">
+            <div class="boxstyle1-header-left mb-3">
+                <button class="btn btn-primary" routerLink="/Inventory/add-purchases-request">
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="ms-2">انشاء طلب شراء جديد</span>
+                </button>
+            </div>
+        </div>
+        <div class="card radius-10 border-0 card-shadow">
+            <div class="card-body">
+                <div class="main-card-action pb-3">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- <div class="col-md-12">
+                                <div class="d-flex align-items-center flex-wrap">
+                                    <ng-container *ngIf="filterList.length > 0">
+                                        <app-pos-filters [FilterList]="filterList"
+                                            (filterChanged)="filterChecked($event)"></app-pos-filters>
+                                    </ng-container>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="col-md-4">
+                            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage" [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount" [totalPages]="pagedResponse.totalPages"></app-erp-pagination>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-borderless align-middle table-middle mb-0 table-hover">
+                    <thead>
+                        <tr>
+                            <th>رقم الطلب</th>
+                            <th>تاريخ الطلب</th>
+                            <th>اسم الفرع</th>
+                            <th>الحالة</th>
+                            <th>ملاحظات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of pagedResponse.results">
+                            <td>{{item.requestNumber}}</td>
+                            <td>{{item.requestDate | date}}</td>
+                            <td>{{item.branchName}}</td>
+                            <td>{{item.isDelivered}}</td>
+                            <td>{{item.notes}}</td>
+                          
+                        </tr>
+                    </tbody>
+
+                </table>
+                <app-empty-data [showContainer]="!pagedResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->
