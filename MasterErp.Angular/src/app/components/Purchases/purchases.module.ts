@@ -17,6 +17,7 @@ import { SuppliersAccountStatementComponent } from './components/suppliers-accou
 import { PurchasesLayoutComponent } from './purchases-layout/purchases-layout.component';
 import { CreateSupplierReturnsVoucherComponent } from './components/create-supplier-returns-voucher/create-supplier-returns-voucher.component';
 import { SupplierReturnsVouchersComponent } from './components/supplier-returns-vouchers/supplier-returns-vouchers.component';
+import { SuppliersListComponent } from './components/suppliers-list/suppliers-list.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { SupplierReturnsVouchersComponent } from './components/supplier-returns-
     InvoiceDetailsSidepanelComponent,
     CreateSupplierReturnsVoucherComponent,
     SupplierReturnsVouchersComponent,
+    SuppliersListComponent,
   ],
   imports: [
     CommonModule,
