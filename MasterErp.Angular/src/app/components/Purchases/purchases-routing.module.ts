@@ -8,6 +8,8 @@ import { PurchaseOrdersComponent } from './components/purchase-orders/purchase-o
 import { PurchaseReturnsComponent } from './components/purchase-returns/purchase-returns.component';
 import { SuppliersAccountStatementComponent } from './components/suppliers-account-statement/suppliers-account-statement.component';
 import { PurchasesLayoutComponent } from './purchases-layout/purchases-layout.component';
+import { CreateSupplierReturnsVoucherComponent } from './components/create-supplier-returns-voucher/create-supplier-returns-voucher.component';
+import { SupplierReturnsVouchersComponent } from './components/supplier-returns-vouchers/supplier-returns-vouchers.component';
 
 const routes: Routes = [
   {
@@ -22,6 +24,8 @@ const routes: Routes = [
       { path: 'add-purchase-order', component: AddPurchaseOrderComponent },
       { path: 'add-purchase-returns', component: AddPurchaseReturnsComponent },
       { path: 'suppliers-account-statement', component: SuppliersAccountStatementComponent },
+      { path: 'supplier-returns-voucher', component: SupplierReturnsVouchersComponent },
+      { path: 'add-supplier-returns-voucher', component: CreateSupplierReturnsVoucherComponent },
 
     ]
   }

@@ -5,7 +5,7 @@
     <div class="card-body bg-light">
         <div class="row mb-3">
             <div class="col-lg-4 offset-lg-1">
-                <app-erp-selector [SelectorName]="SupplierName" [ItemsList]="SuppliersList" (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector>
+                <app-erp-selector-with-search [SelectorName]="SupplierName" [ItemsList]="SuppliersList" (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector-with-search>
             </div>
             <div class="col-lg-4 mt-2">
                 <button class="btn btn-primary " (click)="loadData()">

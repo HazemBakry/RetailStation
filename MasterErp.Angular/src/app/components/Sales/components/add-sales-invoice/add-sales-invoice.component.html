@@ -57,10 +57,10 @@
 
 <app-order-products [selectedSupplierProducts]="ItemsBySupplier" [clearAllProducts]="clearAllProducts" (selectedProductsList)="GetSelectedProductsList($event)"></app-order-products>
 
-<div class="card radius-10 border-0 card-shadow mb-3">
+<div class="card radius-10 border-0 card-shadow mb-3" *ngIf="itemsCount">
     
     <div class="card-body bg-light">
-        <div class="row mb-3" *ngIf="itemsCount&&salesInvoiceModel.subTotal">
+        <div class="row mb-3" *ngIf="salesInvoiceModel.subTotal">
             <div class="col-lg-2 ">
                 <div >
                     <input type="number" class="form-control" [(ngModel)]="discountValue" (keyup)="setDiscountValue()" placeholder="الخصم..."
@@ -78,7 +78,7 @@
     
         </div>
     
-        <div class="row mb-3" *ngIf="itemsCount&&salesInvoiceModel.subTotal">
+        <div class="row mb-3" *ngIf="salesInvoiceModel.subTotal">
             <div class="widget-line">
                 <div class="col-lg-12 h-100">
                     <span class="text-muted fs-6 fw-bold float-left"> المجموع الفرعي ({{itemsCount}} منتجات)</span>
@@ -87,24 +87,28 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-3" *ngIf="salesInvoiceModel.discountPercent||salesInvoiceModel.discount">
+        <div class="row mb-3" >
             <div class="widget-line">
                 <div class="col-lg-12 h-100">
-                    <span class="text-muted fs-6 fw-bold float-left"> {{isPercentage ?'نسبة الخصم':'قيمة الخصم'}}</span>
+                    <span class="text-muted fs-6 fw-bold float-left"> 
+                        نسبة الخصم
+                        <!-- {{isPercentage ?'نسبة الخصم':'قيمة الخصم'}} -->
+                    </span>
                     <span> : </span>
                     <span class="fw-bold fs-6">
-                        {{ salesInvoiceModel.discountPercent ? salesInvoiceModel.discountPercent: salesInvoiceModel.discount}}
-                        {{isPercentage ?'%':''}}
+                        {{salesInvoiceModel.discountPercent ? salesInvoiceModel.discountPercent:0 | number: '1.2-2'}}%
+                        <!-- {{ salesInvoiceModel.discountPercent ? salesInvoiceModel.discountPercent: salesInvoiceModel.discount}}
+                        {{isPercentage ?'%':''}} -->
                     </span>
                 </div>
             </div>
         </div>
-        <div class="row mb-3" *ngIf="itemsCount&&salesInvoiceModel.totalValue">
+        <div class="row mb-3" *ngIf="itemsCount">
             <div class="widget-line">
                 <div class="col-lg-12 h-100">
                     <span class="text-muted fs-6 fw-bold float-left"> القيمة الاجمالية</span>
                     <span> : </span>
-                    <span class="fw-bold fs-6">{{salesInvoiceModel.totalValue}}</span>
+                    <span class="fw-bold fs-6">{{salesInvoiceModel.totalValue?salesInvoiceModel.totalValue:0}}</span>
                 </div>
             </div>
         </div>

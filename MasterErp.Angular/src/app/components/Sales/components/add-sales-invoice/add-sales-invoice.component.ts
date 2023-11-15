@@ -74,12 +74,12 @@ export class AddSalesInvoiceComponent implements OnInit {
         if(this.isPercentage)
         {
           this.salesInvoiceModel.discountPercent=Number(this.discountValue);
-          // this.salesInvoiceModel.discount=(this.salesInvoiceModel.subTotal*
-          //                                 (this.salesInvoiceModel.discountPercent/100));
+          this.salesInvoiceModel.discount=(this.salesInvoiceModel.subTotal*
+                                          (this.salesInvoiceModel.discountPercent/100));
         }
         else{
           this.salesInvoiceModel.discount=Number(this.discountValue);
-          // this.salesInvoiceModel.discountPercent=((this.salesInvoiceModel.discount*100)/(this.salesInvoiceModel.subTotal));
+          this.salesInvoiceModel.discountPercent=((this.salesInvoiceModel.discount*100)/(this.salesInvoiceModel.subTotal));
         }
     }
 

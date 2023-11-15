@@ -1,0 +1,65 @@
+<div class="card radius-10 border-0 card-shadow mb-3">
+    <div class="card-header bg-white">
+        <!-- <h5 class="m-0 fw-bold"> {{InvoiceNumber}}</h5> -->
+        <h6 class="m-0 fw-bold">أشعار خصم مورد</h6>
+    </div>
+    <div class="card-body bg-light">
+        <div class="row mb-3">
+            <div class="col-lg-4 mb-3">
+                <div class="form-floating">
+                    <input type="text" class="form-control" [(ngModel)]="supplierReturnsModel.invoiceNumber" placeholder="Invoice Number" disabled>
+                    <label>رقم الفاتورة</label>
+                </div>
+            </div>
+            <div class="col-lg-4 offset-lg-1">
+                <div class="form-floating">
+                    <input type="date" class="form-control input-size" [(ngModel)]="supplierReturnsModel.invoiceDate" id="floatingInput2" placeholder="any" autocomplete="off">
+                    <label for="floatingInput2">تاريخ الفاتورة</label>
+                </div>
+            </div>
+          
+        </div>
+        <div class="row mb-3">
+            <!-- <div class="col-lg-3">
+                <app-erp-selector-with-search [SelectorName]="'اسم الفرع'" [ItemsList]="BranchesList"
+                    (ItemObj)="GetSelectedBranch($event)"></app-erp-selector-with-search>
+            </div> -->
+
+            <div class="col-lg-4">
+                <app-erp-selector-with-search [SelectorName]="'اسم المورد'" [ItemsList]="SuppliersList"
+                    (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector-with-search>
+            </div>
+
+        </div>
+        <div class="row mb-3">
+            <div class="col-lg-9 h-100 ">
+                <div class="form-floating ">
+                    <textarea [(ngModel)]="supplierReturnsModel.notes" class="form-control" id="floatingInput6" placeholder="any"></textarea>
+                    <label for="floatingInput6">Notes</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-3">
+        <button *ngIf="!supplierReturnsModel.invoiceNumber" class="btn btn-primary btn-lg fs-6 me-2" (click)="CreateNewSupplierReturnsVoucher()">
+            <i class="fas fa-check-circle"></i>
+            <span class="ms-2">حفظ</span>
+        </button>
+        <button class="btn btn-secondary btn-lg fs-6 me-2" (click)="Print()">
+            <i class="fas fa-print"></i>
+            <span class="ms-2">طباعة</span>
+        </button>
+        <button class="btn btn-warning btn-lg fs-6 me-2 font-white" (click)="ClearAllFields()">
+            <i class="fas fa-trash"></i>
+            <span class="ms-2">افراغ الخانات</span>
+        </button>
+    </div>
+</div>
+
+
+
+<app-order-products [selectedSupplierProducts]="ItemsBySupplier" [clearAllProducts]="clearAllProducts" (selectedProductsList)="GetSelectedProductsList($event)"></app-order-products>
+
+
+<ngx-loading [show]="showLoader"></ngx-loading>

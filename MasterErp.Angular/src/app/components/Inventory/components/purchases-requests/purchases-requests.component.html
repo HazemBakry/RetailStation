@@ -2,9 +2,9 @@
     <div class="boxstyle1">
         <div class="boxstyle1-header bg-light">
             <div class="boxstyle1-header-left mb-3">
-                <button class="btn btn-primary" routerLink="/Sales/add-sales-invoice">
+                <button class="btn btn-primary" routerLink="/Inventory/add-purchases-request">
                     <i class="fas fa-plus-circle"></i>
-                    <span class="ms-2">انشاء فاتورة</span>
+                    <span class="ms-2">انشاء طلب شراء جديد</span>
                 </button>
             </div>
         </div>
@@ -30,27 +30,21 @@
                 <table class="table table-borderless align-middle table-middle mb-0 table-hover">
                     <thead>
                         <tr>
-                            <th>رقم الفاتورة</th>
-                            <th>الرقم الدفترى</th>
-                            <th>تاريخ الفاتورة</th>
-                            <th>الصافي قبل الخصم</th>
-                            <th>الخصم</th>
-                            <th>القيمة الإجمالية</th>
-                            <!-- <th class="text-center"></th> -->
+                            <th>رقم الطلب</th>
+                            <th>تاريخ الطلب</th>
+                            <th>اسم الفرع</th>
+                            <th>الحالة</th>
+                            <th>ملاحظات</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of pagedResponse.results">
-                            <td>{{item.invoiceNumber}}</td>
-                            <td>{{item.docNumber}}</td>
-                            <td>{{item.invoiceDate | date}}</td>
-                            
-                            <td>{{item.subTotal}}</td>
-                            <td>{{item.discount}}</td>
-                            <td>{{item.totalValue}}</td>
-                            <!-- <td>
-                                
-                            </td> -->
+                            <td>{{item.requestNumber}}</td>
+                            <td>{{item.requestDate | date}}</td>
+                            <td>{{item.branchName}}</td>
+                            <td>{{item.isDelivered}}</td>
+                            <td>{{item.notes}}</td>
+                          
                         </tr>
                     </tbody>
 

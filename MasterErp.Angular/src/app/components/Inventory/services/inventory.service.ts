@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { ReceiveOrderModel } from '../models/inventory';
 import { FilterModel } from '../../Shared/models/FilterModel';
 import { RawItemModel } from '../models/rawItem';
+import { PurchaseRequestModel } from '../models/PurchasesRequestModel';
 
 @Injectable({
   providedIn: 'root'
@@ -82,5 +83,17 @@ export class InventoryService {
 
   CancelReceiveOrder(OrderId: number) {
     return this.http.get<any[]>(this.URL + 'Inventory/CancelReceiveOrder?=OrderId' + OrderId);
+  }
+
+
+
+  ///////////////////
+
+  GetPurchasesRequestsData(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'PurchasesRequests/GetPurchasesRequestsData', model);
+  }
+
+  CreateNewPurchasesRequest(model: PurchaseRequestModel) {
+    return this.http.post<any>(this.URL + 'PurchasesRequests/CreateNewPurchasesRequest', model);
   }
 }
