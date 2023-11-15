@@ -1,119 +1,226 @@
 <div class="card radius-10 border-0 card-shadow mb-3">
-    <div class="card-header bg-white">
-        <!-- <h5 class="m-0 fw-bold">عملية مبيعات رقم : {{InvoiceNumber}}</h5> -->
-        <h6 class="m-0 fw-bold">انشاء فاتورة مبيعات</h6>
-    </div>
-    <div class="card-body bg-light">
-        <div class="row">
-            <div class="col-lg-4 mb-3">
-                <div class="form-floating">
-                    <input type="text" class="form-control" [(ngModel)]="salesInvoiceModel.invoiceNumber" placeholder="Invoice Number" disabled>
-                    <label>رقم الفاتورة</label>
-                </div>
-            </div>
-            <div class="col-lg-4 offset-lg-1">
-                <div class="form-floating">
-                    <input type="text" [(ngModel)]="salesInvoiceModel.docNumber" class="form-control input-size" id="floatingInput2" placeholder="any" autocomplete="off">
-                    <label for="floatingInput2">الرقم الدفتري</label>
-                </div>
-            </div>
-          
+  <div class="card-header bg-white">
+    <!-- <h5 class="m-0 fw-bold">عملية مبيعات رقم : {{InvoiceNumber}}</h5> -->
+    <h6 class="m-0 fw-bold">انشاء فاتورة مبيعات</h6>
+  </div>
+  <div class="card-body bg-light">
+    <div class="row">
+      <div class="col-lg-4 mb-3">
+        <div class="form-floating">
+          <input type="text" class="form-control" [(ngModel)]="salesInvoiceModel.invoiceNumber"
+            placeholder="Invoice Number" disabled>
+          <label>رقم الفاتورة</label>
         </div>
-        <div class="row">
-            <div class="col-lg-4 mb-3">
-                <div class="form-floating">
-                    <input type="date" class="form-control input-size" [(ngModel)]="salesInvoiceModel.invoiceDate" id="floatingInput2" placeholder="any" autocomplete="off">
-                    <label for="floatingInput2">تاريخ الفاتورة</label>
-                </div>
-            </div>
+      </div>
+      <div class="col-lg-4 offset-lg-1">
+        <div class="form-floating">
+          <input type="text" [(ngModel)]="salesInvoiceModel.docNumber" class="form-control input-size"
+            id="floatingInput2" placeholder="any" autocomplete="off">
+          <label for="floatingInput2">الرقم الدفتري</label>
         </div>
-        <div class="row">
-            <div class="col-lg-9 h-100 ">
-                <div class="form-floating ">
-                    <textarea [(ngModel)]="salesInvoiceModel.notes" class="form-control" id="floatingInput6" placeholder="any"></textarea>
-                    <label for="floatingInput6">Notes</label>
-                </div>
-            </div>
-        </div>
-    </div>
+      </div>
 
-    <div class="m-3">
-        <button *ngIf="!salesInvoiceModel.invoiceNumber" class="btn btn-primary btn-lg fs-6 me-2" (click)="CreateNewSalesInvoice()">
-            <i class="fas fa-check-circle"></i>
-            <span class="ms-2">حفظ</span>
-        </button>
-        <button class="btn btn-secondary btn-lg fs-6 me-2" (click)="Print()">
-            <i class="fas fa-print"></i>
-            <span class="ms-2">طباعة</span>
-        </button>
-        <button class="btn btn-warning btn-lg fs-6 me-2 font-white" (click)="ClearAllFields()">
-            <i class="fas fa-trash"></i>
-            <span class="ms-2">افراغ الخانات</span>
-        </button>
     </div>
+    <div class="row">
+      <div class="col-lg-4 mb-3">
+        <div class="form-floating">
+          <input type="date" class="form-control input-size" [(ngModel)]="salesInvoiceModel.invoiceDate"
+            id="floatingInput2" placeholder="any" autocomplete="off">
+          <label for="floatingInput2">تاريخ الفاتورة</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-9 h-100 ">
+        <div class="form-floating ">
+          <textarea [(ngModel)]="salesInvoiceModel.notes" class="form-control" id="floatingInput6"
+            placeholder="any"></textarea>
+          <label for="floatingInput6">Notes</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="m-3">
+    <button *ngIf="!salesInvoiceModel.invoiceNumber" class="btn btn-primary btn-lg fs-6 me-2"
+      (click)="CreateNewSalesInvoice()">
+      <i class="fas fa-check-circle"></i>
+      <span class="ms-2">حفظ</span>
+    </button>
+    <button class="btn btn-secondary btn-lg fs-6 me-2" (click)="Print()">
+      <i class="fas fa-print"></i>
+      <span class="ms-2">طباعة</span>
+    </button>
+    <button class="btn btn-warning btn-lg fs-6 me-2 font-white" (click)="ClearAllFields()">
+      <i class="fas fa-trash"></i>
+      <span class="ms-2">افراغ الخانات</span>
+    </button>
+  </div>
 </div>
 
 
+<div class="row g-3">
+  <div class="col-xl-9">
+    <app-order-products [selectedSupplierProducts]="ItemsBySupplier" [clearAllProducts]="clearAllProducts"
+      (selectedProductsList)="GetSelectedProductsList($event)"></app-order-products>
+  </div>
+  <div class="col-xl-3">
+    <div class="bg-white border rounded h-100">
+      <div class="d-flex justify-content-between px-4">
+        <div class="fw-semibold fs-5 d-flex align-items-center">التجارة</div>
+        <ul ngbNav #widgetNav="ngbNav" class="nav-tabs border-0 with-bb">
+          <li ngbNavItem>
+            <a ngbNavLink>الشراء</a>
+            <ng-template ngbNavContent>
+              <div
+                class="buy-coin-box pink-bg px-4 py-3 mb-3 fw-semibold d-flex align-items-center justify-content-between">
+                <div class="red-clr">شراء عملة</div>
+                <div>
+                  <span class="me-2 orange-clr">رصيد الريال السعودى :</span>
+                  <span>12,426.07 ريال</span>
+                </div>
+              </div>
+              <div class="px-4 py-3 mb-2">
+                <form>
+                  <div class="row g-3">
+                    <div class="col-lg-6">
+                      <div class="input-with-label">
+                        <label class="form-label">العملة</label>
+                        <select class="form-control">
+                          <option value="1">ريال سعودى</option>
+                          <option value="2">جنيه مصرى</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="input-with-label">
+                        <label class="form-label">طريقة الدفع</label>
+                        <select class="form-control">
+                          <option value="1">عند الاستلام</option>
+                          <option value="2">عن طريف الماكينة</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-12">
+                      <div class="input-group">
+                        <span class="input-group-text">الكمية</span>
+                        <input type="text" class="form-control" placeholder="0" />
+                      </div>
+                    </div>
+                    <div class="col-lg-12">
+                      <div class="input-group">
+                        <span class="input-group-text">السعر</span>
+                        <input type="text" class="form-control" placeholder="2.0145237">
+                        <span class="input-group-text">ريال</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-12">
+                      <div class="input-group">
+                        <span class="input-group-text">المجموع</span>
+                        <input type="text" class="form-control" placeholder="2700.16" />
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="px-4 py-3 mb-2">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <div class="fw-semibold">رسوم التحويل <span class="text-muted">(0.05%)</span></div>
+                  <div>1.08 ريال</div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <div class="fw-semibold">تلقى الحد الأدنى <span class="text-muted">(2%)</span></div>
+                  <div>7.85 ريال</div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <div class="fw-semibold">المعدل المقدر <span class="text-muted">(0.05%)</span></div>
+                  <div>
+                    <span>10 ريال</span>
+                    <span class="mx-2">-</span>
+                    <span>100 ريال</span>
+                  </div>
+                </div>
+              </div>
+              <div class="px-4 pb-3">
+                <button class="btn btn-primary btn-lg align-items-center justify-content-center w-100 py-3">
+                  <i class="fas fa-coins"></i>
+                  <div class="ms-2">شراء العملة</div>
+                </button>
+              </div>
+            </ng-template>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink>البيع</a>
+            <ng-template ngbNavContent>
+              <div class="px-4 py-3">Sell Content</div>
+            </ng-template>
+          </li>
+        </ul>
+      </div>
 
-<app-order-products [selectedSupplierProducts]="ItemsBySupplier" [clearAllProducts]="clearAllProducts" (selectedProductsList)="GetSelectedProductsList($event)"></app-order-products>
+      <div [ngbNavOutlet]="widgetNav"></div>
+    </div>
+  </div>
+</div>
 
 <div class="card radius-10 border-0 card-shadow mb-3" *ngIf="itemsCount">
-    
-    <div class="card-body bg-light">
-        <div class="row mb-3" *ngIf="salesInvoiceModel.subTotal">
-            <div class="col-lg-2 ">
-                <div >
-                    <input type="number" class="form-control" [(ngModel)]="discountValue" (keyup)="setDiscountValue()" placeholder="الخصم..."
-                        style="width: 100px;height: 30px;">
-                </div>
-            </div>
-            <div class="col-lg-2 ">
-                <div class="form-check form-switch my-2">
-                    <input (change)="setDiscountValue()" [(ngModel)]="isPercentage" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                    <label class="form-check-label" for="flexSwitchCheckDefault">نسبة</label>
-                </div>
-            </div>
-    
-            
-    
+
+  <div class="card-body bg-light">
+    <div class="row mb-3" *ngIf="salesInvoiceModel.subTotal">
+      <div class="col-lg-2 ">
+        <div>
+          <input type="number" class="form-control" [(ngModel)]="discountValue" (keyup)="setDiscountValue()"
+            placeholder="الخصم..." style="width: 100px;height: 30px;">
         </div>
-    
-        <div class="row mb-3" *ngIf="salesInvoiceModel.subTotal">
-            <div class="widget-line">
-                <div class="col-lg-12 h-100">
-                    <span class="text-muted fs-6 fw-bold float-left"> المجموع الفرعي ({{itemsCount}} منتجات)</span>
-                    <span> : </span>
-                    <span class="fw-bold fs-6">{{salesInvoiceModel.subTotal}}</span>
-                </div>
-            </div>
+      </div>
+      <div class="col-lg-2 ">
+        <div class="form-check form-switch my-2">
+          <input (change)="setDiscountValue()" [(ngModel)]="isPercentage" class="form-check-input" type="checkbox"
+            role="switch" id="flexSwitchCheckDefault">
+          <label class="form-check-label" for="flexSwitchCheckDefault">نسبة</label>
         </div>
-        <div class="row mb-3" >
-            <div class="widget-line">
-                <div class="col-lg-12 h-100">
-                    <span class="text-muted fs-6 fw-bold float-left"> 
-                        نسبة الخصم
-                        <!-- {{isPercentage ?'نسبة الخصم':'قيمة الخصم'}} -->
-                    </span>
-                    <span> : </span>
-                    <span class="fw-bold fs-6">
-                        {{salesInvoiceModel.discountPercent ? salesInvoiceModel.discountPercent:0 | number: '1.2-2'}}%
-                        <!-- {{ salesInvoiceModel.discountPercent ? salesInvoiceModel.discountPercent: salesInvoiceModel.discount}}
-                        {{isPercentage ?'%':''}} -->
-                    </span>
-                </div>
-            </div>
-        </div>
-        <div class="row mb-3" *ngIf="itemsCount">
-            <div class="widget-line">
-                <div class="col-lg-12 h-100">
-                    <span class="text-muted fs-6 fw-bold float-left"> القيمة الاجمالية</span>
-                    <span> : </span>
-                    <span class="fw-bold fs-6">{{salesInvoiceModel.totalValue?salesInvoiceModel.totalValue:0}}</span>
-                </div>
-            </div>
-        </div>
+      </div>
+
+
+
     </div>
 
-   
+    <div class="row mb-3" *ngIf="salesInvoiceModel.subTotal">
+      <div class="widget-line">
+        <div class="col-lg-12 h-100">
+          <span class="text-muted fs-6 fw-bold float-left"> المجموع الفرعي ({{itemsCount}} منتجات)</span>
+          <span> : </span>
+          <span class="fw-bold fs-6">{{salesInvoiceModel.subTotal}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="widget-line">
+        <div class="col-lg-12 h-100">
+          <span class="text-muted fs-6 fw-bold float-left">
+            نسبة الخصم
+            <!-- {{isPercentage ?'نسبة الخصم':'قيمة الخصم'}} -->
+          </span>
+          <span> : </span>
+          <span class="fw-bold fs-6">
+            {{salesInvoiceModel.discountPercent ? salesInvoiceModel.discountPercent:0 | number: '1.2-2'}}%
+            <!-- {{ salesInvoiceModel.discountPercent ? salesInvoiceModel.discountPercent: salesInvoiceModel.discount}}
+                        {{isPercentage ?'%':''}} -->
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3" *ngIf="itemsCount">
+      <div class="widget-line">
+        <div class="col-lg-12 h-100">
+          <span class="text-muted fs-6 fw-bold float-left"> القيمة الاجمالية</span>
+          <span> : </span>
+          <span class="fw-bold fs-6">{{salesInvoiceModel.totalValue?salesInvoiceModel.totalValue:0}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </div>
 <ngx-loading [show]="showLoader"></ngx-loading>

@@ -1,7 +1,7 @@
 .main-content {
   position: relative;
   top: var(--nav-link-height);
-  width: calc(100vw - var(--aside-bar-width));
+  width: calc(100vw - 260px);
   min-height: calc(100vh - var(--nav-link-height));
   margin-right: 260px;
   padding: 15px 30px 20px 20px;
