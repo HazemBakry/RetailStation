@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MasterErp.Entities.Common.Inventory.PurchasesRequests;
+using Microsoft.EntityFrameworkCore;
+using MasterErp.Entities.DTOs.Inventory;
 
 namespace MasterErp.Service.Inventory
 {
@@ -36,7 +38,7 @@ namespace MasterErp.Service.Inventory
         }
 
 
-        public PagedResponseDTO<PurchaseRequest> GetPurchasesRequestsData(FilterModel model)
+        public PagedResponseDTO<PurchasesRequestDTO> GetPurchasesRequestsData(FilterModel model)
         {
             //var data= Context.PurchaseRequest.ToList();
 
@@ -44,14 +46,58 @@ namespace MasterErp.Service.Inventory
 
             int skip = (model.CurrentPage - 1) * model.PageSize;
 
-            var data = Context.PurchaseRequest
-                .OrderByDescending(e => e.RequestDate)
-                .Skip(skip)
-                .Take(model.PageSize)
-                .ToList();
+            //var data = Context.PurchaseRequest
+            //    .OrderByDescending(e => e.RequestDate)
+            //    .Skip(skip)
+            //    .Take(model.PageSize)
+            //.ToList();
 
+            //var data = Context.PurchaseRequest
+            //            .Join(
+            //                Context.Branches,
+            //                req => req.BranchId,
+            //                branch => branch.BranchId,
+            //                (req, branch) => new PurchasesRequestDTO
+            //                {
+            //                    PurchaseRequestId = req.PurchaseRequestId,
+            //                    RequestNumber = req.RequestNumber,
+            //                    RequestDate = req.RequestDate,
+            //                    BranchId = req.BranchId,
+            //                    Notes = req.Notes,
+            //                    IsDelivered = req.IsDelivered,
+            //                    InsertUser = req.InsertUser,
+            //                    InsertDate = req.InsertDate,
+            //                    UpdateUser = req.UpdateUser,
+            //                    UpdateDate = req.UpdateDate,
+            //                    BranchName=branch.NameEN?? branch.NameAR
+            //                })
+            //                .OrderByDescending(e => e.RequestDate)
+            //                .Skip(skip)
+            //                .Take(model.PageSize)
+            //                .ToList();
 
-            return new PagedResponseDTO<PurchaseRequest>
+            var data = (from req in Context.PurchaseRequest
+                        join branch in Context.Branches
+                        on req.BranchId equals branch.BranchId into temp
+                        from res in temp.DefaultIfEmpty()
+                        select new PurchasesRequestDTO
+                        {
+                            PurchaseRequestId = req.PurchaseRequestId,
+                            RequestNumber = req.RequestNumber,
+                            RequestDate = req.RequestDate,
+                            BranchId = req.BranchId,
+                            Notes = req.Notes,
+                            IsDelivered = req.IsDelivered,
+                            InsertUser = req.InsertUser,
+                            InsertDate = req.InsertDate,
+                            UpdateUser = req.UpdateUser,
+                            UpdateDate = req.UpdateDate,
+                            BranchName= res.NameEN?? res.NameAR
+                        }).OrderByDescending(e => e.RequestDate)
+                            .Skip(skip)
+                            .Take(model.PageSize)
+                            .ToList();
+            return new PagedResponseDTO<PurchasesRequestDTO>
             {
                 TotalCount = totalCount,
                 Results = data,

@@ -4,7 +4,7 @@ export interface SupplierReturnsVoucherModel {
     supplierReturnsVoucherId: number | null;
     invoiceNumber: number | null;
     supplierId: number;
-    branchId: number;
+    // branchId: number;
     totalValue: number;
     invoiceDate: string | null;
     notes: string;

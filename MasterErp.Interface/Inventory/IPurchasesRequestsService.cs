@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Common.Inventory.PurchasesRequests;
+using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace MasterErp.Interface.Inventory
 {
     public interface IPurchasesRequestsService
     {
-        PagedResponseDTO<PurchaseRequest> GetPurchasesRequestsData(FilterModel model);
+        PagedResponseDTO<PurchasesRequestDTO> GetPurchasesRequestsData(FilterModel model);
         CreateModifyReturnsModel CreateNewPurchasesRequest(PurchaseRequestModel model);
 
     }

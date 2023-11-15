@@ -1,5 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.Purchases;
+using MasterErp.Entities.DTOs.Inventory;
+using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Finance.Purchase;
@@ -34,7 +36,7 @@ namespace MasterErp.Service.Finance.Purchase
             Configuration = _configuration;
         }
 
-        public PagedResponseDTO<SupplierReturnsVoucher> GetSupplierReturnsVoucherData(FilterModel model)
+        public PagedResponseDTO<SupplierReturnsVoucherDTO> GetSupplierReturnsVoucherData(FilterModel model)
         {
             //var data= Context.SupplierReturnsVoucher.ToList();
 
@@ -42,14 +44,37 @@ namespace MasterErp.Service.Finance.Purchase
 
             int skip = (model.CurrentPage - 1) * model.PageSize;
 
-            var data = Context.SupplierReturnsVoucher
-                .OrderByDescending(e => e.InvoiceDate)
-                .Skip(skip)
-                .Take(model.PageSize)
-                .ToList();
+            //var data = Context.SupplierReturnsVoucher
+            //    .OrderByDescending(e => e.InvoiceDate)
+            //    .Skip(skip)
+            //    .Take(model.PageSize)
+            //    .ToList();
 
+            var data = (from returns in Context.SupplierReturnsVoucher
+                        join supplier in Context.Suppliers
+                        on returns.SupplierId equals supplier.SupplierId into temp
+                        from res in temp.DefaultIfEmpty()
+                        select new SupplierReturnsVoucherDTO
+                        {
+                            SupplierReturnsVoucherId = returns.SupplierReturnsVoucherId,
+                            InvoiceNumber = returns.InvoiceNumber,
+                            InvoiceDate = returns.InvoiceDate,
+                            TotalValue = returns.TotalValue,
+                            SupplierId = returns.SupplierId,
+                            Notes = returns.Notes,
+                            IsCancelled = returns.IsCancelled,
+                            IsLocked = returns.IsLocked,
+                            InsertUser = returns.InsertUser,
+                            InsertDate = returns.InsertDate,
+                            UpdateUser = returns.UpdateUser,
+                            UpdateDate = returns.UpdateDate,
+                            SupplierName = res.NameEN ?? res.NameAR
+                        }).OrderByDescending(e => e.InvoiceNumber)
+                           .Skip(skip)
+                           .Take(model.PageSize)
+                           .ToList();
 
-            return new PagedResponseDTO<SupplierReturnsVoucher>
+            return new PagedResponseDTO<SupplierReturnsVoucherDTO>
             {
                 TotalCount = totalCount,
                 Results = data,

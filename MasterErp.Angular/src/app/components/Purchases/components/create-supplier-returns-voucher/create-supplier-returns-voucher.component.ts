@@ -13,7 +13,7 @@ import { PurchaseService } from '../../services/purchase.service';
   styleUrls: ['./create-supplier-returns-voucher.component.css'],
 })
 export class CreateSupplierReturnsVoucherComponent implements OnInit {
-  BranchesList: any[] = [];
+  // BranchesList: any[] = [];
   SuppliersList: any[] = [];
   ProductsList: OrderDetailModel[] = [];
   ItemsBySupplier: OrderDetailModel[] = [];
@@ -34,15 +34,15 @@ export class CreateSupplierReturnsVoucherComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.GetBranchesData();
+    // this.GetBranchesData();
     this.GetSuppliersData();
   }
 
-  GetBranchesData() {
-    this.purchaseService.GetBranchesData().subscribe((data) => {
-      this.BranchesList = data;
-    });
-  }
+  // GetBranchesData() {
+  //   this.purchaseService.GetBranchesData().subscribe((data) => {
+  //     this.BranchesList = data;
+  //   });
+  // }
 
   GetSuppliersData() {
     this.sharedService.GetSuppliersData().subscribe((data) => {
@@ -55,9 +55,9 @@ export class CreateSupplierReturnsVoucherComponent implements OnInit {
 
   }
 
-  GetSelectedBranch(item: any) {
-    this.supplierReturnsModel.branchId = item.branchId;
-  }
+  // GetSelectedBranch(item: any) {
+  //   this.supplierReturnsModel.branchId = item.branchId;
+  // }
   GetSelectedSupplier(item: any) {
     this.supplierReturnsModel.supplierId = item.supplierId;
     
@@ -87,8 +87,7 @@ export class CreateSupplierReturnsVoucherComponent implements OnInit {
     if (
       model.items?.length == 0 ||
       !model.invoiceDate ||
-      !model.supplierId ||
-      !model.branchId
+      !model.supplierId 
     ) {
       this.toaster.warning('يرجي ملئ جميع الخانات');
       return false;

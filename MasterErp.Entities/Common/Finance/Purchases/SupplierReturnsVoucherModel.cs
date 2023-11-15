@@ -11,7 +11,7 @@ namespace MasterErp.Entities.Common.Finance.Purchases
         public int? SupplierReturnsVoucherId { get; set; }
         public int? InvoiceNumber { get; set; }
         public int SupplierId { get; set; }
-        public int BranchId { get; set; }
+        //public int BranchId { get; set; }
         public double TotalValue { get; set; }
         public DateTime? InvoiceDate { get; set; }
         public string Notes { get; set; }
