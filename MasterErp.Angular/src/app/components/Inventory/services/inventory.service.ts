@@ -14,10 +14,10 @@ export class InventoryService {
 
   constructor(private http: HttpClient) { }
 
-  // -------------------------------------- Raw Items -------------------------------------- //
+  // -------------------------------------- Items -------------------------------------- //
 
-  GetRawItems(RawCategoryId: number, SearchText: string) {
-    return this.http.get<any[]>(this.URL + 'RawItem/GetRawItems?RawCategoryId=' + RawCategoryId + '&SearchText=' + SearchText);
+  GetItemsList(RawCategoryId: number, SearchText: string) {
+    return this.http.get<any[]>(this.URL + 'Item/GetItemsList?RawCategoryId=' + RawCategoryId + '&SearchText=' + SearchText);
   }
 
   GetRawItemsDeleted(RawCategoryId: number, SearchText: string) {

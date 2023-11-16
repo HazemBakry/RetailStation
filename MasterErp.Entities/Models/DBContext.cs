@@ -58,13 +58,16 @@ namespace MasterErp.Entities.Models
         public DbSet<Sponsor> Sponsors { get; set; }
         public DbSet<SickLeave> SickLeaves { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
-        public DbSet<Units> Units { get; set; }
+        public DbSet<Unit> Units { get; set; }
         public DbSet<Vacation> Vacations { get; set; }
 
 
         //Elassal
 
 
+        public DbSet<ItemSupplier> ItemSuppliers { get; set; }
+        public DbSet<RawItem> RawItems { get; set; }
+        public DbSet<RawItemCategory> RawItemCategories { get; set; }
         public DbSet<PurchaseReturns> PurchaseReturns { get; set; }
         public DbSet<PurchaseReturnsDetails> PurchaseReturnsDetails { get; set; }
         public DbSet<PurchaseInvoiceType> PurchaseInvoiceTypes { get; set; }

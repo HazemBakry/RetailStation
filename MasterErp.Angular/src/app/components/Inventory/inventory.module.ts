@@ -12,6 +12,7 @@ import { ItemsCategoryComponent } from './components/items-category/items-catego
 import { InventoryLayoutComponent } from './inventory-layout/inventory-layout.component';
 import { CreatePurchasesRequestComponent } from './components/create-purchases-request/create-purchases-request.component';
 import { PurchasesRequestsComponent } from './components/purchases-requests/purchases-requests.component';
+import { AddItemComponent } from './components/add-item/add-item.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { PurchasesRequestsComponent } from './components/purchases-requests/purc
     RawItemsComponent,
     ItemsCategoryComponent,
     CreatePurchasesRequestComponent,
-    PurchasesRequestsComponent
+    PurchasesRequestsComponent,
+    AddItemComponent
   ],
   imports: [
     CommonModule,
