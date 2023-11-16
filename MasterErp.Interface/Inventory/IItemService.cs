@@ -17,5 +17,17 @@ namespace MasterErp.Interface.Inventory
         DataTable GetItemsData();
         DataTable GetItemsByLookupId(int LookupId);
         DataTable GetItemsBySupplierId(int SupplierId);
+
+
+        DataTable GetItemsList(int RawCategoryId, string SearchText);
+        DataTable GetRawItemsDeleted(int RawCategoryId, string SearchText);
+        List<RawItemCategory> GetAllRawItemCategories();
+        List<RawItem> GetRawItemsByCategoryId(int CategoryId);
+        RawItemModel GetRawItemDetailsByRawItemId(int RawItemId);
+        bool AddNewRawItem(RawItemModel model);
+        bool EditRawItem(RawItemModel model);
+        (int key, string message) DeleteRawItem(int RawItemId);
+        string ExportAllRawItems(int categoryId, string SearchText, string UserName);
+        string ExportRawItemsDeleted(int categoryId, string SearchText, string UserName);
     }
 }

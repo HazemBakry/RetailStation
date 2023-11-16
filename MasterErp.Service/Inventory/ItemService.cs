@@ -79,5 +79,235 @@ namespace MasterErp.Service.Inventory
             return result;
         }
 
+
+
+
+        public DataTable GetItemsList(int RawCategoryId, string SearchText)
+        {
+
+            SqlParameter[] Params = new SqlParameter[2];
+
+            string SearchParam = SearchText == "undefined" || SearchText == "null" ? null : SearchText;
+            Params[0] = new SqlParameter("@RawCategoryID", (object)RawCategoryId ?? DBNull.Value);
+            Params[1] = new SqlParameter("@SearchText", (object)SearchParam ?? DBNull.Value);
+
+            var results = SQLHelper.ExecuteDataTable("[dbo].[SP_GetItemsList]", ConnectionString, Params);
+            return results;
+        }
+
+        public DataTable GetRawItemsDeleted(int RawCategoryId, string SearchText)
+        {
+
+            SqlParameter[] Params = new SqlParameter[2];
+
+            string SearchParam = SearchText == "undefined" || SearchText == "null" ? null : SearchText;
+            Params[0] = new SqlParameter("@RawCategoryID", (object)RawCategoryId ?? DBNull.Value);
+            Params[1] = new SqlParameter("@SearchText", (object)SearchParam ?? DBNull.Value);
+
+            var results = SQLHelper.ExecuteDataTable("[dbo].[SP_GetRawItemsDeleted]", ConnectionString, Params);
+            return results;
+        }
+
+        public List<RawItemCategory> GetAllRawItemCategories()
+        {
+            var results = Context.RawItemCategories.ToList();
+            return results;
+        }
+
+        public List<RawItem> GetRawItemsByCategoryId(int CategoryId)
+        {
+            var results = Context.RawItems.Where(i => i.RawCategoryId == CategoryId).ToList();
+            return results;
+        }
+
+        public RawItemModel GetRawItemDetailsByRawItemId(int RawItemId)
+        {
+            SqlParameter[] Params = new SqlParameter[1];
+
+            Params[0] = new SqlParameter("@RawItemId", (object)RawItemId ?? DBNull.Value);
+
+            var dt = SQLHelper.SQLQuery<RawItemModel>("[dbo].[SP_GetRawItemDetailsByRawItemId]", ConnectionString, Params);
+            var grpList = dt.GroupBy(x => new { x.RawItemId })
+                .Select(f => new RawItemModel
+                {
+                    RawItemId = f.FirstOrDefault().RawItemId,
+                    NameEn = f.FirstOrDefault().NameEn,
+                    NameAr = f.FirstOrDefault().NameAr,
+                    SubUnitId = f.FirstOrDefault().SubUnitId,
+                    MainUnitId = f.FirstOrDefault().MainUnitId,
+                    RawCategoryId = f.FirstOrDefault().RawCategoryId,
+                    CategoryName = f.FirstOrDefault().CategoryName,
+                    SubUnitName = f.FirstOrDefault().SubUnitName,
+                    MainUnitName = f.FirstOrDefault().MainUnitName,
+                    Cost = f.FirstOrDefault().Cost,
+                    PurchasePrice = f.FirstOrDefault().PurchasePrice,
+                    Yield = f.FirstOrDefault().Yield,
+                    ItemType = f.FirstOrDefault().ItemType,
+                    ConvertRatio = f.FirstOrDefault().ConvertRatio,
+                    IsActive = f.FirstOrDefault().IsActive,
+                    ItemsSupplier = f.Where(y => !string.IsNullOrEmpty(y.SupplierName)).GroupBy(x => new { x.SupplierId }).Select(x => new ItemSupplier
+                    {
+                        SupplierId = x.FirstOrDefault().SupplierId,
+                        ItemId = x.FirstOrDefault().SupplierItemId,
+                        SupplierName = x.FirstOrDefault().SupplierName,
+                        ItemName = x.FirstOrDefault().SupplierItemName,
+                    }).ToList(),
+                }).FirstOrDefault();
+
+            return grpList;
+        }
+
+        public bool AddNewRawItem(RawItemModel model)
+        {
+            try
+            {
+                RawItem rawItem = new RawItem
+                {
+                    NameAr = model.NameAr,
+                    NameEn = model.NameEn,
+                    Cost = model.Cost,
+                    PurchasePrice = model.PurchasePrice,
+                    Yield = model.Yield,
+                    ConvertRatio = model.ConvertRatio,
+                    SubUnitId = model.SubUnitId,
+                    MainUnitId = model.MainUnitId,
+                    UnitId = model.MainUnitId,
+                    RawCategoryId = model.RawCategoryId,
+                    InsertUser = model.InsertUser,
+                    InsertDate = DateTime.Now,
+                    IsActive = model.IsActive,
+                    ItemType = model.ItemType
+                };
+
+                Context.RawItems.Add(rawItem);
+                Context.SaveChanges();
+
+                foreach (var itemSub in model.ItemsSupplier)
+                {
+                    Context.ItemSuppliers.Add(new ItemSupplier
+                    {
+                        ItemId = rawItem.RawItemId,
+                        SupplierId = itemSub.SupplierId
+                    });
+
+                    Context.SaveChanges();
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public bool EditRawItem(RawItemModel model)
+        {
+            var rawItem = Context.RawItems.Where(i => i.RawItemId == model.RawItemId).FirstOrDefault();
+            if (rawItem != null)
+            {
+                rawItem.NameAr = model.NameAr;
+                rawItem.NameEn = model.NameEn;
+                rawItem.Cost = model.Cost;
+                rawItem.PurchasePrice = model.PurchasePrice;
+                rawItem.Yield = model.Yield;
+                rawItem.ConvertRatio = model.ConvertRatio;
+                rawItem.SubUnitId = model.SubUnitId;
+                rawItem.MainUnitId = model.MainUnitId;
+                rawItem.RawCategoryId = model.RawCategoryId;
+                rawItem.InsertUser = model.InsertUser;
+                rawItem.InsertDate = DateTime.Now;
+                rawItem.IsActive = model.IsActive;
+                Context.SaveChanges();
+
+                var ItemsSupplier = Context.ItemSuppliers.Where(x => x.ItemId == model.RawItemId).ToList();
+                Context.ItemSuppliers.RemoveRange(ItemsSupplier);
+                Context.SaveChanges();
+
+                foreach (var itemSub in model.ItemsSupplier)
+                {
+                    Context.ItemSuppliers.Add(new ItemSupplier
+                    {
+                        ItemId = rawItem.RawItemId,
+                        SupplierId = itemSub.SupplierId
+                    });
+
+                    Context.SaveChanges();
+                }
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public (int key, string message) DeleteRawItem(int RawItemId)
+        {
+            try
+            {
+                var item = Context.RawItems.FirstOrDefault(m => m.RawItemId == RawItemId);
+                if (item != null)
+                {
+                    Context.Remove(item);
+                    Context.SaveChanges();
+                }
+                return (200, "Item Removed Successfully");
+            }
+            catch (Exception ex)
+            {
+                return (100, "Item Not Found");
+            }
+        }
+
+        public DataTable GetAllRawItemsExportData(int categoryId, string SearchText)
+        {
+            SqlParameter[] Params = new SqlParameter[2];
+            string SearchParam = SearchText == "undefined" || SearchText == "null" ? null : SearchText;
+            Params[0] = new SqlParameter("@RawCategoryID", (object)categoryId ?? DBNull.Value);
+            Params[1] = new SqlParameter("@SearchText", (object)SearchParam ?? DBNull.Value);
+
+            return SQLHelper.ExecuteDataTable("[dbo].[SP_GetAllRawItemsExportData]", ConnectionString, Params);
+        }
+
+        public DataTable GetRawItemsDeletedExportData(int categoryId, string SearchText)
+        {
+            SqlParameter[] Params = new SqlParameter[2];
+            string SearchParam = SearchText == "undefined" || SearchText == "null" ? null : SearchText;
+            Params[0] = new SqlParameter("@RawCategoryID", (object)categoryId ?? DBNull.Value);
+            Params[1] = new SqlParameter("@SearchText", (object)SearchParam ?? DBNull.Value);
+
+            return SQLHelper.ExecuteDataTable("[dbo].[SP_GetRawItemsDeletedExportData]", ConnectionString, Params);
+        }
+
+        public string ExportAllRawItems(int categoryId, string SearchText, string UserName)
+        {
+            var dt = GetAllRawItemsExportData(categoryId, SearchText);
+            var filePath = GetExportFilePath(dt, UserName, "RawItemsDisabled");
+
+            return filePath;
+        }
+
+        public string ExportRawItemsDeleted(int categoryId, string SearchText, string UserName)
+        {
+            var dt = GetRawItemsDeletedExportData(categoryId, SearchText);
+            var filePath = GetExportFilePath(dt, UserName, "RawItemsDisabled");
+
+            return filePath;
+        }
+
+        private string GetExportFilePath(DataTable dt, string UserName, string TemplateName)
+        {
+            //ExportTemplateBase exportTemplateBase = new ExportTemplateBase
+            //{
+            //    Name = "RawItems",
+            //    TemplateName = TemplateName,
+            //    UserName = UserName
+            //};
+            //var filePath = _exportManager.Export(exportTemplateBase, ExportFormat.Excel, dt);
+            //return filePath;
+            return "";
+        }
     }
+
+
 }

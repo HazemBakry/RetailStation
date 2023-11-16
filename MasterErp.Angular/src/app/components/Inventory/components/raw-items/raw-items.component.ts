@@ -19,10 +19,10 @@ export class RawItemsComponent implements OnInit {
   showLoader: boolean;
   TotalCount: any;
   TotalPages: any;
-  CategoryId: any;
+  CategoryId: number = 0;
   CategoryName: any;
   ItemId: any;
-  SearchText: any;
+  SearchText: any = "";
   FilterModel: FilterModel = {
     currentPage: 1,
     pageSize: 25
@@ -35,39 +35,17 @@ export class RawItemsComponent implements OnInit {
   ngOnInit(): void {
     //this.UserModel = JSON.parse(localStorage.getItem('UserModel') as any);
     //this.FormInit();
-    this.GetRawItems();
-    this.GetRawItemCategories();
+    this.GetItemsList();
+    //this.GetRawItemCategories();
   }
-
-  // FormInit() {
-  //   this.form = this.fb.group({
-  //     rawItemId: null,
-  //     nameAr: null,
-  //     nameEn: null,
-  //     cost: null,
-  //     unitId: null,
-  //     isActive: false,
-  //   });
-  // }
-
-  // FillEditForm(item: any) {
-  //   this.form.setValue({
-  //     rawItemId: item.rawItemId,
-  //     nameAr: item.nameAr,
-  //     nameEn: item.nameEn,
-  //     cost: item.cost,
-  //     unitId: item.unitId,
-  //     isActive: item.isActive,
-  //   });
-  // }
 
   deleteRawItem(content: any, itemId: any) {
     this.ItemId = itemId;
     this.modalService.open(content, { size: 'md', centered: true });
   }
 
-  GetRawItems() {
-    this.invenService.GetRawItems(this.CategoryId, this.SearchText).subscribe(data => {
+  GetItemsList() {
+    this.invenService.GetItemsList(this.CategoryId, this.SearchText).subscribe(data => {
       this.RawItems = data;
       this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
       this.showLoader = false;
@@ -86,14 +64,14 @@ export class RawItemsComponent implements OnInit {
 
   pageChanged(obj: any) {
     this.FilterModel.currentPage = obj.page;
-    this.GetRawItems();
+    this.GetItemsList();
   }
 
   DeleteRawItem(ItemId: any) {
     this.invenService.DeleteRawItem(ItemId).subscribe(data => {
       if (data.item1 == 200) {
         this.toaster.success('Delete Successfully');
-        this.GetRawItems();
+        this.GetItemsList();
       } else {
         this.toaster.error('Error Happened! ');
       }
@@ -103,7 +81,7 @@ export class RawItemsComponent implements OnInit {
   onCategoryClick(item: any) {
     this.CategoryName = item.nameEn;
     this.CategoryId = item.id;
-    this.GetRawItems();
+    this.GetItemsList();
   }
 
   ExportRawItems() {
