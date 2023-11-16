@@ -27,7 +27,7 @@ const routes: Routes = [
       { path: 'suppliers-account-statement', component: SuppliersAccountStatementComponent },
       { path: 'supplier-returns-voucher', component: SupplierReturnsVouchersComponent },
       { path: 'add-supplier-returns-voucher', component: CreateSupplierReturnsVoucherComponent },
-      { path: 'supplier-list', component: SupplierListComponent },
+      { path: 'suppliers-list', component: SupplierListComponent },
 
     ]
   }
