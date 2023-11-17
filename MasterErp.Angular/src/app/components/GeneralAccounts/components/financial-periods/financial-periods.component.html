@@ -1,1 +1,156 @@
-<p>financial-periods works!</p>
+<div class="card radius-10 border-0 card-shadow mb-3">
+    <div class="boxstyle1">
+        <div class="boxstyle1-header bg-light">
+            <div class="boxstyle1-header-left mb-3">
+                <button class="btn btn-primary" (click)="openModal(CreateNewReceiptLedgerModal)">
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="ms-2">أضافة</span>
+                </button>
+            </div>
+        </div>
+        <div class="card radius-10 border-0 card-shadow">
+            <div class="card-body">
+                <div class="main-card-action pb-3">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- <div class="col-md-12">
+                                <div class="d-flex align-items-center flex-wrap">
+                                    <ng-container *ngIf="filterList.length > 0">
+                                        <app-pos-filters [FilterList]="filterList"
+                                            (filterChanged)="filterChecked($event)"></app-pos-filters>
+                                    </ng-container>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="col-md-4">
+                            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage" [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount" [totalPages]="pagedResponse.totalPages"></app-erp-pagination>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive table-vp-height small-scroll">
+                        <table class="table table-borderless align-middle table-middle mb-0 table-hover">
+                            <thead>
+                                <tr>
+                                    <th>الاسم (AR)</th>
+                                    <th>الاسم (EN)</th>
+                                    <th>الكود</th>
+                                    <th>أقفال</th>
+                                    <th>نشط</th>                                    
+                                    <th>ملاحظات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of pagedResponse.results">
+                                    <td>{{item.nameAR}}</td>
+                                    <td>{{item.nameEN}}</td>
+                                    <td>{{item.code}}</td>
+                                    <td>{{item.isLocked}}</td>
+                                    <td>{{item.isActive}}</td>
+                                    <td>{{item.notes}}</td>
+                                  
+                                </tr>
+                            </tbody>
+        
+                        </table>
+                    </div>
+                </div>
+                <app-empty-data [showContainer]="!pagedResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #CreateNewReceiptLedgerModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">أضافة</h4>
+        <button type="button" class="btn btn-danger py-0 px-3 rounded fs-4 fw-bold" (click)="modal.dismiss()">
+            <i class="uil uil-times"></i>
+        </button>
+    </div>
+    <div class="modal-body bg-light">
+
+        <div class="card-body bg-light">
+            <div class="row mb-3">
+                <div class="col-lg-5 mb-3">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" [(ngModel)]="financialPeriodModel.nameAR" placeholder="Arabic Name">
+                        <label>الأسم العربي</label>
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" [(ngModel)]="financialPeriodModel.nameEN" placeholder="English Name">
+                        <label>الأسم الانجليزي</label>
+                    </div>
+                </div>
+              
+            </div>
+            <div class="row mb-3">
+                <div class="col-lg-5 mb-3">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" [(ngModel)]="financialPeriodModel.code" placeholder="Code">
+                        <label>الكود</label>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 offset-lg-1">
+                    <div class="form-check form-switch my-2">
+                      <input  [(ngModel)]="financialPeriodModel.isLocked" class="form-check-input" type="checkbox"
+                        role="switch" id="flexSwitchCheckDefault">
+                      <label class="form-check-label" for="flexSwitchCheckDefault">أقفال</label>
+                    </div>
+                </div>
+                <div class="col-lg-2 offset-lg-1">
+                    <div class="form-check form-switch my-2">
+                      <input  [(ngModel)]="financialPeriodModel.isActive" class="form-check-input" type="checkbox"
+                        role="switch" id="flexSwitchCheckDefault">
+                      <label class="form-check-label" for="flexSwitchCheckDefault">نشط</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row ">
+
+            <div class="col-lg-5 mb-3">
+                <div class="form-floating mb-3">
+                    <input type="date" id="FromDate" [(ngModel)]="financialPeriodModel.startDate"  placeholder="From Date" class="form-control ng-pristine ng-valid ng-touched">
+                    <!-- <input type="date" class="form-control" [(ngModel)]="FromDate" id="FromDate" placeholder="From Date"> -->
+                    <label for="FromDate"> من تاريخ : <sup>*</sup></label>
+                </div>
+            </div>
+            <div class="col-lg-5 offset-lg-1 mb-3">
+                <div class="form-floating mb-3">
+                    <input type="date" class="form-control" [(ngModel)]="financialPeriodModel.endDate"  id="ToDate" placeholder="From Date">
+                    <label for="ToDate">حتى تاريخ : <sup>*</sup></label>
+                </div>
+            </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-lg-9 h-100 ">
+                    <div class="form-floating ">
+                        <textarea [(ngModel)]="financialPeriodModel.notes" class="form-control" id="floatingInput6" placeholder="any"></textarea>
+                        <label for="floatingInput6">الملاحظات</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer ">
+        <div class="offset-lg-1 boxstyle1-header-left">
+
+            <button class="btn btn-primary btn-lg fs-6 me-2" (click)="CreateNewFinancialPeriod()">
+                <i class="fas fa-check-circle"></i>
+                <span class="ms-2">حفظ</span>
+            </button>
+
+            <button class="btn btn-warning btn-lg fs-6 me-2" (click)="ClearAllFields()">
+                <i class="fas fa-times"></i>
+                <span class="ms-2">مسح</span>
+            </button>
+        </div>
+
+    </div>
+</ng-template>
+<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->

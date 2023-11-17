@@ -120,6 +120,7 @@ export class ReceiptLedgersComponent implements OnInit {
       !model.receiptLedgerTypeId||
       !model.operationTypeId||
       !model.code||
+      !model.nameEN||
       !model.nameAR
       
     ) {

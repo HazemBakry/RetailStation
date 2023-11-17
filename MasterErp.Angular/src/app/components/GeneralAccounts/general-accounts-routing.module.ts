@@ -23,6 +23,7 @@ import { CostTrialBalanceComponent } from './components/cost-trial-balance/cost-
 import { CostCenterMatrixComponent } from './components/cost-center-matrix/cost-center-matrix.component';
 import { ReceiptLedgersComponent } from './components/receipt-ledgers/receipt-ledgers.component';
 import { FinancialPeriodsComponent } from './components/financial-periods/financial-periods.component';
+import { JournalEntryTypesComponent } from './components/journal-entry-types/journal-entry-types.component';
 
 const routes: Routes = [
   {
@@ -50,6 +51,7 @@ const routes: Routes = [
       { path: 'cost-assistant-ledger', component: CostAssistantLedgerComponent},
       { path: 'cost-trial-balance', component: CostTrialBalanceComponent},
       { path: 'cost-center-matrix', component: CostCenterMatrixComponent},
+      { path: 'journal-entry-types', component: JournalEntryTypesComponent},
       { path: 'receipt-ledgers', component: ReceiptLedgersComponent},
       { path: 'financial-period', component: FinancialPeriodsComponent},
       
