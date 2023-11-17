@@ -5,6 +5,7 @@ import { PaymentReceipt } from '../models/GeneralAccounts/PaymentReceipt';
 import { ReceiveReceipt } from '../models/GeneralAccounts/ReceiveReceipt';
 import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { PaymentOperationType } from '../../Shared/Enums/GeneralAccountsEnums';
 
 @Injectable({
   providedIn: 'root'
@@ -31,12 +32,12 @@ export class PaymentService {
 
   paymentTypeList: any[] = [
     {
-      id: 3,
+      id: PaymentOperationType.Cheque,
       nameAR: 'شيكات',
       nameEN: 'Cheque'
     },
     {
-      id: 4,
+      id: PaymentOperationType.Cash,
       nameAR: 'نقدي',
       nameEN: 'Cash'
     }

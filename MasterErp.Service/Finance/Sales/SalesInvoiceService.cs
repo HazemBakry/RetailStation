@@ -56,7 +56,7 @@ namespace MasterErp.Service.Finance.Sales
             };
         }
 
-        public CreateModifyReturnsModel CreateNewSalesInvoice(SalesInvoiceModel model)
+        public ActionsResponseModel CreateNewSalesInvoice(SalesInvoiceModel model)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace MasterErp.Service.Finance.Sales
                     Context.SalesInvoiceDetails.Add(detail);
                     Context.SaveChanges();
                 }
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Id=order_tbl.InvoiceNumber,
                     Status = 1,
@@ -102,7 +102,7 @@ namespace MasterErp.Service.Finance.Sales
             }
             catch (Exception ex)
             {
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Status = 0,
                     Message = ex.Message

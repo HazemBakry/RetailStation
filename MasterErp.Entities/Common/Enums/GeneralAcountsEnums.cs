@@ -18,4 +18,9 @@ namespace MasterErp.Entities.Common.Enums
         Withdrawals = 2     //مسحوبات
 
     }
+    public enum PaymentOperationType
+    {
+        Cheque = 3,    //شيكات
+        Cash = 4 //نقدي
+    }
 }

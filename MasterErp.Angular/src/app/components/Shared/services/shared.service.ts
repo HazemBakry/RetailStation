@@ -64,4 +64,12 @@ export class SharedService {
   GetAccountsByTypeId(typeId:number) {
     return this.http.get<any[]>(this.URL + 'Shared/GetAccountsByTypeId?TypeId='+typeId);
   }
+
+
+  GetReceiptLedgerTypes() {
+    return this.http.get<any[]>(this.URL + 'Shared/GetReceiptLedgerTypes');
+  }
+  GetFinancialPeriods() {
+    return this.http.get<any[]>(this.URL + 'Shared/GetFinancialPeriods');
+  }
 }

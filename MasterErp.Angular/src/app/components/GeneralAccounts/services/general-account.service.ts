@@ -4,6 +4,9 @@ import { environment } from 'src/environments/environment';
 import { JournalEntryModel } from '../models/GeneralAccounts/JurnalEntryModel';
 import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { CostCenterType, SearchLevelType } from '../../Shared/Enums/GeneralAccountsEnums';
+import { ReceiptLedgerModel } from '../models/ReceiptLedgerModel';
+import { JournalEntryTypeModel } from '../models/JournalEntryTypeModel';
+import { FinancialPeriodModel } from '../models/FinancialPeriodModel';
 
 @Injectable({
   providedIn: 'root'
@@ -165,4 +168,38 @@ export class GeneralAccountService {
   }
 
 
+
+
+  ////////////////////////  
+
+
+  GetReceiptLedgersData(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'ReceiptLedger/GetReceiptLedgersData', model);
+  }
+
+  CreateNewReceiptLedger(model: ReceiptLedgerModel) {
+    return this.http.post<any>(this.URL + 'ReceiptLedger/CreateNewReceiptLedger', model);
+  }
+
+  ////////////////////////  
+
+
+  GetJournalEntryTypesData(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'JournalEntryType/GetJournalEntryTypesData', model);
+  }
+
+  CreateNewJournalEntryType(model: JournalEntryTypeModel) {
+    return this.http.post<any>(this.URL + 'JournalEntryType/CreateNewJournalEntryType', model);
+  }
+
+  ////////////////////////  
+
+
+  GetFinancialPeriodsData(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'FinancialPeriod/GetFinancialPeriodsData', model);
+  }
+
+  CreateNewFinancialPeriod(model: FinancialPeriodModel) {
+    return this.http.post<any>(this.URL + 'FinancialPeriod/CreateNewFinancialPeriod', model);
+  }
 }

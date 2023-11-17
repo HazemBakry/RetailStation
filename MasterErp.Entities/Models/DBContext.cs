@@ -78,6 +78,7 @@ namespace MasterErp.Entities.Models
         public DbSet<PaymentReceipt> PaymentReceipt { get; set; }
         public DbSet<ReceiveReceipt> ReceiveReceipt { get; set; }
         public DbSet<ReceiptLedger> ReceiptLedger { get; set; }
+        public DbSet<ReceitLedgerType> ReceitLedgerType { get; set; }
 
 
         public DbSet<PurchaseRequest> PurchaseRequest { get; set; }

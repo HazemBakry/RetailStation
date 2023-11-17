@@ -22,6 +22,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../Shared/shared.module';
 import { GeneralAccountsLayoutComponent } from './general-accounts-layout/general-accounts-layout.component';
+import { ReceiptLedgersComponent } from './components/receipt-ledgers/receipt-ledgers.component';
+import { FinancialPeriodsComponent } from './components/financial-periods/financial-periods.component';
+import { JournalEntryTypesComponent } from './components/journal-entry-types/journal-entry-types.component';
 
 
 @NgModule({
@@ -42,7 +45,10 @@ import { GeneralAccountsLayoutComponent } from './general-accounts-layout/genera
     CostGeneralLedgerComponent,
     CostAssistantLedgerComponent,
     CostTrialBalanceComponent,
-    CostCenterMatrixComponent
+    CostCenterMatrixComponent,
+    ReceiptLedgersComponent,
+    FinancialPeriodsComponent,
+    JournalEntryTypesComponent
   ],
   imports: [
     CommonModule,

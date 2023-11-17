@@ -84,7 +84,7 @@ namespace MasterErp.Service.Finance.Purchase
         }
 
 
-        public CreateModifyReturnsModel CreateNewSupplierReturnsVoucher(SupplierReturnsVoucherModel model)
+        public ActionsResponseModel CreateNewSupplierReturnsVoucher(SupplierReturnsVoucherModel model)
         {
             try
             {
@@ -122,7 +122,7 @@ namespace MasterErp.Service.Finance.Purchase
                     Context.SaveChanges();
                 }
 
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Id= tbl.InvoiceNumber,
                     Status = 1,
@@ -131,7 +131,7 @@ namespace MasterErp.Service.Finance.Purchase
             }
             catch (Exception ex)
             {
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Status = 0,
                     Message = ex.Message

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Common
 {
-    public class CreateModifyReturnsModel
+    public class ActionsResponseModel
     {
         public int Id { get; set; }
         public string Number { get; set; }

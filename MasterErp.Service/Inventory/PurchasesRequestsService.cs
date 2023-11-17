@@ -107,7 +107,7 @@ namespace MasterErp.Service.Inventory
         }
 
 
-        public CreateModifyReturnsModel CreateNewPurchasesRequest(PurchaseRequestModel model)
+        public ActionsResponseModel CreateNewPurchasesRequest(PurchaseRequestModel model)
         {
             try
             {
@@ -141,7 +141,7 @@ namespace MasterErp.Service.Inventory
                 }
 
                
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Id=tbl.RequestNumber,
                     Status = 1,
@@ -150,7 +150,7 @@ namespace MasterErp.Service.Inventory
             }
             catch (Exception ex)
             {
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Status = 0,
                     Message = ex.Message

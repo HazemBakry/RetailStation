@@ -13,7 +13,7 @@ namespace MasterErp.Interface.Finance.Purchase
     public interface IPurchaseOrderService
     {
         DataTable GetPurchasesOrdersData(FilterModel model);
-        CreateModifyReturnsModel CreateNewPurchaseOrder(PurchaseOrderModel model);
+        ActionsResponseModel CreateNewPurchaseOrder(PurchaseOrderModel model);
         bool CancelPurchaseOrder(int OrderId);
 
     }

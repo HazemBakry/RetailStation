@@ -52,7 +52,7 @@ namespace MasterErp.Service.Finance.Purchase
 
         }
 
-        public CreateModifyReturnsModel CreateNewPurchaseOrder(PurchaseOrderModel model)
+        public ActionsResponseModel CreateNewPurchaseOrder(PurchaseOrderModel model)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace MasterErp.Service.Finance.Purchase
                     Context.SaveChanges();
                 }
 
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Status = 1,
                     Message = "Purchase Order Created"
@@ -97,7 +97,7 @@ namespace MasterErp.Service.Finance.Purchase
             }
             catch (Exception ex)
             {
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Status = 0,
                     Message = ex.Message

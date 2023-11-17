@@ -39,7 +39,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             return Context.PaymentReceipt.ToList().ToDataTable();
         }
 
-        public CreateModifyReturnsModel SaveNewPaymentReceipt(PaymentReceipt Model)
+        public ActionsResponseModel SaveNewPaymentReceipt(PaymentReceipt Model)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 Context.SaveChanges();
 
                 
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Status = 1,
                     Message = "Payment Receipt Created",
@@ -76,7 +76,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             }
             catch (Exception ex)
             {
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Status = 0,
                     Message = ex.Message
@@ -89,7 +89,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             return Context.ReceiveReceipt.ToList().ToDataTable();
         }
 
-        public CreateModifyReturnsModel SaveNewReceiveReceipt(ReceiveReceipt Model)
+        public ActionsResponseModel SaveNewReceiveReceipt(ReceiveReceipt Model)
         {
             try
             {
@@ -117,7 +117,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 Context.SaveChanges();
 
 
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Status = 1,
                     Message = "Payment Receipt Created",
@@ -126,7 +126,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             }
             catch (Exception ex)
             {
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Status = 0,
                     Message = ex.Message

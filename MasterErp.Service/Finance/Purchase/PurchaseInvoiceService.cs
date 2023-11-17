@@ -52,7 +52,7 @@ namespace MasterErp.Service.Finance.Purchase
             return result;
         }
 
-        public CreateModifyReturnsModel CreateNewPurchaseInvoice(PurchaseInvoiceModel model)
+        public ActionsResponseModel CreateNewPurchaseInvoice(PurchaseInvoiceModel model)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace MasterErp.Service.Finance.Purchase
                     Context.SaveChanges();
                 }
 
-                CreateModifyReturnsModel result = new CreateModifyReturnsModel();
+                ActionsResponseModel result = new ActionsResponseModel();
                 var AccountsList = new List<JournalEntryAccount>();
                 var InvoiceType = Context.PurchaseInvoiceTypes.Where(x => x.InvoiceTypeId == model.InvoiceTypeId).FirstOrDefault();
 
@@ -100,7 +100,7 @@ namespace MasterErp.Service.Finance.Purchase
                 {
                     CreateJournalEntryModel(order_tbl);
                 }
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Status = 1,
                     Message = "تم حفظ الفاتورة بنجاح"
@@ -108,7 +108,7 @@ namespace MasterErp.Service.Finance.Purchase
             }
             catch (Exception ex)
             {
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Status = 0,
                     Message = ex.Message
@@ -266,7 +266,7 @@ namespace MasterErp.Service.Finance.Purchase
             return Context.PurchaseReturns.ToList();
         }
 
-        public CreateModifyReturnsModel SaveNewPurchaseReturns(PurchaseReturnsModel model)
+        public ActionsResponseModel SaveNewPurchaseReturns(PurchaseReturnsModel model)
         {
             try
             {
@@ -304,7 +304,7 @@ namespace MasterErp.Service.Finance.Purchase
                     Context.SaveChanges();
                 }
 
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Status = 1,
                     Message = "Purchase Order Created"
@@ -312,7 +312,7 @@ namespace MasterErp.Service.Finance.Purchase
             }
             catch (Exception ex)
             {
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Status = 0,
                     Message = ex.Message

@@ -8,3 +8,8 @@ export enum CostCenterType {
     Expenses = 1,    //مصروفات
     Withdrawals = 2 //مسحوبات
 }
+
+export enum PaymentOperationType {
+    Cheque = 3,    //شيكات
+    Cash = 4 //نقدي
+}

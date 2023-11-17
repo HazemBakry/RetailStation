@@ -1,0 +1,176 @@
+<div class="card radius-10 border-0 card-shadow mb-3">
+    <div class="boxstyle1">
+        <div class="boxstyle1-header bg-light">
+            <div class="boxstyle1-header-left mb-3">
+                <button class="btn btn-primary" (click)="openModal(CreateNewReceiptLedgerModal)">
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="ms-2">أضافة</span>
+                </button>
+            </div>
+        </div>
+        <div class="card radius-10 border-0 card-shadow">
+            <div class="card-body">
+                <div class="main-card-action pb-3">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- <div class="col-md-12">
+                                <div class="d-flex align-items-center flex-wrap">
+                                    <ng-container *ngIf="filterList.length > 0">
+                                        <app-pos-filters [FilterList]="filterList"
+                                            (filterChanged)="filterChecked($event)"></app-pos-filters>
+                                    </ng-container>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="col-md-4">
+                            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage" [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount" [totalPages]="pagedResponse.totalPages"></app-erp-pagination>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive table-vp-height small-scroll">
+                        <table class="table table-borderless align-middle table-middle mb-0 table-hover">
+                            <thead>
+                                <tr>
+                                    <th>الاسم (AR)</th>
+                                    <th>الاسم (EN)</th>
+                                    <th>رقم بداية الايصال</th>
+                                    <th>السنة المالية</th>
+                                    <th>نوع دفتر الأستاذ</th>
+                                    <th>نوع عملية الدفع</th>
+                                    <th>الكود</th>
+                                    <th>النوع</th>
+                                    <th>الحالة</th>
+                                    <th>ملاحظات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of pagedResponse.results">
+                                    <td>{{item.nameAR}}</td>
+                                    <td>{{item.nameEN}}</td>
+                                    <td>{{item.startReceiptNumber}}</td>
+                                    <td>{{item.periodName}}</td>
+                                    <td>{{item.receiptLedgerType}}</td>
+                                    <td>{{item.operationType}}</td>
+                                    <td>{{item.code}}</td>
+                                    <td>{{item.isLocked}}</td>
+                                    <td>{{item.isActive}}</td>
+                                    <td>{{item.notes}}</td>
+                                  
+                                </tr>
+                            </tbody>
+        
+                        </table>
+                    </div>
+                </div>
+                <app-empty-data [showContainer]="!pagedResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #CreateNewReceiptLedgerModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">أضافة</h4>
+        <button type="button" class="btn btn-danger py-0 px-3 rounded fs-4 fw-bold" (click)="modal.dismiss()">
+            <i class="uil uil-times"></i>
+        </button>
+    </div>
+    <div class="modal-body bg-light">
+
+        <div class="card-body bg-light">
+            <div class="row mb-3">
+                <div class="col-lg-5 mb-3">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" [(ngModel)]="receiptLedgerModel.nameAR" placeholder="Arabic Name">
+                        <label>الأسم العربي</label>
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" [(ngModel)]="receiptLedgerModel.nameEN" placeholder="English Name">
+                        <label>الأسم الانجليزي</label>
+                    </div>
+                </div>
+              
+            </div>
+            <div class="row mb-3">
+                <div class="col-lg-5 mb-3">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" [(ngModel)]="receiptLedgerModel.code" placeholder="Code">
+                        <label>الكود</label>
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1">
+
+                    <div class="form-floating">
+                        <input type="number" class="form-control" [(ngModel)]="receiptLedgerModel.startReceiptNumber" placeholder="Code">
+                        <label>رقم بداية الايصال</label>
+                    </div>
+                </div>
+              
+            </div>
+           
+            <div class="row mb-3">
+                <div class="col-lg-5 mb-3">
+                    <app-erp-selector-with-search #Selector [SelectorName]="'نوع الدفتر'" [ItemsList]="receiptLedgerTypeList" [Height]="'40px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedReceiptLedgerType($event)">
+                    </app-erp-selector-with-search>
+                </div>
+                <div class="col-lg-5 offset-lg-1">
+                    <app-erp-selector-with-search #Selector [SelectorName]="'السنةالمالية'" [ItemsList]="financialPeriodsList" [Height]="'40px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedFinancialPeriod($event)">
+                    </app-erp-selector-with-search>
+                    
+                </div>
+              
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-lg-5">
+                    <app-erp-selector-with-search #Selector [SelectorName]="'طريقه الدفع'" [ItemsList]="paymentTypeList" [Height]="'40px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedPaymentType($event)">
+                    </app-erp-selector-with-search>
+                </div>
+              
+                <div class="col-lg-2 offset-lg-1">
+                    <div class="form-check form-switch my-2">
+                      <input  [(ngModel)]="receiptLedgerModel.isLocked" class="form-check-input" type="checkbox"
+                        role="switch" id="flexSwitchCheckDefault">
+                      <label class="form-check-label" for="flexSwitchCheckDefault">أقفال</label>
+                    </div>
+                </div>
+                <div class="col-lg-2 offset-lg-1">
+                    <div class="form-check form-switch my-2">
+                      <input  [(ngModel)]="receiptLedgerModel.isActive" class="form-check-input" type="checkbox"
+                        role="switch" id="flexSwitchCheckDefault">
+                      <label class="form-check-label" for="flexSwitchCheckDefault">نشط</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-lg-9 h-100 ">
+                    <div class="form-floating ">
+                        <textarea [(ngModel)]="receiptLedgerModel.notes" class="form-control" id="floatingInput6" placeholder="any"></textarea>
+                        <label for="floatingInput6">الملاحظات</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer ">
+        <div class="offset-lg-1 boxstyle1-header-left">
+
+            <button class="btn btn-primary btn-lg fs-6 me-2" (click)="CreateNewReceiptLedger()">
+                <i class="fas fa-check-circle"></i>
+                <span class="ms-2">حفظ</span>
+            </button>
+
+            <button class="btn btn-warning btn-lg fs-6 me-2" (click)="ClearAllFields()">
+                <i class="fas fa-times"></i>
+                <span class="ms-2">مسح</span>
+            </button>
+        </div>
+
+    </div>
+</ng-template>
+<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->

@@ -21,6 +21,8 @@ import { TrialBalanceComponent } from './components/trial-balance/trial-balance.
 import { GeneralAccountsLayoutComponent } from './general-accounts-layout/general-accounts-layout.component';
 import { CostTrialBalanceComponent } from './components/cost-trial-balance/cost-trial-balance.component';
 import { CostCenterMatrixComponent } from './components/cost-center-matrix/cost-center-matrix.component';
+import { ReceiptLedgersComponent } from './components/receipt-ledgers/receipt-ledgers.component';
+import { FinancialPeriodsComponent } from './components/financial-periods/financial-periods.component';
 
 const routes: Routes = [
   {
@@ -48,8 +50,10 @@ const routes: Routes = [
       { path: 'cost-assistant-ledger', component: CostAssistantLedgerComponent},
       { path: 'cost-trial-balance', component: CostTrialBalanceComponent},
       { path: 'cost-center-matrix', component: CostCenterMatrixComponent},
+      { path: 'receipt-ledgers', component: ReceiptLedgersComponent},
+      { path: 'financial-period', component: FinancialPeriodsComponent},
       
-
+      
     ]
   }
 ];

@@ -1,4 +1,5 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Models;
 using MasterErp.Interface.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +45,24 @@ namespace MasterErp.API.Controllers.Shared
         public List<AccountTree> GetAccountsByTypeId(int TypeId)
         {
             return _sharedService.GetAccountsByTypeId(TypeId);
+        }
+
+
+        [HttpGet]
+        [Route("GetReceiptLedgerTypes")]
+        public IActionResult GetReceiptLedgerTypes()
+        {
+            var results= _sharedService.GetReceiptLedgerTypesData();
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("GetFinancialPeriods")]
+        public IActionResult GetFinancialPeriods()
+        {
+            var results = _sharedService.GetFinancialPeriods();
+
+            return Ok(results);
         }
     }
 }

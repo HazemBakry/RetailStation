@@ -117,14 +117,14 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             return EntryModel;
         }
 
-        public CreateModifyReturnsModel SaveNewJouranlEntry(JournalEntryModel model)
+        public ActionsResponseModel SaveNewJouranlEntry(JournalEntryModel model)
         {
             try
             {
                 int month = model.EntryDate.Month;
                 int year = model.EntryDate.Year;
                 var PreEntries = Context.JournalEntries.Where(x => x.EntryDate.Month == month && x.EntryDate.Year == year).ToList();
-                var CurrentPeriod = Context.FinancialPeriods.OrderByDescending(x => x.FinancialPeriodID).FirstOrDefault();
+                var CurrentPeriod = Context.FinancialPeriods.OrderByDescending(x => x.FinancialPeriodId).FirstOrDefault();
 
                 JournalEntry Entry_tbl = new JournalEntry
                 {
@@ -135,7 +135,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                     JournalTypeId = model.JournalTypeID,
                     IsCancelled = false,
                     IsLocked = false,
-                    PeriodId = CurrentPeriod != null ? CurrentPeriod.FinancialPeriodID : 0,
+                    PeriodId = CurrentPeriod != null ? CurrentPeriod.FinancialPeriodId : 0,
                     EntryDate = model.EntryDate,
                     ActionTypeId = 1,
                     ActionId = 0,
@@ -167,7 +167,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                         Context.SaveChanges();
                     }
                 }
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Status = 1,
                     Message = "New Entry Saved Successfully",
@@ -177,7 +177,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             }
             catch (Exception Ex)
             {
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Status = 0,
                     //Message = Ex.Message,

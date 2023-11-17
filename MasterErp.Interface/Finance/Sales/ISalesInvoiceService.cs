@@ -11,6 +11,6 @@ namespace MasterErp.Interface.Finance.Sales
     public interface ISalesInvoiceService
     {
         PagedResponseDTO<SalesInvoice> GetSalesInvoicesData(FilterModel model);
-        CreateModifyReturnsModel CreateNewSalesInvoice(SalesInvoiceModel model);
+        ActionsResponseModel CreateNewSalesInvoice(SalesInvoiceModel model);
     }
 }

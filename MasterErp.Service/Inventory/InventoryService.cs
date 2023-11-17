@@ -124,7 +124,7 @@ namespace MasterErp.Service.Inventory
         }
 
 
-        public CreateModifyReturnsModel SaveNewReceiveOrder(ReceiveOrderModel model)
+        public ActionsResponseModel SaveNewReceiveOrder(ReceiveOrderModel model)
         {
             try
             {
@@ -166,7 +166,7 @@ namespace MasterErp.Service.Inventory
                     Context.ReceiveOrderDetails.Add(detail);
                     Context.SaveChanges();
                 }
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Status = 1,
                     Message = "Purchase Order Created"
@@ -174,7 +174,7 @@ namespace MasterErp.Service.Inventory
             }
             catch (Exception ex)
             {
-                return new CreateModifyReturnsModel
+                return new ActionsResponseModel
                 {
                     Status = 0,
                     Message = ex.Message
