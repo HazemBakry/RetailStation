@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from "./components/Shared/shared.module";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReviewsComponent } from './components/Main/reviews/reviews.component';
+import { SigninComponent } from './components/signin/signin.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +23,8 @@ import { ReviewsComponent } from './components/Main/reviews/reviews.component';
     HeaderComponent,
     SidebarComponent,
     DashboardComponent,
-    ReviewsComponent
+    ReviewsComponent,
+    SigninComponent
   ],
   providers: [
     DatePipe,

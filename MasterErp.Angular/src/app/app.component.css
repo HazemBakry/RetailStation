@@ -1,10 +1,10 @@
 .main-content {
   position: relative;
   top: var(--nav-link-height);
-  width: calc(100vw - 260px);
+  width: calc(100% - 270px);
   min-height: calc(100vh - var(--nav-link-height));
-  margin-right: 260px;
-  padding: 15px 30px 20px 20px;
+  margin-right: 270px;
+  padding: 20px;
   transition: var(--toggled-transition);
   -webkit-transition: var(--toggled-transition);
   -moz-transition: var(--toggled-transition);

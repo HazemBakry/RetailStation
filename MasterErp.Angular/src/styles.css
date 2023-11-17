@@ -788,6 +788,12 @@ tr {
   width: 30px;
 }
 
+@media (max-width: 575px) {
+  .mt-msm-2 {
+    margin-top: 0.5rem;
+  }
+}
+
 /* Chrome, Safari, Edge, Opera */
 
 input::-webkit-outer-spin-button,

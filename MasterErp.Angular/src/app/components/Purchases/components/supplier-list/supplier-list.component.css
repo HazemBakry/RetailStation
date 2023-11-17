@@ -62,3 +62,9 @@
 .supplier-box:hover .trending-box .trending-text {
   opacity: 1;
 }
+
+@media (min-width: 1400px) {
+  .width-xxl-300 {
+    width: 300px;
+  }
+}

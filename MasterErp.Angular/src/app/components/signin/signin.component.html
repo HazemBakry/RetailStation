@@ -1,0 +1,123 @@
+<div class="sign-in-wrapper">
+  <div class="sign-in-box with-overlay">
+    <div class="sign-in-info">
+      <div class="container">
+        <h4 class="text-white text-center display-6 fw-medium mb-5 text-uppercase">Erp System <span class="fw-bold">{{
+            signInMode ? 'Sign In' : 'Sign Up' }}</span></h4>
+        <div class="bg-white px-5 py-4 shadow-lg rounded border">
+          <form class="sign-in-form" *ngIf="signInMode">
+            <div class="form-header text-center mb-4">
+              <h3 class="main-color mb-3">أهلا وسهلا بك !</h3>
+              <div class="text-muted fs-5">سجل دخول للاستمرار فى <span class="text-black fw-bold ms-2">Erp
+                  System</span>.
+              </div>
+            </div>
+            <div class="form-body">
+              <div class="mb-4">
+                <label class="form-label">الاسم بالكامل</label>
+                <input type="text" class="form-control form-control-lg" placeholder="أكتب اسمك" />
+              </div>
+              <div class="mb-4">
+                <label class="form-label">كلمة المرور</label>
+                <div class="position-relative">
+                  <input type="password" class="form-control form-control-lg" placeholder="أكتب كلمة المرور" />
+                  <i class="far fa-eye show-hide-pass"></i>
+                </div>
+              </div>
+              <div class="form-check mb-5">
+                <input class="form-check-input" type="checkbox" id="remember-me-checkbox">
+                <label class="form-check-label" for="remember-me-checkbox">
+                  تذكرنى
+                </label>
+              </div>
+              <button type="submit"
+                class="btn btn-success w-100 py-3 d-flex align-items-center justify-content-center mb-4">
+                <i class="fas fa-sign-in-alt"></i>
+                <span class="ms-2">تسجيل الدخول</span>
+              </button>
+              <div class="break-line position-relative text-center mb-4">
+                <span class="break-line-text">تسجيل الدخول عن</span>
+              </div>
+              <div class="d-flex align-items-center justify-content-center gap-2 mb-4">
+                <button class="btn btn-primary social-btn">
+                  <i class="fab fa-facebook-f"></i>
+                </button>
+                <button class="btn btn-danger social-btn">
+                  <i class="fab fa-google-plus-g"></i>
+                </button>
+                <button class="btn btn-info social-btn">
+                  <i class="fab fa-twitter"></i>
+                </button>
+              </div>
+              <div class="break-line position-relative text-center mb-5"></div>
+              <div class="d-flex align-items-center justify-content-center">
+                ليس لديك حساب ؟ <a class="cursor-pointer ms-2" (click)="signInMode = false"> انشاء حساب</a>
+              </div>
+            </div>
+          </form>
+
+          <form class="sign-up-form" *ngIf="!signInMode">
+            <div class="form-header text-center mb-4">
+              <h3 class="main-color mb-3">انشاء حساب جديد !</h3>
+              <div class="text-muted fs-5">احصل على حساب <span class="text-black fw-bold mx-2">Erp
+                  System</span> المجاني الخاص بك الآن
+              </div>
+            </div>
+            <div class="form-body">
+              <div class="mb-4">
+                <label class="form-label">البريد الالكترونى <sub class="text-danger fs-4">*</sub></label>
+                <input type="text" class="form-control form-control-lg" placeholder="أكتب بريدك الالكترونى" />
+              </div>
+              <div class="mb-4">
+                <label class="form-label">الاسم بالكامل <sub class="text-danger fs-4">*</sub></label>
+                <input type="text" class="form-control form-control-lg" placeholder="أكتب اسمك" />
+              </div>
+              <div class="mb-4">
+                <label class="form-label">كلمة المرور</label>
+                <div class="position-relative">
+                  <input type="password" class="form-control form-control-lg" placeholder="أكتب كلمة المرور" />
+                  <i class="far fa-eye show-hide-pass"></i>
+                </div>
+              </div>
+              <div class="mb-4">
+                <span class="text-muted fst-italic">بالتسجيل فإنك توافق على<span class="text-black fw-bold mx-2">Erp
+                    System</span>
+                  <a class="cursor-pointer">شروط الاستخدام</a>
+                </span>
+              </div>
+              <button class="btn btn-success w-100 py-3 d-flex align-items-center justify-content-center mb-4">
+                <i class="fas fa-sign-in-alt"></i>
+                <span class="ms-2">انشاء حساب</span>
+              </button>
+              <div class="break-line position-relative text-center mb-4">
+                <span class="break-line-text"> انشاء حساب عن</span>
+              </div>
+              <div class="d-flex align-items-center justify-content-center gap-2 mb-4">
+                <button class="btn btn-primary social-btn">
+                  <i class="fab fa-facebook-f"></i>
+                </button>
+                <button class="btn btn-danger social-btn">
+                  <i class="fab fa-google-plus-g"></i>
+                </button>
+                <button class="btn btn-info social-btn">
+                  <i class="fab fa-twitter"></i>
+                </button>
+              </div>
+              <div class="break-line position-relative text-center mb-5"></div>
+              <div class="d-flex align-items-center justify-content-center">
+                هل لديك حساب ؟ <a class="cursor-pointer ms-2" (click)="signInMode = true">تسجيل الدخول</a>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+    <div class="wavy-bg">
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+        viewBox="0 0 1440 120">
+        <path d="M 0,36 C 144,53.6 432,123.2 720,124 C 1008,124.8 1296,56.8 1440,40L1440 140L0 140z"></path>
+      </svg>
+    </div>
+  </div>
+</div>

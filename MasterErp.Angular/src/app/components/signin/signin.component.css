@@ -1,0 +1,84 @@
+.sign-in-box {
+  position: relative;
+  width: 100%;
+  height: 450px;
+  background: url("../../../assets/images/auth.jpg") center center;
+  background-size: cover;
+}
+.sign-in-box.with-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, #4c7ee3, #6691e7);
+  opacity: 0.9;
+}
+.sign-in-box .wavy-bg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+.sign-in-box .wavy-bg svg {
+  width: 100%;
+  height: auto;
+  fill: #e6edf0;
+}
+
+.sign-in-box .sign-in-info {
+  position: relative;
+  top: 250px;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.break-line::before {
+  content: "";
+  width: 100%;
+  height: 2px;
+  border-bottom: 1px dashed #e9ebec;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 1;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+}
+.break-line .break-line-text {
+  position: relative;
+  z-index: 10;
+  padding: 0 10px;
+  display: inline-block;
+  background-color: #fff;
+  font-size: 14px;
+}
+.social-btn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.show-hide-pass {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  cursor: pointer;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+}
