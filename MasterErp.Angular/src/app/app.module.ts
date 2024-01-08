@@ -16,6 +16,9 @@ import { SharedModule } from "./components/Shared/shared.module";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReviewsComponent } from './components/Main/reviews/reviews.component';
 import { SigninComponent } from './components/signin/signin.component';
+import { AccountTreeComponent } from './components/design/account-tree/account-tree.component';
+import { OpeningBalanceComponent } from './components/design/opening-balance/opening-balance.component';
+import { ReceiptsComponent } from './components/design/receipts/receipts.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +27,10 @@ import { SigninComponent } from './components/signin/signin.component';
     SidebarComponent,
     DashboardComponent,
     ReviewsComponent,
-    SigninComponent
+    SigninComponent,
+    AccountTreeComponent,
+    OpeningBalanceComponent,
+    ReceiptsComponent
   ],
   providers: [
     DatePipe,
