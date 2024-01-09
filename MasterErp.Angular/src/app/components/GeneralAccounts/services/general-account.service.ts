@@ -7,6 +7,7 @@ import { CostCenterType, SearchLevelType } from '../../Shared/Enums/GeneralAccou
 import { ReceiptLedgerModel } from '../models/ReceiptLedgerModel';
 import { JournalEntryTypeModel } from '../models/JournalEntryTypeModel';
 import { FinancialPeriodModel } from '../models/FinancialPeriodModel';
+import { AccountTreeModel } from '../models/GeneralAccounts/AccountTree';
 
 @Injectable({
   providedIn: 'root'
@@ -101,6 +102,10 @@ export class GeneralAccountService {
   }
 
 
+ 
+  CreateNewAccount(model: AccountTreeModel) {
+    return this.http.post<any>(this.URL + 'AccountTree/CreateNewAccount', model);
+  }
 
 
   ////////////////// General Accounts Reports ///////

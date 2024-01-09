@@ -96,12 +96,12 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
                 var details = (from journal_details in Context.JournalEntryDetails
                                where journal_details.JournalEntryId == entry.JournalEntryId
-                               join Accounts in Context.AccountTrees on journal_details.AccountID equals Accounts.AccountID
+                               join Accounts in Context.AccountTrees on journal_details.AccountID equals Accounts.AccountId
                                //join costs in Context.CostCenterTrees on journal_details.CostCenterID equals costs.CostCenterID
                                //orderby journal_details.JournalDetialID
                                select new JournalEntryAccount
                                {
-                                   AccountID = Accounts.AccountID,
+                                   AccountID = Accounts.AccountId,
                                    Debit = journal_details.Debit,
                                    Credit = journal_details.Credit,
                                    Description = journal_details.Description,

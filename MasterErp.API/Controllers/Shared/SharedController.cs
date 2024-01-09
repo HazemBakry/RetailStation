@@ -64,5 +64,14 @@ namespace MasterErp.API.Controllers.Shared
 
             return Ok(results);
         }
+
+        [HttpGet]
+        [Route("GetAccountTypes")]
+        public IActionResult GetAccountTypes()
+        {
+            var results = _sharedService.GetAccountTypes();
+
+            return Ok(results);
+        }
     }
 }

@@ -24,6 +24,7 @@ import { CostCenterMatrixComponent } from './components/cost-center-matrix/cost-
 import { ReceiptLedgersComponent } from './components/receipt-ledgers/receipt-ledgers.component';
 import { FinancialPeriodsComponent } from './components/financial-periods/financial-periods.component';
 import { JournalEntryTypesComponent } from './components/journal-entry-types/journal-entry-types.component';
+import { AccountTreeV2Component } from './components/account-tree-v2/account-tree-v2.component';
 
 const routes: Routes = [
   {
@@ -35,7 +36,8 @@ const routes: Routes = [
       { path: 'featured', component: FeaturedComponent },
       { path: 'fiscalYear', component: FiscalYearComponent },
       { path: 'receiptBooks', component: ReceiptBooksComponent },
-      { path: 'account-tree', component: AccountTreeComponent },
+      // { path: 'account-tree', component: AccountTreeComponent },
+      { path: 'account-tree', component: AccountTreeV2Component },
       { path: 'cost-center-tree', component: CostCenterTreeComponent },
       { path: 'new-entry', component: NewEntryComponent },
       { path: 'journal-daily-list', component: JournalDailyListComponent },

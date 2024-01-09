@@ -15,6 +15,7 @@ namespace MasterErp.Interface.Shared
         List<AccountTree> GetAccountsByTypeId(int TypeId);
         List<ReceitLedgerType> GetReceiptLedgerTypesData();
         List<FinancialPeriod> GetFinancialPeriods();
+        List<AccountType> GetAccountTypes();
 
     }
 }

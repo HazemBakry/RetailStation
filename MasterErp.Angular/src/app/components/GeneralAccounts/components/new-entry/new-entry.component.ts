@@ -113,7 +113,7 @@ export class NewEntryComponent implements OnInit {
 
   GetSelectedAccount(item: any) {
     this.Item = item;
-    let checked = this.SelectedAccounts.find(i => i.accountID == item.accountID);
+    let checked = this.SelectedAccounts.find(i => i.accountId == item.accountId);
     if (!checked)
       this.SelectedAccounts.push(item);
     else

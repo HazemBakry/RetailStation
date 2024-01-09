@@ -1,0 +1,8 @@
+<div (click)="toggleNode(account)" class="d-flex align-items-center mb-2  ps-{{account.accountLevel}} ms-{{account.accountLevel}}">
+    <i *ngIf="account.children?.length" class="fas fa-plus-circle"></i>
+    <span class="ms-2" [ngClass]="{'bg-warning': account.isSelected}">{{ account.nameEN }}</span>  
+</div>
+<!-- (account.isSelected||expanded) -->
+<div *ngIf="account.children &&(expanded||account.isSelected) ">
+    <app-account-tree-item *ngFor="let child of account.children" [account]="child"></app-account-tree-item>
+</div>

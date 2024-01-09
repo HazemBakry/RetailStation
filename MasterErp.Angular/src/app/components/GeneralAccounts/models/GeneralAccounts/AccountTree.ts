@@ -1,0 +1,18 @@
+export interface AccountTreeModel {
+    accountId: number;
+    accountNumber: string;
+    parentAccountId: number;
+    isSelected: boolean;
+    accountLevel: number | null;
+    accountTypeId: number | null;
+    currencyTypeId: number | null;
+    nameAR: string;
+    nameEN: string;
+    assetType: string;
+    descriptionMethod: string;
+
+    isDisToCostCenter:boolean;
+    isActive:boolean;
+    children: AccountTreeModel[];
+}
+

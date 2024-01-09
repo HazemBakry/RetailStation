@@ -23,10 +23,12 @@ export class SharedService {
   }
   //================================== AccountTree ===============================
 
+  GetAccountTreeData_Old(SearchText: string) {
+    return this.http.get<any>(this.URL + 'AccountTree/GetAccountTreeData_Old?SearchText=' + SearchText);
+  }
   GetAccountTreeData(SearchText: string) {
     return this.http.get<any>(this.URL + 'AccountTree/GetAccountTreeData?SearchText=' + SearchText);
   }
-
   //================================== CostCenterTree ===============================
 
   GetCostCenterTreeData() {
@@ -71,5 +73,11 @@ export class SharedService {
   }
   GetFinancialPeriods() {
     return this.http.get<any[]>(this.URL + 'Shared/GetFinancialPeriods');
+  }
+
+
+  GetAccountTypes()
+  {
+    return this.http.get<any[]>(this.URL + 'Shared/GetAccountTypes');
   }
 }

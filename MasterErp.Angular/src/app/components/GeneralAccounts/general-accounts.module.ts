@@ -25,12 +25,16 @@ import { GeneralAccountsLayoutComponent } from './general-accounts-layout/genera
 import { ReceiptLedgersComponent } from './components/receipt-ledgers/receipt-ledgers.component';
 import { FinancialPeriodsComponent } from './components/financial-periods/financial-periods.component';
 import { JournalEntryTypesComponent } from './components/journal-entry-types/journal-entry-types.component';
+import { AccountTreeV2Component } from './components/account-tree-v2/account-tree-v2.component';
+import { AccountTreeItemComponent } from './components/account-tree-item/account-tree-item.component';
 
 
 @NgModule({
   declarations: [
     GeneralAccountsLayoutComponent,
     AccountTreeComponent,
+    AccountTreeV2Component,
+    AccountTreeItemComponent,
     CostCenterTreeComponent,
     NewEntryComponent,
     JournalDailyListComponent,

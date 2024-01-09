@@ -1,5 +1,7 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common.Finance.GeneralAccounts;
+using MasterErp.Entities.Models;
 using MasterErp.Interface.Finance.GeneralAccounts;
+using MasterErp.Service.Finance.GeneralAccounts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,13 +23,30 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             _accountTreeService = accountTreeService;
         }
 
-        [HttpGet]
-        [Route("GetAccountTreeData")]
-        public DataTable GetAccountTreeData(string SearchText)
+        [HttpPost]
+        [Route("CreateNewAccount")]
+
+        public IActionResult CreateNewAccount(AccountTreeModel Model)
         {
-            return _accountTreeService.GetAccountTreeData(SearchText);
+            var results = _accountTreeService.CreateNewAccount(Model);
+            return Ok(results);
         }
 
+
+        [HttpGet]
+        [Route("GetAccountTreeData_Old")]
+        public DataTable GetAccountTreeData_Old(string SearchText)
+        {
+            return _accountTreeService.GetAccountTreeData_Old(SearchText);
+        }
+
+        [HttpGet]
+        [Route("GetAccountTreeData")]
+        public IActionResult GetAccountTreeData(string SearchText)
+        {
+            var results= _accountTreeService.GetAccountTreeData(SearchText);
+            return Ok(results);
+        }
         [HttpGet]
         [Route("GetAccountsList")]
         public List<AccountTree> GetAccountsList(bool IsParent)

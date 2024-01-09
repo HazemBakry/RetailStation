@@ -97,15 +97,15 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             var accountFilter = model.FilterItems.Where(x => x.CategoryName == "accountId").FirstOrDefault();
             if (accountFilter != null)
             {
-                var Parents = Context.AccountTrees.Where(x => x.ParentID == 0).ToList();
+                var Parents = Context.AccountTrees.Where(x => x.ParentAccountId == 0).ToList();
 
                 for (int i = 0; i < Parents.Count; i++)
-                    Fill_List_Levels(List, model, Parents[i].AccountID, Level);
+                    Fill_List_Levels(List, model, Parents[i].AccountId, Level);
             }
             else
             {
-                var account = Context.AccountTrees.Where(x => x.AccountID == Convert.ToInt32(accountFilter.ItemFlag)).FirstOrDefault();
-                Fill_List_Levels(List, model, account.AccountID, Convert.ToInt32(model.SearchLevel));
+                var account = Context.AccountTrees.Where(x => x.AccountId == Convert.ToInt32(accountFilter.ItemFlag)).FirstOrDefault();
+                Fill_List_Levels(List, model, account.AccountId, Convert.ToInt32(model.SearchLevel));
             }
 
             return List;
@@ -121,7 +121,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             DateTime from_date = model.FromDate.Value;
             DateTime to_date = model.ToDate.Value.AddDays(1);
 
-            var account = Context.AccountTrees.Where(x => x.AccountID == id).FirstOrDefault();
+            var account = Context.AccountTrees.Where(x => x.AccountId == id).FirstOrDefault();
 
             Sum_Pre_Debit += (from details in Context.JournalEntryDetails
                               join journal in Context.JournalEntries on details.JournalEntryId equals journal.JournalEntryId
@@ -160,7 +160,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
                             item.AccountNumber = account.AccountNumber;
                             item.AccountName = account.NameAR;
-                            item.AccountID = account.AccountID;
+                            item.AccountID = account.AccountId;
                             item.Debit = Math.Round(Sum_Debit, 2);
                             item.Credit = Math.Round(Sum_Credit, 2);
                             item.PreDebit = Math.Round(Sum_Pre_Debit, 2);
@@ -190,7 +190,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
                             item.AccountNumber = account.AccountNumber;
                             item.AccountName = account.NameAR;
-                            item.AccountID = account.AccountID;
+                            item.AccountID = account.AccountId;
                             item.Debit = Math.Round(Sum_Debit, 2);
                             item.Credit = Math.Round(Sum_Credit, 2);
                             item.PreDebit = Math.Round(Sum_Pre_Debit, 2);
@@ -220,7 +220,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
                             item.AccountNumber = account.AccountNumber;
                             item.AccountName = account.NameAR;
-                            item.AccountID = account.AccountID;
+                            item.AccountID = account.AccountId;
                             item.Debit = Math.Round(Sum_Debit, 2);
                             item.Credit = Math.Round(Sum_Credit, 2);
                             item.PreDebit = Math.Round(Sum_Pre_Debit, 2);
@@ -247,12 +247,12 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 }
             }
 
-            var childs = Context.AccountTrees.Where(x => x.ParentID == id).ToList();
+            var childs = Context.AccountTrees.Where(x => x.ParentAccountId == id).ToList();
 
             for (int i = 0; i < childs.Count; i++)
             {
                 int xx = current_level - 1;
-                Fill_List_Levels(List, model, childs[i].AccountID, xx);
+                Fill_List_Levels(List, model, childs[i].AccountId, xx);
             }
         }
 

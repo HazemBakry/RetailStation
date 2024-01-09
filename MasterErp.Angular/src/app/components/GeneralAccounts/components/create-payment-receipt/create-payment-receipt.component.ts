@@ -98,7 +98,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
         break;
       case 3:
         //account
-        this.paymentReceiptModel.agencyId=account.accountID;
+        this.paymentReceiptModel.agencyId=account.accountId;
 
       break;
       default:
@@ -116,7 +116,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
 
   GetSelectedAccount(account)
   {
-    this.paymentReceiptModel.accountId=account.accountID;
+    this.paymentReceiptModel.accountId=account.accountId;
   }
   GetSelectedReceiptLedger(receiptLedger:ReceiptLedger)
   {

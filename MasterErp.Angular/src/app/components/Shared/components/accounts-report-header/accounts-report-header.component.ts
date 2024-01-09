@@ -72,8 +72,8 @@ export class AccountsReportHeaderComponent implements OnInit  {
     this.SearchModel.filterItems=this.SearchModel.filterItems.filter(x=>x.categoryName!='accountId');
     this.SearchModel.filterItems.push({
       categoryName:'accountId',
-      itemKey:acc.accountID?.toString(),
-      itemFlag:acc.accountID?.toString()
+      itemKey:acc.accountId?.toString(),
+      itemFlag:acc.accountId?.toString()
     });
     this.emitSearchModel();
     this.offcanvasService.dismiss();

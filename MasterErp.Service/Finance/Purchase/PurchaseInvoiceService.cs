@@ -119,14 +119,14 @@ namespace MasterErp.Service.Finance.Purchase
         private void CreateJournalEntryModel(PurchaseInvoice invoice)
         {
             var supplierName = Context.Suppliers.Where(x => x.SupplierId == invoice.SupplierId).FirstOrDefault()?.NameAR;
-            var supplier_account = Context.AccountTrees.Where(x => x.AccountTypeID == 5).FirstOrDefault();
+            var supplier_account = Context.AccountTrees.Where(x => x.AccountTypeId == 5).FirstOrDefault();
             var invoice_type = Context.PurchaseInvoiceTypes.Where(x => x.InvoiceTypeId == invoice.InvoiceTypeId).FirstOrDefault();
 
             List<JournalEntryAccount> accounts = new List<JournalEntryAccount>();
 
             accounts.Add(new JournalEntryAccount
             {
-                AccountID = supplier_account.AccountID,
+                AccountID = supplier_account.AccountId,
                 Debit = 0,
                 Credit = invoice.InvoiceNetValue,
                 Description = " فواتير شهر " + invoice.InvoiceDate.Date.Month + " فاتورة مشتريات رقم " + invoice.InvoiceNumber.ToString() + (supplierName ?? " للمورد " + supplierName),
@@ -144,11 +144,11 @@ namespace MasterErp.Service.Finance.Purchase
 
             if (invoice.TaxAmount > 0)
             {
-                var tax_account = Context.AccountTrees.Where(x => x.AccountTypeID == 7).FirstOrDefault();
+                var tax_account = Context.AccountTrees.Where(x => x.AccountTypeId == 7).FirstOrDefault();
 
                 accounts.Add(new JournalEntryAccount
                 {
-                    AccountID = tax_account.AccountID,
+                    AccountID = tax_account.AccountId,
                     Debit = invoice.TaxAmount,
                     Credit = 0,
                     CurrencyID = 1,

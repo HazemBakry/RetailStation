@@ -1,4 +1,6 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Finance.GeneralAccounts;
+using MasterErp.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +12,9 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
 {
     public interface IAccountTreeService
     {
-        DataTable GetAccountTreeData(string SearchText);
+        ActionsResponseModel CreateNewAccount(AccountTreeModel Model);
+        DataTable GetAccountTreeData_Old(string SearchText);
+        List<AccountTreeModel> GetAccountTreeData(string SearchText);
         List<AccountTree> GetAccountsList(bool IsParent);
         List<AccountTree> GetChildAccountsList();
     }

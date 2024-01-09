@@ -49,7 +49,7 @@ namespace MasterErp.Service.Shared
         }
         public List<AccountTree> GetAccountsByTypeId(int TypeId)
         {
-            var result = Context.AccountTrees.Where(x => x.AccountTypeID == TypeId).ToList();
+            var result = Context.AccountTrees.Where(x => x.AccountTypeId == TypeId).ToList();
 
             return result;
         }
@@ -63,6 +63,13 @@ namespace MasterErp.Service.Shared
         public List<FinancialPeriod> GetFinancialPeriods()
         {
             var result = Context.FinancialPeriods.ToList();
+
+            return result;
+        }
+
+        public List<AccountType> GetAccountTypes()
+        {
+            var result = Context.AccountTypes.ToList();
 
             return result;
         }

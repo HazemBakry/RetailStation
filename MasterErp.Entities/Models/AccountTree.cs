@@ -10,11 +10,11 @@ namespace MasterErp.Entities.Models
     public class AccountTree
     {
         [Key]
-        public int AccountID { get; set; }
+        public int AccountId { get; set; }
         public string AccountNumber { get; set; }
-        public int ParentID { get; set; }
+        public int ParentAccountId { get; set; }
         public int? AccountLevel { get; set; }
-        public int? AccountTypeID { get; set; }
+        public int? AccountTypeId { get; set; }
         public string NameAR { get; set; }
         public string NameEN { get; set; }
         public bool IsParent { get; set; }
@@ -27,8 +27,8 @@ namespace MasterErp.Entities.Models
         public string AssetType { get; set; }
         public string DepreciationMethod { get; set; }
         public int? DepreciationYears { get; set; }
-        public int? DepreciationID { get; set; }
-        public int? AccumulatedDepreciationID { get; set; }
+        public int? DepreciationId { get; set; }
+        public int? AccumulatedDepreciationId { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreateDate { get; set; }
         public string ModifiedBy { get; set; }
