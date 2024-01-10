@@ -8,6 +8,7 @@ import { ReceiptLedgerModel } from '../models/ReceiptLedgerModel';
 import { JournalEntryTypeModel } from '../models/JournalEntryTypeModel';
 import { FinancialPeriodModel } from '../models/FinancialPeriodModel';
 import { AccountTreeModel } from '../models/GeneralAccounts/AccountTree';
+import { AccountOpeningBalanceModel } from '../models/GeneralAccounts/OpeningBalance';
 
 @Injectable({
   providedIn: 'root'
@@ -207,4 +208,18 @@ export class GeneralAccountService {
   CreateNewFinancialPeriod(model: FinancialPeriodModel) {
     return this.http.post<any>(this.URL + 'FinancialPeriod/CreateNewFinancialPeriod', model);
   }
+
+
+  ///////////////////// OpeningBalance
+
+  GetAccountsOpeningBalanceData(SearchText: string) {
+    return this.http.get<any>(this.URL + 'AccountTree/GetAccountsOpeningBalanceData?SearchText=' + SearchText);
+  }
+  UpdateAccountsOpeningBalance(model: AccountTreeModel[]) {
+    return this.http.post<any>(this.URL + 'AccountTree/UpdateAccountsOpeningBalance', model);
+  }
+  CreateNewOpeningBalance(model: AccountOpeningBalanceModel) {
+    return this.http.post<any>(this.URL + 'AccountTree/CreateNewOpeningBalance', model);
+  }
+
 }

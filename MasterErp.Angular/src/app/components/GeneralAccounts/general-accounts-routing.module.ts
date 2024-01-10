@@ -25,6 +25,7 @@ import { ReceiptLedgersComponent } from './components/receipt-ledgers/receipt-le
 import { FinancialPeriodsComponent } from './components/financial-periods/financial-periods.component';
 import { JournalEntryTypesComponent } from './components/journal-entry-types/journal-entry-types.component';
 import { AccountTreeV2Component } from './components/account-tree-v2/account-tree-v2.component';
+import { OpeningBalanceComponent } from './components/opening-balance/opening-balance.component';
 
 const routes: Routes = [
   {
@@ -56,6 +57,7 @@ const routes: Routes = [
       { path: 'journal-entry-types', component: JournalEntryTypesComponent},
       { path: 'receipt-ledgers', component: ReceiptLedgersComponent},
       { path: 'financial-period', component: FinancialPeriodsComponent},
+      { path: 'opening-balance', component: OpeningBalanceComponent},
       
       
     ]

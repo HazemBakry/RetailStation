@@ -27,6 +27,7 @@ import { FinancialPeriodsComponent } from './components/financial-periods/financ
 import { JournalEntryTypesComponent } from './components/journal-entry-types/journal-entry-types.component';
 import { AccountTreeV2Component } from './components/account-tree-v2/account-tree-v2.component';
 import { AccountTreeItemComponent } from './components/account-tree-item/account-tree-item.component';
+import { OpeningBalanceComponent } from './components/opening-balance/opening-balance.component';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { AccountTreeItemComponent } from './components/account-tree-item/account
     CostCenterMatrixComponent,
     ReceiptLedgersComponent,
     FinancialPeriodsComponent,
-    JournalEntryTypesComponent
+    JournalEntryTypesComponent,
+    OpeningBalanceComponent
   ],
   imports: [
     CommonModule,

@@ -1,5 +1,5 @@
 <div (click)="toggleNode(account)" class="d-flex align-items-center mb-2  ps-{{account.accountLevel}} ms-{{account.accountLevel}}">
-    <i *ngIf="account.children?.length" class="fas fa-plus-circle"></i>
+    <i *ngIf="account.children?.length" class="fas " [class]="!expanded?'fa-plus-circle':'fa-minus-circle'" ></i>
     <span class="ms-2" [ngClass]="{'bg-warning': account.isSelected}">{{ account.nameEN }}</span>  
 </div>
 <!-- (account.isSelected||expanded) -->

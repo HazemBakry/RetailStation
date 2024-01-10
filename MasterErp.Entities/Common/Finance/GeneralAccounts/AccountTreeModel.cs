@@ -19,6 +19,10 @@ namespace MasterErp.Entities.Common.Finance.GeneralAccounts
         
         public string AssetType { get; set; }
         public string DescriptionMethod { get; set; }
+
+        public double? PreCredit { get; set; }
+        public double? PreDebit { get; set; }
+
         public bool IsSelected { get; set; }
         public bool IsActive { get; set; }
         public bool IsDisToCostCenter { get; set; }

@@ -4,18 +4,19 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { AccountTreeModel } from '../../models/GeneralAccounts/AccountTree';
 import { GeneralAccountService } from '../../services/general-account.service';
 import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { AccountOpeningBalanceModel } from '../../models/GeneralAccounts/OpeningBalance';
 
 @Component({
-  selector: 'app-account-tree-v2',
-  templateUrl: './account-tree-v2.component.html',
-  styleUrls: ['./account-tree-v2.component.css']
+  selector: 'app-opening-balance',
+  templateUrl: './opening-balance.component.html',
+  styleUrls: ['./opening-balance.component.css']
 })
-
-export class AccountTreeV2Component implements OnInit {
+export class OpeningBalanceComponent implements OnInit {
 
   @Input() isParentAccount:boolean = false;
   @Output() selectedAccount = new EventEmitter<any>();
 
+  showAllAccounts:boolean=false;
   AccountTreeData: any[] = [];
   AccountData: any[] = [];
   showLoader: boolean;
@@ -27,13 +28,15 @@ export class AccountTreeV2Component implements OnInit {
 
   accountTreeModel: AccountTreeModel =
   {} as AccountTreeModel;
+
+  accountsOpeningBalance:AccountTreeModel[]=[];
   constructor(private sharedService: SharedService,
               private  GeneralAccountService:GeneralAccountService,private toaster:ToastrService) { }
 
   ngOnInit(): void {
-    this.loadData();
-    this.GetAccountTypes();
-    this.loadParentAccountsData();
+    // this.loadData();
+    // this.GetAccountTypes();
+    // this.loadParentAccountsData();
   }
 
   GetAccountTypes()
@@ -70,13 +73,12 @@ export class AccountTreeV2Component implements OnInit {
     this.selectedAccount.emit(account);
   }
 
-  loadData() {
+  loadData(SearchText='') {
 
     this.showLoader = true;
-    this.sharedService.GetAccountTreeHierarchicalData(this.SearchText).subscribe(data => {
+    this.sharedService.GetAccountTreeData(SearchText).subscribe((data:AccountTreeModel[]) => {
       this.showLoader = false;
-      this.isSearchMode = true;
-      this.AccountTreeData = data;
+      this.accountsOpeningBalance = this.SearchText? data.filter(x=>x.isSelected):data;
  
     },(error)=>{
       this.showLoader=false;
@@ -84,8 +86,32 @@ export class AccountTreeV2Component implements OnInit {
       this.showLoader=false;
     });
   }
+  NumbersOnly(key: any): boolean {
+    // let patt = /^\d+(\.\d+)?$/;
+    let patt =/^[1-9]\d*(\.\d+)?$/
+    let result = patt.test(key);
+    return result;
+  }
+  updateAccountsOpeningBalance() {
+    this.showLoader = true;
 
-
+    const updateLst=this.accountsOpeningBalance.filter(x=>x.preCredit>0||x.preDebit);
+    this.GeneralAccountService
+        .UpdateAccountsOpeningBalance(updateLst).subscribe((data: CreateModifyReturnsModel) => {
+          if (data?.status) {
+            this.ClearAllFields();
+            this.toaster.success(data?.message);
+          } else {
+            this.toaster.error(data?.message);
+          }
+          this.loadData();
+ 
+    },(error)=>{
+      this.showLoader=false;
+    },()=>{
+      this.showLoader=false;
+    });
+  }
 
 
   CreateNewAccount() {
@@ -122,7 +148,9 @@ export class AccountTreeV2Component implements OnInit {
     return true;
   }
   ClearAllFields() {
-    this.accountTreeModel = {} as AccountTreeModel;
+    this.accountsOpeningBalance=[];
+    this.SearchText='';
+    // this.accountTreeModel = {} as AccountTreeModel;
 
   }
 

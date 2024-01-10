@@ -93,6 +93,13 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             param[0] = new SqlParameter("@SearchText", SearchText);
 
             var lst = SQLHelper.SQLQuery<AccountTreeModel>("[dbo].[SP_GetAccountTreeData_V2]", ConnectionString, param);
+            return lst;
+
+        }
+        public List<AccountTreeModel> GetAccountTreeHierarchicalData(string SearchText)
+        {
+
+            var lst = GetAccountTreeData(SearchText);
             var Tree = BuildTree(lst);
             return Tree;
 
@@ -151,5 +158,65 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
             return result;
         }
+
+        #region OpeningBalance
+
+        public ActionsResponseModel UpdateAccountsOpeningBalance(List<AccountTreeModel> AccList)
+        {
+            try
+            {
+                
+
+
+                foreach (var Model in AccList)
+                {
+                    
+
+
+                    var entity = Context.AccountTrees.FirstOrDefault(x => x.AccountId == Model.AccountId);
+
+                    if (entity !=null)
+                    {
+                        entity.PreDebit = Model.PreDebit;
+                        entity.PreCredit = Model.PreCredit;
+                        entity.ModifyDate = DateTime.Now;
+                        entity.CreatedBy = String.Empty;
+
+                    }
+                        
+
+                   
+
+                }
+
+
+                Context.SaveChanges();
+
+                return new ActionsResponseModel
+                {
+                    Status = 1,
+                    Message = "تم الحفظ  بنجاح"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    Message = ex.Message
+                };
+            }
+            return new ActionsResponseModel();
+        }
+        public List<AccountOpeningBalanceModel> GetAccountsOpeningBalanceData(string SearchText)
+        {
+            SqlParameter[] param = new SqlParameter[1];
+            param[0] = new SqlParameter("@SearchText", SearchText);
+
+            var results = SQLHelper.SQLQuery<AccountOpeningBalanceModel>("[dbo].[SP_GetAccountsOpeningBalanceData]", ConnectionString, param);
+            return results;
+
+        }
+        #endregion
     }
 }

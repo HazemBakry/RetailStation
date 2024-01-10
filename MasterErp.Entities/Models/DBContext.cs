@@ -85,6 +85,7 @@ namespace MasterErp.Entities.Models
         public DbSet<PurchaseRequestDetails> PurchaseRequestDetails { get; set; }
         public DbSet<SupplierReturnsVoucher> SupplierReturnsVoucher { get; set; }
         public DbSet<SupplierReturnsVoucherDetails> SupplierReturnsVoucherDetails { get; set; }
+        public DbSet<AccountOpeningBalance> AccountOpeningBalance { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

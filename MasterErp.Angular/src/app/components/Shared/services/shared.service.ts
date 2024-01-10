@@ -29,6 +29,10 @@ export class SharedService {
   GetAccountTreeData(SearchText: string) {
     return this.http.get<any>(this.URL + 'AccountTree/GetAccountTreeData?SearchText=' + SearchText);
   }
+  GetAccountTreeHierarchicalData(SearchText: string) {
+    return this.http.get<any>(this.URL + 'AccountTree/GetAccountTreeHierarchicalData?SearchText=' + SearchText);
+  }
+
   //================================== CostCenterTree ===============================
 
   GetCostCenterTreeData() {

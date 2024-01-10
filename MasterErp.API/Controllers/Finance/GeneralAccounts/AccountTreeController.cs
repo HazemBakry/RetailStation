@@ -47,6 +47,15 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             var results= _accountTreeService.GetAccountTreeData(SearchText);
             return Ok(results);
         }
+
+        [HttpGet]
+        [Route("GetAccountTreeHierarchicalData")]
+        public IActionResult GetAccountTreeHierarchicalData(string SearchText)
+        {
+            var results = _accountTreeService.GetAccountTreeHierarchicalData(SearchText);
+            return Ok(results);
+        }
+
         [HttpGet]
         [Route("GetAccountsList")]
         public List<AccountTree> GetAccountsList(bool IsParent)
@@ -61,6 +70,35 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             return _accountTreeService.GetChildAccountsList();
         }
 
+
+
+        #region OpeningBalance
+        //[HttpPost]
+        //[Route("CreateNewOpeningBalance")]
+
+        //public IActionResult CreateNewOpeningBalance(AccountOpeningBalanceModel Model)
+        //{
+        //    var results = _accountTreeService.CreateNewOpeningBalance(Model);
+        //    return Ok(results);
+        //}
+
+        [HttpPost]
+        [Route("UpdateAccountsOpeningBalance")]
+
+        public IActionResult UpdateAccountsOpeningBalance(List<AccountTreeModel> Model)
+        {
+            var results = _accountTreeService.UpdateAccountsOpeningBalance(Model);
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("GetAccountsOpeningBalanceData")]
+        public IActionResult GetAccountsOpeningBalanceData(string SearchText)
+        {
+            var results = _accountTreeService.GetAccountsOpeningBalanceData(SearchText);
+            return Ok(results);
+        }
+        #endregion
 
     }
 }

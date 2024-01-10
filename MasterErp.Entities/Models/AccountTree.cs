@@ -29,6 +29,8 @@ namespace MasterErp.Entities.Models
         public int? DepreciationYears { get; set; }
         public int? DepreciationId { get; set; }
         public int? AccumulatedDepreciationId { get; set; }
+        public double? PreCredit { get; set; }
+        public double? PreDebit { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreateDate { get; set; }
         public string ModifiedBy { get; set; }

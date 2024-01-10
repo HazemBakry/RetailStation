@@ -6,6 +6,8 @@ export interface AccountTreeModel {
     accountLevel: number | null;
     accountTypeId: number | null;
     currencyTypeId: number | null;
+    preCredit: number | null;
+    preDebit: number | null;
     nameAR: string;
     nameEN: string;
     assetType: string;

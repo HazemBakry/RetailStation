@@ -15,7 +15,15 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
         ActionsResponseModel CreateNewAccount(AccountTreeModel Model);
         DataTable GetAccountTreeData_Old(string SearchText);
         List<AccountTreeModel> GetAccountTreeData(string SearchText);
+        List<AccountTreeModel> GetAccountTreeHierarchicalData(string SearchText);
         List<AccountTree> GetAccountsList(bool IsParent);
         List<AccountTree> GetChildAccountsList();
+
+        #region MyRegion
+        //ActionsResponseModel CreateNewOpeningBalance(AccountOpeningBalanceModel Model);
+        ActionsResponseModel UpdateAccountsOpeningBalance(List<AccountTreeModel> Model);
+        List<AccountOpeningBalanceModel> GetAccountsOpeningBalanceData(string SearchText);
+
+        #endregion
     }
 }
