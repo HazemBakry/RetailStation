@@ -208,13 +208,42 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             }
             return new ActionsResponseModel();
         }
-        public List<AccountOpeningBalanceModel> GetAccountsOpeningBalanceData(string SearchText)
+        public List<AccountTreeModel> GetAccountsOpeningBalanceData(string SearchText)
         {
-            SqlParameter[] param = new SqlParameter[1];
-            param[0] = new SqlParameter("@SearchText", SearchText);
+            //SqlParameter[] param = new SqlParameter[1];
+            //param[0] = new SqlParameter("@SearchText", SearchText);
 
-            var results = SQLHelper.SQLQuery<AccountOpeningBalanceModel>("[dbo].[SP_GetAccountsOpeningBalanceData]", ConnectionString, param);
-            return results;
+            //var results = SQLHelper.SQLQuery<AccountOpeningBalanceModel>("[dbo].[SP_GetAccountsOpeningBalanceData]", ConnectionString, param);
+            //return results;
+            var lst = GetAccountTreeData(SearchText);
+            
+
+            foreach (var item in lst.Where(x => x.IsSelected).ToList())
+            {
+                UpdateChildSelection(item, lst);
+
+            }
+
+            if (!String.IsNullOrEmpty(SearchText))
+            {
+                lst = lst.Where(x => x.IsSelected).ToList();
+            }
+            return lst;
+        }
+
+        public static void UpdateChildSelection(AccountTreeModel acc, List<AccountTreeModel> accounts)
+        {
+
+            var lst = accounts.Where(x => x.ParentAccountId == acc.AccountId).ToList();
+            if (lst.Any())
+            {
+                foreach (var item in lst)
+                {
+                    item.IsSelected = true;
+                    UpdateChildSelection(item, accounts);
+                }
+
+            }
 
         }
         #endregion

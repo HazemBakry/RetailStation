@@ -22,7 +22,7 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
         #region MyRegion
         //ActionsResponseModel CreateNewOpeningBalance(AccountOpeningBalanceModel Model);
         ActionsResponseModel UpdateAccountsOpeningBalance(List<AccountTreeModel> Model);
-        List<AccountOpeningBalanceModel> GetAccountsOpeningBalanceData(string SearchText);
+        List<AccountTreeModel> GetAccountsOpeningBalanceData(string SearchText);
 
         #endregion
     }

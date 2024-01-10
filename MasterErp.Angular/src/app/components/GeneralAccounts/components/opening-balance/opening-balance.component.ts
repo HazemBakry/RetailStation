@@ -76,7 +76,7 @@ export class OpeningBalanceComponent implements OnInit {
   loadData(SearchText='') {
 
     this.showLoader = true;
-    this.sharedService.GetAccountTreeData(SearchText).subscribe((data:AccountTreeModel[]) => {
+    this.GeneralAccountService.GetAccountsOpeningBalanceData(SearchText).subscribe((data:AccountTreeModel[]) => {
       this.showLoader = false;
       this.accountsOpeningBalance = this.SearchText? data.filter(x=>x.isSelected):data;
  
