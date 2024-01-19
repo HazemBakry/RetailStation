@@ -10,21 +10,21 @@ namespace MasterErp.Entities.Models
     public class CostCenterTree
     {
 		[Key]
-		public int CostCenterID { get; set; }
+		public int CostCenterId { get; set; }
 		public string CostCenterNumber { get; set; }
 		public string NameAR { get; set; }
 		public string NameEN { get; set; }
-		public int? ParentID { get; set; }
+		public int ParentId { get; set; }
         public int? CostLevel { get; set; }
         public bool? IsActive { get; set; }
 		public bool? IsLocked { get; set; }
 		public bool? IsParent { get; set; }
 		public bool? IsPost { get; set; }
 		public int? IsExpences { get; set; }
-		public int? Index { get; set; }
-		public int? InsertUser { get; set; }
-		public int? UpdateUser { get; set; }
-		public DateTime? InserDate { get; set; }
-		public DateTime? UpdateDate { get; set; }
+		public int? DisplayOrder { get; set; }
+        public string CreatedBy { get; set; }
+        public string ModifyBy { get; set; }
+		public DateTime? CreateDate { get; set; }
+		public DateTime? ModifyDate { get; set; }
 	}
 }

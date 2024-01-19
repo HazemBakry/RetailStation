@@ -92,7 +92,11 @@
             </button>
         </div>
         <div class="offcanvas-body my-1 py-1">
-            <app-accounts-tree [isParentAccount]="IsParentAccount" (selectedAccount)="GetSelectedAccount($event)"></app-accounts-tree>
+            <app-account-tree-v2 
+            [isParentAccount]="IsParentAccount"
+            (selectedAccount)="GetSelectedAccount($event)">
+            </app-account-tree-v2>
+            <!-- <app-accounts-tree [isParentAccount]="IsParentAccount" (selectedAccount)="GetSelectedAccount($event)"></app-accounts-tree> -->
             <!-- <div class="boxstyle1-content hastable table-responsive table-vp-height small-scroll">
             </div> -->
         </div>

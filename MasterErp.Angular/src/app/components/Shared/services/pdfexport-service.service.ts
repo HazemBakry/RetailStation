@@ -139,7 +139,7 @@ export class PDFExportService {
                 p.accountName,
                 p.debit.toFixed(2),
                 p.credit.toFixed(2),
-                p.costCenterID,
+                p.costCenterId,
                 p.notes,
               ]),
               [

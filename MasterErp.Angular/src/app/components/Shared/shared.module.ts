@@ -23,6 +23,8 @@ import { FiscalYearComponent } from './components/BasicInformation/fiscal-year/f
 import { ReceiptBooksComponent } from './components/BasicInformation/receipt-books/receipt-books.component';
 import { OverviewCardComponent } from './components/overview-card/overview-card.component';
 import { ColorWithStatusDirective } from './directives/color-with-status.directive';
+import { AccountTreeV2Component } from './components/account-tree-v2/account-tree-v2.component';
+import { AccountTreeItemComponent } from './components/account-tree-item/account-tree-item.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { ColorWithStatusDirective } from './directives/color-with-status.directi
     OrderProductsComponent,
     AppBreadcrumbComponent,
     AccountsReportHeaderComponent,
-
+    AccountTreeV2Component,
+    AccountTreeItemComponent,
     //Basic Information Components
     CurrencyComponent,
     FeaturedComponent,
@@ -81,6 +84,8 @@ import { ColorWithStatusDirective } from './directives/color-with-status.directi
     OrderProductsComponent,
     AppBreadcrumbComponent,
     AccountsReportHeaderComponent,
+    AccountTreeV2Component,
+    AccountTreeItemComponent,
     StatsCardComponent,
     OverviewCardComponent,
     ColorWithStatusDirective

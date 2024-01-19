@@ -1,0 +1,15 @@
+<div (click)="toggleNode(costCenter)" class="row d-flex align-items-center mb-2  ps-{{costCenter.costLevel}} ms-{{costCenter.costLevel}}">
+
+        <div class="col-lg-6">
+            <i *ngIf="costCenter.children?.length" class="fas " [class]="!expanded?'fa-plus-circle':'fa-minus-circle'" ></i>
+            <span class="ms-2" [ngClass]="{'bg-warning': costCenter.isSelected}">{{ costCenter.nameEN }}</span>  
+            
+        </div>
+        <div class="col-lg-6 align-self-start" >
+            <a (click)="onEvent($event,costCenter)" class="text-underline text-primary cursor-pointer fs-6">Select</a>
+        </div>
+</div>
+<!-- (costCenter.isSelected||expanded) -->
+<div *ngIf="costCenter.children &&(expanded||costCenter.isSelected) ">
+    <app-cost-center-tree-item (selectedCostCenter)="selectCostCenter(child)" *ngFor="let child of costCenter.children" [costCenter]="child"></app-cost-center-tree-item>
+</div>

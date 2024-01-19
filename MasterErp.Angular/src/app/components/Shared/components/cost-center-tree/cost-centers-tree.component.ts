@@ -47,19 +47,19 @@ export class CostCentersTreeComponent implements OnInit {
     if (level == 1) {
       this.CenterData.push(centerObj);
     } else if (level == 2) {
-      let parent = this.CenterData.find(i => i.costCenterID == centerObj.parentID);
+      let parent = this.CenterData.find(i => i.costCenterId == centerObj.parentID);
       if (parent)
         parent.level2.push(centerObj);
     } else if (level == 3) {
       this.CenterData.forEach(level => {
-        let children = level.level2.find(i => i.costCenterID == centerObj.parentID);
+        let children = level.level2.find(i => i.costCenterId == centerObj.parentID);
         if (children)
           children.level3.push(centerObj);
       });
     } else if (level == 4) {
       this.CenterData.forEach(item => {
         item.level2.forEach(level => {
-          let children = level.level3.find(i => i.costCenterID == centerObj.parentID);
+          let children = level.level3.find(i => i.costCenterId == centerObj.parentID);
           if (children)
             children.level4.push(centerObj);
         });
@@ -68,7 +68,7 @@ export class CostCentersTreeComponent implements OnInit {
       this.CenterData.forEach(item => {
         item.level2.forEach(level => {
           level.level3.forEach(sup => {
-            let children = sup.level4.find(i => i.costCenterID == centerObj.parentID);
+            let children = sup.level4.find(i => i.costCenterId == centerObj.parentID);
             if (children)
               children.level5.push(centerObj);
           });

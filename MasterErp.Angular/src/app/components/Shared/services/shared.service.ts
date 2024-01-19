@@ -35,8 +35,8 @@ export class SharedService {
 
   //================================== CostCenterTree ===============================
 
-  GetCostCenterTreeData() {
-    return this.http.get<any>(this.URL + 'CostCenterTree/GetCostCenterTreeData');
+  GetCostCenterTreeData(isParent=false) {
+    return this.http.get<any>(this.URL + 'CostCenterTree/GetCostCenterTreeData?IsParent='+isParent);
   }
 
 

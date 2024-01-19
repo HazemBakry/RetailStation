@@ -84,8 +84,8 @@ export class AccountsReportHeaderComponent implements OnInit  {
     this.SearchModel.filterItems=this.SearchModel.filterItems.filter(x=>x.categoryName!='costCenterId');
     this.SearchModel.filterItems.push({
       categoryName:'costCenterId',
-      itemKey:item.costCenterID?.toString(),
-      itemFlag:item.costCenterID?.toString()
+      itemKey:item.costCenterId?.toString(),
+      itemFlag:item.costCenterId?.toString()
     });
     this.emitSearchModel();
   }

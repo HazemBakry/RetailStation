@@ -1,0 +1,16 @@
+<div (click)="toggleNode(account)" class="row d-flex align-items-center mb-2  ps-{{account.accountLevel}} ms-{{account.accountLevel}}">
+    <!-- <i *ngIf="account.children?.length" class="fas " [class]="!expanded?'fa-plus-circle':'fa-minus-circle'" ></i>
+    <span class="ms-2" [ngClass]="{'bg-warning': account.isSelected}">{{ account.nameEN }}</span>   -->
+        <div class="col-lg-6">
+            <i *ngIf="account.children?.length" class="fas " [class]="!expanded?'fa-plus-circle':'fa-minus-circle'" ></i>
+            <span class="ms-2" [ngClass]="{'bg-warning': account.isSelected}">{{ account.nameEN }}</span>  
+            
+        </div>
+        <div class="col-lg-6 align-self-start" >
+            <a (click)="onEvent($event,account)" class="text-underline text-primary cursor-pointer fs-6">Select</a>
+        </div>
+</div>
+<!-- (account.isSelected||expanded) -->
+<div *ngIf="account.children &&(expanded||account.isSelected) ">
+    <app-account-tree-item (selectedAccount)="selectAccount(child)" *ngFor="let child of account.children" [account]="child"></app-account-tree-item>
+</div>

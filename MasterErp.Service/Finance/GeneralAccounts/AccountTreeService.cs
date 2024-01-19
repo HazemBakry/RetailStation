@@ -75,7 +75,51 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             }
         }
 
+        public ActionsResponseModel UpdateAccountTree(int AccountId,AccountTreeModel Model)
+        {
+            try
+            {
 
+
+                var entity = Context.AccountTrees.FirstOrDefault(x => x.AccountId == AccountId);
+
+                if (entity != null)
+                {
+                    
+                    entity.ModifyDate = DateTime.Now;
+                    entity.CreatedBy = String.Empty;
+                    entity.AccountNumber = Model.AccountNumber;
+                    entity.ParentAccountId = Model.ParentAccountId;
+                    entity.AccountTypeId = Model.AccountTypeId;
+                    entity.AccountLevel = Model.AccountLevel ?? 1;
+                    entity.AccountNature = String.Empty;
+                    entity.IsActive = Model.IsActive;
+                    entity.NameAR = Model.NameEN;
+                    entity.NameEN = Model.NameEN;
+                    entity.IsDisToCostCenter = Model.IsDisToCostCenter;
+                }
+
+                Context.SaveChanges();
+
+
+                
+
+
+                return new ActionsResponseModel
+                {
+                    Status = 1,
+                    Message = "تم الحفظ  بنجاح"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    Message = ex.Message
+                };
+            }
+        }
 
         public DataTable GetAccountTreeData_Old(string SearchText)
         {

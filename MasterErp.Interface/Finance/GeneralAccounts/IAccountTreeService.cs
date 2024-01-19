@@ -13,6 +13,7 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
     public interface IAccountTreeService
     {
         ActionsResponseModel CreateNewAccount(AccountTreeModel Model);
+        ActionsResponseModel UpdateAccountTree(int AccountId, AccountTreeModel Model);
         DataTable GetAccountTreeData_Old(string SearchText);
         List<AccountTreeModel> GetAccountTreeData(string SearchText);
         List<AccountTreeModel> GetAccountTreeHierarchicalData(string SearchText);

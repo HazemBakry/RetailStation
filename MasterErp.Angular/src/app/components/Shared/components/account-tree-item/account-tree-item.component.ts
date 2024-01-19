@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { AccountTreeModel } from '../../models/GeneralAccounts/AccountTree';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AccountTreeModel } from '../../../GeneralAccounts/models/GeneralAccounts/AccountTree';
 
 @Component({
   selector: 'app-account-tree-item',
@@ -10,6 +10,7 @@ export class AccountTreeItemComponent implements OnInit {
   expanded = false;
   @Input() account: AccountTreeModel;
 
+  @Output() selectedAccount = new EventEmitter<AccountTreeModel>();
   constructor() { }
 
   ngOnInit(): void {
@@ -19,6 +20,14 @@ export class AccountTreeItemComponent implements OnInit {
   toggleNode(account: AccountTreeModel) {
     // account.isSelected=!account.isSelected
     this.expanded = !this.expanded;
+  }
+  onEvent(e:Event,account: AccountTreeModel) {
+    event.preventDefault(); 
+    event.stopPropagation();
+    this.selectAccount(account);
+  }
+  selectAccount(account: AccountTreeModel) {
+    this.selectedAccount.emit(account);
   }
   // selectAccount(account :AccountTreeModel)
   // {

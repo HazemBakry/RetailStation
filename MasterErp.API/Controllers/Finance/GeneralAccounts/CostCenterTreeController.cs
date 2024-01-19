@@ -1,9 +1,12 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common.Finance.GeneralAccounts;
+using MasterErp.Entities.Models;
 using MasterErp.Interface.Finance.GeneralAccounts;
+using MasterErp.Service.Finance.GeneralAccounts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,11 +23,40 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             _costCenterTreeService = costCenterTreeService;
         }
 
+        [HttpPost]
+        [Route("CreateNewCostCenter")]
+
+        public IActionResult CreateNewCostCenter(CostCenterTreeModel Model)
+        {
+            var results = _costCenterTreeService.CreateNewCostCenter(Model);
+            return Ok(results);
+        }
+
+        [HttpPost]
+        [Route("UpdateCostCenterTree")]
+
+        public IActionResult UpdateCostCenterTree(int CostCenterId, CostCenterTreeModel Model)
+        {
+            var results = _costCenterTreeService.UpdateCostCenterTree(CostCenterId, Model);
+            return Ok(results);
+        }
+
+
+        [HttpGet]
+        [Route("GetCostCenterTreeHierarchicalData")]
+        public IActionResult GetCostCenterTreeHierarchicalData(string SearchText)
+        {
+            var results = _costCenterTreeService.GetCostCenterTreeHierarchicalData(SearchText);
+            return Ok(results);
+        }
+
+
+
         [HttpGet]
         [Route("GetCostCenterTreeData")]
-        public List<CostCenterTree> GetCostCenterTreeData()
+        public List<CostCenterTree> GetCostCenterTreeData(bool IsParent)
         {
-            return _costCenterTreeService.GetCostCenterTreeData();
+            return _costCenterTreeService.GetCostCenterTreeData(IsParent);
         }
     }
 }

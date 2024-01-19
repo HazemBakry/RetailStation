@@ -15,7 +15,7 @@ export interface JournalEntryAccount {
     accountID?: number;
     debit?: number | null;
     credit?: number | null;
-    costCenterID?: number | null;
+    costCenterId?: number | null;
     costValue?: number | null;
     costPercent?: number | null;
     currencyID?: number | null;

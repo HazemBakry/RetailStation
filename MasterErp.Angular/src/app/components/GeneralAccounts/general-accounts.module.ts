@@ -7,7 +7,6 @@ import { AccountsAssistantLedgerComponent } from './components/accounts-assistan
 import { AccountsGeneralLedgerComponent } from './components/accounts-general-ledger/accounts-general-ledger.component';
 import { CostAssistantLedgerComponent } from './components/cost-assistant-ledger/cost-assistant-ledger.component';
 import { CostCenterMatrixComponent } from './components/cost-center-matrix/cost-center-matrix.component';
-import { CostCenterTreeComponent } from './components/cost-center-tree/cost-center-tree.component';
 import { CostGeneralLedgerComponent } from './components/cost-general-ledger/cost-general-ledger.component';
 import { CostTrialBalanceComponent } from './components/cost-trial-balance/cost-trial-balance.component';
 import { CreatePaymentReceiptComponent } from './components/create-payment-receipt/create-payment-receipt.component';
@@ -25,17 +24,19 @@ import { GeneralAccountsLayoutComponent } from './general-accounts-layout/genera
 import { ReceiptLedgersComponent } from './components/receipt-ledgers/receipt-ledgers.component';
 import { FinancialPeriodsComponent } from './components/financial-periods/financial-periods.component';
 import { JournalEntryTypesComponent } from './components/journal-entry-types/journal-entry-types.component';
-import { AccountTreeV2Component } from './components/account-tree-v2/account-tree-v2.component';
-import { AccountTreeItemComponent } from './components/account-tree-item/account-tree-item.component';
 import { OpeningBalanceComponent } from './components/opening-balance/opening-balance.component';
+import { AddEditAccountTreeComponent } from './components/add-edit-account-tree/add-edit-account-tree.component';
+import { AccountTreeContainerComponent } from './components/account-tree-container/account-tree-container.component';
+import { CostCenterTreeContainerComponent } from './components/cost-center-tree-container/cost-center-tree-container.component';
+import { CostCenterTreeComponent } from './components/cost-center-tree-container/cost-center-tree/cost-center-tree.component';
+import { AddEditCostCenterTreeComponent } from './components/cost-center-tree-container/add-edit-cost-center-tree/add-edit-cost-center-tree.component';
+import { CostCenterTreeItemComponent } from './components/cost-center-tree-container/cost-center-tree-item/cost-center-tree-item.component';
 
 
 @NgModule({
   declarations: [
     GeneralAccountsLayoutComponent,
     AccountTreeComponent,
-    AccountTreeV2Component,
-    AccountTreeItemComponent,
     CostCenterTreeComponent,
     NewEntryComponent,
     JournalDailyListComponent,
@@ -54,7 +55,12 @@ import { OpeningBalanceComponent } from './components/opening-balance/opening-ba
     ReceiptLedgersComponent,
     FinancialPeriodsComponent,
     JournalEntryTypesComponent,
-    OpeningBalanceComponent
+    OpeningBalanceComponent,
+    AddEditAccountTreeComponent,
+    AccountTreeContainerComponent,
+    AddEditCostCenterTreeComponent,
+    CostCenterTreeItemComponent,
+    CostCenterTreeContainerComponent
   ],
   imports: [
     CommonModule,

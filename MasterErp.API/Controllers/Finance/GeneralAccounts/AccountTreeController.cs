@@ -31,6 +31,15 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             var results = _accountTreeService.CreateNewAccount(Model);
             return Ok(results);
         }
+        
+        [HttpPost]
+        [Route("UpdateAccountTree")]
+
+        public IActionResult UpdateAccountTree(int AccountId,AccountTreeModel Model)
+        {
+            var results = _accountTreeService.UpdateAccountTree(AccountId, Model);
+            return Ok(results);
+        }
 
 
         [HttpGet]

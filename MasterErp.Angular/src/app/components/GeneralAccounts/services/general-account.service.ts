@@ -9,6 +9,7 @@ import { JournalEntryTypeModel } from '../models/JournalEntryTypeModel';
 import { FinancialPeriodModel } from '../models/FinancialPeriodModel';
 import { AccountTreeModel } from '../models/GeneralAccounts/AccountTree';
 import { AccountOpeningBalanceModel } from '../models/GeneralAccounts/OpeningBalance';
+import { CostCenterTreeModel } from '../models/GeneralAccounts/CostCenter';
 
 @Injectable({
   providedIn: 'root'
@@ -108,7 +109,9 @@ export class GeneralAccountService {
     return this.http.post<any>(this.URL + 'AccountTree/CreateNewAccount', model);
   }
 
-
+  UpdateAccountTree(accountId:number,model: AccountTreeModel) {
+    return this.http.post<any>(this.URL + 'AccountTree/UpdateAccountTree?AccountId='+accountId, model);
+  }
   ////////////////// General Accounts Reports ///////
 
   GetAccountsGeneralLedger(model: SearchFilterModel) {
@@ -221,5 +224,20 @@ export class GeneralAccountService {
   CreateNewOpeningBalance(model: AccountOpeningBalanceModel) {
     return this.http.post<any>(this.URL + 'AccountTree/CreateNewOpeningBalance', model);
   }
+
+
+    ///////////////////// OpeningBalance
+
+    GetCostCenterTreeHierarchicalData(SearchText: string) {
+      return this.http.get<any>(this.URL + 'CostCenterTree/GetCostCenterTreeHierarchicalData?SearchText=' + SearchText);
+    }
+
+    CreateNewCostCenter(model: CostCenterTreeModel) {
+      return this.http.post<any>(this.URL + 'CostCenterTree/CreateNewCostCenter', model);
+    }
+  
+    UpdateCostCenterTree(costCenterId:number,model: CostCenterTreeModel) {
+      return this.http.post<any>(this.URL + 'CostCenterTree/UpdateCostCenterTree?CostCenterId='+costCenterId, model);
+    }
 
 }

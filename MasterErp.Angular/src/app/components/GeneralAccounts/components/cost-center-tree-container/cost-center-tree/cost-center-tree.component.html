@@ -1,0 +1,32 @@
+<div class="">
+    <div class="row gy-3">
+        
+      <div class="col-md-12">
+        <div class="input-group">
+          <span class="input-group-text">
+            <button (click)="loadData()" class="border-0">
+              <i class="fas fa-search"></i>
+            </button>
+  
+          </span>
+          <input [(ngModel)]="SearchText" (keyup.enter)="loadData()" type="text" placeholder="اسم مركز التكلفة"
+            class="form-control">
+        </div>
+      </div>
+
+      <div *ngIf="CostCenterTreeData && CostCenterTreeData.length>0" class="col-md-12">
+        <div class="border bg-white small-scroll overflow-auto p-2 max-height-350">
+  
+          <div *ngFor="let costCenter of CostCenterTreeData">
+            <app-cost-center-tree-item 
+              [costCenter]="costCenter"
+              (selectedCostCenter)="selectCostCenter($event)"
+              ></app-cost-center-tree-item>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+  <ngx-loading [show]="showLoader"></ngx-loading>

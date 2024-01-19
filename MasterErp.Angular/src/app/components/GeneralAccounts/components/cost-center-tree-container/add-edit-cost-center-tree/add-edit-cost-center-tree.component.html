@@ -1,0 +1,64 @@
+<div class="">
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label col-form-label-sm">رمز مركز التكلفة</label>
+        <div class="col-sm-9">
+            <input [(ngModel)]="costCenterTreeModel.costCenterNumber" placeholder="رمز مركز التكلفة" type="text"
+                class="form-control form-control-sm">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label col-form-label-sm">اسم مركز التكلفة</label>
+        <div class="col-sm-9">
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="fas fa-user"></i>
+                </span>
+                <input [(ngModel)]="costCenterTreeModel.nameEN" type="text" class="form-control" placeholder="اسم مركز التكلفة">
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="row">
+
+        <label class="col-sm-3 col-form-label col-form-label-sm">متفرع من مركز التكلفة</label>
+        <div class="col-sm-9">
+            <app-erp-selector-with-search #Selector [SelectorName]="'اسم مركز التكلفة'" [ItemsList]="parentCostCenterList"
+                [Height]="'30px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedParentCostCenter($event)">
+            </app-erp-selector-with-search>
+
+        </div>
+    </div>
+    <hr class="my-4" />
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label col-form-label-sm">مؤجل</label>
+        <div class="col-sm-9">
+            <input [(ngModel)]="costCenterTreeModel.isPost" class="form-check-input" type="checkbox"
+                id="flexCheckDefault">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label col-form-label-sm">مركز تكلفة نشط</label>
+        <div class="col-sm-9">
+            <div class="d-flex align-items-center">
+                <input [(ngModel)]="costCenterTreeModel.isActive" class="form-check-input" type="checkbox"
+                    id="flexCheckDefault">
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-sm-9">
+            <div class="d-flex align-items-center">
+                <button (click)="isUpdate ?UpdateCostCenterTree():CreateNewCostCenter()" class="btn btn-primary ms-2">
+                    <i class="fas fa-cogs"></i>
+                    <span class="ms-2">{{isUpdate?'Update':'Save'}}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

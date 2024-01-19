@@ -8,7 +8,6 @@ import { AccountTreeComponent } from './components/account-tree/account-tree.com
 import { AccountsAssistantLedgerComponent } from './components/accounts-assistant-ledger/accounts-assistant-ledger.component';
 import { AccountsGeneralLedgerComponent } from './components/accounts-general-ledger/accounts-general-ledger.component';
 import { CostAssistantLedgerComponent } from './components/cost-assistant-ledger/cost-assistant-ledger.component';
-import { CostCenterTreeComponent } from './components/cost-center-tree/cost-center-tree.component';
 import { CostGeneralLedgerComponent } from './components/cost-general-ledger/cost-general-ledger.component';
 import { CreatePaymentReceiptComponent } from './components/create-payment-receipt/create-payment-receipt.component';
 import { CreateReceiveReceiptComponent } from './components/create-receive-receipt/create-receive-receipt.component';
@@ -24,8 +23,9 @@ import { CostCenterMatrixComponent } from './components/cost-center-matrix/cost-
 import { ReceiptLedgersComponent } from './components/receipt-ledgers/receipt-ledgers.component';
 import { FinancialPeriodsComponent } from './components/financial-periods/financial-periods.component';
 import { JournalEntryTypesComponent } from './components/journal-entry-types/journal-entry-types.component';
-import { AccountTreeV2Component } from './components/account-tree-v2/account-tree-v2.component';
 import { OpeningBalanceComponent } from './components/opening-balance/opening-balance.component';
+import { AccountTreeContainerComponent } from './components/account-tree-container/account-tree-container.component';
+import { CostCenterTreeContainerComponent } from './components/cost-center-tree-container/cost-center-tree-container.component';
 
 const routes: Routes = [
   {
@@ -38,8 +38,8 @@ const routes: Routes = [
       { path: 'fiscalYear', component: FiscalYearComponent },
       { path: 'receiptBooks', component: ReceiptBooksComponent },
       // { path: 'account-tree', component: AccountTreeComponent },
-      { path: 'account-tree', component: AccountTreeV2Component },
-      { path: 'cost-center-tree', component: CostCenterTreeComponent },
+      { path: 'account-tree', component: AccountTreeContainerComponent },
+      { path: 'cost-center-tree', component: CostCenterTreeContainerComponent },
       { path: 'new-entry', component: NewEntryComponent },
       { path: 'journal-daily-list', component: JournalDailyListComponent },
       { path: 'create-payment-receipt', component: CreatePaymentReceiptComponent },

@@ -118,6 +118,7 @@ export class NewEntryComponent implements OnInit {
       this.SelectedAccounts.push(item);
     else
       this.toaster.warning('This Account Alredy Selected');
+    
   }
 
   ClearSelectedAccount(index: number) {
@@ -137,7 +138,7 @@ export class NewEntryComponent implements OnInit {
   }
 
   GetSelectedCostCenter(obj: any, item: any) {
-    item.costCenter = obj.costCenterID;
+    item.costCenter = obj.costCenterId;
   }
 
   SaveSelectedAccount() {
@@ -148,7 +149,7 @@ export class NewEntryComponent implements OnInit {
 
     if (this.activeTab == 'Account') {
       this.SelectedAccounts.forEach((account, index) => {
-        let checked = this.AccountsListTable.find(i => i.accountID == account.accountID);
+        let checked = this.AccountsListTable.find(i => i.accountId == account.accountId);
         if (!checked)
           this.AccountsListTable.push(account);
         account.creditor = '';
@@ -239,7 +240,7 @@ export class NewEntryComponent implements OnInit {
           accountName: item.nameEN,
           notes: item.notes,
           accountNumber: item.accountNumber,
-          costCenterID: item.costCenter ? item.costCenter : 0,
+          costCenterId: item.costCenter ? item.costCenter : 0,
           costPercent: 0,
           costValue: 0,
           currencyID: 0,

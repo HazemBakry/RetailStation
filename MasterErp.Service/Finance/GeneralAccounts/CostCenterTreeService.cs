@@ -1,5 +1,9 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Finance.GeneralAccounts;
+using MasterErp.Entities.Models;
 using MasterErp.Interface.Finance.GeneralAccounts;
+using MasterErp.Service.Common;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +21,176 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             Context = dBContext;
         }
 
-        public List<CostCenterTree> GetCostCenterTreeData()
+        public List<CostCenterTree> GetCostCenterTreeData(bool IsParent)
         {
             return Context.CostCenterTree.ToList();
         }
+
+        public List<CostCenterTreeModel> GetCostCenterTreeData(string SearchText)
+        {
+
+            return Context.CostCenterTree.Select(x=>
+                                        new CostCenterTreeModel
+                                        {
+                                            CostCenterId = x.CostCenterId,
+                                            CostCenterNumber = x.CostCenterNumber,
+                                            NameEN = x.NameEN,
+                                            NameAR = x.NameAR,
+                                            ParentId = x.ParentId,
+                                            CostLevel = x.CostLevel,
+                                            IsActive = x.IsActive,
+                                            IsLocked = x.IsLocked,
+                                            IsParent = x.IsParent,
+                                            IsExpences = x.IsExpences,
+                                            IsPost=x.IsPost,
+                                            DisplayOrder= x.DisplayOrder,
+                                            IsSelected= x.NameEN.Contains(SearchText) || x.NameEN.Contains(SearchText) || x.CostCenterNumber == SearchText
+
+                                        }).ToList();
+            return new List<CostCenterTreeModel>();
+        }
+        public List<CostCenterTreeModel> GetCostCenterTreeHierarchicalData(string SearchText)
+        {
+
+            var lst = GetCostCenterTreeData(SearchText);
+            var Tree = BuildTree(lst);
+            return Tree;
+
+        }
+
+        static List<CostCenterTreeModel> BuildTree(List<CostCenterTreeModel> costCenterList)
+        {
+            var costCenterById = costCenterList.ToDictionary(costCenter => costCenter.CostCenterId);
+
+            var roots = new List<CostCenterTreeModel>();
+
+            foreach (var costCenter in costCenterList)
+            {
+                if (costCenter.ParentId == 0)
+                {
+                    costCenter.CostLevel = 1;
+                    roots.Add(costCenter);
+                }
+
+                if (costCenter.ParentId > 0 && costCenterById.TryGetValue(costCenter.ParentId, out var parentCostCenter))
+                {
+                    costCenter.CostLevel= parentCostCenter.CostLevel+1;
+                    if (costCenter.IsSelected)
+                    {
+
+                        UpdateParentSelection(parentCostCenter, costCenterById);
+
+
+                    }
+                    parentCostCenter.Children.Add(costCenter);
+                }
+            }
+
+            return roots;
+        }
+
+        public static void UpdateParentSelection(CostCenterTreeModel costCenter, Dictionary<int, CostCenterTreeModel> costCenterList)
+        {
+            costCenter.IsSelected = true;
+            if (costCenter.ParentId >= 0 && costCenterList.TryGetValue(costCenter.ParentId, out var parentCostCenter))
+            {
+                if (!parentCostCenter.IsSelected && parentCostCenter.ParentId < costCenter.ParentId)
+                    UpdateParentSelection(parentCostCenter, costCenterList);
+            }
+
+        }
+
+
+        public ActionsResponseModel CreateNewCostCenter(CostCenterTreeModel Model)
+        {
+            try
+            {
+                CostCenterTree tbl = new CostCenterTree();
+
+                tbl.CreateDate = DateTime.Now;
+                tbl.CreatedBy = String.Empty;
+                tbl.CostCenterNumber = Model.CostCenterNumber;
+                tbl.ParentId = Model.ParentId;
+                tbl.CostLevel = Model.CostLevel ?? 1;
+                tbl.NameAR = Model.NameEN;
+                tbl.NameEN = Model.NameEN;
+                tbl.IsActive = Model.IsActive;
+                tbl.IsLocked = Model.IsLocked;
+                tbl.IsParent = tbl.CostLevel==1?true:false;
+                tbl.IsPost = Model.IsPost;
+                tbl.IsExpences = Model.IsExpences;
+                tbl.DisplayOrder = Model.DisplayOrder;
+
+
+                Context.CostCenterTree.Add(tbl);
+                Context.SaveChanges();
+
+
+                return new ActionsResponseModel
+                {
+                    Status = 1,
+                    Message = "تم الحفظ  بنجاح"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public ActionsResponseModel UpdateCostCenterTree(int CostCenterId, CostCenterTreeModel Model)
+        {
+            try
+            {
+
+
+                var entity = Context.CostCenterTree.FirstOrDefault(x => x.CostCenterId == CostCenterId);
+
+                if (entity != null)
+                {
+
+                    entity.ModifyDate = DateTime.Now;
+                    entity.CreatedBy = String.Empty;
+
+                    entity.CostCenterNumber = Model.CostCenterNumber;
+                    entity.ParentId = Model.ParentId;
+                    entity.CostLevel = Model.CostLevel ?? 1;
+                    entity.NameAR = Model.NameEN;
+                    entity.NameEN = Model.NameEN;
+                    entity.IsActive = Model.IsActive;
+                    entity.IsLocked = Model.IsLocked;
+                    entity.IsParent = Model.IsParent;
+                    entity.IsPost = Model.IsPost;
+                    entity.IsExpences = Model.IsExpences;
+                    entity.DisplayOrder = Model.DisplayOrder;
+                }
+
+                Context.SaveChanges();
+
+
+
+
+
+                return new ActionsResponseModel
+                {
+                    Status = 1,
+                    Message = "تم الحفظ  بنجاح"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    Message = ex.Message
+                };
+            }
+        }
+
+       
     }
 }
