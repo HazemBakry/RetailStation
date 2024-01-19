@@ -11,5 +11,5 @@
 </div>
 <!-- (costCenter.isSelected||expanded) -->
 <div *ngIf="costCenter.children &&(expanded||costCenter.isSelected) ">
-    <app-cost-center-tree-item (selectedCostCenter)="selectCostCenter(child)" *ngFor="let child of costCenter.children" [costCenter]="child"></app-cost-center-tree-item>
+    <app-cost-center-tree-item (selectedCostCenter)="selectCostCenter($event)" *ngFor="let child of costCenter.children" [costCenter]="child"></app-cost-center-tree-item>
 </div>

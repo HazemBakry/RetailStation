@@ -35,8 +35,8 @@ export class AddEditAccountTreeComponent implements OnInit,OnChanges {
     this.loadParentAccountsData();
    
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes&&!changes['accountTreeModel'].firstChange) {
+  ngOnChanges(changes): void {
+    if (changes&&!changes.accountTreeModel.firstChange) {
       if (this.accountTreeModel&&this.accountTreeModel!=null) {
         this.Selector.SelectorName=this.accountTypes.find(x=>x.accountTypeId==this.accountTreeModel.accountTypeId)?.nameAR;
         this.Selector1.SelectorName=this.parentAccountsList.find(x=>x.accountId==this.accountTreeModel.parentAccountId)?.nameAR;

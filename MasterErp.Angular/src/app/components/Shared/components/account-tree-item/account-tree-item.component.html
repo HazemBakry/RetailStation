@@ -12,5 +12,5 @@
 </div>
 <!-- (account.isSelected||expanded) -->
 <div *ngIf="account.children &&(expanded||account.isSelected) ">
-    <app-account-tree-item (selectedAccount)="selectAccount(child)" *ngFor="let child of account.children" [account]="child"></app-account-tree-item>
+    <app-account-tree-item (selectedAccount)="selectAccount($event)" *ngFor="let child of account.children" [account]="child"></app-account-tree-item>
 </div>
