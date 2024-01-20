@@ -1,14 +1,35 @@
 <div (click)="toggleNode(account)" class="row d-flex align-items-center mb-2  ps-{{account.accountLevel}} ms-{{account.accountLevel}}">
     <!-- <i *ngIf="account.children?.length" class="fas " [class]="!expanded?'fa-plus-circle':'fa-minus-circle'" ></i>
     <span class="ms-2" [ngClass]="{'bg-warning': account.isSelected}">{{ account.nameEN }}</span>   -->
-        <div class="col-lg-6">
+    <!-- <div class="col-lg-6">
             <i *ngIf="account.children?.length" class="fas " [class]="!expanded?'fa-plus-circle':'fa-minus-circle'" ></i>
             <span class="ms-2" [ngClass]="{'bg-warning': account.isSelected}">{{ account.nameEN }}</span>  
             
         </div>
         <div class="col-lg-6 align-self-start" >
             <a (click)="onEvent($event,account)" class="text-underline text-primary cursor-pointer fs-6">Select</a>
+        </div> -->
+
+
+    <div class="col-md-12">
+        <div class="border bg-white small-scroll overflow-auto max-height-350 striped-row">
+            <div class="tree-row d-flex align-items-center justify-content-between">
+                <div class="tree-row-text d-flex align-items-center">
+                    <i *ngIf="account.children?.length" class="fas " [class]="!expanded?'fa-plus-circle':'fa-minus-circle'"></i>
+                    <span class="ms-2" [ngClass]="{'bg-warning': account.isSelected}">{{ account.nameEN }}</span>
+                </div>
+                <div class="tree-row-icon d-flex align-items-center">
+                    <i class="fas fa-edit cursor-pointer" (click)="onEvent($event,account)"></i>
+                    <!-- <span class="mx-3">-</span>
+                  <i class="fas fa-eye cursor-pointer"></i> -->
+                </div>
+            </div>
         </div>
+    </div>
+
+
+
+
 </div>
 <!-- (account.isSelected||expanded) -->
 <div *ngIf="account.children &&(expanded||account.isSelected) ">
