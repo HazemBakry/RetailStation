@@ -765,6 +765,9 @@ tr {
   -o-border-radius: 50%;
 }
 
+.max-width-40 {
+  max-width: 40px;
+}
 .max-width-50 {
   max-width: 50px;
 }
@@ -784,6 +787,9 @@ tr {
 
 .min-width-50 {
   min-width: 50px !important;
+}
+.min-width-40 {
+  min-width: 40px !important;
 }
 
 .big-checkbox {
@@ -843,8 +849,67 @@ input[type="number"] {
 td.td-disabled {
   background-color: #e9ecef;
 }
+.transparent-table,
+.transparent-table th,
+.transparent-table td {
+  border-color: var(--bs-border-color);
+}
 
 .recent-h {
   min-height: 400px;
   max-height: 400px;
+}
+
+.breadcrumb-container .breadcrumb-link {
+  position: relative;
+  padding: 10px 15px 10px 10px;
+  background-color: #ededed;
+  cursor: pointer;
+}
+.breadcrumb-container .breadcrumb-link:hover {
+  color: #0054bf;
+}
+.breadcrumb-container .breadcrumb-link:not(:first-child) {
+  padding-right: 30px;
+}
+.breadcrumb-container .breadcrumb-link:before,
+.breadcrumb-container .breadcrumb-link:after {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 0;
+  left: -35px;
+  z-index: 2;
+  border-width: 19px;
+  border-style: solid;
+  border-color: transparent #ededed transparent transparent;
+}
+.breadcrumb-container .breadcrumb-link:after {
+  left: -36px;
+  border-right-color: #ccc;
+  z-index: 1;
+}
+.breadcrumb-container .breadcrumb-link:first-child {
+  background-color: var(--main-color);
+  color: #fff;
+}
+.breadcrumb-container .breadcrumb-link:first-child:before {
+  border-right-color: var(--main-color);
+  left: -38px;
+}
+.breadcrumb-container .breadcrumb-link.active {
+  background-color: #cadcf3;
+  color: #0054bf;
+  font-weight: bold;
+  cursor: default;
+}
+.breadcrumb-container .breadcrumb-link.active::before {
+  border-right-color: #cadcf3;
+  top: 0;
+  left: -38px;
+}
+.breadcrumb-container .breadcrumb-link:first-child:after,
+.breadcrumb-container .breadcrumb-link.active::after {
+  content: unset;
 }
