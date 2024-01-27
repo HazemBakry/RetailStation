@@ -25,6 +25,7 @@ import { OverviewCardComponent } from './components/overview-card/overview-card.
 import { ColorWithStatusDirective } from './directives/color-with-status.directive';
 import { AccountTreeV2Component } from './components/account-tree-v2/account-tree-v2.component';
 import { AccountTreeItemComponent } from './components/account-tree-item/account-tree-item.component';
+import { CustomFormDropdownComponent } from './components/custom-form-dropdown/custom-form-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { AccountTreeItemComponent } from './components/account-tree-item/account
     FiscalYearComponent,
     ReceiptBooksComponent,
     OverviewCardComponent,
-    ColorWithStatusDirective
+    ColorWithStatusDirective,
+    CustomFormDropdownComponent
 
   ],
 
@@ -88,7 +90,8 @@ import { AccountTreeItemComponent } from './components/account-tree-item/account
     AccountTreeItemComponent,
     StatsCardComponent,
     OverviewCardComponent,
-    ColorWithStatusDirective
+    ColorWithStatusDirective,
+    CustomFormDropdownComponent
   ]
 })
 export class SharedModule { }
