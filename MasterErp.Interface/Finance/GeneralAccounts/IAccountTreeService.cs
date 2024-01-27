@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,6 +20,7 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
         List<AccountTreeModel> GetAccountTreeHierarchicalData(string SearchText);
         List<AccountTree> GetAccountsList(bool IsParent);
         List<AccountTree> GetChildAccountsList();
+        ActionsResponseModel ImportAccountTreeList(IFormFile File);
 
         #region MyRegion
         //ActionsResponseModel CreateNewOpeningBalance(AccountOpeningBalanceModel Model);

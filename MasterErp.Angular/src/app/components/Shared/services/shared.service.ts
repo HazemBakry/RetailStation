@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, map } from 'rxjs';
 import { CustomerModel } from '../../GeneralAccounts/models/GeneralAccounts/CustomerModel';
+import { ExcelExportStyle } from '../Enums/ImporterTemplateEnum';
+import { CreateModifyReturnsModel } from '../models/CreateModifyReturnsModel';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,17 @@ export class SharedService {
   URL = environment.apiURL;
 
   constructor(private http: HttpClient) { }
+  urlDownloadOrOpen(url?: string) {
+    try {
+      if (url !== null && url !== ' ' && url !== '') {
+        window.location.href = url;
+      } else {
+      }
+    } catch (error) {
 
+    }
+
+  }
   calculateTaxValue(totalAmount:number):number{
     var taxValue=0;
     if(totalAmount&&totalAmount>0)
@@ -83,5 +95,10 @@ export class SharedService {
   GetAccountTypes()
   {
     return this.http.get<any[]>(this.URL + 'Shared/GetAccountTypes');
+  }
+
+  downloadImporterTemplate(template:ExcelExportStyle)
+  {
+    return this.http.get<CreateModifyReturnsModel>(this.URL + 'Shared/DownloadImporterTemplate?ImporterType='+template);
   }
 }

@@ -1,4 +1,6 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
+using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Shared;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +17,7 @@ namespace MasterErp.Service.Shared
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
+        private readonly IExportService _exportService;
 
         private string ConnectionString
         {
@@ -24,11 +27,12 @@ namespace MasterErp.Service.Shared
             }
         }
 
-        public SharedService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration)
+        public SharedService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration,IExportService exportService)
         {
             Context = dBContext;
             SQLHelper = iSQLHelper;
             Configuration = _configuration;
+            _exportService = exportService; 
         }
 
 
@@ -72,6 +76,17 @@ namespace MasterErp.Service.Shared
             var result = Context.AccountTypes.ToList();
 
             return result;
+        }
+
+        public ActionsResponseModel DownloadImporterTemplate(ExcelExportStyle ImporterType)
+        {
+            var url = _exportService.DownloadImporterTemplate(ImporterType);
+            return new ActionsResponseModel
+            {
+                Status = 1,
+                URL = url,
+                Message = "File uploaded successfully"
+            };
         }
     }
 }

@@ -7,10 +7,17 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using OfficeOpenXml;
+using LicenseContext = OfficeOpenXml.LicenseContext;
+using MasterErp.Entities.Common.Enums;
+using MasterErp.Entities.Common.Export;
 
 namespace MasterErp.Service.Finance.GeneralAccounts
 {
@@ -19,6 +26,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
+        private readonly IExportService _exportService;
 
         private string ConnectionString
         {
@@ -28,11 +36,12 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             }
         }
 
-        public AccountTreeService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration)
+        public AccountTreeService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration, IExportService exportService)
         {
             Context = dBContext;
             SQLHelper = iSQLHelper;
             Configuration = _configuration;
+            _exportService = exportService;
         }
 
 
@@ -202,6 +211,78 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
             return result;
         }
+
+        public ActionsResponseModel ImportAccountTreeList(IFormFile File)
+        {
+            try
+            {
+                ExportTemplateBase exportTemplateBase = new ExportTemplateBase
+                {
+                    Name = "Imported Account Tree",
+                    Username = "",
+                    TemplateName = "Imported Account Tree",
+                    ReportName = "Imported Account Tree",
+                    CustomerName = "",
+                    ExcelStyle = ExcelExportStyle.reportStyle,
+                    SheetName = "Data",
+
+
+                };
+
+
+
+                if (File != null && File.Length > 0)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        File.CopyToAsync(stream);
+                        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                        using (var package = new ExcelPackage(stream))
+                        {
+                            var worksheet = package.Workbook.Worksheets.First();
+                            DataTable dt = worksheet.Cells[1, 1, worksheet.Dimension.End.Row, worksheet.Dimension.End.Column].ToDataTable(c =>
+                            {
+                                c.FirstRowIsColumnNames = true;
+                            });
+                            var url= _exportService.Export(exportTemplateBase, dt);
+
+                            SqlParameter[] Params = new SqlParameter[1];
+
+                            Params[0] = new SqlParameter("@AccountList", SqlDbType.Structured);
+                            Params[0].Value = dt;
+
+                            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_ImportAccountTreeList]", ConnectionString, Params);
+                        }
+                    }
+
+                    return new ActionsResponseModel
+                    {
+                        Status = 1,
+                        URL = "",
+                        Message= "File uploaded successfully"
+                    };
+                   
+                }
+
+
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    URL = "",
+                    Message = "Invalid file"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ??ex.Message,
+                };
+            }
+        }
+
 
         #region OpeningBalance
 

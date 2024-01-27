@@ -1,4 +1,5 @@
-﻿using MasterErp.Entities.Common.Finance.GeneralAccounts;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Finance.GeneralAccounts;
 using MasterErp.Service.Finance.GeneralAccounts;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MasterErp.API.Controllers.Finance.GeneralAccounts
@@ -80,6 +82,13 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         }
 
 
+        [HttpPost("ImportAccountTreeList")]
+        public IActionResult ImportAccountTreeList(IFormFile File)
+        {
+            var results= _accountTreeService.ImportAccountTreeList(File);
+
+            return Ok(results);
+        }
 
         #region OpeningBalance
         //[HttpPost]

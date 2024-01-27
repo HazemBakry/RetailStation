@@ -5,5 +5,6 @@ export interface CreateModifyReturnsModel {
     message:string;
     errorMessage:string;
     status:number;
+    url:string;
 
 }

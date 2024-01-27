@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Shared;
 using Microsoft.AspNetCore.Http;
@@ -70,6 +71,17 @@ namespace MasterErp.API.Controllers.Shared
         public IActionResult GetAccountTypes()
         {
             var results = _sharedService.GetAccountTypes();
+
+            return Ok(results);
+        }
+
+
+
+        [HttpGet]
+        [Route("DownloadImporterTemplate")]
+        public IActionResult DownloadImporterTemplate(ExcelExportStyle ImporterType)
+        {
+            var results = _sharedService.DownloadImporterTemplate(ImporterType);
 
             return Ok(results);
         }

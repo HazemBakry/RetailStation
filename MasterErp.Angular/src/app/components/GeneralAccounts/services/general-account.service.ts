@@ -10,6 +10,7 @@ import { FinancialPeriodModel } from '../models/FinancialPeriodModel';
 import { AccountTreeModel } from '../models/GeneralAccounts/AccountTree';
 import { AccountOpeningBalanceModel } from '../models/GeneralAccounts/OpeningBalance';
 import { CostCenterTreeModel } from '../models/GeneralAccounts/CostCenter';
+import { CreateModifyReturnsModel } from '../../Shared/models/CreateModifyReturnsModel';
 
 @Injectable({
   providedIn: 'root'
@@ -112,6 +113,18 @@ export class GeneralAccountService {
   UpdateAccountTree(accountId:number,model: AccountTreeModel) {
     return this.http.post<any>(this.URL + 'AccountTree/UpdateAccountTree?AccountId='+accountId, model);
   }
+
+  ImportAccountTreeList(File:any){
+  
+    return this.http.post<CreateModifyReturnsModel>(this.URL +'AccountTree/ImportAccountTreeList',File);
+    // ,
+    // {
+    //     reportProgress: true,
+    //     observe: 'events'
+    //   }
+      
+    // );
+  } 
   ////////////////// General Accounts Reports ///////
 
   GetAccountsGeneralLedger(model: SearchFilterModel) {

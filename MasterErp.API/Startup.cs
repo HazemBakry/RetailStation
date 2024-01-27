@@ -15,6 +15,7 @@ using MasterErp.Service.Inventory;
 using MasterErp.Service.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace MasterErp.API
 {
@@ -54,6 +56,7 @@ namespace MasterErp.API
                         builder.WithOrigins(URLLists).AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
                     });
             });
+            services.AddHttpContextAccessor();
 
             services.AddControllers();
             services.AddDbContext<DBContext>();
@@ -83,8 +86,8 @@ namespace MasterErp.API
             services.AddScoped<IFinancialPeriodService, FinancialPeriodService>();
 
             services
-                .AddMvc(options =>
-                {
+            .AddMvc(options =>
+            {
                     options.EnableEndpointRouting = false;
                 })
                 .AddNewtonsoftJson()
@@ -94,6 +97,9 @@ namespace MasterErp.API
                     options.JsonSerializerOptions.IgnoreNullValues = true;
                     options.JsonSerializerOptions.WriteIndented = true;
                 });
+
+            services.AddScoped<IExportService, ExportService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

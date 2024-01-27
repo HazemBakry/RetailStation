@@ -1,4 +1,6 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
+using MasterErp.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,6 @@ namespace MasterErp.Interface.Shared
         List<ReceitLedgerType> GetReceiptLedgerTypesData();
         List<FinancialPeriod> GetFinancialPeriods();
         List<AccountType> GetAccountTypes();
-
+        ActionsResponseModel DownloadImporterTemplate(ExcelExportStyle ImporterType);
     }
 }
