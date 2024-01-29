@@ -58,5 +58,21 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         {
             return _costCenterTreeService.GetCostCenterTreeData(IsParent);
         }
+
+
+        [HttpPost("ImportCostCenterTreeList")]
+        public IActionResult ImportCostCenterTreeList(IFormFile File)
+        {
+            var results = _costCenterTreeService.ImportCostCenterTreeList(File);
+
+            return Ok(results);
+        }
+        [HttpGet("ExportCostCenterTreeList")]
+        public IActionResult ExportCostCenterTreeList(string SearchText)
+        {
+            var results = _costCenterTreeService.ExportCostCenterTreeList(SearchText);
+
+            return Ok(results);
+        }
     }
 }

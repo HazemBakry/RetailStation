@@ -40,6 +40,10 @@ namespace MasterErp.Service.Common
             var localPath = GetLocalPath(exportTemplateBase.TemplateName, format);
 
             Export(localPath, data, _hostingEnvironment, exportTemplateBase.SubstitutionDictionary());
+            //if (_hostingEnvironment.EnvironmentName== "Development")
+            //{
+            //    return localPath;
+            //}
             return GetDownloadUrl(Path.GetFileName(localPath));
         }
 
@@ -87,7 +91,7 @@ namespace MasterErp.Service.Common
         {
             int TemplateStyleNumValue = int.Parse(substitutionValue["ExcelStyle"]);
             string TemplateStyle = Enum.GetName(typeof(ExcelExportStyle), TemplateStyleNumValue) + ".xlsx";
-            int startrow = 6;
+            int startrow = 1;
             try
             {
                 var temp = new FileInfo(Path.Combine(hostingEnvironment.WebRootPath, @"Template\", TemplateStyle));
@@ -104,12 +108,14 @@ namespace MasterErp.Service.Common
                                 WriteRow(sheet, data.Rows[i].ItemArray, startrow);
                                 startrow++;
                             }
-                            SetTemplateValues(ref sheet, substitutionValue);
+                            //SetTemplateValues(ref sheet, substitutionValue);
                             break;
                         case 2:
 
-                            sheet.Cells[4, 1].LoadFromDataTable(data, true);
-                            SetTemplateValuesReportStyle(ref sheet, substitutionValue);
+                            //sheet.Cells[4, 1].LoadFromDataTable(data, true);
+                            //SetTemplateValuesReportStyle(ref sheet, substitutionValue);
+                            sheet.Cells[startrow, 1].LoadFromDataTable(data, true);
+                            //SetTemplateValuesReportStyle(ref sheet, substitutionValue);
                             break;
                     }
                     SetFrozenPane(ref sheet, substitutionValue);

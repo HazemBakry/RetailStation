@@ -4,6 +4,7 @@ import { GeneralAccountService } from '../../services/general-account.service';
 import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { ExcelExportStyle } from 'src/app/components/Shared/Enums/ImporterTemplateEnum';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-account-tree-container',
@@ -14,7 +15,7 @@ export class AccountTreeContainerComponent implements OnInit {
   selectedAccountTreeModel: AccountTreeModel = {} as AccountTreeModel;
   isUpdate:boolean=false;
   reloadData:boolean=false;
-  constructor(private _GeneralAccountService:GeneralAccountService,private _SharedService:SharedService) { }
+  constructor(private _GeneralAccountService:GeneralAccountService,private _SharedService:SharedService,private toaster:ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -30,6 +31,20 @@ export class AccountTreeContainerComponent implements OnInit {
   {
     this.selectedAccountTreeModel=account;
     this.isUpdate=true;
+  }
+  exportData()
+  {
+    this._GeneralAccountService.ExportAccountTreeList("").subscribe(
+      (data: any) => {
+
+        if (data) {
+          this._SharedService.urlDownloadOrOpen(data.url);
+          this.toaster.success("Exported Successfully");
+        } else {
+          this.toaster.error('Failed To Export');
+        }
+    });
+
   }
   downloadImporterTemplate()
   {
@@ -56,7 +71,6 @@ export class AccountTreeContainerComponent implements OnInit {
 
   onUpload(): void {
     if (this.selectedFile) {
-      // Perform additional validation if needed
   
       const formData = new FormData();
       formData.append('File', this.selectedFile);
@@ -66,15 +80,14 @@ export class AccountTreeContainerComponent implements OnInit {
           console.log("🚀onUpload ~ data:", data)
           // this.filePath = data.url;
           // if (data) {
-          //   this.toaster.success("Features Lockups Uploaded Successfully");
+          //   this.toaster.success("Uploaded Successfully");
           // } else {
-          //   this.toaster.error('Failed To Upload Lockups');
+          //   this.toaster.error('Failed To Upload');
           // }
-        });
+      });
 
  
     } else {
-      // Show an error message or perform any other desired action
       console.error('No file selected');
     }
   }

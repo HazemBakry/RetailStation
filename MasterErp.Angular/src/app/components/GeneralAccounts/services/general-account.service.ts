@@ -114,6 +114,9 @@ export class GeneralAccountService {
     return this.http.post<any>(this.URL + 'AccountTree/UpdateAccountTree?AccountId='+accountId, model);
   }
 
+  ExportAccountTreeList(searchText:string){
+    return this.http.get<CreateModifyReturnsModel>(this.URL +'AccountTree/ExportAccountTreeList?SearchText='+searchText);
+  } 
   ImportAccountTreeList(File:any){
   
     return this.http.post<CreateModifyReturnsModel>(this.URL +'AccountTree/ImportAccountTreeList',File);
@@ -252,5 +255,20 @@ export class GeneralAccountService {
     UpdateCostCenterTree(costCenterId:number,model: CostCenterTreeModel) {
       return this.http.post<any>(this.URL + 'CostCenterTree/UpdateCostCenterTree?CostCenterId='+costCenterId, model);
     }
+
+    ExportCostCenterTreeList(searchText:string){
+      return this.http.get<CreateModifyReturnsModel>(this.URL +'CostCenterTree/ExportCostCenterTreeList?SearchText='+searchText);
+    } 
+    ImportCostCenterTreeList(File:any){
+    
+      return this.http.post<CreateModifyReturnsModel>(this.URL +'CostCenterTree/ImportCostCenterTreeList',File);
+      // ,
+      // {
+      //     reportProgress: true,
+      //     observe: 'events'
+      //   }
+        
+      // );
+    } 
 
 }

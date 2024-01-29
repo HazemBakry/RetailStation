@@ -1,11 +1,19 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
+using MasterErp.Entities.Common.Export;
 using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models;
+using MasterErp.Interface.Common;
 using MasterErp.Interface.Finance.GeneralAccounts;
 using MasterErp.Service.Common;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,10 +23,22 @@ namespace MasterErp.Service.Finance.GeneralAccounts
     public class CostCenterTreeService: ICostCenterTreeService
     {
         private readonly DBContext Context;
-
-        public CostCenterTreeService(DBContext dBContext)
+        private readonly ISQLHelper SQLHelper;
+        private readonly IConfiguration Configuration;
+        private readonly IExportService _exportService;
+        private string ConnectionString
+        {
+            get
+            {
+                return Configuration.GetConnectionString("DBConnection");
+            }
+        }
+        public CostCenterTreeService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration, IExportService exportService)
         {
             Context = dBContext;
+            SQLHelper = iSQLHelper;
+            Configuration = _configuration;
+            _exportService = exportService;
         }
 
         public List<CostCenterTree> GetCostCenterTreeData(bool IsParent)
@@ -191,6 +211,115 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             }
         }
 
-       
+
+
+        public ActionsResponseModel ImportCostCenterTreeList(IFormFile File)
+        {
+            string url = string.Empty;
+            try
+            {
+
+                if (File != null && File.Length > 0)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        File.CopyToAsync(stream);
+                        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                        using (var package = new ExcelPackage(stream))
+                        {
+                            var worksheet = package.Workbook.Worksheets.First();
+                            DataTable dt = worksheet.Cells[1, 1, worksheet.Dimension.End.Row, worksheet.Dimension.End.Column].ToDataTable(c =>
+                            {
+                                c.FirstRowIsColumnNames = true;
+                            });
+
+                            SqlParameter[] Params = new SqlParameter[1];
+
+                            Params[0] = new SqlParameter("@CostCenterList", SqlDbType.Structured);
+                            Params[0].Value = dt;
+
+                            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_ImportCostCenterTreeList]", ConnectionString, Params);
+
+                            url = GetExportUrl(result, "CostCenterTreeImporter");
+
+                        }
+                    }
+
+                    return new ActionsResponseModel
+                    {
+                        Status = 1,
+                        URL = url,
+                        Message = "File uploaded successfully"
+                    };
+
+                }
+
+
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    URL = "",
+                    Message = "Invalid file"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+        }
+
+        public ActionsResponseModel ExportCostCenterTreeList(string SearchText)
+        {
+            string url = string.Empty;
+            try
+            {
+                SqlParameter[] Params = new SqlParameter[0];
+                var result = SQLHelper.ExecuteDataTable("[dbo].[SP_ExportCostCenterTreeList]", ConnectionString, Params);
+
+                url = GetExportUrl(result,"CostCenterImporter");
+
+
+                return new ActionsResponseModel
+                {
+                    Status = 1,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+        }
+
+        private string GetExportUrl(DataTable DT,string Name)
+        {
+
+            ExportTemplateBase exportTemplateBase = new ExportTemplateBase
+            {
+                Name = Name,
+                Username = "",
+                TemplateName = Name,
+                ReportName = Name,
+                CustomerName = "",
+                ExcelStyle = ExcelExportStyle.reportStyle,
+                SheetName = "Data",
+            };
+            return _exportService.Export(exportTemplateBase, DT);
+
+
+        }
+
     }
 }

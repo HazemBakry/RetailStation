@@ -15,14 +15,13 @@
       </div>
 
       <div *ngIf="CostCenterTreeData && CostCenterTreeData.length>0" class="col-md-12">
-        <div class="border bg-white small-scroll overflow-auto p-2 max-height-350">
+        <div class="border bg-white small-scroll overflow-auto max-height-350 striped-row">
+
   
-          <div *ngFor="let costCenter of CostCenterTreeData">
-            <app-cost-center-tree-item 
-              [costCenter]="costCenter"
-              (selectedCostCenter)="selectCostCenter($event)"
-              ></app-cost-center-tree-item>
-          </div>
+          <app-cost-center-tree-item  *ngFor="let costCenter of CostCenterTreeData"
+            [costCenter]="costCenter"
+            (selectedCostCenter)="selectCostCenter($event)"
+            ></app-cost-center-tree-item>
         </div>
   
       </div>

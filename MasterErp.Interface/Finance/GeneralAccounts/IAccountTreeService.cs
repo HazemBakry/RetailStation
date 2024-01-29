@@ -21,6 +21,7 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
         List<AccountTree> GetAccountsList(bool IsParent);
         List<AccountTree> GetChildAccountsList();
         ActionsResponseModel ImportAccountTreeList(IFormFile File);
+        ActionsResponseModel ExportAccountTreeList(string SearchText);
 
         #region MyRegion
         //ActionsResponseModel CreateNewOpeningBalance(AccountOpeningBalanceModel Model);

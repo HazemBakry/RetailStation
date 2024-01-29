@@ -8,8 +8,10 @@
             العمليات
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button ngbDropdownItem (click)="dataUpdated(true)">تحديث</button>
             <button ngbDropdownItem (click)="downloadImporterTemplate()">تحميل القالب</button>
             <button ngbDropdownItem (click)="ImportAccounts.click()">استيراد حسابات</button>
+            <button ngbDropdownItem (click)="exportData()">تصدير حسابات</button>
             
             <!-- <button ngbDropdownItem (click)="PostJournalEntry()">ترحيل</button>
             <button ngbDropdownItem (click)="ReverseJournalEntry()">عكس</button>

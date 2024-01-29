@@ -214,22 +214,10 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
         public ActionsResponseModel ImportAccountTreeList(IFormFile File)
         {
+            string url = string.Empty;
             try
             {
-                ExportTemplateBase exportTemplateBase = new ExportTemplateBase
-                {
-                    Name = "Imported Account Tree",
-                    Username = "",
-                    TemplateName = "Imported Account Tree",
-                    ReportName = "Imported Account Tree",
-                    CustomerName = "",
-                    ExcelStyle = ExcelExportStyle.reportStyle,
-                    SheetName = "Data",
-
-
-                };
-
-
+               
 
                 if (File != null && File.Length > 0)
                 {
@@ -244,7 +232,6 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                             {
                                 c.FirstRowIsColumnNames = true;
                             });
-                            var url= _exportService.Export(exportTemplateBase, dt);
 
                             SqlParameter[] Params = new SqlParameter[1];
 
@@ -252,13 +239,15 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                             Params[0].Value = dt;
 
                             var result = SQLHelper.ExecuteDataTable("[dbo].[SP_ImportAccountTreeList]", ConnectionString, Params);
+                            url = GetExportUrl(result, "AccountTreeImporter");
+
                         }
                     }
 
                     return new ActionsResponseModel
                     {
                         Status = 1,
-                        URL = "",
+                        URL = url,
                         Message= "File uploaded successfully"
                     };
                    
@@ -283,6 +272,57 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             }
         }
 
+        public ActionsResponseModel ExportAccountTreeList(string SearchText)
+        {
+            string url = string.Empty;
+            try
+            {
+                SqlParameter[] Params = new SqlParameter[0];
+
+                var result = SQLHelper.ExecuteDataTable("[dbo].[SP_ExportAccountTreeList]", ConnectionString, Params);
+
+                url = GetExportUrl(result, "AccountTreeExporter");
+
+
+                return new ActionsResponseModel
+                {
+                    Status = 1,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
+                
+
+
+                
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+        }
+        private string GetExportUrl(DataTable DT, string Name)
+        {
+
+            ExportTemplateBase exportTemplateBase = new ExportTemplateBase
+            {
+                Name = Name,
+                Username = "",
+                TemplateName = Name,
+                ReportName = Name,
+                CustomerName = "",
+                ExcelStyle = ExcelExportStyle.reportStyle,
+                SheetName = "Data",
+            };
+            return _exportService.Export(exportTemplateBase, DT);
+
+
+        }
 
         #region OpeningBalance
 

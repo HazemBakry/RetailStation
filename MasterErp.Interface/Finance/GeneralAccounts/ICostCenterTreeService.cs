@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,5 +18,8 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
         ActionsResponseModel UpdateCostCenterTree(int CostCenterId, CostCenterTreeModel Model);
         List<CostCenterTree> GetCostCenterTreeData(bool IsParent);
         List<CostCenterTreeModel> GetCostCenterTreeHierarchicalData(string SearchText);
+
+        ActionsResponseModel ImportCostCenterTreeList(IFormFile File);
+        ActionsResponseModel ExportCostCenterTreeList(string SearchText);
     }
 }

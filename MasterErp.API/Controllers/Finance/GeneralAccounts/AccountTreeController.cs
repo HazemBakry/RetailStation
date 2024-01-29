@@ -89,6 +89,13 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
             return Ok(results);
         }
+        [HttpGet("ExportAccountTreeList")]
+        public IActionResult ExportAccountTreeList(string SearchText)
+        {
+            var results= _accountTreeService.ExportAccountTreeList(SearchText);
+
+            return Ok(results);
+        }
 
         #region OpeningBalance
         //[HttpPost]
