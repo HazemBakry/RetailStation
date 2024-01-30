@@ -75,7 +75,11 @@ namespace MasterErp.Service.Common
             string URL = "";
             try
             {
-                URL = Path.Combine(_hostingEnvironment.WebRootPath, @"Template\", TemplateStyle);
+                var request = _contextAccessor.HttpContext.Request;
+                URL = string.Format("{0}://{1}{2}/{3}", request.Scheme, request.Host, @"/Template", TemplateStyle);
+
+
+                //URL = Path.Combine(_hostingEnvironment.WebRootPath, @"Template\", TemplateStyle);
                 
                 return URL;
             }

@@ -56,10 +56,12 @@ namespace MasterErp.API
                         builder.WithOrigins(URLLists).AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
                     });
             });
-            services.AddHttpContextAccessor();
 
             services.AddControllers();
             services.AddDbContext<DBContext>();
+            //services.AddHttpContextAccessor();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddScoped<ISQLHelper, SQLHelper>();
             services.AddScoped<IEmployeesService, EmployeesService>();
             services.AddScoped<IAttendanceService, AttendanceService>();
@@ -84,6 +86,7 @@ namespace MasterErp.API
             services.AddScoped<IReceiptLedgerService, ReceiptLedgerService>();
             services.AddScoped<IJournalEntryTypeService, JournalEntryTypeService>();
             services.AddScoped<IFinancialPeriodService, FinancialPeriodService>();
+            services.AddScoped<IExportService, ExportService>();
 
             services
             .AddMvc(options =>
@@ -98,7 +101,6 @@ namespace MasterErp.API
                     options.JsonSerializerOptions.WriteIndented = true;
                 });
 
-            services.AddScoped<IExportService, ExportService>();
 
         }
 
@@ -111,6 +113,7 @@ namespace MasterErp.API
             }
             app.UseRouting();
             app.UseAuthorization();
+            app.UseStaticFiles();
             app.UseCors(MyAllowSpecificOrigins);
             app.UseEndpoints(endpoints =>
             {
