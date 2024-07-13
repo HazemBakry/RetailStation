@@ -6,7 +6,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ErpLoginComponent } from './components/Shared/components/erp-login/erp-login.component';
 import { DashboardComponent } from './components/Main/dashboard/dashboard.component';
 import { HeaderComponent } from './components/Main/header/header.component';
 import { SidebarComponent } from './components/Main/sidebar/sidebar.component';
@@ -19,6 +18,7 @@ import { SigninComponent } from './components/signin/signin.component';
 import { AccountTreeComponent } from './components/design/account-tree/account-tree.component';
 import { OpeningBalanceComponent } from './components/design/opening-balance/opening-balance.component';
 import { ReceiptsComponent } from './components/design/receipts/receipts.component';
+import { ErpLoginComponent } from './components/Shared/components/erp-login/erp-login.component';
 @NgModule({
   declarations: [
     AppComponent,

@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { PurchaseInvoiceModel } from '../models/PurchaseInvoiceModel';
 import { PurchaseOrderModel } from '../models/PurchaseOrder';
 import { PurchaseReturnsModel } from '../models/PurchaseReturns';
-import { OrderDetailModel } from 'src/app/Models/ItemModel';
+import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
 import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { SupplierReturnsVoucherModel } from '../models/SupplierReturnsVoucherModel';
 

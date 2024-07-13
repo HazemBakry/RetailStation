@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { PurchaseService } from '../../services/purchase.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { OrderDetailModel } from 'src/app/Models/ItemModel';
+import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
 
 @Component({
   selector: 'app-order-products',

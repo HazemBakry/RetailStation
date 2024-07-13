@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderDetailModel } from 'src/app/Models/ItemModel';
+import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
 import { SalesService } from '../../services/sales.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';

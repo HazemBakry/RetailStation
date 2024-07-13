@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { PurchaseRequestModel } from '../../models/PurchasesRequestModel';
-import { OrderDetailModel } from 'src/app/Models/ItemModel';
+import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
 import { InventoryService } from '../../services/inventory.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';

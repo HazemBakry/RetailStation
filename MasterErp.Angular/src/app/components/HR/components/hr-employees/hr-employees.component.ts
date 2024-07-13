@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { HrService } from '../hr.service';
-import { SaveEmployeeModel } from 'src/app/Models/SaveEmployeeModel';
+import { SaveEmployeeModel } from 'src/app/components/HR/models/SaveEmployeeModel';
+import { HrService } from '../../services/hr.service';
 @Component({
   selector: 'app-hr-employees',
   templateUrl: './hr-employees.component.html',

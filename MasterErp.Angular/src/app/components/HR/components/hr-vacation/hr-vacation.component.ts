@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { HrService } from '../hr.service';
+import { HrService } from '../../services/hr.service';
 import { DatePipe } from '@angular/common';
 
 @Component({

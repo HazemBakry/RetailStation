@@ -1,51 +1,47 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { HrService } from '../hr.service';
 import { DatePipe } from '@angular/common';
+import { HrService } from '../../services/hr.service';
 
 @Component({
-  selector: 'app-hr-penalty',
-  templateUrl: './hr-penalty.component.html',
-  styleUrls: ['./hr-penalty.component.css']
+  selector: 'app-hr-over-time',
+  templateUrl: './hr-over-time.component.html',
+  styleUrls: ['./hr-over-time.component.css']
 })
-export class HrPenaltyComponent implements OnInit {
-  PenaltyData: any[] = [];
+export class HrOverTimeComponent implements OnInit {
+  OverTimeData: any[] = [];
   EmployeeData: any[] = [];
   form: FormGroup;
-  PenaltyId: number;
+  OverTimeID: number;
   constructor(private modalService: NgbModal, private hrService: HrService, private fb: FormBuilder,
     private datepipe: DatePipe) { }
 
   ngOnInit(): void {
     this.FormInit();
-    this.GetPenaltyData();
+    this.GetOverTimeData();
     this.GetAllEmployees();
   }
 
   FormInit() {
     this.form = this.fb.group({
-      penaltyID: null,
+      overTimeID: null,
       employeeID: 0,
-      penaltyDate: null,
       executionDate: null,
+      requestDate: null,
+      noHours: null,
       moneyAmount: null,
-      deductionByDays: null,
-      deductionAmount: null,
-      reason: null,
     });
   }
 
   FillEditForm(item: any) {
     this.form.setValue({
-      penaltyID: item.penaltyId,
+      overTimeID: item.overTimeId,
       employeeID: item.employeeId,
-      penaltyDate: this.datepipe.transform(item.penaltyDate, 'yyyy-MM-dd'),
       executionDate: this.datepipe.transform(item.executionDate, 'yyyy-MM-dd'),
+      requestDate: this.datepipe.transform(item.requestDate, 'yyyy-MM-dd'),
+      noHours: item.noHours,
       moneyAmount: item.moneyAmount,
-      deductionByDays: item.deductionByDays,
-      deductionAmount: item.deductionAmount,
-      reason:item.reason
     });
   }
 
@@ -55,8 +51,8 @@ export class HrPenaltyComponent implements OnInit {
     this.modalService.open(content, { centered: true, size: 'lg' });
   }
 
-  openDeleteModal(content: any, penaltyId: number) {
-    this.PenaltyId = penaltyId;
+  openDeleteModal(content: any, overTimeId: number) {
+    this.OverTimeID = overTimeId;
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
@@ -66,32 +62,32 @@ export class HrPenaltyComponent implements OnInit {
     });
   }
 
-  GetPenaltyData() {
-    this.hrService.GetPenaltyData().subscribe(data => {
-      this.PenaltyData = data;
+  GetOverTimeData() {
+    this.hrService.GetOverTimeData().subscribe(data => {
+      this.OverTimeData = data;
     });
   }
 
-  AddNewPenalty() {
-    this.form.patchValue({ penaltyID: 0 });
-    this.hrService.AddNewPenalty(this.form.value).subscribe(data => {
-      this.GetPenaltyData();
+  AddNewOverTime() {
+    this.form.patchValue({ overTimeID: 0 });
+    this.hrService.AddNewOverTime(this.form.value).subscribe(data => {
+      this.GetOverTimeData();
       this.form.reset();
       this.form.patchValue({ employeeID: 0 });
     });
   }
 
-  EditPenalty() {
-    this.hrService.EditPenalty(this.form.value).subscribe(data => {
-      this.GetPenaltyData();
+  EditOverTime() {
+    this.hrService.EditOverTime(this.form.value).subscribe(data => {
+      this.GetOverTimeData();
       this.form.reset();
       this.form.patchValue({ employeeID: 0 });
     });
   }
 
-  DeletePenalty() {
-    this.hrService.DeletePenalty(this.PenaltyId).subscribe(data => {
-      this.GetPenaltyData();
+  DeleteOverTime() {
+    this.hrService.DeleteOverTime(this.OverTimeID).subscribe(data => {
+      this.GetOverTimeData();
     });
   }
 }

@@ -6,7 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./erp-login.component.css']
 })
 export class ErpLoginComponent implements OnInit {
-
+  loggingMode = true;
+  UserName: string;
+  Password: string;
   constructor() { }
 
   ngOnInit(): void {

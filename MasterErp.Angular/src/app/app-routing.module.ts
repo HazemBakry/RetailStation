@@ -2,15 +2,15 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/Main/dashboard/dashboard.component';
 import { ReviewsComponent } from './components/Main/reviews/reviews.component';
-import { ErpLoginComponent } from './components/Shared/components/erp-login/erp-login.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { AccountTreeComponent } from './components/design/account-tree/account-tree.component';
 import { OpeningBalanceComponent } from './components/design/opening-balance/opening-balance.component';
 import { ReceiptsComponent } from './components/design/receipts/receipts.component';
+import { ErpLoginComponent } from './components/Shared/components/erp-login/erp-login.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: 'signin', component: SigninComponent },
+  { path: 'signin', component: ErpLoginComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'reviews', component: ReviewsComponent },
   { path: 'account-tree', component: AccountTreeComponent },

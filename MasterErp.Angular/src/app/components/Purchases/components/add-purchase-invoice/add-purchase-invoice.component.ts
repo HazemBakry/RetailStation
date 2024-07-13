@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseInvoiceDetails } from '../../models/PurchaseInvoiceDetailsModel';
 import { ToastrService } from 'ngx-toastr';
 import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
-import { OrderDetailModel } from 'src/app/Models/ItemModel';
+import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
 
 @Component({
   selector: 'app-add-purchase-invoice',

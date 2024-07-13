@@ -1,0 +1,168 @@
+.login-wrapper {
+    min-height: 100vh;
+    background-color: #070b55;
+    background-image: url("https://login.z2data.com/Anonymous_assets/img/bg_circles.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    /* background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 1000'%3E%3Cg %3E%3Ccircle fill='%23070B55' cx='50' cy='0' r='50'/%3E%3Cg fill='%230a115d' %3E%3Ccircle cx='0' cy='50' r='50'/%3E%3Ccircle cx='100' cy='50' r='50'/%3E%3C/g%3E%3Ccircle fill='%230d1765' cx='50' cy='100' r='50'/%3E%3Cg fill='%23101d6d' %3E%3Ccircle cx='0' cy='150' r='50'/%3E%3Ccircle cx='100' cy='150' r='50'/%3E%3C/g%3E%3Ccircle fill='%23132375' cx='50' cy='200' r='50'/%3E%3Cg fill='%2315297d' %3E%3Ccircle cx='0' cy='250' r='50'/%3E%3Ccircle cx='100' cy='250' r='50'/%3E%3C/g%3E%3Ccircle fill='%23172f85' cx='50' cy='300' r='50'/%3E%3Cg fill='%2319358e' %3E%3Ccircle cx='0' cy='350' r='50'/%3E%3Ccircle cx='100' cy='350' r='50'/%3E%3C/g%3E%3Ccircle fill='%231a3b96' cx='50' cy='400' r='50'/%3E%3Cg fill='%231b419f' %3E%3Ccircle cx='0' cy='450' r='50'/%3E%3Ccircle cx='100' cy='450' r='50'/%3E%3C/g%3E%3Ccircle fill='%231c48a7' cx='50' cy='500' r='50'/%3E%3Cg fill='%231c4eb0' %3E%3Ccircle cx='0' cy='550' r='50'/%3E%3Ccircle cx='100' cy='550' r='50'/%3E%3C/g%3E%3Ccircle fill='%231d55b8' cx='50' cy='600' r='50'/%3E%3Cg fill='%231c5bc1' %3E%3Ccircle cx='0' cy='650' r='50'/%3E%3Ccircle cx='100' cy='650' r='50'/%3E%3C/g%3E%3Ccircle fill='%231c62ca' cx='50' cy='700' r='50'/%3E%3Cg fill='%231a69d3' %3E%3Ccircle cx='0' cy='750' r='50'/%3E%3Ccircle cx='100' cy='750' r='50'/%3E%3C/g%3E%3Ccircle fill='%231870db' cx='50' cy='800' r='50'/%3E%3Cg fill='%231577e4' %3E%3Ccircle cx='0' cy='850' r='50'/%3E%3Ccircle cx='100' cy='850' r='50'/%3E%3C/g%3E%3Ccircle fill='%23117eed' cx='50' cy='900' r='50'/%3E%3Cg fill='%230a85f6' %3E%3Ccircle cx='0' cy='950' r='50'/%3E%3Ccircle cx='100' cy='950' r='50'/%3E%3C/g%3E%3Ccircle fill='%23008CFF' cx='50' cy='1000' r='50'/%3E%3C/g%3E%3C/svg%3E"); */
+    /* background-attachment: fixed;
+    background-size: contain; */
+}
+
+.login-wrapper .login-card {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.1);
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    margin-top: calc(100vh / 4);
+    color: #fff;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+.login-card .login-img-box {
+    position: absolute;
+    top: -70px;
+    left: calc((100% - 100px) / 2);
+    width: 100px;
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    -webkit-transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    -moz-transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    -ms-transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    -o-transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.login-card .login-img-box img {
+    width: 110px;
+    height: 110px;
+    position: absolute;
+    top: -9px;
+    left: -6px;
+}
+
+.login-card form .form-control {
+    background-color: rgba(255, 255, 225, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: #fff;
+}
+
+.login-card form .form-control:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.login-card form .form-control::placeholder {
+    color: #fff;
+}
+
+.header-form {
+    position: relative;
+    overflow: hidden;
+    height: 50px;
+    margin-bottom: 2rem;
+}
+
+.header-form .login-title,
+.header-form .register-title {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    text-align: center;
+    width: 100%;
+    color: #fff;
+    transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    -webkit-transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    -moz-transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    -ms-transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    -o-transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+}
+
+.login-card.login .header-form .login-title {
+    top: 50%;
+}
+
+.login-card.register .header-form .register-title {
+    top: 50%;
+}
+
+.login-form,
+.register-form {
+    transition: var(--animated-transition);
+    -webkit-transition: var(--animated-transition);
+    -moz-transition: var(--animated-transition);
+    -ms-transition: var(--animated-transition);
+    -o-transition: var(--animated-transition);
+}
+
+.login-card.login .login-form,
+.login-card.register .register-form {
+    animation: animationFormOpened 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    -webkit-animation: animationFormOpened 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.login-card.login .register-form,
+.login-card.register .login-form {
+    animation: animationFormClosed 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    -webkit-animation: animationFormClosed 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@keyframes animationFormOpened {
+    0% {
+        transform: scale(0);
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -ms-transform: scale(0);
+        -o-transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
+    }
+}
+
+@keyframes animationFormClosed {
+    0% {
+        transform: scale(1);
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -ms-transform: scale(0);
+        -o-transform: scale(0);
+    }
+}
+
+
+/* .login-card {
+    border-bottom: 2px solid;
+    height: 55px;
+  } */
+
+.login-text {
+    margin: 10px;
+    font-size: 23px;
+}

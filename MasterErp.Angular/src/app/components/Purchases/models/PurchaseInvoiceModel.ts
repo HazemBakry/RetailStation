@@ -1,4 +1,4 @@
-import { OrderDetailModel } from "src/app/Models/ItemModel";
+import { OrderDetailModel } from "src/app/components/Shared/models/ItemModel";
 import { PurchaseInvoiceDetails } from "./PurchaseInvoiceDetailsModel";
 
 export interface PurchaseInvoiceModel {

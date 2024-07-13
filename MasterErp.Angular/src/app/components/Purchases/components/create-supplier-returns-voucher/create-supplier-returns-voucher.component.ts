@@ -4,7 +4,7 @@ import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/Creat
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { SupplierReturnsVoucherModel } from '../../models/SupplierReturnsVoucherModel';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { OrderDetailModel } from 'src/app/Models/ItemModel';
+import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
 import { PurchaseService } from '../../services/purchase.service';
 
 @Component({
