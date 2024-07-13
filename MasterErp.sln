@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.33027.164
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterErp.API", "MasterErp.API\MasterErp.API.csproj", "{FE1D4CED-E6BD-4263-8759-ED8AC3105D22}"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MasterErp.Angular", "MasterErp.Angular\", "{47759F95-99E4-40AC-BDD0-EA2CEE86A2FA}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_63529"
 		Debug.AspNetCompiler.PhysicalPath = "MasterErp.Angular\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_63529\"
