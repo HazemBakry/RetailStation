@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Common
 {
-    public class PagedResponseDTO<T>
+    public class PagedResponseModel<T>
     {
+        public PagedResponseModel() 
+        {
+            Results = new List<T>();
+        }
+
         public bool Success { get; set; }
         public string Message { get; set; }
         public int CurrentPage { get; set; }

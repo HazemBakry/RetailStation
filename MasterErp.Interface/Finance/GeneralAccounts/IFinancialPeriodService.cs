@@ -11,7 +11,7 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
 {
     public interface IFinancialPeriodService
     {
-        PagedResponseDTO<FinancialPeriod> GetFinancialPeriodsData(FilterModel Model);
+        PagedResponseModel<FinancialPeriod> GetFinancialPeriodsData(FilterModel Model);
         ActionsResponseModel CreateNewFinancialPeriod(FinancialPeriodModel Model);
     }
 }

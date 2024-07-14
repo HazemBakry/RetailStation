@@ -7,11 +7,16 @@ import { HrOverTimeComponent } from './components/hr-over-time/hr-over-time.comp
 import { HrSickLeaveComponent } from './components/hr-sick-leave/hr-sick-leave.component';
 import { HrPenaltyComponent } from './components/hr-penalty/hr-penalty.component';
 import { HrSalaryComponent } from './components/hr-salary/hr-salary.component';
+import { HrEmployeeDetailsComponent } from './components/hr-employee-details/hr-employee-details.component';
 
 const routes: Routes = [
   {
-    path: 'HrEmployees',
+    path: 'hr-Employees',
     component: HrEmployeesComponent
+  },
+  {
+    path: 'employee-details',
+    component: HrEmployeeDetailsComponent
   },
   {
     path: 'HrVacation',

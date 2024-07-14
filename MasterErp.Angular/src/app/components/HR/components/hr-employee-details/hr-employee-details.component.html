@@ -1,0 +1,439 @@
+<div class="employee-card card radius-10 border-0 card-shadow mb-4">
+    <div class="card-body pb-5">
+        <div class="employee-card-header d-flex align-items-center flex-wrap mb-5">
+            <div class="employee-image mb-2 me-4">
+                <img [src]="URLs[0]" (error)="$event.target.src = DefaultImage" class="emp-img" alt="default-image" loading="lazy" />
+            </div>
+            <div class="employee-info">
+                <h3 class="mb-2 d-flex align-items-center">
+                    <span class="fw-bold me-2">حازم بكرى</span>
+                    <span class="tag active fs-6 rounded shadow-sm px-2 py-1">نشيط</span>
+                </h3>
+                <div class="d-flex align-items-center fs-5 mb-1">
+                    <i class="uil uil-postcard main-color"></i>
+                    <span class="ms-2">المدير العام</span>
+                </div>
+                <div class="d-flex align-items-center fs-6">
+                    <i class="uil uil-map-marker main-color"></i>
+                    <span class="ms-2">القاهرة</span>
+                </div>
+                <button class="file-upload-button">
+            <input type="file" (change)="onSelectedFile($event)" style="cursor: pointer;"
+              />
+          </button>
+            </div>
+        </div>
+        <div class="employee-card-content card-shadow bg-light border mb-3">
+            <div class="employee-card-tabs d-flex mb-5">
+                <div class="employee-tab-item" [class.active]="active === 1" (click)="onActive(1)">
+                    <i class="uil uil-user"></i>
+                    <span>البيانات الأساسية</span>
+                </div>
+                <div class="employee-tab-item" [class.active]="active === 2" (click)="onActive(2)">
+                    <i class="uil uil-user"></i>
+                    <span>جواز السفر</span>
+                </div>
+                <div class="employee-tab-item" [class.active]="active === 3" (click)="onActive(3)">
+                    <i class="uil uil-user"></i>
+                    <span>بيانات العقد</span>
+                </div>
+                <div class="employee-tab-item" [class.active]="active === 4" (click)="onActive(4)">
+                    <i class="uil uil-user"></i>
+                    <span>بيانات اخرى</span>
+                </div>
+            </div>
+            <div class="employee-card-tabs-content px-4 pb-2">
+                <ng-container *ngIf="active == 1">
+                    <div class="employee-card-body row">
+                        <div class="col-xl-3">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.firstNameAR" class="form-control" id="floatingInput1" placeholder="any">
+                                <label for="floatingInput1">الاسم الاول</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.fatherNameAR" class="form-control" id="floatingInput2" placeholder="any">
+                                <label for="floatingInput2">اسم الاب</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.grandNameAR" class="form-control" id="floatingInput3" placeholder="any">
+                                <label for="floatingInput3">اسم الجد</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.lastNameAR" class="form-control" id="floatingInput2" placeholder="any">
+                                <label for="floatingInput2">اسم العائلة</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.firstNameEN" class="form-control" id="floatingInput1" placeholder="any">
+                                <label for="floatingInput1">First Name</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.fatherNameEN" class="form-control" id="floatingInput2" placeholder="any">
+                                <label for="floatingInput2">Father Name</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.grandNameEN" class="form-control" id="floatingInput3" placeholder="any">
+                                <label for="floatingInput3">Grand Name</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.lastNameEN" class="form-control" id="floatingInput2" placeholder="any">
+                                <label for="floatingInput2">Family Name</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-5">
+                            <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.iqamaIssuePlaceId">
+                  <option [defaultSelected]=true [value]="0" disabled>مكان الاصدار</option>
+                  <option [value]="item.iqamaIssuePlaceID" *ngFor="let item of IqamaIssueList">{{item.nameAR}}</option>
+                </select>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.iqamaIssueDate" class="form-control" id="floatingInput6" placeholder="any">
+                                <label for="floatingInput6">تاريخ الاصدار</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.iqamaExpireDate" class="form-control" id="floatingInput7" placeholder="any">
+                                <label for="floatingInput7">تاريخ الانتهاء</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.sponsorId">
+                  <option [defaultSelected]=true [value]="0" disabled>الكفيل</option>
+                  <option [value]="item.sponsorID" *ngFor="let item of SponsorList">{{item.nameAR}}</option>
+                </select>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.iqamaJobId">
+                  <option [defaultSelected]=true [value]="0" disabled>عمل الاقامة</option>
+                  <option [value]="item.iqamaJobID" *ngFor="let item of IqamaJobList">{{item.nameAR}}</option>
+                </select>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.nationalityId">
+                  <option [defaultSelected]=true [value]="0" disabled>الجنسية</option>
+                  <option [value]="item.nationalityId" *ngFor="let item of NationalityList">{{item.nameAR}}</option>
+                </select>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.religion" class="form-control" id="floatingInput5" placeholder="any">
+                                <label for="floatingInput5">الديانة</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.jobId">
+                  <option [defaultSelected]=true [value]="0" disabled>العمل</option>
+                  <option [value]="item.jobID" *ngFor="let item of JobList">{{item.nameAR}}</option>
+                </select>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.branchId">
+                  <option [defaultSelected]=true [value]="0" disabled>الفرع</option>
+                  <option [value]="item.branchID" *ngFor="let item of BranchList">{{item.nameAR}}</option>
+                </select>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.birthPlace" class="form-control" id="floatingInput8" placeholder="any">
+                                <label for="floatingInput8">مكان الولادة</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.birthDate" class="form-control" id="floatingInput9" placeholder="any">
+                                <label for="floatingInput9">تاريخ الميلاد</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.bankId">
+                  <option [defaultSelected]=true [value]="0" disabled>اسم البنك</option>
+                  <option [value]="item.bankID" *ngFor="let item of BankList">{{item.name}}</option>
+                </select>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.bankAccount" class="form-control" id="floatingInput6" placeholder="any">
+                                <label for="floatingInput6">الحساب البنكي</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-8">
+                            <div class="form-floating mb-3">
+                                <textarea type="text" [(ngModel)]="SaveEmployeeModel.employee.address" class="form-control" id="floatingInput10" placeholder="العنوان"></textarea>
+                                <label for="floatingInput10">العنوان</label>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="active == 2">
+                    <div class="employee-card-body row">
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.borderEntryNumber" class="form-control" id="floatingInput1" placeholder="any">
+                                <label for="floatingInput1">الرقم الحدودي</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.passportNumber" class="form-control" id="floatingInput4" placeholder="any">
+                                <label for="floatingInput4">رقم جواز السفر</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.borderEntryDate" class="form-control" id="floatingInput2" placeholder="any">
+                                <label for="floatingInput2">تاريخ الدخول</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.arrivalPort" class="form-control" id="floatingInput3" placeholder="any">
+                                <label for="floatingInput3">مكان الوصول</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.passportIssuanceDate" class="form-control" id="floatingInput7" placeholder="any">
+                                <label for="floatingInput7">تاريخ الاصدار</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.passportExpireDate" class="form-control" id="floatingInput7" placeholder="any">
+                                <label for="floatingInput7">تاريخ الانتهاء</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.visaNumber" class="form-control" id="floatingInput8" placeholder="any">
+                                <label for="floatingInput8">رقم الفيزا</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.visaIssueDate" class="form-control" id="floatingInput9" placeholder="any">
+                                <label for="floatingInput9">تاريخ اصدار الفيزا</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.passportIssunacePlace">
+                  <option [defaultSelected]=true value="" disabled>مكان الاصدار</option>
+                  <option [value]="item.passportIssuePlaceID" *ngFor="let item of PassportIssueList">{{item.nameAR}}
+                  </option>
+                </select>
+                        </div>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="active == 3">
+                    <div class="employee-card-body row mb-3">
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.joinDate" class="form-control" id="floatingInput1" placeholder="any">
+                                <label for="floatingInput1">تاريخ بدء العمل</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.lastJoinDate" class="form-control" id="floatingInput2" placeholder="any">
+                                <label for="floatingInput2">تاريخ انتهاء العمل</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeContract.noYears" class="form-control" id="floatingInput3" placeholder="any">
+                                <label for="floatingInput3">عدد سنوات العمل</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeContract.vacationEvery" class="form-control" id="floatingInput5" placeholder="any">
+                                <label for="floatingInput5">الاجازات كل</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeContract.vacationDays" class="form-control" id="floatingInput6" placeholder="any">
+                                <label for="floatingInput6">فترة الاجازات</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="employee-card-body row">
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.basicSalary" class="form-control" id="floatingInput1" placeholder="any">
+                                <label for="floatingInput1">الراتب الاساسي</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.extraSalary" class="form-control" id="floatingInput2" placeholder="any">
+                                <label for="floatingInput2">الراتب الاضافي</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.transport" class="form-control" id="floatingInput3" placeholder="any">
+                                <label for="floatingInput3">التنقلات</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.home" class="form-control" id="floatingInput4" placeholder="any">
+                                <label for="floatingInput4">المنزل</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.mopile" class="form-control" id="floatingInput5" placeholder="any">
+                                <label for="floatingInput5">رقم التلفون</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.workNature" class="form-control" id="floatingInput6" placeholder="any">
+                                <label for="floatingInput6">طبيعة العمل</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.food" class="form-control" id="floatingInput6" placeholder="any">
+                                <label for="floatingInput6">الوجبة</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.other" class="form-control" id="floatingInput6" placeholder="any">
+                                <label for="floatingInput6">اخرى</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.totalSalary" class="form-control" id="floatingInput6" placeholder="any">
+                                <label for="floatingInput6">الراتب الكلي</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput6" placeholder="any">
+                                <label for="floatingInput6">ايام العمل</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-5">
+                            <div class="d-flex mb-3">
+                                <input type="checkbox" [(ngModel)]="SaveEmployeeModel.employee.isGossi" class="me-2" id="floatingInput" placeholder="any">
+                                <label for="floatingInput">Is Gossi</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" (click)="OpenDetailsSidePanel(detailsSidepanel)">التفاصيل</button>
+                </ng-container>
+
+                <ng-container *ngIf="active == 4">
+                    <div class="employee-card-body row mb-3">
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.drivingLicenseIssue" class="form-control" id="floatingInput1" placeholder="any">
+                                <label for="floatingInput1">تاريخ اصدار الرخصة</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.drivingLicenseExpire" class="form-control" id="floatingInput2" placeholder="any">
+                                <label for="floatingInput2">تاريخ انتهاء الرخصة</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.drivingLicenseNumber" class="form-control" id="floatingInput6" placeholder="any">
+                                <label for="floatingInput6">رقم السيارة</label>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <button class="btn btn-primary" (click)="SaveEmployeeDate()">حفظ</button>
+    </div>
+</div>
+
+
+<ng-template #detailsSidepanel let-offcanvas style="width: 817px;">
+    <div class="offcanvas-header pb-0">
+        <div>
+            <h4 class="offcanvas-title m-0 d-flex align-items-center w-100"><i class="fas fa-history fa-2x main-color me-2"></i> التفاصيل</h4>
+        </div>
+        <button type="button" class="btn bg-danger text-white rounded" aria-label="Close" (click)="offcanvas.dismiss()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="offcanvas-body pt-0">
+        <div class="table-responsive">
+            <table class="table align-middle table-blue mb-0 table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>عدد سنوات العمل</th>
+                        <th>تاريخ بداية العقد</th>
+                        <th>تاريخ انتهاء العقد</th>
+                        <th>الاجازات</th>
+                        <th>عدد ايام العمل</th>
+                        <th>الاجازة القادمة</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</ng-template>

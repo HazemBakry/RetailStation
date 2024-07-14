@@ -36,7 +36,7 @@ namespace MasterErp.Service.Finance.Purchase
             Configuration = _configuration;
         }
 
-        public PagedResponseDTO<SupplierReturnsVoucherDTO> GetSupplierReturnsVoucherData(FilterModel model)
+        public PagedResponseModel<SupplierReturnsVoucherDTO> GetSupplierReturnsVoucherData(FilterModel model)
         {
             //var data= Context.SupplierReturnsVoucher.ToList();
 
@@ -74,7 +74,7 @@ namespace MasterErp.Service.Finance.Purchase
                            .Take(model.PageSize)
                            .ToList();
 
-            return new PagedResponseDTO<SupplierReturnsVoucherDTO>
+            return new PagedResponseModel<SupplierReturnsVoucherDTO>
             {
                 TotalCount = totalCount,
                 Results = data,

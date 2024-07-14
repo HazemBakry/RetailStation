@@ -13,7 +13,7 @@ namespace MasterErp.Interface.Inventory
 {
     public interface IPurchasesRequestsService
     {
-        PagedResponseDTO<PurchasesRequestDTO> GetPurchasesRequestsData(FilterModel model);
+        PagedResponseModel<PurchasesRequestDTO> GetPurchasesRequestsData(FilterModel model);
         ActionsResponseModel CreateNewPurchasesRequest(PurchaseRequestModel model);
 
     }

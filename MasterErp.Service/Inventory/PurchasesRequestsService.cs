@@ -38,7 +38,7 @@ namespace MasterErp.Service.Inventory
         }
 
 
-        public PagedResponseDTO<PurchasesRequestDTO> GetPurchasesRequestsData(FilterModel model)
+        public PagedResponseModel<PurchasesRequestDTO> GetPurchasesRequestsData(FilterModel model)
         {
             //var data= Context.PurchaseRequest.ToList();
 
@@ -97,7 +97,7 @@ namespace MasterErp.Service.Inventory
                             .Skip(skip)
                             .Take(model.PageSize)
                             .ToList();
-            return new PagedResponseDTO<PurchasesRequestDTO>
+            return new PagedResponseModel<PurchasesRequestDTO>
             {
                 TotalCount = totalCount,
                 Results = data,
@@ -145,7 +145,7 @@ namespace MasterErp.Service.Inventory
                 {
                     Id=tbl.RequestNumber,
                     Status = 1,
-                    Message = "تم حفظ طلب المشترايات بنجاح"
+                    Message = "تم حفظ طلب المشتريات بنجاح"
                 };
             }
             catch (Exception ex)
@@ -153,7 +153,7 @@ namespace MasterErp.Service.Inventory
                 return new ActionsResponseModel
                 {
                     Status = 0,
-                    Message = ex.Message
+                    Message = ex.InnerException?.Message ?? ex.Message
                 };
             }
         }

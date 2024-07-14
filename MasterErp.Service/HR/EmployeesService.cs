@@ -1,9 +1,14 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
+using MasterErp.Interface.Common;
 using MasterErp.Interface.HR;
 using MasterErp.Service.Common;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -11,28 +16,39 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Service.HR
 {
-    public class EmployeesService : IEmployeesService
+    public class EmployeeService : IEmployeeService
     {
         private readonly DBContext Context;
+        private readonly ISQLHelper SQLHelper;
+        private readonly IConfiguration Configuration;
+        private readonly string ConnectionString;
 
-        public EmployeesService(DBContext dbContext)
+        public EmployeeService(DBContext Context, ISQLHelper SQLHelper, IConfiguration Configuration)
         {
-            Context = dbContext;
+            this.Context = Context;
+            this.SQLHelper = SQLHelper;
+            this.Configuration = Configuration;
+            ConnectionString = Configuration.GetConnectionString("DBConnection");
         }
 
-        public List<EmployeesModel> GetAllEmployees()
+        public List<EmployeeBasicInfo> GetAllEmployees(SearchFilterModel model)
         {
-            var results = Context.Employees.Select(i => new EmployeesModel { EmployeeId = i.EmployeeId, EmployeeName = i.FirstNameEN + " " + i.LastNameEN }).ToList();
-            return results;
+            string SearchParam = model.SearchText == "undefined" || model.SearchText == "null" ? null : model.SearchText;
+
+            SqlParameter[] Params = new SqlParameter[1];
+            Params[0] = new SqlParameter("@SearchText", (object)SearchParam ?? DBNull.Value);
+
+            var result = SQLHelper.SQLQuery<EmployeeBasicInfo>("[HR].[SP_GetAllEmployeeData]", ConnectionString, Params);
+            return result;
         }
 
-        public List<IqamaIssuePlace> GetIqamaIssuePlaceData()
+        public List<IqamaIssuePlace> GetIqamaIssuePlaces()
         {
             var results = Context.IqamaIssuePlaces.ToList();
             return results;
         }
 
-        public List<PassportIssuePlace> GetPassportIssuePlaceData()
+        public List<PassportIssuePlace> GetPassportIssuePlaces()
         {
             var results = Context.PassportIssuePlaces.ToList();
             return results;

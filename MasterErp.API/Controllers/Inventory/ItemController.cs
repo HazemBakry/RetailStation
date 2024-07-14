@@ -19,12 +19,10 @@ namespace MasterErp.API.Controllers.Inventory
     public class ItemController : ControllerBase
     {
         private readonly IItemService ItemService;
-        private readonly DBContext Context;
 
-        public ItemController(IItemService ItemService, DBContext Context)
+        public ItemController(IItemService ItemService)
         {
             this.ItemService = ItemService;
-            this.Context = Context;
         }
 
         [HttpGet]
@@ -57,12 +55,6 @@ namespace MasterErp.API.Controllers.Inventory
             var result = ItemService.GetItemsBySupplierId(SupplierId);
             return Ok(result);
         }
-
-
-
-
-
-
 
         [HttpGet]
         [Route("GetItemsList")]
@@ -131,107 +123,42 @@ namespace MasterErp.API.Controllers.Inventory
         [Route("GetRawItemsBySupplierId")]
         public DataTable GetRawItemsBySupplierId(int SupplierId)
         {
-            var results = (from supplier in Context.ItemSuppliers
-                           join item in Context.RawItems on supplier.ItemId equals item.RawItemId
-                           join unit in Context.Units on item.MainUnitId equals unit.UnitId
-                           where supplier.SupplierId == SupplierId
-                           select new
-                           {
-                               RawItemId = item.RawItemId,
-                               NameEn = item.NameEn,
-                               NameAr = item.NameAr,
-                               Cost = item.Cost,
-                               UnitNameAr = unit.UnitNameAr,
-                               UnitNameEn = unit.UnitNameEn,
-                               UnitId = unit.UnitId
-                           }).ToList();
-
-            DataTable dt = results.ToDataTable();
-            return dt;
+            return ItemService.GetRawItemsBySupplierId(SupplierId);
         }
 
         [HttpGet]
         [Route("GetUnits")]
-        public async Task<List<Unit>> GetUnits()
+        public List<Unit> GetUnits()
         {
-            var results = await Context.Units.ToListAsync();
-            return results;
+            return ItemService.GetUnits();
         }
 
         [HttpPost]
         [Route("AddUnit")]
-        public bool AddUnit(Unit model)
+        public ActionsResponseModel AddUnit(Unit model)
         {
-            try
-            {
-                Context.Add(new Unit
-                {
-                    UnitNameAr = model.UnitNameAr,
-                    UnitNameEn = model.UnitNameEn
-                });
-
-                Context.SaveChanges();
-                return true;
-            }
-            catch (Exception Ex)
-            {
-                return false;
-            }
+            return ItemService.AddUnit(model);
         }
 
         [HttpPost]
         [Route("EditUnit")]
-        public bool EditUnit(Unit model)
+        public ActionsResponseModel EditUnit(Unit model)
         {
-            var Item = Context.Units.Where(x => x.UnitId == model.UnitId).FirstOrDefault();
-
-            if (Item != null)
-            {
-                Item.UnitNameAr = model.UnitNameAr;
-                Item.UnitNameEn = model.UnitNameEn;
-
-                Context.SaveChanges();
-                return true;
-            }
-            else
-                return false;
+            return ItemService.EditUnit(model);
         }
 
         [HttpGet]
         [Route("DeleteUnit")]
-        public bool DeleteUnit(int UnitId)
+        public ActionsResponseModel DeleteUnit(int UnitId)
         {
-            var item = Context.Units.FirstOrDefault(m => m.UnitId == UnitId);
-
-            if (item == null)
-            {
-                return false;
-            }
-            else
-            {
-                Context.Remove(item);
-                Context.SaveChanges();
-
-                return true;
-            }
+            return ItemService.DeleteUnit(UnitId);
         }
 
         [HttpGet]
         [Route("ChangeItemStatus")]
-        public bool ChangeItemStatus(int RawItemId)
+        public ActionsResponseModel ChangeItemStatus(int RawItemId)
         {
-            var item = Context.RawItems.Where(a => a.RawItemId == RawItemId).FirstOrDefault();
-
-            if (item.IsActive)
-            {
-                item.IsActive = false;
-            }
-            else
-            {
-                item.IsActive = true;
-            }
-            Context.SaveChanges();
-            return true;
+            return ItemService.ChangeItemStatus(RawItemId);
         }
 
         [HttpGet]

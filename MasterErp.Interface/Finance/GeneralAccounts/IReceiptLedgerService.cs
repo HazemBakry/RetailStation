@@ -12,7 +12,7 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
 {
     public interface IReceiptLedgerService
     {
-        PagedResponseDTO<ReceiptLedgerDTO> GetReceiptLedgersData(FilterModel Model);
+        PagedResponseModel<ReceiptLedgerDTO> GetReceiptLedgersData(FilterModel Model);
         ActionsResponseModel CreateNewReceiptLedger(ReceiptLedgerModel Model);
     }
 }

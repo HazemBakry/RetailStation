@@ -12,7 +12,7 @@ namespace MasterErp.Interface.Finance.GeneralAccounts
 {
     public interface IJournalEntryTypeService
     {
-        PagedResponseDTO<JournalEntryType> GetJournalEntryTypesData(FilterModel Model);
+        PagedResponseModel<JournalEntryType> GetJournalEntryTypesData(FilterModel Model);
         ActionsResponseModel CreateNewJournalEntryType(JournalEntryTypeModel Model);
     }
 }

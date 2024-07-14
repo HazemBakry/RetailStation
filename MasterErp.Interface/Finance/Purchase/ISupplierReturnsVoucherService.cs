@@ -8,7 +8,7 @@ namespace MasterErp.Interface.Finance.Purchase
 {
     public interface ISupplierReturnsVoucherService
     {
-        PagedResponseDTO<SupplierReturnsVoucherDTO> GetSupplierReturnsVoucherData(FilterModel model);
+        PagedResponseModel<SupplierReturnsVoucherDTO> GetSupplierReturnsVoucherData(FilterModel model);
         ActionsResponseModel CreateNewSupplierReturnsVoucher(SupplierReturnsVoucherModel model);
 
 

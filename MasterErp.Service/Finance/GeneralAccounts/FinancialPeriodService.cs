@@ -36,7 +36,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
         }
 
 
-        public PagedResponseDTO<FinancialPeriod> GetFinancialPeriodsData(FilterModel Model)
+        public PagedResponseModel<FinancialPeriod> GetFinancialPeriodsData(FilterModel Model)
         {
             int totalCount = Context.FinancialPeriods.Count();
 
@@ -48,7 +48,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 .Take(Model.PageSize)
             .ToList();
 
-            return new PagedResponseDTO<FinancialPeriod>
+            return new PagedResponseModel<FinancialPeriod>
             {
                 TotalCount = totalCount,
                 Results = data,

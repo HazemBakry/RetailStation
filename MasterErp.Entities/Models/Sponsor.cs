@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models
 {
+    [Table("Sponsors", Schema = "Finance")]
+
     public class Sponsor
     {
         public int SponsorID { get; set; }

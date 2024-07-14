@@ -32,7 +32,7 @@ namespace MasterErp.Service.Finance.Sales
             Configuration = _configuration;
         }
 
-        public PagedResponseDTO<SalesInvoice> GetSalesInvoicesData(FilterModel model)
+        public PagedResponseModel<SalesInvoice> GetSalesInvoicesData(FilterModel model)
         {
             //var data= Context.SalesInvoices.ToList();
 
@@ -47,7 +47,7 @@ namespace MasterErp.Service.Finance.Sales
                 .ToList();
 
 
-            return new PagedResponseDTO<SalesInvoice>
+            return new PagedResponseModel<SalesInvoice>
             {
                 TotalCount = totalCount,
                 Results = data,

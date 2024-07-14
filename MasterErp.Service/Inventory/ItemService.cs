@@ -22,20 +22,14 @@ namespace MasterErp.Service.Inventory
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
+        private readonly string ConnectionString;
 
-        private string ConnectionString
+        public ItemService(DBContext Context, ISQLHelper SQLHelper, IConfiguration Configuration)
         {
-            get
-            {
-                return Configuration.GetConnectionString("DBConnection");
-            }
-        }
-
-        public ItemService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration)
-        {
-            Context = dBContext;
-            SQLHelper = iSQLHelper;
-            Configuration = _configuration;
+            this.Context = Context;
+            this.SQLHelper = SQLHelper;
+            this.Configuration = Configuration;
+            ConnectionString = Configuration.GetConnectionString("DBConnection");
         }
 
         public List<ItemLookups> GetItemsLookups()
@@ -307,7 +301,142 @@ namespace MasterErp.Service.Inventory
             //return filePath;
             return "";
         }
+
+        public DataTable GetRawItemsBySupplierId(int SupplierId)
+        {
+            var results = (from supplier in Context.ItemSuppliers
+                           join item in Context.RawItems on supplier.ItemId equals item.RawItemId
+                           join unit in Context.Units on item.MainUnitId equals unit.UnitId
+                           where supplier.SupplierId == SupplierId
+                           select new
+                           {
+                               RawItemId = item.RawItemId,
+                               NameEn = item.NameEn,
+                               NameAr = item.NameAr,
+                               Cost = item.Cost,
+                               UnitNameAr = unit.UnitNameAr,
+                               UnitNameEn = unit.UnitNameEn,
+                               UnitId = unit.UnitId
+                           }).ToList();
+
+            DataTable dt = results.ToDataTable();
+            return dt;
+        }
+
+        public ActionsResponseModel AddUnit(Unit model)
+        {
+            try
+            {
+                Context.Add(new Unit
+                {
+                    UnitNameAr = model.UnitNameAr,
+                    UnitNameEn = model.UnitNameEn
+                });
+
+                Context.SaveChanges();
+                return new ActionsResponseModel
+                {
+                    Status = 1,
+                    Message = "تم حفظ البيانات بنجاح"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    Message = ex.InnerException?.Message ?? ex.Message
+                };
+            }
+        }
+
+        public ActionsResponseModel EditUnit(Unit model)
+        {
+            var Item = Context.Units.Where(x => x.UnitId == model.UnitId).FirstOrDefault();
+
+            if (Item != null)
+            {
+                Item.UnitNameAr = model.UnitNameAr;
+                Item.UnitNameEn = model.UnitNameEn;
+
+                Context.SaveChanges();
+                return new ActionsResponseModel
+                {
+                    Status = 1,
+                    Message = "تم حفظ البيانات بنجاح"
+                };
+            }
+            else
+            {
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    Message = "يرجى اختبار الوحدة المراد تعديلها"
+                };
+            }
+        }
+        public ActionsResponseModel DeleteUnit(int UnitId)
+        {
+            var item = Context.Units.FirstOrDefault(m => m.UnitId == UnitId);
+
+            if (item != null)
+            {
+                Context.Remove(item);
+                Context.SaveChanges();
+
+                return new ActionsResponseModel
+                {
+                    Status = 1,
+                    Message = "تم حذف البيانات بنجاح"
+                };
+            }
+            else
+            {
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    Message = "يرجى اختبار الوحدة المراد حذفها"
+                };
+            }
+        }
+        public ActionsResponseModel ChangeItemStatus(int RawItemId)
+        {
+            try
+            {
+                var item = Context.RawItems.Where(a => a.RawItemId == RawItemId).FirstOrDefault();
+
+                if (item.IsActive)
+                {
+                    item.IsActive = false;
+                }
+                else
+                {
+                    item.IsActive = true;
+                }
+                Context.SaveChanges();
+
+                return new ActionsResponseModel
+                {
+                    Status = 1,
+                    Message = "تم حفظ البيانات بنجاح"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    Message = ex.InnerException?.Message ?? ex.Message
+                };
+            }
+        }
+
+        public List<Unit> GetUnits()
+        {
+            var results = Context.Units.ToList();
+            return results;
+        }
+
+
     }
-
-
 }

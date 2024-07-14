@@ -5,6 +5,7 @@ import { Observable, map } from 'rxjs';
 import { CustomerModel } from '../../GeneralAccounts/models/GeneralAccounts/CustomerModel';
 import { ExcelExportStyle } from '../Enums/ImporterTemplateEnum';
 import { CreateModifyReturnsModel } from '../models/CreateModifyReturnsModel';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,11 @@ export class SharedService {
   taxPercent:number=0.15;
   URL = environment.apiURL;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) 
+  { 
+
+  }
+
   urlDownloadOrOpen(url?: string) {
     try {
       if (url !== null && url !== ' ' && url !== '') {
@@ -23,8 +28,19 @@ export class SharedService {
     } catch (error) {
 
     }
-
   }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      }
+    });
+  }
+  
   calculateTaxValue(totalAmount:number):number{
     var taxValue=0;
     if(totalAmount&&totalAmount>0)
@@ -33,6 +49,7 @@ export class SharedService {
     }
     return taxValue;
   }
+  
   //================================== AccountTree ===============================
 
   GetAccountTreeData_Old(SearchText: string) {

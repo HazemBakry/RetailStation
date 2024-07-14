@@ -29,5 +29,11 @@ namespace MasterErp.Interface.Inventory
         (int key, string message) DeleteRawItem(int RawItemId);
         string ExportAllRawItems(int categoryId, string SearchText, string UserName);
         string ExportRawItemsDeleted(int categoryId, string SearchText, string UserName);
+        DataTable GetRawItemsBySupplierId(int SupplierId);
+        ActionsResponseModel AddUnit(Unit model);
+        ActionsResponseModel EditUnit(Unit model);
+        ActionsResponseModel DeleteUnit(int UnitId);
+        List<Unit> GetUnits();
+        ActionsResponseModel ChangeItemStatus(int RawItemId);
     }
 }
