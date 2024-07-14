@@ -1,0 +1,90 @@
+<!-- <app-erp-header></app-erp-header> -->
+
+<div class="products-home-wrapper mt-4 pt-3">
+    <div class="products-home-wrapper_banner">
+        <div class="half-banner top-half-banner vh-50">
+            <div class="container position-relative zindex-2">
+                <h1 class="text-uppercase d-flex align-items-center">
+                    <div class="rounded-img-wrapper">
+                        <img src="{{systemURL}}assets/images/server.png" class="product-img-logo" loading="lazy" alt="" />
+                    </div>
+                    <div *ngIf="Lang == 'en'" class="ms-3 border-white">Welcome <span
+                            class="prod-title position-relative">
+                            {{UserModel?.fullName}}
+                        </span>
+                    </div>
+                    <div *ngIf="Lang == 'ar'" class="ms-3 border-white">مرحبا <span
+                            class="prod-title position-relative">
+                            {{UserModel?.fullName}}
+                        </span>
+                    </div>
+                </h1>
+
+                <h3 class="mb-2 d-flex align-items-center" style="padding-left: 110px;">
+                    <div class="ms-3 border-white">
+                        <span class="position-relative fw-bold">
+                           Erp
+                        </span>
+                    </div>
+                </h3>
+
+                <h4 class="mb-2 d-flex align-items-center" style="padding-left: 110px;">
+                    <div *ngIf="Lang == 'en'" class="ms-3 border-white"> 
+                        <!-- Branch :
+                        <span class="position-relative">
+                            
+                        </span> - -->
+
+                        <span class="position-relative">
+                            {{UserModel?.roles[0]}}
+                        </span>
+                    </div>
+                    <div *ngIf="Lang == 'ar'" class="ms-3 border-white">
+                        <span class="position-relative">
+                            
+                        </span>
+                    </div>
+                </h4>
+
+                <div class="separate-line position-relative mb-7">
+                    <hr class="separate-dashed-border">
+                </div>
+            </div>
+        </div>
+        <div class="half-banner bottom-half-banner vh-50 ">
+            <div class="container">
+                <h3 class="d-flex align-items-center">
+                    <img src="{{systemURL}}assets//images/select-product.png" class="select-prod-logo" loading="lazy"
+                        alt="" />
+                    <div class="select-prod-title fw-bold ms-3">{{Lang == 'en' ? 'Select a Product' : 'اختر منتج'}}
+                    </div>
+                </h3>
+                <div class="product-carousel">
+                    <swiper [slidesPerView]="1" [spaceBetween]="30" [navigation]="true" [breakpoints]="breakpoints">
+                        <!-- <ng-template *ngFor="let item of customerApplications" swiperSlide>
+                            <div class="product-box" (click)="GoToProductModule(item)">
+                                <div class="product-box-img">
+                                    <img src={{item.icon}} class="product-img" loading="lazy" alt="" />
+                                </div>
+                                <div class="product-name fw-bold mt-3">{{Lang == 'en' ? item.applicationName :
+                                    item.applicationName }}
+                                </div>
+                            </div>
+                        </ng-template> -->
+                        <ng-template swiperSlide>
+                            <div class="product-box" (click)="GoToProductModule('CallCenter')">
+                                <div class="product-box-img">
+                                    <img src="{{systemURL}}assets/images/call-center.png" class="product-img" loading="lazy"
+                                        alt="" />
+                                </div>
+                                <div class="product-name fw-bold mt-3"> HR </div>
+                            </div>
+                        </ng-template>
+                        
+                    </swiper>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
