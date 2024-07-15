@@ -102,46 +102,22 @@ namespace MasterErp.API
             services.AddControllers();
             services.AddDbContext<DBContext>();
             //services.AddHttpContextAccessor();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddScoped<ISQLHelper, SQLHelper>();
-            services.AddScoped<IEmployeesService, EmployeesService>();
-            services.AddScoped<IAttendanceService, AttendanceService>();
-            services.AddScoped<IOverTimeService, OverTimeService>();
-            services.AddScoped<IPenaltyService, PenaltyService>();
-            services.AddScoped<ISickLeaveService, SickLeaveService>();
-            services.AddScoped<IVacationService, VacationService>();
-            services.AddScoped<IAccountTreeService, AccountTreeService>();
-            services.AddScoped<ICostCenterTreeService, CostCenterTreeService>();
-            services.AddScoped<IPurchaseInvoiceService, PurchaseInvoiceService>();
-            services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
-            services.AddScoped<ISalesInvoiceService, SalesInvoiceService>();
-            services.AddScoped<IJournalEntryService, JournalEntryService>();
-            services.AddScoped<IInventoryService, InventoryService>();
-            services.AddScoped<ISharedService, SharedService>();
-            services.AddScoped<IPaymentService, PaymentService>();
-            services.AddScoped<IItemService, ItemService>();
-            services.AddScoped<ISharedFilterService, SharedFilterService>();
-            services.AddScoped<IGeneralAccountsReportService, GeneralAccountsReportService>();
-            services.AddScoped<IPurchasesRequestsService, PurchasesRequestsService>();
-            services.AddScoped<ISupplierReturnsVoucherService, SupplierReturnsVoucherService>();
-            services.AddScoped<IReceiptLedgerService, ReceiptLedgerService>();
-            services.AddScoped<IJournalEntryTypeService, JournalEntryTypeService>();
-            services.AddScoped<IFinancialPeriodService, FinancialPeriodService>();
-            services.AddScoped<IExportService, ExportService>();
 
-            services
-            .AddMvc(options =>
-            {
-                    options.EnableEndpointRouting = false;
-                })
-                .AddNewtonsoftJson()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.IgnoreNullValues = true;
-                    options.JsonSerializerOptions.WriteIndented = true;
-                });
+            // Register services using the custom service registration class >> please register your service here 
+            ServiceRegistration.RegisterServices(services);
+
+            services.AddMvc(options =>
+                    {
+                        options.EnableEndpointRouting = false;
+                    })
+                    .AddNewtonsoftJson()
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                    .AddJsonOptions(options =>
+                    {
+                        options.JsonSerializerOptions.IgnoreNullValues = true;
+                        options.JsonSerializerOptions.WriteIndented = true;
+                    });
 
 
         }
