@@ -3,6 +3,7 @@ using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,5 +20,6 @@ namespace MasterErp.Interface.Shared
         List<FinancialPeriod> GetFinancialPeriods();
         List<AccountType> GetAccountTypes();
         ActionsResponseModel DownloadImporterTemplate(ExcelExportStyle ImporterType);
+        DataTable MapFilterModelToDataTable(List<FilterItem> Items);
     }
 }

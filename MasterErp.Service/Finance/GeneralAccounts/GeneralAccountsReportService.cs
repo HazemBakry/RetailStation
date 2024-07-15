@@ -46,7 +46,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
         public DataTable GetAccountsAssistantLedger(SearchFilterModel model)
         {
-            var accountFilter = model.FilterItems.Where(x => x.CategoryName == "accountId").FirstOrDefault();
+            var accountFilter = model?.FilterModel?.FilterItems.Where(x => x.CategoryName == "accountId").FirstOrDefault();
             DataTable dt = new DataTable();
 
             if (accountFilter != null)
@@ -94,7 +94,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             List<JournalEntryViewModel> List = new List<JournalEntryViewModel>();
             int Level = Convert.ToInt32(model.SearchLevel);
 
-            var accountFilter = model.FilterItems.Where(x => x.CategoryName == "accountId").FirstOrDefault();
+            var accountFilter = model?.FilterModel?.FilterItems.Where(x => x.CategoryName == "accountId").FirstOrDefault();
             if (accountFilter != null)
             {
                 var Parents = Context.AccountTrees.Where(x => x.ParentAccountId == 0).ToList();

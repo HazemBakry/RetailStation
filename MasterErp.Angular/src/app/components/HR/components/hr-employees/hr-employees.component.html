@@ -1,63 +1,59 @@
 <!-- <app-pos-breadcrumb [TitleList]="TitleList"></app-pos-breadcrumb> -->
 
-<div class="card radius-10 border-0 card-shadow">
-    <div class="card-body">
-        <div class="main-card-action mb-4">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="d-flex align-items-center flex-wrap">
-                        <div class="search-box position-relative mb-2">
-                            <input type="text" class="form-control" [(ngModel)]="SearchText" placeholder="SearchByName" (keyup.enter)="GetEmployeesData()">
-                            <i class="fas fa-search search-icon text-muted cursor-pointer" (click)="GetEmployeesData()"></i>
-                        </div>
-                        <ng-container *ngIf="filterList.length > 0">
-                            <app-pos-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-pos-filters>
-                        </ng-container>
-                    </div>
+
+<div class="main-card-action mb-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="d-flex align-items-center flex-wrap">
+                <div class="search-box position-relative mb-2">
+                    <input type="text" class="form-control" [(ngModel)]="SearchText" placeholder="SearchByName" (keyup.enter)="getEmployeesData()">
+                    <i class="fas fa-search search-icon text-muted cursor-pointer" (click)="getEmployeesData()"></i>
                 </div>
-                <div class="col-md-4">
-                    <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="currentPage" [pageSize]="pageSize" [totalCount]="totalCount" [totalPages]="totalPages"></app-erp-pagination>
-                </div>
+                <ng-container *ngIf="filterList.length > 0">
+                    <app-pos-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-pos-filters>
+                </ng-container>
             </div>
         </div>
+        <div class="col-md-4">
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="currentPage" [pageSize]="pageSize" [totalCount]="totalCount" [totalPages]="totalPages"></app-erp-pagination>
+        </div>
+    </div>
+</div>
+<div class="card radius-10 border-0 card-shadow">
+    <div class="card-body">
 
-
-        <div class="row gy-5 gx-4">
+        <div class="row gy-5 gx-4 py-3">
             <div class="col-xl-8">
-                <div class="user-card bg-light p-2 rounded shadow-sm border" *ngFor="let item of pagingUsersData" (click)="ShowUserCardData(item)">
+                <div class="user-card bg-light p-2 rounded shadow-sm border" *ngFor="let item of ResultData" (click)="ShowUserCardData(item)">
                     <div class="row g-3 align-items-center">
                         <div class="col-xl-9">
                             <div class="user-info d-flex align-items-center">
-                                <div class="user-star me-2" [ngClass]="{'active': item.isClicked}">
+                                <!-- <div class="user-star me-2" [ngClass]="{'active': item.isClicked}">
                                     <i class="fas fa-star"></i>
-                                </div>
+                                </div> -->
                                 <div class="user-profile d-flex align-items-center">
                                     <!-- <img src="{{item?.image}}" class="user-img" alt="" loading="lazy" /> -->
-                                    <div class="ms-3">
+                                    <div class="ms-3 mt-2">
                                         <div class="d-flex align-items-center mb-2">
-                                            <h5 class="m-0 fw-bold">{{item.employeeName}}</h5>
+                                            <h5 class="m-0 fw-bold">{{item.fullNameAR}}</h5>
                                             <div class="user-status-box ms-3">
-                                                <div *ngIf="!item.isActive" class="user-status shadow-sm not-active">Not Active</div>
-                                                <div *ngIf="item.isActive" class="user-status shadow-sm active">Active</div>
+                                                <div *ngIf="item.statusId != 1" class="user-status shadow-sm not-active">Not Active</div>
+                                                <div *ngIf="item.statusId == 1" class="user-status shadow-sm active">Active</div>
                                             </div>
                                         </div>
                                         <div class="user-position">
-                                            <span class="fw-bold me-2">{{item.nameEn}}</span>
-                                            <span class="text-muted">{{item.phoneNumber}} - {{item.email}}</span>
+                                            <span class="fw-bold me-2">{{item.jobNameAr}}</span>
+                                            <span class="text-muted">{{item.code}} - {{item.BranchNameAr}}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xl-3 d-flex justify-content-end">
-                            <div class="user-actions">
-                                <div ngbDropdown class="d-inline-block">
-                                    <button type="button" class="btn btn-primary">
-                    <span class="me-2">تفاصيل</span>
-                    <i class="fas fa-info-circle"></i>
-                  </button>
-                                </div>
-                            </div>
+                            <button type="button" class="btn btn-primary me-2">
+                <span class="me-2">تفاصيل</span>
+                <i class="fas fa-info-circle"></i>
+              </button>
                         </div>
                     </div>
                 </div>
@@ -68,9 +64,9 @@
                         <!-- <img src="{{SelectedUser?.image}}" (error)="$event.target.src = DefaultImage" class="single-img" alt="" loading="lazy" /> -->
                     </div>
                     <div class="pt-5 text-center">
-                        <h4 class="mb-2 fw-bold">{{SelectedUser?.employeeName}}</h4>
+                        <h4 class="mb-2 fw-bold">{{SelectedEmployee?.fullNameAr}}</h4>
                         <div class="text-muted">
-                            <div>{{SelectedUser?.phoneNumber}} - {{SelectedUser?.email}}</div>
+                            <div>{{SelectedEmployee?.jobId}} - {{SelectedEmployee?.email}}</div>
                             <!-- <div>2 days ago</div> -->
                         </div>
                     </div>
@@ -78,15 +74,15 @@
                     <div class="single-user-stats">
                         <div class="single-user-stats-item d-flex align-items-center justify-content-between">
                             <div class="text-muted">User Name</div>
-                            <div class="fw-bold">{{SelectedUser?.employeeName}}</div>
+                            <div class="fw-bold">{{SelectedEmployee?.employeeName}}</div>
                         </div>
                         <div class="single-user-stats-item d-flex align-items-center justify-content-between">
                             <div class="text-muted">Branch</div>
-                            <div class="fw-bold">{{SelectedUser?.nameEn}}</div>
+                            <div class="fw-bold">{{SelectedEmployee?.nameEn}}</div>
                         </div>
                         <div class="single-user-stats-item d-flex align-items-center justify-content-between">
                             <div class="text-muted">Jop Title</div>
-                            <div class="fw-bold">{{SelectedUser?.jopTitle}}</div>
+                            <div class="fw-bold">{{SelectedEmployee?.jopTitle}}</div>
                         </div>
                         <!-- <div class="single-user-stats-item d-flex align-items-center justify-content-between">
               <div class="text-muted">Salary</div>
@@ -128,9 +124,9 @@
                         </div>
                     </div>
                     <hr class="my-4">
-                    <button class="btn btn-primary w-100 justify-content-center py-3 fs-5 radius-10" (click)="open(addUserModal,null)">
+                    <button class="btn btn-primary w-100 justify-content-center py-3 fs-5 radius-10">
             <i class="fas fa-id-card"></i>
-            <span class="ms-3">Add a Contact</span>
+            <span class="ms-3">إضافة موظف</span>
           </button>
                 </div>
             </div>

@@ -17,7 +17,7 @@ namespace MasterErp.Entities.Common.Finance.Purchases
         public int SupplierId { get; set; }
         public int BranchId { get; set; }
         public string Notes { get; set; }
-        public string? UserId { get; set; }
+        public string UserId { get; set; }
         public List<PurchaseReturnsDetails> Items { get; set; }
     }
 }

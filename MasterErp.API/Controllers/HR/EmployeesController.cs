@@ -14,6 +14,8 @@ namespace MasterErp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
+
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
@@ -23,9 +25,9 @@ namespace MasterErp.API.Controllers
             _employeeService = employeeService;
         }
 
-        [HttpGet]
-        [Route("GetAllEmployees")]
-        public ActionResult<PagedResponseModel<EmployeeBasicInfo>> GetAllEmployees(SearchFilterModel model)
+        [HttpPost]
+        [Route("GetEmployeesData")]
+        public ActionResult<PagedResponseModel<EmployeeBasicInfo>> GetEmployeesData(SearchFilterModel model)
         {
             var result =  _employeeService.GetAllEmployees(model);
             var Response = new PagedResponseModel<EmployeeBasicInfo>
@@ -38,6 +40,39 @@ namespace MasterErp.API.Controllers
 
             return Ok(Response);
         }
+
+        [HttpGet]
+        [Route("GetAllEmployees")]
+        public ActionResult<PagedResponseModel<EmployeeBasicInfo>> GetAllEmployees(SearchFilterModel model)
+        {
+            var result = _employeeService.GetAllEmployees(model);
+            var Response = new PagedResponseModel<EmployeeBasicInfo>
+            {
+                CurrentPage = model.CurrentPage,
+                PageSize = model.PageSize,
+                Results = result,
+                TotalCount = result.Count > 0 ? result.FirstOrDefault().TotalCount : 0
+            };
+
+            return Ok(Response);
+        }
+
+        [HttpPost]
+        [Route("GetEmployeesFilter")]
+        public ActionResult<PagedResponseModel<EmployeeBasicInfo>> GetEmployeesFilter(SearchFilterModel model)
+        {
+            var result = _employeeService.GetAllEmployees(model);
+            var Response = new PagedResponseModel<EmployeeBasicInfo>
+            {
+                CurrentPage = model.CurrentPage,
+                PageSize = model.PageSize,
+                Results = result,
+                TotalCount = result.Count > 0 ? result.FirstOrDefault().TotalCount : 0
+            };
+
+            return Ok(Response);
+        }
+        
 
         [HttpGet]
         [Route("GetIqamaIssuePlaces")]

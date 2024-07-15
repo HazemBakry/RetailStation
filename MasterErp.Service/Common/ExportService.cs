@@ -78,17 +78,14 @@ namespace MasterErp.Service.Common
                 var request = _contextAccessor.HttpContext.Request;
                 URL = string.Format("{0}://{1}{2}/{3}", request.Scheme, request.Host, @"/Template", TemplateStyle);
 
-
                 //URL = Path.Combine(_hostingEnvironment.WebRootPath, @"Template\", TemplateStyle);
                 
                 return URL;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
                 throw;
             }
-            return URL;
         }
 
         public void Export(string fullPath, DataTable data, IHostingEnvironment hostingEnvironment, Dictionary<string, string> substitutionValue = null)
@@ -145,20 +142,10 @@ namespace MasterErp.Service.Common
                 }
                 ExcelRange cells = worksheet.Cells[startRow ?? 4, 1, startRow ?? 4, headers.Count];
                 cells.AutoFilter = true;
-                //cells.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                //cells.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.FromArgb(15, 25, 66));
-                //SetBorder(ref cells);
-                //cells.Style.Font.Color.SetColor(Color.White);
-                //cells.Style.Font.Size = 10;
-                //cells.Style.Font.Name = "Arial";
-                //cells.Style.Font.Bold = true;
-                //cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                //cells.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                //worksheet.Row(startRow ?? 5).Height = 30;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 

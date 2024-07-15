@@ -19,11 +19,11 @@ export class HrService {
   }
 
   GetEmployeesData(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'Employee/GetAllEmployees', model);
+    return this.http.post<any>(this.URL + 'Employee/GetEmployeesData', model);
   }
 
-  GetEmployeesFilter() {
-    return this.http.get<any>(this.URL + 'Employee/GetEmployeesFilter');
+  GetEmployeesFilter(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'Employee/GetEmployeesFilter', model);
   }
 
   // AddNewEmployee(model: SaveEmployeeModel) {

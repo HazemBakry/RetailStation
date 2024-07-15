@@ -67,8 +67,8 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                                             IsSelected= x.NameEN.Contains(SearchText) || x.NameEN.Contains(SearchText) || x.CostCenterNumber == SearchText
 
                                         }).ToList();
-            return new List<CostCenterTreeModel>();
         }
+
         public List<CostCenterTreeModel> GetCostCenterTreeHierarchicalData(string SearchText)
         {
 
@@ -97,10 +97,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                     costCenter.CostLevel= parentCostCenter.CostLevel+1;
                     if (costCenter.IsSelected)
                     {
-
                         UpdateParentSelection(parentCostCenter, costCenterById);
-
-
                     }
                     parentCostCenter.Children.Add(costCenter);
                 }
@@ -117,9 +114,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 if (!parentCostCenter.IsSelected && parentCostCenter.ParentId < costCenter.ParentId)
                     UpdateParentSelection(parentCostCenter, costCenterList);
             }
-
         }
-
 
         public ActionsResponseModel CreateNewCostCenter(CostCenterTreeModel Model)
         {
@@ -166,8 +161,6 @@ namespace MasterErp.Service.Finance.GeneralAccounts
         {
             try
             {
-
-
                 var entity = Context.CostCenterTree.FirstOrDefault(x => x.CostCenterId == CostCenterId);
 
                 if (entity != null)
@@ -190,11 +183,6 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 }
 
                 Context.SaveChanges();
-
-
-
-
-
                 return new ActionsResponseModel
                 {
                     Status = 1,
@@ -211,14 +199,11 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             }
         }
 
-
-
         public ActionsResponseModel ImportCostCenterTreeList(IFormFile File)
         {
             string url = string.Empty;
             try
             {
-
                 if (File != null && File.Length > 0)
                 {
                     using (var stream = new MemoryStream())
@@ -241,7 +226,6 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                             var result = SQLHelper.ExecuteDataTable("[dbo].[SP_ImportCostCenterTreeList]", ConnectionString, Params);
 
                             url = GetExportUrl(result, "CostCenterTreeImporter");
-
                         }
                     }
 
@@ -253,7 +237,6 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                     };
 
                 }
-
 
                 return new ActionsResponseModel
                 {
@@ -305,7 +288,6 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
         private string GetExportUrl(DataTable DT,string Name)
         {
-
             ExportTemplateBase exportTemplateBase = new ExportTemplateBase
             {
                 Name = Name,
@@ -317,8 +299,6 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 SheetName = "Data",
             };
             return _exportService.Export(exportTemplateBase, DT);
-
-
         }
 
     }

@@ -15,12 +15,12 @@ namespace MasterErp.Entities.Models
         public DateTime? DueDate { get; set; }
         public int SupplierID { get; set; }
         public double TotalValue { get; set; }
-        public string? Notes { get; set; }
+        public string Notes { get; set; }
         public bool? IsLocked { get; set; }
         public bool? IsCancelled { get; set; }
-        public string? InsertUser { get; set; }
+        public string InsertUser { get; set; }
         public DateTime? InsertDate { get; set; }
-        public string? UpdateUser { get; set; }
+        public string UpdateUser { get; set; }
         public DateTime? UpdateDate { get; set; }
 
 
