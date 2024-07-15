@@ -1,481 +1,291 @@
-<div class="employee-card card radius-10 border-0 card-shadow mb-4">
-  <div class="card-body pb-5">
-    <div class="employee-card-header d-flex align-items-center flex-wrap mb-5">
-      <div class="employee-image mb-2 me-4">
-        <img [src]="URLs[0]" (error)="$event.target.src = DefaultImage" class="emp-img" alt="default-image" loading="lazy" />
-      </div>
-      <div class="employee-info">
-        <h3 class="mb-2 d-flex align-items-center">
-          <span class="fw-bold me-2">حازم بكرى</span>
-          <span class="tag active fs-6 rounded shadow-sm px-2 py-1">نشيط</span>
-        </h3>
-        <div class="d-flex align-items-center fs-5 mb-1">
-          <i class="uil uil-postcard main-color"></i>
-          <span class="ms-2">المدير العام</span>
+<!-- <app-pos-breadcrumb [TitleList]="TitleList"></app-pos-breadcrumb> -->
+
+<div class="card radius-10 border-0 card-shadow">
+    <div class="card-body">
+        <div class="main-card-action mb-4">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="d-flex align-items-center flex-wrap">
+                        <div class="search-box position-relative mb-2">
+                            <input type="text" class="form-control" [(ngModel)]="SearchText" placeholder="SearchByName" (keyup.enter)="GetEmployeesData()">
+                            <i class="fas fa-search search-icon text-muted cursor-pointer" (click)="GetEmployeesData()"></i>
+                        </div>
+                        <ng-container *ngIf="filterList.length > 0">
+                            <app-pos-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-pos-filters>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="currentPage" [pageSize]="pageSize" [totalCount]="totalCount" [totalPages]="totalPages"></app-erp-pagination>
+                </div>
+            </div>
         </div>
-        <div class="d-flex align-items-center fs-6">
-          <i class="uil uil-map-marker main-color"></i>
-          <span class="ms-2">القاهرة</span>
-        </div>
-        <button class="file-upload-button">
-          <input type="file" (change)="onSelectedFile($event)" style="cursor: pointer;"
-            />
-        </button>
-      </div>
-    </div>
-    <div class="employee-card-content card-shadow bg-light border mb-3">
-      <div class="employee-card-tabs d-flex mb-5">
-        <div class="employee-tab-item" [class.active]="active === 1" (click)="onActive(1)">
-          <i class="uil uil-user"></i>
-          <span>البيانات الأساسية</span>
-        </div>
-        <div class="employee-tab-item" [class.active]="active === 2" (click)="onActive(2)">
-          <i class="uil uil-user"></i>
-          <span>جواز السفر</span>
-        </div>
-        <div class="employee-tab-item" [class.active]="active === 3" (click)="onActive(3)">
-          <i class="uil uil-user"></i>
-          <span>بيانات العقد</span>
-        </div>
-        <div class="employee-tab-item" [class.active]="active === 4" (click)="onActive(4)">
-          <i class="uil uil-user"></i>
-          <span>بيانات اخرى</span>
-        </div>
-      </div>
-      <div class="employee-card-tabs-content px-4 pb-2">
-        <ng-container *ngIf="active == 1">
-          <div class="employee-card-body row">
-            <div class="col-xl-3">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.firstNameAR" class="form-control"
-                  id="floatingInput1" placeholder="any">
-                <label for="floatingInput1">الاسم الاول</label>
-              </div>
-            </div>
-            <div class="col-xl-3">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.fatherNameAR" class="form-control"
-                  id="floatingInput2" placeholder="any">
-                <label for="floatingInput2">اسم الاب</label>
-              </div>
-            </div>
-            <div class="col-xl-3">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.grandNameAR" class="form-control"
-                  id="floatingInput3" placeholder="any">
-                <label for="floatingInput3">اسم الجد</label>
-              </div>
-            </div>
-            <div class="col-xl-3">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.lastNameAR" class="form-control"
-                  id="floatingInput2" placeholder="any">
-                <label for="floatingInput2">اسم العائلة</label>
-              </div>
-            </div>
-            <div class="col-xl-3">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.firstNameEN" class="form-control"
-                  id="floatingInput1" placeholder="any">
-                <label for="floatingInput1">First Name</label>
-              </div>
-            </div>
-            <div class="col-xl-3">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.fatherNameEN" class="form-control"
-                  id="floatingInput2" placeholder="any">
-                <label for="floatingInput2">Father Name</label>
-              </div>
-            </div>
-            <div class="col-xl-3">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.grandNameEN" class="form-control"
-                  id="floatingInput3" placeholder="any">
-                <label for="floatingInput3">Grand Name</label>
-              </div>
-            </div>
-            <div class="col-xl-3">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.lastNameEN" class="form-control"
-                  id="floatingInput2" placeholder="any">
-                <label for="floatingInput2">Family Name</label>
-              </div>
-            </div>
-            <div class="col-xl-5">
-              <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.iqamaIssuePlaceId">
-                <option [defaultSelected]=true [value]="0" disabled>مكان الاصدار</option>
-                <option [value]="item.iqamaIssuePlaceID" *ngFor="let item of IqamaIssueList">{{item.nameAR}}</option>
-              </select>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.iqamaIssueDate" class="form-control"
-                  id="floatingInput6" placeholder="any">
-                <label for="floatingInput6">تاريخ الاصدار</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.iqamaExpireDate" class="form-control"
-                  id="floatingInput7" placeholder="any">
-                <label for="floatingInput7">تاريخ الانتهاء</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.sponsorId">
-                <option [defaultSelected]=true [value]="0" disabled>الكفيل</option>
-                <option [value]="item.sponsorID" *ngFor="let item of SponsorList">{{item.nameAR}}</option>
-              </select>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.iqamaJobId">
-                <option [defaultSelected]=true [value]="0" disabled>عمل الاقامة</option>
-                <option [value]="item.iqamaJobID" *ngFor="let item of IqamaJobList">{{item.nameAR}}</option>
-              </select>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.nationalityId">
-                <option [defaultSelected]=true [value]="0" disabled>الجنسية</option>
-                <option [value]="item.nationalityId" *ngFor="let item of NationalityList">{{item.nameAR}}</option>
-              </select>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.religion" class="form-control"
-                  id="floatingInput5" placeholder="any">
-                <label for="floatingInput5">الديانة</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.jobId">
-                <option [defaultSelected]=true [value]="0" disabled>العمل</option>
-                <option [value]="item.jobID" *ngFor="let item of JobList">{{item.nameAR}}</option>
-              </select>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.branchId">
-                <option [defaultSelected]=true [value]="0" disabled>الفرع</option>
-                <option [value]="item.branchID" *ngFor="let item of BranchList">{{item.nameAR}}</option>
-              </select>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.birthPlace" class="form-control"
-                  id="floatingInput8" placeholder="any">
-                <label for="floatingInput8">مكان الولادة</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.birthDate" class="form-control"
-                  id="floatingInput9" placeholder="any">
-                <label for="floatingInput9">تاريخ الميلاد</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.bankId">
-                <option [defaultSelected]=true [value]="0" disabled>اسم البنك</option>
-                <option [value]="item.bankID" *ngFor="let item of BankList">{{item.name}}</option>
-              </select>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.bankAccount" class="form-control"
-                  id="floatingInput6" placeholder="any">
-                <label for="floatingInput6">الحساب البنكي</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
+
+
+        <div class="row gy-5 gx-4">
             <div class="col-xl-8">
-              <div class="form-floating mb-3">
-                <textarea type="text" [(ngModel)]="SaveEmployeeModel.employee.address" class="form-control"
-                  id="floatingInput10" placeholder="العنوان"></textarea>
-                <label for="floatingInput10">العنوان</label>
-              </div>
+                <div class="user-card bg-light p-2 rounded shadow-sm border" *ngFor="let item of pagingUsersData" (click)="ShowUserCardData(item)">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-xl-9">
+                            <div class="user-info d-flex align-items-center">
+                                <div class="user-star me-2" [ngClass]="{'active': item.isClicked}">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="user-profile d-flex align-items-center">
+                                    <!-- <img src="{{item?.image}}" class="user-img" alt="" loading="lazy" /> -->
+                                    <div class="ms-3">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <h5 class="m-0 fw-bold">{{item.employeeName}}</h5>
+                                            <div class="user-status-box ms-3">
+                                                <div *ngIf="!item.isActive" class="user-status shadow-sm not-active">Not Active</div>
+                                                <div *ngIf="item.isActive" class="user-status shadow-sm active">Active</div>
+                                            </div>
+                                        </div>
+                                        <div class="user-position">
+                                            <span class="fw-bold me-2">{{item.nameEn}}</span>
+                                            <span class="text-muted">{{item.phoneNumber}} - {{item.email}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 d-flex justify-content-end">
+                            <div class="user-actions">
+                                <div ngbDropdown class="d-inline-block">
+                                    <button type="button" class="btn btn-primary">
+                    <span class="me-2">تفاصيل</span>
+                    <i class="fas fa-info-circle"></i>
+                  </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </ng-container>
-
-        <ng-container *ngIf="active == 2">
-          <div class="employee-card-body row">
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.borderEntryNumber" class="form-control"
-                  id="floatingInput1" placeholder="any">
-                <label for="floatingInput1">الرقم الحدودي</label>
-              </div>
+            <div class="col-xl-4">
+                <div class="single-user-info bg-light px-4 py-3 rounded border position-relative h-100">
+                    <div class="single-user-img img-thumbnail shadow-sm">
+                        <!-- <img src="{{SelectedUser?.image}}" (error)="$event.target.src = DefaultImage" class="single-img" alt="" loading="lazy" /> -->
+                    </div>
+                    <div class="pt-5 text-center">
+                        <h4 class="mb-2 fw-bold">{{SelectedUser?.employeeName}}</h4>
+                        <div class="text-muted">
+                            <div>{{SelectedUser?.phoneNumber}} - {{SelectedUser?.email}}</div>
+                            <!-- <div>2 days ago</div> -->
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <div class="single-user-stats">
+                        <div class="single-user-stats-item d-flex align-items-center justify-content-between">
+                            <div class="text-muted">User Name</div>
+                            <div class="fw-bold">{{SelectedUser?.employeeName}}</div>
+                        </div>
+                        <div class="single-user-stats-item d-flex align-items-center justify-content-between">
+                            <div class="text-muted">Branch</div>
+                            <div class="fw-bold">{{SelectedUser?.nameEn}}</div>
+                        </div>
+                        <div class="single-user-stats-item d-flex align-items-center justify-content-between">
+                            <div class="text-muted">Jop Title</div>
+                            <div class="fw-bold">{{SelectedUser?.jopTitle}}</div>
+                        </div>
+                        <!-- <div class="single-user-stats-item d-flex align-items-center justify-content-between">
+              <div class="text-muted">Salary</div>
+              <div class="fw-bold">250-300 SAR</div>
+            </div> -->
+                    </div>
+                    <hr class="my-4">
+                    <div class="single-user-files">
+                        <div class="text-muted mb-2">Files</div>
+                        <div class="single-user-file-box">
+                            <div class="single-user-file d-flex align-items-center justify-content-between border shadow-sm cursor-pointer px-4 py-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="file-box-icon">
+                                        <i class="fas fa-file-alt"></i>
+                                    </div>
+                                    <div class="file-info ms-3">
+                                        <div class="fw-bold">Overview.pdf</div>
+                                        <div class="text-muted">50 Kb</div>
+                                    </div>
+                                </div>
+                                <div class="file-downloader">
+                                    <i class="fas fa-download"></i>
+                                </div>
+                            </div>
+                            <div class="single-user-file d-flex align-items-center justify-content-between border shadow-sm cursor-pointer px-4 py-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="file-box-icon">
+                                        <i class="fas fa-file-alt"></i>
+                                    </div>
+                                    <div class="file-info ms-3">
+                                        <div class="fw-bold">Contract.pdf</div>
+                                        <div class="text-muted">30 Kb</div>
+                                    </div>
+                                </div>
+                                <div class="file-downloader">
+                                    <i class="fas fa-download"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <button class="btn btn-primary w-100 justify-content-center py-3 fs-5 radius-10" (click)="open(addUserModal,null)">
+            <i class="fas fa-id-card"></i>
+            <span class="ms-3">Add a Contact</span>
+          </button>
+                </div>
             </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.passportNumber" class="form-control"
-                  id="floatingInput4" placeholder="any">
-                <label for="floatingInput4">رقم جواز السفر</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.borderEntryDate" class="form-control"
-                  id="floatingInput2" placeholder="any">
-                <label for="floatingInput2">تاريخ الدخول</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.arrivalPort" class="form-control"
-                  id="floatingInput3" placeholder="any">
-                <label for="floatingInput3">مكان الوصول</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.passportIssuanceDate" class="form-control"
-                  id="floatingInput7" placeholder="any">
-                <label for="floatingInput7">تاريخ الاصدار</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.passportExpireDate" class="form-control"
-                  id="floatingInput7" placeholder="any">
-                <label for="floatingInput7">تاريخ الانتهاء</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.visaNumber" class="form-control"
-                  id="floatingInput8" placeholder="any">
-                <label for="floatingInput8">رقم الفيزا</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.visaIssueDate" class="form-control"
-                  id="floatingInput9" placeholder="any">
-                <label for="floatingInput9">تاريخ اصدار الفيزا</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.passportIssunacePlace">
-                <option [defaultSelected]=true value="" disabled>مكان الاصدار</option>
-                <option [value]="item.passportIssuePlaceID" *ngFor="let item of PassportIssueList">{{item.nameAR}}
-                </option>
-              </select>
-            </div>
-          </div>
-        </ng-container>
-
-        <ng-container *ngIf="active == 3">
-          <div class="employee-card-body row mb-3">
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.joinDate" class="form-control"
-                  id="floatingInput1" placeholder="any">
-                <label for="floatingInput1">تاريخ بدء العمل</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.lastJoinDate" class="form-control"
-                  id="floatingInput2" placeholder="any">
-                <label for="floatingInput2">تاريخ انتهاء العمل</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeContract.noYears" class="form-control"
-                  id="floatingInput3" placeholder="any">
-                <label for="floatingInput3">عدد سنوات العمل</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeContract.vacationEvery" class="form-control"
-                  id="floatingInput5" placeholder="any">
-                <label for="floatingInput5">الاجازات كل</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeContract.vacationDays" class="form-control"
-                  id="floatingInput6" placeholder="any">
-                <label for="floatingInput6">فترة الاجازات</label>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="employee-card-body row">
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.basicSalary" class="form-control"
-                  id="floatingInput1" placeholder="any">
-                <label for="floatingInput1">الراتب الاساسي</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.extraSalary" class="form-control"
-                  id="floatingInput2" placeholder="any">
-                <label for="floatingInput2">الراتب الاضافي</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.transport" class="form-control"
-                  id="floatingInput3" placeholder="any">
-                <label for="floatingInput3">التنقلات</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.home" class="form-control"
-                  id="floatingInput4" placeholder="any">
-                <label for="floatingInput4">المنزل</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.mopile" class="form-control"
-                  id="floatingInput5" placeholder="any">
-                <label for="floatingInput5">رقم التلفون</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.workNature" class="form-control"
-                  id="floatingInput6" placeholder="any">
-                <label for="floatingInput6">طبيعة العمل</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.food" class="form-control"
-                  id="floatingInput6" placeholder="any">
-                <label for="floatingInput6">الوجبة</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.other" class="form-control"
-                  id="floatingInput6" placeholder="any">
-                <label for="floatingInput6">اخرى</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employeeSalary.totalSalary" class="form-control"
-                  id="floatingInput6" placeholder="any">
-                <label for="floatingInput6">الراتب الكلي</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput6" placeholder="any">
-                <label for="floatingInput6">ايام العمل</label>
-              </div>
-            </div>
-            <div class="col-xl-5">
-              <div class="d-flex mb-3">
-                <input type="checkbox" [(ngModel)]="SaveEmployeeModel.employee.isGossi" class="me-2" id="floatingInput"
-                  placeholder="any">
-                <label for="floatingInput">Is Gossi</label>
-              </div>
-            </div>
-          </div>
-          <button class="btn btn-primary" (click)="OpenDetailsSidePanel(detailsSidepanel)">التفاصيل</button>
-        </ng-container>
-
-        <ng-container *ngIf="active == 4">
-          <div class="employee-card-body row mb-3">
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.drivingLicenseIssue" class="form-control"
-                  id="floatingInput1" placeholder="any">
-                <label for="floatingInput1">تاريخ اصدار الرخصة</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.drivingLicenseExpire" class="form-control"
-                  id="floatingInput2" placeholder="any">
-                <label for="floatingInput2">تاريخ انتهاء الرخصة</label>
-              </div>
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-              <div class="form-floating mb-3">
-                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.drivingLicenseNumber" class="form-control"
-                  id="floatingInput6" placeholder="any">
-                <label for="floatingInput6">رقم السيارة</label>
-              </div>
-            </div>
-          </div>
-        </ng-container>
-      </div>
+        </div>
     </div>
-    <button class="btn btn-primary" (click)="SaveEmployeeDate()">حفظ</button>
-  </div>
 </div>
 
 
-<ng-template #detailsSidepanel let-offcanvas style="width: 817px;">
-  <div class="offcanvas-header pb-0">
-    <div>
-      <h4 class="offcanvas-title m-0 d-flex align-items-center w-100"><i
-          class="fas fa-history fa-2x main-color me-2"></i> التفاصيل</h4>
+
+
+<ng-template #ManagePermissions let-modal>
+    <div class="main-card-manage">
+        <div class="main-card-header p-3 main-dark-gray-bg">
+            <h3 class="fs-3">User Rules</h3>
+            <div class="text-muted">Add / Remove Roles</div>
+        </div>
+        <div class="main-card-action p-3 bg-white border-top border-top border-bottom">
+            <div class="d-flex flex-column">
+                <div class="form-check mb-3" *ngFor="let item of UsersRoles;let i = index">
+                    <input type="checkbox" class="form-check-input m-0" [(ngModel)]="item.checked" id="Roles_{{i}}">
+                    <label class="form-check-label ms-2" for="Roles_{{i}}">
+            {{item.name}}
+          </label>
+                </div>
+            </div>
+        </div>
+        <div class="main-card-body px-2 py-3 bg-light">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-primary me-2" (click)="SaveUserRole();modal.close('Save click')">
+          <i class="fas fa-check-circle"></i>
+          <span class="ms-2">Save</span>
+        </button>
+                <button class="btn btn-danger">
+          <i class="fas fa-times"></i>
+          <span class="ms-2" (click)="modal.close('Save click')">Close</span>
+        </button>
+            </div>
+        </div>
     </div>
-    <button type="button" class="btn bg-danger text-white rounded" aria-label="Close" (click)="offcanvas.dismiss()">
-      <i class="fas fa-times"></i>
+</ng-template>
+
+<ng-template #addUserModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Users</h4>
+    </div>
+    <div class="modal-body bg-light">
+        <form [formGroup]="form" autocomplete="off">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" formControlName="fullName" id="floatingInput" placeholder="name" required>
+                        <label for="floatingInput">Full Name</label>
+                        <div *ngIf="form.controls['fullName']?.invalid && (form.controls['fullName']?.dirty || form.controls['fullName']?.touched)" class="alert text-danger">
+                            <div *ngIf="form.controls['fullName'].errors?.['required']">
+                                fullName is required.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" (keypress)="CheckInputKey($event.key)" formControlName="userName" id="floatingPassword" placeholder="phone" required>
+                        <label for="floatingPassword">User Name</label>
+                        <div *ngIf="form.controls['userName']?.invalid && (form.controls['userName']?.dirty || form.controls['userName']?.touched)" class="alert text-danger">
+                            <div *ngIf="form.controls['userName'].errors?.['required']">
+                                userName is required.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" formControlName="phoneNumber" id="floatingPassword" placeholder="flat">
+                        <label for="floatingPassword">Phone Number</label>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div ngbDropdown class="dropdown-as-input">
+                        <button type="button" id="dropdownBasic1" ngbDropdownToggle>
+              <span>{{BranchName}} <sup>*</sup></span>
+            </button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-h large-scroll w-100">
+                            <ng-container *ngFor="let branch of Branches">
+                                <a class="dropdown-item" (click)="onBranchClick(branch)" [ngClass]="{'DropDownSelected': BranchName == branch.nameEn}">{{branch.nameEn}}</a>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="alert text-danger" *ngIf="BranchValidate">
+                        Branch is required.
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" formControlName="normalizedEmail" id="floatingPassword" placeholder="flat">
+                        <label for="floatingPassword">User Mail</label>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group mb-3">
+                        <input type="file" class="form-control" (change)="onSelectedFile($event)" id="inputGroupFile02">
+                        <label class="input-group-text" for="inputGroupFile02">{{'Upload' | translate}}</label>
+                    </div>
+                </div>
+                <div *ngFor="let url of URLs" class="me-2">
+                    <img class="upload-image" [src]="url">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-primary" (click)="SaveUser()">
+      <i class="fas fa-save"></i>
+      <span class="ms-2">Save</span>
     </button>
-  </div>
-  <div class="offcanvas-body pt-0">
-    <div class="table-responsive">
-      <table class="table align-middle table-blue mb-0 table-hover">
-        <thead class="table-light">
-          <tr>
-            <th>عدد سنوات العمل</th>
-            <th>تاريخ بداية العقد</th>
-            <th>تاريخ انتهاء العقد</th>
-            <th>الاجازات</th>
-            <th>عدد ايام العمل</th>
-            <th>الاجازة القادمة</th>
-          </tr>
-        </thead>
-      </table>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+      <i class="fas fa-times"></i>
+      <span class="ms-2">Close</span>
+    </button>
     </div>
-  </div>
+</ng-template>
+
+<ng-template #deleteUserModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Confirm Action</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">Are you sure you want remove this User?</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click');RemoveUser()">
+      <i class="fas fa-check"></i>
+      <span class="ms-2">Yes</span>
+    </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+      <i class="fas fa-times"></i>
+      <span class="ms-2">No</span>
+    </button>
+    </div>
+</ng-template>
+
+<ng-template #resetUserPasswordModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Confirm Action</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">Are you sure you want reset password for this User?</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click');resetUserPassword()">
+      <i class="fas fa-check"></i>
+      <span class="ms-2">Yes</span>
+    </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+      <i class="fas fa-times"></i>
+      <span class="ms-2">No</span>
+    </button>
+    </div>
 </ng-template>

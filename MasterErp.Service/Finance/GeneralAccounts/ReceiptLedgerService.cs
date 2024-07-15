@@ -39,7 +39,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             Configuration = _configuration;
         }
 
-        public PagedResponseDTO<ReceiptLedgerDTO> GetReceiptLedgersData(FilterModel Model)
+        public PagedResponseModel<ReceiptLedgerDTO> GetReceiptLedgersData(FilterModel Model)
         {
             int totalCount = Context.ReceiptLedger.Count();
 
@@ -80,7 +80,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                             .Skip(skip)
                             .Take(Model.PageSize)
                             .ToList();
-            return new PagedResponseDTO<ReceiptLedgerDTO>
+            return new PagedResponseModel<ReceiptLedgerDTO>
             {
                 TotalCount = totalCount,
                 Results = data,

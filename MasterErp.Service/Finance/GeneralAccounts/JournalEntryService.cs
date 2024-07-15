@@ -175,13 +175,12 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
                 };
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
                 return new ActionsResponseModel
                 {
                     Status = 0,
-                    //Message = Ex.Message,
-                    Message = "Error in Saving New Entry"
+                    Message = ex.InnerException?.Message ?? ex.Message
                 };
             }
         }
@@ -190,22 +189,28 @@ namespace MasterErp.Service.Finance.GeneralAccounts
         {
             DataTable dt = new DataTable();
             dt.Clear();
+            dt.Columns.Add("CategoryDisplayName");
             dt.Columns.Add("CategoryName");
             dt.Columns.Add("ItemKey");
+            dt.Columns.Add("ItemValue");
+            dt.Columns.Add("DisplayOrder");
 
             foreach (FilterItem item in model.FilterItems)
             {
                 DataRow row = dt.NewRow();
 
+                row["CategoryDisplayName"] = item.CategoryDisplayName;
                 row["CategoryName"] = item.CategoryName;
                 row["ItemKey"] = item.ItemKey;
+                row["ItemValue"] = item.ItemKey;
+                row["DisplayOrder"] = 1;
                 dt.Rows.Add(row);
             }
 
             SqlParameter[] Params = new SqlParameter[3];
             Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
             Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
-            Params[2] = new SqlParameter("@dt", SqlDbType.Structured);
+            Params[2] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[2].Value = dt;
 
             DataTable result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetDailyJournalEntriesSummary]", ConnectionString, Params);

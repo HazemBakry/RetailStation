@@ -36,7 +36,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             Configuration = _configuration;
         }
 
-        public PagedResponseDTO<JournalEntryType> GetJournalEntryTypesData(FilterModel Model)
+        public PagedResponseModel<JournalEntryType> GetJournalEntryTypesData(FilterModel Model)
         {
             int totalCount = Context.JournalEntryTypes.Count();
 
@@ -48,7 +48,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 .Take(Model.PageSize)
             .ToList();
 
-            return new PagedResponseDTO<JournalEntryType>
+            return new PagedResponseModel<JournalEntryType>
             {
                 TotalCount = totalCount,
                 Results = data,

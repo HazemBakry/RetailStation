@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -9,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Interface.HR
 {
-    public interface IEmployeesService
+    public interface IEmployeeService
     {
-        List<EmployeesModel> GetAllEmployees();
-        List<IqamaIssuePlace> GetIqamaIssuePlaceData();
-        List<PassportIssuePlace> GetPassportIssuePlaceData();
+        List<EmployeeBasicInfo> GetAllEmployees(SearchFilterModel model);
+        List<IqamaIssuePlace> GetIqamaIssuePlaces();
+        List<PassportIssuePlace> GetPassportIssuePlaces();
         List<Sponsor> GetSponsorData();
         List<IqamaJob> GetIqamaJobData();
         List<Nationality> GetNationalityData();
