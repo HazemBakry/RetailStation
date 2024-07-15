@@ -71,8 +71,17 @@
                                 </div>
                             </div>
                         </ng-template> -->
+
+                        <ng-template  swiperSlide>
+                            <div class="product-box" routerLink="system-settings" routerLinkActive="router-link-active">
+                                <div class="product-box-img">
+                                    <img src="{{systemURL}}assets/images/settings.png" class="product-img" loading="lazy" alt="" />
+                                </div>
+                                <div class="product-name fw-bold mt-3">System Settings </div>
+                            </div>
+                        </ng-template>
                         <ng-template swiperSlide>
-                            <div class="product-box" (click)="GoToProductModule('CallCenter')">
+                            <div class="product-box" routerLink="GeneralAccounts" routerLinkActive="router-link-active">
                                 <div class="product-box-img">
                                     <img src="{{systemURL}}assets/images/call-center.png" class="product-img" loading="lazy"
                                         alt="" />
@@ -80,7 +89,15 @@
                                 <div class="product-name fw-bold mt-3"> HR </div>
                             </div>
                         </ng-template>
-                        
+                        <ng-template swiperSlide>
+                            <div class="product-box" routerLink="system-settings" routerLinkActive="router-link-active" >
+                                <div class="product-box-img">
+                                    <img src="{{systemURL}}assets/images/settings.png" class="product-img" loading="lazy"
+                                        alt="" />
+                                </div>
+                                <div class="product-name fw-bold mt-3"> System Settings </div>
+                            </div>
+                        </ng-template>
                     </swiper>
                 </div>
             </div>
