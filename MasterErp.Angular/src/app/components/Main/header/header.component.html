@@ -29,6 +29,14 @@
         </ul>
         <ul class="navbar-nav ms-auto flex-row">
           <li class="nav-item">
+            <a class="nav-link nav-link-pump" routerLink="/" routerLinkActive="router-link-active" >
+              <span class="position-relative">
+                <i class="uil uil-home"></i>
+                <!-- <span class="circle green"></span> -->
+              </span>
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link nav-link-pump">
               <span class="position-relative">
                 <i class="uil uil-envelope"></i>
@@ -139,6 +147,10 @@
               <a class="d-flex align-items-center cursor-pointer" ngbDropdownItem>
                 <i class="uil uil-padlock"></i>
                 <span class="ms-2">Lock Screen</span>
+              </a>
+              <a class="d-flex align-items-center cursor-pointer" (click)="logout()" ngbDropdownItem >
+                <i class="fas fa-power-off"></i>
+                <span class="ms-2">SignOut</span>
               </a>
             </div>
           </li>

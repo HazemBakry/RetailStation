@@ -1,0 +1,166 @@
+.products-home-wrapper {
+    width: 100%;
+    height: 100vh;
+    /* background-image: linear-gradient(90deg, #001534 31%, #054b79); */
+    /* background: #001534 url("../../../../../assets/bg_circles.png") no-repeat
+    center center; */
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.products-home-wrapper_banner {
+    width: 100%;
+}
+
+.prod-title {
+    color: #ffc107;
+    font-weight: bold;
+    position: relative;
+}
+
+.rounded-img-wrapper {
+    background-color: #072146;
+    --dim: 100px;
+    width: var(--dim);
+    min-width: var(--dim);
+    height: var(--dim);
+    min-height: var(--dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid #40536e;
+}
+
+.product-img-logo,
+.select-prod-logo {
+    width: 60px;
+    height: 60px;
+}
+
+.product-box {
+    width: 100%;
+    /* background-color: rgba(2, 33, 78, 0.5);
+    background-color: rgb(13 78 173 / 50%); */
+    background-color: rgb(144 189 255 / 43%);
+    color: #000;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    margin-top: 20px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -ms-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+}
+
+.product-box:hover {
+    background-color: #02214e;
+    background-color: #20252a;
+    box-shadow: none;
+    color: #ffc107;
+    border-color: #40536e;
+    transform: scale(1.02);
+    -webkit-transform: scale(1.02);
+    -moz-transform: scale(1.02);
+    -ms-transform: scale(1.02);
+    -o-transform: scale(1.02);
+}
+
+.product-box-img {
+    --dim: 100px;
+    width: var(--dim);
+    min-width: var(--dim);
+    height: var(--dim);
+    min-height: var(--dim);
+    padding: 10px;
+    border: 1px solid #ffffff;
+    background-color: #001534;
+    background-color: #0c469d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+
+.product-box-img img {
+    width: 64px;
+    height: 64px;
+}
+
+.product-name {
+    font-size: 20px;
+}
+
+span.prod-title:before {
+    content: "";
+    width: 98%;
+    height: 15px;
+    background-color: rgba(253, 227, 118, 0.3);
+    position: absolute;
+    top: 33px;
+    left: 2px;
+}
+
+.select-prod-title {
+    color: #072146;
+}
+
+:host .product-carousel .swiper {
+    padding: 0 10px 15px 10px;
+}
+
+.vh-50 {
+    height: 50vh;
+}
+
+.top-half-banner {
+    position: relative;
+    /* background: url("https://www.posnation.com/hubfs/images/CAP%20Lifestyle/CAP-Tender.png#keepProtocol") no-repeat center center; */
+    /* background: url("https://images.tech.co/wp-content/uploads/2022/04/20072923/AdobeStock_133001441_38-min-640x427.jpeg")
+    no-repeat center center; */
+    /* background: url("../../../../../../assets/images/Rectangle.png") no-repeat center center; */
+    background: #084298 url("../../../../../assets//images/bg_circles.png") no-repeat center center;
+    background-size: cover;
+}
+
+.top-half-banner,
+.bottom-half-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.top-half-banner::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    /* background-color: rgba(0, 0, 0, 0.7); */
+}
+
+.bottom-half-banner {
+    background-color: #f0f0f0;
+}
+
+.separate-line:before,
+.separate-line:after {
+    background-color: #fff;
+}

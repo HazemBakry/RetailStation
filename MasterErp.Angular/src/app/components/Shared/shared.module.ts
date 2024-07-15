@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { AccountsTreeComponent } from './components/accounts-tree/accounts-tree.component';
 import { StatsCardComponent } from './components/stats-card/stats-card.component';
@@ -26,9 +26,20 @@ import { ColorWithStatusDirective } from './directives/color-with-status.directi
 import { AccountTreeV2Component } from './components/account-tree-v2/account-tree-v2.component';
 import { AccountTreeItemComponent } from './components/account-tree-item/account-tree-item.component';
 import { CustomFormDropdownComponent } from './components/custom-form-dropdown/custom-form-dropdown.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpConfigInterceptor } from './security/interceptor/http-config.interceptor';
+import { ErpHomeComponent } from './components/erp-home/erp-home.component';
+import { SwiperModule } from 'swiper/angular';
+import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
+import { RoleCheckerDirective } from './directives/role-checker.directive';
+import { SidebarComponent } from '../Main/sidebar/sidebar.component';
+import { HeaderComponent } from '../Main/header/header.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
+    SidebarComponent,
+    HeaderComponent,
     AccountsTreeComponent,
     StatsCardComponent,
     SearchArryPipe,
@@ -51,7 +62,13 @@ import { CustomFormDropdownComponent } from './components/custom-form-dropdown/c
     ReceiptBooksComponent,
     OverviewCardComponent,
     ColorWithStatusDirective,
-    CustomFormDropdownComponent
+    CustomFormDropdownComponent,
+    ErpHomeComponent,
+    NotAuthorizedComponent,
+
+
+
+    RoleCheckerDirective
 
   ],
 
@@ -60,7 +77,9 @@ import { CustomFormDropdownComponent } from './components/custom-form-dropdown/c
     CommonModule,
     NgbModule,
     FormsModule,
+    RouterModule,
     PaginationModule.forRoot(),
+    SwiperModule,
     NgxLoadingModule.forRoot({
       animationType: ngxLoadingAnimationTypes.threeBounce,
       backdropBackgroundColour: 'rgba(0, 18, 59, 0.6)',
@@ -73,6 +92,10 @@ import { CustomFormDropdownComponent } from './components/custom-form-dropdown/c
   ],
 
   exports: [
+    RouterModule,
+    SwiperModule,
+    SidebarComponent,
+    HeaderComponent,
     AccountsTreeComponent,
     CostCentersTreeComponent,
     NgxLoadingModule,
@@ -91,7 +114,18 @@ import { CustomFormDropdownComponent } from './components/custom-form-dropdown/c
     StatsCardComponent,
     OverviewCardComponent,
     ColorWithStatusDirective,
-    CustomFormDropdownComponent
+    CustomFormDropdownComponent,
+    ErpHomeComponent,
+    NotAuthorizedComponent,
+
+
+
+    RoleCheckerDirective
+
+  ],
+  providers: [
+    DatePipe,
+    { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }
   ]
 })
 export class SharedModule { }

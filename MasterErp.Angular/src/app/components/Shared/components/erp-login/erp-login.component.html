@@ -1,49 +1,51 @@
 <div class="login-wrapper">
-    <div class="container-fluid py-3">
-        <div class="login-card shadow-lg" [ngClass]="{'login': loggingMode, 'register': !loggingMode}">
-            <div class="login-img-box">
-                <img src="../../assets/signin.png" class="login-img" alt="" loading="lazy" />
+  <div class="container-fluid py-3">
+    <div class="login-card shadow-lg" [ngClass]="{'login': loggingMode, 'register': !loggingMode}">
+      <div class="login-img-box">
+        <img src="../../assets/signin.png" class="login-img" alt="" loading="lazy" />
+      </div>
+      <div class="card-body p-5 text-center">
+        <h2 class="header-form fw-bold">
+          <span class="login-title">سجل دخول الان !</span>
+          <span class="register-title">انشاء حساب جديد !</span>
+        </h2>
+        <section class="form-section">
+          <div class="login-form" *ngIf="loggingMode">
+            <div class="mb-4">
+              <input type="text" name="Email" [(ngModel)]="Email" class="form-control py-3"
+                placeholder="Email" />
             </div>
-            <div class="card-body p-5 text-center">
-                <h2 class="header-form fw-bold">
-                    <span class="login-title">سجل دخول الان !</span>
-                    <span class="register-title">انشاء حساب جديد !</span>
-                </h2>
-                <section class="form-section">
-                    <div class="login-form" *ngIf="loggingMode">
-                        <div class="mb-4">
-                            <input type="text" name="UserName" [(ngModel)]="UserName" class="form-control py-3" placeholder="User Name" />
-                        </div>
-                        <div class="mb-4">
-                            <input type="password" name="Password" [(ngModel)]="Password" class="form-control py-3" placeholder="Passowrd" />
-                        </div>
-                        <button class="btn btn-lg btn-primary w-100 mb-4 shadow-sm" (click)="Login()">
+            <div class="mb-4">
+              <input type="password" name="Password" [(ngModel)]="Password" class="form-control py-3"
+                placeholder="Passowrd" />
+            </div>
+            <button class="btn btn-lg btn-primary w-100 mb-4 shadow-sm text-center" (click)="Login()">
               تسجيل الدخول
             </button>
-                        <a class="text-white text-underline-none cursor-pointer" (click)="loggingMode = false">ليس لديك حساب ؟</a>
-                    </div>
-                    <div class="register-form" *ngIf="!loggingMode">
-                        <div class="mb-4">
-                            <input type="text" class="form-control py-3" placeholder="الاسم" />
-                        </div>
-                        <div class="mb-4">
-                            <input type="text" class="form-control py-3" placeholder="الهاتف" />
-                        </div>
-                        <div class="mb-4">
-                            <input type="text" class="form-control py-3" placeholder="البريد الالكترونى" />
-                        </div>
-                        <div class="mb-4">
-                            <input type="password" class="form-control py-3" placeholder="كلمه المرور" />
-                        </div>
-                        <button type="submit" class="btn btn-lg btn-primary w-100 mb-4 shadow-sm">
+            <!-- <a class="text-white text-underline-none cursor-pointer" (click)="loggingMode = false">ليس لديك حساب ؟</a> -->
+          </div>
+          <!-- <div class="register-form" *ngIf="!loggingMode">
+            <div class="mb-4">
+              <input type="text" class="form-control py-3" placeholder="الاسم" />
+            </div>
+            <div class="mb-4">
+              <input type="text" class="form-control py-3" placeholder="الهاتف" />
+            </div>
+            <div class="mb-4">
+              <input type="text" class="form-control py-3" placeholder="البريد الالكترونى" />
+            </div>
+            <div class="mb-4">
+              <input type="password" class="form-control py-3" placeholder="كلمه المرور" />
+            </div>
+            <button type="submit" class="btn btn-lg btn-primary w-100 mb-4 shadow-sm">
               انشاء حساب
             </button>
-                        <a class="text-white text-underline-none cursor-pointer" (click)="loggingMode = true">لديك حساب بالفعل ؟</a>
-                    </div>
-                </section>
-            </div>
-        </div>
+            <a class="text-white text-underline-none cursor-pointer" (click)="loggingMode = true">لديك حساب بالفعل ؟</a>
+          </div> -->
+        </section>
+      </div>
     </div>
+  </div>
 </div>
 
 

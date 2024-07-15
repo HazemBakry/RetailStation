@@ -21,10 +21,31 @@ export class FormService {
   // return list of error messages
   public validationMessages() {
     const messages = {
-      required: 'يرجي ملئ الخانة',
-      email: 'بريد الكتروني خاطئ',
-      pattern:'بيانات خاطئة',
-      min:'قيمة غير صحيحة',
+      required: 'Required',
+      email: 'Invalid Email',
+      pattern:'Invalid Pattern',
+      min:'Invalid Number , Enter greater than this',
+      invalid_URL:'Invalid URL',
+      invalid_Html:'Invalid HTML',
+      endDateLessThanStartDate:'End Date Must Be Greater Than Start Date',
+      // invalidExtension:'Invalid Extension , choose from jpg,jpeg,png',
+      invalidExtension: (matches: any[]) => {
+
+        let matchedCharacters = matches;
+
+        matchedCharacters = matchedCharacters.reduce((characterString, character, index) => {
+          let string = characterString;
+          string += character;
+
+          if (matchedCharacters.length !== index + 1) {
+            string += ', ';
+          }
+
+          return string;
+        }, '');
+
+        return `Invalid Invalid Extension , choose from ${matchedCharacters}`;
+      },
       invalid_characters: (matches: any[]) => {
 
         let matchedCharacters = matches;
@@ -40,7 +61,7 @@ export class FormService {
           return string;
         }, '');
 
-        return `لا يمكن ادخال هذه الحروف: ${matchedCharacters}`;
+        return `Invalid ${matchedCharacters}`;
       },
     };
 
@@ -63,7 +84,8 @@ export class FormService {
         if (control && !control.valid) {
           if (!checkDirty || (control.dirty || control.touched)) {
             for (const key in control.errors) {
-              if (key && key !== 'invalid_characters') {
+              
+              if (key && key !== 'invalid_characters' && key !=='invalidExtension') {
                 formErrors[field] = formErrors[field] || messages[key];
               } else {
                 formErrors[field] = formErrors[field] || messages[key](control.errors[key]);

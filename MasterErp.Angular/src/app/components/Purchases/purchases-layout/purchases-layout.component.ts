@@ -12,4 +12,13 @@ export class PurchasesLayoutComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+  toggler = false;
+
+  onToggler() {
+    this.toggler = !this.toggler;
+  }
+  toggleMenu(menu: HTMLElement) {
+    menu.classList.toggle('show');
+  }
 }
