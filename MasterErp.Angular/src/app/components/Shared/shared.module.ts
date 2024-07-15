@@ -32,9 +32,14 @@ import { ErpHomeComponent } from './components/erp-home/erp-home.component';
 import { SwiperModule } from 'swiper/angular';
 import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 import { RoleCheckerDirective } from './directives/role-checker.directive';
+import { SidebarComponent } from '../Main/sidebar/sidebar.component';
+import { HeaderComponent } from '../Main/header/header.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
+    SidebarComponent,
+    HeaderComponent,
     AccountsTreeComponent,
     StatsCardComponent,
     SearchArryPipe,
@@ -72,6 +77,7 @@ import { RoleCheckerDirective } from './directives/role-checker.directive';
     CommonModule,
     NgbModule,
     FormsModule,
+    RouterModule,
     PaginationModule.forRoot(),
     SwiperModule,
     NgxLoadingModule.forRoot({
@@ -86,8 +92,10 @@ import { RoleCheckerDirective } from './directives/role-checker.directive';
   ],
 
   exports: [
+    RouterModule,
     SwiperModule,
-
+    SidebarComponent,
+    HeaderComponent,
     AccountsTreeComponent,
     CostCentersTreeComponent,
     NgxLoadingModule,

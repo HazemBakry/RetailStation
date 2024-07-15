@@ -11,5 +11,9 @@ export class SystemSettingsLayoutComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  toggler = false;
+  onToggler() {
+    this.toggler = !this.toggler;
+    console.log(this.toggler);
+  }
 }

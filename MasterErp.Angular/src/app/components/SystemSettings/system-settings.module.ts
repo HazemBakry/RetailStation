@@ -6,11 +6,13 @@ import { SystemSettingsLayoutComponent } from './system-settings-layout.componen
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../Shared/shared.module';
+import { SystemSettingsHomeComponent } from './components/system-settings-home/system-settings-home.component';
 
 
 @NgModule({
   declarations: [
-    SystemSettingsLayoutComponent
+    SystemSettingsLayoutComponent,
+    SystemSettingsHomeComponent
   ],
   imports: [
     CommonModule,

@@ -7,8 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './components/Main/dashboard/dashboard.component';
-import { HeaderComponent } from './components/Main/header/header.component';
-import { SidebarComponent } from './components/Main/sidebar/sidebar.component';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from "./components/Shared/shared.module";
@@ -23,8 +21,7 @@ import { ErpLoginComponent } from './components/Shared/components/erp-login/erp-
   declarations: [
     AppComponent,
     ErpLoginComponent,
-    HeaderComponent,
-    SidebarComponent,
+
     DashboardComponent,
     ReviewsComponent,
     SigninComponent,
