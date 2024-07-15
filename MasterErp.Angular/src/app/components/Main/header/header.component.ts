@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { AuthService } from 'src/app/Auth/auth.service';
 
 @Component({
@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/Auth/auth.service';
 })
 export class HeaderComponent implements OnInit {
 
+  @Input() showToggler: boolean = true;
   @Output() toggler = new EventEmitter<boolean>();
 
   constructor(private authService:AuthService) { }
