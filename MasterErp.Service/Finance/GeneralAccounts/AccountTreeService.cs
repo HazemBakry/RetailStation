@@ -27,14 +27,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
         private readonly IExportService _exportService;
-
-        private string ConnectionString
-        {
-            get
-            {
-                return Configuration.GetConnectionString("DBConnection");
-            }
-        }
+        private readonly string ConnectionString;
 
         public AccountTreeService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration, IExportService exportService)
         {
@@ -42,8 +35,8 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             SQLHelper = iSQLHelper;
             Configuration = _configuration;
             _exportService = exportService;
+            ConnectionString = Configuration.GetConnectionString("DBConnection");
         }
-
 
         public ActionsResponseModel CreateNewAccount(AccountTreeModel Model)
         {
@@ -62,7 +55,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 tbl.NameAR = Model.NameEN;
                 tbl.NameEN = Model.NameEN;
                 tbl.IsDisToCostCenter = Model.IsDisToCostCenter;
-               
+
 
                 Context.AccountTrees.Add(tbl);
                 Context.SaveChanges();
@@ -84,17 +77,15 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             }
         }
 
-        public ActionsResponseModel UpdateAccountTree(int AccountId,AccountTreeModel Model)
+        public ActionsResponseModel UpdateAccountTree(int AccountId, AccountTreeModel Model)
         {
             try
             {
-
-
                 var entity = Context.AccountTrees.FirstOrDefault(x => x.AccountId == AccountId);
 
                 if (entity != null)
                 {
-                    
+
                     entity.ModifyDate = DateTime.Now;
                     entity.CreatedBy = String.Empty;
                     entity.AccountNumber = Model.AccountNumber;
@@ -109,11 +100,6 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 }
 
                 Context.SaveChanges();
-
-
-                
-
-
                 return new ActionsResponseModel
                 {
                     Status = 1,
@@ -151,7 +137,6 @@ namespace MasterErp.Service.Finance.GeneralAccounts
         }
         public List<AccountTreeModel> GetAccountTreeHierarchicalData(string SearchText)
         {
-
             var lst = GetAccountTreeData(SearchText);
             var Tree = BuildTree(lst);
             return Tree;
@@ -177,8 +162,6 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
                         UpdateParentSelection(parentAcc, accsById);
                         //parentAcc.IsSelected = true;
-
-
                     }
                     parentAcc.Children.Add(acc);
                 }
@@ -187,15 +170,14 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             return roots;
         }
 
-        public static void UpdateParentSelection(AccountTreeModel acc,Dictionary<int, AccountTreeModel> accounts)
+        public static void UpdateParentSelection(AccountTreeModel acc, Dictionary<int, AccountTreeModel> accounts)
         {
             acc.IsSelected = true;
             if (acc.AccountLevel >= 1 && accounts.TryGetValue(acc.ParentAccountId, out var parentAcc))
             {
-                if(!parentAcc.IsSelected&& parentAcc.AccountLevel<acc.AccountLevel)
+                if (!parentAcc.IsSelected && parentAcc.AccountLevel < acc.AccountLevel)
                     UpdateParentSelection(parentAcc, accounts);
             }
-
         }
 
         public List<AccountTree> GetAccountsList(bool IsParent)
@@ -215,10 +197,9 @@ namespace MasterErp.Service.Finance.GeneralAccounts
         public ActionsResponseModel ImportAccountTreeList(IFormFile File)
         {
             string url = string.Empty;
+
             try
             {
-               
-
                 if (File != null && File.Length > 0)
                 {
                     using (var stream = new MemoryStream())
@@ -240,7 +221,6 @@ namespace MasterErp.Service.Finance.GeneralAccounts
 
                             var result = SQLHelper.ExecuteDataTable("[dbo].[SP_ImportAccountTreeList]", ConnectionString, Params);
                             url = GetExportUrl(result, "AccountTreeImporter");
-
                         }
                     }
 
@@ -248,11 +228,9 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                     {
                         Status = 1,
                         URL = url,
-                        Message= "File uploaded successfully"
+                        Message = "File uploaded successfully"
                     };
-                   
                 }
-
 
                 return new ActionsResponseModel
                 {
@@ -267,7 +245,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 {
                     Status = 0,
                     URL = "",
-                    Message = ex.InnerException?.Message ??ex.Message,
+                    Message = ex.InnerException?.Message ?? ex.Message,
                 };
             }
         }
@@ -278,11 +256,9 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             try
             {
                 SqlParameter[] Params = new SqlParameter[0];
-
                 var result = SQLHelper.ExecuteDataTable("[dbo].[SP_ExportAccountTreeList]", ConnectionString, Params);
 
                 url = GetExportUrl(result, "AccountTreeExporter");
-
 
                 return new ActionsResponseModel
                 {
@@ -290,11 +266,6 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                     URL = url,
                     Message = "File Exported successfully"
                 };
-
-                
-
-
-                
             }
             catch (Exception ex)
             {
@@ -306,6 +277,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 };
             }
         }
+
         private string GetExportUrl(DataTable DT, string Name)
         {
 
@@ -320,8 +292,6 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                 SheetName = "Data",
             };
             return _exportService.Export(exportTemplateBase, DT);
-
-
         }
 
         #region OpeningBalance
@@ -330,37 +300,25 @@ namespace MasterErp.Service.Finance.GeneralAccounts
         {
             try
             {
-                
-
-
                 foreach (var Model in AccList)
                 {
-                    
-
-
                     var entity = Context.AccountTrees.FirstOrDefault(x => x.AccountId == Model.AccountId);
 
-                    if (entity !=null)
+                    if (entity != null)
                     {
                         entity.PreDebit = Model.PreDebit;
                         entity.PreCredit = Model.PreCredit;
                         entity.ModifyDate = DateTime.Now;
                         entity.CreatedBy = String.Empty;
-
                     }
-                        
-
-                   
-
                 }
-
 
                 Context.SaveChanges();
 
                 return new ActionsResponseModel
                 {
                     Status = 1,
-                    Message = "تم الحفظ  بنجاح"
+                    Message = "تم حفظ البيانات بنجاح"
                 };
             }
             catch (Exception ex)
@@ -371,17 +329,11 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                     Message = ex.Message
                 };
             }
-            return new ActionsResponseModel();
         }
         public List<AccountTreeModel> GetAccountsOpeningBalanceData(string SearchText)
         {
-            //SqlParameter[] param = new SqlParameter[1];
-            //param[0] = new SqlParameter("@SearchText", SearchText);
-
-            //var results = SQLHelper.SQLQuery<AccountOpeningBalanceModel>("[dbo].[SP_GetAccountsOpeningBalanceData]", ConnectionString, param);
-            //return results;
             var lst = GetAccountTreeData(SearchText);
-            
+
 
             foreach (var item in lst.Where(x => x.IsSelected).ToList())
             {
@@ -407,10 +359,9 @@ namespace MasterErp.Service.Finance.GeneralAccounts
                     item.IsSelected = true;
                     UpdateChildSelection(item, accounts);
                 }
-
             }
-
         }
+
         #endregion
     }
 }

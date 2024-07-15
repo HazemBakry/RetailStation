@@ -6,6 +6,7 @@ using MasterErp.Interface.Shared;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -88,5 +89,31 @@ namespace MasterErp.Service.Shared
                 Message = "File uploaded successfully"
             };
         }
+
+        public DataTable MapFilterModelToDataTable(List<FilterItem> Items)
+        {
+            DataTable dt = new DataTable();
+            dt.Clear();
+            dt.Columns.Add("CategoryDisplayName");
+            dt.Columns.Add("CategoryName");
+            dt.Columns.Add("ItemKey");
+            dt.Columns.Add("ItemFlag");
+            dt.Columns.Add("ItemValue");
+
+            foreach (FilterItem item in Items)
+            {
+                DataRow row = dt.NewRow();
+
+                row["CategoryDisplayName"] = item.CategoryDisplayName;
+                row["CategoryName"] = item.CategoryName;
+                row["ItemKey"] = item.ItemKey;
+                row["ItemFlag"] = item.ItemFlag;
+                row["ItemValue"] = item.ItemValue;
+                dt.Rows.Add(row);
+            }
+
+            return dt;
+        }
+
     }
 }

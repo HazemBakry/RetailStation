@@ -15,7 +15,7 @@ namespace MasterErp.Entities.Models
         public double Price { get; set; }
         public double TotalValue { get; set; }
         public int UnitID { get; set; }
-        public string? Notes { get; set; }
+        public string Notes { get; set; }
 
     }
 }

@@ -12,7 +12,7 @@ namespace MasterErp.Entities.Models
         public int RequestNumber { get; set; }
         public DateTime RequestDate { get; set; }
         public int? BranchId { get; set; }
-        public string? Notes { get; set; }
+        public string Notes { get; set; }
         public bool? IsDelivered { get; set; }
         public string InsertUser { get; set; }
         public DateTime? InsertDate { get; set; }

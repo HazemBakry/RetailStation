@@ -18,10 +18,10 @@ namespace MasterErp.Entities.Models
         public int SupplierID { get; set; }
         public double PurchaseInvoiceTotal{ get; set; }
         public double ReturnsInvoiceTotal{ get; set; }
-        public string? Notes { get; set; }
-        public string? InsertUser { get; set; }
+        public string Notes { get; set; }
+        public string InsertUser { get; set; }
         public DateTime? InsertDate { get; set; }
-        public string? UpdateUser { get; set; }
+        public string UpdateUser { get; set; }
         public DateTime? UpdateDate { get; set; }
 
 

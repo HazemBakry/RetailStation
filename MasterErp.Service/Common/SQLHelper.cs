@@ -129,7 +129,7 @@ namespace MasterErp.Service.Common
                 {
                     ret = command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return ret;
                 }
@@ -181,9 +181,9 @@ namespace MasterErp.Service.Common
                     return dataSet;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 

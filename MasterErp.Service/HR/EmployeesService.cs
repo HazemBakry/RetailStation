@@ -3,6 +3,7 @@ using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.HR;
+using MasterErp.Interface.Shared;
 using MasterErp.Service.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -21,22 +22,28 @@ namespace MasterErp.Service.HR
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
+        private readonly ISharedService SharedService;
+
         private readonly string ConnectionString;
 
-        public EmployeeService(DBContext Context, ISQLHelper SQLHelper, IConfiguration Configuration)
+        public EmployeeService(DBContext Context, ISQLHelper SQLHelper, IConfiguration Configuration, ISharedService SharedService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
             this.Configuration = Configuration;
+            this.SharedService = SharedService;
             ConnectionString = Configuration.GetConnectionString("DBConnection");
         }
 
         public List<EmployeeBasicInfo> GetAllEmployees(SearchFilterModel model)
         {
-            string SearchParam = model.SearchText == "undefined" || model.SearchText == "null" ? null : model.SearchText;
+            DataTable dt = SharedService.MapFilterModelToDataTable(model?.FilterModel?.FilterItems);
 
-            SqlParameter[] Params = new SqlParameter[1];
-            Params[0] = new SqlParameter("@SearchText", (object)SearchParam ?? DBNull.Value);
+            SqlParameter[] Params = new SqlParameter[2];
+            Params[0] = new SqlParameter("@SearchText", model.SearchText);
+            Params[1] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[1].Value = dt;
+
 
             var result = SQLHelper.SQLQuery<EmployeeBasicInfo>("[HR].[SP_GetAllEmployeeData]", ConnectionString, Params);
             return result;
