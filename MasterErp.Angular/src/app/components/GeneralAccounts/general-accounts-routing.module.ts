@@ -26,6 +26,7 @@ import { JournalEntryTypesComponent } from './components/journal-entry-types/jou
 import { OpeningBalanceComponent } from './components/opening-balance/opening-balance.component';
 import { AccountTreeContainerComponent } from './components/account-tree-container/account-tree-container.component';
 import { CostCenterTreeContainerComponent } from './components/cost-center-tree-container/cost-center-tree-container.component';
+import { GeneralAccountsHomeComponent } from './components/general-accounts-home/general-accounts-home.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,7 @@ const routes: Routes = [
     component: GeneralAccountsLayoutComponent,
     children: [
 
+      { path: 'home', component: GeneralAccountsHomeComponent },
       { path: 'currency', component: CurrencyComponent },
       { path: 'featured', component: FeaturedComponent },
       { path: 'fiscalYear', component: FiscalYearComponent },
@@ -58,7 +60,8 @@ const routes: Routes = [
       { path: 'receipt-ledgers', component: ReceiptLedgersComponent},
       { path: 'financial-period', component: FinancialPeriodsComponent},
       { path: 'opening-balance', component: OpeningBalanceComponent},
-      
+      { path: '', redirectTo: 'home' ,pathMatch: 'full' },
+
       
     ]
   }

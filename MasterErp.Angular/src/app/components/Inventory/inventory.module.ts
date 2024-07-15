@@ -13,6 +13,7 @@ import { InventoryLayoutComponent } from './inventory-layout/inventory-layout.co
 import { CreatePurchasesRequestComponent } from './components/create-purchases-request/create-purchases-request.component';
 import { PurchasesRequestsComponent } from './components/purchases-requests/purchases-requests.component';
 import { AddItemComponent } from './components/add-item/add-item.component';
+import { InventoryHomeComponent } from './components/inventory-home/inventory-home.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { AddItemComponent } from './components/add-item/add-item.component';
     ItemsCategoryComponent,
     CreatePurchasesRequestComponent,
     PurchasesRequestsComponent,
-    AddItemComponent
+    AddItemComponent,
+    InventoryHomeComponent
   ],
   imports: [
     CommonModule,

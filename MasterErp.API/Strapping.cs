@@ -17,9 +17,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MasterErp.API
 {
-    public static class ServiceRegistration
+    public static class Strapping
     {
-        public static void RegisterServices(IServiceCollection services)
+        public static void Bootstrap(IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

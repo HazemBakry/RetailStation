@@ -1,6 +1,6 @@
 <!-- <app-erp-header></app-erp-header> -->
 
-<div class="products-home-wrapper mt-4 pt-3">
+<div class="products-home-wrapper">
     <div class="products-home-wrapper_banner">
         <div class="half-banner top-half-banner vh-50">
             <div class="container position-relative zindex-2">
@@ -72,21 +72,54 @@
                             </div>
                         </ng-template> -->
 
-                        <ng-template  swiperSlide>
-                            <div class="product-box" routerLink="system-settings" routerLinkActive="router-link-active">
+                        
+                        <ng-template swiperSlide>
+                            <div class="product-box" routerLink="hr" routerLinkActive="router-link-active">
                                 <div class="product-box-img">
-                                    <img src="{{systemURL}}assets/images/settings.png" class="product-img" loading="lazy" alt="" />
+                                    <img src="{{systemURL}}assets/images/hr.png" class="product-img" loading="lazy"
+                                        alt="" />
                                 </div>
-                                <div class="product-name fw-bold mt-3">System Settings </div>
+                                <div class="product-name fw-bold mt-3"> HR </div>
                             </div>
                         </ng-template>
+                        
                         <ng-template swiperSlide>
-                            <div class="product-box" routerLink="GeneralAccounts" routerLinkActive="router-link-active">
+                            <div class="product-box" routerLink="purchases" routerLinkActive="router-link-active">
+                                <div class="product-box-img">
+                                    <img src="{{systemURL}}assets/images/pay-payment.png" class="product-img" loading="lazy"
+                                        alt="" />
+                                </div>
+                                <div class="product-name fw-bold mt-3"> Purchases </div>
+                            </div>
+                        </ng-template>
+                        
+                        <ng-template swiperSlide>
+                            <div class="product-box" routerLink="sales" routerLinkActive="router-link-active">
+                                <div class="product-box-img">
+                                    <img src="{{systemURL}}assets/images/pay-payment.png" class="product-img" loading="lazy"
+                                        alt="" />
+                                </div>
+                                <div class="product-name fw-bold mt-3"> Sales </div>
+                            </div>
+                        </ng-template>
+                        
+                        <ng-template swiperSlide>
+                            <div class="product-box" routerLink="general-accounts" routerLinkActive="router-link-active">
                                 <div class="product-box-img">
                                     <img src="{{systemURL}}assets/images/call-center.png" class="product-img" loading="lazy"
                                         alt="" />
                                 </div>
-                                <div class="product-name fw-bold mt-3"> HR </div>
+                                <div class="product-name fw-bold mt-3 text-nowrap"> General Accounts </div>
+                            </div>
+                        </ng-template>
+                        
+                        <ng-template swiperSlide>
+                            <div class="product-box" routerLink="inventory" routerLinkActive="router-link-active">
+                                <div class="product-box-img">
+                                    <img src="{{systemURL}}assets/images/stock.png" class="product-img" loading="lazy"
+                                        alt="" />
+                                </div>
+                                <div class="product-name fw-bold mt-3"> Inventory </div>
                             </div>
                         </ng-template>
                         <ng-template swiperSlide>
@@ -95,7 +128,17 @@
                                     <img src="{{systemURL}}assets/images/settings.png" class="product-img" loading="lazy"
                                         alt="" />
                                 </div>
-                                <div class="product-name fw-bold mt-3"> System Settings </div>
+                                <div class="product-name fw-bold mt-3 text-nowrap"> System Settings </div>
+                            </div>
+                        </ng-template>
+
+                        <ng-template swiperSlide>
+                            <div class="product-box" routerLink="design" routerLinkActive="router-link-active" >
+                                <div class="product-box-img">
+                                    <img src="{{systemURL}}assets/images/settings.png" class="product-img" loading="lazy"
+                                        alt="" />
+                                </div>
+                                <div class="product-name fw-bold mt-3 text-nowrap"> System Settings </div>
                             </div>
                         </ng-template>
                     </swiper>

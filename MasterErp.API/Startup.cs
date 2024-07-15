@@ -105,7 +105,7 @@ namespace MasterErp.API
 
 
             // Register services using the custom service registration class >> please register your service here 
-            ServiceRegistration.RegisterServices(services);
+            Strapping.Bootstrap(services);
 
             services.AddMvc(options =>
                     {

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SystemSettingsLayoutComponent } from './system-settings-layout.component';
 import { SystemSettingsHomeComponent } from './components/system-settings-home/system-settings-home.component';
+import { SystemSettingsLayoutComponent } from './system-settings-layout/system-settings-layout.component';
 
 const routes: Routes = [
   {

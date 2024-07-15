@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Auth/auth.service';
 import { environment } from 'src/environments/environment';
 import { LoginUserModel } from '../../models/LoginResponseModel';
+import SwiperCore, { Autoplay, Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 
 @Component({
   selector: 'app-erp-home',
@@ -15,6 +16,8 @@ export class ErpHomeComponent implements OnInit {
   // customerApplications: CustomerApplicationModel[] = [];
   customerApplications: any[] = [];
   systemURL: string=environment.systemUrl;
+  // SwiperCore.use([Autoplay, Navigation, Pagination, Scrollbar, A11y]);
+
   breakpoints:any={
     '0': {
       slidesPerView: 1
@@ -30,9 +33,15 @@ export class ErpHomeComponent implements OnInit {
     },
     '1200': {
       slidesPerView: 5
+    },
+    '1376': {
+      slidesPerView: 6
     }
   };
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router, private authService: AuthService) { 
+    SwiperCore.use([Autoplay, Navigation, Pagination, Scrollbar, A11y]);
+
+  }
   ngOnInit(): void {
     this.UserModel = this.authService.getCurrentUser();
     
