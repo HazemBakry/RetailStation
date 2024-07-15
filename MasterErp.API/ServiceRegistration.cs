@@ -24,7 +24,7 @@ namespace MasterErp.API
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddScoped<ISQLHelper, SQLHelper>();
-            services.AddScoped<IEmployeesService, EmployeesService>();
+            services.AddScoped<IEmployeeService, EmployeeService>(); 
             services.AddScoped<IAttendanceService, AttendanceService>();
             services.AddScoped<IOverTimeService, OverTimeService>();
             services.AddScoped<IPenaltyService, PenaltyService>();
