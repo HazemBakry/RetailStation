@@ -11,12 +11,12 @@
       </button> -->
       <div class="setting-menu d-flex flex-grow-1" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto flex-row">
-          <li class="nav-item">
+          <li *ngIf="showToggler" class="nav-item">
             <a class="nav-link menu-toggler me-4" (click)="onToggler()">
               <span class="sidebar-menu"></span>
             </a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link">
               <i class="uil uil-search"></i>
             </a>
@@ -25,7 +25,7 @@
             <a class="nav-link">
               <i class="uil uil-focus"></i>
             </a>
-          </li>
+          </li> -->
         </ul>
         <ul class="navbar-nav ms-auto flex-row">
           <li class="nav-item">

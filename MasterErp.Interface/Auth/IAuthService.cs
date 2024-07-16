@@ -11,7 +11,13 @@ namespace MasterErp.Interface.Auth
     public interface IAuthService
     {
         Task<ActionsResponseModel> Register(AddUserModel model);
-        Task<AuthModel> LoginAsync(LoginModel model);
+        Task<ActionsResponseModel> EditUserAsync(AddUserModel model);
+        Task<AuthModel> LoginByEmailAsync(LoginModel model);
+        Task<AuthModel> LoginByUserNameAsync(LoginModel model);
         Task<string> AddRoleAsync(AddRoleModel model);
+
+        Task<List<UserDto>> GetUsersAsync(SearchFilterModel model);
+        Task<UserDto> GetUserByIdAsync(string userId);
+        Task<ActionsResponseModel> DeleteUserAsync(string userId);
     }
 }

@@ -21,7 +21,7 @@ const routes: Routes = [
         component: HrHomeComponent
       },
       {
-        path: 'hr-Employees',
+        path: 'employees',
         component: HrEmployeesComponent
       },
       {
@@ -29,27 +29,27 @@ const routes: Routes = [
         component: HrEmployeeDetailsComponent
       },
       {
-        path: 'HrVacation',
+        path: 'vacations',
         component: HrVacationComponent
       },
       {
-        path: 'HrAttendance',
+        path: 'attendance',
         component: HrAttendanceComponent
       },
       {
-        path: 'HrSickLeave',
+        path: 'sick-leaves',
         component: HrSickLeaveComponent
       },
       {
-        path: 'HrOverTime',
+        path: 'over-time',
         component: HrOverTimeComponent
       },
       {
-        path: 'HrPenalty',
+        path: 'penalty',
         component: HrPenaltyComponent
       },
       {
-        path: 'HrSalary',
+        path: 'salary',
         component: HrSalaryComponent
       },
       { path: '', redirectTo: 'home' ,pathMatch: 'full' },

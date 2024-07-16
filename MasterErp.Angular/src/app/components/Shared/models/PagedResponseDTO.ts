@@ -13,5 +13,6 @@ export class PagedResponseDTO<T=any[]> {
     isExport?: boolean;
     customerId?:string;
     results: T;
+    searchText?:string;
     filterList?:FilterItem[]
 }
