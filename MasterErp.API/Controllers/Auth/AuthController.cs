@@ -12,6 +12,8 @@ using System;
 using MasterErp.Interface.Auth;
 using MasterErp.Entities.DTOs.Auth;
 using Microsoft.AspNetCore.Authorization;
+using MasterErp.Entities.Common;
+using System.Linq;
 
 namespace MasterErp.API.Controllers.Auth
 {
@@ -32,13 +34,38 @@ namespace MasterErp.API.Controllers.Auth
 
 
         [HttpPost("AddUser")]
-        public async Task<IActionResult> RegisterAsync([FromBody] AddUserModel model)
+        public async Task<IActionResult> RegisterAsync([FromForm] AddUserModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var result = await _authService.Register(model);
+            try
+            {
+                var result = await _authService.Register(model);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
 
-            return Ok(result);
+                return BadRequest(ex?.Message);
+            }
+
+        }
+        [HttpPost("EditUser")]
+        public async Task<IActionResult> EditUser([FromForm] AddUserModel model)
+        {
+            if (!ModelState.IsValid || string.IsNullOrEmpty(model.UserId))
+                return BadRequest(ModelState);
+            try
+            {
+                var result = await _authService.EditUserAsync(model);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex?.Message);
+            }
+
 
         }
 
@@ -47,9 +74,33 @@ namespace MasterErp.API.Controllers.Auth
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var result = await _authService.LoginAsync(model);
+            var result = await _authService.LoginByUserNameAsync(model);
 
             return Ok(result);
+
+        }
+        [HttpPost("GetUsers")]
+        public async Task<IActionResult> GetUsers([FromBody] SearchFilterModel model)
+        {
+            var users = await _authService.GetUsersAsync(model);
+            var result = new PagedResponseModel<UserDto>
+            {
+                Results = users,
+                TotalCount = users.FirstOrDefault()?.TotalCount ?? 0,
+                
+                
+            };
+            return Ok(result);
+
+        }
+        [HttpPost("GetUserById")]
+        public async Task<IActionResult> GetUserById(string userId)
+        {
+           
+            var user = await _authService.GetUserByIdAsync(userId);
+            if (user == null)
+                return NotFound();
+            return Ok(user);
 
         }
         [HttpPost("AddRole")]
@@ -61,6 +112,16 @@ namespace MasterErp.API.Controllers.Auth
 
             return Ok(result);
 
+        }
+        [HttpGet("DeleteUser")]
+        public async Task<IActionResult> DeleteUser(string userId)
+        {
+            var result = await _authService.DeleteUserAsync(userId);
+            if (result is null)
+            {
+                return BadRequest("user not found");
+            }
+            return Ok(result);
         }
     }
 }

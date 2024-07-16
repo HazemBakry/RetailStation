@@ -20,39 +20,55 @@
                     </a>
                 </div>
 
-
-                <li class="nav-item nav-item-title item-sidebar">
-                    <a class="nav-link title text-lowercase fw-bold text-dark">
-                        <i class="uil uil-database nav-icon"></i>الأعدادات</a>
-                </li>
                 <li class="nav-item nav-item-item">
                     <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100 active"
-                        (click)="toggleMenu(menu_settings)"
-                        [ngClass]="{'active': menu_settings.classList.contains('show')}">
+                        (click)="toggleMenu(menu_users)"
+                        [ngClass]="{'active': menu_users.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-database nav-icon"></i>
-                            <span class="nav-link-text item-sidebar main-nav-link ms-3">المشتريات</span>
+                            <span class="nav-link-text item-sidebar main-nav-link ms-3">المستخدمين</span>
                         </div>
                         <div class="nav-collapse">
                             <i class="uil uil-angle-left-b"></i>
                         </div>
                     </a>
-                    <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu_settings>
+                    <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu_users>
+                        
                         <li class="nav-item">
                             <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
                                 routerLink="./system-users" routerLinkActive="active">
                                 <div class="nav-text d-flex align-items-center w-100">
                                     <i class="uil uil-users-alt nav-icon"></i>
-                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">المستخدمين </span>
+                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">قائمة المستخدمين</span>
                                 </div>
                             </a>
                         </li>
-                        
+                       
 
+                    </ul>
+                </li>
+                <li class="nav-item nav-item-item">
+                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+                        (click)="toggleMenu(menu_MainSettings)"
+                        [ngClass]="{'active': menu_MainSettings.classList.contains('show')}">
+                        <div class="nav-text d-flex align-items-center w-100">
+                            <i class="uil uil-database nav-icon"></i>
+                            <span class="nav-link-text item-sidebar main-nav-link ms-3">البيانات الاساسية</span>
+                        </div>
+                        <div class="nav-collapse">
+                            <i class="uil uil-angle-left-b"></i>
+                        </div>
+                    </a>
+                    <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu_MainSettings>
+                        <li class="nav-item">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="/generalAccounts/currency" routerLinkActive="active">
+                                <span class="nav-link-sub-text item-sidebar">الشركة</span>
+                            </a>
+                        </li>
                         
                     </ul>
                 </li>
-               
             </ul>
         </aside>
 

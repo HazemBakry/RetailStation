@@ -12,33 +12,27 @@ import { LoginUserModel } from '../../models/LoginResponseModel';
 })
 export class ErpLoginComponent implements OnInit {
   loggingMode = true;
-  Email: string;
-  Password: string;
+  email: string;
+  userName: string;
+  password: string;
+  lang = 'en';
+  type = '';
+  returnUrl:string='';
   constructor(private authService:AuthService, private router: Router, private toaster: ToastrService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
   }
 
-
-
-
-  Lang = 'en';
-
-  type = '';
-  returnUrl:string='';
-
-
-
-
   Login() {
-    if(!this.Email||!this.Password)
+    if(!this.userName||!this.password)
     {
-      this.toaster.warning('Please enter a valid email and password!'); 
+      this.toaster.warning('Please enter a valid username and password!'); 
       return;
     }
     let model = {
-      Email: this.Email,
-      Password: this.Password
+      Email: this.email,
+      UserName: this.userName,
+      Password: this.password
     }
 
     this.authService.login(model).subscribe((data:LoginUserModel) => {

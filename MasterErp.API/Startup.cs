@@ -56,8 +56,7 @@ namespace MasterErp.API
         {
 
             var URLLists = Configuration.GetSection("URLList").Get<string[]>();
-            services.Configure<JWT>(Configuration.GetSection("JWT"));
-            services.AddScoped<JWT>(sp => sp.GetRequiredService<IOptions<JWT>>().Value);
+            
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
@@ -67,38 +66,9 @@ namespace MasterErp.API
                     });
             });
 
-
-            services.AddDbContext<SubscriptionDbContext>();
-
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<SubscriptionDbContext>();
-            services.AddScoped<IAuthService, AuthService>();
-            //services.AddDbContext<SubscriptionDbContext>(options =>
-            //{
-            //    options.UseSqlServer(Configuration.GetConnectionString("SubscriptionDB"));
-            //});
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(o =>
-            {
-                o.RequireHttpsMetadata = false;
-                o.SaveToken = false;
-                o.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration["Jwt:Issuer"],
-                    ValidAudience = Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
-                };
-            });
-
-
-
+            //setup Identity and auth config
+            IdentityConfigurations.Configure(services,Configuration);
+            
             services.AddControllers();
             services.AddDbContext<DBContext>();
             //services.AddHttpContextAccessor();

@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, map, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginUserModel } from '../components/Shared/models/LoginResponseModel';
+import { UserModel } from '../components/Shared/models/UserModel';
+import { ActionsResponseModel } from '../components/Shared/models/CreateModifyReturnsModel';
 @Injectable({
   providedIn: 'root'
 })
@@ -37,6 +39,15 @@ export class AuthService {
         this.storeJwtToken(data.token);
       }
     }));
+  }
+  addNewUser(model: FormData) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Auth/AddUser', model);
+  }
+  editUser(model: FormData) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Auth/EditUser', model);
+  }
+  deleteUser(userId: string) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Auth/DeleteUser?UserId='+ userId);
   }
   logout()
   {
