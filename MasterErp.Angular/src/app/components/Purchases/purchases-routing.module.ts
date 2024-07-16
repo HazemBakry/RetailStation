@@ -11,6 +11,7 @@ import { PurchasesLayoutComponent } from './purchases-layout/purchases-layout.co
 import { CreateSupplierReturnsVoucherComponent } from './components/create-supplier-returns-voucher/create-supplier-returns-voucher.component';
 import { SupplierReturnsVouchersComponent } from './components/supplier-returns-vouchers/supplier-returns-vouchers.component';
 import { SupplierListComponent } from './components/supplier-list/supplier-list.component';
+import { PurchasesHomeComponent } from './components/purchases-home/purchases-home.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
     path: '',
     component: PurchasesLayoutComponent,
     children: [
+      { path: 'home', component: PurchasesHomeComponent },
       { path: 'purchase-invoices', component: PurchaseInvoicesComponent },
       { path: 'purchase-orders', component: PurchaseOrdersComponent },
       { path: 'purchase-returns', component: PurchaseReturnsComponent },
@@ -28,6 +30,7 @@ const routes: Routes = [
       { path: 'supplier-returns-voucher', component: SupplierReturnsVouchersComponent },
       { path: 'add-supplier-returns-voucher', component: CreateSupplierReturnsVoucherComponent },
       { path: 'suppliers-list', component: SupplierListComponent },
+      { path: '', redirectTo: 'home' ,pathMatch: 'full' },
 
     ]
   }

@@ -1,22 +1,102 @@
-import { FormControl, Validators } from "@angular/forms";
+import { HttpClient } from "@angular/common/http";
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from "@angular/forms";
+import { Subscription, catchError, map, of } from "rxjs";
 
 const validCharacters = /[^\s\w,.:&\/()+%'`@-]/;
+const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
 
 export class CustomValidators extends Validators{
-    static validateCharacters(control: FormControl) {
-     
-        // first check if the control has a value
-        if (control.value && control.value.length > 0) {
-           
-          // match the control value against the regular expression
-          const matches = control.value.match(validCharacters);
+
+  
+  static validateCharacters(control: FormControl) {
+    
+      // first check if the control has a value
+      if (control.value && control.value.length > 0) {
           
-          // if there are matches return an object, else return null.
-          return matches && matches.length ? { invalid_characters: matches } : null;
+        // match the control value against the regular expression
+        const matches = control.value.match(validCharacters);
+        
+        // if there are matches return an object, else return null.
+        return matches && matches.length ? { invalid_characters: matches } : null;
+      } else {
+        return null;
+      }
+  }
+
+  static validateURL(control: FormControl) {
+    if (control.value && control.value.length > 0) {
+      const isValid = urlPattern.test(control.value);
+      return isValid ? null : { invalid_URL: {value :control.value}   };
+    } else {
+      return null;
+    }
+  }
+
+  static extensionValidator(allowedExtensions:string[]=['jpg', 'jpeg', 'png']) {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (control.value ) {
+        const fileExtension = control.value.split('.').pop().toLowerCase();
+        if (!allowedExtensions.includes(fileExtension)) {
+          return { invalidExtension: allowedExtensions };
+        }
+        
+      }
+      return null;
+    };
+
+  }
+  
+  static endDateGreaterThanStartDate(startDateCName: string, endDateCName: string): ValidatorFn {
+    return (formGroup: AbstractControl) => {
+      
+      const startDate_C = formGroup.get(startDateCName);
+      const endDate_C = formGroup.get(endDateCName);
+      
+      if (startDate_C?.value && endDate_C?.value) {
+        const startDate = new Date(startDate_C?.value);
+        const endDate = new Date(endDate_C?.value);
+        
+
+        if (startDate >= endDate) {
+          // startDate_C.setErrors({ endDateLessThanStartDate: true });
+          endDate_C.setErrors({ endDateLessThanStartDate: true });
+          
+          // return { endDateLessThanStartDate: true}
         } else {
+          // startDate_C.setErrors(null);
+          endDate_C.setErrors(null);
           return null;
         }
       }
+
+      return null;
+    };
+  }
+  static validateHtmlContent(control: FormControl) {
+    const value = control.value;
+    const parser = new DOMParser();
+    try {
+      const doc = parser.parseFromString(value, 'text/html');
+      if (doc.documentElement.nodeName === 'HTML' && doc.documentElement.childNodes.length !== 0) {
+        // Valid HTML content
+        return null;
+      } else {
+        // Invalid HTML content
+        return { invalid_Html: {value :control.value}};
+      }
+    } catch (error) {
+      // Parsing error (invalid HTML)
+      return { invalid_Html: {value :control.value}};
+    }
+  }
+  static customRequiredValidator(control: FormControl,basedOnControl: FormControl) {
+    if (basedOnControl.value && basedOnControl.value) {
+      return { required: true };
+    } else {
+      return null;
+    }
+
+  }
 }
 
 

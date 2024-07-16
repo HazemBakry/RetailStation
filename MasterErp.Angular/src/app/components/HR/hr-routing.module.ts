@@ -8,40 +8,55 @@ import { HrSickLeaveComponent } from './components/hr-sick-leave/hr-sick-leave.c
 import { HrPenaltyComponent } from './components/hr-penalty/hr-penalty.component';
 import { HrSalaryComponent } from './components/hr-salary/hr-salary.component';
 import { HrEmployeeDetailsComponent } from './components/hr-employee-details/hr-employee-details.component';
+import { HrHomeComponent } from './components/hr-home/hr-home.component';
+import { HrLayoutComponent } from './hr-layout/hr-layout.component';
 
 const routes: Routes = [
   {
-    path: 'hr-Employees',
-    component: HrEmployeesComponent
-  },
-  {
-    path: 'employee-details',
-    component: HrEmployeeDetailsComponent
-  },
-  {
-    path: 'HrVacation',
-    component: HrVacationComponent
-  },
-  {
-    path: 'HrAttendance',
-    component: HrAttendanceComponent
-  },
-  {
-    path: 'HrSickLeave',
-    component: HrSickLeaveComponent
-  },
-  {
-    path: 'HrOverTime',
-    component: HrOverTimeComponent
-  },
-  {
-    path: 'HrPenalty',
-    component: HrPenaltyComponent
-  },
-  {
-    path: 'HrSalary',
-    component: HrSalaryComponent
+    path: '',
+    component: HrLayoutComponent,
+    children: [
+      {
+        path: 'home',
+        component: HrHomeComponent
+      },
+      {
+        path: 'employees',
+        component: HrEmployeesComponent
+      },
+      {
+        path: 'employee-details',
+        component: HrEmployeeDetailsComponent
+      },
+      {
+        path: 'vacations',
+        component: HrVacationComponent
+      },
+      {
+        path: 'attendance',
+        component: HrAttendanceComponent
+      },
+      {
+        path: 'sick-leaves',
+        component: HrSickLeaveComponent
+      },
+      {
+        path: 'over-time',
+        component: HrOverTimeComponent
+      },
+      {
+        path: 'penalty',
+        component: HrPenaltyComponent
+      },
+      {
+        path: 'salary',
+        component: HrSalaryComponent
+      },
+      { path: '', redirectTo: 'home' ,pathMatch: 'full' },
+    ]
   }
+  
+
 ];
 
 @NgModule({

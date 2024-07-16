@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { AuthService } from 'src/app/Auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,10 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
+  @Input() showToggler: boolean = true;
   @Output() toggler = new EventEmitter<boolean>();
 
-  constructor() { }
+  constructor(private authService:AuthService) { }
 
   ngOnInit(): void {
   }
@@ -18,5 +20,7 @@ export class HeaderComponent implements OnInit {
     this.toggler.emit();
     console.log(this.toggler);
   }
-
+  logout() {
+    this.authService.logout();
+  }
 }

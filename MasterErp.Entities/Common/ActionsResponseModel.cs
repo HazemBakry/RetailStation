@@ -12,6 +12,7 @@ namespace MasterErp.Entities.Common
         public string Number { get; set; }
         public string URL { get; set; }
         public bool HasError { get; set; }
+        public bool IsSuccess { get; set; }=true;
         public string Message { get; set; }
         public string ErrorMessage { get; set; }
         public int Status { get; set; }

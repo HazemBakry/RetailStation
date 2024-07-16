@@ -1,0 +1,327 @@
+<div class="main-card-action mb-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="d-flex align-items-center flex-wrap">
+                <div class="search-box position-relative mb-2">
+                    <input type="text" class="form-control" [(ngModel)]="pagedResponse.searchText"
+                        placeholder="SearchByName" (keyup.enter)="GetUsersData()">
+                    <i class="fas fa-search search-icon text-muted cursor-pointer" (click)="GetUsersData()"></i>
+                </div>
+                <!-- <ng-container *ngIf="filterList.length > 0">
+                    <app-pos-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-pos-filters>
+                </ng-container> -->
+            </div>
+        </div>
+        <div class="col-md-4">
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage"
+                [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount"></app-erp-pagination>
+        </div>
+    </div>
+</div>
+<div class="card radius-10 border-0 card-shadow">
+    <div class="card-body">
+
+        <div class="row gy-5 gx-4 py-3">
+            <div class="col-xl-8">
+                <div class="user-card bg-light p-2 rounded shadow-sm border cursor-pointer" *ngFor="let item of pagedResponse.results"
+                    (click)="ShowUserCardData(item)">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-xl-8">
+                            <div class="user-info d-flex align-items-center">
+                                <div class="user-star me-2" [ngClass]="{'active': item.userId==selectedUser?.userId}">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="user-profile d-flex align-items-center">
+                                    <img [src]="item.imageUrl" (error)="$event.target.src = defaultImage" class="user-img" alt="" loading="lazy" />
+                                    <div class="ms-3 mt-2">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <h5 class="m-0 fw-bold">{{item.fullName}}</h5>
+                                            <!-- <div class="user-status-box ms-3">
+                                                <div *ngIf="item.statusId != 1" class="user-status shadow-sm not-active">Not Active</div>
+                                                <div *ngIf="item.statusId == 1" class="user-status shadow-sm active">Active</div>
+                                            </div> -->
+                                        </div>
+                                        <div class="user-position">
+                                            <span class="fw-bold me-2">{{item.jobNameAr}}</span>
+                                            <span class="text-muted">{{item.code}} - {{item.BranchNameAr}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-1 d-flex justify-content-end me-1 cursor-pointer">
+                            <i class="text-info fas fa-info-circle "></i>
+                        </div>
+                        <div (click)="openUserPopup(addNewUserModal,item)" class="col-xl-1 d-flex justify-content-end  me-1 cursor-pointer">
+                            <i class="text-primary fas fa-edit"></i>
+                        </div>
+                        <div (click)="openDeleteUserModal(deleteUserModal,item)" class="col-xl-1 d-flex justify-content-end  me-1 cursor-pointer">
+                            <i class="text-danger fas fa-trash"></i>
+                        </div>
+                        <!-- <div class="col-xl-1 d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary me-2">
+                                <span class="me-2">تفاصيل</span>
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                        </div>
+                        <div class="col-xl-1 d-flex justify-content-end">
+                            <i class="fas fa-edit"></i>
+                            
+                            <button (click)="openUserPopup(addNewUserModal,item)" type="button" class="btn btn-secondary me-2">
+                                <span class="me-2">تعديل</span>
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="selectedUser" class="col-xl-4">
+                <div class="single-user-info bg-light px-4 py-3 rounded border position-relative h-100">
+                    <div class="single-user-img img-thumbnail shadow-sm">
+                        <!--  -->
+                        <img [src]="selectedUser?.imageUrl" (error)="$event.target.src = defaultImage" class="single-img" alt="" loading="lazy" />
+                    </div>
+                    <div class="pt-5 text-center">
+                        <h4 class="mb-2 fw-bold">{{selectedUser?.fullName}}</h4>
+                        <div class="text-muted">
+                            <div> {{selectedUser?.email}}</div>
+                            <!-- <div>2 days ago</div> -->
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <div class="single-user-stats">
+                        <div class="single-user-stats-item d-flex align-items-center justify-content-between">
+                            <div class="text-muted">User Name</div>
+                            <div class="fw-bold">{{selectedUser?.userName}}</div>
+                        </div>
+                        <div class="single-user-stats-item d-flex align-items-center justify-content-between">
+                            <div class="text-muted">Email</div>
+                            <div class="fw-bold">{{selectedUser?.email}}</div>
+                        </div>
+                        <div class="single-user-stats-item d-flex align-items-center justify-content-between">
+                            <div class="text-muted">Phone</div>
+                            <div class="fw-bold">{{selectedUser?.phoneNumber}}</div>
+                        </div>
+                        <!-- <div class="single-user-stats-item d-flex align-items-center justify-content-between">
+                            <div class="text-muted">Jop Title</div>
+                            <div class="fw-bold">{{selectedUser?.jopTitle}}</div>
+                        </div> -->
+                        <!-- <div class="single-user-stats-item d-flex align-items-center justify-content-between">
+              <div class="text-muted">Salary</div>
+              <div class="fw-bold">250-300 SAR</div>
+            </div> -->
+                    </div>
+                    <hr class="my-4">
+                    <div class="single-user-files">
+                        <div class="text-muted mb-2">Files</div>
+                        <div class="single-user-file-box">
+                            <div
+                                class="single-user-file d-flex align-items-center justify-content-between border shadow-sm cursor-pointer px-4 py-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="file-box-icon">
+                                        <i class="fas fa-file-alt"></i>
+                                    </div>
+                                    <div class="file-info ms-3">
+                                        <div class="fw-bold">Overview.pdf</div>
+                                        <div class="text-muted">50 Kb</div>
+                                    </div>
+                                </div>
+                                <div class="file-downloader">
+                                    <i class="fas fa-download"></i>
+                                </div>
+                            </div>
+                            <div
+                                class="single-user-file d-flex align-items-center justify-content-between border shadow-sm cursor-pointer px-4 py-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="file-box-icon">
+                                        <i class="fas fa-file-alt"></i>
+                                    </div>
+                                    <div class="file-info ms-3">
+                                        <div class="fw-bold">Contract.pdf</div>
+                                        <div class="text-muted">30 Kb</div>
+                                    </div>
+                                </div>
+                                <div class="file-downloader">
+                                    <i class="fas fa-download"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <button (click)="openUserPopup(addNewUserModal)" class="btn btn-primary w-100 justify-content-center py-3 fs-5 radius-10">
+                        <i class="fas fa-id-card"></i>
+                        <span class="ms-3">إضافة مستخدم</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<ng-template #ManagePermissions let-modal>
+    <div class="main-card-manage">
+        <div class="main-card-header p-3 main-dark-gray-bg">
+            <h3 class="fs-3">User Rules</h3>
+            <div class="text-muted">Add / Remove Roles</div>
+        </div>
+        <div class="main-card-action p-3 bg-white border-top border-top border-bottom">
+            <div class="d-flex flex-column">
+                <div class="form-check mb-3" *ngFor="let item of UsersRoles;let i = index">
+                    <input type="checkbox" class="form-check-input m-0" [(ngModel)]="item.checked" id="Roles_{{i}}">
+                    <label class="form-check-label ms-2" for="Roles_{{i}}">
+                        {{item.name}}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="main-card-body px-2 py-3 bg-light">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-primary me-2" (click)="SaveUserRole();modal.close('Save click')">
+                    <i class="fas fa-check-circle"></i>
+                    <span class="ms-2">Save</span>
+                </button>
+                <button class="btn btn-danger">
+                    <i class="fas fa-times"></i>
+                    <span class="ms-2" (click)="modal.close('Save click')">Close</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+
+<ng-template #deleteUserModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Confirm Action</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">Are you sure you want remove this User?</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click');deleteUser()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">Yes</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">No</span>
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #resetUserPasswordModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Confirm Action</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">Are you sure you want reset password for this User?</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click');resetUserPassword()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">Yes</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">No</span>
+        </button>
+    </div>
+</ng-template>
+
+
+<ng-template #addNewUserModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">User</h4>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formGroup" autocomplete="off">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="First Name"
+                            formControlName="firstName">
+                        <label for="floatingInput">First Name <sup>*</sup></label>
+                        <div *ngIf="formErrors.firstName" class="text-danger  font-small-3 m-03">
+                            {{formErrors.firstName}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="Last Name"
+                            formControlName="lastName">
+                        <label for="floatingInput">Last Name <sup>*</sup></label>
+                        <div *ngIf="formErrors.lastName" class="text-danger  font-small-3 m-03">
+                            {{formErrors.lastName}}
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingPassword" placeholder="User Name"
+                            formControlName="userName">
+                        <label for="floatingPassword">User Name</label>
+                        <div *ngIf="formErrors.userName" class="text-danger  font-small-3 m-03">
+                            {{formErrors.userName}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingPassword" placeholder="Email"
+                            formControlName="email">
+                        <label for="floatingPassword">Email</label>
+                        <div *ngIf="formErrors.email" class="text-danger  font-small-3 m-03">
+                            {{formErrors.email}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-lg-6">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingPassword" placeholder="phoneNumber"
+                            formControlName="phoneNumber">
+                        <label for="floatingPassword">Phone Number <sup>*</sup></label>
+                        <div *ngIf="formErrors.phoneNumber" class="text-danger  font-small-3 m-03">
+                            {{formErrors.phoneNumber}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-floating mb-3">
+                        <div class="col-lg-6">
+                            <div class="input-group mb-3">
+                                <input type="file" name="image" class="form-control" (change)="onSelectedFile($event)" id="inputGroupFile02">
+                                <!-- <label class="input-group-text" for="inputGroupFile02">Upload Image</label> -->
+                            </div>
+                        </div>
+                        <div *ngIf="formErrors.image" class="text-danger  font-small-3 m-03">
+                            {{formErrors.image}}
+                        </div>
+                    </div>
+                </div>
+                <div *ngFor="let url of URLs" class="me-2">
+                    <img class="upload-image" [src]="url">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-primary" (click)="saveUser()">
+            <i class="fas fa-save"></i>
+            <span class="ms-2">Save</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">Close</span>
+        </button>
+    </div>
+</ng-template>

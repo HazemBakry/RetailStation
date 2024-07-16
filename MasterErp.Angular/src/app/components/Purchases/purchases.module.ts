@@ -18,6 +18,7 @@ import { PurchasesLayoutComponent } from './purchases-layout/purchases-layout.co
 import { CreateSupplierReturnsVoucherComponent } from './components/create-supplier-returns-voucher/create-supplier-returns-voucher.component';
 import { SupplierReturnsVouchersComponent } from './components/supplier-returns-vouchers/supplier-returns-vouchers.component';
 import { SupplierListComponent } from './components/supplier-list/supplier-list.component';
+import { PurchasesHomeComponent } from './components/purchases-home/purchases-home.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { SupplierListComponent } from './components/supplier-list/supplier-list.
     CreateSupplierReturnsVoucherComponent,
     SupplierReturnsVouchersComponent,
     SupplierListComponent,
+    PurchasesHomeComponent,
   ],
   imports: [
     CommonModule,

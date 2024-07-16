@@ -8,13 +8,15 @@ import { SalesLayoutComponent } from './sales-layout/sales-layout.component';
 import { SharedModule } from '../Shared/shared.module';
 import { SalesInvoicesComponent } from './components/sales-invoices/sales-invoices.component';
 import { AddSalesInvoiceComponent } from './components/add-sales-invoice/add-sales-invoice.component';
+import { SalesHomeComponent } from './components/sales-home/sales-home.component';
 
 
 @NgModule({
   declarations: [
     SalesLayoutComponent,
     SalesInvoicesComponent,
-    AddSalesInvoiceComponent
+    AddSalesInvoiceComponent,
+    SalesHomeComponent
   ],
   imports: [
     CommonModule,

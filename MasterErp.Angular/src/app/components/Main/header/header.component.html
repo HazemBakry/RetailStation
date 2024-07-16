@@ -11,12 +11,12 @@
       </button> -->
       <div class="setting-menu d-flex flex-grow-1" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto flex-row">
-          <li class="nav-item">
+          <li *ngIf="showToggler" class="nav-item">
             <a class="nav-link menu-toggler me-4" (click)="onToggler()">
               <span class="sidebar-menu"></span>
             </a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link">
               <i class="uil uil-search"></i>
             </a>
@@ -25,9 +25,17 @@
             <a class="nav-link">
               <i class="uil uil-focus"></i>
             </a>
-          </li>
+          </li> -->
         </ul>
         <ul class="navbar-nav ms-auto flex-row">
+          <li class="nav-item">
+            <a class="nav-link nav-link-pump" routerLink="/" routerLinkActive="router-link-active" >
+              <span class="position-relative">
+                <i class="uil uil-home"></i>
+                <!-- <span class="circle green"></span> -->
+              </span>
+            </a>
+          </li>
           <li class="nav-item">
             <a class="nav-link nav-link-pump">
               <span class="position-relative">
@@ -139,6 +147,10 @@
               <a class="d-flex align-items-center cursor-pointer" ngbDropdownItem>
                 <i class="uil uil-padlock"></i>
                 <span class="ms-2">Lock Screen</span>
+              </a>
+              <a class="d-flex align-items-center cursor-pointer" (click)="logout()" ngbDropdownItem >
+                <i class="fas fa-power-off"></i>
+                <span class="ms-2">SignOut</span>
               </a>
             </div>
           </li>
