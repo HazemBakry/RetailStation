@@ -51,8 +51,8 @@ export class HrEmployeesComponent implements OnInit {
     this.hrService.GetEmployeesData(this.SearchFilterModel).subscribe(data => {
       this.totalCount = data?.totalCount;
       this.ResultData = data?.results;
-      this.ResultData[0].isClicked = true;
-      this.SelectedEmployee = this.ResultData[0];
+      // this.ResultData[0].isClicked = true;
+      // this.SelectedEmployee = this.ResultData[0];
     });
   }
 
@@ -69,8 +69,8 @@ export class HrEmployeesComponent implements OnInit {
   }
 
   filterChecked(filterItems: FilterItem[]) {
-    this.SearchFilterModel.filterModel.filterItems = filterItems;
-    this.getEmployeesData();
+    // this.SearchFilterModel.filterModel.filterItems = filterItems;
+    // this.getEmployeesData();
   }
 
   pageChanged(obj: any) {

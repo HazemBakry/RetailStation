@@ -86,7 +86,7 @@
     position: absolute;
     top: -40px;
     left: 50%;
-    --single-img-dim: 80px;
+    --single-img-dim: 120px;
     width: var(--single-img-dim);
     height: var(--single-img-dim);
     display: flex;
@@ -105,7 +105,7 @@
 }
 
 .single-user-img .single-img {
-    --single-img-dim: 70px;
+    /* --single-img-dim: 70px; */
     width: var(--single-img-dim);
     height: var(--single-img-dim);
     border-radius: 50%;

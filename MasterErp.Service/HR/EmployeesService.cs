@@ -39,10 +39,12 @@ namespace MasterErp.Service.HR
         {
             DataTable dt = SharedService.MapFilterModelToDataTable(model?.FilterModel?.FilterItems);
 
-            SqlParameter[] Params = new SqlParameter[2];
-            Params[0] = new SqlParameter("@SearchText", model.SearchText);
-            Params[1] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            Params[1].Value = dt;
+            SqlParameter[] Params = new SqlParameter[4];
+            Params[0] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[1] = new SqlParameter("@PageSize", model.PageSize);
+            Params[2] = new SqlParameter("@SearchText", model.SearchText);
+            Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[3].Value = dt;
 
 
             var result = SQLHelper.SQLQuery<EmployeeBasicInfo>("[HR].[SP_GetAllEmployeeData]", ConnectionString, Params);
