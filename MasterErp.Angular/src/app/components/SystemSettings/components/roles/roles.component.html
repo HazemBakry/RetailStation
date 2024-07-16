@@ -1,0 +1,86 @@
+<div class="card radius-10 border-0 card-shadow mb-3">
+    <div class="boxstyle1">
+        <div class="boxstyle1-header bg-light">
+            <div class="boxstyle1-header-left mb-3">
+                <button class="btn btn-primary" (click)="openAddRoleModel(addNewRoleModal)">
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="ms-2">أضافة صلاحية</span>
+                </button>
+            </div>
+        </div>
+        <div class="card radius-10 border-0 card-shadow">
+            <div class="card-body">
+                <div class="main-card-action pb-3">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- <div class="col-md-12">
+                                <div class="d-flex align-items-center flex-wrap">
+                                    <ng-container *ngIf="filterList.length > 0">
+                                        <app-pos-filters [FilterList]="filterList"
+                                            (filterChanged)="filterChecked($event)"></app-pos-filters>
+                                    </ng-container>
+                                </div>
+                            </div> -->
+                        </div>
+                        <!-- <div class="col-md-4">
+                            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage" [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount" [totalPages]="pagedResponse.totalPages"></app-erp-pagination>
+                        </div> -->
+                    </div>
+                </div>
+                <table class="table table-borderless align-middle table-middle mb-0 table-hover">
+                    <thead>
+                        <tr>
+                            <th>Role Name</th>
+                            <th>Role Normalized Name</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of pagedResponse.results">
+                            <td>{{item.roleName}}</td>
+                            <td>{{item.roleNormalizedName}}</td>
+
+                        </tr>
+                    </tbody>
+
+                </table>
+                <app-empty-data [showContainer]="!pagedResponse.results?.length&&!showLoader"
+                    [showLoader]="showLoader"></app-empty-data>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #addNewRoleModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Role</h4>
+    </div>
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" placeholder="Role Name"
+                        [(ngModel)]="roleName" autocomplete="off">
+                    <label for="floatingInput">Role Name <sup>*</sup></label>
+                    <!-- <div *ngIf="formErrors.roleName" class="text-danger  font-small-3 m-03">
+                            {{formErrors.firstName}}
+                        </div> -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-primary" (click)="addNewRole()">
+            <i class="fas fa-save"></i>
+            <span class="ms-2">Save</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">Close</span>
+        </button>
+    </div>
+</ng-template>
+<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->

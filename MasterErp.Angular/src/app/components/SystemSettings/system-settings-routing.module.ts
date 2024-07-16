@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SystemSettingsHomeComponent } from './components/system-settings-home/system-settings-home.component';
 import { SystemSettingsLayoutComponent } from './system-settings-layout/system-settings-layout.component';
 import { SystemUsersComponent } from './components/system-users/system-users.component';
+import { RolesComponent } from './components/roles/roles.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,7 @@ const routes: Routes = [
 
       { path: 'home', component: SystemSettingsHomeComponent },
       { path: 'system-users', component: SystemUsersComponent },
+      { path: 'roles', component: RolesComponent },
       { path: '', redirectTo: 'home' ,pathMatch: 'full' },
       
       

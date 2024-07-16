@@ -11,6 +11,7 @@ import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponse
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { AuthService } from 'src/app/Auth/auth.service';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { AddUserRoleModel, RoleModel } from 'src/app/components/Shared/models/RoleModel';
 
 @Component({
   selector: 'app-system-users',
@@ -41,6 +42,7 @@ export class SystemUsersComponent implements OnInit {
   manageRoles = false;
   BranchValidate = false;
   selectedUser: any;
+  rolesList:RoleModel[]=[];
   searchFilterModel: SearchFilterModel = {
     currentPage: 1,
     pageSize: 25,
@@ -149,7 +151,7 @@ export class SystemUsersComponent implements OnInit {
   }
 
   addNewUser() {
-    this.authService.addNewUser(this.formData).subscribe(data => {
+    this.settingsService.addNewUser(this.formData).subscribe(data => {
       if (data) {
         if (this.lang == 'en') {
           this.toaster.success("Data Saved Successfully");
@@ -173,7 +175,7 @@ export class SystemUsersComponent implements OnInit {
     });
   }
   editUser() {
-    this.authService.editUser(this.formData).subscribe((data:ActionsResponseModel) => {
+    this.settingsService.editUser(this.formData).subscribe((data:ActionsResponseModel) => {
       if (data?.isSuccess) {
         if (this.lang == 'en') {
           this.toaster.success("Data Saved Successfully");
@@ -203,7 +205,7 @@ export class SystemUsersComponent implements OnInit {
     this.modalService.open(content, { size: 'md', centered: true });
   }
   deleteUser() {
-    this.authService.deleteUser(this.userModel.userId).subscribe((data:ActionsResponseModel) => {
+    this.settingsService.deleteUser(this.userModel.userId).subscribe((data:ActionsResponseModel) => {
       if (data?.isSuccess) {
         if (this.lang == 'en') {
           this.toaster.success("user deleted");
@@ -284,14 +286,38 @@ export class SystemUsersComponent implements OnInit {
     //   this.ImagesName.push(event.target.files[i].name);
     // }
   }
-  // GetUserRoles() {
-  //   // this.settingsService.GetUserRoles().subscribe(data => {
-  //   //   this.UsersRoles = data;
-  //   //   this.UsersRoles.map(a => a.checked = false);
-  //   // });
-  // }
 
- 
+  openRolesModal(content: any, userModel: UserModel) {
+    this.userModel = userModel;
+    this.getRoles();
+    this.modalService.open(content, { size: 'lg', centered: true });
+}
+  getRoles() {
+    this.settingsService.getRoles(this.pagedResponse).subscribe(data => {
+      this.rolesList = data.results;
+      this.rolesList.map(a => a.isChecked = this.userModel?.roles?.some(r=>a.roleName==r));
+    });
+  }
+
+   saveUserRole() {
+    let roles = this.rolesList.filter(a => a.isChecked);
+    if(roles.length==0){
+      this.toaster.error('You must select at least one role');
+      return;
+    }
+    let model:AddUserRoleModel={} as AddUserRoleModel;
+    model.userId=this.userModel.userId;
+    model.roles=roles;
+    this.settingsService.assignUserRole(model).subscribe(data => {
+      if (data.isSuccess) {
+        this.toaster.success('Assign New Role Successfully');
+        this.modalService?.dismissAll();
+        this.GetUsersData();
+      } else {
+        this.toaster.error(data.message);
+      }
+    });
+  }
 
 
 

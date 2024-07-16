@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
@@ -87,12 +88,12 @@ namespace MasterErp.Service.Auth
             var user = await _userManager.FindByIdAsync(model.UserId);
             if (user == null)
             {
-                return new ActionsResponseModel { Message = "user not found" };
+                return new ActionsResponseModel { Message = "user not found", IsSuccess = false };
             }
             if (await _userManager.FindByEmailAsync(model.Email) is not null && user.Id!=model.UserId)
-                return new ActionsResponseModel { Message = "invalid email" };
+                return new ActionsResponseModel { Message = "invalid email" ,IsSuccess=false };
             if (await _userManager.FindByNameAsync(model.UserName) is not null && user.Id != model.UserId)
-                return new ActionsResponseModel { Message = "invalid username" };
+                return new ActionsResponseModel { Message = "invalid username", IsSuccess = false };
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.UserName = model.UserName;
@@ -102,7 +103,7 @@ namespace MasterErp.Service.Auth
             if (model.Image != null)
             {
                 if (IsFileExtensionSupported(model.Image.FileName))
-                    return new ActionsResponseModel { Message = "invalid image extention" };
+                    return new ActionsResponseModel { Message = "invalid image extention", IsSuccess = false };
 
                 user.ImageUrl =await UploadUserImage(model.Image);
             }
@@ -194,52 +195,97 @@ namespace MasterErp.Service.Auth
             return jwtSecurityToken;
         }
 
-        public async Task<string> AddRoleAsync(AddRoleModel model)
+
+        public async Task<List<RoleDto>> GetRolesAsync(SearchFilterModel model)
+        {
+            var Roles = await _roleManager.Roles.ToListAsync();
+
+            return Roles.Select(r => new RoleDto
+            {
+                RoleId = r.Id,
+                RoleName = r.Name,
+                RoleNormalizedName = r.NormalizedName
+            }).ToList();
+            
+        }
+        public async Task<ActionsResponseModel> AssignUserRoleAsync(AddUserRoleModel model)
         {
             var User = await _userManager.FindByIdAsync(model.UserId);
 
             if (User == null)
-                return "Ivalid User Id";
+                return new ActionsResponseModel { Message = "Invalid User Id", IsSuccess = false };
+            var UserRoles = await _userManager.GetRolesAsync(User);
+            bool isSuccess = true;
+            foreach (var role in UserRoles)
+            {
+                if (!model.Roles.Any(x => x.RoleName == role))
+                    await _userManager.RemoveFromRoleAsync(User, role);
+            }
+            foreach (var role in model.Roles)
+            {
+                if (!await _roleManager.RoleExistsAsync(role.RoleName))
+                        return new ActionsResponseModel { Message = "Invalid Role", IsSuccess = false };
 
-            if (!await _roleManager.RoleExistsAsync(model.Role))
-                return "Invalid Role";
 
-            if (await _userManager.IsInRoleAsync(User, model.Role))
-                return "User Assigned to this role";
+                if (await _userManager.IsInRoleAsync(User, role.RoleName))
+                    continue;
+                
 
-            var result = await _userManager.AddToRoleAsync(User, model.Role);
+                var result= await _userManager.AddToRoleAsync(User, role.RoleName);
 
-            if (result.Succeeded)
-                return string.Empty;
-            return "wrong";
+                isSuccess = isSuccess&& result.Succeeded;
+            }
+
+
+            return isSuccess ? new ActionsResponseModel { Message = "assigned successfully" }
+                                    : new ActionsResponseModel { Message = "can't assignd", IsSuccess = false };
+
         }
+        public async Task<ActionsResponseModel> AddRoleAsync(string roleName)
+        {
+            if (await _roleManager.RoleExistsAsync(roleName))
+            {
+                return new ActionsResponseModel { Message = "Role already exists", IsSuccess = false };
+            }
+
+            var role = new IdentityRole(roleName);
+            var result = await _roleManager.CreateAsync(role);
+
+            return result.Succeeded ? new ActionsResponseModel { Message = "role added successfully" }
+                                               : new ActionsResponseModel { Message = "can't add role", IsSuccess = false };
+        }
+
         public async Task<List<UserDto>> GetUsersAsync(SearchFilterModel model)
         {
             Expression<Func<ApplicationUser, bool>> criteria = c => c.UserName.Contains(model.SearchText) || c.FirstName.Contains(model.SearchText) || string.IsNullOrEmpty(model.SearchText);
 
             int totalCount = await _userManager.Users.Where(criteria).CountAsync();
 
-            var results = await _userManager.Users
+            var data = await _userManager.Users
                                             .Where(criteria)
                                             .Skip((model.CurrentPage - 1) * model.PageSize)
-                                            .Take(model.PageSize)
-                                            .Select(u => new UserDto
-                                            {
-                                                FullName = $"{u.FirstName} {u.LastName}",
-                                                UserId = u.Id,
-                                                FirstName = u.FirstName,
-                                                LastName = u.LastName,
-                                                UserName = u.UserName,
-                                                Email = u.Email,
-                                                PhoneNumber = u.PhoneNumber,
-                                                ImageUrl=u.ImageUrl,
-                                                TotalCount = totalCount
-                                            })
-                                            .ToListAsync();
-            foreach (var user in results)
+                                            .Take(model.PageSize).ToListAsync();
+            var results=new List<UserDto>();
+            foreach (var user in data)
             {
+                var roles = await _userManager.GetRolesAsync(user);
                 user.ImageUrl = GetImagePath(user.ImageUrl);
+                results.Add(new UserDto
+                {
+                    FullName = $"{user.FirstName} {user.LastName}",
+                    UserId = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    ImageUrl = user.ImageUrl,
+                    Roles=roles.ToList(),
+                    TotalCount = totalCount
+                });
             }
+
+          
             return results;
 
         }        
@@ -249,6 +295,7 @@ namespace MasterErp.Service.Auth
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
                                             
             if (user is not null) {
+                var roles = await _userManager.GetRolesAsync(user);
                 return new UserDto
                 {
                     FullName = $"{user.FirstName} {user.LastName}",
@@ -259,6 +306,8 @@ namespace MasterErp.Service.Auth
                     Email = user.Email,
                     PhoneNumber = user.PhoneNumber,
                     ImageUrl = GetImagePath(user.ImageUrl),
+                    Roles = roles.ToList(),
+
                 };
             }
 
@@ -282,12 +331,16 @@ namespace MasterErp.Service.Auth
             }
             return  new ActionsResponseModel { Message = "user deleted" };
         }
+        
+        
+        
         private bool IsFileExtensionSupported(string fileName)
         {
             var SupportedFileExtentions = new[] { "png", "jpg" };
             var fileExtension = Path.GetExtension(fileName);
             return SupportedFileExtentions.Contains(fileExtension, StringComparer.OrdinalIgnoreCase);
         }
+        
         private async Task<string> UploadUserImage(IFormFile Image)
         {
             string imagePath = string.Empty;

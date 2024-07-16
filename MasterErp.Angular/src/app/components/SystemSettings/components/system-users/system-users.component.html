@@ -26,7 +26,7 @@
                 <div class="user-card bg-light p-2 rounded shadow-sm border cursor-pointer" *ngFor="let item of pagedResponse.results"
                     (click)="ShowUserCardData(item)">
                     <div class="row g-3 align-items-center">
-                        <div class="col-xl-8">
+                        <div class="col-xl-6">
                             <div class="user-info d-flex align-items-center">
                                 <div class="user-star me-2" [ngClass]="{'active': item.userId==selectedUser?.userId}">
                                     <i class="fas fa-star"></i>
@@ -57,6 +57,9 @@
                         </div>
                         <div (click)="openDeleteUserModal(deleteUserModal,item)" class="col-xl-1 d-flex justify-content-end  me-1 cursor-pointer">
                             <i class="text-danger fas fa-trash"></i>
+                        </div>
+                        <div (click)="openRolesModal(ManagePermissions,item)" class="col-xl-1 d-flex justify-content-end  me-1 cursor-pointer">
+                            <i class="text-success fas fa-plus"></i>
                         </div>
                         <!-- <div class="col-xl-1 d-flex justify-content-end">
                             <button type="button" class="btn btn-primary me-2">
@@ -169,17 +172,17 @@
         </div>
         <div class="main-card-action p-3 bg-white border-top border-top border-bottom">
             <div class="d-flex flex-column">
-                <div class="form-check mb-3" *ngFor="let item of UsersRoles;let i = index">
-                    <input type="checkbox" class="form-check-input m-0" [(ngModel)]="item.checked" id="Roles_{{i}}">
+                <div class="form-check mb-3" *ngFor="let item of rolesList;let i = index">
+                    <input type="checkbox" class="form-check-input m-0" [(ngModel)]="item.isChecked" id="Roles_{{i}}">
                     <label class="form-check-label ms-2" for="Roles_{{i}}">
-                        {{item.name}}
+                        {{item.roleName}}
                     </label>
                 </div>
             </div>
         </div>
         <div class="main-card-body px-2 py-3 bg-light">
             <div class="d-flex align-items-center">
-                <button class="btn btn-primary me-2" (click)="SaveUserRole();modal.close('Save click')">
+                <button class="btn btn-primary me-2" (click)="saveUserRole()">
                     <i class="fas fa-check-circle"></i>
                     <span class="ms-2">Save</span>
                 </button>

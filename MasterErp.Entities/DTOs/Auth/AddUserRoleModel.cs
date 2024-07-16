@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.DTOs.Auth
 {
-    public class AddRoleModel
+    public class AddUserRoleModel
     {
         public string UserId { get; set; }
-        public string Role { get; set; }
+        public List<RoleDto> Roles { get; set; }
     }
 }

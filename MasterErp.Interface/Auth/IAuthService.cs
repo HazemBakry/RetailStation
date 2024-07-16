@@ -14,8 +14,9 @@ namespace MasterErp.Interface.Auth
         Task<ActionsResponseModel> EditUserAsync(AddUserModel model);
         Task<AuthModel> LoginByEmailAsync(LoginModel model);
         Task<AuthModel> LoginByUserNameAsync(LoginModel model);
-        Task<string> AddRoleAsync(AddRoleModel model);
-
+        Task<ActionsResponseModel> AssignUserRoleAsync(AddUserRoleModel model);
+        Task<List<RoleDto>> GetRolesAsync(SearchFilterModel model);
+        Task<ActionsResponseModel> AddRoleAsync(string roleName);
         Task<List<UserDto>> GetUsersAsync(SearchFilterModel model);
         Task<UserDto> GetUserByIdAsync(string userId);
         Task<ActionsResponseModel> DeleteUserAsync(string userId);

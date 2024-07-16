@@ -7,6 +7,7 @@ export interface UserModel {
     email: string;
     imageUrl: string;
     phoneNumber: string;
+    roles: string[];
     status: number | null;
     createdDate: string;
     updatedDate: string | null;
