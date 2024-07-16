@@ -103,15 +103,36 @@ namespace MasterErp.API.Controllers.Auth
             return Ok(user);
 
         }
-        [HttpPost("AddRole")]
-        public async Task<IActionResult> AddRoleAsync([FromBody] AddRoleModel model)
+
+        [HttpPost("GetRoles")]
+        public async Task<IActionResult> GetRoles([FromBody] SearchFilterModel model)
+        {
+            var roles = await _authService.GetRolesAsync(model);
+            var result = new PagedResponseModel<RoleDto>
+            {
+                Results = roles,
+                TotalCount = roles.FirstOrDefault()?.TotalCount ?? 0,
+
+            };
+            return Ok(result);
+
+        }
+        [HttpPost("AssignUserRole")]
+        public async Task<IActionResult> AssignUserRoleAsync([FromBody] AddUserRoleModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var result = await _authService.AddRoleAsync(model);
+            var result = await _authService.AssignUserRoleAsync(model);
 
             return Ok(result);
 
+        }
+        [HttpGet("AddNewRole")]
+        public async Task<IActionResult> AddNewRole(string Role)
+        {
+            var result = await _authService.AddRoleAsync(Role);
+            
+            return Ok(result);
         }
         [HttpGet("DeleteUser")]
         public async Task<IActionResult> DeleteUser(string userId)

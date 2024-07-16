@@ -40,15 +40,7 @@ export class AuthService {
       }
     }));
   }
-  addNewUser(model: FormData) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Auth/AddUser', model);
-  }
-  editUser(model: FormData) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Auth/EditUser', model);
-  }
-  deleteUser(userId: string) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'Auth/DeleteUser?UserId='+ userId);
-  }
+  
   logout()
   {
     localStorage.removeItem(this.JWT_TOKEN);
