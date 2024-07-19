@@ -18,12 +18,12 @@ export class HrSickLeaveComponent implements OnInit {
     private datepipe: DatePipe) { }
 
   ngOnInit(): void {
-    this.FormInit();
-    this.GetSickLeaveData();
-    this.GetAllEmployees();
+    this.formInit();
+    this.getSickLeaveData();
+    this.getActiveEmployees();
   }
 
-  FormInit() {
+  formInit() {
     this.form = this.fb.group({
       sickLeaveId: null,
       employeeID: 0,
@@ -34,7 +34,7 @@ export class HrSickLeaveComponent implements OnInit {
     });
   }
 
-  FillEditForm(item: any) {
+  fillEditForm(item: any) {
     this.form.setValue({
       sickLeaveId: item.sickLeaveId,
       employeeID: item.employeeId,
@@ -47,7 +47,7 @@ export class HrSickLeaveComponent implements OnInit {
 
   openEditModal(content: any, item: any) {
     this.form.reset();
-    this.FillEditForm(item);
+    this.fillEditForm(item);
     this.modalService.open(content, { centered: true, size: 'lg' });
   }
 
@@ -56,38 +56,38 @@ export class HrSickLeaveComponent implements OnInit {
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
-  GetAllEmployees() {
-    this.hrService.GetAllEmployees().subscribe(data => {
+  getActiveEmployees() {
+    this.hrService.GetActiveEmployees().subscribe(data => {
       this.EmployeeData = data;
     });
   }
 
-  GetSickLeaveData() {
+  getSickLeaveData() {
     this.hrService.GetSickLeaveData().subscribe(data => {
       this.SickLeaveData = data;
     });
   }
 
-  AddNewSickLeave() {
+  addNewSickLeave() {
     this.form.patchValue({ sickLeaveId: 0 });
     this.hrService.AddNewSickLeave(this.form.value).subscribe(data => {
-      this.GetSickLeaveData();
+      this.getSickLeaveData();
       this.form.reset();
       this.form.patchValue({ employeeID: 0 });
     });
   }
 
-  EditSickLeave() {
+  editSickLeave() {
     this.hrService.EditSickLeave(this.form.value).subscribe(data => {
-      this.GetSickLeaveData();
+      this.getSickLeaveData();
       this.form.reset();
       this.form.patchValue({ employeeID: 0 });
     });
   }
 
-  DeleteSickLeave() {
+  deleteSickLeave() {
     this.hrService.DeleteSickLeave(this.SickLeaveId).subscribe(data => {
-      this.GetSickLeaveData();
+      this.getSickLeaveData();
     });
   }
 }

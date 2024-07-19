@@ -1,4 +1,6 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.HR;
+using MasterErp.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +12,7 @@ namespace MasterErp.Interface.HR
 {
     public interface IVacationService
     {
-        DataTable GetVacationData();
+        List<EmployeeVacation> GetEmployeeVacations(SearchFilterModel model);
         bool AddNewVacation(Vacation model);
         bool EditVacation(Vacation model);
         bool DeleteVacation(int VacationId);

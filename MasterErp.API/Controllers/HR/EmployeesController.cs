@@ -25,19 +25,11 @@ namespace MasterErp.API.Controllers
             _employeeService = employeeService;
         }
 
-        [HttpPost]
-        [Route("GetEmployeesData")]
-        public ActionResult<PagedResponseModel<EmployeeBasicInfo>> GetEmployeesData(SearchFilterModel model)
+        [HttpGet]
+        [Route("GetActiveEmployees")]
+        public ActionResult<List<SelectorDataModel>> GetActiveEmployees()
         {
-            var result =  _employeeService.GetAllEmployees(model);
-            var Response = new PagedResponseModel<EmployeeBasicInfo>
-            {
-                CurrentPage = model.CurrentPage,
-                PageSize = model.PageSize,
-                Results = result,
-                TotalCount = result.Count > 0 ? result.FirstOrDefault().TotalCount : 0
-            };
-
+            var result =  _employeeService.GetActiveEmployees();
             return Ok(Response);
         }
 

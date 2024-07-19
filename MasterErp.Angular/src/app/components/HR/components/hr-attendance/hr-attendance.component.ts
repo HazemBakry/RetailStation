@@ -18,12 +18,12 @@ export class HrAttendanceComponent implements OnInit {
     private datepipe: DatePipe) { }
 
   ngOnInit(): void {
-    this.FormInit();
-    this.GetAttendanceData();
-    this.GetAllEmployees();
+    this.formInit();
+    this.getAttendanceData();
+    this.getActiveEmployees();
   }
 
-  FormInit() {
+  formInit() {
     this.form = this.fb.group({
       attendanceID: null,
       employeeID: 0,
@@ -37,7 +37,7 @@ export class HrAttendanceComponent implements OnInit {
     });
   }
 
-  FillEditForm(item: any) {
+  fillEditForm(item: any) {
     this.form.setValue({
       attendanceID: item.attendanceID,
       employeeID: item.employeeId,
@@ -53,7 +53,7 @@ export class HrAttendanceComponent implements OnInit {
 
   openEditModal(content: any, item: any) {
     this.form.reset();
-    this.FillEditForm(item);
+    this.fillEditForm(item);
     this.modalService.open(content, { centered: true, size: 'lg' });
   }
 
@@ -62,40 +62,40 @@ export class HrAttendanceComponent implements OnInit {
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
-  GetAllEmployees() {
-    this.hrService.GetAllEmployees().subscribe(data => {
+  getActiveEmployees() {
+    this.hrService.GetActiveEmployees().subscribe(data => {
       this.EmployeeData = data;
       console.log(this.EmployeeData);
     });
   }
 
-  GetAttendanceData() {
+  getAttendanceData() {
     this.hrService.GetAttendanceData().subscribe(data => {
       this.AttendanceData = data;
       console.log(this.AttendanceData);
     });
   }
 
-  AddNewAttendance() {
+  addNewAttendance() {
     this.form.patchValue({ attendanceID: 0 });
     this.hrService.AddNewAttendance(this.form.value).subscribe(data => {
-      this.GetAttendanceData();
+      this.getAttendanceData();
       this.form.reset();
       this.form.patchValue({ employeeID: 0 });
     });
   }
 
-  EditAttendance() {
+  editAttendance() {
     this.hrService.EditAttendance(this.form.value).subscribe(data => {
-      this.GetAttendanceData();
+      this.getAttendanceData();
       this.form.reset();
       this.form.patchValue({ employeeID: 0 });
     });
   }
 
-  DeleteAttendance() {
+  deleteAttendance() {
     this.hrService.DeleteAttendance(this.AttendanceId).subscribe(data => {
-      this.GetAttendanceData();
+      this.getAttendanceData();
     });
   }
 

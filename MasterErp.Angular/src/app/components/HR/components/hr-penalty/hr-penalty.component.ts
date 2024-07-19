@@ -18,12 +18,12 @@ export class HrPenaltyComponent implements OnInit {
     private datepipe: DatePipe) { }
 
   ngOnInit(): void {
-    this.FormInit();
-    this.GetPenaltyData();
-    this.GetAllEmployees();
+    this.formInit();
+    this.getPenaltyData();
+    this.getAllEmployees();
   }
 
-  FormInit() {
+  formInit() {
     this.form = this.fb.group({
       penaltyID: null,
       employeeID: 0,
@@ -36,7 +36,7 @@ export class HrPenaltyComponent implements OnInit {
     });
   }
 
-  FillEditForm(item: any) {
+  fillEditForm(item: any) {
     this.form.setValue({
       penaltyID: item.penaltyId,
       employeeID: item.employeeId,
@@ -51,7 +51,7 @@ export class HrPenaltyComponent implements OnInit {
 
   openEditModal(content: any, item: any) {
     this.form.reset();
-    this.FillEditForm(item);
+    this.fillEditForm(item);
     this.modalService.open(content, { centered: true, size: 'lg' });
   }
 
@@ -60,38 +60,38 @@ export class HrPenaltyComponent implements OnInit {
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
-  GetAllEmployees() {
-    this.hrService.GetAllEmployees().subscribe(data => {
+  getAllEmployees() {
+    this.hrService.GetActiveEmployees().subscribe(data => {
       this.EmployeeData = data;
     });
   }
 
-  GetPenaltyData() {
+  getPenaltyData() {
     this.hrService.GetPenaltyData().subscribe(data => {
       this.PenaltyData = data;
     });
   }
 
-  AddNewPenalty() {
+  addNewPenalty() {
     this.form.patchValue({ penaltyID: 0 });
     this.hrService.AddNewPenalty(this.form.value).subscribe(data => {
-      this.GetPenaltyData();
+      this.getPenaltyData();
       this.form.reset();
       this.form.patchValue({ employeeID: 0 });
     });
   }
 
-  EditPenalty() {
+  editPenalty() {
     this.hrService.EditPenalty(this.form.value).subscribe(data => {
-      this.GetPenaltyData();
+      this.getPenaltyData();
       this.form.reset();
       this.form.patchValue({ employeeID: 0 });
     });
   }
 
-  DeletePenalty() {
+  deletePenalty() {
     this.hrService.DeletePenalty(this.PenaltyId).subscribe(data => {
-      this.GetPenaltyData();
+      this.getPenaltyData();
     });
   }
 }

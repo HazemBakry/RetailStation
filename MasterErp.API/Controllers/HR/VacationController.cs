@@ -1,4 +1,6 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.HR;
+using MasterErp.Entities.Models;
 using MasterErp.Interface.HR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +25,9 @@ namespace MasterErp.API.Controllers.HR
 
         [HttpGet]
         [Route("GetVacationData")]
-        public DataTable GetVacationData()
+        public List<EmployeeVacation> GetVacationData(SearchFilterModel model)
         {
-            return _vacationService.GetVacationData();
+            return _vacationService.GetEmployeeVacations(model);
         }
 
         [HttpPost]

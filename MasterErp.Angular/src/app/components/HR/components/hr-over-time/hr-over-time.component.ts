@@ -18,12 +18,12 @@ export class HrOverTimeComponent implements OnInit {
     private datepipe: DatePipe) { }
 
   ngOnInit(): void {
-    this.FormInit();
-    this.GetOverTimeData();
-    this.GetAllEmployees();
+    this.formInit();
+    this.getOverTimeData();
+    this.getAllEmployees();
   }
 
-  FormInit() {
+  formInit() {
     this.form = this.fb.group({
       overTimeID: null,
       employeeID: 0,
@@ -34,7 +34,7 @@ export class HrOverTimeComponent implements OnInit {
     });
   }
 
-  FillEditForm(item: any) {
+  fillEditForm(item: any) {
     this.form.setValue({
       overTimeID: item.overTimeId,
       employeeID: item.employeeId,
@@ -47,7 +47,7 @@ export class HrOverTimeComponent implements OnInit {
 
   openEditModal(content: any, item: any) {
     this.form.reset();
-    this.FillEditForm(item);
+    this.fillEditForm(item);
     this.modalService.open(content, { centered: true, size: 'lg' });
   }
 
@@ -56,38 +56,38 @@ export class HrOverTimeComponent implements OnInit {
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
-  GetAllEmployees() {
-    this.hrService.GetAllEmployees().subscribe(data => {
+  getAllEmployees() {
+    this.hrService.GetActiveEmployees().subscribe(data => {
       this.EmployeeData = data;
     });
   }
 
-  GetOverTimeData() {
+  getOverTimeData() {
     this.hrService.GetOverTimeData().subscribe(data => {
       this.OverTimeData = data;
     });
   }
 
-  AddNewOverTime() {
+  addNewOverTime() {
     this.form.patchValue({ overTimeID: 0 });
     this.hrService.AddNewOverTime(this.form.value).subscribe(data => {
-      this.GetOverTimeData();
+      this.getOverTimeData();
       this.form.reset();
       this.form.patchValue({ employeeID: 0 });
     });
   }
 
-  EditOverTime() {
+  editOverTime() {
     this.hrService.EditOverTime(this.form.value).subscribe(data => {
-      this.GetOverTimeData();
+      this.getOverTimeData();
       this.form.reset();
       this.form.patchValue({ employeeID: 0 });
     });
   }
 
-  DeleteOverTime() {
+  deleteOverTime() {
     this.hrService.DeleteOverTime(this.OverTimeID).subscribe(data => {
-      this.GetOverTimeData();
+      this.getOverTimeData();
     });
   }
 }
