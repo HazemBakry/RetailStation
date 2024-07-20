@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   apiURL:'http://localhost:63246/api/',
   systemUrl: 'http://localhost:4200/',
-  defaultUserPassword: 'http://localhost:4200/',
+  defaultUserPassword: '0000',
 };
 
 /*
