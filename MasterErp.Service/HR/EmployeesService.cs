@@ -51,6 +51,14 @@ namespace MasterErp.Service.HR
             return result;
         }
 
+        public List<SelectorDataModel> GetActiveEmployees()
+        {
+            SqlParameter[] Params = new SqlParameter[0];
+            
+            var result = SQLHelper.SQLQuery<SelectorDataModel>("[HR].[SP_GetActiveEmployees]", ConnectionString, Params);
+            return result;
+        }
+
         public List<IqamaIssuePlace> GetIqamaIssuePlaces()
         {
             var results = Context.IqamaIssuePlaces.ToList();

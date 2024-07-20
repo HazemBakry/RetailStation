@@ -41,14 +41,14 @@ export class HrEmployeesComponent implements OnInit {
 
   ngOnInit(): void {
     this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
-    this.getEmployeesData();
+    this.getAllEmployees();
     this.getEmployeesFilter();
     this.getBranches();
   }
 
-  getEmployeesData() {
+  getAllEmployees() {
     //this.SearchFilterModel.SearchText = this.SearchText;
-    this.hrService.GetEmployeesData(this.SearchFilterModel).subscribe(data => {
+    this.hrService.GetAllEmployees(this.SearchFilterModel).subscribe(data => {
       this.totalCount = data?.totalCount;
       this.ResultData = data?.results;
       // this.ResultData[0].isClicked = true;
@@ -69,13 +69,13 @@ export class HrEmployeesComponent implements OnInit {
   }
 
   filterChecked(filterItems: FilterItem[]) {
-    // this.SearchFilterModel.filterModel.filterItems = filterItems;
-    // this.getEmployeesData();
+     this.SearchFilterModel.filterModel.filterItems = filterItems;
+     this.getAllEmployees();
   }
 
   pageChanged(obj: any) {
     this.SearchFilterModel.currentPage = obj.page;
-    this.getEmployeesData();
+    this.getAllEmployees();
   }
 
   // pageChanged(obj: any) {

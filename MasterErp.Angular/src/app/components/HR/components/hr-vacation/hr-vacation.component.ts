@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HrService } from '../../services/hr.service';
 import { DatePipe } from '@angular/common';
+import { FilterItem, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 @Component({
   selector: 'app-hr-vacation',
@@ -14,13 +15,21 @@ export class HrVacationComponent implements OnInit {
   EmployeeData: any[] = [];
   form: FormGroup;
   VacationId: number;
+  CategorySearch: any;
+  CategoryName = 'قائمة الموظفين';
+  SearchFilterModel: SearchFilterModel = {
+    currentPage: 1,
+    pageSize: 25,
+    filterModel: { filterItems: [] }
+  };
+
   constructor(private modalService: NgbModal, private hrService: HrService, private fb: FormBuilder,
     private datepipe: DatePipe) { }
 
   ngOnInit(): void {
     this.FormInit();
-    this.GetVacationData();
-    this.GetAllEmployees();
+    this.getVacationData();
+    this.getActiveEmployees();
   }
 
   FormInit() {
@@ -35,11 +44,11 @@ export class HrVacationComponent implements OnInit {
     });
   }
 
-  FillEditForm(item: any) {
+  fillEditForm(item: any) {
     this.form.setValue({
       vacationID: item.vacationId,
       employeeID: item.employeeId,
-      alternativeEmployee:item.alternativeEmployee,
+      alternativeEmployee: item.alternativeEmployee,
       fromDate: this.datepipe.transform(item.fromDate, 'yyyy-MM-dd'),
       toDate: this.datepipe.transform(item.toDate, 'yyyy-MM-dd'),
       lastDayWork: this.datepipe.transform(item.lastDayWork, 'yyyy-MM-dd'),
@@ -49,7 +58,7 @@ export class HrVacationComponent implements OnInit {
 
   openEditModal(content: any, item: any) {
     this.form.reset();
-    this.FillEditForm(item);
+    this.fillEditForm(item);
     this.modalService.open(content, { centered: true, size: 'lg' });
   }
 
@@ -58,38 +67,48 @@ export class HrVacationComponent implements OnInit {
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
-  GetAllEmployees() {
-    this.hrService.GetAllEmployees().subscribe(data => {
+  getActiveEmployees() {
+    this.hrService.GetActiveEmployees().subscribe(data => {
       this.EmployeeData = data;
     });
   }
 
-  GetVacationData() {
-    this.hrService.GetVacationData().subscribe(data => {
+  filterChecked(filterItems: FilterItem[]) {
+    this.SearchFilterModel.filterModel.filterItems = filterItems;
+    this.getVacationData();
+ }
+
+ pageChanged(obj: any) {
+   this.SearchFilterModel.currentPage = obj.page;
+   this.getVacationData();
+ }
+
+  getVacationData() {
+    this.hrService.GetVacationData(this.SearchFilterModel).subscribe(data => {
       this.VacationData = data;
     });
   }
 
-  AddNewVacation() {
+  addNewVacation() {
     this.form.patchValue({ vacationID: 0 });
     this.hrService.AddNewVacation(this.form.value).subscribe(data => {
-      this.GetVacationData();
+      this.getVacationData();
       this.form.reset();
       this.form.patchValue({ employeeID: 0 });
     });
   }
 
-  EditVacation() {
+  editVacation() {
     this.hrService.EditVacation(this.form.value).subscribe(data => {
-      this.GetVacationData();
+      this.getVacationData();
       this.form.reset();
       this.form.patchValue({ employeeID: 0 });
     });
   }
 
-  DeleteVacation() {
+  deleteVacation() {
     this.hrService.DeleteVacation(this.VacationId).subscribe(data => {
-      this.GetVacationData();
+      this.getVacationData();
     });
   }
 }

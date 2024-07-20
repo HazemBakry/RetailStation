@@ -29,14 +29,14 @@ export class HrEmployeeDetailsComponent implements OnInit {
   constructor(private offcanvasService: NgbOffcanvas, private hrService: HrService) { }
 
   ngOnInit(): void {
-    this.GetIqamaIssuePlaces();
-    this.GetPassportIssuePlaces();
-    this.GetSponsorData();
-    this.GetIqamaJobData();
-    this.GetNationalityData();
-    this.GetJobData();
-    this.GetBranchData();
-    this.GetBankData();
+    this.getIqamaIssuePlaces();
+    this.getPassportIssuePlaces();
+    this.getSponsorData();
+    this.getIqamaJobData();
+    this.getNationalityData();
+    this.getJobData();
+    this.getBranchData();
+    this.getBankData();
     this.resetEmployeeModel();
 
   }
@@ -73,49 +73,49 @@ export class HrEmployeeDetailsComponent implements OnInit {
     this.offcanvasService.open(content, { position: 'end' });
   }
 
-  GetIqamaIssuePlaces() {
+  getIqamaIssuePlaces() {
     this.hrService.GetIqamaIssuePlaces().subscribe(data => {
       this.IqamaIssueList = data;
     });
   }
 
-  GetPassportIssuePlaces() {
+  getPassportIssuePlaces() {
     this.hrService.GetPassportIssuePlaces().subscribe(data => {
       this.PassportIssueList = data;
     });
   }
 
-  GetSponsorData() {
+  getSponsorData() {
     this.hrService.GetSponsorData().subscribe(data => {
       this.SponsorList = data;
     });
   }
 
-  GetIqamaJobData() {
+  getIqamaJobData() {
     this.hrService.GetIqamaJobData().subscribe(data => {
       this.IqamaJobList = data;
     });
   }
 
-  GetNationalityData() {
+  getNationalityData() {
     this.hrService.GetNationalityData().subscribe(data => {
       this.NationalityList = data;
     });
   }
 
-  GetJobData() {
+  getJobData() {
     this.hrService.GetJobData().subscribe(data => {
       this.JobList = data;
     });
   }
 
-  GetBranchData() {
+  getBranchData() {
     this.hrService.GetBranchData().subscribe(data => {
       this.BranchList = data;
     });
   }
 
-  GetBankData() {
+  getBankData() {
     this.hrService.GetBankData().subscribe(data => {
       this.BankList = data;
     });
@@ -134,7 +134,7 @@ export class HrEmployeeDetailsComponent implements OnInit {
     }
   }
 
-  SaveEmployeeDate() {
+  saveEmployeeDate() {
     console.log(this.SaveEmployeeModel);
 
     // this.hrService.AddNewEmployee(this.SaveEmployeeModel).subscribe(data => {

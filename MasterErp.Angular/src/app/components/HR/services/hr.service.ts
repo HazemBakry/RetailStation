@@ -14,12 +14,12 @@ export class HrService {
 
   //================================== Employees ===============================
 
-  GetAllEmployees() {
-    return this.http.get<any>(this.URL + 'Employee/GetAllEmployees');
+  GetAllEmployees(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'Employee/GetAllEmployees', model);
   }
 
-  GetEmployeesData(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'Employee/GetEmployeesData', model);
+  GetActiveEmployees() {
+    return this.http.get<any>(this.URL + 'Employee/GetActiveEmployees');
   }
 
   GetEmployeesFilter(model: SearchFilterModel) {
@@ -159,8 +159,8 @@ export class HrService {
 
   //================================== OverTime ===============================
 
-  GetVacationData() {
-    return this.http.get<any>(this.URL + 'Vacation/GetVacationData');
+  GetVacationData(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'Vacation/GetVacationData', model);
   }
 
   AddNewVacation(model: any) {

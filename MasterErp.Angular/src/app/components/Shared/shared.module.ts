@@ -35,6 +35,7 @@ import { RoleCheckerDirective } from './directives/role-checker.directive';
 import { SidebarComponent } from '../Main/sidebar/sidebar.component';
 import { HeaderComponent } from '../Main/header/header.component';
 import { RouterModule } from '@angular/router';
+import { DropDownFormControlComponent } from './components/drop-down-form-control/drop-down-form-control.component';
 
 @NgModule({
   declarations: [
@@ -65,11 +66,8 @@ import { RouterModule } from '@angular/router';
     CustomFormDropdownComponent,
     ErpHomeComponent,
     NotAuthorizedComponent,
-
-
-
+    DropDownFormControlComponent,
     RoleCheckerDirective
-
   ],
 
 
@@ -117,11 +115,8 @@ import { RouterModule } from '@angular/router';
     CustomFormDropdownComponent,
     ErpHomeComponent,
     NotAuthorizedComponent,
-
-
-
+    DropDownFormControlComponent,
     RoleCheckerDirective
-
   ],
   providers: [
     DatePipe,

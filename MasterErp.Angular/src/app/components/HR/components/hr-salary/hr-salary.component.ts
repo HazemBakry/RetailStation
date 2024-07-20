@@ -17,7 +17,7 @@ export class HrSalaryComponent implements OnInit {
 
   ngOnInit(): void {
     this.FormInit();
-    this.GetAllEmployeeSalary();
+    this.getAllEmployeeSalary();
   }
 
   FormInit() {
@@ -35,7 +35,7 @@ export class HrSalaryComponent implements OnInit {
     });
   }
 
-  FillEditForm(item: any) {
+  fillEditForm(item: any) {
     let Item = item.salary;
     this.form.setValue({
       employeeSalaryId: Item.employeeSalaryId,
@@ -53,20 +53,20 @@ export class HrSalaryComponent implements OnInit {
 
   openEditModal(content: any, item: any) {
     this.form.reset();
-    this.FillEditForm(item);
+    this.fillEditForm(item);
     this.modalService.open(content, { centered: true, size: 'lg' });
   }
 
-  GetAllEmployeeSalary() {
+  getAllEmployeeSalary() {
     this.hrService.GetAllEmployeeSalary().subscribe(data => {
       this.EmployeeSalaryData = data;
       console.log(this.EmployeeSalaryData);
     });
   }
 
-  EditEmployeeSalary() {
+  editEmployeeSalary() {
     this.hrService.EditEmployeeSalary(this.form.value).subscribe(data => {
-      this.GetAllEmployeeSalary();
+      this.getAllEmployeeSalary();
       this.form.reset();
     });
   }
