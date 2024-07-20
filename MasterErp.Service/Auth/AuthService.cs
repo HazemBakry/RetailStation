@@ -210,36 +210,43 @@ namespace MasterErp.Service.Auth
         }
         public async Task<ActionsResponseModel> AssignUserRoleAsync(AddUserRoleModel model)
         {
-            var User = await _userManager.FindByIdAsync(model.UserId);
+            var user = await _userManager.FindByIdAsync(model.UserId);
 
-            if (User == null)
+            if (user == null)
+            {
                 return new ActionsResponseModel { Message = "Invalid User Id", IsSuccess = false };
-            var UserRoles = await _userManager.GetRolesAsync(User);
-            bool isSuccess = true;
-            foreach (var role in UserRoles)
-            {
-                if (!model.Roles.Any(x => x.RoleName == role))
-                    await _userManager.RemoveFromRoleAsync(User, role);
-            }
-            foreach (var role in model.Roles)
-            {
-                if (!await _roleManager.RoleExistsAsync(role.RoleName))
-                        return new ActionsResponseModel { Message = "Invalid Role", IsSuccess = false };
-
-
-                if (await _userManager.IsInRoleAsync(User, role.RoleName))
-                    continue;
-                
-
-                var result= await _userManager.AddToRoleAsync(User, role.RoleName);
-
-                isSuccess = isSuccess&& result.Succeeded;
             }
 
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var rolesToAdd = model.Roles.Select(r => r.RoleName).Except(userRoles);
+            var rolesToRemove = userRoles.Except(model.Roles.Select(r => r.RoleName));
 
-            return isSuccess ? new ActionsResponseModel { Message = "assigned successfully" }
-                                    : new ActionsResponseModel { Message = "can't assignd", IsSuccess = false };
+            // Remove roles that are no longer assigned
+            foreach (var role in rolesToRemove)
+            {
+                var removeResult = await _userManager.RemoveFromRoleAsync(user, role);
+                if (!removeResult.Succeeded)
+                {
+                    return new ActionsResponseModel { Message = "Failed to remove roles", IsSuccess = false };
+                }
+            }
 
+            // Add new roles
+            foreach (var role in rolesToAdd)
+            {
+                if (!await _roleManager.RoleExistsAsync(role))
+                {
+                    return new ActionsResponseModel { Message = $"Invalid Role: {role}", IsSuccess = false };
+                }
+
+                var addResult = await _userManager.AddToRoleAsync(user, role);
+                if (!addResult.Succeeded)
+                {
+                    return new ActionsResponseModel { Message = "Failed to add roles", IsSuccess = false };
+                }
+            }
+
+            return new ActionsResponseModel { Message = "Roles assigned successfully", IsSuccess = true };
         }
         public async Task<ActionsResponseModel> AddRoleAsync(string roleName)
         {
