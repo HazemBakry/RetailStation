@@ -26,10 +26,10 @@ namespace MasterErp.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetActiveEmployees")]
-        public ActionResult<List<SelectorDataModel>> GetActiveEmployees()
+        [Route("GetActiveEmployeesSelector")]
+        public ActionResult<List<SelectorDataModel>> GetActiveEmployeesSelector()
         {
-            var result =  _employeeService.GetActiveEmployees();
+            var result =  _employeeService.GetActiveEmployeesSelector();
             return Ok(result);
         }
 

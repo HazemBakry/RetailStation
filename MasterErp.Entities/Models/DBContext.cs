@@ -60,6 +60,7 @@ namespace MasterErp.Entities.Models
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<Vacation> Vacations { get; set; }
+        public DbSet<VacationType> VacationTypes { get; set; }
 
 
         //Elassal

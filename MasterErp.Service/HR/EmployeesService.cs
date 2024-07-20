@@ -51,7 +51,7 @@ namespace MasterErp.Service.HR
             return result;
         }
 
-        public List<SelectorDataModel> GetActiveEmployees()
+        public List<SelectorDataModel> GetActiveEmployeesSelector()
         {
             SqlParameter[] Params = new SqlParameter[0];
             

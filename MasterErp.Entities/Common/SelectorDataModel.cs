@@ -9,6 +9,7 @@ namespace MasterErp.Entities.Common
     public class SelectorDataModel
     {
         public int Id { get; set; }
+        public int Value => Id;
         public string Name { get; set; }
     }
 }

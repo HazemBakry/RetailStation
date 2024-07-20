@@ -8,7 +8,7 @@
                 placeholder="Search..." />
         </div>
         <ng-container *ngFor="let item of data | searchArry: searchText: 'name'" >
-            <a class="dropdown-item" [class]="item.value==selectedValue?'active DropDownSelected':''"
+            <a class="dropdown-item cursor-pointer" [class]="item.value==selectedValue?'active DropDownSelected':''"
                                     (click)="selectOption(item)">{{item.name}}</a>
         </ng-container>
     </div>

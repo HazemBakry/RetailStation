@@ -3,6 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { SaveEmployeeModel } from 'src/app/components/HR/models/SaveEmployeeModel';
 import { SearchFilterModel } from '../../Shared/models/FilterModel';
+import { FormDropdownModel } from '../../Shared/components/drop-down-form-control/drop-down-form-control.component';
+import { EmployeeVacationModel } from '../models/EmployeeVacationModel';
+import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
+import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsModel';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +22,8 @@ export class HrService {
     return this.http.post<any>(this.URL + 'Employee/GetAllEmployees', model);
   }
 
-  GetActiveEmployees() {
-    return this.http.get<any>(this.URL + 'Employee/GetActiveEmployees');
+  GetActiveEmployeesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Employee/GetActiveEmployeesSelector');
   }
 
   GetEmployeesFilter(model: SearchFilterModel) {
@@ -162,19 +166,25 @@ export class HrService {
   GetVacationData(model: SearchFilterModel) {
     return this.http.post<any>(this.URL + 'Vacation/GetVacationData', model);
   }
-
-  AddNewVacation(model: any) {
-    return this.http.post<any>(this.URL + 'Vacation/AddNewVacation', model);
+  GetVacationsByEmployeeId(employeeId,model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<EmployeeVacationModel[]>>(this.URL + 'Vacation/GetVacationsByEmployeeId?EmployeeId='+employeeId, model);
   }
-
+  AddNewEmployeeVacation(employeeId:number,model: EmployeeVacationModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Vacation/AddNewEmployeeVacation?EmployeeId='+employeeId, model);
+  }
+  EditEmployeeVacation(employeeId:number,model: EmployeeVacationModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Vacation/EditEmployeeVacation?EmployeeId='+employeeId, model);
+  }
   EditVacation(model: any) {
     return this.http.post<any>(this.URL + 'Vacation/EditVacation', model);
   }
 
   DeleteVacation(VacationId: number) {
-    return this.http.get<any>(this.URL + 'Vacation/DeleteVacation?VacationId=' + VacationId);
+    return this.http.get<ActionsResponseModel>(this.URL + 'Vacation/DeleteVacation?VacationId=' + VacationId);
   }
-
+  GetVacationTypesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Vacation/GetVacationTypesSelector');
+  }
   ChangePassword(model: any) {
     return this.http.post<any>(this.URL + 'User/ChangePassowrd', model);
   }

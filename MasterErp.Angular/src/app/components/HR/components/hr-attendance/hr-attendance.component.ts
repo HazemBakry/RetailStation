@@ -63,7 +63,7 @@ export class HrAttendanceComponent implements OnInit {
   }
 
   getActiveEmployees() {
-    this.hrService.GetActiveEmployees().subscribe(data => {
+    this.hrService.GetActiveEmployeesSelector().subscribe(data => {
       this.EmployeeData = data;
       console.log(this.EmployeeData);
     });

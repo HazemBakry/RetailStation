@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.Auth;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.HR;
@@ -25,30 +26,60 @@ namespace MasterErp.API.Controllers.HR
 
         [HttpGet]
         [Route("GetVacationData")]
-        public List<EmployeeVacation> GetVacationData(SearchFilterModel model)
+        public List<EmployeeVacationDto> GetVacationData(SearchFilterModel model)
         {
             return _vacationService.GetEmployeeVacations(model);
         }
 
         [HttpPost]
-        [Route("AddNewVacation")]
-        public bool AddNewVacation(Vacation model)
+        [Route("GetVacationsByEmployeeId")]
+        public IActionResult GetVacationsByEmployeeId(int EmployeeId,SearchFilterModel Model)
         {
-            return _vacationService.AddNewVacation(model);
+            var data= _vacationService.GetVacationsByEmployeeId(EmployeeId,Model);
+            var result = new PagedResponseModel<EmployeeVacationDto>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize=Model.PageSize,
+                CurrentPage=Model.CurrentPage
+
+            };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("AddNewEmployeeVacation")]
+        public IActionResult AddNewEmployeeVacation(int EmployeeId, EmployeeVacationDto model)
+        {
+            var result = _vacationService.AddNewEmployeeVacation(EmployeeId,model);
+            return Ok(result);
         }
 
         [HttpPost]
-        [Route("EditVacation")]
-        public bool EditVacation(Vacation model)
+        [Route("EditEmployeeVacation")]
+        public IActionResult EditVacation(int EmployeeId,EmployeeVacationDto model)
         {
-            return _vacationService.EditVacation(model);
+            var result = _vacationService.EditVacation(EmployeeId,model);
+
+            return Ok(result);
         }
 
         [HttpGet]
-        [Route("DeleteVacation")]
-        public bool DeleteVacation(int VacationId)
+        [Route("GetVacationTypesSelector")]
+        public IActionResult GetVacationTypesSelector()
         {
-            return _vacationService.DeleteVacation(VacationId);
+            var result= _vacationService.GetVacationTypesSelector();
+            return Ok(result);
         }
+        [HttpGet]
+        [Route("DeleteVacation")]
+        public IActionResult DeleteVacation(int VacationId)
+        {
+            var result= _vacationService.DeleteVacation(VacationId);
+            return Ok(result);
+        }
+        
+
+
+        
     }
 }

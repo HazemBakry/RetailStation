@@ -57,7 +57,7 @@ export class HrOverTimeComponent implements OnInit {
   }
 
   getAllEmployees() {
-    this.hrService.GetActiveEmployees().subscribe(data => {
+    this.hrService.GetActiveEmployeesSelector().subscribe(data => {
       this.EmployeeData = data;
     });
   }
