@@ -182,7 +182,7 @@
         </div>
         <div class="main-card-body px-2 py-3 bg-light">
             <div class="d-flex align-items-center">
-                <button class="btn btn-primary me-2" (click)="saveUserRole()">
+                <button [disabled]="showLoader" class="btn btn-primary me-2" (click)="saveUserRole()">
                     <i class="fas fa-check-circle"></i>
                     <span class="ms-2">Save</span>
                 </button>

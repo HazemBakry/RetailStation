@@ -70,6 +70,7 @@ export class SystemUsersComponent implements OnInit {
     password: '',
     
   };
+  showLoader: boolean=false;
   constructor(private modalService: NgbModal, private toaster: ToastrService,
     private settingsService: SystemSettingsService, private form: FormBuilder, private _FormService: FormService,
     private sharedService: SharedService,private authService: AuthService) { }
@@ -308,6 +309,9 @@ export class SystemUsersComponent implements OnInit {
     let model:AddUserRoleModel={} as AddUserRoleModel;
     model.userId=this.userModel.userId;
     model.roles=roles;
+
+
+    this.showLoader=true;
     this.settingsService.assignUserRole(model).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success('Assign New Role Successfully');
@@ -316,39 +320,15 @@ export class SystemUsersComponent implements OnInit {
       } else {
         this.toaster.error(data.message);
       }
-    });
+      this.showLoader=false;
+    },(err)=>{
+      this.showLoader=false;
+    },()=>{
+      this.showLoader=false;
+    })
   }
 
 
-
-
-  // openManagePermissions(content: any, userId: any) {
-  //   this.UserId = userId;
-  //   this.settingsService.GetUserRolesByID(this.UserId).subscribe(data => {
-  //     let userRoles: any[] = data;
-  //     userRoles.forEach(item => {
-  //       let role = this.UsersRoles.find(i => i.name == item);
-  //       if (role)
-  //         role.checked = true;
-  //     });
-  //     this.modalService.open(content, { size: 'lg', centered: true });
-  //   });
-  // }
-
-  // SaveUserRole() {
-  //   let roleIds = this.UsersRoles.filter(a => a.checked).map(c => c.id);
-  //   this.settingsService.ManagePermissions(this.UserId, roleIds).subscribe(data => {
-  //     if (data) {
-  //       this.toaster.success('Assign New Role Successfully');
-  //     } else {
-  //       this.toaster.error('Error Happened!');
-  //     }
-  //   });
-  // }
-
-  // CheckInputKey(key: any): boolean {
-  //   return this.validationService.NumbersOnly(key);
-  // }
 
   ShowUserCardData(item: any) {
     this.selectedUser = item;
