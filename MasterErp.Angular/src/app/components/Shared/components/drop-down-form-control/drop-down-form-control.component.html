@@ -1,0 +1,95 @@
+<div ngbDropdown class="dropdown-as-input">
+    <button type="button" [disabled]="disabled" id="dropdownBasic1" ngbDropdownToggle>
+        <span>{{selectedItem ?selectedItem?.substring(0, 15):placeholder}}<sup>*</sup></span>
+    </button>
+    <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-h large-scroll w-100">
+        <div *ngIf="showSearch"  class="p-2 bg-light border-bottom">
+            <input type="text" class="form-control form-control-sm" (input)="onInputChange($event)" 
+                placeholder="Search..." />
+        </div>
+        <ng-container *ngFor="let item of data | searchArry: searchText: 'name'" >
+            <a class="dropdown-item" [class]="item.value==selectedValue?'active DropDownSelected':''"
+                                    (click)="selectOption(item)">{{item.name}}</a>
+        </ng-container>
+    </div>
+</div>
+
+
+
+
+<!-- <div *ngIf="!selectMulti" class="autocomplete-wrapper dropdown-autocomplete" [class]="style" >
+    <div ngbDropdown #dropdownList="ngbDropdown" class="dropdown"  >
+        <div class="search-autocompelte-box">
+            
+            <button 
+                    ngbDropdownToggle
+                    class="form-control" 
+                    [disabled]="disabled"
+                    id="dropdownTicketStatus">
+                    {{selectedItem ?selectedItem?.substring(0, 15):placeholder}}
+            </button>
+            <i class="fas fa-times-circle search-remover cursor-pointer"
+                *ngIf="selectedItem&&selectedItem !== '' && !disabled"
+                
+                (click)="selectedItem = '';selectedValue='';onChange(null); dropdownList.open();">
+            </i>
+        </div>
+        <div ngbDropdownMenu  class="w-100 small-scroll overflow-auto max-height-175">
+            <div *ngIf="showSearch" class="p-05">
+                
+                <input type="text" class="form-control form-control-sm"
+                placeholder="Search .."  
+                (input)="onInputChange($event)"  />
+            </div>    
+
+
+            <a *ngFor="let item of data | searchArr: searchText: 'name'" 
+                class="black pl-1 selected z2tableA-singline " 
+                ngbDropdownItem 
+                [class]="item.value==selectedValue?'active':''"
+                (click)="selectOption(item)">{{item.name}}</a>
+        </div>
+    </div>
+</div>
+
+
+
+<div *ngIf="selectMulti" class="autocomplete-wrapper dropdown-autocomplete" [class]="style" >
+    <div ngbDropdown #dropdownList="ngbDropdown"  >
+        <div   class="search-autocompelte-box">
+            <button 
+                    ngbDropdownToggle
+                    class="form-control" 
+                    [disabled]="disabled"
+
+                    id="dropdownTicketStatus">
+                <span *ngIf="selectedItems.length === 0">{{placeholder}}</span>
+                <span *ngIf="selectedItems.length > 0">{{selectedItems?.slice(0,2).join(', ')}}</span>
+                <span *ngIf="selectedItems.length > 2"> , ...</span>
+            </button>
+            <i class="fas fa-times-circle search-remover cursor-pointer"
+                *ngIf="selectedItems&&selectedItems?.length>0 && !disabled"
+                (click)="removeSelected(); dropdownList.open();">
+            </i>
+        </div>
+        <div ngbDropdownMenu  class="w-100 small-scroll overflow-auto max-height-175">
+            <div *ngIf="showSearch" class="p-05">
+                <input type="text" class="form-control form-control-sm"
+                placeholder="Search .."  
+                (input)="onInputChange($event)"  />
+            </div> 
+            
+
+            <div  *ngFor="let item of data | searchArr: searchText: 'name'"
+                class="custom-control custom-checkbox FilteritemRow cursor-pointer">
+               
+                <input [checked]="item.isSelected" type="checkbox" (change)="selectMultiOption(item)">
+
+                <span (click)="selectMultiOption(item)"  class="black pl-1 w-100 cursor-pointer" >
+                    {{item.name}}
+                </span>
+            </div>
+           
+        </div>
+    </div>
+</div> -->

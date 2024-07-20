@@ -30,10 +30,10 @@ namespace MasterErp.API.Controllers
         public ActionResult<List<SelectorDataModel>> GetActiveEmployees()
         {
             var result =  _employeeService.GetActiveEmployees();
-            return Ok(Response);
+            return Ok(result);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetAllEmployees")]
         public ActionResult<PagedResponseModel<EmployeeBasicInfo>> GetAllEmployees(SearchFilterModel model)
         {

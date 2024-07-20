@@ -15,6 +15,8 @@ export class HrVacationComponent implements OnInit {
   EmployeeData: any[] = [];
   form: FormGroup;
   VacationId: number;
+  CategorySearch: any;
+  CategoryName = 'قائمة الموظفين';
   SearchFilterModel: SearchFilterModel = {
     currentPage: 1,
     pageSize: 25,
