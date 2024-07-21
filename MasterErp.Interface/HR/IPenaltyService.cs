@@ -1,4 +1,6 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.HR;
+using MasterErp.Entities.Models.HR;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,9 +12,11 @@ namespace MasterErp.Interface.HR
 {
     public interface IPenaltyService
     {
-        DataTable GetPenaltyData();
-        bool AddNewPenalty(Penalty model);
-        bool EditPenalty(Penalty model);
-        bool DeletePenalty(int PenaltyId);
+        List< EmployeePenaltyDto> GetAllEmployeePenaltiesData(SearchFilterModel SearchModel);
+        List< EmployeePenaltyDto> GetPenaltiesByEmployeeId(int EmployeeId, SearchFilterModel SearchModel);
+        ActionsResponseModel AddNewEmployeePenalty(int EmployeeId,  EmployeePenaltyDto Model);
+        ActionsResponseModel EditEmployeePenalty(int EmployeeId,  EmployeePenaltyDto Model);
+        ActionsResponseModel DeleteEmployeePenalty(int PenaltyId);
+        List<SelectorDataModel> GetPenaltyTypesSelector();
     }
 }

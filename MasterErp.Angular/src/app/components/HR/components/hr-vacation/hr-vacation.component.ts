@@ -240,25 +240,19 @@ export class HrVacationComponent implements OnInit {
   }
 
   filterChecked(filterItems: FilterItem[]) {
-    this.SearchFilterModel.filterModel.filterItems = filterItems;
-    this.getVacationData();
+    this.employeeVacationResponse.filterList = filterItems;
+    this.getVacationsByEmployeeId();
  }
 
  pageChanged(obj: any) {
-   this.SearchFilterModel.currentPage = obj.page;
-   this.getVacationData();
+   this.employeeVacationResponse.currentPage = obj.page;
+   this.getVacationsByEmployeeId();
  }
-
-  getVacationData() {
-    this.hrService.GetVacationData(this.SearchFilterModel).subscribe(data => {
-      this.VacationData = data;
-    });
-  }
 
 
   deleteVacation() {
     this.showAddLoader=true;
-    this.hrService.DeleteVacation(this.selectedVacationId).subscribe(data => {
+    this.hrService.DeleteEmployeeVacation(this.selectedVacationId).subscribe(data => {
 
       if(data?.isSuccess) {
         this.modalService?.dismissAll();

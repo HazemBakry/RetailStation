@@ -2,6 +2,7 @@
 using MasterErp.Entities.DTOs.Auth;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.HR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,10 +26,19 @@ namespace MasterErp.API.Controllers.HR
         }
 
         [HttpGet]
-        [Route("GetVacationData")]
-        public List<EmployeeVacationDto> GetVacationData(SearchFilterModel model)
+        [Route("GetAllEmployeeVacationsData")]
+        public IActionResult GetAllEmployeeVacationsData(SearchFilterModel Model)
         {
-            return _vacationService.GetEmployeeVacations(model);
+            var data = _vacationService.GetAllEmployeeVacationsData(Model);
+            var result = new PagedResponseModel<EmployeeVacationDto>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = Model.PageSize,
+                CurrentPage = Model.CurrentPage
+
+            };
+            return Ok(result);
         }
 
         [HttpPost]

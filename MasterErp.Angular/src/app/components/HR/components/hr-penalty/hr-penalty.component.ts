@@ -1,8 +1,16 @@
+
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DatePipe } from '@angular/common';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { HrService } from '../../services/hr.service';
+import { DatePipe } from '@angular/common';
+import { FilterItem} from 'src/app/components/Shared/models/FilterModel';
+import { ToastrService } from 'ngx-toastr';
+import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
+import { EmployeePenaltyModel } from '../../models/EmployeePenaltyModel';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { FormService } from 'src/app/components/Shared/services/form.service';
+import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
 
 @Component({
   selector: 'app-hr-penalty',
@@ -10,88 +18,242 @@ import { HrService } from '../../services/hr.service';
   styleUrls: ['./hr-penalty.component.css']
 })
 export class HrPenaltyComponent implements OnInit {
-  PenaltyData: any[] = [];
-  EmployeeData: any[] = [];
-  form: FormGroup;
-  PenaltyId: number;
-  constructor(private modalService: NgbModal, private hrService: HrService, private fb: FormBuilder,
-    private datepipe: DatePipe) { }
+  VacationData: any[] = [];
+ 
+  employeeSelectorData: FormDropdownModel[] = [];
+  penaltyTypeSelectorData: FormDropdownModel[]=[];
+
+  selectedPenaltyId: number;
+  
+  employeePenaltyModel: EmployeePenaltyModel ={} as EmployeePenaltyModel;
+  employeePenaltyResponse:PagedResponseDTO<EmployeePenaltyModel[]>={
+    results:[],
+    filterList:[],
+    pageSize: 25,
+    currentPage:1,
+    searchText:''
+
+  };
+  showLoader: boolean=false;
+  showAddLoader: boolean=false;
+
+  public formGroup: FormGroup;
+  public formErrors = {
+    penaltyId: '',
+    employeeId: '',
+    penaltyTypeId: '',
+    executionDate: '',
+    deductionByDays: '',
+    moneyAmount: '',
+    deductionAmount: '',
+    reason: ''
+
+  };
+  selectedEmployeeId:number=null;
+  constructor(private modalService: NgbModal, private hrService: HrService, private form: FormBuilder, private _FormService: FormService,
+    private datePipe: DatePipe,private toaster:ToastrService,private offcanvasService: NgbOffcanvas,) { }
 
   ngOnInit(): void {
-    this.formInit();
-    this.getPenaltyData();
-    this.getAllEmployees();
+    this.getActiveEmployeesSelector();
+  }
+  getPenaltiesByEmployeeId()
+  {
+    if(!this.checkEmployee())
+      return;
+    
+
+    this.showLoader=true;
+    this.hrService.GetPenaltiesByEmployeeId(this.selectedEmployeeId,this.employeePenaltyResponse).subscribe(data => {
+      this.employeePenaltyResponse.results = data.results;
+      this.employeePenaltyResponse.totalCount = data.totalCount;
+
+      this.showLoader=false;
+    }, err=>{
+      this.showLoader=false;
+    },()=>{
+      this.showLoader=false;
+    });
+
+    
   }
 
-  formInit() {
-    this.form = this.fb.group({
-      penaltyID: null,
-      employeeID: 0,
-      penaltyDate: null,
-      executionDate: null,
-      moneyAmount: null,
-      deductionByDays: null,
-      deductionAmount: null,
-      reason: null,
+  checkEmployee()
+  {
+
+    if(!this.selectedEmployeeId)
+    {
+      this.toaster.warning('من فضلك اختر من قائمة الموظفين','تحذير');
+      return false;
+    }
+    return true;
+  }
+  openNewPenaltySidePanel(content: any,penaltyModel:EmployeePenaltyModel=null) {
+    if(!this.checkEmployee())
+      return;
+    this.buildForm();
+    if(penaltyModel)
+      this.fillEditForm(penaltyModel);
+
+    this.formGroup.patchValue({employeeId:this.selectedEmployeeId});
+    this.getPenaltyTypesSelector();
+    this.offcanvasService.open(content, { panelClass: 'add-new-panel', position: 'end' });
+  }
+  buildForm() {
+    
+    this.formGroup = this.form.group({
+      penaltyId: [null],
+      employeeId: [null],
+      penaltyTypeId: [null, [Validators.required]],
+      executionDate: [null, [Validators.required]],
+      deductionByDays: [null, [Validators.required]],
+      deductionAmount: [null, [Validators.required]],
+      moneyAmount: [null, [Validators.required]],
+      reason: [null, [Validators.required]],
+
+    },{
+      validators: [CustomValidators.endDateGreaterThanStartDate('lastDayWork', 'fromDate'),
+        CustomValidators.endDateGreaterThanStartDate('fromDate', 'toDate')],
+    });
+    this.formGroup.valueChanges.subscribe((data) => {
+      this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
+
+    });
+
+  }
+
+  saveEmployeePenalty() {
+    if (!this.validateForm()) {
+      return;
+    }
+
+    
+
+    this.employeePenaltyModel = this.formGroup.value;
+
+    if(this.employeePenaltyModel?.penaltyId)
+      this.editEmployeePenalty();
+    else
+      this.addNewEmployeePenalty();
+  }
+
+  addNewEmployeePenalty()
+  {
+
+    this.showAddLoader=true;
+    this.hrService.AddNewEmployeePenalty(this.selectedEmployeeId,this.employeePenaltyModel).subscribe(data => {
+      if(data?.isSuccess) {
+        this.formGroup?.reset();
+        this.offcanvasService?.dismiss();
+        this.getPenaltiesByEmployeeId();
+        this.toaster.success(data?.message);
+      }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showAddLoader=false;
+    }, err=>{
+      this.showAddLoader=false;
+    },()=>{
+      this.showAddLoader=false;
+    });
+
+    
+
+  }
+
+  editEmployeePenalty()
+  {
+
+    this.showAddLoader=true;
+    this.hrService.EditEmployeePenalty(this.selectedEmployeeId,this.employeePenaltyModel).subscribe(data => {
+
+      if(data?.isSuccess) {
+        this.formGroup?.reset();
+        this.offcanvasService?.dismiss();
+        this.getPenaltiesByEmployeeId();
+        this.toaster.success(data?.message);
+      }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showAddLoader=false;
+    }, err=>{
+      this.showAddLoader=false;
+    },()=>{
+      this.showAddLoader=false;
+    });
+
+    
+  }
+  getPenaltyTypesSelector(){
+    this.hrService.GetPenaltyTypesSelector().subscribe((data :FormDropdownModel[])=> {
+      this.penaltyTypeSelectorData = data;
+    });
+  }
+  validateForm(): boolean {
+    this._FormService.markFormGroupTouched(this.formGroup);
+    if (this.formGroup.valid) {
+      return true;
+    } else {
+      this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, false)
+      return false;
+    }
+  }
+
+
+  fillEditForm(penaltyModel:EmployeePenaltyModel) {
+    this.formGroup.patchValue({
+      penaltyId: penaltyModel.penaltyId,
+      employeeId: this.selectedEmployeeId,
+      penaltyTypeId: penaltyModel.penaltyTypeId,
+      executionDate: this.datePipe.transform(penaltyModel.executionDate, 'yyyy-MM-dd'),
+      deductionByDays: penaltyModel.deductionByDays,
+      moneyAmount: penaltyModel.moneyAmount,
+      deductionAmount: penaltyModel.deductionAmount,
+      reason: penaltyModel.reason
     });
   }
 
-  fillEditForm(item: any) {
-    this.form.setValue({
-      penaltyID: item.penaltyId,
-      employeeID: item.employeeId,
-      penaltyDate: this.datepipe.transform(item.penaltyDate, 'yyyy-MM-dd'),
-      executionDate: this.datepipe.transform(item.executionDate, 'yyyy-MM-dd'),
-      moneyAmount: item.moneyAmount,
-      deductionByDays: item.deductionByDays,
-      deductionAmount: item.deductionAmount,
-      reason:item.reason
-    });
-  }
 
-  openEditModal(content: any, item: any) {
-    this.form.reset();
-    this.fillEditForm(item);
-    this.modalService.open(content, { centered: true, size: 'lg' });
-  }
-
-  openDeleteModal(content: any, penaltyId: number) {
-    this.PenaltyId = penaltyId;
+  openDeleteModal(content: any, penaltyDateId: number) {
+    this.selectedPenaltyId = penaltyDateId;
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
-  getAllEmployees() {
-    this.hrService.GetActiveEmployeesSelector().subscribe(data => {
-      this.EmployeeData = data;
+  getActiveEmployeesSelector() {
+    this.hrService.GetActiveEmployeesSelector().subscribe((data :FormDropdownModel[])=> {
+      this.employeeSelectorData = data;
     });
   }
 
-  getPenaltyData() {
-    this.hrService.GetPenaltyData().subscribe(data => {
-      this.PenaltyData = data;
-    });
-  }
+  filterChecked(filterItems: FilterItem[]) {
+    this.employeePenaltyResponse.filterList = filterItems;
+    this.getPenaltiesByEmployeeId();
+ }
 
-  addNewPenalty() {
-    this.form.patchValue({ penaltyID: 0 });
-    this.hrService.AddNewPenalty(this.form.value).subscribe(data => {
-      this.getPenaltyData();
-      this.form.reset();
-      this.form.patchValue({ employeeID: 0 });
-    });
-  }
+ pageChanged(obj: any) {
+   this.employeePenaltyResponse.currentPage = obj.page;
+   this.getPenaltiesByEmployeeId();
+ }
 
-  editPenalty() {
-    this.hrService.EditPenalty(this.form.value).subscribe(data => {
-      this.getPenaltyData();
-      this.form.reset();
-      this.form.patchValue({ employeeID: 0 });
-    });
-  }
 
-  deletePenalty() {
-    this.hrService.DeletePenalty(this.PenaltyId).subscribe(data => {
-      this.getPenaltyData();
+  deleteEmployeePenalty() {
+    this.showAddLoader=true;
+    this.hrService.DeleteEmployeePenalty(this.selectedPenaltyId).subscribe(data => {
+
+      if(data?.isSuccess) {
+        this.modalService?.dismissAll();
+        this.getPenaltiesByEmployeeId();
+        this.toaster.success(data?.message);
+      }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showAddLoader=false;
+    }, err=>{
+      this.showAddLoader=false;
+    },()=>{
+      this.showAddLoader=false;
     });
   }
 }

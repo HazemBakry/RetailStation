@@ -14,6 +14,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MasterErp.Entities.Models.HR;
 
 namespace MasterErp.Service.HR
 {

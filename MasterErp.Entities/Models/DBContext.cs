@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MasterErp.Entities.Models.HR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -45,8 +46,9 @@ namespace MasterErp.Entities.Models
         public DbSet<JournalTemplate> JournalTemplate { get; set; }
         public DbSet<JournalTemplateDetails> JournalTemplateDetails { get; set; }
         public DbSet<Nationality> Nationalities { get; set; }
-        public DbSet<OverTime> OverTimes { get; set; }
+        public DbSet<OverTime> OverTime { get; set; }
         public DbSet<Penalty> Penalties { get; set; }
+        public DbSet<PenaltyType> PenaltyTypes { get; set; }
         public DbSet<FinancialPeriod> FinancialPeriods { get; set; }
         public DbSet<PassportIssuePlace> PassportIssuePlaces { get; set; }
         public DbSet<PurchaseInvoice> PurchaseInvoices { get; set; }

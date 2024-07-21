@@ -1,5 +1,8 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.HR;
+using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.HR;
+using MasterErp.Service.HR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,32 +24,60 @@ namespace MasterErp.API.Controllers.HR
             _penaltyService = penaltyService;
         }
 
+    
         [HttpGet]
-        [Route("GetPenaltyData")]
-        public DataTable GetPenaltyData()
+        [Route("GetAllEmployeePenaltiesData")]
+        public List<EmployeePenaltyDto> GetAllEmployeePenaltiesData(SearchFilterModel model)
         {
-            return _penaltyService.GetPenaltyData();
+            return _penaltyService.GetAllEmployeePenaltiesData(model);
         }
 
         [HttpPost]
-        [Route("AddNewPenalty")]
-        public bool AddNewPenalty(Penalty model)
+        [Route("GetPenaltiesByEmployeeId")]
+        public IActionResult GetPenaltiesByEmployeeId(int EmployeeId, SearchFilterModel Model)
         {
-            return _penaltyService.AddNewPenalty(model);
+            var data = _penaltyService.GetPenaltiesByEmployeeId(EmployeeId, Model);
+            var result = new PagedResponseModel<EmployeePenaltyDto>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = Model.PageSize,
+                CurrentPage = Model.CurrentPage
+
+            };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("AddNewEmployeePenalty")]
+        public IActionResult AddNewEmployeePenalty(int EmployeeId, EmployeePenaltyDto model)
+        {
+            var result = _penaltyService.AddNewEmployeePenalty(EmployeeId, model);
+            return Ok(result);
         }
 
         [HttpPost]
-        [Route("EditPenalty")]
-        public bool EditPenalty(Penalty model)
+        [Route("EditEmployeePenalty")]
+        public IActionResult EditEmployeePenalty(int EmployeeId, EmployeePenaltyDto model)
         {
-            return _penaltyService.EditPenalty(model);
+            var result = _penaltyService.EditEmployeePenalty(EmployeeId, model);
+
+            return Ok(result);
         }
 
         [HttpGet]
-        [Route("DeletePenalty")]
-        public bool DeletePenalty(int PenaltyId)
+        [Route("GetPenaltyTypesSelector")]
+        public IActionResult GetPenaltyTypesSelector()
         {
-            return _penaltyService.DeletePenalty(PenaltyId);
+            var result = _penaltyService.GetPenaltyTypesSelector();
+            return Ok(result);
         }
+        [HttpGet]
+        [Route("DeleteEmployeePenalty")]
+        public IActionResult DeleteEmployeePenalty(int PenaltyId)
+        {
+            var result = _penaltyService.DeleteEmployeePenalty(PenaltyId);
+            return Ok(result);
+        }
+
     }
 }

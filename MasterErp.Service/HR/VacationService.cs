@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.HR;
 using MasterErp.Interface.Shared;
@@ -37,38 +38,40 @@ namespace MasterErp.Service.HR
         }
 
 
-        public List<EmployeeVacationDto> GetEmployeeVacations(SearchFilterModel model)
+        public List<EmployeeVacationDto> GetAllEmployeeVacationsData(SearchFilterModel SearchModel)
         {
-            DataTable dt = SharedService.MapFilterModelToDataTable(model?.FilterModel?.FilterItems);
+            var query = from vacation in Context.Vacations
+                        join emp in Context.Employees on vacation.EmployeeId equals emp.EmployeeId
+                        join vacationType in Context.VacationTypes on vacation.VacationTypeId equals vacationType.VacationTypeId
+                        join alternativeEmp in Context.Employees on vacation.AlternativeEmployeeId equals alternativeEmp.EmployeeId into jT
+                        from alternativeEmp in jT.DefaultIfEmpty()
+                        select new EmployeeVacationDto
+                        {
+                            EmployeeId = emp.EmployeeId,
+                            EmployeeName = emp.FullNameEN,
+                            VacationId = vacation.VacationId,
+                            VacationTypeId = vacation.VacationTypeId,
+                            VacationType = vacationType.NameEN,
+                            AlternativeEmployeeId = vacation.AlternativeEmployeeId,
+                            AlternativeEmployeeName = alternativeEmp.FullNameEN,
+                            IsAlternativeAvailable = vacation.IsAlternativeAvailable,
+                            FromDate = vacation.FromDate,
+                            ToDate = vacation.ToDate,
+                            LastDayWork = vacation.LastDayWork,
+                            Period = vacation.Period, //(x.ToDate - x.FromDate).Days
+                        };
+            int totalCount = query.Count();
+            if (SearchModel.CurrentPage>0 && SearchModel.PageSize >0)
+            {
+                int skip = (SearchModel.CurrentPage - 1) * SearchModel.PageSize;
+                query = query.Skip(skip).Take(SearchModel.PageSize);
+            }
 
-            SqlParameter[] Params = new SqlParameter[4];
-            Params[0] = new SqlParameter("@CurrentPage", model.CurrentPage);
-            Params[1] = new SqlParameter("@PageSize", model.PageSize);
-            Params[2] = new SqlParameter("@SearchText", model.SearchText);
-            Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            Params[3].Value = dt;
-
-            var result = SQLHelper.SQLQuery<EmployeeVacationDto>("[HR].[SP_GetEmployeeVacations]", ConnectionString, Params);
-            return result;
-
-            //var results = (from emp in Context.Employees.ToList()
-            //               join vacation in Context.Vacations.ToList() on emp.EmployeeId equals vacation.EmployeeID
-            //               select new
-            //               {
-            //                   EmployeeId = emp.EmployeeId,
-            //                   EmployeeName = emp.FullNameEN,
-            //                   VacationId = vacation.VacationID,
-            //                   AlternativeAvailable = vacation.AlternativeAvailable,
-            //                   AlternativeEmployee = vacation.AlternativeEmployee,
-            //                   FromDate = vacation.FromDate,
-            //                   ToDate = vacation.ToDate,
-            //                   LastDayWork = vacation.LastDayWork,
-            //                   Period = vacation.Period,
-            //               }).ToList().ToDataTable();
+            var results = query.ToList();
+            results.ForEach(x => x.TotalCount = totalCount);
+            return results;
         }
-        
-        
-        public List<EmployeeVacationDto> GetVacationsByEmployeeId(int employeeId, SearchFilterModel searchModel)
+        public List<EmployeeVacationDto> GetVacationsByEmployeeId(int employeeId, SearchFilterModel SearchModel)
         {
             var query = from vacation in Context.Vacations
                         join emp in Context.Employees on vacation.EmployeeId equals emp.EmployeeId
@@ -92,10 +95,10 @@ namespace MasterErp.Service.HR
                             Period = vacation.Period, //(x.ToDate - x.FromDate).Days
                         };
             int totalCount = query.Count();
-            if (searchModel.CurrentPage>0 && searchModel.PageSize >0)
+            if (SearchModel.CurrentPage>0 && SearchModel.PageSize >0)
             {
-                int skip = (searchModel.CurrentPage - 1) * searchModel.PageSize;
-                query = query.Skip(skip).Take(searchModel.PageSize);
+                int skip = (SearchModel.CurrentPage - 1) * SearchModel.PageSize;
+                query = query.Skip(skip).Take(SearchModel.PageSize);
             }
 
             var results = query.ToList();
@@ -114,8 +117,8 @@ namespace MasterErp.Service.HR
                 vacation.VacationTypeId=model.VacationTypeId;
                 vacation.Period = (model.ToDate - model.FromDate).Days;
                 vacation.Notes=model.Notes;
-                vacation.InsertDate = DateTime.Now;
-                vacation.InsertUser = string.Empty;
+                vacation.CreatedDate = DateTime.Now;
+                vacation.CreatedBy = string.Empty;
                 vacation.IsAlternativeAvailable=model.IsAlternativeAvailable;
                 if (model.IsAlternativeAvailable)
                     vacation.AlternativeEmployeeId = model.AlternativeEmployeeId;
@@ -145,8 +148,8 @@ namespace MasterErp.Service.HR
                     vacation.LastDayWork = model.LastDayWork;
                     vacation.Period = (model.ToDate - model.FromDate).Days;
                     vacation.Notes = model.Notes;
-                    vacation.UpdateDate = DateTime.Now;
-                    vacation.UpdateUser = string.Empty;
+                    vacation.ModifiedDate = DateTime.Now;
+                    vacation.ModifiedBy = string.Empty;
                     vacation.IsAlternativeAvailable = model.IsAlternativeAvailable;
                     if (model.IsAlternativeAvailable)
                         vacation.AlternativeEmployeeId = model.AlternativeEmployeeId;

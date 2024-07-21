@@ -7,6 +7,8 @@ import { FormDropdownModel } from '../../Shared/components/drop-down-form-contro
 import { EmployeeVacationModel } from '../models/EmployeeVacationModel';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsModel';
+import { EmployeePenaltyModel } from '../models/EmployeePenaltyModel';
+import { EmployeeOverTimeModel } from '../models/EmployeeOverTimeModel';
 
 @Injectable({
   providedIn: 'root'
@@ -161,10 +163,10 @@ export class HrService {
     return this.http.get<any>(this.URL + 'SickLeave/DeleteSickLeave?SickLeaveId=' + SickLeaveId);
   }
 
-  //================================== OverTime ===============================
+  //================================== Vacation ===============================
 
-  GetVacationData(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'Vacation/GetVacationData', model);
+  GetAllEmployeeVacationsData(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'Vacation/GetAllEmployeeVacationsData', model);
   }
   GetVacationsByEmployeeId(employeeId,model: PagedResponseDTO) {
     return this.http.post<PagedResponseDTO<EmployeeVacationModel[]>>(this.URL + 'Vacation/GetVacationsByEmployeeId?EmployeeId='+employeeId, model);
@@ -175,16 +177,66 @@ export class HrService {
   EditEmployeeVacation(employeeId:number,model: EmployeeVacationModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Vacation/EditEmployeeVacation?EmployeeId='+employeeId, model);
   }
-  EditVacation(model: any) {
-    return this.http.post<any>(this.URL + 'Vacation/EditVacation', model);
-  }
-
-  DeleteVacation(VacationId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'Vacation/DeleteVacation?VacationId=' + VacationId);
-  }
   GetVacationTypesSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Vacation/GetVacationTypesSelector');
   }
+
+  DeleteEmployeeVacation(VacationId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Vacation/DeleteEmployeeVacation?VacationId=' + VacationId);
+  }
+  //================================== OverTime ===============================
+  GetAllEmployeeOverTimeData(model: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<EmployeeOverTimeModel[]>>(this.URL + 'OverTime/GetAllEmployeeOverTimeData', model);
+  }
+  GetOverTimeByEmployeeId(employeeId,model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<EmployeeOverTimeModel[]>>(this.URL + 'OverTime/GetOverTimeByEmployeeId?EmployeeId='+employeeId, model);
+  }
+  AddNewEmployeeOverTime(employeeId:number,model: EmployeeOverTimeModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'OverTime/AddNewEmployeeOverTime?EmployeeId='+employeeId, model);
+  }
+  EditEmployeeOverTime(employeeId:number,model: EmployeeOverTimeModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'OverTime/EditEmployeeOverTime?EmployeeId='+employeeId, model);
+  }
+  DeleteEmployeeOverTime(overTimeId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'OverTime/DeleteEmployeeOverTime?OverTimeId=' + overTimeId);
+  }
+
+    //================================== Penalty ===============================
+
+    GetAllEmployeePenaltiesData(model: SearchFilterModel) {
+      return this.http.post<PagedResponseDTO<EmployeePenaltyModel[]>>(this.URL + 'Penalty/GetAllEmployeePenaltiesData', model);
+    }
+    GetPenaltiesByEmployeeId(employeeId,model: PagedResponseDTO) {
+      return this.http.post<PagedResponseDTO<EmployeePenaltyModel[]>>(this.URL + 'Penalty/GetPenaltiesByEmployeeId?EmployeeId='+employeeId, model);
+    }
+    AddNewEmployeePenalty(employeeId:number,model: EmployeePenaltyModel) {
+      return this.http.post<ActionsResponseModel>(this.URL + 'Penalty/AddNewEmployeePenalty?EmployeeId='+employeeId, model);
+    }
+    EditEmployeePenalty(employeeId:number,model: EmployeePenaltyModel) {
+      return this.http.post<ActionsResponseModel>(this.URL + 'Penalty/EditEmployeePenalty?EmployeeId='+employeeId, model);
+    }
+    DeleteEmployeePenalty(PenaltyId: number) {
+      return this.http.get<ActionsResponseModel>(this.URL + 'Penalty/DeleteEmployeePenalty?PenaltyId=' + PenaltyId);
+    }
+    GetPenaltyTypesSelector() {
+      return this.http.get<FormDropdownModel[]>(this.URL + 'Penalty/GetPenaltyTypesSelector');
+    }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   ChangePassword(model: any) {
     return this.http.post<any>(this.URL + 'User/ChangePassowrd', model);
   }
