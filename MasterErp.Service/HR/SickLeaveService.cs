@@ -1,4 +1,7 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.HR;
+using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.HR;
 using MasterErp.Service.Common;
 using System;
@@ -19,93 +22,153 @@ namespace MasterErp.Service.HR
             Context = context;
         }
 
-        public DataTable GetSickLeaveData()
+        public List<EmployeeSickLeaveDto> GetAllEmployeeSickLeaves(SearchFilterModel SearchModel)
         {
-            var results = (from emp in Context.Employees.ToList()
-                           join sickleave in Context.SickLeaves.ToList() on emp.EmployeeId equals sickleave.EmployeeID
-                           select new
-                           {
-                               EmployeeId = emp.EmployeeId,
-                               EmployeeName = emp.FullNameEN,
-                               SickLeaveId = sickleave.SickLeaveID,
-                               RequestDate = sickleave.RequestDate,
-                               ExecutionDate = sickleave.ExecutionDate,
-                               NoDays = sickleave.NoDays,
-                               MoneyAmount = sickleave.MoneyAmount,
-                               IsActive = sickleave.IsActive,
-                           }).ToList().ToDataTable();
-            return results;
+            var query = from sickLeave in Context.SickLeaves
+                        join emp in Context.Employees on sickLeave.EmployeeId equals emp.EmployeeId
+                        select new EmployeeSickLeaveDto
+                        {
+                            EmployeeId = sickLeave.EmployeeId,
+                            EmployeeName = emp.FullNameEN,
+                            SickLeaveId = sickLeave.SickLeaveId,
+                            RequestDate = sickLeave.RequestDate,
+                            ExecutionDate = sickLeave.ExecutionDate,
+                            NoDays = sickLeave.NoDays,
+                            MoneyAmount = sickLeave.MoneyAmount,
+                            Notes = sickLeave.Notes,
+                            IsActive = sickLeave.IsActive,
+                            CreatedBy = sickLeave.CreatedBy,
+                            CreatedDate = sickLeave.CreatedDate,
+                            ModifiedBy = sickLeave.ModifiedBy,
+                            ModifiedDate = sickLeave.ModifiedDate,
+                        };
+            int totalCount = query.Count();
+            if (SearchModel.CurrentPage > 0 && SearchModel.PageSize > 0)
+            {
+                int skip = (SearchModel.CurrentPage - 1) * SearchModel.PageSize;
+                query = query.Skip(skip).Take(SearchModel.PageSize);
+            }
 
+            var results = query.ToList();
+            results.ForEach(x => x.TotalCount = totalCount);
+            return results;
         }
 
-        public bool AddNewSickLeave(SickLeave model)
+        public List<EmployeeSickLeaveDto> GetSickLeavesByEmployeeId(int EmployeeId, SearchFilterModel SearchModel)
         {
+            var query = from sickLeave in Context.SickLeaves
+                        join emp in Context.Employees on sickLeave.EmployeeId equals emp.EmployeeId
+                        where sickLeave.EmployeeId == EmployeeId
+                        select new EmployeeSickLeaveDto
+                        {
+                            EmployeeId = sickLeave.EmployeeId,
+                            EmployeeName = emp.FullNameEN,
+                            SickLeaveId = sickLeave.SickLeaveId,
+                            RequestDate = sickLeave.RequestDate,
+                            ExecutionDate = sickLeave.ExecutionDate,
+                            NoDays = sickLeave.NoDays,
+                            MoneyAmount = sickLeave.MoneyAmount,
+                            Notes = sickLeave.Notes,
+                            IsActive = sickLeave.IsActive,
+                            CreatedBy = sickLeave.CreatedBy,
+                            CreatedDate = sickLeave.CreatedDate,
+                            ModifiedBy = sickLeave.ModifiedBy,
+                            ModifiedDate = sickLeave.ModifiedDate,
+                        };
+            int totalCount = query.Count();
+            if (SearchModel.CurrentPage > 0 && SearchModel.PageSize > 0)
+            {
+                int skip = (SearchModel.CurrentPage - 1) * SearchModel.PageSize;
+                query = query.Skip(skip).Take(SearchModel.PageSize);
+            }
+
+            var results = query.ToList();
+            results.ForEach(x => x.TotalCount = totalCount);
+            return results;
+        }
+
+        public ActionsResponseModel AddNewEmployeeSickLeave(int EmployeeId, EmployeeSickLeaveDto model)
+        {
+
             try
             {
-                Context.SickLeaves.Add(new SickLeave
-                {
-                    EmployeeID = model.EmployeeID,
-                    RequestDate = model.RequestDate,
-                    ExecutionDate = model.ExecutionDate,
-                    NoDays = model.NoDays,
-                    MoneyAmount = model.MoneyAmount,
-                    InsertDate = DateTime.Now
-                });
+                var sickLeave = new SickLeave();
 
-                Context.SaveChanges();
-                return true;
+                sickLeave.EmployeeId = model.EmployeeId;
+                sickLeave.RequestDate = DateTime.Now;
+                sickLeave.ExecutionDate = model.ExecutionDate;
+                sickLeave.NoDays = model.NoDays;
+                sickLeave.MoneyAmount = model.MoneyAmount;
+                sickLeave.Notes = model.Notes;
+                sickLeave.IsActive = model.IsActive;
+                sickLeave.CreatedBy = model.CreatedBy;
+                sickLeave.CreatedDate = DateTime.Now;
+
+
+                Context.SickLeaves.Add(sickLeave);
+                var result = Context.SaveChanges();
+
+
+                return new ActionsResponseModel { Message = "SickLeave Added Successfly !" };
             }
             catch (Exception ex)
             {
-                return false;
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
 
         }
 
-        public bool EditSickLeave(SickLeave model)
+        public ActionsResponseModel EditEmployeeSickLeave(int EmployeeId, EmployeeSickLeaveDto model)
         {
+
             try
             {
-                var SickLeave = Context.SickLeaves.FirstOrDefault(i => i.SickLeaveID == model.SickLeaveID);
-                if (SickLeave != null)
+                var sickLeave = Context.SickLeaves.FirstOrDefault(i => i.SickLeaveId == model.SickLeaveId);
+                if (sickLeave != null)
                 {
-                    SickLeave.RequestDate = model.RequestDate;
-                    SickLeave.ExecutionDate = model.ExecutionDate;
-                    SickLeave.NoDays = model.NoDays;
-                    SickLeave.MoneyAmount = model.MoneyAmount;
-                    SickLeave.UpdateDate = DateTime.Now;
+                    sickLeave.RequestDate = DateTime.Now;
+                    sickLeave.ExecutionDate = model.ExecutionDate;
+                    sickLeave.NoDays = model.NoDays;
+                    sickLeave.MoneyAmount = model.MoneyAmount;
+                    sickLeave.Notes = model.Notes;
+                    sickLeave.IsActive = model.IsActive;
+                    sickLeave.ModifiedBy = model.CreatedBy;
+                    sickLeave.ModifiedDate = DateTime.Now;
 
                     Context.SaveChanges();
-                    return true;
+
+
+                    return new ActionsResponseModel { Message = "SickLeave Updated Successfly !" };
                 }
                 else
-                    return false;
-
+                    return new ActionsResponseModel { IsSuccess = false, Message = "SickLeave not found" };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
 
         }
 
-        public bool DeleteSickLeave(int SickLeaveId)
+
+        public ActionsResponseModel DeleteEmployeeSickLeave(int SickLeaveId)
         {
+
             try
             {
-                var SickLeave = Context.SickLeaves.FirstOrDefault(i => i.SickLeaveID == SickLeaveId);
-                if (SickLeave != null)
+                var sickLeave = Context.SickLeaves.FirstOrDefault(i => i.SickLeaveId == SickLeaveId);
+                if (sickLeave != null)
                 {
-                    Context.Remove(SickLeave);
+                    Context.Remove(sickLeave);
                     Context.SaveChanges();
-                    return true;
+                    return new ActionsResponseModel { Message = "SickLeave deleted successfly !" };
                 }
                 else
-                    return false;
+                    return new ActionsResponseModel { IsSuccess = false, Message = "SickLeave not found" }; ;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
 
         }

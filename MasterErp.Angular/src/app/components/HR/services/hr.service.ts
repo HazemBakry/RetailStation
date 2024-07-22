@@ -9,6 +9,7 @@ import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsModel';
 import { EmployeePenaltyModel } from '../models/EmployeePenaltyModel';
 import { EmployeeOverTimeModel } from '../models/EmployeeOverTimeModel';
+import { EmployeeSickLeaveModel } from '../models/EmployeeSickLeaveModel';
 
 @Injectable({
   providedIn: 'root'
@@ -185,21 +186,21 @@ export class HrService {
     return this.http.get<ActionsResponseModel>(this.URL + 'Vacation/DeleteEmployeeVacation?VacationId=' + VacationId);
   }
   //================================== OverTime ===============================
-  GetAllEmployeeOverTimeData(model: SearchFilterModel) {
-    return this.http.post<PagedResponseDTO<EmployeeOverTimeModel[]>>(this.URL + 'OverTime/GetAllEmployeeOverTimeData', model);
-  }
-  GetOverTimeByEmployeeId(employeeId,model: PagedResponseDTO) {
-    return this.http.post<PagedResponseDTO<EmployeeOverTimeModel[]>>(this.URL + 'OverTime/GetOverTimeByEmployeeId?EmployeeId='+employeeId, model);
-  }
-  AddNewEmployeeOverTime(employeeId:number,model: EmployeeOverTimeModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'OverTime/AddNewEmployeeOverTime?EmployeeId='+employeeId, model);
-  }
-  EditEmployeeOverTime(employeeId:number,model: EmployeeOverTimeModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'OverTime/EditEmployeeOverTime?EmployeeId='+employeeId, model);
-  }
-  DeleteEmployeeOverTime(overTimeId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'OverTime/DeleteEmployeeOverTime?OverTimeId=' + overTimeId);
-  }
+    GetAllEmployeeOverTimeData(model: SearchFilterModel) {
+      return this.http.post<PagedResponseDTO<EmployeeOverTimeModel[]>>(this.URL + 'OverTime/GetAllEmployeeOverTimeData', model);
+    }
+    GetOverTimeByEmployeeId(employeeId,model: PagedResponseDTO) {
+      return this.http.post<PagedResponseDTO<EmployeeOverTimeModel[]>>(this.URL + 'OverTime/GetOverTimeByEmployeeId?EmployeeId='+employeeId, model);
+    }
+    AddNewEmployeeOverTime(employeeId:number,model: EmployeeOverTimeModel) {
+      return this.http.post<ActionsResponseModel>(this.URL + 'OverTime/AddNewEmployeeOverTime?EmployeeId='+employeeId, model);
+    }
+    EditEmployeeOverTime(employeeId:number,model: EmployeeOverTimeModel) {
+      return this.http.post<ActionsResponseModel>(this.URL + 'OverTime/EditEmployeeOverTime?EmployeeId='+employeeId, model);
+    }
+    DeleteEmployeeOverTime(overTimeId: number) {
+      return this.http.get<ActionsResponseModel>(this.URL + 'OverTime/DeleteEmployeeOverTime?OverTimeId=' + overTimeId);
+    }
 
     //================================== Penalty ===============================
 
@@ -222,7 +223,22 @@ export class HrService {
       return this.http.get<FormDropdownModel[]>(this.URL + 'Penalty/GetPenaltyTypesSelector');
     }
   
-
+  //================================== SickLeave ===============================
+  GetAllEmployeeSickLeavesData(model: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<EmployeeSickLeaveModel[]>>(this.URL + 'SickLeave/GetAllEmployeeSickLeavesData', model);
+  }
+  GetSickLeavesByEmployeeId(employeeId,model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<EmployeeSickLeaveModel[]>>(this.URL + 'SickLeave/GetSickLeavesByEmployeeId?EmployeeId='+employeeId, model);
+  }
+  AddNewEmployeeSickLeave(employeeId:number,model: EmployeeSickLeaveModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'SickLeave/AddNewEmployeeSickLeave?EmployeeId='+employeeId, model);
+  }
+  EditEmployeeSickLeave(employeeId:number,model: EmployeeSickLeaveModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'SickLeave/EditEmployeeSickLeave?EmployeeId='+employeeId, model);
+  }
+  DeleteEmployeeSickLeave(overTimeId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'SickLeave/DeleteEmployeeSickLeave?SickLeaveId=' + overTimeId);
+  }
 
 
 
