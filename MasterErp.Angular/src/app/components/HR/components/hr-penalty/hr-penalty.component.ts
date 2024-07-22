@@ -50,6 +50,7 @@ export class HrPenaltyComponent implements OnInit {
 
   };
   selectedEmployeeId:number=null;
+  isUpdate: boolean=false;
   constructor(private modalService: NgbModal, private hrService: HrService, private form: FormBuilder, private _FormService: FormService,
     private datePipe: DatePipe,private toaster:ToastrService,private offcanvasService: NgbOffcanvas,) { }
 
@@ -90,6 +91,7 @@ export class HrPenaltyComponent implements OnInit {
   openNewPenaltySidePanel(content: any,penaltyModel:EmployeePenaltyModel=null) {
     if(!this.checkEmployee())
       return;
+    this.isUpdate=false;
     this.buildForm();
     if(penaltyModel)
       this.fillEditForm(penaltyModel);
@@ -105,9 +107,9 @@ export class HrPenaltyComponent implements OnInit {
       employeeId: [null],
       penaltyTypeId: [null, [Validators.required]],
       executionDate: [null, [Validators.required]],
-      deductionByDays: [null, [Validators.required]],
-      deductionAmount: [null, [Validators.required]],
-      moneyAmount: [null, [Validators.required]],
+      deductionByDays: [null, [Validators.required,Validators.pattern(/^[0-9]+(\.[0-9])?$/)]],
+      deductionAmount: [null, [Validators.required,Validators.pattern(/^[0-9]+(\.[0-9])?$/)]],
+      moneyAmount: [null, [Validators.required,Validators.pattern(/^[0-9]+(\.[0-9])?$/)]],
       reason: [null, [Validators.required]],
 
     },{
@@ -202,6 +204,7 @@ export class HrPenaltyComponent implements OnInit {
 
 
   fillEditForm(penaltyModel:EmployeePenaltyModel) {
+    this.isUpdate=true;
     this.formGroup.patchValue({
       penaltyId: penaltyModel.penaltyId,
       employeeId: this.selectedEmployeeId,

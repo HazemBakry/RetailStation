@@ -95,15 +95,14 @@ namespace MasterErp.Service.HR
             {
                 var overTime = new OverTime();
 
-                overTime.EmployeeId = overTime.EmployeeId;
-                overTime.OverTimeId = overTime.OverTimeId;
-                overTime.RequestDate = overTime.RequestDate;
-                overTime.ExecutionDate = overTime.ExecutionDate;
-                overTime.NoHours = overTime.NoHours;
-                overTime.MoneyAmount = overTime.MoneyAmount;
-                overTime.Notes = overTime.Notes;
-                overTime.IsActive = overTime.IsActive;
-                overTime.CreatedBy = overTime.CreatedBy;
+                overTime.EmployeeId = model.EmployeeId;
+                overTime.RequestDate = DateTime.Now;
+                overTime.ExecutionDate = model.ExecutionDate;
+                overTime.NoHours = model.NoHours;
+                overTime.MoneyAmount = model.MoneyAmount;
+                overTime.Notes = model.Notes;
+                overTime.IsActive = model.IsActive;
+                overTime.CreatedBy = model.CreatedBy;
                 overTime.CreatedDate = DateTime.Now;
                 
                 
@@ -128,15 +127,13 @@ namespace MasterErp.Service.HR
                 var overTime = Context.OverTime.FirstOrDefault(i => i.OverTimeId == model.OverTimeId);
                 if (overTime != null)
                 {
-                    //overTime.EmployeeId = overTime.EmployeeId;
-                    //overTime.OverTimeId = overTime.OverTimeId;
-                    overTime.RequestDate = overTime.RequestDate;
-                    overTime.ExecutionDate = overTime.ExecutionDate;
-                    overTime.NoHours = overTime.NoHours;
-                    overTime.MoneyAmount = overTime.MoneyAmount;
-                    overTime.Notes = overTime.Notes;
-                    overTime.IsActive = overTime.IsActive;
-                    overTime.ModifiedBy = overTime.CreatedBy;
+                    overTime.RequestDate = DateTime.Now;
+                    overTime.ExecutionDate = model.ExecutionDate;
+                    overTime.NoHours = model.NoHours;
+                    overTime.MoneyAmount = model.MoneyAmount;
+                    overTime.Notes = model.Notes;
+                    overTime.IsActive = model.IsActive;
+                    overTime.ModifiedBy = model.CreatedBy;
                     overTime.ModifiedDate = DateTime.Now;
 
                     Context.SaveChanges();

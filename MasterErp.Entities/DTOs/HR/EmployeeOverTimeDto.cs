@@ -12,7 +12,7 @@ namespace MasterErp.Entities.DTOs.HR
         public int? OverTimeId { get; set; }
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
-        public DateTime RequestDate { get; set; }
+        public DateTime? RequestDate { get; set; }
         public DateTime ExecutionDate { get; set; }
         public double NoHours { get; set; }
         public double MoneyAmount { get; set; }

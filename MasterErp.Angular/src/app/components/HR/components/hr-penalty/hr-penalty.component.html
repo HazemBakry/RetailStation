@@ -53,7 +53,7 @@
                 <div class="d-flex align-items-center flex-wrap">
                     <div class="search-box position-relative mb-2">
                         <button class="btn btn-primary mb-2" (click)="openNewPenaltySidePanel(AddPenaltySidePanel)">
-                            <span class="me-2">إضافة أجازة</span>
+                            <span class="me-2">إضافة جزاء</span>
                             <i class="uil uil-plus-circle"></i>
                         </button>
                     </div>
@@ -217,9 +217,10 @@
             </form>
 
             <div class="d-flex justify-content-center">
-                <button (click)="saveEmployeePenalty()" class="btn btn-primary w-50 justify-content-center py-3 fs-5 radius-10">
+                <button [disabled]="showAddLoader" (click)="saveEmployeePenalty()" class="btn btn-primary w-50 justify-content-center py-3 fs-5 radius-10">
                     <!-- <i class="fas fa-id-card"></i> -->
-                    <span class="ms-3">إضافة جزاء</span>
+                    <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
+                    <span *ngIf="isUpdate" class="ms-3">تعديل</span>
                 </button>
             </div>
             <div class="table-responsive sidepanel-table-h large-scroll">

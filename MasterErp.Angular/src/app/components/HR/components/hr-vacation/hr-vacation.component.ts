@@ -58,6 +58,7 @@ export class HrVacationComponent implements OnInit {
 
   };
   selectedEmployeeId:number=null;
+  isUpdate: boolean=false;
   constructor(private modalService: NgbModal, private hrService: HrService, private form: FormBuilder, private _FormService: FormService,
     private datePipe: DatePipe,private toaster:ToastrService,private offcanvasService: NgbOffcanvas,) { }
 
@@ -100,6 +101,7 @@ export class HrVacationComponent implements OnInit {
   openNewVacationSidePanel(content: any,vacationModel:EmployeeVacationModel=null) {
     if(!this.checkEmployee())
       return;
+    this.isUpdate=false;
     this.buildForm();
     if(vacationModel)
       this.fillEditForm(vacationModel);
@@ -214,6 +216,7 @@ export class HrVacationComponent implements OnInit {
 
 
   fillEditForm(vacationModel:EmployeeVacationModel) {
+    this.isUpdate = true;
     this.formGroup.patchValue({
       vacationId: vacationModel.vacationId,
       employeeId: this.selectedEmployeeId,
