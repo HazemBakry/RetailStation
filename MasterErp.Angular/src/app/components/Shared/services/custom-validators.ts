@@ -46,7 +46,7 @@ export class CustomValidators extends Validators{
 
   }
   
-  static endDateGreaterThanStartDate(startDateCName: string, endDateCName: string): ValidatorFn {
+  static endDateGreaterThanStartDate(startDateCName: string, endDateCName: string,message=null): ValidatorFn {
     return (formGroup: AbstractControl) => {
       
       const startDate_C = formGroup.get(startDateCName);
@@ -59,7 +59,7 @@ export class CustomValidators extends Validators{
 
         if (startDate >= endDate) {
           // startDate_C.setErrors({ endDateLessThanStartDate: true });
-          endDate_C.setErrors({ endDateLessThanStartDate: true });
+          endDate_C.setErrors({ endDateLessThanStartDate: message });
           
           // return { endDateLessThanStartDate: true}
         } else {

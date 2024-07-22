@@ -123,8 +123,8 @@ export class HrVacationComponent implements OnInit {
       notes: [null],
 
     },{
-      validators: [CustomValidators.endDateGreaterThanStartDate('lastDayWork', 'fromDate'),
-        CustomValidators.endDateGreaterThanStartDate('fromDate', 'toDate')],
+      validators: [CustomValidators.endDateGreaterThanStartDate('lastDayWork', 'fromDate','يجب ان يكون تاريخ بدء الاجازه بعد اخر يوم عمل'),
+        CustomValidators.endDateGreaterThanStartDate('fromDate', 'toDate','يجب ان يكون تاريخ انهاء الاجازه بعد البدء')],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);

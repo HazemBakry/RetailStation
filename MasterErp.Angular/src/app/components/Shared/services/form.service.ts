@@ -27,7 +27,8 @@ export class FormService {
       min:'Invalid Number , Enter greater than this',
       invalid_URL:'Invalid URL',
       invalid_Html:'Invalid HTML',
-      endDateLessThanStartDate:'End Date Must Be Greater Than Start Date',
+      //endDateLessThanStartDate:'End Date Must Be Greater Than Start Date',
+      endDateLessThanStartDate: (error: string) =>  error || 'End Date Must Be Greater Than Start Date',
       // invalidExtension:'Invalid Extension , choose from jpg,jpeg,png',
       invalidExtension: (matches: any[]) => {
 
@@ -85,9 +86,10 @@ export class FormService {
           if (!checkDirty || (control.dirty || control.touched)) {
             for (const key in control.errors) {
               
-              if (key && key !== 'invalid_characters' && key !=='invalidExtension') {
+              if (key && key !== 'invalid_characters' && key !=='invalidExtension'&& key !== 'endDateLessThanStartDate') {
                 formErrors[field] = formErrors[field] || messages[key];
-              } else {
+              }
+              else {
                 formErrors[field] = formErrors[field] || messages[key](control.errors[key]);
               }
             }
