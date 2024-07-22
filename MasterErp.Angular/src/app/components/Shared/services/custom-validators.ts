@@ -72,6 +72,41 @@ export class CustomValidators extends Validators{
       return null;
     };
   }
+  static dateGreaterThan(specificDate: Date, message: string): ValidatorFn {
+    return (control: AbstractControl) => {
+      if (control.value) {
+        const inputDate = new Date(control.value);
+        specificDate.setHours(0, 0, 0, 0);
+        inputDate.setHours(0, 0, 0, 0);
+        if (inputDate <= specificDate) {
+          return { dateGreaterThan: message };
+        }
+      }
+      return null;
+    };
+  }
+
+  static dateLessThan(specificDate: Date, message: string): ValidatorFn {
+    return (control: AbstractControl) => {
+      if (control.value) {
+        const inputDate = new Date(control.value);
+        specificDate.setHours(0, 0, 0, 0);
+        inputDate.setHours(0, 0, 0, 0);
+        if (inputDate >= specificDate) {
+          return { dateLessThan: message };
+        }
+      }
+      return null;
+    };
+  }
+  static regexPattern(pattern: RegExp, message: string): ValidatorFn {
+    return (control: AbstractControl) => {
+      if (control.value && !pattern.test(control.value)) {
+        return { regexPattern: message };
+      }
+      return null;
+    };
+  }
   static validateHtmlContent(control: FormControl) {
     const value = control.value;
     const parser = new DOMParser();

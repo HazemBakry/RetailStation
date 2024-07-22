@@ -105,10 +105,10 @@ export class HrOverTimeComponent implements OnInit {
     this.formGroup = this.form.group({
       overTimeId: [null],
       employeeId: [null],
-      executionDate: [null, [Validators.required]],
-      noHours: [[null], [Validators.required,Validators.pattern(/^[0-9]+(\.[0-9])?$/)]],
+      executionDate: [null, [Validators.required,CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
+      noHours: [[null], [Validators.required,CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/,'ادخل ارقام فقط')]],
       requestDate: [null],
-      moneyAmount: [null, [Validators.required,Validators.pattern(/^[0-9]+(\.[0-9])?$/)]],
+      moneyAmount: [null, [Validators.required,CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/,'ادخل ارقام فقط')]],
       notes: [null],
       timeFrom: [null],
       timeTo: [null],
@@ -132,13 +132,7 @@ export class HrOverTimeComponent implements OnInit {
     if (!this.validateForm()) {
       return;
     }
-
-    
-
     this.employeeOverTimeModel = this.formGroup.value;
-    console.log("this.formGroup.value:", this.formGroup.value)
-    console.log("this.formGroup.value:", this.employeeOverTimeModel)
-
     if(this.employeeOverTimeModel?.overTimeId)
       this.editEmployeeOverTime();
     else
