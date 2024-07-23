@@ -115,5 +115,19 @@ namespace MasterErp.Service.Shared
             return dt;
         }
 
+
+
+        #region Selectors
+        public List<SelectorDataModel> GetBranchesSelector()
+        {
+            var results = Context.Branches.Select(b => new SelectorDataModel
+            {
+                Id = b.BranchId,
+                Name = b.NameEN,
+            }).ToList();
+            return results;
+        }
+        #endregion
+
     }
 }

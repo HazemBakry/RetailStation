@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MasterErp.Entities.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.DTOs.HR
 {
-    public class EmployeeVacationDto
+    public class EmployeeVacationDto : CreatorModel
     {
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }

@@ -11,7 +11,7 @@ namespace MasterErp.Entities.Models
 		public int EmployeeSalaryId { get; set; }
 		public int BasicSalary { get; set; }
 		public int ExtraSalary { get; set; }
-		public int Transport { get; set; }
+		public int Transportation { get; set; }
 		public string Home { get; set; }
 		public string Mopile { get; set; }
 		public string WorkNature { get; set; }

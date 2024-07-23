@@ -20,9 +20,9 @@ namespace MasterErp.API.Controllers.Shared
         }
         [HttpGet]
         [Route("GetCustomersData")]
-        public IActionResult GetCustomersData() 
+        public IActionResult GetCustomersData()
         {
-            var results=_sharedService.GetCustomersData();  
+            var results = _sharedService.GetCustomersData();
             return Ok(results);
         }
 
@@ -53,7 +53,7 @@ namespace MasterErp.API.Controllers.Shared
         [Route("GetReceiptLedgerTypes")]
         public IActionResult GetReceiptLedgerTypes()
         {
-            var results= _sharedService.GetReceiptLedgerTypesData();
+            var results = _sharedService.GetReceiptLedgerTypesData();
             return Ok(results);
         }
 
@@ -85,5 +85,23 @@ namespace MasterErp.API.Controllers.Shared
 
             return Ok(results);
         }
+
+
+
+
+
+        #region Selectors
+
+
+        [HttpGet]
+        [Route("GetBranchesSelector")]
+        public IActionResult GetBranchesSelector()
+        {
+            var result = _sharedService.GetBranchesSelector();
+            return Ok(result);
+        }
+
+
+        #endregion
     }
 }

@@ -6,6 +6,7 @@ import { CustomerModel } from '../../GeneralAccounts/models/GeneralAccounts/Cust
 import { ExcelExportStyle } from '../Enums/ImporterTemplateEnum';
 import { CreateModifyReturnsModel } from '../models/CreateModifyReturnsModel';
 import { FormControl, FormGroup } from '@angular/forms';
+import { FormDropdownModel } from '../components/drop-down-form-control/drop-down-form-control.component';
 
 @Injectable({
   providedIn: 'root'
@@ -117,5 +118,11 @@ export class SharedService {
   downloadImporterTemplate(template:ExcelExportStyle)
   {
     return this.http.get<CreateModifyReturnsModel>(this.URL + 'Shared/DownloadImporterTemplate?ImporterType='+template);
+  }
+
+
+  //================================== Selectors (dropdown) ===============================
+  GetBranchesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetBranchesSelector');
   }
 }

@@ -129,7 +129,7 @@ namespace MasterErp.Service.HR
                 {
                     Emp.BasicSalary = model.BasicSalary;
                     Emp.ExtraSalary = model.ExtraSalary;
-                    Emp.Transport = model.Transport;
+                    Emp.Transportation = model.Transportation;
                     Emp.Home = model.Home;
                     Emp.Mopile = model.Mopile;
                     Emp.WorkNature = model.WorkNature;
@@ -206,7 +206,7 @@ namespace MasterErp.Service.HR
                 var EmployeeSalary = new EmployeeSalary();
                 EmployeeSalary.BasicSalary = model.EmployeeSalary.BasicSalary;
                 EmployeeSalary.ExtraSalary = model.EmployeeSalary.ExtraSalary;
-                EmployeeSalary.Transport = model.EmployeeSalary.Transport;
+                EmployeeSalary.Transportation = model.EmployeeSalary.Transportation;
                 EmployeeSalary.Home = model.EmployeeSalary.Home;
                 EmployeeSalary.Mopile = model.EmployeeSalary.Mopile;
                 EmployeeSalary.WorkNature = model.EmployeeSalary.WorkNature;

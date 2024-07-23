@@ -132,7 +132,7 @@ namespace MasterErp.Service.HR
                     sickLeave.MoneyAmount = model.MoneyAmount;
                     sickLeave.Notes = model.Notes;
                     sickLeave.IsActive = model.IsActive;
-                    sickLeave.ModifiedBy = model.CreatedBy;
+                    sickLeave.ModifiedBy = model.ModifiedBy;
                     sickLeave.ModifiedDate = DateTime.Now;
 
                     Context.SaveChanges();

@@ -13,6 +13,8 @@ import { HrEmployeesComponent } from './components/hr-employees/hr-employees.com
 import { SharedModule } from "../Shared/shared.module";
 import { HrHomeComponent } from './components/hr-home/hr-home.component';
 import { HrLayoutComponent } from './hr-layout/hr-layout.component';
+import { HrCareersComponent } from './components/hr-careers/hr-careers.component';
+import { HrDeductsComponent } from './components/hr-deducts/hr-deducts.component';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import { HrLayoutComponent } from './hr-layout/hr-layout.component';
     HrEmployeesComponent,
     HrEmployeeDetailsComponent,
     HrHomeComponent,
-    HrLayoutComponent
+    HrLayoutComponent,
+    HrCareersComponent,
+    HrDeductsComponent
   ],
   imports: [
     HrRoutingModule,

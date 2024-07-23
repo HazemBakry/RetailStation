@@ -10,6 +10,8 @@ import { HrSalaryComponent } from './components/hr-salary/hr-salary.component';
 import { HrEmployeeDetailsComponent } from './components/hr-employee-details/hr-employee-details.component';
 import { HrHomeComponent } from './components/hr-home/hr-home.component';
 import { HrLayoutComponent } from './hr-layout/hr-layout.component';
+import { HrCareersComponent } from './components/hr-careers/hr-careers.component';
+import { HrDeductsComponent } from './components/hr-deducts/hr-deducts.component';
 
 const routes: Routes = [
   {
@@ -31,6 +33,14 @@ const routes: Routes = [
       {
         path: 'vacations',
         component: HrVacationComponent
+      },
+      {
+        path: 'careers',
+        component: HrCareersComponent
+      },
+      {
+        path: 'deducts',
+        component: HrDeductsComponent
       },
       {
         path: 'attendance',

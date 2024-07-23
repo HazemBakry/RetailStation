@@ -10,6 +10,8 @@ import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsMod
 import { EmployeePenaltyModel } from '../models/EmployeePenaltyModel';
 import { EmployeeOverTimeModel } from '../models/EmployeeOverTimeModel';
 import { EmployeeSickLeaveModel } from '../models/EmployeeSickLeaveModel';
+import { EmployeeDeductModel } from '../models/EmployeeDeductModel';
+import { EmployeeCareerModel } from '../models/EmployeeCareerModel';
 
 @Injectable({
   providedIn: 'root'
@@ -242,7 +244,52 @@ export class HrService {
 
 
 
+  
+  //================================== Deducts ===============================
+  GetAllEmployeeDeductsData(model: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<EmployeeDeductModel[]>>(this.URL + 'Deducts/GetAllEmployeeDeductsData', model);
+  }
+  GetDeductsByEmployeeId(employeeId,model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<EmployeeDeductModel[]>>(this.URL + 'Deducts/GetDeductsByEmployeeId?EmployeeId='+employeeId, model);
+  }
+  AddNewEmployeeDeduct(employeeId:number,model: EmployeeDeductModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Deducts/AddNewEmployeeDeduct?EmployeeId='+employeeId, model);
+  }
+  EditEmployeeDeduct(employeeId:number,model: EmployeeDeductModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Deducts/EditEmployeeDeduct?EmployeeId='+employeeId, model);
+  }
+  DeleteEmployeeDeduct(deductId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Deducts/DeleteEmployeeDeduct?DeductId=' + deductId);
+  }
 
+  GetDeductTypesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Deducts/GetDeductTypesSelector');
+  }
+
+    
+  //================================== Careers ===============================
+  GetAllEmployeeCareersData(model: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<EmployeeCareerModel[]>>(this.URL + 'Careers/GetAllEmployeeCareersData', model);
+  }
+  GetCareersByEmployeeId(employeeId,model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<EmployeeCareerModel[]>>(this.URL + 'Careers/GetCareersByEmployeeId?EmployeeId='+employeeId, model);
+  }
+  AddNewEmployeeCareer(employeeId:number,model: EmployeeCareerModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Careers/AddNewEmployeeCareer?EmployeeId='+employeeId, model);
+  }
+  EditEmployeeCareer(employeeId:number,model: EmployeeCareerModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Careers/EditEmployeeCareer?EmployeeId='+employeeId, model);
+  }
+  DeleteEmployeeCareer(careerId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Careers/DeleteEmployeeCareer?CareerId=' + careerId);
+  }
+
+  GetWorkStatusSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Careers/GetWorkStatusSelector');
+  }
+  GetJobsSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Careers/GetJobsSelector');
+  }
 
 
 

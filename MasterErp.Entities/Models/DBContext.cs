@@ -63,6 +63,10 @@ namespace MasterErp.Entities.Models
         public DbSet<Unit> Units { get; set; }
         public DbSet<Vacation> Vacations { get; set; }
         public DbSet<VacationType> VacationTypes { get; set; }
+        public DbSet<Deduct> Deducts { get; set; }
+        public DbSet<DeductType> DeductTypes { get; set; }
+        public DbSet<Career> Careers { get; set; }
+        public DbSet<WorkStatus> WorkStatus { get; set; }
 
 
         //Elassal

@@ -30,6 +30,8 @@ namespace MasterErp.API
             services.AddScoped<IPenaltyService, PenaltyService>();
             services.AddScoped<ISickLeaveService, SickLeaveService>();
             services.AddScoped<IVacationService, VacationService>();
+            services.AddScoped<ICareersService, CareersService>();
+            services.AddScoped<IDeductsService, DeductsService>();
             services.AddScoped<IAccountTreeService, AccountTreeService>();
             services.AddScoped<ICostCenterTreeService, CostCenterTreeService>();
             services.AddScoped<IPurchaseInvoiceService, PurchaseInvoiceService>();

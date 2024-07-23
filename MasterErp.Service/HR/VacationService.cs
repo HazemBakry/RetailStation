@@ -118,7 +118,7 @@ namespace MasterErp.Service.HR
                 vacation.Period = (model.ToDate - model.FromDate).Days;
                 vacation.Notes=model.Notes;
                 vacation.CreatedDate = DateTime.Now;
-                vacation.CreatedBy = string.Empty;
+                vacation.CreatedBy = model.CreatedBy;
                 vacation.IsAlternativeAvailable=model.IsAlternativeAvailable;
                 if (model.IsAlternativeAvailable)
                     vacation.AlternativeEmployeeId = model.AlternativeEmployeeId;
@@ -149,7 +149,7 @@ namespace MasterErp.Service.HR
                     vacation.Period = (model.ToDate - model.FromDate).Days;
                     vacation.Notes = model.Notes;
                     vacation.ModifiedDate = DateTime.Now;
-                    vacation.ModifiedBy = string.Empty;
+                    vacation.ModifiedBy = model.ModifiedBy;
                     vacation.IsAlternativeAvailable = model.IsAlternativeAvailable;
                     if (model.IsAlternativeAvailable)
                         vacation.AlternativeEmployeeId = model.AlternativeEmployeeId;

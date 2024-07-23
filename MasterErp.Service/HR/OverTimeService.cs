@@ -57,6 +57,7 @@ namespace MasterErp.Service.HR
 
         public List<EmployeeOverTimeDto> GetOverTimeByEmployeeId(int EmployeeId, SearchFilterModel SearchModel)
         {
+
             var query = from overTime in Context.OverTime
                         join emp in Context.Employees on overTime.EmployeeId equals emp.EmployeeId
                         where overTime.EmployeeId == EmployeeId
@@ -133,7 +134,7 @@ namespace MasterErp.Service.HR
                     overTime.MoneyAmount = model.MoneyAmount;
                     overTime.Notes = model.Notes;
                     overTime.IsActive = model.IsActive;
-                    overTime.ModifiedBy = model.CreatedBy;
+                    overTime.ModifiedBy = model.ModifiedBy;
                     overTime.ModifiedDate = DateTime.Now;
 
                     Context.SaveChanges();
