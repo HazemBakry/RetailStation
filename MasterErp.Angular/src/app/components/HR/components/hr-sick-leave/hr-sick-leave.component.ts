@@ -106,7 +106,7 @@ export class HrSickLeaveComponent implements OnInit {
       sickLeaveId: [null],
       employeeId: [null],
       executionDate: [null, [Validators.required,CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
-      noDays: [[null], [Validators.required,CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/,'ادخل ارقام فقط')]],
+      noDays: [null, [Validators.required,CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/,'ادخل ارقام فقط')]],
       requestDate: [null],
       moneyAmount: [null, [Validators.required,CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/,'ادخل ارقام فقط')]],
       notes: [null],
@@ -114,7 +114,7 @@ export class HrSickLeaveComponent implements OnInit {
       toDate: [null],
 
     },{
-      validators: [CustomValidators.endDateGreaterThanStartDate('fromDate', 'toDate','بدء يجب ان يكون تاريخ انتهاء  الاجازه بعد تاريخ البدء ')],
+      validators: [CustomValidators.endDateGreaterThanStartDate('fromDate', 'toDate','يجب ان يكون تاريخ انتهاء الاجازه بعد تاريخ البدء')],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
