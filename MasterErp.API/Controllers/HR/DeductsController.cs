@@ -35,7 +35,7 @@ namespace MasterErp.API.Controllers.HR
         }
 
         [HttpPost]
-        [Route("GetDeductByEmployeeId")]
+        [Route("GetDeductsByEmployeeId")]
         public IActionResult GetDeductsByEmployeeId(int EmployeeId, SearchFilterModel SearchModel)
         {
             var data = _deductssService.GetDeductsByEmployeeId(EmployeeId, SearchModel);
