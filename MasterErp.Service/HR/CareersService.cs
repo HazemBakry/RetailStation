@@ -25,7 +25,7 @@ namespace MasterErp.Service.HR
 
         public List<EmployeeCareerDto> GetAllEmployeeCareers(SearchFilterModel SearchModel)
         {
-            var query = from career in Context.Careers
+            var query = from career in Context.EmployeeCareers
                         join emp in Context.Employees on career.EmployeeId equals emp.EmployeeId
                         join job in Context.Jobs on career.JobId equals job.JobId
                         join branch in Context.Branches on career.BranchId equals branch.BranchId
@@ -34,7 +34,7 @@ namespace MasterErp.Service.HR
                         {
                             EmployeeId = career.EmployeeId,
                             EmployeeName = emp.FullNameEN,
-                            CareerId = career.CareerId,
+                            EmployeeCareerId = career.EmployeeCareerId,
                             JobId = career.JobId,
                             JobName = job.NameEN,
                             BranchId = career.BranchId,
@@ -63,7 +63,7 @@ namespace MasterErp.Service.HR
         public List<EmployeeCareerDto> GetCareersByEmployeeId(int EmployeeId, SearchFilterModel SearchModel)
         {
 
-            var query = from career in Context.Careers
+            var query = from career in Context.EmployeeCareers
                         join emp in Context.Employees on career.EmployeeId equals emp.EmployeeId
                         join job in Context.Jobs on career.JobId equals job.JobId
                         join branch in Context.Branches on career.BranchId equals branch.BranchId
@@ -73,7 +73,7 @@ namespace MasterErp.Service.HR
                         {
                             EmployeeId = career.EmployeeId,
                             EmployeeName = emp.FullNameEN,
-                            CareerId = career.CareerId,
+                            EmployeeCareerId = career.EmployeeCareerId,
                             JobId = career.JobId,
                             JobName = job.NameEN,
                             BranchId = career.BranchId,
@@ -106,7 +106,7 @@ namespace MasterErp.Service.HR
 
             try
             {
-                var career = new Career();
+                var career = new EmployeeCareer();
 
                 career.EmployeeId = model.EmployeeId;
                 career.ExecutionDate = model.ExecutionDate;
@@ -118,7 +118,7 @@ namespace MasterErp.Service.HR
                 career.CreatedDate = DateTime.Now;
 
 
-                Context.Careers.Add(career);
+                Context.EmployeeCareers.Add(career);
                 var result = Context.SaveChanges();
 
 
@@ -136,7 +136,7 @@ namespace MasterErp.Service.HR
 
             try
             {
-                var career = Context.Careers.FirstOrDefault(i => i.CareerId == model.CareerId);
+                var career = Context.EmployeeCareers.FirstOrDefault(i => i.EmployeeCareerId == model.EmployeeCareerId);
                 if (career != null)
                 {
 
@@ -165,12 +165,12 @@ namespace MasterErp.Service.HR
         }
 
 
-        public ActionsResponseModel DeleteEmployeeCareer(int CareerId)
+        public ActionsResponseModel DeleteEmployeeCareer(int EmployeeCareerId)
         {
 
             try
             {
-                var career = Context.Careers.FirstOrDefault(i => i.CareerId == CareerId);
+                var career = Context.EmployeeCareers.FirstOrDefault(i => i.EmployeeCareerId == EmployeeCareerId);
                 if (career != null)
                 {
                     Context.Remove(career);

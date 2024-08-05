@@ -13,7 +13,9 @@ namespace MasterErp.Interface.HR
     public interface IEmployeeService
     {
         List<EmployeeBasicInfo> GetAllEmployees(SearchFilterModel model);
+        List<EmployeesSummary> GetEmployeesSummary();
         List<SelectorDataModel> GetActiveEmployeesSelector();
+        List<EmployeeRequest> GetEmployeeRequests_Data(SearchFilterModel model);
         List<IqamaIssuePlace> GetIqamaIssuePlaces();
         List<PassportIssuePlace> GetPassportIssuePlaces();
         List<Sponsor> GetSponsorData();

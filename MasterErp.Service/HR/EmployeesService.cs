@@ -52,6 +52,14 @@ namespace MasterErp.Service.HR
             return result;
         }
 
+        public List<EmployeesSummary> GetEmployeesSummary()
+        {
+            SqlParameter[] Params = new SqlParameter[0];
+
+            var result = SQLHelper.SQLQuery<EmployeesSummary>("[HR].[SP_GetEmployeesSummary]", ConnectionString, Params);
+            return result;
+        }
+
         public List<SelectorDataModel> GetActiveEmployeesSelector()
         {
             SqlParameter[] Params = new SqlParameter[0];
@@ -88,6 +96,21 @@ namespace MasterErp.Service.HR
         {
             var results = Context.Nationalities.ToList();
             return results;
+        }
+
+        public List<EmployeeRequest> GetEmployeeRequests_Data(SearchFilterModel model)
+        {
+            DataTable dt = SharedService.MapFilterModelToDataTable(model?.FilterModel?.FilterItems);
+
+            SqlParameter[] Params = new SqlParameter[4];
+            Params[0] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[1] = new SqlParameter("@PageSize", model.PageSize);
+            Params[2] = new SqlParameter("@SearchText", model.SearchText);
+            Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[3].Value = dt;
+
+            var result = SQLHelper.SQLQuery<EmployeeRequest>("[HR].[SP_GetEmployeesRequests_Data]", ConnectionString, Params);
+            return result;
         }
 
         public List<Job> GetJobData()

@@ -9,7 +9,7 @@ namespace MasterErp.Entities.DTOs.HR
 {
     public class EmployeeCareerDto : CreatorModel
     {
-        public int? CareerId { get; set; }
+        public int? EmployeeCareerId { get; set; }
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
         public int JobId { get; set; }

@@ -111,6 +111,7 @@ namespace MasterErp.Service.Auth
 
             return new ActionsResponseModel { Message = "user updated successfully !" };
         }
+
         public async Task<AuthModel> LoginByEmailAsync(LoginModel model)
         {
             var authModel = new AuthModel();

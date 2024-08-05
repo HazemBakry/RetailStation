@@ -14,7 +14,7 @@ namespace MasterErp.Interface.HR
         List<EmployeeCareerDto> GetCareersByEmployeeId(int EmployeeId, SearchFilterModel SearchModel);
         ActionsResponseModel AddNewEmployeeCareer(int EmployeeId, EmployeeCareerDto model);
         ActionsResponseModel EditEmployeeCareer(int EmployeeId, EmployeeCareerDto model);
-        ActionsResponseModel DeleteEmployeeCareer(int CareerId);
+        ActionsResponseModel DeleteEmployeeCareer(int EmployeeCareerId);
         List<SelectorDataModel> GetWorkStatusSelector();
         List<SelectorDataModel> GetJobsSelector();
     }

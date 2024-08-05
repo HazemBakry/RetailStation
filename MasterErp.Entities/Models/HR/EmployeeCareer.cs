@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models.HR
 {
-    public class Career : CreatorModel
+    public class EmployeeCareer : CreatorModel
     {
-        public int CareerId { get; set; }
+        public int EmployeeCareerId { get; set; }
         public int EmployeeId { get; set; }
         public int JobId { get; set; }
         public int BranchId { get; set; }

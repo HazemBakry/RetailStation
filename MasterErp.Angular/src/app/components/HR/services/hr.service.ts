@@ -27,6 +27,10 @@ export class HrService {
     return this.http.post<any>(this.URL + 'Employee/GetAllEmployees', model);
   }
 
+  GetEmployeesSummary(){
+    return this.http.get<any>(this.URL + 'Employee/GetEmployeesSummary');
+  }
+
   GetActiveEmployeesSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Employee/GetActiveEmployeesSelector');
   }
@@ -35,10 +39,10 @@ export class HrService {
     return this.http.post<any>(this.URL + 'Employee/GetEmployeesFilter', model);
   }
 
-  // AddNewEmployee(model: SaveEmployeeModel) {
-  //   return this.http.post<any>(this.URL + 'Employee/AddNewEmployee', model);
-  // }
-
+  GetEmployeeRequests_Data(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'Employee/GetEmployeeRequests_Data', model);
+  }
+  
   AddNewEmployee(model: any) {
     return this.http.post<any>(this.URL + 'Employee/AddNewEmployee', model);
   }
@@ -281,7 +285,7 @@ export class HrService {
     return this.http.post<ActionsResponseModel>(this.URL + 'Careers/EditEmployeeCareer?EmployeeId='+employeeId, model);
   }
   DeleteEmployeeCareer(careerId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'Careers/DeleteEmployeeCareer?CareerId=' + careerId);
+    return this.http.get<ActionsResponseModel>(this.URL + 'Careers/DeleteEmployeeCareer?EmployeeCareerId=' + careerId);
   }
 
   GetWorkStatusSelector() {

@@ -68,9 +68,9 @@ namespace MasterErp.API.Controllers.HR
 
         [HttpGet]
         [Route("DeleteEmployeeCareer")]
-        public IActionResult DeleteEmployeeCareer(int CareerId)
+        public IActionResult DeleteEmployeeCareer(int EmployeeCareerId)
         {
-            var result = _careersService.DeleteEmployeeCareer(CareerId);
+            var result = _careersService.DeleteEmployeeCareer(EmployeeCareerId);
             return Ok(result);
         }
 

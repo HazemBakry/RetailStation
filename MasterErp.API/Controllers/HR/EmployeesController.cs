@@ -49,6 +49,13 @@ namespace MasterErp.API.Controllers
             return Ok(Response);
         }
 
+        [HttpGet]
+        [Route("GetEmployeesSummary")]
+        public List<EmployeesSummary> GetEmployeesSummary()
+        {
+            return _employeeService.GetEmployeesSummary();
+        }
+
         [HttpPost]
         [Route("GetEmployeesFilter")]
         public ActionResult<PagedResponseModel<EmployeeBasicInfo>> GetEmployeesFilter(SearchFilterModel model)
@@ -64,7 +71,22 @@ namespace MasterErp.API.Controllers
 
             return Ok(Response);
         }
-        
+
+        [HttpPost]
+        [Route("GetEmployeeRequests_Data")]
+        public ActionResult<PagedResponseModel<EmployeeRequest>> GetEmployeeRequests_Data(SearchFilterModel model)
+        {
+            var result = _employeeService.GetEmployeeRequests_Data(model);
+            var Response = new PagedResponseModel<EmployeeRequest>
+            {
+                CurrentPage = model.CurrentPage,
+                PageSize = model.PageSize,
+                Results = result,
+                TotalCount = result.Count > 0 ? result.FirstOrDefault().TotalCount : 0
+            };
+
+            return Ok(Response);
+        }
 
         [HttpGet]
         [Route("GetIqamaIssuePlaces")]

@@ -65,7 +65,7 @@ namespace MasterErp.Entities.Models
         public DbSet<VacationType> VacationTypes { get; set; }
         public DbSet<Deduct> Deducts { get; set; }
         public DbSet<DeductType> DeductTypes { get; set; }
-        public DbSet<Career> Careers { get; set; }
+        public DbSet<EmployeeCareer> EmployeeCareers { get; set; }
         public DbSet<WorkStatus> WorkStatus { get; set; }
 
 
