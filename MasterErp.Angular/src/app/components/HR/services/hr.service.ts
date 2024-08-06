@@ -184,10 +184,6 @@ export class HrService {
   EditEmployeeVacation(employeeId:number,model: EmployeeVacationModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Vacation/EditEmployeeVacation?EmployeeId='+employeeId, model);
   }
-  GetVacationTypesSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Vacation/GetVacationTypesSelector');
-  }
-
   DeleteEmployeeVacation(VacationId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'Vacation/DeleteEmployeeVacation?VacationId=' + VacationId);
   }

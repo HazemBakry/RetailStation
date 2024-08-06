@@ -15,5 +15,7 @@ namespace MasterErp.Entities.Models
         [Required, MaxLength(50)]
         public string LastName { get; set; }
         public string ImageUrl { get; set; }
+
+        public int? EmployeeId { get; set; }
     }
 }

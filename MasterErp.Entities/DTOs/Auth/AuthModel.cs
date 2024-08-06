@@ -17,6 +17,7 @@ namespace MasterErp.Entities.DTOs.Auth
         public string Email { get; set; }
         public string ImageUrl { get; set; }
         public string Token { get; set; }
+        public int? EmployeeId { get; set; }
         public DateTime ExpireOn { get; set; }
         public List<string> Roles { get; set; }
     }

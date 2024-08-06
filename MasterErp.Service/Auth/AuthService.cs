@@ -43,13 +43,15 @@ namespace MasterErp.Service.Auth
                 return new ActionsResponseModel { Message = "Email already registered" };
             if (await _userManager.FindByNameAsync(model.UserName) is not null)
                 return new ActionsResponseModel { Message = "UserName already registered" };
-
+            if (model.EmployeeId!=null&&await _userManager.Users.FirstOrDefaultAsync(x=>x.EmployeeId==model.EmployeeId) is not null)
+                return new ActionsResponseModel { Message = "employee already has account" };
             var User = new ApplicationUser
             {
                 UserName = model.UserName,
                 Email = model.Email,
                 FirstName = model.FirstName,
-                LastName = model.LastName
+                LastName = model.LastName,
+                EmployeeId = model.EmployeeId,
             };
             if (model.Image != null)
             {
@@ -94,11 +96,14 @@ namespace MasterErp.Service.Auth
                 return new ActionsResponseModel { Message = "invalid email" ,IsSuccess=false };
             if (await _userManager.FindByNameAsync(model.UserName) is not null && user.Id != model.UserId)
                 return new ActionsResponseModel { Message = "invalid username", IsSuccess = false };
+            if (model.EmployeeId != null && await _userManager.Users.FirstOrDefaultAsync(x => x.EmployeeId == model.EmployeeId&&x.Id!=model.UserId) is not null)
+                return new ActionsResponseModel { Message = "employee already has account" };
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.UserName = model.UserName;
             user.Email = model.Email;
             user.PhoneNumber = model.PhoneNumber;
+            user.EmployeeId = model.EmployeeId;
 
             if (model.Image != null)
             {
@@ -133,6 +138,7 @@ namespace MasterErp.Service.Auth
             authModel.ExpireOn = jwtSecurityToken.ValidTo;
             authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             authModel.UserName = User.UserName;
+            authModel.EmployeeId = User.EmployeeId;
             authModel.ImageUrl = GetImagePath(User.ImageUrl);
             authModel.Roles = roleList.ToList();
 
@@ -160,6 +166,7 @@ namespace MasterErp.Service.Auth
             authModel.ExpireOn = jwtSecurityToken.ValidTo;
             authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             authModel.UserName = User.UserName;
+            authModel.EmployeeId = User.EmployeeId;
             authModel.Roles = roleList.ToList();
 
             return authModel;
@@ -180,6 +187,8 @@ namespace MasterErp.Service.Auth
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Email,user.Email),
                 new Claim("UserId",user.Id),
+                //new Claim("EmployeeId",user.EmployeeId?.ToString()),
+                new Claim("EmployeeId","1"),
             }.Union(userClaims).Union(roleClaims);
 
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key));

@@ -1077,3 +1077,21 @@ td.td-disabled {
 
 
 /* end main content */
+
+
+.box-hover {
+    transition: all 0.25s ease;
+    -webkit-transition: all 0.25s ease;
+    -moz-transition: all 0.25s ease;
+    -ms-transition: all 0.25s ease;
+    -o-transition: all 0.25s ease;
+}
+
+.box-hover:hover {
+    box-shadow: 0 14px 24px rgba(0, 0, 0, 0.2);
+    transform: translateY(-4px) scale(1.02);
+    -webkit-transform: translateY(-4px) scale(1.02);
+    -moz-transform: translateY(-4px) scale(1.02);
+    -ms-transform: translateY(-4px) scale(1.02);
+    -o-transform: translateY(-4px) scale(1.02);
+}

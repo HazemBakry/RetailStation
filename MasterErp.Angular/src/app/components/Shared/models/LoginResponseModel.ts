@@ -14,6 +14,7 @@ export interface LoginUserModel {
     email: string;
     token: string;
     expireOn: string;
+    employeeId?:number |null;
     roles: string[];
     authorizedPages?:PagePermissionModel[];
 }

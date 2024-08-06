@@ -9,7 +9,7 @@ namespace MasterErp.Entities.DTOs.HR
 {
     public class EmployeeVacationDto : CreatorModel
     {
-        public int EmployeeId { get; set; }
+        public int? EmployeeId { get; set; }
         public string EmployeeName { get; set; }
         public int? VacationId { get; set; }
         public int VacationTypeId { get; set; }

@@ -1,4 +1,5 @@
 ﻿using MasterErp.Interface.Common;
+using MasterErp.Interface.EmployeeProfile;
 using MasterErp.Interface.Finance.GeneralAccounts;
 using MasterErp.Interface.Finance.Purchase;
 using MasterErp.Interface.Finance.Sales;
@@ -6,6 +7,7 @@ using MasterErp.Interface.HR;
 using MasterErp.Interface.Inventory;
 using MasterErp.Interface.Shared;
 using MasterErp.Service.Common;
+using MasterErp.Service.EmployeeProfile;
 using MasterErp.Service.Finance.GeneralAccounts;
 using MasterErp.Service.Finance.Purchase;
 using MasterErp.Service.Finance.Sales;
@@ -50,6 +52,7 @@ namespace MasterErp.API
             services.AddScoped<IJournalEntryTypeService, JournalEntryTypeService>();
             services.AddScoped<IFinancialPeriodService, FinancialPeriodService>();
             services.AddScoped<IExportService, ExportService>();
+            services.AddScoped<IEmployeeProfileService, EmployeeProfileService>();
         }
     }
 }

@@ -8,7 +8,8 @@ import { NotAuthorizedComponent } from './components/Shared/components/not-autho
 import { AuthGuard } from './Auth/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: ErpHomeComponent , canActivate: [AuthGuard]},
+  // { path: '', component: ErpHomeComponent , canActivate: [AuthGuard]},
+  { path: '', loadChildren: () => import('./components/EmployeeProfile/employee-profile.module').then(erp => erp.EmployeeProfileModule) },
   { path: 'login', component: ErpLoginComponent },
   { path: 'not-authorized', component: NotAuthorizedComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: DashboardComponent },

@@ -125,4 +125,11 @@ export class SharedService {
   GetBranchesSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetBranchesSelector');
   }
+
+  GetVacationTypesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Vacation/GetVacationTypesSelector');
+  }
+  GetActiveEmployeesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Employee/GetActiveEmployeesSelector');
+  }
 }
