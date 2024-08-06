@@ -23,7 +23,7 @@ export class HrCareersComponent implements OnInit {
   employeeSelectorData: FormDropdownModel[] = [];
   penaltyTypeSelectorData: FormDropdownModel[]=[];
 
-  selectedCareerId: number;
+  selectedEmployeeCareerId: number;
   
   employeeCareerModel: EmployeeCareerModel ={} as EmployeeCareerModel;
   employeeCareerResponse:PagedResponseDTO<EmployeeCareerModel[]>={
@@ -39,7 +39,7 @@ export class HrCareersComponent implements OnInit {
 
   public formGroup: FormGroup;
   public formErrors = {
-    careerId: '',
+    employeeCareerId: '',
     employeeId: '',
     executionDate: '',
     jobId: '',
@@ -108,7 +108,7 @@ export class HrCareersComponent implements OnInit {
   }
   buildForm() {
     this.formGroup = this.form.group({
-      careerId: [null],
+      employeeCareerId: [null],
       employeeId: [null],
       jobId: [null,[Validators.required]],
       branchId: [null,[Validators.required]],
@@ -129,7 +129,7 @@ export class HrCareersComponent implements OnInit {
       return;
     }
     this.employeeCareerModel = this.formGroup.value;
-    if(this.employeeCareerModel?.careerId)
+    if(this.employeeCareerModel?.employeeCareerId)
       this.editEmployeeCareer();
     else
       this.addNewEmployeeCareer();
@@ -199,7 +199,7 @@ export class HrCareersComponent implements OnInit {
   fillEditForm(careerModel:EmployeeCareerModel) {
     this.isUpdate=true;
     this.formGroup.patchValue({
-      careerId: careerModel.careerId,
+      employeeCareerId: careerModel.employeeCareerId,
       jobId: careerModel.jobId,
       branchId: careerModel.branchId,
       workStatusId: careerModel.workStatusId,
@@ -210,8 +210,8 @@ export class HrCareersComponent implements OnInit {
   }
 
 
-  openDeleteModal(content: any, careerId: number) {
-    this.selectedCareerId = careerId;
+  openDeleteModal(content: any, employeeCareerId: number) {
+    this.selectedEmployeeCareerId = employeeCareerId;
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
@@ -234,7 +234,7 @@ export class HrCareersComponent implements OnInit {
 
   deleteEmployeeCareer() {
     this.showAddLoader=true;
-    this.hrService.DeleteEmployeeCareer(this.selectedCareerId).subscribe(data => {
+    this.hrService.DeleteEmployeeCareer(this.selectedEmployeeCareerId).subscribe(data => {
 
       if(data?.isSuccess) {
         this.modalService?.dismissAll();

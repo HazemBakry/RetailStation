@@ -280,8 +280,8 @@ export class HrService {
   EditEmployeeCareer(employeeId:number,model: EmployeeCareerModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Careers/EditEmployeeCareer?EmployeeId='+employeeId, model);
   }
-  DeleteEmployeeCareer(careerId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'Careers/DeleteEmployeeCareer?EmployeeCareerId=' + careerId);
+  DeleteEmployeeCareer(employeeCareerId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Careers/DeleteEmployeeCareer?EmployeeCareerId=' + employeeCareerId);
   }
 
   GetWorkStatusSelector() {

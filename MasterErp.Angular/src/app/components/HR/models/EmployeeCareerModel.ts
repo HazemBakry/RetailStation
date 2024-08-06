@@ -1,7 +1,7 @@
 import { CreatorModel } from "../../Shared/models/CreatorModel";
 
 export interface EmployeeCareerModel extends CreatorModel {
-    careerId?: number | null;
+    employeeCareerId?: number | null;
     employeeId: number;
     employeeName: string;
     jobId: number;
