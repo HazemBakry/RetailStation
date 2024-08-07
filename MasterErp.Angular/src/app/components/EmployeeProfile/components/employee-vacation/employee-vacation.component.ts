@@ -41,6 +41,7 @@ export class EmployeeVacationComponent implements OnInit {
 
   };
   showLoader: boolean=false;
+  detailsView: boolean=false;
   showAddLoader: boolean=false;
 
   public formGroup: FormGroup;
@@ -65,10 +66,18 @@ export class EmployeeVacationComponent implements OnInit {
 
   ngOnInit(): void {
     this.initNewVacationForm();
-    this.getVacations();
-
     this.getVacationTypesSelector();
     this.getActiveEmployeesSelector();
+  }
+
+  toggleDetails(vacationModel:EmployeeVacationModel=null)
+  {
+    this.vacationResponse.results =[];
+    this.detailsView=!this.detailsView;
+    if(this.detailsView)
+      this.getVacations();
+
+    this.initNewVacationForm(vacationModel);
   }
   getVacations()
   {
@@ -145,8 +154,8 @@ export class EmployeeVacationComponent implements OnInit {
     this.employeeProfile.AddNewVacation(this.employeeVacationModel).subscribe(data => {
       if(data?.isSuccess) {
         this.formGroup?.reset();
-        this.offcanvasService?.dismiss();
-        this.getVacations();
+        // this.offcanvasService?.dismiss();
+        // this.getVacations();
         this.toaster.success(data?.message);
       }
       else {
@@ -171,8 +180,8 @@ export class EmployeeVacationComponent implements OnInit {
 
       if(data?.isSuccess) {
         this.formGroup?.reset();
-        this.offcanvasService?.dismiss();
-        this.getVacations();
+        // this.offcanvasService?.dismiss();
+        // this.getVacations();
         this.toaster.success(data?.message);
       }
       else {
@@ -247,7 +256,7 @@ export class EmployeeVacationComponent implements OnInit {
 
       if(data?.isSuccess) {
         this.modalService?.dismissAll();
-        this.getVacations();
+        // this.getVacations();
         this.toaster.success(data?.message);
       }
       else {
