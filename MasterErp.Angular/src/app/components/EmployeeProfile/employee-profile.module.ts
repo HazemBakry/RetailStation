@@ -6,12 +6,14 @@ import { EmployeeProfileLayoutComponent } from './employee-profile-layout/employ
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../Shared/shared.module';
 import { EmployeeVacationComponent } from './components/employee-vacation/employee-vacation.component';
+import { EmployeeLoansComponent } from './components/employee-loans/employee-loans.component';
 
 
 @NgModule({
   declarations: [
     EmployeeProfileLayoutComponent,
-    EmployeeVacationComponent
+    EmployeeVacationComponent,
+    EmployeeLoansComponent
   ],
   imports: [
     CommonModule,

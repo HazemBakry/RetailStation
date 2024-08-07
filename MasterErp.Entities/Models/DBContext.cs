@@ -67,6 +67,12 @@ namespace MasterErp.Entities.Models
         public DbSet<DeductType> DeductTypes { get; set; }
         public DbSet<EmployeeCareer> EmployeeCareers { get; set; }
         public DbSet<WorkStatus> WorkStatus { get; set; }
+        public DbSet<LoansPayment> LoansPayment { get; set; }
+        public DbSet<Loan> Loans { get; set; }
+        public DbSet<LoanType> LoanTypes { get; set; }
+
+
+
 
 
         //Elassal

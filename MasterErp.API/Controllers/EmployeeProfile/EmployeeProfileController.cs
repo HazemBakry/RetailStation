@@ -18,10 +18,12 @@ namespace MasterErp.API.Controllers.EmployeeProfile
     {
         private IEmployeeProfileService _employeeProfileService;
         private IVacationService _vacationService;
-        public EmployeeProfileController(IEmployeeProfileService employeeProfileService, IVacationService vacationService)
+        private ILoansService _loansService;
+        public EmployeeProfileController(IEmployeeProfileService employeeProfileService, IVacationService vacationService, ILoansService loansService)
         {
             _employeeProfileService = employeeProfileService;
             _vacationService = vacationService;
+            _loansService = loansService;
         }
 
 
@@ -80,6 +82,68 @@ namespace MasterErp.API.Controllers.EmployeeProfile
                 return BadRequest("can't find employeeId");
 
             var result = _vacationService.DeleteVacation(VacationId);
+            return Ok(result);
+        }
+
+        #endregion
+
+
+
+        #region Loans
+
+        [HttpPost]
+        [Route("GetLoans")]
+        public IActionResult GetLoans(SearchFilterModel Model)
+        {
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "EmployeeId")?.Value, out int EmployeeId);
+            if (EmployeeId == 0)
+                return BadRequest("can't find employeeId");
+
+            var data = _loansService.GetLoansByEmployeeId(EmployeeId, Model);
+            var result = new PagedResponseModel<EmployeeLoanDto>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = Model.PageSize,
+                CurrentPage = Model.CurrentPage
+
+            };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("AddNewLoan")]
+        public IActionResult AddNewLoan(EmployeeLoanDto model)
+        {
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "EmployeeId")?.Value, out int EmployeeId);
+            if (EmployeeId == 0)
+                return BadRequest("can't find employeeId");
+
+            var result = _loansService.AddNewEmployeeLoan(EmployeeId, model);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("EditLoan")]
+        public IActionResult EditLoan(EmployeeLoanDto model)
+        {
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "EmployeeId")?.Value, out int EmployeeId);
+            if (EmployeeId == 0)
+                return BadRequest("can't find employeeId");
+
+            var result = _loansService.EditEmployeeLoan(EmployeeId, model);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("DeleteLoan")]
+        public IActionResult DeleteLoan(int LoanId)
+        {
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "EmployeeId")?.Value, out int EmployeeId);
+            if (EmployeeId == 0)
+                return BadRequest("can't find employeeId");
+
+            var result = _loansService.DeleteEmployeeLoan(LoanId);
             return Ok(result);
         }
 

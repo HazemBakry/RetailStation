@@ -12,6 +12,7 @@ import { HrHomeComponent } from './components/hr-home/hr-home.component';
 import { HrLayoutComponent } from './hr-layout/hr-layout.component';
 import { HrCareersComponent } from './components/hr-careers/hr-careers.component';
 import { HrDeductsComponent } from './components/hr-deducts/hr-deducts.component';
+import { HrLoansComponent } from './components/hr-loans/hr-loans.component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,10 @@ const routes: Routes = [
       {
         path: 'salary',
         component: HrSalaryComponent
+      },
+      {
+        path: 'loans',
+        component: HrLoansComponent
       },
       { path: '', redirectTo: 'home' ,pathMatch: 'full' },
     ]

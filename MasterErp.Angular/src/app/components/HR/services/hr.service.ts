@@ -12,6 +12,7 @@ import { EmployeeOverTimeModel } from '../models/EmployeeOverTimeModel';
 import { EmployeeSickLeaveModel } from '../models/EmployeeSickLeaveModel';
 import { EmployeeDeductModel } from '../models/EmployeeDeductModel';
 import { EmployeeCareerModel } from '../models/EmployeeCareerModel';
+import { EmployeeLoanModel } from '../models/EmployeeLoanModel';
 
 @Injectable({
   providedIn: 'root'
@@ -280,8 +281,8 @@ export class HrService {
   EditEmployeeCareer(employeeId:number,model: EmployeeCareerModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Careers/EditEmployeeCareer?EmployeeId='+employeeId, model);
   }
-  DeleteEmployeeCareer(careerId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'Careers/DeleteEmployeeCareer?EmployeeCareerId=' + careerId);
+  DeleteEmployeeCareer(employeeCareerId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Careers/DeleteEmployeeCareer?EmployeeCareerId=' + employeeCareerId);
   }
 
   GetWorkStatusSelector() {
@@ -292,6 +293,29 @@ export class HrService {
   }
 
 
+
+
+    
+  //================================== Loans ===============================
+  GetAllEmployeeLoansData(model: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<EmployeeLoanModel[]>>(this.URL + 'Loans/GetAllEmployeeLoansData', model);
+  }
+  GetLoansByEmployeeId(employeeId,model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<EmployeeLoanModel[]>>(this.URL + 'Loans/GetLoansByEmployeeId?EmployeeId='+employeeId, model);
+  }
+  AddNewEmployeeLoan(employeeId:number,model: EmployeeLoanModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Loans/AddNewEmployeeLoan?EmployeeId='+employeeId, model);
+  }
+  EditEmployeeLoan(employeeId:number,model: EmployeeLoanModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Loans/EditEmployeeLoan?EmployeeId='+employeeId, model);
+  }
+  DeleteEmployeeLoan(loanId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Loans/DeleteEmployeeLoan?LoanId=' + loanId);
+  }
+
+  GetLoanTypesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Loans/GetLoanTypesSelector');
+  }
 
 
 

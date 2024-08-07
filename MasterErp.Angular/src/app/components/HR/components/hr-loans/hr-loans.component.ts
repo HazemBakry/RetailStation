@@ -6,27 +6,27 @@ import { DatePipe } from '@angular/common';
 import { FilterItem} from 'src/app/components/Shared/models/FilterModel';
 import { ToastrService } from 'ngx-toastr';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
-import { EmployeeCareerModel } from '../../models/EmployeeCareerModel';
+import { EmployeeLoanModel } from '../../models/EmployeeLoanModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 
 @Component({
-  selector: 'app-hr-careers',
-  templateUrl: './hr-careers.component.html',
-  styleUrls: ['./hr-careers.component.css']
+  selector: 'app-hr-loans',
+  templateUrl: './hr-loans.component.html',
+  styleUrls: ['./hr-loans.component.css']
 })
-export class HrCareersComponent implements OnInit {
+export class HrLoansComponent implements OnInit {
   VacationData: any[] = [];
  
   employeeSelectorData: FormDropdownModel[] = [];
   penaltyTypeSelectorData: FormDropdownModel[]=[];
 
-  selectedEmployeeCareerId: number;
+  selectedLoanId: number;
   
-  employeeCareerModel: EmployeeCareerModel ={} as EmployeeCareerModel;
-  employeeCareerResponse:PagedResponseDTO<EmployeeCareerModel[]>={
+  employeeLoanModel: EmployeeLoanModel ={} as EmployeeLoanModel;
+  employeeLoanResponse:PagedResponseDTO<EmployeeLoanModel[]>={
     results:[],
     filterList:[],
     pageSize: 25,
@@ -39,16 +39,14 @@ export class HrCareersComponent implements OnInit {
 
   public formGroup: FormGroup;
   public formErrors = {
-    employeeCareerId: '',
+    loanId: '',
     employeeId: '',
-    executionDate: '',
-    jobId: '',
-    branchId: '',
-    workStatusId: '',
-    notes: '',
-    timeFrom: '',
-    timeTo: '',
-
+    paymentFromDate: '',
+    loanTypeId: '',
+    loanAmount: '',
+    paymentAmount: '',
+    isApproved: '',
+    notes: ''
   };
 
   selectedEmployeeId:number=null;
@@ -59,16 +57,16 @@ export class HrCareersComponent implements OnInit {
   ngOnInit(): void {
     this.getActiveEmployeesSelector();
   }
-  getCareerByEmployeeId()
+  getLoanByEmployeeId()
   {
     if(!this.checkEmployee())
       return;
     
 
     this.showLoader=true;
-    this.hrService.GetCareersByEmployeeId(this.selectedEmployeeId,this.employeeCareerResponse).subscribe(data => {
-      this.employeeCareerResponse.results = data.results;
-      this.employeeCareerResponse.totalCount = data.totalCount;
+    this.hrService.GetLoansByEmployeeId(this.selectedEmployeeId,this.employeeLoanResponse).subscribe(data => {
+      this.employeeLoanResponse.results = data.results;
+      this.employeeLoanResponse.totalCount = data.totalCount;
 
       this.showLoader=false;
     }, err=>{
@@ -90,30 +88,31 @@ export class HrCareersComponent implements OnInit {
     }
     return true;
   }
-  openNewCareerSidePanel(content: any,careerModel:EmployeeCareerModel=null) {
+  openNewLoanSidePanel(content: any,loanModel:EmployeeLoanModel=null) {
     if(!this.checkEmployee())
       return;
 
-    this.getBranchesSelector();
-    this.getJobsSelector();
-    this.getWorkStatusSelector();
+    this.getLoanTypesSelector();
+
     this.isUpdate=false;
     this.buildForm();
-    if(careerModel)
-      this.fillEditForm(careerModel);
+    if(loanModel)
+      this.fillEditForm(loanModel);
 
     this.formGroup.patchValue({employeeId:this.selectedEmployeeId});
    
     this.offcanvasService.open(content, { panelClass: 'add-new-panel', position: 'end' });
   }
   buildForm() {
+
     this.formGroup = this.form.group({
-      employeeCareerId: [null],
+      loanId: [null],
       employeeId: [null],
-      jobId: [null,[Validators.required]],
-      branchId: [null,[Validators.required]],
-      workStatusId: [null,[Validators.required]],
-      executionDate: [null, [Validators.required,CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
+      loanTypeId: [null,[Validators.required]],
+      loanAmount: [null,[Validators.required,CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/,'ادخل ارقام فقط')]],
+      paymentAmount: [null,[Validators.required,CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/,'ادخل ارقام فقط')]],
+      isApproved: [null],
+      paymentFromDate: [null, [Validators.required,CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
       notes: [null],
 
     });
@@ -124,26 +123,26 @@ export class HrCareersComponent implements OnInit {
 
   }
 
-  saveEmployeeCareer() {
+  saveEmployeeLoan() {
     if (!this.validateForm()) {
       return;
     }
-    this.employeeCareerModel = this.formGroup.value;
-    if(this.employeeCareerModel?.employeeCareerId)
-      this.editEmployeeCareer();
+    this.employeeLoanModel = this.formGroup.value;
+    if(this.employeeLoanModel?.loanId)
+      this.editEmployeeLoan();
     else
-      this.addNewEmployeeCareer();
+      this.addNewEmployeeLoan();
   }
 
-  addNewEmployeeCareer()
+  addNewEmployeeLoan()
   {
 
     this.showAddLoader=true;
-    this.hrService.AddNewEmployeeCareer(this.selectedEmployeeId,this.employeeCareerModel).subscribe(data => {
+    this.hrService.AddNewEmployeeLoan(this.selectedEmployeeId,this.employeeLoanModel).subscribe(data => {
       if(data?.isSuccess) {
         this.formGroup?.reset();
         this.offcanvasService?.dismiss();
-        this.getCareerByEmployeeId();
+        this.getLoanByEmployeeId();
         this.toaster.success(data?.message);
       }
       else {
@@ -160,16 +159,16 @@ export class HrCareersComponent implements OnInit {
 
   }
 
-  editEmployeeCareer()
+  editEmployeeLoan()
   {
 
     this.showAddLoader=true;
-    this.hrService.EditEmployeeCareer(this.selectedEmployeeId,this.employeeCareerModel).subscribe(data => {
+    this.hrService.EditEmployeeLoan(this.selectedEmployeeId,this.employeeLoanModel).subscribe(data => {
 
       if(data?.isSuccess) {
         this.formGroup?.reset();
         this.offcanvasService?.dismiss();
-        this.getCareerByEmployeeId();
+        this.getLoanByEmployeeId();
         this.toaster.success(data?.message);
       }
       else {
@@ -196,22 +195,24 @@ export class HrCareersComponent implements OnInit {
   }
 
 
-  fillEditForm(careerModel:EmployeeCareerModel) {
+  fillEditForm(loanModel:EmployeeLoanModel) {
     this.isUpdate=true;
+
     this.formGroup.patchValue({
-      employeeCareerId: careerModel.employeeCareerId,
-      jobId: careerModel.jobId,
-      branchId: careerModel.branchId,
-      workStatusId: careerModel.workStatusId,
+      loanId: loanModel.loanId,
+      loanTypeId: loanModel.loanTypeId,
+      loanAmount: loanModel.loanAmount,
+      paymentAmount: loanModel.paymentAmount,
+      isApproved: loanModel.isApproved,
       employeeId: this.selectedEmployeeId,
-      executionDate: this.datePipe.transform(careerModel.executionDate, 'yyyy-MM-dd'),
-      notes: careerModel.notes
+      paymentFromDate: this.datePipe.transform(loanModel.paymentFromDate, 'yyyy-MM-dd'),
+      notes: loanModel.notes
     });
   }
 
 
-  openDeleteModal(content: any, employeeCareerId: number) {
-    this.selectedEmployeeCareerId = employeeCareerId;
+  openDeleteModal(content: any, loanId: number) {
+    this.selectedLoanId = loanId;
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
@@ -222,23 +223,23 @@ export class HrCareersComponent implements OnInit {
   }
 
   filterChecked(filterItems: FilterItem[]) {
-    this.employeeCareerResponse.filterList = filterItems;
-    this.getCareerByEmployeeId();
+    this.employeeLoanResponse.filterList = filterItems;
+    this.getLoanByEmployeeId();
  }
 
  pageChanged(obj: any) {
-   this.employeeCareerResponse.currentPage = obj.page;
-   this.getCareerByEmployeeId();
+   this.employeeLoanResponse.currentPage = obj.page;
+   this.getLoanByEmployeeId();
  }
 
 
-  deleteEmployeeCareer() {
+  deleteEmployeeLoan() {
     this.showAddLoader=true;
-    this.hrService.DeleteEmployeeCareer(this.selectedEmployeeCareerId).subscribe(data => {
+    this.hrService.DeleteEmployeeLoan(this.selectedLoanId).subscribe(data => {
 
       if(data?.isSuccess) {
         this.modalService?.dismissAll();
-        this.getCareerByEmployeeId();
+        this.getLoanByEmployeeId();
         this.toaster.success(data?.message);
       }
       else {
@@ -251,23 +252,13 @@ export class HrCareersComponent implements OnInit {
       this.showAddLoader=false;
     });
   }
-  workStatusSelectorData:FormDropdownModel[]=[];
-  getWorkStatusSelector(){
-    this.hrService.GetWorkStatusSelector().subscribe((data :FormDropdownModel[])=> {
-      this.workStatusSelectorData = data;
+  loanTypesSelectorData:FormDropdownModel[]=[];
+  getLoanTypesSelector(){
+    this.hrService.GetLoanTypesSelector().subscribe((data :FormDropdownModel[])=> {
+      this.loanTypesSelectorData = data;
     });
   }
-  jobsSelectorData:FormDropdownModel[]=[];
-  getJobsSelector(){
-    this.hrService.GetJobsSelector().subscribe((data :FormDropdownModel[])=> {
-      this.jobsSelectorData = data;
-    });
-  }
-  branchesSelectorData:FormDropdownModel[]=[];
-  getBranchesSelector(){
-    this.sharedService.GetBranchesSelector().subscribe((data :FormDropdownModel[])=> {
-      this.branchesSelectorData = data;
-    });
-  }
+  
 }
+
 
