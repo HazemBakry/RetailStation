@@ -1,6 +1,9 @@
 <div class="card radius-10 border-0 card-shadow mb-3">
+  <div class="card-header border-bottom bg-gray">
+    <h5 class="mb-0 fw-bold">Add Penalty</h5>
+  </div>
     <div class="card-body">
-        <h5 class="mb-3 fw-bold">Add Penalty</h5>
+        <h5 class="mb-3 fw-bold"></h5>
         <div class="main-card-action d-flex align-items-center flex-wrap">
             <!-- <button class="btn btn-dark mb-1">
                 <i class="uil uil-eye"></i>
@@ -34,13 +37,13 @@
                     </div> -->
             </div>
             <div class="col-lg-2 mt-2">
-                <button class="btn btn-primary " (click)="getPenaltiesByEmployeeId()">
+                <button class="btn btn-primary radius-50" (click)="getPenaltiesByEmployeeId()">
 
                     <i class="fas fa-search"></i>
                     <span class="ms-2">بحث</span>
                 </button>
             </div>
-            
+
         </div>
 
     </div>
@@ -84,7 +87,7 @@
                         <th>العمليات</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-center">
                     <tr *ngFor="let item of employeePenaltyResponse.results">
                         <td>{{item.employeeName}}</td>
                         <td>{{item.penaltyType}}</td>
@@ -136,97 +139,82 @@
 </ng-template>
 
 <ng-template #AddPenaltySidePanel let-offcanvas>
-    <div class="container bg-light h-100">
-        <div class="offcanvas-header mb-2">
+      <div class="offcanvas-header gap-3 fs-4 border-bottom py-4">
+        <i class="fas fa-user-plus offcanvas-header-icon"></i>
+        <span>إضافة الجزاءات</span>
+      </div>
 
-        </div>
+      <div class="offcanvas-body pt-4 bg-light">
+        <form [formGroup]="formGroup" autocomplete="off">
+          <div class="row">
 
-        <div class="offcanvas-body pt-0 bg-light">
-            <form [formGroup]="formGroup" autocomplete="off">
-                <div class="row">
-                    <div class="col-lg-4 mb-3">
-                        <div class="form-floating">
-                            <app-drop-down-form-control formControlName="penaltyTypeId" [data]="penaltyTypeSelectorData"
-                                [showSearch]="true" [placeholder]="'نوع الجزاء'"></app-drop-down-form-control>
-                        </div>
-                        <div *ngIf="formErrors.penaltyTypeId" class="text-danger  font-small-3 m-03">
-                            {{formErrors.penaltyTypeId}}
-                        </div>
-                    </div>
-                    <div class="col-lg-4 offset-lg-1">
-                        <div class="form-floating">
-                            <input type="date" class="form-control" formControlName="executionDate" id="floatingInput"
-                                placeholder="name@example.com">
-                            <label for="floatingInput">Execution Date</label>
-                        </div>
-                        <div *ngIf="formErrors.executionDate" class="text-danger  font-small-3 m-03">
-                            {{formErrors.executionDate}}
-                        </div>
-                    </div>
-
-
-                </div>
-               
-                <div class="row">
-                    <div class="col-lg-4 mb-3">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" formControlName="deductionByDays" id="floatingInput" placeholder="name@example.com">
-                            <label for="floatingInput">Deduction By Days</label>
-                        </div>
-                        <div *ngIf="formErrors.deductionByDays" class="text-danger  font-small-3 m-03">
-                            {{formErrors.deductionByDays}}
-                        </div>
-                    </div>
-                    <div class="col-lg-4 offset-lg-1">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" formControlName="deductionAmount" id="floatingInput" placeholder="name@example.com">
-                            <label for="floatingInput">Deduction Amount</label>
-                        </div>
-                        <div *ngIf="formErrors.deductionAmount" class="text-danger  font-small-3 m-03">
-                            {{formErrors.deductionAmount}}
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="col-lg-4 mb-3">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" formControlName="moneyAmount" id="floatingInput" placeholder="name@example.com">
-                            <label for="floatingInput">Money Amount</label>
-                        </div>
-                        <div *ngIf="formErrors.moneyAmount" class="text-danger  font-small-3 m-03">
-                            {{formErrors.moneyAmount}}
-                        </div>
-                    </div>
-                   
-                </div>
-                <div class="row mb-3">
-                    <div class="col-lg-8 offset-lg-1">
-                        <div class="form-floating">
-                            <label for="floatingInput2">السبب</label>
-                            <textarea type="text" formControlName="reason" class="form-control " id="floatingInput2" placeholder="ملاحظات" autocomplete="off">
-                            </textarea>
-                        </div>
-                        <div *ngIf="formErrors.reason" class="text-danger  font-small-3 m-03">
-                            {{formErrors.reason}}
-                        </div>
-                    </div>
-                    
-                </div>
-                
-            </form>
-
-            <div class="d-flex justify-content-center">
-                <button [disabled]="showAddLoader" (click)="saveEmployeePenalty()" class="btn btn-primary w-50 justify-content-center py-3 fs-5 radius-10">
-                    <!-- <i class="fas fa-id-card"></i> -->
-                    <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
-                    <span *ngIf="isUpdate" class="ms-3">تعديل</span>
-                </button>
+            <div class="col-lg-12 mb-3">
+              <label class="form-label">نوع الجزاء</label>
+              <app-drop-down-form-control formControlName="penaltyTypeId" [data]="penaltyTypeSelectorData" [showSearch]="true"
+                [placeholder]="'نوع الجزاء'"></app-drop-down-form-control>
+              <div *ngIf="formErrors.penaltyTypeId" class="text-danger  font-small-3 m-03">
+                {{formErrors.penaltyTypeId}}
+              </div>
             </div>
-            <div class="table-responsive sidepanel-table-h large-scroll">
+
+            <div class="col-lg-12 mb-3">
+              <label class="form-label">Execution Date</label>
+              <input type="date" class="form-control sidepanel-input-padding" formControlName="executionDate" id="floatingInput"
+                placeholder="name@example.com">
+              <div *ngIf="formErrors.executionDate" class="text-danger  font-small-3 m-03">
+                {{formErrors.executionDate}}
+              </div>
             </div>
+
+            <div class="col-lg-12 mb-3">
+              <label class="form-label">Deduction By Days</label>
+              <input type="text" class="form-control sidepanel-input-padding" formControlName="deductionByDays" id="floatingInput"
+                placeholder="name@example.com">
+              <div *ngIf="formErrors.deductionByDays" class="text-danger  font-small-3 m-03">
+                {{formErrors.deductionByDays}}
+              </div>
+            </div>
+
+            <div class="col-lg-12 mb-3">
+              <label class="form-label">Deduction Amount</label>
+              <input type="text" class="form-control sidepanel-input-padding" formControlName="deductionAmount" id="floatingInput"
+                placeholder="name@example.com">
+              <div *ngIf="formErrors.deductionAmount" class="text-danger  font-small-3 m-03">
+                {{formErrors.deductionAmount}}
+              </div>
+            </div>
+
+
+            <div class="col-lg-12 mb-3">
+              <label class="form-label">Money Amount</label>
+              <input type="text" class="form-control sidepanel-input-padding" formControlName="moneyAmount" id="floatingInput"
+                  placeholder="name@example.com">
+                <div *ngIf="formErrors.moneyAmount" class="text-danger  font-small-3 m-03">
+                  {{formErrors.moneyAmount}}
+                </div>
+            </div>
+
+            <div class="col-lg-12 mb-3">
+              <label class="form-label">السبب</label>
+              <textarea type="text" formControlName="reason" class="form-control " id="floatingInput2" placeholder="ملاحظات"
+                autocomplete="off">
+                                              </textarea>
+              <div *ngIf="formErrors.reason" class="text-danger  font-small-3 m-03">
+                {{formErrors.reason}}
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="d-flex justify-content-center border-top pt-3 mt-3">
+          <button [disabled]="showAddLoader" (click)="saveEmployeePenalty()"
+            class="btn btn-primary w-50 justify-content-center py-3 fs-5 radius-10">
+            <!-- <i class="fas fa-id-card"></i> -->
+            <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
+            <span *ngIf="isUpdate" class="ms-3">تعديل</span>
+          </button>
         </div>
-    </div>
-
-
+        <div class="table-responsive sidepanel-table-h large-scroll">
+        </div>
+      </div>
 </ng-template>

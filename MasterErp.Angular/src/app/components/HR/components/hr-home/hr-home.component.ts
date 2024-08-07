@@ -124,6 +124,7 @@ export class HrHomeComponent implements OnInit {
     this.hrService.GetEmployeesSummary().subscribe(data => {
       // console.log("🚀  ~ data:", data)
       this.overviewList = data;
+      console.log(data);
     });
   }
 
