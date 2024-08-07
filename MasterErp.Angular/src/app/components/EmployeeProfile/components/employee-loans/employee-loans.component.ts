@@ -9,21 +9,22 @@ import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponse
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
-import { EmployeeVacationModel } from 'src/app/components/HR/models/EmployeeVacationModel';
+import { EmployeeLoanModel } from 'src/app/components/HR/models/EmployeeLoanModel';
 import { EmployeeProfileService } from '../../services/employee-profile.service';
 
-@Component({
-  selector: 'app-employee-vacation',
-  templateUrl: './employee-vacation.component.html',
-  styleUrls: ['./employee-vacation.component.css']
-})
-export class EmployeeVacationComponent implements OnInit {
-  VacationData: any[] = [];
-  employeeVacationsData: EmployeeVacationModel[] = [];
-  employeeSelectorData: FormDropdownModel[] = [];
-  vacationTypeSelectorData: FormDropdownModel[]=[];
 
-  selectedVacationId: number;
+@Component({
+  selector: 'app-employee-loans',
+  templateUrl: './employee-loans.component.html',
+  styleUrls: ['./employee-loans.component.css']
+})
+export class EmployeeLoansComponent implements OnInit {
+  LoanData: any[] = [];
+  employeeLoansData: EmployeeLoanModel[] = [];
+  employeeSelectorData: FormDropdownModel[] = [];
+  loanTypesSelectorData: FormDropdownModel[]=[];
+
+  selectedLoanId: number;
   CategorySearch: any;
   CategoryName = 'قائمة الموظفين';
   SearchFilterModel: SearchFilterModel = {
@@ -31,8 +32,8 @@ export class EmployeeVacationComponent implements OnInit {
     pageSize: 25,
     filterModel: { filterItems: [] }
   };
-  employeeVacationModel: EmployeeVacationModel ={} as EmployeeVacationModel;
-  vacationResponse:PagedResponseDTO<EmployeeVacationModel[]>={
+  employeeLoanModel: EmployeeLoanModel ={} as EmployeeLoanModel;
+  loanResponse:PagedResponseDTO<EmployeeLoanModel[]>={
     results:[],
     filterList:[],
     pageSize: 25,
@@ -47,17 +48,14 @@ export class EmployeeVacationComponent implements OnInit {
   public formGroup: FormGroup;
 
   public formErrors = {
-
-    vacationId: '',
+    loanId: '',
     employeeId: '',
-    isAlternativeAvailable: '',
-    alternativeEmployeeId: '',
-    vacationTypeId: '',
-    fromDate: '',
-    toDate: '',
-    lastDayWork: '',
-    notes: '',
-
+    paymentFromDate: '',
+    loanTypeId: '',
+    loanAmount: '',
+    paymentAmount: '',
+    isApproved: '',
+    notes: ''
   };
   selectedEmployeeId:number=null;
   isUpdate: boolean=false;
@@ -65,27 +63,26 @@ export class EmployeeVacationComponent implements OnInit {
     private datePipe: DatePipe,private toaster:ToastrService,private offcanvasService: NgbOffcanvas,) { }
 
   ngOnInit(): void {
-    this.initNewVacationForm();
-    this.getVacationTypesSelector();
-    this.getActiveEmployeesSelector();
+    this.initNewLoanForm();
+    this.getLoanTypesSelector();
   }
 
-  toggleDetails(vacationModel:EmployeeVacationModel=null)
+  toggleDetails(loanModel:EmployeeLoanModel=null)
   {
-    this.vacationResponse.results =[];
+    this.loanResponse.results =[];
     this.detailsView=!this.detailsView;
     if(this.detailsView)
-      this.getVacations();
+      this.getLoans();
 
-    this.initNewVacationForm(vacationModel);
+    this.initNewLoanForm(loanModel);
   }
-  getVacations()
+  getLoans()
   {
 
     this.showLoader=true;
-    this.employeeProfile.GetVacations(this.vacationResponse).subscribe(data => {
-      this.vacationResponse.results = data.results;
-      this.vacationResponse.totalCount = data.totalCount;
+    this.employeeProfile.GetLoans(this.loanResponse).subscribe(data => {
+      this.loanResponse.results = data.results;
+      this.loanResponse.totalCount = data.totalCount;
 
       this.showLoader=false;
     }, err=>{
@@ -97,65 +94,55 @@ export class EmployeeVacationComponent implements OnInit {
     
   }
 
-  initNewVacationForm(vacationModel:EmployeeVacationModel=null) {
+  initNewLoanForm(loanModel:EmployeeLoanModel=null) {
 
     this.isUpdate=false;
     this.buildForm();
-    if(vacationModel)
-      this.fillEditForm(vacationModel);
+    if(loanModel)
+      this.fillEditForm(loanModel);
 
     // this.formGroup.patchValue({employeeId:this.selectedEmployeeId});
     
   }
   buildForm() {
     this.formGroup = this.form.group({
-      vacationId: [null],
+      loanId: [null],
       employeeId: [null],
-      isAlternativeAvailable: [false],
-      alternativeEmployeeId: [null],
-      vacationTypeId: [null, [Validators.required]],
-      fromDate: [null, [Validators.required]],
-      toDate: [null, [Validators.required]],
-      lastDayWork: [null, [Validators.required]],
+      loanTypeId: [null,[Validators.required]],
+      loanAmount: [null,[Validators.required,CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/,'ادخل ارقام فقط')]],
+      paymentAmount: [null,[Validators.required,CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/,'ادخل ارقام فقط')]],
+      isApproved: [null],
+      paymentFromDate: [null, [Validators.required,CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
       notes: [null],
 
-    },{
-      validators: [CustomValidators.endDateGreaterThanStartDate('lastDayWork', 'fromDate','يجب ان يكون تاريخ بدء الاجازه بعد اخر يوم عمل'),
-        CustomValidators.endDateGreaterThanStartDate('fromDate', 'toDate','يجب ان يكون تاريخ انهاء الاجازه بعد البدء')],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
 
     });
-    this.formGroup.get('isAlternativeAvailable').valueChanges.subscribe((regionId) => {
-
-    });
   }
 
-  saveVacation() {
+  saveLoan() {
     if (!this.validateForm()) {
       return;
     }
+    this.employeeLoanModel = this.formGroup.value;
 
-    
-
-    this.employeeVacationModel = this.formGroup.value;
-
-    if(this.employeeVacationModel?.vacationId)
-      this.editVacation();
+    if(this.employeeLoanModel?.loanId)
+      this.editLoan();
     else
-      this.addNewVacation();
+      this.addNewLoan();
   }
 
-  addNewVacation()
+  addNewLoan()
   {
 
     this.showAddLoader=true;
-    this.employeeProfile.AddNewVacation(this.employeeVacationModel).subscribe(data => {
+    this.employeeProfile.AddNewLoan(this.employeeLoanModel).subscribe(data => {
       if(data?.isSuccess) {
         this.formGroup?.reset();
         // this.offcanvasService?.dismiss();
-        // this.getVacations();
+        // this.getLoans();
         this.toaster.success(data?.message);
       }
       else {
@@ -172,16 +159,16 @@ export class EmployeeVacationComponent implements OnInit {
 
   }
 
-  editVacation()
+  editLoan()
   {
 
     this.showAddLoader=true;
-    this.employeeProfile.EditVacation(this.employeeVacationModel).subscribe(data => {
+    this.employeeProfile.EditLoan(this.employeeLoanModel).subscribe(data => {
 
       if(data?.isSuccess) {
         this.formGroup?.reset();
         // this.offcanvasService?.dismiss();
-        // this.getVacations();
+        // this.getLoans();
         this.toaster.success(data?.message);
       }
       else {
@@ -196,16 +183,12 @@ export class EmployeeVacationComponent implements OnInit {
 
     
   }
-  getVacationTypesSelector(){
-    this.sharedService.GetVacationTypesSelector().subscribe((data :FormDropdownModel[])=> {
-      this.vacationTypeSelectorData = data;
+  getLoanTypesSelector(){
+    this.sharedService.GetLoanTypesSelector().subscribe((data :FormDropdownModel[])=> {
+      this.loanTypesSelectorData = data;
     });
   }
-  getActiveEmployeesSelector() {
-    this.sharedService.GetActiveEmployeesSelector().subscribe((data :FormDropdownModel[])=> {
-      this.employeeSelectorData = data;
-    });
-  }
+
   validateForm(): boolean {
     this._FormService.markFormGroupTouched(this.formGroup);
     if (this.formGroup.valid) {
@@ -217,46 +200,46 @@ export class EmployeeVacationComponent implements OnInit {
   }
 
 
-  fillEditForm(vacationModel:EmployeeVacationModel) {
-    this.isUpdate = true;
+  fillEditForm(loanModel:EmployeeLoanModel) {
+    this.isUpdate=true;
+
     this.formGroup.patchValue({
-      vacationId: vacationModel.vacationId,
+      loanId: loanModel.loanId,
+      loanTypeId: loanModel.loanTypeId,
+      loanAmount: loanModel.loanAmount,
+      paymentAmount: loanModel.paymentAmount,
+      isApproved: loanModel.isApproved,
       employeeId: this.selectedEmployeeId,
-      isAlternativeAvailable: vacationModel.isAlternativeAvailable,
-      alternativeEmployeeId: vacationModel.alternativeEmployeeId,
-      vacationTypeId: vacationModel.vacationTypeId,
-      fromDate: this.datePipe.transform(vacationModel.fromDate, 'yyyy-MM-dd'),
-      toDate: this.datePipe.transform(vacationModel.toDate, 'yyyy-MM-dd'),
-      lastDayWork: this.datePipe.transform(vacationModel.lastDayWork, 'yyyy-MM-dd'),
-      notes: vacationModel.notes,
+      paymentFromDate: this.datePipe.transform(loanModel.paymentFromDate, 'yyyy-MM-dd'),
+      notes: loanModel.notes
     });
   }
 
 
-  openDeleteModal(content: any, vacationId: number) {
-    this.selectedVacationId = vacationId;
+  openDeleteModal(content: any, loanId: number) {
+    this.selectedLoanId = loanId;
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
 
   filterChecked(filterItems: FilterItem[]) {
-    this.vacationResponse.filterList = filterItems;
-    this.getVacations();
+    this.loanResponse.filterList = filterItems;
+    this.getLoans();
  }
 
  pageChanged(obj: any) {
-   this.vacationResponse.currentPage = obj.page;
-   this.getVacations();
+   this.loanResponse.currentPage = obj.page;
+   this.getLoans();
  }
 
 
-  deleteVacation() {
+  deleteLoan() {
     this.showAddLoader=true;
-    this.employeeProfile.DeleteVacation(this.selectedVacationId).subscribe(data => {
+    this.employeeProfile.DeleteLoan(this.selectedLoanId).subscribe(data => {
 
       if(data?.isSuccess) {
         this.modalService?.dismissAll();
-        this.getVacations();
+        this.getLoans();
         this.toaster.success(data?.message);
       }
       else {

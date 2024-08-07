@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ErpHomeComponent } from '../Shared/components/erp-home/erp-home.component';
 import { EmployeeProfileLayoutComponent } from './employee-profile-layout/employee-profile-layout.component';
 import { EmployeeVacationComponent } from './components/employee-vacation/employee-vacation.component';
+import { EmployeeLoansComponent } from './components/employee-loans/employee-loans.component';
 
 const routes: Routes = [
 
@@ -17,6 +18,10 @@ const routes: Routes = [
       {
         path: 'profile/vacation',
         component: EmployeeVacationComponent
+      },
+      {
+        path: 'profile/loans',
+        component: EmployeeLoansComponent
       },
       { path: '', redirectTo: '' ,pathMatch: 'full' },
     ]

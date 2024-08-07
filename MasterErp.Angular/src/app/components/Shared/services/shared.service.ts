@@ -132,4 +132,8 @@ export class SharedService {
   GetActiveEmployeesSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Employee/GetActiveEmployeesSelector');
   }
+
+  GetLoanTypesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Loans/GetLoanTypesSelector');
+  }
 }

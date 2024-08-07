@@ -2,14 +2,14 @@
     <div class="card radius-10 border-0 card-shadow mb-3">
         <div class="card-body">
             <div class="d-flex justify-content-between">
-                <h5 class="mb-3 fw-bold">Add Vacation</h5>
+                <h5 class="mb-3 fw-bold">Add Loan</h5>
                 <button (click)="toggleDetails()" class="btn mb-1">
                     <i class="uil uil-eye"></i>
-                    <span class="ms-2">الاجازات السابقة</span>
+                    <span class="ms-2  text-underline">السلف السابقة</span>
                 </button>
             </div>
             <div class="main-card-action d-flex align-items-center flex-wrap">
-               
+                
                 <!-- <button class="btn btn-warning mb-1">
                     <i class="uil uil-location-arrow"></i>
                     <span class="ms-2">Update</span>
@@ -24,58 +24,51 @@
                 </button> -->
             </div>
             <form [formGroup]="formGroup" autocomplete="off">
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col-lg-4 mb-3">
                         <div class="form-floating">
-                            <app-drop-down-form-control formControlName="vacationTypeId" [data]="vacationTypeSelectorData"
-                                [showSearch]="true" [placeholder]="'نوع الاجازه'"></app-drop-down-form-control>
+                            <app-drop-down-form-control formControlName="loanTypeId" [data]="loanTypesSelectorData"
+                                [showSearch]="true" [placeholder]="'نوع السلفة'"></app-drop-down-form-control>
                         </div>
-                        <div *ngIf="formErrors.vacationTypeId" class="text-danger  font-small-3 m-03">
-                            {{formErrors.vacationTypeId}}
+                        <div *ngIf="formErrors.loanTypeId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.loanTypeId}}
                         </div>
                     </div>
-    
-    
+                    <div class="col-lg-4 offset-lg-1">
+                        <div class="form-floating">
+                            <input type="date" class="form-control" formControlName="paymentFromDate" id="floatingInput"
+                                placeholder="name@example.com">
+                            <label for="floatingInput">Start Paying Date</label>
+                        </div>
+                        <div *ngIf="formErrors.paymentFromDate" class="text-danger  font-small-3 m-03">
+                            {{formErrors.paymentFromDate}}
+                        </div>
+                    </div>
+
                 </div>
                 <div class="row">
                     <div class="col-lg-4 mb-3">
                         <div class="form-floating">
-                            <input type="date" class="form-control" formControlName="fromDate" id="floatingInput"
-                                placeholder="name@example.com">
-                            <label for="floatingInput">Start Date</label>
+                            <input type="text" class="form-control" formControlName="loanAmount" id="floatingInput" placeholder="name@example.com">
+                            <label for="floatingInput">Loan Amount</label>
                         </div>
-                        <div *ngIf="formErrors.fromDate" class="text-danger  font-small-3 m-03">
-                            {{formErrors.fromDate}}
+                        <div *ngIf="formErrors.loanAmount" class="text-danger  font-small-3 m-03">
+                            {{formErrors.loanAmount}}
                         </div>
                     </div>
-                    <div class="col-lg-4 offset-lg-1  mb-3">
+                    <div class="col-lg-4 offset-lg-1 mb-3">
                         <div class="form-floating">
-                            <input type="date" class="form-control" formControlName="toDate" id="floatingInput"
-                                placeholder="name@example.com">
-                            <label for="floatingInput">End Date</label>
+                            <input type="text" class="form-control" formControlName="paymentAmount" id="floatingInput" placeholder="name@example.com">
+                            <label for="floatingInput">Payment Amount</label>
                         </div>
-                        <div *ngIf="formErrors.toDate" class="text-danger  font-small-3 m-03">
-                            {{formErrors.toDate}}
-                        </div>
-                    </div>
-    
-                </div>
-                <div class="row">
-                    <div class="col-lg-4 mb-3">
-                        <div class="form-floating">
-                            <input type="date" class="form-control" formControlName="lastDayWork" id="floatingInput"
-                                placeholder="name@example.com">
-                            <label for="floatingInput">Last Work Day</label>
-                        </div>
-                        <div *ngIf="formErrors.lastDayWork" class="text-danger  font-small-3 m-03">
-                            {{formErrors.lastDayWork}}
+                        <div *ngIf="formErrors.paymentAmount" class="text-danger  font-small-3 m-03">
+                            {{formErrors.paymentAmount}}
                         </div>
                     </div>
-                   
                 </div>
                 
-                <div class="row">
-                    <div class="col-lg-9  mb-3">
+                <div class="row mb-3">
+                    <div class="col-lg-9">
                         <div class="form-floating">
                             <label for="floatingInput2">ملاحظات</label>
                             <textarea type="text" formControlName="notes" class="form-control " id="floatingInput2" placeholder="ملاحظات" autocomplete="off">
@@ -90,11 +83,11 @@
                 
             </form>
             <div class="d-flex justify-content-left">
-                <button [disabled]="showAddLoader" (click)="saveVacation()" class="btn btn-primary m-2">
+                <button [disabled]="showAddLoader" (click)="saveLoan()" class="btn btn-primary m-2">
                     <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
                     <span *ngIf="isUpdate" class="ms-3">تعديل</span>
                 </button>
-                <button  (click)="initNewVacationForm()" class="btn btn-danger m-2">
+                <button  (click)="initNewLoanForm()" class="btn btn-danger m-2">
                     <span class="ms-3">إلغاء</span>
                 </button>
             </div>
@@ -113,7 +106,7 @@
                     <div class="d-flex align-items-center flex-wrap">
                         <div class="search-box position-relative mb-2">
                             <button class="btn btn-primary mb-2" (click)="toggleDetails()">
-                                <span class="me-2">إضافة أجازة</span>
+                                <span class="me-2">إضافة سلفة</span>
                                 <i class="uil uil-plus-circle"></i>
                             </button>
                         </div>
@@ -125,8 +118,8 @@
                 </div>
                 <div class="col-md-4">
                     <app-erp-pagination (pageChanged)="pageChanged($event)"
-                        [currentPage]="vacationResponse.currentPage" [pageSize]="vacationResponse.pageSize"
-                        [totalCount]="vacationResponse.totalCount"></app-erp-pagination>
+                        [currentPage]="loanResponse.currentPage" [pageSize]="loanResponse.pageSize"
+                        [totalCount]="loanResponse.totalCount"></app-erp-pagination>
                 </div>
             </div>
             <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
@@ -135,29 +128,33 @@
                     <thead class="table-light">
                         <tr>
                             <th>اسم الموظف</th>
-                            <th>الموظف البديل</th>
-                            <th>من تاريخ</th>
-                            <th>حتى تاريخ</th>
-                            <th>أخر يوم عمل</th>
-                            <th>اجمالي المدة بالأيام</th>
-                            <th>Action</th>
+                            <th> تاريخ البدء</th>
+                            <th> تاريخ الانتهاء</th>
+                            <th>نوع الخصم</th>
+                            <th>القيمة </th>
+                            <th>القسط </th>
+                            <th>الحالة</th>
+                            <th>السبب</th>
+                            <th>العمليات</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of vacationResponse.results">
+                        <tr *ngFor="let item of loanResponse.results">
                             <td>{{item.employeeName}}</td>
-                            <td>{{item.alternativeEmployeeName}}</td>
-                            <td>{{item.fromDate | date}}</td>
-                            <td>{{item.toDate | date}}</td>
-                            <td>{{item.lastDayWork | date}}</td>
-                            <td>{{item.period}}</td>
+                            <td>{{item.paymentFromDate | date}}</td>
+                            <td>{{item.paymentToDate | date}}</td>
+                            <td>{{item.loanTypeName}}</td>
+                            <td>{{item.loanAmount}}</td>
+                            <td>{{item.paymentAmount}}</td>
+                            <td>{{item.isApproved}}</td>
+                            <td class="word-break">{{item.notes}}</td>
                             <td>
                                 <div class="d-flex align-items-center justify-content-center text-center">
                                     <button class="btn btn-warning text-white me-2" (click)="toggleDetails(item)">
                                         <i class="uil uil-edit"></i>
                                         <span class="ms-2">Edit</span>
                                     </button>
-                                    <button class="btn btn-danger" (click)="openDeleteModal(deleteModal,item.vacationId)">
+                                    <button class="btn btn-danger" (click)="openDeleteModal(deleteModal,item.loanId)">
                                         <i class="uil uil-trash-alt"></i>
                                         <span class="ms-2">Delete</span>
                                     </button>
@@ -166,7 +163,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <app-empty-data [showContainer]="!vacationResponse.results?.length&&!showLoader"
+                <app-empty-data [showContainer]="!loanResponse.results?.length&&!showLoader"
                     [showLoader]="showLoader"></app-empty-data>
             </div>
         </div>
@@ -222,7 +219,7 @@
         </form>
     </div>
     <div class="modal-footer justify-content-start">
-        <button type="button" class="btn btn-primary" (click)="modal.close('Save click');EditVacation()">
+        <button type="button" class="btn btn-primary" (click)="modal.close('Save click');EditLoan()">
             <i class="fas fa-save"></i>
             <span class="ms-2">Save</span>
         </button>
@@ -239,10 +236,10 @@
         <h4 class="modal-title">Confirm Action</h4>
     </div>
     <div class="modal-body">
-        <p class="fs-5 m-0">Are you sure you want remove this Vacation?</p>
+        <p class="fs-5 m-0">Are you sure you want remove this Loan?</p>
     </div>
     <div class="modal-footer justify-content-start">
-        <button type="button" class="btn btn-success" (click)="modal.close('Save click');deleteVacation()">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click');deleteLoan()">
             <i class="fas fa-check"></i>
             <span class="ms-2">Yes</span>
         </button>
@@ -253,7 +250,7 @@
     </div>
 </ng-template>
 
-<ng-template #AddVacationSidePanel let-offcanvas>
+<ng-template #AddLoanSidePanel let-offcanvas>
     <div class="container bg-light h-100">
         <div class="offcanvas-header mb-2">
 
@@ -264,11 +261,11 @@
                 <div class="row">
                     <div class="col-lg-4 mb-3">
                         <div class="form-floating">
-                            <app-drop-down-form-control formControlName="vacationTypeId" [data]="vacationTypeSelectorData"
+                            <app-drop-down-form-control formControlName="loanTypeId" [data]="loanTypeSelectorData"
                                 [showSearch]="true" [placeholder]="'نوع الاجازه'"></app-drop-down-form-control>
                         </div>
-                        <div *ngIf="formErrors.vacationTypeId" class="text-danger  font-small-3 m-03">
-                            {{formErrors.vacationTypeId}}
+                        <div *ngIf="formErrors.loanTypeId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.loanTypeId}}
                         </div>
                     </div>
 
@@ -350,7 +347,7 @@
             </form>
 
             <div class="d-flex justify-content-center">
-                <button [disabled]="showAddLoader" (click)="saveEmployeeVacation()" class="btn btn-primary w-50 justify-content-center py-3 fs-5 radius-10">
+                <button [disabled]="showAddLoader" (click)="saveEmployeeLoan()" class="btn btn-primary w-50 justify-content-center py-3 fs-5 radius-10">
                     <!-- <i class="fas fa-id-card"></i> -->
                     <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
                     <span *ngIf="isUpdate" class="ms-3">تعديل</span>
