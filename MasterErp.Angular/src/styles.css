@@ -167,6 +167,10 @@ select::after {
     color: #fff;
 }
 
+.bg-gray {
+  background-color: #f8f9fb;
+}
+
 .icon-box {
     --icon-box-dim: 25px;
     min-width: var(--icon-box-dim);
@@ -369,10 +373,39 @@ select::after {
 
 .radius-10 {
     border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+.radius-50 {
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    -o-border-radius: 50px;
 }
 
 .card-shadow {
     box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+}
+
+.card-header {
+  padding: 1.4rem 1.25rem;
+  max-height: 55px;
+}
+
+.offcanvas-header-icon {
+  color: var(--main-color);
+  font-size: 25px;
+}
+
+.sidepanel-input-padding {
+  padding: 1.06rem .75rem;
+}
+
+.form-label {
+  font-size: 15px;
 }
 
 .main-color {
@@ -827,8 +860,16 @@ tr {
     max-height: 350px;
 }
 
+.width-30 {
+    width: 30px;
+}
+
+.height-30 {
+  height: 30px;
+}
+
 .width-50 {
-    width: 50px;
+  width: 50px;
 }
 
 .width-250 {

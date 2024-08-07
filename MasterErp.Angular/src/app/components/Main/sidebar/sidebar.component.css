@@ -2,7 +2,7 @@
   position: fixed;
   top: var(--nav-link-height);
   right: 0;
-  z-index: 10000;
+  z-index: 1000;
   width: var(--aside-bar-width);
   background-color: #fff;
   height: calc(100vh - var(--nav-link-height));

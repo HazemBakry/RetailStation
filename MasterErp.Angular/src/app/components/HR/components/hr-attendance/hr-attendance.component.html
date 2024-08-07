@@ -1,6 +1,12 @@
 <div class="card radius-10 border-0 card-shadow mb-3">
+  <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
+    <h5 class="mb-0 fw-bold">Add Attendance</h5>
+    <button class="btn btn-danger gap-2">
+      <i class="far fa-times-circle"></i>
+      <span>Exist</span>
+    </button>
+  </div>
     <div class="card-body">
-        <h5 class="mb-3 fw-bold">Add Attendance</h5>
         <div class="main-card-action d-flex align-items-center flex-wrap">
             <!-- <button class="btn btn-dark mb-1">
           <i class="uil uil-eye"></i>
@@ -96,7 +102,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-center">
                     <tr *ngFor="let item of AttendanceData">
                         <td>{{item.employeeName}}</td>
                         <td>{{item.requestDate | date}}</td>
