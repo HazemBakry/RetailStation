@@ -32,7 +32,12 @@ export class EmployeeProfileService {
   DeleteVacation(VacationId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'EmployeeProfile/DeleteVacation?VacationId=' + VacationId);
   }
-
+  GetTeamWorkVacations(model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<EmployeeVacationModel[]>>(this.URL + 'EmployeeProfile/GetTeamWorkVacations', model);
+  }
+  ApproveVacation(VacationId: number,employeeId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `EmployeeProfile/ApproveVacation?VacationId=${VacationId}&EmployeeId=${employeeId}`);
+  }
 
 
   //================================== Loans ===============================
@@ -47,5 +52,11 @@ export class EmployeeProfileService {
   }
   DeleteLoan(loanId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'EmployeeProfile/DeleteLoan?LoanId=' + loanId);
+  }
+  GetTeamWorkLoans(model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<EmployeeLoanModel[]>>(this.URL + 'EmployeeProfile/GetTeamWorkLoans', model);
+  }
+  ApproveLoan(loanId: number,employeeId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `EmployeeProfile/ApproveLoan?LoanId=${loanId}&EmployeeId=${employeeId}`);
   }
 }

@@ -111,6 +111,25 @@ namespace MasterErp.API.Controllers.EmployeeProfile
             return Ok(result);
         }
         [HttpPost]
+        [Route("GetTeamWorkLoans")]
+        public IActionResult GetTeamWorkLoans(SearchFilterModel Model)
+        {
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "EmployeeId")?.Value, out int EmployeeId);
+            if (EmployeeId == 0)
+                return BadRequest("can't find employeeId");
+
+            var data = _loansService.GetAllEmployeeLoans(Model,null, EmployeeId); ;
+            var result = new PagedResponseModel<EmployeeLoanDto>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = Model.PageSize,
+                CurrentPage = Model.CurrentPage
+
+            };
+            return Ok(result);
+        }
+        [HttpPost]
         [Route("AddNewLoan")]
         public IActionResult AddNewLoan(EmployeeLoanDto model)
         {
@@ -147,6 +166,17 @@ namespace MasterErp.API.Controllers.EmployeeProfile
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("ApproveLoan")]
+        public IActionResult ApproveLoan(int LoanId,int EmployeeId)
+        {
+            //int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "EmployeeId")?.Value, out int EmployeeId);
+            //if (EmployeeId == 0)
+            //    return BadRequest("can't find employeeId");
+
+            var result = _loansService.ApproveEmployeeLoan(LoanId,EmployeeId);
+            return Ok(result);
+        }
         #endregion
     }
 }

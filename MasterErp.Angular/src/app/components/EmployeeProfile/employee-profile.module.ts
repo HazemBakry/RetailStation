@@ -8,6 +8,8 @@ import { SharedModule } from '../Shared/shared.module';
 import { EmployeeVacationComponent } from './components/employee-vacation/employee-vacation.component';
 import { EmployeeLoansComponent } from './components/employee-loans/employee-loans.component';
 import { TeamWorkComponent } from './components/team-work/team-work.component';
+import { TeamWorkLoansComponent } from './components/team-work-loans/team-work-loans.component';
+import { TeamWorkVacationsComponent } from './components/team-work-vacations/team-work-vacations.component';
 
 
 @NgModule({
@@ -15,7 +17,9 @@ import { TeamWorkComponent } from './components/team-work/team-work.component';
     EmployeeProfileLayoutComponent,
     EmployeeVacationComponent,
     EmployeeLoansComponent,
-    TeamWorkComponent
+    TeamWorkComponent,
+    TeamWorkLoansComponent,
+    TeamWorkVacationsComponent
   ],
   imports: [
     CommonModule,

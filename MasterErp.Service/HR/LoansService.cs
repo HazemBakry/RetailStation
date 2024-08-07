@@ -183,6 +183,30 @@ namespace MasterErp.Service.HR
             }
 
         }
+        public ActionsResponseModel ApproveEmployeeLoan(int LoanId, int EmployeeId)
+        {
+
+            try
+            {
+                var loan = Context.Loans.FirstOrDefault(i => i.LoanId == LoanId&&i.EmployeeId==EmployeeId);
+                if (loan != null)
+                {
+                    loan.IsApproved = true;
+                    loan.ModifiedBy = string.Empty;
+                    loan.ModifiedDate = DateTime.Now;
+
+                    Context.SaveChanges();
+                    return new ActionsResponseModel { Message = "Loan approved successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Loan not found" }; ;
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+
+        }
 
         public List<SelectorDataModel> GetLoanTypesSelector()
         {
