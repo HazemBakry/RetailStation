@@ -21,12 +21,13 @@ namespace MasterErp.Service.HR
 
 
 
-        public List<EmployeeLoanDto> GetAllEmployeeLoans(SearchFilterModel SearchModel,int? EmployeeId=null)
+        public List<EmployeeLoanDto> GetAllEmployeeLoans(SearchFilterModel SearchModel,int? EmployeeId=null,int? ManagerId=null)
         {
             var query = from loan in Context.Loans
                         join emp in Context.Employees on loan.EmployeeId equals emp.EmployeeId
                         join loanType in Context.LoanTypes on loan.LoanTypeId equals loanType.LoanTypeId
-                        where loan.EmployeeId == EmployeeId || EmployeeId == null
+                        where (!EmployeeId.HasValue || loan.EmployeeId == EmployeeId ) 
+                                && (!ManagerId.HasValue||emp.ManagerId == ManagerId)
                         select new EmployeeLoanDto
                         {
                             EmployeeId = loan.EmployeeId,
@@ -103,7 +104,7 @@ namespace MasterErp.Service.HR
             {
                 var loan = new Loan();
 
-                loan.EmployeeId = model.EmployeeId ?? 0;
+                loan.EmployeeId = EmployeeId;
                 loan.LoanTypeId = model.LoanTypeId;
                 loan.PaymentFromDate = model.PaymentFromDate;
                 loan.PaymentToDate = CalcLoanPaymentToDate(model.LoanAmount, model.PaymentAmount, model.PaymentFromDate);

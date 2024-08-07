@@ -10,7 +10,7 @@ namespace MasterErp.Interface.HR
 {
     public interface ILoansService
     {
-        List<EmployeeLoanDto> GetAllEmployeeLoans(SearchFilterModel SearchModel, int? EmployeeId = null);
+        List<EmployeeLoanDto> GetAllEmployeeLoans(SearchFilterModel SearchModel, int? EmployeeId = null,int? ManagerId=null);
         List<EmployeeLoanDto> GetLoansByEmployeeId(int EmployeeId, SearchFilterModel SearchModel);
         ActionsResponseModel AddNewEmployeeLoan(int EmployeeId, EmployeeLoanDto model);
         ActionsResponseModel EditEmployeeLoan(int EmployeeId, EmployeeLoanDto model);
