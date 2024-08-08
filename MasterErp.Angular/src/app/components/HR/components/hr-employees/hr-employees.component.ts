@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ValidationService } from 'src/app/components/Shared/services/validation.service';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-hr-employees',
   templateUrl: './hr-employees.component.html',
@@ -29,14 +30,14 @@ export class HrEmployeesComponent implements OnInit {
   currentPage: any = 1;
   StartIndex = 0;
   BranchValidate = false;
-  SelectedEmployee : any;
+  SelectedEmployee: any;
   SearchFilterModel: SearchFilterModel = {
     currentPage: 1,
     pageSize: 25,
     filterModel: { filterItems: [] }
   };
 
-  constructor(private modalService: NgbModal, private toaster: ToastrService, private hrService: HrService,
+  constructor(private modalService: NgbModal, private toaster: ToastrService, private hrService: HrService, private router: Router,
     private validationService: ValidationService, private sharedService: SharedService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
@@ -56,6 +57,10 @@ export class HrEmployeesComponent implements OnInit {
     });
   }
 
+  goToEmployeeDetails(employeeId: any) {
+    this.router.navigateByUrl('/hr/employee-details?employeeId=' + employeeId);
+  }
+
   getEmployeesFilter() {
     this.hrService.GetEmployeesFilter(this.SearchFilterModel).subscribe(data => {
       this.filterList = data;
@@ -69,8 +74,8 @@ export class HrEmployeesComponent implements OnInit {
   }
 
   filterChecked(filterItems: FilterItem[]) {
-     this.SearchFilterModel.filterModel.filterItems = filterItems;
-     this.getAllEmployees();
+    this.SearchFilterModel.filterModel.filterItems = filterItems;
+    this.getAllEmployees();
   }
 
   pageChanged(obj: any) {

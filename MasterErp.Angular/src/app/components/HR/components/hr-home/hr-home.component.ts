@@ -112,7 +112,7 @@ export class HrHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEmployeesSummary();
-    this.getEmployeeRequests();
+    //this.getEmployeeRequests();
     // this.GetSalesSummary();
     // this.GetDailyJournalEntriesSummary();
     // this.GetPurchaseInvoicesSummary();

@@ -94,6 +94,7 @@ hr {
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
+    min-width: 90px;
 }
 
 .page-link {
@@ -168,7 +169,7 @@ select::after {
 }
 
 .bg-gray {
-  background-color: #f8f9fb;
+    background-color: #f8f9fb;
 }
 
 .icon-box {
@@ -378,6 +379,7 @@ select::after {
     -ms-border-radius: 10px;
     -o-border-radius: 10px;
 }
+
 .radius-50 {
     border-radius: 50px;
     -webkit-border-radius: 50px;
@@ -391,21 +393,21 @@ select::after {
 }
 
 .card-header {
-  padding: 1.4rem 1.25rem;
-  max-height: 55px;
+    padding: 1.4rem 1.25rem;
+    max-height: 55px;
 }
 
 .offcanvas-header-icon {
-  color: var(--main-color);
-  font-size: 25px;
+    color: var(--main-color);
+    font-size: 25px;
 }
 
 .sidepanel-input-padding {
-  padding: 1.06rem .75rem;
+    padding: 1.06rem .75rem;
 }
 
 .form-label {
-  font-size: 15px;
+    font-size: 15px;
 }
 
 .main-color {
@@ -865,11 +867,11 @@ tr {
 }
 
 .height-30 {
-  height: 30px;
+    height: 30px;
 }
 
 .width-50 {
-  width: 50px;
+    width: 50px;
 }
 
 .width-250 {
@@ -1118,7 +1120,6 @@ td.td-disabled {
 
 
 /* end main content */
-
 
 .box-hover {
     transition: all 0.25s ease;

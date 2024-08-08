@@ -282,7 +282,6 @@ export class NewEntryComponent implements OnInit {
     });
   }
   validateData(): boolean {
-    debugger;
     if (!this.DocNumber || !this.EntryDate || !this.journalTypeId) {
       this.toaster.warning('Please Fill Fields');
       return false;
