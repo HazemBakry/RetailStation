@@ -38,13 +38,15 @@ namespace MasterErp.Service.HR
         }
 
 
-        public List<EmployeeVacationDto> GetAllEmployeeVacationsData(SearchFilterModel SearchModel)
+        public List<EmployeeVacationDto> GetAllEmployeeVacations(SearchFilterModel SearchModel, int? EmployeeId = null, int? ManagerId = null)
         {
             var query = from vacation in Context.Vacations
                         join emp in Context.Employees on vacation.EmployeeId equals emp.EmployeeId
                         join vacationType in Context.VacationTypes on vacation.VacationTypeId equals vacationType.VacationTypeId
                         join alternativeEmp in Context.Employees on vacation.AlternativeEmployeeId equals alternativeEmp.EmployeeId into jT
                         from alternativeEmp in jT.DefaultIfEmpty()
+                        where (!EmployeeId.HasValue || vacation.EmployeeId == EmployeeId)
+                                && (!ManagerId.HasValue || emp.ManagerId == ManagerId)
                         select new EmployeeVacationDto
                         {
                             EmployeeId = emp.EmployeeId,
@@ -55,6 +57,7 @@ namespace MasterErp.Service.HR
                             AlternativeEmployeeId = vacation.AlternativeEmployeeId,
                             AlternativeEmployeeName = alternativeEmp.FullNameEN,
                             IsAlternativeAvailable = vacation.IsAlternativeAvailable,
+                            IsApproved = vacation.IsApproved,
                             FromDate = vacation.FromDate,
                             ToDate = vacation.ToDate,
                             LastDayWork = vacation.LastDayWork,
@@ -89,6 +92,7 @@ namespace MasterErp.Service.HR
                             AlternativeEmployeeId = vacation.AlternativeEmployeeId,
                             AlternativeEmployeeName = alternativeEmp.FullNameEN,
                             IsAlternativeAvailable = vacation.IsAlternativeAvailable,
+                            IsApproved = vacation.IsApproved,
                             FromDate = vacation.FromDate,
                             ToDate = vacation.ToDate,
                             LastDayWork = vacation.LastDayWork,
@@ -194,6 +198,33 @@ namespace MasterErp.Service.HR
                 }
                 else
                     return  new ActionsResponseModel { IsSuccess = false, Message = "Vacation not found" }; ;
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+
+        }
+
+
+        public ActionsResponseModel ApproveEmployeeVacation(int VacationId, int EmployeeId, bool ApproveStatus)
+        {
+
+            try
+            {
+                var vacation = Context.Vacations.FirstOrDefault(i => i.VacationId == VacationId && i.EmployeeId == EmployeeId);
+
+                if (vacation != null)
+                {
+                    vacation.IsApproved = ApproveStatus;
+                    vacation.ModifiedBy = string.Empty;
+                    vacation.ModifiedDate = DateTime.Now;
+
+                    Context.SaveChanges();
+                    return new ActionsResponseModel { Message = "Vacation approved successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Vacation not found" }; ;
             }
             catch (Exception ex)
             {

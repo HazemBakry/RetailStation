@@ -8,6 +8,10 @@ namespace MasterErp.Entities.Common
 {
     public class SearchFilterModel
     {
+        public SearchFilterModel()
+        {
+            FilterModel=new FilterModel();
+        }
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
         public int? BranchID { get; set; }
@@ -24,6 +28,10 @@ namespace MasterErp.Entities.Common
 
     public class FilterModel
     {
+        public FilterModel()
+        {
+            FilterItems = new List<FilterItem>();
+        }
         public int CurrentPage { get; set; }
         public int PageSize { get; set; }
 

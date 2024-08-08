@@ -13,5 +13,6 @@ export interface EmployeeVacationModel {
     toDate: string | null;
     lastDayWork: string | null;
     period: number | null;
+    isApproved: boolean | null;
     totalCount: number | null;
 }

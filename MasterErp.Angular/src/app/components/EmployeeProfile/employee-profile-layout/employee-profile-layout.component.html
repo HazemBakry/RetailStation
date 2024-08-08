@@ -20,7 +20,7 @@
                 <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100 active">
                     <div class="nav-text d-flex align-items-center w-100">
                         <i class="uil uil-database nav-icon"></i>
-                        <span class="nav-link-text item-sidebar main-nav-link ms-3">Profile</span>
+                        <span class="nav-link-text item-sidebar main-nav-link ms-3">الملف الشخصي</span>
                     </div>
                 </a>
                 <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu1>
@@ -45,6 +45,42 @@
                     </li>
                 </ul>
 
+                <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100 active">
+                    <div class="nav-text d-flex align-items-center w-100">
+                        <i class="uil uil-database nav-icon"></i>
+                        <span class="nav-link-text item-sidebar main-nav-link ms-3">الادارة</span>
+                    </div>
+                </a>
+                <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu1>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./management/team-work"
+                            routerLinkActive="active">
+                            <div class="nav-text d-flex align-items-center w-100">
+                                <i class="uil uil-user-check nav-icon"></i>
+                                <span class="nav-link-text item-sidebar main-nav-link ms-3">فريق العمل</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./management/vacations"
+                            routerLinkActive="active">
+                            <div class="nav-text d-flex align-items-center w-100">
+                                <i class="uil uil-user-check nav-icon"></i>
+                                <span class="nav-link-text item-sidebar main-nav-link ms-3"> اجازات فريق العمل</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./management/loans"
+                            routerLinkActive="active">
+                            <div class="nav-text d-flex align-items-center w-100">
+                                <i class="uil uil-user-check nav-icon"></i>
+                                <span class="nav-link-text item-sidebar main-nav-link ms-3">سلف فريق العمل</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
             </ul>
         </aside>
 

@@ -12,7 +12,7 @@ namespace MasterErp.Interface.HR
 {
     public interface IEmployeeService
     {
-        List<EmployeeBasicInfo> GetAllEmployees(SearchFilterModel model);
+        List<EmployeeBasicInfo> GetAllEmployees(SearchFilterModel model, int? ManagerId = null);
         List<EmployeesSummary> GetEmployeesSummary();
         List<SelectorDataModel> GetActiveEmployeesSelector();
         List<EmployeeRequest> GetEmployeeRequests_Data(SearchFilterModel model);

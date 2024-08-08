@@ -140,6 +140,7 @@
                             <th>حتى تاريخ</th>
                             <th>أخر يوم عمل</th>
                             <th>اجمالي المدة بالأيام</th>
+                            <th>الحالة</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -151,6 +152,9 @@
                             <td>{{item.toDate | date}}</td>
                             <td>{{item.lastDayWork | date}}</td>
                             <td>{{item.period}}</td>
+                            <td>
+                                <div appColorWithStatus status="isApproved" [text]="item.isApproved"></div>
+                            </td>
                             <td>
                                 <div class="d-flex align-items-center justify-content-center text-center">
                                     <button class="btn btn-warning text-white me-2" (click)="toggleDetails(item)">

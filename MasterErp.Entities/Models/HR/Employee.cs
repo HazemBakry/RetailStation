@@ -9,6 +9,7 @@ namespace MasterErp.Entities.Models.HR
     public class Employee
     {
         public int EmployeeId { get; set; }//
+        public int? ManagerId { get; set; }//
         public int Code { get; set; }
         public string IqamaNumber { get; set; }//
         public int JobId { get; set; }//

@@ -1,0 +1,37 @@
+export interface EmployeeBasicInfoModel {
+    employeeId: number;
+    code: number;
+    iqamaNumber: string;
+    jobId: number;
+    branchId: number;
+    fullNameAR: string;
+    firstNameAR: string;
+    fatherNameAR: string;
+    grandNameAR: string;
+    lastNameAR: string;
+    fullNameEN: string;
+    firstNameEN: string;
+    fatherNameEN: string;
+    grandNameEN: string;
+    lastNameEN: string;
+    statusId: number;
+    bankId: number;
+    bankAccount: string;
+    bankName: string;
+    nationalityId: number;
+    contractPeriod: number | null;
+    nationalityNameAR: string;
+    nationalityNameEN: string;
+    branchNameAR: string;
+    branchNameEN: string;
+    jobNameAR: string;
+    jobNameEN: string;
+    statusName: string;
+    birthDate: string | null;
+    joinDate: string | null;
+    birthPlace: string;
+    religion: string;
+    image: string;
+    filesPath: string;
+    totalCount: number;
+}
