@@ -50,11 +50,18 @@
                         </td>
                         <td class="word-break">{{item.notes}}</td>
                         <td>
+                          
                             <div class="d-flex align-items-center justify-content-center text-center">
-                                
-                                <button class="btn text-success" (click)="openApproveModal(approveModal,item.loanId,item.employeeId)">
+                            
+                                <button ngbDropdownItem class="btn text-success"
+                                    (click)="openApproveModal(approveModal,item.loanId,item.employeeId,true)">
                                     <i class="uil uil-trash-alt"></i>
-                                    <span class="ms-2">تأكيد</span>
+                                    <span class="ms-2">قبول</span>
+                                </button>
+                                <button ngbDropdownItem class="btn text-danger"
+                                    (click)="openApproveModal(approveModal,item.loanId,item.employeeId,false)">
+                                    <i class="uil uil-trash-alt"></i>
+                                    <span class="ms-2">رفض</span>
                                 </button>
                             </div>
                         </td>

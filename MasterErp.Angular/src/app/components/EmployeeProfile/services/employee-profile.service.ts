@@ -56,7 +56,7 @@ export class EmployeeProfileService {
   GetTeamWorkLoans(model: PagedResponseDTO) {
     return this.http.post<PagedResponseDTO<EmployeeLoanModel[]>>(this.URL + 'EmployeeProfile/GetTeamWorkLoans', model);
   }
-  ApproveLoan(loanId: number,employeeId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + `EmployeeProfile/ApproveLoan?LoanId=${loanId}&EmployeeId=${employeeId}`);
+  ApproveLoan(loanId: number,employeeId: number,approveStatus:boolean) {
+    return this.http.get<ActionsResponseModel>(this.URL + `EmployeeProfile/ApproveLoan?LoanId=${loanId}&EmployeeId=${employeeId}&ApproveStatus=${approveStatus}`);
   }
 }

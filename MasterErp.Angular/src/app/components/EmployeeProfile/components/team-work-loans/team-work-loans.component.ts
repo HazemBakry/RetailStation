@@ -21,7 +21,7 @@ import { EmployeeProfileService } from '../../services/employee-profile.service'
 export class TeamWorkLoansComponent implements OnInit {
   LoanData: any[] = [];
 
-  selectedLoanId: number;
+  
   CategorySearch: any;
   CategoryName = 'قائمة الموظفين';
   SearchFilterModel: SearchFilterModel = {
@@ -40,7 +40,9 @@ export class TeamWorkLoansComponent implements OnInit {
   };
   showLoader: boolean = false;
   showAddLoader: boolean = false;
+  selectedLoanId: number;
   selectedEmployeeId: number = null;
+  selectedApproveStatus:boolean=false;
   constructor(private modalService: NgbModal, private employeeProfile: EmployeeProfileService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
     private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
 
@@ -78,15 +80,16 @@ export class TeamWorkLoansComponent implements OnInit {
     this.getTeamWorkLoans();
   }
 
-  openApproveModal(content: any, loanId: number, employeeId: number) {
+  openApproveModal(content: any, loanId: number, employeeId: number,approveStatus:boolean) {
     this.selectedLoanId = loanId;
     this.selectedEmployeeId = employeeId;
+    this.selectedApproveStatus=approveStatus;
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
   approveLoan() {
     this.showAddLoader = true;
-    this.employeeProfile.ApproveLoan(this.selectedLoanId,this.selectedEmployeeId).subscribe(data => {
+    this.employeeProfile.ApproveLoan(this.selectedLoanId,this.selectedEmployeeId,this.selectedApproveStatus).subscribe(data => {
 
       if (data?.isSuccess) {
         this.modalService?.dismissAll();

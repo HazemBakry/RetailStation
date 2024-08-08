@@ -183,7 +183,7 @@ namespace MasterErp.Service.HR
             }
 
         }
-        public ActionsResponseModel ApproveEmployeeLoan(int LoanId, int EmployeeId)
+        public ActionsResponseModel ApproveEmployeeLoan(int LoanId, int EmployeeId, bool ApproveStatus)
         {
 
             try
@@ -191,7 +191,7 @@ namespace MasterErp.Service.HR
                 var loan = Context.Loans.FirstOrDefault(i => i.LoanId == LoanId&&i.EmployeeId==EmployeeId);
                 if (loan != null)
                 {
-                    loan.IsApproved = true;
+                    loan.IsApproved = ApproveStatus;
                     loan.ModifiedBy = string.Empty;
                     loan.ModifiedDate = DateTime.Now;
 

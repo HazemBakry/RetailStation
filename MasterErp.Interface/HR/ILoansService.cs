@@ -15,7 +15,7 @@ namespace MasterErp.Interface.HR
         ActionsResponseModel AddNewEmployeeLoan(int EmployeeId, EmployeeLoanDto model);
         ActionsResponseModel EditEmployeeLoan(int EmployeeId, EmployeeLoanDto model);
         ActionsResponseModel DeleteEmployeeLoan(int LoanId);
-        ActionsResponseModel ApproveEmployeeLoan(int LoanId, int EmployeeId);
+        ActionsResponseModel ApproveEmployeeLoan(int LoanId, int EmployeeId, bool ApproveStatus);
         List<SelectorDataModel> GetLoanTypesSelector();
     }
 }

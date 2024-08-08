@@ -168,13 +168,13 @@ namespace MasterErp.API.Controllers.EmployeeProfile
 
         [HttpGet]
         [Route("ApproveLoan")]
-        public IActionResult ApproveLoan(int LoanId,int EmployeeId)
+        public IActionResult ApproveLoan(int LoanId,int EmployeeId,bool ApproveStatus)
         {
             //int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "EmployeeId")?.Value, out int EmployeeId);
             //if (EmployeeId == 0)
             //    return BadRequest("can't find employeeId");
 
-            var result = _loansService.ApproveEmployeeLoan(LoanId,EmployeeId);
+            var result = _loansService.ApproveEmployeeLoan(LoanId,EmployeeId, ApproveStatus);
             return Ok(result);
         }
         #endregion
