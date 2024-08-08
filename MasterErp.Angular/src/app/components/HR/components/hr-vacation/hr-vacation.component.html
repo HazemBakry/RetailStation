@@ -247,7 +247,7 @@
             <div class="row">
                 <div class="col-lg-12 mb-3">
                     <label class="form-label">نوع الاجازه</label>
-                    <app-drop-down-form-control formControlName="vacationTypeId" [data]="vacationTypeSelectorData" [showSearch]="true" [placeholder]="'نوع الاجازه'"></app-drop-down-form-control>
+                    <app-drop-down-form-control formControlName="vacationTypeId" [data]="vacationTypeSelectorData" ></app-drop-down-form-control>
                     <div *ngIf="formErrors.vacationTypeId" class="text-danger  font-small-3 m-03">
                         {{formErrors.vacationTypeId}}
                     </div>

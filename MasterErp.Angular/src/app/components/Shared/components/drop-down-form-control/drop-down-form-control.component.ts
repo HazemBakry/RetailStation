@@ -16,7 +16,7 @@ import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 })
 export class DropDownFormControlComponent implements OnChanges{
   @Input() data: FormDropdownModel[] = [];
-  @Input() placeholder:string='Select Name';
+  @Input() placeholder:string='' //'Select Name';
   @Input() style:string='w-50';
   @Input() disabled:boolean=false;
 
