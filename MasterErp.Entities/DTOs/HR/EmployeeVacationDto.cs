@@ -22,6 +22,7 @@ namespace MasterErp.Entities.DTOs.HR
         public DateTime ToDate { get; set; }
         public DateTime LastDayWork { get; set; }
         public int? Period { get; set; }
+        public bool? IsApproved { get; set; }
         public bool IsAlternativeAvailable { get; set; }
         public int? TotalCount { get; set; }
     }

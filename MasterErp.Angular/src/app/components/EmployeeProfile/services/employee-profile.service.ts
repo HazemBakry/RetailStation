@@ -35,8 +35,8 @@ export class EmployeeProfileService {
   GetTeamWorkVacations(model: PagedResponseDTO) {
     return this.http.post<PagedResponseDTO<EmployeeVacationModel[]>>(this.URL + 'EmployeeProfile/GetTeamWorkVacations', model);
   }
-  ApproveVacation(VacationId: number,employeeId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + `EmployeeProfile/ApproveVacation?VacationId=${VacationId}&EmployeeId=${employeeId}`);
+  ApproveVacation(VacationId: number,employeeId: number,approveStatus:boolean){
+    return this.http.get<ActionsResponseModel>(this.URL + `EmployeeProfile/ApproveVacation?VacationId=${VacationId}&&EmployeeId=${employeeId}&ApproveStatus=${approveStatus}`);
   }
 
 

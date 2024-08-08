@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.DTOs.HR;
+using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.EmployeeProfile;
 using MasterErp.Interface.HR;
 using MasterErp.Service.HR;
@@ -49,6 +50,25 @@ namespace MasterErp.API.Controllers.EmployeeProfile
             return Ok(result);
         }
         [HttpPost]
+        [Route("GetTeamWorkVacations")]
+        public IActionResult GetTeamWorkVacations(SearchFilterModel Model)
+        {
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "EmployeeId")?.Value, out int EmployeeId);
+            if (EmployeeId == 0)
+                return BadRequest("can't find employeeId");
+
+            var data = _vacationService.GetAllEmployeeVacations(Model, null, EmployeeId); ;
+            var result = new PagedResponseModel<EmployeeVacationDto>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = Model.PageSize,
+                CurrentPage = Model.CurrentPage
+
+            };
+            return Ok(result);
+        }
+        [HttpPost]
         [Route("AddNewVacation")]
         public IActionResult AddNewVacation(EmployeeVacationDto model)
         {
@@ -85,6 +105,17 @@ namespace MasterErp.API.Controllers.EmployeeProfile
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("ApproveVacation")]
+        public IActionResult ApproveVacation(int VacationId, int EmployeeId, bool ApproveStatus)
+        {
+            //int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "EmployeeId")?.Value, out int EmployeeId);
+            //if (EmployeeId == 0)
+            //    return BadRequest("can't find employeeId");
+
+            var result = _vacationService.ApproveEmployeeVacation(VacationId, EmployeeId, ApproveStatus);
+            return Ok(result);
+        }
         #endregion
 
 

@@ -26,10 +26,10 @@ namespace MasterErp.API.Controllers.HR
         }
 
         [HttpGet]
-        [Route("GetAllEmployeeVacationsData")]
-        public IActionResult GetAllEmployeeVacationsData(SearchFilterModel Model)
+        [Route("GetAllEmployeeVacations")]
+        public IActionResult GetAllEmployeeVacations(SearchFilterModel Model)
         {
-            var data = _vacationService.GetAllEmployeeVacationsData(Model);
+            var data = _vacationService.GetAllEmployeeVacations(Model);
             var result = new PagedResponseModel<EmployeeVacationDto>
             {
                 Results = data,
