@@ -36,16 +36,17 @@ namespace MasterErp.Service.HR
             ConnectionString = Configuration.GetConnectionString("DBConnection");
         }
 
-        public List<EmployeeBasicInfo> GetAllEmployees(SearchFilterModel model)
+        public List<EmployeeBasicInfo> GetAllEmployees(SearchFilterModel model, int? ManagerId = null)
         {
             DataTable dt = SharedService.MapFilterModelToDataTable(model?.FilterModel?.FilterItems);
 
-            SqlParameter[] Params = new SqlParameter[4];
-            Params[0] = new SqlParameter("@CurrentPage", model.CurrentPage);
-            Params[1] = new SqlParameter("@PageSize", model.PageSize);
-            Params[2] = new SqlParameter("@SearchText", model.SearchText);
-            Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            Params[3].Value = dt;
+            SqlParameter[] Params = new SqlParameter[5];
+            Params[0] = new SqlParameter("@ManagerId", ManagerId);
+            Params[1] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[2] = new SqlParameter("@PageSize", model.PageSize);
+            Params[3] = new SqlParameter("@SearchText", model.SearchText);
+            Params[4] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[4].Value = dt;
 
 
             var result = SQLHelper.SQLQuery<EmployeeBasicInfo>("[HR].[SP_GetAllEmployeeData]", ConnectionString, Params);

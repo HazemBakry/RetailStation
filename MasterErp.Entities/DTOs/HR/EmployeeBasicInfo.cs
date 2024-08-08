@@ -26,8 +26,18 @@ namespace MasterErp.Entities.DTOs.HR
         public int StatusId { get; set; }  
         public int BankId { get; set; }
         public string BankAccount { get; set; }//
+        public string BankName { get; set; }//
         public int NationalityId { get; set; }//
-        public DateTime BirthDate { get; set; }//
+        public int? ContractPeriod { get; set; }//
+        public string NationalityNameAR { get; set; }//
+        public string NationalityNameEN { get; set; }//
+        public string BranchNameAR { get; set; }//
+        public string BranchNameEN { get; set; }//
+        public string JobNameAR { get; set; }//
+        public string JobNameEN { get; set; }//
+        public string StatusName { get; set; }//
+        public DateTime? BirthDate { get; set; }//
+        public DateTime? JoinDate { get; set; }//
         public string BirthPlace { get; set; }//
         public string Religion { get; set; }//
         public string Image { get; set; }
