@@ -1,7 +1,9 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.HR.Employee;
 using MasterErp.Interface.HR;
+using MasterErp.Service.HR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -25,11 +27,105 @@ namespace MasterErp.API.Controllers
             _employeeService = employeeService;
         }
 
+
+
+        #region Employee Creation
+
+        [HttpPost]
+        [Route("CreateNewEmployee")]
+        public async Task<IActionResult> CreateNewEmployee(EmployeeDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _employeeService.CreateNewEmployee(model);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("EditEmployee")]
+        public async Task<IActionResult> EditEmployee(int EmployeeId, EmployeeDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _employeeService.EditEmployee(EmployeeId, model);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("SaveEmployeeContractData")]
+        public async Task<IActionResult> SaveEmployeeContractData(int EmployeeId, EmployeeContractDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _employeeService.SaveEmployeeContractData(EmployeeId, model);
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("SaveEmployeeVerificationData")]
+        public async Task<IActionResult> SaveEmployeeVerificationData(int EmployeeId, EmployeeVerificationDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var result = await _employeeService.SaveEmployeeVerificationData(EmployeeId, model);
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("SaveEmployeeExtraData")]
+        public async Task<IActionResult> SaveEmployeeExtraData(int EmployeeId, EmployeeExtraDataDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _employeeService.SaveEmployeeExtraData(EmployeeId, model);
+            return Ok(result);
+        }
+
+        #endregion
+
+        #region GetEmployee
+        [HttpPost("GetEmployeeBasicInfoById")]
+        public async Task<IActionResult> GetEmployeeBasicInfoById(int EmployeeId)
+        {
+
+            var employee = await _employeeService.GetEmployeeBasicInfoByIdAsync(EmployeeId);
+            return Ok(employee);
+
+        }
+        [HttpPost("GetEmployeeContractInfoById")]
+        public async Task<IActionResult> GetEmployeeContractInfoById(int EmployeeId)
+        {
+
+            var employee = await _employeeService.GetEmployeeContractInfoByIdAsync(EmployeeId);
+            return Ok(employee);
+
+        }
+        [HttpPost("GetEmployeeVerificationInfoById")]
+        public async Task<IActionResult> GetEmployeeVerificationInfoById(int EmployeeId)
+        {
+
+            var employee = await _employeeService.GetEmployeeVerificationInfoByIdAsync(EmployeeId);
+            return Ok(employee);
+
+        }
+        [HttpPost("GetEmployeeExtraInfoById")]
+        public async Task<IActionResult> GetEmployeeExtraInfoById(int EmployeeId)
+        {
+
+            var employee = await _employeeService.GetEmployeeExtraInfoByIdAsync(EmployeeId);
+            return Ok(employee);
+
+        }
+        #endregion
+
+
         [HttpGet]
         [Route("GetActiveEmployeesSelector")]
         public ActionResult<List<SelectorDataModel>> GetActiveEmployeesSelector()
         {
-            var result =  _employeeService.GetActiveEmployeesSelector();
+            var result = _employeeService.GetActiveEmployeesSelector();
             return Ok(result);
         }
 
@@ -49,120 +145,120 @@ namespace MasterErp.API.Controllers
             return Ok(Response);
         }
 
-        [HttpGet]
-        [Route("GetEmployeesSummary")]
-        public List<EmployeesSummary> GetEmployeesSummary()
-        {
-            return _employeeService.GetEmployeesSummary();
-        }
+        //[HttpGet]
+        //[Route("GetEmployeesSummary")]
+        //public List<EmployeesSummary> GetEmployeesSummary()
+        //{
+        //    return _employeeService.GetEmployeesSummary();
+        //}
 
-        [HttpPost]
-        [Route("GetEmployeesFilter")]
-        public ActionResult<PagedResponseModel<EmployeeBasicInfo>> GetEmployeesFilter(SearchFilterModel model)
-        {
-            var result = _employeeService.GetAllEmployees(model);
-            var Response = new PagedResponseModel<EmployeeBasicInfo>
-            {
-                CurrentPage = model.CurrentPage,
-                PageSize = model.PageSize,
-                Results = result,
-                TotalCount = result.Count > 0 ? result.FirstOrDefault().TotalCount : 0
-            };
+        //[HttpPost]
+        //[Route("GetEmployeesFilter")]
+        //public ActionResult<PagedResponseModel<EmployeeBasicInfo>> GetEmployeesFilter(SearchFilterModel model)
+        //{
+        //    var result = _employeeService.GetAllEmployees(model);
+        //    var Response = new PagedResponseModel<EmployeeBasicInfo>
+        //    {
+        //        CurrentPage = model.CurrentPage,
+        //        PageSize = model.PageSize,
+        //        Results = result,
+        //        TotalCount = result.Count > 0 ? result.FirstOrDefault().TotalCount : 0
+        //    };
 
-            return Ok(Response);
-        }
+        //    return Ok(Response);
+        //}
 
-        [HttpPost]
-        [Route("GetEmployeeRequests_Data")]
-        public ActionResult<PagedResponseModel<EmployeeRequest>> GetEmployeeRequests_Data(SearchFilterModel model)
-        {
-            var result = _employeeService.GetEmployeeRequests_Data(model);
-            var Response = new PagedResponseModel<EmployeeRequest>
-            {
-                CurrentPage = model.CurrentPage,
-                PageSize = model.PageSize,
-                Results = result,
-                TotalCount = result.Count > 0 ? result.FirstOrDefault().TotalCount : 0
-            };
+        //[HttpPost]
+        //[Route("GetEmployeeRequests_Data")]
+        //public ActionResult<PagedResponseModel<EmployeeRequest>> GetEmployeeRequests_Data(SearchFilterModel model)
+        //{
+        //    var result = _employeeService.GetEmployeeRequests_Data(model);
+        //    var Response = new PagedResponseModel<EmployeeRequest>
+        //    {
+        //        CurrentPage = model.CurrentPage,
+        //        PageSize = model.PageSize,
+        //        Results = result,
+        //        TotalCount = result.Count > 0 ? result.FirstOrDefault().TotalCount : 0
+        //    };
 
-            return Ok(Response);
-        }
+        //    return Ok(Response);
+        //}
 
-        [HttpGet]
-        [Route("GetIqamaIssuePlaces")]
-        public List<IqamaIssuePlace> GetIqamaIssuePlaces()
-        {
-            return _employeeService.GetIqamaIssuePlaces();
-        }
+        //[HttpGet]
+        //[Route("GetIqamaIssuePlaces")]
+        //public List<IqamaIssuePlace> GetIqamaIssuePlaces()
+        //{
+        //    return _employeeService.GetIqamaIssuePlaces();
+        //}
 
-        [HttpGet]
-        [Route("GetPassportIssuePlaces")]
-        public List<PassportIssuePlace> GetPassportIssuePlaces()
-        {
-            return _employeeService.GetPassportIssuePlaces();
-        }
+        //[HttpGet]
+        //[Route("GetPassportIssuePlaces")]
+        //public List<PassportIssuePlace> GetPassportIssuePlaces()
+        //{
+        //    return _employeeService.GetPassportIssuePlaces();
+        //}
 
-        [HttpGet]
-        [Route("GetSponsorData")]
-        public List<Sponsor> GetSponsorData()
-        {
-            return _employeeService.GetSponsorData();
-        }
+        //[HttpGet]
+        //[Route("GetSponsorData")]
+        //public List<Sponsor> GetSponsorData()
+        //{
+        //    return _employeeService.GetSponsorData();
+        //}
 
-        [HttpGet]
-        [Route("GetIqamaJobData")]
-        public List<IqamaJob> GetIqamaJobData()
-        {
-            return _employeeService.GetIqamaJobData();
-        }
+        //[HttpGet]
+        //[Route("GetIqamaJobData")]
+        //public List<IqamaJob> GetIqamaJobData()
+        //{
+        //    return _employeeService.GetIqamaJobData();
+        //}
 
-        [HttpGet]
-        [Route("GetNationalityData")]
-        public List<Nationality> GetNationalityData()
-        {
-            return _employeeService.GetNationalityData();
-        }
+        //[HttpGet]
+        //[Route("GetNationalityData")]
+        //public List<Nationality> GetNationalityData()
+        //{
+        //    return _employeeService.GetNationalityData();
+        //}
 
-        [HttpGet]
-        [Route("GetJobData")]
-        public List<Job> GetJobData()
-        {
-            return _employeeService.GetJobData();
-        }
+        //[HttpGet]
+        //[Route("GetJobData")]
+        //public List<Job> GetJobData()
+        //{
+        //    return _employeeService.GetJobData();
+        //}
 
-        [HttpGet]
-        [Route("GetBranchData")]
-        public List<Branch> GetBranchData()
-        {
-            return _employeeService.GetBranchData();
-        }
+        //[HttpGet]
+        //[Route("GetBranchData")]
+        //public List<Branch> GetBranchData()
+        //{
+        //    return _employeeService.GetBranchData();
+        //}
 
-        [HttpGet]
-        [Route("GetBankData")]
-        public List<Bank> GetBankData()
-        {
-            return _employeeService.GetBankData();
-        }
+        //[HttpGet]
+        //[Route("GetBankData")]
+        //public List<Bank> GetBankData()
+        //{
+        //    return _employeeService.GetBankData();
+        //}
 
-        [HttpGet]
-        [Route("GetAllEmployeeSalary")]
-        public DataTable GetAllEmployeeSalary()
-        {
-            return _employeeService.GetAllEmployeeSalary();
-        }
+        //[HttpGet]
+        //[Route("GetAllEmployeeSalary")]
+        //public DataTable GetAllEmployeeSalary()
+        //{
+        //    return _employeeService.GetAllEmployeeSalary();
+        //}
 
-        [HttpPost]
-        [Route("EditEmployeeSalary")]
-        public bool EditEmployeeSalary(EmployeeSalary model)
-        {
-            return _employeeService.EditEmployeeSalary(model);
-        }
+        ////[HttpPost]
+        ////[Route("EditEmployeeSalary")]
+        ////public bool EditEmployeeSalary(EmployeeSalary model)
+        ////{
+        ////    return _employeeService.EditEmployeeSalary(model);
+        ////}
 
-        [HttpPost]
-        [Route("AddNewEmployee")]
-        public bool AddNewEmployee(SaveEmployeeModel model)
-        {
-            return _employeeService.AddNewEmployee(model);
-        }
+        //[HttpPost]
+        //[Route("AddNewEmployee")]
+        //public bool AddNewEmployee(SaveEmployeeModel model)
+        //{
+        //    return _employeeService.AddNewEmployee(model);
+        //}
     }
 }
