@@ -395,73 +395,119 @@ namespace MasterErp.Service.HR
         #endregion
 
         #region GetEmployee
-        public async Task<EmployeeDto> GetEmployeeBasicInfoByIdAsync(int employeeId)
+        public EmployeeDto GetEmployeeBasicInfoById(int employeeId)
         {
 
-            var employee = await Context.Employees.FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
+            //var employee = await Context.Employees.FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
 
-            if (employee is not null)
-            {
+            //if (employee is not null)
+            //{
 
-                return new EmployeeDto
-                {
+            //    return new EmployeeDto
+            //    {
 
-                    EmployeeId = employee.EmployeeId,
-                    Code = employee.Code,
-                    ManagerId = employee.ManagerId,
-                    IqamaNumber = employee.IqamaNumber,
-                    JobId = employee.JobId,
-                    IqamaJobId = employee.IqamaJobId,
-                    BranchId = employee.BranchId,
-                    StatusId = employee.StatusId,
+            //        EmployeeId = employee.EmployeeId,
+            //        Code = employee.Code,
+            //        ManagerId = employee.ManagerId,
+            //        IqamaNumber = employee.IqamaNumber,
+            //        JobId = employee.JobId,
+            //        IqamaJobId = employee.IqamaJobId,
+            //        BranchId = employee.BranchId,
+            //        StatusId = employee.StatusId,
 
-                    FirstNameAR = employee.FirstNameAR,
-                    FatherNameAR = employee.FatherNameAR,
-                    GrandNameAR = employee.GrandNameAR,
-                    LastNameAR = employee.LastNameAR,
-                    FullNameAR = employee.FullNameAR,
-
-
-                    FirstNameEN = employee.FirstNameEN,
-                    FatherNameEN = employee.FatherNameEN,
-                    GrandNameEN = employee.GrandNameEN,
-                    LastNameEN = employee.LastNameEN,
-                    FullNameEN = employee.FullNameEN,
-
-                    BankId = employee.BankId,
-                    BankAccountNumber = employee.BankAccountNumber,
-                    BirthDate = employee.BirthDate,
-                    BirthPlace = employee.BirthPlace,
-                    NationalityId = employee.NationalityId,
-                    SponsorId = employee.SponsorId,
-                    IqamaIssuePlaceId = employee.IqamaIssuePlaceId,
-                    IqamaIssueDate = employee.IqamaIssueDate,
-                    IqamaExpireDate = employee.IqamaExpireDate,
-
-                    IqamaExpireDateHijri = employee.IqamaExpireDateHijri,
-                    IqamaIssueDateHijri = employee.IqamaIssueDateHijri,
-                    IqamaJobDescription = employee.IqamaJobDescription,
-                    Religion = employee.Religion,
-                    Address = employee.Address,
+            //        FirstNameAR = employee.FirstNameAR,
+            //        FatherNameAR = employee.FatherNameAR,
+            //        GrandNameAR = employee.GrandNameAR,
+            //        LastNameAR = employee.LastNameAR,
+            //        FullNameAR = employee.FullNameAR,
 
 
-                    CreatedBy = employee.CreatedBy,
-                    CreatedDate = employee.CreatedDate,
-                    ModifiedBy = employee.ModifiedBy,
-                    ModifiedDate = employee.ModifiedDate,
-                    Image = GetImagePath(employee.Image)
+            //        FirstNameEN = employee.FirstNameEN,
+            //        FatherNameEN = employee.FatherNameEN,
+            //        GrandNameEN = employee.GrandNameEN,
+            //        LastNameEN = employee.LastNameEN,
+            //        FullNameEN = employee.FullNameEN,
 
-                };
-            }
+            //        BankId = employee.BankId,
+            //        BankAccountNumber = employee.BankAccountNumber,
+            //        BirthDate = employee.BirthDate,
+            //        BirthPlace = employee.BirthPlace,
+            //        NationalityId = employee.NationalityId,
+            //        SponsorId = employee.SponsorId,
+            //        IqamaIssuePlaceId = employee.IqamaIssuePlaceId,
+            //        IqamaIssueDate = employee.IqamaIssueDate,
+            //        IqamaExpireDate = employee.IqamaExpireDate,
 
-            return null;
+            //        IqamaExpireDateHijri = employee.IqamaExpireDateHijri,
+            //        IqamaIssueDateHijri = employee.IqamaIssueDateHijri,
+            //        IqamaJobDescription = employee.IqamaJobDescription,
+            //        Religion = employee.Religion,
+            //        Address = employee.Address,
+
+
+            //        CreatedBy = employee.CreatedBy,
+            //        CreatedDate = employee.CreatedDate,
+            //        ModifiedBy = employee.ModifiedBy,
+            //        ModifiedDate = employee.ModifiedDate,
+            //        Image = GetImagePath(employee.Image)
+
+            //    };
+            //}
+
+            //return null;
+
+            var employee =Context.Employees
+                        .Where(e => e.EmployeeId == employeeId)
+                        .Select(e => new EmployeeDto
+                        {
+                            EmployeeId = e.EmployeeId,
+                            Code = e.Code,
+                            ManagerId = e.ManagerId,
+                            IqamaNumber = e.IqamaNumber,
+                            JobId = e.JobId,
+                            IqamaJobId = e.IqamaJobId,
+                            BranchId = e.BranchId,
+                            StatusId = e.StatusId,
+                            FirstNameAR = e.FirstNameAR,
+                            FatherNameAR = e.FatherNameAR,
+                            GrandNameAR = e.GrandNameAR,
+                            LastNameAR = e.LastNameAR,
+                            FullNameAR = e.FullNameAR,
+                            FirstNameEN = e.FirstNameEN,
+                            FatherNameEN = e.FatherNameEN,
+                            GrandNameEN = e.GrandNameEN,
+                            LastNameEN = e.LastNameEN,
+                            FullNameEN = e.FullNameEN,
+                            BankId = e.BankId,
+                            BankAccountNumber = e.BankAccountNumber,
+                            BirthDate = e.BirthDate,
+                            BirthPlace = e.BirthPlace,
+                            NationalityId = e.NationalityId,
+                            SponsorId = e.SponsorId,
+                            IqamaIssuePlaceId = e.IqamaIssuePlaceId,
+                            IqamaIssueDate = e.IqamaIssueDate,
+                            IqamaExpireDate = e.IqamaExpireDate,
+                            IqamaExpireDateHijri = e.IqamaExpireDateHijri,
+                            IqamaIssueDateHijri = e.IqamaIssueDateHijri,
+                            IqamaJobDescription = e.IqamaJobDescription,
+                            Religion = e.Religion,
+                            Address = e.Address,
+                            CreatedBy = e.CreatedBy,
+                            CreatedDate = e.CreatedDate,
+                            ModifiedBy = e.ModifiedBy,
+                            ModifiedDate = e.ModifiedDate,
+                            //Image = GetImagePath(e.Image)
+                        })
+                        .FirstOrDefault();
+
+            return employee;
 
         }
 
-        public async Task<EmployeeContractDto> GetEmployeeContractInfoByIdAsync(int employeeId)
+        public EmployeeContractDto GetEmployeeContractInfoById(int employeeId)
         {
 
-            var employee = await Context.EmployeeContracts.FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
+            var employee = Context.EmployeeContracts.FirstOrDefault(e => e.EmployeeId == employeeId);
 
             if (employee is not null)
             {
@@ -499,10 +545,10 @@ namespace MasterErp.Service.HR
             return null;
 
         }
-        public async Task<EmployeeVerificationDto> GetEmployeeVerificationInfoByIdAsync(int employeeId)
+        public EmployeeVerificationDto GetEmployeeVerificationInfoById(int employeeId)
         {
 
-            var employee = await Context.EmployeeVerifications.FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
+            var employee =  Context.EmployeeVerifications.FirstOrDefault(e => e.EmployeeId == employeeId);
 
             if (employee is not null)
             {
@@ -534,10 +580,10 @@ namespace MasterErp.Service.HR
             return null;
 
         }
-        public async Task<EmployeeExtraData> GetEmployeeExtraInfoByIdAsync(int employeeId)
+        public EmployeeExtraData GetEmployeeExtraInfoById(int employeeId)
         {
 
-            var employee = await Context.EmployeeExtraData.FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
+            var employee = Context.EmployeeExtraData.FirstOrDefault(e => e.EmployeeId == employeeId);
 
             if (employee is not null)
             {

@@ -32,7 +32,7 @@ namespace MasterErp.Entities.DTOs.HR
         public string GrandNameEN { get; set; }//1
         public string LastNameEN { get; set; }//1
 
-        public int BankId { get; set; }//1
+        public int? BankId { get; set; }//1
         public string BankAccountNumber { get; set; }//1
         public DateTime BirthDate { get; set; }//1
         public string BirthPlace { get; set; }//1

@@ -8,16 +8,12 @@ using System.Threading.Tasks;
 namespace MasterErp.Entities.Models
 {
     [Table("IqamaJobs", Schema = "HR")]
-    public class IqamaJob
+    public class IqamaJob : CreatorModel
     {
-        public int IqamaJobID { get; set; }
+        public int IqamaJobId { get; set; }
         public string NameAR { get; set; }
         public string NameEN { get; set; }
         public string Code { get; set; }
         public string Notes { get; set; }
-        public int InsertUser { get; set; }
-        public DateTime InsertDate { get; set; }
-        public int UpdateUser { get; set; }
-        public DateTime UpdateDate { get; set; }
     }
 }

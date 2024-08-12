@@ -24,10 +24,10 @@ namespace MasterErp.Interface.HR
 
 
         #region GetEmployee
-        Task<EmployeeDto> GetEmployeeBasicInfoByIdAsync(int EmployeeId);
-        Task<EmployeeContractDto> GetEmployeeContractInfoByIdAsync(int EmployeeId);
-        Task<EmployeeVerificationDto> GetEmployeeVerificationInfoByIdAsync(int EmployeeId);
-        Task<EmployeeExtraData> GetEmployeeExtraInfoByIdAsync(int EmployeeId);
+        EmployeeDto GetEmployeeBasicInfoById(int EmployeeId);
+        EmployeeContractDto GetEmployeeContractInfoById(int EmployeeId);
+        EmployeeVerificationDto GetEmployeeVerificationInfoById(int EmployeeId);
+        EmployeeExtraData GetEmployeeExtraInfoById(int EmployeeId);
         #endregion
 
 

@@ -100,6 +100,38 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetBranchesSelector();
             return Ok(result);
         }
+        
+        [HttpGet]
+        [Route("GetBanksSelector")]
+        public IActionResult GetBanksSelector()
+        {
+            var result = _sharedService.GetBanksSelector();
+            return Ok(result);
+        }        
+        
+        [HttpGet]
+        [Route("GetNationalitiesSelector")]
+        public IActionResult GetNationalitiesSelector()
+        {
+            var result = _sharedService.GetNationalitiesSelector();
+            return Ok(result);
+        }
+         
+        [HttpGet]
+        [Route("GetIqamaIssuePlacesSelector")]
+        public IActionResult GetIqamaIssuePlacesSelector()
+        {
+            var result = _sharedService.GetIqamaIssuePlacesSelector();
+            return Ok(result);
+        }
+        
+        [HttpGet]
+        [Route("GetIqamaJobsSelector")]
+        public IActionResult GetIqamaJobsSelector()
+        {
+            var result = _sharedService.GetIqamaJobsSelector();
+            return Ok(result);
+        }
 
 
         #endregion

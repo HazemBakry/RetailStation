@@ -86,35 +86,45 @@ namespace MasterErp.API.Controllers
         #endregion
 
         #region GetEmployee
-        [HttpPost("GetEmployeeBasicInfoById")]
-        public async Task<IActionResult> GetEmployeeBasicInfoById(int EmployeeId)
+        [HttpGet("GetEmployeeBasicInfoById")]
+        public IActionResult GetEmployeeBasicInfoById(int EmployeeId)
+        {
+            try
+            {
+                var employee = _employeeService.GetEmployeeBasicInfoById(EmployeeId);
+                return Ok(employee);
+
+            }
+            catch (Exception ex)
+            {
+                NotFound();
+                throw;
+            }
+
+            
+
+        }
+        [HttpGet("GetEmployeeContractInfoById")]
+        public IActionResult GetEmployeeContractInfoById(int EmployeeId)
         {
 
-            var employee = await _employeeService.GetEmployeeBasicInfoByIdAsync(EmployeeId);
+            var employee = _employeeService.GetEmployeeContractInfoById(EmployeeId);
             return Ok(employee);
 
         }
-        [HttpPost("GetEmployeeContractInfoById")]
-        public async Task<IActionResult> GetEmployeeContractInfoById(int EmployeeId)
+        [HttpGet("GetEmployeeVerificationInfoById")]
+        public IActionResult GetEmployeeVerificationInfoById(int EmployeeId)
         {
 
-            var employee = await _employeeService.GetEmployeeContractInfoByIdAsync(EmployeeId);
+            var employee = _employeeService.GetEmployeeVerificationInfoById(EmployeeId);
             return Ok(employee);
 
         }
-        [HttpPost("GetEmployeeVerificationInfoById")]
-        public async Task<IActionResult> GetEmployeeVerificationInfoById(int EmployeeId)
+        [HttpGet("GetEmployeeExtraInfoById")]
+        public IActionResult GetEmployeeExtraInfoById(int EmployeeId)
         {
 
-            var employee = await _employeeService.GetEmployeeVerificationInfoByIdAsync(EmployeeId);
-            return Ok(employee);
-
-        }
-        [HttpPost("GetEmployeeExtraInfoById")]
-        public async Task<IActionResult> GetEmployeeExtraInfoById(int EmployeeId)
-        {
-
-            var employee = await _employeeService.GetEmployeeExtraInfoByIdAsync(EmployeeId);
+            var employee = _employeeService.GetEmployeeExtraInfoById(EmployeeId);
             return Ok(employee);
 
         }
