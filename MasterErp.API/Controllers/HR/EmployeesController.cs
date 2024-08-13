@@ -73,13 +73,13 @@ namespace MasterErp.API.Controllers
             return Ok(result);
         }
         [HttpPost]
-        [Route("SaveEmployeeExtraData")]
-        public async Task<IActionResult> SaveEmployeeExtraData(int EmployeeId, EmployeeExtraDataDto model)
+        [Route("SaveEmployeeAttachments")]
+        public async Task<IActionResult> SaveEmployeeAttachments(int EmployeeId,[FromForm] EmployeeAttachmentDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _employeeService.SaveEmployeeExtraData(EmployeeId, model);
+            var result = await _employeeService.SaveEmployeeAttachments(EmployeeId, model);
             return Ok(result);
         }
 
@@ -120,11 +120,11 @@ namespace MasterErp.API.Controllers
             return Ok(employee);
 
         }
-        [HttpGet("GetEmployeeExtraInfoById")]
-        public IActionResult GetEmployeeExtraInfoById(int EmployeeId)
+        [HttpGet("GetEmployeeAttachmentsById")]
+        public IActionResult GetEmployeeAttachmentsById(int EmployeeId)
         {
 
-            var employee = _employeeService.GetEmployeeExtraInfoById(EmployeeId);
+            var employee = _employeeService.GetEmployeeAttachmentsById(EmployeeId);
             return Ok(employee);
 
         }

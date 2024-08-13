@@ -20,7 +20,7 @@ import { HrEmployeeDetailsContainerComponent } from './components/hr-employee-de
 import { HrEmployeeBasicInfoComponent } from './components/hr-employee-details-container/hr-employee-basic-info/hr-employee-basic-info.component';
 import { HrEmployeeContractInfoComponent } from './components/hr-employee-details-container/hr-employee-contract-info/hr-employee-contract-info.component';
 import { HrEmployeeVerificationInfoComponent } from './components/hr-employee-details-container/hr-employee-verification-info/hr-employee-verification-info.component';
-import { HrEmployeeExtraInfoComponent } from './components/hr-employee-details-container/hr-employee-extra-info/hr-employee-extra-info.component';
+import { HrEmployeeAttachmentsComponent } from './components/hr-employee-details-container/hr-employee-attachments/hr-employee-attachments.component';
 
 
 @NgModule({
@@ -42,7 +42,7 @@ import { HrEmployeeExtraInfoComponent } from './components/hr-employee-details-c
     HrEmployeeBasicInfoComponent,
     HrEmployeeContractInfoComponent,
     HrEmployeeVerificationInfoComponent,
-    HrEmployeeExtraInfoComponent
+    HrEmployeeAttachmentsComponent
   ],
   imports: [
     HrRoutingModule,

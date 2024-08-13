@@ -5,8 +5,8 @@ import { SearchFilterModel } from '../../Shared/models/FilterModel';
 import { EmployeeModel } from '../models/Employee/EmployeeModel';
 import { EmployeeContractModel } from '../models/Employee/EmployeeContractModel';
 import { EmployeeVerificationModel } from '../models/Employee/EmployeeVerificationModel';
-import { EmployeeExtraDataModel } from '../models/Employee/EmployeeExtraDataModel';
 import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsModel';
+import { EmployeeAttachmentModel } from '../models/Employee/EmployeeAttachmentModel';
 
 @Injectable({
   providedIn: 'root'
@@ -35,8 +35,8 @@ export class EmployeeService {
     return this.http.post<ActionsResponseModel>(this.URL + `Employee/SaveEmployeeVerificationData?EmployeeId=${employeeId}`, model);
   }
 
-  SaveEmployeeExtraData(employeeId:number,model: EmployeeExtraDataModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + `Employee/SaveEmployeeExtraData?EmployeeId=${employeeId}`, model);
+  SaveEmployeeAttachments(employeeId:number,model: FormData) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Employee/SaveEmployeeAttachments?EmployeeId=${employeeId}`, model);
   }
 
 
@@ -50,8 +50,8 @@ export class EmployeeService {
   GetEmployeeVerificationInfoById(employeeId:number) {
     return this.http.get<EmployeeVerificationModel>(this.URL + `Employee/GetEmployeeVerificationInfoById?EmployeeId=${employeeId}`);
   }
-  GetEmployeeExtraInfoById(employeeId:number) {
-    return this.http.get<EmployeeExtraDataModel>(this.URL + `Employee/GetEmployeeExtraInfoById?EmployeeId=${employeeId}`);
+  GetEmployeeAttachmentsById(employeeId:number) {
+    return this.http.get<EmployeeAttachmentModel>(this.URL + `Employee/GetEmployeeAttachmentsById?EmployeeId=${employeeId}`);
   }
 
 

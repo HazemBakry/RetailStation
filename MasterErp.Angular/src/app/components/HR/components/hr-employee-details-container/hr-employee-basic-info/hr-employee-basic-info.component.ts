@@ -32,6 +32,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
   nationalitiesSelectorData: FormDropdownModel[]= [];
   iqamaIssuePlacesSelectorData: FormDropdownModel[]= [];
   iqamaJobselectorData: FormDropdownModel[]= [];
+  vehiclesSelectorData: FormDropdownModel[]= [];
   showLoader: boolean = false;
   showAddLoader: boolean = false;
 
@@ -118,7 +119,12 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       imageFile: [null],
       attachmentFile: [null],
 
-
+      drivingLicenseNumber: [null],
+      drivingLicenseIssueDate: [null],
+      drivingLicenseIssueDateHijri: [null],
+      drivingLicenseExpireDate: [null],
+      drivingLicenseExpireDateHijri: [null],
+      vehicleId: [null],
 
       // loanTypeId: [null, [Validators.required]],
       // loanAmount: [null, [Validators.required, CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/, 'ادخل ارقام فقط')]],
@@ -173,8 +179,9 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
     this.employeeService.EditEmployee(this.employeeId, this.employeeBasicInfoModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
-        this.initNewForm();
+        // this.initNewForm();
         this.toaster.success(data?.message);
+        this.getEmployeeBasicInfo();
       }
       else {
         this.toaster.error(data?.message);
@@ -213,6 +220,9 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
     this.sharedService.GetIqamaJobsSelector().subscribe((data: FormDropdownModel[]) => {
       this.iqamaJobselectorData = data;
     });
+    // this.sharedService.GetVehiclesSelector().subscribe((data: FormDropdownModel[]) => {
+    //   this.vehiclesSelectorData = data;
+    // });
   }
 
   validateForm(): boolean {
@@ -259,7 +269,13 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       iqamaJobDescription: employeeBasicInfoModel.iqamaJobDescription,
       religion: employeeBasicInfoModel.religion,
       address: employeeBasicInfoModel.address,
-      image: employeeBasicInfoModel.image
+      image: employeeBasicInfoModel.image,
+      drivingLicenseNumber: employeeBasicInfoModel.drivingLicenseNumber,
+      drivingLicenseIssueDate:this.datePipe.transform(employeeBasicInfoModel.drivingLicenseIssueDate, 'yyyy-MM-dd'),
+      drivingLicenseExpireDate:this.datePipe.transform(employeeBasicInfoModel.drivingLicenseExpireDate, 'yyyy-MM-dd'),
+      drivingLicenseIssueDateHijri: employeeBasicInfoModel.drivingLicenseIssueDateHijri,
+      drivingLicenseExpireDateHijri: employeeBasicInfoModel.drivingLicenseExpireDateHijri,
+      vehicleId: employeeBasicInfoModel.vehicleId
     });
   }
 
@@ -302,6 +318,12 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
     address: '',
     imageFile: '',
     attachmentFile: '',
+    drivingLicenseNumber: '',
+    drivingLicenseIssueDate: '',
+    drivingLicenseIssueDateHijri: '',
+    drivingLicenseExpireDate: '',
+    drivingLicenseExpireDateHijri: '',
+    vehicleId: ''
   };
 
 
