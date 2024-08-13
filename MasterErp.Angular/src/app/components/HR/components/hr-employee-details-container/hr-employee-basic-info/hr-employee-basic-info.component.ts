@@ -218,7 +218,6 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       return true;
     } else {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, false)
-      console.log("🚀 ~ HrEmployeeBasicInfoComponent ~ validateForm ~ this.formErrors:", this.formErrors)
       return false;
     }
   }

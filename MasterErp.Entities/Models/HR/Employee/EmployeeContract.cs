@@ -9,16 +9,13 @@ namespace MasterErp.Entities.Models.HR.Employee
     public class EmployeeContract : CreatorModel
     {
         public int EmployeeContractId { get; set; }
+        public int EmployeeId { get; set; }
         public DateTime JoinDate { get; set; }//3
         public DateTime LastJoinDate { get; set; }//3
         public int ContractPeriodYears { get; set; }//3
-
-        public int? VacationPeriod { get; set; }//3
-
+        public int? VacationPeriodDays { get; set; }//3
         public DateTime? VacationDate { get; set; }//3
         public bool IsGossi { get; set; }//3
-
-
         //salary
         public int BasicSalary { get; set; }
         public int ExtraSalary { get; set; } = 0;
@@ -29,9 +26,6 @@ namespace MasterErp.Entities.Models.HR.Employee
         public int MealAllowance { get; set; } = 0;
         public int Other { get; set; } = 0;
         public int TotalSalary { get; set; }
-
-
-        public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
 
         //public int NoYears { get; set; }

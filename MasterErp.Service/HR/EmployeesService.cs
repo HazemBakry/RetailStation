@@ -192,14 +192,14 @@ namespace MasterErp.Service.HR
 
             try
             {
-                var employeeContract = await Context.EmployeeContracts.FirstOrDefaultAsync(i => i.EmployeeId == EmployeeId);
+                var employeeContract = Context.EmployeeContracts.FirstOrDefault(i => i.EmployeeId == EmployeeId);
                 //Edit
                 if (employeeContract != null)
                 {
                     employeeContract.JoinDate = model.JoinDate;
                     employeeContract.LastJoinDate = model.JoinDate.AddYears(model.ContractPeriodYears);
                     employeeContract.ContractPeriodYears = model.ContractPeriodYears;
-                    employeeContract.VacationPeriod = model.VacationPeriod;
+                    employeeContract.VacationPeriodDays = model.VacationPeriodDays;
                     employeeContract.VacationDate = model.VacationDate;
                     employeeContract.IsGossi = model.IsGossi;
 
@@ -211,7 +211,7 @@ namespace MasterErp.Service.HR
                     employeeContract.MobileAllowance = model.MobileAllowance;
                     employeeContract.WorkNature = model.WorkNature;
                     employeeContract.MealAllowance = model.MealAllowance;
-                    employeeContract.Other = model.Other;
+                    employeeContract.Other = model.Other ?? 0;
                     employeeContract.TotalSalary = model.CalcTotalSalary();
 
 
@@ -219,7 +219,7 @@ namespace MasterErp.Service.HR
                     employeeContract.ModifiedDate = DateTime.Now;
 
 
-                    await Context.SaveChangesAsync();
+                    Context.SaveChanges();
 
 
                     return new ActionsResponseModel { Message = "Employee Contract Updated Successfly !" };
@@ -233,7 +233,7 @@ namespace MasterErp.Service.HR
                     employeeContract.JoinDate = model.JoinDate;
                     employeeContract.LastJoinDate = model.JoinDate.AddYears(model.ContractPeriodYears);
                     employeeContract.ContractPeriodYears = model.ContractPeriodYears;
-                    employeeContract.VacationPeriod = model.VacationPeriod;
+                    employeeContract.VacationPeriodDays = model.VacationPeriodDays;
                     employeeContract.VacationDate = model.VacationDate;
                     employeeContract.IsGossi = model.IsGossi;
 
@@ -245,7 +245,7 @@ namespace MasterErp.Service.HR
                     employeeContract.MobileAllowance = model.MobileAllowance;
                     employeeContract.WorkNature = model.WorkNature;
                     employeeContract.MealAllowance = model.MealAllowance;
-                    employeeContract.Other = model.Other;
+                    employeeContract.Other = model.Other ??0;
                     employeeContract.TotalSalary = model.CalcTotalSalary();
 
 
@@ -254,7 +254,7 @@ namespace MasterErp.Service.HR
 
                     Context.EmployeeContracts.Add(employeeContract);
 
-                    await Context.SaveChangesAsync();
+                    Context.SaveChanges();
 
 
                     return new ActionsResponseModel { Message = "Employee Contract Created Successfly !" };
@@ -273,7 +273,7 @@ namespace MasterErp.Service.HR
         {
             try
             {
-                var employeeVerification = await Context.EmployeeVerifications.FirstOrDefaultAsync(i => i.EmployeeId == EmployeeId);
+                var employeeVerification =  Context.EmployeeVerifications.FirstOrDefault(i => i.EmployeeId == EmployeeId);
                 //Edit
                 if (employeeVerification != null)
                 {
@@ -292,7 +292,7 @@ namespace MasterErp.Service.HR
                     employeeVerification.ModifiedDate = DateTime.Now;
 
 
-                    await Context.SaveChangesAsync();
+                    Context.SaveChanges();
 
 
                     return new ActionsResponseModel { Message = "Employee Verification Updated Successfly !" };
@@ -321,7 +321,7 @@ namespace MasterErp.Service.HR
 
                     Context.EmployeeVerifications.Add(employeeVerification);
 
-                    await Context.SaveChangesAsync();
+                    Context.SaveChanges();
 
 
                     return new ActionsResponseModel { Message = "Employee Verification Created Successfly !" };
@@ -339,7 +339,7 @@ namespace MasterErp.Service.HR
 
             try
             {
-                var employeeExtraData = await Context.EmployeeExtraData.FirstOrDefaultAsync(i => i.EmployeeId == EmployeeId);
+                var employeeExtraData = Context.EmployeeExtraData.FirstOrDefault(i => i.EmployeeId == EmployeeId);
                 //Edit 
                 if (employeeExtraData != null)
                 {
@@ -354,7 +354,7 @@ namespace MasterErp.Service.HR
                     employeeExtraData.ModifiedDate = DateTime.Now;
 
 
-                    await Context.SaveChangesAsync();
+                    Context.SaveChanges();
 
 
                     return new ActionsResponseModel { Message = "Employee Extra Data Updated Successfly !" };
@@ -379,7 +379,7 @@ namespace MasterErp.Service.HR
 
                     Context.EmployeeExtraData.Add(employeeExtraData);
 
-                    await Context.SaveChangesAsync();
+                    Context.SaveChanges();
 
 
                     return new ActionsResponseModel { Message = "Employee Extra Data Created Successfly !" };
@@ -520,7 +520,7 @@ namespace MasterErp.Service.HR
                     JoinDate = employee.JoinDate,
                     LastJoinDate = employee.LastJoinDate,
                     ContractPeriodYears = employee.ContractPeriodYears,
-                    VacationPeriod = employee.VacationPeriod,
+                    VacationPeriodDays = employee.VacationPeriodDays,
                     VacationDate = employee.VacationDate,
                     IsGossi = employee.IsGossi,
 
