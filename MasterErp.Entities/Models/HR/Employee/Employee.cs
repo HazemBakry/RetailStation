@@ -15,7 +15,7 @@ namespace MasterErp.Entities.Models.HR.Employee
         public int JobId { get; set; }//1 NOT NULL
         public int? IqamaJobId { get; set; }//1
         public int BranchId { get; set; }//1  NOT NULL
-        public int StatusId { get; set; }  // 1 by default 1  NOT NULL
+        public int? StatusId { get; set; }  // 1 by default 1
 
         public string FullNameAR { get; set; }// concatenate NOT NULL
         public string FirstNameAR { get; set; }//1

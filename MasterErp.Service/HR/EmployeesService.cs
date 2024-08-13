@@ -52,7 +52,9 @@ namespace MasterErp.Service.HR
             try
             {
                 var employee = new Employee();
-                employee.Code= Context.Employees.LastOrDefault()?.Code ??1;
+
+                int? lastEmpCode = Context.Employees.OrderBy(e => e.EmployeeId).LastOrDefault()?.Code;
+                employee.Code= lastEmpCode+1??1;
                 employee.ManagerId=model.ManagerId;
                 employee.IqamaNumber = model.IqamaNumber;
                 employee.JobId = model.JobId;
@@ -121,7 +123,6 @@ namespace MasterErp.Service.HR
                 var employee = Context.Employees.FirstOrDefault(i => i.EmployeeId == EmployeeId);
                 if (employee != null)
                 {
-                    employee.Code = Context.Employees.LastOrDefault()?.Code ?? 1;
                     employee.ManagerId = model.ManagerId;
                     employee.IqamaNumber = model.IqamaNumber;
                     employee.JobId = model.JobId;

@@ -87,10 +87,10 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
   buildForm() {
     this.formGroup = this.form.group({
       employeeId: [null],
-      managerId: [null, [Validators.required]],
+      managerId: [null],
       jobId: [null, [Validators.required]],
       branchId: [null, [Validators.required]],
-      statusId: [null, [Validators.required]],
+      statusId: [null],
       firstNameAR: [null, [Validators.required]],
       fatherNameAR: [null, [Validators.required]],
       grandNameAR: [null, [Validators.required]],
@@ -110,13 +110,13 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       iqamaIssuePlaceId: [null, [Validators.required]],
       iqamaIssueDate: [null, [Validators.required]],
       iqamaExpireDate: [null, [Validators.required]],
-      iqamaExpireDateHijri: [null, [Validators.required]],
-      iqamaIssueDateHijri: [null, [Validators.required]],
-      iqamaJobDescription: [null, [Validators.required]],
+      iqamaExpireDateHijri: [null],
+      iqamaIssueDateHijri: [null],
+      iqamaJobDescription: [null],
       religion: [null, [Validators.required]],
       address: [null, [Validators.required]],
-      imageFile: [null, [Validators.required]],
-      attachmentFile: [null, [Validators.required]],
+      imageFile: [null],
+      attachmentFile: [null],
 
 
 
@@ -170,6 +170,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
     this.employeeService.EditEmployee(this.employeeId, this.employeeBasicInfoModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
+        this.initNewForm();
         this.toaster.success(data?.message);
       }
       else {
@@ -217,6 +218,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       return true;
     } else {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, false)
+      console.log("🚀 ~ HrEmployeeBasicInfoComponent ~ validateForm ~ this.formErrors:", this.formErrors)
       return false;
     }
   }

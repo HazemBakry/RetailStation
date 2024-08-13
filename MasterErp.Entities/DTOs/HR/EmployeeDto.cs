@@ -19,7 +19,7 @@ namespace MasterErp.Entities.DTOs.HR
         public int JobId { get; set; }//1
         public int? IqamaJobId { get; set; }//1
         public int BranchId { get; set; }//1
-        public int StatusId { get; set; }  // 1 by default
+        public int? StatusId { get; set; }  // 1 by default
 
         public string FullNameAR { get; set; }// concatenate
         public string FirstNameAR { get; set; }//1
