@@ -7,7 +7,7 @@ import { FormDropdownModel } from 'src/app/components/Shared/components/drop-dow
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../../../services/employee.service';
 import { EmployeeModel } from '../../../models/Employee/EmployeeModel';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
@@ -39,7 +39,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
 
 
 
-  constructor(private acRoute: ActivatedRoute, private hrService: HrService, private modalService: NgbModal, private employeeService: EmployeeService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
+  constructor(private acRoute: ActivatedRoute,private router:Router, private hrService: HrService, private modalService: NgbModal, private employeeService: EmployeeService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
     private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
 
   ngOnInit(): void {
@@ -151,6 +151,8 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.toaster.success(data?.message);
+        this.navigateToAddedEmployee(data?.id);
+
       }
       else {
         this.toaster.error(data?.message);
@@ -164,6 +166,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
 
 
   }
+
   editEmployeeBasicInfo() {
 
     this.showAddLoader = true;
@@ -260,7 +263,11 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
     });
   }
 
+  navigateToAddedEmployee(employeeId: number) {
+    if (employeeId)
+      this.router.navigate(['.'], { relativeTo: this.acRoute, queryParams: { EmployeeId: employeeId}});
 
+  }
 
 
   public formErrors = {

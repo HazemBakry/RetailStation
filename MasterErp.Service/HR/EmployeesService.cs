@@ -215,7 +215,7 @@ namespace MasterErp.Service.HR
                     employeeContract.TotalSalary = model.CalcTotalSalary();
 
 
-                    employeeContract.ModifiedBy = model.CreatedBy;
+                    employeeContract.ModifiedBy = model.ModifiedBy;
                     employeeContract.ModifiedDate = DateTime.Now;
 
 
@@ -288,7 +288,7 @@ namespace MasterErp.Service.HR
                     employeeVerification.PassportIssuancePlace = model.PassportIssuancePlace;
                     
 
-                    employeeVerification.ModifiedBy = model.CreatedBy;
+                    employeeVerification.ModifiedBy = model.ModifiedBy;
                     employeeVerification.ModifiedDate = DateTime.Now;
 
 
@@ -350,7 +350,7 @@ namespace MasterErp.Service.HR
                     employeeExtraData.DrivingLicenseExpire = model.DrivingLicenseExpire;
                     employeeExtraData.VehicleId = model.VehicleId;
 
-                    employeeExtraData.ModifiedBy = model.CreatedBy;
+                    employeeExtraData.ModifiedBy = model.ModifiedBy;
                     employeeExtraData.ModifiedDate = DateTime.Now;
 
 

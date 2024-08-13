@@ -12,7 +12,8 @@ namespace MasterErp.Entities.DTOs.HR
     public class EmployeeVerificationDto : CreatorModel
     {
         [Key]
-        public int EmployeeVerificationId { get; set; }
+        public int? EmployeeVerificationId { get; set; }
+        public int? EmployeeId { get; set; }
         public string BorderEntryNumber { get; set; }//2
         public string PassportNumber { get; set; }//2
         public DateTime? BorderEntryDate { get; set; }// 2
@@ -22,7 +23,6 @@ namespace MasterErp.Entities.DTOs.HR
         public DateTime? PassportExpireDate { get; set; }//2
         public DateTime? PassportIssuanceDate { get; set; }//2
         public string PassportIssuancePlace { get; set; } //2
-        public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
     }
 }

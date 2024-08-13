@@ -122,6 +122,7 @@ export class HrEmployeeContractInfoComponent implements OnInit {
         this.formGroup?.reset();
         this.initNewForm();
         this.toaster.success(data?.message);
+        this.getEmployeeContractInfo();
       }
       else {
         this.toaster.error(data?.message);
