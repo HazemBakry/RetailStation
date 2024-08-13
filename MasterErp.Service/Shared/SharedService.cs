@@ -127,6 +127,43 @@ namespace MasterErp.Service.Shared
             }).ToList();
             return results;
         }
+        
+        public List<SelectorDataModel> GetBanksSelector()
+        {
+            var results = Context.Banks.Select(b => new SelectorDataModel
+            {
+                Id = b.BankID,
+                Name = b.Name,
+            }).ToList();
+            return results;
+        }        
+        public List<SelectorDataModel> GetNationalitiesSelector()
+        {
+            var results = Context.Nationalities.Select(b => new SelectorDataModel
+            {
+                Id = b.NationalityId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }        
+        public List<SelectorDataModel> GetIqamaIssuePlacesSelector()
+        {
+            var results = Context.IqamaIssuePlaces.Select(b => new SelectorDataModel
+            {
+                Id = b.IqamaIssuePlaceId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }      
+        public List<SelectorDataModel> GetIqamaJobsSelector()
+        {
+            var results = Context.IqamaJobs.Select(b => new SelectorDataModel
+            {
+                Id = b.IqamaJobId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
         #endregion
 
     }

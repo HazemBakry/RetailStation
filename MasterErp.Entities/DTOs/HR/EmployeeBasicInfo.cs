@@ -8,8 +8,8 @@ namespace MasterErp.Entities.DTOs.HR
 {
     public class EmployeeBasicInfo
     {
-        public int EmployeeId { get; set; }
-        public int Code { get; set; }
+        public int? EmployeeId { get; set; }
+        public int? Code { get; set; }
         public string IqamaNumber { get; set; }
         public int JobId { get; set; }
         public int BranchId { get; set; }

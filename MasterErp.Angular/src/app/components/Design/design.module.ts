@@ -7,6 +7,7 @@ import { DesignHomeComponent } from './components/design-home/design-home.compon
 import { AccountTreeComponent } from './components/account-tree/account-tree.component';
 import { OpeningBalanceComponent } from './components/opening-balance/opening-balance.component';
 import { ReceiptsComponent } from './components/receipts/receipts.component';
+import { DesignEmployeeDetailsComponent } from './components/design-employee-details/design-employee-details.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ReceiptsComponent } from './components/receipts/receipts.component';
     DesignHomeComponent,
     AccountTreeComponent,
     OpeningBalanceComponent,
-    ReceiptsComponent
+    ReceiptsComponent,
+    DesignEmployeeDetailsComponent
   ],
   imports: [
     CommonModule,

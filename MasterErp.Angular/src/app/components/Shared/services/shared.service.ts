@@ -136,4 +136,17 @@ export class SharedService {
   GetLoanTypesSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Loans/GetLoanTypesSelector');
   }
+
+  GetBanksSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetBanksSelector');
+  }
+  GetNationalitiesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetNationalitiesSelector');
+  }
+  GetIqamaIssuePlacesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetIqamaIssuePlacesSelector');
+  }
+  GetIqamaJobsSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetIqamaJobsSelector');
+  }
 }

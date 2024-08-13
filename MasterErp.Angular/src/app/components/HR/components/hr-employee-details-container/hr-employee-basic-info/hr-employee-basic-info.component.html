@@ -1,0 +1,271 @@
+<div class="employee-card-body row">
+    <form [formGroup]="formGroup" autocomplete="off">
+        <div class="employee-card-body row">
+            <div class="col-xl-3">
+                <div class="form-floating  mb-3">
+                    <input type="text" formControlName="firstNameAR" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput1">الاسم الاول</label>
+                    <div *ngIf="formErrors.firstNameAR" class="text-danger  font-small-3 m-03">
+                        {{formErrors.firstNameAR}}
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-xl-3">
+
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="fatherNameAR" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput2">اسم الاب</label>
+                    <div *ngIf="formErrors.fatherNameAR" class="text-danger  font-small-3 m-03">
+                        {{formErrors.fatherNameAR}}
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-xl-3">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="grandNameAR" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput3">اسم الجد</label>
+                    <div *ngIf="formErrors.grandNameAR" class="text-danger  font-small-3 m-03">
+                        {{formErrors.grandNameAR}}
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-xl-3">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="lastNameAR" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput2">اسم العائلة</label>
+                    <div *ngIf="formErrors.lastNameAR" class="text-danger  font-small-3 m-03">
+                        {{formErrors.lastNameAR}}
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-xl-3">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="firstNameEN" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput1">First Name</label>
+                    <div *ngIf="formErrors.firstNameEN" class="text-danger  font-small-3 m-03">
+                        {{formErrors.firstNameEN}}
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-xl-3">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="fatherNameEN" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput2">Father Name</label>
+                    <div *ngIf="formErrors.fatherNameEN" class="text-danger  font-small-3 m-03">
+                        {{formErrors.fatherNameEN}}
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-xl-3">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="grandNameEN" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput3">Grand Name</label>
+                    <div *ngIf="formErrors.grandNameEN" class="text-danger  font-small-3 m-03">
+                        {{formErrors.grandNameEN}}
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-xl-3">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="lastNameEN" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput2">Family Name</label>
+                    <div *ngIf="formErrors.lastNameEN" class="text-danger  font-small-3 m-03">
+                        {{formErrors.lastNameEN}}
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-xl-5">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="iqamaNumber" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput5">رقم الاقامة</label>
+                    <div *ngIf="formErrors.iqamaNumber" class="text-danger  font-small-3 m-03">
+                        {{formErrors.iqamaNumber}}
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5 mb-3">
+                <!-- <label class="form-label">مكان الاصدار</label> -->
+                <app-drop-down-form-control formControlName="iqamaIssuePlaceId" [placeholder]="'مكان الاصدار'"
+                    [data]="iqamaIssuePlacesSelectorData"></app-drop-down-form-control>
+                <div *ngIf="formErrors.iqamaIssuePlaceId" class="text-danger  font-small-3 m-03">
+                    {{formErrors.iqamaIssuePlaceId}}
+                </div>
+
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+
+
+                <div class="form-floating mb-3">
+                    <input type="date" formControlName="iqamaIssueDate" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput6">تاريخ الاصدار</label>
+                    <div *ngIf="formErrors.iqamaIssueDate" class="text-danger  font-small-3 m-03">
+                        {{formErrors.iqamaIssueDate}}
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+
+                <div class="form-floating mb-3">
+                    <input type="date" formControlName="iqamaExpireDate" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput7">تاريخ الانتهاء</label>
+                    <div *ngIf="formErrors.iqamaExpireDate" class="text-danger  font-small-3 m-03">
+                        {{formErrors.iqamaExpireDate}}
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5 mb-3">
+                <!-- <label class="form-label">عمل الاقامة</label> -->
+                <app-drop-down-form-control formControlName="iqamaJobId" [placeholder]="'عمل الاقامة'"
+                    [data]="iqamaJobselectorData"></app-drop-down-form-control>
+                <div *ngIf="formErrors.iqamaJobId" class="text-danger  font-small-3 m-03">
+                    {{formErrors.iqamaJobId}}
+                </div>
+
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+                <!-- <label class="form-label">الكفيل</label> -->
+                <app-drop-down-form-control formControlName="sponsorId" [placeholder]="'الكفيل'"
+                    [data]="employeesSelectorData"></app-drop-down-form-control>
+                <div *ngIf="formErrors.sponsorId" class="text-danger  font-small-3 m-03">
+                    {{formErrors.sponsorId}}
+                </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5  mb-3">
+                <!-- <label class="form-label">الجنسية</label> -->
+                <app-drop-down-form-control formControlName="nationalityId" [placeholder]="'الجنسية'"
+                    [data]="nationalitiesSelectorData"></app-drop-down-form-control>
+                <div *ngIf="formErrors.nationalityId" class="text-danger  font-small-3 m-03">
+                    {{formErrors.nationalityId}}
+                </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="religion" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput5">الديانة</label>
+                    <div *ngIf="formErrors.religion" class="text-danger  font-small-3 m-03">
+                        {{formErrors.religion}}
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5 mb-3">
+
+                <!-- <label class="form-label">الوظيفة</label> -->
+                <app-drop-down-form-control formControlName="jobId" [placeholder]="'الوظيفة'"
+                    [data]="jobsSelectorData"></app-drop-down-form-control>
+                <div *ngIf="formErrors.jobId" class="text-danger  font-small-3 m-03">
+                    {{formErrors.jobId}}
+                </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5 mb-3">
+                <!-- <label class="form-label">الفرع</label> -->
+                <app-drop-down-form-control formControlName="branchId" [placeholder]="'الفرع'"
+                    [data]="branchSelectorData"></app-drop-down-form-control>
+                <div *ngIf="formErrors.branchId" class="text-danger  font-small-3 m-03">
+                    {{formErrors.branchId}}
+                </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+                <div class="form-floating mb-3">
+                    <input type="date" formControlName="birthDate" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput9">تاريخ الميلاد</label>
+                    <div *ngIf="formErrors.birthDate" class="text-danger  font-small-3 m-03">
+                        {{formErrors.birthDate}}
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="birthPlace" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput8">محل الميلاد</label>
+                    <div *ngIf="formErrors.birthPlace" class="text-danger  font-small-3 m-03">
+                        {{formErrors.birthPlace}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5 mb-3">
+
+                <!-- <label class="form-label">البنك</label> -->
+                <app-drop-down-form-control formControlName="bankId" [placeholder]="'البنك'"
+                    [data]="banksSelectorData"></app-drop-down-form-control>
+                <div *ngIf="formErrors.bankId" class="text-danger  font-small-3 m-03">
+                    {{formErrors.bankId}}
+                </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="bankAccountNumber" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput6">الحساب البنكي</label>
+                    <div *ngIf="formErrors.bankAccountNumber" class="text-danger  font-small-3 m-03">
+                        {{formErrors.bankAccountNumber}}
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-11">
+                <div class="form-floating mb-3">
+                    <textarea type="text" formControlName="address" class="form-control" id="floatingInput10"
+                        placeholder="العنوان"></textarea>
+                    <label for="floatingInput10">العنوان</label>
+
+                    <div *ngIf="formErrors.address" class="text-danger  font-small-3 m-03">
+                        {{formErrors.address}}
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+    </form>
+    <div class="d-flex justify-content-left">
+        <button [disabled]="showAddLoader" (click)="saveEmployeeBasicInfo()" class="btn btn-primary m-2">
+            <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
+            <span *ngIf="isUpdate" class="ms-3">تعديل</span>
+        </button>
+        <button (click)="initNewForm()" class="btn btn-danger m-2">
+            <span class="ms-3">إلغاء</span>
+        </button>
+    </div>
+</div>

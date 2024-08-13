@@ -16,6 +16,11 @@ import { HrLayoutComponent } from './hr-layout/hr-layout.component';
 import { HrCareersComponent } from './components/hr-careers/hr-careers.component';
 import { HrDeductsComponent } from './components/hr-deducts/hr-deducts.component';
 import { HrLoansComponent } from './components/hr-loans/hr-loans.component';
+import { HrEmployeeDetailsContainerComponent } from './components/hr-employee-details-container/hr-employee-details-container.component';
+import { HrEmployeeBasicInfoComponent } from './components/hr-employee-details-container/hr-employee-basic-info/hr-employee-basic-info.component';
+import { HrEmployeeContractInfoComponent } from './components/hr-employee-details-container/hr-employee-contract-info/hr-employee-contract-info.component';
+import { HrEmployeeVerificationInfoComponent } from './components/hr-employee-details-container/hr-employee-verification-info/hr-employee-verification-info.component';
+import { HrEmployeeExtraInfoComponent } from './components/hr-employee-details-container/hr-employee-extra-info/hr-employee-extra-info.component';
 
 
 @NgModule({
@@ -32,7 +37,12 @@ import { HrLoansComponent } from './components/hr-loans/hr-loans.component';
     HrLayoutComponent,
     HrCareersComponent,
     HrDeductsComponent,
-    HrLoansComponent
+    HrLoansComponent,
+    HrEmployeeDetailsContainerComponent,
+    HrEmployeeBasicInfoComponent,
+    HrEmployeeContractInfoComponent,
+    HrEmployeeVerificationInfoComponent,
+    HrEmployeeExtraInfoComponent
   ],
   imports: [
     HrRoutingModule,

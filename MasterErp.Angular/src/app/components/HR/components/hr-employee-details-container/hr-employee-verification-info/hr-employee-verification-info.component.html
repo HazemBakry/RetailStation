@@ -1,0 +1,135 @@
+<div class="employee-card-body row">
+    <form [formGroup]="formGroup" autocomplete="off">
+        <div class="employee-card-body row">
+            <div class="col-xl-5">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="borderEntryNumber" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput5">الرقم الحدودي</label>
+                    <div *ngIf="formErrors.borderEntryNumber" class="text-danger  font-small-3 m-03">
+                        {{formErrors.borderEntryNumber}}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="passportNumber" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput5">رقم جواز السفر</label>
+                    <div *ngIf="formErrors.passportNumber" class="text-danger  font-small-3 m-03">
+                        {{formErrors.passportNumber}}
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+                <div class="form-floating mb-3">
+                    <input type="date" formControlName="borderEntryDate" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput5">تاريخ الدخول</label>
+                    <div *ngIf="formErrors.borderEntryDate" class="text-danger  font-small-3 m-03">
+                        {{formErrors.borderEntryDate}}
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="arrivalPort" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput5">مكان الوصول</label>
+                    <div *ngIf="formErrors.arrivalPort" class="text-danger  font-small-3 m-03">
+                        {{formErrors.arrivalPort}}
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+
+
+                <div class="form-floating mb-3">
+                    <input type="date" formControlName="passportIssuanceDate" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput6">تاريخ الاصدار</label>
+                    <div *ngIf="formErrors.passportIssuanceDate" class="text-danger  font-small-3 m-03">
+                        {{formErrors.passportIssuanceDate}}
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+
+
+                <div class="form-floating mb-3">
+                    <input type="date" formControlName="passportExpireDate" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput6">تاريخ الانتهاء </label>
+                    <div *ngIf="formErrors.passportExpireDate" class="text-danger  font-small-3 m-03">
+                        {{formErrors.passportExpireDate}}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-xl-1"></div>
+
+            <div class="col-xl-5">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="visaNumber" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput5">رقم التأشيرة</label>
+                    <div *ngIf="formErrors.visaNumber" class="text-danger  font-small-3 m-03">
+                        {{formErrors.visaNumber}}
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+                <div class="form-floating mb-3">
+                    <input type="date" formControlName="visaIssueDate" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput5">تاريخ اصدار التأشيرة</label>
+                    <div *ngIf="formErrors.visaIssueDate" class="text-danger  font-small-3 m-03">
+                        {{formErrors.visaIssueDate}}
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5 mb-3">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="passportIssuancePlace" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput5">مكان اصدار التأشيرة</label>
+                    <div *ngIf="formErrors.passportIssuancePlace" class="text-danger  font-small-3 m-03">
+                        {{formErrors.passportIssuancePlace}}
+                    </div>
+                </div>
+
+                <!-- <app-drop-down-form-control formControlName="passportIssuancePlace" [placeholder]="'مكان اصدار التأشيرة'"
+                    [data]="iqamaIssuePlacesSelectorData"></app-drop-down-form-control>
+                <div *ngIf="formErrors.passportIssuancePlace" class="text-danger  font-small-3 m-03">
+                    {{formErrors.passportIssuancePlace}}
+                </div> -->
+            </div>
+
+        </div>
+    </form>
+    <div class="d-flex justify-content-left">
+        <button [disabled]="showAddLoader" (click)="saveEmployeeVerificationInfo()" class="btn btn-primary m-2">
+            <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
+            <span *ngIf="isUpdate" class="ms-3">تعديل</span>
+        </button>
+        <button (click)="initNewForm()" class="btn btn-danger m-2">
+            <span class="ms-3">إلغاء</span>
+        </button>
+    </div>
+</div>
