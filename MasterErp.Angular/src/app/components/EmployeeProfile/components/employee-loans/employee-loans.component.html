@@ -1,15 +1,14 @@
 <ng-container *ngIf="!detailsView">
     <div class="card radius-10 border-0 card-shadow mb-3">
+        <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
+            <h5 class="mb-0 fw-bold">السلف</h5>
+            <button class="btn btn-secondary gap-2" (click)="toggleDetails()">
+                <i class="fa fa-arrow-left"></i>
+                <span>السلف السابقة</span>
+            </button>
+        </div>
         <div class="card-body">
-            <div class="d-flex justify-content-between">
-                <h5 class="mb-3 fw-bold">Add Loan</h5>
-                <button (click)="toggleDetails()" class="btn mb-1">
-                    <i class="uil uil-eye"></i>
-                    <span class="ms-2  text-underline">السلف السابقة</span>
-                </button>
-            </div>
             <div class="main-card-action d-flex align-items-center flex-wrap">
-                
                 <!-- <button class="btn btn-warning mb-1">
                     <i class="uil uil-location-arrow"></i>
                     <span class="ms-2">Update</span>
@@ -27,8 +26,7 @@
                 <div class="row mb-3">
                     <div class="col-lg-4 mb-3">
                         <div class="form-floating">
-                            <app-drop-down-form-control formControlName="loanTypeId" [data]="loanTypesSelectorData"
-                                [showSearch]="true" [placeholder]="'نوع السلفة'"></app-drop-down-form-control>
+                            <app-drop-down-form-control formControlName="loanTypeId" [data]="loanTypesSelectorData" [showSearch]="true" [placeholder]="'نوع السلفة'"></app-drop-down-form-control>
                         </div>
                         <div *ngIf="formErrors.loanTypeId" class="text-danger  font-small-3 m-03">
                             {{formErrors.loanTypeId}}
@@ -36,9 +34,8 @@
                     </div>
                     <div class="col-lg-4 offset-lg-1">
                         <div class="form-floating">
-                            <input type="date" class="form-control" formControlName="paymentFromDate" id="floatingInput"
-                                placeholder="name@example.com">
-                            <label for="floatingInput">Start Paying Date</label>
+                            <input type="date" class="form-control" formControlName="paymentFromDate" id="floatingInput" placeholder="name@example.com">
+                            <label for="floatingInput">الخصم من شهر</label>
                         </div>
                         <div *ngIf="formErrors.paymentFromDate" class="text-danger  font-small-3 m-03">
                             {{formErrors.paymentFromDate}}
@@ -50,7 +47,7 @@
                     <div class="col-lg-4 mb-3">
                         <div class="form-floating">
                             <input type="text" class="form-control" formControlName="loanAmount" id="floatingInput" placeholder="name@example.com">
-                            <label for="floatingInput">Loan Amount</label>
+                            <label for="floatingInput">قيمة السلفة</label>
                         </div>
                         <div *ngIf="formErrors.loanAmount" class="text-danger  font-small-3 m-03">
                             {{formErrors.loanAmount}}
@@ -59,39 +56,41 @@
                     <div class="col-lg-4 offset-lg-1 mb-3">
                         <div class="form-floating">
                             <input type="text" class="form-control" formControlName="paymentAmount" id="floatingInput" placeholder="name@example.com">
-                            <label for="floatingInput">Payment Amount</label>
+                            <label for="floatingInput">قيمة القسط الشهرى</label>
                         </div>
                         <div *ngIf="formErrors.paymentAmount" class="text-danger  font-small-3 m-03">
                             {{formErrors.paymentAmount}}
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row mb-3">
                     <div class="col-lg-9">
                         <div class="form-floating">
                             <label for="floatingInput2">ملاحظات</label>
-                            <textarea type="text" formControlName="notes" class="form-control " id="floatingInput2" placeholder="ملاحظات" autocomplete="off">
+                            <textarea type="text" style="min-height: 150px;" formControlName="notes" class="form-control " id="floatingInput2" placeholder="ملاحظات" autocomplete="off">
                             </textarea>
                         </div>
                         <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
                             {{formErrors.notes}}
                         </div>
                     </div>
-                    
+
                 </div>
-                
+
             </form>
             <div class="d-flex justify-content-left">
-                <button [disabled]="showAddLoader" (click)="saveLoan()" class="btn btn-primary m-2">
+                <button [disabled]="showAddLoader" (click)="saveVacation()" class="btn btn-primary m-2">
+                    <i class="fas fa-save"></i>
                     <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
                     <span *ngIf="isUpdate" class="ms-3">تعديل</span>
                 </button>
-                <button  (click)="initNewLoanForm()" class="btn btn-danger m-2">
+                <button (click)="initNewVacationForm()" class="btn btn-danger m-2">
+                    <i class="fa fa-times"></i>
                     <span class="ms-3">إلغاء</span>
                 </button>
             </div>
-    
+
         </div>
     </div>
 </ng-container>
@@ -113,13 +112,11 @@
                         <!-- <ng-container *ngIf="filterList.length > 0">
                             <app-pos-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-pos-filters>
                         </ng-container> -->
-                        
+
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <app-erp-pagination (pageChanged)="pageChanged($event)"
-                        [currentPage]="loanResponse.currentPage" [pageSize]="loanResponse.pageSize"
-                        [totalCount]="loanResponse.totalCount"></app-erp-pagination>
+                    <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="loanResponse.currentPage" [pageSize]="loanResponse.pageSize" [totalCount]="loanResponse.totalCount"></app-erp-pagination>
                 </div>
             </div>
             <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
@@ -165,8 +162,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <app-empty-data [showContainer]="!loanResponse.results?.length&&!showLoader"
-                    [showLoader]="showLoader"></app-empty-data>
+                <app-empty-data [showContainer]="!loanResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
             </div>
         </div>
     </div>
@@ -184,36 +180,31 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control" formControlName="fromDate" id="floatingInput"
-                            placeholder="name@example.com">
+                        <input type="date" class="form-control" formControlName="fromDate" id="floatingInput" placeholder="name@example.com">
                         <label for="floatingInput">Start Date</label>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control" formControlName="toDate" id="floatingInput"
-                            placeholder="name@example.com">
+                        <input type="date" class="form-control" formControlName="toDate" id="floatingInput" placeholder="name@example.com">
                         <label for="floatingInput">End Date</label>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control" formControlName="lastDayWork" id="floatingInput"
-                            placeholder="name@example.com">
+                        <input type="date" class="form-control" formControlName="lastDayWork" id="floatingInput" placeholder="name@example.com">
                         <label for="floatingInput">Last Day Work</label>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-floating mb-3">
-                        <input type="number" class="form-control" formControlName="period" id="floatingInput"
-                            placeholder="name@example.com">
+                        <input type="number" class="form-control" formControlName="period" id="floatingInput" placeholder="name@example.com">
                         <label for="floatingInput">Period</label>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-floating mb-3">
-                        <input type="number" class="form-control" formControlName="alternativeEmployee"
-                            id="floatingInput" placeholder="name@example.com" autocomplete="off">
+                        <input type="number" class="form-control" formControlName="alternativeEmployee" id="floatingInput" placeholder="name@example.com" autocomplete="off">
                         <label for="floatingInput">Alternative Employee</label>
                     </div>
                 </div>
@@ -263,8 +254,7 @@
                 <div class="row">
                     <div class="col-lg-4 mb-3">
                         <div class="form-floating">
-                            <app-drop-down-form-control formControlName="loanTypeId" [data]="loanTypeSelectorData"
-                                [showSearch]="true" [placeholder]="'نوع الاجازه'"></app-drop-down-form-control>
+                            <app-drop-down-form-control formControlName="loanTypeId" [data]="loanTypeSelectorData" [showSearch]="true" [placeholder]="'نوع الاجازه'"></app-drop-down-form-control>
                         </div>
                         <div *ngIf="formErrors.loanTypeId" class="text-danger  font-small-3 m-03">
                             {{formErrors.loanTypeId}}
@@ -276,8 +266,7 @@
                 <div class="row">
                     <div class="col-lg-4 mb-3">
                         <div class="form-floating">
-                            <input type="date" class="form-control" formControlName="fromDate" id="floatingInput"
-                                placeholder="name@example.com">
+                            <input type="date" class="form-control" formControlName="fromDate" id="floatingInput" placeholder="name@example.com">
                             <label for="floatingInput">Start Date</label>
                         </div>
                         <div *ngIf="formErrors.fromDate" class="text-danger  font-small-3 m-03">
@@ -286,8 +275,7 @@
                     </div>
                     <div class="col-lg-4 offset-lg-1">
                         <div class="form-floating">
-                            <input type="date" class="form-control" formControlName="toDate" id="floatingInput"
-                                placeholder="name@example.com">
+                            <input type="date" class="form-control" formControlName="toDate" id="floatingInput" placeholder="name@example.com">
                             <label for="floatingInput">End Date</label>
                         </div>
                         <div *ngIf="formErrors.toDate" class="text-danger  font-small-3 m-03">
@@ -299,22 +287,20 @@
                 <div class="row">
                     <div class="col-lg-4 mb-3">
                         <div class="form-floating">
-                            <input type="date" class="form-control" formControlName="lastDayWork" id="floatingInput"
-                                placeholder="name@example.com">
+                            <input type="date" class="form-control" formControlName="lastDayWork" id="floatingInput" placeholder="name@example.com">
                             <label for="floatingInput">Last Work Day</label>
                         </div>
                         <div *ngIf="formErrors.lastDayWork" class="text-danger  font-small-3 m-03">
                             {{formErrors.lastDayWork}}
                         </div>
                     </div>
-                   
+
                 </div>
                 <div class="row">
                     <div class="col-lg-4 mb-3">
                         <label class="col-sm-3 col-form-label col-form-label-sm">موظف بديل</label>
                         <div class="col-sm-9">
-                            <input class="form-check-input" formControlName="isAlternativeAvailable" type="checkbox"
-                                value="" id="flexCheckDefault">
+                            <input class="form-check-input" formControlName="isAlternativeAvailable" type="checkbox" value="" id="flexCheckDefault">
                         </div>
                         <div *ngIf="formErrors.isAlternativeAvailable" class="text-danger  font-small-3 m-03">
                             {{formErrors.isAlternativeAvailable}}
@@ -322,9 +308,7 @@
                     </div>
                     <div class="col-lg-4 offset-lg-1">
                         <div class="form-floating">
-                            <app-drop-down-form-control formControlName="alternativeEmployeeId"
-                                [data]="employeeSelectorData" [showSearch]="true"
-                                [placeholder]="'اسم الموظف'"></app-drop-down-form-control>
+                            <app-drop-down-form-control formControlName="alternativeEmployeeId" [data]="employeeSelectorData" [showSearch]="true" [placeholder]="'اسم الموظف'"></app-drop-down-form-control>
                         </div>
                         <div *ngIf="formErrors.alternativeEmployeeId" class="text-danger  font-small-3 m-03">
                             {{formErrors.alternativeEmployeeId}}
@@ -343,9 +327,9 @@
                             {{formErrors.notes}}
                         </div>
                     </div>
-                    
+
                 </div>
-                
+
             </form>
 
             <div class="d-flex justify-content-center">

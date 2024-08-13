@@ -3,20 +3,15 @@
     <div class="app-content">
         <aside id="main_sidebar" class="main-sidebar" [ngClass]="{'toggled': toggler}">
             <ul class="nav list-unstyled flex-column p-0 m-0 small-scroll overflow-auto h-100 flex-column flex-nowrap">
-                <div class="nalika-profile"
-                    style="padding-top: 5px; padding-bottom: 5px; position: relative;z-index: 99999;background: #9f2316;color: white;">
-
-                    <a class="nav-link cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
-                        routerLink="/" routerLinkActive="active">
+                <div class="nalika-profile" style="background: #16487ad9;color: white;">
+                    <a class="nav-link cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" routerLink="/" routerLinkActive="active">
                         <div class="nav-text d-flex align-items-center w-100">
-                            <i class="uil uil-setting nav-icon" style="font-size: 25px; color: white;"></i>
-                            <span class="nav-link-text item-sidebar fw-bold main-nav-link ms-3"
-                                style="color: white; font-size: 14px;">لوحة
-                                التحكم</span>
+                            <i class="uil uil-home nav-icon" style="font-size: 20px; color: white;"></i>
+                            <span class="nav-link-text item-sidebar fw-bold main-nav-link ms-3" style="color: white; font-size: 14px;">الرئيسية
+                                </span>
                         </div>
                     </a>
                 </div>
-
                 <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100 active">
                     <div class="nav-text d-flex align-items-center w-100">
                         <i class="uil uil-database nav-icon"></i>
@@ -24,10 +19,9 @@
                     </div>
                 </a>
                 <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu1>
-                    
+
                     <li class="nav-item">
-                        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./profile/vacation"
-                            routerLinkActive="active">
+                        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./profile/vacation" routerLinkActive="active">
                             <div class="nav-text d-flex align-items-center w-100">
                                 <i class="uil uil-user-check nav-icon"></i>
                                 <span class="nav-link-text item-sidebar main-nav-link ms-3">الاجازات</span>
@@ -35,8 +29,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./profile/loans"
-                            routerLinkActive="active">
+                        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./profile/loans" routerLinkActive="active">
                             <div class="nav-text d-flex align-items-center w-100">
                                 <i class="uil uil-user-check nav-icon"></i>
                                 <span class="nav-link-text item-sidebar main-nav-link ms-3">السلف</span>
@@ -52,10 +45,9 @@
                     </div>
                 </a>
                 <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu1>
-                    
+
                     <li class="nav-item">
-                        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./management/team-work"
-                            routerLinkActive="active">
+                        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./management/team-work" routerLinkActive="active">
                             <div class="nav-text d-flex align-items-center w-100">
                                 <i class="uil uil-user-check nav-icon"></i>
                                 <span class="nav-link-text item-sidebar main-nav-link ms-3">فريق العمل</span>
@@ -63,8 +55,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./management/vacations"
-                            routerLinkActive="active">
+                        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./management/vacations" routerLinkActive="active">
                             <div class="nav-text d-flex align-items-center w-100">
                                 <i class="uil uil-user-check nav-icon"></i>
                                 <span class="nav-link-text item-sidebar main-nav-link ms-3"> اجازات فريق العمل</span>
@@ -72,8 +63,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./management/loans"
-                            routerLinkActive="active">
+                        <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./management/loans" routerLinkActive="active">
                             <div class="nav-text d-flex align-items-center w-100">
                                 <i class="uil uil-user-check nav-icon"></i>
                                 <span class="nav-link-text item-sidebar main-nav-link ms-3">سلف فريق العمل</span>

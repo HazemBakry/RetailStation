@@ -10,7 +10,8 @@
                                     <div class="module-header-icon me-2">
                                         <i class="fas fa-user-tie"></i>
                                     </div>
-                                    <div>Welcome <span class="username-title text-white text-uppercase fw-bold ms-2">{{UserModel?.fullName}}</span>
+                                    <div>مرحبا
+                                        <span class="username-title text-white text-uppercase fw-bold ms-2">{{UserModel?.fullNameAr}}</span>
                                     </div>
                                 </h2>
                                 <h4 class="with-bullets">
@@ -19,8 +20,8 @@
                                     </div>
                                     <div>
                                         <span>{{UserModel?.roles[0]}}</span>
-                                        <!--<span class="mx-2">/</span>
-                                                <span>{{UserModel?.branch}}</span> -->
+                                        <span class="mx-2">/</span>
+                                        <span>{{UserModel?.branchNameAr}}</span>
                                     </div>
                                 </h4>
                                 <h6 class="with-bullets">
@@ -50,7 +51,7 @@
                         <div class="title-with-img">
                             <img src="{{systemURL}}assets/images/select-product.png" class="title-imaged" loading="lazy" alt="" />
                         </div>
-                        <h4 class="fw-bold m-0">Modules</h4>
+                        <h4 class="fw-bold m-0">اختر نظام</h4>
                     </div>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-6 gy-4">
 
