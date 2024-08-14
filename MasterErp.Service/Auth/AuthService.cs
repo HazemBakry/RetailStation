@@ -3,6 +3,7 @@ using MasterErp.Entities.DTOs.Auth;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.HR.Employee;
 using MasterErp.Interface.Auth;
+using MasterErp.Interface.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -26,16 +27,17 @@ namespace MasterErp.Service.Auth
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JWT _jwt;
-
+        private readonly IFileService _fileService;
         public readonly string UserImagesFolder;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public AuthService(UserManager<ApplicationUser> userManager, JWT jwt, RoleManager<IdentityRole> roleManager, IHttpContextAccessor httpContextAccessor)
+        public AuthService(UserManager<ApplicationUser> userManager, JWT jwt, RoleManager<IdentityRole> roleManager, IHttpContextAccessor httpContextAccessor, IFileService fileService)
         {
             _userManager = userManager;
             _jwt = jwt;
             _roleManager = roleManager;
             UserImagesFolder = "UserImages";
             _httpContextAccessor = httpContextAccessor;
+            _fileService = fileService;
         }
 
         public async Task<ActionsResponseModel> Register(AddUserModel model)
@@ -56,11 +58,15 @@ namespace MasterErp.Service.Auth
             };
             if (model.Image != null)
             {
-                if (IsFileExtensionSupported(model.Image.FileName))
-                    return new ActionsResponseModel { Message = "invalid image extention" };
+                var uploadResponse = await _fileService.UploadFileAsync(model.Image, UserImagesFolder, FileType.Image);
+                if (uploadResponse.IsUploaded)
+                    User.ImageUrl = uploadResponse.FilePath;
+                else
+                    return new ActionsResponseModel { Message = uploadResponse.Message, IsSuccess = false };
+                
 
-                User.ImageUrl = await UploadUserImage(model.Image);
             }
+
             var result = await _userManager.CreateAsync(User, model.Password);
             if (!result.Succeeded)
             {
@@ -105,14 +111,20 @@ namespace MasterErp.Service.Auth
             user.Email = model.Email;
             user.PhoneNumber = model.PhoneNumber;
             user.EmployeeId = model.EmployeeId;
-
             if (model.Image != null)
             {
-                if (IsFileExtensionSupported(model.Image.FileName))
-                    return new ActionsResponseModel { Message = "invalid image extention", IsSuccess = false };
+                var uploadResponse = await _fileService.UploadFileAsync(model.Image, UserImagesFolder, FileType.Image);
+                if (uploadResponse.IsUploaded)
+                {
+                    user.ImageUrl = uploadResponse.FilePath;
+                }
+                else
+                {
+                    return new ActionsResponseModel { Message = uploadResponse.Message, IsSuccess = false };
+                }
 
-                user.ImageUrl =await UploadUserImage(model.Image);
             }
+
             var result = await _userManager.UpdateAsync(user);
 
             return new ActionsResponseModel { Message = "user updated successfully !" };
@@ -140,7 +152,7 @@ namespace MasterErp.Service.Auth
             authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             authModel.UserName = User.UserName;
             authModel.EmployeeId = User.EmployeeId;
-            authModel.ImageUrl = GetImagePath(User.ImageUrl);
+            authModel.ImageUrl = _fileService.GetFileDownloadUrl(User.ImageUrl);
             authModel.Roles = roleList.ToList();
 
             return authModel;
@@ -287,7 +299,7 @@ namespace MasterErp.Service.Auth
             foreach (var user in data)
             {
                 var roles = await _userManager.GetRolesAsync(user);
-                user.ImageUrl = GetImagePath(user.ImageUrl);
+                user.ImageUrl =_fileService.GetFileDownloadUrl(user.ImageUrl);
                 results.Add(new UserDto
                 {
                     FullName = $"{user.FirstName} {user.LastName}",
@@ -325,7 +337,7 @@ namespace MasterErp.Service.Auth
                     Email = user.Email,
                     PhoneNumber = user.PhoneNumber,
                     EmployeeId=user.EmployeeId,
-                    ImageUrl = GetImagePath(user.ImageUrl),
+                    ImageUrl = _fileService.GetFileDownloadUrl(user.ImageUrl),
                     Roles = roles.ToList(),
 
                 };
@@ -352,47 +364,7 @@ namespace MasterErp.Service.Auth
             return  new ActionsResponseModel { Message = "user deleted" };
         }
         
-        
-        
-        private bool IsFileExtensionSupported(string fileName)
-        {
-            var SupportedFileExtentions = new[] { "png", "jpg" };
-            var fileExtension = Path.GetExtension(fileName);
-            return SupportedFileExtentions.Contains(fileExtension, StringComparer.OrdinalIgnoreCase);
-        }
-        
-        private async Task<string> UploadUserImage(IFormFile Image)
-        {
-            string imagePath = string.Empty;
-            try
-            {
-                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
-                imagePath = Path.Combine(UserImagesFolder, uniqueFileName);
-                string filePath = Path.Combine("wwwroot", imagePath);
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await Image.CopyToAsync(stream);
-                }
-            }
-            catch (Exception)
-            {
+       
 
-                throw;
-            }
-            
-            return imagePath;
-        }
-
-        private string GetImagePath(string FileName)
-        {
-            string URL=string.Empty;
-            if (!string.IsNullOrEmpty(FileName))
-            {
-                var request = _httpContextAccessor.HttpContext.Request;
-                URL = string.Format("{0}://{1}//{2}", request.Scheme, request.Host, FileName);
-            }
-            
-            return URL;
-        }
     }
 }

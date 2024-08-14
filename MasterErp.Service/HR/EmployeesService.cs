@@ -122,11 +122,6 @@ namespace MasterErp.Service.HR
                     {
 
                     }
-                    //if (IsFileExtensionSupported(model.ImageFile.FileName))
-                    //    return new ActionsResponseModel { Message = "invalid image extention", IsSuccess = false };
-
-                    //employee.Image = await UploadEmployeeImage(employee.EmployeeId,model.ImageFile);
-                    //Context.SaveChanges();
 
                 }
 
