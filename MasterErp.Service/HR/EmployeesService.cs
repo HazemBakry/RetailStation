@@ -31,11 +31,12 @@ namespace MasterErp.Service.HR
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
         private readonly ISharedService SharedService;
+        private readonly IFileService _fileService;
         public readonly string EmployeesFolderName;
         private readonly string ConnectionString;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EmployeeService(DBContext Context, ISQLHelper SQLHelper, IConfiguration Configuration, ISharedService SharedService, IHttpContextAccessor httpContextAccessor)
+        public EmployeeService(DBContext Context, ISQLHelper SQLHelper, IConfiguration Configuration, ISharedService SharedService, IHttpContextAccessor httpContextAccessor, IFileService fileService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
@@ -44,6 +45,7 @@ namespace MasterErp.Service.HR
             ConnectionString = Configuration.GetConnectionString("DBConnection");
             EmployeesFolderName = "Employees";
             _httpContextAccessor = httpContextAccessor;
+            _fileService = fileService;
         }
 
         #region EmployeeCreation
@@ -109,11 +111,22 @@ namespace MasterErp.Service.HR
 
                 if (model.ImageFile != null)
                 {
-                    if (IsFileExtensionSupported(model.ImageFile.FileName))
-                        return new ActionsResponseModel { Message = "invalid image extention", IsSuccess = false };
+                    string employeeDirectory = GetEmployeetDirectoryName(employee.EmployeeId);
+                    var uploadResponse = await _fileService.UploadFileAsync(model.ImageFile, employeeDirectory, FileType.Image);
+                    if (uploadResponse.IsUploaded)
+                    {
+                        employee.Image = uploadResponse.FilePath;
+                        Context.SaveChanges();
+                    }
+                    else
+                    {
 
-                    employee.Image = await UploadEmployeeImage(employee.EmployeeId,model.ImageFile);
-                    Context.SaveChanges();
+                    }
+                    //if (IsFileExtensionSupported(model.ImageFile.FileName))
+                    //    return new ActionsResponseModel { Message = "invalid image extention", IsSuccess = false };
+
+                    //employee.Image = await UploadEmployeeImage(employee.EmployeeId,model.ImageFile);
+                    //Context.SaveChanges();
 
                 }
 
@@ -183,12 +196,15 @@ namespace MasterErp.Service.HR
 
                     if (model.ImageFile != null)
                     {
-                        if (IsFileExtensionSupported(model.ImageFile.FileName))
-                            return new ActionsResponseModel { Message = "invalid image extention", IsSuccess = false };
+                        string employeeDirectory = GetEmployeetDirectoryName(employee.EmployeeId);
+                        var uploadResponse = await _fileService.UploadFileAsync(model.ImageFile, employeeDirectory, FileType.Image);
+                        if (uploadResponse.IsUploaded)
+                        {
+                            employee.Image = uploadResponse.FilePath;
+                        }
+                        
 
-                        employee.Image = await UploadEmployeeImage(EmployeeId,model.ImageFile);
                     }
-
                     Context.SaveChanges();
 
 
@@ -367,64 +383,35 @@ namespace MasterErp.Service.HR
                 {
                     return new ActionsResponseModel { IsSuccess = false, Message = "No files uploaded." };
                 }
+                string employeeDirectory = GetEmployeetDirectoryName(employeeId);
+                var uploadResponse = await _fileService.UploadMultipleFilesAsync(model.Files, employeeDirectory, FileType.Attachment);
+                
+                var employeeAttachments = new List<EmployeeAttachment>();
 
-                // Define allowed file types and max size (in bytes)
-                var allowedExtensions = new List<string> { ".jpg", ".jpeg", ".png", ".pdf", ".docx" };
-                long maxFileSize = 5 * 1024 * 1024; // 5 MB
-                var employeeAttachments=new List<EmployeeAttachment>();
-                foreach (var file in model.Files)
+                foreach (var file in uploadResponse)
                 {
-                    var extension = Path.GetExtension(file.FileName).ToLower();
-
-                    if (!allowedExtensions.Contains(extension))
+                    if (file.IsUploaded)
                     {
-                        return new ActionsResponseModel { IsSuccess = false, Message = $"File type not allowed: {file.FileName}" };
+                        employeeAttachments.Add(new EmployeeAttachment
+                        {
+                            EmployeeId = employeeId,
+                            FileName = file.FileName,
+                            FilePath = file.FilePath,
+                            FileExtension = file.Extention,
+                            FileSize = file.FileSize,
+                            FileType = FileType.Attachment.ToString(),
+                            CreatedBy = model.CreatedBy,
+                            CreatedDate = model.CreatedDate
+                        });
                     }
-
-                    if (file.Length > maxFileSize)
+                    else
                     {
-                        return new ActionsResponseModel { IsSuccess = false, Message = $"File size exceeded: {file.FileName}" };
+                        return new ActionsResponseModel { IsSuccess = false, Message = $"{file.FileName} >> {file.Message}" };
+
                     }
-
-                    // Sanitize File Name
-                    var sanitizedFileName = Path.GetFileNameWithoutExtension(file.FileName);
-                    sanitizedFileName = string.Concat(sanitizedFileName.Split(Path.GetInvalidFileNameChars()));
-                    var safeFileName = $"{sanitizedFileName}_{Guid.NewGuid()}{extension}";
-
-                    string employeeDirectory = GetEmployeetDirectoryName(employeeId);
-
-
-                    // File Path 
-                    var filePath = Path.Combine(employeeDirectory, safeFileName);
-                    var uploadPath = Path.Combine("wwwroot", filePath);
-
-                    // Create directory if it doesn't exist
-                    var directory = Path.GetDirectoryName(uploadPath);
-                    if (!Directory.Exists(directory))
-                    {
-                        Directory.CreateDirectory(directory);
-                    }
-
-                    // Save the file
-                    using (var stream = new FileStream(uploadPath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(stream);
-                    }
-
-                    //  save file info in the database
-                    employeeAttachments.Add(new EmployeeAttachment
-                    {
-                        EmployeeId = employeeId,
-                        FileName = safeFileName,
-                        FilePath = filePath,
-                        FileExtension= extension,
-                        FileSize = file.Length,
-                        FileType = extension,
-                        CreatedBy=model.CreatedBy,
-                        CreatedDate = model.CreatedDate
-                    });
 
                 }
+               
                 Context.EmployeeAttachments.AddRange(employeeAttachments);
 
                 // Save changes to the database
@@ -493,7 +480,7 @@ namespace MasterErp.Service.HR
                     CreatedDate = employee.CreatedDate,
                     ModifiedBy = employee.ModifiedBy,
                     ModifiedDate = employee.ModifiedDate,
-                    Image = GetFilePath(employee.Image)
+                    Image = _fileService.GetFileDownloadUrl(employee.Image)
                 };
             }
 
@@ -593,7 +580,7 @@ namespace MasterErp.Service.HR
                     FileName = x.FileName,
                     FilePath = x.FilePath,
                     FileSize = x.FileSize,
-                    FileUrl = GetFilePath(x.FilePath)
+                    FileUrl = _fileService.GetFileDownloadUrl(x.FilePath)
                 }).ToList()
 
             }).FirstOrDefault();
@@ -824,51 +811,6 @@ namespace MasterErp.Service.HR
         //}
 
 
-        private bool IsFileExtensionSupported(string fileName)
-        {
-            var SupportedFileExtentions = new[] { "png", "jpg" };
-            var fileExtension = Path.GetExtension(fileName);
-            return SupportedFileExtentions.Contains(fileExtension, StringComparer.OrdinalIgnoreCase);
-        }
 
-        private async Task<string> UploadEmployeeImage(int employeeId, IFormFile Image)
-        {
-            string imagePath = string.Empty;
-            try
-            {
-                string employeeDirectory = GetEmployeetDirectoryName(employeeId);
-
-                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
-                imagePath = Path.Combine(employeeDirectory, uniqueFileName);
-                string filePath = Path.Combine("wwwroot", imagePath);
-                var directory = Path.GetDirectoryName(imagePath);
-                if (!Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await Image.CopyToAsync(stream);
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-            return imagePath;
-        }
-        private string GetFilePath(string FileName)
-        {
-            string URL = string.Empty;
-            if (!string.IsNullOrEmpty(FileName))
-            {
-                var request = _httpContextAccessor.HttpContext.Request;
-                URL = string.Format("{0}://{1}//{2}", request.Scheme, request.Host, FileName);
-            }
-
-            return URL;
-        }
     }
 }
