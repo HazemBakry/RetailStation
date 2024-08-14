@@ -105,7 +105,7 @@
 
 /* =======================Upload Design============================= */
 
-.file-upload-button {
+/* .file-upload-button {
     background-color: #4099ff;
     border-radius: 50%;
     height: 3rem;
@@ -132,4 +132,31 @@ input[type="file"] {
     color: #999;
     font-family: Lato;
     margin-left: 0.5rem;
-}
+} */
+
+
+input[type=file] {
+    /* width: 350px; */
+    width: 100%;
+    max-width: 100%;
+    color: #444;
+    padding: 5px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #555;
+  }
+  
+  input[type=file]::file-selector-button {
+    margin-right: 20px;
+    border: none;
+    background: #084cdf;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+  }
+  
+  input[type=file]::file-selector-button:hover {
+    background: #0d45a5;
+  }

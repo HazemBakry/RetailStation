@@ -1,27 +1,67 @@
-<!-- <app-pos-breadcrumb [TitleList]="TitleList"></app-pos-breadcrumb> -->
-
-
-<div class="card radius-10 border-0 card-shadow mb-2">
+<!-- <div class="card radius-10 border-0 card-shadow mb-3">
+    <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
+        <h5 class="mb-0 fw-bold">الموظفين</h5>
+       
+    </div>
     <div class="card-body">
-        <div class="main-card-action mt-2">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="d-flex align-items-center flex-wrap">
-                        <ng-container *ngIf="filterList.length > 0">
-                            <app-pos-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-pos-filters>
-                        </ng-container>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="currentPage" [pageSize]="pageSize" [totalCount]="totalCount" [totalPages]="totalPages"></app-erp-pagination>
-                </div>
+        <div class="main-card-action d-flex align-items-center flex-wrap">
+            <button class="btn btn-dark mb-1">
+                <i class="uil uil-eye"></i>
+                <span class="ms-2">Preview</span>
+            </button>
+            <button class="btn btn-warning mb-1">
+                <i class="uil uil-location-arrow"></i>
+                <span class="ms-2">Update</span>
+            </button>
+            <button class="btn btn-secondary mb-1">
+                <i class="uil uil-print"></i>
+                <span class="ms-2">Print</span>
+            </button>
+            <button class="btn btn-danger mb-1">
+                <i class="uil uil-times-circle"></i>
+                <span class="ms-2">Exist</span>
+            </button>
+        </div>
+        <div class="row py-3">
+            
+            <div class="col-lg-4">
+
+            </div>
+            <div class="col-lg-2 mt-2">
+               
             </div>
         </div>
+
     </div>
-</div>
+</div> -->
+
 
 <div class="card radius-10 border-0 card-shadow mb-1">
+    <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
+        <h5 class="mb-0 fw-bold">الموظفين</h5>
+       
+    </div>
     <div class="card-body">
+        <div class="row p-2">
+            <div class="col-md-8">
+                <div class="d-flex align-items-center flex-wrap">
+                    <div class="search-box position-relative mb-2">
+                        <a routerLink="../employee-details" routerLinkActive="active"  class="btn btn-primary mb-2" >
+                            <span class="me-2">إضافة موظف</span>
+                            <i class="uil uil-plus-circle"></i>
+                        </a>
+                    </div>
+                    <ng-container *ngIf="filterList.length > 0">
+                        <app-pos-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-pos-filters>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="currentPage" [pageSize]="pageSize" [totalCount]="totalCount" [totalPages]="totalPages"></app-erp-pagination>
+            </div>
+        </div>
+
+
         <div class="row gy-5 gx-4 mt-1">
             <div class="col-xl-8">
                 <div class="user-card bg-light p-2 rounded shadow-sm border" *ngFor="let item of ResultData">
@@ -126,7 +166,7 @@
                         </div>
                     </div>
                     <hr class="my-4">
-                    <button class="btn btn-primary w-100 justify-content-center py-3 fs-5 radius-10">
+                    <button  routerLink="../employee-details" routerLinkActive="active" [queryParams]="{EmployeeId:SelectedEmployee?.employeeId}" class="btn btn-primary w-100 justify-content-center py-3 fs-5 radius-10">
                         <i class="fas fa-id-card"></i>
                         <span class="ms-3">إضافة موظف</span>
                     </button>

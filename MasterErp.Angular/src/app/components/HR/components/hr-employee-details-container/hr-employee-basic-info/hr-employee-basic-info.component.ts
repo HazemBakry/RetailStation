@@ -35,7 +35,8 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
   vehiclesSelectorData: FormDropdownModel[]= [];
   showLoader: boolean = false;
   showAddLoader: boolean = false;
-
+  employeeImageFile: File;
+  formData: FormData = new FormData();
   public formGroup: FormGroup;
 
 
@@ -144,6 +145,16 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
     }
     this.employeeBasicInfoModel = this.formGroup.value;
 
+    this.formData = new FormData();
+    if (this.employeeImageFile !=null) {
+      this.formData.append('imageFile', this.employeeImageFile);
+    }
+
+
+    Object.keys(this.formGroup.value).forEach(key => {
+      if (key != 'imageFile'&& this.formGroup.value[key])
+        this.formData.append(key, this.formGroup.value[key]);
+    });
     if (this.employeeId)
       this.editEmployeeBasicInfo();
     else
@@ -153,7 +164,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
   addNewEmployee() {
 
     this.showAddLoader = true;
-    this.employeeService.CreateNewEmployee(this.employeeBasicInfoModel).subscribe((data: ActionsResponseModel) => {
+    this.employeeService.CreateNewEmployee(this.formData).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.toaster.success(data?.message);
@@ -176,7 +187,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
   editEmployeeBasicInfo() {
 
     this.showAddLoader = true;
-    this.employeeService.EditEmployee(this.employeeId, this.employeeBasicInfoModel).subscribe((data: ActionsResponseModel) => {
+    this.employeeService.EditEmployee(this.employeeId, this.formData).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         // this.initNewForm();
@@ -284,7 +295,10 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       this.router.navigate(['.'], { relativeTo: this.acRoute, queryParams: { EmployeeId: employeeId}});
 
   }
-
+  onFileChange(event: any) {
+    this.employeeImageFile = event.target.files[0];
+    //this.imageFileName = event.target.files[0].name;
+  }
 
   public formErrors = {
     employeeId: '',

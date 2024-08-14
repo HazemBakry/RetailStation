@@ -58,7 +58,7 @@ export class HrEmployeesComponent implements OnInit {
   }
 
   goToEmployeeDetails(employeeId: any) {
-    this.router.navigateByUrl('/hr/employee-details?employeeId=' + employeeId);
+    this.router.navigateByUrl('/hr/employee-details?EmployeeId=' + employeeId);
   }
 
   getEmployeesFilter() {

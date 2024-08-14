@@ -293,6 +293,19 @@
                 </div>
  
             </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+ 
+                <div class="form-floating mb-3">
+                    <input formControlName="imageFile" (change)="onFileChange($event)" type="file"
+                         class="cursor-pointer" placeholder="الصورة الشخصية">
+                    
+                    <div *ngIf="formErrors.imageFile" class="text-danger  font-small-3 m-03">
+                        {{formErrors.imageFile}}
+                    </div>
+                </div>
+ 
+            </div>
 
             <div class="col-xl-11">
                 <div class="form-floating mb-3">

@@ -19,11 +19,11 @@ export class EmployeeService {
     return this.http.post<any>(this.URL + 'Employee/GetAllEmployees', model);
   }
 
-  CreateNewEmployee(model: EmployeeModel) {
+  CreateNewEmployee(model: FormData) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Employee/CreateNewEmployee', model);
   }
 
-  EditEmployee(employeeId:number,model: EmployeeModel) {
+  EditEmployee(employeeId:number,model: FormData) {
     return this.http.post<ActionsResponseModel>(this.URL + `Employee/EditEmployee?EmployeeId=${employeeId}`, model);
   }
 

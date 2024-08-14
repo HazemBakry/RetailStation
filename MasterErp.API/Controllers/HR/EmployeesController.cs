@@ -33,7 +33,7 @@ namespace MasterErp.API.Controllers
 
         [HttpPost]
         [Route("CreateNewEmployee")]
-        public async Task<IActionResult> CreateNewEmployee(EmployeeDto model)
+        public async Task<IActionResult> CreateNewEmployee([FromForm] EmployeeDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -44,7 +44,7 @@ namespace MasterErp.API.Controllers
 
         [HttpPost]
         [Route("EditEmployee")]
-        public async Task<IActionResult> EditEmployee(int EmployeeId, EmployeeDto model)
+        public async Task<IActionResult> EditEmployee(int EmployeeId, [FromForm] EmployeeDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

@@ -102,17 +102,20 @@ namespace MasterErp.Service.HR
                 employee.CreatedBy = model.CreatedBy;
                 employee.CreatedDate = DateTime.Now;
 
-                if (model.Image != null)
-                {
-                    if (IsFileExtensionSupported(model.ImageFile.FileName))
-                        return new ActionsResponseModel { Message = "invalid image extention", IsSuccess = false };
 
-                    employee.Image = await UploadEmployeeImage(model.ImageFile);
-                }
 
                 Context.Employees.Add(employee);
                 var result = Context.SaveChanges();
 
+                if (model.ImageFile != null)
+                {
+                    if (IsFileExtensionSupported(model.ImageFile.FileName))
+                        return new ActionsResponseModel { Message = "invalid image extention", IsSuccess = false };
+
+                    employee.Image = await UploadEmployeeImage(employee.EmployeeId,model.ImageFile);
+                    Context.SaveChanges();
+
+                }
 
                 return new ActionsResponseModel { Message = "Employee Added Successfly !" , Id=employee.EmployeeId };
             }
@@ -178,12 +181,12 @@ namespace MasterErp.Service.HR
                     employee.ModifiedDate = DateTime.Now;
 
 
-                    if (model.Image != null)
+                    if (model.ImageFile != null)
                     {
                         if (IsFileExtensionSupported(model.ImageFile.FileName))
                             return new ActionsResponseModel { Message = "invalid image extention", IsSuccess = false };
 
-                        employee.Image = await UploadEmployeeImage(model.ImageFile);
+                        employee.Image = await UploadEmployeeImage(EmployeeId,model.ImageFile);
                     }
 
                     Context.SaveChanges();
@@ -368,7 +371,7 @@ namespace MasterErp.Service.HR
                 // Define allowed file types and max size (in bytes)
                 var allowedExtensions = new List<string> { ".jpg", ".jpeg", ".png", ".pdf", ".docx" };
                 long maxFileSize = 5 * 1024 * 1024; // 5 MB
-
+                var employeeAttachments=new List<EmployeeAttachment>();
                 foreach (var file in model.Files)
                 {
                     var extension = Path.GetExtension(file.FileName).ToLower();
@@ -389,24 +392,27 @@ namespace MasterErp.Service.HR
                     var safeFileName = $"{sanitizedFileName}_{Guid.NewGuid()}{extension}";
 
                     string employeeDirectory = GetEmployeetDirectoryName(employeeId);
+
+
                     // File Path 
                     var filePath = Path.Combine(employeeDirectory, safeFileName);
+                    var uploadPath = Path.Combine("wwwroot", filePath);
 
                     // Create directory if it doesn't exist
-                    var directory = Path.GetDirectoryName(filePath);
+                    var directory = Path.GetDirectoryName(uploadPath);
                     if (!Directory.Exists(directory))
                     {
                         Directory.CreateDirectory(directory);
                     }
 
                     // Save the file
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    using (var stream = new FileStream(uploadPath, FileMode.Create))
                     {
                         await file.CopyToAsync(stream);
                     }
 
                     //  save file info in the database
-                    var employeeAttachment = new EmployeeAttachment
+                    employeeAttachments.Add(new EmployeeAttachment
                     {
                         EmployeeId = employeeId,
                         FileName = safeFileName,
@@ -416,10 +422,10 @@ namespace MasterErp.Service.HR
                         FileType = extension,
                         CreatedBy=model.CreatedBy,
                         CreatedDate = model.CreatedDate
-                    };
+                    });
 
-                    Context.EmployeeAttachments.Add(employeeAttachment);
                 }
+                Context.EmployeeAttachments.AddRange(employeeAttachments);
 
                 // Save changes to the database
                 await Context.SaveChangesAsync();
@@ -437,116 +443,62 @@ namespace MasterErp.Service.HR
         #region GetEmployee
         public EmployeeDto GetEmployeeBasicInfoById(int employeeId)
         {
+            var employee = Context.Employees.FirstOrDefault(e => e.EmployeeId == employeeId);
 
-            //var employee = await Context.Employees.FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
+            if (employee is not null)
+            {
 
-            //if (employee is not null)
-            //{
+                return new EmployeeDto
+                {
 
-            //    return new EmployeeDto
-            //    {
+                    EmployeeId = employee.EmployeeId,
+                    Code = employee.Code,
+                    ManagerId = employee.ManagerId,
+                    IqamaNumber = employee.IqamaNumber,
+                    JobId = employee.JobId,
+                    IqamaJobId = employee.IqamaJobId,
+                    BranchId = employee.BranchId,
+                    StatusId = employee.StatusId,
+                    FirstNameAR = employee.FirstNameAR,
+                    FatherNameAR = employee.FatherNameAR,
+                    GrandNameAR = employee.GrandNameAR,
+                    LastNameAR = employee.LastNameAR,
+                    FullNameAR = employee.FullNameAR,
+                    FirstNameEN = employee.FirstNameEN,
+                    FatherNameEN = employee.FatherNameEN,
+                    GrandNameEN = employee.GrandNameEN,
+                    LastNameEN = employee.LastNameEN,
+                    FullNameEN = employee.FullNameEN,
+                    BankId = employee.BankId,
+                    BankAccountNumber = employee.BankAccountNumber,
+                    BirthDate = employee.BirthDate,
+                    BirthPlace = employee.BirthPlace,
+                    NationalityId = employee.NationalityId,
+                    SponsorId = employee.SponsorId,
+                    IqamaIssuePlaceId = employee.IqamaIssuePlaceId,
+                    IqamaIssueDate = employee.IqamaIssueDate,
+                    IqamaExpireDate = employee.IqamaExpireDate,
+                    IqamaExpireDateHijri = employee.IqamaExpireDateHijri,
+                    IqamaIssueDateHijri = employee.IqamaIssueDateHijri,
+                    IqamaJobDescription = employee.IqamaJobDescription,
+                    Religion = employee.Religion,
+                    Address = employee.Address,
+                    DrivingLicenseNumber = employee.DrivingLicenseNumber,
+                    DrivingLicenseIssueDateHijri = employee.DrivingLicenseIssueDateHijri,
+                    DrivingLicenseIssueDate = employee.DrivingLicenseIssueDate,
+                    DrivingLicenseExpireDateHijri = employee.DrivingLicenseExpireDateHijri,
+                    DrivingLicenseExpireDate = employee.DrivingLicenseExpireDate,
+                    VehicleId = employee.VehicleId,
+                    CreatedBy = employee.CreatedBy,
+                    CreatedDate = employee.CreatedDate,
+                    ModifiedBy = employee.ModifiedBy,
+                    ModifiedDate = employee.ModifiedDate,
+                    Image = GetFilePath(employee.Image)
+                };
+            }
 
-            //        EmployeeId = employee.EmployeeId,
-            //        Code = employee.Code,
-            //        ManagerId = employee.ManagerId,
-            //        IqamaNumber = employee.IqamaNumber,
-            //        JobId = employee.JobId,
-            //        IqamaJobId = employee.IqamaJobId,
-            //        BranchId = employee.BranchId,
-            //        StatusId = employee.StatusId,
-
-            //        FirstNameAR = employee.FirstNameAR,
-            //        FatherNameAR = employee.FatherNameAR,
-            //        GrandNameAR = employee.GrandNameAR,
-            //        LastNameAR = employee.LastNameAR,
-            //        FullNameAR = employee.FullNameAR,
-
-
-            //        FirstNameEN = employee.FirstNameEN,
-            //        FatherNameEN = employee.FatherNameEN,
-            //        GrandNameEN = employee.GrandNameEN,
-            //        LastNameEN = employee.LastNameEN,
-            //        FullNameEN = employee.FullNameEN,
-
-            //        BankId = employee.BankId,
-            //        BankAccountNumber = employee.BankAccountNumber,
-            //        BirthDate = employee.BirthDate,
-            //        BirthPlace = employee.BirthPlace,
-            //        NationalityId = employee.NationalityId,
-            //        SponsorId = employee.SponsorId,
-            //        IqamaIssuePlaceId = employee.IqamaIssuePlaceId,
-            //        IqamaIssueDate = employee.IqamaIssueDate,
-            //        IqamaExpireDate = employee.IqamaExpireDate,
-
-            //        IqamaExpireDateHijri = employee.IqamaExpireDateHijri,
-            //        IqamaIssueDateHijri = employee.IqamaIssueDateHijri,
-            //        IqamaJobDescription = employee.IqamaJobDescription,
-            //        Religion = employee.Religion,
-            //        Address = employee.Address,
-
-
-            //        CreatedBy = employee.CreatedBy,
-            //        CreatedDate = employee.CreatedDate,
-            //        ModifiedBy = employee.ModifiedBy,
-            //        ModifiedDate = employee.ModifiedDate,
-            //        Image = GetImagePath(employee.Image)
-
-            //    };
-            //}
-
-            //return null;
-
-            var employee =Context.Employees
-                        .Where(e => e.EmployeeId == employeeId)
-                        .Select(e => new EmployeeDto
-                        {
-                            EmployeeId = e.EmployeeId,
-                            Code = e.Code,
-                            ManagerId = e.ManagerId,
-                            IqamaNumber = e.IqamaNumber,
-                            JobId = e.JobId,
-                            IqamaJobId = e.IqamaJobId,
-                            BranchId = e.BranchId,
-                            StatusId = e.StatusId,
-                            FirstNameAR = e.FirstNameAR,
-                            FatherNameAR = e.FatherNameAR,
-                            GrandNameAR = e.GrandNameAR,
-                            LastNameAR = e.LastNameAR,
-                            FullNameAR = e.FullNameAR,
-                            FirstNameEN = e.FirstNameEN,
-                            FatherNameEN = e.FatherNameEN,
-                            GrandNameEN = e.GrandNameEN,
-                            LastNameEN = e.LastNameEN,
-                            FullNameEN = e.FullNameEN,
-                            BankId = e.BankId,
-                            BankAccountNumber = e.BankAccountNumber,
-                            BirthDate = e.BirthDate,
-                            BirthPlace = e.BirthPlace,
-                            NationalityId = e.NationalityId,
-                            SponsorId = e.SponsorId,
-                            IqamaIssuePlaceId = e.IqamaIssuePlaceId,
-                            IqamaIssueDate = e.IqamaIssueDate,
-                            IqamaExpireDate = e.IqamaExpireDate,
-                            IqamaExpireDateHijri = e.IqamaExpireDateHijri,
-                            IqamaIssueDateHijri = e.IqamaIssueDateHijri,
-                            IqamaJobDescription = e.IqamaJobDescription,
-                            Religion = e.Religion,
-                            Address = e.Address,
-                            DrivingLicenseNumber =e.DrivingLicenseNumber,
-                            DrivingLicenseIssueDateHijri =e.DrivingLicenseIssueDateHijri,
-                            DrivingLicenseIssueDate =e.DrivingLicenseIssueDate,
-                            DrivingLicenseExpireDateHijri =e.DrivingLicenseExpireDateHijri,
-                            DrivingLicenseExpireDate =e.DrivingLicenseExpireDate,
-                            VehicleId =e.VehicleId,
-                            CreatedBy = e.CreatedBy,
-                            CreatedDate = e.CreatedDate,
-                            ModifiedBy = e.ModifiedBy,
-                            ModifiedDate = e.ModifiedDate,
-                            //Image = GetImagePath(e.Image)
-                        })
-                        .FirstOrDefault();
-
-            return employee;
+            return null;
+            
 
         }
 
@@ -641,7 +593,7 @@ namespace MasterErp.Service.HR
                     FileName = x.FileName,
                     FilePath = x.FilePath,
                     FileSize = x.FileSize,
-                    FileUrl = GetImagePath(x.FilePath)
+                    FileUrl = GetFilePath(x.FilePath)
                 }).ToList()
 
             }).FirstOrDefault();
@@ -879,14 +831,21 @@ namespace MasterErp.Service.HR
             return SupportedFileExtentions.Contains(fileExtension, StringComparer.OrdinalIgnoreCase);
         }
 
-        private async Task<string> UploadEmployeeImage(IFormFile Image)
+        private async Task<string> UploadEmployeeImage(int employeeId, IFormFile Image)
         {
             string imagePath = string.Empty;
             try
             {
+                string employeeDirectory = GetEmployeetDirectoryName(employeeId);
+
                 var uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
-                imagePath = Path.Combine(EmployeesFolderName, uniqueFileName);
+                imagePath = Path.Combine(employeeDirectory, uniqueFileName);
                 string filePath = Path.Combine("wwwroot", imagePath);
+                var directory = Path.GetDirectoryName(imagePath);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await Image.CopyToAsync(stream);
@@ -900,7 +859,7 @@ namespace MasterErp.Service.HR
 
             return imagePath;
         }
-        private string GetImagePath(string FileName)
+        private string GetFilePath(string FileName)
         {
             string URL = string.Empty;
             if (!string.IsNullOrEmpty(FileName))
