@@ -21,6 +21,7 @@ using System.IO;
 using System.Data.Entity;
 using MasterErp.Entities.DTOs.Auth;
 using Microsoft.AspNetCore.Identity;
+using MasterErp.Entities.DTOs.Shared;
 
 namespace MasterErp.Service.HR
 {
@@ -29,22 +30,19 @@ namespace MasterErp.Service.HR
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
-        private readonly ISharedFilterService SharedFilterService;
-        public readonly string EmployeeImagesFolder;
+        private readonly ISharedService SharedService;
+        public readonly string EmployeesFolderName;
         private readonly string ConnectionString;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EmployeeService(DBContext Context, ISQLHelper SQLHelper, 
-            IConfiguration Configuration, 
-            ISharedFilterService SharedFilterService, 
-            IHttpContextAccessor httpContextAccessor)
+        public EmployeeService(DBContext Context, ISQLHelper SQLHelper, IConfiguration Configuration, ISharedService SharedService, IHttpContextAccessor httpContextAccessor)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
             this.Configuration = Configuration;
-            this.SharedFilterService = SharedFilterService;
+            this.SharedService = SharedService;
             ConnectionString = Configuration.GetConnectionString("DBConnection");
-            EmployeeImagesFolder = "EmployeeImages";
+            EmployeesFolderName = "Employees";
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -94,21 +92,30 @@ namespace MasterErp.Service.HR
                 employee.Religion = model.Religion;
                 employee.Address = model.Address;
 
+                employee.DrivingLicenseNumber = model.DrivingLicenseNumber;
+                employee.DrivingLicenseIssueDateHijri = model.DrivingLicenseIssueDateHijri;
+                employee.DrivingLicenseIssueDate = model.DrivingLicenseIssueDate;
+                employee.DrivingLicenseExpireDateHijri = model.DrivingLicenseExpireDateHijri;
+                employee.DrivingLicenseExpireDate = model.DrivingLicenseExpireDate;
+                employee.VehicleId = model.VehicleId;
 
                 employee.CreatedBy = model.CreatedBy;
                 employee.CreatedDate = DateTime.Now;
 
-                if (model.Image != null)
-                {
-                    if (IsFileExtensionSupported(model.ImageFile.FileName))
-                        return new ActionsResponseModel { Message = "invalid image extention", IsSuccess = false };
 
-                    employee.Image = await UploadEmployeeImage(model.ImageFile);
-                }
 
                 Context.Employees.Add(employee);
                 var result = Context.SaveChanges();
 
+                if (model.ImageFile != null)
+                {
+                    if (IsFileExtensionSupported(model.ImageFile.FileName))
+                        return new ActionsResponseModel { Message = "invalid image extention", IsSuccess = false };
+
+                    employee.Image = await UploadEmployeeImage(employee.EmployeeId,model.ImageFile);
+                    Context.SaveChanges();
+
+                }
 
                 return new ActionsResponseModel { Message = "Employee Added Successfly !" , Id=employee.EmployeeId };
             }
@@ -162,17 +169,24 @@ namespace MasterErp.Service.HR
                     employee.Religion = model.Religion;
                     employee.Address = model.Address;
 
+                    employee.DrivingLicenseNumber = model.DrivingLicenseNumber;
+                    employee.DrivingLicenseIssueDateHijri = model.DrivingLicenseIssueDateHijri;
+                    employee.DrivingLicenseIssueDate = model.DrivingLicenseIssueDate;
+                    employee.DrivingLicenseExpireDateHijri = model.DrivingLicenseExpireDateHijri;
+                    employee.DrivingLicenseExpireDate = model.DrivingLicenseExpireDate;
+                    employee.VehicleId = model.VehicleId;
+
 
                     employee.ModifiedBy = model.ModifiedBy;
                     employee.ModifiedDate = DateTime.Now;
 
 
-                    if (model.Image != null)
+                    if (model.ImageFile != null)
                     {
                         if (IsFileExtensionSupported(model.ImageFile.FileName))
                             return new ActionsResponseModel { Message = "invalid image extention", IsSuccess = false };
 
-                        employee.Image = await UploadEmployeeImage(model.ImageFile);
+                        employee.Image = await UploadEmployeeImage(EmployeeId,model.ImageFile);
                     }
 
                     Context.SaveChanges();
@@ -337,57 +351,86 @@ namespace MasterErp.Service.HR
             }
         }
 
-        public async Task<ActionsResponseModel> SaveEmployeeExtraData(int EmployeeId, EmployeeExtraDataDto model)
+        public async Task<ActionsResponseModel> SaveEmployeeAttachments(int employeeId, EmployeeAttachmentDto model)
         {
-
             try
             {
-                var employeeExtraData = Context.EmployeeExtraData.FirstOrDefault(i => i.EmployeeId == EmployeeId);
-                //Edit 
-                if (employeeExtraData != null)
+                // Validate Employee Existence
+                var employeeExists = Context.Employees.Any(e => e.EmployeeId == employeeId);
+                if (!employeeExists)
                 {
-                    employeeExtraData.DrivingLicenseNumber = model.DrivingLicenseNumber;
-                    employeeExtraData.DrivingLicenseIssueHijri = model.DrivingLicenseIssueHijri;
-                    employeeExtraData.DrivingLicenseIssue = model.DrivingLicenseIssue;
-                    employeeExtraData.DrivingLicenseExpireHijri = model.DrivingLicenseExpireHijri;
-                    employeeExtraData.DrivingLicenseExpire = model.DrivingLicenseExpire;
-                    employeeExtraData.VehicleId = model.VehicleId;
-
-                    employeeExtraData.ModifiedBy = model.ModifiedBy;
-                    employeeExtraData.ModifiedDate = DateTime.Now;
-
-
-                    Context.SaveChanges();
-
-
-                    return new ActionsResponseModel { Message = "Employee Extra Data Updated Successfly !" };
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Invalid Employee." };
                 }
-                //Add
-                else
+
+                // Validate Files
+                if (model.Files == null || !model.Files.Any())
                 {
-                    employeeExtraData = new EmployeeExtraData();
+                    return new ActionsResponseModel { IsSuccess = false, Message = "No files uploaded." };
+                }
 
-                    employeeExtraData.EmployeeId = EmployeeId;
-                    employeeExtraData.DrivingLicenseNumber = model.DrivingLicenseNumber;
-                    employeeExtraData.DrivingLicenseIssueHijri = model.DrivingLicenseIssueHijri;
-                    employeeExtraData.DrivingLicenseIssue = model.DrivingLicenseIssue;
-                    employeeExtraData.DrivingLicenseExpireHijri = model.DrivingLicenseExpireHijri;
-                    employeeExtraData.DrivingLicenseExpire = model.DrivingLicenseExpire;
-                    employeeExtraData.VehicleId = model.VehicleId;
+                // Define allowed file types and max size (in bytes)
+                var allowedExtensions = new List<string> { ".jpg", ".jpeg", ".png", ".pdf", ".docx" };
+                long maxFileSize = 5 * 1024 * 1024; // 5 MB
+                var employeeAttachments=new List<EmployeeAttachment>();
+                foreach (var file in model.Files)
+                {
+                    var extension = Path.GetExtension(file.FileName).ToLower();
+
+                    if (!allowedExtensions.Contains(extension))
+                    {
+                        return new ActionsResponseModel { IsSuccess = false, Message = $"File type not allowed: {file.FileName}" };
+                    }
+
+                    if (file.Length > maxFileSize)
+                    {
+                        return new ActionsResponseModel { IsSuccess = false, Message = $"File size exceeded: {file.FileName}" };
+                    }
+
+                    // Sanitize File Name
+                    var sanitizedFileName = Path.GetFileNameWithoutExtension(file.FileName);
+                    sanitizedFileName = string.Concat(sanitizedFileName.Split(Path.GetInvalidFileNameChars()));
+                    var safeFileName = $"{sanitizedFileName}_{Guid.NewGuid()}{extension}";
+
+                    string employeeDirectory = GetEmployeetDirectoryName(employeeId);
 
 
+                    // File Path 
+                    var filePath = Path.Combine(employeeDirectory, safeFileName);
+                    var uploadPath = Path.Combine("wwwroot", filePath);
 
-                    employeeExtraData.CreatedBy = model.CreatedBy;
-                    employeeExtraData.CreatedDate = DateTime.Now;
+                    // Create directory if it doesn't exist
+                    var directory = Path.GetDirectoryName(uploadPath);
+                    if (!Directory.Exists(directory))
+                    {
+                        Directory.CreateDirectory(directory);
+                    }
 
-                    Context.EmployeeExtraData.Add(employeeExtraData);
+                    // Save the file
+                    using (var stream = new FileStream(uploadPath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
 
-                    Context.SaveChanges();
-
-
-                    return new ActionsResponseModel { Message = "Employee Extra Data Created Successfly !" };
+                    //  save file info in the database
+                    employeeAttachments.Add(new EmployeeAttachment
+                    {
+                        EmployeeId = employeeId,
+                        FileName = safeFileName,
+                        FilePath = filePath,
+                        FileExtension= extension,
+                        FileSize = file.Length,
+                        FileType = extension,
+                        CreatedBy=model.CreatedBy,
+                        CreatedDate = model.CreatedDate
+                    });
 
                 }
+                Context.EmployeeAttachments.AddRange(employeeAttachments);
+
+                // Save changes to the database
+                await Context.SaveChangesAsync();
+
+                return new ActionsResponseModel { IsSuccess = true, Message = "Employee attachments uploaded successfully." };
             }
             catch (Exception ex)
             {
@@ -395,116 +438,67 @@ namespace MasterErp.Service.HR
             }
         }
 
-
         #endregion
 
         #region GetEmployee
         public EmployeeDto GetEmployeeBasicInfoById(int employeeId)
         {
+            var employee = Context.Employees.FirstOrDefault(e => e.EmployeeId == employeeId);
 
-            //var employee = await Context.Employees.FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
+            if (employee is not null)
+            {
 
-            //if (employee is not null)
-            //{
+                return new EmployeeDto
+                {
 
-            //    return new EmployeeDto
-            //    {
+                    EmployeeId = employee.EmployeeId,
+                    Code = employee.Code,
+                    ManagerId = employee.ManagerId,
+                    IqamaNumber = employee.IqamaNumber,
+                    JobId = employee.JobId,
+                    IqamaJobId = employee.IqamaJobId,
+                    BranchId = employee.BranchId,
+                    StatusId = employee.StatusId,
+                    FirstNameAR = employee.FirstNameAR,
+                    FatherNameAR = employee.FatherNameAR,
+                    GrandNameAR = employee.GrandNameAR,
+                    LastNameAR = employee.LastNameAR,
+                    FullNameAR = employee.FullNameAR,
+                    FirstNameEN = employee.FirstNameEN,
+                    FatherNameEN = employee.FatherNameEN,
+                    GrandNameEN = employee.GrandNameEN,
+                    LastNameEN = employee.LastNameEN,
+                    FullNameEN = employee.FullNameEN,
+                    BankId = employee.BankId,
+                    BankAccountNumber = employee.BankAccountNumber,
+                    BirthDate = employee.BirthDate,
+                    BirthPlace = employee.BirthPlace,
+                    NationalityId = employee.NationalityId,
+                    SponsorId = employee.SponsorId,
+                    IqamaIssuePlaceId = employee.IqamaIssuePlaceId,
+                    IqamaIssueDate = employee.IqamaIssueDate,
+                    IqamaExpireDate = employee.IqamaExpireDate,
+                    IqamaExpireDateHijri = employee.IqamaExpireDateHijri,
+                    IqamaIssueDateHijri = employee.IqamaIssueDateHijri,
+                    IqamaJobDescription = employee.IqamaJobDescription,
+                    Religion = employee.Religion,
+                    Address = employee.Address,
+                    DrivingLicenseNumber = employee.DrivingLicenseNumber,
+                    DrivingLicenseIssueDateHijri = employee.DrivingLicenseIssueDateHijri,
+                    DrivingLicenseIssueDate = employee.DrivingLicenseIssueDate,
+                    DrivingLicenseExpireDateHijri = employee.DrivingLicenseExpireDateHijri,
+                    DrivingLicenseExpireDate = employee.DrivingLicenseExpireDate,
+                    VehicleId = employee.VehicleId,
+                    CreatedBy = employee.CreatedBy,
+                    CreatedDate = employee.CreatedDate,
+                    ModifiedBy = employee.ModifiedBy,
+                    ModifiedDate = employee.ModifiedDate,
+                    Image = GetFilePath(employee.Image)
+                };
+            }
 
-            //        EmployeeId = employee.EmployeeId,
-            //        Code = employee.Code,
-            //        ManagerId = employee.ManagerId,
-            //        IqamaNumber = employee.IqamaNumber,
-            //        JobId = employee.JobId,
-            //        IqamaJobId = employee.IqamaJobId,
-            //        BranchId = employee.BranchId,
-            //        StatusId = employee.StatusId,
-
-            //        FirstNameAR = employee.FirstNameAR,
-            //        FatherNameAR = employee.FatherNameAR,
-            //        GrandNameAR = employee.GrandNameAR,
-            //        LastNameAR = employee.LastNameAR,
-            //        FullNameAR = employee.FullNameAR,
-
-
-            //        FirstNameEN = employee.FirstNameEN,
-            //        FatherNameEN = employee.FatherNameEN,
-            //        GrandNameEN = employee.GrandNameEN,
-            //        LastNameEN = employee.LastNameEN,
-            //        FullNameEN = employee.FullNameEN,
-
-            //        BankId = employee.BankId,
-            //        BankAccountNumber = employee.BankAccountNumber,
-            //        BirthDate = employee.BirthDate,
-            //        BirthPlace = employee.BirthPlace,
-            //        NationalityId = employee.NationalityId,
-            //        SponsorId = employee.SponsorId,
-            //        IqamaIssuePlaceId = employee.IqamaIssuePlaceId,
-            //        IqamaIssueDate = employee.IqamaIssueDate,
-            //        IqamaExpireDate = employee.IqamaExpireDate,
-
-            //        IqamaExpireDateHijri = employee.IqamaExpireDateHijri,
-            //        IqamaIssueDateHijri = employee.IqamaIssueDateHijri,
-            //        IqamaJobDescription = employee.IqamaJobDescription,
-            //        Religion = employee.Religion,
-            //        Address = employee.Address,
-
-
-            //        CreatedBy = employee.CreatedBy,
-            //        CreatedDate = employee.CreatedDate,
-            //        ModifiedBy = employee.ModifiedBy,
-            //        ModifiedDate = employee.ModifiedDate,
-            //        Image = GetImagePath(employee.Image)
-
-            //    };
-            //}
-
-            //return null;
-
-            var employee =Context.Employees
-                        .Where(e => e.EmployeeId == employeeId)
-                        .Select(e => new EmployeeDto
-                        {
-                            EmployeeId = e.EmployeeId,
-                            Code = e.Code,
-                            ManagerId = e.ManagerId,
-                            IqamaNumber = e.IqamaNumber,
-                            JobId = e.JobId,
-                            IqamaJobId = e.IqamaJobId,
-                            BranchId = e.BranchId,
-                            StatusId = e.StatusId,
-                            FirstNameAR = e.FirstNameAR,
-                            FatherNameAR = e.FatherNameAR,
-                            GrandNameAR = e.GrandNameAR,
-                            LastNameAR = e.LastNameAR,
-                            FullNameAR = e.FullNameAR,
-                            FirstNameEN = e.FirstNameEN,
-                            FatherNameEN = e.FatherNameEN,
-                            GrandNameEN = e.GrandNameEN,
-                            LastNameEN = e.LastNameEN,
-                            FullNameEN = e.FullNameEN,
-                            BankId = e.BankId,
-                            BankAccountNumber = e.BankAccountNumber,
-                            BirthDate = e.BirthDate,
-                            BirthPlace = e.BirthPlace,
-                            NationalityId = e.NationalityId,
-                            SponsorId = e.SponsorId,
-                            IqamaIssuePlaceId = e.IqamaIssuePlaceId,
-                            IqamaIssueDate = e.IqamaIssueDate,
-                            IqamaExpireDate = e.IqamaExpireDate,
-                            IqamaExpireDateHijri = e.IqamaExpireDateHijri,
-                            IqamaIssueDateHijri = e.IqamaIssueDateHijri,
-                            IqamaJobDescription = e.IqamaJobDescription,
-                            Religion = e.Religion,
-                            Address = e.Address,
-                            CreatedBy = e.CreatedBy,
-                            CreatedDate = e.CreatedDate,
-                            ModifiedBy = e.ModifiedBy,
-                            ModifiedDate = e.ModifiedDate,
-                            //Image = GetImagePath(e.Image)
-                        })
-                        .FirstOrDefault();
-
-            return employee;
+            return null;
+            
 
         }
 
@@ -584,43 +578,41 @@ namespace MasterErp.Service.HR
             return null;
 
         }
-        public EmployeeExtraData GetEmployeeExtraInfoById(int employeeId)
+        public EmployeeAttachmentDto GetEmployeeAttachmentsById(int employeeId)
         {
 
-            var employee = Context.EmployeeExtraData.FirstOrDefault(e => e.EmployeeId == employeeId);
+            var employeeAttachemts = Context.EmployeeAttachments.Where(e => e.EmployeeId == employeeId).ToList();
 
-            if (employee is not null)
+
+            return employeeAttachemts.GroupBy(a => a.EmployeeId).Select(e => new EmployeeAttachmentDto
             {
-
-                return new EmployeeExtraData
+                EmployeeId = e.Key,
+                Attachments = e.Select(x => new AttachmentModel
                 {
+                    AttachmentId = x.EmployeeAttachmentId,
+                    FileName = x.FileName,
+                    FilePath = x.FilePath,
+                    FileSize = x.FileSize,
+                    FileUrl = GetFilePath(x.FilePath)
+                }).ToList()
 
-                    EmployeeId = employee.EmployeeId,
-                    EmployeeExtraDataId = employee.EmployeeExtraDataId,
+            }).FirstOrDefault();
 
-                    DrivingLicenseNumber = employee.DrivingLicenseNumber,
-                    DrivingLicenseIssueHijri = employee.DrivingLicenseIssueHijri,
-                    DrivingLicenseIssue = employee.DrivingLicenseIssue,
-                    DrivingLicenseExpireHijri = employee.DrivingLicenseExpireHijri,
-                    DrivingLicenseExpire = employee.DrivingLicenseExpire,
-                    VehicleId = employee.VehicleId,
+        }
 
-                    CreatedBy = employee.CreatedBy,
-                    CreatedDate = employee.CreatedDate,
-                    ModifiedBy = employee.ModifiedBy,
-                    ModifiedDate = employee.ModifiedDate,
-
-                };
-            }
-
-            return null;
-
+        public string GetEmployeetDirectoryName(int employeeId)
+        {
+            string directory =string.Empty;
+            var employeeCode = Context.Employees.FirstOrDefault(e => e.EmployeeId == employeeId);
+            if (employeeCode != null)
+                directory = Path.Combine(EmployeesFolderName, employeeCode.Code.ToString());
+            return directory;
         }
         #endregion
 
         public List<EmployeeBasicInfo> GetAllEmployees(SearchFilterModel model, int? ManagerId = null)
         {
-            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model?.FilterModel?.FilterItems);
+            DataTable dt = SharedService.MapFilterModelToDataTable(model?.FilterModel?.FilterItems);
 
             SqlParameter[] Params = new SqlParameter[5];
             Params[0] = new SqlParameter("@ManagerId", ManagerId);
@@ -635,13 +627,13 @@ namespace MasterErp.Service.HR
             return result;
         }
 
-        public List<EmployeesSummary> GetEmployeesSummary()
-        {
-            SqlParameter[] Params = new SqlParameter[0];
+        //public List<EmployeesSummary> GetEmployeesSummary()
+        //{
+        //    SqlParameter[] Params = new SqlParameter[0];
 
-            var result = SQLHelper.SQLQuery<EmployeesSummary>("[HR].[SP_GetEmployeesSummary]", ConnectionString, Params);
-            return result;
-        }
+        //    var result = SQLHelper.SQLQuery<EmployeesSummary>("[HR].[SP_GetEmployeesSummary]", ConnectionString, Params);
+        //    return result;
+        //}
 
         public List<SelectorDataModel> GetActiveEmployeesSelector()
         {
@@ -839,14 +831,21 @@ namespace MasterErp.Service.HR
             return SupportedFileExtentions.Contains(fileExtension, StringComparer.OrdinalIgnoreCase);
         }
 
-        private async Task<string> UploadEmployeeImage(IFormFile Image)
+        private async Task<string> UploadEmployeeImage(int employeeId, IFormFile Image)
         {
             string imagePath = string.Empty;
             try
             {
+                string employeeDirectory = GetEmployeetDirectoryName(employeeId);
+
                 var uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
-                imagePath = Path.Combine(EmployeeImagesFolder, uniqueFileName);
+                imagePath = Path.Combine(employeeDirectory, uniqueFileName);
                 string filePath = Path.Combine("wwwroot", imagePath);
+                var directory = Path.GetDirectoryName(imagePath);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await Image.CopyToAsync(stream);
@@ -860,7 +859,7 @@ namespace MasterErp.Service.HR
 
             return imagePath;
         }
-        private string GetImagePath(string FileName)
+        private string GetFilePath(string FileName)
         {
             string URL = string.Empty;
             if (!string.IsNullOrEmpty(FileName))

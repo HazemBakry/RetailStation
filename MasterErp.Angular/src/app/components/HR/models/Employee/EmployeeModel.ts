@@ -1,7 +1,7 @@
 import { CreatorModel } from "src/app/components/Shared/models/CreatorModel";
 import { EmployeeContractModel } from "./EmployeeContractModel";
-import { EmployeeExtraDataModel } from "./EmployeeExtraDataModel";
 import { EmployeeVerificationModel } from "./EmployeeVerificationModel";
+import { EmployeeAttachmentModel } from "./EmployeeAttachmentModel";
 
 
 export interface EmployeeModel extends CreatorModel {
@@ -43,7 +43,15 @@ export interface EmployeeModel extends CreatorModel {
     filesPath: string;
     employeeContract: EmployeeContractModel;
     employeeVerification: EmployeeVerificationModel;
-    employeeExtraData: EmployeeExtraDataModel;
+    employeeAttachments: EmployeeAttachmentModel;
     imageFile: File;
     attachmentFile: File;
+
+    drivingLicenseNumber: string;
+    drivingLicenseIssueDateHijri: string;
+    drivingLicenseIssueDate: string | null;
+    drivingLicenseExpireDateHijri: string;
+    drivingLicenseExpireDate: string | null;
+    vehicleId: number | null;
+
 }

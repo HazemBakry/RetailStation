@@ -51,10 +51,16 @@ namespace MasterErp.Entities.DTOs.HR
         public string FilesPath { get; set; }//1
         public EmployeeContract EmployeeContract { get; set; }
         public EmployeeVerification EmployeeVerification { get; set; }
-        public EmployeeExtraData EmployeeExtraData { get; set; }
+        public EmployeeAttachment EmployeeExtraData { get; set; }
         public IFormFile ImageFile { get; set; }
         public IFormFile AttachmentFile { get; set; }
 
 
+        public string DrivingLicenseNumber { get; set; } //4
+        public string DrivingLicenseIssueDateHijri { get; set; }//4
+        public DateTime? DrivingLicenseIssueDate { get; set; }//4
+        public string DrivingLicenseExpireDateHijri { get; set; }//4
+        public DateTime? DrivingLicenseExpireDate { get; set; }//4
+        public int? VehicleId { get; set; }//4
     }
 }

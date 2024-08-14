@@ -1,0 +1,68 @@
+<div class="card radius-10 border-0 card-shadow mb-3">
+    <ng-container *ngIf="employeeAttachmentModel?.attachments?.length>0">
+        <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
+            <h5 class="mb-0 fw-bold">المرفقات</h5>
+        </div>
+        <div class="card-body">
+            <div class="main-card-action d-flex align-items-center flex-wrap">
+
+            </div>
+            <div class="row py-3">
+
+                <div *ngFor="let file of employeeAttachmentModel.attachments" class="col-lg-4">
+                    <button (click)="downloadFile(file.fileUrl)" class="btn btn-outline-secondary mb-1">
+                        <i class="fas fa-paperclip"></i>
+                        <span class="ms-2  text-underline">{{file.fileName}}</span>
+                    </button>
+                </div>
+                <div class="col-lg-2 mt-2">
+
+                </div>
+            </div>
+
+        </div>
+    </ng-container>
+</div>
+
+<div class="employee-card-body row">
+
+    <form [formGroup]="formGroup" autocomplete="off">
+        <div class="employee-card-body row">
+
+            <div class="col-xl-3 mb-3">
+                <div class="HeadFilterTags cursor-pointer" *ngIf="attachmentFiles?.length">
+                    <ng-container *ngFor="let item of attachmentFiles">
+                        <div class="badge badge-sky m-1 round spacer-x bg-info p-1" (click)="removeSelectedFile(item)">
+                            <ng-container>
+                                {{ item.name?.substring(0, 20)}}
+                                <i class="fas fa-times-circle font-small-3 px-02 cursor-pointer"></i>
+                            </ng-container>
+
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="col-xl-12 mb-3">
+                <label for="files" class="drop-container" id="dropcontainer">
+                    <span class="drop-title">Click to upload</span>
+                    or
+                    <input formControlName="files" (change)="onFileChange($event)" multiple="true" type="file"
+                        id="files" class="HeadFilterTags cursor-pointer">
+                </label>
+                <div *ngIf="formErrors.files" class="text-danger  font-small-3 m-03">
+                    {{formErrors.files}}
+                </div>
+
+            </div>
+        </div>
+    </form>
+    <div class="d-flex justify-content-left">
+        <button [disabled]="showAddLoader" (click)="saveEmployeeAttachments()" class="btn btn-primary m-2">
+            <span class="ms-3">ارفاق</span>
+            <!-- <span *ngIf="isUpdate" class="ms-3">تعديل</span> -->
+        </button>
+        <button (click)="initNewForm()" class="btn btn-danger m-2">
+            <span class="ms-3">إلغاء</span>
+        </button>
+    </div>
+</div>

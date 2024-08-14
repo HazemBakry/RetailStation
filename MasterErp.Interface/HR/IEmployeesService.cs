@@ -19,14 +19,14 @@ namespace MasterErp.Interface.HR
         Task<ActionsResponseModel> EditEmployee(int EmployeeId, EmployeeDto model);
         Task<ActionsResponseModel> SaveEmployeeContractData(int EmployeeId, EmployeeContractDto model);
         Task<ActionsResponseModel> SaveEmployeeVerificationData(int EmployeeId, EmployeeVerificationDto model);
-        Task<ActionsResponseModel> SaveEmployeeExtraData(int EmployeeId, EmployeeExtraDataDto model);
+        Task<ActionsResponseModel> SaveEmployeeAttachments(int EmployeeId, EmployeeAttachmentDto model);
         #endregion
 
         #region GetEmployee
         EmployeeDto GetEmployeeBasicInfoById(int EmployeeId);
         EmployeeContractDto GetEmployeeContractInfoById(int EmployeeId);
         EmployeeVerificationDto GetEmployeeVerificationInfoById(int EmployeeId);
-        EmployeeExtraData GetEmployeeExtraInfoById(int EmployeeId);
+        EmployeeAttachmentDto GetEmployeeAttachmentsById(int EmployeeId);
         #endregion
 
         List<EmployeeBasicInfo> GetAllEmployees(SearchFilterModel model, int? ManagerId = null);

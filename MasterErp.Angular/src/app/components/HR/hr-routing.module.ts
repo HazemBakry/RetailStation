@@ -17,7 +17,7 @@ import { HrEmployeeDetailsContainerComponent } from './components/hr-employee-de
 import { HrEmployeeBasicInfoComponent } from './components/hr-employee-details-container/hr-employee-basic-info/hr-employee-basic-info.component';
 import { HrEmployeeContractInfoComponent } from './components/hr-employee-details-container/hr-employee-contract-info/hr-employee-contract-info.component';
 import { HrEmployeeVerificationInfoComponent } from './components/hr-employee-details-container/hr-employee-verification-info/hr-employee-verification-info.component';
-import { HrEmployeeExtraInfoComponent } from './components/hr-employee-details-container/hr-employee-extra-info/hr-employee-extra-info.component';
+import { HrEmployeeAttachmentsComponent } from './components/hr-employee-details-container/hr-employee-attachments/hr-employee-attachments.component';
 
 const routes: Routes = [
   {
@@ -53,8 +53,8 @@ const routes: Routes = [
             component: HrEmployeeVerificationInfoComponent
           },
           {
-            path: 'extra-info',
-            component: HrEmployeeExtraInfoComponent
+            path: 'attachments',
+            component: HrEmployeeAttachmentsComponent
           },
           { path: '', redirectTo: 'basic-info', pathMatch: 'full' },
         ]

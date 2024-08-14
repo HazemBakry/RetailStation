@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { EmployeeModel } from '../../models/Employee/EmployeeModel';
 import { EmployeeService } from '../../services/employee.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-hr-employee-details-container',
@@ -15,6 +16,8 @@ export class HrEmployeeDetailsContainerComponent implements OnInit {
   employeeBasicInfoModel: EmployeeModel = {} as EmployeeModel;
   showLoader: boolean = false;
   queryParams: any = {};
+  systemUrl:string=environment.systemUrl;
+  defaultImage = `${this.systemUrl}assets/images/av-8.png`;
   constructor(private acRoute: ActivatedRoute,
     private employeeService: EmployeeService,
     private sharedService: SharedService,) { }
@@ -24,7 +27,7 @@ export class HrEmployeeDetailsContainerComponent implements OnInit {
       this.queryParams = params;
       if (params.EmployeeId) {
         this.employeeId = params.EmployeeId;
-        // this.getEmployeeBasicInfo();
+        this.getEmployeeBasicInfo();
       }
     })
   }

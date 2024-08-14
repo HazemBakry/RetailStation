@@ -244,6 +244,69 @@
                 
             </div>
             <div class="col-xl-1"></div>
+
+            <div class="col-xl-5">
+
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="drivingLicenseNumber" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput6"> رقم رخصه القيادة</label>
+                    <div *ngIf="formErrors.drivingLicenseNumber" class="text-danger  font-small-3 m-03">
+                        {{formErrors.drivingLicenseNumber}}
+                    </div>
+                </div>
+ 
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5  mb-3">
+ 
+                <app-drop-down-form-control formControlName="vehicleId" [placeholder]="'نوع المركبة'"
+                    [data]="vehiclesSelectorData"></app-drop-down-form-control>
+                <div *ngIf="formErrors.vehicleId" class="text-danger  font-small-3 m-03">
+                    {{formErrors.vehicleId}}
+                </div>
+ 
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+ 
+                <div class="form-floating mb-3">
+                    <input type="date" formControlName="drivingLicenseIssueDate" class="form-control"
+                        id="floatingInput1" placeholder="any">
+                    <label for="floatingInput6">تاريخ الاصدار</label>
+                    <div *ngIf="formErrors.drivingLicenseIssueDate" class="text-danger  font-small-3 m-03">
+                        {{formErrors.drivingLicenseIssueDate}}
+                    </div>
+                </div>
+ 
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+ 
+                <div class="form-floating mb-3">
+                    <input type="date" formControlName="drivingLicenseExpireDate" class="form-control"
+                        id="floatingInput1" placeholder="any">
+                    <label for="floatingInput6">تاريخ الانتهاء</label>
+                    <div *ngIf="formErrors.drivingLicenseExpireDate" class="text-danger  font-small-3 m-03">
+                        {{formErrors.drivingLicenseExpireDate}}
+                    </div>
+                </div>
+ 
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+ 
+                <div class="form-floating mb-3">
+                    <input formControlName="imageFile" (change)="onFileChange($event)" type="file"
+                         class="cursor-pointer" placeholder="الصورة الشخصية">
+                    
+                    <div *ngIf="formErrors.imageFile" class="text-danger  font-small-3 m-03">
+                        {{formErrors.imageFile}}
+                    </div>
+                </div>
+ 
+            </div>
+
             <div class="col-xl-11">
                 <div class="form-floating mb-3">
                     <textarea type="text" formControlName="address" class="form-control" id="floatingInput10"
