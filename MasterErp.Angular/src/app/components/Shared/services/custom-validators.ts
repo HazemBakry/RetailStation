@@ -99,12 +99,17 @@ export class CustomValidators extends Validators{
       return null;
     };
   }
-  static regexPattern(pattern: RegExp, message: string): ValidatorFn {
+  static regexPattern(type: RegexType, message: string =null): ValidatorFn {
+    const regex = regexList.find(x => x.type === type);
+    if (!regex) {
+      return (control: AbstractControl) => null;  // Return a validator that always passes if no regex is found
+    }
+  
     return (control: AbstractControl) => {
-      if (control.value && !pattern.test(control.value)) {
-        return { regexPattern: message };
+      if (control.value && !regex.pattern.test(control.value)) {
+        return { regexPattern: message ? message : regex.message };
       }
-      return null;
+      return null;  // Return null if validation passes
     };
   }
   static validateHtmlContent(control: FormControl) {
@@ -134,6 +139,106 @@ export class CustomValidators extends Validators{
   }
 }
 
+export interface RegexModel{
+  pattern: RegExp;
+  message: string;
+  type: RegexType;
+}
+export enum RegexType {
+  text=1,
+  email,
+  url,
+  number,
+  date,
+  alpha,
+  alphaAllowSpaces,
+  alphaAllowSpacesAndSplash,
+  alphaNumeric,
+  alphaNumericAllowSpaces,
+  alphaNumericAllowDash,
+  numericAllowDash,
+  numeric,
+  currency,
+  addressLine
+
+}
+export const regexList: RegexModel[] = [
+  {
+    pattern: /^[0-9]+(\.[0-9])?$/, // Matches only numbers with points
+    message: "ادخل ارقام فقط",
+    type: RegexType.number
+  },
+  {
+    pattern: /^[a-zA-Z]+$/, // Matches only letters
+    message: "Only alphabetic characters are allowed.",
+    type: RegexType.alpha
+  },
+  {
+    pattern: /^[a-zA-Z\s]+$/, // Matches letters and spaces
+    message: "Only alphabetic characters and spaces are allowed.",
+    type: RegexType.alphaAllowSpaces
+  },
+  {
+    pattern: /^[a-zA-Z\s/]+$/, // Matches letters, spaces, and slashes
+    message: "Only alphabetic characters, spaces, and slashes are allowed.",
+    type: RegexType.alphaAllowSpacesAndSplash
+  },
+  {
+    pattern: /^[a-zA-Z0-9]+$/, // Matches alphanumeric characters
+    message: "Only alphanumeric characters are allowed.",
+    type: RegexType.alphaNumeric
+  },
+  {
+    pattern: /^[a-zA-Z0-9\s]+$/, // Matches alphanumeric characters and spaces
+    message: "Only alphanumeric characters and spaces are allowed.",
+    type: RegexType.alphaNumericAllowSpaces
+  },
+  {
+    pattern: /^[a-zA-Z0-9-]+$/, // Matches alphanumeric characters and dashes
+    message: "Only alphanumeric characters and dashes are allowed.",
+    type: RegexType.alphaNumericAllowDash
+  },
+  {
+    pattern: /^\d+$/, // Matches only numeric characters
+    message: "Only numeric characters are allowed.",
+    type: RegexType.numeric
+  },
+  {
+    pattern: /^[0-9-]+$/, // Matches numeric characters and dashes
+    message: "Only numeric characters and dashes are allowed.",
+    type: RegexType.numericAllowDash
+  },
+  {
+    pattern: /^\d+(\.\d{1,2})?$/, // Matches currency (e.g., 123.45)
+    message: "Only numeric values with up to 2 decimal places are allowed.",
+    type: RegexType.currency
+  },
+  {
+    pattern: /^[\w\s,-]+$/, // Matches common address line patterns
+    message: "Only letters, numbers, spaces, commas, and dashes are allowed.",
+    type: RegexType.addressLine
+  },
+  {
+    pattern: /^\d{4}-\d{2}-\d{2}$/, // Matches date in YYYY-MM-DD format
+    message: "Date must be in YYYY-MM-DD format.",
+    type: RegexType.date
+  },
+  {
+    pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // Matches standard email format
+    message: "Please enter a valid email address.",
+    type: RegexType.email
+  },
+  {
+    pattern: /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/, // Matches standard URL format
+    message: "Please enter a valid URL.",
+    type: RegexType.url
+  },
+  {
+    pattern: /^[a-zA-Z\s]+$/, // Matches only text (letters and spaces)
+    message: "Only text characters are allowed.",
+    type: RegexType.text
+  }
+];
 
 // import { AbstractControl, ValidatorFn, Validators } from "@angular/forms";
 // import moment from "moment";

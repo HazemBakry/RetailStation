@@ -9,7 +9,7 @@ import { FormDropdownModel } from 'src/app/components/Shared/components/drop-dow
 import { EmployeeDeductModel } from '../../models/EmployeeDeductModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { FormService } from 'src/app/components/Shared/services/form.service';
-import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
+import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 
 @Component({
@@ -108,7 +108,7 @@ export class HrDeductsComponent implements OnInit {
       deductId: [null],
       employeeId: [null],
       deductTypeId: [null,[Validators.required]],
-      moneyAmount: [null,[Validators.required,CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/,'ادخل ارقام فقط')]],
+      moneyAmount: [null,[Validators.required,CustomValidators.regexPattern(RegexType.number)]],
       isApproved: [null],
       executionDate: [null, [Validators.required,CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
       notes: [null],

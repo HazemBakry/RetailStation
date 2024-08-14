@@ -9,7 +9,7 @@ import { FormDropdownModel } from 'src/app/components/Shared/components/drop-dow
 import { EmployeeLoanModel } from '../../models/EmployeeLoanModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { FormService } from 'src/app/components/Shared/services/form.service';
-import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
+import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 
 @Component({
@@ -109,8 +109,8 @@ export class HrLoansComponent implements OnInit {
       loanId: [null],
       employeeId: [null],
       loanTypeId: [null,[Validators.required]],
-      loanAmount: [null,[Validators.required,CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/,'ادخل ارقام فقط')]],
-      paymentAmount: [null,[Validators.required,CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/,'ادخل ارقام فقط')]],
+      loanAmount: [null,[Validators.required,CustomValidators.regexPattern(RegexType.number)]],
+      paymentAmount: [null,[Validators.required,CustomValidators.regexPattern(RegexType.number)]],
       isApproved: [null],
       paymentFromDate: [null, [Validators.required,CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
       notes: [null],

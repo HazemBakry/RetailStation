@@ -5,7 +5,7 @@ import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { FormService } from 'src/app/components/Shared/services/form.service';
-import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
+import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../../../services/employee.service';
@@ -102,12 +102,12 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       grandNameEN: [null, [Validators.required]],
       lastNameEN: [null, [Validators.required]],
       bankId: [null, [Validators.required]],
-      bankAccountNumber: [null, [Validators.required]],
+      bankAccountNumber: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
       birthDate: [null, [Validators.required]],
       birthPlace: [null, [Validators.required]],
       nationalityId: [null, [Validators.required]],
       sponsorId: [null, [Validators.required]],
-      iqamaNumber: [null, [Validators.required]],
+      iqamaNumber: [null, [Validators.required,CustomValidators.regexPattern(RegexType.number)]],
       iqamaJobId: [null, [Validators.required]],
       iqamaIssuePlaceId: [null, [Validators.required]],
       iqamaIssueDate: [null, [Validators.required]],
@@ -120,18 +120,20 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       imageFile: [null],
       attachmentFile: [null],
 
-      drivingLicenseNumber: [null],
+      drivingLicenseNumber: [null,[CustomValidators.regexPattern(RegexType.number)]],
       drivingLicenseIssueDate: [null],
       drivingLicenseIssueDateHijri: [null],
       drivingLicenseExpireDate: [null],
       drivingLicenseExpireDateHijri: [null],
       vehicleId: [null],
 
-      // loanTypeId: [null, [Validators.required]],
-      // loanAmount: [null, [Validators.required, CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/, 'ادخل ارقام فقط')]],
-      // paymentAmount: [null, [Validators.required, CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/, 'ادخل ارقام فقط')]],
-      // paymentFromDate: [null, [Validators.required, CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
-
+    },
+    {
+      
+      validators: [
+        CustomValidators.endDateGreaterThanStartDate('iqamaIssueDate', 'iqamaExpireDate','يجب ان يكون تاريخ الاصدار قبل الانتهاء '),
+        CustomValidators.endDateGreaterThanStartDate('drivingLicenseIssueDate', 'drivingLicenseExpireDate','يجب ان يكون تاريخ الاصدار قبل الانتهاء '),
+       ],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);

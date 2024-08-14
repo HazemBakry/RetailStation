@@ -5,7 +5,7 @@ import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { FormService } from 'src/app/components/Shared/services/form.service';
-import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
+import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { ActivatedRoute } from '@angular/router';
 import { EmployeeService } from '../../../services/employee.service';
@@ -82,18 +82,25 @@ export class HrEmployeeContractInfoComponent implements OnInit {
       employeeId: [null],
       joinDate: [null, [Validators.required]],
       lastJoinDate: [null, [Validators.required]],
-      vacationPeriodDays: [null],
-      contractPeriodYears: [null],
+      vacationPeriodDays: [null,[CustomValidators.regexPattern(RegexType.number)]],
+      contractPeriodYears: [null,[CustomValidators.regexPattern(RegexType.number)]],
       isGossi: [null],
       vacationDate: [null],
-      basicSalary: [null, [Validators.required]],
-      extraSalary: [null, [Validators.required]],
-      transportation: [null, [Validators.required]],
-      housingAllowance: [null, [Validators.required]],
-      mobileAllowance: [null, [Validators.required]],
-      workNature: [null, [Validators.required]],
-      mealAllowance: [null, [Validators.required]],
-      other: [null, [Validators.required]]
+      basicSalary: [null, [Validators.required,CustomValidators.regexPattern(RegexType.number)]],
+      extraSalary: [null, [Validators.required,CustomValidators.regexPattern(RegexType.number)]],
+      transportation: [null, [Validators.required,CustomValidators.regexPattern(RegexType.number)]],
+      housingAllowance: [null, [Validators.required,CustomValidators.regexPattern(RegexType.number)]],
+      mobileAllowance: [null, [Validators.required,CustomValidators.regexPattern(RegexType.number)]],
+      workNature: [null, [Validators.required,CustomValidators.regexPattern(RegexType.number)]],
+      mealAllowance: [null, [Validators.required,CustomValidators.regexPattern(RegexType.number)]],
+      other: [null, [Validators.required,CustomValidators.regexPattern(RegexType.number)]]
+    },
+    {
+      
+      validators: [
+        CustomValidators.endDateGreaterThanStartDate('joinDate', 'lastJoinDate','يجب ان يكون تاريخ اصدار العقد قبل الانتهاء '),
+
+       ],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
