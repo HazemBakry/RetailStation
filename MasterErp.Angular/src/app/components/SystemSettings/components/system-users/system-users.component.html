@@ -315,6 +315,18 @@
                     <img class="upload-image" [src]="url">
                 </div>
             </div>
+            <div class="row ">
+                <div class="col-lg-6">
+                    <div class="form-floating mb-3">
+                        <app-drop-down-form-control formControlName="employeeId" [placeholder]="'اسم الموظف'"
+                            [data]="employeesSelectorData" [showSearch]="true"></app-drop-down-form-control>
+                        <div *ngIf="formErrors.employeeId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.employeeId}}
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
         </form>
     </div>
     <div class="modal-footer justify-content-start">

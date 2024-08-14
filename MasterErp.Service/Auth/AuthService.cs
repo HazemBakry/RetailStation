@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.DTOs.Auth;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.HR.Employee;
 using MasterErp.Interface.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -97,7 +98,7 @@ namespace MasterErp.Service.Auth
             if (await _userManager.FindByNameAsync(model.UserName) is not null && user.Id != model.UserId)
                 return new ActionsResponseModel { Message = "invalid username", IsSuccess = false };
             if (model.EmployeeId != null && await _userManager.Users.FirstOrDefaultAsync(x => x.EmployeeId == model.EmployeeId&&x.Id!=model.UserId) is not null)
-                return new ActionsResponseModel { Message = "employee already has account" };
+                return new ActionsResponseModel { Message = "employee already has account", IsSuccess = false };
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.UserName = model.UserName;
@@ -297,7 +298,8 @@ namespace MasterErp.Service.Auth
                     Email = user.Email,
                     PhoneNumber = user.PhoneNumber,
                     ImageUrl = user.ImageUrl,
-                    Roles=roles.ToList(),
+                    EmployeeId = user.EmployeeId,
+                    Roles =roles.ToList(),
                     TotalCount = totalCount
                 });
             }
@@ -322,6 +324,7 @@ namespace MasterErp.Service.Auth
                     UserName = user.UserName,
                     Email = user.Email,
                     PhoneNumber = user.PhoneNumber,
+                    EmployeeId=user.EmployeeId,
                     ImageUrl = GetImagePath(user.ImageUrl),
                     Roles = roles.ToList(),
 
