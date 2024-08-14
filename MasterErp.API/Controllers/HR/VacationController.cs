@@ -25,11 +25,11 @@ namespace MasterErp.API.Controllers.HR
             _vacationService = vacationService;
         }
 
-        [HttpGet]
-        [Route("GetAllEmployeeVacations")]
-        public IActionResult GetAllEmployeeVacations(SearchFilterModel Model)
+        [HttpPost]
+        [Route("GetAllEmployeeVacationsData")]
+        public IActionResult GetAllEmployeeVacationsData(SearchFilterModel Model)
         {
-            var data = _vacationService.GetAllEmployeeVacations(Model);
+            var data = _vacationService.GetAllEmployeeVacationsData(Model);
             var result = new PagedResponseModel<EmployeeVacationDto>
             {
                 Results = data,

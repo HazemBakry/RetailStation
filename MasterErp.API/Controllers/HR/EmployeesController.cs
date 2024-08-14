@@ -155,12 +155,12 @@ namespace MasterErp.API.Controllers
             return Ok(Response);
         }
 
-        //[HttpGet]
-        //[Route("GetEmployeesSummary")]
-        //public List<EmployeesSummary> GetEmployeesSummary()
-        //{
-        //    return _employeeService.GetEmployeesSummary();
-        //}
+        [HttpGet]
+        [Route("GetEmployeesSummary")]
+        public List<EmployeesSummary> GetEmployeesSummary()
+        {
+            return _employeeService.GetEmployeesSummary();
+        }
 
         //[HttpPost]
         //[Route("GetEmployeesFilter")]

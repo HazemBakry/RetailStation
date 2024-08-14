@@ -22,7 +22,6 @@ namespace MasterErp.Interface.HR
         Task<ActionsResponseModel> SaveEmployeeExtraData(int EmployeeId, EmployeeExtraDataDto model);
         #endregion
 
-
         #region GetEmployee
         EmployeeDto GetEmployeeBasicInfoById(int EmployeeId);
         EmployeeContractDto GetEmployeeContractInfoById(int EmployeeId);
@@ -30,9 +29,9 @@ namespace MasterErp.Interface.HR
         EmployeeExtraData GetEmployeeExtraInfoById(int EmployeeId);
         #endregion
 
-
         List<EmployeeBasicInfo> GetAllEmployees(SearchFilterModel model, int? ManagerId = null);
-        //List<EmployeesSummary> GetEmployeesSummary();
+        List<EmployeesSummary> GetEmployeesSummary();
+
         List<SelectorDataModel> GetActiveEmployeesSelector();
         //List<EmployeeRequest> GetEmployeeRequests_Data(SearchFilterModel model);
         //List<IqamaIssuePlace> GetIqamaIssuePlaces();

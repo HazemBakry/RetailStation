@@ -90,33 +90,6 @@ namespace MasterErp.Service.Shared
             };
         }
 
-        public DataTable MapFilterModelToDataTable(List<FilterItem> Items)
-        {
-            DataTable dt = new DataTable();
-            dt.Clear();
-            dt.Columns.Add("CategoryDisplayName");
-            dt.Columns.Add("CategoryName");
-            dt.Columns.Add("ItemKey");
-            dt.Columns.Add("ItemFlag");
-            dt.Columns.Add("ItemValue");
-
-            foreach (FilterItem item in Items)
-            {
-                DataRow row = dt.NewRow();
-
-                row["CategoryDisplayName"] = item.CategoryDisplayName;
-                row["CategoryName"] = item.CategoryName;
-                row["ItemKey"] = item.ItemKey;
-                row["ItemFlag"] = item.ItemFlag;
-                row["ItemValue"] = item.ItemValue;
-                dt.Rows.Add(row);
-            }
-
-            return dt;
-        }
-
-
-
         #region Selectors
         public List<SelectorDataModel> GetBranchesSelector()
         {

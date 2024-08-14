@@ -20,11 +20,11 @@ namespace MasterErp.API.Controllers.HR
 
 
 
-        [HttpGet]
-        [Route("GetAllEmployeeLoans")]
-        public IActionResult GetAllEmployeeLoans(SearchFilterModel SearchModel)
+        [HttpPost]
+        [Route("GetAllEmployeeLoansData")]
+        public IActionResult GetAllEmployeeLoansData(SearchFilterModel SearchModel)
         {
-            var data = _loansService.GetAllEmployeeLoans(SearchModel);
+            var data = _loansService.GetAllEmployeeLoansData(SearchModel);
             var result = new PagedResponseModel<EmployeeLoanDto>
             {
                 Results = data,

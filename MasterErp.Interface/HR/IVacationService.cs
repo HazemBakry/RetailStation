@@ -13,7 +13,7 @@ namespace MasterErp.Interface.HR
     public interface IVacationService
     {
  
-        List<EmployeeVacationDto> GetAllEmployeeVacations(SearchFilterModel SearchModel, int? EmployeeId = null, int? ManagerId = null);
+        List<EmployeeVacationDto> GetAllEmployeeVacationsData(SearchFilterModel SearchModel, int? EmployeeId = null, int? ManagerId = null);
         List<EmployeeVacationDto> GetVacationsByEmployeeId(int EmployeeId,SearchFilterModel SearchModel);
         ActionsResponseModel AddNewEmployeeVacation(int EmployeeId, EmployeeVacationDto model);
         ActionsResponseModel EditVacation(int EmployeeId, EmployeeVacationDto model);

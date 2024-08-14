@@ -213,31 +213,19 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             Params[2] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[2].Value = dt;
 
-            DataTable result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetDailyJournalEntriesSummary]", ConnectionString, Params);
+            DataTable result = SQLHelper.ExecuteDataTable("[Finance].[SP_GetDailyJournalEntries_Summary]", ConnectionString, Params);
             return result;
         }
 
         public List<FilterModel> GetDailyJournalEntriesFilters(FilterModel model)
         {
-            DataTable dt = new DataTable();
-            dt.Clear();
-            dt.Columns.Add("CategoryName");
-            dt.Columns.Add("ItemKey");
-
-            foreach (FilterItem item in model.FilterItems)
-            {
-                DataRow row = dt.NewRow();
-
-                row["CategoryName"] = item.CategoryName;
-                row["ItemKey"] = item.ItemKey;
-                dt.Rows.Add(row);
-            }
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterItems);
 
             SqlParameter[] Params = new SqlParameter[1];
             Params[0] = new SqlParameter("@dt", SqlDbType.Structured);
             Params[0].Value = dt;
 
-            DataTable result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetDailyJournalEntriesFilters]", ConnectionString, Params);
+            DataTable result = SQLHelper.ExecuteDataTable("[Finance].[SP_GetDailyJournalEntries_Filters]", ConnectionString, Params);
             var GroupFilters = SharedFilterService.GroupedFilter(result);
             return GroupFilters;
         }

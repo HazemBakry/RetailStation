@@ -21,7 +21,7 @@ namespace MasterErp.Service.HR
 
 
 
-        public List<EmployeeLoanDto> GetAllEmployeeLoans(SearchFilterModel SearchModel,int? EmployeeId=null,int? ManagerId=null)
+        public List<EmployeeLoanDto> GetAllEmployeeLoansData(SearchFilterModel SearchModel,int? EmployeeId=null,int? ManagerId=null)
         {
             var query = from loan in Context.Loans
                         join emp in Context.Employees on loan.EmployeeId equals emp.EmployeeId
@@ -94,7 +94,7 @@ namespace MasterErp.Service.HR
             //results.ForEach(x => x.TotalCount = totalCount);
             //return results;
 
-            return GetAllEmployeeLoans(SearchModel, EmployeeId);
+            return GetAllEmployeeLoansData(SearchModel, EmployeeId);
         }
 
         public ActionsResponseModel AddNewEmployeeLoan(int EmployeeId, EmployeeLoanDto model)

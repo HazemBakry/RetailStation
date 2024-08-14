@@ -38,7 +38,7 @@ namespace MasterErp.Service.HR
         }
 
 
-        public List<EmployeeVacationDto> GetAllEmployeeVacations(SearchFilterModel SearchModel, int? EmployeeId = null, int? ManagerId = null)
+        public List<EmployeeVacationDto> GetAllEmployeeVacationsData(SearchFilterModel SearchModel, int? EmployeeId = null, int? ManagerId = null)
         {
             var query = from vacation in Context.Vacations
                         join emp in Context.Employees on vacation.EmployeeId equals emp.EmployeeId

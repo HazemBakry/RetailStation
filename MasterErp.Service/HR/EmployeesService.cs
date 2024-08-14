@@ -29,17 +29,20 @@ namespace MasterErp.Service.HR
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
-        private readonly ISharedService SharedService;
+        private readonly ISharedFilterService SharedFilterService;
         public readonly string EmployeeImagesFolder;
         private readonly string ConnectionString;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EmployeeService(DBContext Context, ISQLHelper SQLHelper, IConfiguration Configuration, ISharedService SharedService, IHttpContextAccessor httpContextAccessor)
+        public EmployeeService(DBContext Context, ISQLHelper SQLHelper, 
+            IConfiguration Configuration, 
+            ISharedFilterService SharedFilterService, 
+            IHttpContextAccessor httpContextAccessor)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
             this.Configuration = Configuration;
-            this.SharedService = SharedService;
+            this.SharedFilterService = SharedFilterService;
             ConnectionString = Configuration.GetConnectionString("DBConnection");
             EmployeeImagesFolder = "EmployeeImages";
             _httpContextAccessor = httpContextAccessor;
@@ -617,7 +620,7 @@ namespace MasterErp.Service.HR
 
         public List<EmployeeBasicInfo> GetAllEmployees(SearchFilterModel model, int? ManagerId = null)
         {
-            DataTable dt = SharedService.MapFilterModelToDataTable(model?.FilterModel?.FilterItems);
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model?.FilterModel?.FilterItems);
 
             SqlParameter[] Params = new SqlParameter[5];
             Params[0] = new SqlParameter("@ManagerId", ManagerId);
@@ -632,13 +635,13 @@ namespace MasterErp.Service.HR
             return result;
         }
 
-        //public List<EmployeesSummary> GetEmployeesSummary()
-        //{
-        //    SqlParameter[] Params = new SqlParameter[0];
+        public List<EmployeesSummary> GetEmployeesSummary()
+        {
+            SqlParameter[] Params = new SqlParameter[0];
 
-        //    var result = SQLHelper.SQLQuery<EmployeesSummary>("[HR].[SP_GetEmployeesSummary]", ConnectionString, Params);
-        //    return result;
-        //}
+            var result = SQLHelper.SQLQuery<EmployeesSummary>("[HR].[SP_GetEmployeesSummary]", ConnectionString, Params);
+            return result;
+        }
 
         public List<SelectorDataModel> GetActiveEmployeesSelector()
         {

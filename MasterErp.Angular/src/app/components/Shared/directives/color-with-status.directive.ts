@@ -14,7 +14,6 @@ export class ColorWithStatusDirective implements OnInit {
 
   checkStatus()
   {
-    debugger
     if (this.status&&this.status=='entryStatus') {
       if (this.text) {
         switch (this.text) {

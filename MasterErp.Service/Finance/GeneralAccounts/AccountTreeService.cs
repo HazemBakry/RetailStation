@@ -131,7 +131,7 @@ namespace MasterErp.Service.Finance.GeneralAccounts
             SqlParameter[] param = new SqlParameter[1];
             param[0] = new SqlParameter("@SearchText", SearchText);
 
-            var lst = SQLHelper.SQLQuery<AccountTreeModel>("[dbo].[SP_GetAccountTreeData_V2]", ConnectionString, param);
+            var lst = SQLHelper.SQLQuery<AccountTreeModel>("[Finance].[SP_GetAccountTreeData_V2]", ConnectionString, param);
             return lst;
 
         }

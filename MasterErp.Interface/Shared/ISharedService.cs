@@ -20,8 +20,6 @@ namespace MasterErp.Interface.Shared
         List<FinancialPeriod> GetFinancialPeriods();
         List<AccountType> GetAccountTypes();
         ActionsResponseModel DownloadImporterTemplate(ExcelExportStyle ImporterType);
-        DataTable MapFilterModelToDataTable(List<FilterItem> Items);
-
 
         #region Selectors
         List<SelectorDataModel> GetBranchesSelector();

@@ -135,7 +135,7 @@ export class HrService {
     return this.http.get<any>(this.URL + 'OverTime/DeleteOverTime?OverTimeId=' + OverTimeId);
   }
 
-  //================================== OverTime ===============================
+  //================================== Penalty ===============================
 
   GetPenaltyData() {
     return this.http.get<any>(this.URL + 'Penalty/GetPenaltyData');
@@ -153,7 +153,7 @@ export class HrService {
     return this.http.get<any>(this.URL + 'Penalty/DeletePenalty?PenaltyId=' + PenaltyId);
   }
 
-  //================================== OverTime ===============================
+  //================================== SickLeave ===============================
 
   GetSickLeaveData() {
     return this.http.get<any>(this.URL + 'SickLeave/GetSickLeaveData');

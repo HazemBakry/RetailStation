@@ -97,8 +97,10 @@ export class HrHomeComponent implements OnInit {
   branchId = 0;
   SalesSummaryStatistics: any;
   showLoader: boolean = false;
-  TotalCount: any;
-  RequestList: any[] = [];
+  VacationsTotalCount: any;
+  LoansTotalCount: any;
+  VacationsList: any[] = [];
+  LoansList: any[] = [];
   SearchFilterModel: SearchFilterModel = {
     currentPage: 1,
     pageSize: 25,
@@ -112,8 +114,8 @@ export class HrHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEmployeesSummary();
-    //this.getEmployeeRequests();
-    // this.GetSalesSummary();
+    this.getVacationsRequests();
+    this.getLoansRequests();
     // this.GetDailyJournalEntriesSummary();
     // this.GetPurchaseInvoicesSummary();
     // this.GetPaymentReceiptsSummary();
@@ -122,32 +124,37 @@ export class HrHomeComponent implements OnInit {
 
   getEmployeesSummary() {
     this.hrService.GetEmployeesSummary().subscribe(data => {
-      // console.log("🚀  ~ data:", data)
       this.overviewList = data;
       console.log(data);
     });
   }
 
-  getEmployeeRequests() {
-    //this.SearchFilterModel.SearchText = this.SearchText;
-    this.hrService.GetEmployeeRequests_Data(this.SearchFilterModel).subscribe(data => {
-      this.TotalCount = data?.totalCount;
-      this.RequestList = data?.results;
+  getVacationsRequests() {
+    this.showLoader = true;
+    this.hrService.GetAllEmployeeVacationsData(this.SearchFilterModel).subscribe(data => {
+      this.VacationsList = data.results;
+      this.VacationsTotalCount = data.totalCount;
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
   }
 
-
-  GetReceiveReceiptsSummary() {
-    // this.showLoader=true;
-    this.paymentService.GetReceiveReceiptsSummary(this.SearchFilterModel).subscribe(data => {
-      this.RequestList = data;
-
-    }, (err) => {
-      // this.showLoader=false;
+  getLoansRequests() {
+    this.showLoader = true;
+    this.hrService.GetAllEmployeeLoansData(this.SearchFilterModel).subscribe(data => {
+      this.LoansList = data.results;
+      this.LoansTotalCount = data.totalCount;
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
     }, () => {
-      // this.showLoader=false;
-    })
+      this.showLoader = false;
+    });
   }
+
   getStatusColor(status: boolean) {
     if (status == true)
       return "locked";
