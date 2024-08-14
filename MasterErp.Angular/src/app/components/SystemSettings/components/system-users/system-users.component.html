@@ -1,25 +1,29 @@
-<div class="main-card-action mb-4">
-    <div class="row">
-        <div class="col-md-8">
-            <div class="d-flex align-items-center flex-wrap">
-                <div class="search-box position-relative mb-2">
-                    <input type="text" class="form-control" [(ngModel)]="pagedResponse.searchText"
-                        placeholder="SearchByName" (keyup.enter)="GetUsersData()">
-                    <i class="fas fa-search search-icon text-muted cursor-pointer" (click)="GetUsersData()"></i>
+
+<div class="card radius-10 border-0 card-shadow">
+    <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
+        <h5 class="mb-0 fw-bold">المستخدمين</h5>
+       
+    </div>
+    <div class="card-body">
+        <div class="row p-2 mb-3">
+            <div class="col-md-8">
+                <div class="d-flex align-items-center flex-wrap">
+                    <div class="search-box position-relative mb-2">
+                        <input type="text" class="form-control" [(ngModel)]="pagedResponse.searchText"
+                            placeholder="SearchByName" (keyup.enter)="GetUsersData()">
+                        <i class="fas fa-search search-icon text-muted cursor-pointer" (click)="GetUsersData()"></i>
+        
+                    </div>
+                    <!-- <ng-container *ngIf="filterList.length > 0">
+                                <app-pos-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-pos-filters>
+                            </ng-container> -->
                 </div>
-                <!-- <ng-container *ngIf="filterList.length > 0">
-                    <app-pos-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-pos-filters>
-                </ng-container> -->
+            </div>
+            <div class="col-md-4">
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage"
+                    [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount"></app-erp-pagination>
             </div>
         </div>
-        <div class="col-md-4">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage"
-                [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount"></app-erp-pagination>
-        </div>
-    </div>
-</div>
-<div class="card radius-10 border-0 card-shadow">
-    <div class="card-body">
 
         <div class="row gy-5 gx-4 py-3">
             <div class="col-xl-8">
