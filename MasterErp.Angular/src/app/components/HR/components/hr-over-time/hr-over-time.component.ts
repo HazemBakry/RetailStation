@@ -9,7 +9,7 @@ import { FormDropdownModel } from 'src/app/components/Shared/components/drop-dow
 import { EmployeeOverTimeModel } from '../../models/EmployeeOverTimeModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { FormService } from 'src/app/components/Shared/services/form.service';
-import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
+import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 
 @Component({
   selector: 'app-hr-over-time',
@@ -106,9 +106,9 @@ export class HrOverTimeComponent implements OnInit {
       overTimeId: [null],
       employeeId: [null],
       executionDate: [null, [Validators.required,CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
-      noHours: [[null], [Validators.required,CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/,'ادخل ارقام فقط')]],
+      noHours: [[null], [Validators.required,CustomValidators.regexPattern(RegexType.number)]],
       requestDate: [null],
-      moneyAmount: [null, [Validators.required,CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/,'ادخل ارقام فقط')]],
+      moneyAmount: [null, [Validators.required,CustomValidators.regexPattern(RegexType.number)]],
       notes: [null],
       timeFrom: [null],
       timeTo: [null],

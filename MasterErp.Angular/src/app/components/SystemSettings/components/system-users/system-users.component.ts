@@ -12,6 +12,8 @@ import { FormService } from 'src/app/components/Shared/services/form.service';
 import { AuthService } from 'src/app/Auth/auth.service';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
 import { AddUserRoleModel, RoleModel } from 'src/app/components/Shared/models/RoleModel';
+import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
+import { HrService } from 'src/app/components/HR/services/hr.service';
 
 @Component({
   selector: 'app-system-users',
@@ -56,7 +58,7 @@ export class SystemUsersComponent implements OnInit {
     searchText:''
 
   }
-
+  employeesSelectorData: FormDropdownModel[] = [];
   public formGroup: FormGroup;
   formData: FormData = new FormData();
   selectedFile: File;
@@ -65,6 +67,7 @@ export class SystemUsersComponent implements OnInit {
     firstName: '',
     lastName: '',
     phoneNumber: '',
+    employeeId:'',
     userName: '',
     email: '',
     password: '',
@@ -73,20 +76,27 @@ export class SystemUsersComponent implements OnInit {
   showLoader: boolean=false;
   constructor(private modalService: NgbModal, private toaster: ToastrService,
     private settingsService: SystemSettingsService, private form: FormBuilder, private _FormService: FormService,
+    private hrService: HrService ,
     private sharedService: SharedService,private authService: AuthService) { }
 
   ngOnInit(): void {
     this.GetUsersData();
+    this.loadSelectors();
   }
 
   openUserPopup(content: any,user:UserModel=null) {
+
     this.buildForm();
     this.URLs=[];
     if (user!=null)
       this.fillEditForm(user)
     this.modalService.open(content, { size: 'lg', centered: true });
   }
-
+  loadSelectors() {
+    this.hrService.GetActiveEmployeesSelector().subscribe((data :FormDropdownModel[])=> {
+      this.employeesSelectorData = data;
+    });
+  }
   buildForm() {
     this.formGroup = this.form.group({
       userId: [null],
@@ -94,6 +104,7 @@ export class SystemUsersComponent implements OnInit {
       lastName: [null, [Validators.required]],
       userName: [null, [Validators.required]],
       phoneNumber: [null],
+      employeeId: [null],
       email: [null, [Validators.required,Validators.email]],
       password: [environment.defaultUserPassword],
       image: [null],
@@ -113,6 +124,7 @@ export class SystemUsersComponent implements OnInit {
       userName: user.userName,
       email: user.email,
       phoneNumber: user.phoneNumber,
+      employeeId: user.employeeId,
       imageFile: null
     });
 
@@ -189,11 +201,8 @@ export class SystemUsersComponent implements OnInit {
         this.selectedFile=null;
       
       } else {
-        if (this.lang == 'en') {
-          this.toaster.error("! Error Failed To Save Data");
-        } else {
-          this.toaster.error("لقد حدث خطا");
-        }
+        this.toaster.error(data.message);
+
 
       }
     });

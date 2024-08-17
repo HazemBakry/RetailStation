@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { FormService } from 'src/app/components/Shared/services/form.service';
-import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
+import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { EmployeeLoanModel } from 'src/app/components/HR/models/EmployeeLoanModel';
 import { EmployeeProfileService } from '../../services/employee-profile.service';
@@ -109,8 +109,8 @@ export class EmployeeLoansComponent implements OnInit {
       loanId: [null],
       employeeId: [null],
       loanTypeId: [null,[Validators.required]],
-      loanAmount: [null,[Validators.required,CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/,'ادخل ارقام فقط')]],
-      paymentAmount: [null,[Validators.required,CustomValidators.regexPattern(/^[0-9]+(\.[0-9])?$/,'ادخل ارقام فقط')]],
+      loanAmount: [null,[Validators.required,CustomValidators.regexPattern(RegexType.number)]],
+      paymentAmount: [null,[Validators.required,CustomValidators.regexPattern(RegexType.number)]],
       isApproved: [null],
       paymentFromDate: [null, [Validators.required,CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
       notes: [null],

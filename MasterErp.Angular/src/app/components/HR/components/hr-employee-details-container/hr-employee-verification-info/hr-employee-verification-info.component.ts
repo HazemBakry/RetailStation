@@ -5,7 +5,7 @@ import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { FormService } from 'src/app/components/Shared/services/form.service';
-import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
+import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { ActivatedRoute } from '@angular/router';
 import { EmployeeService } from '../../../services/employee.service';
@@ -83,15 +83,21 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
       employeeVerificationId: [null],
       employeeId: [null],
       borderEntryNumber: [null, [Validators.required]],
-      passportNumber: [null, [Validators.required]],
+      passportNumber: [null, [Validators.required,CustomValidators.regexPattern(RegexType.number)]],
       borderEntryDate: [null, [Validators.required]],
       arrivalPort: [null, [Validators.required]],
-      visaNumber: [null, [Validators.required]],
+      visaNumber: [null, [Validators.required,CustomValidators.regexPattern(RegexType.number)]],
       visaIssueDate: [null, [Validators.required]],
       passportIssuanceDate: [null, [Validators.required]],
       passportExpireDate: [null, [Validators.required]],
       passportIssuancePlace: [null, [Validators.required]],
       
+    },
+    {
+      
+      validators: [
+        CustomValidators.endDateGreaterThanStartDate('passportIssuanceDate', 'passportExpireDate','يجب ان يكون تاريخ الاصدار قبل الانتهاء '),
+       ],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
