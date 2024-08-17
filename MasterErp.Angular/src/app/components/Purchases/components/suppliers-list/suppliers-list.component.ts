@@ -4,11 +4,11 @@ import { ToastrService } from 'ngx-toastr';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 @Component({
-  selector: 'app-supplier-list',
-  templateUrl: './supplier-list.component.html',
-  styleUrls: ['./supplier-list.component.css']
+  selector: 'app-suppliers-list',
+  templateUrl: './suppliers-list.component.html',
+  styleUrls: ['./suppliers-list.component.css']
 })
-export class SupplierListComponent implements OnInit {
+export class SuppliersListComponent implements OnInit {
   SupplierList: any[] = [];
   showLoader: boolean;
   TotalCount: any;

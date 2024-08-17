@@ -17,7 +17,7 @@ import { SuppliersAccountStatementComponent } from './components/suppliers-accou
 import { PurchasesLayoutComponent } from './purchases-layout/purchases-layout.component';
 import { CreateSupplierReturnsVoucherComponent } from './components/create-supplier-returns-voucher/create-supplier-returns-voucher.component';
 import { SupplierReturnsVouchersComponent } from './components/supplier-returns-vouchers/supplier-returns-vouchers.component';
-import { SupplierListComponent } from './components/supplier-list/supplier-list.component';
+import { SuppliersListComponent } from './components/suppliers-list/suppliers-list.component';
 import { PurchasesHomeComponent } from './components/purchases-home/purchases-home.component';
 
 
@@ -35,7 +35,7 @@ import { PurchasesHomeComponent } from './components/purchases-home/purchases-ho
     InvoiceDetailsSidepanelComponent,
     CreateSupplierReturnsVoucherComponent,
     SupplierReturnsVouchersComponent,
-    SupplierListComponent,
+    SuppliersListComponent,
     PurchasesHomeComponent,
   ],
   imports: [
