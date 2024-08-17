@@ -1,0 +1,254 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
+import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
+import { FormService } from 'src/app/components/Shared/services/form.service';
+import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SupplierModel } from '../../models/SupplierModel';
+import { SuppliersService } from '../../services/suppliers.service';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { BalanceType } from '../../enums/Suppliers';
+
+
+
+@Component({
+  selector: 'app-add-supplier',
+  templateUrl: './add-supplier.component.html',
+  styleUrls: ['./add-supplier.component.css']
+})
+export class AddSupplierComponent implements OnInit {
+  @Input() supplierId: number;
+  supplierModel: SupplierModel = {} as SupplierModel;
+  isUpdate: boolean = false;
+
+  countriesSelectorData: FormDropdownModel[] = [];
+  citiesSelectorData: FormDropdownModel[] = [];
+  regionsSelectorData: FormDropdownModel[] = [];
+  supplierGroupsSelectorData: FormDropdownModel[] = [];
+  balanceTypesSelectorData: FormDropdownModel[]= [
+    {value: BalanceType.Type1,name :BalanceType[BalanceType.Type1]},
+    {value: BalanceType.Type2,name :BalanceType[BalanceType.Type2]}
+  ];
+  
+  showLoader: boolean = false;
+  showAddLoader: boolean = false;
+  supplierImageFile: File;
+  formData: FormData = new FormData();
+  public formGroup: FormGroup;
+
+
+
+  constructor(private acRoute: ActivatedRoute,private router:Router, private modalService: NgbModal, private suppliersService: SuppliersService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
+    private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
+
+  ngOnInit(): void {
+    this.acRoute.queryParams.subscribe((params: any) => {
+      if (params.SupplierId) {
+        this.supplierId = params.SupplierId;
+        this.getSupplierById();
+      }
+    })
+
+
+    this.initNewForm();
+    this.loadSelectors();
+  }
+
+
+  getSupplierById() {
+    this.showLoader = true;
+    this.suppliersService.GetSupplierById(this.supplierId).subscribe((data: SupplierModel) => {
+      if (data) {
+        this.supplierModel = data;
+        this.initNewForm(this.supplierModel);
+      }
+
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+
+
+  }
+
+  initNewForm(supplierModel: SupplierModel = null) {
+
+    this.isUpdate = false;
+    this.buildForm();
+    if (supplierModel)
+      this.fillEditForm(supplierModel);
+
+    // this.formGroup.patchValue({supplierId:this.selectedSupplierId});
+
+  }
+  buildForm() {
+    this.formGroup = this.form.group({
+      supplierId: [null],
+      nameAR: [null,[Validators.required]],
+      nameEN: [null,[Validators.required]],
+      phone: [null],
+      mobile: [null],
+      countryId: [null],
+      cityId: [null],
+      regionId: [null],
+      address: [null],
+      commercialRegister: [null],
+      taxNumber: [null],
+      beginningBalance: [null,[Validators.required,CustomValidators.regexPattern(RegexType.number)]],
+      balanceTypeId: [0,[Validators.required]],
+      supplierGroupId: [null,[Validators.required]],
+      contactPerson: [null],
+      contactMobile: [null],
+      notes: [null],
+      isActive: [true]
+
+    });
+    this.formGroup.valueChanges.subscribe((data) => {
+      this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
+
+    });
+  }
+
+  saveSupplier() {
+    if (!this.validateForm()) {
+      return;
+    }
+    this.supplierModel = this.formGroup.value;
+
+    if (this.supplierId)
+      this.editSupplier();
+    else
+      this.addNewSupplier();
+  }
+
+  addNewSupplier() {
+
+    this.showAddLoader = true;
+    this.suppliersService.AddNewSupplier(this.supplierModel).subscribe((data: ActionsResponseModel) => {
+      if (data?.isSuccess) {
+        this.formGroup?.reset();
+        this.toaster.success(data?.message);
+
+      }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
+    });
+
+
+  }
+
+  editSupplier() {
+
+    this.showAddLoader = true;
+    this.suppliersService.EditSupplier(this.supplierId, this.supplierModel).subscribe((data: ActionsResponseModel) => {
+      if (data?.isSuccess) {
+        this.formGroup?.reset();
+        // this.initNewForm();
+        this.toaster.success(data?.message);
+        this.getSupplierById();
+      }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
+    });
+
+
+  }
+  loadSelectors() {
+
+    this.sharedService.GetCountriesSelector().subscribe((data: FormDropdownModel[]) => {
+      this.countriesSelectorData = data;
+    });
+    this.sharedService.GetCitiesSelector().subscribe((data: FormDropdownModel[]) => {
+      this.citiesSelectorData = data;
+    });
+    this.sharedService.GetRegionsSelector().subscribe((data: FormDropdownModel[]) => {
+      this.regionsSelectorData = data;
+    });
+    this.sharedService.GetSupplierGroupsSelector().subscribe((data: FormDropdownModel[]) => {
+      this.supplierGroupsSelectorData = data;
+    });
+
+  }
+
+  validateForm(): boolean {
+    this._FormService.markFormGroupTouched(this.formGroup);
+    if (this.formGroup.valid) {
+      return true;
+    } else {
+      this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, false)
+      return false;
+    }
+  }
+
+
+  fillEditForm(supplierModel: SupplierModel) {
+    this.isUpdate = true;
+    
+    this.formGroup.patchValue({
+      supplierId: supplierModel.supplierId,
+      nameAR: supplierModel.nameAR,
+      nameEN: supplierModel.nameEN,
+      phone: supplierModel.phone,
+      mobile: supplierModel.mobile,
+      countryId: supplierModel.countryId,
+      cityId: supplierModel.cityId,
+      regionId: supplierModel.regionId,
+      address: supplierModel.address,
+      commercialRegister: supplierModel.commercialRegister,
+      taxNumber: supplierModel.taxNumber,
+      beginningBalance: supplierModel.beginningBalance,
+      balanceTypeId: BalanceType[supplierModel.balanceType],
+      supplierGroupId: supplierModel.supplierGroupId,
+      contactPerson: supplierModel.contactPerson,
+      contactMobile: supplierModel.contactMobile,
+      notes: supplierModel.notes,
+      isActive: supplierModel.isActive,
+      
+   
+    });
+  }
+
+ 
+  public formErrors = {
+    supplierId: '',
+      nameAR: '',
+      nameEN: '',
+      phone: '',
+      mobile: '',
+      countryId: '',
+      cityId: '',
+      regionId: '',
+      address: '',
+      commercialRegister: '',
+      taxNumber: '',
+      beginningBalance: '',
+      balanceTypeId: '',
+      supplierGroupId: '',
+      contactPerson: '',
+      contactMobile: '',
+      notes: '',
+      isActive: ''
+  };
+
+
+
+}
+

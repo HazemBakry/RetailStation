@@ -1,0 +1,237 @@
+<div class="card radius-10 border-0 card-shadow mb-1">
+    <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
+
+        <h5 class="mb-0 fw-bold">
+            <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
+            <span *ngIf="isUpdate" class="ms-3">تعديل</span>
+            مورد
+        </h5>
+
+    </div>
+    <div class="card-body">
+        <div class="employee-card-body row">
+            <form [formGroup]="formGroup" autocomplete="off">
+                <div class="employee-card-body row">
+                    <div class="col-xl-5">
+                        <div class="form-floating  mb-3">
+                            <input type="text" formControlName="nameAR" class="form-control" id="floatingInput1"
+                                placeholder="any">
+                            <label for="floatingInput1">الاسم عربي</label>
+                            <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
+                                {{formErrors.nameAR}}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-xl-1"></div>
+
+                    <div class="col-xl-5">
+
+                        <div class="form-floating mb-3">
+                            <input type="text" formControlName="nameEN" class="form-control" id="floatingInput1"
+                                placeholder="any">
+                            <label for="floatingInput2">الاسم انجليزي</label>
+                            <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
+                                {{formErrors.nameEN}}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-xl-1"></div>
+
+                    <div class="col-xl-5">
+                        <div class="form-floating mb-3">
+                            <input type="text" formControlName="phone" class="form-control" id="floatingInput1"
+                                placeholder="any">
+                            <label for="floatingInput3">التليفون</label>
+                            <div *ngIf="formErrors.phone" class="text-danger  font-small-3 m-03">
+                                {{formErrors.phone}}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-xl-1"></div>
+
+                    <div class="col-xl-5">
+                        <div class="form-floating mb-3">
+                            <input type="text" formControlName="mobile" class="form-control" id="floatingInput1"
+                                placeholder="any">
+                            <label for="floatingInput2">المحمول</label>
+                            <div *ngIf="formErrors.mobile" class="text-danger  font-small-3 m-03">
+                                {{formErrors.mobile}}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-xl-1"></div>
+
+
+                    <div class="col-xl-5">
+                        <div class="form-floating mb-3">
+                            <input type="text" formControlName="commercialRegister" class="form-control"
+                                id="floatingInput1" placeholder="any">
+                            <label for="floatingInput2">السجل التجاري</label>
+                            <div *ngIf="formErrors.commercialRegister" class="text-danger  font-small-3 m-03">
+                                {{formErrors.commercialRegister}}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-xl-1"></div>
+
+                    <div class="col-xl-5">
+                        <div class="form-floating mb-3">
+                            <input type="text" formControlName="taxNumber" class="form-control" id="floatingInput1"
+                                placeholder="any">
+                            <label for="floatingInput2">الرقم الضريبي</label>
+                            <div *ngIf="formErrors.taxNumber" class="text-danger  font-small-3 m-03">
+                                {{formErrors.taxNumber}}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-xl-1"></div>
+
+                    <div class="col-xl-5">
+                        <div class="form-floating mb-3">
+                            <input type="text" formControlName="beginningBalance" class="form-control"
+                                id="floatingInput1" placeholder="any">
+                            <label for="floatingInput2">الرصيد الافتتاحي</label>
+                            <div *ngIf="formErrors.beginningBalance" class="text-danger  font-small-3 m-03">
+                                {{formErrors.beginningBalance}}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-xl-1"></div>
+                    <div class="col-xl-5">
+                        <div class="form-floating mb-3">
+                            <input type="text" formControlName="contactPerson" class="form-control" id="floatingInput1"
+                                placeholder="any">
+                            <label for="floatingInput2">شخص للتواصل</label>
+                            <div *ngIf="formErrors.contactPerson" class="text-danger  font-small-3 m-03">
+                                {{formErrors.contactPerson}}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-xl-1"></div>
+                    <div class="col-xl-5">
+                        <div class="form-floating mb-3">
+                            <input type="text" formControlName="contactMobile" class="form-control" id="floatingInput1"
+                                placeholder="any">
+                            <label for="floatingInput2">رقم شخص للتواصل</label>
+                            <div *ngIf="formErrors.contactMobile" class="text-danger  font-small-3 m-03">
+                                {{formErrors.contactMobile}}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-xl-1"></div>
+                    <div class="col-xl-5">
+                        <div class=" mb-3">
+
+                            <div class="d-flex">
+                                <input class="form-check-input width-30 height-30" formControlName="isActive"
+                                    type="checkbox" value="" id="flexCheckDefault">
+                                <label class=" form-label m-2">نشط</label>
+                            </div>
+                            <div *ngIf="formErrors.isActive" class="text-danger  font-small-3 m-03">
+                                {{formErrors.isActive}}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-xl-1"></div>
+
+                    <div class="col-xl-5 mb-3">
+                        <app-drop-down-form-control formControlName="countryId" [placeholder]="'الدولة'"
+                            [data]="countriesSelectorData"></app-drop-down-form-control>
+                        <div *ngIf="formErrors.countryId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.countryId}}
+                        </div>
+
+                    </div>
+                    <div class="col-xl-1"></div>
+                    <div class="col-xl-5 mb-3">
+                        <app-drop-down-form-control formControlName="cityId" [placeholder]="'المدينة'"
+                            [data]="citiesSelectorData"></app-drop-down-form-control>
+                        <div *ngIf="formErrors.cityId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.cityId}}
+                        </div>
+
+                    </div>
+                    <div class="col-xl-1"></div>
+                    <div class="col-xl-5 mb-3">
+                        <app-drop-down-form-control formControlName="regionId" [placeholder]="'المنطقة'"
+                            [data]="regionsSelectorData"></app-drop-down-form-control>
+                        <div *ngIf="formErrors.regionId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.regionId}}
+                        </div>
+
+                    </div>
+                    <div class="col-xl-1"></div>
+                    <div class="col-xl-5 mb-3">
+                        <app-drop-down-form-control formControlName="balanceTypeId" [placeholder]="'نوع الرصيد'"
+                            [data]="balanceTypesSelectorData"></app-drop-down-form-control>
+                        <div *ngIf="formErrors.balanceTypeId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.balanceTypeId}}
+                        </div>
+
+                    </div>
+                    <div class="col-xl-1"></div>
+                    <div class="col-xl-5 mb-3">
+                        <app-drop-down-form-control formControlName="supplierGroupId" [placeholder]="'اسم المجموعة'"
+                            [data]="supplierGroupsSelectorData"></app-drop-down-form-control>
+                        <div *ngIf="formErrors.supplierGroupId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.supplierGroupId}}
+                        </div>
+
+                    </div>
+
+                    <div class="col-xl-1"></div>
+                    <div class="col-xl-11">
+                        <div class="form-floating mb-3">
+                            <textarea type="text" formControlName="address" class="form-control" id="floatingInput10"
+                                placeholder="العنوان"></textarea>
+                            <label for="floatingInput10">العنوان</label>
+
+                            <div *ngIf="formErrors.address" class="text-danger  font-small-3 m-03">
+                                {{formErrors.address}}
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-xl-1"></div>
+                    <div class="col-xl-11">
+                        <div class="form-floating mb-3">
+                            <textarea type="text" formControlName="notes" class="form-control" id="floatingInput10"
+                                placeholder="ملاحظات"></textarea>
+                            <label for="floatingInput10">ملاحظات</label>
+
+                            <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
+                                {{formErrors.notes}}
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </form>
+            <div class="d-flex justify-content-left">
+                <button [disabled]="showAddLoader" (click)="saveSupplier()" class="btn btn-primary m-2">
+                    <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
+                    <span *ngIf="isUpdate" class="ms-3">تعديل</span>
+                </button>
+                <!-- <button (click)="initNewForm()" class="btn btn-danger m-2">
+                    <span class="ms-3">إلغاء</span>
+                </button> -->
+            </div>
+        </div>
+    </div>
+</div>

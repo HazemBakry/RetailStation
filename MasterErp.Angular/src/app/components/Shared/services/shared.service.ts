@@ -91,7 +91,7 @@ export class SharedService {
   // }
 
   GetSuppliersData() {
-    return this.http.get<any[]>(this.URL + 'Supplier/GetSuppliersData');
+    return this.http.get<any[]>(this.URL + 'Suppliers/GetSuppliersData');
   }
 
   GetAccountsList(isParent:boolean=false) {
@@ -148,5 +148,20 @@ export class SharedService {
   }
   GetIqamaJobsSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetIqamaJobsSelector');
+  }
+  GetCountriesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetCountriesSelector');
+  }
+  GetCitiesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetCitiesSelector');
+  }
+  GetRegionsSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetRegionsSelector');
+  }
+  GetSuppliersSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetSuppliersSelector');
+  }
+  GetSupplierGroupsSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetSupplierGroupsSelector');
   }
 }

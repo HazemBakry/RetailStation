@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Models.HR;
 using MasterErp.Entities.Models.HR.Employee;
+using MasterErp.Entities.Models.Lookups;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -63,6 +64,7 @@ namespace MasterErp.Entities.Models
         public DbSet<Sponsor> Sponsors { get; set; }
         public DbSet<SickLeave> SickLeaves { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<SupplierGroup> SupplierGroups { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<Vacation> Vacations { get; set; }
         public DbSet<VacationType> VacationTypes { get; set; }
@@ -104,6 +106,13 @@ namespace MasterErp.Entities.Models
         public DbSet<AccountOpeningBalance> AccountOpeningBalance { get; set; }
 
 
+
+        #region Lookups
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<Region> Regions { get; set; }
+
+        #endregion
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

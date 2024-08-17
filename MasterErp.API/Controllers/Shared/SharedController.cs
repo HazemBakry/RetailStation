@@ -132,6 +132,47 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetIqamaJobsSelector();
             return Ok(result);
         }
+        
+        [HttpGet]
+        [Route("GetCountriesSelector")]
+        public IActionResult GetCountriesSelector()
+        {
+            var result = _sharedService.GetCountriesSelector();
+            return Ok(result);
+        }
+        
+        [HttpGet]
+        [Route("GetCitiesSelector")]
+        public IActionResult GetCitiesSelector()
+        {
+            var result = _sharedService.GetCitiesSelector();
+            return Ok(result);
+        }
+        
+        [HttpGet]
+        [Route("GetRegionsSelector")]
+        public IActionResult GetRegionsSelector()
+        {
+            var result = _sharedService.GetRegionsSelector();
+            return Ok(result);
+        }
+         
+        [HttpGet]
+        [Route("GetSuppliersSelector")]
+        public IActionResult GetSuppliersSelector()
+        {
+            var result = _sharedService.GetSuppliersSelector();
+            return Ok(result);
+        }
+        
+         
+        [HttpGet]
+        [Route("GetSupplierGroupsSelector")]
+        public IActionResult GetSupplierGroupsSelector()
+        {
+            var result = _sharedService.GetSupplierGroupsSelector();
+            return Ok(result);
+        }
 
 
         #endregion

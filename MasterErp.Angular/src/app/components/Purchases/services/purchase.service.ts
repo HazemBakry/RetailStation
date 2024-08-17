@@ -94,7 +94,7 @@ export class PurchaseService {
   //--------------------------------------- Suppliers ---------------------------------------
 
   GetSuppliersData() {
-    return this.http.get<any[]>(this.URL + 'Supplier/GetSuppliersData');
+    return this.http.get<any[]>(this.URL + 'Suppliers/GetSuppliersData');
   }
 
   //--------------------------------------- Branches -----------------------------------------
