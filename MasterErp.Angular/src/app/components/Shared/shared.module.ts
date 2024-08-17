@@ -36,6 +36,7 @@ import { SidebarComponent } from '../Main/sidebar/sidebar.component';
 import { HeaderComponent } from '../Main/header/header.component';
 import { RouterModule } from '@angular/router';
 import { DropDownFormControlComponent } from './components/drop-down-form-control/drop-down-form-control.component';
+import { BusinessCoreLayoutComponent } from './components/business-core-layout/business-core-layout.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { DropDownFormControlComponent } from './components/drop-down-form-contro
     ErpHomeComponent,
     NotAuthorizedComponent,
     DropDownFormControlComponent,
-    RoleCheckerDirective
+    RoleCheckerDirective,
+    BusinessCoreLayoutComponent
   ],
 
 

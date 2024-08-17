@@ -4,12 +4,13 @@ import { SalesLayoutComponent } from './sales-layout/sales-layout.component';
 import { SalesInvoicesComponent } from './components/sales-invoices/sales-invoices.component';
 import { AddSalesInvoiceComponent } from './components/add-sales-invoice/add-sales-invoice.component';
 import { SalesHomeComponent } from './components/sales-home/sales-home.component';
+import { BusinessCoreLayoutComponent } from '../Shared/components/business-core-layout/business-core-layout.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: SalesLayoutComponent,
+    component: BusinessCoreLayoutComponent,
     children: [
       { path: 'home', component: SalesHomeComponent },
       { path: 'sales-invoices', component: SalesInvoicesComponent },
