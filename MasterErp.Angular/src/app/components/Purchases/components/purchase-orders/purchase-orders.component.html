@@ -1,7 +1,7 @@
 <div class="boxstyle1">
     <div class="boxstyle1-header bg-light">
         <div class="boxstyle1-header-left mb-3">
-            <button class="btn btn-primary" routerLink="/Purchases/add-purchase-order">
+            <button class="btn btn-primary" routerLink="/purchases/add-purchase-order">
                 <i class="fas fa-plus-circle"></i>
                 <span class="ms-2">انشاء أمر</span>
             </button>
@@ -22,9 +22,7 @@
                         </div> -->
                     </div>
                     <div class="col-md-4">
-                        <app-erp-pagination (pageChanged)="pageChanged($event)"
-                            [currentPage]="FilterModel.currentPage" [pageSize]="FilterModel.pageSize"
-                            [totalCount]="TotalCount" [totalPages]="TotalPages"></app-erp-pagination>
+                        <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="FilterModel.currentPage" [pageSize]="FilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="TotalPages"></app-erp-pagination>
                     </div>
                 </div>
             </div>

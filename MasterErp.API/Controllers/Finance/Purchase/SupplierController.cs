@@ -46,13 +46,13 @@ namespace MasterErp.API.Controllers.Finance.Purchase
                     Address = model.Address,
                     BeginningBalance = model.BeginningBalance,
                     BalanceType = model.BalanceType,
-                    GroupId = model.GroupId,
+                    SupplierGroupId = model.SupplierGroupId,
                     ContactPerson = model.ContactPerson,
                     ContactMobile = model.ContactMobile,
                     Notes = model.Notes,
                     IsActive = true,
-                    InsertUser = model.InsertUser,
-                    InsertDate = DateTime.Now
+                    CreatedBy = model.CreatedBy,
+                    CreatedDate = DateTime.Now
                 });
 
                 Context.SaveChanges();

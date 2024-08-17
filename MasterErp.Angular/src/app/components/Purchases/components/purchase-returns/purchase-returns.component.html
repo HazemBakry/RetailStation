@@ -2,7 +2,7 @@
     <div class="boxstyle1">
         <div class="boxstyle1-header">
             <div class="boxstyle1-header-left">
-                <button class="btn btn-primary" routerLink="/Purchases/add-purchase-returns">
+                <button class="btn btn-primary" routerLink="/purchases/add-purchase-returns">
                     <i class="fas fa-plus-circle"></i>
                     <span class="ms-2">New Purchases Returns</span>
                 </button>
@@ -17,7 +17,7 @@
                         <th>Total Value</th>
                         <th>Insert User</th>
                         <th>Insert Date</th>
-                  
+
                         <!-- <th>Action</th> -->
                     </tr>
                 </thead>
@@ -28,7 +28,7 @@
                         <td>{{item.returnsInvoiceTotal}}</td>
                         <td>{{item.insertUser}}</td>
                         <td>{{item.insertDate | date}}</td>
-                       
+
                         <!-- <td>
                             <div class="w-100 d-flex align-items-center justify-content-center">
                                 <button class="btn btn-danger me-2" (click)="CancelPurchaseInvoice(item.purchaseReturnsID)">

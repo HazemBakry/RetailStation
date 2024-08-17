@@ -2,7 +2,7 @@
     <div class="boxstyle1">
         <div class="boxstyle1-header bg-light">
             <div class="boxstyle1-header-left mb-3">
-                <button class="btn btn-primary" routerLink="/Purchases/add-supplier-returns-voucher">
+                <button class="btn btn-primary" routerLink="/purchases/add-supplier-returns-voucher">
                     <i class="fas fa-plus-circle"></i>
                     <span class="ms-2">انشاء أشعار خصم مورد</span>
                 </button>
@@ -42,11 +42,11 @@
                         <tr *ngFor="let item of pagedResponse.results">
                             <td>{{item.invoiceNumber}}</td>
                             <td>{{item.invoiceDate | date}}</td>
-                            
+
                             <td>{{item.supplierName}}</td>
                             <td>{{item.totalValue}}</td>
                             <td>{{item.notes}}</td>
-                            
+
                         </tr>
                     </tbody>
 
