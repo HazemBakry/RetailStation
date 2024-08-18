@@ -14,6 +14,7 @@ import { CreatePurchasesRequestComponent } from './components/create-purchases-r
 import { PurchasesRequestsComponent } from './components/purchases-requests/purchases-requests.component';
 import { AddItemComponent } from './components/add-item/add-item.component';
 import { InventoryHomeComponent } from './components/inventory-home/inventory-home.component';
+import { UnitsComponent } from './components/units/units.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { InventoryHomeComponent } from './components/inventory-home/inventory-ho
     CreatePurchasesRequestComponent,
     PurchasesRequestsComponent,
     AddItemComponent,
-    InventoryHomeComponent
+    InventoryHomeComponent,
+    UnitsComponent
   ],
   imports: [
     CommonModule,

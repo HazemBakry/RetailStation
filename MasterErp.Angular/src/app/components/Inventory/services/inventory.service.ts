@@ -5,6 +5,7 @@ import { ReceiveOrderModel } from '../models/inventory';
 import { FilterModel } from '../../Shared/models/FilterModel';
 import { RawItemModel } from '../models/rawItem';
 import { PurchaseRequestModel } from '../models/PurchasesRequestModel';
+import { Unit } from '../models/unit';
 
 @Injectable({
   providedIn: 'root'
@@ -36,10 +37,6 @@ export class InventoryService {
     return this.http.get<any>(this.URL + 'RawItem/GetRawItemDetailsByRawItemId?RawItemId=' + RawItemId);
   }
 
-  GetUnits() {
-    return this.http.get<any>(this.URL + 'RawItem/GetUnits');
-  }
-
   AddNewRawItem(model: RawItemModel) {
     return this.http.post<any>(this.URL + 'RawItem/AddNewRawItem', model);
   }
@@ -59,6 +56,23 @@ export class InventoryService {
   ExportRawItemsDeleted(RawCategoryId: number, SearchText: string, UserName: string) {
     return this.http.get<any>(this.URL + 'RawItem/ExportRawItemsDeleted?RawCategoryId=' + RawCategoryId + '&SearchText=' + SearchText + '&UserName=' + UserName);
   }
+
+  GetUnits() {
+    return this.http.get<any>(this.URL + 'Item/GetUnits');
+  }
+
+  AddNewUnit(model: Unit) {
+    return this.http.post<any>(this.URL + 'Item/AddUnit', model);
+  }
+
+  EditUnit(model: Unit) {
+    return this.http.post<any>(this.URL + 'Item/EditUnit', model);
+  }
+
+  DeleteUnit(UnitId: number[]) {
+    return this.http.post<any>(this.URL + 'Item/DeleteUnit', UnitId);
+  }
+
 
   // -------------------------------------- Receive Orders -------------------------------------- //
 

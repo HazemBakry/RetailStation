@@ -48,8 +48,8 @@ namespace MasterErp.Service.Inventory
                                ItemNameAr = item.NameAR,
                                Price = item.Price,
                                UnitId = item.UnitID,
-                               UnitNameEn = unit.UnitNameEn,
-                               UnitNameAr = unit.UnitNameAr
+                               UnitNameEn = unit.NameEN,
+                               UnitNameAr = unit.NameAR
                            }).ToList().ToDataTable();
 
             return results;
@@ -314,8 +314,8 @@ namespace MasterErp.Service.Inventory
                                NameEn = item.NameEn,
                                NameAr = item.NameAr,
                                Cost = item.Cost,
-                               UnitNameAr = unit.UnitNameAr,
-                               UnitNameEn = unit.UnitNameEn,
+                               UnitNameAr = unit.NameAR,
+                               UnitNameEn = unit.NameEN,
                                UnitId = unit.UnitId
                            }).ToList();
 
@@ -329,8 +329,8 @@ namespace MasterErp.Service.Inventory
             {
                 Context.Add(new Unit
                 {
-                    UnitNameAr = model.UnitNameAr,
-                    UnitNameEn = model.UnitNameEn
+                     NameAR = model.NameAR,
+                     NameEN = model.NameEN
                 });
 
                 Context.SaveChanges();
@@ -356,8 +356,8 @@ namespace MasterErp.Service.Inventory
 
             if (Item != null)
             {
-                Item.UnitNameAr = model.UnitNameAr;
-                Item.UnitNameEn = model.UnitNameEn;
+                Item.NameAR = model.NameAR;
+                Item.NameEN = model.NameEN;
 
                 Context.SaveChanges();
                 return new ActionsResponseModel

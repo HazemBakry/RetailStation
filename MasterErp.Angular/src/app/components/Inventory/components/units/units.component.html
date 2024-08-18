@@ -1,0 +1,85 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+<div class="card radius-10 border-0 card-shadow mb-3">
+    <div class="boxstyle1">
+        <div class="boxstyle1-header bg-light">
+            <div class="boxstyle1-header-left mb-3">
+                <button class="btn btn-primary" routerLink="/purchases/add-purchase-invoice">
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="ms-2">إضافة صنف</span>
+                </button>
+            </div>
+        </div>
+        <div class="card radius-10 border-0 card-shadow">
+            <div class="card-body">
+                <div class="main-card-action pb-3">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- <div class="col-md-12">
+                                <div class="d-flex align-items-center flex-wrap">
+                                    <ng-container *ngIf="filterList.length > 0">
+                                        <app-pos-filters [FilterList]="filterList"
+                                            (filterChanged)="filterChecked($event)"></app-pos-filters>
+                                    </ng-container>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="col-md-4">
+                            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="FilterModel.currentPage" [pageSize]="FilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="TotalPages"></app-erp-pagination>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive table-vp-height large-scroll">
+                    <table class="table table-bordered table-middle table-hover bg-white m-0">
+                        <thead>
+                            <tr>
+                                <th>اسم الوحدة (Ar)</th>
+                                <th>اسم الوحدة (En)</th>
+                                <th>ملاحظات</th>
+                                <th>نشط</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of Units">
+                                <td>{{item.nameAR}}</td>
+                                <td>{{item.nameEN}}</td>
+                                <td>{{item.notes}}</td>
+                                <td>{{item.isActive}}</td>
+                                <td class="text-center">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <label class="switch me-2">
+                                            <input type="checkbox" [(ngModel)]="item.isActive"
+                                                (change)="ChangeItemStatus(item.rawItemId)"
+                                                class="ng-valid ng-dirty ng-touched">
+                                            <span class="slider round"></span>
+                                        </label>
+                                        <button class="btn btn-primary btn-rounded me-2" routerLink="/Admin/Inventory/AddRawItem" [queryParams]="{RawItemId: item.rawItemId}">
+                                            <i class="fas fa-pen"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <ng-template #deleteItemModal let-modal>
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirm Action</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="fs-5 m-0">Are you sure you want remove this Raw Item?</p>
+                </div>
+                <div class="modal-footer justify-content-start">
+                    <button type="button" class="btn btn-success" (click)="modal.close('Save click');DeleteRawItem()">
+                        <i class="fas fa-check"></i>
+                        <span class="ms-2">Yes</span>
+                    </button>
+                    <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+                        <i class="fas fa-times"></i>
+                        <span class="ms-2">No</span>
+                    </button>
+                </div>
+            </ng-template>
