@@ -27,6 +27,11 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetNationalitiesSelector();
         List<SelectorDataModel> GetIqamaIssuePlacesSelector();
         List<SelectorDataModel> GetIqamaJobsSelector();
+        List<SelectorDataModel> GetCountriesSelector();
+        List<SelectorDataModel> GetCitiesSelector();
+        List<SelectorDataModel> GetRegionsSelector();
+        List<SelectorDataModel> GetSuppliersSelector();
+        List<SelectorDataModel> GetSupplierGroupsSelector();
 
         #endregion
     }

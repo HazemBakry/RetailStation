@@ -19,6 +19,7 @@ import { CreateSupplierReturnsVoucherComponent } from './components/create-suppl
 import { SupplierReturnsVouchersComponent } from './components/supplier-returns-vouchers/supplier-returns-vouchers.component';
 import { SuppliersListComponent } from './components/suppliers-list/suppliers-list.component';
 import { PurchasesHomeComponent } from './components/purchases-home/purchases-home.component';
+import { AddSupplierComponent } from './components/add-supplier/add-supplier.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { PurchasesHomeComponent } from './components/purchases-home/purchases-ho
     SupplierReturnsVouchersComponent,
     SuppliersListComponent,
     PurchasesHomeComponent,
+    AddSupplierComponent,
   ],
   imports: [
     CommonModule,

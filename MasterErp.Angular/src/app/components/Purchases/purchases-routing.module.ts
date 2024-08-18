@@ -12,12 +12,14 @@ import { CreateSupplierReturnsVoucherComponent } from './components/create-suppl
 import { SupplierReturnsVouchersComponent } from './components/supplier-returns-vouchers/supplier-returns-vouchers.component';
 import { SuppliersListComponent } from './components/suppliers-list/suppliers-list.component';
 import { PurchasesHomeComponent } from './components/purchases-home/purchases-home.component';
+import { BusinessCoreLayoutComponent } from '../Shared/components/business-core-layout/business-core-layout.component';
+import { AddSupplierComponent } from './components/add-supplier/add-supplier.component';
 
 const routes: Routes = [
   {
 
     path: '',
-    component: PurchasesLayoutComponent,
+    component: BusinessCoreLayoutComponent,
     children: [
       { path: 'home', component: PurchasesHomeComponent },
       { path: 'purchase-invoices', component: PurchaseInvoicesComponent },
@@ -30,6 +32,7 @@ const routes: Routes = [
       { path: 'supplier-returns-voucher', component: SupplierReturnsVouchersComponent },
       { path: 'add-supplier-returns-voucher', component: CreateSupplierReturnsVoucherComponent },
       { path: 'suppliers-list', component: SuppliersListComponent },
+      { path: 'add-supplier', component: AddSupplierComponent },
       { path: '', redirectTo: 'home' ,pathMatch: 'full' },
 
     ]

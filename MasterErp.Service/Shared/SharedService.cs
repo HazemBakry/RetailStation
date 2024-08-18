@@ -136,6 +136,51 @@ namespace MasterErp.Service.Shared
                 Name = b.NameAR,
             }).ToList();
             return results;
+        }    
+        public List<SelectorDataModel> GetCountriesSelector()
+        {
+            var results = Context.Countries.Select(b => new SelectorDataModel
+            {
+                Id = b.CountryId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }    
+        public List<SelectorDataModel> GetCitiesSelector()
+        {
+            var results = Context.Cities.Select(b => new SelectorDataModel
+            {
+                Id = b.CityId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }    
+        public List<SelectorDataModel> GetRegionsSelector()
+        {
+            var results = Context.Regions.Select(b => new SelectorDataModel
+            {
+                Id = b.RegionId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }   
+        public List<SelectorDataModel> GetSuppliersSelector()
+        {
+            var results = Context.Suppliers.Select(b => new SelectorDataModel
+            {
+                Id = b.SupplierId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }        
+        public List<SelectorDataModel> GetSupplierGroupsSelector()
+        {
+            var results = Context.SupplierGroups.Select(b => new SelectorDataModel
+            {
+                Id = b.SupplierGroupId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
         }
         #endregion
 
