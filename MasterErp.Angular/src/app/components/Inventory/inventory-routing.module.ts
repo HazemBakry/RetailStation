@@ -8,6 +8,7 @@ import { CreatePurchasesRequestComponent } from './components/create-purchases-r
 import { PurchasesRequestsComponent } from './components/purchases-requests/purchases-requests.component';
 import { InventoryHomeComponent } from './components/inventory-home/inventory-home.component';
 import { BusinessCoreLayoutComponent } from '../Shared/components/business-core-layout/business-core-layout.component';
+import { UnitsComponent } from './components/units/units.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
       { path: 'raw-items', component: RawItemsComponent },
       { path: 'purchases-requests', component: PurchasesRequestsComponent },
       { path: 'add-purchases-request', component: CreatePurchasesRequestComponent },
+      { path: 'units', component: UnitsComponent },
       { path: '', redirectTo: 'home' ,pathMatch: 'full' },
 
     ],
