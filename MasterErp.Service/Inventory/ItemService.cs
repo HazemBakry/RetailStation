@@ -58,6 +58,9 @@ namespace MasterErp.Service.Inventory
 
         public DataTable GetItemsBySupplierId(int SupplierId)
         {
+            var items = Context.Items.Where(x => SupplierId == 0 || x.ItemCategoryId == SupplierId).ToList();
+
+
             SqlParameter[] param = new SqlParameter[1];
             param[0] = new SqlParameter("@SupplierId", SupplierId);
 

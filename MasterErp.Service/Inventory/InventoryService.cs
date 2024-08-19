@@ -100,7 +100,7 @@ namespace MasterErp.Service.Inventory
                     DueDate = obj.FirstOrDefault().DueDate,
                     IsLocked = obj.FirstOrDefault().IsLocked,
                     IsCancelled = obj.FirstOrDefault().IsCancelled,
-                    Items = obj.Select(x => new ItemModel
+                    Items = obj.Select(x => new OrderProductModel
                     {
                         ItemId = x.ItemId,
                         ItemNameAr = x.NameAR,
@@ -145,7 +145,7 @@ namespace MasterErp.Service.Inventory
                 Context.ReceiveOrders.Add(order_tbl);
                 Context.SaveChanges();
 
-                foreach (ItemModel item in model.Items)
+                foreach (OrderProductModel item in model.Items)
                 {
                     var detail = new ReceiveOrderDetails
                     {

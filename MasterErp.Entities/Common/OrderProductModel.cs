@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Common
 {
-    public class ItemModel
+    public class OrderProductModel
     {
         public int ItemId { get; set; }
         public string ItemNameAr { get; set; }

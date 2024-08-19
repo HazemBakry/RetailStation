@@ -25,6 +25,6 @@ namespace MasterErp.Entities.Common
         public string Notes { get; set; }
         public string UserId { get; set; }
         public string CustomerId { get; set; }
-        public List<ItemModel> Items { get; set; }
+        public List<OrderProductModel> Items { get; set; }
     }
 }

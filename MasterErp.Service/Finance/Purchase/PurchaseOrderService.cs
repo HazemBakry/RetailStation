@@ -72,7 +72,7 @@ namespace MasterErp.Service.Finance.Purchase
                 Context.PurchaseOrders.Add(order_tbl);
                 Context.SaveChanges();
 
-                foreach (ItemModel item in model.Items)
+                foreach (OrderProductModel item in model.Items)
                 {
                     var detail = new PurchaseOrderDetails
                     {

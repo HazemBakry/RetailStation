@@ -16,9 +16,9 @@ namespace MasterErp.Interface.Finance.Purchase
         List<Supplier> GetSuppliersData();
         List<Branch> GetBranchesData();
         List<ItemLookups> GetItemLookupsData();
-        List<ItemModel> GetItemsData();
-        List<ItemModel> GetItemsByLookupId(int LookupId);
-        List<ItemModel> GetItemsBySupplierId(int SupplierId);
+        List<OrderProductModel> GetItemsData();
+        List<OrderProductModel> GetItemsByLookupId(int LookupId);
+        List<OrderProductModel> GetItemsBySupplierId(int SupplierId);
 
 
     }
