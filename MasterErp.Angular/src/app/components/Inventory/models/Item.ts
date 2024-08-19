@@ -1,23 +1,24 @@
-export interface ItemModel {
-    itemId?: number;
-    nameEN?: string;
-    nameAR?: string;
-    subUnitId?: number;
-    mainUnitId?: number;
-    itemCategoryId?: number;
-    cost?: number;
-    convertRatio?: number;
-    isActive?: boolean;
-    insertUser?: string;
-    insertDate?: string;
-    itemsSupplier?: ItemSupplier[];
-}
+import { SupplierModel } from "../../Purchases/models/SupplierModel";
+import { CreatorModel } from "../../Shared/models/CreatorModel";
 
-export interface ItemSupplier {
-    id?: number;
-    supplierId?: number;
-    supplierName?: string;
-    itemId?: number;
-    itemName?: string;
-
+export interface ItemModel extends CreatorModel {
+    itemId?: number | null;
+    nameAR: string;
+    nameEN: string;
+    unitId: number | null;
+    unitName: string;
+    purchaseUnitId: number | null;
+    purchaseUnitName: string;
+    itemCategoryId: number | null;
+    itemCategoryName: string;
+    cost: number | null;
+    purchasePrice: number | null;
+    yield: number | null;
+    convertRatio: number | null;
+    isActive: boolean | null;
+    itemType: number | null;
+    supplierId: number | null;
+    supplierName: string;
+    supplierIds: number[];
+    itemSuppliers: SupplierModel[];
 }

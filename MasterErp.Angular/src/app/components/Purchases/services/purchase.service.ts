@@ -76,19 +76,19 @@ export class PurchaseService {
   //---------------------------------------- Items ----------------------------------------
 
   GetItemsLookups() {
-    return this.http.get<any[]>(this.URL + 'Item/GetItemsLookups');
+    return this.http.get<any[]>(this.URL + 'Items/GetItemsLookups');
   }
 
   GetItemsData() {
-    return this.http.get<OrderDetailModel[]>(this.URL + 'Item/GetItemsData');
+    return this.http.get<OrderDetailModel[]>(this.URL + 'Items/GetItemsData');
   }
 
   GetItemsByLookupId(LookupId: number) {
-    return this.http.get<OrderDetailModel[]>(this.URL + 'Item/GetItemsByLookupId?LookupId=' + LookupId);
+    return this.http.get<OrderDetailModel[]>(this.URL + 'Items/GetItemsByLookupId?LookupId=' + LookupId);
   }
 
   GetItemsBySupplierId(SupplierId: number) {
-    return this.http.get<OrderDetailModel[]>(this.URL + 'Item/GetItemsBySupplierId?SupplierId=' + SupplierId);
+    return this.http.get<OrderDetailModel[]>(this.URL + 'Items/GetItemsBySupplierId?SupplierId=' + SupplierId);
   }
 
   //--------------------------------------- Suppliers ---------------------------------------

@@ -1,9 +1,18 @@
+
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
+import { FilterItem} from 'src/app/components/Shared/models/FilterModel';
 import { ToastrService } from 'ngx-toastr';
+import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { FormService } from 'src/app/components/Shared/services/form.service';
+import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
+import { ItemModel } from '../../models/Item';
 import { InventoryService } from '../../services/inventory.service';
-import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
 
 @Component({
   selector: 'app-items',
@@ -11,89 +20,250 @@ import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
   styleUrls: ['./items.component.css']
 })
 export class ItemsComponent implements OnInit {
-  Units: any[] = [];
-  ItemCategoriesData: any[] = [];
-  TitleList = ['المخازن', 'بيانات الأصناف'];
-  //form: FormGroup;
-  Items: any[] = [];
-  showLoader: boolean;
-  TotalCount: any;
-  TotalPages: any;
-  CategoryId: number = 0;
-  CategoryName: any;
-  ItemId: any;
-  SearchText: any = "";
-  FilterModel: FilterModel = {
-    currentPage: 1,
-    pageSize: 25
+
+  titleList = ['المخازن', 'بيانات الأصناف'];
+
+  unitsSelectorData: FormDropdownModel[] = [];
+  suppliersSelectorData: FormDropdownModel[]=[];
+  itemCategoriesSelectorData: FormDropdownModel[]=[];
+  categoriesData: FormDropdownModel[]=[];
+
+  selectedItemId: number;
+  
+  itemModel: ItemModel ={} as ItemModel;
+  itemResponseModel:PagedResponseDTO<ItemModel[]>={
+    results:[],
+    filterList:[],
+    pageSize: 25,
+    currentPage:1,
+    searchText:''
+
+  };
+  showLoader: boolean=false;
+  showAddLoader: boolean=false;
+
+  public formGroup: FormGroup;
+  public formErrors = {
+    itemId: '',
+    nameAR: '',
+    nameEN: '',
+    unitId: '',
+    purchaseUnitId: '',
+    itemCategoryId: '',
+    cost: '',
+    convertRatio: '',
+    isActive: '',
+    supplierIds:'',
+    yield : '',
+    purchasePrice: '',
+    itemType : ''
   };
 
-  constructor(private invenService: InventoryService,
-    private modalService: NgbModal,
-    private toaster: ToastrService) { }
+  selectedCategoryId:number=null;
+  isUpdate: boolean=false;
+  constructor(private modalService: NgbModal, private inventoryService: InventoryService,private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
+    private datePipe: DatePipe,private toaster:ToastrService,private offcanvasService: NgbOffcanvas,) { }
 
   ngOnInit(): void {
-    //this.UserModel = JSON.parse(localStorage.getItem('UserModel') as any);
-    //this.FormInit();
-    this.GetItemsList();
-    //this.GetItemCategories();
+    this.sharedService.GetItemCategoriesSelector().subscribe((data: FormDropdownModel[]) => {
+      this.itemCategoriesSelectorData = data;
+      this.categoriesData=data;
+    });
+    this.loadData();
+  }
+  loadData(categoryId : number=0)
+  {
+    this.showLoader=true;
+    this.inventoryService.GetItems(this.itemResponseModel,categoryId).subscribe(data => {
+      this.itemResponseModel.results = data.results;
+      this.itemResponseModel.totalCount = data.totalCount;
+
+      this.showLoader=false;
+    }, err=>{
+      this.showLoader=false;
+    },()=>{
+      this.showLoader=false;
+    });
+
+    
   }
 
-  deleteItem(content: any, itemId: any) {
-    this.ItemId = itemId;
-    this.modalService.open(content, { size: 'md', centered: true });
+  filterCategory(catId)
+  {
+    this.selectedCategoryId=catId;
+    this.loadData(catId);
+  }
+ 
+  openNewItemSidePanel(content: any,itemModel:ItemModel=null) {
+
+    this.loadSelectors();
+
+    this.isUpdate=false;
+    this.buildForm();
+    if(itemModel)
+      this.fillEditForm(itemModel);
+
+    this.formGroup.patchValue({employeeId:this.selectedCategoryId});
+    this.modalService.open(content, { centered: true, size: 'xl',fullscreen:'lg' });
+
+    // this.offcanvasService.open(content, { panelClass: 'add-new-panel', position: 'end' });
+  }
+  buildForm() {
+    this.formGroup = this.form.group({      
+      itemId: [null],
+      nameAR: [null,[Validators.required]],
+      nameEN: [null,[Validators.required]],
+      unitId: [null,[Validators.required]],
+      purchaseUnitId: [null],
+      itemCategoryId: [null],
+      cost: [null,[Validators.required]],
+      convertRatio: [null],
+      isActive: [true],
+      supplierIds:[[]],
+      yield : [null],
+      purchasePrice: [null],
+      itemType : [null]
+
+    });
+    this.formGroup.valueChanges.subscribe((data) => {
+      this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
+    });
   }
 
-  GetItemsList() {
-    this.invenService.GetItemsList(this.CategoryId, this.SearchText).subscribe(data => {
-      this.Items = data;
-      this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
-      this.showLoader = false;
-    }, (err) => {
-      this.showLoader = false;
+  saveItem() {
+    if (!this.validateForm()) {
+      return;
+    }
+    this.itemModel = this.formGroup.value;
+
+    if (this.itemModel.itemId)
+      this.editItem();
+    else
+      this.addNewItem();
+  }
+
+  addNewItem() {
+    this.showAddLoader = true;
+    this.inventoryService.AddNewItem(this.itemModel).subscribe((data: ActionsResponseModel) => {
+      if (data?.isSuccess) {
+        this.formGroup?.reset();
+        this.toaster.success(data?.message);
+        this.modalService?.dismissAll();  
+        this.loadData();
+
+      }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
     }, () => {
-      this.showLoader = false;
-    })
-  }
-
-  GetItemCategories() {
-    this.invenService.GetItemCategories().subscribe(data => {
-      this.ItemCategoriesData = data;
+      this.showAddLoader = false;
     });
+
+
   }
 
-  pageChanged(obj: any) {
-    this.FilterModel.currentPage = obj.page;
-    this.GetItemsList();
-  }
-
-  DeleteItem(ItemId: any) {
-    this.invenService.DeleteItem(ItemId).subscribe(data => {
-      if (data.item1 == 200) {
-        this.toaster.success('Delete Successfully');
-        this.GetItemsList();
-      } else {
-        this.toaster.error('Error Happened! ');
+  editItem() {
+    this.showAddLoader = true;
+    this.inventoryService.EditItem(this.itemModel.itemId, this.itemModel).subscribe((data: ActionsResponseModel) => {
+      if (data?.isSuccess) {
+        this.formGroup?.reset();
+        // this.initNewForm();
+        this.toaster.success(data?.message);
+        this.modalService?.dismissAll();  
+        this.loadData();      }
+      else {
+        this.toaster.error(data?.message);
       }
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
     });
   }
 
-  onCategoryClick(item: any) {
-    this.CategoryName = item.nameEn;
-    this.CategoryId = item.id;
-    this.GetItemsList();
+  validateForm(): boolean {
+    this._FormService.markFormGroupTouched(this.formGroup);
+    if (this.formGroup.valid) {
+      return true;
+    } else {
+      this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, false)
+      return false;
+    }
   }
 
-  ExportItems() {
-    let user = ""; //this.UserModel?.fullName
-    this.invenService.ExportItems(this.CategoryId, this.SearchText, user).subscribe(data => {
-      if (data.url != null) {
-        window.location.href = data.url;
-        this.toaster.success("File exported successfully");
-      } else {
-        this.toaster.error("an Error happened , file can not export");
+
+  fillEditForm(itemModel: ItemModel) {
+    this.isUpdate = true;
+    this.formGroup.patchValue({
+      itemId: itemModel.itemId,
+      nameAR: itemModel.nameAR,
+      nameEN: itemModel.nameEN,
+      unitId: itemModel.unitId,
+      purchaseUnitId: itemModel.purchaseUnitId,
+      itemCategoryId: itemModel.itemCategoryId,
+      convertRatio: itemModel.convertRatio,
+      cost: itemModel.cost,
+      isActive: itemModel.isActive,
+      supplierIds: itemModel.supplierIds,
+      yield : itemModel.yield,
+      purchasePrice: itemModel.purchasePrice,
+      itemType : itemModel.itemType
+
+    });
+  }
+
+
+  openDeleteModal(content: any, itemId: number) {
+    this.selectedItemId = itemId;
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+
+  loadSelectors() {
+
+    this.sharedService.GetSuppliersSelector().subscribe((data: FormDropdownModel[]) => {
+      this.suppliersSelectorData = data;
+    });
+
+    this.sharedService.GetUnitsSelector().subscribe((data: FormDropdownModel[]) => {
+      this.unitsSelectorData = data;
+    });
+  }
+
+  filterChecked(filterItems: FilterItem[]) {
+    this.itemResponseModel.filterList = filterItems;
+    this.loadData();
+ }
+
+ pageChanged(obj: any) {
+   this.itemResponseModel.currentPage = obj.page;
+   this.loadData();
+ }
+
+
+  deleteItem() {
+    this.showAddLoader=true;
+    this.inventoryService.DeleteItem(this.selectedItemId).subscribe(data => {
+
+      if(data?.isSuccess) {
+        this.modalService?.dismissAll();
+        this.loadData();
+        this.toaster.success(data?.message);
       }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showAddLoader=false;
+    }, err=>{
+      this.showAddLoader=false;
+    },()=>{
+      this.showAddLoader=false;
     });
   }
-
+  
 }
+
+

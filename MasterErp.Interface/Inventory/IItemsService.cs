@@ -1,7 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Common.Inventory.ReceiveOrder;
-using MasterErp.Entities.DTOs.Shared;
+using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -12,21 +12,26 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Interface.Inventory
 {
-    public interface IItemService
+    public interface IItemsService
     {
+
+        #region Item
+        List<ItemDto> GetItems(int CategoryId,SearchFilterModel Model,int? ItemId=null);
+        ItemDto GetItemById(int ItemId);
+        ActionsResponseModel AddNewItem(ItemDto model);
+        ActionsResponseModel EditItem(int ItemId,ItemDto model);
+        ActionsResponseModel DeleteItem(int ItemId);
+        string ExportItems(int categoryId, string UserName, SearchFilterModel Model);
+
+        #endregion
         List<ItemLookups> GetItemsLookups();
-        DataTable GetItemsData();
+
         DataTable GetItemsByLookupId(int LookupId);
         DataTable GetItemsBySupplierId(int SupplierId);
-        DataTable GetItemsListByCategoryId(int ItemCategoryId, string SearchText);
         DataTable GetItemsDeleted(int ItemCategoryId, string SearchText);
         List<ItemCategory> GetItemCategories();
         List<Item> GetItemsByCategoryId(int CategoryId);
-        ItemSaveDTO GetItemDetailsByItemId(int ItemId);
-        bool AddNewItem(ItemSaveDTO model);
-        bool EditItem(ItemSaveDTO model);
-        (int key, string message) DeleteItem(int ItemId);
-        string ExportAllItems(int categoryId, string SearchText, string UserName);
+
         string ExportItemsDeleted(int categoryId, string SearchText, string UserName);
         ActionsResponseModel AddUnit(Unit model);
         ActionsResponseModel EditUnit(Unit model);

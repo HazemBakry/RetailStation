@@ -6,6 +6,8 @@ import { FilterModel } from '../../Shared/models/FilterModel';
 import { ItemModel } from '../models/Item';
 import { PurchaseRequestModel } from '../models/PurchasesRequestModel';
 import { Unit } from '../models/unit';
+import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
+import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsModel';
 
 @Injectable({
   providedIn: 'root'
@@ -17,60 +19,62 @@ export class InventoryService {
 
   // -------------------------------------- Items -------------------------------------- //
 
-  GetItemsList(ItemCategoryId: number, SearchText: string) {
-    return this.http.get<any[]>(this.URL + 'Item/GetItemsList?ItemCategoryId=' + ItemCategoryId + '&SearchText=' + SearchText);
+  GetItems(searchModel: PagedResponseDTO,categoryId: number=0) {
+    return this.http.post<PagedResponseDTO<ItemModel[]>>(this.URL + `Items/GetItems?CategoryId=${categoryId} `,searchModel);
   }
 
-  GetItemsDeleted(ItemCategoryId: number, SearchText: string) {
-    return this.http.get<any[]>(this.URL + 'Item/GetItemsDeleted?ItemCategoryId=' + ItemCategoryId + '&SearchText=' + SearchText);
-  }
-
-  GetItemCategories() {
-    return this.http.get<any[]>(this.URL + 'Item/GetItemCategories');
-  }
-
-  GetItemsByCategoryId(CategoryId: number) {
-    return this.http.get<any[]>(this.URL + 'Item/GetItemsByCategoryId?CategoryId=' + CategoryId);
-  }
-
-  GetItemDetailsByItemId(ItemId: number) {
-    return this.http.get<any>(this.URL + 'Item/GetItemDetailsByItemId?ItemId=' + ItemId);
+  GetItemById(itemId: number) {
+    return this.http.get<ItemModel>(this.URL + `Items/GetItemById?ItemId=${itemId}`);
   }
 
   AddNewItem(model: ItemModel) {
-    return this.http.post<any>(this.URL + 'Item/AddNewItem', model);
+    return this.http.post<ActionsResponseModel>(this.URL + 'Items/AddNewItem', model);
   }
 
   EditItem(itemId: number, model: ItemModel) {
-    return this.http.post<any>(this.URL + 'Item/EditItem', model);
+    return this.http.post<ActionsResponseModel>(this.URL + `Items/EditItem?ItemId=${itemId}`,model)
   }
 
-  DeleteItem(ItemId: number[]) {
-    return this.http.post<any>(this.URL + 'Item/DeleteItem', ItemId);
+  DeleteItem(itemId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `Items/DeleteItem?ItemId=${itemId}`);
   }
 
-  ExportItems(ItemCategoryId: number, SearchText: string, UserName: string) {
-    return this.http.get<any>(this.URL + 'Item/ExportItems?ItemCategoryId=' + ItemCategoryId + '&SearchText=' + SearchText + '&UserName=' + UserName);
+
+  ExportItems(searchModel: PagedResponseDTO,categoryId: number) {
+    return this.http.post<PagedResponseDTO<ItemModel[]>>(this.URL + `Items/ExportItems?CategoryId=${categoryId} `,searchModel);
   }
+
+  GetItemsDeleted(ItemCategoryId: number, SearchText: string) {
+    return this.http.get<any[]>(this.URL + 'Items/GetItemsDeleted?ItemCategoryId=' + ItemCategoryId + '&SearchText=' + SearchText);
+  }
+
+  GetItemCategories() {
+    return this.http.get<any[]>(this.URL + 'Items/GetItemCategories');
+  }
+
+  GetItemsByCategoryId(CategoryId: number) {
+    return this.http.get<any[]>(this.URL + 'Items/GetItemsByCategoryId?CategoryId=' + CategoryId);
+  }
+
 
   ExportItemsDeleted(ItemCategoryId: number, SearchText: string, UserName: string) {
-    return this.http.get<any>(this.URL + 'Item/ExportItemsDeleted?ItemCategoryId=' + ItemCategoryId + '&SearchText=' + SearchText + '&UserName=' + UserName);
+    return this.http.get<any>(this.URL + 'Items/ExportItemsDeleted?ItemCategoryId=' + ItemCategoryId + '&SearchText=' + SearchText + '&UserName=' + UserName);
   }
 
   GetUnits() {
-    return this.http.get<any>(this.URL + 'Item/GetUnits');
+    return this.http.get<any>(this.URL + 'Items/GetUnits');
   }
 
   AddNewUnit(model: Unit) {
-    return this.http.post<any>(this.URL + 'Item/AddUnit', model);
+    return this.http.post<any>(this.URL + 'Items/AddUnit', model);
   }
 
   EditUnit(model: Unit) {
-    return this.http.post<any>(this.URL + 'Item/EditUnit', model);
+    return this.http.post<any>(this.URL + 'Items/EditUnit', model);
   }
 
   DeleteUnit(UnitId: number[]) {
-    return this.http.post<any>(this.URL + 'Item/DeleteUnit', UnitId);
+    return this.http.post<any>(this.URL + 'Items/DeleteUnit', UnitId);
   }
 
 

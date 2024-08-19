@@ -44,7 +44,7 @@ namespace MasterErp.API
             services.AddScoped<IInventoryService, InventoryService>();
             services.AddScoped<ISharedService, SharedService>();
             services.AddScoped<IPaymentService, PaymentService>();
-            services.AddScoped<IItemService, ItemService>();
+            services.AddScoped<IItemsService, ItemsService>();
             services.AddScoped<ISharedFilterService, SharedFilterService>();
             services.AddScoped<IGeneralAccountsReportService, GeneralAccountsReportService>();
             services.AddScoped<IPurchasesRequestsService, PurchasesRequestsService>();

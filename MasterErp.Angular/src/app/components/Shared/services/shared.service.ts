@@ -164,4 +164,10 @@ export class SharedService {
   GetSupplierGroupsSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetSupplierGroupsSelector');
   }
+  GetItemCategoriesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetItemCategoriesSelector');
+  }
+  GetUnitsSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetUnitsSelector');
+  }
 }

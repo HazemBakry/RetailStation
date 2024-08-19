@@ -11,6 +11,7 @@ namespace MasterErp.Entities.Common
         public SearchFilterModel()
         {
             FilterModel=new FilterModel();
+            FilterList = new List<FilterItem>();
         }
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
@@ -24,6 +25,7 @@ namespace MasterErp.Entities.Common
         public bool? HideEmptyAccounts { get; set; }
         public bool IsExport { get; set; }
         public FilterModel FilterModel { get; set; }
+        List<FilterItem> FilterList { get; set; }
     }
 
     public class FilterModel

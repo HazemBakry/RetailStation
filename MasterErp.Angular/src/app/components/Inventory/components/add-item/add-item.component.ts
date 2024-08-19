@@ -50,7 +50,7 @@ export class AddItemComponent implements OnInit {
 
   getItemDetailsById() {
     this.showLoader = true;
-    this.inventoryService.GetItemDetailsByItemId(this.itemId).subscribe((data: ItemModel) => {
+    this.inventoryService.GetItemById(this.itemId).subscribe((data: ItemModel) => {
       if (data) {
         this.itemModel = data;
         this.initNewForm(this.itemModel);
@@ -72,15 +72,20 @@ export class AddItemComponent implements OnInit {
   }
 
   buildForm() {
-    this.formGroup = this.form.group({
-      supplierId: [null],
-      nameAR: [null, [Validators.required]],
-      nameEN: [null, [Validators.required]],
-      phone: [null],
-      convertionRation: [null],
+    this.formGroup = this.form.group({      
+      itemId: [null ,[Validators.required]],
+      nameAR: [null],
+      nameEN: [null],
+      unitId: [null],
+      purchaseUnitId: [null],
+      itemCategoryId: [null],
       cost: [null],
-      itemCategoryId: [null, [Validators.required]],
-      isActive: [true]
+      convertRatio: [null],
+      isActive: [true],
+      itemSupplierIds:[null],
+      yield : [null],
+      purchasePrice: [null],
+      itemType : [null]
 
     });
     this.formGroup.valueChanges.subscribe((data) => {
@@ -163,12 +168,16 @@ export class AddItemComponent implements OnInit {
       itemId: itemModel.itemId,
       nameAR: itemModel.nameAR,
       nameEN: itemModel.nameEN,
-      subUnitId: itemModel.subUnitId,
-      mainUnitId: itemModel.mainUnitId,
+      unitId: itemModel.unitId,
+      purchaseUnitId: itemModel.purchaseUnitId,
       itemCategoryId: itemModel.itemCategoryId,
       convertRatio: itemModel.convertRatio,
       cost: itemModel.cost,
-      isActive: itemModel.isActive
+      isActive: itemModel.isActive,
+      itemSupplierIds: itemModel.supplierIds,
+      yield : itemModel.yield,
+      purchasePrice: itemModel.purchasePrice,
+      itemType : itemModel.itemType
 
     });
   }
@@ -178,12 +187,16 @@ export class AddItemComponent implements OnInit {
     itemId: '',
     nameAR: '',
     nameEN: '',
-    subUnitId: '',
-    mainUnitId: '',
+    unitId: '',
+    purchaseUnitId: '',
     itemCategoryId: '',
     cost: '',
     convertRatio: '',
-    isActive: ''
+    isActive: '',
+    itemSupplierIds:'',
+    yield : '',
+    purchasePrice: '',
+    itemType : ''
   };
 
 

@@ -181,6 +181,24 @@ namespace MasterErp.Service.Shared
                 Name = b.NameAR,
             }).ToList();
             return results;
+        }        
+        public List<SelectorDataModel> GetItemCategoriesSelector()
+        {
+            var results = Context.ItemCategories.Select(b => new SelectorDataModel
+            {
+                Id = b.ItemCategoryId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }        
+        public List<SelectorDataModel> GetUnitsSelector()
+        {
+            var results = Context.Units.Select(b => new SelectorDataModel
+            {
+                Id = b.UnitId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
         }
         #endregion
 

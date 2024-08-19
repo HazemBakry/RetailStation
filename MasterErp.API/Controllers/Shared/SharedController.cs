@@ -173,6 +173,20 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetSupplierGroupsSelector();
             return Ok(result);
         }
+        [HttpGet]
+        [Route("GetItemCategoriesSelector")]
+        public IActionResult GetItemCategoriesSelector()
+        {
+            var result = _sharedService.GetItemCategoriesSelector();
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("GetUnitsSelector")]
+        public IActionResult GetUnitsSelector()
+        {
+            var result = _sharedService.GetUnitsSelector();
+            return Ok(result);
+        }
 
 
         #endregion

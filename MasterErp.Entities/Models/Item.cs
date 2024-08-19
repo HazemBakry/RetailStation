@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 #nullable disable
@@ -14,11 +15,13 @@ namespace MasterErp.Entities.Models
         public double? PurchasePrice { get; set; }
         public double? Yield { get; set; }
         public double Cost { get; set; }
-        public int? SubUnitId { get; set; }
-        public int MainUnitId { get; set; }
-        public int ItemCategoryId { get; set; }
+        public int? PurchaseUnitId { get; set; }
+        public int UnitId { get; set; }
+        public int? ItemCategoryId { get; set; }
         public double? ConvertRatio { get; set; }
         public bool IsActive { get; set; }
         public int? ItemType { get; set; }
+
+        public ICollection<ItemSupplier> ItemSuppliers { get; set; }
     }
 }

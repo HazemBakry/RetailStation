@@ -11,6 +11,7 @@ namespace MasterErp.Entities.Models
         public int Id { get; set; }
         public int SupplierId { get; set; }
         public int ItemId { get; set; }
+        public Item Item { get; set; }
         [NotMapped]
         public string SupplierName { get; set; }
         [NotMapped]
