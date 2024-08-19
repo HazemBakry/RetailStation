@@ -111,7 +111,7 @@ namespace MasterErp.Service.Inventory
             Params[0] = new SqlParameter("@RawCategoryID", (object)RawCategoryId ?? DBNull.Value);
             Params[1] = new SqlParameter("@SearchText", (object)SearchParam ?? DBNull.Value);
 
-            var results = SQLHelper.ExecuteDataTable("[dbo].[SP_GetRawItemsDeleted]", ConnectionString, Params);
+            var results = SQLHelper.ExecuteDataTable("[dbo].[SP_GetItemsDeleted]", ConnectionString, Params);
             return results;
         }
 
@@ -168,7 +168,7 @@ namespace MasterErp.Service.Inventory
         {
             try
             {
-                Item rawItem = new Item
+                Item Item = new Item
                 {
                     NameAR = model.NameAR,
                     NameEN = model.NameEN,
@@ -185,14 +185,14 @@ namespace MasterErp.Service.Inventory
                     ItemType = model.ItemType
                 };
 
-                Context.Items.Add(rawItem);
+                Context.Items.Add(Item);
                 Context.SaveChanges();
 
                 foreach (var itemSub in model.ItemSuppliers)
                 {
                     Context.ItemSuppliers.Add(new ItemSupplier
                     {
-                        ItemId = rawItem.ItemId,
+                        ItemId = Item.ItemId,
                         SupplierId = itemSub.SupplierId
                     });
 
@@ -209,21 +209,21 @@ namespace MasterErp.Service.Inventory
 
         public bool EditItem(ItemSaveDTO model)
         {
-            var rawItem = Context.Items.Where(i => i.ItemId == model.ItemId).FirstOrDefault();
-            if (rawItem != null)
+            var item = Context.Items.Where(i => i.ItemId == model.ItemId).FirstOrDefault();
+            if (item != null)
             {
-                rawItem.NameAR = model.NameAR;
-                rawItem.NameEN = model.NameEN;
-                rawItem.Cost = (double)model.Cost;
-                rawItem.PurchasePrice = model.PurchasePrice;
-                rawItem.Yield = model.Yield;
-                rawItem.ConvertRatio = model.ConvertRatio;
-                rawItem.SubUnitId = model.SubUnitId;
-                rawItem.MainUnitId = (int)model.MainUnitId;
-                rawItem.ItemCategoryId = (int)model.ItemCategoryId;
-                rawItem.CreatedBy = model.CreatedBy;
-                rawItem.CreatedDate = DateTime.Now;
-                rawItem.IsActive = (bool)model.IsActive;
+                item.NameAR = model.NameAR;
+                item.NameEN = model.NameEN;
+                item.Cost = (double)model.Cost;
+                item.PurchasePrice = model.PurchasePrice;
+                item.Yield = model.Yield;
+                item.ConvertRatio = model.ConvertRatio;
+                item.SubUnitId = model.SubUnitId;
+                item.MainUnitId = (int)model.MainUnitId;
+                item.ItemCategoryId = (int)model.ItemCategoryId;
+                item.CreatedBy = model.CreatedBy;
+                item.CreatedDate = DateTime.Now;
+                item.IsActive = (bool)model.IsActive;
                 Context.SaveChanges();
 
                 var ItemsSupplier = Context.ItemSuppliers.Where(x => x.ItemId == model.ItemId).ToList();
@@ -234,7 +234,7 @@ namespace MasterErp.Service.Inventory
                 {
                     Context.ItemSuppliers.Add(new ItemSupplier
                     {
-                        ItemId = rawItem.ItemId,
+                        ItemId = item.ItemId,
                         SupplierId = itemSub.SupplierId
                     });
 

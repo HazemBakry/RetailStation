@@ -149,22 +149,22 @@ namespace MasterErp.API.Controllers.Inventory
 
         [HttpGet]
         [Route("ChangeItemStatus")]
-        public ActionsResponseModel ChangeItemStatus(int RawItemId)
+        public ActionsResponseModel ChangeItemStatus(int ItemId)
         {
-            return ItemService.ChangeItemStatus(RawItemId);
+            return ItemService.ChangeItemStatus(ItemId);
         }
 
         [HttpGet]
-        [Route("ExportAllRawItems")]
-        public IActionResult ExportAllRawItems(int categoryId, string SearchText, string UserName)
+        [Route("ExportAllItems")]
+        public IActionResult ExportAllItems(int categoryId, string SearchText, string UserName)
         {
             var Url = ItemService.ExportAllItems(categoryId, SearchText, UserName);
             return Ok(new { Url = Url });
         }
 
         [HttpGet]
-        [Route("ExportRawItemsDeleted")]
-        public IActionResult ExportRawItemsDeleted(int categoryId, string SearchText, string UserName)
+        [Route("ExportItemsDeleted")]
+        public IActionResult ExportItemsDeleted(int categoryId, string SearchText, string UserName)
         {
             var Url = ItemService.ExportItemsDeleted(categoryId, SearchText, UserName);
             return Ok(new { Url = Url });
