@@ -223,14 +223,79 @@ namespace MasterErp.Service.Inventory
             return string.Empty;
         }
 
-        #endregion
 
-        public List<ItemLookups> GetItemsLookups()
+        public List<SupplierDto> GetItemSuppliersByItemId(int ItemId)
         {
-            return Context.ItemLookups.ToList();
+            var ItemSuppliers = (from item in Context.Items
+                                 join itemSupplier in Context.ItemSuppliers on item.ItemId equals itemSupplier.ItemId
+                                 join supplier in Context.Suppliers on itemSupplier.SupplierId equals supplier.SupplierId
+                                 where item.ItemId == ItemId
+                                 select new SupplierDto
+                                 {
+                                     SupplierId = supplier.SupplierId,
+                                     Code = supplier.Code,
+                                     NameAR = supplier.NameAR,
+                                     NameEN = supplier.NameEN,
+                                     Phone = supplier.Phone,
+                                     Mobile = supplier.Mobile,
+                                     CountryId = supplier.CountryId,
+                                     CityId = supplier.CityId,
+                                     RegionId = supplier.RegionId,
+                                     Address = supplier.Address,
+                                     CommercialRegister = supplier.CommercialRegister,
+                                     TaxNumber = supplier.TaxNumber,
+                                     BeginningBalance = supplier.BeginningBalance,
+                                     BalanceType = supplier.BalanceType,
+                                     SupplierGroupId = supplier.SupplierGroupId,
+                                     ContactPerson = supplier.ContactPerson,
+                                     ContactMobile = supplier.ContactMobile,
+                                     Notes = supplier.Notes,
+                                     IsActive = supplier.IsActive,
+                                     CreatedBy = supplier.CreatedBy,
+                                     CreatedDate = supplier.CreatedDate,
+                                     ModifiedBy = supplier.ModifiedBy,
+                                     ModifiedDate = supplier.ModifiedDate,
+                                 }).ToList();
+            return ItemSuppliers;
         }
 
-        public DataTable GetItemsBySupplierId(int SupplierId)
+        public List<ItemDto> GetItemsBySupplierId(int SupplierId)
+        {
+            var results = (from item in Context.Items.AsNoTracking()
+                        join unit in Context.Units on item.UnitId equals unit.UnitId
+                        join supplier in Context.ItemSuppliers on item.ItemId equals supplier.SupplierId
+                        join purchaseUnit in Context.Units on item.PurchaseUnitId equals purchaseUnit.UnitId into jT2
+                        from purchaseUnit in jT2.DefaultIfEmpty()
+                        join itemCategory in Context.ItemCategories on item.ItemCategoryId equals itemCategory.ItemCategoryId into jT3
+                        from itemCategory in jT3.DefaultIfEmpty()
+                        where supplier.SupplierId == SupplierId
+                        select new ItemDto
+                        {
+                            ItemId = item.ItemId,
+                            NameEN = item.NameEN,
+                            NameAR = item.NameAR,
+                            Cost = item.Cost,
+                            UnitId = item.UnitId,
+                            UnitName = unit.NameAR,
+                            PurchaseUnitId = item.PurchaseUnitId,
+                            PurchaseUnitName = purchaseUnit.NameAR,
+                            ItemCategoryId = item.ItemCategoryId,
+                            ItemCategoryName = itemCategory.NameAR,
+                            PurchasePrice = item.PurchasePrice,
+                            Yield = item.Yield,
+                            ConvertRatio = item.ConvertRatio,
+                            ItemType = item.ItemType,
+                            IsActive = item.IsActive,
+                            CreatedBy = item.CreatedBy,
+                            CreatedDate = item.CreatedDate,
+                            ModifiedBy = item.ModifiedBy,
+                            ModifiedDate = item.ModifiedDate,
+                            SupplierIds = item.ItemSuppliers.Select(x => x.SupplierId).ToList()
+                        }).ToList();
+
+            return results;
+        }
+        public DataTable GetItemsBySupplierIdV2(int SupplierId)
         {
             SqlParameter[] param = new SqlParameter[1];
             param[0] = new SqlParameter("@SupplierId", SupplierId);
@@ -238,6 +303,15 @@ namespace MasterErp.Service.Inventory
             var result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetItemsBySupplierId]", ConnectionString, param);
             return result;
         }
+
+        #endregion
+
+        public List<ItemLookups> GetItemsLookups()
+        {
+            return Context.ItemLookups.ToList();
+        }
+
+
 
         public DataTable GetItemsByLookupId(int LookupId)
         {

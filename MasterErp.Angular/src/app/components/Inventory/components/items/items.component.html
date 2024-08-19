@@ -59,6 +59,7 @@
                                 <th>الوحدة</th>
                                 <th>وحدة المشتريات</th>
                                 <th>سعر الوحدة</th>
+                                <th>الموردين</th>
                                 <th>العمليات</th>
                             </tr>
                         </thead>
@@ -70,6 +71,12 @@
                                 <td>{{item.unitName}}</td>
                                 <td>{{item.purchaseUnitName}}</td>
                                 <td>{{item.cost}}</td>
+                                <td>
+                                    <a class="cursor-pointer" (click)="openSuppliersDialog(ItemSuppliersDialog,item.itemId)">
+                                        الموردين
+                                    </a>
+
+                                </td>
                                 <td class="text-center">
                                     <div class="d-flex align-items-center justify-content-center text-center">
                                         <button class="btn text-success"(click)="openNewItemSidePanel(AddNewItemDialog,item)">
@@ -253,7 +260,60 @@
         </button>
     </div>
 </ng-template>
+<ng-template #ItemSuppliersDialog let-modal>
+    <div class="modal-header">
+        <div class="d-flex">
+            <h4 class="modal-title" id="modal-basic-title">
+                الموردين
+            </h4>
+            <!-- <button type="button" class="btn btn-danger py-0 px-3 rounded fs-4 fw-bold" (click)="modal.dismiss()">
+                <i class="uil uil-times"></i>
+            </button> -->
+        </div>
+       
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive table-vp-height">
+            <table class="table table-bordered table-middle table-hover bg-white m-0">
+                <thead>
+                    <tr>
+                        <td>الاسم بالعربي</td>
+                        <td>الاسم بالانجليزي</td>
+                        <td>التليفون</td>
+                        <td>الدوله</td>
+                        <td>المدينه</td>
+                        <td>المنطقة</td>
+                        <td>السجل التجاري</td>
+                        <td>السجل الضريبي</td>
+                        <td> العنوان</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of itemSuppliers">
+                        <td>{{item.nameEN}}</td>
+                        <td>{{item.nameAR}}</td>
+                        <td>{{item.phone}}</td>
+                        <td>{{item.countryName}}</td>
+                        <td>{{item.cityName}}</td>
+                        <td>{{item.regionName}}</td>
+                        <td>{{item.commercialRegister}}</td>
+                        <td>{{item.taxNumber}}</td>
+                        <td>{{item.address}}</td>
+                       
+                    </tr>
+                </tbody>
+            </table>
+            <app-empty-data [showContainer]="!itemSuppliers?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
 
+        </div>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">إلغاء</span>
+        </button>
+    </div>
+</ng-template>
 
 <ng-template #deleteModal let-modal>
     <div class="modal-header">

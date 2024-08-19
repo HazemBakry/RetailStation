@@ -2,6 +2,7 @@
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Common.Inventory.ReceiveOrder;
 using MasterErp.Entities.DTOs.Inventory;
+using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -23,11 +24,15 @@ namespace MasterErp.Interface.Inventory
         ActionsResponseModel DeleteItem(int ItemId);
         string ExportItems(int categoryId, string UserName, SearchFilterModel Model);
 
+        List<SupplierDto> GetItemSuppliersByItemId(int ItemId);
+        List<ItemDto> GetItemsBySupplierId(int SupplierId);
+        DataTable GetItemsBySupplierIdV2(int SupplierId);
+
+
         #endregion
         List<ItemLookups> GetItemsLookups();
 
         DataTable GetItemsByLookupId(int LookupId);
-        DataTable GetItemsBySupplierId(int SupplierId);
         DataTable GetItemsDeleted(int ItemCategoryId, string SearchText);
         List<ItemCategory> GetItemCategories();
         List<Item> GetItemsByCategoryId(int CategoryId);

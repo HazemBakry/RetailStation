@@ -88,7 +88,7 @@ export class PurchaseService {
   }
 
   GetItemsBySupplierId(SupplierId: number) {
-    return this.http.get<OrderDetailModel[]>(this.URL + 'Items/GetItemsBySupplierId?SupplierId=' + SupplierId);
+    return this.http.get<OrderDetailModel[]>(this.URL + 'Items/GetItemsBySupplierIdV2?SupplierId=' + SupplierId);
   }
 
   //--------------------------------------- Suppliers ---------------------------------------

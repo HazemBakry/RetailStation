@@ -8,6 +8,7 @@ import { PurchaseRequestModel } from '../models/PurchasesRequestModel';
 import { Unit } from '../models/unit';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsModel';
+import { SupplierModel } from '../../Purchases/models/SupplierModel';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,12 @@ export class InventoryService {
 
   ExportItems(searchModel: PagedResponseDTO,categoryId: number) {
     return this.http.post<PagedResponseDTO<ItemModel[]>>(this.URL + `Items/ExportItems?CategoryId=${categoryId} `,searchModel);
+  }
+  GetItemSuppliersByItemId(itemId: number) {
+    return this.http.get<SupplierModel[]>(this.URL + `Items/GetItemSuppliersByItemId?ItemId=${itemId} `);
+  }
+  GetItemsBySupplierId(supplierId: number) {
+    return this.http.get<PagedResponseDTO<ItemModel[]>>(this.URL + `Items/GetItemsBySupplierId?SupplierId=${supplierId} `);
   }
 
   GetItemsDeleted(ItemCategoryId: number, SearchText: string) {

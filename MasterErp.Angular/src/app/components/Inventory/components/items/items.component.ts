@@ -13,6 +13,7 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { ItemModel } from '../../models/Item';
 import { InventoryService } from '../../services/inventory.service';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { SupplierModel } from 'src/app/components/Purchases/models/SupplierModel';
 
 @Component({
   selector: 'app-items',
@@ -263,7 +264,24 @@ export class ItemsComponent implements OnInit {
       this.showAddLoader=false;
     });
   }
-  
+  itemSuppliers:SupplierModel[] = [];
+  openSuppliersDialog(content: any,itemId:number) {
+    this.itemSuppliers=[];
+    this.inventoryService.GetItemSuppliersByItemId(itemId).subscribe(data => {
+
+      if(data&&data.length>0) {
+        this.itemSuppliers=data;
+      }
+      this.showAddLoader=false;
+    }, err=>{
+      this.showAddLoader=false;
+    },()=>{
+      this.showAddLoader=false;
+    });
+    this.modalService.open(content, { centered: true, size: 'lg' });
+
+    // this.offcanvasService.open(content, { panelClass: 'add-new-panel', position: 'end' });
+  }
 }
 
 

@@ -86,7 +86,34 @@ namespace MasterErp.API.Controllers.Inventory
             return Ok(new { Url = Url });
         }
 
+        [HttpGet]
+        [Route("GetItemSuppliersByItemId")]
+        public IActionResult GetItemSuppliersByItemId(int ItemId)
+        {
+            var result = _itemService.GetItemSuppliersByItemId(ItemId);
+            return Ok(result);
+        }
+        
+        [HttpGet]
+        [Route("GetItemsBySupplierId")]
+        public IActionResult GetItemsBySupplierId(int SupplierId)
+        {
+            var result = _itemService.GetItemsBySupplierId(SupplierId);
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("GetItemsBySupplierIdV2")]
+        public IActionResult GetItemsBySupplierIdV2(int SupplierId)
+        {
+            var result = _itemService.GetItemsBySupplierIdV2(SupplierId);
+            return Ok(result);
+        }
+
+
         #endregion
+
+
+
         [HttpGet]
         [Route("GetItemsLookups")]
         public List<ItemLookups> GetItemsLookups()
@@ -110,13 +137,7 @@ namespace MasterErp.API.Controllers.Inventory
             return Ok(result);
         }
 
-        [HttpGet]
-        [Route("GetItemsBySupplierId")]
-        public IActionResult GetItemsBySupplierId(int SupplierId)
-        {
-            var result = _itemService.GetItemsBySupplierId(SupplierId);
-            return Ok(result);
-        }
+
 
 
 
