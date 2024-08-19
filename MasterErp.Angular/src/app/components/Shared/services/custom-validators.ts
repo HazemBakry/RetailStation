@@ -164,7 +164,8 @@ export enum RegexType {
 }
 export const regexList: RegexModel[] = [
   {
-    pattern: /^[0-9]+(\.[0-9])?$/, // Matches only numbers with points
+    //pattern: /^[0-9]+(\.[0-9])?$/, // Matches only numbers with points
+    pattern: /^[0-9]+(\.[0-9]+)?$/, // Matches only numbers with points
     message: "ادخل ارقام فقط",
     type: RegexType.number
   },
