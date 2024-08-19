@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ReceiveOrderModel } from '../models/inventory';
 import { FilterModel } from '../../Shared/models/FilterModel';
-import { RawItemModel } from '../models/rawItem';
+import { ItemModel } from '../models/Item';
 import { PurchaseRequestModel } from '../models/PurchasesRequestModel';
 import { Unit } from '../models/unit';
 
@@ -17,44 +17,44 @@ export class InventoryService {
 
   // -------------------------------------- Items -------------------------------------- //
 
-  GetItemsList(RawCategoryId: number, SearchText: string) {
-    return this.http.get<any[]>(this.URL + 'Item/GetItemsList?RawCategoryId=' + RawCategoryId + '&SearchText=' + SearchText);
+  GetItemsList(ItemCategoryId: number, SearchText: string) {
+    return this.http.get<any[]>(this.URL + 'Item/GetItemsList?ItemCategoryId=' + ItemCategoryId + '&SearchText=' + SearchText);
   }
 
-  GetRawItemsDeleted(RawCategoryId: number, SearchText: string) {
-    return this.http.get<any[]>(this.URL + 'RawItem/GetRawItemsDeleted?RawCategoryId=' + RawCategoryId + '&SearchText=' + SearchText);
+  GetItemsDeleted(ItemCategoryId: number, SearchText: string) {
+    return this.http.get<any[]>(this.URL + 'Item/GetItemsDeleted?ItemCategoryId=' + ItemCategoryId + '&SearchText=' + SearchText);
   }
 
-  GetRawItemCategories() {
-    return this.http.get<any[]>(this.URL + 'RawItem/GetRawItemCategories');
+  GetItemCategories() {
+    return this.http.get<any[]>(this.URL + 'Item/GetItemCategories');
   }
 
-  GetRawItemsByCategoryId(CategoryId: number) {
-    return this.http.get<any[]>(this.URL + 'RawItem/GetRawItemsByCategoryId?CategoryId=' + CategoryId);
+  GetItemsByCategoryId(CategoryId: number) {
+    return this.http.get<any[]>(this.URL + 'Item/GetItemsByCategoryId?CategoryId=' + CategoryId);
   }
 
-  GetRawItemDetailsByRawItemId(RawItemId: number) {
-    return this.http.get<any>(this.URL + 'RawItem/GetRawItemDetailsByRawItemId?RawItemId=' + RawItemId);
+  GetItemDetailsByItemId(ItemId: number) {
+    return this.http.get<any>(this.URL + 'Item/GetItemDetailsByItemId?ItemId=' + ItemId);
   }
 
-  AddNewRawItem(model: RawItemModel) {
-    return this.http.post<any>(this.URL + 'RawItem/AddNewRawItem', model);
+  AddNewItem(model: ItemModel) {
+    return this.http.post<any>(this.URL + 'Item/AddNewItem', model);
   }
 
-  EditRawItem(model: RawItemModel) {
-    return this.http.post<any>(this.URL + 'RawItem/EditRawItem', model);
+  EditItem(itemId: number, model: ItemModel) {
+    return this.http.post<any>(this.URL + 'Item/EditItem', model);
   }
 
-  DeleteRawItem(RawItemId: number[]) {
-    return this.http.post<any>(this.URL + 'RawItem/DeleteRawItem', RawItemId);
+  DeleteItem(ItemId: number[]) {
+    return this.http.post<any>(this.URL + 'Item/DeleteItem', ItemId);
   }
 
-  ExportRawItems(RawCategoryId: number, SearchText: string, UserName: string) {
-    return this.http.get<any>(this.URL + 'RawItem/ExportRawItems?RawCategoryId=' + RawCategoryId + '&SearchText=' + SearchText + '&UserName=' + UserName);
+  ExportItems(ItemCategoryId: number, SearchText: string, UserName: string) {
+    return this.http.get<any>(this.URL + 'Item/ExportItems?ItemCategoryId=' + ItemCategoryId + '&SearchText=' + SearchText + '&UserName=' + UserName);
   }
 
-  ExportRawItemsDeleted(RawCategoryId: number, SearchText: string, UserName: string) {
-    return this.http.get<any>(this.URL + 'RawItem/ExportRawItemsDeleted?RawCategoryId=' + RawCategoryId + '&SearchText=' + SearchText + '&UserName=' + UserName);
+  ExportItemsDeleted(ItemCategoryId: number, SearchText: string, UserName: string) {
+    return this.http.get<any>(this.URL + 'Item/ExportItemsDeleted?ItemCategoryId=' + ItemCategoryId + '&SearchText=' + SearchText + '&UserName=' + UserName);
   }
 
   GetUnits() {

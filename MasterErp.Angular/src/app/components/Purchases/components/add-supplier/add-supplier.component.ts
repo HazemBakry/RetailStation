@@ -83,10 +83,8 @@ export class AddSupplierComponent implements OnInit {
     this.buildForm();
     if (supplierModel)
       this.fillEditForm(supplierModel);
-
-    // this.formGroup.patchValue({supplierId:this.selectedSupplierId});
-
   }
+  
   buildForm() {
     this.formGroup = this.form.group({
       supplierId: [null],

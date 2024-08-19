@@ -1,10 +1,10 @@
-export interface RawItemModel {
-    rawItemId?: number;
-    nameEn?: string;
-    nameAr?: string;
+export interface ItemModel {
+    itemId?: number;
+    nameEN?: string;
+    nameAR?: string;
     subUnitId?: number;
     mainUnitId?: number;
-    rawCategoryId?: number;
+    itemCategoryId?: number;
     cost?: number;
     convertRatio?: number;
     isActive?: boolean;

@@ -3,7 +3,7 @@
     <div class="boxstyle1">
         <div class="boxstyle1-header bg-light">
             <div class="boxstyle1-header-left mb-3">
-                <button class="btn btn-primary" routerLink="/purchases/add-purchase-invoice">
+                <button class="btn btn-primary" routerLink="./../add-item">
                     <i class="fas fa-plus-circle"></i>
                     <span class="ms-2">إضافة صنف</span>
                 </button>
@@ -41,21 +41,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of RawItems">
+                            <tr *ngFor="let item of Items">
                                 <td>{{item.nameEn}}</td>
                                 <td>{{item.nameAr}}</td>
-                                <td>{{item.rawCategory}}</td>
+                                <td>{{item.itemCategory}}</td>
                                 <td>{{item.unitNameAr}}</td>
                                 <td>{{item.price}}</td>
                                 <td class="text-center">
                                     <div class="d-flex align-items-center justify-content-center">
                                         <label class="switch me-2">
                                             <input type="checkbox" [(ngModel)]="item.isActive"
-                                                (change)="ChangeItemStatus(item.rawItemId)"
+                                                (change)="ChangeItemStatus(item.itemId)"
                                                 class="ng-valid ng-dirty ng-touched">
                                             <span class="slider round"></span>
                                         </label>
-                                        <button class="btn btn-primary btn-rounded me-2" routerLink="/Admin/Inventory/AddRawItem" [queryParams]="{RawItemId: item.rawItemId}">
+                                        <button class="btn btn-primary btn-rounded me-2" routerLink="/Admin/Inventory/AddItem" [queryParams]="{ItemId: item.itemId}">
                                             <i class="fas fa-pen"></i>
                                         </button>
                                     </div>
@@ -72,10 +72,10 @@
                     <h4 class="modal-title">Confirm Action</h4>
                 </div>
                 <div class="modal-body">
-                    <p class="fs-5 m-0">Are you sure you want remove this Raw Item?</p>
+                    <p class="fs-5 m-0">Are you sure you want remove this Item?</p>
                 </div>
                 <div class="modal-footer justify-content-start">
-                    <button type="button" class="btn btn-success" (click)="modal.close('Save click');DeleteRawItem()">
+                    <button type="button" class="btn btn-success" (click)="modal.close('Save click');deleteItem()">
                         <i class="fas fa-check"></i>
                         <span class="ms-2">Yes</span>
                     </button>

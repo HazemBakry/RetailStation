@@ -108,7 +108,6 @@ namespace MasterErp.Service.Inventory
                         UnitId = x.UnitId,
                         Price = x.Cost,
                         Quantity = x.Quantity,
-                        //Price= x.Cost,
                         TotalValue = x.ItemTotalValue,
                         IsActive = x.IsActive,
                         UnitNameEn = x.UnitName,
@@ -150,12 +149,12 @@ namespace MasterErp.Service.Inventory
                 {
                     var detail = new ReceiveOrderDetails
                     {
-                        Price = item.Price,
+                        Price = (double)item.Price,
                         ItemId = item.ItemId,
-                        Quantity = item.Quantity,
-                        TotalValue = item.TotalValue,
+                        Quantity = (double)item.Quantity,
+                        TotalValue = (double)item.TotalValue,
                         ReceiveOrderId = order_tbl.ReceiveOrderId,
-                        UnitId = item.UnitId,
+                        UnitId = (int)item.UnitId,
                         RemainQuantity = 0,
                         ItemBalance = 0,
                         IsLocked = false,

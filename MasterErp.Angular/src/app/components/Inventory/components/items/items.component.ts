@@ -6,16 +6,16 @@ import { InventoryService } from '../../services/inventory.service';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 @Component({
-  selector: 'app-raw-items',
-  templateUrl: './raw-items.component.html',
-  styleUrls: ['./raw-items.component.css']
+  selector: 'app-items',
+  templateUrl: './items.component.html',
+  styleUrls: ['./items.component.css']
 })
-export class RawItemsComponent implements OnInit {
+export class ItemsComponent implements OnInit {
   Units: any[] = [];
-  RawCategoriesData: any[] = [];
+  ItemCategoriesData: any[] = [];
   TitleList = ['المخازن', 'بيانات الأصناف'];
   //form: FormGroup;
-  RawItems: any[] = [];
+  Items: any[] = [];
   showLoader: boolean;
   TotalCount: any;
   TotalPages: any;
@@ -36,17 +36,17 @@ export class RawItemsComponent implements OnInit {
     //this.UserModel = JSON.parse(localStorage.getItem('UserModel') as any);
     //this.FormInit();
     this.GetItemsList();
-    //this.GetRawItemCategories();
+    //this.GetItemCategories();
   }
 
-  deleteRawItem(content: any, itemId: any) {
+  deleteItem(content: any, itemId: any) {
     this.ItemId = itemId;
     this.modalService.open(content, { size: 'md', centered: true });
   }
 
   GetItemsList() {
     this.invenService.GetItemsList(this.CategoryId, this.SearchText).subscribe(data => {
-      this.RawItems = data;
+      this.Items = data;
       this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
       this.showLoader = false;
     }, (err) => {
@@ -56,9 +56,9 @@ export class RawItemsComponent implements OnInit {
     })
   }
 
-  GetRawItemCategories() {
-    this.invenService.GetRawItemCategories().subscribe(data => {
-      this.RawCategoriesData = data;
+  GetItemCategories() {
+    this.invenService.GetItemCategories().subscribe(data => {
+      this.ItemCategoriesData = data;
     });
   }
 
@@ -67,8 +67,8 @@ export class RawItemsComponent implements OnInit {
     this.GetItemsList();
   }
 
-  DeleteRawItem(ItemId: any) {
-    this.invenService.DeleteRawItem(ItemId).subscribe(data => {
+  DeleteItem(ItemId: any) {
+    this.invenService.DeleteItem(ItemId).subscribe(data => {
       if (data.item1 == 200) {
         this.toaster.success('Delete Successfully');
         this.GetItemsList();
@@ -84,9 +84,9 @@ export class RawItemsComponent implements OnInit {
     this.GetItemsList();
   }
 
-  ExportRawItems() {
+  ExportItems() {
     let user = ""; //this.UserModel?.fullName
-    this.invenService.ExportRawItems(this.CategoryId, this.SearchText, user).subscribe(data => {
+    this.invenService.ExportItems(this.CategoryId, this.SearchText, user).subscribe(data => {
       if (data.url != null) {
         window.location.href = data.url;
         this.toaster.success("File exported successfully");

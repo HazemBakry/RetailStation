@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Common.Inventory.ReceiveOrder;
+using MasterErp.Entities.DTOs.Shared;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Inventory;
@@ -40,16 +41,16 @@ namespace MasterErp.Service.Inventory
         public DataTable GetItemsData()
         {
             var results = (from item in Context.Items
-                           join unit in Context.Units on item.UnitID equals unit.UnitId
-                           select new ItemModel
+                           join unit in Context.Units on item.MainUnitId equals unit.UnitId
+                           select new ItemSaveDTO
                            {
-                               ItemId = item.ItemID,
-                               ItemNameEn = item.NameEN,
-                               ItemNameAr = item.NameAR,
-                               Price = item.Price,
-                               UnitId = item.UnitID,
-                               UnitNameEn = unit.NameEN,
-                               UnitNameAr = unit.NameAR
+                               ItemId = item.ItemId,
+                               NameEN = item.NameEN,
+                               NameAR = item.NameAR,
+                               Cost = item.Cost,
+                               MainUnitId = item.MainUnitId,
+                               MainUnitName = unit.NameEN,
+                               ItemCategoryId = item.ItemCategoryId
                            }).ToList().ToDataTable();
 
             return results;
@@ -73,23 +74,35 @@ namespace MasterErp.Service.Inventory
             return result;
         }
 
-
-
-
-        public DataTable GetItemsList(int RawCategoryId, string SearchText)
+        public DataTable GetItemsListByCategoryId(int ItemCategoryId, string SearchText)
         {
+            var results = (from item in Context.Items
+                           join unit in Context.Units on item.MainUnitId equals unit.UnitId
+                           where item.ItemCategoryId == ItemCategoryId
+                           select new ItemSaveDTO
+                           {
+                               ItemId = item.ItemId,
+                               NameEN = item.NameEN,
+                               NameAR = item.NameAR,
+                               Cost = item.Cost,
+                               MainUnitId = item.MainUnitId,
+                               MainUnitName = unit.NameEN,
+                               ItemCategoryId = item.ItemCategoryId
+                           }).ToList().ToDataTable();
 
-            SqlParameter[] Params = new SqlParameter[2];
-
-            string SearchParam = SearchText == "undefined" || SearchText == "null" ? null : SearchText;
-            Params[0] = new SqlParameter("@RawCategoryID", (object)RawCategoryId ?? DBNull.Value);
-            Params[1] = new SqlParameter("@SearchText", (object)SearchParam ?? DBNull.Value);
-
-            var results = SQLHelper.ExecuteDataTable("[dbo].[SP_GetItemsList]", ConnectionString, Params);
             return results;
+
+            //SqlParameter[] Params = new SqlParameter[2];
+
+            //string SearchParam = SearchText == "undefined" || SearchText == "null" ? null : SearchText;
+            //Params[0] = new SqlParameter("@RawCategoryID", (object)RawCategoryId ?? DBNull.Value);
+            //Params[1] = new SqlParameter("@SearchText", (object)SearchParam ?? DBNull.Value);
+
+            //var results = SQLHelper.ExecuteDataTable("[dbo].[SP_GetItemsList]", ConnectionString, Params);
+            //return results;
         }
 
-        public DataTable GetRawItemsDeleted(int RawCategoryId, string SearchText)
+        public DataTable GetItemsDeleted(int RawCategoryId, string SearchText)
         {
 
             SqlParameter[] Params = new SqlParameter[2];
@@ -102,34 +115,34 @@ namespace MasterErp.Service.Inventory
             return results;
         }
 
-        public List<RawItemCategory> GetAllRawItemCategories()
+        public List<ItemCategory> GetItemCategories()
         {
-            var results = Context.RawItemCategories.ToList();
+            var results = Context.ItemCategories.ToList();
             return results;
         }
 
-        public List<RawItem> GetRawItemsByCategoryId(int CategoryId)
+        public List<Item> GetItemsByCategoryId(int CategoryId)
         {
-            var results = Context.RawItems.Where(i => i.RawCategoryId == CategoryId).ToList();
+            var results = Context.Items.Where(i => i.ItemCategoryId == CategoryId).ToList();
             return results;
         }
 
-        public RawItemModel GetRawItemDetailsByRawItemId(int RawItemId)
+        public ItemSaveDTO GetItemDetailsByItemId(int ItemId)
         {
             SqlParameter[] Params = new SqlParameter[1];
 
-            Params[0] = new SqlParameter("@RawItemId", (object)RawItemId ?? DBNull.Value);
+            Params[0] = new SqlParameter("@ItemId", (object)ItemId ?? DBNull.Value);
 
-            var dt = SQLHelper.SQLQuery<RawItemModel>("[dbo].[SP_GetRawItemDetailsByRawItemId]", ConnectionString, Params);
-            var grpList = dt.GroupBy(x => new { x.RawItemId })
-                .Select(f => new RawItemModel
+            var dt = SQLHelper.SQLQuery<ItemSaveDTO>("[dbo].[SP_GetItemDetailsByItemId]", ConnectionString, Params);
+            var grpList = dt.GroupBy(x => new { x.ItemId })
+                .Select(f => new ItemSaveDTO
                 {
-                    RawItemId = f.FirstOrDefault().RawItemId,
-                    NameEn = f.FirstOrDefault().NameEn,
-                    NameAr = f.FirstOrDefault().NameAr,
+                    ItemId = f.FirstOrDefault().ItemId,
+                    NameEN = f.FirstOrDefault().NameEN,
+                    NameAR = f.FirstOrDefault().NameAR,
                     SubUnitId = f.FirstOrDefault().SubUnitId,
                     MainUnitId = f.FirstOrDefault().MainUnitId,
-                    RawCategoryId = f.FirstOrDefault().RawCategoryId,
+                    ItemCategoryId = f.FirstOrDefault().ItemCategoryId,
                     CategoryName = f.FirstOrDefault().CategoryName,
                     SubUnitName = f.FirstOrDefault().SubUnitName,
                     MainUnitName = f.FirstOrDefault().MainUnitName,
@@ -139,48 +152,47 @@ namespace MasterErp.Service.Inventory
                     ItemType = f.FirstOrDefault().ItemType,
                     ConvertRatio = f.FirstOrDefault().ConvertRatio,
                     IsActive = f.FirstOrDefault().IsActive,
-                    ItemsSupplier = f.Where(y => !string.IsNullOrEmpty(y.SupplierName)).GroupBy(x => new { x.SupplierId }).Select(x => new ItemSupplier
+                    ItemSuppliers = f.Where(y => !string.IsNullOrEmpty(y.SupplierName)).GroupBy(x => new { x.SupplierId }).Select(x => new ItemSupplier
                     {
-                        SupplierId = x.FirstOrDefault().SupplierId,
-                        ItemId = x.FirstOrDefault().SupplierItemId,
+                        SupplierId = (int)x.FirstOrDefault().SupplierId,
+                        ItemId = x.FirstOrDefault().ItemId,
                         SupplierName = x.FirstOrDefault().SupplierName,
-                        ItemName = x.FirstOrDefault().SupplierItemName,
+                        ItemName = x.FirstOrDefault().NameEN,
                     }).ToList(),
                 }).FirstOrDefault();
 
             return grpList;
         }
 
-        public bool AddNewRawItem(RawItemModel model)
+        public bool AddNewItem(ItemSaveDTO model)
         {
             try
             {
-                RawItem rawItem = new RawItem
+                Item rawItem = new Item
                 {
-                    NameAr = model.NameAr,
-                    NameEn = model.NameEn,
-                    Cost = model.Cost,
+                    NameAR = model.NameAR,
+                    NameEN = model.NameEN,
+                    Cost = (double)model.Cost,
                     PurchasePrice = model.PurchasePrice,
                     Yield = model.Yield,
                     ConvertRatio = model.ConvertRatio,
                     SubUnitId = model.SubUnitId,
-                    MainUnitId = model.MainUnitId,
-                    UnitId = model.MainUnitId,
-                    RawCategoryId = model.RawCategoryId,
-                    InsertUser = model.InsertUser,
-                    InsertDate = DateTime.Now,
-                    IsActive = model.IsActive,
+                    MainUnitId = (int)model.MainUnitId,
+                    ItemCategoryId = (int)model.ItemCategoryId,
+                    CreatedBy = model.CreatedBy,
+                    CreatedDate = DateTime.Now,
+                    IsActive = (bool)model.IsActive,
                     ItemType = model.ItemType
                 };
 
-                Context.RawItems.Add(rawItem);
+                Context.Items.Add(rawItem);
                 Context.SaveChanges();
 
-                foreach (var itemSub in model.ItemsSupplier)
+                foreach (var itemSub in model.ItemSuppliers)
                 {
                     Context.ItemSuppliers.Add(new ItemSupplier
                     {
-                        ItemId = rawItem.RawItemId,
+                        ItemId = rawItem.ItemId,
                         SupplierId = itemSub.SupplierId
                     });
 
@@ -195,34 +207,34 @@ namespace MasterErp.Service.Inventory
             }
         }
 
-        public bool EditRawItem(RawItemModel model)
+        public bool EditItem(ItemSaveDTO model)
         {
-            var rawItem = Context.RawItems.Where(i => i.RawItemId == model.RawItemId).FirstOrDefault();
+            var rawItem = Context.Items.Where(i => i.ItemId == model.ItemId).FirstOrDefault();
             if (rawItem != null)
             {
-                rawItem.NameAr = model.NameAr;
-                rawItem.NameEn = model.NameEn;
-                rawItem.Cost = model.Cost;
+                rawItem.NameAR = model.NameAR;
+                rawItem.NameEN = model.NameEN;
+                rawItem.Cost = (double)model.Cost;
                 rawItem.PurchasePrice = model.PurchasePrice;
                 rawItem.Yield = model.Yield;
                 rawItem.ConvertRatio = model.ConvertRatio;
                 rawItem.SubUnitId = model.SubUnitId;
-                rawItem.MainUnitId = model.MainUnitId;
-                rawItem.RawCategoryId = model.RawCategoryId;
-                rawItem.InsertUser = model.InsertUser;
-                rawItem.InsertDate = DateTime.Now;
-                rawItem.IsActive = model.IsActive;
+                rawItem.MainUnitId = (int)model.MainUnitId;
+                rawItem.ItemCategoryId = (int)model.ItemCategoryId;
+                rawItem.CreatedBy = model.CreatedBy;
+                rawItem.CreatedDate = DateTime.Now;
+                rawItem.IsActive = (bool)model.IsActive;
                 Context.SaveChanges();
 
-                var ItemsSupplier = Context.ItemSuppliers.Where(x => x.ItemId == model.RawItemId).ToList();
+                var ItemsSupplier = Context.ItemSuppliers.Where(x => x.ItemId == model.ItemId).ToList();
                 Context.ItemSuppliers.RemoveRange(ItemsSupplier);
                 Context.SaveChanges();
 
-                foreach (var itemSub in model.ItemsSupplier)
+                foreach (var itemSub in model.ItemSuppliers)
                 {
                     Context.ItemSuppliers.Add(new ItemSupplier
                     {
-                        ItemId = rawItem.RawItemId,
+                        ItemId = rawItem.ItemId,
                         SupplierId = itemSub.SupplierId
                     });
 
@@ -235,11 +247,11 @@ namespace MasterErp.Service.Inventory
                 return false;
         }
 
-        public (int key, string message) DeleteRawItem(int RawItemId)
+        public (int key, string message) DeleteItem(int ItemId)
         {
             try
             {
-                var item = Context.RawItems.FirstOrDefault(m => m.RawItemId == RawItemId);
+                var item = Context.Items.FirstOrDefault(m => m.ItemId == ItemId);
                 if (item != null)
                 {
                     Context.Remove(item);
@@ -253,38 +265,38 @@ namespace MasterErp.Service.Inventory
             }
         }
 
-        public DataTable GetAllRawItemsExportData(int categoryId, string SearchText)
+        public DataTable GetAllItemsExportData(int categoryId, string SearchText)
         {
             SqlParameter[] Params = new SqlParameter[2];
             string SearchParam = SearchText == "undefined" || SearchText == "null" ? null : SearchText;
-            Params[0] = new SqlParameter("@RawCategoryID", (object)categoryId ?? DBNull.Value);
+            Params[0] = new SqlParameter("@ItemCategoryID", (object)categoryId ?? DBNull.Value);
             Params[1] = new SqlParameter("@SearchText", (object)SearchParam ?? DBNull.Value);
 
-            return SQLHelper.ExecuteDataTable("[dbo].[SP_GetAllRawItemsExportData]", ConnectionString, Params);
+            return SQLHelper.ExecuteDataTable("[dbo].[SP_GetAllItemsExportData]", ConnectionString, Params);
         }
 
-        public DataTable GetRawItemsDeletedExportData(int categoryId, string SearchText)
+        public DataTable GetItemsDeletedExportData(int categoryId, string SearchText)
         {
             SqlParameter[] Params = new SqlParameter[2];
             string SearchParam = SearchText == "undefined" || SearchText == "null" ? null : SearchText;
-            Params[0] = new SqlParameter("@RawCategoryID", (object)categoryId ?? DBNull.Value);
+            Params[0] = new SqlParameter("@ItemCategoryID", (object)categoryId ?? DBNull.Value);
             Params[1] = new SqlParameter("@SearchText", (object)SearchParam ?? DBNull.Value);
 
-            return SQLHelper.ExecuteDataTable("[dbo].[SP_GetRawItemsDeletedExportData]", ConnectionString, Params);
+            return SQLHelper.ExecuteDataTable("[dbo].[SP_GetItemsDeletedExportData]", ConnectionString, Params);
         }
 
-        public string ExportAllRawItems(int categoryId, string SearchText, string UserName)
+        public string ExportAllItems(int categoryId, string SearchText, string UserName)
         {
-            var dt = GetAllRawItemsExportData(categoryId, SearchText);
-            var filePath = GetExportFilePath(dt, UserName, "RawItemsDisabled");
+            var dt = GetAllItemsExportData(categoryId, SearchText);
+            var filePath = GetExportFilePath(dt, UserName, "ItemsDisabled");
 
             return filePath;
         }
 
-        public string ExportRawItemsDeleted(int categoryId, string SearchText, string UserName)
+        public string ExportItemsDeleted(int categoryId, string SearchText, string UserName)
         {
-            var dt = GetRawItemsDeletedExportData(categoryId, SearchText);
-            var filePath = GetExportFilePath(dt, UserName, "RawItemsDisabled");
+            var dt = GetItemsDeletedExportData(categoryId, SearchText);
+            var filePath = GetExportFilePath(dt, UserName, "ItemsDisabled");
 
             return filePath;
         }
@@ -293,7 +305,7 @@ namespace MasterErp.Service.Inventory
         {
             //ExportTemplateBase exportTemplateBase = new ExportTemplateBase
             //{
-            //    Name = "RawItems",
+            //    Name = "Items",
             //    TemplateName = TemplateName,
             //    UserName = UserName
             //};
@@ -302,35 +314,14 @@ namespace MasterErp.Service.Inventory
             return "";
         }
 
-        public DataTable GetRawItemsBySupplierId(int SupplierId)
-        {
-            var results = (from supplier in Context.ItemSuppliers
-                           join item in Context.RawItems on supplier.ItemId equals item.RawItemId
-                           join unit in Context.Units on item.MainUnitId equals unit.UnitId
-                           where supplier.SupplierId == SupplierId
-                           select new
-                           {
-                               RawItemId = item.RawItemId,
-                               NameEn = item.NameEn,
-                               NameAr = item.NameAr,
-                               Cost = item.Cost,
-                               UnitNameAr = unit.NameAR,
-                               UnitNameEn = unit.NameEN,
-                               UnitId = unit.UnitId
-                           }).ToList();
-
-            DataTable dt = results.ToDataTable();
-            return dt;
-        }
-
         public ActionsResponseModel AddUnit(Unit model)
         {
             try
             {
                 Context.Add(new Unit
                 {
-                     NameAR = model.NameAR,
-                     NameEN = model.NameEN
+                    NameAR = model.NameAR,
+                    NameEN = model.NameEN
                 });
 
                 Context.SaveChanges();
@@ -399,11 +390,11 @@ namespace MasterErp.Service.Inventory
                 };
             }
         }
-        public ActionsResponseModel ChangeItemStatus(int RawItemId)
+        public ActionsResponseModel ChangeItemStatus(int ItemId)
         {
             try
             {
-                var item = Context.RawItems.Where(a => a.RawItemId == RawItemId).FirstOrDefault();
+                var item = Context.Items.Where(a => a.ItemId == ItemId).FirstOrDefault();
 
                 if (item.IsActive)
                 {
@@ -436,7 +427,5 @@ namespace MasterErp.Service.Inventory
             var results = Context.Units.ToList();
             return results;
         }
-
-
     }
 }

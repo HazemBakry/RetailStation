@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Common.Inventory.ReceiveOrder;
+using MasterErp.Entities.DTOs.Shared;
 using MasterErp.Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -17,23 +18,20 @@ namespace MasterErp.Interface.Inventory
         DataTable GetItemsData();
         DataTable GetItemsByLookupId(int LookupId);
         DataTable GetItemsBySupplierId(int SupplierId);
-
-
-        DataTable GetItemsList(int RawCategoryId, string SearchText);
-        DataTable GetRawItemsDeleted(int RawCategoryId, string SearchText);
-        List<RawItemCategory> GetAllRawItemCategories();
-        List<RawItem> GetRawItemsByCategoryId(int CategoryId);
-        RawItemModel GetRawItemDetailsByRawItemId(int RawItemId);
-        bool AddNewRawItem(RawItemModel model);
-        bool EditRawItem(RawItemModel model);
-        (int key, string message) DeleteRawItem(int RawItemId);
-        string ExportAllRawItems(int categoryId, string SearchText, string UserName);
-        string ExportRawItemsDeleted(int categoryId, string SearchText, string UserName);
-        DataTable GetRawItemsBySupplierId(int SupplierId);
+        DataTable GetItemsListByCategoryId(int ItemCategoryId, string SearchText);
+        DataTable GetItemsDeleted(int ItemCategoryId, string SearchText);
+        List<ItemCategory> GetItemCategories();
+        List<Item> GetItemsByCategoryId(int CategoryId);
+        ItemSaveDTO GetItemDetailsByItemId(int ItemId);
+        bool AddNewItem(ItemSaveDTO model);
+        bool EditItem(ItemSaveDTO model);
+        (int key, string message) DeleteItem(int ItemId);
+        string ExportAllItems(int categoryId, string SearchText, string UserName);
+        string ExportItemsDeleted(int categoryId, string SearchText, string UserName);
         ActionsResponseModel AddUnit(Unit model);
         ActionsResponseModel EditUnit(Unit model);
         ActionsResponseModel DeleteUnit(int UnitId);
         List<Unit> GetUnits();
-        ActionsResponseModel ChangeItemStatus(int RawItemId);
+        ActionsResponseModel ChangeItemStatus(int ItemId);
     }
 }

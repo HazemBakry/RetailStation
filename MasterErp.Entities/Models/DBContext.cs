@@ -42,7 +42,6 @@ namespace MasterErp.Entities.Models
         public DbSet<IqamaIssuePlace> IqamaIssuePlaces { get; set; }
         public DbSet<IqamaJob> IqamaJobs { get; set; }
         public DbSet<ItemLookups> ItemLookups { get; set; }
-        public DbSet<Item> Items { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<JournalEntry> JournalEntries { get; set; }
         public DbSet<JournalEntryDetail> JournalEntryDetails { get; set; }
@@ -84,8 +83,8 @@ namespace MasterErp.Entities.Models
 
 
         public DbSet<ItemSupplier> ItemSuppliers { get; set; }
-        public DbSet<RawItem> RawItems { get; set; }
-        public DbSet<RawItemCategory> RawItemCategories { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<ItemCategory> ItemCategories { get; set; }
         public DbSet<PurchaseReturns> PurchaseReturns { get; set; }
         public DbSet<PurchaseReturnsDetails> PurchaseReturnsDetails { get; set; }
         public DbSet<PurchaseInvoiceType> PurchaseInvoiceTypes { get; set; }

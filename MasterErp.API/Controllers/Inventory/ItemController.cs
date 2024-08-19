@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Inventory.ReceiveOrder;
+using MasterErp.Entities.DTOs.Shared;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Inventory;
 using MasterErp.Service.Common;
@@ -33,6 +34,13 @@ namespace MasterErp.API.Controllers.Inventory
         }
 
         [HttpGet]
+        [Route("GetItemCategories")]
+        public List<ItemCategory> GetItemCategories()
+        {
+            return ItemService.GetItemCategories();
+        }
+
+        [HttpGet]
         [Route("GetItemsData")]
         public IActionResult GetItemsData()
         {
@@ -57,73 +65,58 @@ namespace MasterErp.API.Controllers.Inventory
         }
 
         [HttpGet]
-        [Route("GetItemsList")]
-        public DataTable GetItemsList(int RawCategoryId, string SearchText)
+        [Route("GetItemsListByCategoryId")]
+        public DataTable GetItemsListByCategoryId(int ItemCategoryId, string SearchText)
         {
-            var results = ItemService.GetItemsList(RawCategoryId, SearchText);
+            var results = ItemService.GetItemsListByCategoryId(ItemCategoryId, SearchText);
             return results;
         }
 
         [HttpGet]
-        [Route("GetRawItemsDeleted")]
-        public DataTable GetRawItemsDeleted(int RawCategoryId, string SearchText)
+        [Route("GetItemsDeleted")]
+        public DataTable GetItemsDeleted(int ItemCategoryId, string SearchText)
         {
-            var results = ItemService.GetRawItemsDeleted(RawCategoryId, SearchText);
+            var results = ItemService.GetItemsDeleted(ItemCategoryId, SearchText);
             return results;
         }
 
         [HttpGet]
-        [Route("GetRawItemCategories")]
-        public List<RawItemCategory> GetAllRawItemCategories()
+        [Route("GetItemsByCategoryId")]
+        public List<Item> GetItemsByCategoryId(int CategoryId)
         {
-            var results = ItemService.GetAllRawItemCategories();
+            var results = ItemService.GetItemsByCategoryId(CategoryId);
             return results;
         }
 
         [HttpGet]
-        [Route("GetRawItemsByCategoryId")]
-        public List<RawItem> GetRawItemsByCategoryId(int CategoryId)
+        [Route("GetItemDetailsByItemId")]
+        public ItemSaveDTO GetItemDetailsByItemId(int ItemId)
         {
-            var results = ItemService.GetRawItemsByCategoryId(CategoryId);
-            return results;
-        }
-
-        [HttpGet]
-        [Route("GetRawItemDetailsByRawItemId")]
-        public RawItemModel GetRawItemDetailsByRawItemId(int RawItemId)
-        {
-            var results = ItemService.GetRawItemDetailsByRawItemId(RawItemId);
+            var results = ItemService.GetItemDetailsByItemId(ItemId);
             return results;
         }
 
         [HttpPost]
-        [Route("AddNewRawItem")]
-        public bool AddNewRawItem(RawItemModel model)
+        [Route("AddNewItem")]
+        public bool AddNewItem(ItemSaveDTO model)
         {
-            var results = ItemService.AddNewRawItem(model);
+            var results = ItemService.AddNewItem(model);
             return results;
         }
 
         [HttpPost]
-        [Route("EditRawItem")]
-        public bool EditRawItem(RawItemModel model)
+        [Route("EditItem")]
+        public bool EditItem(ItemSaveDTO model)
         {
-            var results = ItemService.EditRawItem(model);
+            var results = ItemService.EditItem(model);
             return results;
         }
 
         [HttpGet]
-        [Route("DeleteRawItem")]
-        public (int StatusCode, string Message) DeleteRawItem(int RawItemId)
+        [Route("DeleteItem")]
+        public (int StatusCode, string Message) DeleteItem(int ItemId)
         {
-            return ItemService.DeleteRawItem(RawItemId);
-        }
-
-        [HttpGet]
-        [Route("GetRawItemsBySupplierId")]
-        public DataTable GetRawItemsBySupplierId(int SupplierId)
-        {
-            return ItemService.GetRawItemsBySupplierId(SupplierId);
+            return ItemService.DeleteItem(ItemId);
         }
 
         [HttpGet]
@@ -165,7 +158,7 @@ namespace MasterErp.API.Controllers.Inventory
         [Route("ExportAllRawItems")]
         public IActionResult ExportAllRawItems(int categoryId, string SearchText, string UserName)
         {
-            var Url = ItemService.ExportAllRawItems(categoryId, SearchText, UserName);
+            var Url = ItemService.ExportAllItems(categoryId, SearchText, UserName);
             return Ok(new { Url = Url });
         }
 
@@ -173,7 +166,7 @@ namespace MasterErp.API.Controllers.Inventory
         [Route("ExportRawItemsDeleted")]
         public IActionResult ExportRawItemsDeleted(int categoryId, string SearchText, string UserName)
         {
-            var Url = ItemService.ExportRawItemsDeleted(categoryId, SearchText, UserName);
+            var Url = ItemService.ExportItemsDeleted(categoryId, SearchText, UserName);
             return Ok(new { Url = Url });
         }
 

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models
 {
-    public class RawItemCategory
+    public class ItemCategory
     {
-        public int Id { get; set; }
-        public string NameAr { get; set; }
-        public string NameEn { get; set; }
+        public int ItemCategoryId { get; set; }
+        public string NameAR { get; set; }
+        public string NameEN { get; set; }
         public string Description { get; set; }
         public bool IsActive { get; set; }
-        public int ItemIndex { get; set; }
+        public int DisplayOrder { get; set; }
     }
 }

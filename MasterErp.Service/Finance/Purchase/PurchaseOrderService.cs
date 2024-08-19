@@ -65,7 +65,7 @@ namespace MasterErp.Service.Finance.Purchase
                 order_tbl.IsLocked = false;
                 order_tbl.Notes = model.Notes;
                 order_tbl.OrderDate = DateTime.Now;
-                order_tbl.TotalValue = model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0;
+                order_tbl.TotalValue = (double)(model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0);
                 order_tbl.SupplierID = model.SupplierId;
                 order_tbl.OrderNumber = (Context.PurchaseOrders.Count() > 0 ? Context.PurchaseOrders.Max(x => x.PurchaseOrderID) + 1 : 1);
 
