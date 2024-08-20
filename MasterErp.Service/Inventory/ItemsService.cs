@@ -1,4 +1,6 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
+using MasterErp.Entities.Common.Export;
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Common.Inventory.ReceiveOrder;
 using MasterErp.Entities.DTOs.Inventory;
@@ -10,6 +12,7 @@ using MasterErp.Service.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,6 +20,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace MasterErp.Service.Inventory
 {
@@ -27,13 +31,15 @@ namespace MasterErp.Service.Inventory
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
         private readonly string ConnectionString;
+        private readonly IExportService _exportService;
 
-        public ItemsService(DBContext Context, ISQLHelper SQLHelper, IConfiguration Configuration)
+        public ItemsService(DBContext Context, ISQLHelper SQLHelper, IConfiguration Configuration, IExportService exportService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
             this.Configuration = Configuration;
             ConnectionString = Configuration.GetConnectionString("DBConnection");
+            _exportService = exportService;
         }
 
         #region Items
@@ -214,14 +220,61 @@ namespace MasterErp.Service.Inventory
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
         }
-        public string ExportItems(int categoryId, string UserName, SearchFilterModel Model)
-        {
-            //var dt = GetAllItemsExportData(categoryId, SearchText);
-            //var filePath = GetExportFilePath(dt, UserName, "ItemsDisabled");
 
-            //return filePath;
-            return string.Empty;
+        public ActionsResponseModel ExportItems(int categoryId, string UserName, SearchFilterModel SearchModel)
+        {
+            string url = string.Empty;
+            try
+            {
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var Data = GetItems(0, SearchModel);
+
+                var result = Data.Select(res =>
+                                new ItemDtoExportModel
+                                {
+                                    NameEN = res.NameEN,
+                                    NameAR = res.NameAR,
+                                    Cost = res.Cost,
+                                    UnitName = res.UnitName,
+                                    PurchaseUnitName = res.PurchaseUnitName,
+                                    ItemCategoryName = res.ItemCategoryName,
+                                    //CreatedDate = res.CreatedDate?.ToString("MM/dd/yyyy"),
+
+                                }).ToList();
+
+                if (!result.Any())
+                {
+                    result.Add(new ItemDtoExportModel());
+
+                }
+                var ResultJson = JsonConvert.SerializeObject(result);
+                var dtExport = (DataTable)JsonConvert.DeserializeObject(ResultJson, (typeof(DataTable)));
+                dtExport.TableName = "Items";
+
+
+                url = GetExportFilePath(dtExport, UserName, "Items");
+
+
+                return new ActionsResponseModel
+                {
+                    Status = 1,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
         }
+
 
 
         public List<SupplierDto> GetItemSuppliersByItemId(int ItemId)
@@ -381,15 +434,19 @@ namespace MasterErp.Service.Inventory
 
         private string GetExportFilePath(DataTable dt, string UserName, string TemplateName)
         {
-            //ExportTemplateBase exportTemplateBase = new ExportTemplateBase
-            //{
-            //    Name = "Items",
-            //    TemplateName = TemplateName,
-            //    UserName = UserName
-            //};
-            //var filePath = _exportManager.Export(exportTemplateBase, ExportFormat.Excel, dt);
-            //return filePath;
-            return "";
+            ExportTemplateBase exportTemplateBase = new ExportTemplateBase
+            {
+                Name = TemplateName,
+                TemplateName = TemplateName,
+                ReportName = TemplateName,
+                CustomerName = "",
+                Username = UserName,
+                ExcelStyle = ExcelExportStyle.reportStyle,
+                SheetName = "Data",
+            };
+            var filePath = _exportService.Export(exportTemplateBase, dt);
+            return filePath;
+
         }
 
         public ActionsResponseModel AddUnit(Unit model)

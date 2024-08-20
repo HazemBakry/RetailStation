@@ -22,7 +22,7 @@ namespace MasterErp.Interface.Inventory
         ActionsResponseModel AddNewItem(ItemDto model);
         ActionsResponseModel EditItem(int ItemId,ItemDto model);
         ActionsResponseModel DeleteItem(int ItemId);
-        string ExportItems(int categoryId, string UserName, SearchFilterModel Model);
+        ActionsResponseModel ExportItems(int categoryId, string UserName, SearchFilterModel Model);
 
         List<SupplierDto> GetItemSuppliersByItemId(int ItemId);
         List<ItemDto> GetItemsBySupplierId(int SupplierId);

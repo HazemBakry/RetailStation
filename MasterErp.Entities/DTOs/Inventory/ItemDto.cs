@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,5 +34,24 @@ namespace MasterErp.Entities.DTOs.Inventory
         public int? TotalCount { get; set; }
 
     }
+
+    public class ItemDtoExportModel
+    {
+        [JsonProperty("الاسم (AR)")]
+        public string NameAR { get; set; }
+        [JsonProperty("الاسم (EN)")]
+        public string NameEN { get; set; }
+        [JsonProperty("الوحدة")]
+        public string UnitName { get; set; }
+        [JsonProperty("وحدة الشراء")]
+        public string PurchaseUnitName { get; set; }
+        [JsonProperty("المجموعة")] 
+        public string ItemCategoryName { get; set; }
+        [JsonProperty("التكلفة")]
+        public double Cost { get; set; }
+
+    }
+
+
 }
 

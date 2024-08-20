@@ -42,7 +42,7 @@ export class InventoryService {
 
 
   ExportItems(searchModel: PagedResponseDTO,categoryId: number) {
-    return this.http.post<PagedResponseDTO<ItemModel[]>>(this.URL + `Items/ExportItems?CategoryId=${categoryId} `,searchModel);
+    return this.http.post<ActionsResponseModel>(this.URL + `Items/ExportItems?CategoryId=${categoryId} `,searchModel);
   }
   GetItemSuppliersByItemId(itemId: number) {
     return this.http.get<SupplierModel[]>(this.URL + `Items/GetItemSuppliersByItemId?ItemId=${itemId} `);
