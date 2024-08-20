@@ -37,17 +37,17 @@ namespace MasterErp.Entities.DTOs.Inventory
 
     public class ItemDtoExportModel
     {
-        [JsonProperty("الاسم (AR)")]
+        [JsonProperty("Name (AR)")]
         public string NameAR { get; set; }
-        [JsonProperty("الاسم (EN)")]
+        [JsonProperty("Name (EN)")]
         public string NameEN { get; set; }
-        [JsonProperty("الوحدة")]
+        [JsonProperty("Unit")]
         public string UnitName { get; set; }
-        [JsonProperty("وحدة الشراء")]
+        [JsonProperty("Purchase Unit")]
         public string PurchaseUnitName { get; set; }
-        [JsonProperty("المجموعة")] 
+        [JsonProperty("Category")] 
         public string ItemCategoryName { get; set; }
-        [JsonProperty("التكلفة")]
+        [JsonProperty("Cost")]
         public double Cost { get; set; }
 
     }

@@ -8,9 +8,13 @@
             <div class="col-md-8">
                 <div class="d-flex align-items-center flex-wrap">
                     <div class="search-box position-relative mb-2">
-                        <button class="btn btn-primary mb-2" (click)="openNewItemSidePanel(AddNewItemDialog)">
+                        <button class="btn btn-primary m-2" (click)="openNewItemSidePanel(AddNewItemDialog)">
                             <span class="me-2">إضافة صنف</span>
                             <i class="uil uil-plus-circle"></i>
+                        </button>
+                        <button [disabled]="showExportLoader" class="btn btn-success m-2" (click)="exportData()">
+                            <i class="fas fa-file-export"></i>
+                            <span class="ms-2">تصدير</span>
                         </button>
                     </div>
                     <!-- <ng-container *ngIf="filterList.length > 0">

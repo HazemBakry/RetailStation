@@ -42,6 +42,7 @@ export class ItemsComponent implements OnInit {
   };
   showLoader: boolean=false;
   showAddLoader: boolean=false;
+  showExportLoader: boolean=false;
 
   public formGroup: FormGroup;
   public formErrors = {
@@ -84,6 +85,27 @@ export class ItemsComponent implements OnInit {
       this.showLoader=false;
     },()=>{
       this.showLoader=false;
+    });
+
+    
+  }
+  exportData(categoryId : number=0)
+  {
+    this.showExportLoader=true;
+    this.inventoryService.ExportItems(this.itemResponseModel,categoryId).subscribe((data:ActionsResponseModel) => {
+      if (data.isSuccess) {
+        this.sharedService.urlDownloadOrOpen(data.url);
+        this.toaster.success(data.message);
+      } else {
+        this.toaster.error(data.message);
+      }
+      
+
+      this.showExportLoader=false;
+    }, err=>{
+      this.showExportLoader=false;
+    },()=>{
+      this.showExportLoader=false;
     });
 
     
