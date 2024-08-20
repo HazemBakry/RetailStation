@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { ItemModel } from 'src/app/components/Inventory/models/Item';
+import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-suppliers-list',
@@ -18,7 +21,7 @@ export class SuppliersListComponent implements OnInit {
     pageSize: 25
   };
 
- constructor(private purchaseService: PurchaseService, private toaster: ToastrService) { }
+ constructor(private purchaseService: PurchaseService,private inventoryService:InventoryService,private modalService :NgbModal, private toaster: ToastrService) { }
 
   ngOnInit(): void {
     this.GetSuppliersData();
@@ -42,6 +45,23 @@ export class SuppliersListComponent implements OnInit {
     this.FilterModel.currentPage = obj.page;
     this.GetSuppliersData();
   }
+  supplierItems:ItemModel[]=[];
+  openItemsDialog(content: any,itemId:number) {
+    this.supplierItems=[];
+    this.inventoryService.GetItemsBySupplierId(itemId).subscribe(data => {
 
+      if(data&&data.length>0) {
+        this.supplierItems=data;
+      }
+      this.showLoader=false;
+    }, err=>{
+      this.showLoader=false;
+    },()=>{
+      this.showLoader=false;
+    });
+    this.modalService.open(content, { centered: true, size: 'lg' });
+
+    // this.offcanvasService.open(content, { panelClass: 'add-new-panel', position: 'end' });
+  }
 
 }

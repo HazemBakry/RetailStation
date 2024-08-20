@@ -56,10 +56,16 @@
             <div>Credit</div>
           </div>
         </div>
-        <button routerLink="../add-supplier" [queryParams]="{SupplierId:item.supplierId}" class="btn btn-primary py-3 justify-content-center w-50 mx-auto d-block">
-          <i class="fas fa-info-circle"></i>
-          <span class="ms-2">تفاصيل</span>
-        </button>
+        <div class="d-flex">
+          <button routerLink="../add-supplier" [queryParams]="{SupplierId:item.supplierId}" class="btn btn-primary py-3 justify-content-center w-50 mx-2 d-block">
+            <i class="fas fa-info-circle"></i>
+            <span class="ms-2">تفاصيل</span>
+          </button>
+          <button (click)="openItemsDialog(SupplierItemsDialog,item.supplierId)" class="btn btn-info py-3 justify-content-center w-50 mx-2 d-block">
+            <span class="ms-2">الاصناف</span>
+          </button>
+        </div>
+        
         <!-- <div class="trending-box">
           <span class="trending-text me-2">Trending</span>
           <i class="fas fa-medal"></i>
@@ -248,3 +254,54 @@
     </div> -->
   </div>
 </div>
+
+
+<ng-template #SupplierItemsDialog let-modal>
+  <div class="modal-header">
+      <div class="d-flex">
+          <h4 class="modal-title" id="modal-basic-title">
+              الاصناف
+          </h4>
+          <!-- <button type="button" class="btn btn-danger py-0 px-3 rounded fs-4 fw-bold" (click)="modal.dismiss()">
+              <i class="uil uil-times"></i>
+          </button> -->
+      </div>
+     
+  </div>
+  <div class="modal-body">
+      
+    <div class="table-responsive table-vp-height">
+      <table class="table table-bordered table-middle table-hover bg-white m-0">
+          <thead>
+              <tr>
+                  <th>اسم الصنف (Ar)</th>
+                  <th>اسم الصنف (En)</th>
+                  <th>المجموعة</th>
+                  <th>الوحدة</th>
+                  <th>وحدة المشتريات</th>
+                  <th>سعر الوحدة</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of supplierItems">
+                  <td>{{item.nameEN}}</td>
+                  <td>{{item.nameAR}}</td>
+                  <td>{{item.itemCategoryName}}</td>
+                  <td>{{item.unitName}}</td>
+                  <td>{{item.purchaseUnitName}}</td>
+                  <td>{{item.cost}}</td>
+                  
+              </tr>
+          </tbody>
+      </table>
+      <app-empty-data [showContainer]="!supplierItems?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+  </div>
+      
+  </div>
+  <div class="modal-footer justify-content-start">
+      <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+          <i class="fas fa-times"></i>
+          <span class="ms-2">إلغاء</span>
+      </button>
+  </div>
+</ng-template>

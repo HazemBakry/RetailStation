@@ -48,7 +48,7 @@ export class InventoryService {
     return this.http.get<SupplierModel[]>(this.URL + `Items/GetItemSuppliersByItemId?ItemId=${itemId} `);
   }
   GetItemsBySupplierId(supplierId: number) {
-    return this.http.get<PagedResponseDTO<ItemModel[]>>(this.URL + `Items/GetItemsBySupplierId?SupplierId=${supplierId} `);
+    return this.http.get<ItemModel[]>(this.URL + `Items/GetItemsBySupplierId?SupplierId=${supplierId} `);
   }
 
   GetItemsDeleted(ItemCategoryId: number, SearchText: string) {
