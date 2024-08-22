@@ -254,7 +254,7 @@ namespace MasterErp.Service.Inventory
 
                 return new ActionsResponseModel
                 {
-                    Status = 1,
+                    IsSuccess = true,
                     URL = url,
                     Message = "File Exported successfully"
                 };
@@ -264,6 +264,7 @@ namespace MasterErp.Service.Inventory
             {
                 return new ActionsResponseModel
                 {
+                    IsSuccess=false,
                     Status = 0,
                     URL = "",
                     Message = ex.InnerException?.Message ?? ex.Message,

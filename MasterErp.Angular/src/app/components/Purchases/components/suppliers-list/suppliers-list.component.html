@@ -40,6 +40,7 @@
   <div class="row g-3 row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4">
     <div class="col" *ngFor="let item of SupplierList">
       <div class="supplier-box bg-white rounded border px-3 py-5 h-100 shadow-sm position-relative overflow-hidden">
+        
         <img src="../../../../../assets/images/supplier-img-1.png" class="supplier-card-img" alt="" loading="lazy" />
         <div class="text-center mb-4">
           <h4 class="main-color m-0"> {{item.nameAR}} </h4>
@@ -61,7 +62,7 @@
             <i class="fas fa-info-circle"></i>
             <span class="ms-2">تفاصيل</span>
           </button>
-          <button (click)="openItemsDialog(SupplierItemsDialog,item.supplierId)" class="btn btn-info py-3 justify-content-center w-50 mx-2 d-block">
+          <button (click)="openItemsDialog(SupplierItemsDialog,item.supplierId)" class="btn text-success py-3 justify-content-center w-50 mx-2 d-block">
             <span class="ms-2">الاصناف</span>
           </button>
         </div>
