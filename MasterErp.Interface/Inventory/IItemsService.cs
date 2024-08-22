@@ -15,33 +15,32 @@ namespace MasterErp.Interface.Inventory
 {
     public interface IItemsService
     {
-
         #region Item
-        List<ItemDto> GetItems(int CategoryId,SearchFilterModel Model,int? ItemId=null);
-        ItemDto GetItemById(int ItemId);
+
+        List<ItemDto> GetItems(int CategoryId, SearchFilterModel FilterModel, int? ItemId = null);
+        ItemDto GetItemDetails(int ItemId);
         ActionsResponseModel AddNewItem(ItemDto model);
-        ActionsResponseModel EditItem(int ItemId,ItemDto model);
+        ActionsResponseModel EditItem(int ItemId, ItemDto model);
         ActionsResponseModel DeleteItem(int ItemId);
         ActionsResponseModel ExportItems(int categoryId, string UserName, SearchFilterModel Model);
-
-        List<SupplierDto> GetItemSuppliersByItemId(int ItemId);
         List<ItemDto> GetItemsBySupplierId(int SupplierId);
         DataTable GetItemsBySupplierIdV2(int SupplierId);
-
-
-        #endregion
+        List<ItemDto> GetItemsByLookupId(int LookupId);
+        ActionsResponseModel ChangeItemStatus(int ItemId);
         List<ItemLookups> GetItemsLookups();
-
-        DataTable GetItemsByLookupId(int LookupId);
-        DataTable GetItemsDeleted(int ItemCategoryId, string SearchText);
-        List<ItemCategory> GetItemCategories();
-        List<Item> GetItemsByCategoryId(int CategoryId);
-
+        List<ItemDto> GetItemsDeleted(int ItemCategoryId, string SearchText);
         string ExportItemsDeleted(int categoryId, string SearchText, string UserName);
+        #endregion
+
+        #region Item Categories
+        List<ItemCategory> GetItemCategories();
+        #endregion
+
+        #region Units
         ActionsResponseModel AddUnit(Unit model);
         ActionsResponseModel EditUnit(Unit model);
         ActionsResponseModel DeleteUnit(int UnitId);
         List<Unit> GetUnits();
-        ActionsResponseModel ChangeItemStatus(int ItemId);
+        #endregion
     }
 }

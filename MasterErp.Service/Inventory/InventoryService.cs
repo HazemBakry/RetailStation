@@ -41,35 +41,35 @@ namespace MasterErp.Service.Inventory
 
         public DataTable GetReceiveOrdersSummary(FilterModel model)
         {
-            SqlParameter[] param = new SqlParameter[2];
+            //SqlParameter[] param = new SqlParameter[2];
 
-            param[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
-            param[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
+            //param[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
+            //param[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
 
-            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetReceiveOrdersSummary]", ConnectionString, param);
-            return result;
-
-            //var result = Context.ReceiveOrders.Join(Context.Suppliers,
-            //         o => o.SupplierId,
-            //         s => s.SupplierId,
-            //         (o, s) => new
-            //         {
-            //             OrderNumber = o.OrderNumber,
-            //             ReceiveDate = o.ReceiveDate,
-            //             DocNumber = o.DocNumber,
-            //             IsLocked = o.IsLocked,
-            //             PurchaseOrderId = o.PurchaseOrderId,
-            //             ReceiveOrderId = o.ReceiveOrderId,
-            //             TotalValue = o.TotalValue,
-            //             SupplierName = s.NameAR
-            //         }).ToList().ToDataTable();
-
+            //var result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetReceiveOrdersSummary]", ConnectionString, param);
             //return result;
+
+            var result = Context.ReceiveOrders.Join(Context.Suppliers,
+                     o => o.SupplierId,
+                     s => s.SupplierId,
+                     (o, s) => new
+                     {
+                         OrderNumber = o.OrderNumber,
+                         ReceiveDate = o.ReceiveDate,
+                         DocNumber = o.DocNumber,
+                         IsLocked = o.IsLocked,
+                         PurchaseOrderId = o.PurchaseOrderId,
+                         ReceiveOrderId = o.ReceiveOrderId,
+                         TotalValue = o.TotalValue,
+                         SupplierName = s.NameAR
+                     }).ToList().ToDataTable();
+
+            return result;
         }
 
-        public List<InventoryDataModel> GetInventoryList()
+        public List<Store> GetInventoryList()
         {
-            return Context.Inventory.ToList();
+            return Context.Stores.ToList();
         }
         public List<OrdersSearchDTO> GetOrdersSearchData(int SupplierId, string OrderNumber, string OrderDate, int OrderId = 0)
         {
@@ -130,10 +130,10 @@ namespace MasterErp.Service.Inventory
                 ReceiveOrder order_tbl = new ReceiveOrder();
 
                 order_tbl.ReceiveDate = DateTime.Now;
-                order_tbl.InsertDate = DateTime.Now;
+                order_tbl.CreatedDate = DateTime.Now;
                 order_tbl.OrderNumber = (Context.ReceiveOrders.Count() > 0 ? Context.ReceiveOrders.Max(x => x.OrderNumber) + 1 : 1);
                 order_tbl.DocNumber = string.Empty;
-                order_tbl.InsertUser = string.Empty;
+                order_tbl.CreatedBy = string.Empty;
                 order_tbl.PurchaseOrderId = model.PurchaseOrderId;
                 order_tbl.TotalValue = model.TotalValue;
                 order_tbl.IsCancelled = false;

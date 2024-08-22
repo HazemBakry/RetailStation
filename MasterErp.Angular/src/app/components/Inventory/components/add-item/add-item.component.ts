@@ -10,6 +10,7 @@ import { FormService } from 'src/app/components/Shared/services/form.service';
 import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 
 @Component({
   selector: 'app-add-item',
@@ -27,7 +28,14 @@ export class AddItemComponent implements OnInit {
   itemId: number;
   formData: FormData = new FormData();
   public formGroup: FormGroup;
+  responseModel:PagedResponseDTO<ItemModel[]>={
+    results:[],
+    filterList:[],
+    pageSize: 25,
+    currentPage:1,
+    searchText:''
 
+  };
   constructor(private acRoute: ActivatedRoute, private router: Router, private modalService: NgbModal,
     private inventoryService: InventoryService, private sharedService: SharedService, private form: FormBuilder,
     private _FormService: FormService, private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
@@ -147,7 +155,7 @@ export class AddItemComponent implements OnInit {
   }
 
   loadSelectors() {
-    this.inventoryService.GetItemCategories().subscribe((data: FormDropdownModel[]) => {
+    this.inventoryService.GetItemCategories().subscribe(data => {
       this.categoriesSelectorData = data;
     });
   }

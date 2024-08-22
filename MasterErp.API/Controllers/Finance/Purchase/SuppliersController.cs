@@ -2,7 +2,7 @@
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
-using MasterErp.Interface.Finance.Purchase;
+using MasterErp.Interface.Purchase;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -35,8 +35,16 @@ namespace MasterErp.API.Controllers.Finance.Purchase
         [Route("GetSupplierById")]
         public IActionResult GetSupplierById(int SupplierId)
         {
-            var results = _suppliersService.GetSupplierById(SupplierId);
+            var results = _suppliersService.GetSupplierDetailsById(SupplierId);
             return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("GetItemSuppliersByItemId")]
+        public IActionResult GetItemSuppliersByItemId(int ItemId)
+        {
+            var result = _suppliersService.GetItemSuppliersByItemId(ItemId);
+            return Ok(result);
         }
 
         [HttpPost]

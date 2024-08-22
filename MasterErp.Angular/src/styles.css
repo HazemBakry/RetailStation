@@ -393,8 +393,12 @@ select::after {
 }
 
 .card-header {
-    padding: 1.4rem 1.25rem;
+    padding: 0.6rem 1.25rem;
     max-height: 55px;
+}
+
+.card-header-title {
+    font-size: 15px;
 }
 
 .offcanvas-header-icon {

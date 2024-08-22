@@ -1,22 +1,5 @@
 using MasterErp.Entities.DTOs.Auth;
 using MasterErp.Entities.Models;
-using MasterErp.Interface.Auth;
-using MasterErp.Interface.Common;
-using MasterErp.Interface.Finance.GeneralAccounts;
-using MasterErp.Interface.Finance.Purchase;
-using MasterErp.Interface.Finance.Sales;
-using MasterErp.Interface.HR;
-using MasterErp.Interface.Inventory;
-using MasterErp.Interface.Shared;
-using MasterErp.Service.Auth;
-using MasterErp.Service.Common;
-using MasterErp.Service.Finance.GeneralAccounts;
-using MasterErp.Service.Finance.Purchase;
-using MasterErp.Service.Finance.Sales;
-using MasterErp.Service.HR;
-using MasterErp.Service.Inventory;
-using MasterErp.Service.Shared;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -26,16 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace MasterErp.API
 {

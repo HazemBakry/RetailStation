@@ -1,1 +1,188 @@
-<p>items-category works!</p>
+<div class="card radius-10 border-0 card-shadow mb-4">
+    <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
+        <h5 class="mb-0 fw-bold">الأصناف</h5>
+    </div>
+    <div class="card-body">
+        <div class="row p-2">
+            <div class="col-md-8">
+                <div class="d-flex align-items-center flex-wrap">
+                    <div class="search-box position-relative mb-2">
+                        <button class="btn btn-primary mb-2" (click)="openNewSidePanel(addItemModal)">
+                            <span class="me-2">إضافة مجموعة</span>
+                            <i class="uil uil-plus-circle"></i>
+                        </button>
+                    </div>
+                    <!-- <ng-container *ngIf="filterList.length > 0">
+                        <app-pos-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-pos-filters>
+                    </ng-container> -->
+                </div>
+            </div>
+            <div class="col-md-4">
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="responseModel.currentPage" [pageSize]="responseModel.pageSize" [totalCount]="responseModel.totalCount"></app-erp-pagination>
+            </div>
+        </div>
+        <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive table-vp-height">
+                    <table class="table table-bordered table-middle table-hover bg-white m-0">
+                        <thead>
+                            <tr>
+                                <th style="min-width: 20px !important; "></th>
+                                <!-- <th>Display Order</th> -->
+                                <!-- <th class="td-img"></th> -->
+                                <th>اسم المجموعة (AR)</th>
+                                <th>اسم المجموعة (EN)</th>
+                                <th>عمليات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let category of itemCategories">
+                                <td class="cursor-pointer" style="font-size: 25px;">
+                                    <i class="fas fa-grip-vertical"></i>
+                                    <!-- <i class="fas fa-sort" ></i> -->
+
+                                </td>
+                                <!-- <td style="font-size: 16px;">
+                            {{category.displayOrder}}
+                        </td> -->
+                                <!-- <td>
+                            <img class="table-img" height="100" width="100" src="{{category.image}}" (error)="$event.target.src = DefaultImage">
+                        </td> -->
+                                <td>{{ category.nameEN }}</td>
+                                <td>{{ category.nameAR }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <label class="switch me-2">
+                                    <input type="checkbox" [(ngModel)]="category.isActive"
+                                        (change)="changeCategoryStatus(category.itemCategoryId)"
+                                        class="ng-valid ng-dirty ng-touched">
+                                    <span class="slider round"></span>
+                                </label>
+                                        <!-- <button class="btn btn-primary btn-rounded me-2" (click)="open(addItemModal,category)">
+                                    <i class="fas fa-pen"></i>
+                                </button>
+                                <button class="btn btn-danger btn-rounded" (click)="deleteCustomer(deleteItemModal,category.foodCategoryId)">
+                                    <i class="fas fa-trash"></i>
+                                </button> -->
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- <div class="main-card-action py-3 bg-white border-top">
+            <button class="btn btn-primary" (click)="saveOrderSortOrder()">
+                <i class=""></i>
+                <span class="ms-2">Save</span>
+            </button>
+        </div> -->
+            </div>
+        </div>
+
+        <ngx-loading [show]="showLoader"></ngx-loading>
+
+
+        <ng-template #addItemModal let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title">Add Category</h4>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="form" autocomplete="off">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" formControlName="nameAr">
+                                <label for="floatingInput">Name (Ar)</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" formControlName="nameEn">
+                                <label for="floatingInput">Name (En)</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" formControlName="description">
+                                <label for="floatingInput">Description</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" formControlName="displayOrder">
+                                <label for="floatingInput">Display Order</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div ngbDropdown class="dropdown-as-input">
+                                <button type="button" id="dropdownBasic1" ngbDropdownToggle>
+                            <span>{{PrinterName}} <sup>*</sup></span>
+                        </button>
+                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-h large-scroll w-100">
+                                    <ng-container *ngFor="let printer of PrintersData">
+                                        <a *ngIf="Lang == 'en'" class="dropdown-item" (click)="onPrinterClick(printer)" [ngClass]="{'DropDownSelected': PrinterName == printer.printerPathOnServer}">{{printer.printerPathOnServer}}</a>
+
+                                        <a *ngIf="Lang == 'ar'" class="dropdown-item" (click)="onPrinterClick(printer)" [ngClass]="{'DropDownSelected': PrinterName == printer.printerName}">{{printer.printerName}}</a>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="input-group mb-3">
+                                <input type="file" class="form-control" (change)="onSelectedFile($event)" id="inputGroupFile02">
+                                <label class="input-group-text" for="inputGroupFile02">{{'Upload' | translate}}</label>
+                            </div>
+                        </div>
+                        <div *ngFor="let url of URLs" class="me-2">
+                            <img class="upload-image" [src]="url">
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="isActive" class="me-3">{{'IsActive' | translate}}</label>
+                            <input type="checkbox" formControlName="isActive" id="isActive">
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="isPromotion" class="me-3">{{'IsPromotion' | translate}}</label>
+                            <input type="checkbox" formControlName="isPromotion" id="isPromotion">
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="showInApp" class="me-3">{{'ShowInApp' | translate}}</label>
+                            <input type="checkbox" formControlName="showInApp" id="showInApp">
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="showInWebsite" class="me-3">{{'ShowInWebsite' | translate}}</label>
+                            <input type="checkbox" formControlName="showInWebsite" id="showInWebsite">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-start">
+                <button type="button" class="btn btn-primary" (click)="modal.close('Save click');CreateUpdateFoodCategory()">
+            <i class="fas fa-save"></i>
+            <span class="ms-2">{{'Save' | translate}}</span>
+        </button>
+                <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">{{'Close' | translate}}</span>
+        </button>
+            </div>
+        </ng-template>
+
+        <ng-template #deleteItemModal let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title">{{'ConfirmAction' | translate}}</h4>
+            </div>
+            <div class="modal-body">
+                <p class="fs-5 m-0">{{'Confirm' | translate}}</p>
+            </div>
+            <div class="modal-footer justify-content-start">
+                <button type="button" class="btn btn-success" (click)="modal.close('Save click');DeleteFoodCategory()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">{{'Yes' | translate}}</span>
+        </button>
+                <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">{{'No' | translate}}</span>
+        </button>
+            </div>
+        </ng-template>

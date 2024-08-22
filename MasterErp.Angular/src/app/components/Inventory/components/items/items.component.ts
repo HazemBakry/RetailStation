@@ -42,7 +42,7 @@ export class ItemsComponent implements OnInit {
   };
   showLoader: boolean=false;
   showAddLoader: boolean=false;
-
+  isUpdate: boolean=false;
   public formGroup: FormGroup;
   public formErrors = {
     itemId: '',
@@ -59,9 +59,8 @@ export class ItemsComponent implements OnInit {
     purchasePrice: '',
     itemType : ''
   };
-
   selectedCategoryId:number=null;
-  isUpdate: boolean=false;
+
   constructor(private modalService: NgbModal, private inventoryService: InventoryService,private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
     private datePipe: DatePipe,private toaster:ToastrService,private offcanvasService: NgbOffcanvas,) { }
 
@@ -72,6 +71,7 @@ export class ItemsComponent implements OnInit {
     });
     this.loadData();
   }
+
   loadData(categoryId : number=0)
   {
     this.showLoader=true;
@@ -85,8 +85,6 @@ export class ItemsComponent implements OnInit {
     },()=>{
       this.showLoader=false;
     });
-
-    
   }
 
   filterCategory(catId)
