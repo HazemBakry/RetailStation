@@ -1,0 +1,515 @@
+<div class="card radius-10 border-0 card-shadow mb-3">
+    <div class="boxstyle1">
+        <div class="boxstyle1-header bg-light">
+            <div class="boxstyle1-header-left mb-3">
+                <button class="btn btn-primary" routerLink="./../add-receive-order">
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="ms-2">اذن إضافة جديد</span>
+                </button>
+            </div>
+        </div>
+        <div class="card radius-10 border-0 card-shadow">
+            <div class="card-body">
+                <div class="main-card-action pb-3">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- <div class="col-md-12">
+                                <div class="d-flex align-items-center flex-wrap">
+                                    <ng-container *ngIf="filterList.length > 0">
+                                        <app-pos-filters [FilterList]="filterList"
+                                            (filterChanged)="filterChecked($event)"></app-pos-filters>
+                                    </ng-container>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="col-md-4">
+                            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="FilterModel.currentPage" [pageSize]="FilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="TotalPages"></app-erp-pagination>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive table-vp-height large-scroll">
+
+                    <table class="table table-bordered table-middle bg-white m-0 table-hover bigtitle">
+                        <thead>
+                            <tr>
+                                <th>رقم الفاتورة</th>
+                                <th>الرقم الدفترى</th>
+                                <th>تاريخ الفاتورة</th>
+                                <th>اسم المورد</th>
+                                <th>المخزن</th>
+                                <th>القيمة الإجمالية</th>
+                                <th>حالة الفاتورة</th>
+                                <th class="text-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of OrderList">
+                                <td>{{item.orderNumber}}</td>
+                                <td>{{item.docNumber}}</td>
+                                <td>{{item.orderDate | date}}</td>
+                                <td>{{item.supplierNameAR}}</td>
+                                <td>{{item.storeNameAR}}</td>
+                                <td>{{item.totalValue}}</td>
+                                <td>
+                                    <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
+                                        {{item.orderStatus}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="w-100 d-flex align-items-center justify-content-center">
+                                        <button class="btn btn-danger me-2" (click)="CancelOrder(item.orderId)">
+                                            <i class="fas fa-times"></i>
+                                            <span class="ms-2">الغاء</span>
+                                        </button>
+                                        <!-- <button class="btn btn-secondary me-2">
+                                            <i class="far fa-eye"></i>
+                                            <span class="ms-2">Lock Order</span>
+                                        </button>
+                                        <button class="btn btn-primary me-2">
+                                            <i class="fas fa-edit"></i>
+                                            <span class="ms-2">Edit</span>
+                                        </button> -->
+                                        <app-invoice-details-sidepanel [invoiceId]="item.orderId">
+                                        </app-invoice-details-sidepanel>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-empty-data [showContainer]="!OrderList?.length && !showLoader" [showLoader]="showLoader"></app-empty-data>
+</div>
+
+
+<div>
+    <div class="table-responsive">
+        <table class="table table-hover table-nowrap">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Job Title</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Lead Score</th>
+                    <th scope="col">Company</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="Job Title">
+                        <img alt="..." src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2">
+                        <a class="text-heading font-semibold" href="#">
+                  Robert Fox
+                </a>
+                    </td>
+                    <td data-label="Email">
+                        <span>Web Designer</span>
+                    </td>
+                    <td data-label="Phone">
+                        <a class="text-current" href="mailto:robert.fox">robert.fox</a>
+                    </td>
+                    <td data-label="Lead Score">
+                        <a class="text-current" href="tel:202-555-0152">202-555-0152</a>
+                    </td>
+                    <td data-label="Company">
+                        <span class="badge bg-opacity-30 bg-success text-success">7/10</span>
+                    </td>
+                    <td data-label="">
+                        <a class="text-current" href="#">Dribbble</a>
+                    </td>
+                    <td data-label="" class="text-end">
+                        <div class="dropdown">
+                            <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a href="#!" class="dropdown-item">
+                      Action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Another action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Something else here
+                    </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Job Title">
+                        <img alt="..." src="https://images.unsplash.com/photo-1610271340738-726e199f0258?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2">
+                        <a class="text-heading font-semibold" href="#">
+                  Darlene Robertson
+                </a>
+                    </td>
+                    <td data-label="Email">
+                        <span>Developer</span>
+                    </td>
+                    <td data-label="Phone">
+                        <a class="text-current" href="mailto:darlene">darlene</a>
+                    </td>
+                    <td data-label="Lead Score">
+                        <a class="text-current" href="tel:224-567-2662">224-567-2662</a>
+                    </td>
+                    <td data-label="Company">
+                        <span class="badge bg-opacity-30 bg-warning text-warning">5/10</span>
+                    </td>
+                    <td data-label="">
+                        <a class="text-current" href="#">Netguru</a>
+                    </td>
+                    <td data-label="" class="text-end">
+                        <div class="dropdown">
+                            <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a href="#!" class="dropdown-item">
+                      Action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Another action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Something else here
+                    </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Job Title">
+                        <img alt="..." src="https://images.unsplash.com/photo-1610878722345-79c5eaf6a48c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2">
+                        <a class="text-heading font-semibold" href="#">
+                  Theresa Webb
+                </a>
+                    </td>
+                    <td data-label="Email">
+                        <span>Marketing Specialist</span>
+                    </td>
+                    <td data-label="Phone">
+                        <a class="text-current" href="mailto:theresa.webb">theresa.webb</a>
+                    </td>
+                    <td data-label="Lead Score">
+                        <a class="text-current" href="tel:401-505-6800">401-505-6800</a>
+                    </td>
+                    <td data-label="Company">
+                        <span class="badge bg-opacity-30 bg-danger text-danger">2/10</span>
+                    </td>
+                    <td data-label="">
+                        <a class="text-current" href="#">Figma</a>
+                    </td>
+                    <td data-label="" class="text-end">
+                        <div class="dropdown">
+                            <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a href="#!" class="dropdown-item">
+                      Action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Another action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Something else here
+                    </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Job Title">
+                        <img alt="..." src="https://images.unsplash.com/photo-1612422656768-d5e4ec31fac0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2">
+                        <a class="text-heading font-semibold" href="#">
+                  Kristin Watson
+                </a>
+                    </td>
+                    <td data-label="Email">
+                        <span>Sales Manager</span>
+                    </td>
+                    <td data-label="Phone">
+                        <a class="text-current" href="mailto:cody.fisher">cody.fisher</a>
+                    </td>
+                    <td data-label="Lead Score">
+                        <a class="text-current" href="tel:307-560-8817">307-560-8817</a>
+                    </td>
+                    <td data-label="Company">
+                        <span class="badge bg-opacity-30 bg-success text-success">9/10</span>
+                    </td>
+                    <td data-label="">
+                        <a class="text-current" href="#">Mailchimp</a>
+                    </td>
+                    <td data-label="" class="text-end">
+                        <div class="dropdown">
+                            <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a href="#!" class="dropdown-item">
+                      Action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Another action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Something else here
+                    </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Job Title">
+                        <img alt="..." src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2">
+                        <a class="text-heading font-semibold" href="#">
+                  Robert Fox
+                </a>
+                    </td>
+                    <td data-label="Email">
+                        <span>Web Designer</span>
+                    </td>
+                    <td data-label="Phone">
+                        <a class="text-current" href="mailto:robert.fox">robert.fox</a>
+                    </td>
+                    <td data-label="Lead Score">
+                        <a class="text-current" href="tel:202-555-0152">202-555-0152</a>
+                    </td>
+                    <td data-label="Company">
+                        <span class="badge bg-opacity-30 bg-success text-success">7/10</span>
+                    </td>
+                    <td data-label="">
+                        <a class="text-current" href="#">Dribbble</a>
+                    </td>
+                    <td data-label="" class="text-end">
+                        <div class="dropdown">
+                            <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a href="#!" class="dropdown-item">
+                      Action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Another action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Something else here
+                    </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Job Title">
+                        <img alt="..." src="https://images.unsplash.com/photo-1610271340738-726e199f0258?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2">
+                        <a class="text-heading font-semibold" href="#">
+                  Darlene Robertson
+                </a>
+                    </td>
+                    <td data-label="Email">
+                        <span>Developer</span>
+                    </td>
+                    <td data-label="Phone">
+                        <a class="text-current" href="mailto:darlene">darlene</a>
+                    </td>
+                    <td data-label="Lead Score">
+                        <a class="text-current" href="tel:224-567-2662">224-567-2662</a>
+                    </td>
+                    <td data-label="Company">
+                        <span class="badge bg-opacity-30 bg-warning text-warning">5/10</span>
+                    </td>
+                    <td data-label="">
+                        <a class="text-current" href="#">Netguru</a>
+                    </td>
+                    <td data-label="" class="text-end">
+                        <div class="dropdown">
+                            <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a href="#!" class="dropdown-item">
+                      Action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Another action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Something else here
+                    </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Job Title">
+                        <img alt="..." src="https://images.unsplash.com/photo-1610878722345-79c5eaf6a48c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2">
+                        <a class="text-heading font-semibold" href="#">
+                  Theresa Webb
+                </a>
+                    </td>
+                    <td data-label="Email">
+                        <span>Marketing Specialist</span>
+                    </td>
+                    <td data-label="Phone">
+                        <a class="text-current" href="mailto:theresa.webb">theresa.webb</a>
+                    </td>
+                    <td data-label="Lead Score">
+                        <a class="text-current" href="tel:401-505-6800">401-505-6800</a>
+                    </td>
+                    <td data-label="Company">
+                        <span class="badge bg-opacity-30 bg-danger text-danger">2/10</span>
+                    </td>
+                    <td data-label="">
+                        <a class="text-current" href="#">Figma</a>
+                    </td>
+                    <td data-label="" class="text-end">
+                        <div class="dropdown">
+                            <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a href="#!" class="dropdown-item">
+                      Action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Another action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Something else here
+                    </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Job Title">
+                        <img alt="..." src="https://images.unsplash.com/photo-1612422656768-d5e4ec31fac0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2">
+                        <a class="text-heading font-semibold" href="#">
+                  Kristin Watson
+                </a>
+                    </td>
+                    <td data-label="Email">
+                        <span>Sales Manager</span>
+                    </td>
+                    <td data-label="Phone">
+                        <a class="text-current" href="mailto:cody.fisher">cody.fisher</a>
+                    </td>
+                    <td data-label="Lead Score">
+                        <a class="text-current" href="tel:307-560-8817">307-560-8817</a>
+                    </td>
+                    <td data-label="Company">
+                        <span class="badge bg-opacity-30 bg-success text-success">9/10</span>
+                    </td>
+                    <td data-label="">
+                        <a class="text-current" href="#">Mailchimp</a>
+                    </td>
+                    <td data-label="" class="text-end">
+                        <div class="dropdown">
+                            <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a href="#!" class="dropdown-item">
+                      Action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Another action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Something else here
+                    </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Job Title">
+                        <img alt="..." src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2">
+                        <a class="text-heading font-semibold" href="#">
+                  Robert Fox
+                </a>
+                    </td>
+                    <td data-label="Email">
+                        <span>Web Designer</span>
+                    </td>
+                    <td data-label="Phone">
+                        <a class="text-current" href="mailto:robert.fox">robert.fox</a>
+                    </td>
+                    <td data-label="Lead Score">
+                        <a class="text-current" href="tel:202-555-0152">202-555-0152</a>
+                    </td>
+                    <td data-label="Company">
+                        <span class="badge bg-opacity-30 bg-success text-success">7/10</span>
+                    </td>
+                    <td data-label="">
+                        <a class="text-current" href="#">Dribbble</a>
+                    </td>
+                    <td data-label="" class="text-end">
+                        <div class="dropdown">
+                            <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a href="#!" class="dropdown-item">
+                      Action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Another action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Something else here
+                    </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Job Title">
+                        <img alt="..." src="https://images.unsplash.com/photo-1610271340738-726e199f0258?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2">
+                        <a class="text-heading font-semibold" href="#">
+                  Darlene Robertson
+                </a>
+                    </td>
+                    <td data-label="Email">
+                        <span>Developer</span>
+                    </td>
+                    <td data-label="Phone">
+                        <a class="text-current" href="mailto:darlene">darlenecom</a>
+                    </td>
+                    <td data-label="Lead Score">
+                        <a class="text-current" href="tel:224-567-2662">224-567-2662</a>
+                    </td>
+                    <td data-label="Company">
+                        <span class="badge bg-opacity-30 bg-warning text-warning">5/10</span>
+                    </td>
+                    <td data-label="">
+                        <a class="text-current" href="#">Netguru</a>
+                    </td>
+                    <td data-label="" class="text-end">
+                        <div class="dropdown">
+                            <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a href="#!" class="dropdown-item">
+                      Action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Another action
+                    </a>
+                                <a href="#!" class="dropdown-item">
+                      Something else here
+                    </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

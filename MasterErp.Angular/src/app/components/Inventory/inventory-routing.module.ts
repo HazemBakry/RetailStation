@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ReceivedOrdersComponent } from './components/received-orders/received-orders.component';
 import { PurchasesRequestsComponent } from './components/purchases-requests/purchases-requests.component';
 import { InventoryHomeComponent } from './components/inventory-home/inventory-home.component';
 import { BusinessCoreLayoutComponent } from '../Shared/components/business-core-layout/business-core-layout.component';
@@ -10,6 +9,8 @@ import { AddItemComponent } from './components/add-item/add-item.component';
 import { ItemsCategoryComponent } from './components/items-category/items-category.component';
 import { AddReceiveOrderComponent } from './components/add-receive-order/add-receive-order.component';
 import { AddPurchasesRequestComponent } from './components/add-purchase-request/add-purchases-request.component';
+import { ReceiveOrdersComponent } from './components/receive-orders/receive-orders.component';
+import { DeliverOrdersComponent } from './components/deliver-orders/deliver-orders.component';
 
 const routes: Routes = [
   {
@@ -17,7 +18,8 @@ const routes: Routes = [
     component: BusinessCoreLayoutComponent,
     children: [
       { path: 'home', component: InventoryHomeComponent },
-      { path: 'receive-orders', component: ReceivedOrdersComponent },
+      { path: 'receive-orders', component: ReceiveOrdersComponent },
+      { path: 'deliver-orders', component: DeliverOrdersComponent },
       { path: 'add-receive-order', component: AddReceiveOrderComponent },
       { path: 'add-item', component: AddItemComponent },
       { path: 'items', component: ItemsComponent },

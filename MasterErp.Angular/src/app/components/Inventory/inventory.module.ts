@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InventoryRoutingModule } from './inventory-routing.module';
-import { ReceivedOrdersComponent } from './components/received-orders/received-orders.component';
 import { SharedModule } from '../Shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { OrderSearchSidepanelComponent } from './components/order-search-sidepanel/order-search-sidepanel.component';
@@ -15,13 +14,16 @@ import { UnitsComponent } from './components/units/units.component';
 import { ItemsComponent } from './components/items/items.component';
 import { AddPurchasesRequestComponent } from './components/add-purchase-request/add-purchases-request.component';
 import { AddReceiveOrderComponent } from './components/add-receive-order/add-receive-order.component';
+import { ReceiveOrdersComponent } from './components/receive-orders/receive-orders.component';
+import { DeliverOrdersComponent } from './components/deliver-orders/deliver-orders.component';
 
 
 @NgModule({
   declarations: [
     InventoryLayoutComponent,
     AddReceiveOrderComponent,
-    ReceivedOrdersComponent,
+    ReceiveOrdersComponent,
+    DeliverOrdersComponent,
     OrderSearchSidepanelComponent,
     ItemsComponent,
     ItemsCategoryComponent,

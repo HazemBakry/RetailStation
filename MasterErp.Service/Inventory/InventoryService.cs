@@ -22,106 +22,37 @@ namespace MasterErp.Service.Inventory
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
+        private readonly ISharedFilterService SharedFilterService;
+        private string ConnectionString;
 
-        private string ConnectionString
+        public InventoryService(DBContext Context, ISQLHelper SQLHelper, 
+            IConfiguration Configuration, ISharedFilterService SharedFilterService)
         {
-            get
-            {
-                return Configuration.GetConnectionString("DBConnection");
-            }
+            this.Context = Context;
+            this.SQLHelper = SQLHelper;
+            this.Configuration = Configuration;
+            this.SharedFilterService = SharedFilterService;
+            this.ConnectionString = Configuration.GetConnectionString("DBConnection");
         }
-
-        public InventoryService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration)
-        {
-            Context = dBContext;
-            SQLHelper = iSQLHelper;
-            Configuration = _configuration;
-        }
-
-
-        public DataTable GetReceiveOrdersSummary(FilterModel model)
-        {
-            //SqlParameter[] param = new SqlParameter[2];
-
-            //param[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
-            //param[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
-
-            //var result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetReceiveOrdersSummary]", ConnectionString, param);
-            //return result;
-
-            var result = Context.ReceiveOrders.Join(Context.Suppliers,
-                     o => o.SupplierId,
-                     s => s.SupplierId,
-                     (o, s) => new
-                     {
-                         OrderNumber = o.OrderNumber,
-                         ReceiveDate = o.ReceiveDate,
-                         DocNumber = o.DocNumber,
-                         IsLocked = o.IsLocked,
-                         PurchaseOrderId = o.PurchaseOrderId,
-                         ReceiveOrderId = o.ReceiveOrderId,
-                         TotalValue = o.TotalValue,
-                         SupplierName = s.NameAR
-                     }).ToList().ToDataTable();
-
-            return result;
-        }
-
         public List<Store> GetInventoryList()
         {
             return Context.Stores.ToList();
         }
-        public List<OrdersSearchDTO> GetOrdersSearchData(int SupplierId, string OrderNumber, string OrderDate, int OrderId = 0)
+
+        public List<OrderModel> GetReceiveOrdersSummary(FilterModel model)
         {
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterItems);
 
+            SqlParameter[] Params = new SqlParameter[3];
 
-            SqlParameter[] param = new SqlParameter[4];
-            param[0] = new SqlParameter("@SupplierId", SupplierId);
-            param[1] = new SqlParameter("@OrderNumber", OrderNumber);
-            param[2] = new SqlParameter("@OrderDate", !string.IsNullOrEmpty(OrderDate) ? DateTime.Parse(OrderDate) : DBNull.Value);
-            param[3] = new SqlParameter("@OrderId", OrderId);
+            Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
+            Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
+            Params[2] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[2].Value = dt;
 
-            var lst = SQLHelper.SQLQuery<PurchaseOrderItemsModel>("[dbo].[SP_GetOrdersSearchData]", ConnectionString, param);
-
-            var result = lst.GroupBy(x => x.PurchaseOrderId).Select(p => new { Id = p.Key, lstOrders = p.Select(prt => prt).ToList() }).ToList();
-            var finalRes = new List<OrdersSearchDTO>();
-            foreach (var item in result)
-            {
-                var obj = item.lstOrders;
-                var order = new OrdersSearchDTO
-                {
-                    OrderNumber = obj.FirstOrDefault().OrderNumber,
-                    PurchaseOrderId = obj.FirstOrDefault().PurchaseOrderId,
-                    SupplierId = obj.FirstOrDefault().SupplierId,
-                    SupplierNameAR = obj.FirstOrDefault()?.SupplierNameAR,
-                    SupplierNameEN = obj.FirstOrDefault()?.SupplierNameEN,
-                    TotalValue = obj.FirstOrDefault().TotalValue,
-                    OrderDate = obj.FirstOrDefault().OrderDate,
-                    DueDate = obj.FirstOrDefault().DueDate,
-                    IsLocked = obj.FirstOrDefault().IsLocked,
-                    IsCancelled = obj.FirstOrDefault().IsCancelled,
-                    Items = obj.Select(x => new OrderProductModel
-                    {
-                        ItemId = x.ItemId,
-                        ItemNameAr = x.NameAR,
-                        ItemNameEn = x.NameEN,
-                        UnitId = x.UnitId,
-                        Price = x.Cost,
-                        Quantity = x.Quantity,
-                        TotalValue = x.ItemTotalValue,
-                        IsActive = x.IsActive,
-                        UnitNameEn = x.UnitName,
-
-                    }).ToList(),
-
-                };
-                finalRes.Add(order);
-            }
-
-
-            return finalRes;
+            var result = SQLHelper.SQLQuery<OrderModel>("[Inventory].[SP_GetReceiveOrdersSummary]", ConnectionString, Params);
+            return result;
         }
-
 
         public ActionsResponseModel SaveNewReceiveOrder(ReceiveOrderModel model)
         {
@@ -179,6 +110,57 @@ namespace MasterErp.Service.Inventory
                     Message = ex.Message
                 };
             }
+        }
+
+        public List<OrdersSearchDTO> GetOrdersSearchData(int SupplierId, string OrderNumber, string OrderDate, int OrderId = 0)
+        {
+
+
+            SqlParameter[] param = new SqlParameter[4];
+            param[0] = new SqlParameter("@SupplierId", SupplierId);
+            param[1] = new SqlParameter("@OrderNumber", OrderNumber);
+            param[2] = new SqlParameter("@OrderDate", !string.IsNullOrEmpty(OrderDate) ? DateTime.Parse(OrderDate) : DBNull.Value);
+            param[3] = new SqlParameter("@OrderId", OrderId);
+
+            var lst = SQLHelper.SQLQuery<PurchaseOrderItemsModel>("[dbo].[SP_GetOrdersSearchData]", ConnectionString, param);
+
+            var result = lst.GroupBy(x => x.PurchaseOrderId).Select(p => new { Id = p.Key, lstOrders = p.Select(prt => prt).ToList() }).ToList();
+            var finalRes = new List<OrdersSearchDTO>();
+            foreach (var item in result)
+            {
+                var obj = item.lstOrders;
+                var order = new OrdersSearchDTO
+                {
+                    OrderNumber = obj.FirstOrDefault().OrderNumber,
+                    PurchaseOrderId = obj.FirstOrDefault().PurchaseOrderId,
+                    SupplierId = obj.FirstOrDefault().SupplierId,
+                    SupplierNameAR = obj.FirstOrDefault()?.SupplierNameAR,
+                    SupplierNameEN = obj.FirstOrDefault()?.SupplierNameEN,
+                    TotalValue = obj.FirstOrDefault().TotalValue,
+                    OrderDate = obj.FirstOrDefault().OrderDate,
+                    DueDate = obj.FirstOrDefault().DueDate,
+                    IsLocked = obj.FirstOrDefault().IsLocked,
+                    IsCancelled = obj.FirstOrDefault().IsCancelled,
+                    Items = obj.Select(x => new OrderProductModel
+                    {
+                        ItemId = x.ItemId,
+                        ItemNameAr = x.NameAR,
+                        ItemNameEn = x.NameEN,
+                        UnitId = x.UnitId,
+                        Price = x.Cost,
+                        Quantity = x.Quantity,
+                        TotalValue = x.ItemTotalValue,
+                        IsActive = x.IsActive,
+                        UnitNameEn = x.UnitName,
+
+                    }).ToList(),
+
+                };
+                finalRes.Add(order);
+            }
+
+
+            return finalRes;
         }
 
 

@@ -8,6 +8,7 @@ using MasterErp.Interface.Purchase;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -99,7 +100,7 @@ namespace MasterErp.Service.Purchase
                 tbl.IsLocked = false;
                 tbl.Notes = model.Notes;
                 tbl.InvoiceDate = model.InvoiceDate ?? DateTime.Now;
-                tbl.TotalValue = model.Items != null ? model.Items.Sum(x => x.ItemTotalValue) : 0;
+                tbl.TotalValue = model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0;
                 tbl.SupplierId = model.SupplierId;
 
                 Context.SupplierReturnsVoucher.Add(tbl);
@@ -113,7 +114,7 @@ namespace MasterErp.Service.Purchase
                         ItemId = item.ItemId,
                         Notes = model.Notes,
                         Quantity = item.Quantity,
-                        TotalValue = item.ItemTotalValue,
+                        TotalValue = item.TotalValue,
                         SupplierReturnsVoucherId = tbl.SupplierReturnsVoucherId,
                         UnitId = item.UnitId,
                     };
@@ -138,7 +139,6 @@ namespace MasterErp.Service.Purchase
                 };
             }
         }
-
 
     }
 }

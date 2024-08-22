@@ -7,12 +7,12 @@ import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 
 @Component({
-  selector: 'app-received-orders',
-  templateUrl: './received-orders.component.html',
-  styleUrls: ['./received-orders.component.css']
+  selector: 'app-receive-orders',
+  templateUrl: './receive-orders.component.html',
+  styleUrls: ['./receive-orders.component.css']
 })
 
-export class ReceivedOrdersComponent implements OnInit {
+export class ReceiveOrdersComponent implements OnInit {
   OrderList: any[] = [];
   showLoader: boolean;
   TotalCount: any;
