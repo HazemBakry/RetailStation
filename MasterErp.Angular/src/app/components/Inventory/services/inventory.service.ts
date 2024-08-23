@@ -9,6 +9,8 @@ import { Unit } from '../models/unit';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsModel';
 import { SupplierModel } from '../../Purchases/models/SupplierModel';
+import { ItemCategoryModel } from '../models/itemCategory';
+import { CategorySortModel } from '../models/categorySort';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +22,8 @@ export class InventoryService {
 
   // -------------------------------------- Items -------------------------------------- //
 
-  GetItems(searchModel: PagedResponseDTO,categoryId: number=0) {
-    return this.http.post<PagedResponseDTO<ItemModel[]>>(this.URL + `Items/GetItems?CategoryId=${categoryId} `,searchModel);
+  GetItems(searchModel: PagedResponseDTO, categoryId: number = 0) {
+    return this.http.post<PagedResponseDTO<ItemModel[]>>(this.URL + `Items/GetItems?CategoryId=${categoryId} `, searchModel);
   }
 
   GetItemById(itemId: number) {
@@ -33,7 +35,7 @@ export class InventoryService {
   }
 
   EditItem(itemId: number, model: ItemModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + `Items/EditItem?ItemId=${itemId}`,model)
+    return this.http.post<ActionsResponseModel>(this.URL + `Items/EditItem?ItemId=${itemId}`, model)
   }
 
   DeleteItem(itemId: number) {
@@ -41,8 +43,8 @@ export class InventoryService {
   }
 
 
-  ExportItems(searchModel: PagedResponseDTO,categoryId: number) {
-    return this.http.post<ActionsResponseModel>(this.URL + `Items/ExportItems?CategoryId=${categoryId} `,searchModel);
+  ExportItems(searchModel: PagedResponseDTO, categoryId: number) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Items/ExportItems?CategoryId=${categoryId} `, searchModel);
   }
   GetItemSuppliersByItemId(itemId: number) {
     return this.http.get<SupplierModel[]>(this.URL + `Items/GetItemSuppliersByItemId?ItemId=${itemId} `);
@@ -55,18 +57,41 @@ export class InventoryService {
     return this.http.get<any[]>(this.URL + 'Items/GetItemsDeleted?ItemCategoryId=' + ItemCategoryId + '&SearchText=' + SearchText);
   }
 
-  GetItemCategories() {
-    return this.http.get<any[]>(this.URL + 'Items/GetItemCategories');
-  }
-
   GetItemsByCategoryId(CategoryId: number) {
     return this.http.get<any[]>(this.URL + 'Items/GetItemsByCategoryId?CategoryId=' + CategoryId);
   }
 
-
   ExportItemsDeleted(ItemCategoryId: number, SearchText: string, UserName: string) {
     return this.http.get<any>(this.URL + 'Items/ExportItemsDeleted?ItemCategoryId=' + ItemCategoryId + '&SearchText=' + SearchText + '&UserName=' + UserName);
   }
+
+  //----------------------------------------------- Item Categories ---------------------------------------------//
+
+  AddNewCategory(model: ItemCategoryModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Items/AddNewCategory', model);
+  }
+
+  EditItemCategory(categoryId: number, model: ItemCategoryModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Items/EditItemCategory?ItemCategoryId=${categoryId}`, model)
+  }
+
+  DeleteItemCategory(categoryId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `Items/DeleteItemCategory?ItemCategoryId=${categoryId}`);
+  }
+
+  GetItemCategories() {
+    return this.http.get<any[]>(this.URL + 'Items/GetItemCategories');
+  }
+
+  ChangeCategoryStatus(CategoryId: number) {
+    return this.http.get<any[]>(this.URL + 'Items/ChangeItemCategoryStatus?CategoryId=' + CategoryId);
+  }
+
+  ChangeCategoriesSortOrder(SortedItems: CategorySortModel[]) {
+    return this.http.post<any>(this.URL + 'FoodCategory/ChangeCategoriesSortOrder', SortedItems);
+  }
+  
+  //------------------------------------------------------- Units ------------------------------------------------------//
 
   GetUnits() {
     return this.http.get<any>(this.URL + 'Items/GetUnits');
@@ -85,18 +110,34 @@ export class InventoryService {
   }
 
 
-  // -------------------------------------- Receive Orders -------------------------------------- //
+  // -------------------------------------- Inventory operations -------------------------------------- //
+  
+  GetInventoryList() {
+    return this.http.get<any[]>(this.URL + 'Inventory/GetInventoryList');
+  }
 
   GetReceiveOrdersSummary(model: FilterModel) {
     return this.http.post<any>(this.URL + 'Inventory/GetReceiveOrdersSummary', model);
   }
 
-  GetInventoryList() {
-    return this.http.get<any[]>(this.URL + 'Inventory/GetInventoryList');
-  }
-
   CreateNewReceiveOrder(model: ReceiveOrderModel) {
     return this.http.post<any>(this.URL + 'Inventory/CreateNewReceiveOrder', model);
+  }
+
+  CancelReceiveOrder(OrderId: number) {
+    return this.http.get<any[]>(this.URL + 'Inventory/CancelReceiveOrder?=OrderId' + OrderId);
+  }
+
+  GetDeliveryOrdersSummary(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'Inventory/GetDeliveryOrdersSummary', model);
+  }
+
+  CreateNewDeliveryOrder(model: ReceiveOrderModel) {
+    return this.http.post<any>(this.URL + 'Inventory/CreateNewDeliverOrder', model);
+  }
+
+  CancelDeliveryOrder(OrderId: number) {
+    return this.http.get<any[]>(this.URL + 'Inventory/CancelDeliveryOrder?=OrderId' + OrderId);
   }
 
   GetOrdersSearchData(supplierId: number, orderNumber: string, orderDate: string) {
@@ -105,11 +146,6 @@ export class InventoryService {
     orderDate = orderDate ? orderDate : '';
     return this.http.get<any[]>(this.URL + 'Inventory/GetOrdersSearchData?SupplierId=' + supplierId + '&OrderNumber=' + orderNumber + '&OrderDate=' + orderDate);
   }
-
-  CancelReceiveOrder(OrderId: number) {
-    return this.http.get<any[]>(this.URL + 'Inventory/CancelReceiveOrder?=OrderId' + OrderId);
-  }
-
 
 
   ///////////////////

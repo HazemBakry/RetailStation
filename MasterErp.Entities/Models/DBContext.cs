@@ -74,6 +74,7 @@ namespace MasterErp.Entities.Models
         public DbSet<LoansPayment> LoansPayment { get; set; }
         public DbSet<Loan> Loans { get; set; }
         public DbSet<LoanType> LoanTypes { get; set; }
+        public DbSet<Store> Stores { get; set; }
 
 
 
@@ -90,7 +91,6 @@ namespace MasterErp.Entities.Models
         public DbSet<PurchaseInvoiceType> PurchaseInvoiceTypes { get; set; }
         public DbSet<ReceiveOrder> ReceiveOrders { get; set; }
         public DbSet<ReceiveOrderDetails> ReceiveOrderDetails { get; set; }
-        public DbSet<InventoryDataModel> Inventory { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<PaymentReceipt> PaymentReceipt { get; set; }
         public DbSet<ReceiveReceipt> ReceiveReceipt { get; set; }

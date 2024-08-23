@@ -15,14 +15,7 @@ namespace MasterErp.API.Controllers.Inventory
         {
             _inventoryService= inventoryService;
         }
-        [HttpPost]
-        [Route("GetReceiveOrdersSummary")]
-        public IActionResult GetReceiveOrdersSummary(FilterModel model)
-        {
-            var results = _inventoryService.GetReceiveOrdersSummary(model);
-            return Ok(results); 
-        }
-
+        
         [HttpGet]
         [Route("GetInventoryList")]
         public IActionResult GetInventoryList()
@@ -30,14 +23,13 @@ namespace MasterErp.API.Controllers.Inventory
             var results = _inventoryService.GetInventoryList();
             return Ok(results);
         }
-
-        [HttpGet]
-        [Route("GetOrdersSearchData")]
-        public IActionResult GetOrdersSearchData(int SupplierId, string OrderNumber, string OrderDate)
+        
+        [HttpPost]
+        [Route("GetReceiveOrdersSummary")]
+        public IActionResult GetReceiveOrdersSummary(FilterModel model)
         {
-
-            var result = _inventoryService.GetOrdersSearchData(SupplierId, OrderNumber, OrderDate);
-            return Ok(result);
+            var results = _inventoryService.GetReceiveOrdersSummary(model);
+            return Ok(results); 
         }
 
         [HttpPost]
@@ -48,5 +40,30 @@ namespace MasterErp.API.Controllers.Inventory
             return Ok(result);
         }
 
+        [HttpPost]
+        [Route("GetDeliveryOrdersSummary")]
+        public IActionResult GetDeliveryOrdersSummary(FilterModel model)
+        {
+            var results = _inventoryService.GetDeliveryOrdersSummary(model);
+            return Ok(results);
+        }
+
+        [HttpPost]
+        [Route("SaveNewDeliveryOrder")]
+        public IActionResult SaveNewDeliveryOrder(ReceiveOrderModel model)
+        {
+            var result = _inventoryService.SaveNewDeliveryOrder(model);
+            return Ok(result);
+        }
+
+
+        [HttpGet]
+        [Route("GetOrdersSearchData")]
+        public IActionResult GetOrdersSearchData(int SupplierId, string OrderNumber, string OrderDate)
+        {
+
+            var result = _inventoryService.GetOrdersSearchData(SupplierId, OrderNumber, OrderDate);
+            return Ok(result);
+        }
     }
 }

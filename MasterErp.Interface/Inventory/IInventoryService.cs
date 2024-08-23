@@ -14,9 +14,11 @@ namespace MasterErp.Interface.Inventory
     public interface IInventoryService
     {
 
-        DataTable GetReceiveOrdersSummary(FilterModel model);
-        List<InventoryDataModel> GetInventoryList();
-        List<OrdersSearchDTO> GetOrdersSearchData(int SupplierId, string OrderNumber, string OrderDate,int OrderId=0);
+        List<Store> GetInventoryList();
+        List<OrderModel> GetReceiveOrdersSummary(FilterModel model);
         ActionsResponseModel SaveNewReceiveOrder(ReceiveOrderModel model);
+        List<OrderModel> GetDeliveryOrdersSummary(FilterModel model);
+        ActionsResponseModel SaveNewDeliveryOrder(ReceiveOrderModel model);
+        List<OrdersSearchDTO> GetOrdersSearchData(int SupplierId, string OrderNumber, string OrderDate,int OrderId=0);
     }
 }

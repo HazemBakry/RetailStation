@@ -1,14 +1,9 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Common.Finance.Purchases;
-using MasterErp.Entities.Models;
-using MasterErp.Interface.Finance.Purchase;
-using Microsoft.AspNetCore.Http;
+﻿using MasterErp.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MasterErp.API.Controllers.Finance.Purchase
 {

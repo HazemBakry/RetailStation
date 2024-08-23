@@ -49,7 +49,7 @@ namespace MasterErp.API.Controllers.Inventory
         [Route("GetItemById")]
         public ItemDto GetItemById(int ItemId)
         {
-            var results = _itemService.GetItemById(ItemId);
+            var results = _itemService.GetItemDetails(ItemId);
             return results;
         }
 
@@ -63,9 +63,9 @@ namespace MasterErp.API.Controllers.Inventory
 
         [HttpPost]
         [Route("EditItem")]
-        public IActionResult EditItem(int ItemId,ItemDto model)
+        public IActionResult EditItem(int ItemId, ItemDto model)
         {
-            var results = _itemService.EditItem(ItemId,model);
+            var results = _itemService.EditItem(ItemId, model);
             return Ok(results);
         }
 
@@ -86,14 +86,6 @@ namespace MasterErp.API.Controllers.Inventory
             return Ok(results);
         }
 
-        [HttpGet]
-        [Route("GetItemSuppliersByItemId")]
-        public IActionResult GetItemSuppliersByItemId(int ItemId)
-        {
-            var result = _itemService.GetItemSuppliersByItemId(ItemId);
-            return Ok(result);
-        }
-        
         [HttpGet]
         [Route("GetItemsBySupplierId")]
         public IActionResult GetItemsBySupplierId(int SupplierId)
@@ -143,21 +135,19 @@ namespace MasterErp.API.Controllers.Inventory
 
         [HttpGet]
         [Route("GetItemsDeleted")]
-        public DataTable GetItemsDeleted(int ItemCategoryId, string SearchText)
+        public List<ItemDto> GetItemsDeleted(int ItemCategoryId, string SearchText)
         {
             var results = _itemService.GetItemsDeleted(ItemCategoryId, SearchText);
             return results;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetItemsByCategoryId")]
-        public List<Item> GetItemsByCategoryId(int CategoryId)
+        public List<ItemDto> GetItemsByCategoryId(int CategoryId, SearchFilterModel FilterModel)
         {
-            var results = _itemService.GetItemsByCategoryId(CategoryId);
+            var results = _itemService.GetItems(CategoryId, FilterModel);
             return results;
         }
-
-
 
         [HttpGet]
         [Route("GetUnits")]

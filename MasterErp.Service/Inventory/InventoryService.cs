@@ -22,55 +22,169 @@ namespace MasterErp.Service.Inventory
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
+        private readonly ISharedFilterService SharedFilterService;
+        private string ConnectionString;
 
-        private string ConnectionString
+        public InventoryService(DBContext Context, ISQLHelper SQLHelper, 
+            IConfiguration Configuration, ISharedFilterService SharedFilterService)
         {
-            get
+            this.Context = Context;
+            this.SQLHelper = SQLHelper;
+            this.Configuration = Configuration;
+            this.SharedFilterService = SharedFilterService;
+            this.ConnectionString = Configuration.GetConnectionString("DBConnection");
+        }
+        public List<Store> GetInventoryList()
+        {
+            return Context.Stores.ToList();
+        }
+
+        public List<OrderModel> GetReceiveOrdersSummary(FilterModel model)
+        {
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterItems);
+
+            SqlParameter[] Params = new SqlParameter[3];
+
+            Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
+            Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
+            Params[2] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[2].Value = dt;
+
+            var result = SQLHelper.SQLQuery<OrderModel>("[Inventory].[SP_GetReceiveOrdersSummary]", ConnectionString, Params);
+            return result;
+        }
+
+        public ActionsResponseModel SaveNewReceiveOrder(ReceiveOrderModel model)
+        {
+            try
             {
-                return Configuration.GetConnectionString("DBConnection");
+                ReceiveOrder order_tbl = new ReceiveOrder();
+
+                order_tbl.ReceiveDate = DateTime.Now;
+                order_tbl.CreatedDate = DateTime.Now;
+                order_tbl.OrderNumber = (Context.ReceiveOrders.Count() > 0 ? Context.ReceiveOrders.Max(x => x.OrderNumber) + 1 : 1);
+                order_tbl.DocNumber = string.Empty;
+                order_tbl.CreatedBy = string.Empty;
+                order_tbl.PurchaseOrderId = model.PurchaseOrderId;
+                order_tbl.TotalValue = model.TotalValue;
+                order_tbl.IsCancelled = false;
+                order_tbl.IsLocked = false;
+                order_tbl.Notes = model.Notes;
+                order_tbl.SupplierId = model.SupplierId;
+                order_tbl.InventoryId = model.InventoryId;
+
+                Context.ReceiveOrders.Add(order_tbl);
+                Context.SaveChanges();
+
+                foreach (OrderProductModel item in model.Items)
+                {
+                    var detail = new ReceiveOrderDetails
+                    {
+                        Price = (double)item.Price,
+                        ItemId = item.ItemId,
+                        Quantity = (double)item.Quantity,
+                        TotalValue = (double)item.TotalValue,
+                        ReceiveOrderId = order_tbl.ReceiveOrderId,
+                        UnitId = (int)item.UnitId,
+                        RemainQuantity = 0,
+                        ItemBalance = 0,
+                        IsLocked = false,
+                        Notes = model.Notes,
+
+                    };
+
+                    Context.ReceiveOrderDetails.Add(detail);
+                    Context.SaveChanges();
+                }
+                return new ActionsResponseModel
+                {
+                    Status = 1,
+                    Message = "Purchase Order Created"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    Message = ex.Message
+                };
             }
         }
 
-        public InventoryService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration)
+        public List<OrderModel> GetDeliveryOrdersSummary(FilterModel model)
         {
-            Context = dBContext;
-            SQLHelper = iSQLHelper;
-            Configuration = _configuration;
-        }
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterItems);
 
+            SqlParameter[] Params = new SqlParameter[3];
 
-        public DataTable GetReceiveOrdersSummary(FilterModel model)
-        {
-            SqlParameter[] param = new SqlParameter[2];
+            Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
+            Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
+            Params[2] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[2].Value = dt;
 
-            param[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
-            param[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
-
-            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetReceiveOrdersSummary]", ConnectionString, param);
+            var result = SQLHelper.SQLQuery<OrderModel>("[Inventory].[SP_GetDeliveryOrdersSummary]", ConnectionString, Params);
             return result;
-
-            //var result = Context.ReceiveOrders.Join(Context.Suppliers,
-            //         o => o.SupplierId,
-            //         s => s.SupplierId,
-            //         (o, s) => new
-            //         {
-            //             OrderNumber = o.OrderNumber,
-            //             ReceiveDate = o.ReceiveDate,
-            //             DocNumber = o.DocNumber,
-            //             IsLocked = o.IsLocked,
-            //             PurchaseOrderId = o.PurchaseOrderId,
-            //             ReceiveOrderId = o.ReceiveOrderId,
-            //             TotalValue = o.TotalValue,
-            //             SupplierName = s.NameAR
-            //         }).ToList().ToDataTable();
-
-            //return result;
         }
 
-        public List<InventoryDataModel> GetInventoryList()
+        public ActionsResponseModel SaveNewDeliveryOrder(ReceiveOrderModel model)
         {
-            return Context.Inventory.ToList();
+            try
+            {
+                ReceiveOrder order_tbl = new ReceiveOrder();
+
+                order_tbl.ReceiveDate = DateTime.Now;
+                order_tbl.CreatedDate = DateTime.Now;
+                order_tbl.OrderNumber = (Context.ReceiveOrders.Count() > 0 ? Context.ReceiveOrders.Max(x => x.OrderNumber) + 1 : 1);
+                order_tbl.DocNumber = string.Empty;
+                order_tbl.CreatedBy = string.Empty;
+                order_tbl.PurchaseOrderId = model.PurchaseOrderId;
+                order_tbl.TotalValue = model.TotalValue;
+                order_tbl.IsCancelled = false;
+                order_tbl.IsLocked = false;
+                order_tbl.Notes = model.Notes;
+                order_tbl.SupplierId = model.SupplierId;
+                order_tbl.InventoryId = model.InventoryId;
+
+                Context.ReceiveOrders.Add(order_tbl);
+                Context.SaveChanges();
+
+                foreach (OrderProductModel item in model.Items)
+                {
+                    var detail = new ReceiveOrderDetails
+                    {
+                        Price = (double)item.Price,
+                        ItemId = item.ItemId,
+                        Quantity = (double)item.Quantity,
+                        TotalValue = (double)item.TotalValue,
+                        ReceiveOrderId = order_tbl.ReceiveOrderId,
+                        UnitId = (int)item.UnitId,
+                        RemainQuantity = 0,
+                        ItemBalance = 0,
+                        IsLocked = false,
+                        Notes = model.Notes,
+
+                    };
+
+                    Context.ReceiveOrderDetails.Add(detail);
+                    Context.SaveChanges();
+                }
+                return new ActionsResponseModel
+                {
+                    Status = 1,
+                    Message = "Purchase Order Created"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    Message = ex.Message
+                };
+            }
         }
+
         public List<OrdersSearchDTO> GetOrdersSearchData(int SupplierId, string OrderNumber, string OrderDate, int OrderId = 0)
         {
 
@@ -120,65 +234,6 @@ namespace MasterErp.Service.Inventory
 
 
             return finalRes;
-        }
-
-
-        public ActionsResponseModel SaveNewReceiveOrder(ReceiveOrderModel model)
-        {
-            try
-            {
-                ReceiveOrder order_tbl = new ReceiveOrder();
-
-                order_tbl.ReceiveDate = DateTime.Now;
-                order_tbl.InsertDate = DateTime.Now;
-                order_tbl.OrderNumber = (Context.ReceiveOrders.Count() > 0 ? Context.ReceiveOrders.Max(x => x.OrderNumber) + 1 : 1);
-                order_tbl.DocNumber = string.Empty;
-                order_tbl.InsertUser = string.Empty;
-                order_tbl.PurchaseOrderId = model.PurchaseOrderId;
-                order_tbl.TotalValue = model.TotalValue;
-                order_tbl.IsCancelled = false;
-                order_tbl.IsLocked = false;
-                order_tbl.Notes = model.Notes;
-                order_tbl.SupplierId = model.SupplierId;
-                order_tbl.InventoryId = model.InventoryId;
-
-                Context.ReceiveOrders.Add(order_tbl);
-                Context.SaveChanges();
-
-                foreach (OrderProductModel item in model.Items)
-                {
-                    var detail = new ReceiveOrderDetails
-                    {
-                        Price = (double)item.Price,
-                        ItemId = item.ItemId,
-                        Quantity = (double)item.Quantity,
-                        TotalValue = (double)item.TotalValue,
-                        ReceiveOrderId = order_tbl.ReceiveOrderId,
-                        UnitId = (int)item.UnitId,
-                        RemainQuantity = 0,
-                        ItemBalance = 0,
-                        IsLocked = false,
-                        Notes = model.Notes,
-
-                    };
-
-                    Context.ReceiveOrderDetails.Add(detail);
-                    Context.SaveChanges();
-                }
-                return new ActionsResponseModel
-                {
-                    Status = 1,
-                    Message = "Purchase Order Created"
-                };
-            }
-            catch (Exception ex)
-            {
-                return new ActionsResponseModel
-                {
-                    Status = 0,
-                    Message = ex.Message
-                };
-            }
         }
 
 
