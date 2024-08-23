@@ -19,7 +19,7 @@ const routes: Routes = [
     children: [
       { path: 'home', component: InventoryHomeComponent },
       { path: 'receive-orders', component: ReceiveOrdersComponent },
-      { path: 'deliver-orders', component: DeliveryOrdersComponent },
+      { path: 'delivery-orders', component: DeliveryOrdersComponent },
       { path: 'add-receive-order', component: AddReceiveOrderComponent },
       { path: 'add-item', component: AddItemComponent },
       { path: 'items', component: ItemsComponent },
