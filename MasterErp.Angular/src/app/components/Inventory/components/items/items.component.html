@@ -41,6 +41,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <td class="cursor-pointer" (click)="filterCategory(0)" [class]="selectedCategoryId==0?'bg-info':''">
+                                  كل الاصناف
+                                </td>
+                        
+                            </tr>
                             <tr *ngFor="let cat of categoriesData">
                                 <td class="cursor-pointer" (click)="filterCategory(cat.value)" [class]="cat.value==selectedCategoryId?'bg-info':''">
                                     {{cat.name}}
@@ -76,7 +82,10 @@
                                 <td>{{item.purchaseUnitName}}</td>
                                 <td>{{item.cost}}</td>
                                 <td>
-                                    <a class="cursor-pointer" (click)="openSuppliersDialog(ItemSuppliersDialog,item.itemId)">
+                                    <!-- <a class="cursor-pointer" (click)="openSuppliersDialog(ItemSuppliersDialog,item.itemId)">
+                                        الموردين
+                                    </a> -->
+                                    <a class="cursor-pointer" (click)="openSuppliersSidePanel(ItemSuppliersSidePanel,item.itemId)">
                                         الموردين
                                     </a>
 
@@ -87,7 +96,7 @@
                                             <i class="uil uil-edit"></i>
                                             <span class="ms-2">تعديل</span>
                                         </button>
-                                        <button class="btn text-danger" (click)="openDeleteModal(deleteModal,item.itemId)">
+                                        <button class="btn text-danger" (click)="openDeleteModal(ItemSuppliersSidePanel,item.itemId)">
                                             <i class="uil uil-trash-alt"></i>
                                             <span class="ms-2">حذف</span>
                                         </button>
@@ -336,5 +345,51 @@
             <i class="fas fa-times"></i>
             <span class="ms-2">الغاء</span>
         </button>
+    </div>
+</ng-template>
+<ng-template #ItemSuppliersSidePanel let-offcanvas class="details-panel">
+    <div class="offcanvas-header gap-3 fs-4 border-bottom py-4">
+        <!-- <i class="fas fa-user-plus offcanvas-header-icon"></i> -->
+        <span>الموردين</span>
+    </div>
+
+    <div class="offcanvas-body  pt-4 bg-light">
+
+        <!-- <div class="d-flex justify-content-center border-top pt-3 mt-3">
+
+        </div> -->
+        <div class="table-responsive sidepanel-table-h large-scroll">
+                <table class="table table-borderless table-middle table-hover  m-0">
+                    <thead>
+                        <tr>
+                            <th>الاسم بالعربي</th>
+                            <th>الاسم بالانجليزي</th>
+                            <th>التليفون</th>
+                            <th>الدوله</th>
+                            <th>المدينه</th>
+                            <th>المنطقة</th>
+                            <th>السجل التجاري</th>
+                            <th>السجل الضريبي</th>
+                            <th> العنوان</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of itemSuppliers">
+                            <td>{{item.nameEN}}</td>
+                            <td>{{item.nameAR}}</td>
+                            <td>{{item.phone}}</td>
+                            <td>{{item.countryName}}</td>
+                            <td>{{item.cityName}}</td>
+                            <td>{{item.regionName}}</td>
+                            <td>{{item.commercialRegister}}</td>
+                            <td>{{item.taxNumber}}</td>
+                            <td>{{item.address}}</td>
+                           
+                        </tr>
+                    </tbody>
+                </table>
+                <app-empty-data [showContainer]="!itemSuppliers?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+    
+        </div>
     </div>
 </ng-template>

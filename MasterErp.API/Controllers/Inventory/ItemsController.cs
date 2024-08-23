@@ -82,8 +82,8 @@ namespace MasterErp.API.Controllers.Inventory
         public IActionResult ExportItems(int categoryId, SearchFilterModel SearchModel)
         {
             string UserName = string.Empty;
-            var Url = _itemService.ExportItems(categoryId, UserName, SearchModel);
-            return Ok(new { Url = Url });
+            var results = _itemService.ExportItems(categoryId, UserName, SearchModel);
+            return Ok(results);
         }
 
         [HttpGet]
