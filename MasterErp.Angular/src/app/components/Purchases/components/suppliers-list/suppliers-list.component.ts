@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { ItemModel } from 'src/app/components/Inventory/models/Item';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-suppliers-list',
@@ -21,7 +21,7 @@ export class SuppliersListComponent implements OnInit {
     pageSize: 25
   };
 
- constructor(private purchaseService: PurchaseService,private inventoryService:InventoryService,private modalService :NgbModal, private toaster: ToastrService) { }
+ constructor(private purchaseService: PurchaseService,private inventoryService:InventoryService,private modalService :NgbModal, private toaster: ToastrService,private offcanvasService: NgbOffcanvas) { }
 
   ngOnInit(): void {
     this.GetSuppliersData();
@@ -46,9 +46,19 @@ export class SuppliersListComponent implements OnInit {
     this.GetSuppliersData();
   }
   supplierItems:ItemModel[]=[];
-  openItemsDialog(content: any,itemId:number) {
+  openItemsDialog(content: any,supplierId:number) {
+    this.getSupplierItemsBySupplierId(supplierId);
+    this.modalService.open(content, { centered: true, size: 'lg' });
+  }
+
+  openItemsSidePanel(content: any,supplierId:number) {
+    this.getSupplierItemsBySupplierId(supplierId);
+    this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
+  }
+  getSupplierItemsBySupplierId(supplierId:number)
+  {
     this.supplierItems=[];
-    this.inventoryService.GetItemsBySupplierId(itemId).subscribe(data => {
+    this.inventoryService.GetItemsBySupplierId(supplierId).subscribe(data => {
 
       if(data&&data.length>0) {
         this.supplierItems=data;
@@ -59,9 +69,5 @@ export class SuppliersListComponent implements OnInit {
     },()=>{
       this.showLoader=false;
     });
-    this.modalService.open(content, { centered: true, size: 'lg' });
-
-    // this.offcanvasService.open(content, { panelClass: 'add-new-panel', position: 'end' });
   }
-
 }

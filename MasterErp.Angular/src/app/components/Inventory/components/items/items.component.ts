@@ -61,7 +61,7 @@ export class ItemsComponent implements OnInit {
     itemType : ''
   };
 
-  selectedCategoryId:number=null;
+  selectedCategoryId:number=0;
   isUpdate: boolean=false;
   constructor(private modalService: NgbModal, private inventoryService: InventoryService,private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
     private datePipe: DatePipe,private toaster:ToastrService,private offcanvasService: NgbOffcanvas,) { }
@@ -288,6 +288,17 @@ export class ItemsComponent implements OnInit {
   }
   itemSuppliers:SupplierModel[] = [];
   openSuppliersDialog(content: any,itemId:number) {
+
+    this.getItemSuppliersByItemId(itemId);
+    this.modalService.open(content, { centered: true, size: 'lg' });
+  }
+
+  openSuppliersSidePanel(content: any,itemId:number) {
+    this.getItemSuppliersByItemId(itemId);
+    this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
+  }
+  getItemSuppliersByItemId(itemId:number)
+  {
     this.itemSuppliers=[];
     this.inventoryService.GetItemSuppliersByItemId(itemId).subscribe(data => {
 
@@ -300,9 +311,6 @@ export class ItemsComponent implements OnInit {
     },()=>{
       this.showAddLoader=false;
     });
-    this.modalService.open(content, { centered: true, size: 'lg' });
-
-    // this.offcanvasService.open(content, { panelClass: 'add-new-panel', position: 'end' });
   }
 }
 

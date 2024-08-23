@@ -248,9 +248,9 @@ namespace MasterErp.Service.Inventory
                     result.Add(new ItemDtoExportModel());
 
                 }
-                var ResultJson = JsonConvert.SerializeObject(result);
-                var dtExport = (DataTable)JsonConvert.DeserializeObject(ResultJson, (typeof(DataTable)));
-                dtExport.TableName = "Items";
+             
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "Items");
 
 
                 url = GetExportFilePath(dtExport, UserName, "Items");

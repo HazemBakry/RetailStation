@@ -62,7 +62,10 @@
             <i class="fas fa-info-circle"></i>
             <span class="ms-2">تفاصيل</span>
           </button>
-          <button (click)="openItemsDialog(SupplierItemsDialog,item.supplierId)" class="btn text-success py-3 justify-content-center w-50 mx-2 d-block">
+          <!-- <button (click)="openItemsDialog(SupplierItemsDialog,item.supplierId)" class="btn text-success py-3 justify-content-center w-50 mx-2 d-block">
+            <span class="ms-2">الاصناف</span>
+          </button> -->
+          <button (click)="openItemsSidePanel(SupplierItemsSidePanel,item.supplierId)" class="btn text-success py-3 justify-content-center w-50 mx-2 d-block">
             <span class="ms-2">الاصناف</span>
           </button>
         </div>
@@ -304,5 +307,46 @@
           <i class="fas fa-times"></i>
           <span class="ms-2">إلغاء</span>
       </button>
+  </div>
+</ng-template>
+<ng-template #SupplierItemsSidePanel let-offcanvas class="details-panel">
+  <div class="offcanvas-header gap-3 fs-4 border-bottom py-4">
+    <!-- <i class="fas fa-user-plus offcanvas-header-icon"></i> -->
+    <span>
+      الاصناف
+    </span>
+  </div>
+
+  <div class="offcanvas-body  pt-4 bg-light">
+
+    <!-- <div class="d-flex justify-content-center border-top pt-3 mt-3">
+
+      </div> -->
+    <div class="table-responsive sidepanel-table-h large-scroll">
+      <table class="table table-bordered table-middle table-hover bg-white m-0">
+        <thead>
+          <tr>
+            <th>اسم الصنف (Ar)</th>
+            <th>اسم الصنف (En)</th>
+            <th>المجموعة</th>
+            <th>الوحدة</th>
+            <th>وحدة المشتريات</th>
+            <th>سعر الوحدة</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of supplierItems">
+            <td>{{item.nameEN}}</td>
+            <td>{{item.nameAR}}</td>
+            <td>{{item.itemCategoryName}}</td>
+            <td>{{item.unitName}}</td>
+            <td>{{item.purchaseUnitName}}</td>
+            <td>{{item.cost}}</td>
+
+          </tr>
+        </tbody>
+      </table>
+      <app-empty-data [showContainer]="!supplierItems?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+    </div>
   </div>
 </ng-template>
