@@ -7,12 +7,12 @@ import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 
 @Component({
-  selector: 'app-deliver-orders',
-  templateUrl: './deliver-orders.component.html',
-  styleUrls: ['./deliver-orders.component.css']
+  selector: 'app-delivery-orders',
+  templateUrl: './delivery-orders.component.html',
+  styleUrls: ['./delivery-orders.component.css']
 })
 
-export class DeliverOrdersComponent implements OnInit {
+export class DeliveryOrdersComponent implements OnInit {
   OrderList: any[] = [];
   showLoader: boolean;
   TotalCount: any;
@@ -25,12 +25,12 @@ export class DeliverOrdersComponent implements OnInit {
   constructor(private inventoryService: InventoryService, private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.GetReceiveOrdersSummary();
+    this.getDeliveryOrdersSummary();
   }
 
-  GetReceiveOrdersSummary() {
+  getDeliveryOrdersSummary() {
     this.showLoader = true;
-    this.inventoryService.GetReceiveOrdersSummary(this.FilterModel).subscribe(data => {
+    this.inventoryService.GetDeliveryOrdersSummary(this.FilterModel).subscribe(data => {
       this.OrderList = data;
       this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
       this.showLoader = false;
@@ -43,25 +43,21 @@ export class DeliverOrdersComponent implements OnInit {
 
   pageChanged(obj: any) {
     this.FilterModel.currentPage = obj.page;
-    this.GetReceiveOrdersSummary();
+    this.getDeliveryOrdersSummary();
   }
 
-  CancelReceiveOrder(InvoiceId: number) {
-    this.inventoryService.CancelReceiveOrder(InvoiceId).subscribe(data => {
+  cancelDeliveryOrder(InvoiceId: number) {
+    this.inventoryService.CancelDeliveryOrder(InvoiceId).subscribe(data => {
       if (data) {
         this.toaster.success('تم الغاء الطلب بنجاح');
-        this.GetReceiveOrdersSummary();
+        this.getDeliveryOrdersSummary();
       }
       else {
         this.toaster.error('حدث خطأ اثناء الألغاء');
-
       }
     }, (error) => {
       this.toaster.error('حدث خطأ اثناء الألغاء');
-
     })
-
-
   }
 
   getStatusColor(status: boolean) {

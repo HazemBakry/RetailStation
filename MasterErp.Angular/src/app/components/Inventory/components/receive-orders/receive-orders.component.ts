@@ -25,10 +25,10 @@ export class ReceiveOrdersComponent implements OnInit {
   constructor(private inventoryService: InventoryService, private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.GetReceiveOrdersSummary();
+    this.getReceiveOrdersSummary();
   }
 
-  GetReceiveOrdersSummary() {
+  getReceiveOrdersSummary() {
     this.showLoader = true;
     this.inventoryService.GetReceiveOrdersSummary(this.FilterModel).subscribe(data => {
       this.OrderList = data;
@@ -43,25 +43,21 @@ export class ReceiveOrdersComponent implements OnInit {
 
   pageChanged(obj: any) {
     this.FilterModel.currentPage = obj.page;
-    this.GetReceiveOrdersSummary();
+    this.getReceiveOrdersSummary();
   }
 
-  CancelReceiveOrder(InvoiceId: number) {
+  cancelReceiveOrder(InvoiceId: number) {
     this.inventoryService.CancelReceiveOrder(InvoiceId).subscribe(data => {
       if (data) {
         this.toaster.success('تم الغاء الطلب بنجاح');
-        this.GetReceiveOrdersSummary();
+        this.getReceiveOrdersSummary();
       }
       else {
         this.toaster.error('حدث خطأ اثناء الألغاء');
-
       }
     }, (error) => {
       this.toaster.error('حدث خطأ اثناء الألغاء');
-
     })
-
-
   }
 
   getStatusColor(status: boolean) {

@@ -110,18 +110,34 @@ export class InventoryService {
   }
 
 
-  // -------------------------------------- Receive Orders -------------------------------------- //
+  // -------------------------------------- Inventory operations -------------------------------------- //
+  
+  GetInventoryList() {
+    return this.http.get<any[]>(this.URL + 'Inventory/GetInventoryList');
+  }
 
   GetReceiveOrdersSummary(model: FilterModel) {
     return this.http.post<any>(this.URL + 'Inventory/GetReceiveOrdersSummary', model);
   }
 
-  GetInventoryList() {
-    return this.http.get<any[]>(this.URL + 'Inventory/GetInventoryList');
-  }
-
   CreateNewReceiveOrder(model: ReceiveOrderModel) {
     return this.http.post<any>(this.URL + 'Inventory/CreateNewReceiveOrder', model);
+  }
+
+  CancelReceiveOrder(OrderId: number) {
+    return this.http.get<any[]>(this.URL + 'Inventory/CancelReceiveOrder?=OrderId' + OrderId);
+  }
+
+  GetDeliveryOrdersSummary(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'Inventory/GetDeliveryOrdersSummary', model);
+  }
+
+  CreateNewDeliveryOrder(model: ReceiveOrderModel) {
+    return this.http.post<any>(this.URL + 'Inventory/CreateNewDeliverOrder', model);
+  }
+
+  CancelDeliveryOrder(OrderId: number) {
+    return this.http.get<any[]>(this.URL + 'Inventory/CancelDeliveryOrder?=OrderId' + OrderId);
   }
 
   GetOrdersSearchData(supplierId: number, orderNumber: string, orderDate: string) {
@@ -130,11 +146,6 @@ export class InventoryService {
     orderDate = orderDate ? orderDate : '';
     return this.http.get<any[]>(this.URL + 'Inventory/GetOrdersSearchData?SupplierId=' + supplierId + '&OrderNumber=' + orderNumber + '&OrderDate=' + orderDate);
   }
-
-  CancelReceiveOrder(OrderId: number) {
-    return this.http.get<any[]>(this.URL + 'Inventory/CancelReceiveOrder?=OrderId' + OrderId);
-  }
-
 
 
   ///////////////////

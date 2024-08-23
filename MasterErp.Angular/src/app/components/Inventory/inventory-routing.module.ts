@@ -10,7 +10,7 @@ import { ItemsCategoryComponent } from './components/items-category/items-catego
 import { AddReceiveOrderComponent } from './components/add-receive-order/add-receive-order.component';
 import { AddPurchasesRequestComponent } from './components/add-purchase-request/add-purchases-request.component';
 import { ReceiveOrdersComponent } from './components/receive-orders/receive-orders.component';
-import { DeliverOrdersComponent } from './components/deliver-orders/deliver-orders.component';
+import { DeliveryOrdersComponent } from './components/delivery-orders/delivery-orders.component';
 
 const routes: Routes = [
   {
@@ -19,7 +19,7 @@ const routes: Routes = [
     children: [
       { path: 'home', component: InventoryHomeComponent },
       { path: 'receive-orders', component: ReceiveOrdersComponent },
-      { path: 'deliver-orders', component: DeliverOrdersComponent },
+      { path: 'deliver-orders', component: DeliveryOrdersComponent },
       { path: 'add-receive-order', component: AddReceiveOrderComponent },
       { path: 'add-item', component: AddItemComponent },
       { path: 'items', component: ItemsComponent },

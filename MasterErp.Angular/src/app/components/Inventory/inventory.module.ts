@@ -15,7 +15,7 @@ import { ItemsComponent } from './components/items/items.component';
 import { AddPurchasesRequestComponent } from './components/add-purchase-request/add-purchases-request.component';
 import { AddReceiveOrderComponent } from './components/add-receive-order/add-receive-order.component';
 import { ReceiveOrdersComponent } from './components/receive-orders/receive-orders.component';
-import { DeliverOrdersComponent } from './components/deliver-orders/deliver-orders.component';
+import { DeliveryOrdersComponent } from './components/delivery-orders/delivery-orders.component';
 
 
 @NgModule({
@@ -23,7 +23,7 @@ import { DeliverOrdersComponent } from './components/deliver-orders/deliver-orde
     InventoryLayoutComponent,
     AddReceiveOrderComponent,
     ReceiveOrdersComponent,
-    DeliverOrdersComponent,
+    DeliveryOrdersComponent,
     OrderSearchSidepanelComponent,
     ItemsComponent,
     ItemsCategoryComponent,

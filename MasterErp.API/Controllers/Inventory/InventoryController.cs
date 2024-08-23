@@ -40,6 +40,23 @@ namespace MasterErp.API.Controllers.Inventory
             return Ok(result);
         }
 
+        [HttpPost]
+        [Route("GetDeliveryOrdersSummary")]
+        public IActionResult GetDeliveryOrdersSummary(FilterModel model)
+        {
+            var results = _inventoryService.GetDeliveryOrdersSummary(model);
+            return Ok(results);
+        }
+
+        [HttpPost]
+        [Route("SaveNewDeliveryOrder")]
+        public IActionResult SaveNewDeliveryOrder(ReceiveOrderModel model)
+        {
+            var result = _inventoryService.SaveNewDeliveryOrder(model);
+            return Ok(result);
+        }
+
+
         [HttpGet]
         [Route("GetOrdersSearchData")]
         public IActionResult GetOrdersSearchData(int SupplierId, string OrderNumber, string OrderDate)

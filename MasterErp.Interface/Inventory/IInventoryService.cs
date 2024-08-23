@@ -17,6 +17,8 @@ namespace MasterErp.Interface.Inventory
         List<Store> GetInventoryList();
         List<OrderModel> GetReceiveOrdersSummary(FilterModel model);
         ActionsResponseModel SaveNewReceiveOrder(ReceiveOrderModel model);
+        List<OrderModel> GetDeliveryOrdersSummary(FilterModel model);
+        ActionsResponseModel SaveNewDeliveryOrder(ReceiveOrderModel model);
         List<OrdersSearchDTO> GetOrdersSearchData(int SupplierId, string OrderNumber, string OrderDate,int OrderId=0);
     }
 }
