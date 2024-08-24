@@ -8,6 +8,8 @@ import { ItemCategoryModel } from '../../models/itemCategory';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
 
 @Component({
   selector: 'app-items-category',
@@ -17,6 +19,7 @@ import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateMod
 export class ItemsCategoryComponent implements OnInit {
   itemCategories: any[] = [];
   categoryModel: ItemCategoryModel = {} as ItemCategoryModel;
+  childAccountSelectorData: FormDropdownModel[] = [];
   URLs: any[] = [];
   ImagesName: any[] = [];
   TitleList = ['System Difinitions', 'Food Categories'];
@@ -25,10 +28,9 @@ export class ItemsCategoryComponent implements OnInit {
   pageSize: any = 20;
   currentPage: any = 1;
   StartIndex = 0;
-  CategoryId: any;
-  DefaultImage = '../../../../assets/defaultimg.jpeg'
-  PrinterName: string;
-  Lang = 'en';
+  defaultImage = '../../../../assets/defaultimg.jpeg'
+  printerName: string;
+  lang = 'en';
   showLoader: boolean = false;
   showAddLoader: boolean = false;
   isUpdate: boolean = false;
@@ -40,27 +42,25 @@ export class ItemsCategoryComponent implements OnInit {
     searchText: ''
 
   };
+  selectedItemCategoryId?: number | null;
+
   public formGroup: FormGroup;
   public formErrors = {
     itemId: '',
     nameAR: '',
     nameEN: '',
-    unitId: '',
-    purchaseUnitId: '',
-    itemCategoryId: '',
-    cost: '',
-    convertRatio: '',
+    operationAccountId: '',
+    managementAccountId: '',
+    description: '',
     isActive: '',
-    supplierIds: '',
-    yield: '',
-    purchasePrice: '',
-    itemType: ''
+
   };
 
   constructor(private inventoryService: InventoryService,
     private toaster: ToastrService,
     private modalService: NgbModal,
     private form: FormBuilder,
+    private sharedService: SharedService,
     private formService: FormService) { }
 
   ngOnInit(): void {
@@ -69,19 +69,13 @@ export class ItemsCategoryComponent implements OnInit {
 
   buildForm() {
     this.formGroup = this.form.group({
-      itemId: [null],
+      itemCategoryId: [null],
       nameAR: [null, [Validators.required]],
       nameEN: [null, [Validators.required]],
-      unitId: [null, [Validators.required]],
-      purchaseUnitId: [null],
-      itemCategoryId: [null],
-      cost: [null, [Validators.required]],
-      convertRatio: [null],
-      isActive: [true],
-      supplierIds: [[]],
-      yield: [null],
-      purchasePrice: [null],
-      itemType: [null]
+      operationAccountId: [null, [Validators.required]],
+      managementAccountId: [null, [Validators.required]],
+      description: [null],
+      isActive: [true]
 
     });
     this.formGroup.valueChanges.subscribe((data) => {
@@ -91,8 +85,9 @@ export class ItemsCategoryComponent implements OnInit {
 
   getItemCategories() {
     this.showLoader = true;
-    this.inventoryService.GetItemCategories().subscribe(data => {
-      this.itemCategories = data;
+    this.inventoryService.GetItemCategories().subscribe((data: PagedResponseDTO<ItemCategoryModel[]>) => {
+      this.responseModel.results = data.results;
+      this.responseModel.totalCount = data.totalCount;
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
@@ -102,13 +97,20 @@ export class ItemsCategoryComponent implements OnInit {
   }
 
   openNewSidePanel(content: any, catModel: ItemCategoryModel = null) {
-    this.getItemCategories();
+    this.loadSelectors();
     this.isUpdate = false;
     this.buildForm();
     if (catModel)
       this.fillEditForm(catModel);
-    this.formGroup.patchValue({ itemCategoryId: this.itemCategoryId });
+    // this.formGroup.patchValue({ itemCategoryId: this.selectedItemCategoryId });
     this.modalService.open(content, { centered: true, size: 'xl', fullscreen: 'lg' });
+  }
+  loadSelectors() {
+
+    this.sharedService.GetChildAccountsSelector().subscribe((data: FormDropdownModel[]) => {
+      this.childAccountSelectorData = data;
+    });
+
   }
 
   pageChanged(obj: any) {
@@ -118,24 +120,24 @@ export class ItemsCategoryComponent implements OnInit {
   }
 
   changeCategoryStatus(CategoryId: any) {
-    this.inventoryService.ChangeCategoryStatus(CategoryId).subscribe(data => {
-      if (data) {
-        if (this.Lang == 'en')
-          this.toaster.success('Change Status Successfully');
-        else
-          this.toaster.success('تم تغيير الحالة');
+    this.inventoryService.ChangeItemCategoryActiveStatus(CategoryId).subscribe(data => {
+      if (data.isSuccess) {
+        this.toaster.success(data.message);
+        this.getItemCategories();
       } else {
-        if (this.Lang == 'en')
-          this.toaster.error('Change Status Field!');
-        else
-          this.toaster.error('لقد حدث خطا');
+        this.toaster.error(data.message);
       }
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
     });
   }
 
   open(content: any, category: any) {
     this.URLs = [];
-    this.PrinterName = this.Lang == 'en' ? 'Printers' : 'الطابعات';
+    this.printerName = this.lang == 'en' ? 'Printers' : 'الطابعات';
     this.formGroup.reset();
     if (category != null) {
       this.fillEditForm(category);
@@ -169,14 +171,14 @@ export class ItemsCategoryComponent implements OnInit {
     this.categoryModel = this.formGroup.value;
 
     if (this.categoryModel.itemCategoryId)
-      this.editItem();
+      this.editCategory();
     else
-      this.addNewItem();
+      this.addNewCategory();
   }
 
-  addNewItem() {
+  addNewCategory() {
     this.showAddLoader = true;
-    this.inventoryService.AddNewCategory(this.categoryModel).subscribe((data: ActionsResponseModel) => {
+    this.inventoryService.AddNewItemCategory(this.categoryModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.toaster.success(data?.message);
@@ -197,7 +199,8 @@ export class ItemsCategoryComponent implements OnInit {
 
   }
 
-  editItem() {
+  editCategory() {
+
     this.showAddLoader = true;
     this.inventoryService.EditItemCategory(this.categoryModel.itemCategoryId, this.categoryModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
@@ -230,12 +233,7 @@ export class ItemsCategoryComponent implements OnInit {
   }
 
 
-  itemCategoryId?: number | null;
-  nameAR: string;
-  nameEN: string;
-  description: string;
-  displayOrder: number | null;
-  IsActive: boolean | null;
+
 
   fillEditForm(categoryModel: ItemCategoryModel) {
     this.isUpdate = true;
@@ -243,14 +241,19 @@ export class ItemsCategoryComponent implements OnInit {
       itemCategoryId: categoryModel.itemCategoryId,
       nameAR: categoryModel.nameAR,
       nameEN: categoryModel.nameEN,
+      operationAccountId: categoryModel.operationAccountId,
+      managementAccountId: categoryModel.managementAccountId,
       description: categoryModel.description,
       displayOrder: categoryModel.displayOrder,
-      IsActive: categoryModel.IsActive
+      IsActive: categoryModel.isActive
     });
   }
-
+  openDeleteModal(content: any, itemId: number) {
+    this.selectedItemCategoryId = itemId;
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
   deleteCategory() {
-    this.inventoryService.DeleteItemCategory(this.CategoryId).subscribe(data => {
+    this.inventoryService.DeleteItemCategory(this.selectedItemCategoryId).subscribe(data => {
       if (data?.isSuccess) {
         this.modalService?.dismissAll();
         this.getItemCategories();
@@ -306,28 +309,29 @@ export class ItemsCategoryComponent implements OnInit {
     this.draggedOverIndex = -1;
     this.lastSwap = "";
   }
-  saveOrderSortOrder() {
-    this.itemCategories.forEach((el, i) => el.displayOrder = i + 1)
-    const SortedItems: CategorySortModel[] = [...this.itemCategories.map(x => {
-      return { categoryId: x.foodCategoryId, displayOrder: x.displayOrder }
+  saveCategoriesDisplayOrder() {
+    this.responseModel.results.forEach((el, i) => el.displayOrder = i + 1)
+    const SortedItems: CategorySortModel[] = [...this.responseModel.results.map(x => {
+      return { categoryId: x.itemCategoryId, displayOrder: x.displayOrder }
     })];
-    this.changeCategoriesSortOrder(SortedItems);
+    this.changeCategoriesDisplayOrder(SortedItems);
   }
 
-  changeCategoriesSortOrder(SortedItems: CategorySortModel[]) {
-    this.inventoryService.ChangeCategoriesSortOrder(SortedItems).subscribe(data => {
-      if (data) {
-        if (this.Lang == 'en')
-          this.toaster.success('Change Sort Successfully');
-        else
-          this.toaster.success('تم تغيير الترتيب');
+  changeCategoriesDisplayOrder(SortedItems: CategorySortModel[]) {
+    if (SortedItems.length == 0) return
+    this.showAddLoader = true;
+    this.inventoryService.ChangeCategoriesDisplayOrder(SortedItems).subscribe(data => {
+      if (data.isSuccess) {
+        this.toaster.success(data.message);
         this.getItemCategories();
       } else {
-        if (this.Lang == 'en')
-          this.toaster.error('Change Sort Field!');
-        else
-          this.toaster.error('لقد حدث خطا');
+        this.toaster.error(data.message);
       }
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
     });
   }
 

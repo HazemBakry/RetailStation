@@ -199,6 +199,15 @@ namespace MasterErp.Service.Shared
                 Name = b.NameAR,
             }).ToList();
             return results;
+        }       
+        public List<SelectorDataModel> GetChildAccountsSelector()
+        {
+            var results = Context.AccountTrees.Where(x => x.AccountLevel == 5).Select(b => new SelectorDataModel
+            {
+                Id = b.AccountId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
         }
         #endregion
 

@@ -415,12 +415,175 @@ namespace MasterErp.Service.Inventory
 
         #region Item Categories
 
-        public List<ItemCategory> GetItemCategories()
+        public List<ItemCategoryModel> GetItemCategories(int? CategoryId = null)
         {
-            var results = Context.ItemCategories.ToList();
+            var results = Context.ItemCategories.Select(cat=>new ItemCategoryModel
+            {
+                ItemCategoryId =cat.ItemCategoryId,
+                NameAR=cat.NameAR,
+                NameEN=cat.NameEN,
+                OperationAccountId=cat.OperationAccountId,
+                OperationAccountName="",
+                DisplayOrder=cat.DisplayOrder,
+                ManagementAccountId=cat.ManagementAccountId,
+                ManagementAccountName="",
+                Description=cat.Description,
+                IsActive=cat.IsActive,
+                CreatedBy = cat.CreatedBy,
+                CreatedDate = cat.CreatedDate,
+                ModifiedBy = cat.ModifiedBy,
+                ModifiedDate = cat.ModifiedDate,
+            }).OrderBy(c=>c.DisplayOrder).ToList();
+
+            //int totalCount = query.Count();
+
+            //var results = query.ToList();
+            //results.ForEach(x => x.TotalCount = totalCount);
+
             return results;
         }
+        public ItemCategoryModel GetItemCategoryDetails(int CategoryId)
+        {
+            return GetItemCategories(CategoryId).FirstOrDefault();
 
+        }
+
+        public ActionsResponseModel AddNewItemCategory(ItemCategoryModel model)
+        {
+            try
+            {
+                ItemCategory Item = new ItemCategory
+                {
+                    NameEN = model.NameEN,
+                    NameAR = model.NameAR,
+                    OperationAccountId = model.OperationAccountId,
+                    ManagementAccountId = model.ManagementAccountId,
+                    Description = model.Description,
+                    IsActive = model.IsActive,
+                    DisplayOrder = model.DisplayOrder,
+                    CreatedBy = string.Empty,
+                    CreatedDate = DateTime.Now,
+                };
+
+                Context.ItemCategories.Add(Item);
+                Context.SaveChanges();
+
+
+                return new ActionsResponseModel { Message = "Category Added Successfly !" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel EditItemCategory(int CategoryId, ItemCategoryModel model)
+        {
+            try
+            {
+                var itemCategory = Context.ItemCategories.Where(i => i.ItemCategoryId == CategoryId).FirstOrDefault();
+                if (itemCategory != null)
+                {       
+                    itemCategory.NameEN = model.NameEN;
+                    itemCategory.NameAR = model.NameAR;
+                    itemCategory.OperationAccountId = model.OperationAccountId;
+                    itemCategory.ManagementAccountId = model.ManagementAccountId;
+                    itemCategory.Description = model.Description;
+                    itemCategory.IsActive = model.IsActive;
+                    itemCategory.DisplayOrder = model.DisplayOrder;
+                    itemCategory.ModifiedBy = "";
+                    itemCategory.ModifiedDate = DateTime.Now;
+                    Context.SaveChanges();
+
+                    return new ActionsResponseModel { Message = "Item Category Updated Successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this item category" };
+            }
+            catch (Exception ex)
+            {
+
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+
+            };
+        }
+
+        public ActionsResponseModel DeleteItemCategory(int CategoryId)
+        {
+            try
+            {
+                var itemCategory = Context.ItemCategories.FirstOrDefault(m => m.ItemCategoryId == CategoryId);
+                if (itemCategory != null)
+                {
+                    Context.Remove(itemCategory);
+                    Context.SaveChanges();
+                    return new ActionsResponseModel { Message = "Item Category Deleted Successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this item category" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel ChangeItemCategoryActiveStatus(int CategoryId)
+        {
+            try
+            {
+                var itemCategory = Context.ItemCategories.FirstOrDefault(m => m.ItemCategoryId == CategoryId);
+                if (itemCategory != null)
+                {
+                    itemCategory.IsActive = !itemCategory.IsActive;
+                    Context.SaveChanges();
+                    return new ActionsResponseModel { Message = "Active status changed Successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this item category" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+
+        }
+
+        public ActionsResponseModel ChangeCategoriesDisplayOrder(List<CategorySortModel> Categories)
+        {
+
+            try
+            {
+                var itemsToUpdate = (from category in Categories
+                                     join itemCategory in Context.ItemCategories
+                                     on category.CategoryId equals itemCategory.ItemCategoryId
+                                     select itemCategory).ToList();
+
+                foreach (var itemCategory in itemsToUpdate)
+                {
+                    var updatedCategory = Categories.FirstOrDefault(c => c.CategoryId == itemCategory.ItemCategoryId);
+                    if (updatedCategory != null)
+                    {
+                        itemCategory.DisplayOrder = updatedCategory.DisplayOrder;
+                    }
+                }
+
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "Categories display order updated successfully." };
+            }
+            catch (Exception ex)
+            {
+
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+
+            };
+        }
+
+        public ActionsResponseModel ExportCategories(int categoryId, string UserName, SearchFilterModel Model)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
         #region Units

@@ -34,6 +34,8 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetSupplierGroupsSelector();
         List<SelectorDataModel> GetItemCategoriesSelector();
         List<SelectorDataModel> GetUnitsSelector();
+        List<SelectorDataModel> GetChildAccountsSelector();
+
 
         #endregion
     }
