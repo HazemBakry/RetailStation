@@ -32,7 +32,7 @@ namespace MasterErp.API.Controllers.Finance.Purchase
 
         [HttpPost]
         [Route("CreateNewPurchaseOrder")]
-        public IActionResult CreateNewPurchaseOrder(PurchaseOrderModel model)
+        public IActionResult CreateNewPurchaseOrder(OrderModel model)
         {
             var result = PurchaseOrderService.CreateNewPurchaseOrder(model);
             return Ok(result);

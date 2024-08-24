@@ -15,7 +15,7 @@ namespace MasterErp.Entities.Models
         public string DocNumber { get; set; }
         public DateTime? ReceiveDate { get; set; }
         public int SupplierId { get; set; }
-        public int? InventoryId { get; set; }
+        public int? StoreId { get; set; }
         public double TotalValue { get; set; }
         public int? PurchaseOrderId { get; set; }
         public int? PurchaseInvoiceId { get; set; }

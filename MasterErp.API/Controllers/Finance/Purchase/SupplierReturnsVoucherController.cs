@@ -31,7 +31,7 @@ namespace MasterErp.API.Controllers.Finance.Purchase
 
         [HttpPost]
         [Route("CreateNewSupplierReturnsVoucher")]
-        public IActionResult CreateNewSupplierReturnsVoucher(SupplierReturnsVoucherModel Model)
+        public IActionResult CreateNewSupplierReturnsVoucher(OrderModel Model)
         {
             var results = _SupplierReturnsVoucherService.CreateNewSupplierReturnsVoucher(Model);
             return Ok(results);

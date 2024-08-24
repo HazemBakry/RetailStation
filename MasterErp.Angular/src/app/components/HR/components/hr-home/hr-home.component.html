@@ -40,15 +40,15 @@
                                 </td>
                                 <td>{{item.directManager}}</td>
                                 <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div ngbDropdown container="body">
-                                            <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                            <div ngbDropdownMenu class="border">
-                                                <button ngbDropdownItem (click)="CancelJournalEntry(item.journalEntryId)">اسقاط</button>
-                                                <button ngbDropdownItem (click)="PostJournalEntry(item.journalEntryId)">ترحيل</button>
-                                            </div>
-                                        </div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+                                            <i class="uil uil-pen"></i>
+                                            <span>تعديل</span>
+                                        </button>
+                                        <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2">
+                                            <i class="uil uil-trash-alt"></i>
+                                            <span>الغاء</span>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -93,22 +93,23 @@
                                 <td>{{item.loanAmount}}</td>
                                 <td>{{item.paymentAmount}}</td>
                                 <td>
-                                    <div appColorWithStatus status="isApproved" [text]="item.isApproved"></div>
+                                    <div class="status-table-ele success">{{item.isApproved}}</div>
+                                    <!-- <div appColorWithStatus status="isApproved" [text]="item.isApproved"></div> -->
                                 </td>
                                 <td class="word-break">{{item.notes}}</td>
                                 <td>
                                     <div appColorWithStatus status="entryStatus" [text]="item.directManager"></div>
                                 </td>
                                 <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div ngbDropdown container="body">
-                                            <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle><i
-                                                    class="fas fa-ellipsis-v"></i></button>
-                                            <div ngbDropdownMenu class="border">
-                                                <button ngbDropdownItem (click)="CancelJournalEntry(item.journalEntryId)">اسقاط</button>
-                                                <button ngbDropdownItem (click)="PostJournalEntry(item.journalEntryId)">ترحيل</button>
-                                            </div>
-                                        </div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+                                            <i class="uil uil-pen"></i>
+                                            <span>تعديل</span>
+                                        </button>
+                                        <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2">
+                                            <i class="uil uil-trash-alt"></i>
+                                            <span>الغاء</span>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>

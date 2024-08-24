@@ -215,7 +215,7 @@ namespace MasterErp.Service.HR
             
         }
 
-        public async Task<ActionsResponseModel> SaveEmployeeContractData(int EmployeeId, EmployeeContractDto model)
+        public Task<ActionsResponseModel> SaveEmployeeContractData(int EmployeeId, EmployeeContractDto model)
         {
 
             try
@@ -250,7 +250,7 @@ namespace MasterErp.Service.HR
                     Context.SaveChanges();
 
 
-                    return new ActionsResponseModel { Message = "Employee Contract Updated Successfly !" };
+                    return Task.FromResult(new ActionsResponseModel { Message = "Employee Contract Updated Successfly !" });
                 }
                 //Add
                 else
@@ -285,19 +285,19 @@ namespace MasterErp.Service.HR
                     Context.SaveChanges();
 
 
-                    return new ActionsResponseModel { Message = "Employee Contract Created Successfly !" };
+                    return Task.FromResult(new ActionsResponseModel { Message = "Employee Contract Created Successfly !" });
 
                 }
             }
             catch (Exception ex)
             {
-                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+                return Task.FromResult(new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message });
             }
 
 
         }
 
-        public async Task<ActionsResponseModel> SaveEmployeeVerificationData(int EmployeeId, EmployeeVerificationDto model)
+        public Task<ActionsResponseModel> SaveEmployeeVerificationData(int EmployeeId, EmployeeVerificationDto model)
         {
             try
             {
@@ -315,15 +315,12 @@ namespace MasterErp.Service.HR
                     employeeVerification.PassportIssuanceDate = model.PassportIssuanceDate;
                     employeeVerification.PassportIssuancePlace = model.PassportIssuancePlace;
                     
-
                     employeeVerification.ModifiedBy = model.ModifiedBy;
                     employeeVerification.ModifiedDate = DateTime.Now;
 
-
                     Context.SaveChanges();
 
-
-                    return new ActionsResponseModel { Message = "Employee Verification Updated Successfly !" };
+                    return Task.FromResult(new ActionsResponseModel { Message = "Employee Verification Updated Successfly !" });
                 }
                 //Add
                 else
@@ -341,9 +338,6 @@ namespace MasterErp.Service.HR
                     employeeVerification.PassportIssuanceDate = model.PassportIssuanceDate;
                     employeeVerification.PassportIssuancePlace = model.PassportIssuancePlace;
 
-
-
-
                     employeeVerification.CreatedBy = model.CreatedBy;
                     employeeVerification.CreatedDate = DateTime.Now;
 
@@ -352,13 +346,13 @@ namespace MasterErp.Service.HR
                     Context.SaveChanges();
 
 
-                    return new ActionsResponseModel { Message = "Employee Verification Created Successfly !" };
+                    return Task.FromResult(new ActionsResponseModel { Message = "Employee Verification Created Successfly !" });
 
                 }
             }
             catch (Exception ex)
             {
-                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+                return Task.FromResult(new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message });
             }
         }
 
@@ -609,11 +603,11 @@ namespace MasterErp.Service.HR
             return result;
         }
 
-        public List<EmployeesSummary> GetEmployeesSummary()
+        public List<StatisticsCardSummary> GetEmployeesSummary()
         {
             SqlParameter[] Params = new SqlParameter[0];
 
-            var result = SQLHelper.SQLQuery<EmployeesSummary>("[HR].[SP_GetEmployeesSummary]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<StatisticsCardSummary>("[HR].[SP_GetEmployeesSummary]", ConnectionString, Params);
             return result;
         }
 

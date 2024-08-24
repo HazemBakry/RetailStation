@@ -14,7 +14,7 @@ namespace MasterErp.Interface.Inventory
     public interface IPurchasesRequestsService
     {
         PagedResponseModel<PurchasesRequestDTO> GetPurchasesRequestsData(FilterModel model);
-        ActionsResponseModel CreateNewPurchasesRequest(PurchaseRequestModel model);
+        ActionsResponseModel CreateNewPurchasesRequest(OrderModel model);
 
     }
 }

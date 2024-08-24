@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Common.Inventory.ReceiveOrder;
+using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Inventory;
@@ -25,7 +26,7 @@ namespace MasterErp.Service.Inventory
         private readonly ISharedFilterService SharedFilterService;
         private string ConnectionString;
 
-        public InventoryService(DBContext Context, ISQLHelper SQLHelper, 
+        public InventoryService(DBContext Context, ISQLHelper SQLHelper,
             IConfiguration Configuration, ISharedFilterService SharedFilterService)
         {
             this.Context = Context;
@@ -37,6 +38,14 @@ namespace MasterErp.Service.Inventory
         public List<Store> GetInventoryList()
         {
             return Context.Stores.ToList();
+        }
+
+        public List<StatisticsCardSummary> GetInventoryStatistics()
+        {
+            SqlParameter[] Params = new SqlParameter[0];
+
+            var result = SQLHelper.SQLQuery<StatisticsCardSummary>("[Inventory].[SP_GetInventoryStatistics]", ConnectionString, Params);
+            return result;
         }
 
         public List<OrderModel> GetReceiveOrdersSummary(FilterModel model)
@@ -54,7 +63,7 @@ namespace MasterErp.Service.Inventory
             return result;
         }
 
-        public ActionsResponseModel SaveNewReceiveOrder(ReceiveOrderModel model)
+        public ActionsResponseModel SaveNewReceiveOrder(OrderModel model)
         {
             try
             {
@@ -70,13 +79,13 @@ namespace MasterErp.Service.Inventory
                 order_tbl.IsCancelled = false;
                 order_tbl.IsLocked = false;
                 order_tbl.Notes = model.Notes;
-                order_tbl.SupplierId = model.SupplierId;
-                order_tbl.InventoryId = model.InventoryId;
+                order_tbl.SupplierId = (int)model.SupplierId;
+                order_tbl.StoreId = model.StoreId;
 
                 Context.ReceiveOrders.Add(order_tbl);
                 Context.SaveChanges();
 
-                foreach (OrderProductModel item in model.Items)
+                foreach (OrderProductModel item in model.OrderProducts)
                 {
                     var detail = new ReceiveOrderDetails
                     {
@@ -89,8 +98,7 @@ namespace MasterErp.Service.Inventory
                         RemainQuantity = 0,
                         ItemBalance = 0,
                         IsLocked = false,
-                        Notes = model.Notes,
-
+                        Notes = model.Notes
                     };
 
                     Context.ReceiveOrderDetails.Add(detail);
@@ -127,7 +135,7 @@ namespace MasterErp.Service.Inventory
             return result;
         }
 
-        public ActionsResponseModel SaveNewDeliveryOrder(ReceiveOrderModel model)
+        public ActionsResponseModel SaveNewDeliveryOrder(OrderModel model)
         {
             try
             {
@@ -143,13 +151,13 @@ namespace MasterErp.Service.Inventory
                 order_tbl.IsCancelled = false;
                 order_tbl.IsLocked = false;
                 order_tbl.Notes = model.Notes;
-                order_tbl.SupplierId = model.SupplierId;
-                order_tbl.InventoryId = model.InventoryId;
+                order_tbl.SupplierId = (int)model.SupplierId;
+                order_tbl.StoreId = model.StoreId;
 
                 Context.ReceiveOrders.Add(order_tbl);
                 Context.SaveChanges();
 
-                foreach (OrderProductModel item in model.Items)
+                foreach (OrderProductModel item in model.OrderProducts)
                 {
                     var detail = new ReceiveOrderDetails
                     {
@@ -185,10 +193,8 @@ namespace MasterErp.Service.Inventory
             }
         }
 
-        public List<OrdersSearchDTO> GetOrdersSearchData(int SupplierId, string OrderNumber, string OrderDate, int OrderId = 0)
+        public List<OrderModel> GetOrdersSearchData(int SupplierId, string OrderNumber, string OrderDate, int OrderId = 0)
         {
-
-
             SqlParameter[] param = new SqlParameter[4];
             param[0] = new SqlParameter("@SupplierId", SupplierId);
             param[1] = new SqlParameter("@OrderNumber", OrderNumber);
@@ -198,11 +204,11 @@ namespace MasterErp.Service.Inventory
             var lst = SQLHelper.SQLQuery<PurchaseOrderItemsModel>("[dbo].[SP_GetOrdersSearchData]", ConnectionString, param);
 
             var result = lst.GroupBy(x => x.PurchaseOrderId).Select(p => new { Id = p.Key, lstOrders = p.Select(prt => prt).ToList() }).ToList();
-            var finalRes = new List<OrdersSearchDTO>();
+            var finalRes = new List<OrderModel>();
             foreach (var item in result)
             {
                 var obj = item.lstOrders;
-                var order = new OrdersSearchDTO
+                var order = new OrderModel
                 {
                     OrderNumber = obj.FirstOrDefault().OrderNumber,
                     PurchaseOrderId = obj.FirstOrDefault().PurchaseOrderId,
@@ -210,33 +216,27 @@ namespace MasterErp.Service.Inventory
                     SupplierNameAR = obj.FirstOrDefault()?.SupplierNameAR,
                     SupplierNameEN = obj.FirstOrDefault()?.SupplierNameEN,
                     TotalValue = obj.FirstOrDefault().TotalValue,
-                    OrderDate = obj.FirstOrDefault().OrderDate,
+                    OrderDate = (DateTime)obj.FirstOrDefault().OrderDate,
                     DueDate = obj.FirstOrDefault().DueDate,
                     IsLocked = obj.FirstOrDefault().IsLocked,
                     IsCancelled = obj.FirstOrDefault().IsCancelled,
-                    Items = obj.Select(x => new OrderProductModel
+                    OrderProducts = obj.Select(x => new OrderProductModel
                     {
                         ItemId = x.ItemId,
-                        ItemNameAr = x.NameAR,
-                        ItemNameEn = x.NameEN,
+                        ItemNameAR = x.NameAR,
+                        ItemNameEN = x.NameEN,
                         UnitId = x.UnitId,
                         Price = x.Cost,
                         Quantity = x.Quantity,
                         TotalValue = x.ItemTotalValue,
                         IsActive = x.IsActive,
-                        UnitNameEn = x.UnitName,
+                        UnitNameEN = x.UnitName,
 
                     }).ToList(),
-
                 };
                 finalRes.Add(order);
             }
-
-
             return finalRes;
         }
-
-
-
     }
 }

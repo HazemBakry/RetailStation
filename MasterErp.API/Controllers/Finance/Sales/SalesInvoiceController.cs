@@ -25,7 +25,7 @@ namespace MasterErp.API.Controllers.Finance.Sales
 
         [HttpPost]
         [Route("CreateNewSalesInvoice")]
-        public IActionResult CreateNewSalesInvoice(SalesInvoiceModel model)
+        public IActionResult CreateNewSalesInvoice(OrderModel model)
         {
             var result = _salesInvoiceService.CreateNewSalesInvoice(model);
             return Ok(result);

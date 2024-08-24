@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.DTOs.HR
 {
-    public class EmployeesSummary
+    public class StatisticsCardSummary
     {
         public string Title { get; set; }
         public double Number { get; set; }

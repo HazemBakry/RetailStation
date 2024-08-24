@@ -157,7 +157,7 @@ namespace MasterErp.API.Controllers
 
         [HttpGet]
         [Route("GetEmployeesSummary")]
-        public List<EmployeesSummary> GetEmployeesSummary()
+        public List<StatisticsCardSummary> GetEmployeesSummary()
         {
             return _employeeService.GetEmployeesSummary();
         }

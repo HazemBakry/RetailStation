@@ -28,11 +28,11 @@ namespace MasterErp.Interface.HR
         EmployeeVerificationDto GetEmployeeVerificationInfoById(int EmployeeId);
         EmployeeAttachmentDto GetEmployeeAttachmentsById(int EmployeeId);
         #endregion
-
         List<EmployeeBasicInfo> GetAllEmployees(SearchFilterModel model, int? ManagerId = null);
-        List<EmployeesSummary> GetEmployeesSummary();
-
+        List<StatisticsCardSummary> GetEmployeesSummary();
         List<SelectorDataModel> GetActiveEmployeesSelector();
+
+
         //List<EmployeeRequest> GetEmployeeRequests_Data(SearchFilterModel model);
         //List<IqamaIssuePlace> GetIqamaIssuePlaces();
         //List<PassportIssuePlace> GetPassportIssuePlaces();

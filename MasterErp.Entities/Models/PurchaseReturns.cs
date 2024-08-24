@@ -12,7 +12,7 @@ namespace MasterErp.Entities.Models
         public int PurchaseReturnsID { get; set; }
         public int SupplierReturnsVoucherID { get; set; }
         public int InvoiceTypeID { get; set; }
-        public string InvoiceNumber { get; set; }
+        public int InvoiceNumber { get; set; }
         public DateTime InvoiceDate { get; set; }
         public DateTime? ReturnsDate { get; set; }
         public int SupplierID { get; set; }
