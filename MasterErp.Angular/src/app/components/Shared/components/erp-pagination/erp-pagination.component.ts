@@ -1,16 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-erp-pagination',
   templateUrl: './erp-pagination.component.html',
   styleUrls: ['./erp-pagination.component.css']
 })
-export class ErpPaginationComponent implements OnInit {
+export class ErpPaginationComponent implements OnInit ,OnChanges{
   @Input() currentPage: number;
   @Input() pageSize: number;
   @Input() totalCount: number;
   @Input() totalPages: number;
-  @Output() pageChanged = new EventEmitter<number>();
+  @Input() newPagination: boolean = true;
+  pages: number[] = [];
+
+  @Output() pageChanged = new EventEmitter<any>();
   maxSize = 3;
   showingStr = '';
   constructor() { }
@@ -19,8 +22,14 @@ export class ErpPaginationComponent implements OnInit {
     this.resetShowingStr();
   }
 
-  ngOnChanges() {
+  ngOnChanges(changes: any){
     this.resetShowingStr();
+    if(!changes.totalCount?.firstChange&&!changes.totalCount?.previousValue)
+    {
+      this.totalPages = Math.ceil(this.totalCount / this.pageSize);
+      this. generatePages();
+
+    }
   }
 
   resetShowingStr() {
@@ -31,6 +40,7 @@ export class ErpPaginationComponent implements OnInit {
       const fNum =  (this.pageSize * (this.currentPage - 1)) + 1;
       const lNum =  (this.totalCount - fNum);
       showingStr = (fNum) + '-' + (lNum + fNum);
+
     } else {
       // last page
       if (this.totalPages === this.currentPage) {
@@ -55,9 +65,25 @@ export class ErpPaginationComponent implements OnInit {
     this.showingStr = showingStr;
   }
 
-  pageChangeEvevnt(event: any): void {
+  pageChangeEvent(event: any): void {
     this.currentPage = event.page;
     this.pageChanged.emit(event);
     this.resetShowingStr();
+  }
+  generatePages() {
+    const startPage = Math.max(this.currentPage - 1, 1); // Show previous page if possible
+    const endPage = Math.min(startPage + 2, this.totalPages); // Show current page and one next page
+    this.pages = Array(endPage - startPage + 1)
+      .fill(0)
+      .map((_, i) => startPage + i);
+  }
+
+  setPage(page: number) {
+    if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
+      this.currentPage = page;
+      // this.pageChanged.emit(this.currentPage);
+      this.pageChanged.emit({ page: this.currentPage });
+      this.generatePages(); // Regenerate the pages after changing the current page
+    }
   }
 }
