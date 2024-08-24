@@ -19,7 +19,7 @@ namespace MasterErp.Entities.Common.Inventory.ReceiveOrder
         public string Notes { get; set; }
         public string DocNumber { get; set; }
 
-        public List<OrderProductModel> Items { get; set; }
+        public List<OrderModel> Items { get; set; }
 
 
     }

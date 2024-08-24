@@ -32,7 +32,7 @@ namespace MasterErp.API.Controllers.Finance.Purchase
 
         [HttpPost]
         [Route("CreateNewPurchaseInvoice")]
-        public IActionResult CreateNewPurchaseInvoice(PurchaseInvoiceModel model)
+        public IActionResult CreateNewPurchaseInvoice(OrderModel model)
         {
             var result= _purchaseInvoiceService.CreateNewPurchaseInvoice(model);
             return Ok(result);
@@ -80,7 +80,7 @@ namespace MasterErp.API.Controllers.Finance.Purchase
 
         [HttpPost]
         [Route("SaveNewPurchaseReturns")]
-        public IActionResult SaveNewPurchaseReturns(PurchaseReturnsModel model)
+        public IActionResult SaveNewPurchaseReturns(OrderModel model)
         {
             var result = _purchaseInvoiceService.SaveNewPurchaseReturns(model);
             return Ok(result);

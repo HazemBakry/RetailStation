@@ -85,7 +85,7 @@ namespace MasterErp.Service.Purchase
         }
 
 
-        public ActionsResponseModel CreateNewSupplierReturnsVoucher(SupplierReturnsVoucherModel model)
+        public ActionsResponseModel CreateNewSupplierReturnsVoucher(OrderModel model)
         {
             try
             {
@@ -93,20 +93,20 @@ namespace MasterErp.Service.Purchase
 
 
                 tbl.InvoiceNumber = Context.SupplierReturnsVoucher.Count() > 0 ? Context.SupplierReturnsVoucher.Max(x => x.InvoiceNumber) + 1 : 1;
-                tbl.InvoiceDate = model.InvoiceDate ?? DateTime.Now;
+                tbl.InvoiceDate = model?.OrderDate ?? DateTime.Now;
                 tbl.InsertDate = DateTime.Now;
                 tbl.InsertUser = string.Empty;
                 tbl.IsCancelled = false;
                 tbl.IsLocked = false;
                 tbl.Notes = model.Notes;
-                tbl.InvoiceDate = model.InvoiceDate ?? DateTime.Now;
-                tbl.TotalValue = model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0;
-                tbl.SupplierId = model.SupplierId;
+                tbl.InvoiceDate = model?.OrderDate ?? DateTime.Now;
+                tbl.TotalValue = model?.OrderDate != null ? model.OrderProducts.Sum(x => x.TotalValue) : 0;
+                tbl.SupplierId = (int)model?.SupplierId;
 
                 Context.SupplierReturnsVoucher.Add(tbl);
                 Context.SaveChanges();
 
-                foreach (var item in model.Items)
+                foreach (var item in model.OrderProducts)
                 {
                     var detail = new SupplierReturnsVoucherDetails
                     {

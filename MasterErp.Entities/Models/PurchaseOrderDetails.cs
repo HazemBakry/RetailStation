@@ -8,13 +8,13 @@ namespace MasterErp.Entities.Models
 {
     public class PurchaseOrderDetails
     {
-        public int PurchaseOrderDetailsID { get; set; }
-        public int PurchaseOrderID { get; set; }
-        public int ItemID { get; set; }
+        public int PurchaseOrderDetailsId { get; set; }
+        public int PurchaseOrderId { get; set; }
+        public int ItemId { get; set; }
         public double Quantity { get; set; }
         public double Price { get; set; }
         public double TotalValue { get; set; }
-        public int UnitID { get; set; }
+        public int? UnitId { get; set; }
         public string Notes { get; set; }
 
     }

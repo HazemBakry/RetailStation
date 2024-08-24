@@ -56,7 +56,7 @@ namespace MasterErp.Service.Sales
             };
         }
 
-        public ActionsResponseModel CreateNewSalesInvoice(SalesInvoiceModel model)
+        public ActionsResponseModel CreateNewSalesInvoice(OrderModel model)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace MasterErp.Service.Sales
 
                 order_tbl.InsertDate = DateTime.Now;
                 order_tbl.InsertUser = string.Empty;
-                order_tbl.InvoiceDate = model.InvoiceDate;
+                order_tbl.InvoiceDate = model.OrderDate;
                 order_tbl.IsCancelled = false;
                 order_tbl.Notes = model.Notes;
                 order_tbl.TaxPercent = model.TaxPercent;
@@ -79,7 +79,7 @@ namespace MasterErp.Service.Sales
                 Context.SalesInvoices.Add(order_tbl);
                 Context.SaveChanges();
 
-                foreach (OrderProductModel item in model.Items)
+                foreach (OrderProductModel item in model.OrderProducts)
                 {
                     var detail = new SalesInvoiceDetails
                     {

@@ -29,7 +29,7 @@ namespace MasterErp.API.Controllers.Inventory
 
         [HttpPost]
         [Route("CreateNewPurchasesRequest")]
-        public IActionResult CreateNewPurchasesRequest(PurchaseRequestModel Model)
+        public IActionResult CreateNewPurchasesRequest(OrderModel Model)
         {
             var results = _PuchasesRequestsService.CreateNewPurchasesRequest(Model);
             return Ok(results);

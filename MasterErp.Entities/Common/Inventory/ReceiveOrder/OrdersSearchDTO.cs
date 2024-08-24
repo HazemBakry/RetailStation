@@ -19,7 +19,7 @@ namespace MasterErp.Entities.Common.Inventory.ReceiveOrder
         public bool IsCancelled { get; set; }
         public string SupplierNameAR { get; set; }
         public string SupplierNameEN { get; set; }
-        public List<OrderProductModel> Items { get; set; }
+        public List<OrderModel> Items { get; set; }
 
 
     }

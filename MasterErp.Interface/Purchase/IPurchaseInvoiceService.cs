@@ -13,12 +13,12 @@ namespace MasterErp.Interface.Purchase
     public interface IPurchaseInvoiceService
     {
         DataTable GetPurchaseInvoicesSummary(FilterModel model);
-        ActionsResponseModel CreateNewPurchaseInvoice(PurchaseInvoiceModel model);
+        ActionsResponseModel CreateNewPurchaseInvoice(OrderModel model);
         bool CancelPurchaseInvoice(int InvoiceId);
-        List<PurchaseInvoiceModel> GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate, int InvoiceId = 0);
-        List<PurchaseInvoiceModel> GetPurchaseInvoiceDetails(int InvoiceId);
+        List<OrderModel> GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate, int InvoiceId = 0);
+        List<OrderModel> GetPurchaseInvoiceDetails(int InvoiceId);
         List<PurchaseReturns> GetPurchasesReturnsData();
-        ActionsResponseModel SaveNewPurchaseReturns(PurchaseReturnsModel model);
+        ActionsResponseModel SaveNewPurchaseReturns(OrderModel model);
         bool CancelPurchaseReturns(int ReturnsId);
         List<SupplierStatementModel> GetSupplierStatementData(int SupplierId);
         List<PurchaseInvoiceType> GetInvoiceTypesData();

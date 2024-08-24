@@ -116,6 +116,10 @@ export class InventoryService {
     return this.http.get<any[]>(this.URL + 'Inventory/GetInventoryList');
   }
 
+  GetInventoryStatistics(){
+    return this.http.get<any>(this.URL + 'Inventory/GetInventoryStatistics');
+  }
+
   GetReceiveOrdersSummary(model: FilterModel) {
     return this.http.post<any>(this.URL + 'Inventory/GetReceiveOrdersSummary', model);
   }

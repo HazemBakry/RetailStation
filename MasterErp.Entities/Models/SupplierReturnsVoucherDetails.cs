@@ -16,7 +16,7 @@ namespace MasterErp.Entities.Models
         public double TotalValue { get; set; }
         public double? BalanceBefore { get; set; }
         
-        public int UnitId { get; set; }
+        public int? UnitId { get; set; }
         public string Notes { get; set; }
         public DateTime? ProductionDate { get; set; }
         public DateTime? ExpireDate { get; set; }

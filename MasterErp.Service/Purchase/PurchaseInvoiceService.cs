@@ -52,28 +52,28 @@ namespace MasterErp.Service.Purchase
             return result;
         }
 
-        public ActionsResponseModel CreateNewPurchaseInvoice(PurchaseInvoiceModel model)
+        public ActionsResponseModel CreateNewPurchaseInvoice(OrderModel model)
         {
             try
             {
                 PurchaseInvoice order_tbl = new PurchaseInvoice();
 
                 order_tbl.DueDate = DateTime.Now;
-                order_tbl.InsertDate = DateTime.Now;
-                order_tbl.InsertUser = model.UserId;
+                order_tbl.CreatedDate = DateTime.Now;
+                order_tbl.CreatedBy = model.CreatedBy;
                 order_tbl.IsCancelled = false;
                 order_tbl.IsLocked = false;
                 order_tbl.Notes = model.Notes;
-                order_tbl.InvoiceDate = model.InvoiceDate ?? DateTime.Now;
-                order_tbl.InvoiceTotalValue = model.Items != null ? model.Items.Sum(x => x.ItemTotalValue) : 0;
+                order_tbl.InvoiceDate = model?.OrderDate ?? DateTime.Now;
+                order_tbl.InvoiceTotalValue = model.OrderProducts != null ? model.OrderProducts.Sum(x => x.TotalValue) : 0;
                 order_tbl.SupplierId = model.SupplierId ?? 0;
-                order_tbl.InvoiceTypeId = model.InvoiceTypeId;
+                order_tbl.InvoiceTypeId = model.OrderTypeId;
                 order_tbl.InvoiceNumber = Context.PurchaseInvoices.Count() > 0 ? Context.PurchaseInvoices.Max(x => x.InvoiceNumber) + 1 : 1;
 
                 Context.PurchaseInvoices.Add(order_tbl);
                 Context.SaveChanges();
 
-                foreach (var item in model.Items)
+                foreach (var item in model.OrderProducts)
                 {
                     var detail = new PurchaseInvoiceDetails
                     {
@@ -81,11 +81,11 @@ namespace MasterErp.Service.Purchase
                         ItemId = item.ItemId,
                         Notes = model.Notes,
                         Quantity = item.Quantity,
-                        TotalValue = item.ItemTotalValue,
+                        TotalValue = item.TotalValue,
                         PurchaseInvoiceId = order_tbl.PurchaseInvoiceId,
                         UnitId = item.UnitId,
                         Discount = 0,
-                        NetValue = item.ItemTotalValue
+                        NetValue = item.TotalValue
                     };
 
                     Context.PurchaseInvoiceDetails.Add(detail);
@@ -94,7 +94,7 @@ namespace MasterErp.Service.Purchase
 
                 ActionsResponseModel result = new ActionsResponseModel();
                 var AccountsList = new List<JournalEntryAccount>();
-                var InvoiceType = Context.PurchaseInvoiceTypes.Where(x => x.InvoiceTypeId == model.InvoiceTypeId).FirstOrDefault();
+                var InvoiceType = Context.PurchaseInvoiceTypes.Where(x => x.InvoiceTypeId == model.OrderTypeId).FirstOrDefault();
 
                 if (InvoiceType != null && InvoiceType.IsBindToGeneralAccounting)
                 {
@@ -184,7 +184,7 @@ namespace MasterErp.Service.Purchase
             return true;
         }
 
-        public List<PurchaseInvoiceModel> GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate, int InvoiceId = 0)
+        public List<OrderModel> GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate, int InvoiceId = 0)
         {
             SqlParameter[] param = new SqlParameter[4];
             param[0] = new SqlParameter("@SupplierId", SupplierId);
@@ -201,22 +201,22 @@ namespace MasterErp.Service.Purchase
                 x.InvoiceNumber,
                 x.InvoiceTotalValue,
                 x.SupplierNameEN
-            }).Select(p => new PurchaseInvoiceModel
+            }).Select(p => new OrderModel
             {
-                InvoiceNumber = p.Key.InvoiceNumber,
-                SupplierName = p.Key.SupplierNameEN,
-                InvoiceDate = p.Key.InvoiceDate,
-                InvoiceTotalValue = p.Key.InvoiceTotalValue,
-                Items = p.Select(y => new OrderDetailModel
+                OrderNumber = p.Key.InvoiceNumber,
+                SupplierNameEN = p.Key.SupplierNameEN,
+                OrderDate = (DateTime)p.Key.InvoiceDate,
+                TotalValue = p.Key.InvoiceTotalValue,
+                OrderProducts = p.Select(y => new OrderProductModel
                 {
                     ItemId = y.ItemId,
                     Price = y.Price,
-                    ItemNameEn = y.ItemNameEN,
-                    ItemNameAr = y.ItemNameAR,
+                    ItemNameEN = y.ItemNameEN,
+                    ItemNameAR = y.ItemNameAR,
                     Quantity = y.Quantity,
-                    ItemTotalValue = y.ItemTotalValue,
-                    UnitNameAr = y.UnitNameAr,
-                    UnitNameEn = y.UnitNameEn,
+                    TotalValue = y.ItemTotalValue,
+                    UnitNameAR = y.UnitNameAr,
+                    UnitNameEN = y.UnitNameEn,
                     UnitId = y.UnitId
                 }).ToList()
             }).ToList();
@@ -224,7 +224,7 @@ namespace MasterErp.Service.Purchase
             return grpList;
         }
 
-        public List<PurchaseInvoiceModel> GetPurchaseInvoiceDetails(int InvoiceId)
+        public List<OrderModel> GetPurchaseInvoiceDetails(int InvoiceId)
         {
             SqlParameter[] Param = new SqlParameter[1];
             Param[0] = new SqlParameter("@PurchaseInvoiceId", InvoiceId);
@@ -238,22 +238,22 @@ namespace MasterErp.Service.Purchase
                 x.InvoiceNumber,
                 x.InvoiceTotalValue,
                 x.SupplierNameEN
-            }).Select(p => new PurchaseInvoiceModel
+            }).Select(p => new OrderModel
             {
-                InvoiceNumber = p.Key.InvoiceNumber,
-                SupplierName = p.Key.SupplierNameEN,
-                InvoiceDate = p.Key.InvoiceDate,
-                InvoiceTotalValue = p.Key.InvoiceTotalValue,
-                Items = p.Select(y => new OrderDetailModel
+                OrderNumber = p.Key.InvoiceNumber,
+                SupplierNameEN = p.Key.SupplierNameEN,
+                OrderDate = (DateTime)p.Key.InvoiceDate,
+                TotalValue = p.Key.InvoiceTotalValue,
+                OrderProducts = p.Select(y => new OrderProductModel
                 {
                     ItemId = y.ItemId,
                     Price = y.Price,
-                    ItemNameEn = y.ItemNameEN,
-                    ItemNameAr = y.ItemNameAR,
+                    ItemNameEN = y.ItemNameEN,
+                    ItemNameAR = y.ItemNameAR,
                     Quantity = y.Quantity,
-                    ItemTotalValue = y.ItemTotalValue,
-                    UnitNameAr = y.UnitNameAr,
-                    UnitNameEn = y.UnitNameEn,
+                    TotalValue = y.ItemTotalValue,
+                    UnitNameAR = y.UnitNameAr,
+                    UnitNameEN = y.UnitNameEn,
                     UnitId = y.UnitId
                 }).ToList()
             }).ToList();
@@ -266,7 +266,7 @@ namespace MasterErp.Service.Purchase
             return Context.PurchaseReturns.ToList();
         }
 
-        public ActionsResponseModel SaveNewPurchaseReturns(PurchaseReturnsModel model)
+        public ActionsResponseModel SaveNewPurchaseReturns(OrderModel model)
         {
             try
             {
@@ -276,28 +276,28 @@ namespace MasterErp.Service.Purchase
                 order_tbl.ReturnsDate = DateTime.Now;
                 order_tbl.InsertUser = string.Empty;
 
-                order_tbl.InvoiceNumber = model.InvoiceNumber;
-                order_tbl.InvoiceTypeID = model.InvoiceTypeId ?? 0;
+                order_tbl.InvoiceNumber = model.OrderNumber;
+                order_tbl.InvoiceTypeID = model.OrderTypeId ?? 0;
                 order_tbl.Notes = model.Notes;
                 order_tbl.InvoiceDate = DateTime.Now;
-                order_tbl.ReturnsInvoiceTotal = model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0;
-                order_tbl.SupplierID = model.SupplierId;
+                order_tbl.ReturnsInvoiceTotal = model.OrderProducts != null ? model.OrderProducts.Sum(x => x.TotalValue) : 0;
+                order_tbl.SupplierID = (int)model?.SupplierId;
                 //order_tbl.InvoiceNumber = "po_" + (Context.PurchaseReturns.Count() > 0 ? Context.PurchaseReturns.Max(x => x.PurchaseReturnsID) + 1 : 1);
 
                 Context.PurchaseReturns.Add(order_tbl);
                 Context.SaveChanges();
 
-                foreach (PurchaseReturnsDetails item in model.Items)
+                foreach (OrderProductModel item in model.OrderProducts)
                 {
                     var detail = new PurchaseReturnsDetails
                     {
                         Price = item.Price,
-                        ItemID = item.ItemID,
-                        Notes = item.Notes,
+                        ItemId = item.ItemId,
+                        Notes = model.Notes,
                         Quantity = item.Quantity,
                         TotalValue = item.TotalValue,
-                        PurchaseReturnsID = order_tbl.PurchaseReturnsID,
-                        UnitID = item.UnitID
+                        PurchaseReturnsId = order_tbl.PurchaseReturnsID,
+                        UnitId = item.UnitId
                     };
 
                     Context.PurchaseReturnsDetails.Add(detail);

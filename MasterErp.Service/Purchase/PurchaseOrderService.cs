@@ -52,7 +52,7 @@ namespace MasterErp.Service.Purchase
 
         }
 
-        public ActionsResponseModel CreateNewPurchaseOrder(PurchaseOrderModel model)
+        public ActionsResponseModel CreateNewPurchaseOrder(OrderModel model)
         {
             try
             {
@@ -65,24 +65,24 @@ namespace MasterErp.Service.Purchase
                 order_tbl.IsLocked = false;
                 order_tbl.Notes = model.Notes;
                 order_tbl.OrderDate = DateTime.Now;
-                order_tbl.TotalValue = (double)(model.Items != null ? model.Items.Sum(x => x.TotalValue) : 0);
-                order_tbl.SupplierID = model.SupplierId;
+                order_tbl.TotalValue = (double)(model.OrderProducts != null ? model.OrderProducts.Sum(x => x.TotalValue) : 0);
+                order_tbl.SupplierID = (int)model?.SupplierId;
                 order_tbl.OrderNumber = Context.PurchaseOrders.Count() > 0 ? Context.PurchaseOrders.Max(x => x.PurchaseOrderID) + 1 : 1;
 
                 Context.PurchaseOrders.Add(order_tbl);
                 Context.SaveChanges();
 
-                foreach (OrderProductModel item in model.Items)
+                foreach (OrderProductModel item in model.OrderProducts)
                 {
                     var detail = new PurchaseOrderDetails
                     {
                         Price = item.Price,
-                        ItemID = item.ItemId,
+                        ItemId = item.ItemId,
                         Notes = model.Notes,
                         Quantity = item.Quantity,
                         TotalValue = item.TotalValue,
-                        PurchaseOrderID = order_tbl.PurchaseOrderID,
-                        UnitID = item.UnitId
+                        PurchaseOrderId = order_tbl.PurchaseOrderID,
+                        UnitId = item.UnitId
                     };
 
                     Context.PurchaseOrderDetails.Add(detail);

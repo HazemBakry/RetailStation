@@ -107,7 +107,7 @@ namespace MasterErp.Service.Inventory
         }
 
 
-        public ActionsResponseModel CreateNewPurchasesRequest(PurchaseRequestModel model)
+        public ActionsResponseModel CreateNewPurchasesRequest(OrderModel model)
         {
             try
             {
@@ -119,12 +119,12 @@ namespace MasterErp.Service.Inventory
                 tbl.BranchId = model.BranchId;
                 tbl.IsDelivered = false;
                 tbl.Notes = model.Notes;
-                tbl.RequestDate = model.RequestDate ?? DateTime.Now;
+                tbl.RequestDate = model?.OrderDate ?? DateTime.Now;
                 
                 Context.PurchaseRequest.Add(tbl);
                 Context.SaveChanges();
 
-                foreach (var item in model.Items)
+                foreach (var item in model.OrderProducts)
                 {
                     var detail = new PurchaseRequestDetails
                     {

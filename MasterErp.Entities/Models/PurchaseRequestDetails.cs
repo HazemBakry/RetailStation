@@ -14,7 +14,7 @@ namespace MasterErp.Entities.Models
         public double Quantity { get; set; }
         public double? BalanceBefore { get; set; }
         public double? InStock { get; set; }
-        public int UnitId { get; set; }
+        public int? UnitId { get; set; }
         public string Notes { get; set; }
 
     }
