@@ -31,8 +31,8 @@ export class ReceiveOrdersComponent implements OnInit {
   getReceiveOrdersSummary() {
     this.showLoader = true;
     this.inventoryService.GetReceiveOrdersSummary(this.FilterModel).subscribe(data => {
-      this.OrderList = data;
-      this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
+      this.OrderList = data.results;
+      this.TotalCount = data.totalCount;// && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
       this.showLoader = false;
     }, (err) => {
       this.showLoader = false;

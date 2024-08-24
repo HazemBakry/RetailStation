@@ -45,6 +45,7 @@ namespace MasterErp.API.Controllers.Inventory
             };
             return Ok(result);
         }
+
         [HttpGet]
         [Route("GetItemById")]
         public ItemDto GetItemById(int ItemId)

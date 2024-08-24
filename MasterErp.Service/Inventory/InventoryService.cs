@@ -89,12 +89,12 @@ namespace MasterErp.Service.Inventory
                 {
                     var detail = new ReceiveOrderDetails
                     {
-                        Price = (double)item.Price,
+                        Price = item.Price,
                         ItemId = item.ItemId,
-                        Quantity = (double)item.Quantity,
-                        TotalValue = (double)item.TotalValue,
+                        Quantity = item.Quantity,
+                        TotalValue = item.TotalValue,
                         ReceiveOrderId = order_tbl.ReceiveOrderId,
-                        UnitId = (int)item.UnitId,
+                        UnitId = item.UnitId,
                         RemainQuantity = 0,
                         ItemBalance = 0,
                         IsLocked = false,
@@ -161,12 +161,12 @@ namespace MasterErp.Service.Inventory
                 {
                     var detail = new ReceiveOrderDetails
                     {
-                        Price = (double)item.Price,
+                        Price = item.Price,
                         ItemId = item.ItemId,
-                        Quantity = (double)item.Quantity,
-                        TotalValue = (double)item.TotalValue,
+                        Quantity = item.Quantity,
+                        TotalValue = item.TotalValue,
                         ReceiveOrderId = order_tbl.ReceiveOrderId,
-                        UnitId = (int)item.UnitId,
+                        UnitId = item.UnitId,
                         RemainQuantity = 0,
                         ItemBalance = 0,
                         IsLocked = false,
