@@ -5,6 +5,7 @@ import { DesignLayoutComponent } from './design-layout/design-layout.component';
 import { AccountTreeComponent } from './components/account-tree/account-tree.component';
 import { OpeningBalanceComponent } from './components/opening-balance/opening-balance.component';
 import { ReceiptsComponent } from './components/receipts/receipts.component';
+import { DesignTableComponent } from './components/design-table/design-table.component';
 
 const routes: Routes = [
   {
@@ -15,8 +16,8 @@ const routes: Routes = [
       { path: 'account-tree', component: AccountTreeComponent },
       { path: 'opening-balance', component: OpeningBalanceComponent },
       { path: 'receipts', component: ReceiptsComponent },
+      { path: 'table', component: DesignTableComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
-
     ]
   }
 ];

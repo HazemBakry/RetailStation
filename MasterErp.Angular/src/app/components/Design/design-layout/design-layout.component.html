@@ -1,1 +1,361 @@
-<p>design-layout works!</p>
+<div class="container-fluid pt-2">
+  <div class="card card-with-table border shadow-none">
+    <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <button class="btn btn-primary d-flex align-items-center gap-2 py-2" (click)="open(formModal)">
+          <i class="uil uil-plus fs-5"></i>
+          <span>اضافه</span>
+        </button>
+        <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2">
+          <i class="uil uil-export fs-5"></i>
+          <span>استيراد</span>
+        </button>
+      </div>
+      <nav>
+        <ul class="table-pagination pagination m-0 p-0 gap-2">
+          <li class="page-item">
+            <a class="page-link" aria-label="Previous">
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          </li>
+          <li class="page-item"><a class="page-link">1</a></li>
+          <li class="page-item"><a class="page-link active">2</a></li>
+          <li class="page-item"><a class="page-link">3</a></li>
+          <li class="page-item">
+            <a class="page-link" aria-label="Next">
+              <i class="fas fa-chevron-left"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="card-body table-responsive p-0">
+      <table class="table table-borderless align-middle table-hover table-component m-0">
+        <thead>
+          <tr>
+            <th class="checkbox-table-col text-center"><input type="checkbox" class="checkbox-table-ele" /></th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Progress</th>
+            <th>Metting</th>
+            <th>File</th>
+            <th class="actions-table-col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-center">
+              <input type="checkbox" class="checkbox-table-ele" />
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <img src="../../../../assets/images/w-img.jpg" class="table-img" alt="table-img" loading="lazy" />
+                <div class="fs-5 fw-bold">حازم بكرى</div>
+              </div>
+            </td>
+            <td>
+              <div class="status-table-ele success">ناجح</div>
+            </td>
+            <td>
+              <div class="progress-table-ele d-flex align-items-center gap-3">
+                <div class="progress-table-bar">
+                  <div class="progress-bar-item" style="width: 25%"></div>
+                </div>
+                <div class="progress-table-text">25%</div>
+              </div>
+            </td>
+            <td>
+              <div class="define-status-table d-flex align-items-center gap-2">
+                <div class="define-status-table-circle success"></div>
+                <div class="fs-5 fw-bold">جدول</div>
+              </div>
+            </td>
+            <td>
+              <div class="file-table-ele d-flex align-items-center gap-3">
+                <div class="file-table-ele-icon warning-plus">
+                  <i class="far fa-file-image"></i>
+                </div>
+                <div class="file-table-ele-text">
+                  <div class="fw-bold fs-5">صورة</div>
+                  <div class="text-muted fs-6">2650 ملف</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+                  <i class="uil uil-pen"></i>
+                  <span>تعديل</span>
+                </button>
+                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2">
+                  <i class="uil uil-trash-alt"></i>
+                  <span>حذف</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-center">
+              <input type="checkbox" class="checkbox-table-ele" />
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <img src="../../../../assets/images/w-img.jpg" class="table-img" alt="table-img" loading="lazy" />
+                <div class="fs-5 fw-bold">حازم بكرى</div>
+              </div>
+            </td>
+            <td>
+              <div class="status-table-ele warning">قيد الانتظار</div>
+            </td>
+            <td>
+              <div class="progress-table-ele d-flex align-items-center gap-3">
+                <div class="progress-table-bar">
+                  <div class="progress-bar-item" style="width: 50%"></div>
+                </div>
+                <div class="progress-table-text">50%</div>
+              </div>
+            </td>
+            <td>
+              <div class="define-status-table d-flex align-items-center gap-2">
+                <div class="define-status-table-circle warning"></div>
+                <div class="fs-5 fw-bold">تأجيل</div>
+              </div>
+            </td>
+            <td>
+              <div class="file-table-ele d-flex align-items-center gap-3">
+                <div class="file-table-ele-icon warning">
+                  <i class="far fa-file-pdf"></i>
+                </div>
+                <div class="file-table-ele-text">
+                  <div class="fw-bold fs-5">ورقة طباعة</div>
+                  <div class="text-muted fs-6">1200 ملف</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+                  <i class="uil uil-pen"></i>
+                  <span>تعديل</span>
+                </button>
+                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2">
+                  <i class="uil uil-trash-alt"></i>
+                  <span>حذف</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-center">
+              <input type="checkbox" class="checkbox-table-ele" />
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <img src="../../../../assets/images/w-img.jpg" class="table-img" alt="table-img" loading="lazy" />
+                <div class="fs-5 fw-bold">حازم بكرى</div>
+              </div>
+            </td>
+            <td>
+              <div class="status-table-ele danger">رفض</div>
+            </td>
+            <td>
+              <div class="progress-table-ele d-flex align-items-center gap-3">
+                <div class="progress-table-bar">
+                  <div class="progress-bar-item" style="width: 75%"></div>
+                </div>
+                <div class="progress-table-text">75%</div>
+              </div>
+            </td>
+            <td>
+              <div class="define-status-table d-flex align-items-center gap-2">
+                <div class="define-status-table-circle danger"></div>
+                <div class="fs-5 fw-bold">تم الإلغاء</div>
+              </div>
+            </td>
+            <td>
+              <div class="file-table-ele d-flex align-items-center gap-3">
+                <div class="file-table-ele-icon danger">
+                  <i class="far fa-file-audio"></i>
+                </div>
+                <div class="file-table-ele-text">
+                  <div class="fw-bold fs-5">صوت</div>
+                  <div class="text-muted fs-6">1200 ملف</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+                  <i class="uil uil-pen"></i>
+                  <span>تعديل</span>
+                </button>
+                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2">
+                  <i class="uil uil-trash-alt"></i>
+                  <span>حذف</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-center">
+              <input type="checkbox" class="checkbox-table-ele" />
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <img src="../../../../assets/images/w-img.jpg" class="table-img" alt="table-img" loading="lazy" />
+                <div class="fs-5 fw-bold">حازم بكرى</div>
+              </div>
+            </td>
+            <td>
+              <div class="status-table-ele purple">مقبول</div>
+            </td>
+            <td>
+              <div class="progress-table-ele d-flex align-items-center gap-3">
+                <div class="progress-table-bar">
+                  <div class="progress-bar-item" style="width: 20%"></div>
+                </div>
+                <div class="progress-table-text">20%</div>
+              </div>
+            </td>
+            <td>
+              <div class="define-status-table d-flex align-items-center gap-2">
+                <div class="define-status-table-circle purple"></div>
+                <div class="fs-5 fw-bold">تم مناقشته</div>
+              </div>
+            </td>
+            <td>
+              <div class="file-table-ele d-flex align-items-center gap-3">
+                <div class="file-table-ele-icon purple">
+                  <i class="far fa-file-video"></i>
+                </div>
+                <div class="file-table-ele-text">
+                  <div class="fw-bold fs-5">فيديو</div>
+                  <div class="text-muted fs-6">1200 ملف</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+                  <i class="uil uil-pen"></i>
+                  <span>تعديل</span>
+                </button>
+                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2">
+                  <i class="uil uil-trash-alt"></i>
+                  <span>حذف</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-center">
+              <input type="checkbox" class="checkbox-table-ele" />
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <img src="../../../../assets/images/w-img.jpg" class="table-img" alt="table-img" loading="lazy" />
+                <div class="fs-5 fw-bold">حازم بكرى</div>
+              </div>
+            </td>
+            <td>
+              <div class="status-table-ele primary">قيد المراجعة</div>
+            </td>
+            <td>
+              <div class="progress-table-ele d-flex align-items-center gap-3">
+                <div class="progress-table-bar">
+                  <div class="progress-bar-item" style="width: 85%"></div>
+                </div>
+                <div class="progress-table-text">85%</div>
+              </div>
+            </td>
+            <td>
+              <div class="define-status-table d-flex align-items-center gap-2">
+                <div class="define-status-table-circle primary"></div>
+                <div class="fs-5 fw-bold">فى المراجعة</div>
+              </div>
+            </td>
+            <td>
+              <div class="file-table-ele d-flex align-items-center gap-3">
+                <div class="file-table-ele-icon primary">
+                  <i class="far fa-file-code"></i>
+                </div>
+                <div class="file-table-ele-text">
+                  <div class="fw-bold fs-5">برمجية</div>
+                  <div class="text-muted fs-6">1200 ملف</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+                  <i class="uil uil-pen"></i>
+                  <span>تعديل</span>
+                </button>
+                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2">
+                  <i class="uil uil-trash-alt"></i>
+                  <span>حذف</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- START MODAL WITH NEW FORM STYLE -->
+<ng-template #formModal let-modal>
+	<div class="modal-header modal-header-bg justify-content-between">
+		<h2 class="d-flex align-items-center gap-2">
+      <i class="uil uil-plus"></i>
+      <span>اضافه</span>
+    </h2>
+		<div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
+      <i class="uil uil-times-circle"></i>
+    </div>
+	</div>
+	<div class="modal-body">
+		<form>
+      <table class="table table-bordered table-feature-value align-middle border m-0">
+        <tbody>
+          <tr>
+            <td class="table-feature">الاسم</td>
+            <td class="table-value">
+              <input type="text" class="form-control form-control-lg" placeholder="أدخل الاسم..." >
+            </td>
+          </tr>
+          <tr>
+            <td class="table-feature">البريد الالكترونى</td>
+            <td class="table-value">
+              <input type="text" class="form-control form-control-lg" placeholder="أدخل البريد الابكترونى..." >
+            </td>
+          </tr>
+          <tr>
+            <td class="table-feature">كلمة المرور</td>
+            <td class="table-value">
+              <input type="text" class="form-control form-control-lg" placeholder="أدخل كلمة المرور..." >
+            </td>
+          </tr>
+          <tr>
+            <td class="table-feature">الملاحظات</td>
+            <td class="table-value">
+              <textarea class="form-control" rows="5" placeholder="الملاحظات..."></textarea>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+		</form>
+	</div>
+	<div class="modal-footer flex-nowrap gap-2">
+    <button type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100" (click)="modal.close()">
+      <i class="uil uil-save fs-3"></i>
+      <span>حفظ</span>
+    </button>
+		<button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="modal.close()">
+      <i class="uil uil-times-circle fs-3"></i>
+      <span>الغاء</span>
+    </button>
+	</div>
+</ng-template>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { ReceiveOrderModel } from '../models/inventory';
+import { OrderModel } from '../models/inventory';
 import { FilterModel } from '../../Shared/models/FilterModel';
 import { ItemModel } from '../models/Item';
 import { PurchaseRequestModel } from '../models/PurchasesRequestModel';
@@ -120,7 +120,7 @@ export class InventoryService {
     return this.http.post<any>(this.URL + 'Inventory/GetReceiveOrdersSummary', model);
   }
 
-  CreateNewReceiveOrder(model: ReceiveOrderModel) {
+  CreateNewReceiveOrder(model: OrderModel) {
     return this.http.post<any>(this.URL + 'Inventory/CreateNewReceiveOrder', model);
   }
 
@@ -132,7 +132,7 @@ export class InventoryService {
     return this.http.post<any>(this.URL + 'Inventory/GetDeliveryOrdersSummary', model);
   }
 
-  CreateNewDeliveryOrder(model: ReceiveOrderModel) {
+  CreateNewDeliveryOrder(model: OrderModel) {
     return this.http.post<any>(this.URL + 'Inventory/CreateNewDeliverOrder', model);
   }
 

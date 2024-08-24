@@ -1,85 +1,132 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
-<div class="card radius-10 border-0 card-shadow mb-3">
-    <div class="boxstyle1">
-        <div class="boxstyle1-header bg-light">
-            <div class="boxstyle1-header-left mb-3">
-                <button class="btn btn-primary" routerLink="/purchases/add-purchase-invoice">
-                    <i class="fas fa-plus-circle"></i>
-                    <span class="ms-2">إضافة وحدة</span>
+
+<div class="container-fluid pt-2">
+    <div class="card card-with-table border shadow-none">
+        <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2" (click)="open(formModal)">
+                    <i class="uil uil-plus fs-5"></i>
+                    <span>إضافة وحدة</span>
                 </button>
             </div>
-        </div>
-        <div class="card radius-10 border-0 card-shadow">
-            <div class="card-body">
-                <div class="main-card-action pb-3">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <!-- <div class="col-md-12">
-                                <div class="d-flex align-items-center flex-wrap">
-                                    <ng-container *ngIf="filterList.length > 0">
-                                        <app-pos-filters [FilterList]="filterList"
-                                            (filterChanged)="filterChecked($event)"></app-pos-filters>
-                                    </ng-container>
-                                </div>
-                            </div> -->
-                        </div>
-                        <div class="col-md-4">
-                            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="FilterModel.currentPage" [pageSize]="FilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="TotalPages"></app-erp-pagination>
-                        </div>
-                    </div>
-                </div>
-                <div class="table-responsive table-vp-height large-scroll">
-                    <table class="table table-bordered table-middle table-hover bg-white m-0">
-                        <thead>
-                            <tr>
-                                <th>اسم الوحدة (Ar)</th>
-                                <th>اسم الوحدة (En)</th>
-                                <th>ملاحظات</th>
-                                <th>نشط</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of Units">
-                                <td>{{item.nameAR}}</td>
-                                <td>{{item.nameEN}}</td>
-                                <td>{{item.notes}}</td>
-                                <td>{{item.isActive}}</td>
-                                <td class="text-center">
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <label class="switch me-2">
-                                            <input type="checkbox" [(ngModel)]="item.isActive"
-                                                (change)="ChangeItemStatus(item.rawItemId)"
-                                                class="ng-valid ng-dirty ng-touched">
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <button class="btn btn-primary btn-rounded me-2" routerLink="/Admin/Inventory/AddRawItem" [queryParams]="{RawItemId: item.rawItemId}">
-                                            <i class="fas fa-pen"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="col-md-4">
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="FilterModel.currentPage" [pageSize]="FilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="TotalPages"></app-erp-pagination>
             </div>
+        </div>
+        <div class="card-body table-responsive">
+            <table class="table table-borderless align-middle table-hover table-component m-0">
+                <thead>
+                    <tr>
+                        <th>اسم الوحدة (Ar)</th>
+                        <th>اسم الوحدة (En)</th>
+                        <th>نشط</th>
+                        <th class="actions-table-col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of Units">
+                        <td>
+                            <div class="define-status-table d-flex align-items-center gap-2">
+                                <div class="define-status-table-circle success"></div>
+                                <div class="fs-5 fw-bold"> {{item.nameAR}}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="fs-5 fw-bold"> {{item.nameEN}}</div>
+                        </td>
+                        <td>
+                            <div class="status-table-ele success">نشــط</div>
+                        </td>
+                        <td class="text-center">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <label class="switch me-2">
+                                    <input type="checkbox" [(ngModel)]="item.isActive"
+                                        (change)="ChangeItemStatus(item.rawItemId)"
+                                        class="ng-valid ng-dirty ng-touched">
+                                    <span class="slider round"></span>
+                                </label>
+
+                                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="open(formModal)">
+                                    <i class="uil uil-pen"></i>
+                                    <span>تعديل</span>
+                                </button>
+                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2">
+                                    <i class="uil uil-trash-alt"></i>
+                                    <span>حذف</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #formModal let-modal>
+    <div class="modal-header modal-header-bg justify-content-between">
+        <h2 class="d-flex align-items-center gap-2">
+            <i class="uil uil-plus"></i>
+            <span>املأ البيانات الأتية</span>
+        </h2>
+        <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="modal-body">
+        <form>
+            <table class="table table-bordered table-feature-value align-middle border m-0">
+                <tbody>
+                    <tr>
+                        <td class="table-feature">الاسم العربى</td>
+                        <td class="table-value">
+                            <input type="text" class="form-control form-control-lg" placeholder="أدخل الاسم...">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">الاسم الانجليزى</td>
+                        <td class="table-value">
+                            <input type="text" class="form-control form-control-lg" placeholder="أدخل البريد الابكترونى...">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">كود الوحدة</td>
+                        <td class="table-value">
+                            <input type="text" class="form-control form-control-lg" placeholder="أدخل كلمة المرور...">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="modal-footer flex-nowrap gap-2">
+        <button type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100" (click)="modal.close()">
+            <i class="uil uil-save fs-3"></i>
+            <span>حفظ</span>
+        </button>
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="modal.close()">
+            <i class="uil uil-times-circle fs-3"></i>
+            <span>الغاء</span>
+        </button>
+    </div>
+</ng-template>
 
 
-            <ng-template #deleteItemModal let-modal>
-                <div class="modal-header">
-                    <h4 class="modal-title">Confirm Action</h4>
-                </div>
-                <div class="modal-body">
-                    <p class="fs-5 m-0">Are you sure you want remove this Raw Item?</p>
-                </div>
-                <div class="modal-footer justify-content-start">
-                    <button type="button" class="btn btn-success" (click)="modal.close('Save click');DeleteRawItem()">
-                        <i class="fas fa-check"></i>
-                        <span class="ms-2">Yes</span>
-                    </button>
-                    <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
-                        <i class="fas fa-times"></i>
-                        <span class="ms-2">No</span>
-                    </button>
-                </div>
-            </ng-template>
+<ng-template #deleteItemModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Confirm Action</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">Are you sure you want remove this Raw Item?</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click');DeleteRawItem()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">Yes</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">No</span>
+        </button>
+    </div>
+</ng-template>

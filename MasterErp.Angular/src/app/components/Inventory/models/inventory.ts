@@ -5,16 +5,17 @@ export interface InventoryModel {
 }
 
 
-export interface ReceiveOrderModel {
+export interface OrderModel {
     orderNumber: number ;
-    supplierId: number ;
-    inventoryId: number ;
-    purchaseOrderId: number ;
-    purchaseInvoiceId: number ;
-    totalValue: number;
-    isLocked: boolean;
-    isCancelled: boolean;
-    notes: string;
     docNumber: string;
+    supplierId: number | null ;
+    branchId: number | null ;
+    inventoryId: number | null ;
+    purchaseOrderId: number | null ;
+    purchaseInvoiceId: number | null ;
+    totalValue: number;
+    isLocked: boolean | null ;
+    isCancelled: boolean | null ;
+    notes: string | null ;
     items: OrderDetailModel[];
 }
