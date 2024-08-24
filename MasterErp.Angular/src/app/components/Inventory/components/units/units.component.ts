@@ -35,6 +35,10 @@ export class UnitsComponent implements OnInit {
     //this.GetRawItemCategories();
   }
 
+  open(content: any) {
+		this.modalService.open(content, { size: 'lg', centered: true, scrollable: true });
+	}
+
   deleteUnit(content: any, unitId: any) {
     this.UnitId = unitId;
     this.modalService.open(content, { size: 'md', centered: true });

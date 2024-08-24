@@ -2,9 +2,9 @@
     <div class="boxstyle1">
         <div class="boxstyle1-header bg-light">
             <div class="boxstyle1-header-left mb-3">
-                <button class="btn btn-primary" routerLink="./../add-receive-order">
+                <button class="btn btn-primary" routerLink="./../add-delivery-order">
                     <i class="fas fa-plus-circle"></i>
-                    <span class="ms-2">اذن إضافة جديد</span>
+                    <span class="ms-2">اذن صرف جديد</span>
                 </button>
             </div>
         </div>
@@ -35,7 +35,7 @@
                                 <th>رقم الفاتورة</th>
                                 <th>الرقم الدفترى</th>
                                 <th>تاريخ الفاتورة</th>
-                                <th>اسم المورد</th>
+                                <th>اسم الفرع</th>
                                 <th>القيمة الإجمالية</th>
                                 <th>حالة الفاتورة</th>
                                 <th class="text-center"></th>
@@ -45,8 +45,8 @@
                             <tr *ngFor="let item of OrderList">
                                 <td>{{item.orderNumber}}</td>
                                 <td>{{item.docNumber}}</td>
-                                <td>{{item.receiveDate | date}}</td>
-                                <td>{{item.supplierName}}</td>
+                                <td>{{item.orderDate | date}}</td>
+                                <td>{{item.branchName}}</td>
                                 <td>{{item.totalValue}}</td>
                                 <td>
                                     <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
@@ -60,13 +60,13 @@
                                         <span class="ms-2">الغاء</span>
                                     </button>
                                         <!-- <button class="btn btn-secondary me-2">
-                                    <i class="far fa-eye"></i>
-                                    <span class="ms-2">Lock Order</span>
-                                </button>
-                                <button class="btn btn-primary me-2">
-                                    <i class="fas fa-edit"></i>
-                                    <span class="ms-2">Edit</span>
-                                </button> -->
+                                            <i class="far fa-eye"></i>
+                                            <span class="ms-2">Lock Order</span>
+                                        </button>
+                                        <button class="btn btn-primary me-2">
+                                            <i class="fas fa-edit"></i>
+                                            <span class="ms-2">Edit</span>
+                                        </button> -->
                                         <app-invoice-details-sidepanel [invoiceId]="item.receiveOrderId">
                                         </app-invoice-details-sidepanel>
                                     </div>

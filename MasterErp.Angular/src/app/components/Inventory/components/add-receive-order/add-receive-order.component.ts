@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { InventoryService } from '../../services/inventory.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
-import { ReceiveOrderModel } from '../../models/inventory';
+import { OrderModel } from '../../models/inventory';
 
 @Component({
   selector: 'app-add-receive-order',
@@ -92,7 +92,7 @@ export class AddReceiveOrderComponent implements OnInit {
       return;
     }
     
-    let model: ReceiveOrderModel = {} as ReceiveOrderModel;
+    let model: OrderModel = {} as OrderModel;
     // model.branchId = this.BranchId;
     model.supplierId = this.SupplierId;
     model.inventoryId = this.InventoryId;
