@@ -187,6 +187,13 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetUnitsSelector();
             return Ok(result);
         }
+        [HttpGet]
+        [Route("GetChildAccountsSelector")]
+        public IActionResult GetChildAccountsSelector()
+        {
+            var result = _sharedService.GetChildAccountsSelector();
+            return Ok(result);
+        }
 
 
         #endregion

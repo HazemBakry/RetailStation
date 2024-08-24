@@ -155,7 +155,7 @@ export class AddItemComponent implements OnInit {
   }
 
   loadSelectors() {
-    this.inventoryService.GetItemCategories().subscribe(data => {
+    this.sharedService.GetItemCategoriesSelector().subscribe(data => {
       this.categoriesSelectorData = data;
     });
   }

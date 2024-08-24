@@ -104,7 +104,83 @@ namespace MasterErp.API.Controllers.Inventory
 
         #endregion
 
+        #region ItemCategories
+        [HttpGet]
+        [Route("GetItemCategories")]
+        public IActionResult GetItemCategories()
+        {
 
+            var data = _itemService.GetItemCategories();
+            var result = new PagedResponseModel<ItemCategoryModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = 0,
+                CurrentPage = 0
+
+            };
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("GetItemCategoryById")]
+        public ItemCategoryModel GetItemCategoryById(int CategoryId)
+        {
+            var results = _itemService.GetItemCategoryDetails(CategoryId);
+            return results;
+        }
+
+        [HttpPost]
+        [Route("AddNewItemCategory")]
+        public IActionResult AddNewItemCategory(ItemCategoryModel model)
+        {
+            var results = _itemService.AddNewItemCategory(model);
+            return Ok(results);
+        }
+
+        [HttpPost]
+        [Route("EditItemCategory")]
+        public IActionResult EditItemCategory(int ItemCategoryId, ItemCategoryModel model)
+        {
+            var results = _itemService.EditItemCategory(ItemCategoryId, model);
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("DeleteItemCategory")]
+        public IActionResult DeleteItemCategory(int ItemCategoryId)
+        {
+            var results = _itemService.DeleteItemCategory(ItemCategoryId);
+            return Ok(results);
+        }
+
+        [HttpPost]
+        [Route("ExportCategories")]
+        public IActionResult ExportCategories(int categoryId, SearchFilterModel SearchModel)
+        {
+            string UserName = string.Empty;
+            var results = _itemService.ExportCategories(categoryId, UserName, SearchModel);
+            return Ok(results);
+        }
+
+
+        [HttpGet]
+        [Route("ChangeItemCategoryActiveStatus")]
+        public IActionResult ChangeItemCategoryActiveStatus(int CategoryId )
+        {
+            var results = _itemService.ChangeItemCategoryActiveStatus(CategoryId);
+            return Ok(results);
+        }
+
+
+        [HttpPost]
+        [Route("ChangeCategoriesDisplayOrder")]
+        public IActionResult ChangeCategoriesDisplayOrder([FromBody] List<CategorySortModel> Categories)
+        {
+            var results = _itemService.ChangeCategoriesDisplayOrder(Categories);
+            return Ok(results);
+        }
+        #endregion
 
         [HttpGet]
         [Route("GetItemsLookups")]
@@ -113,12 +189,7 @@ namespace MasterErp.API.Controllers.Inventory
             return _itemService.GetItemsLookups();
         }
 
-        [HttpGet]
-        [Route("GetItemCategories")]
-        public List<ItemCategory> GetItemCategories()
-        {
-            return _itemService.GetItemCategories();
-        }
+
 
 
         [HttpGet]

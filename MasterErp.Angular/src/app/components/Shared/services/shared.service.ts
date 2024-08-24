@@ -170,4 +170,7 @@ export class SharedService {
   GetUnitsSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetUnitsSelector');
   }
+  GetChildAccountsSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetChildAccountsSelector');
+  }
 }

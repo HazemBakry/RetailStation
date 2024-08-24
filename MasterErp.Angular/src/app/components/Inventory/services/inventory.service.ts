@@ -67,8 +67,8 @@ export class InventoryService {
 
   //----------------------------------------------- Item Categories ---------------------------------------------//
 
-  AddNewCategory(model: ItemCategoryModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Items/AddNewCategory', model);
+  AddNewItemCategory(model: ItemCategoryModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Items/AddNewItemCategory', model);
   }
 
   EditItemCategory(categoryId: number, model: ItemCategoryModel) {
@@ -80,15 +80,15 @@ export class InventoryService {
   }
 
   GetItemCategories() {
-    return this.http.get<any[]>(this.URL + 'Items/GetItemCategories');
+    return this.http.get<PagedResponseDTO<ItemCategoryModel[]>>(this.URL + 'Items/GetItemCategories');
   }
 
-  ChangeCategoryStatus(CategoryId: number) {
-    return this.http.get<any[]>(this.URL + 'Items/ChangeItemCategoryStatus?CategoryId=' + CategoryId);
+  ChangeItemCategoryActiveStatus(CategoryId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Items/ChangeItemCategoryActiveStatus?CategoryId=' + CategoryId);
   }
 
-  ChangeCategoriesSortOrder(SortedItems: CategorySortModel[]) {
-    return this.http.post<any>(this.URL + 'FoodCategory/ChangeCategoriesSortOrder', SortedItems);
+  ChangeCategoriesDisplayOrder(SortedItems: CategorySortModel[]) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Items/ChangeCategoriesDisplayOrder', SortedItems);
   }
   
   //------------------------------------------------------- Units ------------------------------------------------------//

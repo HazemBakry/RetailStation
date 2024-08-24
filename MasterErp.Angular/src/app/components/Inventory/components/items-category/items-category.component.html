@@ -7,9 +7,13 @@
             <div class="col-md-8">
                 <div class="d-flex align-items-center flex-wrap">
                     <div class="search-box position-relative mb-2">
-                        <button class="btn btn-primary mb-2" (click)="openNewSidePanel(addItemModal)">
+                        <button class="btn btn-primary m-2" (click)="openNewSidePanel(addItemCategoryModal)">
                             <span class="me-2">إضافة مجموعة</span>
                             <i class="uil uil-plus-circle"></i>
+                        </button>
+                        <button [disabled]="showAddLoader" class="btn btn-secondary m-2" (click)="saveCategoriesDisplayOrder()">
+                            <span class="me-2">تعديل الترتيب</span>
+                            <i class="fas fa-grip-vertical"></i>
                         </button>
                     </div>
                     <!-- <ng-container *ngIf="filterList.length > 0">
@@ -17,9 +21,10 @@
                     </ng-container> -->
                 </div>
             </div>
-            <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="responseModel.currentPage" [pageSize]="responseModel.pageSize" [totalCount]="responseModel.totalCount"></app-erp-pagination>
-            </div>
+            <!-- <div class="col-md-4">
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="responseModel.currentPage"
+                    [pageSize]="responseModel.pageSize" [totalCount]="responseModel.totalCount"></app-erp-pagination>
+            </div> -->
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
         <div class="row">
@@ -37,7 +42,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let category of itemCategories">
+                            <tr *ngFor="let category of responseModel.results;let i = index"draggable="true"
+                                [class.sortable-item-active]="draggedOverIndex == i&& listIndex==1"
+                                (dragover)="XallowDrop($event, responseModel.results,i,1,true)"
+                                (dragstart)="XonDragStart(i,1)"
+                                (drop)="XonDrop($event,responseModel.results,i, 1)">
                                 <td class="cursor-pointer" style="font-size: 25px;">
                                     <i class="fas fa-grip-vertical"></i>
                                     <!-- <i class="fas fa-sort" ></i> -->
@@ -54,17 +63,19 @@
                                 <td>
                                     <div class="d-flex align-items-center justify-content-center">
                                         <label class="switch me-2">
-                                    <input type="checkbox" [(ngModel)]="category.isActive"
-                                        (change)="changeCategoryStatus(category.itemCategoryId)"
-                                        class="ng-valid ng-dirty ng-touched">
-                                    <span class="slider round"></span>
-                                </label>
-                                        <!-- <button class="btn btn-primary btn-rounded me-2" (click)="open(addItemModal,category)">
-                                    <i class="fas fa-pen"></i>
-                                </button>
-                                <button class="btn btn-danger btn-rounded" (click)="deleteCustomer(deleteItemModal,category.foodCategoryId)">
-                                    <i class="fas fa-trash"></i>
-                                </button> -->
+                                            <input type="checkbox" [(ngModel)]="category.isActive"
+                                                (change)="changeCategoryStatus(category.itemCategoryId)"
+                                                class="ng-valid ng-dirty ng-touched">
+                                            <span class="slider round"></span>
+                                        </label>
+                                        <button class="btn btn-primary btn-rounded me-2"
+                                            (click)="openNewSidePanel(addItemCategoryModal,category)">
+                                            <i class="fas fa-pen"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-rounded"
+                                            (click)="openDeleteModal(deleteItemCategoryDialog,category.itemCategoryId)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -72,7 +83,7 @@
                     </table>
                 </div>
                 <!-- <div class="main-card-action py-3 bg-white border-top">
-            <button class="btn btn-primary" (click)="saveOrderSortOrder()">
+            <button class="btn btn-primary" (click)="saveCategoriesDisplayOrder()">
                 <i class=""></i>
                 <span class="ms-2">Save</span>
             </button>
@@ -83,106 +94,124 @@
         <ngx-loading [show]="showLoader"></ngx-loading>
 
 
-        <ng-template #addItemModal let-modal>
+        <ng-template #addItemCategoryModal let-modal>
             <div class="modal-header">
                 <h4 class="modal-title">Add Category</h4>
             </div>
             <div class="modal-body">
-                <form [formGroup]="form" autocomplete="off">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" formControlName="nameAr">
-                                <label for="floatingInput">Name (Ar)</label>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" formControlName="nameEn">
-                                <label for="floatingInput">Name (En)</label>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" formControlName="description">
-                                <label for="floatingInput">Description</label>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" formControlName="displayOrder">
-                                <label for="floatingInput">Display Order</label>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div ngbDropdown class="dropdown-as-input">
-                                <button type="button" id="dropdownBasic1" ngbDropdownToggle>
-                            <span>{{PrinterName}} <sup>*</sup></span>
-                        </button>
-                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-h large-scroll w-100">
-                                    <ng-container *ngFor="let printer of PrintersData">
-                                        <a *ngIf="Lang == 'en'" class="dropdown-item" (click)="onPrinterClick(printer)" [ngClass]="{'DropDownSelected': PrinterName == printer.printerPathOnServer}">{{printer.printerPathOnServer}}</a>
-
-                                        <a *ngIf="Lang == 'ar'" class="dropdown-item" (click)="onPrinterClick(printer)" [ngClass]="{'DropDownSelected': PrinterName == printer.printerName}">{{printer.printerName}}</a>
-                                    </ng-container>
+                <form [formGroup]="formGroup" autocomplete="off">
+                    <div class="employee-card-body row">
+                        <div class="col-xl-5">
+                            <div class="form-floating  mb-3">
+                                <input type="text" formControlName="nameAR" class="form-control" id="floatingInput1"
+                                    placeholder="any">
+                                <label for="floatingInput1">الاسم عربي</label>
+                                <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.nameAR}}
                                 </div>
                             </div>
+
                         </div>
-                        <div class="col-lg-4">
-                            <div class="input-group mb-3">
-                                <input type="file" class="form-control" (change)="onSelectedFile($event)" id="inputGroupFile02">
-                                <label class="input-group-text" for="inputGroupFile02">{{'Upload' | translate}}</label>
+                        <div class="col-xl-1"></div>
+
+                        <div class="col-xl-5">
+
+                            <div class="form-floating mb-3">
+                                <input type="text" formControlName="nameEN" class="form-control" id="floatingInput1"
+                                    placeholder="any">
+                                <label for="floatingInput2">الاسم انجليزي</label>
+                                <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.nameEN}}
+                                </div>
                             </div>
+
                         </div>
-                        <div *ngFor="let url of URLs" class="me-2">
-                            <img class="upload-image" [src]="url">
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5 mb-3">
+                            <app-drop-down-form-control formControlName="operationAccountId"
+                                [placeholder]="'Operation Account'" [showSearch]="true"
+                                [data]="childAccountSelectorData"></app-drop-down-form-control>
+                            <div *ngIf="formErrors.operationAccountId" class="text-danger  font-small-3 m-03">
+                                {{formErrors.operationAccountId}}
+                            </div>
+
                         </div>
-                        <div class="col-lg-2">
-                            <label for="isActive" class="me-3">{{'IsActive' | translate}}</label>
-                            <input type="checkbox" formControlName="isActive" id="isActive">
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5 mb-3">
+                            <app-drop-down-form-control formControlName="managementAccountId" [showSearch]="true"
+                                [placeholder]="'Management Account'"
+                                [data]="childAccountSelectorData"></app-drop-down-form-control>
+                            <div *ngIf="formErrors.managementAccountId" class="text-danger  font-small-3 m-03">
+                                {{formErrors.managementAccountId}}
+                            </div>
+
                         </div>
-                        <div class="col-lg-2">
-                            <label for="isPromotion" class="me-3">{{'IsPromotion' | translate}}</label>
-                            <input type="checkbox" formControlName="isPromotion" id="isPromotion">
+                        <div class="col-xl-1"></div>
+
+                        <div class="col-xl-5">
+                            <div class=" mb-3">
+
+                                <div class="d-flex">
+                                    <input class="form-check-input width-30 height-30" formControlName="isActive"
+                                        type="checkbox" value="" id="flexCheckDefault">
+                                    <label class=" form-label m-2">نشط</label>
+                                </div>
+                                <div *ngIf="formErrors.isActive" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.isActive}}
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="col-lg-2">
-                            <label for="showInApp" class="me-3">{{'ShowInApp' | translate}}</label>
-                            <input type="checkbox" formControlName="showInApp" id="showInApp">
-                        </div>
-                        <div class="col-lg-2">
-                            <label for="showInWebsite" class="me-3">{{'ShowInWebsite' | translate}}</label>
-                            <input type="checkbox" formControlName="showInWebsite" id="showInWebsite">
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-11">
+                            <div class="form-floating mb-3">
+                                <textarea type="text" formControlName="description" class="form-control"
+                                    id="floatingInput10" placeholder="الوصف"></textarea>
+                                <label for="floatingInput10">الوصف</label>
+
+                                <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.description}}
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer justify-content-start">
-                <button type="button" class="btn btn-primary" (click)="modal.close('Save click');CreateUpdateFoodCategory()">
-            <i class="fas fa-save"></i>
-            <span class="ms-2">{{'Save' | translate}}</span>
-        </button>
+                <div class="d-flex justify-content-left">
+                    <button [disabled]="showAddLoader" (click)="saveCategory()" class="btn btn-primary m-2">
+                        <span *ngIf="!isUpdate">إضافة</span>
+                        <span *ngIf="isUpdate">تعديل</span>
+                    </button>
+                    <!-- <button (click)="initNewForm()" class="btn btn-danger m-2">
+                        <span class="ms-3">إلغاء</span>
+                    </button> -->
+                </div>
                 <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
-            <i class="fas fa-times"></i>
-            <span class="ms-2">{{'Close' | translate}}</span>
-        </button>
+                    <i class="fas fa-times"></i>
+                    <span class="ms-2">إلغاء</span>
+                </button>
             </div>
         </ng-template>
 
-        <ng-template #deleteItemModal let-modal>
+
+        <ng-template #deleteItemCategoryDialog let-modal>
             <div class="modal-header">
-                <h4 class="modal-title">{{'ConfirmAction' | translate}}</h4>
+                <h4 class="modal-title">تأكيد العملية</h4>
             </div>
             <div class="modal-body">
-                <p class="fs-5 m-0">{{'Confirm' | translate}}</p>
+                <p class="fs-5 m-0">هل انت متأكد من الحذف ؟</p>
             </div>
             <div class="modal-footer justify-content-start">
-                <button type="button" class="btn btn-success" (click)="modal.close('Save click');DeleteFoodCategory()">
-            <i class="fas fa-check"></i>
-            <span class="ms-2">{{'Yes' | translate}}</span>
-        </button>
+                <button type="button" class="btn btn-success" (click)="modal.close('Save click');deleteCategory()">
+                    <i class="fas fa-check"></i>
+                    <span class="ms-2">نعم</span>
+                </button>
                 <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
-            <i class="fas fa-times"></i>
-            <span class="ms-2">{{'No' | translate}}</span>
-        </button>
+                    <i class="fas fa-times"></i>
+                    <span class="ms-2">الغاء</span>
+                </button>
             </div>
         </ng-template>
