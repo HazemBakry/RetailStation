@@ -7,6 +7,8 @@ import { PurchaseReturnsModel } from '../models/PurchaseReturns';
 import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
 import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { SupplierReturnsVoucherModel } from '../models/SupplierReturnsVoucherModel';
+import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
+import { OrderModel } from '../../Inventory/models/inventory';
 
 @Injectable({
   providedIn: 'root'
@@ -60,11 +62,12 @@ export class PurchaseService {
     return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetPurchaseInvoiceDetails?InvoiceId='+invoiceId);
   }
   //------------------------------------- Purchase Order ----------------------------------
-
+  GetPurchaseOrders_Data(model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'PurchaseOrder/GetPurchaseOrders_Data', model);
+  }
   CreateNewPurchaseOrder(model: PurchaseOrderModel) {
     return this.http.post<any>(this.URL + 'PurchaseOrder/CreateNewPurchaseOrder', model);
   }
-
   GetPurchasesOrdersData(model: FilterModel) {
     return this.http.post<any>(this.URL + 'PurchaseOrder/GetPurchasesOrdersData', model);
   }

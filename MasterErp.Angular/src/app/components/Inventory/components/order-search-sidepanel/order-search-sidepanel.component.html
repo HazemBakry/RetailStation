@@ -16,10 +16,12 @@
             </button>
         </div>
 
-        <div class="offcanvas-body m-2 row">
+        <div class="offcanvas-body m-5 row">
             <div class="col-lg-3">
-                <app-erp-selector [SelectorName]="SupplierName" [ItemsList]="SuppliersList"
-                    (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector>
+                <!-- <app-erp-selector [SelectorName]="SupplierName" [ItemsList]="SuppliersList"
+                    (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector> -->
+                    <app-drop-down-form-control [(ngModel)]="selectedSupplierId" [data]="suppliersSelectorData"
+                    [showSearch]="true" [placeholder]="'قائمة الموردين'"></app-drop-down-form-control>
             </div>
             <div class="col-lg-3">
                 <div class="form-floating mb-3">
@@ -58,7 +60,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of OrdersList">
+                        <tr *ngFor="let item of pagerResponseResponse.results">
                             <td>{{item.orderNumber}}</td>
                             <td>{{item.orderDate | date}}</td>
                             <td>{{item.totalValue}}</td>
@@ -77,8 +79,8 @@
                     </tbody>
 
                 </table>
+                <app-empty-data [showContainer]="!pagerResponseResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
             </div>
-            <app-empty-data [showContainer]="!OrdersList?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
 
         </div>
     </div>

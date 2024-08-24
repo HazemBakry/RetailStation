@@ -1,21 +1,56 @@
 import { OrderDetailModel } from "src/app/components/Shared/models/ItemModel";
+import { CreatorModel } from "../../Shared/models/CreatorModel";
 
 export interface InventoryModel {
    
 }
 
 
-export interface OrderModel {
-    orderNumber: number ;
+
+export interface OrderModel extends CreatorModel {
+    orderId: number | null;
+    orderNumber: number;
     docNumber: string;
-    supplierId: number | null ;
-    branchId: number | null ;
-    inventoryId: number | null ;
-    purchaseOrderId: number | null ;
-    purchaseInvoiceId: number | null ;
+    orderDate: string;
+    dueDate: string | null;
+    orderTypeId: number | null;
+    orderTypeAR: string;
+    orderTypeEN: string;
+    supplierId: number | null;
+    supplierNameAR: string;
+    supplierNameEN: string;
+    inventoryId: number | null;
+    branchId: number | null;
+    branchNameAR: string;
+    branchNameEN: string;
+    storeId: number | null;
+    storeNameAR: string;
+    storeNameEN: string;
+    subTotal: number | null;
+    tax: number | null;
+    taxPercent: number | null;
+    discount: number | null;
+    discountPercent: number | null;
     totalValue: number;
-    isLocked: boolean | null ;
-    isCancelled: boolean | null ;
-    notes: string | null ;
-    items: OrderDetailModel[];
+    netValue: number | null;
+    notes: string;
+    isLocked: boolean | null;
+    isCancelled: boolean | null;
+    totalCount: number | null;
+    purchaseOrderId: number | null;
+    orderProducts: OrderProductModel[];
+    items: OrderProductModel[];
+}
+
+export interface OrderProductModel {
+    itemId: number;
+    itemNameAR: string;
+    itemNameEN: string;
+    unitId: number | null;
+    unitNameAR: string;
+    unitNameEN: string;
+    price: number;
+    quantity: number;
+    totalValue: number;
+    isActive: boolean | null;
 }
