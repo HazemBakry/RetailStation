@@ -12,7 +12,9 @@ import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./suppliers-list.component.css']
 })
 export class SuppliersListComponent implements OnInit {
+  TitleList = ['المشتريات', 'بيانات الموردين'];
   SupplierList: any[] = [];
+  supplierItems: ItemModel[] = [];
   showLoader: boolean;
   TotalCount: any;
   TotalPages: any;
@@ -21,7 +23,7 @@ export class SuppliersListComponent implements OnInit {
     pageSize: 25
   };
 
- constructor(private purchaseService: PurchaseService,private inventoryService:InventoryService,private modalService :NgbModal, private toaster: ToastrService,private offcanvasService: NgbOffcanvas) { }
+  constructor(private purchaseService: PurchaseService, private inventoryService: InventoryService, private modalService: NgbModal, private toaster: ToastrService, private offcanvasService: NgbOffcanvas) { }
 
   ngOnInit(): void {
     this.GetSuppliersData();
@@ -29,15 +31,15 @@ export class SuppliersListComponent implements OnInit {
 
 
   GetSuppliersData() {
-    this.showLoader=true;
-    this.purchaseService.GetSuppliersData().subscribe(data => {
-      this.SupplierList = data;
+    this.showLoader = true;
+    this.purchaseService.GetSuppliersData(this.FilterModel).subscribe(data => {
+      this.SupplierList = data.results;
       this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
-      this.showLoader=false;
-    },(err)=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     })
   }
 
@@ -45,29 +47,28 @@ export class SuppliersListComponent implements OnInit {
     this.FilterModel.currentPage = obj.page;
     this.GetSuppliersData();
   }
-  supplierItems:ItemModel[]=[];
-  openItemsDialog(content: any,supplierId:number) {
+
+  openItemsDialog(content: any, supplierId: number) {
     this.getSupplierItemsBySupplierId(supplierId);
     this.modalService.open(content, { centered: true, size: 'lg' });
   }
 
-  openItemsSidePanel(content: any,supplierId:number) {
+  openItemsSidePanel(content: any, supplierId: number) {
     this.getSupplierItemsBySupplierId(supplierId);
     this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
   }
-  getSupplierItemsBySupplierId(supplierId:number)
-  {
-    this.supplierItems=[];
-    this.inventoryService.GetItemsBySupplierId(supplierId).subscribe(data => {
 
-      if(data&&data.length>0) {
-        this.supplierItems=data;
+  getSupplierItemsBySupplierId(supplierId: number) {
+    this.supplierItems = [];
+    this.inventoryService.GetItemsBySupplierId(supplierId).subscribe(data => {
+      if (data && data.length > 0) {
+        this.supplierItems = data;
       }
-      this.showLoader=false;
-    }, err=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
   }
 }

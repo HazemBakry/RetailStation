@@ -4,6 +4,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
 import { PurchaseOrderModel } from '../../models/PurchaseOrder';
+import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
 
 @Component({
   selector: 'app-add-purchase-order',
@@ -22,8 +24,16 @@ export class AddPurchaseOrderComponent implements OnInit {
   InvoiceNumber = '-';
   BranchName = 'الفروع';
   SupplierName = 'الموردين';
-  clearAllProducts:boolean=false; 
-  constructor(private purchaseService: PurchaseService, private modalService: NgbModal, private toaster: ToastrService) { }
+  clearAllProducts: boolean = false;
+  FilterModel: FilterModel = {
+    currentPage: 1,
+    pageSize: 25
+  };
+
+  constructor(private purchaseService: PurchaseService,
+    private inventoryService: InventoryService,
+    private modalService: NgbModal,
+    private toaster: ToastrService) { }
 
   ngOnInit(): void {
     this.GetBranchesData();
@@ -31,7 +41,7 @@ export class AddPurchaseOrderComponent implements OnInit {
   }
 
   GetSuppliersData() {
-    this.purchaseService.GetSuppliersData().subscribe(data => {
+    this.purchaseService.GetSuppliersData(this.FilterModel).subscribe(data => {
       this.SuppliersList = data;
     });
   }
@@ -49,9 +59,8 @@ export class AddPurchaseOrderComponent implements OnInit {
     this.SupplierId = item.supplierId;
 
   }
-  GetSelectedProductsList(products:any[])
-  {
-    this.ProductsList=products;
+  GetSelectedProductsList(products: any[]) {
+    this.ProductsList = products;
     // console.log(" ~ this.ProductsList:", this.ProductsList);
   }
   CreateNewPurchaseOrder() {
@@ -72,7 +81,7 @@ export class AddPurchaseOrderComponent implements OnInit {
     model.notes = this.notes;
     model.items = this.ProductsList;
 
-    this.purchaseService.CreateNewPurchaseOrder(model).subscribe((data:CreateModifyReturnsModel) => {
+    this.purchaseService.CreateNewPurchaseOrder(model).subscribe((data: CreateModifyReturnsModel) => {
       if (data?.status) {
         this.ClearAllFields();
         // this.InvoiceNumber = data.item2;
@@ -81,7 +90,6 @@ export class AddPurchaseOrderComponent implements OnInit {
         this.toaster.error(data?.message);
       }
     });
-
   }
 
   LoadItemsBySupplier() {
@@ -89,8 +97,8 @@ export class AddPurchaseOrderComponent implements OnInit {
       this.toaster.warning('Please Select Supplier');
       return;
     }
-    this.purchaseService.GetItemsBySupplierId(this.SupplierId).subscribe(data => {
-      this.ItemsBySupplier=data;
+    this.inventoryService.GetItemsBySupplierId(this.SupplierId).subscribe(data => {
+      this.ItemsBySupplier = data;
       // let Items: any[] = data;
       // this.ItemsBySupplier = Items.map<PurchaseInvoiceDetails>(item => {
       //   {
@@ -128,7 +136,7 @@ export class AddPurchaseOrderComponent implements OnInit {
     this.BranchName = 'الفروع';
     this.SupplierName = 'الموردين';
     this.ProductsList = [];
-    this.clearAllProducts=!this.clearAllProducts;
+    this.clearAllProducts = !this.clearAllProducts;
     // this.AddNewItem = {};
     // this.EditQuantityList = [];
   }

@@ -24,26 +24,39 @@ namespace MasterErp.API.Controllers.Finance.Purchase
             _suppliersService = suppliersService;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetSuppliersData")]
-        public IActionResult GetSuppliersData()
+        public IActionResult GetSuppliersData(SearchFilterModel model)
         {
-            var results = _suppliersService.GetAllSuppliers();
-            return Ok(results);
+            var data = _suppliersService.GetSuppliersData(model);
+            var result = new PagedResponseModel<SupplierDto>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
         }
-        [HttpGet]
-        [Route("GetSupplierById")]
-        public IActionResult GetSupplierById(int SupplierId)
+
+        [HttpPost]
+        [Route("GetSupplierDetailsById")]
+        public IActionResult GetSupplierDetailsById(SearchFilterModel model, int SupplierId)
         {
-            var results = _suppliersService.GetSupplierDetailsById(SupplierId);
-            return Ok(results);
+            var result = _suppliersService.GetSupplierDetailsById(model, SupplierId);
+            return Ok(result);
         }
 
         [HttpGet]
-        [Route("GetItemSuppliersByItemId")]
-        public IActionResult GetItemSuppliersByItemId(int ItemId)
+        [Route("GetSuppliersByItemId")]
+        public IActionResult GetSuppliersByItemId(int ItemId)
         {
-            var result = _suppliersService.GetItemSuppliersByItemId(ItemId);
+            var data = _suppliersService.GetSuppliersByItemId(ItemId);
+            var result = new PagedResponseModel<SupplierDto>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0
+            };
             return Ok(result);
         }
 
@@ -51,7 +64,7 @@ namespace MasterErp.API.Controllers.Finance.Purchase
         [Route("AddNewSupplier")]
         public IActionResult AddNewSupplier(SupplierDto model)
         {
-           var results = _suppliersService.AddNewSupplier(model);
+            var results = _suppliersService.AddNewSupplier(model);
             return Ok(results);
         }
 

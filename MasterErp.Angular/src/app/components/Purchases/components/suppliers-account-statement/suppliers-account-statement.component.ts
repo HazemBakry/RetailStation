@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
+import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 
 @Component({
@@ -13,12 +14,14 @@ import { ToastrService } from 'ngx-toastr';
 export class SuppliersAccountStatementComponent implements OnInit {
   PurchaseList: any[] = [];
   showLoader: boolean;
-
-
   SuppliersList: any[] = [];
   selectedSupplier: any;
   SupplierId: any;
   SupplierName = 'الموردين';
+  FilterModel: FilterModel = {
+    currentPage: 1,
+    pageSize: 25
+  };
 
   constructor(private purchaseService: PurchaseService, private toaster: ToastrService) { }
 
@@ -26,7 +29,7 @@ export class SuppliersAccountStatementComponent implements OnInit {
     this.GetSuppliersData();
   }
   GetSuppliersData() {
-    this.purchaseService.GetSuppliersData().subscribe(data => {
+    this.purchaseService.GetSuppliersData(this.FilterModel).subscribe(data => {
       this.SuppliersList = data;
     });
   }

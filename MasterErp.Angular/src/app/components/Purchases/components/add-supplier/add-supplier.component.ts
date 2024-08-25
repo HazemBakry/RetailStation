@@ -9,9 +9,10 @@ import { CustomValidators, RegexType } from 'src/app/components/Shared/services/
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SupplierModel } from '../../models/SupplierModel';
-import { SuppliersService } from '../../services/suppliers.service';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
 import { BalanceType } from '../../enums/Suppliers';
+import { PurchaseService } from '../../services/purchase.service';
+import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 
 
@@ -29,21 +30,29 @@ export class AddSupplierComponent implements OnInit {
   citiesSelectorData: FormDropdownModel[] = [];
   regionsSelectorData: FormDropdownModel[] = [];
   supplierGroupsSelectorData: FormDropdownModel[] = [];
-  balanceTypesSelectorData: FormDropdownModel[]= [
-    {value: BalanceType.Type1,name :BalanceType[BalanceType.Type1]},
-    {value: BalanceType.Type2,name :BalanceType[BalanceType.Type2]}
-  ];
-  
   showLoader: boolean = false;
   showAddLoader: boolean = false;
   supplierImageFile: File;
   formData: FormData = new FormData();
   public formGroup: FormGroup;
+  FilterModel: FilterModel = {
+    currentPage: 1,
+    pageSize: 25
+  };
+  
+  balanceTypesSelectorData: FormDropdownModel[] = [
+    { value: BalanceType.Type1, name: BalanceType[BalanceType.Type1] },
+    { value: BalanceType.Type2, name: BalanceType[BalanceType.Type2] }
+  ];
 
-
-
-  constructor(private acRoute: ActivatedRoute,private router:Router, private modalService: NgbModal, private suppliersService: SuppliersService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
-    private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
+  constructor(private acRoute: ActivatedRoute, private router: Router, private modalService: NgbModal,
+    private sharedService: SharedService,
+    private purchaseService: PurchaseService,
+    private form: FormBuilder,
+    private _FormService: FormService,
+    private datePipe: DatePipe,
+    private toaster: ToastrService,
+    private offcanvasService: NgbOffcanvas,) { }
 
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
@@ -52,44 +61,37 @@ export class AddSupplierComponent implements OnInit {
         this.getSupplierById();
       }
     })
-
-
     this.initNewForm();
     this.loadSelectors();
   }
 
-
   getSupplierById() {
     this.showLoader = true;
-    this.suppliersService.GetSupplierById(this.supplierId).subscribe((data: SupplierModel) => {
+    this.purchaseService.GetSupplierDetailsById(this.supplierId, this.FilterModel).subscribe((data: SupplierModel) => {
       if (data) {
         this.supplierModel = data;
         this.initNewForm(this.supplierModel);
       }
-
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
     }, () => {
       this.showLoader = false;
     });
-
-
   }
 
   initNewForm(supplierModel: SupplierModel = null) {
-
     this.isUpdate = false;
     this.buildForm();
     if (supplierModel)
       this.fillEditForm(supplierModel);
   }
-  
+
   buildForm() {
     this.formGroup = this.form.group({
       supplierId: [null],
-      nameAR: [null,[Validators.required]],
-      nameEN: [null,[Validators.required]],
+      nameAR: [null, [Validators.required]],
+      nameEN: [null, [Validators.required]],
       phone: [null],
       mobile: [null],
       countryId: [null],
@@ -98,14 +100,13 @@ export class AddSupplierComponent implements OnInit {
       address: [null],
       commercialRegister: [null],
       taxNumber: [null],
-      beginningBalance: [null,[Validators.required,CustomValidators.regexPattern(RegexType.number)]],
-      balanceTypeId: [0,[Validators.required]],
-      supplierGroupId: [null,[Validators.required]],
+      beginningBalance: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
+      balanceTypeId: [0, [Validators.required]],
+      supplierGroupId: [null, [Validators.required]],
       contactPerson: [null],
       contactMobile: [null],
       notes: [null],
       isActive: [true]
-
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -126,13 +127,11 @@ export class AddSupplierComponent implements OnInit {
   }
 
   addNewSupplier() {
-
     this.showAddLoader = true;
-    this.suppliersService.AddNewSupplier(this.supplierModel).subscribe((data: ActionsResponseModel) => {
+    this.purchaseService.AddNewSupplier(this.supplierModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.toaster.success(data?.message);
-
       }
       else {
         this.toaster.error(data?.message);
@@ -143,14 +142,11 @@ export class AddSupplierComponent implements OnInit {
     }, () => {
       this.showAddLoader = false;
     });
-
-
   }
 
   editSupplier() {
-
     this.showAddLoader = true;
-    this.suppliersService.EditSupplier(this.supplierId, this.supplierModel).subscribe((data: ActionsResponseModel) => {
+    this.purchaseService.EditSupplier(this.supplierId, this.supplierModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         // this.initNewForm();
@@ -169,8 +165,8 @@ export class AddSupplierComponent implements OnInit {
 
 
   }
-  loadSelectors() {
 
+  loadSelectors() {
     this.sharedService.GetCountriesSelector().subscribe((data: FormDropdownModel[]) => {
       this.countriesSelectorData = data;
     });
@@ -183,7 +179,6 @@ export class AddSupplierComponent implements OnInit {
     this.sharedService.GetSupplierGroupsSelector().subscribe((data: FormDropdownModel[]) => {
       this.supplierGroupsSelectorData = data;
     });
-
   }
 
   validateForm(): boolean {
@@ -196,10 +191,9 @@ export class AddSupplierComponent implements OnInit {
     }
   }
 
-
   fillEditForm(supplierModel: SupplierModel) {
     this.isUpdate = true;
-    
+
     this.formGroup.patchValue({
       supplierId: supplierModel.supplierId,
       nameAR: supplierModel.nameAR,
@@ -219,34 +213,31 @@ export class AddSupplierComponent implements OnInit {
       contactMobile: supplierModel.contactMobile,
       notes: supplierModel.notes,
       isActive: supplierModel.isActive,
-      
-   
+
+
     });
   }
 
- 
   public formErrors = {
     supplierId: '',
-      nameAR: '',
-      nameEN: '',
-      phone: '',
-      mobile: '',
-      countryId: '',
-      cityId: '',
-      regionId: '',
-      address: '',
-      commercialRegister: '',
-      taxNumber: '',
-      beginningBalance: '',
-      balanceTypeId: '',
-      supplierGroupId: '',
-      contactPerson: '',
-      contactMobile: '',
-      notes: '',
-      isActive: ''
+    nameAR: '',
+    nameEN: '',
+    phone: '',
+    mobile: '',
+    countryId: '',
+    cityId: '',
+    regionId: '',
+    address: '',
+    commercialRegister: '',
+    taxNumber: '',
+    beginningBalance: '',
+    balanceTypeId: '',
+    supplierGroupId: '',
+    contactPerson: '',
+    contactMobile: '',
+    notes: '',
+    isActive: ''
   };
-
-
 
 }
 

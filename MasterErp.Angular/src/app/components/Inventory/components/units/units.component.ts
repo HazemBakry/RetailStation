@@ -46,7 +46,6 @@ export class UnitsComponent implements OnInit {
 
   getUnits() {
     this.invenService.GetUnits().subscribe(data => {
-      debugger;
       this.Units = data;
       this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
       this.showLoader = false;

@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
+import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
 
 @Component({
   selector: 'app-order-products',
@@ -33,7 +34,10 @@ export class OrderProductsComponent implements OnInit, OnChanges {
   LookupId: any;
 
 
-  constructor(private purchaseService: PurchaseService, private modalService: NgbModal, private toaster: ToastrService) { }
+  constructor(private purchaseService: PurchaseService,
+    private inventoryService: InventoryService, 
+    private modalService: NgbModal, 
+    private toaster: ToastrService) { }
 
   ngOnInit(): void {
     this.AddSupplierProducts();
@@ -57,12 +61,12 @@ export class OrderProductsComponent implements OnInit, OnChanges {
     this.emitSelectedProductsList();
   }
   GetItemsData() {
-    this.purchaseService.GetItemsData().subscribe(data => {
+    this.inventoryService.GetItemsData().subscribe(data => {
       this.ItemsList = data;
     });
   }
   GetItemsLookups() {
-    this.purchaseService.GetItemsLookups().subscribe(data => {
+    this.inventoryService.GetItemsLookups().subscribe(data => {
       this.LookupsList = data;
     });
   }
@@ -139,7 +143,7 @@ export class OrderProductsComponent implements OnInit, OnChanges {
   }
   GetSelectedLookup(item: any) {
     const lookupId = item.itemLookupId;
-    this.purchaseService.GetItemsByLookupId(lookupId).subscribe(data => {
+    this.inventoryService.GetItemsByLookupId(lookupId).subscribe(data => {
       let Items: any[] = data;
       this.ItemsByLookup = Items;
       // this.ItemsByLookup = Items.map<PurchaseInvoiceDetails>(item => {

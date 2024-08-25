@@ -13,11 +13,11 @@ namespace MasterErp.Interface.Purchase
 {
     public interface ISuppliersService
     {
-        List<SupplierDto> GetAllSuppliers(int? SupplierId = null);
-        SupplierDto GetSupplierDetailsById(int SupplierId);
+        List<SupplierDto> GetSuppliersData(SearchFilterModel model, int? SupplierId = null);
+        SupplierDto GetSupplierDetailsById(SearchFilterModel model, int SupplierId);
         ActionsResponseModel AddNewSupplier(SupplierDto model);
         ActionsResponseModel EditSupplier(int SupplierId, SupplierDto model);
         ActionsResponseModel DeleteSupplier(int SupplierId);
-        List<SupplierDto> GetItemSuppliersByItemId(int ItemId);
+        List<SupplierDto> GetSuppliersByItemId(int ItemId);
     }
 }

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } fro
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
+import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 @Component({
   selector: 'app-invoice-search-sidepanel',
@@ -11,26 +12,30 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class InvoiceSearchSidepanelComponent implements OnInit {
   @Input() SupplierId: any;
-  @Input() supplierName: string='';
+  @Input() supplierName: string = '';
 
-  @Output() selectedInvoice=new EventEmitter<any>()
+  @Output() selectedInvoice = new EventEmitter<any>()
   PurchaseList: any[] = [];
   showLoader: boolean;
 
 
   SuppliersList: any[] = [];
   SupplierName = 'الموردين';
-  invoiceNumber:string = '';
-  invoiceDate:string ;
+  invoiceNumber: string = '';
+  invoiceDate: string;
+  FilterModel: FilterModel = {
+    currentPage: 1,
+    pageSize: 25
+  };
 
-  constructor(private offcanvasService: NgbOffcanvas,private purchaseService: PurchaseService, private toaster: ToastrService) { }
+  constructor(private offcanvasService: NgbOffcanvas, private purchaseService: PurchaseService, private toaster: ToastrService) { }
 
 
   ngOnInit(): void {
     // this.GetSuppliersData();
   }
   GetSuppliersData() {
-    this.purchaseService.GetSuppliersData().subscribe(data => {
+    this.purchaseService.GetSuppliersData(this.FilterModel).subscribe(data => {
       this.SuppliersList = data;
     });
   }
@@ -38,34 +43,32 @@ export class InvoiceSearchSidepanelComponent implements OnInit {
     this.SupplierId = item.supplierId;
   }
 
-  loadData()
-  {
-    if (!this.invoiceDate&&!this.SupplierId&&!this.invoiceNumber) {
+  loadData() {
+    if (!this.invoiceDate && !this.SupplierId && !this.invoiceNumber) {
       this.toaster.warning('لا يمكن البحث ');
       return;
     }
 
-    this.showLoader=true;
+    this.showLoader = true;
 
-    this.purchaseService.GetInvoicesSearchData(this.SupplierId,this.invoiceNumber,this.invoiceDate).subscribe(data => {
+    this.purchaseService.GetInvoicesSearchData(this.SupplierId, this.invoiceNumber, this.invoiceDate).subscribe(data => {
       // console.log("data",data);
-      this.PurchaseList=data;
-      this.showLoader=false;
-    },(err)=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.PurchaseList = data;
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
-    
-    
+
+
   }
   OpenSidePanel(content: any) {
-    this.offcanvasService.open(content, {panelClass: 'details-panel', position: 'end' });
+    this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
   }
 
 
-  SelectInvoice(inv)
-  {
+  SelectInvoice(inv) {
 
     this.offcanvasService.dismiss();
 

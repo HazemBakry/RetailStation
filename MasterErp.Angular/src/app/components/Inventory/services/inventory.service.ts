@@ -11,6 +11,7 @@ import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsMod
 import { SupplierModel } from '../../Purchases/models/SupplierModel';
 import { ItemCategoryModel } from '../models/itemCategory';
 import { CategorySortModel } from '../models/categorySort';
+import { OrderDetailModel } from '../../Shared/models/ItemModel';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,22 @@ export class InventoryService {
 
   // -------------------------------------- Items -------------------------------------- //
 
+
+  GetItemsLookups() {
+    return this.http.get<any[]>(this.URL + 'Items/GetItemsLookups');
+  }
+
+  GetItemsData() {
+    return this.http.get<OrderDetailModel[]>(this.URL + 'Items/GetItemsData');
+  }
+
+  GetItemsByLookupId(LookupId: number) {
+    return this.http.get<OrderDetailModel[]>(this.URL + 'Items/GetItemsByLookupId?LookupId=' + LookupId);
+  }
+
+
+
+  
   GetItems(searchModel: PagedResponseDTO, categoryId: number = 0) {
     return this.http.post<PagedResponseDTO<ItemModel[]>>(this.URL + `Items/GetItems?CategoryId=${categoryId} `, searchModel);
   }

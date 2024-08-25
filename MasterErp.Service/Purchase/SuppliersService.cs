@@ -24,7 +24,8 @@ namespace MasterErp.Service.Purchase
         {
             Context = context;
         }
-        public List<SupplierDto> GetAllSuppliers(int? SupplierId = null)
+
+        public List<SupplierDto> GetSuppliersData(SearchFilterModel model, int? SupplierId = null)
         {
 
             var query = from supplier in Context.Suppliers
@@ -62,26 +63,27 @@ namespace MasterErp.Service.Purchase
                             ModifiedDate = supplier.ModifiedDate,
                         };
 
-            //int totalCount = query.Count();
-            //if (SearchModel.CurrentPage > 0 && SearchModel.PageSize > 0)
-            //{
-            //    int skip = (SearchModel.CurrentPage - 1) * SearchModel.PageSize;
-            //    query = query.Skip(skip).Take(SearchModel.PageSize);
-            //}
+            int totalCount = query.Count();
+            if (model.CurrentPage > 0 && model.PageSize > 0)
+            {
+                int skip = (model.CurrentPage - 1) * model.PageSize;
+                query = query.Skip(skip).Take(model.PageSize);
+            }
 
             var results = query.ToList();
-            //results.ForEach(x => x.TotalCount = totalCount);
+            results.ForEach(x => x.TotalCount = totalCount);
             return results;
         }
-        public SupplierDto GetSupplierDetailsById(int SupplierId)
+
+        public SupplierDto GetSupplierDetailsById(SearchFilterModel model, int SupplierId)
         {
-            var results = GetAllSuppliers(SupplierId).FirstOrDefault();
+            var results = GetSuppliersData(model, SupplierId).FirstOrDefault();
 
             return results;
         }
+
         public ActionsResponseModel AddNewSupplier(SupplierDto model)
         {
-
             try
             {
                 var supplier = new Supplier();
@@ -110,18 +112,16 @@ namespace MasterErp.Service.Purchase
                 Context.Suppliers.Add(supplier);
                 var result = Context.SaveChanges();
 
-
                 return new ActionsResponseModel { Message = "Supplier Added Successfly !" };
             }
             catch (Exception ex)
             {
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
-
         }
+
         public ActionsResponseModel EditSupplier(int SupplierId, SupplierDto model)
         {
-
             try
             {
                 var supplier = Context.Suppliers.FirstOrDefault(i => i.SupplierId == model.SupplierId);
@@ -150,7 +150,6 @@ namespace MasterErp.Service.Purchase
 
                     Context.SaveChanges();
 
-
                     return new ActionsResponseModel { Message = "Supplier Updated Successfly !" };
                 }
                 else
@@ -160,11 +159,10 @@ namespace MasterErp.Service.Purchase
             {
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
-
         }
+
         public ActionsResponseModel DeleteSupplier(int SupplierId)
         {
-
             try
             {
                 var supplier = Context.Suppliers.FirstOrDefault(i => i.SupplierId == SupplierId);
@@ -181,9 +179,9 @@ namespace MasterErp.Service.Purchase
             {
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
-
         }
-        public List<SupplierDto> GetItemSuppliersByItemId(int ItemId)
+
+        public List<SupplierDto> GetSuppliersByItemId(int ItemId)
         {
             var ItemSuppliers = (from item in Context.Items
                                  join itemSupplier in Context.ItemSuppliers on item.ItemId equals itemSupplier.ItemId

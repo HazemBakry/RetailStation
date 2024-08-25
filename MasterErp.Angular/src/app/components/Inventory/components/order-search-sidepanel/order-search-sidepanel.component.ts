@@ -3,6 +3,7 @@ import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { InventoryService } from '../../services/inventory.service';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
+import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 @Component({
   selector: 'app-order-search-sidepanel',
@@ -13,28 +14,30 @@ import { PurchaseService } from 'src/app/components/Purchases/services/purchase.
 })
 export class OrderSearchSidepanelComponent implements OnInit {
 
-  @Output() selectedOrder=new EventEmitter<any>()
+  @Output() selectedOrder = new EventEmitter<any>()
   OrdersList: any[] = [];
   showLoader: boolean;
-
-
   SuppliersList: any[] = [];
   SupplierId: any;
   SupplierName = 'الموردين';
-  orderNumber:string = '';
-  orderDate:string ;
+  orderNumber: string = '';
+  orderDate: string;
+  FilterModel: FilterModel = {
+    currentPage: 1,
+    pageSize: 25
+  };
 
   constructor(private offcanvasService: NgbOffcanvas,
-              private purchaseService: PurchaseService,
-              private inventoryService: InventoryService,
-              private toaster: ToastrService) { }
+    private purchaseService: PurchaseService,
+    private inventoryService: InventoryService,
+    private toaster: ToastrService) { }
 
 
   ngOnInit(): void {
     this.GetSuppliersData();
   }
   GetSuppliersData() {
-    this.purchaseService.GetSuppliersData().subscribe(data => {
+    this.purchaseService.GetSuppliersData(this.FilterModel).subscribe(data => {
       this.SuppliersList = data;
     });
   }
@@ -42,34 +45,32 @@ export class OrderSearchSidepanelComponent implements OnInit {
     this.SupplierId = item.supplierId;
   }
 
-  loadData()
-  {
-    if (!this.orderDate&&!this.SupplierId&&!this.orderNumber) {
+  loadData() {
+    if (!this.orderDate && !this.SupplierId && !this.orderNumber) {
       this.toaster.warning('لا يمكن البحث ');
       return;
     }
 
-    this.showLoader=true;
+    this.showLoader = true;
 
-    this.inventoryService.GetOrdersSearchData(this.SupplierId,this.orderNumber,this.orderDate).subscribe(data => {
+    this.inventoryService.GetOrdersSearchData(this.SupplierId, this.orderNumber, this.orderDate).subscribe(data => {
       // console.log("data",data);
-      this.OrdersList=data;
-      this.showLoader=false;
-    },(err)=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.OrdersList = data;
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
-    
-    
+
+
   }
   OpenSidePanel(content: any) {
-    this.offcanvasService.open(content, {panelClass: 'details-panel', position: 'end' });
+    this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
   }
 
 
-  SelectOrder(ord)
-  {
+  SelectOrder(ord) {
 
     this.offcanvasService.dismiss();
 

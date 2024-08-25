@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { PaymentService } from 'src/app/components/GeneralAccounts/services/payment.service';
 import { HrService } from 'src/app/components/HR/services/hr.service';
-import { SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { InventoryService } from '../../services/inventory.service';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
 
@@ -26,10 +26,9 @@ export class InventoryHomeComponent implements OnInit {
   receiveOrders: any[] = [];
   deliveryOrders: any[] = [];
   suppliersList: any[] = [];
-  SearchFilterModel: SearchFilterModel = {
+  FilterModel: FilterModel = {
     currentPage: 1,
-    pageSize: 25,
-    filterModel: { filterItems: [] }
+    pageSize: 25
   };
 
   constructor(private modalService: NgbModal,
@@ -56,7 +55,7 @@ export class InventoryHomeComponent implements OnInit {
 
   getTopReceiveOrders() {
     this.showLoader = true;
-    this.inventoryService.GetReceiveOrdersSummary(this.SearchFilterModel).subscribe(data => {
+    this.inventoryService.GetReceiveOrdersSummary(this.FilterModel).subscribe(data => {
       this.receiveOrders = data.results;
       this.showLoader = false;
     }, err => {
@@ -68,7 +67,7 @@ export class InventoryHomeComponent implements OnInit {
 
   getTopDeliveryOrders() {
     this.showLoader = true;
-    this.inventoryService.GetDeliveryOrdersSummary(this.SearchFilterModel).subscribe(data => {
+    this.inventoryService.GetDeliveryOrdersSummary(this.FilterModel).subscribe(data => {
       this.deliveryOrders = data.results;
       this.showLoader = false;
     }, err => {
@@ -80,7 +79,7 @@ export class InventoryHomeComponent implements OnInit {
 
   getSuppliersList() {
     this.showLoader = true;
-    this.purchaseService.GetSuppliersData().subscribe(data => {
+    this.purchaseService.GetSuppliersData(this.FilterModel).subscribe(data => {
       this.suppliersList = data;
       this.showLoader = false;
     }, err => {

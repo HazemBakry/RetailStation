@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { PurchaseInvoiceDetails } from '../../models/PurchaseInvoiceDetailsModel';
 import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
 import { PurchaseReturnsModel } from '../../models/PurchaseReturns';
+import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 @Component({
   selector: 'app-add-purchase-returns',
   templateUrl: './add-purchase-returns.component.html',
@@ -26,7 +27,14 @@ export class AddPurchaseReturnsComponent implements OnInit {
   clearAllProducts:boolean=false;
   selectedSupplier:any;
   selectedInvoice:any;
-  constructor(private purchaseService: PurchaseService, private modalService: NgbModal, private toaster: ToastrService) { }
+  FilterModel: FilterModel = {
+    currentPage: 1,
+    pageSize: 25
+  };
+  
+  constructor(private purchaseService: PurchaseService, 
+    private modalService: NgbModal, 
+    private toaster: ToastrService) { }
 
   ngOnInit(): void {
     this.GetBranchesData();
@@ -34,7 +42,8 @@ export class AddPurchaseReturnsComponent implements OnInit {
   }
 
   GetSuppliersData() {
-    this.purchaseService.GetSuppliersData().subscribe(data => {
+    this.FilterModel.pageSize = 99999;
+    this.purchaseService.GetSuppliersData(this.FilterModel).subscribe(data => {
       this.SuppliersList = data;
     });
   }

@@ -4,6 +4,7 @@ import { InventoryService } from '../../services/inventory.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
 import { OrderModel } from '../../models/inventory';
+import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 @Component({
   selector: 'app-add-receive-order',
@@ -26,7 +27,12 @@ export class AddReceiveOrderComponent implements OnInit {
   InventoryName = 'المخازن';
   SupplierName = 'الموردين';
   clearAllProducts:boolean=false;
+  FilterModel: FilterModel = {
+    currentPage: 1,
+    pageSize: 25
+  };
 
+  
   selectedOrder:any;
   constructor(private inventoryService: InventoryService,
     private purchaseService: PurchaseService, 
@@ -35,13 +41,12 @@ export class AddReceiveOrderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    debugger;
     this.getInventoryList();
     this.getSuppliersData();
   }
 
   getSuppliersData() {
-    this.purchaseService.GetSuppliersData().subscribe(data => {
+    this.purchaseService.GetSuppliersData(this.FilterModel).subscribe(data => {
       this.SuppliersList = data;
     });
   }

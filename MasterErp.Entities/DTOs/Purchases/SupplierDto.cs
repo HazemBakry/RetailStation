@@ -34,5 +34,6 @@ namespace MasterErp.Entities.DTOs.Purchases
         public string ContactMobile { get; set; }
         public string Notes { get; set; }
         public bool IsActive { get; set; }
+        public int? TotalCount { get; set; }
     }
 }

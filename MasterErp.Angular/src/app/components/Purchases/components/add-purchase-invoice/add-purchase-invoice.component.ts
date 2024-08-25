@@ -5,6 +5,9 @@ import { PurchaseInvoiceDetails } from '../../models/PurchaseInvoiceDetailsModel
 import { ToastrService } from 'ngx-toastr';
 import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
 import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
+import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
+import { ItemModel } from 'src/app/components/Inventory/models/Item';
+import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 @Component({
   selector: 'app-add-purchase-invoice',
@@ -17,7 +20,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   InvoiceTypesList: any[] = [];
   BranchesList: any[] = [];
   ProductsList: OrderDetailModel[] = [];
-  ItemsBySupplier: OrderDetailModel[] = [];
+  ItemsBySupplier: ItemModel[] = [];
   activeTab = 'Item';
   notes: any;
   BranchId: any;
@@ -30,12 +33,16 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   SupplierName = 'الموردين';
   TypeName = 'نوع الفاتورة';
   showLoader: boolean;
-
+  FilterModel: FilterModel = {
+    currentPage: 1,
+    pageSize: 25
+  };
   clearAllProducts: boolean = false;
 
-
-
-  constructor(private purchaseService: PurchaseService, private modalService: NgbModal, private toaster: ToastrService) { }
+  constructor(private purchaseService: PurchaseService,
+    private inventoryService: InventoryService,
+    private modalService: NgbModal,
+    private toaster: ToastrService) { }
 
   ngOnInit(): void {
     this.GetBranchesData();
@@ -45,7 +52,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   }
 
   GetSuppliersData() {
-    this.purchaseService.GetSuppliersData().subscribe(data => {
+    this.purchaseService.GetSuppliersData(this.FilterModel).subscribe(data => {
       this.SuppliersList = data;
     });
   }
@@ -81,8 +88,8 @@ export class AddPurchaseInvoiceComponent implements OnInit {
       this.toaster.warning('Please Select Supplier');
       return;
     }
-    this.purchaseService.GetItemsBySupplierId(this.SupplierId).subscribe(data => {
-      let Items: OrderDetailModel[] = data;
+    this.inventoryService.GetItemsBySupplierId(this.SupplierId).subscribe(data => {
+      let Items: ItemModel[] = data;
       this.ItemsBySupplier = Items;
       // this.ItemsBySupplier = Items.map<PurchaseInvoiceDetails>(item => {
       //   {
@@ -170,7 +177,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
 
   }
 
-  PrintOrder(){
-    
+  PrintOrder() {
+
   }
 }
