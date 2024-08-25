@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.Purchases;
+using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Purchase;
 using Microsoft.AspNetCore.Http;
@@ -23,6 +24,22 @@ namespace MasterErp.API.Controllers.Finance.Purchase
             this.PurchaseOrderService = PurchaseOrderService;
         }
 
+        [HttpPost]
+        [Route("GetPurchaseOrders_Data")]
+        public IActionResult GetPurchaseOrders_Data(SearchFilterModel model)
+        {
+            var data= PurchaseOrderService.GetPurchaseOrders_Data(model);
+            var result = new PagedResponseModel<OrderModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+
+            };
+            return Ok(result);
+
+        }
         [HttpPost]
         [Route("GetPurchasesOrdersData")]
         public DataTable GetPurchasesOrdersData(FilterModel model)
