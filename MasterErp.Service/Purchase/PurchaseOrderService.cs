@@ -57,6 +57,32 @@ namespace MasterErp.Service.Purchase
             return result;
 
         }
+        public List<OrderProductModel> GetPurchaseOrderProducts_Data(int OrderId)
+        {
+                var result = (from orderProduct in Context.PurchaseOrderDetails
+                            join item in Context.Items on orderProduct.ItemId equals item.ItemId
+                            join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
+                            from unit in jT2.DefaultIfEmpty()
+                            where (orderProduct.PurchaseOrderId == OrderId)
+                            select new OrderProductModel
+                            {
+                                ItemId = item.ItemId,
+                                ItemNameEN = item.NameEN,
+                                ItemNameAR = item.NameAR,
+                                Price = orderProduct.Price,
+                                Quantity = orderProduct.Quantity,
+                                TotalValue = orderProduct.TotalValue,
+                                UnitId = item.UnitId,
+                                UnitNameAR = unit.NameAR,
+                                UnitNameEN = unit.NameEN,
+                                OrderId = orderProduct.PurchaseOrderId,
+                                PurchaseOrderId = orderProduct.PurchaseOrderId,
+                                
+                            }).ToList();
+
+            return result;
+
+        }
 
         public DataTable GetPurchasesOrdersData(FilterModel model)
         {

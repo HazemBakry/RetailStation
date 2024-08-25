@@ -205,6 +205,22 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetChildAccountsSelector();
             return Ok(result);
         }
+        
+        [HttpGet]
+        [Route("GetInventoriesSelector")]
+        public IActionResult GetInventoriesSelector()
+        {
+            var result = _sharedService.GetInventoriesSelector();
+            return Ok(result);
+        }
+        
+        [HttpGet]
+        [Route("GetItemLookupsSelector")]
+        public IActionResult GetItemLookupsSelector()
+        {
+            var result = _sharedService.GetItemLookupsSelector();
+            return Ok(result);
+        }
 
 
         #endregion

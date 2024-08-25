@@ -7,7 +7,7 @@ import { PurchaseReturnsModel } from '../models/PurchaseReturns';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { SupplierReturnsVoucherModel } from '../models/SupplierReturnsVoucherModel';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
-import { OrderModel } from '../../Inventory/models/inventory';
+import { OrderModel, OrderProductModel } from '../../Inventory/models/inventory';
 import { SupplierModel } from '../models/SupplierModel';
 import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsModel';
 
@@ -65,6 +65,9 @@ export class PurchaseService {
   //------------------------------------- Purchase Order ----------------------------------
   GetPurchaseOrders_Data(model: PagedResponseDTO) {
     return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'PurchaseOrder/GetPurchaseOrders_Data', model);
+  }
+  GetPurchaseOrderProducts_Data(orderId: number) {
+    return this.http.get<OrderProductModel[]>(this.URL + `PurchaseOrder/GetPurchaseOrderProducts_Data?OrderId=${orderId}`);
   }
   CreateNewPurchaseOrder(model: PurchaseOrderModel) {
     return this.http.post<any>(this.URL + 'PurchaseOrder/CreateNewPurchaseOrder', model);

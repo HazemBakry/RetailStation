@@ -322,12 +322,12 @@ namespace MasterErp.Service.Inventory
             var result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetItemsBySupplierId]", ConnectionString, param);
             return result;
         }
-        public List<ItemDto> GetItemsByLookupId(int LookupId)
+        public List<OrderProductModel> GetItemsByLookupId(int LookupId)
         {
             SqlParameter[] param = new SqlParameter[1];
             param[0] = new SqlParameter("@LookupId", LookupId);
 
-            var result = SQLHelper.SQLQuery<ItemDto>("[dbo].[SP_GetItemsByLookupId]", ConnectionString, param);
+            var result = SQLHelper.SQLQuery<OrderProductModel>("[dbo].[SP_GetItemsByLookupId]", ConnectionString, param);
             return result;
         }
         public ActionsResponseModel ChangeItemStatus(int ItemId)

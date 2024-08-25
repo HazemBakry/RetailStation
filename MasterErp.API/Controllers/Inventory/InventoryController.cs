@@ -2,6 +2,7 @@
 using MasterErp.Entities.Common.Inventory.ReceiveOrder;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Interface.Inventory;
+using MasterErp.Service.Purchase;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -35,10 +36,10 @@ namespace MasterErp.API.Controllers.Inventory
         }
 
         [HttpPost]
-        [Route("GetReceiveOrdersSummary")]
-        public IActionResult GetReceiveOrdersSummary(FilterModel model)
+        [Route("GetReceiveOrders_Data")]
+        public IActionResult GetReceiveOrders_Data(SearchFilterModel model)
         {
-            var data = _inventoryService.GetReceiveOrdersSummary(model);
+            var data = _inventoryService.GetReceiveOrders_Data(model);
 
             var result = new PagedResponseModel<OrderModel>
             {
@@ -49,12 +50,37 @@ namespace MasterErp.API.Controllers.Inventory
             };
             return Ok(result);
         }
+        [HttpGet]
+        [Route("GetReceiveOrderDetailsById")]
+        public IActionResult GetReceiveOrderDetailsById(int OrderId)
+        {
+            var result = _inventoryService.GetReceiveOrderDetailsById(OrderId);
+
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("GetReceiveOrderProducts_Data")]
+        public IActionResult GetReceiveOrderProducts_Data(int OrderId)
+        {
+            var result = _inventoryService.GetReceiveOrderProducts_Data(OrderId);
+
+            return Ok(result);
+
+        }
 
         [HttpPost]
-        [Route("SaveNewReceiveOrder")]
-        public IActionResult SaveNewReceiveOrder(OrderModel model)
+        [Route("AddNewReceiveOrder")]
+        public IActionResult AddNewReceiveOrder(OrderModel model)
         {
-            var result = _inventoryService.SaveNewReceiveOrder(model);
+            var result = _inventoryService.AddNewReceiveOrder(model);
+            return Ok(result);
+        }
+        
+        [HttpPost]
+        [Route("EditReceiveOrder")]
+        public IActionResult EditReceiveOrder(int OrderId,OrderModel model)
+        {
+            var result = _inventoryService.EditReceiveOrder(OrderId,model);
             return Ok(result);
         }
 

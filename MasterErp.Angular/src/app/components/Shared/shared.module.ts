@@ -37,6 +37,7 @@ import { HeaderComponent } from '../Main/header/header.component';
 import { RouterModule } from '@angular/router';
 import { DropDownFormControlComponent } from './components/drop-down-form-control/drop-down-form-control.component';
 import { BusinessCoreLayoutComponent } from './components/business-core-layout/business-core-layout.component';
+import { GeneralOrderProductsComponent } from './components/general-order-products/general-order-products.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { BusinessCoreLayoutComponent } from './components/business-core-layout/b
     NotAuthorizedComponent,
     DropDownFormControlComponent,
     RoleCheckerDirective,
-    BusinessCoreLayoutComponent
+    BusinessCoreLayoutComponent,
+    GeneralOrderProductsComponent
   ],
 
 
@@ -107,6 +109,7 @@ import { BusinessCoreLayoutComponent } from './components/business-core-layout/b
     ErpFiltersComponent,
     EmptyDataComponent,
     OrderProductsComponent,
+    GeneralOrderProductsComponent,
     AppBreadcrumbComponent,
     AccountsReportHeaderComponent,
     AccountTreeV2Component,

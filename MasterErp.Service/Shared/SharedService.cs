@@ -229,6 +229,25 @@ namespace MasterErp.Service.Shared
             }).ToList();
             return results;
         }
+        public List<SelectorDataModel> GetInventoriesSelector()
+        {
+            var results = Context.Stores.Select(b => new SelectorDataModel
+            {
+                Id = b.StoreId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+        public List<SelectorDataModel> GetItemLookupsSelector()
+        {
+            var results = Context.ItemLookups.Select(b => new SelectorDataModel
+            {
+                Id = b.ItemLookupId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+
         #endregion
 
     }

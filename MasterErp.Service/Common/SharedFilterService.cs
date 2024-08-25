@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.SQLTabeType;
 using MasterErp.Interface.Common;
 using System;
 using System.Collections.Generic;
@@ -33,27 +34,35 @@ namespace MasterErp.Service.Common
 
         public DataTable MapFilterModelToDataTable(List<FilterItem> Items)
         {
-            DataTable dt = new DataTable();
-            dt.Clear();
-            dt.Columns.Add("CategoryDisplayName");
-            dt.Columns.Add("CategoryName");
-            dt.Columns.Add("ItemKey");
-            dt.Columns.Add("ItemFlag");
-            dt.Columns.Add("ItemValue");
+            //DataTable dt = new DataTable();
+            //dt.Clear();
+            //dt.Columns.Add("CategoryDisplayName");
+            //dt.Columns.Add("CategoryName");
+            //dt.Columns.Add("ItemKey");
+            //dt.Columns.Add("ItemFlag");
+            //dt.Columns.Add("ItemValue");
 
-            foreach (FilterItem item in Items)
-            {
-                DataRow row = dt.NewRow();
+            //foreach (FilterItem item in Items)
+            //{
+            //    DataRow row = dt.NewRow();
 
-                row["CategoryDisplayName"] = item.CategoryDisplayName;
-                row["CategoryName"] = item.CategoryName;
-                row["ItemKey"] = item.ItemKey;
-                row["ItemFlag"] = item.ItemFlag;
-                row["ItemValue"] = item.ItemValue;
-                dt.Rows.Add(row);
-            }
+            //    row["CategoryDisplayName"] = item.CategoryDisplayName;
+            //    row["CategoryName"] = item.CategoryName;
+            //    row["ItemKey"] = item.ItemKey;
+            //    row["ItemFlag"] = item.ItemFlag;
+            //    row["ItemValue"] = item.ItemValue;
+            //    dt.Rows.Add(row);
+            //}
 
-            return dt;
+            //return dt;
+
+            return Items.Select(f => new FilterList_TableType 
+            {   
+                ItemKey = string.Empty, 
+                CategoryName = f.CategoryName,
+                ItemValue = f.ItemFlag 
+            }).ToList().ToDataTable();
+
         }
     }
 }

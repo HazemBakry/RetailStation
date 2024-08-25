@@ -53,5 +53,8 @@ namespace MasterErp.Entities.Common
         public double Quantity { get; set; }
         public double TotalValue { get; set; }
         public bool? IsActive { get; set; }
+        public int? PurchaseOrderId { get; set; }
+        public int? OrderId { get; set; }
+
     }
 }

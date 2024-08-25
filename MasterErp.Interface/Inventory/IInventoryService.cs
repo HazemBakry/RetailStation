@@ -17,8 +17,12 @@ namespace MasterErp.Interface.Inventory
 
         List<Store> GetInventoryList();
         List<StatisticsCardSummary> GetInventoryStatistics();
-        List<OrderModel> GetReceiveOrdersSummary(FilterModel model);
-        ActionsResponseModel SaveNewReceiveOrder(OrderModel model);
+        List<OrderModel> GetReceiveOrders_Data(SearchFilterModel model ,int? OrderId=null);
+        OrderModel GetReceiveOrderDetailsById(int OrderId);
+        List<OrderProductModel> GetReceiveOrderProducts_Data(int OrderId);
+
+        ActionsResponseModel AddNewReceiveOrder(OrderModel model);
+        ActionsResponseModel EditReceiveOrder(int OrderId,OrderModel model);
         List<OrderModel> GetDeliveryOrdersSummary(FilterModel model);
         ActionsResponseModel SaveNewDeliveryOrder(OrderModel model);
         List<OrderModel> GetOrdersSearchData(int SupplierId, string OrderNumber, string OrderDate,int OrderId=0);

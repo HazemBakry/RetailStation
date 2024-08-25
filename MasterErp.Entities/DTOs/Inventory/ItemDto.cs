@@ -21,6 +21,7 @@ namespace MasterErp.Entities.DTOs.Inventory
         public int? ItemCategoryId { get; set; }
         public string ItemCategoryName { get; set; }
         public double Cost { get; set; }
+        public double Price => Cost;
         public double? PurchasePrice { get; set; }
         public double? Yield { get; set; }
         public double? ConvertRatio { get; set; }

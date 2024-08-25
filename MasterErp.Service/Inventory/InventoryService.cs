@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Common.Inventory.ReceiveOrder;
+using MasterErp.Entities.Common.SQLTabeType;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
@@ -48,22 +49,53 @@ namespace MasterErp.Service.Inventory
             return result;
         }
 
-        public List<OrderModel> GetReceiveOrdersSummary(FilterModel model)
+        public List<OrderModel> GetReceiveOrders_Data(SearchFilterModel PagingFilter, int? OrderId = null)
         {
-            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterItems);
+            var FilterListDt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
 
-            SqlParameter[] Params = new SqlParameter[3];
+            SqlParameter[] Params = new SqlParameter[4];
 
-            Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
-            Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
-            Params[2] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            Params[2].Value = dt;
+            Params[0] = new SqlParameter("@OrderId", OrderId);
+            Params[1] = new SqlParameter("@CurrentPage", PagingFilter.CurrentPage);
+            Params[2] = new SqlParameter("@PageSize", PagingFilter.PageSize);
+            Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[3].Value = FilterListDt;
 
-            var result = SQLHelper.SQLQuery<OrderModel>("[Inventory].[SP_GetReceiveOrdersSummary]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<OrderModel>("[Inventory].[SP_GetReceiveOrders_Data]", ConnectionString, Params);
             return result;
+        }        
+        
+        public OrderModel GetReceiveOrderDetailsById(int OrderId)
+        {
+            return GetReceiveOrders_Data(new SearchFilterModel{PageSize =25,CurrentPage=1}, OrderId)?.FirstOrDefault();
         }
 
-        public ActionsResponseModel SaveNewReceiveOrder(OrderModel model)
+        public List<OrderProductModel> GetReceiveOrderProducts_Data(int OrderId)
+        {
+            var result = (from orderProduct in Context.ReceiveOrderDetails
+                          join item in Context.Items on orderProduct.ItemId equals item.ItemId
+                          join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
+                          from unit in jT2.DefaultIfEmpty()
+                          where (orderProduct.ReceiveOrderId == OrderId)
+                          select new OrderProductModel
+                          {
+                              ItemId = item.ItemId,
+                              ItemNameEN = item.NameEN,
+                              ItemNameAR = item.NameAR,
+                              Price = orderProduct.Price,
+                              Quantity = orderProduct.Quantity,
+                              TotalValue = orderProduct.TotalValue,
+                              UnitId = item.UnitId,
+                              UnitNameAR = unit.NameAR,
+                              UnitNameEN = unit.NameEN,
+                              OrderId = orderProduct.ReceiveOrderId,
+
+                          }).ToList();
+
+            return result;
+
+        }
+        public ActionsResponseModel AddNewReceiveOrder(OrderModel model)
         {
             try
             {
@@ -75,7 +107,7 @@ namespace MasterErp.Service.Inventory
                 order_tbl.DocNumber = string.Empty;
                 order_tbl.CreatedBy = string.Empty;
                 order_tbl.PurchaseOrderId = model.PurchaseOrderId;
-                order_tbl.TotalValue = model.TotalValue;
+                order_tbl.TotalValue = model.OrderProducts.Sum(x=>x.TotalValue);
                 order_tbl.IsCancelled = false;
                 order_tbl.IsLocked = false;
                 order_tbl.Notes = model.Notes;
@@ -106,7 +138,6 @@ namespace MasterErp.Service.Inventory
                 }
                 return new ActionsResponseModel
                 {
-                    Status = 1,
                     Message = "Purchase Order Created"
                 };
             }
@@ -114,12 +145,70 @@ namespace MasterErp.Service.Inventory
             {
                 return new ActionsResponseModel
                 {
-                    Status = 0,
+                    IsSuccess = false,
                     Message = ex.Message
                 };
             }
         }
+        public ActionsResponseModel EditReceiveOrder(int OrderId, OrderModel model)
+        {
+            try
+            {
+                var order_tbl = Context.ReceiveOrders.Where(i => i.ReceiveOrderId == OrderId).FirstOrDefault();
+                if (order_tbl != null)
+                {
+                    order_tbl.DocNumber = string.Empty;
+                    order_tbl.PurchaseOrderId = model.PurchaseOrderId;
+                    order_tbl.TotalValue = model.OrderProducts.Sum(x => x.TotalValue); ;
+                    order_tbl.IsCancelled = false;
+                    order_tbl.IsLocked = false;
+                    order_tbl.Notes = model.Notes;
+                    order_tbl.SupplierId = (int)model.SupplierId;
+                    order_tbl.StoreId = model.StoreId;
+                    order_tbl.ModifiedBy = model.ModifiedBy;
+                    order_tbl.ModifiedDate = DateTime.Now;
+                    
+                    Context.SaveChanges();
 
+                    var ReceiveOrderDetails = Context.ReceiveOrderDetails.Where(x => x.ReceiveOrderId == OrderId).ToList();
+                    Context.ReceiveOrderDetails.RemoveRange(ReceiveOrderDetails);
+                    Context.SaveChanges();
+
+                    foreach (OrderProductModel item in model.OrderProducts)
+                    {
+                        var detail = new ReceiveOrderDetails
+                        {
+                            Price = item.Price,
+                            ItemId = item.ItemId,
+                            Quantity = item.Quantity,
+                            TotalValue = item.TotalValue,
+                            ReceiveOrderId = order_tbl.ReceiveOrderId,
+                            UnitId = item.UnitId,
+                            RemainQuantity = 0,
+                            ItemBalance = 0,
+                            IsLocked = false,
+                            Notes = model.Notes
+                        };
+
+                        Context.ReceiveOrderDetails.Add(detail);
+                        Context.SaveChanges();
+                    }
+
+                    return new ActionsResponseModel { Message = "Receive Order Updated Successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this receive order" };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
         public List<OrderModel> GetDeliveryOrdersSummary(FilterModel model)
         {
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterItems);

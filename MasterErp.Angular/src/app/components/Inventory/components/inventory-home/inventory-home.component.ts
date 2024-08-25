@@ -55,7 +55,7 @@ export class InventoryHomeComponent implements OnInit {
 
   getTopReceiveOrders() {
     this.showLoader = true;
-    this.inventoryService.GetReceiveOrdersSummary(this.FilterModel).subscribe(data => {
+    this.inventoryService.GetReceiveOrders_Data(this.FilterModel).subscribe(data => {
       this.receiveOrders = data.results;
       this.showLoader = false;
     }, err => {

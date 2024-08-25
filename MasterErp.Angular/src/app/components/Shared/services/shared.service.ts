@@ -176,4 +176,10 @@ export class SharedService {
   GetChildAccountsSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetChildAccountsSelector');
   }
+  GetInventoriesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetInventoriesSelector');
+  }
+  GetItemLookupsSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetItemLookupsSelector');
+  }
 }

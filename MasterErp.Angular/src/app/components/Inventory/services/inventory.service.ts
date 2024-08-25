@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { OrderModel } from '../models/inventory';
+import { OrderModel, OrderProductModel } from '../models/inventory';
 import { FilterModel, SearchFilterModel } from '../../Shared/models/FilterModel';
 import { ItemModel } from '../models/Item';
 import { PurchaseRequestModel } from '../models/PurchasesRequestModel';
@@ -33,7 +33,7 @@ export class InventoryService {
   // }
 
   GetItemsByLookupId(LookupId: number) {
-    return this.http.get<OrderDetailModel[]>(this.URL + 'Items/GetItemsByLookupId?LookupId=' + LookupId);
+    return this.http.get<OrderProductModel[]>(this.URL + 'Items/GetItemsByLookupId?LookupId=' + LookupId);
   }
 
 
@@ -137,12 +137,21 @@ export class InventoryService {
     return this.http.get<any>(this.URL + 'Inventory/GetInventoryStatistics');
   }
 
-  GetReceiveOrdersSummary(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'Inventory/GetReceiveOrdersSummary', model);
+  GetReceiveOrders_Data(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'Inventory/GetReceiveOrders_Data', model);
+  }
+  GetReceiveOrderDetailsById(orderId: number) {
+    return this.http.get<OrderModel>(this.URL + `Inventory/GetReceiveOrderDetailsById?OrderId=${orderId}`);
+  }
+  GetReceiveOrderProducts_Data(orderId: number) {
+    return this.http.get<OrderProductModel[]>(this.URL + `Inventory/GetReceiveOrderProducts_Data?OrderId=${orderId}`);
   }
 
-  CreateNewReceiveOrder(model: OrderModel) {
-    return this.http.post<any>(this.URL + 'Inventory/CreateNewReceiveOrder', model);
+  AddNewReceiveOrder(model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/AddNewReceiveOrder', model);
+  }
+  EditReceiveOrder(orderId:number,model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Inventory/EditReceiveOrder?OrderId=${orderId}`, model);
   }
 
   CancelReceiveOrder(OrderId: number) {

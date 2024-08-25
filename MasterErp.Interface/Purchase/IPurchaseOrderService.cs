@@ -13,6 +13,7 @@ namespace MasterErp.Interface.Purchase
     public interface IPurchaseOrderService
     {
         List<OrderModel> GetPurchaseOrders_Data(SearchFilterModel PagingFilter, int? OrderId=null);
+        List<OrderProductModel> GetPurchaseOrderProducts_Data(int OrderId);
         DataTable GetPurchasesOrdersData(FilterModel model);
         ActionsResponseModel CreateNewPurchaseOrder(OrderModel model);
         bool CancelPurchaseOrder(int OrderId);

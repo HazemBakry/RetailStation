@@ -1,10 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { InventoryService } from '../../services/inventory.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
-import { OrderModel } from '../../models/inventory';
+import { OrderModel, OrderProductModel } from '../../models/inventory';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormService } from 'src/app/components/Shared/services/form.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
+import { DatePipe } from '@angular/common';
+import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
 
 @Component({
   selector: 'app-add-receive-order',
@@ -13,138 +20,224 @@ import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 })
 
 export class AddReceiveOrderComponent implements OnInit {
-  SuppliersList: any[] = [];
-  InventoryList:any[]=[];
-  BranchesList: any[] = [];
-  ProductsList: any[] = [];
-  notes: any;
-  BranchId: any;
-  SupplierId: any;
-  InventoryId: any;
-  ItemsBySupplier: any[] = [];
-  OrderNumber :any;
-  BranchName = 'الفروع';
-  InventoryName = 'المخازن';
-  SupplierName = 'الموردين';
-  clearAllProducts:boolean=false;
-  FilterModel: FilterModel = {
-    currentPage: 1,
-    pageSize: 25
-  };
+  receiveOrderId:number;
+  receiveOrderModel: OrderModel = {} as OrderModel;
+  orderProducts : OrderProductModel[]=[];
+  isUpdate: boolean = false;
+  clearAllProducts: boolean = false;
 
-  
-  selectedOrder:any;
-  constructor(private inventoryService: InventoryService,
-    private purchaseService: PurchaseService, 
-    private modalService: NgbModal, 
-    private toaster: ToastrService
-  ) { }
+  suppliersSelectorData: FormDropdownModel[] = [];
+  inventoriesSelectorData: FormDropdownModel[] = [];
+
+  showLoader: boolean = false;
+  showAddLoader: boolean = false;
+  supplierImageFile: File;
+  formData: FormData = new FormData();
+  public formGroup: FormGroup;
+
+  selectedPurchaseOrder: OrderModel = {} as OrderModel;
+
+  constructor(private acRoute: ActivatedRoute, private router: Router, private modalService: NgbModal, private inventoryService: InventoryService,
+    private purchaseService: PurchaseService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
+    private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
+
 
   ngOnInit(): void {
-    this.getInventoryList();
-    this.getSuppliersData();
+    this.acRoute.queryParams.subscribe((params: any) => {
+      if (params.ReceiveOrderId) {
+        this.receiveOrderId = params.ReceiveOrderId;
+        this.getReceiveOrderDetailsById();
+        this.getReceiveOrderProducts();
+      }
+    })
+
+
+    this.initNewForm();
+    
+    this.loadSelectors();
   }
 
-  getSuppliersData() {
-    this.purchaseService.GetSuppliersData(this.FilterModel).subscribe(data => {
-      this.SuppliersList = data;
+  getReceiveOrderDetailsById() {
+    this.showLoader = true;
+    this.inventoryService.GetReceiveOrderDetailsById(this.receiveOrderId).subscribe((data: OrderModel) => {
+      if (data) {
+        this.receiveOrderModel = data;
+        // this.getReceiveOrderProducts();
+        // this.initNewForm(this.receiveOrderModel);
+        this.fillEditForm(this.receiveOrderModel)
+      }
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+  getReceiveOrderProducts() {
+    this.showLoader = true;
+    this.inventoryService.GetReceiveOrderProducts_Data(this.receiveOrderId).subscribe((data: OrderProductModel[]) => {
+      this.orderProducts = data;
+      if (this.orderProducts.length>0) {
+        // this.formGroup.patchValue({orderProducts:this.orderProducts});
+      }
+      // this.initNewForm(this.receiveOrderModel);
+    
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+  searchOrderSelected(ord:OrderModel) {
+    this.selectedPurchaseOrder = ord;
+    this.getPurchaseOrderProducts();
+  }
+  getSelectedProductsList(products:OrderProductModel[]) {
+    this.formGroup.patchValue({orderProducts:products});
+    this.orderProducts = products;
+  }
+  getPurchaseOrderProducts() {
+    this.showLoader = true;
+    this.purchaseService.GetPurchaseOrderProducts_Data(this.selectedPurchaseOrder.purchaseOrderId).subscribe((data: OrderProductModel[]) => {
+      if (data) {
+        this.orderProducts = data;
+        // this.formGroup.patchValue({orderProducts:this.orderProducts});
+        this.formGroup.patchValue({purchaseOrderId:this.selectedPurchaseOrder.purchaseOrderId});
+
+      }
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
   }
 
-  getInventoryList() {
-    this.inventoryService.GetInventoryList().subscribe(data => {
-      this.InventoryList = data;
+  initNewForm(orderModel: OrderModel = null) {
+    this.selectedPurchaseOrder = {} as OrderModel;
+    this.orderProducts=[];
+    this.clearAllProducts=!this.clearAllProducts;
+    this.isUpdate = false;
+    this.buildForm();
+    if (orderModel)
+      this.fillEditForm(orderModel);
+  }
+
+  buildForm() {
+    this.formGroup = this.form.group({
+      orderId: [null],
+      supplierId: [null, [Validators.required]],
+      purchaseOrderId: [null, [Validators.required]],
+      storeId: [null, [Validators.required]],
+      orderProducts: [[] as OrderProductModel[], [Validators.required,Validators.minLength(1)]],
+      notes: [null],
+    });
+    this.formGroup.valueChanges.subscribe((data) => {
+      this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
+
     });
   }
 
-  getBranchesData() {
-    this.purchaseService.GetBranchesData().subscribe(data => {
-      this.BranchesList = data;
-    });
-  }
 
-  getSelectedBranch(item: any) {
-    this.BranchId = item.branchId;
-  }
+  saveReceiveOrder() {
+    if(this.orderProducts.length === 0) 
+      this.toaster.warning('لا يوجد اصناف');
+    
+    if (!this.validateForm()) {
+      return;
+    }
+    this.receiveOrderModel = this.formGroup.value;
 
-  getSelectedSupplier(item: any) {
-    this.SupplierId = item.supplierId;
-
-  }
-
-  getSelectedInventory(item: any) {
-    this.InventoryId = item.inventoryId;
-  }
-
-  getSelectedProductsList(products:any[])
-  {
-    this.ProductsList=products;
-    // console.log(" ~ this.ProductsList:", this.ProductsList);
+    if (this.receiveOrderId)
+      this.editReceiveOrder();
+    else
+      this.addNewReceiveOrder();
   }
 
   addNewReceiveOrder() {
-    if (!this.InventoryId) {
-      this.toaster.warning('Please Select Inventory');
-      return;
-    }
-
-    if (this.ProductsList.length == 0) {
-      this.toaster.warning('Please Enter Items');
-      return;
-    }
-    if (!this.selectedOrder) {
-      this.toaster.warning('Please Enter Invoice');
-      return;
-    }
-    
-    let model: OrderModel = {} as OrderModel;
-    // model.branchId = this.BranchId;
-    model.supplierId = this.SupplierId;
-    model.inventoryId = this.InventoryId;
-    model.purchaseOrderId=this.selectedOrder?.purchaseOrderId;
-    model.orderNumber=this.selectedOrder?.orderNumber;
-    model.totalValue=this.selectedOrder?.totalValue;
-    model.notes = this.notes;
-    model.items = this.ProductsList;
-
-    this.inventoryService.CreateNewReceiveOrder(model).subscribe(data => {
-      if (data?.status) {
-        this.clearAllFields();
-        // this.InvoiceNumber = data.item2;
+    this.showAddLoader = true;
+    this.inventoryService.AddNewReceiveOrder(this.receiveOrderModel).subscribe((data: ActionsResponseModel) => {
+      if (data?.isSuccess) {
+        // this.formGroup?.reset();
+        this.initNewForm();
         this.toaster.success(data?.message);
-      } else {
+      }
+      else {
         this.toaster.error(data?.message);
       }
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
     });
+  }
+
+  editReceiveOrder() {
+    this.showAddLoader = true;
+    this.inventoryService.EditReceiveOrder(this.receiveOrderId, this.receiveOrderModel).subscribe((data: ActionsResponseModel) => {
+      if (data?.isSuccess) {
+        this.formGroup?.reset();
+        this.initNewForm();
+        this.toaster.success(data?.message);
+        this.getReceiveOrderDetailsById();
+        this.getReceiveOrderProducts();
+      }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
+    });
+
 
   }
 
-  loadItemsBySupplier() {
-    if (!this.SupplierId) {
-      this.toaster.warning('Please Select Supplier');
-      return;
+  loadSelectors() {
+    this.sharedService.GetSuppliersSelector().subscribe((data: FormDropdownModel[]) => {
+      this.suppliersSelectorData = data;
+    });
+    this.sharedService.GetInventoriesSelector().subscribe((data: FormDropdownModel[]) => {
+      this.inventoriesSelectorData = data;
+    });
+    
+  }
+
+  validateForm(): boolean {
+    this._FormService.markFormGroupTouched(this.formGroup);
+    if (this.formGroup.valid) {
+      return true;
+    } else {
+      this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, false)
+      return false;
     }
   }
 
-  clearAllFields() {
-    this.OrderNumber ='';
-    this.SupplierId = '';
-    this.BranchId = '';
-    this.BranchId = '';
-    // this.activeTab = 'Item'
-    this.notes = '';
-    this.BranchName = 'الفروع';
-    this.SupplierName = 'الموردين';
-    this.ProductsList = [];
-    this.clearAllProducts=!this.clearAllProducts;
-    this.selectedOrder=null;
-    // this.AddNewItem = {};
-    // this.EditQuantityList = [];
+  fillEditForm(orderModel: OrderModel) {
+    this.isUpdate = true;
+
+    this.formGroup.patchValue({
+      orderId: orderModel.orderId,
+      supplierId: orderModel.supplierId,
+      purchaseOrderId: orderModel.purchaseOrderId,
+      storeId: orderModel.storeId,
+      notes:orderModel.notes
+      
+    });
   }
 
-  selectOrder(ord){
-    this.selectedOrder=ord;
-    this.OrderNumber=this.selectedOrder?.orderNumber;
-    this.ItemsBySupplier=this.selectedOrder?.items;
-  }
+  public formErrors = {
+    supplierId: '',
+    orderId: '',
+    purchaseOrderId: '',
+    storeId: '',
+    orderProducts: '',
+    notes: ''
+  };
+  
+
 }
