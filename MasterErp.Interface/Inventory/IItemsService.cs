@@ -17,8 +17,8 @@ namespace MasterErp.Interface.Inventory
     {
         #region Item
 
-        List<ItemDto> GetItems(int CategoryId, SearchFilterModel FilterModel, int? ItemId = null);
-        ItemDto GetItemDetails(int ItemId);
+        List<ItemDto> GetItemsData(SearchFilterModel FilterModel, int? ItemId = null);
+        ItemDto GetItemDetailsById(int ItemId);
         ActionsResponseModel AddNewItem(ItemDto model);
         ActionsResponseModel EditItem(int ItemId, ItemDto model);
         ActionsResponseModel DeleteItem(int ItemId);

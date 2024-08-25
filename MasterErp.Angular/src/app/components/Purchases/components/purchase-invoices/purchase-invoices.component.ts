@@ -10,6 +10,7 @@ import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models
 })
 
 export class PurchaseInvoicesComponent implements OnInit {
+  TitleList = ['المشتريات', 'فواتير المشتريات'];
   PurchaseList: any[] = [];
   showLoader: boolean;
   TotalCount: any;
@@ -22,12 +23,12 @@ export class PurchaseInvoicesComponent implements OnInit {
   constructor(private purchaseService: PurchaseService, private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.GetPurchaseInvoicesSummary();
+    this.getPurchaseInvoicesData();
   }
 
-  GetPurchaseInvoicesSummary() {
+  getPurchaseInvoicesData() {
     this.showLoader=true;
-    this.purchaseService.GetPurchaseInvoicesSummary(this.FilterModel).subscribe(data => {
+    this.purchaseService.GetPurchaseInvoicesData(this.FilterModel).subscribe(data => {
       this.PurchaseList = data;
       this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
       this.showLoader=false;
@@ -40,7 +41,7 @@ export class PurchaseInvoicesComponent implements OnInit {
 
   pageChanged(obj: any) {
     this.FilterModel.currentPage = obj.page;
-    this.GetPurchaseInvoicesSummary();
+    this.getPurchaseInvoicesData();
   }
 
   CancelPurchaseInvoice(InvoiceId:number)
@@ -48,7 +49,7 @@ export class PurchaseInvoicesComponent implements OnInit {
     this.purchaseService.CancelPurchaseInvoice(InvoiceId).subscribe(data => {
       if (data) {
         this.toaster.success('تم الغاء الطلب بنجاح');
-        this.GetPurchaseInvoicesSummary();
+        this.getPurchaseInvoicesData();
       }
       else{
         this.toaster.error('حدث خطأ اثناء الألغاء');

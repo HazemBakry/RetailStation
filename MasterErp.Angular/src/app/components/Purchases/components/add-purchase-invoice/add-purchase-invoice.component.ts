@@ -8,6 +8,7 @@ import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
 import { ItemModel } from 'src/app/components/Inventory/models/Item';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
 
 @Component({
   selector: 'app-add-purchase-invoice',
@@ -40,6 +41,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   clearAllProducts: boolean = false;
 
   constructor(private purchaseService: PurchaseService,
+    private sharedService: SharedService,
     private inventoryService: InventoryService,
     private modalService: NgbModal,
     private toaster: ToastrService) { }
@@ -47,17 +49,16 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   ngOnInit(): void {
     this.GetBranchesData();
     this.GetSuppliersData();
-    this.GetInvoiceTypesData();
-
+    this.getPurchaseInvoiceTypes();
   }
 
   GetSuppliersData() {
-    this.purchaseService.GetSuppliersData(this.FilterModel).subscribe(data => {
+    this.sharedService.GetSuppliersSelector().subscribe(data => {
       this.SuppliersList = data;
     });
   }
-  GetInvoiceTypesData() {
-    this.purchaseService.GetInvoiceTypesData().subscribe(data => {
+  getPurchaseInvoiceTypes() {
+    this.sharedService.GetPurchaseInvoiceTypesSelector().subscribe(data => {
       this.InvoiceTypesList = data;
     });
   }

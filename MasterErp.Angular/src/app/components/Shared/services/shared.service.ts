@@ -90,9 +90,6 @@ export class SharedService {
   //   return this.http.get<any[]>(this.URL + 'AccountTree/GetChildAccountsList');
   // }
 
-  GetSuppliersData() {
-    return this.http.get<any[]>(this.URL + 'Suppliers/GetSuppliersData');
-  }
 
   GetAccountsList(isParent:boolean=false) {
     return this.http.get<any[]>(this.URL + 'Shared/GetAccountsList?IsParent='+isParent);
@@ -163,6 +160,12 @@ export class SharedService {
   }
   GetSupplierGroupsSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetSupplierGroupsSelector');
+  }
+  GetPurchaseInvoiceTypesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetPurchaseInvoiceTypesSelector');
+  }
+  GetItemsSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetItemsSelector');
   }
   GetItemCategoriesSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetItemCategoriesSelector');

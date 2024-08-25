@@ -34,7 +34,7 @@ export class SuppliersListComponent implements OnInit {
     this.showLoader = true;
     this.purchaseService.GetSuppliersData(this.FilterModel).subscribe(data => {
       this.SupplierList = data.results;
-      this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
+      this.TotalCount = data.totalCount;// data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
       this.showLoader = false;
     }, (err) => {
       this.showLoader = false;

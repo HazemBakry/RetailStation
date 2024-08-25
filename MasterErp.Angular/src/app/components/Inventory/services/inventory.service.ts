@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { OrderModel } from '../models/inventory';
-import { FilterModel } from '../../Shared/models/FilterModel';
+import { FilterModel, SearchFilterModel } from '../../Shared/models/FilterModel';
 import { ItemModel } from '../models/Item';
 import { PurchaseRequestModel } from '../models/PurchasesRequestModel';
 import { Unit } from '../models/unit';
@@ -28,9 +28,9 @@ export class InventoryService {
     return this.http.get<any[]>(this.URL + 'Items/GetItemsLookups');
   }
 
-  GetItemsData() {
-    return this.http.get<OrderDetailModel[]>(this.URL + 'Items/GetItemsData');
-  }
+  // GetItemsData() {
+  //   return this.http.get<OrderDetailModel[]>(this.URL + 'Items/GetItemsData');
+  // }
 
   GetItemsByLookupId(LookupId: number) {
     return this.http.get<OrderDetailModel[]>(this.URL + 'Items/GetItemsByLookupId?LookupId=' + LookupId);
@@ -38,9 +38,9 @@ export class InventoryService {
 
 
 
-  
-  GetItems(searchModel: PagedResponseDTO, categoryId: number = 0) {
-    return this.http.post<PagedResponseDTO<ItemModel[]>>(this.URL + `Items/GetItems?CategoryId=${categoryId} `, searchModel);
+
+  GetItemsData(searchModel: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<ItemModel[]>>(this.URL + 'Items/GetItemsData?=', searchModel);
   }
 
   GetItemById(itemId: number) {
@@ -107,7 +107,7 @@ export class InventoryService {
   ChangeCategoriesDisplayOrder(SortedItems: CategorySortModel[]) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Items/ChangeCategoriesDisplayOrder', SortedItems);
   }
-  
+
   //------------------------------------------------------- Units ------------------------------------------------------//
 
   GetUnits() {
@@ -128,12 +128,12 @@ export class InventoryService {
 
 
   // -------------------------------------- Inventory operations -------------------------------------- //
-  
+
   GetInventoryList() {
     return this.http.get<any[]>(this.URL + 'Inventory/GetInventoryList');
   }
 
-  GetInventoryStatistics(){
+  GetInventoryStatistics() {
     return this.http.get<any>(this.URL + 'Inventory/GetInventoryStatistics');
   }
 

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Service.Shared
 {
-    public class SharedService:ISharedService
+    public class SharedService : ISharedService
     {
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
@@ -28,12 +28,12 @@ namespace MasterErp.Service.Shared
             }
         }
 
-        public SharedService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration,IExportService exportService)
+        public SharedService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration, IExportService exportService)
         {
             Context = dBContext;
             SQLHelper = iSQLHelper;
             Configuration = _configuration;
-            _exportService = exportService; 
+            _exportService = exportService;
         }
 
 
@@ -100,7 +100,7 @@ namespace MasterErp.Service.Shared
             }).ToList();
             return results;
         }
-        
+
         public List<SelectorDataModel> GetBanksSelector()
         {
             var results = Context.Banks.Select(b => new SelectorDataModel
@@ -109,7 +109,7 @@ namespace MasterErp.Service.Shared
                 Name = b.Name,
             }).ToList();
             return results;
-        }        
+        }
         public List<SelectorDataModel> GetNationalitiesSelector()
         {
             var results = Context.Nationalities.Select(b => new SelectorDataModel
@@ -118,7 +118,7 @@ namespace MasterErp.Service.Shared
                 Name = b.NameAR,
             }).ToList();
             return results;
-        }        
+        }
         public List<SelectorDataModel> GetIqamaIssuePlacesSelector()
         {
             var results = Context.IqamaIssuePlaces.Select(b => new SelectorDataModel
@@ -127,7 +127,7 @@ namespace MasterErp.Service.Shared
                 Name = b.NameAR,
             }).ToList();
             return results;
-        }      
+        }
         public List<SelectorDataModel> GetIqamaJobsSelector()
         {
             var results = Context.IqamaJobs.Select(b => new SelectorDataModel
@@ -136,7 +136,7 @@ namespace MasterErp.Service.Shared
                 Name = b.NameAR,
             }).ToList();
             return results;
-        }    
+        }
         public List<SelectorDataModel> GetCountriesSelector()
         {
             var results = Context.Countries.Select(b => new SelectorDataModel
@@ -145,7 +145,7 @@ namespace MasterErp.Service.Shared
                 Name = b.NameAR,
             }).ToList();
             return results;
-        }    
+        }
         public List<SelectorDataModel> GetCitiesSelector()
         {
             var results = Context.Cities.Select(b => new SelectorDataModel
@@ -154,7 +154,7 @@ namespace MasterErp.Service.Shared
                 Name = b.NameAR,
             }).ToList();
             return results;
-        }    
+        }
         public List<SelectorDataModel> GetRegionsSelector()
         {
             var results = Context.Regions.Select(b => new SelectorDataModel
@@ -163,7 +163,7 @@ namespace MasterErp.Service.Shared
                 Name = b.NameAR,
             }).ToList();
             return results;
-        }   
+        }
         public List<SelectorDataModel> GetSuppliersSelector()
         {
             var results = Context.Suppliers.Select(b => new SelectorDataModel
@@ -172,7 +172,7 @@ namespace MasterErp.Service.Shared
                 Name = b.NameAR,
             }).ToList();
             return results;
-        }        
+        }
         public List<SelectorDataModel> GetSupplierGroupsSelector()
         {
             var results = Context.SupplierGroups.Select(b => new SelectorDataModel
@@ -181,7 +181,27 @@ namespace MasterErp.Service.Shared
                 Name = b.NameAR,
             }).ToList();
             return results;
-        }        
+        }
+        public List<SelectorDataModel> GetPurchaseInvoiceTypesSelector()
+        {
+            var results = Context.PurchaseInvoiceTypes.Select(b => new SelectorDataModel
+            {
+                Id = b.PurchaseInvoiceTypeId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+
+        public List<SelectorDataModel> GetItemsSelector()
+        {
+            var results = Context.Items.Select(b => new SelectorDataModel
+            {
+                Id = b.ItemId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+
         public List<SelectorDataModel> GetItemCategoriesSelector()
         {
             var results = Context.ItemCategories.Select(b => new SelectorDataModel
@@ -190,7 +210,7 @@ namespace MasterErp.Service.Shared
                 Name = b.NameAR,
             }).ToList();
             return results;
-        }        
+        }
         public List<SelectorDataModel> GetUnitsSelector()
         {
             var results = Context.Units.Select(b => new SelectorDataModel
@@ -199,7 +219,7 @@ namespace MasterErp.Service.Shared
                 Name = b.NameAR,
             }).ToList();
             return results;
-        }       
+        }
         public List<SelectorDataModel> GetChildAccountsSelector()
         {
             var results = Context.AccountTrees.Where(x => x.AccountLevel == 5).Select(b => new SelectorDataModel

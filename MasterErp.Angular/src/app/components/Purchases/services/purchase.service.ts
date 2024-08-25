@@ -19,8 +19,8 @@ export class PurchaseService {
 
   constructor(private http: HttpClient) { }
 
-  GetPurchaseInvoicesSummary(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'PurchaseInvoice/GetPurchaseInvoicesSummary', model);
+  GetPurchaseInvoicesData(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'PurchaseInvoice/GetPurchaseInvoicesData', model);
   }
 
   CancelPurchaseInvoice(InvoiceId: number) {
@@ -34,7 +34,7 @@ export class PurchaseService {
   CreateNewPurchaseInvoice(model: PurchaseInvoiceModel) {
     return this.http.post<any>(this.URL + 'PurchaseInvoice/CreateNewPurchaseInvoice', model);
   }
-
+  
   CreateNewPurchaseReturns(model: PurchaseReturnsModel) {
     return this.http.post<any>(this.URL + 'PurchaseInvoice/CreateNewPurchaseReturns', model);
   }

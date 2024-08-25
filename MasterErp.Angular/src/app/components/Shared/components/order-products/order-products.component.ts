@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
+import { FilterModel, SearchFilterModel } from '../../models/FilterModel';
 
 @Component({
   selector: 'app-order-products',
@@ -20,7 +21,7 @@ export class OrderProductsComponent implements OnInit, OnChanges {
   SuppliersList: any[] = [];
   BranchesList: any[] = [];
   LookupsList: any[] = [];
-  ItemsList: OrderDetailModel[] = [];
+  ItemsList: any[] = [];
   ItemsByLookup: OrderDetailModel[] = [];
   ItemsBySupplier: any[] = [];
   // RawItemsList: any[] = [];
@@ -32,7 +33,10 @@ export class OrderProductsComponent implements OnInit, OnChanges {
   BranchId: any;
   SupplierId: any;
   LookupId: any;
-
+  SearchFilterModel: SearchFilterModel = {
+    currentPage: 1,
+    pageSize: 25
+  };
 
   constructor(private purchaseService: PurchaseService,
     private inventoryService: InventoryService, 
@@ -61,8 +65,8 @@ export class OrderProductsComponent implements OnInit, OnChanges {
     this.emitSelectedProductsList();
   }
   GetItemsData() {
-    this.inventoryService.GetItemsData().subscribe(data => {
-      this.ItemsList = data;
+    this.inventoryService.GetItemsData(this.SearchFilterModel).subscribe(data => {
+      this.ItemsList = data.results;
     });
   }
   GetItemsLookups() {

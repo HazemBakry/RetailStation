@@ -45,7 +45,7 @@ export class CreateSupplierReturnsVoucherComponent implements OnInit {
   // }
 
   GetSuppliersData() {
-    this.sharedService.GetSuppliersData().subscribe((data) => {
+    this.sharedService.GetSuppliersSelector().subscribe((data) => {
       this.SuppliersList = data;
     });
   }

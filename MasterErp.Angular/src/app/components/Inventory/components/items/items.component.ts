@@ -75,8 +75,8 @@ export class ItemsComponent implements OnInit {
   }
   loadData(categoryId : number=0)
   {
-    this.showLoader=true;
-    this.inventoryService.GetItems(this.itemResponseModel,categoryId).subscribe(data => {
+    this.showLoader = true;
+    this.inventoryService.GetItemsData(this.itemResponseModel).subscribe(data => {
       this.itemResponseModel.results = data.results;
       this.itemResponseModel.totalCount = data.totalCount;
 

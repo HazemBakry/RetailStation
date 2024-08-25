@@ -117,7 +117,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.GetSalesSummary();
     this.GetDailyJournalEntriesSummary();
-    this.GetPurchaseInvoicesSummary();
+    this.getPurchaseInvoicesData();
     this.GetPaymentReceiptsSummary();
     this.GetReceiveReceiptsSummary();
   }
@@ -178,9 +178,9 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  GetPurchaseInvoicesSummary() {
+  getPurchaseInvoicesData() {
     // this.showLoader=true;
-    this.purchaseService.GetPurchaseInvoicesSummary(this.FilterModel).subscribe(data => {
+    this.purchaseService.GetPurchaseInvoicesData(this.FilterModel).subscribe(data => {
       this.purchasesInvoicesList = data;
       
     },(err)=>{

@@ -4,6 +4,7 @@ using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
 using MasterErp.Interface.Purchase;
+using MasterErp.Interface.Shared;
 using MasterErp.Service.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -23,32 +24,36 @@ namespace MasterErp.Service.Purchase
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
+        private readonly ISharedFilterService SharedFilterService;
         private readonly IJournalEntryService JournalEntryService;
+        private string ConnectionString;
 
-        private string ConnectionString
+        public PurchaseInvoiceService(DBContext Context, 
+            ISQLHelper SQLHelper, 
+            IConfiguration Configuration, 
+            ISharedFilterService SharedFilterService,
+            IJournalEntryService _journalEntryService)
         {
-            get
-            {
-                return Configuration.GetConnectionString("DBConnection");
-            }
-        }
-
-        public PurchaseInvoiceService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration, IJournalEntryService _journalEntryService)
-        {
-            Context = dBContext;
-            SQLHelper = iSQLHelper;
-            Configuration = _configuration;
+            this.Context = Context;
+            this.SQLHelper = SQLHelper;
+            this.Configuration = Configuration;
+            this.ConnectionString = Configuration.GetConnectionString("DBConnection");
+            this.SharedFilterService = SharedFilterService;
             JournalEntryService = _journalEntryService;
         }
 
-        public DataTable GetPurchaseInvoicesSummary(FilterModel model)
+        public DataTable GetPurchaseInvoicesData(FilterModel model)
         {
-            SqlParameter[] param = new SqlParameter[2];
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterItems);
 
-            param[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
-            param[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
+            SqlParameter[] Params = new SqlParameter[3];
 
-            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetPurchaseInvoicesSummary]", ConnectionString, param);
+            Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
+            Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
+            Params[2] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[2].Value = dt;
+
+            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetPurchaseInvoicesData]", ConnectionString, Params);
             return result;
         }
 
@@ -65,7 +70,7 @@ namespace MasterErp.Service.Purchase
                 order_tbl.IsLocked = false;
                 order_tbl.Notes = model.Notes;
                 order_tbl.InvoiceDate = model?.OrderDate ?? DateTime.Now;
-                order_tbl.InvoiceTotalValue = model.OrderProducts != null ? model.OrderProducts.Sum(x => x.TotalValue) : 0;
+                order_tbl.TotalValue = model.OrderProducts != null ? model.OrderProducts.Sum(x => x.TotalValue) : 0;
                 order_tbl.SupplierId = model.SupplierId ?? 0;
                 order_tbl.InvoiceTypeId = model.OrderTypeId;
                 order_tbl.InvoiceNumber = Context.PurchaseInvoices.Count() > 0 ? Context.PurchaseInvoices.Max(x => x.InvoiceNumber) + 1 : 1;
@@ -94,7 +99,7 @@ namespace MasterErp.Service.Purchase
 
                 ActionsResponseModel result = new ActionsResponseModel();
                 var AccountsList = new List<JournalEntryAccount>();
-                var InvoiceType = Context.PurchaseInvoiceTypes.Where(x => x.InvoiceTypeId == model.OrderTypeId).FirstOrDefault();
+                var InvoiceType = Context.PurchaseInvoiceTypes.Where(x => x.PurchaseInvoiceTypeId == model.OrderTypeId).FirstOrDefault();
 
                 if (InvoiceType != null && InvoiceType.IsBindToGeneralAccounting)
                 {
@@ -120,7 +125,7 @@ namespace MasterErp.Service.Purchase
         {
             var supplierName = Context.Suppliers.Where(x => x.SupplierId == invoice.SupplierId).FirstOrDefault()?.NameAR;
             var supplier_account = Context.AccountTrees.Where(x => x.AccountTypeId == 5).FirstOrDefault();
-            var invoice_type = Context.PurchaseInvoiceTypes.Where(x => x.InvoiceTypeId == invoice.InvoiceTypeId).FirstOrDefault();
+            var invoice_type = Context.PurchaseInvoiceTypes.Where(x => x.PurchaseInvoiceTypeId == invoice.InvoiceTypeId).FirstOrDefault();
 
             List<JournalEntryAccount> accounts = new List<JournalEntryAccount>();
 
@@ -128,28 +133,28 @@ namespace MasterErp.Service.Purchase
             {
                 AccountID = supplier_account.AccountId,
                 Debit = 0,
-                Credit = invoice.InvoiceNetValue,
+                Credit = invoice.NetValue,
                 Description = " فواتير شهر " + invoice.InvoiceDate.Date.Month + " فاتورة مشتريات رقم " + invoice.InvoiceNumber.ToString() + (supplierName ?? " للمورد " + supplierName),
                 CurrencyID = 1
             });
             accounts.Add(new JournalEntryAccount
             {
-                AccountID = (int)invoice_type.DebitId,
-                Debit = invoice.InvoiceNetValue,
+                AccountID = (int)invoice_type.AccountDebitId,
+                Debit = invoice.NetValue,
                 Credit = 0,
                 CurrencyID = 1,
                 Description = "فاتورة مشتريات رقم  " + invoice.InvoiceNumber.ToString() + (supplierName ?? " للمورد " + supplierName)
 
             });
 
-            if (invoice.TaxAmount > 0)
+            if (invoice.Tax > 0)
             {
                 var tax_account = Context.AccountTrees.Where(x => x.AccountTypeId == 7).FirstOrDefault();
 
                 accounts.Add(new JournalEntryAccount
                 {
                     AccountID = tax_account.AccountId,
-                    Debit = invoice.TaxAmount,
+                    Debit = invoice.Tax,
                     Credit = 0,
                     CurrencyID = 1,
                     Description = " فاتورة مشتريات رقم  " + invoice.InvoiceNumber.ToString() + (supplierName ?? " للمورد " + supplierName)

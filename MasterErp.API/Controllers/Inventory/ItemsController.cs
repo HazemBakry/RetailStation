@@ -31,26 +31,25 @@ namespace MasterErp.API.Controllers.Inventory
         #region Items
 
         [HttpPost]
-        [Route("GetItems")]
-        public IActionResult GetItems(int CategoryId, SearchFilterModel SearchModel)
+        [Route("GetItemsData")]
+        public IActionResult GetItemsData(SearchFilterModel SearchModel)
         {
-            var data = _itemService.GetItems(CategoryId, SearchModel);
+            var data = _itemService.GetItemsData(SearchModel);
             var result = new PagedResponseModel<ItemDto>
             {
                 Results = data,
                 TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
                 PageSize = SearchModel.PageSize,
                 CurrentPage = SearchModel.CurrentPage
-
             };
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("GetItemById")]
-        public ItemDto GetItemById(int ItemId)
+        [Route("GetItemDetailsById")]
+        public ItemDto GetItemDetailsById(int ItemId)
         {
-            var results = _itemService.GetItemDetails(ItemId);
+            var results = _itemService.GetItemDetailsById(ItemId);
             return results;
         }
 
@@ -167,7 +166,7 @@ namespace MasterErp.API.Controllers.Inventory
 
         [HttpGet]
         [Route("ChangeItemCategoryActiveStatus")]
-        public IActionResult ChangeItemCategoryActiveStatus(int CategoryId )
+        public IActionResult ChangeItemCategoryActiveStatus(int CategoryId)
         {
             var results = _itemService.ChangeItemCategoryActiveStatus(CategoryId);
             return Ok(results);
@@ -217,7 +216,16 @@ namespace MasterErp.API.Controllers.Inventory
         [Route("GetItemsByCategoryId")]
         public List<ItemDto> GetItemsByCategoryId(int CategoryId, SearchFilterModel FilterModel)
         {
-            var results = _itemService.GetItems(CategoryId, FilterModel);
+            FilterModel.FilterList.Add(new FilterItem
+            {
+                CategoryDisplayName = "CategoryId",
+                CategoryName = "CategoryId",
+                ItemValue = CategoryId.ToString(),
+                ItemKey = CategoryId.ToString(),
+                ItemFlag = CategoryId.ToString(),
+            });
+
+            var results = _itemService.GetItemsData(FilterModel);
             return results;
         }
 

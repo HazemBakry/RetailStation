@@ -16,12 +16,12 @@ namespace MasterErp.Entities.Models
 		public DateTime DueDate { get; set; }
 		public int SupplierId { get; set; }
 		public int? CurrencyId { get; set; }
-		public double InvoiceTotalValue { get; set; }
-		public double? DiscountAmount { get; set; }
+		public double TotalValue { get; set; }
+		public double? Discount { get; set; }
 		public double? DiscountPercent { get; set; }
-		public double? TaxAmount { get; set; }
+		public double? Tax { get; set; }
 		public double? TaxPercent { get; set; }
-		public double? InvoiceNetValue { get; set; }
+		public double? NetValue { get; set; }
 		public int? ReceiveOrderId { get; set; }
 		public bool IsLocked { get; set; }
 		public bool IsCancelled { get; set; }

@@ -12,7 +12,7 @@ namespace MasterErp.Interface.Purchase
 {
     public interface IPurchaseInvoiceService
     {
-        DataTable GetPurchaseInvoicesSummary(FilterModel model);
+        DataTable GetPurchaseInvoicesData(FilterModel model);
         ActionsResponseModel CreateNewPurchaseInvoice(OrderModel model);
         bool CancelPurchaseInvoice(int InvoiceId);
         List<OrderModel> GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate, int InvoiceId = 0);

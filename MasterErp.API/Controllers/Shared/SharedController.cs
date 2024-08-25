@@ -156,7 +156,6 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetRegionsSelector();
             return Ok(result);
         }
-         
         [HttpGet]
         [Route("GetSuppliersSelector")]
         public IActionResult GetSuppliersSelector()
@@ -164,13 +163,25 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetSuppliersSelector();
             return Ok(result);
         }
-        
-         
         [HttpGet]
         [Route("GetSupplierGroupsSelector")]
         public IActionResult GetSupplierGroupsSelector()
         {
             var result = _sharedService.GetSupplierGroupsSelector();
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("GetPurchaseInvoiceTypesSelector")]
+        public IActionResult GetPurchaseInvoiceTypesSelector()
+        {
+            var result = _sharedService.GetPurchaseInvoiceTypesSelector();
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("GetItemsSelector")]
+        public IActionResult GetItemsSelector()
+        {
+            var result = _sharedService.GetItemsSelector();
             return Ok(result);
         }
         [HttpGet]

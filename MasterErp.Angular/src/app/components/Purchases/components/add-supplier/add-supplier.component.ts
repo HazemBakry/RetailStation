@@ -39,7 +39,7 @@ export class AddSupplierComponent implements OnInit {
     currentPage: 1,
     pageSize: 25
   };
-  
+
   balanceTypesSelectorData: FormDropdownModel[] = [
     { value: BalanceType.Type1, name: BalanceType[BalanceType.Type1] },
     { value: BalanceType.Type2, name: BalanceType[BalanceType.Type2] }
@@ -113,6 +113,15 @@ export class AddSupplierComponent implements OnInit {
 
     });
   }
+
+  // toggleDetails(Model: SupplierModel = null) {
+  //   this.loanResponse.results = [];
+  //   this.detailsView = !this.detailsView;
+  //   if (this.detailsView)
+  //     this.getLoans();
+
+  //   this.initNewLoanForm(loanModel);
+  // }
 
   saveSupplier() {
     if (!this.validateForm()) {

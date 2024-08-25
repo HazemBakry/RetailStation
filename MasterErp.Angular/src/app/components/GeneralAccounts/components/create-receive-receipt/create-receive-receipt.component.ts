@@ -43,7 +43,7 @@ export class CreateReceiveReceiptComponent implements OnInit {
   
   loadSuppliersData()
   {
-    this.sharedService.GetSuppliersData().subscribe(data=>{
+    this.sharedService.GetSuppliersSelector().subscribe(data=>{
       this.agencyList=data;
       
     })

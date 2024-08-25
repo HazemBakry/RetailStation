@@ -1,26 +1,18 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Export;
-using MasterErp.Entities.Common.Finance.Purchases;
-using MasterErp.Entities.Common.Inventory.ReceiveOrder;
 using MasterErp.Entities.DTOs.Inventory;
-using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Inventory;
 using MasterErp.Service.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace MasterErp.Service.Inventory
 {
@@ -30,81 +22,96 @@ namespace MasterErp.Service.Inventory
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
+        private readonly ISharedFilterService SharedFilterService;
         private readonly string ConnectionString;
-        private readonly IExportService _exportService;
+        private readonly IExportService ExportService;
 
-        public ItemsService(DBContext Context, ISQLHelper SQLHelper, IConfiguration Configuration, IExportService exportService)
+        public ItemsService(DBContext Context, ISQLHelper SQLHelper, 
+            IConfiguration Configuration, IExportService ExportService, 
+            ISharedFilterService sharedFilterService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
             this.Configuration = Configuration;
             ConnectionString = Configuration.GetConnectionString("DBConnection");
-            _exportService = exportService;
+            this.ExportService = ExportService;
+            SharedFilterService = sharedFilterService;
         }
 
         #region Items
-
-        public List<ItemDto> GetItems(int CategoryId, SearchFilterModel FilterModel, int? ItemId = null)
+        public List<ItemDto> GetItemsData(SearchFilterModel model, int? ItemId = null)
         {
-            var query = from item in Context.Items.AsNoTracking()
-                        join unit in Context.Units on item.UnitId equals unit.UnitId
-                        join purchaseUnit in Context.Units on item.PurchaseUnitId equals purchaseUnit.UnitId into jT2
-                        from purchaseUnit in jT2.DefaultIfEmpty()
-                        join itemCategory in Context.ItemCategories on item.ItemCategoryId equals itemCategory.ItemCategoryId into jT3
-                        from itemCategory in jT3.DefaultIfEmpty()
-                        where (!ItemId.HasValue || item.ItemId == ItemId) && (CategoryId == 0 || item.ItemCategoryId == CategoryId)
-                        select new ItemDto
-                        {
-                            ItemId = item.ItemId,
-                            NameEN = item.NameEN,
-                            NameAR = item.NameAR,
-                            Cost = item.Cost,
-                            UnitId = item.UnitId,
-                            UnitName = unit.NameAR,
-                            PurchaseUnitId = item.PurchaseUnitId,
-                            PurchaseUnitName = purchaseUnit.NameAR,
-                            ItemCategoryId = item.ItemCategoryId,
-                            ItemCategoryName = itemCategory.NameAR,
-                            PurchasePrice = item.PurchasePrice,
-                            Yield = item.Yield,
-                            ConvertRatio = item.ConvertRatio,
-                            ItemType = item.ItemType,
-                            IsActive = item.IsActive,
-                            CreatedBy = item.CreatedBy,
-                            CreatedDate = item.CreatedDate,
-                            ModifiedBy = item.ModifiedBy,
-                            ModifiedDate = item.ModifiedDate,
-                            SupplierIds = item.ItemSuppliers.Select(x => x.SupplierId).ToList()
-                        };
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterModel.FilterItems);
 
-            int totalCount = query.Count();
-            if (FilterModel.CurrentPage > 0 && FilterModel.PageSize > 0)
-            {
-                int skip = (FilterModel.CurrentPage - 1) * FilterModel.PageSize;
-                query = query.Skip(skip).Take(FilterModel.PageSize);
-            }
+            SqlParameter[] Params = new SqlParameter[4];
 
-            var results = query.ToList();
+            Params[0] = new SqlParameter("@ItemId", (object)ItemId ?? DBNull.Value);
+            Params[1] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
+            Params[2] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
+            Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[3].Value = dt;
 
-            var ItemSuppliers = (from item in results
-                                 join itemSupplier in Context.ItemSuppliers on item.ItemId equals itemSupplier.ItemId
-                                 select new ItemSupplier
-                                 {
-                                     ItemId = itemSupplier.ItemId,
-                                     SupplierId = itemSupplier.SupplierId
-                                 }).ToList();
-            foreach (var item in results)
-            {
-                item.SupplierIds = ItemSuppliers.Where(x => x.ItemId == item.ItemId).Select(x => x.SupplierId).ToList();
-                item.TotalCount = totalCount;
-            }
-            //results.ForEach(x => x.TotalCount = totalCount);
-            return results;
+            var result = SQLHelper.SQLQuery<ItemDto>("[Inventory].[SP_GetItemsData]", ConnectionString, Params);
+            return result;
+
+            //var query = from item in Context.Items.AsNoTracking()
+            //            join unit in Context.Units on item.UnitId equals unit.UnitId
+            //            join purchaseUnit in Context.Units on item.PurchaseUnitId equals purchaseUnit.UnitId into jT2
+            //            from purchaseUnit in jT2.DefaultIfEmpty()
+            //            join itemCategory in Context.ItemCategories on item.ItemCategoryId equals itemCategory.ItemCategoryId into jT3
+            //            from itemCategory in jT3.DefaultIfEmpty()
+            //            where (!ItemId.HasValue || item.ItemId == ItemId) && (CategoryId == 0 || item.ItemCategoryId == CategoryId)
+            //            select new ItemDto
+            //            {
+            //                ItemId = item.ItemId,
+            //                NameEN = item.NameEN,
+            //                NameAR = item.NameAR,
+            //                Cost = item.Cost,
+            //                UnitId = item.UnitId,
+            //                UnitName = unit.NameAR,
+            //                PurchaseUnitId = item.PurchaseUnitId,
+            //                PurchaseUnitName = purchaseUnit.NameAR,
+            //                ItemCategoryId = item.ItemCategoryId,
+            //                ItemCategoryName = itemCategory.NameAR,
+            //                PurchasePrice = item.PurchasePrice,
+            //                Yield = item.Yield,
+            //                ConvertRatio = item.ConvertRatio,
+            //                ItemType = item.ItemType,
+            //                IsActive = item.IsActive,
+            //                CreatedBy = item.CreatedBy,
+            //                CreatedDate = item.CreatedDate,
+            //                ModifiedBy = item.ModifiedBy,
+            //                ModifiedDate = item.ModifiedDate,
+            //                SupplierIds = item.ItemSuppliers.Select(x => x.SupplierId).ToList()
+            //            };
+
+            //int totalCount = query.Count();
+            //if (FilterModel.CurrentPage > 0 && FilterModel.PageSize > 0)
+            //{
+            //    int skip = (FilterModel.CurrentPage - 1) * FilterModel.PageSize;
+            //    query = query.Skip(skip).Take(FilterModel.PageSize);
+            //}
+
+            //var results = query.ToList();
+
+            //var ItemSuppliers = (from item in results
+            //                     join itemSupplier in Context.ItemSuppliers on item.ItemId equals itemSupplier.ItemId
+            //                     select new ItemSupplier
+            //                     {
+            //                         ItemId = itemSupplier.ItemId,
+            //                         SupplierId = itemSupplier.SupplierId
+            //                     }).ToList();
+            //foreach (var item in results)
+            //{
+            //    item.SupplierIds = ItemSuppliers.Where(x => x.ItemId == item.ItemId).Select(x => x.SupplierId).ToList();
+            //    item.TotalCount = totalCount;
+            //}
+            ////results.ForEach(x => x.TotalCount = totalCount);
+            //return results;
         }
-        public ItemDto GetItemDetails(int ItemId)
+        public ItemDto GetItemDetailsById(int ItemId)
         {
-
-            return GetItems(0, new SearchFilterModel(), ItemId).FirstOrDefault();
+            return GetItemsData(new SearchFilterModel(), ItemId).FirstOrDefault();
         }
         public ActionsResponseModel AddNewItem(ItemDto model)
         {
@@ -224,7 +231,7 @@ namespace MasterErp.Service.Inventory
             {
                 SearchModel.CurrentPage = 1;
                 SearchModel.PageSize = 990000;
-                var Data = GetItems(0, SearchModel);
+                var Data = GetItemsData(SearchModel);
 
                 var result = Data.Select(res =>
                                 new ItemDtoExportModel
@@ -244,7 +251,7 @@ namespace MasterErp.Service.Inventory
                     result.Add(new ItemDtoExportModel());
 
                 }
-             
+
 
                 var dtExport = DalHelper.ConvertToDataTable(result, "Items");
 
@@ -264,7 +271,7 @@ namespace MasterErp.Service.Inventory
             {
                 return new ActionsResponseModel
                 {
-                    IsSuccess=false,
+                    IsSuccess = false,
                     Status = 0,
                     URL = "",
                     Message = ex.InnerException?.Message ?? ex.Message,
@@ -406,34 +413,33 @@ namespace MasterErp.Service.Inventory
                 ExcelStyle = ExcelExportStyle.reportStyle,
                 SheetName = "Data",
             };
-            var filePath = _exportService.Export(exportTemplateBase, dt);
+            var filePath = ExportService.Export(exportTemplateBase, dt);
             return filePath;
 
         }
-
         #endregion
 
         #region Item Categories
 
         public List<ItemCategoryModel> GetItemCategories(int? CategoryId = null)
         {
-            var results = Context.ItemCategories.Select(cat=>new ItemCategoryModel
+            var results = Context.ItemCategories.Select(cat => new ItemCategoryModel
             {
-                ItemCategoryId =cat.ItemCategoryId,
-                NameAR=cat.NameAR,
-                NameEN=cat.NameEN,
-                OperationAccountId=cat.OperationAccountId,
-                OperationAccountName="",
-                DisplayOrder=cat.DisplayOrder,
-                ManagementAccountId=cat.ManagementAccountId,
-                ManagementAccountName="",
-                Description=cat.Description,
-                IsActive=cat.IsActive,
+                ItemCategoryId = cat.ItemCategoryId,
+                NameAR = cat.NameAR,
+                NameEN = cat.NameEN,
+                OperationAccountId = cat.OperationAccountId,
+                OperationAccountName = "",
+                DisplayOrder = cat.DisplayOrder,
+                ManagementAccountId = cat.ManagementAccountId,
+                ManagementAccountName = "",
+                Description = cat.Description,
+                IsActive = cat.IsActive,
                 CreatedBy = cat.CreatedBy,
                 CreatedDate = cat.CreatedDate,
                 ModifiedBy = cat.ModifiedBy,
                 ModifiedDate = cat.ModifiedDate,
-            }).OrderBy(c=>c.DisplayOrder).ToList();
+            }).OrderBy(c => c.DisplayOrder).ToList();
 
             //int totalCount = query.Count();
 
@@ -483,7 +489,7 @@ namespace MasterErp.Service.Inventory
             {
                 var itemCategory = Context.ItemCategories.Where(i => i.ItemCategoryId == CategoryId).FirstOrDefault();
                 if (itemCategory != null)
-                {       
+                {
                     itemCategory.NameEN = model.NameEN;
                     itemCategory.NameAR = model.NameAR;
                     itemCategory.OperationAccountId = model.OperationAccountId;
