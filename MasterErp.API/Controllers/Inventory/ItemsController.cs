@@ -47,10 +47,10 @@ namespace MasterErp.API.Controllers.Inventory
 
         [HttpGet]
         [Route("GetItemDetailsById")]
-        public ItemDto GetItemDetailsById(int ItemId)
+        public IActionResult GetItemDetailsById(int ItemId)
         {
             var results = _itemService.GetItemDetailsById(ItemId);
-            return results;
+            return Ok(results);
         }
 
         [HttpPost]

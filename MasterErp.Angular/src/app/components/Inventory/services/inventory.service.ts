@@ -44,7 +44,7 @@ export class InventoryService {
   }
 
   GetItemById(itemId: number) {
-    return this.http.get<ItemModel>(this.URL + `Items/GetItemById?ItemId=${itemId}`);
+    return this.http.get<ItemModel>(this.URL + `Items/GetItemDetailsById?ItemId=${itemId}`);
   }
 
   AddNewItem(model: ItemModel) {

@@ -7,6 +7,7 @@ import { FilterModel, SearchFilterModel } from '../../models/FilterModel';
 import { OrderProductModel } from 'src/app/components/Inventory/models/inventory';
 import { FormDropdownModel } from '../drop-down-form-control/drop-down-form-control.component';
 import { SharedService } from '../../services/shared.service';
+import { ItemModel } from 'src/app/components/Inventory/models/Item';
 
 @Component({
   selector: 'app-general-order-products',
@@ -16,14 +17,16 @@ import { SharedService } from '../../services/shared.service';
 export class GeneralOrderProductsComponent implements OnInit, OnChanges {
   @Input() selectedProducts: OrderProductModel[] = [];
   @Input() clearAllProducts: boolean = false;
-  @Input() showAddNew: boolean = false;
+  @Input() showAddNew: boolean = true;
   @Output() selectedProductsList = new EventEmitter<OrderProductModel[]>();
 
 
   showLoader: boolean = false;
   productsList: OrderProductModel[] = [];
   itemsLookupsSelectorData: FormDropdownModel[] = [];
-  ItemsList: any[] = [];
+  itemsSelectorData: FormDropdownModel[] = [];
+
+  itemsList: any[] = [];
   itemsByLookup: OrderProductModel[] = [];
   ItemsBySupplier: any[] = [];
   // RawItemsList: any[] = [];
@@ -67,21 +70,20 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
     });
     this.emitSelectedProductsList();
   }
-  getItemsData() {
-    this.inventoryService.GetItemsData(this.SearchFilterModel).subscribe(data => {
-      this.ItemsList = data.results;
-    });
+
+  openItemsModal(content: any) {
+    this.selectedItem = {} as OrderProductModel;
+    this.loadSelectors()
+    this.modalService.open(content, { centered: true, size: 'md' });
   }
-  getItemsLookups() {
+  loadSelectors()
+  {
     this.sharedService.GetItemLookupsSelector().subscribe(data => {
       this.itemsLookupsSelectorData = data;
     });
-  }
-  openItemsModal(content: any) {
-    this.selectedItem = {} as OrderProductModel;
-    this.getItemsData();
-    this.getItemsLookups();
-    this.modalService.open(content, { centered: true, size: 'md' });
+    this.sharedService.GetItemsSelector().subscribe(data => {
+      this.itemsSelectorData = data;
+    });
   }
   openEditQuantityModal(content: any) {
     if (this.productsList.length == 0) {
@@ -115,7 +117,11 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
         if (!checked)
           this.productsList.push(this.selectedItem);
         else
-          this.toaster.warning(this.selectedItem.itemNameAR + ' Is Exist In Purchase Item List')
+        {
+          checked.quantity += this.selectedItem.quantity ?? 0 ;
+          checked.totalValue += this.selectedItem.totalValue ?? 0 ;
+          // this.toaster.warning(this.selectedItem.itemNameAR + ' Is Exist In Purchase Item List')
+        }
         this.modalService.dismissAll();
       }
       else
@@ -126,27 +132,31 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
         if (!itemChecked) {
           this.productsList.push(item);
         } else {
-          this.toaster.warning(item.itemNameAR + ' is already exist');
+          itemChecked.quantity += item.quantity ?? 0 ;
+          itemChecked.totalValue += item.totalValue ?? 0 ;
+
+          // this.toaster.warning(item.itemNameAR + ' is already exist');
         }
       });
       this.modalService.dismissAll();
     }
     this.emitSelectedProductsList();
   }
-  getSelectedItem(item: OrderProductModel) {
+  getSelectedItem(itemId) {
 
-    // let model: ItemModel = {} as ItemModel;
-    this.selectedItem.itemId = item.itemId;
-    this.selectedItem.itemNameAR = item.itemNameAR;
-    this.selectedItem.itemNameEN = item.itemNameEN;
-    this.selectedItem.unitId = item.unitId;
-    this.selectedItem.unitNameAR = item.unitNameAR;
-    this.selectedItem.unitNameEN= item.unitNameEN;
-    this.selectedItem.price = item.price;
-    this.selectedItem.quantity = 0;
-    this.selectedItem.totalValue = item.price && item.quantity ? item.price * item.quantity : 0;
+    this.inventoryService.GetItemById(itemId).subscribe((data:ItemModel) => {
+      let item: ItemModel = data;
+      this.selectedItem.itemId = item.itemId;
+      this.selectedItem.itemNameAR = item.nameAR;
+      this.selectedItem.itemNameEN = item.nameEN;
+      this.selectedItem.unitId = item.unitId;
+      this.selectedItem.unitNameAR = item.unitName;
+      this.selectedItem.unitNameEN= item.unitName;
+      this.selectedItem.price = item.cost;
+      this.selectedItem.quantity = 0;
+      // this.selectedItem.totalValue = item.cost && item.quantity ? item.cost * item.quantity : 0;    
+    });
 
-    // this.selectedItem=model;
   }
   getSelectedLookup(lookupId: any) {
     this.inventoryService.GetItemsByLookupId(lookupId).subscribe(data => {

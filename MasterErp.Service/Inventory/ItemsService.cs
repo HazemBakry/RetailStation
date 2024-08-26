@@ -111,7 +111,7 @@ namespace MasterErp.Service.Inventory
         }
         public ItemDto GetItemDetailsById(int ItemId)
         {
-            return GetItemsData(new SearchFilterModel(), ItemId).FirstOrDefault();
+            return GetItemsData(new SearchFilterModel { PageSize=25,CurrentPage=1}, ItemId).FirstOrDefault();
         }
         public ActionsResponseModel AddNewItem(ItemDto model)
         {
