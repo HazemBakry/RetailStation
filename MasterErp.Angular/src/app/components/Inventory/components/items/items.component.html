@@ -8,13 +8,13 @@
             <div class="col-md-8">
                 <div class="d-flex align-items-center flex-wrap">
                     <div class="search-box position-relative mb-2">
-                        <button class="btn btn-primary m-2" (click)="openNewItemSidePanel(AddNewItemDialog)">
+                        <button class="btn btn-outline-primary border m-2" (click)="openNewItemSidePanel(AddNewItemDialog)">
                             <span class="me-2">إضافة صنف</span>
-                            <i class="uil uil-plus-circle"></i>
+                            <i class="uil uil-plus fs-5"></i>
                         </button>
-                        <button [disabled]="showExportLoader" class="btn btn-success m-2" (click)="exportData()">
-                            <i class="fas fa-file-export"></i>
-                            <span class="ms-2">تصدير</span>
+                        <button [disabled]="showExportLoader" class="btn btn-success border m-2" (click)="exportData()">
+                            <span class="me-2">تصدير</span>
+                            <i class="uil uil-export fs-5"></i>
                         </button>
                     </div>
                     <!-- <ng-container *ngIf="filterList.length > 0">
@@ -25,59 +25,62 @@
             <div class="col-md-4">
                 <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="itemResponseModel.currentPage" [pageSize]="itemResponseModel.pageSize" [totalCount]="itemResponseModel.totalCount"></app-erp-pagination>
             </div>
+
+            <hr>
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
-         <div class="row">
-            <div class="col-3">
-                <div class="table-responsive table-vp-height">
-                    <table class="table table-borderless table-middle table-hover bg-white m-0">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="card-body table-responsive table-vp-height p-0">
+                    <table class="table table-bordered align-middle table-hover table-component m-0">
                         <thead>
                             <tr>
                                 <th class="cursor-pointer" title="reset" (click)="filterCategory(0)">
-                                    <i class="fas fa-history  main-color me-2"></i>
-                                    المجموعات
+                                    <i class="fas fa-history  main-color me-2"></i> المجموعات
                                 </th>
-                               
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="cursor-pointer" (click)="filterCategory(0)" [class]="selectedCategoryId==0?'bg-info':''">
-                                  كل الاصناف
+                                <td class="cursor-pointer" (click)="filterCategory(0)" [class]="selectedCategoryId == 0 ? 'bg-secondary':''">
+                                    كل الاصناف
                                 </td>
-                        
                             </tr>
                             <tr *ngFor="let cat of categoriesData">
-                                <td class="cursor-pointer" (click)="filterCategory(cat.value)" [class]="cat.value==selectedCategoryId?'bg-info':''">
+                                <td class="cursor-pointer" (click)="filterCategory(cat.value)" [class]="cat.value == selectedCategoryId ? 'bg-secondary':''">
                                     {{cat.name}}
                                 </td>
-                        
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="col-9">
-
-                <div class="table-responsive table-vp-height">
-                    <table class="table table-bordered table-middle table-hover bg-white m-0">
+            <div class="col-md-10">
+                <div class="card-body table-responsive table-vp-height p-0">
+                    <table class="table table-borderless align-middle table-hover table-component m-0">
                         <thead>
                             <tr>
-                                <th>اسم الصنف (Ar)</th>
-                                <th>اسم الصنف (En)</th>
-                                <th>المجموعة</th>
+                                <th>الصنف</th>
                                 <th>الوحدة</th>
                                 <th>وحدة المشتريات</th>
                                 <th>سعر الوحدة</th>
                                 <th>الموردين</th>
-                                <th>العمليات</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of itemResponseModel.results">
-                                <td>{{item.nameEN}}</td>
-                                <td>{{item.nameAR}}</td>
-                                <td>{{item.itemCategoryName}}</td>
+                                <td>
+                                    <div class="file-table-ele d-flex align-items-center gap-3">
+                                        <div class="file-table-ele-icon warning">
+                                            <i class="far fa-file-pdf"></i>
+                                        </div>
+                                        <div class="file-table-ele-text">
+                                            <div class="fw-bold fs-5">{{item.nameAR}}</div>
+                                            <div class="text-muted fs-6">{{item.nameEN}}</div>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>{{item.unitName}}</td>
                                 <td>{{item.purchaseUnitName}}</td>
                                 <td>{{item.cost}}</td>
@@ -88,17 +91,16 @@
                                     <a class="cursor-pointer" (click)="openSuppliersSidePanel(ItemSuppliersSidePanel,item.itemId)">
                                         الموردين
                                     </a>
-
                                 </td>
                                 <td class="text-center">
-                                    <div class="d-flex align-items-center justify-content-center text-center">
-                                        <button class="btn text-success"(click)="openNewItemSidePanel(AddNewItemDialog,item)">
-                                            <i class="uil uil-edit"></i>
-                                            <span class="ms-2">تعديل</span>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="openNewItemSidePanel(AddNewItemDialog,item)">
+                                            <i class="uil uil-pen"></i>
+                                            <span>تعديل</span>
                                         </button>
-                                        <button class="btn text-danger" (click)="openDeleteModal(ItemSuppliersSidePanel,item.itemId)">
+                                        <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(ItemSuppliersSidePanel,item.itemId)">
                                             <i class="uil uil-trash-alt"></i>
-                                            <span class="ms-2">حذف</span>
+                                            <span>حذف</span>
                                         </button>
                                     </div>
                                 </td>
@@ -108,10 +110,7 @@
                     <app-empty-data [showContainer]="!itemResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
                 </div>
             </div>
-         </div>
-
-
-
+        </div>
     </div>
 </div>
 
@@ -126,7 +125,7 @@
                 <i class="uil uil-times"></i>
             </button> -->
         </div>
-       
+
     </div>
     <div class="modal-body bg-light">
         <div class="employee-card-body row">
@@ -134,8 +133,7 @@
                 <div class="employee-card-body row">
                     <div class="col-xl-5">
                         <div class="form-floating  mb-3">
-                            <input type="text" formControlName="nameAR" class="form-control" id="floatingInput1"
-                                placeholder="any">
+                            <input type="text" formControlName="nameAR" class="form-control" id="floatingInput1" placeholder="any">
                             <label for="floatingInput1">الاسم عربي</label>
                             <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
                                 {{formErrors.nameAR}}
@@ -148,8 +146,7 @@
                     <div class="col-xl-5">
 
                         <div class="form-floating mb-3">
-                            <input type="text" formControlName="nameEN" class="form-control" id="floatingInput1"
-                                placeholder="any">
+                            <input type="text" formControlName="nameEN" class="form-control" id="floatingInput1" placeholder="any">
                             <label for="floatingInput2">الاسم انجليزي</label>
                             <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
                                 {{formErrors.nameEN}}
@@ -161,8 +158,7 @@
 
                     <div class="col-xl-5">
                         <div class="form-floating mb-3">
-                            <input type="text" formControlName="cost" class="form-control" id="floatingInput1"
-                                placeholder="any">
+                            <input type="text" formControlName="cost" class="form-control" id="floatingInput1" placeholder="any">
                             <label for="floatingInput3">التكلفة</label>
                             <div *ngIf="formErrors.cost" class="text-danger  font-small-3 m-03">
                                 {{formErrors.cost}}
@@ -174,8 +170,7 @@
 
                     <div class="col-xl-5">
                         <div class="form-floating mb-3">
-                            <input type="text" formControlName="yield" class="form-control" id="floatingInput1"
-                                placeholder="any">
+                            <input type="text" formControlName="yield" class="form-control" id="floatingInput1" placeholder="any">
                             <label for="floatingInput2">نسية الانتاجية</label>
                             <div *ngIf="formErrors.yield" class="text-danger  font-small-3 m-03">
                                 {{formErrors.yield}}
@@ -187,8 +182,7 @@
 
                     <div class="col-xl-5">
                         <div class="form-floating mb-3">
-                            <input type="text" formControlName="convertRatio" class="form-control" id="floatingInput1"
-                                placeholder="any">
+                            <input type="text" formControlName="convertRatio" class="form-control" id="floatingInput1" placeholder="any">
                             <label for="floatingInput2">عدد الوحدات</label>
                             <div *ngIf="formErrors.convertRatio" class="text-danger  font-small-3 m-03">
                                 {{formErrors.convertRatio}}
@@ -201,8 +195,7 @@
                     <div class="col-xl-1"></div>
 
                     <div class="col-xl-5 mb-3">
-                        <app-drop-down-form-control formControlName="unitId" [placeholder]="'الوحدة'"
-                            [data]="unitsSelectorData"></app-drop-down-form-control>
+                        <app-drop-down-form-control formControlName="unitId" [placeholder]="'الوحدة'" [data]="unitsSelectorData"></app-drop-down-form-control>
                         <div *ngIf="formErrors.unitId" class="text-danger  font-small-3 m-03">
                             {{formErrors.unitId}}
                         </div>
@@ -210,17 +203,14 @@
                     </div>
                     <div class="col-xl-1"></div>
                     <div class="col-xl-5 mb-3">
-                        <app-drop-down-form-control formControlName="purchaseUnitId" [placeholder]="'وحدة الشراء'"
-                            [data]="unitsSelectorData"></app-drop-down-form-control>
+                        <app-drop-down-form-control formControlName="purchaseUnitId" [placeholder]="'وحدة الشراء'" [data]="unitsSelectorData"></app-drop-down-form-control>
                         <div *ngIf="formErrors.purchaseUnitId" class="text-danger  font-small-3 m-03">
                             {{formErrors.purchaseUnitId}}
                         </div>
-
                     </div>
                     <div class="col-xl-1"></div>
                     <div class="col-xl-5 mb-3">
-                        <app-drop-down-form-control formControlName="itemCategoryId" [placeholder]="'فئة الصنف'"
-                            [data]="itemCategoriesSelectorData"></app-drop-down-form-control>
+                        <app-drop-down-form-control formControlName="itemCategoryId" [placeholder]="'فئة الصنف'" [data]="itemCategoriesSelectorData"></app-drop-down-form-control>
                         <div *ngIf="formErrors.itemCategoryId" class="text-danger  font-small-3 m-03">
                             {{formErrors.itemCategoryId}}
                         </div>
@@ -228,8 +218,7 @@
                     </div>
                     <div class="col-xl-1"></div>
                     <div class="col-xl-5 mb-3">
-                        <app-drop-down-form-control formControlName="supplierIds" [selectMulti]="true" [showSearch]="true" [placeholder]="'الموردين'"
-                            [data]="suppliersSelectorData"></app-drop-down-form-control>
+                        <app-drop-down-form-control formControlName="supplierIds" [selectMulti]="true" [showSearch]="true" [placeholder]="'الموردين'" [data]="suppliersSelectorData"></app-drop-down-form-control>
                         <div *ngIf="formErrors.supplierIds" class="text-danger  font-small-3 m-03">
                             {{formErrors.supplierIds}}
                         </div>
@@ -241,8 +230,7 @@
                         <div class=" mb-3">
 
                             <div class="d-flex">
-                                <input class="form-check-input width-30 height-30" formControlName="isActive"
-                                    type="checkbox" value="" id="flexCheckDefault">
+                                <input class="form-check-input width-30 height-30" formControlName="isActive" type="checkbox" value="" id="flexCheckDefault">
                                 <label class=" form-label m-2">نشط</label>
                             </div>
                             <div *ngIf="formErrors.isActive" class="text-danger  font-small-3 m-03">
@@ -251,10 +239,10 @@
                         </div>
 
                     </div>
-                    
+
                 </div>
             </form>
-            
+
         </div>
     </div>
     <div class="modal-footer justify-content-start">
@@ -283,10 +271,10 @@
                 <i class="uil uil-times"></i>
             </button> -->
         </div>
-       
+
     </div>
     <div class="modal-body">
-        
+
         <div class="table-responsive table-vp-height">
             <table class="table table-borderless table-middle table-hover  m-0">
                 <thead>
@@ -313,7 +301,7 @@
                         <td>{{item.commercialRegister}}</td>
                         <td>{{item.taxNumber}}</td>
                         <td>{{item.address}}</td>
-                       
+
                     </tr>
                 </tbody>
             </table>
@@ -359,37 +347,37 @@
 
         </div> -->
         <div class="table-responsive sidepanel-table-h large-scroll">
-                <table class="table table-borderless table-middle table-hover  m-0">
-                    <thead>
-                        <tr>
-                            <th>الاسم بالعربي</th>
-                            <th>الاسم بالانجليزي</th>
-                            <th>التليفون</th>
-                            <th>الدوله</th>
-                            <th>المدينه</th>
-                            <th>المنطقة</th>
-                            <th>السجل التجاري</th>
-                            <th>السجل الضريبي</th>
-                            <th> العنوان</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of itemSuppliers">
-                            <td>{{item.nameEN}}</td>
-                            <td>{{item.nameAR}}</td>
-                            <td>{{item.phone}}</td>
-                            <td>{{item.countryName}}</td>
-                            <td>{{item.cityName}}</td>
-                            <td>{{item.regionName}}</td>
-                            <td>{{item.commercialRegister}}</td>
-                            <td>{{item.taxNumber}}</td>
-                            <td>{{item.address}}</td>
-                           
-                        </tr>
-                    </tbody>
-                </table>
-                <app-empty-data [showContainer]="!itemSuppliers?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
-    
+            <table class="table table-borderless table-middle table-hover  m-0">
+                <thead>
+                    <tr>
+                        <th>الاسم بالعربي</th>
+                        <th>الاسم بالانجليزي</th>
+                        <th>التليفون</th>
+                        <th>الدوله</th>
+                        <th>المدينه</th>
+                        <th>المنطقة</th>
+                        <th>السجل التجاري</th>
+                        <th>السجل الضريبي</th>
+                        <th> العنوان</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of itemSuppliers">
+                        <td>{{item.nameEN}}</td>
+                        <td>{{item.nameAR}}</td>
+                        <td>{{item.phone}}</td>
+                        <td>{{item.countryName}}</td>
+                        <td>{{item.cityName}}</td>
+                        <td>{{item.regionName}}</td>
+                        <td>{{item.commercialRegister}}</td>
+                        <td>{{item.taxNumber}}</td>
+                        <td>{{item.address}}</td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <app-empty-data [showContainer]="!itemSuppliers?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+
         </div>
     </div>
 </ng-template>

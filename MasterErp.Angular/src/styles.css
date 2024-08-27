@@ -820,8 +820,54 @@ tr {
 
 /* End Table Design */
 
+.btn-outline-primary {
+    border-color: #0d6efd !important;
+}
+
+.btn-outline-success {
+    border-color: #217b13 !important;
+}
+
+.btn-outline-secondary {
+    border-color: #1f201f !important;
+}
+
+.button-table-action {
+    background-color: #e3e3e3;
+    border: 0;
+    min-width: 75px;
+    padding: 5px 8px;
+    cursor: pointer;
+    font-weight: 600;
+    outline: none;
+    box-shadow: none;
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    -o-border-radius: 50px;
+}
+
+.button-table-action.btn-edit {
+    color: #3581ff;
+}
+
+.button-table-action.btn-delete {
+    color: #ff323d;
+}
+
+.button-table-action.btn-edit:hover {
+    background-color: #3581ff;
+    color: #FFF;
+}
+
+.button-table-action.btn-delete:hover {
+    background-color: #ff323d;
+    color: #FFF;
+}
+
 .search-box {
-    margin-right: 5px;
+    /* margin-right: 5px; */
     min-width: 200px;
 }
 
@@ -1141,12 +1187,15 @@ td.td-disabled {
     -ms-transform: translateY(-4px) scale(1.02);
     -o-transform: translateY(-4px) scale(1.02);
 }
+
+
 /* ///////////////////////////// sidePanel */
-::ng-deep ngb-offcanvas-panel
-{
-  width: 35% !important;
+
+::ng-deep ngb-offcanvas-panel {
+    width: 35% !important;
 }
+
 .details-panel {
     width: 50% !important;
     /* background-color: red; */
-  }
+}
