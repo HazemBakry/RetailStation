@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
 import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { OrderModel } from 'src/app/components/Inventory/models/inventory';
 
 @Component({
   selector: 'app-purchase-invoices',
@@ -11,15 +13,17 @@ import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models
 
 export class PurchaseInvoicesComponent implements OnInit {
   TitleList = ['المشتريات', 'فواتير المشتريات'];
-  PurchaseList: any[] = [];
   showLoader: boolean;
-  TotalCount: any;
-  TotalPages: any;
-  FilterModel: FilterModel = {
-    currentPage: 1,
-    pageSize: 25
-  };
 
+
+  pagedResponseModel:PagedResponseDTO<OrderModel[]>={
+    results:[],
+    filterList:[],
+    pageSize: 25,
+    currentPage:1,
+    searchText:''
+
+  };
   constructor(private purchaseService: PurchaseService, private toaster: ToastrService) { }
 
   ngOnInit(): void {
@@ -28,9 +32,10 @@ export class PurchaseInvoicesComponent implements OnInit {
 
   getPurchaseInvoicesData() {
     this.showLoader=true;
-    this.purchaseService.GetPurchaseInvoicesData(this.FilterModel).subscribe(data => {
-      this.PurchaseList = data;
-      this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
+    this.purchaseService.GetPurchaseInvoices_Data(this.pagedResponseModel).subscribe((data:PagedResponseDTO<OrderModel[]>) => {
+      this.pagedResponseModel.results=data.results;
+      this.pagedResponseModel.totalCount=data.totalCount;
+      // this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
       this.showLoader=false;
     },(err)=>{
       this.showLoader=false;
@@ -40,7 +45,7 @@ export class PurchaseInvoicesComponent implements OnInit {
   }
 
   pageChanged(obj: any) {
-    this.FilterModel.currentPage = obj.page;
+    this.pagedResponseModel.currentPage = obj.page;
     this.getPurchaseInvoicesData();
   }
 

@@ -58,7 +58,7 @@ export class ItemsComponent implements OnInit {
     supplierIds:'',
     yield : '',
     purchasePrice: '',
-    itemType : ''
+    itemTypeId : ''
   };
 
   selectedCategoryId:number=0;
@@ -145,7 +145,7 @@ export class ItemsComponent implements OnInit {
       supplierIds:[[]],
       yield : [null],
       purchasePrice: [null],
-      itemType : [null]
+      itemTypeId : [null]
 
     });
     this.formGroup.valueChanges.subscribe((data) => {
@@ -234,7 +234,7 @@ export class ItemsComponent implements OnInit {
       supplierIds: itemModel.supplierIds,
       yield : itemModel.yield,
       purchasePrice: itemModel.purchasePrice,
-      itemType : itemModel.itemType
+      itemTypeId : itemModel.itemTypeId
 
     });
   }
@@ -300,10 +300,9 @@ export class ItemsComponent implements OnInit {
   getItemSuppliersByItemId(itemId:number)
   {
     this.itemSuppliers=[];
-    this.inventoryService.GetItemSuppliersByItemId(itemId).subscribe(data => {
-
-      if(data&&data.length>0) {
-        this.itemSuppliers=data;
+    this.inventoryService.GetSuppliersByItemId(itemId).subscribe(data => {
+      if(data&&data.results.length>0) {
+        this.itemSuppliers=data.results;
       }
       this.showAddLoader=false;
     }, err=>{

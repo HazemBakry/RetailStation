@@ -26,7 +26,7 @@ namespace MasterErp.Entities.DTOs.Inventory
         public double? Yield { get; set; }
         public double? ConvertRatio { get; set; }
         public bool IsActive { get; set; }
-        public int? ItemType { get; set; }
+        public int? ItemTypeId { get; set; }
         public int? SupplierId { get; set; }
         public string SupplierName { get; set; }
         public List<int> SupplierIds { get; set; }=new List<int>();

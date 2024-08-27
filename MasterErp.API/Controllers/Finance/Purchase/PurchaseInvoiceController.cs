@@ -24,20 +24,53 @@ namespace MasterErp.API.Controllers.Finance.Purchase
         }
 
         [HttpPost]
-        [Route("GetPurchaseInvoicesData")]
-        public DataTable GetPurchaseInvoicesData(FilterModel model)
+        [Route("GetPurchaseInvoices_Data")]
+        public IActionResult GetPurchaseInvoices_Data(SearchFilterModel model)
         {
-            return _purchaseInvoiceService.GetPurchaseInvoicesData(model);
-        }
+            var data = _purchaseInvoiceService.GetPurchaseInvoices_Data(model);
 
-        [HttpPost]
-        [Route("CreateNewPurchaseInvoice")]
-        public IActionResult CreateNewPurchaseInvoice(OrderModel model)
+            var result = new PagedResponseModel<OrderModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("GetPurchaseInvoiceDetailsById")]
+        public IActionResult GetPurchaseInvoiceDetailsById(int InvoiceId)
         {
-            var result= _purchaseInvoiceService.CreateNewPurchaseInvoice(model);
+            var result = _purchaseInvoiceService.GetPurchaseInvoiceDetailsById(InvoiceId);
+
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("GetPurchaseInvoiceProducts_Data")]
+        public IActionResult GetPurchaseInvoiceProducts_Data(int InvoiceId)
+        {
+            var result = _purchaseInvoiceService.GetPurchaseInvoiceProducts_Data(InvoiceId);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("AddNewPurchaseInvoice")]
+        public IActionResult AddNewPurchaseInvoice(OrderModel model)
+        {
+            var result= _purchaseInvoiceService.AddNewPurchaseInvoice(model);
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("EditPurchaseInvoice")]
+        public IActionResult EditPurchaseInvoice(int InvoiceId, OrderModel model)
+        {
+            var result = _purchaseInvoiceService.EditPurchaseInvoice(InvoiceId, model);
+
+            return Ok(result);
+        }
         [HttpGet]
         [Route("CancelPurchaseInvoice")]
         public IActionResult CancelPurchaseInvoice(int InvoiceId)

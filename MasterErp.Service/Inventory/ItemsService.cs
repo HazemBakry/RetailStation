@@ -128,7 +128,7 @@ namespace MasterErp.Service.Inventory
                     PurchasePrice = model.PurchasePrice,
                     Yield = model.Yield,
                     ConvertRatio = model.ConvertRatio,
-                    ItemType = model.ItemType,
+                    ItemTypeId = model.ItemTypeId,
                     IsActive = model.IsActive,
                     CreatedBy = model.CreatedBy,
                     CreatedDate = model.CreatedDate
@@ -172,7 +172,7 @@ namespace MasterErp.Service.Inventory
                     item.PurchasePrice = model.PurchasePrice;
                     item.Yield = model.Yield;
                     item.ConvertRatio = model.ConvertRatio;
-                    item.ItemType = model.ItemType;
+                    item.ItemTypeId = model.ItemTypeId;
                     item.IsActive = model.IsActive;
                     item.ModifiedBy = model.ModifiedBy;
                     item.ModifiedDate = DateTime.Now;
@@ -282,7 +282,7 @@ namespace MasterErp.Service.Inventory
         {
             var results = (from item in Context.Items.AsNoTracking()
                            join unit in Context.Units on item.UnitId equals unit.UnitId
-                           join supplier in Context.ItemSuppliers on item.ItemId equals supplier.SupplierId
+                           join supplier in Context.ItemSuppliers on item.ItemId equals supplier.ItemId
                            join purchaseUnit in Context.Units on item.PurchaseUnitId equals purchaseUnit.UnitId into jT2
                            from purchaseUnit in jT2.DefaultIfEmpty()
                            join itemCategory in Context.ItemCategories on item.ItemCategoryId equals itemCategory.ItemCategoryId into jT3
@@ -303,7 +303,7 @@ namespace MasterErp.Service.Inventory
                                PurchasePrice = item.PurchasePrice,
                                Yield = item.Yield,
                                ConvertRatio = item.ConvertRatio,
-                               ItemType = item.ItemType,
+                               ItemTypeId = item.ItemTypeId,
                                IsActive = item.IsActive,
                                CreatedBy = item.CreatedBy,
                                CreatedDate = item.CreatedDate,

@@ -16,7 +16,7 @@ export interface ItemModel extends CreatorModel {
     yield: number | null;
     convertRatio: number | null;
     isActive: boolean | null;
-    itemType: number | null;
+    itemTypeId: number | null;
     supplierId: number | null;
     supplierName: string;
     supplierIds: number[];

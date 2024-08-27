@@ -10,7 +10,7 @@
                 </button>
             </div>
             <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="FilterModel.currentPage" [pageSize]="FilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="TotalPages"></app-erp-pagination>
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
             </div>
         </div>
         <div class="card-body table-responsive">
@@ -31,7 +31,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of PurchaseList">
+                    <tr *ngFor="let item of pagedResponseModel.results">
                         <td>{{item.orderNumber}}</td>
                         <td>{{item.docNumber}}</td>
                         <td>{{item.orderDate | date}}</td>
@@ -71,7 +71,7 @@
                 </tbody>
 
             </table>
-            <app-empty-data [showContainer]="!PurchaseList?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+            <app-empty-data [showContainer]="!pagedResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
         </div>
     </div>
 </div>
