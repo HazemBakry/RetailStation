@@ -423,30 +423,33 @@ namespace MasterErp.Service.Inventory
 
         public List<ItemCategoryModel> GetItemCategories(int? CategoryId = null)
         {
-            var results = Context.ItemCategories.Select(cat => new ItemCategoryModel
-            {
-                ItemCategoryId = cat.ItemCategoryId,
-                NameAR = cat.NameAR,
-                NameEN = cat.NameEN,
-                OperationAccountId = cat.OperationAccountId,
-                OperationAccountName = "",
-                DisplayOrder = cat.DisplayOrder,
-                ManagementAccountId = cat.ManagementAccountId,
-                ManagementAccountName = "",
-                Description = cat.Description,
-                IsActive = cat.IsActive,
-                CreatedBy = cat.CreatedBy,
-                CreatedDate = cat.CreatedDate,
-                ModifiedBy = cat.ModifiedBy,
-                ModifiedDate = cat.ModifiedDate,
-            }).OrderBy(c => c.DisplayOrder).ToList();
+            var result = (from cat in Context.ItemCategories
+                          join op in Context.AccountTrees on cat.OperationAccountId equals op.AccountId
+                          join ma in Context.AccountTrees on cat.ManagementAccountId equals ma.AccountId
+                          select new ItemCategoryModel
+                          {
+                              ItemCategoryId = cat.ItemCategoryId,
+                              NameAR = cat.NameAR,
+                              NameEN = cat.NameEN,
+                              OperationAccountId = cat.OperationAccountId,
+                              OperationAccountName = op.NameAR,
+                              DisplayOrder = cat.DisplayOrder,
+                              ManagementAccountId = cat.ManagementAccountId,
+                              ManagementAccountName = ma.NameAR,
+                              Description = cat.Description,
+                              IsActive = cat.IsActive,
+                              CreatedBy = cat.CreatedBy,
+                              CreatedDate = cat.CreatedDate,
+                              ModifiedBy = cat.ModifiedBy,
+                              ModifiedDate = cat.ModifiedDate,
+                          }).OrderBy(c => c.DisplayOrder).ToList();
 
             //int totalCount = query.Count();
 
             //var results = query.ToList();
             //results.ForEach(x => x.TotalCount = totalCount);
 
-            return results;
+            return result;
         }
         public ItemCategoryModel GetItemCategoryDetails(int CategoryId)
         {

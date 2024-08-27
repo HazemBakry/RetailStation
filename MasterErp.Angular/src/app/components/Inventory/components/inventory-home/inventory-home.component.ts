@@ -79,8 +79,10 @@ export class InventoryHomeComponent implements OnInit {
 
   getSuppliersList() {
     this.showLoader = true;
+    this.FilterModel.currentPage = 1;
+    this.FilterModel.pageSize = 10;
     this.purchaseService.GetSuppliersData(this.FilterModel).subscribe(data => {
-      this.suppliersList = data;
+      this.suppliersList = data.results;
       this.showLoader = false;
     }, err => {
       this.showLoader = false;

@@ -1,19 +1,20 @@
 <div class="card radius-10 border-0 card-shadow mb-4">
     <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
-        <h5 class="mb-0 fw-bold">الأصناف</h5>
+        <h5 class="mb-0 fw-bold">مجموعات الأصناف</h5>
     </div>
     <div class="card-body">
-        <div class="row p-2">
-            <div class="col-md-8">
-                <div class="d-flex align-items-center flex-wrap">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex  flex-wrap">
+
                     <div class="search-box position-relative mb-2">
-                        <button class="btn btn-primary m-2" (click)="openNewSidePanel(addItemCategoryModal)">
+                        <button class="btn btn-outline-primary border m-2" (click)="openNewSidePanel(addItemCategoryModal)">
                             <span class="me-2">إضافة مجموعة</span>
-                            <i class="uil uil-plus-circle"></i>
+                            <i class="uil uil-plus fs-5"></i>
                         </button>
-                        <button [disabled]="showAddLoader" class="btn btn-secondary m-2" (click)="saveCategoriesDisplayOrder()">
+                        <button [disabled]="showAddLoader" class="btn btn-secondary border m-2" (click)="saveCategoriesDisplayOrder()">
                             <span class="me-2">تعديل الترتيب</span>
-                            <i class="fas fa-grip-vertical"></i>
+                            <i class="uil uil-arrows-v fs-5"></i>
                         </button>
                     </div>
                     <!-- <ng-container *ngIf="filterList.length > 0">
@@ -28,7 +29,7 @@
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
         <div class="row">
-            <div class="col-12">
+            <div class="col-md-12">
                 <div class="table-responsive table-vp-height">
                     <table class="table table-bordered table-middle table-hover bg-white m-0">
                         <thead>
@@ -38,15 +39,13 @@
                                 <!-- <th class="td-img"></th> -->
                                 <th>اسم المجموعة (AR)</th>
                                 <th>اسم المجموعة (EN)</th>
-                                <th>عمليات</th>
+                                <th>حساب التشغيل</th>
+                                <th>حساب الإدارة</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let category of responseModel.results;let i = index"draggable="true"
-                                [class.sortable-item-active]="draggedOverIndex == i&& listIndex==1"
-                                (dragover)="XallowDrop($event, responseModel.results,i,1,true)"
-                                (dragstart)="XonDragStart(i,1)"
-                                (drop)="XonDrop($event,responseModel.results,i, 1)">
+                            <tr *ngFor="let category of responseModel.results;let i = index" draggable="true" [class.sortable-item-active]="draggedOverIndex == i&& listIndex==1" (dragover)="XallowDrop($event, responseModel.results,i,1,true)" (dragstart)="XonDragStart(i,1)" (drop)="XonDrop($event,responseModel.results,i, 1)">
                                 <td class="cursor-pointer" style="font-size: 25px;">
                                     <i class="fas fa-grip-vertical"></i>
                                     <!-- <i class="fas fa-sort" ></i> -->
@@ -60,21 +59,23 @@
                         </td> -->
                                 <td>{{ category.nameEN }}</td>
                                 <td>{{ category.nameAR }}</td>
+                                <td>{{ category.operationAccountName}}</td>
+                                <td>{{ category.managementAccountName}}</td>
                                 <td>
-                                    <div class="d-flex align-items-center justify-content-center">
+                                    <div class="d-flex align-items-center justify-content-center gap-2">
                                         <label class="switch me-2">
                                             <input type="checkbox" [(ngModel)]="category.isActive"
                                                 (change)="changeCategoryStatus(category.itemCategoryId)"
                                                 class="ng-valid ng-dirty ng-touched">
                                             <span class="slider round"></span>
                                         </label>
-                                        <button class="btn btn-primary btn-rounded me-2"
-                                            (click)="openNewSidePanel(addItemCategoryModal,category)">
-                                            <i class="fas fa-pen"></i>
+                                        <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="openNewSidePanel(addItemCategoryModal,category)">
+                                            <i class="uil uil-pen"></i>
+                                            <span>تعديل</span>
                                         </button>
-                                        <button class="btn btn-danger btn-rounded"
-                                            (click)="openDeleteModal(deleteItemCategoryDialog,category.itemCategoryId)">
-                                            <i class="fas fa-trash"></i>
+                                        <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteItemCategoryDialog,category.itemCategoryId)">
+                                            <i class="uil uil-trash-alt"></i>
+                                            <span>حذف</span>
                                         </button>
                                     </div>
                                 </td>
@@ -103,8 +104,7 @@
                     <div class="employee-card-body row">
                         <div class="col-xl-5">
                             <div class="form-floating  mb-3">
-                                <input type="text" formControlName="nameAR" class="form-control" id="floatingInput1"
-                                    placeholder="any">
+                                <input type="text" formControlName="nameAR" class="form-control" id="floatingInput1" placeholder="any">
                                 <label for="floatingInput1">الاسم عربي</label>
                                 <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
                                     {{formErrors.nameAR}}
@@ -117,8 +117,7 @@
                         <div class="col-xl-5">
 
                             <div class="form-floating mb-3">
-                                <input type="text" formControlName="nameEN" class="form-control" id="floatingInput1"
-                                    placeholder="any">
+                                <input type="text" formControlName="nameEN" class="form-control" id="floatingInput1" placeholder="any">
                                 <label for="floatingInput2">الاسم انجليزي</label>
                                 <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
                                     {{formErrors.nameEN}}
@@ -128,9 +127,7 @@
                         </div>
                         <div class="col-xl-1"></div>
                         <div class="col-xl-5 mb-3">
-                            <app-drop-down-form-control formControlName="operationAccountId"
-                                [placeholder]="'Operation Account'" [showSearch]="true"
-                                [data]="childAccountSelectorData"></app-drop-down-form-control>
+                            <app-drop-down-form-control formControlName="operationAccountId" [placeholder]="'Operation Account'" [showSearch]="true" [data]="childAccountSelectorData"></app-drop-down-form-control>
                             <div *ngIf="formErrors.operationAccountId" class="text-danger  font-small-3 m-03">
                                 {{formErrors.operationAccountId}}
                             </div>
@@ -138,9 +135,7 @@
                         </div>
                         <div class="col-xl-1"></div>
                         <div class="col-xl-5 mb-3">
-                            <app-drop-down-form-control formControlName="managementAccountId" [showSearch]="true"
-                                [placeholder]="'Management Account'"
-                                [data]="childAccountSelectorData"></app-drop-down-form-control>
+                            <app-drop-down-form-control formControlName="managementAccountId" [showSearch]="true" [placeholder]="'Management Account'" [data]="childAccountSelectorData"></app-drop-down-form-control>
                             <div *ngIf="formErrors.managementAccountId" class="text-danger  font-small-3 m-03">
                                 {{formErrors.managementAccountId}}
                             </div>
@@ -152,8 +147,7 @@
                             <div class=" mb-3">
 
                                 <div class="d-flex">
-                                    <input class="form-check-input width-30 height-30" formControlName="isActive"
-                                        type="checkbox" value="" id="flexCheckDefault">
+                                    <input class="form-check-input width-30 height-30" formControlName="isActive" type="checkbox" value="" id="flexCheckDefault">
                                     <label class=" form-label m-2">نشط</label>
                                 </div>
                                 <div *ngIf="formErrors.isActive" class="text-danger  font-small-3 m-03">
@@ -165,8 +159,7 @@
                         <div class="col-xl-1"></div>
                         <div class="col-xl-11">
                             <div class="form-floating mb-3">
-                                <textarea type="text" formControlName="description" class="form-control"
-                                    id="floatingInput10" placeholder="الوصف"></textarea>
+                                <textarea type="text" formControlName="description" class="form-control" id="floatingInput10" placeholder="الوصف"></textarea>
                                 <label for="floatingInput10">الوصف</label>
 
                                 <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
