@@ -54,7 +54,7 @@ export class OpeningBalanceComponent implements OnInit {
 
   loadParentAccountsData()
   {
-    this.sharedService.GetAccountsList(true).subscribe(data=>{
+    this.sharedService.GetAccountsSelector(true).subscribe(data=>{
       this.parentAccountsList=data;
       
     })

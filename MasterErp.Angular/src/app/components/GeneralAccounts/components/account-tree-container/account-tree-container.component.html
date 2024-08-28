@@ -1,5 +1,4 @@
-
-<input #ImportAccounts type="file" hidden  (change)="onFileSelected($event)" accept=".pdf,.docx,.doc,.xls,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+<input #ImportAccounts type="file" hidden (change)="onFileSelected($event)" accept=".pdf,.docx,.doc,.xls,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
         ,application/vnd.ms-excel,image/*,image/gif, image/jpeg,*/*" />
 <div class="btn-action d-flex align-items-center flex-wrap mb-3">
 
@@ -12,7 +11,7 @@
             <button ngbDropdownItem (click)="downloadImporterTemplate()">تحميل القالب</button>
             <button ngbDropdownItem (click)="ImportAccounts.click()">استيراد حسابات</button>
             <button ngbDropdownItem (click)="exportData()">تصدير حسابات</button>
-            
+
             <!-- <button ngbDropdownItem (click)="PostJournalEntry()">ترحيل</button>
             <button ngbDropdownItem (click)="ReverseJournalEntry()">عكس</button>
             <button ngbDropdownItem (click)="PrintJournalEntry()">طباعة</button> -->
@@ -40,18 +39,10 @@
     <div class="card-body bg-light">
         <div class="row">
             <div class="col-lg-6">
-
-                <app-account-tree-v2 
-                (selectedAccount)="selectedAccount($event)"
-                [reloadData]="reloadData"></app-account-tree-v2>
+                <app-account-tree-v2 (selectedAccount)="selectedAccount($event)" [reloadData]="reloadData"></app-account-tree-v2>
             </div>
             <div class="col-lg-6">
-
-                <app-add-edit-account-tree 
-                [accountTreeModel]="selectedAccountTreeModel"
-                [isUpdate]="isUpdate"
-                (dataUpdated)="dataUpdated($event)"
-                >
+                <app-add-edit-account-tree [accountTreeModel]="selectedAccountTreeModel" [isUpdate]="isUpdate" (dataUpdated)="dataUpdated($event)">
                 </app-add-edit-account-tree>
             </div>
         </div>

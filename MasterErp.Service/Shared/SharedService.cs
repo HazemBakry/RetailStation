@@ -46,12 +46,6 @@ namespace MasterErp.Service.Shared
             return Context.ReceiptLedger.ToList();
         }
 
-        public List<AccountTree> GetAccountsList(bool IsParent)
-        {
-            var result = Context.AccountTrees.Where(x => x.IsParent == IsParent).ToList();
-
-            return result;
-        }
         public List<AccountTree> GetAccountsByTypeId(int TypeId)
         {
             var result = Context.AccountTrees.Where(x => x.AccountTypeId == TypeId).ToList();
@@ -68,13 +62,6 @@ namespace MasterErp.Service.Shared
         public List<FinancialPeriod> GetFinancialPeriods()
         {
             var result = Context.FinancialPeriods.ToList();
-
-            return result;
-        }
-
-        public List<AccountType> GetAccountTypes()
-        {
-            var result = Context.AccountTypes.ToList();
 
             return result;
         }
@@ -99,6 +86,27 @@ namespace MasterErp.Service.Shared
                 Name = b.NameEN,
             }).ToList();
             return results;
+        }
+
+        public List<SelectorDataModel> GetAccountsSelector(bool IsParent)
+        {
+            var result = Context.AccountTrees.Where(x => x.IsParent == IsParent).Select(a => new SelectorDataModel
+            {
+                Id = a.AccountId,
+                Name = a.NameAR
+            }).ToList();
+
+            return result;
+        }
+
+        public List<SelectorDataModel> GetAccountTypes()
+        {
+            var result = Context.AccountTypes.Select(a => new SelectorDataModel
+            {
+                Id = a.AccountTypeId,
+                Name = a.NameAR
+            }).ToList();
+            return result;
         }
 
         public List<SelectorDataModel> GetBanksSelector()

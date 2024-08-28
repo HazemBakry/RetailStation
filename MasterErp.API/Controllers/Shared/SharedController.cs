@@ -26,7 +26,6 @@ namespace MasterErp.API.Controllers.Shared
             return Ok(results);
         }
 
-
         [HttpGet]
         [Route("GetReceiptLedgersData")]
         public IActionResult GetReceiptLedgersData()
@@ -36,10 +35,10 @@ namespace MasterErp.API.Controllers.Shared
         }
 
         [HttpGet]
-        [Route("GetAccountsList")]
-        public List<AccountTree> GetAccountsList(bool IsParent)
+        [Route("GetAccountsSelector")]
+        public List<SelectorDataModel> GetAccountsSelector(bool IsParent)
         {
-            return _sharedService.GetAccountsList(IsParent);
+            return _sharedService.GetAccountsSelector(IsParent);
         }
         [HttpGet]
         [Route("GetAccountsByTypeId")]
@@ -67,17 +66,6 @@ namespace MasterErp.API.Controllers.Shared
         }
 
         [HttpGet]
-        [Route("GetAccountTypes")]
-        public IActionResult GetAccountTypes()
-        {
-            var results = _sharedService.GetAccountTypes();
-
-            return Ok(results);
-        }
-
-
-
-        [HttpGet]
         [Route("DownloadImporterTemplate")]
         public IActionResult DownloadImporterTemplate(ExcelExportStyle ImporterType)
         {
@@ -88,10 +76,7 @@ namespace MasterErp.API.Controllers.Shared
 
 
 
-
-
         #region Selectors
-
 
         [HttpGet]
         [Route("GetBranchesSelector")]
@@ -100,7 +85,16 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetBranchesSelector();
             return Ok(result);
         }
-        
+             
+        [HttpGet]
+        [Route("GetAccountTypes")]
+        public IActionResult GetAccountTypes()
+        {
+            var results = _sharedService.GetAccountTypes();
+
+            return Ok(results);
+        }
+
         [HttpGet]
         [Route("GetBanksSelector")]
         public IActionResult GetBanksSelector()

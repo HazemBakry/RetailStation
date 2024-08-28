@@ -14,6 +14,7 @@ namespace MasterErp.Entities.Common
         public string DocNumber { get; set; }
         public DateTime OrderDate { get; set; }
         public DateTime? DueDate { get; set; }
+        public string OrderStatus { get; set; }
         public int? OrderTypeId { get; set; }
         public string OrderTypeAR { get; set; }
         public string OrderTypeEN { get; set; }

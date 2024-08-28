@@ -13,53 +13,50 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AccountTreeContainerComponent implements OnInit {
   selectedAccountTreeModel: AccountTreeModel = {} as AccountTreeModel;
-  isUpdate:boolean=false;
-  reloadData:boolean=false;
-  constructor(private _GeneralAccountService:GeneralAccountService,private _SharedService:SharedService,private toaster:ToastrService) { }
+  isUpdate: boolean = false;
+  reloadData: boolean = false;
+  constructor(private _GeneralAccountService: GeneralAccountService, private _SharedService: SharedService, private toaster: ToastrService) { }
 
   ngOnInit(): void {
   }
 
-  dataUpdated(event)
-  {
+  dataUpdated(event) {
 
-    this.isUpdate=false;
-    this.selectedAccountTreeModel={} as AccountTreeModel;
-    this.reloadData=!this.reloadData;
+    this.isUpdate = false;
+    this.selectedAccountTreeModel = {} as AccountTreeModel;
+    this.reloadData = !this.reloadData;
   }
-  selectedAccount(account:AccountTreeModel)
-  {
-    this.selectedAccountTreeModel=account;
-    this.isUpdate=true;
+
+  selectedAccount(account: AccountTreeModel) {
+    this.selectedAccountTreeModel = account;
+    this.isUpdate = true;
   }
-  exportData()
-  {
+
+  exportData() {
     this._GeneralAccountService.ExportAccountTreeList("").subscribe(
       (data: any) => {
-
         if (data) {
           this._SharedService.urlDownloadOrOpen(data.url);
           this.toaster.success("Exported Successfully");
         } else {
           this.toaster.error('Failed To Export');
         }
-    });
-
+      });
   }
-  downloadImporterTemplate()
-  {
-    this._SharedService.downloadImporterTemplate(ExcelExportStyle.accountTree).subscribe((data:CreateModifyReturnsModel)=>{
-      console.log("url",data.url);
+
+  downloadImporterTemplate() {
+    this._SharedService.downloadImporterTemplate(ExcelExportStyle.accountTree).subscribe((data: CreateModifyReturnsModel) => {
+      console.log("url", data.url);
       this._SharedService.urlDownloadOrOpen(data.url);
     })
   }
+
   selectedFile: File | null = null;
+
   onFileSelected(event: any): void {
-    console.log("🚀  onFileSelected ~ event:", event)
-    
+    // console.log("🚀  onFileSelected ~ event:", event)
     const file: File = event.target.files[0];
     const allowedTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']; // Allowed file types
-  
     if (file && allowedTypes.includes(file.type)) {
       this.selectedFile = file;
       this.onUpload();
@@ -71,22 +68,19 @@ export class AccountTreeContainerComponent implements OnInit {
 
   onUpload(): void {
     if (this.selectedFile) {
-  
       const formData = new FormData();
       formData.append('File', this.selectedFile);
-  
+
       this._GeneralAccountService.ImportAccountTreeList(formData).subscribe(
         (data: any) => {
-          console.log("🚀onUpload ~ data:", data)
+          // console.log("🚀onUpload ~ data:", data)
           // this.filePath = data.url;
           // if (data) {
           //   this.toaster.success("Uploaded Successfully");
           // } else {
           //   this.toaster.error('Failed To Upload');
           // }
-      });
-
- 
+        });
     } else {
       console.error('No file selected');
     }

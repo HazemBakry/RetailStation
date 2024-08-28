@@ -2,8 +2,7 @@
     <div class="row mb-3">
         <label class="col-sm-3 col-form-label col-form-label-sm">رمز الحساب</label>
         <div class="col-sm-9">
-            <input [(ngModel)]="accountTreeModel.accountNumber" placeholder="رمز الحساب" type="text"
-                class="form-control form-control-sm">
+            <input [(ngModel)]="accountTreeModel.accountNumber" placeholder="رمز الحساب" type="text" class="form-control form-control-sm">
         </div>
     </div>
     <div class="row mb-3">
@@ -18,25 +17,21 @@
         </div>
     </div>
     <div class="row">
-
         <label class="col-sm-3 col-form-label col-form-label-sm">نوع الحساب</label>
         <div class="col-sm-9">
-            <app-erp-selector-with-search #Selector [SelectorName]="'نوع الحساب'" [ItemsList]="accountTypes"
-                [Height]="'30px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAccountType($event)">
+            <app-erp-selector-with-search #Selector [SelectorName]="'نوع الحساب'" [ItemsList]="accountTypes" [Height]="'30px'" [SearchKey]="'nameAR'" (ItemObj)="getSelectedAccountType($event)">
             </app-erp-selector-with-search>
-
         </div>
-
         <!-- <label class="col-sm-3 col-form-label col-form-label-sm">نوع الحساب</label>
-      <div class="col-sm-9">
-        <select class="form-control">
-          <option value="0" disabled selected>اختر...</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-        </select>
-      </div> -->
+            <div class="col-sm-9">
+                <select class="form-control">
+                <option value="0" disabled selected>اختر...</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                </select>
+            </div> -->
     </div>
 
     <!-- <hr class="my-4" /> -->
@@ -44,10 +39,8 @@
 
         <label class="col-sm-3 col-form-label col-form-label-sm">متفرع من حساب</label>
         <div class="col-sm-9">
-            <app-erp-selector-with-search #Selector1 [SelectorName]="'اسم الحساب'" [ItemsList]="parentAccountsList"
-                [Height]="'30px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedParentAccount($event)">
-            </app-erp-selector-with-search>
-
+            <app-drop-down-form-control #Selector1 [placeholder]="'اسم الحساب'" [data]="parentAccountsList" (valueChanged)="getSelectedParentAccount($event)">
+            </app-drop-down-form-control>
         </div>
     </div>
     <hr class="my-4" />
@@ -55,10 +48,8 @@
     <div class="row mb-3">
         <label class="col-sm-3 col-form-label col-form-label-sm">العملة الافتراضية</label>
         <div class="col-sm-9">
-            <app-erp-selector-with-search #Selector2 [SelectorName]="'نوع العملة'" [ItemsList]="currencyType"
-                [Height]="'30px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedCurrencyType($event)">
-            </app-erp-selector-with-search>
-
+            <app-drop-down-form-control #Selector2 [placeholder]="'نوع العملة'" [data]="currencyType" (valueChanged)="getSelectedCurrencyType($event)">
+            </app-drop-down-form-control>
         </div>
         <!-- <div class="col-sm-9">
         <select class="form-control">
@@ -73,8 +64,7 @@
     <div class="row mb-3">
         <label class="col-sm-3 col-form-label col-form-label-sm">دعم مركز التكلفة </label>
         <div class="col-sm-9">
-            <input [(ngModel)]="accountTreeModel.isDisToCostCenter" class="form-check-input" type="checkbox"
-                id="flexCheckDefault">
+            <input [(ngModel)]="accountTreeModel.isDisToCostCenter" class="form-check-input" type="checkbox" id="flexCheckDefault">
         </div>
     </div>
 
@@ -82,24 +72,19 @@
         <label class="col-sm-3 col-form-label col-form-label-sm">حساب نشط</label>
         <div class="col-sm-9">
             <div class="d-flex align-items-center">
-                <input [(ngModel)]="accountTreeModel.isActive" class="form-check-input" type="checkbox"
-                    id="flexCheckDefault">
-
+                <input [(ngModel)]="accountTreeModel.isActive" class="form-check-input" type="checkbox" id="flexCheckDefault">
                 <!-- <button (click)="CreateNewAccount()" class="btn btn-primary ms-2">
-            <i class="fas fa-cogs"></i>
-            <span class="ms-2">Save</span>
-          </button> -->
-
-
+                        <i class="fas fa-cogs"></i>
+                        <span class="ms-2">Save</span>
+                    </button> -->
             </div>
-
         </div>
     </div>
 
     <div class="row mb-3">
         <div class="col-sm-9">
             <div class="d-flex align-items-center">
-                <button (click)="isUpdate ?UpdateAccountTree():CreateNewAccount()" class="btn btn-primary ms-2">
+                <button (click)="isUpdate ?updateAccountTree(): createNewAccount()" class="btn btn-primary ms-2">
                     <i class="fas fa-cogs"></i>
                     <span class="ms-2">{{isUpdate?'تعديل':'أضافة'}}</span>
                 </button>

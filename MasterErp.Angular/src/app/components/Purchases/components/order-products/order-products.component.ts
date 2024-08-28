@@ -3,6 +3,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
 import { InventoryService } from '../../../Inventory/services/inventory.service';
+import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { ItemModel } from 'src/app/components/Inventory/models/Item';
 
 @Component({
   selector: 'app-order-products',
@@ -19,18 +22,20 @@ export class OrderProductsComponent implements OnInit, OnChanges {
   SuppliersList: any[] = [];
   BranchesList: any[] = [];
   LookupsList: any[] = [];
-  ItemsList: OrderDetailModel[] = [];
+  ItemsList: ItemModel[] = [];
   ItemsByLookup: OrderDetailModel[] = [];
   ItemsBySupplier: any[] = [];
-  // RawItemsList: any[] = [];
   EditQuantityList: OrderDetailModel[] = [];
   selectedItem: OrderDetailModel;
-  // selectedItem: any={} ;
   activeTab = 'Item';
   notes: any;
   BranchId: any;
   SupplierId: any;
   LookupId: any;
+  FilterModel: SearchFilterModel = {
+    currentPage: 1,
+    pageSize: 25
+  };
 
 
   constructor(private inventoryService: InventoryService,
@@ -56,16 +61,19 @@ export class OrderProductsComponent implements OnInit, OnChanges {
     });
     this.emitSelectedProductsList();
   }
+
   GetItemsData() {
-    this.inventoryService.GetItemsData().subscribe(data => {
-      this.ItemsList = data;
+    this.inventoryService.GetItemsData(this.FilterModel).subscribe(data => {
+      this.ItemsList = data.results;
     });
   }
+
   GetItemsLookups() {
     this.inventoryService.GetItemsLookups().subscribe(data => {
       this.LookupsList = data;
     });
   }
+  
   openItemsModal(content: any) {
     this.selectedItem = {} as OrderDetailModel;
     this.GetItemsData();

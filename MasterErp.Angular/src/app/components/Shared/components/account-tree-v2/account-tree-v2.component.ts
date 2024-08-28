@@ -44,10 +44,10 @@ export class AccountTreeV2Component implements OnInit, OnChanges {
   }
   GetAccountTypes() {
     this.sharedService.GetAccountTypes().subscribe(data => {
-
       this.accountTypes = data;
     })
   }
+  
   GetCurrencyList() {
     this.GeneralAccountService.GetCurrencyList().subscribe(data => {
       this.currencyType = data;
@@ -55,7 +55,7 @@ export class AccountTreeV2Component implements OnInit, OnChanges {
   }
 
   loadParentAccountsData() {
-    this.sharedService.GetAccountsList(true).subscribe(data => {
+    this.sharedService.GetAccountsSelector(true).subscribe(data => {
       this.parentAccountsList = data;
 
     })

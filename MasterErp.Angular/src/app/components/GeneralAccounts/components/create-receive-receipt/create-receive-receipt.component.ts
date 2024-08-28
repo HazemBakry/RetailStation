@@ -50,7 +50,7 @@ export class CreateReceiveReceiptComponent implements OnInit {
   }
   loadAccountsTreeData()
   {
-    this.sharedService.GetAccountsList().subscribe(data=>{
+    this.sharedService.GetAccountsSelector().subscribe(data=>{
       this.agencyList=data;
       
     })

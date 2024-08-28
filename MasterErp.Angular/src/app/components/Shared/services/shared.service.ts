@@ -12,11 +12,10 @@ import { FormDropdownModel } from '../components/drop-down-form-control/drop-dow
   providedIn: 'root'
 })
 export class SharedService {
-  taxPercent:number=0.15;
+  taxPercent: number = 0.15;
   URL = environment.apiURL;
 
-  constructor(private http: HttpClient) 
-  { 
+  constructor(private http: HttpClient) {
 
   }
 
@@ -41,16 +40,15 @@ export class SharedService {
       }
     });
   }
-  
-  calculateTaxValue(totalAmount:number):number{
-    var taxValue=0;
-    if(totalAmount&&totalAmount>0)
-    {
-      taxValue=totalAmount-(totalAmount/(1+this.taxPercent));
+
+  calculateTaxValue(totalAmount: number): number {
+    var taxValue = 0;
+    if (totalAmount && totalAmount > 0) {
+      taxValue = totalAmount - (totalAmount / (1 + this.taxPercent));
     }
     return taxValue;
   }
-  
+
   //================================== AccountTree ===============================
 
   GetAccountTreeData_Old(SearchText: string) {
@@ -65,21 +63,21 @@ export class SharedService {
 
   //================================== CostCenterTree ===============================
 
-  GetCostCenterTreeData(isParent=false) {
-    return this.http.get<any>(this.URL + 'CostCenterTree/GetCostCenterTreeData?IsParent='+isParent);
+  GetCostCenterTreeData(isParent = false) {
+    return this.http.get<any>(this.URL + 'CostCenterTree/GetCostCenterTreeData?IsParent=' + isParent);
   }
 
 
-  
+
   //================================== GetCustomersData ===============================
 
-  GetCustomersData() :Observable<CustomerModel[]>{
+  GetCustomersData(): Observable<CustomerModel[]> {
     return this.http.get<CustomerModel[]>(this.URL + 'Shared/GetCustomersData').
-    pipe(
-      map(response => {
-        response.map(x=>x.nameAR=x.nameEN=x.name)
-        return response;
-      }));
+      pipe(
+        map(response => {
+          response.map(x => x.nameAR = x.nameEN = x.name)
+          return response;
+        }));
   }
 
   GetReceiptLedgersData() {
@@ -91,11 +89,11 @@ export class SharedService {
   // }
 
 
-  GetAccountsList(isParent:boolean=false) {
-    return this.http.get<any[]>(this.URL + 'Shared/GetAccountsList?IsParent='+isParent);
+  GetAccountsSelector(isParent: boolean = false) {
+    return this.http.get<any[]>(this.URL + 'Shared/GetAccountsSelector?IsParent=' + isParent);
   }
-  GetAccountsByTypeId(typeId:number) {
-    return this.http.get<any[]>(this.URL + 'Shared/GetAccountsByTypeId?TypeId='+typeId);
+  GetAccountsByTypeId(typeId: number) {
+    return this.http.get<any[]>(this.URL + 'Shared/GetAccountsByTypeId?TypeId=' + typeId);
   }
 
 
@@ -107,14 +105,12 @@ export class SharedService {
   }
 
 
-  GetAccountTypes()
-  {
+  GetAccountTypes() {
     return this.http.get<any[]>(this.URL + 'Shared/GetAccountTypes');
   }
 
-  downloadImporterTemplate(template:ExcelExportStyle)
-  {
-    return this.http.get<CreateModifyReturnsModel>(this.URL + 'Shared/DownloadImporterTemplate?ImporterType='+template);
+  downloadImporterTemplate(template: ExcelExportStyle) {
+    return this.http.get<CreateModifyReturnsModel>(this.URL + 'Shared/DownloadImporterTemplate?ImporterType=' + template);
   }
 
 

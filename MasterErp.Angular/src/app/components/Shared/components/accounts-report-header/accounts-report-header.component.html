@@ -2,44 +2,22 @@
     <div class="card-body bg-light"> -->
 <div class="row " *ngIf="showCostCenterFilter">
     <div class="col-lg-3">
-        <app-erp-selector-with-search #Selector2 
-                [SelectorName]="'رقم مركز التكلفه'" 
-                [ItemsList]="CostCenterList" 
-                [Height]="'35px'" 
-                [SearchKey]="'nameAR'" 
-                [innerTextKey]="'costCenterNumber'" 
-                (ItemObj)="GetSelectedCostCenter($event)">
+        <app-erp-selector-with-search #Selector2 [SelectorName]="'رقم مركز التكلفه'" [ItemsList]="CostCenterList" [Height]="'35px'" [SearchKey]="'nameAR'" [innerTextKey]="'costCenterNumber'" (ItemObj)="getSelectedCostCenter($event)">
         </app-erp-selector-with-search>
     </div>
     <div class="col-lg-4">
-        <app-erp-selector-with-search #Selector3 
-                [SelectorName]="'اسم مركز التكلفه'" 
-                [ItemsList]="CostCenterList" 
-                [Height]="'35px'" 
-                [SearchKey]="'nameAR'" 
-                (ItemObj)="GetSelectedCostCenter($event)">
+        <app-erp-selector-with-search #Selector3 [SelectorName]="'اسم مركز التكلفه'" [ItemsList]="CostCenterList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedCostCenter($event)">
         </app-erp-selector-with-search>
     </div>
-    
+
 </div>
 <div class="row " *ngIf="showAccountFilter">
     <div class="col-lg-3">
-        <app-erp-selector-with-search #Selector 
-            [SelectorName]="'رقم الحساب'" 
-            [ItemsList]="AccountsList" 
-            [Height]="'35px'" 
-            [SearchKey]="'nameAR'" 
-            [innerTextKey]="'accountNumber'" 
-            (ItemObj)="GetSelectedAccount($event)">
+        <app-erp-selector-with-search #Selector [SelectorName]="'رقم الحساب'" [ItemsList]="AccountsList" [Height]="'35px'" [SearchKey]="'nameAR'" [innerTextKey]="'accountNumber'" (ItemObj)="getSelectedAccount($event)">
         </app-erp-selector-with-search>
     </div>
     <div class="col-lg-4">
-        <app-erp-selector-with-search #Selector1 
-            [SelectorName]="'اسم الحساب'" 
-            [ItemsList]="AccountsList" 
-            [Height]="'35px'" 
-            [SearchKey]="'nameAR'" 
-            (ItemObj)="GetSelectedAccount($event)">
+        <app-erp-selector-with-search #Selector1 [SelectorName]="'اسم الحساب'" [ItemsList]="AccountsList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="getSelectedAccount($event)">
         </app-erp-selector-with-search>
 
     </div>
@@ -51,7 +29,7 @@
               </button>
               
         </div> -->
-        <button class="btn-sm-action sm-action-dropdown sl-dots" (click)="OpenSidePanel(AccountTreeSidePanel)">
+        <button class="btn-sm-action sm-action-dropdown sl-dots" (click)="openSidePanel(AccountTreeSidePanel)">
             <i class="fas fa-ellipsis-v"></i>
         </button>
     </div>
@@ -86,15 +64,12 @@
                 <!-- <h4 class="offcanvas-title m-0 d-flex align-items-center w-100"><i
                         class="fas fa-history fa-2x main-color me-2"></i> التفاصيل</h4> -->
             </div>
-            <button type="button" class="btn bg-danger text-white rounded" aria-label="Close"
-                (click)="offcanvas.dismiss()">
+            <button type="button" class="btn bg-danger text-white rounded" aria-label="Close" (click)="offcanvas.dismiss()">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         <div class="offcanvas-body my-1 py-1">
-            <app-account-tree-v2 
-            [isParentAccount]="IsParentAccount"
-            (selectedAccount)="GetSelectedAccount($event)">
+            <app-account-tree-v2 [isParentAccount]="IsParentAccount" (selectedAccount)="getSelectedAccount($event)">
             </app-account-tree-v2>
             <!-- <app-accounts-tree [isParentAccount]="IsParentAccount" (selectedAccount)="GetSelectedAccount($event)"></app-accounts-tree> -->
             <!-- <div class="boxstyle1-content hastable table-responsive table-vp-height small-scroll">
@@ -103,4 +78,3 @@
     </div>
 
 </ng-template>
-

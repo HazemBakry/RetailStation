@@ -14,15 +14,15 @@ namespace MasterErp.Interface.Shared
     {
         List<Customer> GetCustomersData();
         List<ReceiptLedger> GetReceiptLedgersData();
-        List<AccountTree> GetAccountsList(bool IsParent);
+        List<SelectorDataModel> GetAccountsSelector(bool IsParent);
         List<AccountTree> GetAccountsByTypeId(int TypeId);
         List<ReceitLedgerType> GetReceiptLedgerTypesData();
         List<FinancialPeriod> GetFinancialPeriods();
-        List<AccountType> GetAccountTypes();
         ActionsResponseModel DownloadImporterTemplate(ExcelExportStyle ImporterType);
 
         #region Selectors
         List<SelectorDataModel> GetBranchesSelector();
+        List<SelectorDataModel> GetAccountTypes();
         List<SelectorDataModel> GetBanksSelector();
         List<SelectorDataModel> GetNationalitiesSelector();
         List<SelectorDataModel> GetIqamaIssuePlacesSelector();
