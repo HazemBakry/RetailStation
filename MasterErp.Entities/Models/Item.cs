@@ -12,6 +12,8 @@ namespace MasterErp.Entities.Models
         public int ItemId { get; set; }
         public string NameAR { get; set; }
         public string NameEN { get; set; }
+        public string Barcode { get; set; }
+        public string Code { get; set; }
         public double? PurchasePrice { get; set; }
         public double? Yield { get; set; }
         public double Cost { get; set; }
@@ -20,7 +22,7 @@ namespace MasterErp.Entities.Models
         public int? ItemCategoryId { get; set; }
         public double? ConvertRatio { get; set; }
         public bool IsActive { get; set; }
-        public int? ItemType { get; set; }
+        public int? ItemTypeId { get; set; }
 
         public ICollection<ItemSupplier> ItemSuppliers { get; set; }
     }

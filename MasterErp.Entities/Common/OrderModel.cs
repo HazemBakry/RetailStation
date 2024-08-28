@@ -10,7 +10,8 @@ namespace MasterErp.Entities.Common
     public class OrderModel: CreatorModel
     {
         public int? OrderId { get; set; }
-        public int OrderNumber { get; set; }
+        public int? SecondaryOrderId { get; set; }
+        public int? OrderNumber { get; set; }
         public string DocNumber { get; set; }
         public DateTime OrderDate { get; set; }
         public DateTime? DueDate { get; set; }
@@ -39,6 +40,7 @@ namespace MasterErp.Entities.Common
         public bool? IsCancelled { get; set; }
         public int? TotalCount { get; set; }
         public int? PurchaseOrderId { get; set; }
+        public int? ReceiveOrderId { get; set; }
         public List<OrderProductModel> OrderProducts { get; set; }
     }
 

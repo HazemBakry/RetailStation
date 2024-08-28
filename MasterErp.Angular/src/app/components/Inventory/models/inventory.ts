@@ -9,6 +9,7 @@ export interface InventoryModel {
 
 export interface OrderModel extends CreatorModel {
     orderId: number | null;
+    secondaryOrderId: number | null;
     orderNumber: number;
     docNumber: string;
     orderDate: string;

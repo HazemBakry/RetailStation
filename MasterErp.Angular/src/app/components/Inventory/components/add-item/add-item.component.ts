@@ -93,7 +93,7 @@ export class AddItemComponent implements OnInit {
       itemSupplierIds:[null],
       yield : [null],
       purchasePrice: [null],
-      itemType : [null]
+      itemTypeId : [null]
 
     });
     this.formGroup.valueChanges.subscribe((data) => {
@@ -185,7 +185,7 @@ export class AddItemComponent implements OnInit {
       itemSupplierIds: itemModel.supplierIds,
       yield : itemModel.yield,
       purchasePrice: itemModel.purchasePrice,
-      itemType : itemModel.itemType
+      itemTypeId : itemModel.itemTypeId
 
     });
   }
@@ -204,7 +204,7 @@ export class AddItemComponent implements OnInit {
     itemSupplierIds:'',
     yield : '',
     purchasePrice: '',
-    itemType : ''
+    itemTypeId : ''
   };
 
 

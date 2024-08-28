@@ -63,8 +63,8 @@ export class InventoryService {
   ExportItems(searchModel: PagedResponseDTO, categoryId: number) {
     return this.http.post<ActionsResponseModel>(this.URL + `Items/ExportItems?CategoryId=${categoryId} `, searchModel);
   }
-  GetItemSuppliersByItemId(itemId: number) {
-    return this.http.get<SupplierModel[]>(this.URL + `Items/GetItemSuppliersByItemId?ItemId=${itemId} `);
+  GetSuppliersByItemId(itemId: number) {
+    return this.http.get<PagedResponseDTO<SupplierModel[]>>(this.URL + `Suppliers/GetSuppliersByItemId?ItemId=${itemId} `);
   }
   GetItemsBySupplierId(supplierId: number) {
     return this.http.get<ItemModel[]>(this.URL + `Items/GetItemsBySupplierId?SupplierId=${supplierId} `);

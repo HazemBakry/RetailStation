@@ -19,9 +19,26 @@ export class PurchaseService {
 
   constructor(private http: HttpClient) { }
 
-  GetPurchaseInvoicesData(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'PurchaseInvoice/GetPurchaseInvoicesData', model);
+  GetPurchaseInvoices_Data(model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'PurchaseInvoice/GetPurchaseInvoices_Data', model);
   }
+  GetPurchaseInvoiceDetailsById(invoiceId: number) {
+    return this.http.get<OrderModel>(this.URL + `PurchaseInvoice/GetPurchaseInvoiceDetailsById?InvoiceId=${invoiceId}`);
+  }
+  GetPurchaseInvoiceProducts_Data(invoiceId: number) {
+    return this.http.get<OrderProductModel[]>(this.URL + `PurchaseInvoice/GetPurchaseInvoiceProducts_Data?InvoiceId=${invoiceId}`);
+  }
+
+  AddNewPurchaseInvoice(model: OrderModel) {
+    return this.http.post<any>(this.URL + 'PurchaseInvoice/AddNewPurchaseInvoice', model);
+  }
+  
+  EditPurchaseInvoice(invoiceId:number,model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `PurchaseInvoice/EditPurchaseInvoice?InvoiceId=${invoiceId}`, model);
+  }
+
+
+
 
   CancelPurchaseInvoice(InvoiceId: number) {
     return this.http.get<any[]>(this.URL + 'PurchaseInvoice/CancelPurchaseInvoice?InvoiceId=' + InvoiceId);
@@ -31,10 +48,7 @@ export class PurchaseService {
     return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetInvoiceTypesData');
   }
 
-  CreateNewPurchaseInvoice(model: PurchaseInvoiceModel) {
-    return this.http.post<any>(this.URL + 'PurchaseInvoice/CreateNewPurchaseInvoice', model);
-  }
-  
+
   CreateNewPurchaseReturns(model: PurchaseReturnsModel) {
     return this.http.post<any>(this.URL + 'PurchaseInvoice/CreateNewPurchaseReturns', model);
   }
