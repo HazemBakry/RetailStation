@@ -41,7 +41,7 @@ namespace MasterErp.Service.Inventory
         #region Items
         public List<ItemDto> GetItemsData(SearchFilterModel model, int? ItemId = null)
         {
-            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterModel.FilterItems);
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
             SqlParameter[] Params = new SqlParameter[4];
 

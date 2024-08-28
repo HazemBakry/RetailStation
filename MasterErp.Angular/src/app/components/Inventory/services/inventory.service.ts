@@ -40,7 +40,7 @@ export class InventoryService {
 
 
   GetItemsData(searchModel: SearchFilterModel) {
-    return this.http.post<PagedResponseDTO<ItemModel[]>>(this.URL + 'Items/GetItemsData?=', searchModel);
+    return this.http.post<PagedResponseDTO<ItemModel[]>>(this.URL + 'Items/GetItemsData', searchModel);
   }
 
   GetItemById(itemId: number) {

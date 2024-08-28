@@ -73,7 +73,7 @@ export class ItemsComponent implements OnInit {
     });
     this.loadData();
   }
-  loadData(categoryId : number=0)
+  loadData()
   {
     this.showLoader = true;
     this.inventoryService.GetItemsData(this.itemResponseModel).subscribe(data => {
@@ -113,8 +113,20 @@ export class ItemsComponent implements OnInit {
 
   filterCategory(catId)
   {
+    this.itemResponseModel.filterList =[];
     this.selectedCategoryId=catId;
-    this.loadData(catId);
+    if(catId > 0)
+    {
+      let catFilter:FilterItem={
+        categoryName : 'CategoryId',
+        itemFlag : catId,
+        itemKey : catId,
+        itemValue : catId,
+      }
+      this.itemResponseModel.filterList=[catFilter];
+    }
+
+    this.loadData();
   }
  
   openNewItemSidePanel(content: any,itemModel:ItemModel=null) {
