@@ -6,6 +6,8 @@ import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { GeneralAccountService } from '../../services/general-account.service';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
 import { PaymentService } from '../../services/payment.service';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { OrderModel } from 'src/app/components/Inventory/models/inventory';
 
 @Component({
   selector: 'app-general-accounts-home',
@@ -101,11 +103,19 @@ export class GeneralAccountsHomeComponent implements OnInit {
   purchasesInvoicesList: any[] = [];
   paymentReceiptsList: any[] = [];
   receiveReceiptsList: any[] = [];
-  FilterModel: FilterModel = {
+  filterModel: FilterModel = {
     currentPage: 1,
-    pageSize: 5,
+    pageSize: 25,
     filterItems: []
   }
+
+  pagedResponse: PagedResponseDTO<OrderModel[]> = {
+    currentPage: 1,
+    pageSize: 5,
+    results: [],
+    filterList: []
+  }
+
   constructor(private modalService: NgbModal,
     private datepipe: DatePipe,
     private generalAccountService: GeneralAccountService,
@@ -114,14 +124,14 @@ export class GeneralAccountsHomeComponent implements OnInit {
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.GetSalesSummary();
-    this.GetDailyJournalEntriesSummary();
+    this.getSalesSummary();
+    this.getDailyJournalEntriesSummary();
     this.getPurchaseInvoicesData();
-    this.GetPaymentReceiptsSummary();
-    this.GetReceiveReceiptsSummary();
+    this.getPaymentReceiptsSummary();
+    this.getReceiveReceiptsSummary();
   }
 
-  GetSalesSummary() {
+  getSalesSummary() {
     // let FromDate = this.datepipe.transform(this.FromDate, 'yyyy-MM-dd');
     // let ToDate = this.datepipe.transform(this.ToDate, 'yyyy-MM-dd');
     // this.AdminService.GetSalesSummary(FromDate,ToDate,this.branchId).subscribe(data => {
@@ -134,10 +144,8 @@ export class GeneralAccountsHomeComponent implements OnInit {
     this.modalService.open(content, { centered: true, scrollable: true, size: 'xl' })
   }
 
-
-  GetDailyJournalEntriesSummary() {
-    this.generalAccountService.GetDailyJournalEntriesSummary(this.FilterModel).subscribe(data => {
-      // console.log("🚀  ~ data:", data)
+  getDailyJournalEntriesSummary() {
+    this.generalAccountService.GetDailyJournalEntriesSummary(this.filterModel).subscribe(data => {
       this.journalEntriesList = data;
     },
       (error) => {
@@ -146,13 +154,14 @@ export class GeneralAccountsHomeComponent implements OnInit {
       },
       () => { });
   }
+
   CancelJournalEntry(journalEntryId: number) {
     let journalEntryIds = [];
     journalEntryIds.push(journalEntryId);
     this.showLoader = true;
     this.generalAccountService.CancelJournalEntry(journalEntryIds).subscribe(data => {
       if (data) {
-        this.GetDailyJournalEntriesSummary();
+        this.getDailyJournalEntriesSummary();
         this.toaster.success('تم اسقاط القيود بنجاح');
       }
       else
@@ -161,13 +170,13 @@ export class GeneralAccountsHomeComponent implements OnInit {
     });
   }
 
-  PostJournalEntry(journalEntryId: number) {
+  postJournalEntry(journalEntryId: number) {
     let journalEntryIds = [];
     journalEntryIds.push(journalEntryId);
     this.showLoader = true;
     this.generalAccountService.PostJournalEntry(journalEntryIds).subscribe(data => {
       if (data) {
-        this.GetDailyJournalEntriesSummary();
+        this.getDailyJournalEntriesSummary();
         this.toaster.success('تم ترحيل القيوم بنجاح');
       }
       else
@@ -179,8 +188,8 @@ export class GeneralAccountsHomeComponent implements OnInit {
 
   getPurchaseInvoicesData() {
     // this.showLoader=true;
-    this.purchaseService.GetPurchaseInvoicesData(this.FilterModel).subscribe(data => {
-      this.purchasesInvoicesList = data;
+    this.purchaseService.GetPurchaseInvoices_Data(this.pagedResponse).subscribe(data => {
+      this.purchasesInvoicesList = data.results;
 
     }, (err) => {
       // this.showLoader=false;
@@ -188,9 +197,10 @@ export class GeneralAccountsHomeComponent implements OnInit {
       // this.showLoader=false;
     })
   }
-  GetPaymentReceiptsSummary() {
+
+  getPaymentReceiptsSummary() {
     // this.showLoader = true;
-    this.paymentService.GetPaymentReceiptsSummary(this.FilterModel).subscribe(data => {
+    this.paymentService.GetPaymentReceiptsSummary(this.filterModel).subscribe(data => {
       this.paymentReceiptsList = data;
 
     }, (err) => {
@@ -200,9 +210,8 @@ export class GeneralAccountsHomeComponent implements OnInit {
     })
   }
 
-  GetReceiveReceiptsSummary() {
-    // this.showLoader=true;
-    this.paymentService.GetReceiveReceiptsSummary(this.FilterModel).subscribe(data => {
+  getReceiveReceiptsSummary() {
+    this.paymentService.GetReceiveReceiptsSummary(this.filterModel).subscribe(data => {
       this.receiveReceiptsList = data;
 
     }, (err) => {
@@ -211,6 +220,7 @@ export class GeneralAccountsHomeComponent implements OnInit {
       // this.showLoader=false;
     })
   }
+
   getStatusColor(status: boolean) {
     if (status == true)
       return "locked";
