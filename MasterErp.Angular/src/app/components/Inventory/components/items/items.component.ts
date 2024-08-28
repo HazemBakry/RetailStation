@@ -128,7 +128,10 @@ export class ItemsComponent implements OnInit {
 
     this.loadData();
   }
- 
+  open(content: any) {
+		this.modalService.open(content, { size: 'lg', centered: true, scrollable: true });
+	}
+
   openNewItemSidePanel(content: any,itemModel:ItemModel=null) {
 
     this.loadSelectors();
@@ -139,7 +142,7 @@ export class ItemsComponent implements OnInit {
       this.fillEditForm(itemModel);
 
     this.formGroup.patchValue({employeeId:this.selectedCategoryId});
-    this.modalService.open(content, { centered: true, size: 'xl',fullscreen:'lg' });
+    this.modalService.open(content, { centered: true, size: 'lg',fullscreen:'lg' });
 
     // this.offcanvasService.open(content, { panelClass: 'add-new-panel', position: 'end' });
   }
