@@ -103,7 +103,7 @@ export class ItemsCategoryComponent implements OnInit {
     if (catModel)
       this.fillEditForm(catModel);
     // this.formGroup.patchValue({ itemCategoryId: this.selectedItemCategoryId });
-    this.modalService.open(content, { centered: true, size: 'xl', fullscreen: 'lg' });
+    this.modalService.open(content, { centered: true, size: 'lg', fullscreen: 'lg' });
   }
   loadSelectors() {
 
