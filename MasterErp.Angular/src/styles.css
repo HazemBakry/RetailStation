@@ -1199,3 +1199,23 @@ td.td-disabled {
     width: 50% !important;
     /* background-color: red; */
 }
+
+
+
+
+
+
+
+/*New MODAL STYLE */
+
+.modal-header-bg {
+    background-color: #eef4f6;
+}
+
+.table-feature-value td.table-feature {
+    background-color: #f7f7f7;
+    min-width: 200px;
+    width: 200px;
+    font-weight: bold;
+    font-size: 14px;
+}

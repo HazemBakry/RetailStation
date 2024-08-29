@@ -94,6 +94,12 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="d-flex align-items-center gap-2">
+                                        <label class="switch me-2">
+                                            <input type="checkbox" [(ngModel)]="item.isActive"
+                                                (change)="changeItemStatus(item.itemCategoryId)"
+                                                class="ng-valid ng-dirty ng-touched">
+                                            <span class="slider round"></span>
+                                        </label>
                                         <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="openNewItemSidePanel(AddNewItemDialog,item)">
                                             <i class="uil uil-pen"></i>
                                             <span>تعديل</span>
@@ -114,153 +120,132 @@
     </div>
 </div>
 
+
 <ng-template #AddNewItemDialog let-modal>
-    <div class="modal-header">
-        <div class="d-flex">
-            <h4 class="modal-title" id="modal-basic-title">
-                <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
-                <span *ngIf="isUpdate" class="ms-3">تعديل</span>
-            </h4>
-            <!-- <button type="button" class="btn btn-danger py-0 px-3 rounded fs-4 fw-bold" (click)="modal.dismiss()">
-                <i class="uil uil-times"></i>
-            </button> -->
+    <div class="modal-header modal-header-bg justify-content-between">
+        <h2 class="d-flex align-items-center gap-2">
+            <i class="uil uil-plus"></i>
+            <span>املأ البيانات الأتية</span>
+            <span *ngIf="!isUpdate" class="ms-3">(إضافة)</span>
+            <span *ngIf="isUpdate" class="ms-3">(تعديل)</span>
+        </h2>
+        <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
+            <i class="uil uil-times-circle"></i>
         </div>
-
     </div>
-    <div class="modal-body bg-light">
-        <div class="employee-card-body row">
-            <form [formGroup]="formGroup" autocomplete="off">
-                <div class="employee-card-body row">
-                    <div class="col-xl-5">
-                        <div class="form-floating  mb-3">
-                            <input type="text" formControlName="nameAR" class="form-control" id="floatingInput1" placeholder="any">
-                            <label for="floatingInput1">الاسم عربي</label>
-                            <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
-                                {{formErrors.nameAR}}
+    <div class="modal-body">
+        <form [formGroup]="formGroup" autocomplete="off">
+            <table class="table table-bordered table-feature-value align-middle border m-0">
+                <tbody>
+                    <tr>
+                        <td class="table-feature">الاسم</td>
+                        <td class="table-value">
+                            <!-- <input type="text" class="form-control form-control-lg" placeholder="أدخل الاسم..."> -->
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <input type="text" formControlName="nameAR" class="form-control form-control-lg" placeholder="الاسم عربي">
+                                    <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.nameAR}}
+                                    </div>
+                                </div>
+                                <div class="col-xl-6"><input type="text" formControlName="nameEN" class="form-control form-control-lg"
+                                        placeholder="الاسم انجليزي">
+                                    <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.nameEN}}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-
-                    </div>
-                    <div class="col-xl-1"></div>
-
-                    <div class="col-xl-5">
-
-                        <div class="form-floating mb-3">
-                            <input type="text" formControlName="nameEN" class="form-control" id="floatingInput1" placeholder="any">
-                            <label for="floatingInput2">الاسم انجليزي</label>
-                            <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
-                                {{formErrors.nameEN}}
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-xl-1"></div>
-
-                    <div class="col-xl-5">
-                        <div class="form-floating mb-3">
-                            <input type="text" formControlName="cost" class="form-control" id="floatingInput1" placeholder="any">
-                            <label for="floatingInput3">التكلفة</label>
+                    
+                    
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">التكلفة</td>
+                        <td class="table-value">
+                            <input type="text" formControlName="cost" class="form-control form-control-lg"  placeholder="التكلفة">
                             <div *ngIf="formErrors.cost" class="text-danger  font-small-3 m-03">
                                 {{formErrors.cost}}
                             </div>
-                        </div>
-
-                    </div>
-                    <div class="col-xl-1"></div>
-
-                    <div class="col-xl-5">
-                        <div class="form-floating mb-3">
-                            <input type="text" formControlName="yield" class="form-control" id="floatingInput1" placeholder="any">
-                            <label for="floatingInput2">نسية الانتاجية</label>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">نسية الانتاجية</td>
+                        <td class="table-value">
+                            <input type="text" formControlName="yield" class="form-control form-control-lg"  placeholder="نسية الانتاجية">
                             <div *ngIf="formErrors.yield" class="text-danger  font-small-3 m-03">
                                 {{formErrors.yield}}
                             </div>
-                        </div>
-
-                    </div>
-                    <div class="col-xl-1"></div>
-
-                    <div class="col-xl-5">
-                        <div class="form-floating mb-3">
-                            <input type="text" formControlName="convertRatio" class="form-control" id="floatingInput1" placeholder="any">
-                            <label for="floatingInput2">عدد الوحدات</label>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">عدد الوحدات</td>
+                        <td class="table-value">
+                            <input type="text" formControlName="convertRatio" class="form-control form-control-lg"  placeholder="عدد الوحدات">
                             <div *ngIf="formErrors.convertRatio" class="text-danger  font-small-3 m-03">
                                 {{formErrors.convertRatio}}
                             </div>
-                        </div>
-
-                    </div>
-
-
-                    <div class="col-xl-1"></div>
-
-                    <div class="col-xl-5 mb-3">
-                        <app-drop-down-form-control formControlName="unitId" [placeholder]="'الوحدة'" [data]="unitsSelectorData"></app-drop-down-form-control>
-                        <div *ngIf="formErrors.unitId" class="text-danger  font-small-3 m-03">
-                            {{formErrors.unitId}}
-                        </div>
-
-                    </div>
-                    <div class="col-xl-1"></div>
-                    <div class="col-xl-5 mb-3">
-                        <app-drop-down-form-control formControlName="purchaseUnitId" [placeholder]="'وحدة الشراء'" [data]="unitsSelectorData"></app-drop-down-form-control>
-                        <div *ngIf="formErrors.purchaseUnitId" class="text-danger  font-small-3 m-03">
-                            {{formErrors.purchaseUnitId}}
-                        </div>
-                    </div>
-                    <div class="col-xl-1"></div>
-                    <div class="col-xl-5 mb-3">
-                        <app-drop-down-form-control formControlName="itemCategoryId" [placeholder]="'فئة الصنف'" [data]="itemCategoriesSelectorData"></app-drop-down-form-control>
-                        <div *ngIf="formErrors.itemCategoryId" class="text-danger  font-small-3 m-03">
-                            {{formErrors.itemCategoryId}}
-                        </div>
-
-                    </div>
-                    <div class="col-xl-1"></div>
-                    <div class="col-xl-5 mb-3">
-                        <app-drop-down-form-control formControlName="supplierIds" [selectMulti]="true" [showSearch]="true" [placeholder]="'الموردين'" [data]="suppliersSelectorData"></app-drop-down-form-control>
-                        <div *ngIf="formErrors.supplierIds" class="text-danger  font-small-3 m-03">
-                            {{formErrors.supplierIds}}
-                        </div>
-
-                    </div>
-                    <div class="col-xl-1"></div>
-
-                    <div class="col-xl-5">
-                        <div class=" mb-3">
-
-                            <div class="d-flex">
-                                <input class="form-check-input width-30 height-30" formControlName="isActive" type="checkbox" value="" id="flexCheckDefault">
-                                <label class=" form-label m-2">نشط</label>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">الوحدة</td>
+                        <td class="table-value">
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <app-drop-down-form-control formControlName="unitId" [placeholder]="'الوحدة'" [data]="unitsSelectorData"></app-drop-down-form-control>
+                                    <div *ngIf="formErrors.unitId" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.unitId}}
+                                    </div>
+            
+                                </div>
+                                <div class="col-xl-6">
+                                    <app-drop-down-form-control formControlName="purchaseUnitId" [placeholder]="'وحدة الشراء'" [data]="unitsSelectorData"></app-drop-down-form-control>
+                                    <div *ngIf="formErrors.purchaseUnitId" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.purchaseUnitId}}
+                                    </div>
+                                </div>
                             </div>
-                            <div *ngIf="formErrors.isActive" class="text-danger  font-small-3 m-03">
-                                {{formErrors.isActive}}
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">فئة الصنف</td>
+                        <td class="table-value">
+                            <app-drop-down-form-control formControlName="itemCategoryId" [placeholder]="'فئة الصنف'" [data]="itemCategoriesSelectorData"></app-drop-down-form-control>
+                            <div *ngIf="formErrors.itemCategoryId" class="text-danger  font-small-3 m-03">
+                                {{formErrors.itemCategoryId}}
                             </div>
-                        </div>
-
-                    </div>
-
-                </div>
-            </form>
-
-        </div>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">الموردين</td>
+                        <td class="table-value">
+                            <app-drop-down-form-control formControlName="supplierIds" [selectMulti]="true" [showSearch]="true" [placeholder]="'الموردين'" [data]="suppliersSelectorData"></app-drop-down-form-control>
+                            <div *ngIf="formErrors.supplierIds" class="text-danger  font-small-3 m-03">
+                                {{formErrors.supplierIds}}
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
     </div>
-    <div class="modal-footer justify-content-start">
-        <div class="d-flex justify-content-left">
-            <button [disabled]="showAddLoader" (click)="saveItem()" class="btn btn-primary m-2">
-                <span *ngIf="!isUpdate">إضافة</span>
-                <span *ngIf="isUpdate">تعديل</span>
-            </button>
-            <!-- <button (click)="initNewForm()" class="btn btn-danger m-2">
-                <span class="ms-3">إلغاء</span>
-            </button> -->
-        </div>
-        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
-            <i class="fas fa-times"></i>
-            <span class="ms-2">إلغاء</span>
+    <div class="modal-footer flex-nowrap gap-2">
+        <button [disabled]="showAddLoader" (click)="saveItem()" type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100" >
+            <i class="uil uil-save fs-3"></i>
+            <span *ngIf="!isUpdate">إضافة</span>
+            <span *ngIf="isUpdate">تعديل</span>        </button>
+
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="modal.close()">
+            <i class="uil uil-times-circle fs-3"></i>
+            <span>الغاء</span>
         </button>
     </div>
 </ng-template>
+
 <ng-template #ItemSuppliersDialog let-modal>
     <div class="modal-header">
         <div class="d-flex">

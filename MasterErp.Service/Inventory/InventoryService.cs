@@ -4,6 +4,7 @@ using MasterErp.Entities.Common.Inventory.ReceiveOrder;
 using MasterErp.Entities.Common.SQLTabeType;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Inventory;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Inventory;
 using MasterErp.Service.Common;
@@ -160,8 +161,8 @@ namespace MasterErp.Service.Inventory
                     order_tbl.DocNumber = string.Empty;
                     order_tbl.PurchaseOrderId = model.PurchaseOrderId;
                     order_tbl.TotalValue = model.OrderProducts.Sum(x => x.TotalValue); ;
-                    order_tbl.IsCancelled = false;
-                    order_tbl.IsLocked = false;
+                    //order_tbl.IsCancelled = false;
+                    //order_tbl.IsLocked = false;
                     order_tbl.Notes = model.Notes;
                     order_tbl.SupplierId = (int)model.SupplierId;
                     order_tbl.StoreId = model.StoreId;
@@ -209,78 +210,166 @@ namespace MasterErp.Service.Inventory
                 };
             }
         }
-        public List<OrderModel> GetDeliveryOrdersSummary(FilterModel model)
+
+
+        #region Delivery Orders
+        public List<OrderModel> GetDeliveryOrders_Data(SearchFilterModel model , int? OrderId=null)
         {
-            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterItems);
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
-            SqlParameter[] Params = new SqlParameter[3];
+            SqlParameter[] Params = new SqlParameter[4];
 
-            Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
-            Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
-            Params[2] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            Params[2].Value = dt;
+            Params[0] = new SqlParameter("@OrderId", OrderId);
+            Params[1] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[2] = new SqlParameter("@PageSize", model.PageSize);
+            Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[3].Value = dt;
 
-            var result = SQLHelper.SQLQuery<OrderModel>("[Inventory].[SP_GetDeliveryOrdersSummary]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<OrderModel>("[Inventory].[SP_GetDeliveryOrders_Data]", ConnectionString, Params);
             return result;
         }
+        public OrderModel GetDeliveryOrderDetailsById(int OrderId)
+        {
+            return GetDeliveryOrders_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, OrderId)?.FirstOrDefault();
+        }
 
-        public ActionsResponseModel SaveNewDeliveryOrder(OrderModel model)
+        public List<OrderProductModel> GetDeliveryOrderProducts_Data(int OrderId)
+        {
+            var result = (from orderProduct in Context.DeliveryOrderDetails
+                          join item in Context.Items on orderProduct.ItemId equals item.ItemId
+                          join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
+                          from unit in jT2.DefaultIfEmpty()
+                          where (orderProduct.DeliveryOrderId == OrderId)
+                          select new OrderProductModel
+                          {
+                              ItemId = item.ItemId,
+                              ItemNameEN = item.NameEN,
+                              ItemNameAR = item.NameAR,
+                              Price = orderProduct.Price,
+                              Quantity = orderProduct.Quantity,
+                              TotalValue = orderProduct.TotalValue,
+                              UnitId = item.UnitId,
+                              UnitNameAR = unit.NameAR,
+                              UnitNameEN = unit.NameEN,
+                              OrderId = orderProduct.DeliveryOrderId,
+
+                          }).ToList();
+
+            return result;
+
+        }
+        public ActionsResponseModel AddNewDeliveryOrder(OrderModel model)
         {
             try
             {
-                ReceiveOrder order_tbl = new ReceiveOrder();
+                DeliveryOrder order_tbl = new DeliveryOrder();
 
-                order_tbl.ReceiveDate = DateTime.Now;
+                order_tbl.DeliveryDate = model.OrderDate;
                 order_tbl.CreatedDate = DateTime.Now;
-                order_tbl.OrderNumber = (Context.ReceiveOrders.Count() > 0 ? Context.ReceiveOrders.Max(x => x.OrderNumber) + 1 : 1);
-                order_tbl.DocNumber = string.Empty;
-                order_tbl.CreatedBy = string.Empty;
-                order_tbl.PurchaseOrderId = model.PurchaseOrderId;
-                order_tbl.TotalValue = model.TotalValue;
+                order_tbl.CreatedBy =model.CreatedBy;
+                order_tbl.OrderNumber = (Context.DeliveryOrders.Count() > 0 ? Context.DeliveryOrders.Max(x => x.OrderNumber) + 1 : 1);
+                order_tbl.DocNumber = model.DocNumber;
+                order_tbl.TotalValue = model.OrderProducts.Sum(x => x.TotalValue);
                 order_tbl.IsCancelled = false;
                 order_tbl.IsLocked = false;
                 order_tbl.Notes = model.Notes;
-                order_tbl.SupplierId = (int)model.SupplierId;
-                order_tbl.StoreId = model.StoreId;
+                order_tbl.BranchId = (int)model.BranchId;
+                order_tbl.StoreId = (int)model.StoreId;
 
-                Context.ReceiveOrders.Add(order_tbl);
+                Context.DeliveryOrders.Add(order_tbl);
                 Context.SaveChanges();
 
                 foreach (OrderProductModel item in model.OrderProducts)
                 {
-                    var detail = new ReceiveOrderDetails
+                    var detail = new DeliveryOrderDetails
                     {
                         Price = item.Price,
                         ItemId = item.ItemId,
                         Quantity = item.Quantity,
                         TotalValue = item.TotalValue,
-                        ReceiveOrderId = order_tbl.ReceiveOrderId,
+                        DeliveryOrderId = order_tbl.DeliveryOrderId,
                         UnitId = item.UnitId,
-                        RemainQuantity = 0,
-                        ItemBalance = 0,
-                        IsLocked = false,
-                        Notes = model.Notes,
-
+                        Notes = model.Notes
                     };
 
-                    Context.ReceiveOrderDetails.Add(detail);
+                    Context.DeliveryOrderDetails.Add(detail);
                     Context.SaveChanges();
                 }
                 return new ActionsResponseModel
                 {
-                    Status = 1,
-                    Message = "Purchase Order Created"
+                    Message = "Delivery Order Created" ,
+                    Id= order_tbl.DeliveryOrderId ,
+                    Number = order_tbl.OrderNumber.ToString(),
                 };
             }
             catch (Exception ex)
             {
                 return new ActionsResponseModel
                 {
-                    Status = 0,
+                    IsSuccess = false,
                     Message = ex.Message
                 };
             }
         }
+        public ActionsResponseModel EditDeliveryOrder(int OrderId, OrderModel model)
+        {
+            try
+            {
+                var order_tbl = Context.DeliveryOrders.Where(i => i.DeliveryOrderId == OrderId).FirstOrDefault();
+                if (order_tbl != null)
+                {
+                    order_tbl.DeliveryDate = model.OrderDate;
+                    order_tbl.DocNumber = model.DocNumber;
+                    order_tbl.TotalValue = model.OrderProducts.Sum(x => x.TotalValue);
+                    order_tbl.IsCancelled = model.IsCancelled;
+                    order_tbl.IsLocked = model.IsLocked;
+                    order_tbl.Notes = model.Notes;
+                    order_tbl.BranchId = (int)model.BranchId;
+                    order_tbl.StoreId = (int)model.StoreId;
+                    order_tbl.ModifiedBy = model.ModifiedBy;
+                    order_tbl.ModifiedDate = DateTime.Now;
+
+                    Context.SaveChanges();
+
+                    var DeliveryOrderDetails = Context.DeliveryOrderDetails.Where(x => x.DeliveryOrderId == OrderId).ToList();
+                    Context.DeliveryOrderDetails.RemoveRange(DeliveryOrderDetails);
+                    Context.SaveChanges();
+
+                    foreach (OrderProductModel item in model.OrderProducts)
+                    {
+                        var detail = new DeliveryOrderDetails
+                        {
+                            Price = item.Price,
+                            ItemId = item.ItemId,
+                            Quantity = item.Quantity,
+                            TotalValue = item.TotalValue,
+                            DeliveryOrderId = order_tbl.DeliveryOrderId,
+                            UnitId = item.UnitId,
+                            Notes = model.Notes
+                        };
+
+                        Context.DeliveryOrderDetails.Add(detail);
+                        Context.SaveChanges();
+                    }
+
+                    return new ActionsResponseModel { Message = "Delivery Order Updated Successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this delivery order" };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+
+        #endregion
 
         public List<OrderModel> GetOrdersSearchData(int SupplierId, string OrderNumber, string OrderDate, int OrderId = 0)
         {

@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Models.HR;
 using MasterErp.Entities.Models.HR.Employee;
+using MasterErp.Entities.Models.Inventory;
 using MasterErp.Entities.Models.Lookups;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -91,6 +92,10 @@ namespace MasterErp.Entities.Models
         public DbSet<PurchaseInvoiceType> PurchaseInvoiceTypes { get; set; }
         public DbSet<ReceiveOrder> ReceiveOrders { get; set; }
         public DbSet<ReceiveOrderDetails> ReceiveOrderDetails { get; set; }
+
+        public DbSet<DeliveryOrder> DeliveryOrders { get; set; }
+        public DbSet<DeliveryOrderDetails> DeliveryOrderDetails { get; set; }
+
         public DbSet<Customer> Customers { get; set; }
         public DbSet<PaymentReceipt> PaymentReceipt { get; set; }
         public DbSet<ReceiveReceipt> ReceiveReceipt { get; set; }

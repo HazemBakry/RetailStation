@@ -6,6 +6,8 @@ import { HrService } from 'src/app/components/HR/services/hr.service';
 import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { InventoryService } from '../../services/inventory.service';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { OrderModel } from '../../models/inventory';
 
 @Component({
   selector: 'app-inventory-home',
@@ -30,7 +32,14 @@ export class InventoryHomeComponent implements OnInit {
     currentPage: 1,
     pageSize: 25
   };
+  pagedResponseModel:PagedResponseDTO<OrderModel[]>={
+    results:[],
+    filterList:[],
+    pageSize: 25,
+    currentPage:1,
+    searchText:''
 
+  };
   constructor(private modalService: NgbModal,
     private inventoryService: InventoryService,
     private purchaseService: PurchaseService,
@@ -67,7 +76,7 @@ export class InventoryHomeComponent implements OnInit {
 
   getTopDeliveryOrders() {
     this.showLoader = true;
-    this.inventoryService.GetDeliveryOrdersSummary(this.FilterModel).subscribe(data => {
+    this.inventoryService.GetDeliveryOrders_Data(this.pagedResponseModel).subscribe(data => {
       this.deliveryOrders = data.results;
       this.showLoader = false;
     }, err => {

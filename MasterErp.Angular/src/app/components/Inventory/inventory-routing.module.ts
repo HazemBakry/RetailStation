@@ -11,6 +11,7 @@ import { AddReceiveOrderComponent } from './components/add-receive-order/add-rec
 import { AddPurchasesRequestComponent } from './components/add-purchase-request/add-purchases-request.component';
 import { ReceiveOrdersComponent } from './components/receive-orders/receive-orders.component';
 import { DeliveryOrdersComponent } from './components/delivery-orders/delivery-orders.component';
+import { AddDeliveryOrderComponent } from './components/add-delivery-order/add-delivery-order.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
       { path: 'home', component: InventoryHomeComponent },
       { path: 'receive-orders', component: ReceiveOrdersComponent },
       { path: 'delivery-orders', component: DeliveryOrdersComponent },
+      { path: 'add-delivery-order', component: AddDeliveryOrderComponent },
       { path: 'add-receive-order', component: AddReceiveOrderComponent },
       { path: 'add-item', component: AddItemComponent },
       { path: 'items', component: ItemsComponent },
