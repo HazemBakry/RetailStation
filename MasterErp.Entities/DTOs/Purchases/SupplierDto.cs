@@ -26,7 +26,7 @@ namespace MasterErp.Entities.DTOs.Purchases
         public string CommercialRegister { get; set; }
         public string TaxNumber { get; set; }
         public double? BeginningBalance { get; set; }
-        public BalanceType? BalanceTypeId { get; set; }
+        //public BalanceType? BalanceTypeId { get; set; }
         public string BalanceType { get; set; }
         public int? SupplierGroupId { get; set; }
         public string SupplierGroupName { get; set; }

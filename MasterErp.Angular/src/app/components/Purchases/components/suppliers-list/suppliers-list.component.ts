@@ -15,6 +15,7 @@ export class SuppliersListComponent implements OnInit {
   TitleList = ['المشتريات', 'بيانات الموردين'];
   SupplierList: any[] = [];
   supplierItems: ItemModel[] = [];
+  SupplierId: any;
   showLoader: boolean;
   TotalCount: any;
   TotalPages: any;
@@ -26,11 +27,10 @@ export class SuppliersListComponent implements OnInit {
   constructor(private purchaseService: PurchaseService, private inventoryService: InventoryService, private modalService: NgbModal, private toaster: ToastrService, private offcanvasService: NgbOffcanvas) { }
 
   ngOnInit(): void {
-    this.GetSuppliersData();
+    this.getSuppliersData();
   }
 
-
-  GetSuppliersData() {
+  getSuppliersData() {
     this.showLoader = true;
     this.purchaseService.GetSuppliersData(this.FilterModel).subscribe(data => {
       this.SupplierList = data.results;
@@ -45,7 +45,7 @@ export class SuppliersListComponent implements OnInit {
 
   pageChanged(obj: any) {
     this.FilterModel.currentPage = obj.page;
-    this.GetSuppliersData();
+    this.getSuppliersData();
   }
 
   openItemsDialog(content: any, supplierId: number) {
@@ -63,6 +63,29 @@ export class SuppliersListComponent implements OnInit {
     this.inventoryService.GetItemsBySupplierId(supplierId).subscribe(data => {
       if (data && data.length > 0) {
         this.supplierItems = data;
+      }
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+
+  openDeleteModal(content: any, supplierId: number) {
+    this.SupplierId = supplierId;
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+
+  deleteSupplier() {
+    this.purchaseService.DeleteSupplier(this.SupplierId).subscribe(data => {
+      if (data?.isSuccess) {
+        this.modalService?.dismissAll();
+        this.getSuppliersData();
+        this.toaster.success(data?.message);
+      }
+      else {
+        this.toaster.error(data?.message);
       }
       this.showLoader = false;
     }, err => {

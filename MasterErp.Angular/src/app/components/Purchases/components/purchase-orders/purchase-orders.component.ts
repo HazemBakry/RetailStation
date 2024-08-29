@@ -2,7 +2,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
-import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { OrderModel } from 'src/app/components/Inventory/models/inventory';
 
 
 @Component({
@@ -12,55 +13,61 @@ import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 })
 
 export class PurchaseOrdersComponent implements OnInit {
-  PurchaseList: any[] = [];
+  TitleList = ['المشتريات', 'أوامر المشتريات'];
   showLoader: boolean;
   TotalCount: any;
   TotalPages: any;
-  FilterModel: FilterModel = {
+  pagedResponseModel: PagedResponseDTO<OrderModel[]> = {
+    results: [],
+    filterList: [],
+    pageSize: 25,
     currentPage: 1,
-    pageSize: 25
+    searchText: ''
   };
 
   constructor(private purchaseService: PurchaseService, private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.GetPurchasesOrdersData();
+    this.getPurchasesOrdersData();
   }
 
-  GetPurchasesOrdersData() {
+  getPurchasesOrdersData() {
     this.showLoader = true;
-    this.purchaseService.GetPurchasesOrdersData(this.FilterModel).subscribe(data => {
-      this.PurchaseList = data;
-      this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
-      this.showLoader = false;
-    }, (err) => {
-      this.showLoader = false;
-    }, () => {
-      this.showLoader = false;
-    })
+    this.purchaseService.GetPurchaseOrders_Data(this.pagedResponseModel).subscribe(data => {
+      this.pagedResponseModel.results=data.results;
+      this.pagedResponseModel.totalCount=data.totalCount;
+      this.showLoader=false;
+    },(err)=>{
+      this.showLoader=false;
+    },()=>{
+      this.showLoader=false;
+    });
   }
 
   pageChanged(obj: any) {
-    this.FilterModel.currentPage = obj.page;
-    this.GetPurchasesOrdersData();
+    this.pagedResponseModel.currentPage = obj.page;
+    this.getPurchasesOrdersData();
   }
 
-  CancelPurchaseOrder(orderId: number) {
+  cancelPurchaseOrder(orderId: number) {
     this.purchaseService.CancelPurchaseOrder(orderId).subscribe(data => {
       if (data) {
         this.toaster.success('تم الغاء الطلب بنجاح');
-        this.GetPurchasesOrdersData();
+        this.getPurchasesOrdersData();
       }
       else {
         this.toaster.error('حدث خطأ اثناء الألغاء');
-
       }
     }, (error) => {
       this.toaster.error('حدث خطأ اثناء الألغاء');
-
     })
+  }
 
-
+  getStatusColor(status: boolean) {
+    if (status == true)
+      return "locked";
+    else
+      return "open";
   }
 
 }

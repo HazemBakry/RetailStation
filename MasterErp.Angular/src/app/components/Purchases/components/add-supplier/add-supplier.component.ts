@@ -41,8 +41,8 @@ export class AddSupplierComponent implements OnInit {
   };
 
   balanceTypesSelectorData: FormDropdownModel[] = [
-    { value: BalanceType.Type1, name: BalanceType[BalanceType.Type1] },
-    { value: BalanceType.Type2, name: BalanceType[BalanceType.Type2] }
+    { value: BalanceType.Debit, name: BalanceType[BalanceType.Debit] },
+    { value: BalanceType.Credit, name: BalanceType[BalanceType.Credit] }
   ];
 
   constructor(private acRoute: ActivatedRoute, private router: Router, private modalService: NgbModal,
@@ -101,7 +101,7 @@ export class AddSupplierComponent implements OnInit {
       commercialRegister: [null],
       taxNumber: [null],
       beginningBalance: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
-      balanceTypeId: [0, [Validators.required]],
+      balanceType: [null, [Validators.required]],
       supplierGroupId: [null, [Validators.required]],
       contactPerson: [null],
       contactMobile: [null],
@@ -216,7 +216,7 @@ export class AddSupplierComponent implements OnInit {
       commercialRegister: supplierModel.commercialRegister,
       taxNumber: supplierModel.taxNumber,
       beginningBalance: supplierModel.beginningBalance,
-      balanceTypeId: BalanceType[supplierModel.balanceType],
+      balanceType: supplierModel.balanceType,
       supplierGroupId: supplierModel.supplierGroupId,
       contactPerson: supplierModel.contactPerson,
       contactMobile: supplierModel.contactMobile,
@@ -240,7 +240,7 @@ export class AddSupplierComponent implements OnInit {
     commercialRegister: '',
     taxNumber: '',
     beginningBalance: '',
-    balanceTypeId: '',
+    balanceType: '',
     supplierGroupId: '',
     contactPerson: '',
     contactMobile: '',

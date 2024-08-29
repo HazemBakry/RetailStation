@@ -86,14 +86,9 @@ export class PurchaseService {
   CreateNewPurchaseOrder(model: PurchaseOrderModel) {
     return this.http.post<any>(this.URL + 'PurchaseOrder/CreateNewPurchaseOrder', model);
   }
-  GetPurchasesOrdersData(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'PurchaseOrder/GetPurchasesOrdersData', model);
-  }
-
   CancelPurchaseOrder(orderId: number) {
     return this.http.get<any[]>(this.URL + 'PurchaseOrder/CancelPurchaseOrder?OrderId=' + orderId);
   }
-
   //--------------------------------------- Suppliers ---------------------------------------
 
   GetSuppliersData(model: FilterModel) {
@@ -117,7 +112,7 @@ export class PurchaseService {
   }
 
   DeleteSupplier(supplierId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'Supplier/DeleteSupplier?SupplierId=' + supplierId);
+    return this.http.get<ActionsResponseModel>(this.URL + 'Suppliers/DeleteSupplier?SupplierId=' + supplierId);
   }
 
   //--------------------------------------- Branches -----------------------------------------

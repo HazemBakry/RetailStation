@@ -1,5 +1,4 @@
-export enum BalanceType
-{
-    Type1=1,
-    Type2
+export enum BalanceType {
+    Debit = 'Debit',
+    Credit = 'Credit'
 }

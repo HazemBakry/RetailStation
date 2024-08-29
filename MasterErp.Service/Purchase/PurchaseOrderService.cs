@@ -26,72 +26,58 @@ namespace MasterErp.Service.Purchase
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
         private readonly IJournalEntryService JournalEntryService;
+        private readonly string ConnectionString;
 
-        private string ConnectionString
+        public PurchaseOrderService(DBContext Context, 
+            ISQLHelper SQLHelper, 
+            IConfiguration Configuration, 
+            IJournalEntryService JournalEntryService)
         {
-            get
-            {
-                return Configuration.GetConnectionString("DBConnection");
-            }
+            this.Context = Context;
+            this.SQLHelper = SQLHelper;
+            this.Configuration = Configuration;
+            this.JournalEntryService = JournalEntryService;
+            this.ConnectionString  = Configuration.GetConnectionString("DBConnection");
         }
 
-        public PurchaseOrderService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration, IJournalEntryService _journalEntryService)
+        public List<OrderModel> GetPurchaseOrders_Data(SearchFilterModel PagingFilter, int? OrderId = null)
         {
-            Context = dBContext;
-            SQLHelper = iSQLHelper;
-            Configuration = _configuration;
-            JournalEntryService = _journalEntryService;
-        }
-        public List<OrderModel> GetPurchaseOrders_Data(SearchFilterModel PagingFilter,int? OrderId=null)
-        {
-            var FilterList = PagingFilter?.FilterList?.Select(f=>new FilterList_TableType {ItemKey=string.Empty ,CategoryName = f.CategoryName ,ItemValue=f.ItemFlag}).ToList();
+            var FilterList = PagingFilter?.FilterList?.Select(f => new FilterList_TableType { ItemKey = string.Empty, CategoryName = f.CategoryName, ItemValue = f.ItemFlag }).ToList();
             SqlParameter[] param = new SqlParameter[4];
 
             param[0] = new SqlParameter("@OrderId", OrderId);
-            param[1] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            param[1].Value = FilterList.ToDataTable();
-            param[2] = new SqlParameter("@CurrentPage",PagingFilter.CurrentPage);
-            param[3] = new SqlParameter("@PageSize", PagingFilter.PageSize);
+            param[1] = new SqlParameter("@CurrentPage", PagingFilter.CurrentPage);
+            param[2] = new SqlParameter("@PageSize", PagingFilter.PageSize);
+            param[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[3].Value = FilterList.ToDataTable();
 
             var result = SQLHelper.SQLQuery<OrderModel>("[dbo].[SP_GetPurchaseOrders_Data]", ConnectionString, param);
             return result;
-
         }
+
         public List<OrderProductModel> GetPurchaseOrderProducts_Data(int OrderId)
         {
-                var result = (from orderProduct in Context.PurchaseOrderDetails
-                            join item in Context.Items on orderProduct.ItemId equals item.ItemId
-                            join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
-                            from unit in jT2.DefaultIfEmpty()
-                            where (orderProduct.PurchaseOrderId == OrderId)
-                            select new OrderProductModel
-                            {
-                                ItemId = item.ItemId,
-                                ItemNameEN = item.NameEN,
-                                ItemNameAR = item.NameAR,
-                                Price = orderProduct.Price,
-                                Quantity = orderProduct.Quantity,
-                                TotalValue = orderProduct.TotalValue,
-                                UnitId = item.UnitId,
-                                UnitNameAR = unit.NameAR,
-                                UnitNameEN = unit.NameEN,
-                                OrderId = orderProduct.PurchaseOrderId,
-                                PurchaseOrderId = orderProduct.PurchaseOrderId,
-                                
-                            }).ToList();
+            var result = (from orderProduct in Context.PurchaseOrderDetails
+                          join item in Context.Items on orderProduct.ItemId equals item.ItemId
+                          join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
+                          from unit in jT2.DefaultIfEmpty()
+                          where (orderProduct.PurchaseOrderId == OrderId)
+                          select new OrderProductModel
+                          {
+                              ItemId = item.ItemId,
+                              ItemNameEN = item.NameEN,
+                              ItemNameAR = item.NameAR,
+                              Price = orderProduct.Price,
+                              Quantity = orderProduct.Quantity,
+                              TotalValue = orderProduct.TotalValue,
+                              UnitId = item.UnitId,
+                              UnitNameAR = unit.NameAR,
+                              UnitNameEN = unit.NameEN,
+                              OrderId = orderProduct.PurchaseOrderId,
+                              PurchaseOrderId = orderProduct.PurchaseOrderId,
 
-            return result;
+                          }).ToList();
 
-        }
-
-        public DataTable GetPurchasesOrdersData(FilterModel model)
-        {
-            SqlParameter[] param = new SqlParameter[2];
-
-            param[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
-            param[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
-
-            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetPurchasesOrdersData]", ConnectionString, param);
             return result;
 
         }

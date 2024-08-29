@@ -1,79 +1,64 @@
-<div class="boxstyle1">
-    <div class="boxstyle1-header bg-light">
-        <div class="boxstyle1-header-left mb-3">
-            <button class="btn btn-primary" routerLink="/purchases/add-purchase-order">
-                <i class="fas fa-plus-circle"></i>
-                <span class="ms-2">انشاء أمر</span>
-            </button>
-        </div>
-    </div>
-    <div class="card radius-10 border-0 card-shadow">
-        <div class="card-body">
-            <div class="main-card-action pb-3">
-                <div class="row">
-                    <div class="col-md-8">
-                        <!-- <div class="col-md-12">
-                            <div class="d-flex align-items-center flex-wrap">
-                                <ng-container *ngIf="filterList.length > 0">
-                                    <app-pos-filters [FilterList]="filterList"
-                                        (filterChanged)="filterChecked($event)"></app-pos-filters>
-                                </ng-container>
-                            </div>
-                        </div> -->
-                    </div>
-                    <div class="col-md-4">
-                        <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="FilterModel.currentPage" [pageSize]="FilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="TotalPages"></app-erp-pagination>
-                    </div>
-                </div>
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="container-fluid pt-2">
+    <div class="card card-with-table border shadow-none">
+        <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2" routerLink="/purchases/add-purchase-order">
+                    <i class="uil uil-plus fs-5"></i>
+                    <span>انشاء فاتورة</span>
+                </button>
             </div>
-            <table class="table table-bordered table-middle table-hover m-0 bg-white bigtitle">
+            <div class="col-md-4">
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+            </div>
+        </div>
+        <div class="card-body table-responsive">
+            <table class="table table-borderless align-middle table-hover table-component m-0 p-3">
                 <thead>
                     <tr>
-                        <th>رقم الأمر</th>
-                        <th>تاريخ الأمر</th>
+                        <th>رقم الفاتورة</th>
+                        <th>الرقم الدفترى</th>
+                        <th>تاريخ الفاتورة</th>
+                        <th>اسم المورد</th>
+                        <th>نوع الفاتورة</th>
                         <th>القيمة الإجمالية</th>
-                        <th>مغلق</th>
-                        <th>ملغى</th>
-                        <th>عمليات</th>
+                        <th>حالة الفاتورة</th>
+                        <th class="text-center"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of PurchaseList">
+                    <tr *ngFor="let item of pagedResponseModel.results">
                         <td>{{item.orderNumber}}</td>
+                        <td>{{item.docNumber}}</td>
                         <td>{{item.orderDate | date}}</td>
+                        <td>{{item.supplierNameAR}}</td>
+                        <td>{{item.orderTypeName}}</td>
                         <td>{{item.totalValue}}</td>
-                        <!-- <td>{{item.insertUser}}</td>
-                        <td>{{item.insertDate | date}}</td> -->
-                        <td>{{item.isLocked}}</td>
-                        <td>{{item.isCancelled}}</td>
+                        <td>
+                            <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
+                                {{item.orderStatus}}
+                            </span>
+                        </td>
                         <td>
                             <div class="w-100 d-flex align-items-center justify-content-center">
-                                <button class="btn btn-danger me-2" (click)="CancelPurchaseOrder(item.purchaseOrderID)">
-                                    <i class="fas fa-times"></i>
-                                    <span class="ms-2">الغاء</span>
+                                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="open(formModal)">
+                                    <i class="uil uil-pen"></i>
+                                    <span>تعديل</span>
                                 </button>
-                                <!-- <button class="btn btn-secondary me-2">
-                                    <i class="far fa-eye"></i>
-                                    <span class="ms-2">Lock Order</span>
+                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="CancelPurchaseInvoice(item.orderId)">
+                                    <i class="uil uil-trash-alt"></i>
+                                    <span>حذف</span>
                                 </button>
-                                <button class="btn btn-primary me-2">
-                                    <i class="fas fa-edit"></i>
-                                    <span class="ms-2">Edit</span>
-                                </button> -->
-                                <!-- <button class="btn btn-secondary">
-                                    <i class="far fa-eye"></i>
-                                    <span class="ms-2">تفاصيل</span>
-                                </button> -->
+
+                                <!-- <app-invoice-details-sidepanel [invoiceId]="item.orderId"></app-invoice-details-sidepanel> -->
                             </div>
                         </td>
                     </tr>
                 </tbody>
 
             </table>
+            <!-- <app-empty-data [showContainer]="!pagedResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data> -->
         </div>
-        <app-empty-data [showContainer]="!PurchaseList?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
-
     </div>
 </div>
-
-<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->

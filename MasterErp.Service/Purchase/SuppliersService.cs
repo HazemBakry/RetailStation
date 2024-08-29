@@ -100,7 +100,7 @@ namespace MasterErp.Service.Purchase
                 supplier.CommercialRegister = model.CommercialRegister;
                 supplier.TaxNumber = model.TaxNumber;
                 supplier.BeginningBalance = model.BeginningBalance;
-                supplier.BalanceType = model.BalanceTypeId != null ? model.BalanceTypeId.ToString() : string.Empty;
+                supplier.BalanceType = model.BalanceType; //model.BalanceTypeId != null ? model.BalanceTypeId.ToString() : string.Empty;
                 supplier.SupplierGroupId = model.SupplierGroupId;
                 supplier.ContactPerson = model.ContactPerson;
                 supplier.ContactMobile = model.ContactMobile;
@@ -139,7 +139,7 @@ namespace MasterErp.Service.Purchase
                     supplier.CommercialRegister = model.CommercialRegister;
                     supplier.TaxNumber = model.TaxNumber;
                     supplier.BeginningBalance = model.BeginningBalance;
-                    supplier.BalanceType = model.BalanceTypeId != null ? model.BalanceTypeId.ToString() : string.Empty;
+                    supplier.BalanceType = model.BalanceType; //model.BalanceTypeId != null ? model.BalanceTypeId.ToString() : string.Empty;
                     supplier.SupplierGroupId = model.SupplierGroupId;
                     supplier.ContactPerson = model.ContactPerson;
                     supplier.ContactMobile = model.ContactMobile;
@@ -166,6 +166,7 @@ namespace MasterErp.Service.Purchase
             try
             {
                 var supplier = Context.Suppliers.FirstOrDefault(i => i.SupplierId == SupplierId);
+                var purchaseCount = Context.PurchaseInvoices.Where(x => x.SupplierId == SupplierId).ToList().Count();
                 if (supplier != null)
                 {
                     Context.Remove(supplier);
