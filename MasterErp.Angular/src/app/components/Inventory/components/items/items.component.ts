@@ -222,7 +222,7 @@ export class ItemsComponent implements OnInit {
       this.showAddLoader = false;
     });
   }
-  changeItemStatus(ItemId: any) {
+  changeItemStatus(ItemId: number) {
     this.inventoryService.ChangeItemActiveStatus(ItemId).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message);

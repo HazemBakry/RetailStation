@@ -57,8 +57,8 @@
                                 <!-- <td>
                             <img class="table-img" height="100" width="100" src="{{category.image}}" (error)="$event.target.src = DefaultImage">
                         </td> -->
-                                <td>{{ category.nameEN }}</td>
-                                <td>{{ category.nameAR }}</td>
+                        <td>{{ category.nameAR }}</td>
+                        <td>{{ category.nameEN }}</td>
                                 <td>{{ category.operationAccountName}}</td>
                                 <td>{{ category.managementAccountName}}</td>
                                 <td>
@@ -134,9 +134,9 @@
                             </tr>
                           
                             <tr>
-                                <td class="table-feature">Operation Account</td>
+                                <td class="table-feature">حساب التشغيل</td>
                                 <td class="table-value">
-                                    <app-drop-down-form-control formControlName="operationAccountId" [placeholder]="'Operation Account'" [showSearch]="true" [data]="childAccountSelectorData"></app-drop-down-form-control>
+                                    <app-drop-down-form-control formControlName="operationAccountId" [placeholder]="'حساب التشغيل'" [showSearch]="true" [data]="childAccountSelectorData"></app-drop-down-form-control>
                                     <div *ngIf="formErrors.operationAccountId" class="text-danger  font-small-3 m-03">
                                         {{formErrors.operationAccountId}}
                                     </div>
@@ -144,9 +144,9 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="table-feature">Management Account</td>
+                                <td class="table-feature">حساب الإدارة</td>
                                 <td class="table-value">
-                                    <app-drop-down-form-control formControlName="managementAccountId" [showSearch]="true" [placeholder]="'Management Account'" [data]="childAccountSelectorData"></app-drop-down-form-control>
+                                    <app-drop-down-form-control formControlName="managementAccountId" [showSearch]="true" [placeholder]="'حساب الإدارة'" [data]="childAccountSelectorData"></app-drop-down-form-control>
                             <div *ngIf="formErrors.managementAccountId" class="text-danger  font-small-3 m-03">
                                 {{formErrors.managementAccountId}}
                             </div>
