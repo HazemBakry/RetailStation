@@ -48,10 +48,10 @@
                         </td>
                         <td>
                             <div class="w-100 d-flex align-items-center justify-content-center">
-                                <!-- <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="open(formModal)">
-                                        <i class="uil uil-pen"></i>
-                                        <span>تعديل</span>
-                                    </button> -->
+                                <button routerLink="/purchases/add-purchase-invoice" [queryParams]="{InvoiceId:item.orderId}" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2" >
+                                    <i class="uil uil-pen"></i>
+                                    <span>تعديل</span>
+                                </button>
                                 <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="CancelPurchaseInvoice(item.orderId)">
                                     <i class="uil uil-trash-alt"></i>
                                     <span>حذف</span>
