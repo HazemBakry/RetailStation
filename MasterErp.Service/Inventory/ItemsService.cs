@@ -330,33 +330,25 @@ namespace MasterErp.Service.Inventory
             var result = SQLHelper.SQLQuery<OrderProductModel>("[dbo].[SP_GetItemsByLookupId]", ConnectionString, param);
             return result;
         }
-        public ActionsResponseModel ChangeItemStatus(int ItemId)
+        public ActionsResponseModel ChangeItemActiveStatus(int ItemId)
         {
             try
             {
                 var item = Context.Items.Where(a => a.ItemId == ItemId).FirstOrDefault();
 
-                if (item.IsActive)
-                {
-                    item.IsActive = false;
-                }
-                else
-                {
-                    item.IsActive = true;
-                }
+                item.IsActive=!item.IsActive;
                 Context.SaveChanges();
 
                 return new ActionsResponseModel
                 {
-                    Status = 1,
-                    Message = "تم حفظ البيانات بنجاح"
+                    Message = "تم حفظ تغير الحاله بنجاح"
                 };
             }
             catch (Exception ex)
             {
                 return new ActionsResponseModel
                 {
-                    Status = 0,
+                    IsSuccess = false,
                     Message = ex.InnerException?.Message ?? ex.Message
                 };
             }

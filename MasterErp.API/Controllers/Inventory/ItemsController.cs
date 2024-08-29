@@ -76,7 +76,12 @@ namespace MasterErp.API.Controllers.Inventory
             var results = _itemService.DeleteItem(ItemId);
             return Ok(results);
         }
-
+        [HttpGet]
+        [Route("ChangeItemActiveStatus")]
+        public ActionsResponseModel ChangeItemStatus(int ItemId)
+        {
+            return _itemService.ChangeItemActiveStatus(ItemId);
+        }
         [HttpPost]
         [Route("ExportItems")]
         public IActionResult ExportItems(int categoryId, SearchFilterModel SearchModel)
@@ -257,12 +262,7 @@ namespace MasterErp.API.Controllers.Inventory
             return _itemService.DeleteUnit(UnitId);
         }
 
-        [HttpGet]
-        [Route("ChangeItemStatus")]
-        public ActionsResponseModel ChangeItemStatus(int ItemId)
-        {
-            return _itemService.ChangeItemStatus(ItemId);
-        }
+
 
 
 

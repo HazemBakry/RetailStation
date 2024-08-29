@@ -94,6 +94,12 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="d-flex align-items-center gap-2">
+                                        <label class="switch me-2">
+                                            <input type="checkbox" [(ngModel)]="item.isActive"
+                                                (change)="changeItemStatus(item.itemCategoryId)"
+                                                class="ng-valid ng-dirty ng-touched">
+                                            <span class="slider round"></span>
+                                        </label>
                                         <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="openNewItemSidePanel(AddNewItemDialog,item)">
                                             <i class="uil uil-pen"></i>
                                             <span>تعديل</span>

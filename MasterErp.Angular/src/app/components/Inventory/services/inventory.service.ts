@@ -58,7 +58,9 @@ export class InventoryService {
   DeleteItem(itemId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + `Items/DeleteItem?ItemId=${itemId}`);
   }
-
+  ChangeItemActiveStatus(ItemId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Items/ChangeItemActiveStatus?ItemId=' + ItemId);
+  }
 
   ExportItems(searchModel: PagedResponseDTO, categoryId: number) {
     return this.http.post<ActionsResponseModel>(this.URL + `Items/ExportItems?CategoryId=${categoryId} `, searchModel);
