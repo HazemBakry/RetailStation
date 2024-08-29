@@ -23,8 +23,13 @@ namespace MasterErp.Interface.Inventory
 
         ActionsResponseModel AddNewReceiveOrder(OrderModel model);
         ActionsResponseModel EditReceiveOrder(int OrderId,OrderModel model);
-        List<OrderModel> GetDeliveryOrdersSummary(FilterModel model);
-        ActionsResponseModel SaveNewDeliveryOrder(OrderModel model);
+        List<OrderModel> GetDeliveryOrders_Data(SearchFilterModel model, int? OrderId = null);
+        OrderModel GetDeliveryOrderDetailsById(int OrderId);
+
+        List<OrderProductModel> GetDeliveryOrderProducts_Data(int OrderId);
+
+        ActionsResponseModel AddNewDeliveryOrder(OrderModel model);
+        ActionsResponseModel EditDeliveryOrder(int OrderId, OrderModel model);
         List<OrderModel> GetOrdersSearchData(int SupplierId, string OrderNumber, string OrderDate,int OrderId=0);
     }
 }

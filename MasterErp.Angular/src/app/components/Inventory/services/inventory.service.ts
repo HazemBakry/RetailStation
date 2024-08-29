@@ -158,14 +158,26 @@ export class InventoryService {
     return this.http.get<any[]>(this.URL + 'Inventory/CancelReceiveOrder?=OrderId' + OrderId);
   }
 
-  GetDeliveryOrdersSummary(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'Inventory/GetDeliveryOrdersSummary', model);
+
+  /////////////////////////// Delivery Orders 
+  GetDeliveryOrders_Data(model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'Inventory/GetDeliveryOrders_Data', model);
   }
 
-  CreateNewDeliveryOrder(model: OrderModel) {
-    return this.http.post<any>(this.URL + 'Inventory/CreateNewDeliverOrder', model);
+
+  GetDeliveryOrderDetailsById(orderId: number) {
+    return this.http.get<OrderModel>(this.URL + `Inventory/GetDeliveryOrderDetailsById?OrderId=${orderId}`);
+  }
+  GetDeliveryOrderProducts_Data(orderId: number) {
+    return this.http.get<OrderProductModel[]>(this.URL + `Inventory/GetDeliveryOrderProducts_Data?OrderId=${orderId}`);
   }
 
+  AddNewDeliveryOrder(model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/AddNewDeliveryOrder', model);
+  }
+  EditDeliveryOrder(orderId:number,model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Inventory/EditDeliveryOrder?OrderId=${orderId}`, model);
+  }
   CancelDeliveryOrder(OrderId: number) {
     return this.http.get<any[]>(this.URL + 'Inventory/CancelDeliveryOrder?=OrderId' + OrderId);
   }

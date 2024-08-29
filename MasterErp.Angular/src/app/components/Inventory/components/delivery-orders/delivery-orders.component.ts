@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { InventoryService } from '../../services/inventory.service';
 import { ToastrService } from 'ngx-toastr';
-import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { OrderModel } from '../../models/inventory';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 
 
 
@@ -17,22 +18,26 @@ export class DeliveryOrdersComponent implements OnInit {
   showLoader: boolean;
   TotalCount: any;
   TotalPages: any;
-  FilterModel: FilterModel = {
-    currentPage: 1,
-    pageSize: 25
-  };
 
+  pagedResponseModel:PagedResponseDTO<OrderModel[]>={
+    results:[],
+    filterList:[],
+    pageSize: 25,
+    currentPage:1,
+    searchText:''
+
+  };
   constructor(private inventoryService: InventoryService, private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.getDeliveryOrdersSummary();
+    this.getDeliveryOrders_Data();
   }
 
-  getDeliveryOrdersSummary() {
+  getDeliveryOrders_Data() {
     this.showLoader = true;
-    this.inventoryService.GetDeliveryOrdersSummary(this.FilterModel).subscribe(data => {
-      this.OrderList = data.results;
-      this.TotalCount = data.totalCount;// && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
+    this.inventoryService.GetDeliveryOrders_Data(this.pagedResponseModel).subscribe(data => {
+      this.pagedResponseModel.results = data.results;
+      this.pagedResponseModel.totalCount = data.totalCount;
       this.showLoader = false;
     }, (err) => {
       this.showLoader = false;
@@ -42,15 +47,15 @@ export class DeliveryOrdersComponent implements OnInit {
   }
 
   pageChanged(obj: any) {
-    this.FilterModel.currentPage = obj.page;
-    this.getDeliveryOrdersSummary();
+    this.pagedResponseModel.currentPage = obj.page;
+    this.getDeliveryOrders_Data();
   }
 
   cancelDeliveryOrder(InvoiceId: number) {
     this.inventoryService.CancelDeliveryOrder(InvoiceId).subscribe(data => {
       if (data) {
         this.toaster.success('تم الغاء الطلب بنجاح');
-        this.getDeliveryOrdersSummary();
+        this.getDeliveryOrders_Data();
       }
       else {
         this.toaster.error('حدث خطأ اثناء الألغاء');

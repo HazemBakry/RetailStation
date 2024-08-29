@@ -85,10 +85,10 @@ namespace MasterErp.API.Controllers.Inventory
         }
 
         [HttpPost]
-        [Route("GetDeliveryOrdersSummary")]
-        public IActionResult GetDeliveryOrdersSummary(FilterModel model)
+        [Route("GetDeliveryOrders_Data")]
+        public IActionResult GetDeliveryOrders_Data(SearchFilterModel model)
         {
-            var data = _inventoryService.GetDeliveryOrdersSummary(model);
+            var data = _inventoryService.GetDeliveryOrders_Data(model);
             var result = new PagedResponseModel<OrderModel>
             {
                 Results = data,
@@ -99,13 +99,41 @@ namespace MasterErp.API.Controllers.Inventory
             return Ok(result);
         }
 
-        [HttpPost]
-        [Route("SaveNewDeliveryOrder")]
-        public IActionResult SaveNewDeliveryOrder(OrderModel model)
+        [HttpGet]
+        [Route("GetDeliveryOrderDetailsById")]
+        public IActionResult GetDeliveryOrderDetailsById(int OrderId)
         {
-            var result = _inventoryService.SaveNewDeliveryOrder(model);
+            var result = _inventoryService.GetDeliveryOrderDetailsById(OrderId);
+
             return Ok(result);
         }
+        [HttpGet]
+        [Route("GetDeliveryOrderProducts_Data")]
+        public IActionResult GetDeliveryOrderProducts_Data(int OrderId)
+        {
+            var result = _inventoryService.GetDeliveryOrderProducts_Data(OrderId);
+
+            return Ok(result);
+
+        }
+
+        [HttpPost]
+        [Route("AddNewDeliveryOrder")]
+        public IActionResult AddNewDeliveryOrder(OrderModel model)
+        {
+            var result = _inventoryService.AddNewDeliveryOrder(model);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("EditDeliveryOrder")]
+        public IActionResult EditDeliveryOrder(int OrderId, OrderModel model)
+        {
+            var result = _inventoryService.EditDeliveryOrder(OrderId, model);
+            return Ok(result);
+        }
+
+
 
         [HttpGet]
         [Route("GetOrdersSearchData")]
