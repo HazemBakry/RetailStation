@@ -5,26 +5,22 @@
     <div class="card-body bg-light">
 
         <form [formGroup]="formGroup" autocomplete="off">
-            <div class="employee-card-body row">
-                <div class="col-xl-3 mb-3">
+            <div class="employee-card-body row g-3">
+                <div class="col-xl-4">
 
                     <app-drop-down-form-control [showSearch]="true" formControlName="supplierId" [placeholder]="'الموردين'" [data]="suppliersSelectorData"></app-drop-down-form-control>
                     <div *ngIf="formErrors.supplierId" class="text-danger  font-small-3 m-03">
                         {{formErrors.supplierId}}
                     </div>
                 </div>
-                <div class="col-xl-1"></div>
-                <div class="col-xl-3  mb-3">
-
+                <div class="col-xl-4">
                     <app-drop-down-form-control [showSearch]="true" formControlName="storeId" [placeholder]="'المخازن'" [data]="inventoriesSelectorData"></app-drop-down-form-control>
                     <div *ngIf="formErrors.storeId" class="text-danger  font-small-3 m-03">
                         {{formErrors.storeId}}
                     </div>
-
                 </div>
-                <!-- <div class="col-xl-1"></div> -->
                 <ng-container *ngIf="!isUpdate">
-                    <div class="col-xl-2  mb-3">
+                    <div class="col-xl-2">
 
                         <div class="form-floating">
                             <input type="text" [value]="selectedPurchaseOrder?.orderNumber ?? ''" disabled class="form-control" id="floatingInput1" placeholder="any">
@@ -34,17 +30,14 @@
                             {{formErrors.purchaseOrderId}}
                         </div>
                     </div>
-                    <div class="col-xl-2 mb-3">
-
+                    <div class="col-xl-2">
                         <app-order-search-sidepanel (selectedOrder)="searchOrderSelected($event)"></app-order-search-sidepanel>
-
-
                     </div>
                 </ng-container>
 
-                <div class="col-xl-1"></div>
 
-                <div class="col-xl-10">
+                <div class="col-xl-12">
+                  <div class="w-75 mx-auto">
                     <div class="form-floating mb-3">
                         <textarea type="text" formControlName="notes" class="form-control" id="floatingInput10" placeholder="ملاحظات"></textarea>
                         <label for="floatingInput10">ملاحظات</label>
@@ -53,8 +46,7 @@
                             {{formErrors.notes}}
                         </div>
                     </div>
-
-
+                  </div>
                 </div>
             </div>
         </form>
