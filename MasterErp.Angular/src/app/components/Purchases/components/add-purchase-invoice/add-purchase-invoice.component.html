@@ -8,7 +8,7 @@
             <div class="employee-card-body row">
                 <div class="col-xl-4 mb-3">
 
-                    <app-drop-down-form-control formControlName="supplierId" [placeholder]="'الموردين'"
+                    <app-drop-down-form-control [disabled]="isUpdate" formControlName="supplierId" [placeholder]="'الموردين'"
                         [data]="suppliersSelectorData"
                         (valueChanged)="getSelectedSupplier($event)"></app-drop-down-form-control>
                     <div *ngIf="formErrors.supplierId" class="text-danger  font-small-3 m-03">
@@ -25,17 +25,17 @@
                     </div>
 
                 </div>
-                <div class="col-xl-3 mb-3">
+                <!-- <div class="col-xl-3 mb-3">
 
                     <button class="btn btn-secondary me-2" (click)="getSupplierItemsBySupplierId()">
                         <i class="fas fa-upload"></i>
                         <span class="ms-2">تحميل أصناف المورد</span>
                     </button>
 
-                </div>
+                </div> -->
                 <!-- <div class="col-xl-1"></div> -->
-                <!-- <ng-container *ngIf="!isUpdate">
-                    <div class="col-xl-2  mb-3">
+                <ng-container *ngIf="!isUpdate">
+                    <!-- <div class="col-xl-2  mb-3">
      
                         <div class="form-floating">
                             <input type="text" [value]="selectedReceiveOrder?.orderNumber ?? ''" disabled class="form-control" id="floatingInput1" placeholder="any">
@@ -44,15 +44,14 @@
                         <div *ngIf="formErrors.purchaseOrderId" class="text-danger  font-small-3 m-03">
                             {{formErrors.purchaseOrderId}}
                         </div>
-                    </div>
-                    <div class="col-xl-2 mb-3">
+                    </div> -->
+                    <div *ngIf="selectedSupplierId" class="col-xl-2 mb-3">
                       
-                        <app-order-search-sidepanel (selectedOrder)="searchOrderSelected($event)"></app-order-search-sidepanel>
-    
+                        <app-receive-orders-side-panel [selectedSupplierId]="selectedSupplierId" (selectedOrder)="searchOrderSelected($event)"></app-receive-orders-side-panel>
          
                     </div>
                  </ng-container>
-                 -->
+                
 
                 <div class="col-xl-4 mb-3">
 
@@ -121,6 +120,7 @@
         </form>
 
         <app-general-order-products [selectedProducts]="orderProducts" [clearAllProducts]="clearAllProducts"
+                [showEditQuantity]="false" [showAddNew]="false"
             (selectedProductsList)="getSelectedProductsList($event)"></app-general-order-products>
         <!-- <app-order-products [selectedSupplierProducts]="ItemsBySupplier" [clearAllProducts]="clearAllProducts" (selectedProductsList)="getSelectedProductsList($event)"></app-order-products> -->
 

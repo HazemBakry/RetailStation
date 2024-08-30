@@ -10,6 +10,7 @@ export interface InventoryModel {
 export interface OrderModel extends CreatorModel {
     orderId: number | null;
     secondaryOrderId: number | null;
+    secondaryOrderIds: number[] | [];
     orderNumber: number;
     docNumber: string;
     orderDate: string;
@@ -41,6 +42,7 @@ export interface OrderModel extends CreatorModel {
     purchaseOrderId: number | null;
     orderProducts: OrderProductModel[];
     items: OrderProductModel[];
+    isChecked: boolean;
 }
 
 export interface OrderProductModel {

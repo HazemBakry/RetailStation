@@ -36,7 +36,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   formData: FormData = new FormData();
   public formGroup: FormGroup;
 
-  selectedReceiveOrder: OrderModel = {} as OrderModel;
+  selectedReceiveOrder: OrderModel [] = [];
   selectedSupplierId: number ;
 
   constructor(private acRoute: ActivatedRoute, private router: Router, private modalService: NgbModal, private inventoryService: InventoryService,
@@ -91,7 +91,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
       this.showLoader = false;
     });
   }
-  searchOrderSelected(ord:OrderModel) {
+  searchOrderSelected(ord:OrderModel[]) {
     this.selectedReceiveOrder= ord;
     this.getReceiveOrderProducts();
   }
@@ -100,11 +100,16 @@ export class AddPurchaseInvoiceComponent implements OnInit {
     this.orderProducts = products;
   }
   getReceiveOrderProducts() {
+    var orderIds:number[]=[];
+    this.selectedReceiveOrder.forEach(ord=>{
+      if(!orderIds.some(x=>x==ord.orderId))
+        orderIds.push(ord.orderId);
+    });
     this.showLoader = true;
-    this.inventoryService.GetReceiveOrderProducts_Data(this.selectedReceiveOrder.orderId).subscribe((data: OrderProductModel[]) => {
+    this.inventoryService.GetReceiveOrderProducts_Data(orderIds).subscribe((data: OrderProductModel[]) => {
       if (data) {
         this.orderProducts = data;
-        this.formGroup.patchValue({secondaryOrderId:this.selectedReceiveOrder.orderId});
+        this.formGroup.patchValue({secondaryOrderIds:orderIds});
       }
       this.showLoader = false;
     }, err => {
@@ -115,7 +120,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   }
 
   initNewForm(orderModel: OrderModel = null) {
-    this.selectedReceiveOrder = {} as OrderModel;
+    this.selectedReceiveOrder = [];
     this.orderProducts=[];
     this.clearAllProducts=!this.clearAllProducts;
     this.isUpdate = false;
@@ -133,7 +138,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
       dueDate: [null, [Validators.required]],
       orderTypeId: [null, [Validators.required]],
       supplierId: [null, [Validators.required]],
-      secondaryOrderId: [null],
+      secondaryOrderIds: [[],[Validators.required]],
       orderProducts: [[] as OrderProductModel[], [Validators.required,Validators.minLength(1)]],
       notes: [null],
 
@@ -259,7 +264,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
       docNumber: orderModel.docNumber,
       orderNumber: orderModel.orderNumber,
       orderTypeId: orderModel.orderTypeId,
-      secondaryOrderId: orderModel.secondaryOrderId,
+      secondaryOrderIds: orderModel.secondaryOrderIds,
     });
   }
 
@@ -291,7 +296,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
     orderNumber: '',
     orderDate: '',
     orderTypeId: '',
-    secondaryOrderId: '',
+    secondaryOrderIds: '',
   };
   
 

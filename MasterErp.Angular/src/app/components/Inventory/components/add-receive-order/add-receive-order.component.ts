@@ -75,7 +75,7 @@ export class AddReceiveOrderComponent implements OnInit {
   }
   getReceiveOrderProducts() {
     this.showLoader = true;
-    this.inventoryService.GetReceiveOrderProducts_Data(this.receiveOrderId).subscribe((data: OrderProductModel[]) => {
+    this.inventoryService.GetReceiveOrderProducts_Data([this.receiveOrderId]).subscribe((data: OrderProductModel[]) => {
       this.orderProducts = data;
       if (this.orderProducts.length>0) {
         // this.formGroup.patchValue({orderProducts:this.orderProducts});
