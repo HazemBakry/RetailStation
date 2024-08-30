@@ -58,7 +58,7 @@
       </nav>
     </div>
     <div class="card-body table-responsive p-0">
-      <table class="table table-borderless align-middle table-hover table-component m-0">
+      <table class="table table-borderless align-middle table-hover table-component text-center m-0">
         <thead>
           <tr>
             <th>Order Number</th>
@@ -72,7 +72,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of pagerResponseResponse.results">
-            <td class="text-center">{{item.orderNumber}}</td>
+            <td>{{item.orderNumber}}</td>
             <td>{{item.orderDate | date}}</td>
             <td>{{item.totalValue}}</td>
             <td>{{item.supplierNameAR}}</td>
