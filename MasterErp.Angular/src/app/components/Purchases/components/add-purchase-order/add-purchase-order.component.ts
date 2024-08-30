@@ -6,6 +6,9 @@ import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/Creat
 import { PurchaseOrderModel } from '../../models/PurchaseOrder';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
+import { OrderProductModel } from 'src/app/components/Inventory/models/inventory';
+import { ItemModel } from 'src/app/components/Inventory/models/Item';
 
 @Component({
   selector: 'app-add-purchase-order',
@@ -17,6 +20,7 @@ export class AddPurchaseOrderComponent implements OnInit {
   SuppliersList: any[] = [];
   BranchesList: any[] = [];
   ProductsList: any[] = [];
+  orderProducts : OrderProductModel[]=[];
   notes: any;
   BranchId: any;
   SupplierId: any;
@@ -25,6 +29,7 @@ export class AddPurchaseOrderComponent implements OnInit {
   BranchName = 'الفروع';
   SupplierName = 'الموردين';
   clearAllProducts: boolean = false;
+  showLoader: boolean = false;
   FilterModel: FilterModel = {
     currentPage: 1,
     pageSize: 25
@@ -32,44 +37,87 @@ export class AddPurchaseOrderComponent implements OnInit {
 
   constructor(private purchaseService: PurchaseService,
     private inventoryService: InventoryService,
+    private sharedService: SharedService,
     private modalService: NgbModal,
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.GetBranchesData();
-    this.GetSuppliersData();
+    this.getBranchesData();
+    this.getSuppliersData();
   }
 
-  GetSuppliersData() {
-    this.purchaseService.GetSuppliersData(this.FilterModel).subscribe(data => {
+  getSuppliersData() {
+    this.sharedService.GetSuppliersSelector().subscribe(data => {
       this.SuppliersList = data;
     });
   }
 
-  GetBranchesData() {
-    this.purchaseService.GetBranchesData().subscribe(data => {
+  getBranchesData() {
+    this.sharedService.GetBranchesSelector().subscribe(data => {
       this.BranchesList = data;
     });
   }
 
-  GetSelectedBranch(item: any) {
-    this.BranchId = item.branchId;
+  getSelectedBranch(id: any) {
+    this.BranchId = id;
   }
-  GetSelectedSupplier(item: any) {
-    this.SupplierId = item.supplierId;
 
+  getSelectedSupplier(id: any) {
+    this.SupplierId = id;
   }
-  GetSelectedProductsList(products: any[]) {
+
+  getSelectedProductsList(products: any[]) {
     this.ProductsList = products;
     // console.log(" ~ this.ProductsList:", this.ProductsList);
   }
-  CreateNewPurchaseOrder() {
+
+  getSupplierItemsBySupplierId() {
+    this.orderProducts =[];
+    if(!this.SupplierId)
+    {
+      this.toaster.warning('please select supplier');
+      return;
+    }
+    this.inventoryService.GetItemsBySupplierId(this.SupplierId).subscribe(data => {
+      debugger;
+
+      if (data && data.length > 0) {
+        this.orderProducts = this.mapItemToOrderProduct(data);
+      }
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+
+  mapItemToOrderProduct(arrayOfItems: ItemModel[]): OrderProductModel[] {
+    return arrayOfItems.map(x => this.mapSingleItemToOrderProduct(x));
+  }
+
+  private mapSingleItemToOrderProduct(x: ItemModel): OrderProductModel {
+    return {
+      itemId: x.itemId,
+      itemNameAR: x.nameAR,
+      itemNameEN: x.nameEN,
+      isActive: x.isActive,
+      unitNameAR: x.unitName,
+      unitNameEN: x.unitName,
+      unitId: x.unitId,
+      price:x.cost,
+      quantity : 0,
+      totalValue :0
+    };
+  }
+
+  createNewPurchaseOrder() {
     if (!this.BranchId) {
       this.toaster.warning('Please Select Branch');
       return;
     }
 
-    if (this.ProductsList.length == 0) {
+    if(this.orderProducts.length === 0) {
       this.toaster.warning('Please Enter Items');
       return;
     }
@@ -92,40 +140,7 @@ export class AddPurchaseOrderComponent implements OnInit {
     });
   }
 
-  LoadItemsBySupplier() {
-    if (!this.SupplierId) {
-      this.toaster.warning('Please Select Supplier');
-      return;
-    }
-    this.inventoryService.GetItemsBySupplierId(this.SupplierId).subscribe(data => {
-      this.ItemsBySupplier = data;
-      // let Items: any[] = data;
-      // this.ItemsBySupplier = Items.map<PurchaseInvoiceDetails>(item => {
-      //   {
-      //     return {
-      //       purchaseInvoiceDetailsID: 0,
-      //       purchaseInvoiceID: 0,
-      //       itemID: item.itemID,
-      //       itemName: item.nameEN,
-      //       unitID: item.unitID,
-      //       unitName: item.unitNameEn,
-      //       price: item.price,
-      //       quantity: item.quantity,
-      //       totalValue: item.price
-      //     }
-      //   };
-      // });
-    });
-    // this.ItemsBySupplier.forEach(item => {
-    //   let itemChecked = this.RawItemsList.find(i => i.itemID == item.itemID);
-    //   if (!itemChecked) {
-    //     this.RawItemsList.push(item);
-    //   } else {
-    //     this.toaster.warning(item.itemName + ' Is Exist In Purchase Item List');
-    //   }
-    // });
 
-  }
   ClearAllFields() {
     this.InvoiceNumber = '-';
     this.SupplierId = '';

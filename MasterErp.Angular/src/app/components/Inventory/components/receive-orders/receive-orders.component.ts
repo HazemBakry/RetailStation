@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { InventoryService } from '../../services/inventory.service';
 import { ToastrService } from 'ngx-toastr';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { ItemModel } from '../../models/Item';
 
 
 
@@ -20,6 +22,14 @@ export class ReceiveOrdersComponent implements OnInit {
   FilterModel: FilterModel = {
     currentPage: 1,
     pageSize: 25
+  };
+  itemResponseModel: PagedResponseDTO<ItemModel[]> = {
+    results: [],
+    filterList: [],
+    pageSize: 25,
+    currentPage: 1,
+    searchText: ''
+
   };
 
   constructor(private inventoryService: InventoryService, private toaster: ToastrService) { }
