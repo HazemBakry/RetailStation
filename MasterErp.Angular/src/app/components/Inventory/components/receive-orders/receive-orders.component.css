@@ -1,5 +1,11 @@
 /* TABLE STYLE */
 
+.card-with-table {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border-color: #e7eaf0 !important;
+}
+
 .card-with-table .card-header {
     padding: 1rem 1.25rem;
     max-height: unset;
@@ -11,6 +17,10 @@
 
  ::ng-deep html[dir="rtl"] .table-component th {
     text-align: right;
+}
+
+.table-component th {
+    text-align: center;
 }
 
 .table-component th {

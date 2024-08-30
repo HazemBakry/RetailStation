@@ -47,7 +47,6 @@ namespace MasterErp.API.Controllers.Shared
             return _sharedService.GetAccountsByTypeId(TypeId);
         }
 
-
         [HttpGet]
         [Route("GetReceiptLedgerTypes")]
         public IActionResult GetReceiptLedgerTypes()
