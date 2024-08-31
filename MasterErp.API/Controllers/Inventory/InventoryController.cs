@@ -5,6 +5,7 @@ using MasterErp.Interface.Inventory;
 using MasterErp.Service.Purchase;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MasterErp.API.Controllers.Inventory
@@ -58,11 +59,11 @@ namespace MasterErp.API.Controllers.Inventory
 
             return Ok(result);
         }
-        [HttpGet]
+        [HttpPost]
         [Route("GetReceiveOrderProducts_Data")]
-        public IActionResult GetReceiveOrderProducts_Data(int OrderId)
+        public IActionResult GetReceiveOrderProducts_Data(List<int> OrderIds)
         {
-            var result = _inventoryService.GetReceiveOrderProducts_Data(OrderId);
+            var result = _inventoryService.GetReceiveOrderProducts_Data(OrderIds);
 
             return Ok(result);
 

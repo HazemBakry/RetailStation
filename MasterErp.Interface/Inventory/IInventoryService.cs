@@ -19,10 +19,11 @@ namespace MasterErp.Interface.Inventory
         List<StatisticsCardSummary> GetInventoryStatistics();
         List<OrderModel> GetReceiveOrders_Data(SearchFilterModel model ,int? OrderId=null);
         OrderModel GetReceiveOrderDetailsById(int OrderId);
-        List<OrderProductModel> GetReceiveOrderProducts_Data(int OrderId);
+        List<OrderProductModel> GetReceiveOrderProducts_Data(List<int> OrderIds);
 
         ActionsResponseModel AddNewReceiveOrder(OrderModel model);
         ActionsResponseModel EditReceiveOrder(int OrderId,OrderModel model);
+        ActionsResponseModel AddInvoiceToReceiveOrders(List<int> OrderIds,int InvoiceId);
         List<OrderModel> GetDeliveryOrders_Data(SearchFilterModel model, int? OrderId = null);
         OrderModel GetDeliveryOrderDetailsById(int OrderId);
 

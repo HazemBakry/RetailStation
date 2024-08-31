@@ -38,6 +38,8 @@ import { RouterModule } from '@angular/router';
 import { DropDownFormControlComponent } from './components/drop-down-form-control/drop-down-form-control.component';
 import { BusinessCoreLayoutComponent } from './components/business-core-layout/business-core-layout.component';
 import { GeneralOrderProductsComponent } from './components/general-order-products/general-order-products.component';
+import { ReceiveOrdersSidePanelComponent } from './components/sidepanel/receive-orders-side-panel/receive-orders-side-panel.component';
+import { PurchaseInvoicesSidePanelComponent } from './components/sidepanel/purchase-invoices-side-panel/purchase-invoices-side-panel.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +73,9 @@ import { GeneralOrderProductsComponent } from './components/general-order-produc
     DropDownFormControlComponent,
     RoleCheckerDirective,
     BusinessCoreLayoutComponent,
-    GeneralOrderProductsComponent
+    GeneralOrderProductsComponent,
+    ReceiveOrdersSidePanelComponent,
+    PurchaseInvoicesSidePanelComponent
   ],
 
 
@@ -121,7 +125,11 @@ import { GeneralOrderProductsComponent } from './components/general-order-produc
     ErpHomeComponent,
     NotAuthorizedComponent,
     DropDownFormControlComponent,
-    RoleCheckerDirective
+    RoleCheckerDirective,
+
+
+    ReceiveOrdersSidePanelComponent,
+    PurchaseInvoicesSidePanelComponent
   ],
   providers: [
     DatePipe,

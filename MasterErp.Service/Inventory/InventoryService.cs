@@ -71,13 +71,14 @@ namespace MasterErp.Service.Inventory
             return GetReceiveOrders_Data(new SearchFilterModel{PageSize =25,CurrentPage=1}, OrderId)?.FirstOrDefault();
         }
 
-        public List<OrderProductModel> GetReceiveOrderProducts_Data(int OrderId)
+        public List<OrderProductModel> GetReceiveOrderProducts_Data(List<int> OrderIds)
         {
             var result = (from orderProduct in Context.ReceiveOrderDetails
                           join item in Context.Items on orderProduct.ItemId equals item.ItemId
                           join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
                           from unit in jT2.DefaultIfEmpty()
-                          where (orderProduct.ReceiveOrderId == OrderId)
+                          where OrderIds.Contains(orderProduct.ReceiveOrderId)
+                          // where (orderProduct.ReceiveOrderId == OrderId)
                           select new OrderProductModel
                           {
                               ItemId = item.ItemId,
@@ -199,6 +200,36 @@ namespace MasterErp.Service.Inventory
                 }
                 else
                     return new ActionsResponseModel { IsSuccess = false, Message = "can't find this receive order" };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+        public ActionsResponseModel AddInvoiceToReceiveOrders(List<int> OrderIds, int InvoiceId)
+        {
+            try
+            {
+                var order_tbl = Context.ReceiveOrders.Where(i => OrderIds.Contains(i.ReceiveOrderId)).ToList();
+                if (order_tbl.Any())
+                {
+
+                    foreach (var order in order_tbl)
+                    {
+                        order.PurchaseInvoiceId = InvoiceId;
+                        order.IsLocked = true;
+                    }
+                    Context.SaveChanges();
+
+                    return new ActionsResponseModel { Message = "Receive Orders Updated Successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this receive orders" };
 
             }
             catch (Exception ex)

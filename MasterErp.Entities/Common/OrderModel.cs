@@ -11,6 +11,7 @@ namespace MasterErp.Entities.Common
     {
         public int? OrderId { get; set; }
         public int? SecondaryOrderId { get; set; }
+        public List<int> SecondaryOrderIds { get; set; }
         public int? OrderNumber { get; set; }
         public string DocNumber { get; set; }
         public DateTime OrderDate { get; set; }

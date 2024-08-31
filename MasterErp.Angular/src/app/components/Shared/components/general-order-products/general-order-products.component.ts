@@ -18,6 +18,7 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
   @Input() selectedProducts: OrderProductModel[] = [];
   @Input() clearAllProducts: boolean = false;
   @Input() showAddNew: boolean = true;
+  @Input() showEditQuantity : boolean = true;
   @Output() selectedProductsList = new EventEmitter<OrderProductModel[]>();
 
 

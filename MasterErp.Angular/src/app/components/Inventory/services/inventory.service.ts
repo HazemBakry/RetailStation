@@ -145,8 +145,8 @@ export class InventoryService {
   GetReceiveOrderDetailsById(orderId: number) {
     return this.http.get<OrderModel>(this.URL + `Inventory/GetReceiveOrderDetailsById?OrderId=${orderId}`);
   }
-  GetReceiveOrderProducts_Data(orderId: number) {
-    return this.http.get<OrderProductModel[]>(this.URL + `Inventory/GetReceiveOrderProducts_Data?OrderId=${orderId}`);
+  GetReceiveOrderProducts_Data(orderIds: number[]) {
+    return this.http.post<OrderProductModel[]>(this.URL + `Inventory/GetReceiveOrderProducts_Data`,orderIds);
   }
 
   AddNewReceiveOrder(model: OrderModel) {

@@ -1,10 +1,10 @@
-<div *ngIf="showContainer" class="bg-white bigtitle  table-bordered">
-    <div class="boxstyle1-content hastable loading-mess-stl text-center">
+<div *ngIf="showContainer">
+    <div class="boxstyle1-content hastable loading-mess-stl text-center m-0 py-3">
         <span>No Data</span>
     </div>
 </div>
 
-<div *ngIf="showLoader && !showContainer" class="bg-white bigtitle  table-bordered btm-inertia" >
+<div *ngIf="showLoader && !showContainer" >
     <div class="prcs flex-box  hastable loading-mess-stl ">
         <div class="prcs-lbl-container">
             <span class="prcs-lbl" id="prcs_lbl">Loading Data ...</span>
@@ -18,6 +18,6 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </div>

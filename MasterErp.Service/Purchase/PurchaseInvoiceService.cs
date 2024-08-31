@@ -3,6 +3,7 @@ using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
+using MasterErp.Interface.Inventory;
 using MasterErp.Interface.Purchase;
 using MasterErp.Interface.Shared;
 using MasterErp.Service.Common;
@@ -26,13 +27,15 @@ namespace MasterErp.Service.Purchase
         private readonly IConfiguration Configuration;
         private readonly ISharedFilterService SharedFilterService;
         private readonly IJournalEntryService JournalEntryService;
+        private readonly IInventoryService _inventoryService;
         private string ConnectionString;
 
-        public PurchaseInvoiceService(DBContext Context, 
-            ISQLHelper SQLHelper, 
-            IConfiguration Configuration, 
+        public PurchaseInvoiceService(DBContext Context,
+            ISQLHelper SQLHelper,
+            IConfiguration Configuration,
             ISharedFilterService SharedFilterService,
-            IJournalEntryService _journalEntryService)
+            IJournalEntryService _journalEntryService,
+            IInventoryService inventoryService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
@@ -40,6 +43,7 @@ namespace MasterErp.Service.Purchase
             this.ConnectionString = Configuration.GetConnectionString("DBConnection");
             this.SharedFilterService = SharedFilterService;
             JournalEntryService = _journalEntryService;
+            _inventoryService = inventoryService;
         }
 
         public List<OrderModel> GetPurchaseInvoices_Data(SearchFilterModel model, int? InvoiceId = null)
@@ -116,6 +120,7 @@ namespace MasterErp.Service.Purchase
                         Context.PurchaseInvoiceDetails.Add(detail);
                         Context.SaveChanges();
                     }
+                    var updateReceiveOrderResponse = _inventoryService.AddInvoiceToReceiveOrders(model.SecondaryOrderIds, order_tbl.PurchaseInvoiceId);
 
                     return new ActionsResponseModel { Message = "Purchase Invoice Updated Successfly !" };
                 }
@@ -211,6 +216,7 @@ namespace MasterErp.Service.Purchase
                 {
                     CreateJournalEntryModel(order_tbl);
                 }
+                var updateReceiveOrderResponse = _inventoryService.AddInvoiceToReceiveOrders(model.SecondaryOrderIds, order_tbl.PurchaseInvoiceId);
                 return new ActionsResponseModel
                 {
                     Status = 1,
