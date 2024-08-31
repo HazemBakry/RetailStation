@@ -378,27 +378,69 @@ namespace MasterErp.Service.Purchase
             return grp;
         }
 
-        public List<PurchaseReturns> GetPurchasesReturnsData()
+
+        public List<OrderModel> GetPurchaseReturns_Data(SearchFilterModel PagingFilter, int? OrderId = null)
         {
-            return Context.PurchaseReturns.ToList();
+            var FilterListDt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
+
+            SqlParameter[] Params = new SqlParameter[4];
+
+            Params[0] = new SqlParameter("@ReturnsId", OrderId);
+            Params[1] = new SqlParameter("@CurrentPage", PagingFilter.CurrentPage);
+            Params[2] = new SqlParameter("@PageSize", PagingFilter.PageSize);
+            Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[3].Value = FilterListDt;
+
+            var result = SQLHelper.SQLQuery<OrderModel>("[dbo].[SP_GetPurchasesReturns_Data]", ConnectionString, Params);
+            return result;
         }
 
-        public ActionsResponseModel SaveNewPurchaseReturns(OrderModel model)
+        public OrderModel GetPurchaseReturnsDetailsById(int OrderId)
+        {
+            return GetPurchaseReturns_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, OrderId)?.FirstOrDefault();
+        }
+
+        public List<OrderProductModel> GetPurchaseReturnsProducts_Data(int OrderId)
+        {
+            var result = (from orderProduct in Context.PurchaseReturnsDetails
+                          join item in Context.Items on orderProduct.ItemId equals item.ItemId
+                          join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
+                          from unit in jT2.DefaultIfEmpty()
+                          where (orderProduct.PurchaseReturnsId == OrderId)
+                          select new OrderProductModel
+                          {
+                              ItemId = item.ItemId,
+                              ItemNameEN = item.NameEN,
+                              ItemNameAR = item.NameAR,
+                              Price = orderProduct.Price,
+                              Quantity = orderProduct.Quantity,
+                              TotalValue = orderProduct.TotalValue,
+                              UnitId = item.UnitId,
+                              UnitNameAR = unit.NameAR,
+                              UnitNameEN = unit.NameEN,
+                              OrderId = orderProduct.PurchaseReturnsId,
+
+                          }).ToList();
+
+            return result;
+
+        }
+        public ActionsResponseModel AddNewPurchaseReturns(OrderModel model)
         {
             try
             {
+
                 PurchaseReturns order_tbl = new PurchaseReturns();
 
-                order_tbl.InsertDate = DateTime.Now;
-                order_tbl.ReturnsDate = DateTime.Now;
-                order_tbl.InsertUser = string.Empty;
+                order_tbl.CreatedDate = DateTime.Now;
+                order_tbl.ReturnsDate = model.OrderDate;
+                order_tbl.CreatedBy = model.CreatedBy;
 
-                //order_tbl.InvoiceNumber = model.OrderNumber;
-                order_tbl.InvoiceTypeID = model.OrderTypeId ?? 0;
+                order_tbl.PurchaseInvoiceId = model.SecondaryOrderId ?? 0;
                 order_tbl.Notes = model.Notes;
-                order_tbl.InvoiceDate = DateTime.Now;
-                order_tbl.ReturnsInvoiceTotal = model.OrderProducts != null ? model.OrderProducts.Sum(x => x.TotalValue) : 0;
-                order_tbl.SupplierID = (int)model?.SupplierId;
+                order_tbl.TotalValue = model.OrderProducts != null ? model.OrderProducts.Sum(x => x.TotalValue) : 0;
+                order_tbl.SupplierId = (int)model?.SupplierId;
+                order_tbl.BranchId = (int)model?.BranchId;
                 //order_tbl.InvoiceNumber = "po_" + (Context.PurchaseReturns.Count() > 0 ? Context.PurchaseReturns.Max(x => x.PurchaseReturnsID) + 1 : 1);
 
                 Context.PurchaseReturns.Add(order_tbl);
@@ -413,17 +455,15 @@ namespace MasterErp.Service.Purchase
                         Notes = model.Notes,
                         Quantity = item.Quantity,
                         TotalValue = item.TotalValue,
-                        PurchaseReturnsId = order_tbl.PurchaseReturnsID,
+                        PurchaseReturnsId = order_tbl.PurchaseReturnsId,
                         UnitId = item.UnitId
                     };
 
                     Context.PurchaseReturnsDetails.Add(detail);
                     Context.SaveChanges();
                 }
-
                 return new ActionsResponseModel
                 {
-                    Status = 1,
                     Message = "Purchase Order Created"
                 };
             }
@@ -431,12 +471,68 @@ namespace MasterErp.Service.Purchase
             {
                 return new ActionsResponseModel
                 {
-                    Status = 0,
+                    IsSuccess = false,
                     Message = ex.Message
                 };
             }
         }
+        public ActionsResponseModel EditPurchaseReturns(int OrderId, OrderModel model)
+        {
+            try
+            {
+                var order_tbl = Context.PurchaseReturns.Where(i => i.PurchaseReturnsId == OrderId).FirstOrDefault();
+                if (order_tbl != null)
+                {
+                    order_tbl.ModifiedDate = DateTime.Now;
+                    order_tbl.ModifiedBy = model.ModifiedBy;
 
+                    order_tbl.ReturnsDate = model.OrderDate;
+
+                    order_tbl.PurchaseInvoiceId = model.SecondaryOrderId ?? 0;
+                    order_tbl.Notes = model.Notes;
+                    order_tbl.TotalValue = model.OrderProducts != null ? model.OrderProducts.Sum(x => x.TotalValue) : 0;
+                    order_tbl.SupplierId = (int)model?.SupplierId;
+                    order_tbl.BranchId = (int)model?.BranchId;
+
+                    //order_tbl.InvoiceNumber = "po_" + (Context.PurchaseReturns.Count() > 0 ? Context.PurchaseReturns.Max(x => x.PurchaseReturnsID) + 1 : 1);
+
+                    Context.PurchaseReturns.Add(order_tbl);
+                    Context.SaveChanges();
+
+                    var PurchaseReturnDetails = Context.PurchaseReturnsDetails.Where(x => x.PurchaseReturnsId == OrderId).ToList();
+                    Context.PurchaseReturnsDetails.RemoveRange(PurchaseReturnDetails);
+                    foreach (OrderProductModel item in model.OrderProducts)
+                    {
+                        var detail = new PurchaseReturnsDetails
+                        {
+                            Price = item.Price,
+                            ItemId = item.ItemId,
+                            Notes = model.Notes,
+                            Quantity = item.Quantity,
+                            TotalValue = item.TotalValue,
+                            PurchaseReturnsId = order_tbl.PurchaseReturnsId,
+                            UnitId = item.UnitId
+                        };
+
+                        Context.PurchaseReturnsDetails.Add(detail);
+                        Context.SaveChanges();
+                    }
+
+                    return new ActionsResponseModel { Message = "Purchase Returns Updated Successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this purchase returns" };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
         public bool CancelPurchaseReturns(int ReturnsId)
         {
 

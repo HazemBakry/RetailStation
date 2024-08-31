@@ -104,20 +104,59 @@ namespace MasterErp.API.Controllers.Finance.Purchase
             return _purchaseInvoiceService.GetSupplierStatementData(SupplierId);
         }
 
-        [HttpGet]
-        [Route("GetPurchasesReturnsData")]
-        public List<PurchaseReturns> GetPurchasesReturnsData()
+
+
+
+        [HttpPost]
+        [Route("GetPurchaseReturns_Data")]
+        public IActionResult GetPurchaseReturns_Data(SearchFilterModel model)
         {
-            return _purchaseInvoiceService.GetPurchasesReturnsData();
+            var data = _purchaseInvoiceService.GetPurchaseReturns_Data(model);
+
+            var result = new PagedResponseModel<OrderModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("GetPurchaseReturnsDetailsById")]
+        public IActionResult GetPurchaseReturnsDetailsById(int OrderId)
+        {
+            var result = _purchaseInvoiceService.GetPurchaseReturnsDetailsById(OrderId);
+
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("GetPurchaseReturnsProducts_Data")]
+        public IActionResult GetPurchaseReturnsProducts_Data(int OrderId)
+        {
+            var result = _purchaseInvoiceService.GetPurchaseReturnsProducts_Data(OrderId);
+
+            return Ok(result);
+
         }
 
         [HttpPost]
-        [Route("SaveNewPurchaseReturns")]
-        public IActionResult SaveNewPurchaseReturns(OrderModel model)
+        [Route("AddNewPurchaseReturns")]
+        public IActionResult AddNewPurchaseReturns(OrderModel model)
         {
-            var result = _purchaseInvoiceService.SaveNewPurchaseReturns(model);
+            var result = _purchaseInvoiceService.AddNewPurchaseReturns(model);
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("EditPurchaseReturns")]
+        public IActionResult EditPurchaseReturns(int OrderId, OrderModel model)
+        {
+            var result = _purchaseInvoiceService.EditPurchaseReturns(OrderId, model);
+            return Ok(result);
+        }
+
+
 
         [HttpGet]
         [Route("CancelPurchaseReturns")]

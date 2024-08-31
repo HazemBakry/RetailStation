@@ -15,16 +15,16 @@
             </button>
         </div>
         <div class="offcanvas-sub-header m-3" >
-            <div>
+            <!-- <div>
                 <h5 class="m-0"> اسم المورد : {{supplierName}}</h5>
 
-            </div>
+            </div> -->
         </div>
         <div class="offcanvas-body m-2 row">
-            <!-- <div class="col-lg-3">
-                <app-erp-selector [SelectorName]="SupplierName" [ItemsList]="SuppliersList"
-                    (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector>
-            </div> -->
+            <div class="col-xl-5 mb-3">
+                <app-drop-down-form-control [disabled]="true" [(ngModel)]="selectedSupplierId" [data]="suppliersSelectorData"
+                    [showSearch]="true" [placeholder]="'قائمة الموردين'"></app-drop-down-form-control>
+            </div>
             <div class="col-lg-3">
                 <div class="form-floating mb-3">
                     <input type="text" [(ngModel)]="invoiceNumber" class="form-control"
@@ -52,33 +52,47 @@
                 <table class="table table-bordered table-responsive table-middle table-hover m-0 bg-white bigtitle">
                     <thead>
                         <tr>
-                            <th>Invoice Number</th>
-                            <th>Invoice Date</th>
-                            <th>Total Value</th>
-                            <th>Supplier Name AR</th>
-                            <th>Supplier Name EN</th>
-                            
-                            <th>Action</th>
+                            <th>رقم الفاتورة</th>
+                            <th>الرقم الدفترى</th>
+                            <th>تاريخ الفاتورة</th>
+                            <th>اسم المورد</th>
+                            <th>نوع الفاتورة</th>
+                            <!-- <th>Insert User</th>
+                            <th>Insert Date</th>
+                            <th>Is Locked</th> -->
+                            <th>القيمة الإجمالية</th>
+                            <th>حالة الفاتورة</th>
+                            <th class="text-center"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of PurchaseList">
-                            <td>{{item.invoiceNumber}}</td>
-                            <td>{{item.invoiceDate | date}}</td>
-                            <td>{{item.invoiceTotalValue}}</td>
+                        <tr *ngFor="let item of pagedResponseModel.results">
+                            <td>{{item.orderNumber}}</td>
+                            <td>{{item.docNumber}}</td>
+                            <td>{{item.orderDate | date}}</td>
                             <td>{{item.supplierNameAR}}</td>
-                            <td>{{item.supplierNameEN }}</td>
-                            
+                            <td>{{item.orderTypeName}}</td>
+                            <!-- <td>{{item.insertUser}}</td>
+                            <td>{{item.insertDate | date}}</td>
+                            <td>{{item.isLocked}}</td> -->
+                            <td>{{item.totalValue}}</td>
+                            <td>
+                                <span class="badge rounded-pill default p-2 text-uppercase px-3" >
+                                    {{item.orderStatus}}
+                                </span>
+                            </td>
                             <td>
                                 <div class="w-100 d-flex align-items-center justify-content-center">
-                                    <button (click)="SelectInvoice(item)" class="btn btn-secondary">
+                                    <button (click)="SelectInvoice(item)" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
                                         <i class="far fa-eye"></i>
-                                        <span class="ms-2">تحميل</span>
+                                        <span>تحميل</span>
                                     </button>
                                 </div>
                             </td>
                         </tr>
                     </tbody>
+                    
+                    
 
                 </table>
             </div>

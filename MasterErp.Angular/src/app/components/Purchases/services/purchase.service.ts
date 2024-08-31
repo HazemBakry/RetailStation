@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { PurchaseInvoiceModel } from '../models/PurchaseInvoiceModel';
 import { PurchaseOrderModel } from '../models/PurchaseOrder';
 import { PurchaseReturnsModel } from '../models/PurchaseReturns';
-import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { SupplierReturnsVoucherModel } from '../models/SupplierReturnsVoucherModel';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 import { OrderModel, OrderProductModel } from '../../Inventory/models/inventory';
@@ -49,17 +49,29 @@ export class PurchaseService {
   }
 
 
-  CreateNewPurchaseReturns(model: PurchaseReturnsModel) {
-    return this.http.post<any>(this.URL + 'PurchaseInvoice/CreateNewPurchaseReturns', model);
-  }
 
-  GetPurchasesReturnsData() {
-    return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetPurchasesReturnsData');
-  }
 
   CancelPurchaseReturns(returnsId: number) {
     return this.http.get<any[]>(this.URL + 'PurchaseInvoice/CancelPurchaseReturns?ReturnsId=' + returnsId);
   }
+
+  GetPurchaseReturns_Data(model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'PurchaseInvoice/GetPurchaseReturns_Data', model);
+  }
+  GetPurchaseReturnsDetailsById(orderId: number) {
+    return this.http.get<OrderModel>(this.URL + `PurchaseInvoice/GetPurchaseReturnsDetailsById?OrderId=${orderId}`);
+  }
+  GetPurchaseReturnsProducts_Data(orderIds: number[]) {
+    return this.http.post<OrderProductModel[]>(this.URL + `PurchaseInvoice/GetPurchaseReturnsProducts_Data`,orderIds);
+  }
+
+  AddNewPurchaseReturns(model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'PurchaseInvoice/AddNewPurchaseReturns', model);
+  }
+  EditPurchaseReturns(orderId:number,model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `PurchaseInvoice/EditPurchaseReturns?OrderId=${orderId}`, model);
+  }
+
 
   GetSupplierStatementData(supplierId) {
     return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetSupplierStatementData?SupplierId=' + supplierId);

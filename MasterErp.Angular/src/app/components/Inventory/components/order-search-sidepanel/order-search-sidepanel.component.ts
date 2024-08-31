@@ -28,7 +28,7 @@ export class OrderSearchSidepanelComponent implements OnInit {
   SupplierName = 'الموردين';
   orderNumber:string = '';
   orderDate:string ;
-  pagerResponseResponse:PagedResponseDTO<OrderModel[]>={
+  pagedResponseModel:PagedResponseDTO<OrderModel[]>={
     results:[],
     filterList:[],
     pageSize: 25,
@@ -65,10 +65,10 @@ export class OrderSearchSidepanelComponent implements OnInit {
 
     this.mapFilters();
     this.showLoader=true;
-    this.purchaseService.GetPurchaseOrders_Data(this.pagerResponseResponse).subscribe((data:PagedResponseDTO<OrderModel[]>) => {
+    this.purchaseService.GetPurchaseOrders_Data(this.pagedResponseModel).subscribe((data:PagedResponseDTO<OrderModel[]>) => {
       // console.log("data",data);
-      this.pagerResponseResponse.results=data.results;
-      this.pagerResponseResponse.totalCount=data.totalCount;
+      this.pagedResponseModel.results=data.results;
+      this.pagedResponseModel.totalCount=data.totalCount;
       this.showLoader=false;
     },(err)=>{
       this.showLoader=false;
@@ -90,15 +90,15 @@ export class OrderSearchSidepanelComponent implements OnInit {
     
   }
   mapFilters() {
-    this.pagerResponseResponse.filterList=[];
+    this.pagedResponseModel.filterList=[];
     if (this.orderDate) {
-      this.pagerResponseResponse.filterList.push({categoryName:'OrderDate',itemFlag:this.orderDate})
+      this.pagedResponseModel.filterList.push({categoryName:'OrderDate',itemFlag:this.orderDate})
     }
     if (this.selectedSupplierId) {
-      this.pagerResponseResponse.filterList.push({categoryName:'SupplierId',itemFlag:this.selectedSupplierId})
+      this.pagedResponseModel.filterList.push({categoryName:'SupplierId',itemFlag:this.selectedSupplierId})
     }
     if (this.orderNumber) {
-      this.pagerResponseResponse.filterList.push({categoryName:'OrderNumber',itemFlag:this.orderNumber})
+      this.pagedResponseModel.filterList.push({categoryName:'OrderNumber',itemFlag:this.orderNumber})
     }
 
   }

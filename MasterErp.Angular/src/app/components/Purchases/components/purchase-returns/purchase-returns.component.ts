@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { OrderModel } from 'src/app/components/Inventory/models/inventory';
 @Component({
   selector: 'app-purchase-returns',
   templateUrl: './purchase-returns.component.html',
@@ -9,7 +11,14 @@ import { ToastrService } from 'ngx-toastr';
 export class PurchaseReturnsComponent implements OnInit {
   PurchaseList: any[] = [];
   showLoader: boolean;
+  pagedResponseModel: PagedResponseDTO<OrderModel[]> = {
+    results: [],
+    filterList: [],
+    pageSize: 25,
+    currentPage: 1,
+    searchText: ''
 
+  };
   constructor(private purchaseService: PurchaseService, private toaster: ToastrService) { }
 
   ngOnInit(): void {
@@ -19,8 +28,10 @@ export class PurchaseReturnsComponent implements OnInit {
   loadData() {
     this.showLoader=true;
 
-    this.purchaseService.GetPurchasesReturnsData().subscribe(data => {
-      this.PurchaseList = data;
+    this.purchaseService.GetPurchaseReturns_Data(this.pagedResponseModel).subscribe(data => {
+      this.PurchaseList = data.results;
+      this.pagedResponseModel.results=data.results;
+      this.pagedResponseModel.totalCount=data.totalCount;
       this.showLoader=false;
 
     },(err)=>{
