@@ -19,6 +19,7 @@ import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateMod
 })
 
 export class AddDeliveryOrderComponent implements OnInit {
+  TitleList = ['المخازن', 'إضافة إذن جديد'];
   deliveryOrderId:number;
   deliveryOrderModel: OrderModel = {} as OrderModel;
   orderProducts : OrderProductModel[]=[];

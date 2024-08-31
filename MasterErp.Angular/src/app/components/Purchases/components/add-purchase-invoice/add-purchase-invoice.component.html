@@ -1,16 +1,15 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
 <div class="card radius-10 border-0 card-shadow mb-3">
     <div class="card-header bg-white">
-        <span class="m-0 fw-bold card-header-title">فاتوره مشترايات</span>
+        <span class="m-0 fw-bold card-header-title">فاتورة مشتريات</span>
     </div>
     <div class="card-body bg-light">
-
         <form [formGroup]="formGroup" autocomplete="off">
             <div class="employee-card-body row">
                 <div class="col-xl-4 mb-3">
 
-                    <app-drop-down-form-control [disabled]="isUpdate" formControlName="supplierId" [placeholder]="'الموردين'"
-                        [data]="suppliersSelectorData"
-                        (valueChanged)="getSelectedSupplier($event)"></app-drop-down-form-control>
+                    <app-drop-down-form-control [disabled]="isUpdate" formControlName="supplierId" [placeholder]="'الموردين'" [data]="suppliersSelectorData" (valueChanged)="getSelectedSupplier($event)"></app-drop-down-form-control>
                     <div *ngIf="formErrors.supplierId" class="text-danger  font-small-3 m-03">
                         {{formErrors.supplierId}}
                     </div>
@@ -18,8 +17,7 @@
                 <div class="col-xl-1"></div>
                 <div class="col-xl-4  mb-3">
 
-                    <app-drop-down-form-control formControlName="orderTypeId" [placeholder]="'نوع الفاتورة'"
-                        [data]="invoiceTypesSelectorData"></app-drop-down-form-control>
+                    <app-drop-down-form-control formControlName="orderTypeId" [placeholder]="'نوع الفاتورة'" [data]="invoiceTypesSelectorData"></app-drop-down-form-control>
                     <div *ngIf="formErrors.orderTypeId" class="text-danger  font-small-3 m-03">
                         {{formErrors.orderTypeId}}
                     </div>
@@ -46,19 +44,18 @@
                         </div>
                     </div> -->
                     <div *ngIf="selectedSupplierId" class="col-xl-2 mb-3">
-                      
+
                         <app-receive-orders-side-panel [selectedSupplierId]="selectedSupplierId" (selectedOrder)="searchOrderSelected($event)"></app-receive-orders-side-panel>
-         
+
                     </div>
-                 </ng-container>
-                
+                </ng-container>
+
 
                 <div class="col-xl-4 mb-3">
 
 
                     <div class="form-floating mb-3">
-                        <input type="date" formControlName="orderDate" class="form-control" id="floatingInput1"
-                            placeholder="any">
+                        <input type="date" formControlName="orderDate" class="form-control" id="floatingInput1" placeholder="any">
                         <label for="floatingInput6">تاريخ الاصدار</label>
                         <div *ngIf="formErrors.orderDate" class="text-danger  font-small-3 m-03">
                             {{formErrors.orderDate}}
@@ -71,8 +68,7 @@
 
 
                     <div class="form-floating mb-3">
-                        <input type="date" formControlName="dueDate" class="form-control" id="floatingInput1"
-                            placeholder="any">
+                        <input type="date" formControlName="dueDate" class="form-control" id="floatingInput1" placeholder="any">
                         <label for="floatingInput6">تاريخ الاستحقاق</label>
                         <div *ngIf="formErrors.dueDate" class="text-danger  font-small-3 m-03">
                             {{formErrors.dueDate}}
@@ -80,11 +76,10 @@
                     </div>
 
                 </div>
-                
+
                 <div class="col-xl-4 mb-3">
                     <div class="form-floating">
-                        <input type="text" formControlName="docNumber" class="form-control" id="floatingInput1"
-                            placeholder="any">
+                        <input type="text" formControlName="docNumber" class="form-control" id="floatingInput1" placeholder="any">
                         <label for="floatingInput3"> الرقم الدفتري</label>
                         <div *ngIf="formErrors.docNumber" class="text-danger  font-small-3 m-03">
                             {{formErrors.docNumber}}
@@ -94,8 +89,7 @@
                 <div class="col-xl-1"></div>
                 <div class="col-xl-9">
                     <div class="form-floating mb-3">
-                        <textarea type="text" formControlName="notes" class="form-control" id="floatingInput10"
-                            placeholder="ملاحظات"></textarea>
+                        <textarea type="text" formControlName="notes" class="form-control" id="floatingInput10" placeholder="ملاحظات"></textarea>
                         <label for="floatingInput10">ملاحظات</label>
 
                         <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
@@ -119,11 +113,8 @@
             </div>
         </form>
 
-        <app-general-order-products [selectedProducts]="orderProducts" [clearAllProducts]="clearAllProducts"
-                [showEditQuantity]="false" [showAddNew]="false"
-            (selectedProductsList)="getSelectedProductsList($event)"></app-general-order-products>
+        <app-general-order-products [selectedProducts]="orderProducts" [clearAllProducts]="clearAllProducts" [showEditQuantity]="false" [showAddNew]="false" (selectedProductsList)="getSelectedProductsList($event)"></app-general-order-products>
         <!-- <app-order-products [selectedSupplierProducts]="ItemsBySupplier" [clearAllProducts]="clearAllProducts" (selectedProductsList)="getSelectedProductsList($event)"></app-order-products> -->
-
 
     </div>
 </div>

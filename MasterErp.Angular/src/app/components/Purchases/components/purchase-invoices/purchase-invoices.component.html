@@ -1,62 +1,61 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
-<div class="container-fluid pt-2">
-    <div class="card card-with-table border shadow-none">
-        <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2" routerLink="/purchases/add-purchase-invoice">
-                    <i class="uil uil-plus fs-5"></i>
-                    <span>انشاء فاتورة</span>
-                </button>
-            </div>
-            <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
-            </div>
+<div class="card card-with-table border shadow-none">
+    <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-3">
+            <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2" routerLink="/purchases/add-purchase-invoice">
+                <i class="uil uil-plus fs-5"></i>
+                <span>انشاء فاتورة</span>
+            </button>
         </div>
-        <div class="card-body table-responsive">
-            <table class="table table-borderless align-middle table-hover table-component m-0 p-3">
-                <thead>
-                    <tr>
-                        <th>رقم الفاتورة</th>
-                        <th>الرقم الدفترى</th>
-                        <th>تاريخ الفاتورة</th>
-                        <th>اسم المورد</th>
-                        <th>نوع الفاتورة</th>
-                        <!-- <th>Insert User</th>
-                        <th>Insert Date</th>
-                        <th>Is Locked</th> -->
-                        <th>القيمة الإجمالية</th>
-                        <th>حالة الفاتورة</th>
-                        <th class="text-center"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of pagedResponseModel.results">
-                        <td>{{item.orderNumber}}</td>
-                        <td>{{item.docNumber}}</td>
-                        <td>{{item.orderDate | date}}</td>
-                        <td>{{item.supplierNameAR}}</td>
-                        <td>{{item.orderTypeName}}</td>
-                        <!-- <td>{{item.insertUser}}</td>
-                        <td>{{item.insertDate | date}}</td>
-                        <td>{{item.isLocked}}</td> -->
-                        <td>{{item.totalValue}}</td>
-                        <td>
+        <div class="col-md-4">
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+        </div>
+    </div>
+    <div class="card-body table-responsive p-0">
+        <table class="table table-borderless align-middle table-hover table-component text-center m-0 p-0">
+            <thead>
+                <tr>
+                    <th>رقم الفاتورة</th>
+                    <th>الرقم الدفترى</th>
+                    <th>تاريخ الفاتورة</th>
+                    <th>اسم المورد</th>
+                    <th>نوع الفاتورة</th>
+                    <!-- <th>Insert User</th>
+                        <th>Insert Date</th> -->
+                    <th>Is Locked</th>
+                    <th>القيمة الإجمالية</th>
+                    <!-- <th>حالة الفاتورة</th> -->
+                    <th class="text-center"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of pagedResponseModel.results">
+                    <td>{{item.orderNumber}}</td>
+                    <td>{{item.docNumber}}</td>
+                    <td>{{item.orderDate | date}}</td>
+                    <td>{{item.supplierNameAR}}</td>
+                    <td>{{item.orderTypeName}}</td>
+                    <!-- <td>{{item.insertUser}}</td>
+                        <td>{{item.insertDate | date}}</td>-->
+                    <td>{{item.isLocked}}</td>
+                    <td>{{item.totalValue}}</td>
+                    <!-- <td>
                             <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
                                 {{item.orderStatus}}
                             </span>
-                        </td>
-                        <td>
-                            <div class="w-100 d-flex align-items-center justify-content-center">
-                                <button routerLink="/purchases/add-purchase-invoice" [queryParams]="{InvoiceId:item.orderId}" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2" >
-                                    <i class="uil uil-pen"></i>
-                                    <span>تعديل</span>
-                                </button>
-                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="CancelPurchaseInvoice(item.orderId)">
-                                    <i class="uil uil-trash-alt"></i>
-                                    <span>حذف</span>
-                                </button>
-                                <!-- <button class="btn btn-secondary me-2">
+                        </td> -->
+                    <td>
+                        <div class="w-100 d-flex align-items-center justify-content-center">
+                            <button routerLink="/purchases/add-purchase-invoice" [queryParams]="{InvoiceId:item.orderId}" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
+                                <i class="uil uil-pen"></i>
+                                <span>تعديل</span>
+                            </button>
+                            <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="CancelPurchaseInvoice(item.orderId)">
+                                <i class="uil uil-trash-alt"></i>
+                                <span>حذف</span>
+                            </button>
+                            <!-- <button class="btn btn-secondary me-2">
                                         <i class="far fa-eye"></i>
                                         <span class="ms-2">Lock Order</span>
                                     </button>
@@ -64,15 +63,14 @@
                                         <i class="fas fa-edit"></i>
                                         <span class="ms-2">Edit</span>
                                     </button> -->
-                                <app-invoice-details-sidepanel [invoiceId]="item.orderId"></app-invoice-details-sidepanel>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
+                            <app-invoice-details-sidepanel [invoiceId]="item.orderId"></app-invoice-details-sidepanel>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
 
-            </table>
-            <app-empty-data [showContainer]="!pagedResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
-        </div>
+        </table>
+        <app-empty-data [showContainer]="!pagedResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
     </div>
 </div>
 

@@ -20,9 +20,10 @@ import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateMod
 })
 
 export class AddReceiveOrderComponent implements OnInit {
-  receiveOrderId:number;
+  TitleList = ['المخازن', 'إضافة إذن جديد'];
+  receiveOrderId: number;
   receiveOrderModel: OrderModel = {} as OrderModel;
-  orderProducts : OrderProductModel[]=[];
+  orderProducts: OrderProductModel[] = [];
   isUpdate: boolean = false;
   clearAllProducts: boolean = false;
 
@@ -53,7 +54,7 @@ export class AddReceiveOrderComponent implements OnInit {
 
 
     this.initNewForm();
-    
+
     this.loadSelectors();
   }
 
@@ -77,11 +78,11 @@ export class AddReceiveOrderComponent implements OnInit {
     this.showLoader = true;
     this.inventoryService.GetReceiveOrderProducts_Data([this.receiveOrderId]).subscribe((data: OrderProductModel[]) => {
       this.orderProducts = data;
-      if (this.orderProducts.length>0) {
+      if (this.orderProducts.length > 0) {
         // this.formGroup.patchValue({orderProducts:this.orderProducts});
       }
       // this.initNewForm(this.receiveOrderModel);
-    
+
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
@@ -89,22 +90,22 @@ export class AddReceiveOrderComponent implements OnInit {
       this.showLoader = false;
     });
   }
-  searchOrderSelected(ord:OrderModel) {
+  searchOrderSelected(ord: OrderModel) {
     this.selectedPurchaseOrder = ord;
     this.getPurchaseOrderProducts();
   }
-  getSelectedProductsList(products:OrderProductModel[]) {
-    this.formGroup.patchValue({orderProducts:products});
+  getSelectedProductsList(products: OrderProductModel[]) {
+    this.formGroup.patchValue({ orderProducts: products });
     this.orderProducts = products;
   }
   getPurchaseOrderProducts() {
+    debugger;
     this.showLoader = true;
-    this.purchaseService.GetPurchaseOrderProducts_Data(this.selectedPurchaseOrder.purchaseOrderId).subscribe((data: OrderProductModel[]) => {
+    this.purchaseService.GetPurchaseOrderProducts_Data(this.selectedPurchaseOrder.orderId).subscribe((data: OrderProductModel[]) => {
       if (data) {
         this.orderProducts = data;
         // this.formGroup.patchValue({orderProducts:this.orderProducts});
-        this.formGroup.patchValue({purchaseOrderId:this.selectedPurchaseOrder.purchaseOrderId});
-
+        this.formGroup.patchValue({ purchaseOrderId: this.selectedPurchaseOrder.orderId });
       }
       this.showLoader = false;
     }, err => {
@@ -116,8 +117,8 @@ export class AddReceiveOrderComponent implements OnInit {
 
   initNewForm(orderModel: OrderModel = null) {
     this.selectedPurchaseOrder = {} as OrderModel;
-    this.orderProducts=[];
-    this.clearAllProducts=!this.clearAllProducts;
+    this.orderProducts = [];
+    this.clearAllProducts = !this.clearAllProducts;
     this.isUpdate = false;
     this.buildForm();
     if (orderModel)
@@ -130,7 +131,7 @@ export class AddReceiveOrderComponent implements OnInit {
       supplierId: [null, [Validators.required]],
       purchaseOrderId: [null, [Validators.required]],
       storeId: [null, [Validators.required]],
-      orderProducts: [[] as OrderProductModel[], [Validators.required,Validators.minLength(1)]],
+      orderProducts: [[] as OrderProductModel[], [Validators.required, Validators.minLength(1)]],
       notes: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {
@@ -141,9 +142,9 @@ export class AddReceiveOrderComponent implements OnInit {
 
 
   saveReceiveOrder() {
-    if(this.orderProducts.length === 0) 
+    if (this.orderProducts.length === 0)
       this.toaster.warning('لا يوجد اصناف');
-    
+
     if (!this.validateForm()) {
       return;
     }
@@ -204,7 +205,7 @@ export class AddReceiveOrderComponent implements OnInit {
     this.sharedService.GetInventoriesSelector().subscribe((data: FormDropdownModel[]) => {
       this.inventoriesSelectorData = data;
     });
-    
+
   }
 
   validateForm(): boolean {
@@ -225,8 +226,8 @@ export class AddReceiveOrderComponent implements OnInit {
       supplierId: orderModel.supplierId,
       purchaseOrderId: orderModel.purchaseOrderId,
       storeId: orderModel.storeId,
-      notes:orderModel.notes
-      
+      notes: orderModel.notes
+
     });
   }
 
@@ -238,6 +239,6 @@ export class AddReceiveOrderComponent implements OnInit {
     orderProducts: '',
     notes: ''
   };
-  
+
 
 }

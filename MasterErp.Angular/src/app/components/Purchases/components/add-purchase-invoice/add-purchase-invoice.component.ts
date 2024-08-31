@@ -21,6 +21,7 @@ import { ItemModel } from 'src/app/components/Inventory/models/Item';
 })
 
 export class AddPurchaseInvoiceComponent implements OnInit {
+  TitleList = ['المشتريات', 'إضافة فاتورة مشتريات'];
   purchaseInvoiceId:number;
   purchaseInvoiceModel: OrderModel = {} as OrderModel;
   orderProducts : OrderProductModel[]=[];

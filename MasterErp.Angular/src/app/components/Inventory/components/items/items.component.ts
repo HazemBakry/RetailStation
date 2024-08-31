@@ -21,9 +21,7 @@ import { SupplierModel } from 'src/app/components/Purchases/models/SupplierModel
   styleUrls: ['./items.component.css']
 })
 export class ItemsComponent implements OnInit {
-
-  titleList = ['المخازن', 'بيانات الأصناف'];
-
+  TitleList = ['المخازن', 'بيانات الأصناف'];
   unitsSelectorData: FormDropdownModel[] = [];
   suppliersSelectorData: FormDropdownModel[]=[];
   itemCategoriesSelectorData: FormDropdownModel[]=[];

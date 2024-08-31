@@ -17,12 +17,12 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
   styleUrls: ['./items-category.component.css']
 })
 export class ItemsCategoryComponent implements OnInit {
+  TitleList = ['المخازن', 'مجموعات الأصناف'];
   itemCategories: any[] = [];
   categoryModel: ItemCategoryModel = {} as ItemCategoryModel;
   childAccountSelectorData: FormDropdownModel[] = [];
   URLs: any[] = [];
   ImagesName: any[] = [];
-  TitleList = ['System Difinitions', 'Food Categories'];
   totalCount: any;
   totalPages: any;
   pageSize: any = 20;
