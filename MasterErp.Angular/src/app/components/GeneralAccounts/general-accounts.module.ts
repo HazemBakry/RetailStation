@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { GeneralAccountsRoutingModule } from './general-accounts-routing.module';
-import { AccountTreeComponent } from './components/account-tree/account-tree.component';
 import { AccountsAssistantLedgerComponent } from './components/accounts-assistant-ledger/accounts-assistant-ledger.component';
 import { AccountsGeneralLedgerComponent } from './components/accounts-general-ledger/accounts-general-ledger.component';
 import { CostAssistantLedgerComponent } from './components/cost-assistant-ledger/cost-assistant-ledger.component';
@@ -37,7 +36,6 @@ import { GeneralAccountsHomeComponent } from './components/general-accounts-home
 @NgModule({
   declarations: [
     GeneralAccountsLayoutComponent,
-    AccountTreeComponent,
     CostCenterTreeComponent,
     NewEntryComponent,
     JournalDailyListComponent,

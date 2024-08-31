@@ -122,7 +122,7 @@ namespace MasterErp.Service.GeneralAccounts
             {
                 CostCenterTree tbl = new CostCenterTree();
 
-                tbl.CreateDate = DateTime.Now;
+                tbl.CreatedDate = DateTime.Now;
                 tbl.CreatedBy = string.Empty;
                 tbl.CostCenterNumber = Model.CostCenterNumber;
                 tbl.ParentId = Model.ParentId;
@@ -166,7 +166,7 @@ namespace MasterErp.Service.GeneralAccounts
                 if (entity != null)
                 {
 
-                    entity.ModifyDate = DateTime.Now;
+                    entity.ModifiedDate = DateTime.Now;
                     entity.CreatedBy = string.Empty;
 
                     entity.CostCenterNumber = Model.CostCenterNumber;

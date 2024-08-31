@@ -23,8 +23,8 @@ namespace MasterErp.Entities.Models
 		public int? IsExpences { get; set; }
 		public int? DisplayOrder { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime? CreateDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public string ModifiedBy { get; set; }
-        public DateTime? ModifyDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
     }
 }

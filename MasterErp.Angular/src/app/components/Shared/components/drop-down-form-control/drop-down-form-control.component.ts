@@ -14,29 +14,28 @@ import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
     },
   ],
 })
-export class DropDownFormControlComponent implements OnChanges{
+export class DropDownFormControlComponent implements OnChanges {
   @Input() data: FormDropdownModel[] = [];
-  @Input() placeholder:string='' //'Select Name';
-  @Input() style:string='w-50';
-  @Input() disabled:boolean=false;
+  @Input() placeholder: string = '' //'Select Name';
+  @Input() style: string = 'w-50';
+  @Input() disabled: boolean = false;
 
-  @Input() showSearch:boolean=false;
-  @Input() selectMulti:boolean=false;
-  @Input() isCustomDropdown:boolean=false;
+  @Input() showSearch: boolean = false;
+  @Input() selectMulti: boolean = false;
+  @Input() isCustomDropdown: boolean = false;
   @Output() valueChanged = new EventEmitter<string>();
   filteredData: any[] = [];
   searchText: string = '';
-  selectedValue: any='';
+  selectedValue: any = '';
   selectedItem: string = '';
 
-  private onChange: any = () => {};
-  private onTouched: any = () => {};
-  constructor(private dropdownConfig: NgbDropdownConfig,private renderer: Renderer2)
-  {
+  private onChange: any = () => { };
+  private onTouched: any = () => { };
+  constructor(private dropdownConfig: NgbDropdownConfig, private renderer: Renderer2) {
     // this.dropdownConfig.container = 'body'
   }
   ngOnInit(): void {
-    if(this.isCustomDropdown)
+    if (this.isCustomDropdown)
       this.dropdownConfig.container = 'body';
     else
       this.dropdownConfig.container = null;
@@ -53,28 +52,27 @@ export class DropDownFormControlComponent implements OnChanges{
   }
   writeValue(value: any): void {
     if (this.selectMulti) {
-      if(value)
+      if (value)
         this.selectedValues = value;
 
-      var items= this.data.filter(x=>value?.includes(x.value));
-      if(items&&items.length>0)
-      {
-        this.selectedItems=items.map(x=>x.name);
-        items.map(x=>x.isSelected=true);
-      }else{
-        this.selectedItems=[];
+      var items = this.data.filter(x => value?.includes(x.value));
+      if (items && items.length > 0) {
+        this.selectedItems = items.map(x => x.name);
+        items.map(x => x.isSelected = true);
+      } else {
+        this.selectedItems = [];
       }
-      
-    }
-    else{
-      var sName=this.data.find(x=>x.value===value)?.name;
 
-      if(value)
+    }
+    else {
+      var sName = this.data.find(x => x.value === value)?.name;
+
+      if (value)
         this.selectedValue = value;
-      if(sName)
-        this.selectedItem=sName;
+      if (sName)
+        this.selectedItem = sName;
       else
-        this.selectedItem='';
+        this.selectedItem = '';
     }
     // this.filterData(); // Ensure filteredData is updated based on the initial value
   }
@@ -112,39 +110,38 @@ export class DropDownFormControlComponent implements OnChanges{
   selectedValues: string[] = [];
   selectMultiOption(item: any) {
     const index = this.selectedValues.indexOf(item.value);
-    var obj=this.data.find(x=>x.value==item.value);
+    var obj = this.data.find(x => x.value == item.value);
     if (index > -1) {
       this.selectedItems.splice(index, 1);
       this.selectedValues.splice(index, 1);
-      if(obj)
-        obj.isSelected=false;
+      if (obj)
+        obj.isSelected = false;
 
     } else {
       this.selectedItems.push(item.name);
       this.selectedValues.push(item.value);
-      if(obj)
-        obj.isSelected=true;
+      if (obj)
+        obj.isSelected = true;
     }
 
     this.onChange(this.selectedValues);
     this.onTouched();
   }
 
-  removeSelected()
-  {
-    this.data.map(x=>x.isSelected=false);
+  removeSelected() {
+    this.data.map(x => x.isSelected = false);
     this.selectedItems = [];
-    this.selectedValues=[];
+    this.selectedValues = [];
     this.onChange([]);
 
   }
 
 }
 
-export class FormDropdownModel{
-  value:any;
-  name:any;
-  isSelected?:boolean=false;
-  color?: string |null;
-  bgColor?: string|null;
+export class FormDropdownModel {
+  value: any;
+  name: any;
+  isSelected?: boolean = false;
+  color?: string | null;
+  bgColor?: string | null;
 }
