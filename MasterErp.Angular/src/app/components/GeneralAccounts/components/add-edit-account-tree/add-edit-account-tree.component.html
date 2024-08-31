@@ -19,27 +19,16 @@
     <div class="row">
         <label class="col-sm-3 col-form-label col-form-label-sm">نوع الحساب</label>
         <div class="col-sm-9">
-            <app-erp-selector-with-search #Selector [SelectorName]="'نوع الحساب'" [ItemsList]="accountTypes" [Height]="'30px'" [SearchKey]="'nameAR'" (ItemObj)="getSelectedAccountType($event)">
-            </app-erp-selector-with-search>
+            <app-drop-down-form-control #Selector [placeholder]="'نوع الحساب'" [data]="accountTypes" (valueChanged)="getSelectedAccountType($event)">
+            </app-drop-down-form-control>
         </div>
-        <!-- <label class="col-sm-3 col-form-label col-form-label-sm">نوع الحساب</label>
-            <div class="col-sm-9">
-                <select class="form-control">
-                <option value="0" disabled selected>اختر...</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                </select>
-            </div> -->
     </div>
 
-    <!-- <hr class="my-4" /> -->
     <div class="row">
 
         <label class="col-sm-3 col-form-label col-form-label-sm">متفرع من حساب</label>
         <div class="col-sm-9">
-            <app-drop-down-form-control #Selector1 [placeholder]="'اسم الحساب'" [data]="parentAccountsList" (valueChanged)="getSelectedParentAccount($event)">
+            <app-drop-down-form-control #Selector1 [placeholder]="'اسم الحساب'" [showSearch]="true" [data]="parentAccountsList" (valueChanged)="getSelectedParentAccount($event)">
             </app-drop-down-form-control>
         </div>
     </div>
@@ -51,15 +40,6 @@
             <app-drop-down-form-control #Selector2 [placeholder]="'نوع العملة'" [data]="currencyType" (valueChanged)="getSelectedCurrencyType($event)">
             </app-drop-down-form-control>
         </div>
-        <!-- <div class="col-sm-9">
-        <select class="form-control">
-          <option value="0" disabled selected>اختر...</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-        </select>
-      </div> -->
     </div>
     <div class="row mb-3">
         <label class="col-sm-3 col-form-label col-form-label-sm">دعم مركز التكلفة </label>

@@ -14,19 +14,16 @@ import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponse
 })
 
 export class DeliveryOrdersComponent implements OnInit {
-  OrderList: any[] = [];
+  TitleList = ['المخازن', 'أذونات الصرف'];
   showLoader: boolean;
-  TotalCount: any;
-  TotalPages: any;
-
   pagedResponseModel:PagedResponseDTO<OrderModel[]>={
     results:[],
     filterList:[],
     pageSize: 25,
     currentPage:1,
     searchText:''
-
   };
+
   constructor(private inventoryService: InventoryService, private toaster: ToastrService) { }
 
   ngOnInit(): void {

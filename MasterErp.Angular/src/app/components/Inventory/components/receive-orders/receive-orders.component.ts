@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { InventoryService } from '../../services/inventory.service';
 import { ToastrService } from 'ngx-toastr';
-import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
-import { ItemModel } from '../../models/Item';
+import { OrderModel } from '../../models/inventory';
 
 
 
@@ -15,21 +14,15 @@ import { ItemModel } from '../../models/Item';
 })
 
 export class ReceiveOrdersComponent implements OnInit {
-  OrderList: any[] = [];
+  TitleList = ['المخازن', 'أذونات الإضافة'];
   showLoader: boolean;
-  TotalCount: any;
-  TotalPages: any;
-  FilterModel: FilterModel = {
-    currentPage: 1,
-    pageSize: 25
-  };
-  itemResponseModel: PagedResponseDTO<ItemModel[]> = {
-    results: [],
-    filterList: [],
+  
+  pagedResponseModel:PagedResponseDTO<OrderModel[]>={
+    results:[],
+    filterList:[],
     pageSize: 25,
-    currentPage: 1,
-    searchText: ''
-
+    currentPage:1,
+    searchText:''
   };
 
   constructor(private inventoryService: InventoryService, private toaster: ToastrService) { }
@@ -40,9 +33,9 @@ export class ReceiveOrdersComponent implements OnInit {
 
   getReceiveOrdersSummary() {
     this.showLoader = true;
-    this.inventoryService.GetReceiveOrders_Data(this.FilterModel).subscribe(data => {
-      this.OrderList = data.results;
-      this.TotalCount = data.totalCount;// && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
+    this.inventoryService.GetReceiveOrders_Data(this.pagedResponseModel).subscribe(data => {
+      this.pagedResponseModel.results = data.results;
+      this.pagedResponseModel.totalCount = data.totalCount;
       this.showLoader = false;
     }, (err) => {
       this.showLoader = false;
@@ -52,7 +45,7 @@ export class ReceiveOrdersComponent implements OnInit {
   }
 
   pageChanged(obj: any) {
-    this.FilterModel.currentPage = obj.page;
+    this.pagedResponseModel.currentPage = obj.page;
     this.getReceiveOrdersSummary();
   }
 
