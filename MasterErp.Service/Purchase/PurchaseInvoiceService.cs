@@ -316,14 +316,14 @@ namespace MasterErp.Service.Purchase
                 x.PurchaseInvoiceId,
                 x.InvoiceDate,
                 x.InvoiceNumber,
-                x.InvoiceTotalValue,
+                x.TotalValue,
                 x.SupplierNameEN
             }).Select(p => new OrderModel
             {
                 OrderNumber = p.Key.InvoiceNumber,
                 SupplierNameEN = p.Key.SupplierNameEN,
                 OrderDate = (DateTime)p.Key.InvoiceDate,
-                TotalValue = p.Key.InvoiceTotalValue,
+                TotalValue = p.Key.TotalValue,
                 OrderProducts = p.Select(y => new OrderProductModel
                 {
                     ItemId = y.ItemId,
@@ -353,14 +353,14 @@ namespace MasterErp.Service.Purchase
                 x.PurchaseInvoiceId,
                 x.InvoiceDate,
                 x.InvoiceNumber,
-                x.InvoiceTotalValue,
+                x.TotalValue,
                 x.SupplierNameEN
             }).Select(p => new OrderModel
             {
                 OrderNumber = p.Key.InvoiceNumber,
                 SupplierNameEN = p.Key.SupplierNameEN,
                 OrderDate = (DateTime)p.Key.InvoiceDate,
-                TotalValue = p.Key.InvoiceTotalValue,
+                TotalValue = p.Key.TotalValue,
                 OrderProducts = p.Select(y => new OrderProductModel
                 {
                     ItemId = y.ItemId,

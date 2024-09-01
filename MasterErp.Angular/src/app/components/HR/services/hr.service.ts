@@ -86,7 +86,7 @@ export class HrService {
   }
 
   GetBranchData() {
-    return this.http.get<any>(this.URL + 'Employee/GetBranchData');
+    return this.http.get<any>(this.URL + 'Branch/GetBranchesData');
   }
 
   GetBankData() {

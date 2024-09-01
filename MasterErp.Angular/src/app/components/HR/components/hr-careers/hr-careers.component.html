@@ -1,6 +1,6 @@
 <div class="card radius-10 border-0 card-shadow mb-3">
     <div class="card-header border-bottom bg-gray">
-      <h5 class="mb-0 fw-bold">Add Career</h5>
+        <h5 class="mb-0 fw-bold">Add Career</h5>
     </div>
     <div class="card-body">
         <div class="main-card-action d-flex align-items-center flex-wrap">
@@ -29,13 +29,12 @@
                 </select>
             </div> -->
             <div class="col-lg-4">
-                <app-drop-down-form-control [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData"
-                    [showSearch]="true" [placeholder]="'قائمة الموظفين'"></app-drop-down-form-control>
+                <app-drop-down-form-control [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData" [showSearch]="true" [placeholder]="'قائمة الموظفين'"></app-drop-down-form-control>
                 <!-- <div *ngIf="formErrors.Id" class="text-danger  font-small-3 m-03">
                         {{formErrors.regionId}}
                     </div> -->
             </div>
-            <div class="col-lg-2 mt-2">
+            <div class="col-lg-2">
                 <button class="btn btn-primary radius-50" (click)="getCareerByEmployeeId()">
 
                     <i class="fas fa-search"></i>
@@ -65,9 +64,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)"
-                    [currentPage]="employeeCareerResponse.currentPage" [pageSize]="employeeCareerResponse.pageSize"
-                    [totalCount]="employeeCareerResponse.totalCount"></app-erp-pagination>
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="employeeCareerResponse.currentPage" [pageSize]="employeeCareerResponse.pageSize" [totalCount]="employeeCareerResponse.totalCount"></app-erp-pagination>
             </div>
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
@@ -107,8 +104,7 @@
                     </tr>
                 </tbody>
             </table>
-            <app-empty-data [showContainer]="!employeeCareerResponse.results?.length&&!showLoader"
-                [showLoader]="showLoader"></app-empty-data>
+            <app-empty-data [showContainer]="!employeeCareerResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
         </div>
     </div>
 </div>
@@ -135,68 +131,62 @@
 
 
 <ng-template #AddCareerSidePanel let-offcanvas>
-      <div class="offcanvas-header gap-3 fs-4 border-bottom py-4">
+    <div class="offcanvas-header gap-3 fs-4 border-bottom py-4">
         <i class="fas fa-user-plus offcanvas-header-icon"></i>
         <span>إضافة ترقية</span>
-      </div>
+    </div>
 
-      <div class="offcanvas-body pt-4 bg-light">
+    <div class="offcanvas-body pt-4 bg-light">
         <form [formGroup]="formGroup" autocomplete="off">
-          <div class="row">
+            <div class="row">
 
-            <div class="col-lg-12 mb-3">
-              <label class="form-label">الترقية</label>
-              <app-drop-down-form-control formControlName="jobId" [data]="jobsSelectorData" [showSearch]="true"
-                [placeholder]="'الترقية'"></app-drop-down-form-control>
-              <div *ngIf="formErrors.jobId" class="text-danger  font-small-3 m-03">
-                {{formErrors.jobId}}
-              </div>
+                <div class="col-lg-12 mb-3">
+                    <label class="form-label">الترقية</label>
+                    <app-drop-down-form-control formControlName="jobId" [data]="jobsSelectorData" [showSearch]="true" [placeholder]="'الترقية'"></app-drop-down-form-control>
+                    <div *ngIf="formErrors.jobId" class="text-danger  font-small-3 m-03">
+                        {{formErrors.jobId}}
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-3">
+                    <label class="form-label">الفرع</label>
+                    <app-drop-down-form-control formControlName="branchId" [data]="branchesSelectorData" [showSearch]="true" [placeholder]="'الفرع'"></app-drop-down-form-control>
+                    <div *ngIf="formErrors.branchId" class="text-danger  font-small-3 m-03">
+                        {{formErrors.branchId}}
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-3">
+                    <label class="form-label">حالة العمل</label>
+                    <app-drop-down-form-control formControlName="workStatusId" [data]="workStatusSelectorData" [showSearch]="true" [placeholder]="'حالة العمل'"></app-drop-down-form-control>
+                    <div *ngIf="formErrors.workStatusId" class="text-danger  font-small-3 m-03">
+                        {{formErrors.workStatusId}}
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-3">
+                    <label class="form-label">Execution Date</label>
+                    <input type="date" class="form-control sidepanel-input-padding" formControlName="executionDate" id="floatingInput" placeholder="name@example.com">
+                    <div *ngIf="formErrors.executionDate" class="text-danger  font-small-3 m-03">
+                        {{formErrors.executionDate}}
+                    </div>
+                </div>
+
+
+                <div class="col-lg-12 mb-3">
+                    <label class="form-label">ملاحظات</label>
+                    <textarea type="text" formControlName="notes" class="form-control " id="floatingInput2" placeholder="ملاحظات" autocomplete="off"></textarea>
+                    <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
+                        {{formErrors.notes}}
+                    </div>
+                </div>
+
             </div>
-
-            <div class="col-lg-12 mb-3">
-              <label class="form-label">الفرع</label>
-              <app-drop-down-form-control formControlName="branchId" [data]="branchesSelectorData" [showSearch]="true"
-                [placeholder]="'الفرع'"></app-drop-down-form-control>
-              <div *ngIf="formErrors.branchId" class="text-danger  font-small-3 m-03">
-                {{formErrors.branchId}}
-              </div>
-            </div>
-
-            <div class="col-lg-12 mb-3">
-              <label class="form-label">حالة العمل</label>
-              <app-drop-down-form-control formControlName="workStatusId" [data]="workStatusSelectorData" [showSearch]="true"
-                [placeholder]="'حالة العمل'"></app-drop-down-form-control>
-              <div *ngIf="formErrors.workStatusId" class="text-danger  font-small-3 m-03">
-                {{formErrors.workStatusId}}
-              </div>
-            </div>
-
-            <div class="col-lg-12 mb-3">
-              <label class="form-label">Execution Date</label>
-              <input type="date" class="form-control sidepanel-input-padding" formControlName="executionDate" id="floatingInput"
-                placeholder="name@example.com">
-              <div *ngIf="formErrors.executionDate" class="text-danger  font-small-3 m-03">
-                {{formErrors.executionDate}}
-              </div>
-            </div>
-
-
-            <div class="col-lg-12 mb-3">
-              <label class="form-label">ملاحظات</label>
-              <textarea type="text" formControlName="notes" class="form-control " id="floatingInput2" placeholder="ملاحظات"
-                autocomplete="off"></textarea>
-              <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
-                {{formErrors.notes}}
-              </div>
-            </div>
-
-          </div>
 
         </form>
 
         <div class="d-flex justify-content-center border-top pt-3 mt-3">
-          <button [disabled]="showAddLoader" (click)="saveEmployeeCareer()"
-            class="btn btn-primary w-50 justify-content-center py-3 fs-5 radius-10">
+            <button [disabled]="showAddLoader" (click)="saveEmployeeCareer()" class="btn btn-primary w-50 justify-content-center py-3 fs-5 radius-10">
             <!-- <i class="fas fa-id-card"></i> -->
             <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
             <span *ngIf="isUpdate" class="ms-3">تعديل</span>
@@ -204,7 +194,7 @@
         </div>
         <div class="table-responsive sidepanel-table-h large-scroll">
         </div>
-      </div>
+    </div>
 </ng-template>
 
 <!-- <form [formGroup]="form" autocomplete="off">

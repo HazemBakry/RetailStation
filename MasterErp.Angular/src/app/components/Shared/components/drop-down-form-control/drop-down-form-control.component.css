@@ -89,25 +89,25 @@
 }
 
 .dropdown-as-input>button::after {
-  position: absolute;
-  top: 50%;
-  left: 5px;
-  width: 30px !important;
-  height: 30px;
-  background-color: #FFF !important;
-  background: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 2px;
-  color: #4f5a66;
-  border-radius: 50%;
-  border: 1px solid #c1c4c7 !important;
-  transform: translateY(-50%);
-  -webkit-transform: translateY(-50%);
-  -moz-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  -o-transform: translateY(-50%);
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    width: 30px !important;
+    height: 30px;
+    background-color: #FFF !important;
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2px;
+    color: #4f5a66;
+    border-radius: 50%;
+    border: 1px solid #c1c4c7 !important;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
 }
 
 .dropdown-toggle:after {

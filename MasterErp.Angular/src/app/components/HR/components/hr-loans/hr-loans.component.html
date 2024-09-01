@@ -27,20 +27,19 @@
                 </select>
             </div> -->
             <div class="col-lg-4">
-                <app-drop-down-form-control [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData"
-                    [showSearch]="true" [placeholder]="'قائمة الموظفين'"></app-drop-down-form-control>
+                <app-drop-down-form-control [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData" [showSearch]="true" [placeholder]="'قائمة الموظفين'"></app-drop-down-form-control>
                 <!-- <div *ngIf="formErrors.Id" class="text-danger  font-small-3 m-03">
                         {{formErrors.regionId}}
                     </div> -->
             </div>
-            <div class="col-lg-2 mt-2">
+            <div class="col-lg-2">
                 <button class="btn btn-primary " (click)="getLoanByEmployeeId()">
 
                     <i class="fas fa-search"></i>
                     <span class="ms-2">بحث</span>
                 </button>
             </div>
-            
+
         </div>
 
     </div>
@@ -63,9 +62,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)"
-                    [currentPage]="employeeLoanResponse.currentPage" [pageSize]="employeeLoanResponse.pageSize"
-                    [totalCount]="employeeLoanResponse.totalCount"></app-erp-pagination>
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="employeeLoanResponse.currentPage" [pageSize]="employeeLoanResponse.pageSize" [totalCount]="employeeLoanResponse.totalCount"></app-erp-pagination>
             </div>
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
@@ -111,8 +108,7 @@
                     </tr>
                 </tbody>
             </table>
-            <app-empty-data [showContainer]="!employeeLoanResponse.results?.length&&!showLoader"
-                [showLoader]="showLoader"></app-empty-data>
+            <app-empty-data [showContainer]="!employeeLoanResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
         </div>
     </div>
 </div>
@@ -149,8 +145,7 @@
                 <div class="row">
                     <div class="col-lg-4 mb-3">
                         <div class="form-floating">
-                            <app-drop-down-form-control formControlName="loanTypeId" [data]="loanTypesSelectorData"
-                                [showSearch]="true" [placeholder]="'نوع السلفة'"></app-drop-down-form-control>
+                            <app-drop-down-form-control formControlName="loanTypeId" [data]="loanTypesSelectorData" [showSearch]="true" [placeholder]="'نوع السلفة'"></app-drop-down-form-control>
                         </div>
                         <div *ngIf="formErrors.loanTypeId" class="text-danger  font-small-3 m-03">
                             {{formErrors.loanTypeId}}
@@ -158,8 +153,7 @@
                     </div>
                     <div class="col-lg-4 offset-lg-1">
                         <div class="form-floating">
-                            <input type="date" class="form-control" formControlName="paymentFromDate" id="floatingInput"
-                                placeholder="name@example.com">
+                            <input type="date" class="form-control" formControlName="paymentFromDate" id="floatingInput" placeholder="name@example.com">
                             <label for="floatingInput">Start Paying Date</label>
                         </div>
                         <div *ngIf="formErrors.paymentFromDate" class="text-danger  font-small-3 m-03">
@@ -188,7 +182,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row mb-3">
                     <div class="col-lg-9">
                         <div class="form-floating">
@@ -200,9 +194,9 @@
                             {{formErrors.notes}}
                         </div>
                     </div>
-                    
+
                 </div>
-                
+
             </form>
 
             <div class="d-flex justify-content-center">

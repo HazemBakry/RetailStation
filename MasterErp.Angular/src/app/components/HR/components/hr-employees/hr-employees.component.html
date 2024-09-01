@@ -27,7 +27,7 @@
             <div class="col-lg-4">
 
             </div>
-            <div class="col-lg-2 mt-2">
+            <div class="col-lg-2">
                
             </div>
         </div>
@@ -39,14 +39,14 @@
 <div class="card radius-10 border-0 card-shadow mb-1">
     <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
         <h5 class="mb-0 fw-bold">الموظفين</h5>
-       
+
     </div>
     <div class="card-body">
         <div class="row p-2">
             <div class="col-md-8">
                 <div class="d-flex align-items-center flex-wrap">
                     <div class="search-box position-relative mb-2">
-                        <a routerLink="../employee-details" routerLinkActive="active"  class="btn btn-primary mb-2" >
+                        <a routerLink="../employee-details" routerLinkActive="active" class="btn btn-primary mb-2">
                             <span class="me-2">إضافة موظف</span>
                             <i class="uil uil-plus-circle"></i>
                         </a>
@@ -166,7 +166,7 @@
                         </div>
                     </div>
                     <hr class="my-4">
-                    <button  routerLink="../employee-details" routerLinkActive="active" [queryParams]="{EmployeeId:SelectedEmployee?.employeeId}" class="btn btn-primary w-100 justify-content-center py-3 fs-5 radius-10">
+                    <button routerLink="../employee-details" routerLinkActive="active" [queryParams]="{EmployeeId:SelectedEmployee?.employeeId}" class="btn btn-primary w-100 justify-content-center py-3 fs-5 radius-10">
                         <i class="fas fa-id-card"></i>
                         <span class="ms-3">إضافة موظف</span>
                     </button>
