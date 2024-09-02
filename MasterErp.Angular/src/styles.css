@@ -484,6 +484,11 @@ select::after {
     color: #15ca20 !important;
 }
 
+.cancelled {
+    background-color: rgba(255, 44, 7, 0.11) !important;
+    color: #ff0707 !important;
+}
+
 .font-white {
     color: #fff !important;
 }

@@ -8,30 +8,23 @@
         </span>
     </div>
     <div class="card-body bg-light">
-
         <form [formGroup]="formGroup" autocomplete="off">
-            <div class="employee-card-body row">
+            <div class="row">
                 <div class="col-xl-5 mb-3">
-
                     <app-drop-down-form-control formControlName="branchId" [placeholder]="'الفروع'" [disabled]="isUpdate" [data]="branchesSelectorData"></app-drop-down-form-control>
                     <div *ngIf="formErrors.branchId" class="text-danger  font-small-3 m-03">
                         {{formErrors.branchId}}
                     </div>
                 </div>
                 <div class="col-xl-5  mb-3">
-
                     <app-drop-down-form-control formControlName="storeId" [placeholder]="'المخازن'" [data]="inventoriesSelectorData"></app-drop-down-form-control>
                     <div *ngIf="formErrors.storeId" class="text-danger  font-small-3 m-03">
                         {{formErrors.storeId}}
                     </div>
-
                 </div>
-                <!-- <div class="col-xl-1"></div> -->
-
 
                 <div class="col-xl-1"></div>
                 <div class="col-xl-5  mb-3">
-
                     <div class="form-floating mb-3">
                         <input type="date" formControlName="orderDate" class="form-control" id="floatingInput1" placeholder="any">
                         <label for="floatingInput6">تاريخ التسليم</label>
@@ -39,7 +32,6 @@
                             {{formErrors.orderDate}}
                         </div>
                     </div>
-
                 </div>
                 <div class="col-xl-10">
                     <div class="form-floating mb-3">
@@ -50,8 +42,6 @@
                             {{formErrors.notes}}
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </form>

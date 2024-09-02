@@ -252,7 +252,8 @@ export class ItemsCategoryComponent implements OnInit {
     this.selectedItemCategoryId = itemId;
     this.modalService.open(content, { centered: true, size: 'md' });
   }
-  deleteCategory() {
+
+  submitDeleteAction() {
     this.inventoryService.DeleteItemCategory(this.selectedItemCategoryId).subscribe(data => {
       if (data?.isSuccess) {
         this.modalService?.dismissAll();

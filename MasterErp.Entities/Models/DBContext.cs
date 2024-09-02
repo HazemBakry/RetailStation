@@ -103,9 +103,9 @@ namespace MasterErp.Entities.Models
         public DbSet<ReceitLedgerType> ReceitLedgerType { get; set; }
 
 
-        public DbSet<PurchaseRequest> PurchaseRequest { get; set; }
+        public DbSet<PurchaseRequest> PurchaseRequests { get; set; }
         public DbSet<PurchaseRequestDetails> PurchaseRequestDetails { get; set; }
-        public DbSet<SupplierReturnsVoucher> SupplierReturnsVoucher { get; set; }
+        public DbSet<SupplierReturnsVoucher> SupplierReturnsVouchers { get; set; }
         public DbSet<SupplierReturnsVoucherDetails> SupplierReturnsVoucherDetails { get; set; }
         public DbSet<AccountOpeningBalance> AccountOpeningBalance { get; set; }
 

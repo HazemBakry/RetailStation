@@ -56,7 +56,7 @@
                                 <i class="uil uil-pen"></i>
                                 <span>تعديل</span>
                             </button>
-                            <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteItemCategoryDialog,category.itemCategoryId)">
+                            <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteDialog,category.itemCategoryId)">
                                 <i class="uil uil-trash-alt"></i>
                                 <span>حذف</span>
                             </button>
@@ -153,7 +153,7 @@
 
 
 
-<ng-template #deleteItemCategoryDialog let-modal>
+<ng-template #deleteDialog let-modal>
     <div class="modal-header">
         <h4 class="modal-title">تأكيد العملية</h4>
     </div>
@@ -161,7 +161,7 @@
         <p class="fs-5 m-0">هل انت متأكد من الحذف ؟</p>
     </div>
     <div class="modal-footer justify-content-start">
-        <button type="button" class="btn btn-success" (click)="modal.close('Save click');deleteCategory()">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click'); submitDeleteAction()">
             <i class="fas fa-check"></i>
             <span class="ms-2">نعم</span>
         </button>

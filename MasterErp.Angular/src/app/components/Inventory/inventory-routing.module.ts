@@ -12,6 +12,7 @@ import { AddPurchasesRequestComponent } from './components/add-purchase-request/
 import { ReceiveOrdersComponent } from './components/receive-orders/receive-orders.component';
 import { DeliveryOrdersComponent } from './components/delivery-orders/delivery-orders.component';
 import { AddDeliveryOrderComponent } from './components/add-delivery-order/add-delivery-order.component';
+import { SupplierVoucherComponent } from './components/supplier-voucher/supplier-voucher.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,8 @@ const routes: Routes = [
       { path: 'purchases-requests', component: PurchasesRequestsComponent },
       { path: 'add-purchases-request', component: AddPurchasesRequestComponent },
       { path: 'units', component: UnitsComponent },
+      { path: 'supplier-voucher', component: SupplierVoucherComponent },
+      
       { path: '', redirectTo: 'home', pathMatch: 'full' },
 
     ],

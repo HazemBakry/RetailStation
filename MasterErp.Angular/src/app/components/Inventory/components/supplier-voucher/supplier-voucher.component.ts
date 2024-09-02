@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { InventoryService } from '../../services/inventory.service';
-import { ToastrService } from 'ngx-toastr';
-import { OrderModel } from '../../models/inventory';
-import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { OrderModel } from '../../models/inventory';
 
 @Component({
-  selector: 'app-delivery-orders',
-  templateUrl: './delivery-orders.component.html',
-  styleUrls: ['./delivery-orders.component.css']
+  selector: 'app-supplier-voucher',
+  templateUrl: './supplier-voucher.component.html',
+  styleUrls: ['./supplier-voucher.component.css']
 })
-
-export class DeliveryOrdersComponent implements OnInit {
-  TitleList = ['المخازن', 'أذونات الصرف'];
+export class SupplierVoucherComponent implements OnInit {
+  TitleList = ['المخازن', 'أذونات ضرف مردودات المشتريات'];
   showLoader: boolean;
   OrderId: number;
   pagedResponseModel: PagedResponseDTO<OrderModel[]> = {
@@ -23,15 +22,17 @@ export class DeliveryOrdersComponent implements OnInit {
     searchText: ''
   };
 
-  constructor(private inventoryService: InventoryService, private modalService: NgbModal, private toaster: ToastrService) { }
+  constructor(private inventoryService: InventoryService, 
+    private modalService: NgbModal, 
+    private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.getDeliveryOrders_Data();
+    this.getSupplierVouchers_Data();
   }
 
-  getDeliveryOrders_Data() {
+  getSupplierVouchers_Data() {
     this.showLoader = true;
-    this.inventoryService.GetDeliveryOrders_Data(this.pagedResponseModel).subscribe(data => {
+    this.inventoryService.GetSupplierVouchers_Data(this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
       this.showLoader = false;
@@ -44,14 +45,14 @@ export class DeliveryOrdersComponent implements OnInit {
 
   pageChanged(obj: any) {
     this.pagedResponseModel.currentPage = obj.page;
-    this.getDeliveryOrders_Data();
+    this.getSupplierVouchers_Data();
   }
 
-  cancelDeliveryOrder(InvoiceId: number) {
+  cancelSupplierVoucher(InvoiceId: number) {
     this.inventoryService.CancelDeliveryOrder(InvoiceId).subscribe(data => {
       if (data) {
         this.toaster.success('تم الغاء الطلب بنجاح');
-        this.getDeliveryOrders_Data();
+        this.getSupplierVouchers_Data();
       }
       else {
         this.toaster.error('حدث خطأ اثناء الألغاء');
@@ -74,10 +75,10 @@ export class DeliveryOrdersComponent implements OnInit {
   }
 
   cancelOrder() {
-    this.inventoryService.CancelDeliveryOrder(this.OrderId).subscribe(data => {
+    this.inventoryService.CancelSupplierVoucher(this.OrderId).subscribe(data => {
       if (data?.isSuccess) {
         this.modalService?.dismissAll();
-        this.getDeliveryOrders_Data();
+        this.getSupplierVouchers_Data();
         this.toaster.success(data?.message);
       }
       else {
@@ -93,3 +94,4 @@ export class DeliveryOrdersComponent implements OnInit {
 
 
 }
+
