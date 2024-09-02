@@ -128,10 +128,10 @@ export class AddPurchaseReturnsComponent implements OnInit {
   buildForm() {
     this.formGroup = this.form.group({
       orderId: [null],
-      orderDate: [null, [Validators.required]],
-      supplierId: [null, [Validators.required]],
+      // orderDate: [null, [Validators.required]],
+      // supplierId: [null, [Validators.required]],
       secondaryOrderId: [null, [Validators.required]],
-      branchId: [null, [Validators.required]],
+      // branchId: [null, [Validators.required]],
       orderProducts: [[] as OrderProductModel[], [Validators.required,Validators.minLength(1)]],
       notes: [null],
     });
@@ -224,10 +224,10 @@ export class AddPurchaseReturnsComponent implements OnInit {
 
     this.formGroup.patchValue({
       orderId: orderModel.orderId,
-      supplierId: orderModel.supplierId,
-      orderDate:this.datePipe.transform(orderModel.orderDate, 'yyyy-MM-dd'),
+      // supplierId: orderModel.supplierId,
+      // orderDate:this.datePipe.transform(orderModel.orderDate, 'yyyy-MM-dd'),
       secondaryOrderId: orderModel.secondaryOrderId,
-      branchId: orderModel.branchId,
+      // branchId: orderModel.branchId,
       notes:orderModel.notes
       
     });

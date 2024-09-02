@@ -433,14 +433,14 @@ namespace MasterErp.Service.Purchase
                 PurchaseReturns order_tbl = new PurchaseReturns();
 
                 order_tbl.CreatedDate = DateTime.Now;
-                order_tbl.ReturnsDate = model.OrderDate;
+                order_tbl.ReturnsDate = DateTime.Now;//model.OrderDate;
                 order_tbl.CreatedBy = model.CreatedBy;
 
                 order_tbl.PurchaseInvoiceId = model.SecondaryOrderId ?? 0;
                 order_tbl.Notes = model.Notes;
                 order_tbl.TotalValue = model.OrderProducts != null ? model.OrderProducts.Sum(x => x.TotalValue) : 0;
-                order_tbl.SupplierId = (int)model?.SupplierId;
-                order_tbl.BranchId = (int)model?.BranchId;
+                //order_tbl.SupplierId = (int)model?.SupplierId;
+                //order_tbl.BranchId = (int)model?.BranchId;
                 //order_tbl.InvoiceNumber = "po_" + (Context.PurchaseReturns.Count() > 0 ? Context.PurchaseReturns.Max(x => x.PurchaseReturnsID) + 1 : 1);
 
                 Context.PurchaseReturns.Add(order_tbl);
@@ -464,7 +464,7 @@ namespace MasterErp.Service.Purchase
                 }
                 return new ActionsResponseModel
                 {
-                    Message = "Purchase Order Created"
+                    Message = "Purchase Returns Created"
                 };
             }
             catch (Exception ex)
@@ -486,13 +486,13 @@ namespace MasterErp.Service.Purchase
                     order_tbl.ModifiedDate = DateTime.Now;
                     order_tbl.ModifiedBy = model.ModifiedBy;
 
-                    order_tbl.ReturnsDate = model.OrderDate;
+                    //order_tbl.ReturnsDate = model.OrderDate;
 
                     order_tbl.PurchaseInvoiceId = model.SecondaryOrderId ?? 0;
                     order_tbl.Notes = model.Notes;
                     order_tbl.TotalValue = model.OrderProducts != null ? model.OrderProducts.Sum(x => x.TotalValue) : 0;
-                    order_tbl.SupplierId = (int)model?.SupplierId;
-                    order_tbl.BranchId = (int)model?.BranchId;
+                    //order_tbl.SupplierId = (int)model?.SupplierId;
+                    //order_tbl.BranchId = (int)model?.BranchId;
 
                     //order_tbl.InvoiceNumber = "po_" + (Context.PurchaseReturns.Count() > 0 ? Context.PurchaseReturns.Max(x => x.PurchaseReturnsID) + 1 : 1);
 

@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
-import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
@@ -23,10 +22,7 @@ export class InvoiceSearchSidepanelComponent implements OnInit {
 
   invoiceNumber: string = '';
   invoiceDate: string;
-  FilterModel: FilterModel = {
-    currentPage: 1,
-    pageSize: 25
-  };
+
   pagedResponseModel: PagedResponseDTO<OrderModel[]> = {
     results: [],
     filterList: [],
@@ -36,15 +32,19 @@ export class InvoiceSearchSidepanelComponent implements OnInit {
 
   };
   suppliersSelectorData: FormDropdownModel[] = [];
+  @ViewChild('InvoiceSearchSidepanel') InvoiceSearchSidepanel: any ;
 
   constructor(private offcanvasService: NgbOffcanvas, private sharedService: SharedService, private purchaseService: PurchaseService, private toaster: ToastrService) { }
 
 
   ngOnInit(): void {
-    this.GetSuppliersData();
 
   }
-  GetSuppliersData() {
+  openSidePanel(content: any) {
+    this.getSuppliersSelectorData();
+    this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
+  }
+  getSuppliersSelectorData() {
     this.sharedService.GetSuppliersSelector().subscribe(data => {
       this.suppliersSelectorData = data;
     });
@@ -81,6 +81,7 @@ export class InvoiceSearchSidepanelComponent implements OnInit {
     this.purchaseService.GetPurchaseInvoices_Data(this.pagedResponseModel).subscribe((data: PagedResponseDTO<OrderModel[]>) => {
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
+      this.checkResult();
       // this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
       this.showLoader = false;
     }, (err) => {
@@ -89,9 +90,16 @@ export class InvoiceSearchSidepanelComponent implements OnInit {
       this.showLoader = false;
     })
   }
-  OpenSidePanel(content: any) {
-    this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
+  checkResult()
+  {
+    if (this.pagedResponseModel.results.length == 1) {
+      this.selectedInvoice.emit(this.pagedResponseModel.results[0])
+    } 
+    else {
+      this.openSidePanel(this.InvoiceSearchSidepanel);
+    }
   }
+
   mapFilters() {
     this.pagedResponseModel.filterList = [];
     if (this.invoiceDate) {

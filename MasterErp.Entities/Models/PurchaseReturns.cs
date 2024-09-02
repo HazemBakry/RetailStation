@@ -14,8 +14,6 @@ namespace MasterErp.Entities.Models
         public int PurchaseInvoiceId { get; set; }
         public double? TotalValue { get; set; }
         public DateTime? ReturnsDate { get; set; }
-        public int SupplierId { get; set; }
-        public int BranchId { get; set; }
         public string Notes { get; set; }
 
 

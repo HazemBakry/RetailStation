@@ -1,55 +1,67 @@
-<button class="btn btn-primary" (click)="OpenSidePanel(InvoiceSearchSidepanel)">
+<!-- <button class="btn btn-primary" (click)="openSidePanel(InvoiceSearchSidepanel)">
     <i class="fas fa-search"></i>
     <span class="ms-2">بحث عن فاتورة</span>
-</button>
-<ng-template #InvoiceSearchSidepanel let-offcanvas >
-    <div class="m-1">
+</button> -->
 
-        <div class="offcanvas-header pb-0" style="z-index: 9999;">
-            <div>
-                <h4 class="offcanvas-title m-0 d-flex align-items-center w-100"><i
-                        class="fas fa-history fa-2x main-color me-2"></i> التفاصيل</h4>
-            </div>
-            <button type="button" class="btn bg-danger text-white rounded" aria-label="Close" (click)="offcanvas.dismiss()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="offcanvas-sub-header m-3" >
-            <!-- <div>
-                <h5 class="m-0"> اسم المورد : {{supplierName}}</h5>
+<div>
+    <button (click)="openSidePanel(InvoiceSearchSidepanel)" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+        <i class="fas fa-search"></i>
+        <span>بحث عن فاتورة</span>
+    </button>
+    <div class="input-group form-floating  m-3">
+        <input [(ngModel)]="invoiceNumber" type="text" class="form-control" id="floatingInput1"
+            placeholder="رقم الفاتورة" (keyup.enter)="loadData()">
+        <label for="floatingInput1">رقم الفاتورة</label>
+        <span class="input-group-text">
+            <i class="fas fa-search search-icon text-muted cursor-pointer" (click)="loadData()"></i>
+        </span>
+    </div>
 
-            </div> -->
+
+</div>
+<ng-template #InvoiceSearchSidepanel let-offcanvas>
+    <div class="offcanvas-header justify-content-between gap-3 fs-4 border-bottom py-3">
+        <div class="d-flex align-items-center gap-2">
+            <i class="fas fa-store offcanvas-header-icon"></i>
+            <span>بحث فى فواتير الشراء</span>
         </div>
-        <div class="offcanvas-body m-2 row">
-            <div class="col-xl-5 mb-3">
-                <app-drop-down-form-control [disabled]="true" [(ngModel)]="selectedSupplierId" [data]="suppliersSelectorData"
+        <div class="cursor-pointer text-danger fs-2" (click)="offcanvas.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="offcanvas-body pt-4 bg-light">
+
+        <div class="employee-card-body row mb-3">
+            <div class="col-xl-4">
+                <app-drop-down-form-control [(ngModel)]="selectedSupplierId" [data]="suppliersSelectorData"
                     [showSearch]="true" [placeholder]="'قائمة الموردين'"></app-drop-down-form-control>
             </div>
-            <div class="col-lg-3">
-                <div class="form-floating mb-3">
-                    <input type="text" [(ngModel)]="invoiceNumber" class="form-control"
-                      id="floatingInput1" placeholder="any">
-                    <label for="floatingInput1">رقم الفاتورة</label>
-                  </div>
+            <div class="col-xl-4">
+                <input type="text" autocomplete="off" [(ngModel)]="invoiceNumber" class="form-control input-height"
+                    placeholder="رقم الأذن">
             </div>
-            <div class="col-lg-3">
-                <div class="form-floating mb-3">
-                    <input type="date" [(ngModel)]="invoiceDate" class="form-control"
-                      id="floatingInput6" placeholder="any">
-                    <label for="floatingInput6">تاريخ الاصدار</label>
+            <div class="col-xl-4">
+                <input type="date" [(ngModel)]="invoiceDate" class="form-control input-height"
+                    placeholder="تاريخ الاصدار">
+            </div>
+            <div class="col-xl-12">
+                <div class="d-flex justify-content-center mt-3">
+                    <button (click)="loadData()"
+                        class="btn btn-primary w-50 justify-content-center py-2 fs-5 radius-10">
+                        بحث
+                    </button>
                 </div>
             </div>
-            <div class="col-lg-3">
-                <button (click)="loadData()" class="btn btn-primary mt-2">بحث</button>
-            </div>
         </div>
-        
-        
-        <div class="offcanvas-body pt-0">
 
+        <hr class="border-black" />
 
-            <div class="boxstyle1-content hastable table-responsive table-vp-height small-scroll">
-                <table class="table table-bordered table-responsive table-middle table-hover m-0 bg-white bigtitle">
+        <div class="card card-with-table border shadow-none">
+            <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-end">
+                <!-- pagination -->
+            </div>
+            <div class="card-body table-responsive p-0">
+                <table class="table table-borderless align-middle table-hover table-component text-center m-0">
                     <thead>
                         <tr>
                             <th>رقم الفاتورة</th>
@@ -77,27 +89,24 @@
                             <td>{{item.isLocked}}</td> -->
                             <td>{{item.totalValue}}</td>
                             <td>
-                                <span class="badge rounded-pill default p-2 text-uppercase px-3" >
+                                <span class="badge rounded-pill default p-2 text-uppercase px-3">
                                     {{item.orderStatus}}
                                 </span>
                             </td>
                             <td>
                                 <div class="w-100 d-flex align-items-center justify-content-center">
-                                    <button (click)="SelectInvoice(item)" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
-                                        <i class="far fa-eye"></i>
-                                        <span>تحميل</span>
+                                    <button (click)="SelectInvoice(item)" class="btn btn-secondary">
+                                        <i class="fas fa-upload"></i>
                                     </button>
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                     
-                    
-
                 </table>
+                <app-empty-data [showContainer]="!pagedResponseModel.results?.length&&!showLoader"
+                    [showLoader]="showLoader"></app-empty-data>
             </div>
-            <app-empty-data [showContainer]="!PurchaseList?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
-
         </div>
     </div>
 
