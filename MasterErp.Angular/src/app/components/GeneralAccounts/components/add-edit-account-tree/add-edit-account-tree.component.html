@@ -1,137 +1,148 @@
-<div class="">
+<div class="card ">
+    <div class="card-header bg-white">
+        <h6 class="fw-bold m-0">
+            <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
+            <span *ngIf="isUpdate" class="ms-3">تعديل</span>
+        </h6>
+    </div>
+    <div class="card-body bg-light">
+        <div class="">
 
 
-    <form [formGroup]="formGroup" autocomplete="off">
-        <div class="row mb-3">
-            <label class="col-sm-3 col-form-label col-form-label-md">رمز الحساب</label>
-            <div class="col-sm-9">
-                <div class="form-floating">
-                    <input type="text" class="form-control" formControlName="accountNumber" id="floatingInput"
-                        placeholder="name@example.com">
-                    <label for="floatingInput">رمز الحساب</label>
-                </div>
-                <div *ngIf="formErrors.accountNumber" class="text-danger  font-small-3 m-03">
-                    {{formErrors.accountNumber}}
-                </div>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label class="col-sm-3 col-form-label col-form-label-md">اسم الحساب</label>
-            <div class="col-sm-9">
-                <div class="input-group">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" formControlName="nameAR" id="floatingInput"
-                            placeholder="name@example.com">
-                        <label for="floatingInput">الأسم بالعربي</label>
+            <form [formGroup]="formGroup" autocomplete="off">
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label col-form-label-md">رمز الحساب</label>
+                    <div class="col-sm-9">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" formControlName="accountNumber" id="floatingInput"
+                                placeholder="name@example.com">
+                            <label for="floatingInput">رمز الحساب</label>
+                        </div>
+                        <div *ngIf="formErrors.accountNumber" class="text-danger  font-small-3 m-03">
+                            {{formErrors.accountNumber}}
+                        </div>
                     </div>
                 </div>
-                <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
-                    {{formErrors.nameAR}}
-                </div>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label class="col-sm-3 col-form-label col-form-label-md"> </label>
-
-            <div class="col-sm-9">
-                <div class="input-group">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" formControlName="nameEN" id="floatingInput"
-                            placeholder="name@example.com">
-                        <label for="floatingInput">الأسم بالانجليزي</label>
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label col-form-label-md">اسم الحساب</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" formControlName="nameAR" id="floatingInput"
+                                    placeholder="name@example.com">
+                                <label for="floatingInput">الأسم بالعربي</label>
+                            </div>
+                        </div>
+                        <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
+                            {{formErrors.nameAR}}
+                        </div>
                     </div>
                 </div>
-                <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
-                    {{formErrors.nameEN}}
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label col-form-label-md"> </label>
+        
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" formControlName="nameEN" id="floatingInput"
+                                    placeholder="name@example.com">
+                                <label for="floatingInput">الأسم بالانجليزي</label>
+                            </div>
+                        </div>
+                        <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
+                            {{formErrors.nameEN}}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label class="col-sm-3 col-form-label col-form-label-md">نوع الحساب</label>
-            <div class="col-sm-9">
-
-                <div class="form-floating">
-                    <app-drop-down-form-control formControlName="accountTypeId" [data]="accountTypesSelectorData"
-                        [showSearch]="true" [placeholder]="'نوع الحساب'"></app-drop-down-form-control>
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label col-form-label-md">نوع الحساب</label>
+                    <div class="col-sm-9">
+        
+                        <div class="form-floating">
+                            <app-drop-down-form-control formControlName="accountTypeId" [data]="accountTypesSelectorData"
+                                [showSearch]="true" [placeholder]="'نوع الحساب'"></app-drop-down-form-control>
+                        </div>
+                        <div *ngIf="formErrors.accountTypeId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.accountTypeId}}
+                        </div>
+                    </div>
                 </div>
-                <div *ngIf="formErrors.accountTypeId" class="text-danger  font-small-3 m-03">
-                    {{formErrors.accountTypeId}}
+        
+                <div class="row mb-3">
+        
+                    <label class="col-sm-3 col-form-label col-form-label-md">متفرع من حساب</label>
+                    <div class="col-sm-9">
+        
+                        <div class="form-floating">
+                            <app-drop-down-form-control formControlName="parentAccountId" [data]="parentAccountsSelectorData"
+                                [showSearch]="true" [placeholder]="'متفرع من حساب'"></app-drop-down-form-control>
+                        </div>
+                        <div *ngIf="formErrors.parentAccountId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.parentAccountId}}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-
-            <label class="col-sm-3 col-form-label col-form-label-md">متفرع من حساب</label>
-            <div class="col-sm-9">
-
-                <div class="form-floating">
-                    <app-drop-down-form-control formControlName="parentAccountId" [data]="parentAccountsSelectorData"
-                        [showSearch]="true" [placeholder]="'متفرع من حساب'"></app-drop-down-form-control>
+        
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label col-form-label-md">العملة الافتراضية</label>
+                    <div class="col-sm-9">
+                        <div class="form-floating">
+                            <app-drop-down-form-control formControlName="currencyTypeId" [data]="currencyTypesSelectorData"
+                                [showSearch]="true" [placeholder]="'العملة الافتراضية'"></app-drop-down-form-control>
+                        </div>
+                        <div *ngIf="formErrors.currencyTypeId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.currencyTypeId}}
+                        </div>
+        
+                    </div>
                 </div>
-                <div *ngIf="formErrors.parentAccountId" class="text-danger  font-small-3 m-03">
-                    {{formErrors.parentAccountId}}
+                <hr class="my-4" />
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label col-form-label-md">دعم مركز التكلفة </label>
+                    <div class="col-sm-9">
+        
+                        <div class="col-sm-9">
+                            <input class="form-check-input" formControlName="isDisToCostCenter" type="checkbox" value=""
+                                id="flexCheckDefault">
+                        </div>
+                        <div *ngIf="formErrors.isDisToCostCenter" class="text-danger  font-small-3 m-03">
+                            {{formErrors.isDisToCostCenter}}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <label class="col-sm-3 col-form-label col-form-label-md">العملة الافتراضية</label>
-            <div class="col-sm-9">
-                <div class="form-floating">
-                    <app-drop-down-form-control formControlName="currencyTypeId" [data]="currencyTypesSelectorData"
-                        [showSearch]="true" [placeholder]="'العملة الافتراضية'"></app-drop-down-form-control>
+        
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label col-form-label-md">حساب نشط</label>
+                    <div class="col-sm-9">
+        
+                        <div class="col-sm-9">
+                            <input class="form-check-input" formControlName="isActive" type="checkbox" value=""
+                                id="flexCheckDefault">
+                        </div>
+                        <div *ngIf="formErrors.isActive" class="text-danger  font-small-3 m-03">
+                            {{formErrors.isActive}}
+                        </div>
+                    </div>
                 </div>
-                <div *ngIf="formErrors.currencyTypeId" class="text-danger  font-small-3 m-03">
-                    {{formErrors.currencyTypeId}}
-                </div>
-
-            </div>
-        </div>
-        <hr class="my-4" />
-        <div class="row mb-3">
-            <label class="col-sm-3 col-form-label col-form-label-md">دعم مركز التكلفة </label>
-            <div class="col-sm-9">
-
+        
+            </form>
+        
+            <div class="row mb-3">
                 <div class="col-sm-9">
-                    <input class="form-check-input" formControlName="isDisToCostCenter" type="checkbox" value=""
-                        id="flexCheckDefault">
+                    <div class="d-flex align-items-center">
+                        <button (click)="saveAccount()" class="btn btn-primary ms-2">
+                            <i class="fas fa-cogs"></i>
+                            <span class="ms-2">{{isUpdate?'تعديل':'أضافة'}}</span>
+                        </button>
+        
+                        <button class="btn btn-warning btn-lg fs-6 m-2" (click)="initNewForm()">
+                            <i class="fas fa-times"></i>
+                            <span class="ms-2">مسح</span>
+                        </button>
+                    </div>
                 </div>
-                <div *ngIf="formErrors.isDisToCostCenter" class="text-danger  font-small-3 m-03">
-                    {{formErrors.isDisToCostCenter}}
-                </div>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <label class="col-sm-3 col-form-label col-form-label-md">حساب نشط</label>
-            <div class="col-sm-9">
-
-                <div class="col-sm-9">
-                    <input class="form-check-input" formControlName="isActive" type="checkbox" value=""
-                        id="flexCheckDefault">
-                </div>
-                <div *ngIf="formErrors.isActive" class="text-danger  font-small-3 m-03">
-                    {{formErrors.isActive}}
-                </div>
-            </div>
-        </div>
-
-    </form>
-
-    <div class="row mb-3">
-        <div class="col-sm-9">
-            <div class="d-flex align-items-center">
-                <button (click)="saveAccount()" class="btn btn-primary ms-2">
-                    <i class="fas fa-cogs"></i>
-                    <span class="ms-2">{{isUpdate?'تعديل':'أضافة'}}</span>
-                </button>
-
-                <button class="btn btn-warning btn-lg fs-6 m-2" (click)="initNewForm()">
-                    <i class="fas fa-times"></i>
-                    <span class="ms-2">مسح</span>
-                </button>
             </div>
         </div>
     </div>
 </div>
+
