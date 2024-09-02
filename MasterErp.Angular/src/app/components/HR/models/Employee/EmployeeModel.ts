@@ -53,5 +53,5 @@ export interface EmployeeModel extends CreatorModel {
     drivingLicenseExpireDateHijri: string;
     drivingLicenseExpireDate: string | null;
     vehicleId: number | null;
-
+    isChecked: boolean;
 }

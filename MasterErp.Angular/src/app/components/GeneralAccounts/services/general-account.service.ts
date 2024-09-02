@@ -106,12 +106,12 @@ export class GeneralAccountService {
 
 
  
-  CreateNewAccount(model: AccountTreeModel) {
-    return this.http.post<any>(this.URL + 'AccountTree/CreateNewAccount', model);
+  AddNewAccount(model: AccountTreeModel) {
+    return this.http.post<any>(this.URL + 'AccountTree/AddNewAccount', model);
   }
 
-  UpdateAccountTree(accountId:number,model: AccountTreeModel) {
-    return this.http.post<any>(this.URL + 'AccountTree/UpdateAccountTree?AccountId='+accountId, model);
+  EditAccountTree(accountId:number,model: AccountTreeModel) {
+    return this.http.post<any>(this.URL + 'AccountTree/EditAccountTree?AccountId='+accountId, model);
   }
 
   ExportAccountTreeList(searchText:string){

@@ -17,10 +17,10 @@ export class AccountTreeV2Component implements OnInit, OnChanges {
   @Input() reloadData: boolean = false;
   @Output() selectedAccount = new EventEmitter<any>();
 
-  AccountTreeData: any[] = [];
+  accountTreeData: any[] = [];
   AccountData: any[] = [];
   showLoader: boolean;
-  SearchText = '';
+  searchText = '';
   isSearchMode = false;
   parentAccountsList: any[] = [];
   accountTypes: any[] = [];
@@ -42,24 +42,8 @@ export class AccountTreeV2Component implements OnInit, OnChanges {
       this.loadData();
     }
   }
-  GetAccountTypes() {
-    this.sharedService.GetAccountTypes().subscribe(data => {
-      this.accountTypes = data;
-    })
-  }
-  
-  GetCurrencyList() {
-    this.GeneralAccountService.GetCurrencyList().subscribe(data => {
-      this.currencyType = data;
-    });
-  }
 
-  loadParentAccountsData() {
-    this.sharedService.GetAccountsSelector(true).subscribe(data => {
-      this.parentAccountsList = data;
 
-    })
-  }
   selectAccount(account: AccountTreeModel) {
     // if (!this.isParentAccount && account.children.length >0) {
     //   this.toaster.warning('please select child account');
@@ -76,10 +60,10 @@ export class AccountTreeV2Component implements OnInit, OnChanges {
   loadData() {
 
     this.showLoader = true;
-    this.sharedService.GetAccountTreeHierarchicalData(this.SearchText).subscribe(data => {
+    this.sharedService.GetAccountTreeHierarchicalData(this.searchText).subscribe(data => {
       this.showLoader = false;
       this.isSearchMode = true;
-      this.AccountTreeData = data;
+      this.accountTreeData = data;
 
     }, (error) => {
       this.showLoader = false;

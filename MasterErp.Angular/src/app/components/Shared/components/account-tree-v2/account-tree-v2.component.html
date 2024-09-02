@@ -14,7 +14,7 @@
           </button>
 
         </span>
-        <input [(ngModel)]="SearchText" (keyup.enter)="loadData()" type="text" placeholder="اسم الحساب"
+        <input [(ngModel)]="searchText" (keyup.enter)="loadData()" type="text" placeholder="اسم الحساب"
           class="form-control">
       </div>
     </div>
@@ -27,9 +27,9 @@
         <option value="4">حساب 4</option>
       </select>
     </div> -->
-    <div *ngIf="AccountTreeData && AccountTreeData.length>0" class="col-md-12">
+    <div *ngIf="accountTreeData && accountTreeData.length>0" class="col-md-12">
       <div class="border bg-white small-scroll overflow-auto max-height-350 striped-row">
-        <app-account-tree-item *ngFor="let account of AccountTreeData" [account]="account"
+        <app-account-tree-item *ngFor="let account of accountTreeData" [account]="account"
           (selectedAccount)="selectAccount($event)"></app-account-tree-item>
       </div>
 

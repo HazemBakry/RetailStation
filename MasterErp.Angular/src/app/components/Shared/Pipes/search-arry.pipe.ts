@@ -12,7 +12,7 @@ export class SearchArryPipe implements PipeTransform {
       if (category) {
         if (property) {
 
-          return category[property].toLowerCase().indexOf(
+          return category[property]?.toLowerCase().indexOf(
             searchText.toLowerCase()) > -1;
         } else {
 

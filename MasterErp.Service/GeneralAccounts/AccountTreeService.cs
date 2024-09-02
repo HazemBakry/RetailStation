@@ -38,24 +38,27 @@ namespace MasterErp.Service.GeneralAccounts
             ConnectionString = Configuration.GetConnectionString("DBConnection");
         }
 
-        public ActionsResponseModel CreateNewAccount(AccountTreeModel Model)
+        public ActionsResponseModel AddNewAccount(AccountTreeModel Model)
         {
             try
             {
+                var parentAccount = Context.AccountTrees.FirstOrDefault(x => x.AccountId == Model.ParentAccountId);
+
                 AccountTree tbl = new AccountTree();
 
-                tbl.CreateDate = DateTime.Now;
-                tbl.CreatedBy = string.Empty;
                 tbl.AccountNumber = Model.AccountNumber;
                 tbl.ParentAccountId = Model.ParentAccountId;
                 tbl.AccountTypeId = Model.AccountTypeId;
-                tbl.AccountLevel = Model.AccountLevel ?? 1;
+                tbl.AccountLevel = parentAccount != null ? parentAccount.AccountLevel + 1 : 1;
+                tbl.IsParent = parentAccount != null ? false : true;
                 tbl.AccountNature = string.Empty;
                 tbl.IsActive = Model.IsActive;
                 tbl.NameAR = Model.NameEN;
                 tbl.NameEN = Model.NameEN;
                 tbl.IsDisToCostCenter = Model.IsDisToCostCenter;
 
+                tbl.CreatedDate = DateTime.Now;
+                tbl.CreatedBy = Model.CreatedBy;
 
                 Context.AccountTrees.Add(tbl);
                 Context.SaveChanges();
@@ -63,7 +66,6 @@ namespace MasterErp.Service.GeneralAccounts
 
                 return new ActionsResponseModel
                 {
-                    Status = 1,
                     Message = "تم الحفظ  بنجاح"
                 };
             }
@@ -71,13 +73,13 @@ namespace MasterErp.Service.GeneralAccounts
             {
                 return new ActionsResponseModel
                 {
-                    Status = 0,
+                    IsSuccess = false,
                     Message = ex.Message
                 };
             }
         }
 
-        public ActionsResponseModel UpdateAccountTree(int AccountId, AccountTreeModel Model)
+        public ActionsResponseModel EditAccountTree(int AccountId, AccountTreeModel Model)
         {
             try
             {
@@ -85,32 +87,34 @@ namespace MasterErp.Service.GeneralAccounts
 
                 if (entity != null)
                 {
-
-                    entity.ModifyDate = DateTime.Now;
-                    entity.CreatedBy = string.Empty;
+                    var parentAccount = Context.AccountTrees.FirstOrDefault(x => x.AccountId == Model.ParentAccountId);
+                    
+                    
                     entity.AccountNumber = Model.AccountNumber;
                     entity.ParentAccountId = Model.ParentAccountId;
                     entity.AccountTypeId = Model.AccountTypeId;
-                    entity.AccountLevel = Model.AccountLevel ?? 1;
+                    entity.AccountLevel = parentAccount !=null ? parentAccount.AccountLevel+1 : 1;
+                    entity.IsParent= parentAccount != null ?false : true;
                     entity.AccountNature = string.Empty;
                     entity.IsActive = Model.IsActive;
-                    entity.NameAR = Model.NameEN;
+                    entity.NameAR = Model.NameAR;
                     entity.NameEN = Model.NameEN;
                     entity.IsDisToCostCenter = Model.IsDisToCostCenter;
+                    entity.ModifiedDate = DateTime.Now;
+                    entity.ModifiedBy = Model.ModifiedBy;
                 }
 
                 Context.SaveChanges();
                 return new ActionsResponseModel
                 {
-                    Status = 1,
-                    Message = "تم الحفظ  بنجاح"
+                    Message = "تم التعديل  بنجاح"
                 };
             }
             catch (Exception ex)
             {
                 return new ActionsResponseModel
                 {
-                    Status = 0,
+                    IsSuccess = false,
                     Message = ex.Message
                 };
             }
@@ -170,7 +174,7 @@ namespace MasterErp.Service.GeneralAccounts
             return roots;
         }
 
-        public static void UpdateParentSelection(AccountTreeModel acc, Dictionary<int, AccountTreeModel> accounts)
+        public static void UpdateParentSelection(AccountTreeModel acc, Dictionary<int?, AccountTreeModel> accounts)
         {
             acc.IsSelected = true;
             if (acc.AccountLevel >= 1 && accounts.TryGetValue(acc.ParentAccountId, out var parentAcc))
@@ -308,7 +312,7 @@ namespace MasterErp.Service.GeneralAccounts
                     {
                         entity.PreDebit = Model.PreDebit;
                         entity.PreCredit = Model.PreCredit;
-                        entity.ModifyDate = DateTime.Now;
+                        entity.ModifiedDate = DateTime.Now;
                         entity.CreatedBy = string.Empty;
                     }
                 }

@@ -2,58 +2,71 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { SaveEmployeeModel } from 'src/app/components/HR/models/SaveEmployeeModel';
 import { HrService } from '../../services/hr.service';
-import { FilterItem, FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ValidationService } from 'src/app/components/Shared/services/validation.service';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { Router } from '@angular/router';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { EmployeeModel } from '../../models/Employee/EmployeeModel';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-hr-employees',
   templateUrl: './hr-employees.component.html',
   styleUrls: ['./hr-employees.component.css']
 })
 export class HrEmployeesComponent implements OnInit {
-  ResultData: any[] = [];
   URLs: any[] = [];
   ImagesName: any[] = [];
   Branches: any[] = [];
   filterList: FilterModel[] = [];
   TitleList = ['Users', 'Users'];
   BranchName = 'Branches';
-  DefaultImage = '../../../../../assets/av-8.png';
+  systemUrl:string=environment.systemUrl
+  defaultImage = `${this.systemUrl}assets/images/av-8.png`;
+
   SearchText = '';
-  UserModel: any;
   totalCount: any;
   totalPages: any;
   pageSize: any = 8;
   currentPage: any = 1;
   StartIndex = 0;
   BranchValidate = false;
-  SelectedEmployee: any;
-  SearchFilterModel: SearchFilterModel = {
-    currentPage: 1,
-    pageSize: 25,
-    filterModel: { filterItems: [] }
-  };
+  selectedEmployee: any;
+  showLoader: boolean=false;
 
+  pagedResponseModel:PagedResponseDTO<EmployeeModel[]>={
+    results:[],
+    filterList:[],
+    pageSize: 25,
+    currentPage:1,
+    searchText:''
+
+  };
   constructor(private modalService: NgbModal, private toaster: ToastrService, private hrService: HrService, private router: Router,
     private validationService: ValidationService, private sharedService: SharedService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.UserModel = JSON.parse(localStorage.getItem('UserModel'));
     this.getAllEmployees();
     this.getEmployeesFilter();
     this.getBranches();
   }
 
   getAllEmployees() {
-    //this.SearchFilterModel.SearchText = this.SearchText;
-    this.hrService.GetAllEmployees(this.SearchFilterModel).subscribe(data => {
-      this.totalCount = data?.totalCount;
-      this.ResultData = data?.results;
-      // this.ResultData[0].isClicked = true;
-      // this.SelectedEmployee = this.ResultData[0];
+    //this.pagedResponseModel.SearchText = this.SearchText;
+    this.hrService.GetAllEmployees(this.pagedResponseModel).subscribe(data => {
+      this.pagedResponseModel.results = data?.results;
+      this.pagedResponseModel.totalCount = data?.totalCount;
+      this.pagedResponseModel.results = data?.results;
+      if (this.pagedResponseModel.results.length > 0) {
+        this.showEmployeeCardData(this.pagedResponseModel.results[0]);
+      }
+
+    }, err=>{
+      this.showLoader=false;
+    },()=>{
+      this.showLoader=false;
     });
   }
 
@@ -62,7 +75,7 @@ export class HrEmployeesComponent implements OnInit {
   }
 
   getEmployeesFilter() {
-    this.hrService.GetEmployeesFilter(this.SearchFilterModel).subscribe(data => {
+    this.hrService.GetEmployeesFilter(this.pagedResponseModel).subscribe(data => {
       this.filterList = data;
     });
   }
@@ -74,12 +87,12 @@ export class HrEmployeesComponent implements OnInit {
   }
 
   filterChecked(filterItems: FilterItem[]) {
-    this.SearchFilterModel.filterModel.filterItems = filterItems;
+    this.pagedResponseModel.filterList = filterItems;
     this.getAllEmployees();
   }
 
   pageChanged(obj: any) {
-    this.SearchFilterModel.currentPage = obj.page;
+    this.pagedResponseModel.currentPage = obj.page;
     this.getAllEmployees();
   }
 
@@ -111,14 +124,13 @@ export class HrEmployeesComponent implements OnInit {
     }
   }
 
-  ShowUserCardData(item: any) {
-    this.SelectedEmployee = item;
-    this.ResultData.forEach(user => {
-      if (item.id == user.id)
-        user.isClicked = true;
-      else
-        user.isClicked = false;
-    })
+  showEmployeeCardData(item: EmployeeModel) {
+    this.pagedResponseModel.results.map(emp => {
+      emp.isChecked = false;
+    });
+    item.isChecked = true;
+    this.selectedEmployee = item;
+    
   }
 
 }

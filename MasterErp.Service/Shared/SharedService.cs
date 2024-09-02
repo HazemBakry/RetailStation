@@ -256,6 +256,16 @@ namespace MasterErp.Service.Shared
             return results;
         }
 
+        public List<SelectorDataModel> GetCurrencySelector()
+        {
+            var results = Context.Currency.Where(x => x.IsActive).Select(b => new SelectorDataModel
+            {
+                Id = b.CurrencyId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+
         #endregion
 
     }
