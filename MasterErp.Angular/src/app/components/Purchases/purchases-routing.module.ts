@@ -7,13 +7,12 @@ import { PurchaseInvoicesComponent } from './components/purchase-invoices/purcha
 import { PurchaseOrdersComponent } from './components/purchase-orders/purchase-orders.component';
 import { PurchaseReturnsComponent } from './components/purchase-returns/purchase-returns.component';
 import { SuppliersAccountStatementComponent } from './components/suppliers-account-statement/suppliers-account-statement.component';
-import { PurchasesLayoutComponent } from './purchases-layout/purchases-layout.component';
-import { CreateSupplierReturnsVoucherComponent } from './components/create-supplier-returns-voucher/create-supplier-returns-voucher.component';
 import { SupplierReturnsVouchersComponent } from './components/supplier-returns-vouchers/supplier-returns-vouchers.component';
 import { SuppliersListComponent } from './components/suppliers-list/suppliers-list.component';
 import { PurchasesHomeComponent } from './components/purchases-home/purchases-home.component';
 import { BusinessCoreLayoutComponent } from '../Shared/components/business-core-layout/business-core-layout.component';
 import { AddSupplierComponent } from './components/add-supplier/add-supplier.component';
+import { AddSupplierReturnsVoucherComponent } from './components/add-supplier-returns-voucher/add-supplier-returns-voucher.component';
 
 const routes: Routes = [
   {
@@ -30,7 +29,7 @@ const routes: Routes = [
       { path: 'add-purchase-returns', component: AddPurchaseReturnsComponent },
       { path: 'suppliers-account-statement', component: SuppliersAccountStatementComponent },
       { path: 'supplier-returns-voucher', component: SupplierReturnsVouchersComponent },
-      { path: 'add-supplier-returns-voucher', component: CreateSupplierReturnsVoucherComponent },
+      { path: 'add-supplier-returns-voucher', component: AddSupplierReturnsVoucherComponent },
       { path: 'suppliers-list', component: SuppliersListComponent },
       { path: 'add-supplier', component: AddSupplierComponent },
       { path: '', redirectTo: 'home' ,pathMatch: 'full' },

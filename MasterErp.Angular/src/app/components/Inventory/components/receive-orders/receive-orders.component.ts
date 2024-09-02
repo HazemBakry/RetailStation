@@ -3,6 +3,7 @@ import { InventoryService } from '../../services/inventory.service';
 import { ToastrService } from 'ngx-toastr';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { OrderModel } from '../../models/inventory';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -16,7 +17,7 @@ import { OrderModel } from '../../models/inventory';
 export class ReceiveOrdersComponent implements OnInit {
   TitleList = ['المخازن', 'أذونات الإضافة'];
   showLoader: boolean;
-  
+  OrderId: number;
   pagedResponseModel:PagedResponseDTO<OrderModel[]>={
     results:[],
     filterList:[],
@@ -25,7 +26,9 @@ export class ReceiveOrdersComponent implements OnInit {
     searchText:''
   };
 
-  constructor(private inventoryService: InventoryService, private toaster: ToastrService) { }
+  constructor(private inventoryService: InventoryService, 
+    private modalService: NgbModal,
+    private toaster: ToastrService) { }
 
   ngOnInit(): void {
     this.getReceiveOrdersSummary();
@@ -49,23 +52,32 @@ export class ReceiveOrdersComponent implements OnInit {
     this.getReceiveOrdersSummary();
   }
 
-  cancelReceiveOrder(InvoiceId: number) {
-    this.inventoryService.CancelReceiveOrder(InvoiceId).subscribe(data => {
-      if (data) {
-        this.toaster.success('تم الغاء الطلب بنجاح');
+  openDeleteModal(content: any, itemId: number) {
+    this.OrderId = itemId;
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+
+  cancelOrder() {
+    this.inventoryService.CancelReceiveOrder(this.OrderId).subscribe(data => {
+      if (data?.isSuccess) {
+        this.modalService?.dismissAll();
         this.getReceiveOrdersSummary();
+        this.toaster.success(data?.message);
       }
       else {
-        this.toaster.error('حدث خطأ اثناء الألغاء');
+        this.toaster.error(data?.message);
       }
-    }, (error) => {
-      this.toaster.error('حدث خطأ اثناء الألغاء');
-    })
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
   }
 
   getStatusColor(status: boolean) {
     if (status == true)
-      return "locked";
+      return "cancelled";
     else
       return "open";
   }

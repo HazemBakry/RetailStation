@@ -142,34 +142,38 @@ export class InventoryService {
   GetReceiveOrders_Data(model: SearchFilterModel) {
     return this.http.post<any>(this.URL + 'Inventory/GetReceiveOrders_Data', model);
   }
+
   GetReceiveOrderDetailsById(orderId: number) {
     return this.http.get<OrderModel>(this.URL + `Inventory/GetReceiveOrderDetailsById?OrderId=${orderId}`);
   }
+
   GetReceiveOrderProducts_Data(orderIds: number[]) {
-    return this.http.post<OrderProductModel[]>(this.URL + `Inventory/GetReceiveOrderProducts_Data`,orderIds);
+    return this.http.post<OrderProductModel[]>(this.URL + 'Inventory/GetReceiveOrderProducts_Data', orderIds);
   }
 
   AddNewReceiveOrder(model: OrderModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/AddNewReceiveOrder', model);
   }
-  EditReceiveOrder(orderId:number,model: OrderModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + `Inventory/EditReceiveOrder?OrderId=${orderId}`, model);
+
+  EditReceiveOrder(orderId: number, model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/EditReceiveOrder?OrderId=' + orderId, model);
   }
 
   CancelReceiveOrder(OrderId: number) {
-    return this.http.get<any[]>(this.URL + 'Inventory/CancelReceiveOrder?=OrderId' + OrderId);
+    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelReceiveOrder?OrderId=' + OrderId);
   }
 
 
-  /////////////////////////// Delivery Orders 
+  // ------------------------------------------- Delivery Orders ------------------------------------------- //
+
   GetDeliveryOrders_Data(model: PagedResponseDTO) {
     return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'Inventory/GetDeliveryOrders_Data', model);
   }
 
-
   GetDeliveryOrderDetailsById(orderId: number) {
     return this.http.get<OrderModel>(this.URL + `Inventory/GetDeliveryOrderDetailsById?OrderId=${orderId}`);
   }
+
   GetDeliveryOrderProducts_Data(orderId: number) {
     return this.http.get<OrderProductModel[]>(this.URL + `Inventory/GetDeliveryOrderProducts_Data?OrderId=${orderId}`);
   }
@@ -177,11 +181,13 @@ export class InventoryService {
   AddNewDeliveryOrder(model: OrderModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/AddNewDeliveryOrder', model);
   }
-  EditDeliveryOrder(orderId:number,model: OrderModel) {
+
+  EditDeliveryOrder(orderId: number, model: OrderModel) {
     return this.http.post<ActionsResponseModel>(this.URL + `Inventory/EditDeliveryOrder?OrderId=${orderId}`, model);
   }
+
   CancelDeliveryOrder(OrderId: number) {
-    return this.http.get<any[]>(this.URL + 'Inventory/CancelDeliveryOrder?=OrderId' + OrderId);
+    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelDeliveryOrder?OrderId' + OrderId);
   }
 
   GetOrdersSearchData(supplierId: number, orderNumber: string, orderDate: string) {
@@ -191,14 +197,40 @@ export class InventoryService {
     return this.http.get<any[]>(this.URL + 'Inventory/GetOrdersSearchData?SupplierId=' + supplierId + '&OrderNumber=' + orderNumber + '&OrderDate=' + orderDate);
   }
 
+  //----------------------------------------- Supplier Vouchers ------------------------------------//
 
-  ///////////////////
+  GetSupplierVouchers_Data(model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'Inventory/GetSupplierVouchers_Data', model);
+  }
 
-  GetPurchasesRequestsData(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'PurchasesRequests/GetPurchasesRequestsData', model);
+  CancelSupplierVoucher(OrderId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelSupplierVoucher?OrderId' + OrderId);
+  }
+
+  //----------------------------------------- Purchase Requests ------------------------------------//
+
+  GetPurchasesRequests_Data(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'Inventory/GetPurchasesRequests_Data', model);
+  }
+
+  GetPurchasesRequestDetailsById(orderId: number) {
+    return this.http.get<OrderModel>(this.URL + 'Inventory/GetPurchasesRequestDetailsById?OrderId=' + orderId);
   }
 
   CreateNewPurchasesRequest(model: PurchaseRequestModel) {
-    return this.http.post<any>(this.URL + 'PurchasesRequests/CreateNewPurchasesRequest', model);
+    return this.http.post<any>(this.URL + 'Inventory/CreateNewPurchasesRequest', model);
   }
+
+  EditPurchasesRequest(orderId: number, model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Inventory/EditPurchasesRequest?OrderId=${orderId}`, model);
+  }
+
+  CancelPurchaseRequest(OrderId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelPurchaseRequest?OrderId=' + OrderId);
+  }
+
+  GetPurchaseRequestProducts_Data(orderId: number) {
+    return this.http.get<OrderProductModel[]>(this.URL + `Inventory/GetPurchaseRequestProducts_Data?OrderId=${orderId}`);
+  }
+
 }

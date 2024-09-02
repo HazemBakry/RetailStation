@@ -33,10 +33,9 @@ export class ItemsComponent implements OnInit {
   itemResponseModel:PagedResponseDTO<ItemModel[]>={
     results:[],
     filterList:[],
-    pageSize: 25,
+    pageSize: 20,
     currentPage:1,
     searchText:''
-
   };
   showLoader: boolean=false;
   showAddLoader: boolean=false;

@@ -41,7 +41,7 @@ namespace MasterErp.Service.Purchase
         {
             //var data= Context.SupplierReturnsVoucher.ToList();
 
-            int totalCount = Context.SupplierReturnsVoucher.Count();
+            int totalCount = Context.SupplierReturnsVouchers.Count();
 
             int skip = (model.CurrentPage - 1) * model.PageSize;
 
@@ -51,7 +51,7 @@ namespace MasterErp.Service.Purchase
             //    .Take(model.PageSize)
             //    .ToList();
 
-            var data = (from returns in Context.SupplierReturnsVoucher
+            var data = (from returns in Context.SupplierReturnsVouchers
                         join supplier in Context.Suppliers
                         on returns.SupplierId equals supplier.SupplierId into temp
                         from res in temp.DefaultIfEmpty()
@@ -65,10 +65,10 @@ namespace MasterErp.Service.Purchase
                             Notes = returns.Notes,
                             IsCancelled = returns.IsCancelled,
                             IsLocked = returns.IsLocked,
-                            InsertUser = returns.InsertUser,
-                            InsertDate = returns.InsertDate,
-                            UpdateUser = returns.UpdateUser,
-                            UpdateDate = returns.UpdateDate,
+                            InsertUser = returns.CreatedBy,
+                            InsertDate = returns.CreatedDate,
+                            UpdateUser = returns.ModifiedBy,
+                            UpdateDate = returns.ModifiedDate,
                             SupplierName = res.NameEN ?? res.NameAR
                         }).OrderByDescending(e => e.InvoiceNumber)
                            .Skip(skip)
@@ -92,10 +92,10 @@ namespace MasterErp.Service.Purchase
                 SupplierReturnsVoucher tbl = new SupplierReturnsVoucher();
 
 
-                tbl.InvoiceNumber = Context.SupplierReturnsVoucher.Count() > 0 ? Context.SupplierReturnsVoucher.Max(x => x.InvoiceNumber) + 1 : 1;
+                tbl.InvoiceNumber = Context.SupplierReturnsVouchers.Count() > 0 ? Context.SupplierReturnsVouchers.Max(x => x.InvoiceNumber) + 1 : 1;
                 tbl.InvoiceDate = model?.OrderDate ?? DateTime.Now;
-                tbl.InsertDate = DateTime.Now;
-                tbl.InsertUser = string.Empty;
+                tbl.CreatedDate = DateTime.Now;
+                tbl.CreatedBy = string.Empty;
                 tbl.IsCancelled = false;
                 tbl.IsLocked = false;
                 tbl.Notes = model.Notes;
@@ -103,7 +103,7 @@ namespace MasterErp.Service.Purchase
                 tbl.TotalValue = model?.OrderDate != null ? model.OrderProducts.Sum(x => x.TotalValue) : 0;
                 tbl.SupplierId = (int)model?.SupplierId;
 
-                Context.SupplierReturnsVoucher.Add(tbl);
+                Context.SupplierReturnsVouchers.Add(tbl);
                 Context.SaveChanges();
 
                 foreach (var item in model.OrderProducts)

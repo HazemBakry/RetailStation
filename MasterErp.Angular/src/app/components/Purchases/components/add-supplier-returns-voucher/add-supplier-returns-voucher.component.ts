@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
-import { SupplierReturnsVoucherModel } from '../../models/SupplierReturnsVoucherModel';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
-import { PurchaseService } from '../../services/purchase.service';
+import { SupplierReturnsVoucherModel } from 'src/app/components/Purchases/models/SupplierReturnsVoucherModel';
+import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
 
 @Component({
   selector: 'app-create-supplier-returns-voucher',
-  templateUrl: './create-supplier-returns-voucher.component.html',
-  styleUrls: ['./create-supplier-returns-voucher.component.css'],
+  templateUrl: './add-supplier-returns-voucher.component.html',
+  styleUrls: ['./add-supplier-returns-voucher.component.css'],
 })
-export class CreateSupplierReturnsVoucherComponent implements OnInit {
+export class AddSupplierReturnsVoucherComponent implements OnInit {
   // BranchesList: any[] = [];
   SuppliersList: any[] = [];
   ProductsList: OrderDetailModel[] = [];

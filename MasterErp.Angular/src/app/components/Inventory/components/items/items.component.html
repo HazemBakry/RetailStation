@@ -5,12 +5,12 @@
     <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-3">
             <button class="btn btn-outline-primary border m-2" (click)="openNewItemSidePanel(AddNewItemDialog)">
-                <span class="me-2">إضافة صنف</span>
                 <i class="uil uil-plus fs-5"></i>
+                <span class="ms-2">إضافة صنف</span>
             </button>
             <button [disabled]="showExportLoader" class="btn btn-success border m-2" (click)="exportData()">
-                <span class="me-2">تصدير</span>
                 <i class="uil uil-export fs-5"></i>
+                <span class="ms-2">تصدير</span>
             </button>
         </div>
         <nav>
@@ -21,7 +21,8 @@
     <div class="card-body table-responsive p-0">
         <div class="row">
             <div class="col-md-2">
-                <table class="table table-borderless align-middle table-hover table-component text-center m-0 p-0">
+                <table class="table table-borderless align-middle table-hover table-component 
+                text-center m-0 p-0 table-vp-height small-scroll" style="border-left-style: double;">
                     <thead>
                         <tr>
                             <th class="cursor-pointer" title="reset" (click)="filterCategory(0)">
@@ -45,7 +46,7 @@
             </div>
 
             <div class="col-md-10">
-                <table class="table table-borderless align-middle table-hover table-component text-center m-0 p-0">
+                <table class="table table-borderless align-middle table-hover table-component text-center m-0 p-0" style="border-right-style: double;">
                     <thead>
                         <tr>
                             <th>الصنف</th>

@@ -17,6 +17,7 @@ import { AddReceiveOrderComponent } from './components/add-receive-order/add-rec
 import { ReceiveOrdersComponent } from './components/receive-orders/receive-orders.component';
 import { DeliveryOrdersComponent } from './components/delivery-orders/delivery-orders.component';
 import { AddDeliveryOrderComponent } from './components/add-delivery-order/add-delivery-order.component';
+import { SupplierVoucherComponent } from './components/supplier-voucher/supplier-voucher.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { AddDeliveryOrderComponent } from './components/add-delivery-order/add-d
     PurchasesRequestsComponent,
     AddItemComponent,
     InventoryHomeComponent,
-    UnitsComponent
+    UnitsComponent,
+    SupplierVoucherComponent
   ],
   imports: [
     CommonModule,
