@@ -214,6 +214,13 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetItemLookupsSelector();
             return Ok(result);
         }
+        [HttpGet]
+        [Route("GetCurrencySelector")]
+        public IActionResult GetCurrencySelector()
+        {
+            var result = _sharedService.GetCurrencySelector();
+            return Ok(result);
+        }
 
 
         #endregion

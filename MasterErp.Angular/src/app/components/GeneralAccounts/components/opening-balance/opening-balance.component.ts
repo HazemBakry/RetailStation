@@ -41,7 +41,7 @@ export class OpeningBalanceComponent implements OnInit {
 
   GetAccountTypes()
   {
-    this.sharedService.GetAccountTypes().subscribe(data=>{
+    this.sharedService.GetAccountTypesSelector().subscribe(data=>{
 
       this.accountTypes=data;
     })
@@ -119,7 +119,7 @@ export class OpeningBalanceComponent implements OnInit {
       return;
     }
     this.GeneralAccountService
-      .CreateNewAccount(this.accountTreeModel)
+      .AddNewAccount(this.accountTreeModel)
       .subscribe((data: CreateModifyReturnsModel) => {
         if (data?.status) {
           this.ClearAllFields();

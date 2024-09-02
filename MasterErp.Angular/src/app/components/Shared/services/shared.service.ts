@@ -105,9 +105,7 @@ export class SharedService {
   }
 
 
-  GetAccountTypes() {
-    return this.http.get<any[]>(this.URL + 'Shared/GetAccountTypes');
-  }
+
 
   downloadImporterTemplate(template: ExcelExportStyle) {
     return this.http.get<CreateModifyReturnsModel>(this.URL + 'Shared/DownloadImporterTemplate?ImporterType=' + template);
@@ -115,6 +113,9 @@ export class SharedService {
 
 
   //================================== Selectors (dropdown) ===============================
+  GetAccountTypesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetAccountTypes');
+  }
   GetBranchesSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetBranchesSelector');
   }
@@ -177,5 +178,8 @@ export class SharedService {
   }
   GetItemLookupsSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetItemLookupsSelector');
+  }
+  GetCurrencySelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetCurrencySelector');
   }
 }

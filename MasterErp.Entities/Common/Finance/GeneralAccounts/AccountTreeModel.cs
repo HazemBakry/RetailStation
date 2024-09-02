@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MasterErp.Entities.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Common.Finance.GeneralAccounts
 {
-    public class AccountTreeModel
+    public class AccountTreeModel : CreatorModel
     {
-        public int AccountId { get; set; }
+        public int? AccountId { get; set; }
         public string AccountNumber { get; set; }
 
-        public int ParentAccountId { get; set; }
+        public int? ParentAccountId { get; set; }
         public int? AccountLevel { get; set; }
         public int? AccountTypeId { get; set; }
         public string NameAR { get; set; }
