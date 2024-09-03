@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
@@ -32,7 +32,7 @@ export class InvoiceSearchSidepanelComponent implements OnInit {
 
   };
   suppliersSelectorData: FormDropdownModel[] = [];
-  @ViewChild('InvoiceSearchSidepanel') InvoiceSearchSidepanel: any ;
+  @ViewChild('InvoiceSearchSidepanel', { static: true }) InvoiceSearchSidepanel: TemplateRef<any>;
 
   constructor(private offcanvasService: NgbOffcanvas, private sharedService: SharedService, private purchaseService: PurchaseService, private toaster: ToastrService) { }
 

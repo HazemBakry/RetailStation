@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit, ViewChild } from '@angular/core';
 import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
 import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
-import { OrderModel } from 'src/app/components/Inventory/models/inventory';
+import { OrderModel, OrderProductModel } from 'src/app/components/Inventory/models/inventory';
+import { ComponentHostDirective } from 'src/app/components/Shared/directives/component-host.directive';
+import { ProductsDetailsSidePanelComponent } from 'src/app/components/Shared/components/sidepanel/products-details-side-panel/products-details-side-panel.component';
+import { DataField } from 'src/app/components/Shared/models/DataField';
+import { DynamicComponentLoaderService } from 'src/app/components/Shared/services/dynamic-component-loader.service';
+import { FieldType } from 'src/app/components/Shared/Enums/FieldType';
 
 @Component({
   selector: 'app-purchase-invoices',
@@ -24,7 +29,9 @@ export class PurchaseInvoicesComponent implements OnInit {
     searchText:''
 
   };
-  constructor(private purchaseService: PurchaseService, private toaster: ToastrService) { }
+  @ViewChild(ComponentHostDirective, { static: true }) detailsComponentHost!: ComponentHostDirective;
+
+  constructor(private purchaseService: PurchaseService, private toaster: ToastrService,private dynamicComponentService:DynamicComponentLoaderService ) { }
 
   ngOnInit(): void {
     this.getPurchaseInvoicesData();
@@ -72,5 +79,58 @@ export class PurchaseInvoicesComponent implements OnInit {
     else
       return "open";
   }
+  showInvoiceDetails(detailsModel: OrderModel) {
+
+    this.showLoader = true;
+    this.purchaseService.GetPurchaseInvoiceProducts_Data(detailsModel.orderId).subscribe((data: OrderProductModel[]) => {
+      this.dynamicComponentService.loadProductDetailsSidePanel(
+        this.detailsComponentHost.viewContainerRef,
+        detailsModel,
+        data,
+        this.invoiceDetailsDataFields,
+        `تفاصيل الفاتورة ${detailsModel.orderNumber}#`
+      );
+      
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+
+
+  }
+  invoiceDetailsDataFields :DataField[] = [
+    {
+      fieldName: 'itemNameAR', 
+      fieldType: FieldType.Text, 
+      displayName: 'الاسم (AR)', 
+    },
+    {
+      fieldName: 'itemNameEN', 
+      fieldType: FieldType.Text, 
+      displayName: 'الاسم (EN)', 
+    },
+    {
+      fieldName: 'unitNameAR', 
+      fieldType: FieldType.Text, 
+      displayName: 'الوحدة', 
+    },
+    {
+      fieldName: 'price', 
+      fieldType: FieldType.Text, 
+      displayName: 'السعر', 
+    },
+    {
+      fieldName: 'quantity', 
+      fieldType: FieldType.Text, 
+      displayName: 'الكمية', 
+    },
+    {
+      fieldName: 'totalValue', 
+      fieldType: FieldType.Text, 
+      displayName: 'الاجمالي', 
+    },
+  ];
 
 }

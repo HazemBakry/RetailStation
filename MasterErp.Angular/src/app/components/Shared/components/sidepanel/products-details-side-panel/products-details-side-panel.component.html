@@ -1,0 +1,92 @@
+<!-- <button (click)="openSidePanel(DetailsSidePanel)"
+    class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+    <i class="fas fa-search"></i>
+    <span>بحث عن فاتورة</span>
+</button> -->
+
+
+<ng-template #DetailsSidePanel let-offcanvas>
+    <div class="offcanvas-header justify-content-between gap-3 fs-4 border-bottom py-3">
+        <div class="d-flex align-items-center gap-2">
+            <i class="fas fa-store offcanvas-header-icon"></i>
+            <span>{{title}}</span>
+        </div>
+        <div class="cursor-pointer text-danger fs-2" (click)="offcanvas.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="offcanvas-body pt-4 bg-light">
+
+        <div *ngIf="detailsModel" class="employee-card-body mb-3">
+            <div class="row mb-3">
+                <div class="col-xl-6">
+                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
+                        <i class="fas fa-info-circle fa-1x me-2"></i> رقم الطلب : {{detailsModel?.orderNumber}}
+                    </h4>
+                </div>
+                <div *ngIf="detailsModel?.orderDate" class="col-xl-6">
+                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
+                         تاريخ الطلب : {{detailsModel?.orderDate | date:'shortDate'}}
+                    </h4>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div *ngIf="detailsModel?.supplierNameAR" class="col-xl-6">
+                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
+                        <i class="fas fa-info-circle fa-1x me-2"></i> المورد : {{detailsModel?.supplierNameAR}}
+                    </h4>
+                </div>
+                <div *ngIf="detailsModel?.storeNameAR" class="col-xl-6">
+                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
+                         المخزن : {{detailsModel?.storeNameAR}}
+                    </h4>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div *ngIf="detailsModel?.totalValue" class="col-xl-6">
+                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
+                        <i class="fas fa-info-circle fa-1x me-2"></i>الاجمالي: {{detailsModel?.totalValue}}
+                    </h4>
+                </div>
+            </div>
+            <!-- <div class="col-xl-12">
+                <div class="d-flex justify-content-center mt-3">
+
+                </div>
+            </div> -->
+        </div>
+
+        <hr class="border-black" />
+
+        <div class="card card-with-table border shadow-none">
+            <!-- <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-end">
+                pagination
+            </div> -->
+            <div class="card-body table-responsive p-0">
+                <table *ngIf="dataFields?.length >0"
+                    class="table table-borderless align-middle table-hover table-component text-center m-0">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let field of dataFields">{{field.displayName ?? field.fieldName}}</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of productList; let i = index">
+
+                            <td *ngFor="let field of dataFields">
+                                <app-render *ngIf="getFieldValue(product,field) as item" [value]="item"
+                                    [fieldType]="field.fieldType">
+                                </app-render>
+                            </td>
+
+                        </tr>
+                    </tbody>
+
+                </table>
+                <app-empty-data [showContainer]="!productList?.length || !dataFields?.length "></app-empty-data>
+            </div>
+        </div>
+    </div>
+
+</ng-template>

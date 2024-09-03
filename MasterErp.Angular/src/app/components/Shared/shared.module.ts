@@ -39,7 +39,9 @@ import { DropDownFormControlComponent } from './components/drop-down-form-contro
 import { BusinessCoreLayoutComponent } from './components/business-core-layout/business-core-layout.component';
 import { GeneralOrderProductsComponent } from './components/general-order-products/general-order-products.component';
 import { ReceiveOrdersSidePanelComponent } from './components/sidepanel/receive-orders-side-panel/receive-orders-side-panel.component';
-import { PurchaseInvoicesSidePanelComponent } from './components/sidepanel/purchase-invoices-side-panel/purchase-invoices-side-panel.component';
+import { ProductsDetailsSidePanelComponent } from './components/sidepanel/products-details-side-panel/products-details-side-panel.component';
+import { RenderComponent } from './components/render/render.component';
+import { ComponentHostDirective } from './directives/component-host.directive';
 
 @NgModule({
   declarations: [
@@ -67,6 +69,7 @@ import { PurchaseInvoicesSidePanelComponent } from './components/sidepanel/purch
     ReceiptBooksComponent,
     OverviewCardComponent,
     ColorWithStatusDirective,
+    ComponentHostDirective,
     CustomFormDropdownComponent,
     ErpHomeComponent,
     NotAuthorizedComponent,
@@ -75,7 +78,8 @@ import { PurchaseInvoicesSidePanelComponent } from './components/sidepanel/purch
     BusinessCoreLayoutComponent,
     GeneralOrderProductsComponent,
     ReceiveOrdersSidePanelComponent,
-    PurchaseInvoicesSidePanelComponent
+    ProductsDetailsSidePanelComponent,
+    RenderComponent
   ],
 
 
@@ -121,6 +125,7 @@ import { PurchaseInvoicesSidePanelComponent } from './components/sidepanel/purch
     StatsCardComponent,
     OverviewCardComponent,
     ColorWithStatusDirective,
+    ComponentHostDirective,
     CustomFormDropdownComponent,
     ErpHomeComponent,
     NotAuthorizedComponent,
@@ -129,7 +134,9 @@ import { PurchaseInvoicesSidePanelComponent } from './components/sidepanel/purch
 
 
     ReceiveOrdersSidePanelComponent,
-    PurchaseInvoicesSidePanelComponent
+    ProductsDetailsSidePanelComponent,
+    RenderComponent,
+    
   ],
   providers: [
     DatePipe,
