@@ -19,9 +19,9 @@
   <div class="pull-right NewPaging">
     <nav>
       <ul class="table-pagination pagination m-0 p-0 gap-2">
-        <!-- <li class="page-item" [class.disabled]="currentPage === 1">
-          <a (click)="setPage(1)" class="page-link">First</a>
-        </li> -->
+        <li *ngIf="totalPages>10" class="page-item" [class.disabled]="currentPage === 1">
+          <a (click)="setPage(1)" class="page-link">الأولي</a>
+        </li>
         <li class="page-item" [class.disabled]="currentPage === 1">
           <a class="page-link" aria-label="Previous" (click)="setPage(currentPage - 1)">
             <i class="fas fa-chevron-right"></i>
@@ -35,9 +35,9 @@
             <i class="fas fa-chevron-left"></i>
           </a>
         </li>
-        <!-- <li class="page-item" [class.disabled]="currentPage === totalPages">
-          <a (click)="setPage(totalPages)" class="page-link">Last</a>
-        </li> -->
+        <li *ngIf="totalPages>10" class="page-item" [class.disabled]="currentPage === totalPages">
+          <a (click)="setPage(totalPages)" class="page-link">الأخيرة</a>
+        </li>
       </ul>
     </nav>
   </div>

@@ -24,7 +24,7 @@ export class ErpPaginationComponent implements OnInit ,OnChanges{
 
   ngOnChanges(changes: any){
     this.resetShowingStr();
-    if(!changes.totalCount?.firstChange&&!changes.totalCount?.previousValue)
+    if(!changes.totalCount?.firstChange)//&&!changes.totalCount?.previousValue)
     {
       this.totalPages = Math.ceil(this.totalCount / this.pageSize);
       this. generatePages();
