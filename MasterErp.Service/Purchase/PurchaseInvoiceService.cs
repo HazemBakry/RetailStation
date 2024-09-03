@@ -496,7 +496,6 @@ namespace MasterErp.Service.Purchase
 
                     //order_tbl.InvoiceNumber = "po_" + (Context.PurchaseReturns.Count() > 0 ? Context.PurchaseReturns.Max(x => x.PurchaseReturnsID) + 1 : 1);
 
-                    Context.PurchaseReturns.Add(order_tbl);
                     Context.SaveChanges();
 
                     var PurchaseReturnDetails = Context.PurchaseReturnsDetails.Where(x => x.PurchaseReturnsId == OrderId).ToList();

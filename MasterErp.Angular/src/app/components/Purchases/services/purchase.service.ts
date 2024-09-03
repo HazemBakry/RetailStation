@@ -61,8 +61,8 @@ export class PurchaseService {
   GetPurchaseReturnsDetailsById(orderId: number) {
     return this.http.get<OrderModel>(this.URL + `PurchaseInvoice/GetPurchaseReturnsDetailsById?OrderId=${orderId}`);
   }
-  GetPurchaseReturnsProducts_Data(orderIds: number[]) {
-    return this.http.post<OrderProductModel[]>(this.URL + `PurchaseInvoice/GetPurchaseReturnsProducts_Data`,orderIds);
+  GetPurchaseReturnsProducts_Data(orderId: number) {
+    return this.http.get<OrderProductModel[]>(this.URL + `PurchaseInvoice/GetPurchaseReturnsProducts_Data?OrderId=${orderId}`);
   }
 
   AddNewPurchaseReturns(model: OrderModel) {

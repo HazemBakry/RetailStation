@@ -76,7 +76,7 @@ export class AddPurchaseReturnsComponent implements OnInit {
   }
   getPurchaseReturnsProducts() {
     this.showLoader = true;
-    this.purchaseService.GetPurchaseReturnsProducts_Data([this.purchaseReturnsId]).subscribe((data: OrderProductModel[]) => {
+    this.purchaseService.GetPurchaseReturnsProducts_Data(this.purchaseReturnsId).subscribe((data: OrderProductModel[]) => {
       this.orderProducts = data;
       if (this.orderProducts.length>0) {
         // this.formGroup.patchValue({orderProducts:this.orderProducts});
