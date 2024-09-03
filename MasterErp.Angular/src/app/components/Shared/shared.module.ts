@@ -42,6 +42,7 @@ import { ReceiveOrdersSidePanelComponent } from './components/sidepanel/receive-
 import { ProductsDetailsSidePanelComponent } from './components/sidepanel/products-details-side-panel/products-details-side-panel.component';
 import { RenderComponent } from './components/render/render.component';
 import { ComponentHostDirective } from './directives/component-host.directive';
+import { EnglishToArabicNumbersDirective } from './directives/english-to-arabic-numbers.directive';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { ComponentHostDirective } from './directives/component-host.directive';
     GeneralOrderProductsComponent,
     ReceiveOrdersSidePanelComponent,
     ProductsDetailsSidePanelComponent,
-    RenderComponent
+    RenderComponent,
+    EnglishToArabicNumbersDirective
   ],
 
 
@@ -131,7 +133,7 @@ import { ComponentHostDirective } from './directives/component-host.directive';
     NotAuthorizedComponent,
     DropDownFormControlComponent,
     RoleCheckerDirective,
-
+    EnglishToArabicNumbersDirective,
 
     ReceiveOrdersSidePanelComponent,
     ProductsDetailsSidePanelComponent,
