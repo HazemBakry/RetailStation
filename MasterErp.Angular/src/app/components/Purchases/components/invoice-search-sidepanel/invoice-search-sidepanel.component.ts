@@ -81,8 +81,7 @@ export class InvoiceSearchSidepanelComponent implements OnInit {
     this.purchaseService.GetPurchaseInvoices_Data(this.pagedResponseModel).subscribe((data: PagedResponseDTO<OrderModel[]>) => {
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
-      this.checkResult();
-      // this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
+      // this.checkResult();
       this.showLoader = false;
     }, (err) => {
       this.showLoader = false;

@@ -8,12 +8,41 @@
         <form [formGroup]="formGroup" autocomplete="off">
             <div class="employee-card-body row g-3">
                 <div class="col-xl-6">
-                    <app-invoice-search-sidepanel [selectedSupplierId]="selectedSupplierId"  (selectedInvoice)="searchInvoiceSelected($event)" >
+                    <app-invoice-search-sidepanel *ngIf="!isUpdate" [selectedSupplierId]="selectedSupplierId"  (selectedInvoice)="searchInvoiceSelected($event)" >
 
                     </app-invoice-search-sidepanel>
                     <div *ngIf="formErrors.secondaryOrderId" class="text-danger  font-small-3 m-03">
                         {{formErrors.secondaryOrderId}}
                     </div>
+                </div>
+
+                <div *ngIf="selectedPurchaseInvoice" class="mb-3">
+                    <div *ngIf="selectedPurchaseInvoice?.orderNumber" class="col-xl-6 mb-3">
+                        <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
+                            <i class="fas fa-info-circle fa-1x me-2"></i> رقم الفاتورة : {{selectedPurchaseInvoice?.orderNumber}}
+                        </h4>
+                    </div>
+                    <div *ngIf="selectedPurchaseInvoice?.orderDate" class="col-xl-6 mb-3">
+                        <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
+                            <i class="fas fa-info-circle fa-1x me-2"></i>  تاريخ الفاتورة : {{selectedPurchaseInvoice?.orderDate | date:'shortDate'}}
+                        </h4>
+                    </div>
+                    <div *ngIf="selectedPurchaseInvoice?.supplierNameAR" class="col-xl-6 mb-3">
+                        <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
+                            <i class="fas fa-info-circle fa-1x me-2"></i> المورد : {{selectedPurchaseInvoice?.supplierNameAR}}
+                        </h4>
+                    </div>
+                    <div *ngIf="selectedPurchaseInvoice?.storeNameAR" class="col-xl-6 mb-3">
+                        <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
+                             المخزن : {{selectedPurchaseInvoice?.storeNameAR}}
+                        </h4>
+                    </div>
+                    <div *ngIf="selectedPurchaseInvoice?.totalValue" class="col-xl-6 mb-3">
+                        <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
+                            <i class="fas fa-info-circle fa-1x me-2"></i>الاجمالي: {{selectedPurchaseInvoice?.totalValue}}
+                        </h4>
+                    </div>
+                    
                 </div>
                 <!-- <div class="col-xl-4">
 

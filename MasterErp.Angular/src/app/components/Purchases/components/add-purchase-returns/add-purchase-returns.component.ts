@@ -65,7 +65,25 @@ export class AddPurchaseReturnsComponent implements OnInit {
         this.receiveOrderModel = data;
         // this.getPurchaseReturnsProducts();
         // this.initNewForm(this.receiveOrderModel);
-        this.fillEditForm(this.receiveOrderModel)
+        this.fillEditForm(this.receiveOrderModel);
+        if(data.secondaryOrderId)
+        {
+          this.getPurchaseInvoiceDetailsById(data.secondaryOrderId);
+        }
+      }
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+
+  getPurchaseInvoiceDetailsById(invoiceId: number) {
+    this.showLoader = true;
+    this.purchaseService.GetPurchaseInvoiceDetailsById(invoiceId).subscribe((data: OrderModel) => {
+      if (data) {
+        this.selectedPurchaseInvoice = data;
       }
       this.showLoader = false;
     }, err => {
