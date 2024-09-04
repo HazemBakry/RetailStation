@@ -129,7 +129,7 @@ export class AddPurchaseOrderComponent implements OnInit {
     model.notes = this.notes;
     model.items = this.ProductsList;
 
-    this.purchaseService.CreateNewPurchaseOrder(model).subscribe((data: CreateModifyReturnsModel) => {
+    this.purchaseService.AddNewPurchaseOrder(model).subscribe((data: CreateModifyReturnsModel) => {
       if (data?.status) {
         this.ClearAllFields();
         // this.InvoiceNumber = data.item2;

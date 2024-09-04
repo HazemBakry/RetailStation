@@ -86,8 +86,11 @@ namespace MasterErp.Service.Purchase
             return result;
 
         }
-
-        public ActionsResponseModel CreateNewPurchaseOrder(OrderModel model)
+        public OrderModel GetPurchaseOrderDetailsById(int OrderId)
+        {
+            return GetPurchaseOrders_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, OrderId)?.FirstOrDefault();
+        }
+        public ActionsResponseModel AddNewPurchaseOrder(OrderModel model)
         {
             try
             {
@@ -140,18 +143,70 @@ namespace MasterErp.Service.Purchase
             }
         }
 
-        public bool CancelPurchaseOrder(int OrderId)
+
+        public ActionsResponseModel EditPurchaseOrder(int OrderId, OrderModel model)
+        {
+            try
+            {
+                var order_tbl = Context.PurchaseOrders.Where(i => i.PurchaseOrderId == OrderId).FirstOrDefault();
+                if (order_tbl != null)
+                {
+                    order_tbl.ModifiedDate = DateTime.Now;
+                    order_tbl.ModifiedBy = string.Empty;
+                    order_tbl.Notes = model.Notes;
+                    order_tbl.TotalValue = (double)(model.OrderProducts != null ? model.OrderProducts.Sum(x => x.TotalValue) : 0);
+                    order_tbl.SupplierId = (int)model?.SupplierId;
+
+
+                    Context.SaveChanges();
+
+                    var PurchaseOrderDetails = Context.PurchaseOrderDetails.Where(x => x.PurchaseOrderId == OrderId).ToList();
+                    Context.PurchaseOrderDetails.RemoveRange(PurchaseOrderDetails);
+                    foreach (OrderProductModel item in model.OrderProducts)
+                    {
+                        var detail = new PurchaseOrderDetails
+                        {
+                            Price = item.Price,
+                            ItemId = item.ItemId,
+                            Notes = model.Notes,
+                            Quantity = item.Quantity,
+                            TotalValue = item.TotalValue,
+                            PurchaseOrderId = order_tbl.PurchaseOrderId,
+                            UnitId = item.UnitId
+                        };
+
+                        Context.PurchaseOrderDetails.Add(detail);
+                        Context.SaveChanges();
+                    }
+
+                    return new ActionsResponseModel { Message = "Purchase Order Updated Successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this purchase order" };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public ActionsResponseModel CancelPurchaseOrder(int OrderId)
         {
 
             var Invoice = Context.PurchaseOrders.FirstOrDefault(x => x.PurchaseOrderId == OrderId);
             if (Invoice is null)
             {
-                return false;
+                return new ActionsResponseModel { IsSuccess = false, Message = "can't find this purchase order" };
             }
             //Context.PurchaseInvoices.Remove(Invoice);
             Invoice.IsCancelled = true;
             Context.SaveChanges();
-            return true;
+            return new ActionsResponseModel { Message = "Purchase Order Cancelled Successfly !" };
         }
 
 

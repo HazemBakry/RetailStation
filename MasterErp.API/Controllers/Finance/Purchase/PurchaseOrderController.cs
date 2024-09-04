@@ -50,12 +50,26 @@ namespace MasterErp.API.Controllers.Finance.Purchase
             var result = PurchaseOrderService.GetPurchaseOrderProducts_Data(OrderId);
             return Ok(result);
         }
+        [HttpGet]
+        [Route("GetPurchaseOrderDetailsById")]
+        public IActionResult GetPurchaseOrderDetailsById(int OrderId)
+        {
+            var result = PurchaseOrderService.GetPurchaseOrderDetailsById(OrderId);
+            return Ok(result);
+        }
 
         [HttpPost]
-        [Route("CreateNewPurchaseOrder")]
-        public IActionResult CreateNewPurchaseOrder(OrderModel model)
+        [Route("AddNewPurchaseOrder")]
+        public IActionResult AddNewPurchaseOrder(OrderModel model)
         {
-            var result = PurchaseOrderService.CreateNewPurchaseOrder(model);
+            var result = PurchaseOrderService.AddNewPurchaseOrder(model);
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("EditPurchaseOrder")]
+        public IActionResult EditPurchaseOrder(int OrderId,OrderModel model)
+        {
+            var result = PurchaseOrderService.EditPurchaseOrder(OrderId, model);
             return Ok(result);
         }
 

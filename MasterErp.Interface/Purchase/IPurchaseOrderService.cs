@@ -15,8 +15,10 @@ namespace MasterErp.Interface.Purchase
     {
         List<OrderModel> GetPurchaseOrders_Data(SearchFilterModel PagingFilter, int? OrderId=null);
         List<OrderProductModel> GetPurchaseOrderProducts_Data(int OrderId);
-        ActionsResponseModel CreateNewPurchaseOrder(OrderModel model);
-        bool CancelPurchaseOrder(int OrderId);
+        ActionsResponseModel AddNewPurchaseOrder(OrderModel model);
+        OrderModel GetPurchaseOrderDetailsById(int OrderId);
+        ActionsResponseModel EditPurchaseOrder(int OrderId, OrderModel model);
+        ActionsResponseModel CancelPurchaseOrder(int OrderId);
 
 
 

@@ -51,7 +51,7 @@ export class PurchaseOrdersComponent implements OnInit {
 
   cancelPurchaseOrder(orderId: number) {
     this.purchaseService.CancelPurchaseOrder(orderId).subscribe(data => {
-      if (data) {
+      if (data.isSuccess) {
         this.toaster.success('تم الغاء الطلب بنجاح');
         this.getPurchasesOrdersData();
       }
