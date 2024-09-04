@@ -1,9 +1,13 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
-import { OrderModel } from 'src/app/components/Inventory/models/inventory';
+import { OrderModel, OrderProductModel } from 'src/app/components/Inventory/models/inventory';
+import { FieldType } from 'src/app/components/Shared/Enums/FieldType';
+import { DataField } from 'src/app/components/Shared/models/DataField';
+import { DynamicComponentLoaderService } from 'src/app/components/Shared/services/dynamic-component-loader.service';
+import { ComponentHostDirective } from 'src/app/components/Shared/directives/component-host.directive';
 
 
 @Component({
@@ -25,7 +29,8 @@ export class PurchaseOrdersComponent implements OnInit {
     searchText: ''
   };
 
-  constructor(private purchaseService: PurchaseService, private toaster: ToastrService) { }
+  @ViewChild(ComponentHostDirective, { static: true }) detailsComponentHost!: ComponentHostDirective;
+  constructor(private purchaseService: PurchaseService, private toaster: ToastrService,private dynamicComponentService:DynamicComponentLoaderService ) { }
 
   ngOnInit(): void {
     this.getPurchasesOrdersData();
@@ -69,5 +74,58 @@ export class PurchaseOrdersComponent implements OnInit {
     else
       return "open";
   }
+  showOrderDetails(detailsModel: OrderModel) {
+
+    // this.showLoader = true;
+    this.purchaseService.GetPurchaseOrderProducts_Data(detailsModel.orderId).subscribe((data: OrderProductModel[]) => {
+      this.dynamicComponentService.loadProductDetailsSidePanel(
+        this.detailsComponentHost.viewContainerRef,
+        detailsModel,
+        data,
+        this.orderDetailsDataFields,
+        `تفاصيل طلب المشترايات ${detailsModel.orderNumber}#`
+      );
+      
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+
+
+  }
+  orderDetailsDataFields :DataField[] = [
+    {
+      fieldName: 'itemNameAR', 
+      fieldType: FieldType.Text, 
+      displayName: 'الاسم (AR)', 
+    },
+    {
+      fieldName: 'itemNameEN', 
+      fieldType: FieldType.Text, 
+      displayName: 'الاسم (EN)', 
+    },
+    {
+      fieldName: 'unitNameAR', 
+      fieldType: FieldType.Text, 
+      displayName: 'الوحدة', 
+    },
+    {
+      fieldName: 'price', 
+      fieldType: FieldType.Text, 
+      displayName: 'السعر', 
+    },
+    {
+      fieldName: 'quantity', 
+      fieldType: FieldType.Text, 
+      displayName: 'الكمية', 
+    },
+    {
+      fieldName: 'totalValue', 
+      fieldType: FieldType.Text, 
+      displayName: 'الاجمالي', 
+    }
+  ];
 
 }

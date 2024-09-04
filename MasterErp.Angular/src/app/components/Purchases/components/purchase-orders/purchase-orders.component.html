@@ -4,13 +4,16 @@
     <div class="card card-with-table border shadow-none">
         <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2" routerLink="/purchases/add-purchase-order">
+                <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2"
+                    routerLink="/purchases/add-purchase-order">
                     <i class="uil uil-plus fs-5"></i>
                     <span>انشاء فاتورة</span>
                 </button>
             </div>
             <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
+                    [pageSize]="pagedResponseModel.pageSize"
+                    [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
             </div>
         </div>
         <div class="card-body table-responsive">
@@ -36,21 +39,32 @@
                         <td>{{item.orderTypeName}}</td>
                         <td>{{item.totalValue}}</td>
                         <td>
-                            <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
+                            <span class="badge rounded-pill default p-2 text-uppercase px-3"
+                                [ngClass]="getStatusColor(item.isLocked)">
                                 {{item.orderStatus}}
                             </span>
                         </td>
                         <td>
                             <div class="w-100 d-flex align-items-center justify-content-center">
-                                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="open(formModal)">
+                                
+                                <button routerLink="/purchases/add-purchase-order"
+                                    [queryParams]="{PurchaseOrderId:item.orderId}"
+                                    class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
                                     <i class="uil uil-pen"></i>
                                     <span>تعديل</span>
                                 </button>
-                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="cancelPurchaseOrder(item.orderId)">
+
+                                <button
+                                    class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
+                                    (click)="cancelPurchaseOrder(item.orderId)">
                                     <i class="uil uil-trash-alt"></i>
                                     <span>حذف</span>
                                 </button>
-
+                                <button (click)="showOrderDetails(item)"
+                                class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
+                                <i class="uil uil-pen"></i>
+                                <span>تفاصيل</span>
+                            </button>
                                 <!-- <app-invoice-details-sidepanel [invoiceId]="item.orderId"></app-invoice-details-sidepanel> -->
                             </div>
                         </td>
@@ -62,3 +76,5 @@
         </div>
     </div>
 </div>
+
+<ng-template appComponentHost></ng-template>

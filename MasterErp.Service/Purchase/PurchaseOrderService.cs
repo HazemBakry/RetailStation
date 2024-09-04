@@ -129,7 +129,6 @@ namespace MasterErp.Service.Purchase
 
                 return new ActionsResponseModel
                 {
-                    Status = 1,
                     Message = "Purchase Order Created"
                 };
             }
@@ -137,7 +136,7 @@ namespace MasterErp.Service.Purchase
             {
                 return new ActionsResponseModel
                 {
-                    Status = 0,
+                    IsSuccess = false,
                     Message = ex.Message
                 };
             }

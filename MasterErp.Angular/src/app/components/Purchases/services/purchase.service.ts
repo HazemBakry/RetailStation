@@ -114,14 +114,18 @@ export class PurchaseService {
   GetPurchaseOrders_Data(model: PagedResponseDTO) {
     return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'PurchaseOrder/GetPurchaseOrders_Data', model);
   }
+
+  GetPurchaseOrderDetailsById(orderId: number) {
+    return this.http.get<OrderModel>(this.URL + 'PurchaseOrder/GetPurchaseOrderDetailsById?OrderId=' + orderId);
+  }
   GetPurchaseOrderProducts_Data(orderId: number) {
     return this.http.get<OrderProductModel[]>(this.URL + `PurchaseOrder/GetPurchaseOrderProducts_Data?OrderId=${orderId}`);
   }
-  AddNewPurchaseOrder(model: PurchaseOrderModel) {
-    return this.http.post<any>(this.URL + 'PurchaseOrder/AddNewPurchaseOrder', model);
+  AddNewPurchaseOrder(model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'PurchaseOrder/AddNewPurchaseOrder', model);
   }
-  EditPurchaseOrder(orderId:number,model: PurchaseOrderModel) {
-    return this.http.post<any>(this.URL + 'PurchaseOrder/EditPurchaseOrder', model);
+  EditPurchaseOrder(orderId:number,model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'PurchaseOrder/EditPurchaseOrder', model);
   }
   CancelPurchaseOrder(orderId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'PurchaseOrder/CancelPurchaseOrder?OrderId=' + orderId);

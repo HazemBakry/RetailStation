@@ -54,22 +54,21 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
     this.addProducts();
   }
   ngOnChanges(changes: any): void {
-    if (changes && changes.selectedProducts) {
+    if (changes && changes.selectedProducts && changes.selectedProducts?.currentValue?.length > 0) {
       this.addProducts();
     }
-
-    if (changes && changes.clearAllProducts && !changes.clearAllProducts?.firstChange) {
+    if (changes && changes.clearAllProducts !=null && !changes.clearAllProducts?.firstChange) {
       this.productsList = [];
     }
   }
-  addProducts() {
-    // this.productsList =[];
+  addProducts() {    
     this.selectedProducts.forEach(item => {
       let checked = this.productsList?.find(i => i.itemId == item.itemId);
       if (!checked)
         this.productsList.push(item);
     });
-    this.emitSelectedProductsList();
+    if(this.productsList)
+     this.emitSelectedProductsList();
   }
 
   openItemsModal(content: any) {
@@ -88,7 +87,7 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
   }
   openEditQuantityModal(content: any) {
     if (this.productsList.length == 0) {
-      this.toaster.warning('Please Enter Items');
+      this.toaster.warning('لا يوجد اصناف');
       return;
     }
     this.editQuantityList = [];
@@ -167,7 +166,7 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
   }
   changeNewQuantity() {
     if (this.editQuantityList.length == 0) {
-      this.toaster.warning('Please Enter Items');
+      this.toaster.warning('لا يوجد اصناف');
       return;
     }
     this.editQuantityList.forEach(item => {
