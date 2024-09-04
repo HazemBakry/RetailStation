@@ -63,7 +63,7 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
     }
   }
   addProducts() {
-    this.productsList =[];
+    // this.productsList =[];
     this.selectedProducts.forEach(item => {
       let checked = this.productsList?.find(i => i.itemId == item.itemId);
       if (!checked)
