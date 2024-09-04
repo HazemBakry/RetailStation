@@ -108,23 +108,23 @@ export class AddPurchaseQuotationComponent implements OnInit {
           if(prod.itemId && !itemIds.some(x=>prod.itemId === x))
           {
             itemIds.push(prod.itemId);
-            if (!this.itemsSelectorData.length) {
-              this.itemsSelectorData.push({value: prod.itemId,name: prod.itemNameAR});
-            }
+            // if (!this.itemsSelectorData.length) {
+            //   this.itemsSelectorData.push({value: prod.itemId,name: prod.itemNameAR});
+            // }
           }
           if(prod.supplierId && !supplierIds.some(x=>prod.supplierId === x))
           {
              supplierIds.push(prod.supplierId);
-             if (!this.suppliersSelectorData.length) {
+            //  if (!this.suppliersSelectorData.length) {
               
-               this.suppliersSelectorData.push({value: prod.supplierId,name: prod.supplierNameAR});
-             }
+            //    this.suppliersSelectorData.push({value: prod.supplierId,name: prod.supplierNameAR});
+            //  }
           }
 
         });
-        this.getSelectedItems(itemIds);
-        this.getSelectedSuppliers(supplierIds);
-        this.prepareProductList();
+        // this.getSelectedItems(itemIds);
+        // this.getSelectedSuppliers(supplierIds);
+        // this.prepareProductList();
         this.formGroup.patchValue({selectedItemIds:itemIds});
         this.formGroup.patchValue({selectedSupplierIds:supplierIds});
         this.formGroup.patchValue({quotationProducts:this.quotationProductsEditList});
