@@ -339,7 +339,17 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
     drivingLicenseIssueDateHijri: '',
     drivingLicenseExpireDate: '',
     drivingLicenseExpireDateHijri: '',
-    vehicleId: ''
+    vehicleId: '',
+    passportNumber: '',
+    passportIssuanceDate: '',
+    passportExpireDate: '',
+    passportIssuancePlace: '',
+    borderEntryNumber: '',
+    borderEntryDate: '',
+    arrivalPort: '',
+    visaNumber: '',
+    visaIssueDate: '',
+    phone: ''
   };
 
 
