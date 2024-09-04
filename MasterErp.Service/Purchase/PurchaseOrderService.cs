@@ -1,8 +1,10 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Common.SQLTabeType;
+using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.DTOs.Shared;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Purchases;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
 using MasterErp.Interface.Purchase;
@@ -26,18 +28,21 @@ namespace MasterErp.Service.Purchase
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
         private readonly IJournalEntryService JournalEntryService;
+        private readonly ISharedFilterService SharedFilterService;
         private readonly string ConnectionString;
 
-        public PurchaseOrderService(DBContext Context, 
-            ISQLHelper SQLHelper, 
-            IConfiguration Configuration, 
-            IJournalEntryService JournalEntryService)
+        public PurchaseOrderService(DBContext Context,
+            ISQLHelper SQLHelper,
+            IConfiguration Configuration,
+            IJournalEntryService JournalEntryService,
+            ISharedFilterService sharedFilterService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
             this.Configuration = Configuration;
             this.JournalEntryService = JournalEntryService;
-            this.ConnectionString  = Configuration.GetConnectionString("DBConnection");
+            this.ConnectionString = Configuration.GetConnectionString("DBConnection");
+            SharedFilterService = sharedFilterService;
         }
 
         public List<OrderModel> GetPurchaseOrders_Data(SearchFilterModel PagingFilter, int? OrderId = null)
@@ -148,6 +153,150 @@ namespace MasterErp.Service.Purchase
             Context.SaveChanges();
             return true;
         }
+
+
+
+        #region MyRegion
+
+        public List<PurchaseQuotationModel> GetPurchaseQuotations_Data(SearchFilterModel PagingFilter, int? OrderId = null)
+        {
+            var FilterListDt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
+
+            SqlParameter[] Params = new SqlParameter[4];
+
+            Params[0] = new SqlParameter("@PurchaseQuotationId", OrderId);
+            Params[1] = new SqlParameter("@CurrentPage", PagingFilter.CurrentPage);
+            Params[2] = new SqlParameter("@PageSize", PagingFilter.PageSize);
+            Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[3].Value = FilterListDt;
+
+            var result = SQLHelper.SQLQuery<PurchaseQuotationModel>("[dbo].[SP_GetPurchaseQuotations_Data]", ConnectionString, Params);
+            return result;
+        }
+
+        public PurchaseQuotationModel GetPurchaseQuotationDetailsById(int OrderId)
+        {
+            return GetPurchaseQuotations_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, OrderId)?.FirstOrDefault();
+        }
+
+        public List<PurchaseQuotationDetailsModel> GetPurchaseQuotationProducts_Data(int PurchaseQuotationId)
+        {
+            var result = (from quotationProduct in Context.PurchaseQuotationDetails
+                          join item in Context.Items on quotationProduct.ItemId equals item.ItemId
+                          join supplier in Context.Suppliers on quotationProduct.SupplierId equals supplier.SupplierId
+                          join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
+                          from unit in jT2.DefaultIfEmpty()
+                          where (quotationProduct.PurchaseQuotationId == PurchaseQuotationId)
+                          select new PurchaseQuotationDetailsModel
+                          {
+                              ItemId = item.ItemId,
+                              ItemNameEN = item.NameEN,
+                              ItemNameAR = item.NameAR,
+                              Price = quotationProduct.Price,
+                              UnitId = item.UnitId,
+                              UnitNameAR = unit.NameAR,
+                              UnitNameEN = unit.NameEN,
+                              SupplierId = quotationProduct.SupplierId,
+                              SupplierNameAR = supplier.NameAR,
+                              SupplierNameEN = supplier.NameEN,
+                              PurchaseQuotationId = quotationProduct.PurchaseQuotationId,
+
+                          }).ToList();
+
+            return result;
+
+        }
+        public ActionsResponseModel AddNewPurchaseQuotation(PurchaseQuotationModel model)
+        {
+            try
+            {
+
+                PurchaseQuotation tbl = new PurchaseQuotation();
+
+                tbl.CreatedDate = DateTime.Now;
+                tbl.CreatedBy = model.CreatedBy;
+                tbl.QuotationDate = DateTime.Now;
+                tbl.QuotationNumber = Context.PurchaseQuotations.Count() > 0 ? Context.PurchaseQuotations.Max(x => x.PurchaseQuotationId) + 1 : 1;
+                tbl.Notes = model.Notes;
+
+                Context.PurchaseQuotations.Add(tbl);
+                Context.SaveChanges();
+
+                foreach (PurchaseQuotationDetailsModel item in model.QuotationDetails)
+                {
+                    var detail = new PurchaseQuotationDetails
+                    {
+                        Price = item.Price,
+                        ItemId = item.ItemId,
+                        Notes = model.Notes,
+                        SupplierId = item.SupplierId,
+                        PurchaseQuotationId = tbl.PurchaseQuotationId,
+                    };
+
+                    Context.PurchaseQuotationDetails.Add(detail);
+                    Context.SaveChanges();
+                }
+                return new ActionsResponseModel
+                {
+                    Message = "Purchase Quotation Created"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+        public ActionsResponseModel EditPurchaseQuotation(int PurchaseQuotationId, PurchaseQuotationModel model)
+        {
+            try
+            {
+                var tbl = Context.PurchaseQuotations.Where(i => i.PurchaseQuotationId == PurchaseQuotationId).FirstOrDefault();
+                if (tbl != null)
+                {
+                    tbl.ModifiedDate = DateTime.Now;
+                    tbl.ModifiedBy = model.ModifiedBy;
+
+                    tbl.Notes = model.Notes;
+
+                    Context.SaveChanges();
+
+                    var PurchaseReturnDetails = Context.PurchaseQuotationDetails.Where(x => x.PurchaseQuotationId == PurchaseQuotationId).ToList();
+                    Context.PurchaseQuotationDetails.RemoveRange(PurchaseReturnDetails);
+                    foreach (PurchaseQuotationDetailsModel item in model.QuotationDetails)
+                    {
+                        var detail = new PurchaseQuotationDetails
+                        {
+                            Price = item.Price,
+                            ItemId = item.ItemId,
+                            Notes = model.Notes,
+                            SupplierId = item.SupplierId,
+                            PurchaseQuotationId = tbl.PurchaseQuotationId,
+                        };
+
+                        Context.PurchaseQuotationDetails.Add(detail);
+                        Context.SaveChanges();
+                    }
+
+                    return new ActionsResponseModel { Message = "Purchase Quotation Updated Successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this purchase quotation" };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+        #endregion
 
     }
 }

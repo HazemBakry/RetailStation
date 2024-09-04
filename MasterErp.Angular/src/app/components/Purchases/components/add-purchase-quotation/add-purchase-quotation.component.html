@@ -1,0 +1,55 @@
+<div class="card radius-10 border-0 card-shadow mb-3">
+    <div class="card-header bg-white">
+        <span class="m-0 fw-bold card-header-title">انشاء عرض  اسعار جديد
+        </span>
+    </div>
+    <div class="card-body bg-light">
+
+        <form [formGroup]="formGroup" autocomplete="off">
+            <div class="employee-card-body row g-3">
+                <div class="col-xl-4">
+
+                    <app-drop-down-form-control [disabled]="isUpdate" [selectMulti]="true" formControlName="supplierId" [placeholder]="'الموردين'"
+                        [data]="suppliersSelectorData"
+                        (valueChanged)="getSelectedSupplier($event)"></app-drop-down-form-control>
+                    <div *ngIf="formErrors.supplierId" class="text-danger  font-small-3 m-03">
+                        {{formErrors.supplierId}}
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="form-floating">
+                        <input type="text" formControlName="price" class="form-control" id="floatingInput1" placeholder="any">
+                        <label for="floatingInput3">السعر</label>
+                        <div *ngIf="formErrors.price" class="text-danger  font-small-3 m-03">
+                            {{formErrors.price}}
+                        </div>
+                    </div>
+                  
+                </div>
+                
+                <div class="col-xl-8">
+                    <div class="form-floating mb-3">
+                        <textarea type="text" formControlName="notes" class="form-control" id="floatingInput10" placeholder="ملاحظات"></textarea>
+                        <label for="floatingInput10">ملاحظات</label>
+
+                        <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
+                            {{formErrors.notes}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-3">
+                <button class="btn btn-primary btn-lg fs-6 me-2" (click)="savePurchaseQuotation()">
+                    <i class="fas fa-check-circle"></i>
+                    <span class="ms-2">حفظ</span>
+                </button>
+                <button class="btn btn-warning btn-lg fs-6 me-2" (click)="initNewForm()">
+                    <i class="fas fa-times"></i>
+                    <span class="ms-2">مسح</span>
+                </button>
+            </div>
+        </form>
+
+        
+    </div>
+</div>

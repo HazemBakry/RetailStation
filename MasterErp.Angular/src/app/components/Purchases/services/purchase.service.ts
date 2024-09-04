@@ -10,6 +10,7 @@ import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 import { OrderModel, OrderProductModel } from '../../Inventory/models/inventory';
 import { SupplierModel } from '../models/SupplierModel';
 import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsModel';
+import { PurchaseQuotationModel, PurchaseQuotationDetailsModel } from '../models/PurchaseQuotationModel';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +49,27 @@ export class PurchaseService {
     return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetInvoiceTypesData');
   }
 
+
+//////////////////////////////////////
+
+
+  GetPurchaseQuotations_Data(model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<PurchaseQuotationModel[]>>(this.URL + 'PurchaseOrder/GetPurchaseQuotations_Data', model);
+  }
+  GetPurchaseQuotationDetailsById(purchaseQuotationId: number) {
+    return this.http.get<PurchaseQuotationModel>(this.URL + `PurchaseOrder/GetPurchaseQuotationDetailsById?PurchaseQuotationId=${purchaseQuotationId}`);
+  }
+  GetPurchaseQuotationProducts_Data(purchaseQuotationId: number) {
+    return this.http.get<PurchaseQuotationDetailsModel[]>(this.URL + `PurchaseOrder/GetPurchaseQuotationProducts_Data?PurchaseQuotationId=${purchaseQuotationId}`);
+  }
+
+  AddNewPurchaseQuotation(model: PurchaseQuotationModel) {
+    return this.http.post<any>(this.URL + 'PurchaseOrder/AddNewPurchaseQuotation', model);
+  }
+
+  EditPurchaseQuotation(purchaseQuotationId:number,model: PurchaseQuotationModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `PurchaseOrder/EditPurchaseQuotation?PurchaseQuotationId=${purchaseQuotationId}`, model);
+  }
 
 
 

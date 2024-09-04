@@ -1,8 +1,10 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.DTOs.Inventory;
+using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Purchase;
+using MasterErp.Service.Purchase;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -65,5 +67,60 @@ namespace MasterErp.API.Controllers.Finance.Purchase
             var result = PurchaseOrderService.CancelPurchaseOrder(OrderId);
             return Ok(result);
         }
+
+
+        #region MyRegion
+
+        [HttpPost]
+        [Route("GetPurchaseQuotations_Data")]
+        public IActionResult GetPurchaseQuotations_Data(SearchFilterModel model)
+        {
+            var data = PurchaseOrderService.GetPurchaseQuotations_Data(model);
+
+            var result = new PagedResponseModel<PurchaseQuotationModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("GetPurchaseQuotationDetailsById")]
+        public IActionResult GetPurchaseQuotationDetailsById(int PurchaseQuotationId)
+        {
+            var result = PurchaseOrderService.GetPurchaseQuotationDetailsById(PurchaseQuotationId);
+
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("GetPurchaseQuotationProducts_Data")]
+        public IActionResult GetPurchaseQuotationProducts_Data(int PurchaseQuotationId)
+        {
+            var result = PurchaseOrderService.GetPurchaseQuotationProducts_Data(PurchaseQuotationId);
+
+            return Ok(result);
+
+        }
+
+        [HttpPost]
+        [Route("AddNewPurchaseQuotation")]
+        public IActionResult AddNewPurchaseQuotation(PurchaseQuotationModel model)
+        {
+            var result = PurchaseOrderService.AddNewPurchaseQuotation(model);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("EditPurchaseQuotation")]
+        public IActionResult EditPurchaseQuotation(int PurchaseQuotationId, PurchaseQuotationModel model)
+        {
+            var result = PurchaseOrderService.EditPurchaseQuotation(PurchaseQuotationId, model);
+            return Ok(result);
+        }
+
+
+        #endregion
     }
 }

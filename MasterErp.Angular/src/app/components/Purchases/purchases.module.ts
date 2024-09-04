@@ -20,6 +20,8 @@ import { SuppliersListComponent } from './components/suppliers-list/suppliers-li
 import { PurchasesHomeComponent } from './components/purchases-home/purchases-home.component';
 import { AddSupplierComponent } from './components/add-supplier/add-supplier.component';
 import { AddSupplierReturnsVoucherComponent } from './components/add-supplier-returns-voucher/add-supplier-returns-voucher.component';
+import { AddPurchaseQuotationComponent } from './components/add-purchase-quotation/add-purchase-quotation.component';
+import { PurchaseQuotationsComponent } from './components/purchase-quotations/purchase-quotations.component';
 
 
 @NgModule({
@@ -39,6 +41,8 @@ import { AddSupplierReturnsVoucherComponent } from './components/add-supplier-re
     SuppliersListComponent,
     PurchasesHomeComponent,
     AddSupplierComponent,
+    AddPurchaseQuotationComponent,
+    PurchaseQuotationsComponent,
   ],
   imports: [
     CommonModule,
