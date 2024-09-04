@@ -1,0 +1,99 @@
+<div class="card radius-10 border-0 card-shadow mb-3">
+    <div class="card-header bg-white">
+        <span class="m-0 fw-bold card-header-title">انشاء عرض  اسعار جديد
+        </span>
+    </div>
+    <div class="card-body bg-light">
+
+        <form [formGroup]="formGroup" autocomplete="off">
+            <div class="employee-card-body row g-3">
+
+                <div *ngIf="!isUpdate" class="col-xl-9">
+                   <h3 class="text-center"> 
+                    اختر الاصناف والموردين لأنشاء عرض اسعار جديد
+                   </h3>
+                </div>
+                <div class="col-xl-4">
+
+                    <app-drop-down-form-control formControlName="selectedItemIds"  [selectMulti]="true"  [placeholder]="'الاصناف'"
+                        [data]="itemsSelectorData"
+                        (valueChanged)="getSelectedItems($event)"></app-drop-down-form-control>
+                    <div *ngIf="formErrors.selectedItemIds" class="text-danger  font-small-3 m-03">
+                         {{formErrors.selectedItemIds}}
+                    </div>
+                </div>
+                <div class="col-xl-1"></div>
+
+                <div class="col-xl-4">
+
+                    <app-drop-down-form-control formControlName="selectedSupplierIds"  [selectMulti]="true"  [placeholder]="'الموردين'"
+                        [data]="suppliersSelectorData"
+                        (valueChanged)="getSelectedSuppliers($event)"></app-drop-down-form-control>
+                        <div *ngIf="formErrors.selectedSupplierIds" class="text-danger  font-small-3 m-03">
+                            {{formErrors.selectedSupplierIds}}
+                       </div>
+                </div>
+
+                
+                <div class="col-xl-9">
+                    <div class="form-floating mb-3">
+                        <textarea type="text" formControlName="notes" class="form-control" id="floatingInput10" placeholder="ملاحظات"></textarea>
+                        <label for="floatingInput10">ملاحظات</label>
+
+                        <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
+                            {{formErrors.notes}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-3">
+                <button class="btn btn-primary btn-lg fs-6 me-2" (click)="savePurchaseQuotation()">
+                    <i class="fas fa-check-circle"></i>
+                    <span class="ms-2">حفظ</span>
+                </button>
+                <button class="btn btn-warning btn-lg fs-6 me-2" (click)="initNewForm()">
+                    <i class="fas fa-times"></i>
+                    <span class="ms-2">مسح</span>
+                </button>
+            </div>
+        </form>
+
+        <div class="overflow-auto">
+
+            <table *ngIf="selectedItems?.length >0&&selectedSuppliers?.length >0" class="table table-responsive table-bordered table-feature-value align-middle border m-0">
+                <thead>
+                    <tr>
+    
+                        
+                        <th class="table-feature"></th>
+                        <th  class="table-feature" *ngFor="let supplier of selectedSuppliers">
+                            {{supplier.name}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of selectedItems">
+                        <td class="table-feature">{{item.name}}</td>
+                        <td *ngFor="let supplier of selectedSuppliers" class="table-value">
+                            <input required type="number"  class="form-control form-control-lg" placeholder="السعر"
+                            [value]="getSupplierPrice(item.value, supplier.value)"
+                            (blur)="updateSupplierPrice(item.value, supplier.value, $event.target.value)"
+                            name="price_{{item.value}}_{{supplier.value}}">
+    
+                        </td>
+                    </tr>
+                    <!-- <tr *ngFor="let item of quotationProducts">
+                        <td class="table-feature">{{item.itemNameAR}}</td>
+                        <td *ngFor="let price of item?.supplierPrices" class="table-value">
+                            <input required type="number" [(ngModel)]="price.price" class="form-control form-control-lg" placeholder="السعر">
+    
+                        </td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="formErrors.quotationProducts" class="text-danger  font-small-3 m-03">
+            {{formErrors.quotationProducts}}
+        </div>
+    </div>
+</div>

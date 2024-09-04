@@ -2,6 +2,7 @@
 using MasterErp.Entities.Models.HR.Employee;
 using MasterErp.Entities.Models.Inventory;
 using MasterErp.Entities.Models.Lookups;
+using MasterErp.Entities.Models.Purchases;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -58,7 +59,9 @@ namespace MasterErp.Entities.Models
         public DbSet<PurchaseInvoice> PurchaseInvoices { get; set; }
         public DbSet<PurchaseInvoiceDetails> PurchaseInvoiceDetails { get; set; }
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
-        public DbSet<PurchaseOrderDetails> PurchaseOrderDetails { get; set; }
+        public DbSet<PurchaseOrderDetails> PurchaseOrderDetails { get; set; }        
+        public DbSet<PurchaseQuotation> PurchaseQuotations { get; set; }
+        public DbSet<PurchaseQuotationDetails> PurchaseQuotationDetails { get; set; }
         public DbSet<SalesInvoice> SalesInvoices { get; set; }
         public DbSet<SalesInvoiceDetails> SalesInvoiceDetails { get; set; }
         public DbSet<Sponsor> Sponsors { get; set; }

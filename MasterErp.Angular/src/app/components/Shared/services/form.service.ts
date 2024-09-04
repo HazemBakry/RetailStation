@@ -32,6 +32,7 @@ export class FormService {
       regexPattern: (error: string) => error || 'Invalid pattern',
       dateGreaterThan: (error: string) => error || 'Date must be greater than the specific date',
       dateLessThan: (error: string) => error || 'Date must be less than the specific date',
+      arrayLength: (error: string) => error || 'Data must be less than or grater than ',
       
       // invalidExtension:'Invalid Extension , choose from jpg,jpeg,png',
       invalidExtension: (matches: any[]) => {
@@ -90,7 +91,7 @@ export class FormService {
           if (!checkDirty || (control.dirty || control.touched)) {
             for (const key in control.errors) {
               
-              if (key && !['invalid_characters','invalidExtension','endDateLessThanStartDate','regexPattern','dateGreaterThan','dateLessThan'].includes(key)) {
+              if (key && !['invalid_characters','invalidExtension','endDateLessThanStartDate','regexPattern','dateGreaterThan','dateLessThan','arrayLength'].includes(key)) {
                 formErrors[field] = formErrors[field] || messages[key];
               }
               else {

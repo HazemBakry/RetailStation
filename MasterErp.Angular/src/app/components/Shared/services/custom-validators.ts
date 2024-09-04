@@ -72,6 +72,37 @@ export class CustomValidators extends Validators{
       return null;
     };
   }
+
+  static arrayLengthValidator(minLength: number, maxLength?: number, message = null): ValidatorFn {
+    return (control: AbstractControl) => {
+
+      const value = control.value;
+
+      if (control.value) {
+        if (!Array.isArray(value)) {
+          return { arrayLength: { message: 'Value is not an array' } };
+        }
+
+        if (maxLength !== undefined) {
+          if (value.length < minLength || value.length > maxLength) {
+            // return { arrayLength: { requiredLength: minLength, actualLength: value.length } };
+            return { arrayLength: message };
+          }
+        } else {
+          if (value.length < minLength) {
+            // return { arrayLength: { requiredLength: minLength, actualLength: value.length } };
+            return { arrayLength: message };
+          }
+        }
+
+        return null;  // Valid
+
+
+
+      }
+      return null;
+    };
+  }
   static dateGreaterThan(specificDate: Date, message: string): ValidatorFn {
     return (control: AbstractControl) => {
       if (control.value) {

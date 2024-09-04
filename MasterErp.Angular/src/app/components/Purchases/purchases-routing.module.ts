@@ -13,6 +13,8 @@ import { PurchasesHomeComponent } from './components/purchases-home/purchases-ho
 import { BusinessCoreLayoutComponent } from '../Shared/components/business-core-layout/business-core-layout.component';
 import { AddSupplierComponent } from './components/add-supplier/add-supplier.component';
 import { AddSupplierReturnsVoucherComponent } from './components/add-supplier-returns-voucher/add-supplier-returns-voucher.component';
+import { PurchaseQuotationsComponent } from './components/purchase-quotations/purchase-quotations.component';
+import { AddPurchaseQuotationComponent } from './components/add-purchase-quotation/add-purchase-quotation.component';
 
 const routes: Routes = [
   {
@@ -32,6 +34,8 @@ const routes: Routes = [
       { path: 'add-supplier-returns-voucher', component: AddSupplierReturnsVoucherComponent },
       { path: 'suppliers-list', component: SuppliersListComponent },
       { path: 'add-supplier', component: AddSupplierComponent },
+      { path: 'purchase-quotations', component: PurchaseQuotationsComponent },
+      { path: 'add-purchase-quotation', component: AddPurchaseQuotationComponent },
       { path: '', redirectTo: 'home' ,pathMatch: 'full' },
 
     ]

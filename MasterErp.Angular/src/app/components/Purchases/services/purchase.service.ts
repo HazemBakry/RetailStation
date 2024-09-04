@@ -10,6 +10,7 @@ import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 import { OrderModel, OrderProductModel } from '../../Inventory/models/inventory';
 import { SupplierModel } from '../models/SupplierModel';
 import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsModel';
+import { PurchaseQuotationModel, PurchaseQuotationDetailsModel } from '../models/PurchaseQuotationModel';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +49,27 @@ export class PurchaseService {
     return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetInvoiceTypesData');
   }
 
+
+//////////////////////////////////////
+
+
+  GetPurchaseQuotations_Data(model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<PurchaseQuotationModel[]>>(this.URL + 'PurchaseOrder/GetPurchaseQuotations_Data', model);
+  }
+  GetPurchaseQuotationDetailsById(purchaseQuotationId: number) {
+    return this.http.get<PurchaseQuotationModel>(this.URL + `PurchaseOrder/GetPurchaseQuotationDetailsById?PurchaseQuotationId=${purchaseQuotationId}`);
+  }
+  GetPurchaseQuotationProducts_Data(purchaseQuotationId: number) {
+    return this.http.get<PurchaseQuotationDetailsModel[]>(this.URL + `PurchaseOrder/GetPurchaseQuotationProducts_Data?PurchaseQuotationId=${purchaseQuotationId}`);
+  }
+
+  AddNewPurchaseQuotation(model: PurchaseQuotationModel) {
+    return this.http.post<any>(this.URL + 'PurchaseOrder/AddNewPurchaseQuotation', model);
+  }
+
+  EditPurchaseQuotation(purchaseQuotationId:number,model: PurchaseQuotationModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `PurchaseOrder/EditPurchaseQuotation?PurchaseQuotationId=${purchaseQuotationId}`, model);
+  }
 
 
 
@@ -92,14 +114,21 @@ export class PurchaseService {
   GetPurchaseOrders_Data(model: PagedResponseDTO) {
     return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'PurchaseOrder/GetPurchaseOrders_Data', model);
   }
+
+  GetPurchaseOrderDetailsById(orderId: number) {
+    return this.http.get<OrderModel>(this.URL + 'PurchaseOrder/GetPurchaseOrderDetailsById?OrderId=' + orderId);
+  }
   GetPurchaseOrderProducts_Data(orderId: number) {
     return this.http.get<OrderProductModel[]>(this.URL + `PurchaseOrder/GetPurchaseOrderProducts_Data?OrderId=${orderId}`);
   }
-  CreateNewPurchaseOrder(model: PurchaseOrderModel) {
-    return this.http.post<any>(this.URL + 'PurchaseOrder/CreateNewPurchaseOrder', model);
+  AddNewPurchaseOrder(model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'PurchaseOrder/AddNewPurchaseOrder', model);
+  }
+  EditPurchaseOrder(orderId:number,model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'PurchaseOrder/EditPurchaseOrder', model);
   }
   CancelPurchaseOrder(orderId: number) {
-    return this.http.get<any[]>(this.URL + 'PurchaseOrder/CancelPurchaseOrder?OrderId=' + orderId);
+    return this.http.get<ActionsResponseModel>(this.URL + 'PurchaseOrder/CancelPurchaseOrder?OrderId=' + orderId);
   }
   //--------------------------------------- Suppliers ---------------------------------------
 
