@@ -7,6 +7,12 @@
 
         <form [formGroup]="formGroup" autocomplete="off">
             <div class="employee-card-body row g-3">
+
+                <div *ngIf="!isUpdate" class="col-xl-9">
+                   <h3 class="text-center"> 
+                    اختر الاصناف والموردين لأنشاء عرض اسعار جديد
+                   </h3>
+                </div>
                 <div class="col-xl-4">
 
                     <app-drop-down-form-control formControlName="selectedItemIds"  [selectMulti]="true"  [placeholder]="'الاصناف'"
@@ -52,37 +58,40 @@
             </div>
         </form>
 
-        <table *ngIf="selectedItems?.length >0&&selectedSuppliers?.length >0" class="table table-bordered table-feature-value align-middle border m-0">
-            <thead>
-                <tr>
+        <div class="overflow-auto">
 
-                    
-                    <th class="table-feature"></th>
-                    <th  class="table-feature" *ngFor="let supplier of selectedSuppliers">
-                        {{supplier.name}}
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of selectedItems">
-                    <td class="table-feature">{{item.name}}</td>
-                    <td *ngFor="let supplier of selectedSuppliers" class="table-value">
-                        <input required type="number"  class="form-control form-control-lg" placeholder="السعر"
-                        [value]="getSupplierPrice(item.value, supplier.value)"
-                        (blur)="updateSupplierPrice(item.value, supplier.value, $event.target.value)"
-                        name="price_{{item.value}}_{{supplier.value}}">
-
-                    </td>
-                </tr>
-                <!-- <tr *ngFor="let item of quotationProducts">
-                    <td class="table-feature">{{item.itemNameAR}}</td>
-                    <td *ngFor="let price of item?.supplierPrices" class="table-value">
-                        <input required type="number" [(ngModel)]="price.price" class="form-control form-control-lg" placeholder="السعر">
-
-                    </td>
-                </tr> -->
-            </tbody>
-        </table>
+            <table *ngIf="selectedItems?.length >0&&selectedSuppliers?.length >0" class="table table-responsive table-bordered table-feature-value align-middle border m-0">
+                <thead>
+                    <tr>
+    
+                        
+                        <th class="table-feature"></th>
+                        <th  class="table-feature" *ngFor="let supplier of selectedSuppliers">
+                            {{supplier.name}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of selectedItems">
+                        <td class="table-feature">{{item.name}}</td>
+                        <td *ngFor="let supplier of selectedSuppliers" class="table-value">
+                            <input required type="number"  class="form-control form-control-lg" placeholder="السعر"
+                            [value]="getSupplierPrice(item.value, supplier.value)"
+                            (blur)="updateSupplierPrice(item.value, supplier.value, $event.target.value)"
+                            name="price_{{item.value}}_{{supplier.value}}">
+    
+                        </td>
+                    </tr>
+                    <!-- <tr *ngFor="let item of quotationProducts">
+                        <td class="table-feature">{{item.itemNameAR}}</td>
+                        <td *ngFor="let price of item?.supplierPrices" class="table-value">
+                            <input required type="number" [(ngModel)]="price.price" class="form-control form-control-lg" placeholder="السعر">
+    
+                        </td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
         <div *ngIf="formErrors.quotationProducts" class="text-danger  font-small-3 m-03">
             {{formErrors.quotationProducts}}
         </div>

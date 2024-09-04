@@ -63,7 +63,6 @@ export class DropDownFormControlComponent implements OnChanges {
         this.selectedItems = [];
       }
       this.valueChanged.emit(this.selectedValues);
-
     }
     else {
       var sName = this.data.find(x => x.value === value)?.name;

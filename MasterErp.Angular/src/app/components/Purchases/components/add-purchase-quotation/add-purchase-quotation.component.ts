@@ -13,6 +13,7 @@ import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateMod
 import { OrderModel, OrderProductModel } from 'src/app/components/Inventory/models/inventory';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
 import { PurchaseQuotationDetailsModel, PurchaseQuotationModel } from '../../models/PurchaseQuotationModel';
+import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
 
 @Component({
   selector: 'app-add-purchase-quotation',
@@ -170,7 +171,7 @@ export class AddPurchaseQuotationComponent implements OnInit {
       notes:[null],
       quotationProducts: [[] as PurchaseQuotationDetailsModel[], [Validators.required,Validators.minLength(2)]],
       selectedItemIds: [[],[Validators.required]],
-      selectedSupplierIds: [[],[Validators.required,Validators.maxLength(3)]],
+      selectedSupplierIds: [[],[Validators.required,CustomValidators.arrayLengthValidator(1,3,'يجب ان لا يزيد الموردين عن 3')]],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
