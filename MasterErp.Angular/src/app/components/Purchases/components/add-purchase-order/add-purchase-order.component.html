@@ -75,7 +75,7 @@
                 </div>
             </div>
             <div class="my-3">
-                <button class="btn btn-primary btn-lg fs-6 me-2" (click)="savePurchaseOrder()">
+                <button [disabled]="showAddLoader" class="btn btn-primary btn-lg fs-6 me-2" (click)="savePurchaseOrder()">
                     <i class="fas fa-check-circle"></i>
                     <span class="ms-2">حفظ</span>
                 </button>
