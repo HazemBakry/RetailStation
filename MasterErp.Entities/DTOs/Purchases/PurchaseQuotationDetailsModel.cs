@@ -8,8 +8,8 @@ namespace MasterErp.Entities.DTOs.Purchases
 {
     public class PurchaseQuotationDetailsModel
     {
-        public int PurchaseQuotationDetailsId { get; set; }
-        public int PurchaseQuotationId { get; set; }
+        public int? PurchaseQuotationDetailsId { get; set; }
+        public int? PurchaseQuotationId { get; set; }
         public int ItemId { get; set; }
         public double Price { get; set; }
         public int? SupplierId { get; set; }

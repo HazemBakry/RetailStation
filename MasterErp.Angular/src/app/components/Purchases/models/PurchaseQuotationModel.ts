@@ -7,22 +7,30 @@ export interface PurchaseQuotationModel extends CreatorModel {
     notes: string;
     isLocked: boolean | null;
     isCancelled: boolean | null;
-    quotationDetails: PurchaseQuotationDetailsModel[];
+    quotationProducts: PurchaseQuotationDetailsModel[];
     totalCount: number | null;
 }
 
 export interface PurchaseQuotationDetailsModel {
-    purchaseQuotationDetailsId: number;
-    purchaseQuotationId: number;
+    purchaseQuotationDetailsId?: number;
+    purchaseQuotationId?: number;
     itemId: number;
-    price: number;
-    supplierId: number | null;
-    supplierNameAR: string;
-    supplierNameEN: string;
-    notes: string;
-    itemNameAR: string;
-    itemNameEN: string;
-    unitId: number | null;
-    unitNameAR: string;
-    unitNameEN: string;
+    price?: number;
+    supplierId?: number | null;
+    supplierNameAR?: string;
+    supplierNameEN?: string;
+    notes?: string;
+    itemNameAR?: string;
+    itemNameEN?: string;
+    unitId?: number | null;
+    unitNameAR?: string;
+    unitNameEN?: string;
+    supplierPrices? : PurchaseQuotationDetailsModel[];  
+
 }
+// export interface QuotationSupplierPriceModel
+// {
+//     price?: number;
+//     supplierId?: number | null;
+//     supplierName?: string;
+// }

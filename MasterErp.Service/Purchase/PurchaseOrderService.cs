@@ -171,9 +171,51 @@ namespace MasterErp.Service.Purchase
             Params[3].Value = FilterListDt;
 
             var result = SQLHelper.SQLQuery<PurchaseQuotationModel>("[dbo].[SP_GetPurchaseQuotations_Data]", ConnectionString, Params);
-            return result;
+            return GroupPurchaseQuotations(result);
         }
+        private List<PurchaseQuotationModel> GroupPurchaseQuotations(List<PurchaseQuotationModel> QuotationList)
+        {
+            var groupdData = QuotationList.GroupBy(ord=>new
+            { 
+                ord.PurchaseQuotationId,
+                ord.QuotationDate,
+                ord.QuotationNumber,
+                ord.CreatedDate,
+                ord.CreatedBy,
+                ord.ModifiedBy,
+                ord.ModifiedDate,
+                ord.Notes,
+                ord.TotalCount,
+            }).Select(ord=>new PurchaseQuotationModel
+            {
+                PurchaseQuotationId=ord.Key.PurchaseQuotationId,
+                QuotationDate=ord.Key.QuotationDate,
+                QuotationNumber=ord.Key.QuotationNumber,
+                CreatedDate=ord.Key.CreatedDate,
+                CreatedBy=ord.Key.CreatedBy,
+                ModifiedBy=ord.Key.ModifiedBy,
+                ModifiedDate=ord.Key.ModifiedDate,
+                Notes=ord.Key.Notes,
+                TotalCount=ord.Key.TotalCount,
+                QuotationProducts =ord.Select(prod=>new PurchaseQuotationDetailsModel
+                {
+                    ItemId = prod.ItemId,
+                    ItemNameEN = prod.ItemNameAR,
+                    ItemNameAR = prod.ItemNameAR,
+                    Price = prod.Price,
+                    UnitId = prod.UnitId,
+                    UnitNameAR = prod.UnitNameAR,
+                    UnitNameEN = prod.UnitNameEN,
+                    SupplierId = prod.SupplierId,
+                    SupplierNameAR = prod.SupplierNameAR,
+                    SupplierNameEN = prod.SupplierNameEN,
+                    PurchaseQuotationId = prod.PurchaseQuotationId,
+                    PurchaseQuotationDetailsId = prod.PurchaseQuotationDetailsId,
 
+                }).ToList()
+            }).ToList();
+            return groupdData;
+        }
         public PurchaseQuotationModel GetPurchaseQuotationDetailsById(int OrderId)
         {
             return GetPurchaseQuotations_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, OrderId)?.FirstOrDefault();
@@ -222,7 +264,7 @@ namespace MasterErp.Service.Purchase
                 Context.PurchaseQuotations.Add(tbl);
                 Context.SaveChanges();
 
-                foreach (PurchaseQuotationDetailsModel item in model.QuotationDetails)
+                foreach (PurchaseQuotationDetailsModel item in model.QuotationProducts)
                 {
                     var detail = new PurchaseQuotationDetails
                     {
@@ -266,7 +308,7 @@ namespace MasterErp.Service.Purchase
 
                     var PurchaseReturnDetails = Context.PurchaseQuotationDetails.Where(x => x.PurchaseQuotationId == PurchaseQuotationId).ToList();
                     Context.PurchaseQuotationDetails.RemoveRange(PurchaseReturnDetails);
-                    foreach (PurchaseQuotationDetailsModel item in model.QuotationDetails)
+                    foreach (PurchaseQuotationDetailsModel item in model.QuotationProducts)
                     {
                         var detail = new PurchaseQuotationDetails
                         {

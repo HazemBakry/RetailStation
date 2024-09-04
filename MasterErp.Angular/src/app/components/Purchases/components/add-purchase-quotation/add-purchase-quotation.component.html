@@ -9,25 +9,27 @@
             <div class="employee-card-body row g-3">
                 <div class="col-xl-4">
 
-                    <app-drop-down-form-control [disabled]="isUpdate" [selectMulti]="true" formControlName="supplierId" [placeholder]="'الموردين'"
-                        [data]="suppliersSelectorData"
-                        (valueChanged)="getSelectedSupplier($event)"></app-drop-down-form-control>
-                    <div *ngIf="formErrors.supplierId" class="text-danger  font-small-3 m-03">
-                        {{formErrors.supplierId}}
+                    <app-drop-down-form-control formControlName="selectedItemIds"  [selectMulti]="true"  [placeholder]="'الاصناف'"
+                        [data]="itemsSelectorData"
+                        (valueChanged)="getSelectedItems($event)"></app-drop-down-form-control>
+                    <div *ngIf="formErrors.selectedItemIds" class="text-danger  font-small-3 m-03">
+                         {{formErrors.selectedItemIds}}
                     </div>
                 </div>
+                <div class="col-xl-1"></div>
+
                 <div class="col-xl-4">
-                    <div class="form-floating">
-                        <input type="text" formControlName="price" class="form-control" id="floatingInput1" placeholder="any">
-                        <label for="floatingInput3">السعر</label>
-                        <div *ngIf="formErrors.price" class="text-danger  font-small-3 m-03">
-                            {{formErrors.price}}
-                        </div>
-                    </div>
-                  
+
+                    <app-drop-down-form-control formControlName="selectedSupplierIds"  [selectMulti]="true"  [placeholder]="'الموردين'"
+                        [data]="suppliersSelectorData"
+                        (valueChanged)="getSelectedSuppliers($event)"></app-drop-down-form-control>
+                        <div *ngIf="formErrors.selectedSupplierIds" class="text-danger  font-small-3 m-03">
+                            {{formErrors.selectedSupplierIds}}
+                       </div>
                 </div>
+
                 
-                <div class="col-xl-8">
+                <div class="col-xl-9">
                     <div class="form-floating mb-3">
                         <textarea type="text" formControlName="notes" class="form-control" id="floatingInput10" placeholder="ملاحظات"></textarea>
                         <label for="floatingInput10">ملاحظات</label>
@@ -50,6 +52,39 @@
             </div>
         </form>
 
-        
+        <table *ngIf="selectedItems?.length >0&&selectedSuppliers?.length >0" class="table table-bordered table-feature-value align-middle border m-0">
+            <thead>
+                <tr>
+
+                    
+                    <th class="table-feature"></th>
+                    <th  class="table-feature" *ngFor="let supplier of selectedSuppliers">
+                        {{supplier.name}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of selectedItems">
+                    <td class="table-feature">{{item.name}}</td>
+                    <td *ngFor="let supplier of selectedSuppliers" class="table-value">
+                        <input required type="number"  class="form-control form-control-lg" placeholder="السعر"
+                        [value]="getSupplierPrice(item.value, supplier.value)"
+                        (blur)="updateSupplierPrice(item.value, supplier.value, $event.target.value)"
+                        name="price_{{item.value}}_{{supplier.value}}">
+
+                    </td>
+                </tr>
+                <!-- <tr *ngFor="let item of quotationProducts">
+                    <td class="table-feature">{{item.itemNameAR}}</td>
+                    <td *ngFor="let price of item?.supplierPrices" class="table-value">
+                        <input required type="number" [(ngModel)]="price.price" class="form-control form-control-lg" placeholder="السعر">
+
+                    </td>
+                </tr> -->
+            </tbody>
+        </table>
+        <div *ngIf="formErrors.quotationProducts" class="text-danger  font-small-3 m-03">
+            {{formErrors.quotationProducts}}
+        </div>
     </div>
 </div>

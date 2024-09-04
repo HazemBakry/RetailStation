@@ -14,10 +14,12 @@
     </div>
 </div>
 <div *ngIf="selectMulti" ngbDropdown [autoClose]="'outside'" class="dropdown-as-input">
-    <button type="button" [disabled]="disabled" id="dropdownBasic1" ngbDropdownToggle>
-        <span *ngIf="selectedItems.length === 0">{{placeholder}}</span>
-        <span *ngIf="selectedItems.length > 0">{{selectedItems?.slice(0,2).join(', ')}}</span>
-        <span *ngIf="selectedItems.length > 2"> , ...</span>
+    <button type="button" [disabled]="disabled" id="dropdownBasic1"  ngbDropdownToggle>
+        <div class="overflow-hidden"> 
+            <span *ngIf="selectedItems.length === 0">{{placeholder}}</span>
+            <span *ngIf="selectedItems.length > 0" >{{selectedItems?.slice(0,2).join(', ')}}</span>
+            <span *ngIf="selectedItems.length > 2"> , ...</span>  
+        </div>
     </button>
     <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="w-100">
         <div *ngIf="showSearch" class="p-2 bg-light border-bottom">

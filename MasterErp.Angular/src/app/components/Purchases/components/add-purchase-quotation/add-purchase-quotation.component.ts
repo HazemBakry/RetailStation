@@ -23,12 +23,13 @@ export class AddPurchaseQuotationComponent implements OnInit {
 
   purchaseQuotationModel : PurchaseQuotationModel ={} as PurchaseQuotationModel;
   purchaseQuotationId:number;
-  orderProducts : PurchaseQuotationDetailsModel[]=[];
+  quotationProducts : PurchaseQuotationDetailsModel[]=[];
+  quotationProductsEditList : PurchaseQuotationDetailsModel[]=[];
   isUpdate: boolean = false;
   clearAllProducts: boolean = false;
 
   suppliersSelectorData: FormDropdownModel[] = [];
-  branchesSelectorData: FormDropdownModel[] = [];
+  itemsSelectorData: FormDropdownModel[] = [];
 
   showLoader: boolean = false;
   showAddLoader: boolean = false;
@@ -37,7 +38,11 @@ export class AddPurchaseQuotationComponent implements OnInit {
   public formGroup: FormGroup;
 
   selectedPurchaseInvoice: OrderModel = {} as OrderModel;
-  selectedSupplierId: number ;
+  selectedSupplierIds: number []=[];
+  selectedSuppliers: FormDropdownModel []=[];
+  selectedItemIds: number []=[];
+  selectedItems: FormDropdownModel []=[];
+
   constructor(private acRoute: ActivatedRoute, private router: Router, private modalService: NgbModal, private inventoryService: InventoryService,
     private purchaseService: PurchaseService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
     private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
@@ -48,7 +53,7 @@ export class AddPurchaseQuotationComponent implements OnInit {
       if (params.PurchaseQuotationId) {
         this.purchaseQuotationId = params.PurchaseQuotationId;
         this.getPurchaseQuotationDetailsById();
-        this.getPurchaseQuotationProducts();
+        // this.getPurchaseQuotationProducts();
       }
     })
 
@@ -64,8 +69,9 @@ export class AddPurchaseQuotationComponent implements OnInit {
       if (data) {
         this.purchaseQuotationModel = data;
         // this.getPurchaseQuotationProducts();
-        // this.initNewForm(this.purchaseQuotationModel);
-        this.fillEditForm(this.purchaseQuotationModel);
+        this.initNewForm(this.purchaseQuotationModel);
+        // this.fillEditForm(this.purchaseQuotationModel);
+        this.getPurchaseQuotationProducts();
 
       }
       this.showLoader = false;
@@ -92,9 +98,37 @@ export class AddPurchaseQuotationComponent implements OnInit {
   getPurchaseQuotationProducts() {
     this.showLoader = true;
     this.purchaseService.GetPurchaseQuotationProducts_Data(this.purchaseQuotationId).subscribe((data: PurchaseQuotationDetailsModel[]) => {
-      this.orderProducts = data;
-      if (this.orderProducts.length>0) {
-        // this.formGroup.patchValue({orderProducts:this.orderProducts});
+      this.quotationProductsEditList = data;
+      if (this.quotationProductsEditList.length>0) {
+
+        var supplierIds:number[]=[];
+        var itemIds:number[]=[];
+
+        this.quotationProductsEditList.forEach(prod => {
+          if(prod.itemId && !itemIds.some(x=>prod.itemId === x))
+          {
+            itemIds.push(prod.itemId);
+            if (!this.itemsSelectorData.length) {
+              this.itemsSelectorData.push({value: prod.itemId,name: prod.itemNameAR});
+            }
+          }
+          if(prod.supplierId && !supplierIds.some(x=>prod.supplierId === x))
+          {
+             supplierIds.push(prod.supplierId);
+             if (!this.suppliersSelectorData.length) {
+              
+               this.suppliersSelectorData.push({value: prod.supplierId,name: prod.supplierNameAR});
+             }
+          }
+
+        });
+        this.getSelectedItems(itemIds);
+        this.getSelectedSuppliers(supplierIds);
+        this.prepareProductList();
+        this.formGroup.patchValue({selectedItemIds:itemIds});
+        this.formGroup.patchValue({selectedSupplierIds:supplierIds});
+        this.formGroup.patchValue({quotationProducts:this.quotationProductsEditList});
+
       }
       // this.initNewForm(this.purchaseQuotationModel);
     
@@ -107,12 +141,17 @@ export class AddPurchaseQuotationComponent implements OnInit {
   }
 
   getSelectedProductsList(products:OrderProductModel[]) {
-    this.formGroup.patchValue({orderProducts:products});
+    this.formGroup.patchValue({quotationProducts:products});
   }
 
   initNewForm(quotationModel: PurchaseQuotationModel = null) {
     // this.selectedPurchaseInvoice = {} as PurchaseQuotationModel;
-    this.orderProducts=[];
+    this.quotationProducts=[];
+    this.quotationProductsEditList=[];
+    this.selectedSupplierIds =[];
+    this.selectedItemIds =[];
+    this.selectedSuppliers =[];
+    this.selectedItems =[];
     this.clearAllProducts=!this.clearAllProducts;
     this.isUpdate = false;
     this.buildForm();
@@ -123,10 +162,15 @@ export class AddPurchaseQuotationComponent implements OnInit {
   buildForm() {
     this.formGroup = this.form.group({
       orderId: [null],
-      supplierIds: [[], [Validators.required]],
-      price: [null, [Validators.required]],
-      orderProducts: [[] as OrderProductModel[], [Validators.required,Validators.minLength(1)]],
-      notes: [null],
+      purchaseQuotationId: [null],
+      quotationNumber: [null],
+      quotationDate: [null],
+      isLocked: [null],
+      isCancelled:[null],
+      notes:[null],
+      quotationProducts: [[] as PurchaseQuotationDetailsModel[], [Validators.required,Validators.minLength(2)]],
+      selectedItemIds: [[],[Validators.required]],
+      selectedSupplierIds: [[],[Validators.required,Validators.maxLength(3)]],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -136,9 +180,15 @@ export class AddPurchaseQuotationComponent implements OnInit {
 
 
   savePurchaseQuotation() {
-    if(this.orderProducts.length === 0) 
+    if(this.quotationProducts.length === 0) 
       this.toaster.warning('لا يوجد اصناف');
-    
+    else if(this.quotationProducts.some(x=>!x.itemId||!x.supplierId||!x.price)){
+      this.toaster.warning('املئ جميع اسعار الموردين' );
+      return
+    }
+    this.formGroup.patchValue({quotationProducts:this.quotationProducts});
+
+
     if (!this.validateForm()) {
       return;
     }
@@ -196,8 +246,8 @@ export class AddPurchaseQuotationComponent implements OnInit {
     this.sharedService.GetSuppliersSelector().subscribe((data: FormDropdownModel[]) => {
       this.suppliersSelectorData = data;
     });
-    this.sharedService.GetBranchesSelector().subscribe((data: FormDropdownModel[]) => {
-      this.branchesSelectorData = data;
+    this.sharedService.GetItemsSelector().subscribe((data: FormDropdownModel[]) => {
+      this.itemsSelectorData = data;
     });
     
   }
@@ -217,26 +267,73 @@ export class AddPurchaseQuotationComponent implements OnInit {
 
     this.formGroup.patchValue({
       purchaseQuotationId: model.purchaseQuotationId,
-      // supplierId: quotationModel.supplierId,
-      // orderDate:this.datePipe.transform(quotationModel.orderDate, 'yyyy-MM-dd'),
-      // secondaryOrderId: quotationModel.secondaryOrderId,
-      // branchId: quotationModel.branchId,
+      quotationNumber:  model.quotationNumber,
+      quotationDate: this.datePipe.transform( model.quotationNumber, 'yyyy-MM-dd'),
+      isLocked:  model.isLocked,
+      isCancelled: model.isCancelled,
+      quotationProducts:  model.quotationProducts,
       notes:model.notes
       
     });
   }
-  getSelectedSupplier(supplierId)
+
+  getSelectedSuppliers(supplierIds:number[])
   {
-    this.selectedSupplierId=supplierId;
+    console.log('supplierIds',supplierIds);
+    
+    this.selectedSupplierIds = supplierIds;
+    this.selectedSuppliers = this.suppliersSelectorData.filter(supplier => supplierIds.some(supplierId=>supplierId==supplier.value)).map(supplier=>({...supplier}));
+    this.prepareProductList();
+
+  }
+  getSelectedItems(itemIds:number[])
+  {
+    console.log('itemIds',itemIds);
+    
+    this.selectedItemIds = itemIds;
+    this.selectedItems = this.itemsSelectorData.filter(item => itemIds.some(itemId=>itemId==item.value)).map(item=>({...item}));
+    this.prepareProductList();
+  }
+  prepareProductList()
+  {
+    this.quotationProducts = [];
+    this.selectedItems.forEach(item => {
+       this.selectedSuppliers.forEach(supplier => {
+        var product:PurchaseQuotationDetailsModel={
+          itemId: item.value,
+          itemNameAR:item.name,
+          itemNameEN:item.name,
+          supplierId:supplier.value,
+          supplierNameAR:supplier.name,
+          supplierNameEN:supplier.name,
+          price : this.isUpdate ? this.quotationProductsEditList.find(p => p.supplierId === supplier.value&&p.itemId === item.value)?.price : null
+        };
+        this.quotationProducts.push(product);
+      });
+    });
+  }
+
+  getSupplierPrice(itemId: number, supplierId: number): number {
+    const supplierPrice = this.quotationProducts.find((sp: PurchaseQuotationDetailsModel) => sp.supplierId === supplierId && sp.itemId === itemId);
+    return supplierPrice ? supplierPrice.price : 0;
+  }
+
+  updateSupplierPrice(itemId: number, supplierId: number, newPrice: number): void {
+    const supplierPrice = this.quotationProducts.find((sp: PurchaseQuotationDetailsModel) => sp.supplierId === supplierId && sp.itemId === itemId);
+    if (supplierPrice&&newPrice) {
+      supplierPrice.price = +newPrice;
+    }
   }
   public formErrors = {
-    supplierId: '',
-    orderId: '',
-    price: '',
-    branchId: '',
-    orderDate:'',
-    orderProducts: '',
-    notes: ''
+    purchaseQuotationId: '',
+    quotationNumber: '',
+    quotationDate: '',
+    isLocked: '',
+    isCancelled:'',
+    quotationProducts: '',
+    notes: '',
+    selectedItemIds: '',
+    selectedSupplierIds: '',
   };
   
 
