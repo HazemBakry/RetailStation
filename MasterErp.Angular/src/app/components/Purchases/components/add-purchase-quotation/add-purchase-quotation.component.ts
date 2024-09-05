@@ -279,9 +279,7 @@ export class AddPurchaseQuotationComponent implements OnInit {
   }
 
   getSelectedSuppliers(supplierIds:number[])
-  {
-    console.log('supplierIds',supplierIds);
-    
+  {    
     this.selectedSupplierIds = supplierIds;
     this.selectedSuppliers = this.suppliersSelectorData.filter(supplier => supplierIds.some(supplierId=>supplierId==supplier.value)).map(supplier=>({...supplier}));
     this.prepareProductList();
@@ -289,8 +287,6 @@ export class AddPurchaseQuotationComponent implements OnInit {
   }
   getSelectedItems(itemIds:number[])
   {
-    console.log('itemIds',itemIds);
-    
     this.selectedItemIds = itemIds;
     this.selectedItems = this.itemsSelectorData.filter(item => itemIds.some(itemId=>itemId==item.value)).map(item=>({...item}));
     this.prepareProductList();

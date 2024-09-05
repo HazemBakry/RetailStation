@@ -60,12 +60,10 @@
 
         <div class="overflow-auto">
 
-            <table *ngIf="selectedItems?.length >0&&selectedSuppliers?.length >0" class="table table-responsive table-bordered table-feature-value align-middle border m-0">
+            <table *ngIf="selectedItems?.length >0&&selectedSuppliers?.length >0" class="table table-responsive table-borderless table-feature-value align-middle border m-0">
                 <thead>
                     <tr>
-    
-                        
-                        <th class="table-feature"></th>
+                        <th class="table-feature">الصنف</th>
                         <th  class="table-feature" *ngFor="let supplier of selectedSuppliers">
                             {{supplier.name}}
                         </th>
@@ -75,20 +73,18 @@
                     <tr *ngFor="let item of selectedItems">
                         <td class="table-feature">{{item.name}}</td>
                         <td *ngFor="let supplier of selectedSuppliers" class="table-value">
-                            <input required type="number"  class="form-control form-control-lg" placeholder="السعر"
-                            [value]="getSupplierPrice(item.value, supplier.value)"
-                            (blur)="updateSupplierPrice(item.value, supplier.value, $event.target.value)"
-                            name="price_{{item.value}}_{{supplier.value}}">
-    
+                            <div class="form-floating">
+                                <input required type="number" dir="rtl" class="form-control form-control-lg" id="floatingInput{{item.value}}_{{supplier.value}}" placeholder="السعر"
+                                    [value]="getSupplierPrice(item.value, supplier.value)"
+                                    (blur)="updateSupplierPrice(item.value, supplier.value, $event.target.value)"
+                                    name="price_{{item.value}}_{{supplier.value}}">
+                                <label for="floatingInput{{item.value}}_{{supplier.value}}"> السعر</label>
+                                <div *ngIf="formErrors.docNumber" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.docNumber}}
+                                </div>
+                            </div>
                         </td>
                     </tr>
-                    <!-- <tr *ngFor="let item of quotationProducts">
-                        <td class="table-feature">{{item.itemNameAR}}</td>
-                        <td *ngFor="let price of item?.supplierPrices" class="table-value">
-                            <input required type="number" [(ngModel)]="price.price" class="form-control form-control-lg" placeholder="السعر">
-    
-                        </td>
-                    </tr> -->
                 </tbody>
             </table>
         </div>

@@ -1515,3 +1515,9 @@ td.td-disabled {
     font-weight: bold;
     font-size: 14px;
 }
+
+
+input[dir="rtl"] {
+    direction: rtl;
+    text-align: right; /* Optional, to align text to the right */
+}
