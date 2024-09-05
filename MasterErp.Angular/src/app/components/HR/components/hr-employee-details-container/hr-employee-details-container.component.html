@@ -5,8 +5,7 @@
 
             <div class="employee-card-header d-flex align-items-center flex-wrap mb-5">
                 <div class="employee-image mb-2 me-4">
-                    <img [src]="employeeBasicInfoModel.image" (error)="$event.target.src = defaultImage" class="emp-img" alt="default-image"
-                        loading="lazy" />
+                    <img [src]="employeeBasicInfoModel.image" (error)="$event.target.src = defaultImage" class="emp-img" alt="default-image" loading="lazy" />
                 </div>
                 <div class="employee-info">
                     <h3 class="mb-2 d-flex align-items-center">
@@ -29,24 +28,20 @@
         </ng-container>
         <div class="employee-card-content card-shadow bg-light border mb-3">
             <div class="employee-card-tabs d-flex mb-5">
-                <div class="employee-tab-item" routerLink="./basic-info" routerLinkActive="active"
-                    [queryParams]="queryParams">
+                <div class="employee-tab-item" routerLink="./basic-info" routerLinkActive="active" [queryParams]="queryParams">
                     <i class="uil uil-user"></i>
                     <span>البيانات الأساسية</span>
                 </div>
                 <ng-container *ngIf="employeeId&&employeeId>0">
-                    <div class="employee-tab-item" routerLink="./verification-info" routerLinkActive="active"
-                        [queryParams]="queryParams">
+                    <div class="employee-tab-item" routerLink="./verification-info" routerLinkActive="active" [queryParams]="queryParams">
                         <i class="uil uil-user"></i>
-                        <span>جواز السفر</span>
+                        <span>بيانات الإقامة</span>
                     </div>
-                    <div class="employee-tab-item" routerLink="./contract-info" routerLinkActive="active"
-                        [queryParams]="queryParams">
+                    <div class="employee-tab-item" routerLink="./contract-info" routerLinkActive="active" [queryParams]="queryParams">
                         <i class="uil uil-user"></i>
                         <span>بيانات العقد</span>
                     </div>
-                    <div class="employee-tab-item" routerLink="./attachments" routerLinkActive="active"
-                        [queryParams]="queryParams">
+                    <div class="employee-tab-item" routerLink="./attachments" routerLinkActive="active" [queryParams]="queryParams">
                         <i class="uil uil-user"></i>
                         <span>المرفقات</span>
                     </div>

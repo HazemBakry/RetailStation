@@ -21,16 +21,13 @@ import { HrService } from '../../../services/hr.service';
 })
 export class HrEmployeeVerificationInfoComponent implements OnInit {
   @Input() employeeId: number;
+  iqamaJobselectorData: FormDropdownModel[]= [];
   employeeVerificationInfoModel: EmployeeVerificationModel = {} as EmployeeVerificationModel;
   isUpdate: boolean = false;
-
   showLoader: boolean = false;
   showAddLoader: boolean = false;
-
   public formGroup: FormGroup;
-
-  iqamaIssuePlacesSelectorData: FormDropdownModel[]= [];
-
+  iqamaIssuePlacesSelectorData: FormDropdownModel[] = [];
 
   constructor(private acRoute: ActivatedRoute, private hrService: HrService, private modalService: NgbModal, private employeeService: EmployeeService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
     private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
@@ -43,11 +40,9 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
       }
     })
 
-
     this.initNewForm();
     this.loadSelectors();
   }
-
 
   getEmployeeVerificationInfo() {
     this.showLoader = true;
@@ -56,52 +51,42 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
         this.employeeVerificationInfoModel = data;
         this.initNewForm(this.employeeVerificationInfoModel);
       }
-
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
     }, () => {
       this.showLoader = false;
     });
-
-
   }
 
   initNewForm(employeeVerificationInfoModel: EmployeeVerificationModel = null) {
-
     this.isUpdate = false;
     this.buildForm();
     if (employeeVerificationInfoModel)
       this.fillEditForm(employeeVerificationInfoModel);
-
-    // this.formGroup.patchValue({employeeId:this.selectedEmployeeId});
-
   }
-  buildForm() {
 
+  buildForm() {
     this.formGroup = this.form.group({
       employeeVerificationId: [null],
       employeeId: [null],
       borderEntryNumber: [null, [Validators.required]],
-      passportNumber: [null, [Validators.required,CustomValidators.regexPattern(RegexType.number)]],
+      passportNumber: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
       borderEntryDate: [null, [Validators.required]],
       arrivalPort: [null, [Validators.required]],
-      visaNumber: [null, [Validators.required,CustomValidators.regexPattern(RegexType.number)]],
+      visaNumber: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
       visaIssueDate: [null, [Validators.required]],
       passportIssuanceDate: [null, [Validators.required]],
       passportExpireDate: [null, [Validators.required]],
       passportIssuancePlace: [null, [Validators.required]],
-      
     },
-    {
-      
-      validators: [
-        CustomValidators.endDateGreaterThanStartDate('passportIssuanceDate', 'passportExpireDate','يجب ان يكون تاريخ الاصدار قبل الانتهاء '),
-       ],
-    });
+      {
+        validators: [
+          CustomValidators.endDateGreaterThanStartDate('passportIssuanceDate', 'passportExpireDate', 'يجب ان يكون تاريخ الاصدار قبل الانتهاء '),
+        ],
+      });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
-
     });
   }
 
@@ -114,7 +99,7 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
     if (this.employeeId)
       this.saveData();
     else
-      this.toaster.warning('please add basic info first','Warning');
+      this.toaster.warning('please add basic info first', 'Warning');
   }
 
 
@@ -166,12 +151,12 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
       employeeId: this.employeeId,
       borderEntryNumber: employeeVerificationInfoModel.borderEntryNumber,
       passportNumber: employeeVerificationInfoModel.passportNumber,
-      borderEntryDate:this.datePipe.transform(employeeVerificationInfoModel.borderEntryDate, 'yyyy-MM-dd'),
+      borderEntryDate: this.datePipe.transform(employeeVerificationInfoModel.borderEntryDate, 'yyyy-MM-dd'),
       arrivalPort: employeeVerificationInfoModel.arrivalPort,
       visaNumber: employeeVerificationInfoModel.visaNumber,
-      visaIssueDate:this.datePipe.transform(employeeVerificationInfoModel.visaIssueDate, 'yyyy-MM-dd'),
-      passportIssuanceDate:this.datePipe.transform(employeeVerificationInfoModel.passportIssuanceDate, 'yyyy-MM-dd') ,
-      passportExpireDate:this.datePipe.transform(employeeVerificationInfoModel.passportExpireDate, 'yyyy-MM-dd'),
+      visaIssueDate: this.datePipe.transform(employeeVerificationInfoModel.visaIssueDate, 'yyyy-MM-dd'),
+      passportIssuanceDate: this.datePipe.transform(employeeVerificationInfoModel.passportIssuanceDate, 'yyyy-MM-dd'),
+      passportExpireDate: this.datePipe.transform(employeeVerificationInfoModel.passportExpireDate, 'yyyy-MM-dd'),
       passportIssuancePlace: employeeVerificationInfoModel.passportIssuancePlace,
     });
   }
@@ -188,9 +173,11 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
     arrivalPort: '',
     visaNumber: '',
     visaIssueDate: '',
-    passportIssuanceDate: '',
-    passportExpireDate: '',
-    passportIssuancePlace: '',
+    iqamaNumber: '',
+    iqamaJobId: '',
+    iqamaIssueDate: '',
+    iqamaExpireDate: '',
+    iqamaIssuePlaceId: '',
   };
 
 
