@@ -57,8 +57,8 @@ export class HrService {
   }
 
 
-  GetAllEmployeeSalary() {
-    return this.http.get<any>(this.URL + 'Employee/GetAllEmployeeSalary');
+  GetEmployeesSalaryByBranch() {
+    return this.http.get<any>(this.URL + 'Employee/GetEmployeesSalaryByBranch');
   }
 
   GetIqamaIssuePlaces() {

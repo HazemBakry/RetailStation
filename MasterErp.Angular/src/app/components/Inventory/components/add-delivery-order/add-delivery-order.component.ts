@@ -179,8 +179,6 @@ export class AddDeliveryOrderComponent implements OnInit {
     }, () => {
       this.showAddLoader = false;
     });
-
-
   }
 
   loadSelectors() {

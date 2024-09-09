@@ -162,6 +162,20 @@ namespace MasterErp.API.Controllers
             return _employeeService.GetEmployeesSummary();
         }
 
+        [HttpGet]
+        [Route("GetEmployeesSalaryByBranch")]
+        public List<EmployeeSalaryDto> GetEmployeesSalaryByBranch(List<int> BranchId)
+        {
+            return _employeeService.GetEmployeesSalaryByBranch(BranchId);
+        }
+
+        //[HttpPost]
+        //[Route("EditEmployeeSalary")]
+        //public bool EditEmployeeSalary(EmployeeSalary model)
+        //{
+        //    return _employeeService.EditEmployeeSalary(model);
+        //}
+
         //[HttpPost]
         //[Route("GetEmployeesFilter")]
         //public ActionResult<PagedResponseModel<EmployeeBasicInfo>> GetEmployeesFilter(SearchFilterModel model)
@@ -250,19 +264,7 @@ namespace MasterErp.API.Controllers
         //    return _employeeService.GetBankData();
         //}
 
-        //[HttpGet]
-        //[Route("GetAllEmployeeSalary")]
-        //public DataTable GetAllEmployeeSalary()
-        //{
-        //    return _employeeService.GetAllEmployeeSalary();
-        //}
 
-        ////[HttpPost]
-        ////[Route("EditEmployeeSalary")]
-        ////public bool EditEmployeeSalary(EmployeeSalary model)
-        ////{
-        ////    return _employeeService.EditEmployeeSalary(model);
-        ////}
 
         //[HttpPost]
         //[Route("AddNewEmployee")]

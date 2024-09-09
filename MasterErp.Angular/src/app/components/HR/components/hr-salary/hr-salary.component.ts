@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HrService } from '../../services/hr.service';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
+import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 
 @Component({
   selector: 'app-hr-salary',
@@ -9,65 +11,40 @@ import { HrService } from '../../services/hr.service';
   styleUrls: ['./hr-salary.component.css']
 })
 export class HrSalaryComponent implements OnInit {
+  TitleList = ['ألموارد البشرية', 'الرواتب'];
   EmployeeSalaryData: any[] = [];
   EmployeeData: any[] = [];
-  form: FormGroup;
-  PenaltyId: number;
-  constructor(private modalService: NgbModal, private hrService: HrService, private fb: FormBuilder) { }
+  BranchId: number;
+  branchesSelectorData: FormDropdownModel[] = [];
+  
+  public formGroup: FormGroup;
+  public formErrors = {
+    branchIds:''
+  };
+
+  constructor(private modalService: NgbModal, private hrService: HrService, 
+    private sharedService: SharedService,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.FormInit();
-    this.getAllEmployeeSalary();
+    this.loadSelectors();
+    //this.getEmployeesSalaryByBranch();
   }
 
-  FormInit() {
-    this.form = this.fb.group({
-      employeeSalaryId: null,
-      basicSalary: null,
-      extraSalary: null,
-      transport: null,
-      home: null,
-      mopile: null,
-      food: null,
-      workNature: null,
-      other: null,
-      totalSalary: null,
+  loadSelectors() {
+    this.sharedService.GetBranchesSelector().subscribe((data: FormDropdownModel[]) => {
+      this.branchesSelectorData = data;
     });
   }
 
-  fillEditForm(item: any) {
-    let Item = item.salary;
-    this.form.setValue({
-      employeeSalaryId: Item.employeeSalaryId,
-      basicSalary: Item.basicSalary,
-      extraSalary: Item.extraSalary,
-      transport: Item.transport,
-      home: Item.home,
-      mopile: Item.mopile,
-      food: Item.food,
-      workNature: Item.workNature,
-      other: Item.other,
-      totalSalary: Item.totalSalary,
-    });
+  getSelectedBranch(supplierId)
+  {
+    //this.selectedSupplierId=supplierId;
   }
 
-  openEditModal(content: any, item: any) {
-    this.form.reset();
-    this.fillEditForm(item);
-    this.modalService.open(content, { centered: true, size: 'lg' });
-  }
-
-  getAllEmployeeSalary() {
-    this.hrService.GetAllEmployeeSalary().subscribe(data => {
+  getEmployeesSalaryByBranch() {
+    this.hrService.GetEmployeesSalaryByBranch().subscribe(data => {
       this.EmployeeSalaryData = data;
-      console.log(this.EmployeeSalaryData);
-    });
-  }
-
-  editEmployeeSalary() {
-    this.hrService.EditEmployeeSalary(this.form.value).subscribe(data => {
-      this.getAllEmployeeSalary();
-      this.form.reset();
     });
   }
 }

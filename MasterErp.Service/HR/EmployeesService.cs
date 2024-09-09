@@ -619,6 +619,17 @@ namespace MasterErp.Service.HR
             return result;
         }
 
+        public List<EmployeeSalaryDto>  GetEmployeesSalaryByBranch(List<int> BranchId)
+        {
+            SqlParameter[] Params = new SqlParameter[1];
+            Params[0] = new SqlParameter("@BranchIds", SqlDbType.Structured);
+            Params[0].Value = BranchId.ToList().ToDataTable();
+
+            var result = SQLHelper.SQLQuery<EmployeeSalaryDto>("[HR].[SP_GetEmployeesSalaryByBranch]", ConnectionString, Params);
+            return result;
+        }
+
+
         //public List<IqamaIssuePlace> GetIqamaIssuePlaces()
         //{
         //    var results = Context.IqamaIssuePlaces.ToList();
