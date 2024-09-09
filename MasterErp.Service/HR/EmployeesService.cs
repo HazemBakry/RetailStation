@@ -58,18 +58,11 @@ namespace MasterErp.Service.HR
 
                 int? lastEmpCode = Context.Employees.OrderBy(e => e.EmployeeId).LastOrDefault()?.Code;
                 employee.Code= lastEmpCode+1??1;
-                employee.ManagerId=model.ManagerId;
-                employee.IqamaNumber = model.IqamaNumber;
-                employee.JobId = model.JobId;
-                employee.IqamaJobId = model.IqamaJobId;
-                employee.BranchId = model.BranchId;
-                employee.StatusId = model.StatusId;
-
-                employee.FirstNameAR=model.FirstNameAR;
+                employee.FirstNameAR = model.FirstNameAR;
                 employee.FatherNameAR = model.FatherNameAR;
                 employee.GrandNameAR = model.GrandNameAR;
                 employee.LastNameAR = model.LastNameAR;
-                employee.FullNameAR =string.Concat(new List<string> { model.FirstNameAR," ",model.FatherNameAR," ", model.GrandNameAR," ", model.LastNameAR });
+                employee.FullNameAR = string.Concat(new List<string> { model.FirstNameAR, " ", model.FatherNameAR, " ", model.GrandNameAR, " ", model.LastNameAR });
 
 
                 employee.FirstNameEN = model.FirstNameEN;
@@ -78,28 +71,32 @@ namespace MasterErp.Service.HR
                 employee.LastNameEN = model.LastNameEN;
                 employee.FullNameEN = string.Concat(new List<string> { model.FirstNameEN, " ", model.FatherNameEN, " ", model.GrandNameEN, " ", model.LastNameEN }); ;
 
-                employee.BankId = model.BankId;
-                employee.BankAccountNumber = model.BankAccountNumber;
+
+                employee.ManagerId=model.ManagerId;
+                employee.JobId = model.JobId;
+                employee.VisaJobId = model.VisaJobId;
+                employee.BranchId = model.BranchId;
+                employee.StatusId = model.StatusId;
+
+
                 employee.BirthDate = model.BirthDate;
                 employee.BirthPlace = model.BirthPlace;
                 employee.NationalityId = model.NationalityId;
                 employee.SponsorId = model.SponsorId;
-                employee.IqamaIssuePlaceId = model.IqamaIssuePlaceId;
-                employee.IqamaIssueDate = model.IqamaIssueDate;
-                employee.IqamaExpireDate = model.IqamaExpireDate;
 
-                employee.IqamaExpireDateHijri = model.IqamaExpireDateHijri;
-                employee.IqamaIssueDateHijri = model.IqamaIssueDateHijri;
-                employee.IqamaJobDescription = model.IqamaJobDescription;
-                employee.Religion = model.Religion;
+                employee.ReligionId = (int) model.ReligionId;
                 employee.Address = model.Address;
 
-                employee.DrivingLicenseNumber = model.DrivingLicenseNumber;
-                employee.DrivingLicenseIssueDateHijri = model.DrivingLicenseIssueDateHijri;
-                employee.DrivingLicenseIssueDate = model.DrivingLicenseIssueDate;
-                employee.DrivingLicenseExpireDateHijri = model.DrivingLicenseExpireDateHijri;
-                employee.DrivingLicenseExpireDate = model.DrivingLicenseExpireDate;
-                employee.VehicleId = model.VehicleId;
+                employee.BorderEntryNumber = model.BorderEntryNumber;
+                employee.PassportNumber = model.PassportNumber;
+                employee.ArrivalPort = model.ArrivalPort;
+                employee.VisaNumber = model.VisaNumber;
+                employee.VisaIssueDate = model.VisaIssueDate;
+                employee.PassportExpireDate = model.PassportExpireDate;
+
+                employee.Phone = model.Phone;
+                employee.Email = model.Email;
+                employee.SocialStatusId = model.SocialStatusId;
 
                 employee.CreatedBy = model.CreatedBy;
                 employee.CreatedDate = DateTime.Now;
@@ -141,13 +138,6 @@ namespace MasterErp.Service.HR
                 var employee = Context.Employees.FirstOrDefault(i => i.EmployeeId == EmployeeId);
                 if (employee != null)
                 {
-                    employee.ManagerId = model.ManagerId;
-                    employee.IqamaNumber = model.IqamaNumber;
-                    employee.JobId = model.JobId;
-                    employee.IqamaJobId = model.IqamaJobId;
-                    employee.BranchId = model.BranchId;
-                    employee.StatusId = model.StatusId;
-
                     employee.FirstNameAR = model.FirstNameAR;
                     employee.FatherNameAR = model.FatherNameAR;
                     employee.GrandNameAR = model.GrandNameAR;
@@ -161,29 +151,34 @@ namespace MasterErp.Service.HR
                     employee.LastNameEN = model.LastNameEN;
                     employee.FullNameEN = string.Concat(new List<string> { model.FirstNameEN, " ", model.FatherNameEN, " ", model.GrandNameEN, " ", model.LastNameEN }); ;
 
-                    employee.BankId = model.BankId;
-                    employee.BankAccountNumber = model.BankAccountNumber;
+
+                    employee.ManagerId = model.ManagerId;
+                    employee.JobId = model.JobId;
+                    employee.VisaJobId = model.VisaJobId;
+                    employee.BranchId = model.BranchId;
+                    employee.StatusId = model.StatusId;
+
+
                     employee.BirthDate = model.BirthDate;
                     employee.BirthPlace = model.BirthPlace;
                     employee.NationalityId = model.NationalityId;
                     employee.SponsorId = model.SponsorId;
-                    employee.IqamaIssuePlaceId = model.IqamaIssuePlaceId;
-                    employee.IqamaIssueDate = model.IqamaIssueDate;
-                    employee.IqamaExpireDate = model.IqamaExpireDate;
 
-                    employee.IqamaExpireDateHijri = model.IqamaExpireDateHijri;
-                    employee.IqamaIssueDateHijri = model.IqamaIssueDateHijri;
-                    employee.IqamaJobDescription = model.IqamaJobDescription;
-                    employee.Religion = model.Religion;
+                    employee.ReligionId = (int) model.ReligionId;
                     employee.Address = model.Address;
 
-                    employee.DrivingLicenseNumber = model.DrivingLicenseNumber;
-                    employee.DrivingLicenseIssueDateHijri = model.DrivingLicenseIssueDateHijri;
-                    employee.DrivingLicenseIssueDate = model.DrivingLicenseIssueDate;
-                    employee.DrivingLicenseExpireDateHijri = model.DrivingLicenseExpireDateHijri;
-                    employee.DrivingLicenseExpireDate = model.DrivingLicenseExpireDate;
-                    employee.VehicleId = model.VehicleId;
+                    employee.BorderEntryNumber = model.BorderEntryNumber;
+                    employee.PassportNumber = model.PassportNumber;
+                    employee.ArrivalPort = model.ArrivalPort;
+                    employee.VisaNumber = model.VisaNumber;
+                    employee.VisaIssueDate = model.VisaIssueDate;
+                    employee.PassportExpireDate = model.PassportExpireDate;
+                    employee.Address = model.Address;
+                    employee.Phone = model.Phone;
+                    employee.Email = model.Email;
+                    employee.SocialStatusId = model.SocialStatusId;
 
+                    
 
                     employee.ModifiedBy = model.ModifiedBy;
                     employee.ModifiedDate = DateTime.Now;
@@ -305,16 +300,21 @@ namespace MasterErp.Service.HR
                 //Edit
                 if (employeeVerification != null)
                 {
-                    employeeVerification.BorderEntryNumber = model.BorderEntryNumber;
-                    employeeVerification.PassportNumber = model.PassportNumber;
-                    employeeVerification.BorderEntryDate = model.BorderEntryDate;
-                    employeeVerification.ArrivalPort = model.ArrivalPort;
-                    employeeVerification.VisaNumber = model.VisaNumber;
-                    employeeVerification.VisaIssueDate = model.VisaIssueDate;
-                    employeeVerification.PassportExpireDate = model.PassportExpireDate;
-                    employeeVerification.PassportIssuanceDate = model.PassportIssuanceDate;
-                    employeeVerification.PassportIssuancePlace = model.PassportIssuancePlace;
-                    
+                    employeeVerification.BankId = model.BankId;
+                    employeeVerification.BankAccountNumber = model.BankAccountNumber;
+                    employeeVerification.IqamaNumber = model.IqamaNumber;
+                    employeeVerification.IqamaIssuePlaceId = model.IqamaIssuePlaceId;
+                    employeeVerification.IqamaIssueDate = model.IqamaIssueDate;
+                    employeeVerification.IqamaExpireDate = model.IqamaExpireDate;
+
+                    employeeVerification.DrivingLicenseNumber = model.DrivingLicenseNumber;
+                    employeeVerification.DrivingLicenseIssueDate = model.DrivingLicenseIssueDate;
+                    employeeVerification.DrivingLicenseExpireDate = model.DrivingLicenseExpireDate;
+                    employeeVerification.VehicleId = model.VehicleId;
+                    employeeVerification.VehicleNumber = model.VehicleNumber;
+                    employeeVerification.VehicleCode = model.VehicleCode;
+
+
                     employeeVerification.ModifiedBy = model.ModifiedBy;
                     employeeVerification.ModifiedDate = DateTime.Now;
 
@@ -328,15 +328,20 @@ namespace MasterErp.Service.HR
                     employeeVerification = new EmployeeVerification();
 
                     employeeVerification.EmployeeId =EmployeeId;
-                    employeeVerification.BorderEntryNumber = model.BorderEntryNumber;
-                    employeeVerification.PassportNumber = model.PassportNumber;
-                    employeeVerification.BorderEntryDate = model.BorderEntryDate;
-                    employeeVerification.ArrivalPort = model.ArrivalPort;
-                    employeeVerification.VisaNumber = model.VisaNumber;
-                    employeeVerification.VisaIssueDate = model.VisaIssueDate;
-                    employeeVerification.PassportExpireDate = model.PassportExpireDate;
-                    employeeVerification.PassportIssuanceDate = model.PassportIssuanceDate;
-                    employeeVerification.PassportIssuancePlace = model.PassportIssuancePlace;
+                    employeeVerification.BankId = model.BankId;
+                    employeeVerification.BankAccountNumber = model.BankAccountNumber;
+
+                    employeeVerification.IqamaNumber = model.IqamaNumber;
+                    employeeVerification.IqamaIssuePlaceId = model.IqamaIssuePlaceId;
+                    employeeVerification.IqamaIssueDate = model.IqamaIssueDate;
+                    employeeVerification.IqamaExpireDate = model.IqamaExpireDate;
+
+                    employeeVerification.DrivingLicenseNumber = model.DrivingLicenseNumber;
+                    employeeVerification.DrivingLicenseIssueDate = model.DrivingLicenseIssueDate;
+                    employeeVerification.DrivingLicenseExpireDate = model.DrivingLicenseExpireDate;
+                    employeeVerification.VehicleId = model.VehicleId;
+                    employeeVerification.VehicleNumber = model.VehicleNumber;
+                    employeeVerification.VehicleCode = model.VehicleCode;
 
                     employeeVerification.CreatedBy = model.CreatedBy;
                     employeeVerification.CreatedDate = DateTime.Now;
@@ -430,9 +435,7 @@ namespace MasterErp.Service.HR
                     EmployeeId = employee.EmployeeId,
                     Code = employee.Code,
                     ManagerId = employee.ManagerId,
-                    IqamaNumber = employee.IqamaNumber,
                     JobId = employee.JobId,
-                    IqamaJobId = employee.IqamaJobId,
                     BranchId = employee.BranchId,
                     StatusId = employee.StatusId,
                     FirstNameAR = employee.FirstNameAR,
@@ -445,26 +448,27 @@ namespace MasterErp.Service.HR
                     GrandNameEN = employee.GrandNameEN,
                     LastNameEN = employee.LastNameEN,
                     FullNameEN = employee.FullNameEN,
-                    BankId = employee.BankId,
-                    BankAccountNumber = employee.BankAccountNumber,
                     BirthDate = employee.BirthDate,
                     BirthPlace = employee.BirthPlace,
                     NationalityId = employee.NationalityId,
                     SponsorId = employee.SponsorId,
-                    IqamaIssuePlaceId = employee.IqamaIssuePlaceId,
-                    IqamaIssueDate = employee.IqamaIssueDate,
-                    IqamaExpireDate = employee.IqamaExpireDate,
-                    IqamaExpireDateHijri = employee.IqamaExpireDateHijri,
-                    IqamaIssueDateHijri = employee.IqamaIssueDateHijri,
-                    IqamaJobDescription = employee.IqamaJobDescription,
-                    Religion = employee.Religion,
+                    VisaJobId = employee.VisaJobId,
+                    Phone = employee.Phone,
+                    Email = employee.Email,
+                    SocialStatusId = employee.SocialStatusId,
+
+
+                    //Religion = employee.ReligionId,
+                    ReligionId = employee.ReligionId,
                     Address = employee.Address,
-                    DrivingLicenseNumber = employee.DrivingLicenseNumber,
-                    DrivingLicenseIssueDateHijri = employee.DrivingLicenseIssueDateHijri,
-                    DrivingLicenseIssueDate = employee.DrivingLicenseIssueDate,
-                    DrivingLicenseExpireDateHijri = employee.DrivingLicenseExpireDateHijri,
-                    DrivingLicenseExpireDate = employee.DrivingLicenseExpireDate,
-                    VehicleId = employee.VehicleId,
+
+                    BorderEntryNumber = employee.BorderEntryNumber,
+                    PassportNumber = employee.PassportNumber,
+                    ArrivalPort = employee.ArrivalPort,
+                    VisaNumber = employee.VisaNumber,
+                    VisaIssueDate = employee.VisaIssueDate,
+                    PassportExpireDate = employee.PassportExpireDate,
+
                     CreatedBy = employee.CreatedBy,
                     CreatedDate = employee.CreatedDate,
                     ModifiedBy = employee.ModifiedBy,
@@ -532,16 +536,19 @@ namespace MasterErp.Service.HR
 
                     EmployeeId = employee.EmployeeId,
                     EmployeeVerificationId = employee.EmployeeVerificationId,
+                    IqamaNumber = employee.IqamaNumber,
+                    BankId = employee.BankId,
+                    BankAccountNumber = employee.BankAccountNumber,
+                    IqamaIssuePlaceId = employee.IqamaIssuePlaceId,
+                    IqamaIssueDate = employee.IqamaIssueDate,
+                    IqamaExpireDate = employee.IqamaExpireDate,
+                    DrivingLicenseNumber = employee.DrivingLicenseNumber,
+                    DrivingLicenseIssueDate = employee.DrivingLicenseIssueDate,
+                    DrivingLicenseExpireDate = employee.DrivingLicenseExpireDate,
+                    VehicleId = employee.VehicleId,
+                    VehicleNumber = employee.VehicleNumber,
+                    VehicleCode = employee.VehicleCode,
 
-                    BorderEntryNumber = employee.BorderEntryNumber,
-                    PassportNumber = employee.PassportNumber,
-                    BorderEntryDate = employee.BorderEntryDate,
-                    ArrivalPort = employee.ArrivalPort,
-                    VisaNumber = employee.VisaNumber,
-                    VisaIssueDate = employee.VisaIssueDate,
-                    PassportExpireDate = employee.PassportExpireDate,
-                    PassportIssuanceDate = employee.PassportIssuanceDate,
-                    PassportIssuancePlace = employee.PassportIssuancePlace,
 
                     CreatedBy = employee.CreatedBy,
                     CreatedDate = employee.CreatedDate,

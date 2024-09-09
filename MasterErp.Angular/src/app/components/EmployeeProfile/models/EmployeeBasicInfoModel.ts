@@ -16,7 +16,7 @@ export interface EmployeeBasicInfoModel {
     lastNameEN: string;
     statusId: number;
     bankId: number;
-    bankAccount: string;
+    bankAccountNumber: string;
     bankName: string;
     nationalityId: number;
     contractPeriod: number | null;
@@ -30,7 +30,13 @@ export interface EmployeeBasicInfoModel {
     birthDate: string | null;
     joinDate: string | null;
     birthPlace: string;
-    religion: string;
+    religionNameAR: string;
+    religionNameEN: string;
+    socialStatusId: number;
+    socialStatusNameAR: string;
+    socialStatusNameEN: string;
+    phone: string;
+    email: string;
     image: string;
     filesPath: string;
     totalCount: number;

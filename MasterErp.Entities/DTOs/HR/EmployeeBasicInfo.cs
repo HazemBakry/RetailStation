@@ -25,7 +25,7 @@ namespace MasterErp.Entities.DTOs.HR
         public string LastNameEN { get; set; }
         public int StatusId { get; set; }  
         public int BankId { get; set; }
-        public string BankAccount { get; set; }//
+        public string BankAccountNumber { get; set; }//
         public string BankName { get; set; }//
         public int NationalityId { get; set; }//
         public int? ContractPeriod { get; set; }//
@@ -39,7 +39,16 @@ namespace MasterErp.Entities.DTOs.HR
         public DateTime? BirthDate { get; set; }//
         public DateTime? JoinDate { get; set; }//
         public string BirthPlace { get; set; }//
-        public string Religion { get; set; }//
+        public string ReligionNameAR { get; set; }//
+        public string ReligionNameEN { get; set; }//
+        public int? ReligionId { get; set; }//
+        
+        public string SocialStatusNameAR { get; set; }//
+        public string SocialStatusNameEN { get; set; }//
+        public string Phone { get; set; }//
+        public string Email { get; set; }//
+        public int? SocialStatusId { get; set; }//
+
         public string Image { get; set; }
         public string FilesPath { get; set; }
         public int TotalCount { get; set; }

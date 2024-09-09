@@ -15,9 +15,9 @@ namespace MasterErp.Entities.DTOs.HR
         public int? EmployeeId { get; set; }//
         public int Code { get; set; }//1
         public int? ManagerId { get; set; }//1
-        public string IqamaNumber { get; set; }//1
         public int JobId { get; set; }//1
-        public int? IqamaJobId { get; set; }//1
+        public int? SocialStatusId { get; set; }//1
+        public int? VisaJobId { get; set; }//1
         public int BranchId { get; set; }//1
         public int? StatusId { get; set; }  // 1 by default
 
@@ -32,19 +32,22 @@ namespace MasterErp.Entities.DTOs.HR
         public string GrandNameEN { get; set; }//1
         public string LastNameEN { get; set; }//1
 
-        public int? BankId { get; set; }//1
-        public string BankAccountNumber { get; set; }//1
+
         public DateTime BirthDate { get; set; }//1
         public string BirthPlace { get; set; }//1
+        public string Phone { get; set; }//1
+        public string Email { get; set; }//1
 
         public int NationalityId { get; set; }//1
         public int? SponsorId { get; set; }//1
-        public int? IqamaIssuePlaceId { get; set; }//1
-        public DateTime? IqamaIssueDate { get; set; }//1
-        public DateTime? IqamaExpireDate { get; set; }//1
-        public string IqamaExpireDateHijri { get; set; }//1
-        public string IqamaIssueDateHijri { get; set; }//1
-        public string IqamaJobDescription { get; set; }//1
+        public string BorderEntryNumber { get; set; }//2
+        public string PassportNumber { get; set; }//2
+        public string ArrivalPort { get; set; }//2
+        public string VisaNumber { get; set; }//2
+        public DateTime? VisaIssueDate { get; set; }//2
+        public DateTime? PassportExpireDate { get; set; }//2
+
+        public int? ReligionId { get; set; }//1
         public string Religion { get; set; }//1
         public string Address { get; set; }//1
         public string Image { get; set; } //1
@@ -55,12 +58,5 @@ namespace MasterErp.Entities.DTOs.HR
         public IFormFile ImageFile { get; set; }
         public IFormFile AttachmentFile { get; set; }
 
-
-        public string DrivingLicenseNumber { get; set; } //4
-        public string DrivingLicenseIssueDateHijri { get; set; }//4
-        public DateTime? DrivingLicenseIssueDate { get; set; }//4
-        public string DrivingLicenseExpireDateHijri { get; set; }//4
-        public DateTime? DrivingLicenseExpireDate { get; set; }//4
-        public int? VehicleId { get; set; }//4
     }
 }

@@ -21,13 +21,14 @@ import { HrService } from '../../../services/hr.service';
 })
 export class HrEmployeeVerificationInfoComponent implements OnInit {
   @Input() employeeId: number;
-  iqamaJobselectorData: FormDropdownModel[]= [];
+  iqamaJobselectorData: FormDropdownModel[] = [];
   employeeVerificationInfoModel: EmployeeVerificationModel = {} as EmployeeVerificationModel;
   isUpdate: boolean = false;
   showLoader: boolean = false;
   showAddLoader: boolean = false;
   public formGroup: FormGroup;
   iqamaIssuePlacesSelectorData: FormDropdownModel[] = [];
+  banksSelectorData: FormDropdownModel[]= [];
 
   constructor(private acRoute: ActivatedRoute, private hrService: HrService, private modalService: NgbModal, private employeeService: EmployeeService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
     private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
@@ -70,19 +71,26 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
     this.formGroup = this.form.group({
       employeeVerificationId: [null],
       employeeId: [null],
-      borderEntryNumber: [null, [Validators.required]],
-      passportNumber: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
-      borderEntryDate: [null, [Validators.required]],
-      arrivalPort: [null, [Validators.required]],
-      visaNumber: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
-      visaIssueDate: [null, [Validators.required]],
-      passportIssuanceDate: [null, [Validators.required]],
-      passportExpireDate: [null, [Validators.required]],
-      passportIssuancePlace: [null, [Validators.required]],
+
+      bankId: [null],
+      bankAccountNumber: [null, [CustomValidators.regexPattern(RegexType.number)]],
+      iqamaNumber: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
+      iqamaIssuePlaceId: [null],
+      iqamaIssueDate: [null],
+      iqamaExpireDate: [null],
+
+      drivingLicenseNumber: [null, [CustomValidators.regexPattern(RegexType.number)]],
+      drivingLicenseIssueDate: [null],
+      drivingLicenseExpireDate: [null],
+      vehicleId: [null ,[CustomValidators.regexPattern(RegexType.number)]],
+      vehicleNumber: [null],
+      vehicleCode: [null],
+
     },
       {
         validators: [
-          CustomValidators.endDateGreaterThanStartDate('passportIssuanceDate', 'passportExpireDate', 'يجب ان يكون تاريخ الاصدار قبل الانتهاء '),
+          CustomValidators.endDateGreaterThanStartDate('iqamaIssueDate', 'iqamaExpireDate', 'يجب ان يكون تاريخ الاصدار قبل الانتهاء '),
+          CustomValidators.endDateGreaterThanStartDate('drivingLicenseIssueDate', 'drivingLicenseExpireDate', 'يجب ان يكون تاريخ الاصدار قبل الانتهاء '),
         ],
       });
     this.formGroup.valueChanges.subscribe((data) => {
@@ -126,9 +134,13 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
 
   }
   loadSelectors() {
-    // this.sharedService.GetIqamaIssuePlacesSelector().subscribe((data: FormDropdownModel[]) => {
-    //   this.iqamaIssuePlacesSelectorData = data;
-    // });
+    this.sharedService.GetIqamaIssuePlacesSelector().subscribe((data: FormDropdownModel[]) => {
+      this.iqamaIssuePlacesSelectorData = data;
+    });
+    this.sharedService.GetBanksSelector().subscribe((data: FormDropdownModel[]) => {
+      this.banksSelectorData = data;
+    });
+
   }
 
   validateForm(): boolean {
@@ -149,15 +161,20 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
 
       employeeVerificationId: employeeVerificationInfoModel.employeeVerificationId,
       employeeId: this.employeeId,
-      borderEntryNumber: employeeVerificationInfoModel.borderEntryNumber,
-      passportNumber: employeeVerificationInfoModel.passportNumber,
-      borderEntryDate: this.datePipe.transform(employeeVerificationInfoModel.borderEntryDate, 'yyyy-MM-dd'),
-      arrivalPort: employeeVerificationInfoModel.arrivalPort,
-      visaNumber: employeeVerificationInfoModel.visaNumber,
-      visaIssueDate: this.datePipe.transform(employeeVerificationInfoModel.visaIssueDate, 'yyyy-MM-dd'),
-      passportIssuanceDate: this.datePipe.transform(employeeVerificationInfoModel.passportIssuanceDate, 'yyyy-MM-dd'),
-      passportExpireDate: this.datePipe.transform(employeeVerificationInfoModel.passportExpireDate, 'yyyy-MM-dd'),
-      passportIssuancePlace: employeeVerificationInfoModel.passportIssuancePlace,
+      bankId: employeeVerificationInfoModel.bankId,
+      bankAccountNumber: employeeVerificationInfoModel.bankAccountNumber,
+      iqamaNumber: employeeVerificationInfoModel.iqamaNumber,
+      iqamaIssuePlaceId: employeeVerificationInfoModel.iqamaIssuePlaceId,
+      iqamaIssueDate: this.datePipe.transform(employeeVerificationInfoModel.iqamaIssueDate, 'yyyy-MM-dd'),
+      iqamaExpireDate: this.datePipe.transform(employeeVerificationInfoModel.iqamaExpireDate, 'yyyy-MM-dd'),
+
+      drivingLicenseNumber: employeeVerificationInfoModel.drivingLicenseNumber,
+      drivingLicenseIssueDate: this.datePipe.transform(employeeVerificationInfoModel.drivingLicenseIssueDate, 'yyyy-MM-dd'),
+      drivingLicenseExpireDate: this.datePipe.transform(employeeVerificationInfoModel.drivingLicenseExpireDate, 'yyyy-MM-dd'),
+      vehicleId: employeeVerificationInfoModel.vehicleId,
+      vehicleNumber: employeeVerificationInfoModel.vehicleNumber,
+      vehicleCode: employeeVerificationInfoModel.vehicleCode,
+
     });
   }
 
@@ -167,17 +184,18 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
   public formErrors = {
     employeeVerificationId: '',
     employeeId: '',
-    borderEntryNumber: '',
-    passportNumber: '',
-    borderEntryDate: '',
-    arrivalPort: '',
-    visaNumber: '',
-    visaIssueDate: '',
     iqamaNumber: '',
-    iqamaJobId: '',
+    bankId: '',
+    bankAccountNumber: '',
     iqamaIssueDate: '',
     iqamaExpireDate: '',
     iqamaIssuePlaceId: '',
+    drivingLicenseNumber: '',
+    drivingLicenseIssueDate: '',
+    drivingLicenseExpireDate: '',
+    vehicleId: '',
+    vehicleNumber: '',
+    vehicleCode: '',
   };
 
 

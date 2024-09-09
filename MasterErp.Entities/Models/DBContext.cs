@@ -36,6 +36,8 @@ namespace MasterErp.Entities.Models
         public DbSet<Bank> Banks { get; set; }
         public DbSet<CostCenterTree> CostCenterTree { get; set; }
         public DbSet<Currency> Currency { get; set; }
+        public DbSet<Religion> Religions { get; set; }
+        public DbSet<SocialStatus> SocialStatus { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeContract> EmployeeContracts { get; set; }
         public DbSet<EmployeeVerification> EmployeeVerifications { get; set; }

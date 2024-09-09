@@ -119,10 +119,10 @@ namespace MasterErp.API.Controllers.Shared
         }
         
         [HttpGet]
-        [Route("GetIqamaJobsSelector")]
-        public IActionResult GetIqamaJobsSelector()
+        [Route("GetVisaJobsSelector")]
+        public IActionResult GetVisaJobsSelector()
         {
-            var result = _sharedService.GetIqamaJobsSelector();
+            var result = _sharedService.GetVisaJobsSelector();
             return Ok(result);
         }
         
@@ -221,6 +221,21 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetCurrencySelector();
             return Ok(result);
         }
+        [HttpGet]
+        [Route("GetReligionsSelector")]
+        public IActionResult GetReligionsSelector()
+        {
+            var result = _sharedService.GetReligionsSelector();
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("GetSocialStatusSelector")]
+        public IActionResult GetSocialStatusSelector()
+        {
+            var result = _sharedService.GetSocialStatusSelector();
+            return Ok(result);
+        }
+
 
 
         #endregion

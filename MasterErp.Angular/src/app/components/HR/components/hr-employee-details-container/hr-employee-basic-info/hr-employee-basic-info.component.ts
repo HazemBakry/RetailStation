@@ -28,10 +28,11 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
   jobsSelectorData: FormDropdownModel[] = [];
   workStatusSelectorData: FormDropdownModel[] = [];
   branchSelectorData: FormDropdownModel[] = [];
-  banksSelectorData: FormDropdownModel[]= [];
   nationalitiesSelectorData: FormDropdownModel[]= [];
   iqamaIssuePlacesSelectorData: FormDropdownModel[]= [];
-  iqamaJobselectorData: FormDropdownModel[]= [];
+  visaJobsSelectorData: FormDropdownModel[]= [];
+  religionsSelectorData: FormDropdownModel[]= [];
+  socialStatusSelectorData: FormDropdownModel[]= [];
   vehiclesSelectorData: FormDropdownModel[]= [];
   showLoader: boolean = false;
   showAddLoader: boolean = false;
@@ -91,48 +92,44 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       employeeId: [null],
       managerId: [null],
       jobId: [null, [Validators.required]],
-      branchId: [null, [Validators.required]],
+      branchId: [null],
       statusId: [null],
       firstNameAR: [null, [Validators.required]],
       fatherNameAR: [null, [Validators.required]],
-      grandNameAR: [null, [Validators.required]],
-      lastNameAR: [null, [Validators.required]],
+      grandNameAR: [null],
+      lastNameAR: [null],
       firstNameEN: [null, [Validators.required]],
       fatherNameEN: [null, [Validators.required]],
-      grandNameEN: [null, [Validators.required]],
-      lastNameEN: [null, [Validators.required]],
-      bankId: [null, [Validators.required]],
-      bankAccountNumber: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
-      birthDate: [null, [Validators.required]],
-      birthPlace: [null, [Validators.required]],
+      grandNameEN: [null],
+      lastNameEN: [null],
       nationalityId: [null, [Validators.required]],
-      sponsorId: [null, [Validators.required]],
-      iqamaNumber: [null, [Validators.required,CustomValidators.regexPattern(RegexType.number)]],
-      iqamaJobId: [null, [Validators.required]],
-      iqamaIssuePlaceId: [null, [Validators.required]],
-      iqamaIssueDate: [null, [Validators.required]],
-      iqamaExpireDate: [null, [Validators.required]],
-      iqamaExpireDateHijri: [null],
-      iqamaIssueDateHijri: [null],
-      iqamaJobDescription: [null],
-      religion: [null, [Validators.required]],
-      address: [null, [Validators.required]],
+      sponsorId: [null],
+      birthDate: [null, [Validators.required]],
+      birthPlace: [null],
+
+      religionId: [null, [Validators.required]],
+      address: [null],
       imageFile: [null],
       attachmentFile: [null],
 
-      drivingLicenseNumber: [null,[CustomValidators.regexPattern(RegexType.number)]],
-      drivingLicenseIssueDate: [null],
-      drivingLicenseIssueDateHijri: [null],
-      drivingLicenseExpireDate: [null],
-      drivingLicenseExpireDateHijri: [null],
-      vehicleId: [null],
-
+    
+      socialStatusId: [null, [Validators.required]],
+      phone: [null],
+      passportNumber: [null, [ CustomValidators.regexPattern(RegexType.number)]],
+      passportIssuanceDate: [null],
+      passportExpireDate: [null],
+      passportIssuancePlace: [null],
+      arrivalPort: [null],
+      borderEntryNumber: [null],
+      visaNumber: [null, [ CustomValidators.regexPattern(RegexType.number)]],
+      visaIssueDate: [null],
+      visaJobId: [null],
+      email: [null, [CustomValidators.regexPattern(RegexType.email)]],
     },
     {
       
       validators: [
-        CustomValidators.endDateGreaterThanStartDate('iqamaIssueDate', 'iqamaExpireDate','يجب ان يكون تاريخ الاصدار قبل الانتهاء '),
-        CustomValidators.endDateGreaterThanStartDate('drivingLicenseIssueDate', 'drivingLicenseExpireDate','يجب ان يكون تاريخ الاصدار قبل الانتهاء '),
+        CustomValidators.endDateGreaterThanStartDate('passportIssuanceDate', 'passportExpireDate', 'يجب ان يكون تاريخ الاصدار قبل الانتهاء '),
        ],
     });
     this.formGroup.valueChanges.subscribe((data) => {
@@ -142,6 +139,8 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
   }
 
   saveEmployeeBasicInfo() {
+    console.log(this.formErrors);
+    
     if (!this.validateForm()) {
       return;
     }
@@ -221,17 +220,19 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
     this.hrService.GetJobsSelector().subscribe((data: FormDropdownModel[]) => {
       this.jobsSelectorData = data;
     });
-    this.sharedService.GetBanksSelector().subscribe((data: FormDropdownModel[]) => {
-      this.banksSelectorData = data;
-    });
+
     this.sharedService.GetNationalitiesSelector().subscribe((data: FormDropdownModel[]) => {
       this.nationalitiesSelectorData = data;
     });
-    this.sharedService.GetIqamaIssuePlacesSelector().subscribe((data: FormDropdownModel[]) => {
-      this.iqamaIssuePlacesSelectorData = data;
+
+    this.sharedService.GetVisaJobsSelector().subscribe((data: FormDropdownModel[]) => {
+      this.visaJobsSelectorData = data;
     });
-    this.sharedService.GetIqamaJobsSelector().subscribe((data: FormDropdownModel[]) => {
-      this.iqamaJobselectorData = data;
+    this.sharedService.GetReligionsSelector().subscribe((data: FormDropdownModel[]) => {
+      this.religionsSelectorData = data;
+    });
+    this.sharedService.GetSocialStatusSelector().subscribe((data: FormDropdownModel[]) => {
+      this.socialStatusSelectorData = data;
     });
     // this.sharedService.GetVehiclesSelector().subscribe((data: FormDropdownModel[]) => {
     //   this.vehiclesSelectorData = data;
@@ -266,29 +267,31 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       fatherNameEN: employeeBasicInfoModel.fatherNameEN,
       grandNameEN: employeeBasicInfoModel.grandNameEN,
       lastNameEN: employeeBasicInfoModel.lastNameEN,
-      bankId: employeeBasicInfoModel.bankId,
-      bankAccountNumber: employeeBasicInfoModel.bankAccountNumber,
+      borderEntryNumber: employeeBasicInfoModel.borderEntryNumber,
+      passportNumber: employeeBasicInfoModel.passportNumber,
+
+      arrivalPort: employeeBasicInfoModel.arrivalPort,
+      visaNumber: employeeBasicInfoModel.visaNumber,
+      visaIssueDate: this.datePipe.transform(employeeBasicInfoModel.visaIssueDate, 'yyyy-MM-dd'),
+      passportIssuanceDate: this.datePipe.transform(employeeBasicInfoModel.passportIssuanceDate, 'yyyy-MM-dd'),
+      passportExpireDate: this.datePipe.transform(employeeBasicInfoModel.passportExpireDate, 'yyyy-MM-dd'),
+
       birthDate:this.datePipe.transform(employeeBasicInfoModel.birthDate, 'yyyy-MM-dd'),
       birthPlace: employeeBasicInfoModel.birthPlace,
       nationalityId: employeeBasicInfoModel.nationalityId,
       sponsorId: employeeBasicInfoModel.sponsorId,
-      iqamaNumber: employeeBasicInfoModel.iqamaNumber,
-      iqamaJobId: employeeBasicInfoModel.iqamaJobId,
-      iqamaIssuePlaceId: employeeBasicInfoModel.iqamaIssuePlaceId,
-      iqamaIssueDate:this.datePipe.transform(employeeBasicInfoModel.iqamaIssueDate, 'yyyy-MM-dd'),
-      iqamaExpireDate:this.datePipe.transform(employeeBasicInfoModel.iqamaExpireDate, 'yyyy-MM-dd'),
-      iqamaExpireDateHijri: employeeBasicInfoModel.iqamaExpireDateHijri,
-      iqamaIssueDateHijri: employeeBasicInfoModel.iqamaIssueDateHijri,
-      iqamaJobDescription: employeeBasicInfoModel.iqamaJobDescription,
-      religion: employeeBasicInfoModel.religion,
+
+
+
+      religionId: employeeBasicInfoModel.religionId,
       address: employeeBasicInfoModel.address,
       image: employeeBasicInfoModel.image,
-      drivingLicenseNumber: employeeBasicInfoModel.drivingLicenseNumber,
-      drivingLicenseIssueDate:this.datePipe.transform(employeeBasicInfoModel.drivingLicenseIssueDate, 'yyyy-MM-dd'),
-      drivingLicenseExpireDate:this.datePipe.transform(employeeBasicInfoModel.drivingLicenseExpireDate, 'yyyy-MM-dd'),
-      drivingLicenseIssueDateHijri: employeeBasicInfoModel.drivingLicenseIssueDateHijri,
-      drivingLicenseExpireDateHijri: employeeBasicInfoModel.drivingLicenseExpireDateHijri,
-      vehicleId: employeeBasicInfoModel.vehicleId
+
+      phone: employeeBasicInfoModel.phone,
+      email: employeeBasicInfoModel.email,
+      socialStatusId: employeeBasicInfoModel.socialStatusId,
+     
+      visaJobId: employeeBasicInfoModel.visaJobId,
     });
   }
 
@@ -316,30 +319,16 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
     fatherNameEN: '',
     grandNameEN: '',
     lastNameEN: '',
-    bankId: '',
-    bankAccountNumber: '',
     birthDate: '',
     birthPlace: '',
     nationalityId: '',
     sponsorId: '',
-    iqamaNumber: '',
-    iqamaJobId: '',
-    iqamaIssuePlaceId: '',
-    iqamaIssueDate: '',
-    iqamaExpireDate: '',
-    iqamaExpireDateHijri: '',
-    iqamaIssueDateHijri: '',
-    iqamaJobDescription: '',
-    religion: '',
+    
+    religionId: '',
     address: '',
     imageFile: '',
     attachmentFile: '',
-    drivingLicenseNumber: '',
-    drivingLicenseIssueDate: '',
-    drivingLicenseIssueDateHijri: '',
-    drivingLicenseExpireDate: '',
-    drivingLicenseExpireDateHijri: '',
-    vehicleId: '',
+    
     passportNumber: '',
     passportIssuanceDate: '',
     passportExpireDate: '',
@@ -349,7 +338,10 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
     arrivalPort: '',
     visaNumber: '',
     visaIssueDate: '',
-    phone: ''
+    visaJobId: '',
+    phone: '',
+    socialStatusId: '',
+    email: '',
   };
 
 

@@ -136,7 +136,7 @@ namespace MasterErp.Service.Shared
             }).ToList();
             return results;
         }
-        public List<SelectorDataModel> GetIqamaJobsSelector()
+        public List<SelectorDataModel> GetVisaJobsSelector()
         {
             var results = Context.IqamaJobs.Select(b => new SelectorDataModel
             {
@@ -261,6 +261,24 @@ namespace MasterErp.Service.Shared
             var results = Context.Currency.Where(x => x.IsActive).Select(b => new SelectorDataModel
             {
                 Id = b.CurrencyId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+        public List<SelectorDataModel> GetReligionsSelector()
+        {
+            var results = Context.Religions.Select(b => new SelectorDataModel
+            {
+                Id = b.ReligionId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+        public List<SelectorDataModel> GetSocialStatusSelector()
+        {
+            var results = Context.SocialStatus.Select(b => new SelectorDataModel
+            {
+                Id = b.SocialStatusId,
                 Name = b.NameAR,
             }).ToList();
             return results;

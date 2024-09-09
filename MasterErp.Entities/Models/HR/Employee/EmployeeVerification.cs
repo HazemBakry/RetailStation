@@ -11,15 +11,20 @@ namespace MasterErp.Entities.Models.HR.Employee
     {
         [Key]
         public int EmployeeVerificationId { get; set; }
-        public string BorderEntryNumber { get; set; }//2
-        public string PassportNumber { get; set; }//2
-        public DateTime? BorderEntryDate { get; set; }// 2
-        public string ArrivalPort { get; set; }//2
-        public string VisaNumber { get; set; }//2
-        public DateTime? VisaIssueDate { get; set; }//2
-        public DateTime? PassportExpireDate { get; set; }//2
-        public DateTime? PassportIssuanceDate { get; set; }//2
-        public string PassportIssuancePlace { get; set; } //2
+        public int? BankId { get; set; }//1
+        public string BankAccountNumber { get; set; }//1
+
+        public string IqamaNumber { get; set; }//1
+        public int? IqamaIssuePlaceId { get; set; }//1
+        public DateTime? IqamaIssueDate { get; set; }//1
+        public DateTime? IqamaExpireDate { get; set; }//1
+
+        public string DrivingLicenseNumber { get; set; } //4
+        public DateTime? DrivingLicenseIssueDate { get; set; }//4
+        public DateTime? DrivingLicenseExpireDate { get; set; }//4
+        public int? VehicleId { get; set; }//4
+        public string VehicleNumber { get; set; }//4
+        public int? VehicleCode { get; set; }//4
         public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
     }

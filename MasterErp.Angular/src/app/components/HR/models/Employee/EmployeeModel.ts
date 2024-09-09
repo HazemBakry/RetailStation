@@ -9,8 +9,10 @@ export interface EmployeeModel extends CreatorModel {
     code: number;
     managerId: number | null;
     jobId: number;
+    visaJobId: number | null;
     branchId: number;
-    statusId: number;
+    socialStatusId: number;
+    statusId: number | null;
     fullNameAR: string;
     firstNameAR: string;
     fatherNameAR: string;
@@ -21,37 +23,28 @@ export interface EmployeeModel extends CreatorModel {
     fatherNameEN: string;
     grandNameEN: string;
     lastNameEN: string;
-    bankId: number;
-    bankAccountNumber: string;
     birthDate: string;
     birthPlace: string;
+    phone: string;
+    email: string;
     nationalityId: number;
     sponsorId: number | null;
-
-    iqamaNumber: string;
-    iqamaJobId: number | null;
-    iqamaIssuePlaceId: number | null;
-    iqamaIssueDate: string | null;
-    iqamaExpireDate: string | null;
-    
-    iqamaExpireDateHijri: string;
-    iqamaIssueDateHijri: string;
-    iqamaJobDescription: string;
+    borderEntryNumber: string;
+    passportNumber: string;
+    arrivalPort: string;
+    visaNumber: string;
+    visaIssueDate: string | null;
+    passportExpireDate: string | null;
+    passportIssuanceDate: string | null;
+    religionId: number | null;
     religion: string;
     address: string;
     image: string;
     filesPath: string;
+    imageFile: File;
+    attachmentFile: File;
+    isChecked: boolean;
     employeeContract: EmployeeContractModel;
     employeeVerification: EmployeeVerificationModel;
     employeeAttachments: EmployeeAttachmentModel;
-    imageFile: File;
-    attachmentFile: File;
-
-    drivingLicenseNumber: string;
-    drivingLicenseIssueDateHijri: string;
-    drivingLicenseIssueDate: string | null;
-    drivingLicenseExpireDateHijri: string;
-    drivingLicenseExpireDate: string | null;
-    vehicleId: number | null;
-    isChecked: boolean;
 }

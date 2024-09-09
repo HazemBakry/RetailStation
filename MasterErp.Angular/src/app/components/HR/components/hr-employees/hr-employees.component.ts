@@ -49,7 +49,7 @@ export class HrEmployeesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllEmployees();
-    this.getEmployeesFilter();
+    // this.getEmployeesFilter();
     this.getBranches();
   }
 

@@ -140,8 +140,8 @@ export class SharedService {
   GetIqamaIssuePlacesSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetIqamaIssuePlacesSelector');
   }
-  GetIqamaJobsSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetIqamaJobsSelector');
+  GetVisaJobsSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetVisaJobsSelector');
   }
   GetCountriesSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetCountriesSelector');
@@ -181,5 +181,11 @@ export class SharedService {
   }
   GetCurrencySelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetCurrencySelector');
+  }
+  GetReligionsSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetReligionsSelector');
+  }
+  GetSocialStatusSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetSocialStatusSelector');
   }
 }

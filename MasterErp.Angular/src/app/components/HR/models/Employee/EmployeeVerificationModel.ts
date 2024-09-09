@@ -2,17 +2,22 @@ import { CreatorModel } from "src/app/components/Shared/models/CreatorModel";
 import { EmployeeModel } from "./EmployeeModel";
 
 
+
+
 export interface EmployeeVerificationModel extends CreatorModel {
-    employeeVerificationId: number;
-    borderEntryNumber: string;
-    passportNumber: string;
-    borderEntryDate: string | null;
-    arrivalPort: string;
-    visaNumber: string;
-    visaIssueDate: string | null;
-    passportExpireDate: string | null;
-    passportIssuanceDate: string | null;
-    passportIssuancePlace: string;
-    employeeId: number;
+    employeeVerificationId: number | null;
+    employeeId: number | null;
+    bankId: number | null;
+    bankAccountNumber: string;
+    iqamaNumber: string;
+    iqamaIssuePlaceId: number | null;
+    iqamaIssueDate: string | null;
+    iqamaExpireDate: string | null;
+    drivingLicenseNumber: string;
+    drivingLicenseIssueDate: string | null;
+    drivingLicenseExpireDate: string | null;
+    vehicleId: number | null;
+    vehicleNumber: string;
+    vehicleCode: number | null;
     employee: EmployeeModel;
 }

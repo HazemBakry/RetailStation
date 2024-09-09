@@ -4,7 +4,8 @@
 
             <div class="col-xl-5">
                 <div class="form-floating mb-3">
-                    <input type="text" formControlName="iqamaNumber" class="form-control" id="floatingInput1" placeholder="any">
+                    <input type="text" formControlName="iqamaNumber" class="form-control" id="floatingInput1"
+                        placeholder="any">
                     <label for="floatingInput5">رقم الاقامة</label>
                     <div *ngIf="formErrors.iqamaNumber" class="text-danger  font-small-3 m-03">
                         {{formErrors.iqamaNumber}}
@@ -13,8 +14,8 @@
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5 mb-3">
-                <!-- <label class="form-label">مكان الاصدار</label> -->
-                <app-drop-down-form-control formControlName="iqamaIssuePlaceId" [placeholder]="'مكان الاصدار'" [data]="iqamaIssuePlacesSelectorData"></app-drop-down-form-control>
+                <app-drop-down-form-control formControlName="iqamaIssuePlaceId" [placeholder]="'مكان الاصدار'"
+                    [data]="iqamaIssuePlacesSelectorData"></app-drop-down-form-control>
                 <div *ngIf="formErrors.iqamaIssuePlaceId" class="text-danger  font-small-3 m-03">
                     {{formErrors.iqamaIssuePlaceId}}
                 </div>
@@ -22,7 +23,8 @@
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
                 <div class="form-floating mb-3">
-                    <input type="date" formControlName="iqamaIssueDate" class="form-control" id="floatingInput1" placeholder="any">
+                    <input type="date" formControlName="iqamaIssueDate" class="form-control" id="floatingInput1"
+                        placeholder="any">
                     <label for="floatingInput6">تاريخ الاصدار</label>
                     <div *ngIf="formErrors.iqamaIssueDate" class="text-danger  font-small-3 m-03">
                         {{formErrors.iqamaIssueDate}}
@@ -32,7 +34,8 @@
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
                 <div class="form-floating mb-3">
-                    <input type="date" formControlName="iqamaExpireDate" class="form-control" id="floatingInput1" placeholder="any">
+                    <input type="date" formControlName="iqamaExpireDate" class="form-control" id="floatingInput1"
+                        placeholder="any">
                     <label for="floatingInput7">تاريخ الانتهاء</label>
                     <div *ngIf="formErrors.iqamaExpireDate" class="text-danger  font-small-3 m-03">
                         {{formErrors.iqamaExpireDate}}
@@ -41,33 +44,83 @@
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5 mb-3">
-                <!-- <label class="form-label">عمل الاقامة</label> -->
-                <app-drop-down-form-control formControlName="iqamaJobId" [placeholder]="'عمل الاقامة'" [data]="iqamaJobselectorData"></app-drop-down-form-control>
-                <div *ngIf="formErrors.iqamaJobId" class="text-danger  font-small-3 m-03">
-                    {{formErrors.iqamaJobId}}
+                <app-drop-down-form-control formControlName="bankId" [placeholder]="'البنك'"
+                    [data]="banksSelectorData"></app-drop-down-form-control>
+                <div *ngIf="formErrors.bankId" class="text-danger  font-small-3 m-03">
+                    {{formErrors.bankId}}
                 </div>
-            </div>
-            <!-- <div class="col-xl-1"></div>
-            <div class="col-xl-5">
-                <div class="form-floating mb-3">
-                    <input type="text" formControlName="visaNumber" class="form-control" id="floatingInput1" placeholder="any">
-                    <label for="floatingInput5">رقم التأشيرة</label>
-                    <div *ngIf="formErrors.visaNumber" class="text-danger  font-small-3 m-03">
-                        {{formErrors.visaNumber}}
-                    </div>
-                </div>
+
 
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
                 <div class="form-floating mb-3">
-                    <input type="date" formControlName="visaIssueDate" class="form-control" id="floatingInput1" placeholder="any">
-                    <label for="floatingInput5">تاريخ اصدار التأشيرة</label>
-                    <div *ngIf="formErrors.visaIssueDate" class="text-danger  font-small-3 m-03">
-                        {{formErrors.visaIssueDate}}
+                    <input type="text" formControlName="bankAccountNumber" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput5">رقم الحساب</label>
+                    <div *ngIf="formErrors.bankAccountNumber" class="text-danger  font-small-3 m-03">
+                        {{formErrors.bankAccountNumber}}
                     </div>
                 </div>
-            </div> -->
+            </div>
+
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="drivingLicenseNumber" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput5">رقم رخصة القيادة</label>
+                    <div *ngIf="formErrors.drivingLicenseNumber" class="text-danger  font-small-3 m-03">
+                        {{formErrors.drivingLicenseNumber}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+                <div class="form-floating mb-3">
+                    <input type="date" formControlName="drivingLicenseExpireDate" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput5">تاريخ انتهاء الرخصة</label>
+                    <div *ngIf="formErrors.drivingLicenseExpireDate" class="text-danger  font-small-3 m-03">
+                        {{formErrors.drivingLicenseExpireDate}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-3">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="vehicleId" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput5"> نوع المركبة</label>
+                    <div *ngIf="formErrors.vehicleId" class="text-danger  font-small-3 m-03">
+                        {{formErrors.vehicleId}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-1"></div>
+
+            <div class="col-xl-3">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="vehicleNumber" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput5">رقم لوحة المركبة</label>
+                    <div *ngIf="formErrors.vehicleNumber" class="text-danger  font-small-3 m-03">
+                        {{formErrors.vehicleNumber}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-1"></div>
+
+            <div class="col-xl-3">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="vehicleCode" class="form-control" id="floatingInput1"
+                        placeholder="any">
+                    <label for="floatingInput5">رقم مسلسل المركبة</label>
+                    <div *ngIf="formErrors.vehicleCode" class="text-danger  font-small-3 m-03">
+                        {{formErrors.vehicleCode}}
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
     <div class="d-flex justify-content-left">

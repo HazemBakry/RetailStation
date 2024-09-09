@@ -26,7 +26,7 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetBanksSelector();
         List<SelectorDataModel> GetNationalitiesSelector();
         List<SelectorDataModel> GetIqamaIssuePlacesSelector();
-        List<SelectorDataModel> GetIqamaJobsSelector();
+        List<SelectorDataModel> GetVisaJobsSelector();
         List<SelectorDataModel> GetCountriesSelector();
         List<SelectorDataModel> GetCitiesSelector();
         List<SelectorDataModel> GetRegionsSelector();
@@ -40,6 +40,8 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetInventoriesSelector();
         List<SelectorDataModel> GetItemLookupsSelector();
         List<SelectorDataModel> GetCurrencySelector();
+        List<SelectorDataModel> GetReligionsSelector();
+        List<SelectorDataModel> GetSocialStatusSelector();
 
 
         #endregion
