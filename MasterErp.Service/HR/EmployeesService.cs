@@ -57,7 +57,7 @@ namespace MasterErp.Service.HR
                 var employee = new Employee();
 
                 int? lastEmpCode = Context.Employees.OrderBy(e => e.EmployeeId).LastOrDefault()?.Code;
-                employee.Code= lastEmpCode+1??1;
+                employee.Code = lastEmpCode + 1 ?? 1;
                 employee.FirstNameAR = model.FirstNameAR;
                 employee.FatherNameAR = model.FatherNameAR;
                 employee.GrandNameAR = model.GrandNameAR;
@@ -72,7 +72,7 @@ namespace MasterErp.Service.HR
                 employee.FullNameEN = string.Concat(new List<string> { model.FirstNameEN, " ", model.FatherNameEN, " ", model.GrandNameEN, " ", model.LastNameEN }); ;
 
 
-                employee.ManagerId=model.ManagerId;
+                employee.ManagerId = model.ManagerId;
                 employee.JobId = model.JobId;
                 employee.VisaJobId = model.VisaJobId;
                 employee.BranchId = model.BranchId;
@@ -84,7 +84,7 @@ namespace MasterErp.Service.HR
                 employee.NationalityId = model.NationalityId;
                 employee.SponsorId = model.SponsorId;
 
-                employee.ReligionId = (int) model.ReligionId;
+                employee.ReligionId = (int)model.ReligionId;
                 employee.Address = model.Address;
 
                 employee.BorderEntryNumber = model.BorderEntryNumber;
@@ -122,7 +122,7 @@ namespace MasterErp.Service.HR
 
                 }
 
-                return new ActionsResponseModel { Message = "Employee Added Successfly !" , Id=employee.EmployeeId };
+                return new ActionsResponseModel { Message = "Employee Added Successfly !", Id = employee.EmployeeId };
             }
             catch (Exception ex)
             {
@@ -164,7 +164,7 @@ namespace MasterErp.Service.HR
                     employee.NationalityId = model.NationalityId;
                     employee.SponsorId = model.SponsorId;
 
-                    employee.ReligionId = (int) model.ReligionId;
+                    employee.ReligionId = (int)model.ReligionId;
                     employee.Address = model.Address;
 
                     employee.BorderEntryNumber = model.BorderEntryNumber;
@@ -178,7 +178,7 @@ namespace MasterErp.Service.HR
                     employee.Email = model.Email;
                     employee.SocialStatusId = model.SocialStatusId;
 
-                    
+
 
                     employee.ModifiedBy = model.ModifiedBy;
                     employee.ModifiedDate = DateTime.Now;
@@ -192,7 +192,7 @@ namespace MasterErp.Service.HR
                         {
                             employee.Image = uploadResponse.FilePath;
                         }
-                        
+
 
                     }
                     Context.SaveChanges();
@@ -207,7 +207,7 @@ namespace MasterErp.Service.HR
             {
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
-            
+
         }
 
         public Task<ActionsResponseModel> SaveEmployeeContractData(int EmployeeId, EmployeeContractDto model)
@@ -250,9 +250,9 @@ namespace MasterErp.Service.HR
                 //Add
                 else
                 {
-                    employeeContract=new EmployeeContract();
+                    employeeContract = new EmployeeContract();
 
-                    employeeContract.EmployeeId =EmployeeId;
+                    employeeContract.EmployeeId = EmployeeId;
                     employeeContract.JoinDate = model.JoinDate;
                     employeeContract.LastJoinDate = model.JoinDate.AddYears(model.ContractPeriodYears);
                     employeeContract.ContractPeriodYears = model.ContractPeriodYears;
@@ -268,7 +268,7 @@ namespace MasterErp.Service.HR
                     employeeContract.MobileAllowance = model.MobileAllowance;
                     employeeContract.WorkNature = model.WorkNature;
                     employeeContract.MealAllowance = model.MealAllowance;
-                    employeeContract.Other = model.Other ??0;
+                    employeeContract.Other = model.Other ?? 0;
                     employeeContract.TotalSalary = model.CalcTotalSalary();
 
 
@@ -296,7 +296,7 @@ namespace MasterErp.Service.HR
         {
             try
             {
-                var employeeVerification =  Context.EmployeeVerifications.FirstOrDefault(i => i.EmployeeId == EmployeeId);
+                var employeeVerification = Context.EmployeeVerifications.FirstOrDefault(i => i.EmployeeId == EmployeeId);
                 //Edit
                 if (employeeVerification != null)
                 {
@@ -327,7 +327,7 @@ namespace MasterErp.Service.HR
                 {
                     employeeVerification = new EmployeeVerification();
 
-                    employeeVerification.EmployeeId =EmployeeId;
+                    employeeVerification.EmployeeId = EmployeeId;
                     employeeVerification.BankId = model.BankId;
                     employeeVerification.BankAccountNumber = model.BankAccountNumber;
 
@@ -379,7 +379,7 @@ namespace MasterErp.Service.HR
                 }
                 string employeeDirectory = GetEmployeetDirectoryName(employeeId);
                 var uploadResponse = await _fileService.UploadMultipleFilesAsync(model.Files, employeeDirectory, FileType.Attachment);
-                
+
                 var employeeAttachments = new List<EmployeeAttachment>();
 
                 foreach (var file in uploadResponse)
@@ -405,7 +405,7 @@ namespace MasterErp.Service.HR
                     }
 
                 }
-               
+
                 Context.EmployeeAttachments.AddRange(employeeAttachments);
 
                 // Save changes to the database
@@ -478,7 +478,7 @@ namespace MasterErp.Service.HR
             }
 
             return null;
-            
+
 
         }
 
@@ -526,7 +526,7 @@ namespace MasterErp.Service.HR
         public EmployeeVerificationDto GetEmployeeVerificationInfoById(int employeeId)
         {
 
-            var employee =  Context.EmployeeVerifications.FirstOrDefault(e => e.EmployeeId == employeeId);
+            var employee = Context.EmployeeVerifications.FirstOrDefault(e => e.EmployeeId == employeeId);
 
             if (employee is not null)
             {
@@ -585,7 +585,7 @@ namespace MasterErp.Service.HR
 
         public string GetEmployeetDirectoryName(int employeeId)
         {
-            string directory =string.Empty;
+            string directory = string.Empty;
             var employeeCode = Context.Employees.FirstOrDefault(e => e.EmployeeId == employeeId);
             if (employeeCode != null)
                 directory = Path.Combine(EmployeesFolderName, employeeCode.Code.ToString());
@@ -626,11 +626,12 @@ namespace MasterErp.Service.HR
             return result;
         }
 
-        public List<EmployeeSalaryDto>  GetEmployeesSalaryByBranch(List<int> BranchId)
+        public List<EmployeeSalaryDto> GetEmployeesSalaryByBranch(List<int> BranchId, DateTime ExecutionDate)
         {
-            SqlParameter[] Params = new SqlParameter[1];
-            Params[0] = new SqlParameter("@BranchIds", SqlDbType.Structured);
-            Params[0].Value = BranchId.ToList().ToDataTable();
+            SqlParameter[] Params = new SqlParameter[2];
+            Params[0] = new SqlParameter("@ExecutionDate", ExecutionDate);
+            Params[1] = new SqlParameter("@BranchIds", SqlDbType.Structured);
+            Params[1].Value = BranchId.ToList().ToDataTable();
 
             var result = SQLHelper.SQLQuery<EmployeeSalaryDto>("[HR].[SP_GetEmployeesSalaryByBranch]", ConnectionString, Params);
             return result;

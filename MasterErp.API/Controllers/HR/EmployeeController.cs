@@ -6,6 +6,7 @@ using MasterErp.Interface.HR;
 using MasterErp.Service.HR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Operations;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -74,7 +75,7 @@ namespace MasterErp.API.Controllers
         }
         [HttpPost]
         [Route("SaveEmployeeAttachments")]
-        public async Task<IActionResult> SaveEmployeeAttachments(int EmployeeId,[FromForm] EmployeeAttachmentDto model)
+        public async Task<IActionResult> SaveEmployeeAttachments(int EmployeeId, [FromForm] EmployeeAttachmentDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -101,7 +102,7 @@ namespace MasterErp.API.Controllers
                 throw;
             }
 
-            
+
 
         }
         [HttpGet("GetEmployeeContractInfoById")]
@@ -164,9 +165,9 @@ namespace MasterErp.API.Controllers
 
         [HttpGet]
         [Route("GetEmployeesSalaryByBranch")]
-        public List<EmployeeSalaryDto> GetEmployeesSalaryByBranch(List<int> BranchId)
+        public List<EmployeeSalaryDto> GetEmployeesSalaryByBranch(List<int> BranchId, DateTime ExecutionDate)
         {
-            return _employeeService.GetEmployeesSalaryByBranch(BranchId);
+            return _employeeService.GetEmployeesSalaryByBranch(BranchId, ExecutionDate);
         }
 
         //[HttpPost]
