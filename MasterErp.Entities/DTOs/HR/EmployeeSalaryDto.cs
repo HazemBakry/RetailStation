@@ -10,40 +10,44 @@ namespace MasterErp.Entities.DTOs.HR
     {
         public int? SalaryId { get; set; }
         public int EmployeeId { get; set; }
+        public int? EmployeCode { get; set; }
+        public string EmployeeName { get; set; }
         public int BranchId { get; set; }
         public DateTime ExecutionDate { get; set; }
         public DateTime RequestDate { get; set; }
         public bool? IsPaid { get; set; }
-        public float? BasicSalary { get; set; }
-        public float? ExtraSalary { get; set; }
-        public float? WorkNature { get; set; }
-        public float? Transport { get; set; }
-        public float? Home { get; set; }
-        public float? Mobile { get; set; }
-        public float? Food { get; set; }
-        public float? OverTime { get; set; }
-        public float? Other { get; set; }
-        public float? Other2 { get; set; }
-        public float? GrossSalary { get; set; }
-        public float? DifferenceDays { get; set; }
-        public float? DifferencDifferenceCosteDays { get; set; }
-        public float? TotalGrossSalary { get; set; }
-        public float? Gosi { get; set; }
-        public float? Absence { get; set; }
-        public float? Penalty { get; set; }
-        public float? Loan { get; set; }
-        public float? SickCost { get; set; }
-        public float? TransportDeduct { get; set; }
-        public float? HomeDeduct { get; set; }
-        public float? OtherDeduct { get; set; }
-        public float? TotalDeduct { get; set; }
-        public float? NetSalary { get; set; }
+        public bool? IsGossi { get; set; }
+        public int? BasicSalary { get; set; }
+        public int? ExtraSalary { get; set; }
+        public int? WorkNature { get; set; }
+        public int? Transportation { get; set; }
+        public int? HousingAllowance { get; set; }
+        public int? MobileAllowance { get; set; }
+        public int? MealAllowance { get; set; }
+        public int? OverTime { get; set; }
+        public int? Other { get; set; }
+        public int? Other2 { get; set; }
+        public int? GrossSalary { get; set; }
+        public int? DifferenceDays { get; set; }
+        public int? DifferenceCosteDays { get; set; }
+        public int? TotalGrossSalary { get; set; }
+        public int? Gosi { get; set; }
+        public int? Absence { get; set; }
+        public int? Penalty { get; set; }
+        public int? Loan { get; set; }
+        public int? SickCost { get; set; }
+        public int? TransportDeduct { get; set; }
+        public int? HomeDeduct { get; set; }
+        public int? OtherDeduct { get; set; }
+        public int? TotalDeduct { get; set; }
+        public int? NetSalary { get; set; }
         public bool? HRManagerApprove { get; set; }
         public bool? FinanceManagerApprove { get; set; }
         public bool? AuditingApprove { get; set; }
         public bool? ExecutiveManagerApprove { get; set; }
         public bool? GeneralManagerApprove { get; set; }
-        public float? VisaPayment { get; set; }
-        public float? CashPayment { get; set; }
+        public int? VisaPayment { get; set; }
+        public int? CashPayment { get; set; }
+        public int? TotalSalary { get; set; }
     }
 }

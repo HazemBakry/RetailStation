@@ -1,4 +1,4 @@
-.wrapper {
+/* .wrapper {
     font-family: sans-serif;
     text-align: center;
     max-width: 100%;
@@ -38,4 +38,8 @@ table tbody tr td {
 table th,
 table td {
     border: 1px solid black;
+} */
+
+.table-vp-height {
+    height: calc(100vh - 250px);
 }

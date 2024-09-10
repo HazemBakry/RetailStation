@@ -162,7 +162,7 @@ namespace MasterErp.API.Controllers
             return _employeeService.GetEmployeesSummary();
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetEmployeesSalaryByBranch")]
         public List<EmployeeSalaryDto> GetEmployeesSalaryByBranch(List<int> BranchId)
         {

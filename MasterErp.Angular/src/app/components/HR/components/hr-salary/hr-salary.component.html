@@ -90,19 +90,21 @@
 <div class="card radius-10 border-0 card-shadow mb-3">
     <div class="card-header bg-white">
         <span class="m-0 fw-bold card-header-title">
-      رواتب الموظفين
-    </span>
+            رواتب الموظفين
+        </span>
     </div>
-    <div class="card-body bg-light">
+    <!-- <div class="card-body bg-light">
         <form [formGroup]="formGroup" autocomplete="off">
             <div class="row py-3">
 
                 <div class="col-lg-4">
-                    <app-drop-down-form-control formControlName="branchId" [placeholder]="'الفروع'" [data]="branchesSelectorData"></app-drop-down-form-control>
+                    <app-drop-down-form-control formControlName="branchId" [placeholder]="'الفروع'"
+                        [data]="branchesSelectorData"></app-drop-down-form-control>
                 </div>
 
                 <div class="col-lg-4">
-                    <app-drop-down-form-control formControlName="branchIds" [selectMulti]="true" [showSearch]="true" [placeholder]="'الفروع'" [data]="branchesSelectorData"></app-drop-down-form-control>
+                    <app-drop-down-form-control formControlName="branchIds" [selectMulti]="true" [showSearch]="true"
+                        [placeholder]="'الفروع'" [data]="branchesSelectorData"></app-drop-down-form-control>
                     <div *ngIf="formErrors.branchIds" class="text-danger  font-small-3 m-03">
                         {{formErrors.branchIds}}
                     </div>
@@ -113,108 +115,173 @@
 
         <div class="col-lg-2">
             <button class="btn btn-secondary radius-50" (click)="getEmployeesSalaryByBranch()">
-        <i class="fas fa-search"></i>
-        <span class="ms-4">احتسـاب</span>
-      </button>
+                <i class="fas fa-search"></i>
+                <span class="ms-4">احتسـاب</span>
+            </button>
         </div>
-    </div>
+    </div> -->
 
     <!-- <div class="table-title">
                     <h2>رواتب شهر أغسطس</h2>
                 </div> -->
-    <div class="table-responsive table-vp-height">
-        <table class="table align-middle table-blue mb-0 table-hover">
-            <colgroup></colgroup>
-            <thead class="table-light">
-                <tr>
-                    <th rowspan="2">الكود</th>
-                    <th rowspan="2">الحساب البنكى</th>
-                    <th rowspan="2">اسم الموظف</th>
-                    <th rowspan="2">كود البنك</th>
-                    <th rowspan="2">الوظيفة</th>
-                    <th colspan="11">الراتب</th>
-                    <th rowspan="2">أيام الدوام</th>
-                    <th rowspan="2">Diff Cost</th>
-                    <th rowspan="2">إجمالى الراتب</th>
-                    <th colspan="9">الخصومات</th>
-                    <th rowspan="2">صافى القيمة</th>
-                    <th rowspan="2">فيزا</th>
-                    <th rowspan="2">كاش</th>
-                </tr>
-                <tr>
-                    <th>أساسى</th>
-                    <th>إضافى</th>
-                    <th>بدل انتقال</th>
-                    <th>طبيعة عمل</th>
-                    <th>بدل وجبات</th>
-                    <th>بدل سكن</th>
-                    <th>ساعات إضافية</th>
-                    <th>بدل هاتف</th>
-                    <th>أخري</th>
-                    <th>أخري 2</th>
-                    <th>الإجمالى</th>
-                    <th>تأمين</th>
-                    <th>غيابات</th>
-                    <th>جزاءات</th>
-                    <th>سلف</th>
-                    <th>أجازات مرضية</th>
-                    <th>انتقال(-)</th>
-                    <th>سكن(-)</th>
-                    <th>أخري(-)</th>
-                    <th>إجمالى الخصم</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of EmployeeSalaryData">
-                    <td>{{item.employeeName}}</td>
-                    <td>{{item.salary.basicSalary}}</td>
-                    <td>{{item.salary.extraSalary}}</td>
-                    <td>{{item.salary.transport}}</td>
-                    <td>{{item.salary.home}}</td>
-                    <td>{{item.salary.mopile}}</td>
-                    <td>{{item.salary.workNature}}</td>
-                    <td>{{item.salary.food}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.other}}</td>
-                    <td>{{item.salary.totalSalary}}</td>
-                    <td>
-                        <div class="d-flex align-items-center justify-content-center text-center">
-                            <button class="btn btn-warning text-white me-2" (click)="openEditModal(editModal,item)">
-                <i class="uil uil-edit"></i>
-                <span class="ms-2">Edit</span>
-              </button>
-                            <!-- <button class="btn btn-danger" (click)="openDeleteModal(deleteModal,item.employeeSalaryId)">
-              <i class="uil uil-trash-alt"></i>
-              <span class="ms-2">Delete</span>
-            </button> -->
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="card-body  p-0">
+        <div class="row">
+            <div class="col-md-3">
+
+                <div class="table-vp-height table-responsive">
+                    <table class="table table-borderless align-middle table-hoverm-0 small-scroll">
+                        <thead>
+                            <tr>
+                                <th class="checkbox-table-col text-center">
+                                    <input type="checkbox" [(ngModel)]="selectAll" (change)="selectAllData()"
+                                        class="checkbox-table-ele cursor-pointer" />
+                                </th>
+
+                                <th>
+                                    <!-- <i class="fas fa-eye main-color me-2"></i> -->
+                                    الموردين
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let branch of branchesSelectorData">
+                                <td class="text-center">
+                                    <input type="checkbox" [(ngModel)]="branch.isSelected"
+                                        class="checkbox-table-ele cursor-pointer" />
+                                </td>
+                                <td class="cursor-pointer text-center">
+                                    {{branch.name}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="m-3">
+                    <button class="btn btn-secondary radius-50" (click)="getEmployeesSalaryByBranch()">
+                        <i class="fas fa-search"></i>
+                        <span class="ms-4">احتسـاب</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="table-vp-height table-responsive">
+                <table class="table align-middle table-blue mb-0 table-hover custom-table">
+                    <colgroup></colgroup>
+                    <thead class="table-light">
+                        <tr>
+                            <th rowspan="2">الكود</th>
+                            <th rowspan="2">الحساب البنكى</th>
+                            <th rowspan="2">اسم الموظف</th>
+                            <th rowspan="2">كود البنك</th>
+                            <th rowspan="2">الوظيفة</th>
+                            <th colspan="11">الراتب</th>
+                            <th rowspan="2">أيام الدوام</th>
+                            <th rowspan="2">Diff Cost</th>
+                            <th rowspan="2">إجمالى الراتب</th>
+                            <th colspan="9">الخصومات</th>
+                            <th rowspan="2">صافى القيمة</th>
+                            <th rowspan="2">فيزا</th>
+                            <th rowspan="2">كاش</th>
+                            <th rowspan="2"></th>
+                        </tr>
+                        <tr>
+                            <th>أساسى</th>
+                            <th>إضافى</th>
+                            <th>بدل انتقال</th>
+                            <th>طبيعة عمل</th>
+                            <th>بدل وجبات</th>
+                            <th>بدل سكن</th>
+                            <th>ساعات إضافية</th>
+                            <th>بدل هاتف</th>
+                            <th>أخري</th>
+                            <th>أخري 2</th>
+                            <th>الإجمالى</th>
+                            <th>تأمين</th>
+                            <th>غيابات</th>
+                            <th>جزاءات</th>
+                            <th>سلف</th>
+                            <th>أجازات مرضية</th>
+                            <th>انتقال(-)</th>
+                            <th>سكن(-)</th>
+                            <th>أخري(-)</th>
+                            <th>إجمالى الخصم</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of EmployeeSalaryData">
+                            <td>{{item.employeeCode}}</td>
+                            <td>{{item.bankAccountNumber}}</td>
+                            <td>{{item.employeeName}}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{{item.basicSalary}}</td>
+                            <td>{{item.extraSalary}}</td>
+                            <td>{{item.transportation}}</td>
+                            <td>{{item.workNature}}</td>
+                            <td>{{item.mealAllowance}}</td>
+                            <td>{{item.housingAllowance}}</td>
+                            <td>{{item.overtime}}</td>
+                            <td>{{item.mobileAllowance}}</td>
+                            <td>{{item.other}}</td>
+                            <td>{{item.other2}}</td>
+                            <td>{{item.totalGrossSalary}}</td>
+                            <td>
+
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{item.totalDeduct}}</td>
+                            <td>{{item.netSalary}}</td>
+                            <td>{{item.visaPayment}}</td>
+                            <td>{{item.cashPayment}}</td>
+                            
+                            <td>
+                                <div class="d-flex align-items-center justify-content-center text-center">
+                                    <button class="btn btn-warning text-white me-2"
+                                        (click)="openEditModal(editModal,item)">
+                                        <i class="uil uil-edit"></i>
+                                        <span class="ms-2">Edit</span>
+                                    </button>
+                                    <!-- <button class="btn btn-danger" (click)="openDeleteModal(deleteModal,item.employeeSalaryId)">
+                                  <i class="uil uil-trash-alt"></i>
+                                  <span class="ms-2">Delete</span>
+                                </button> -->
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
     </div>
+
+    <!-- <div class="table-responsive table-vp-height">
+        
+    </div> -->
 
 </div>

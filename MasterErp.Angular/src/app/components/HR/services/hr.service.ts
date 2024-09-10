@@ -13,6 +13,7 @@ import { EmployeeSickLeaveModel } from '../models/EmployeeSickLeaveModel';
 import { EmployeeDeductModel } from '../models/EmployeeDeductModel';
 import { EmployeeCareerModel } from '../models/EmployeeCareerModel';
 import { EmployeeLoanModel } from '../models/EmployeeLoanModel';
+import { EmployeeSalaryModel } from '../models/Employee/EmployeeSalaryModel';
 
 @Injectable({
   providedIn: 'root'
@@ -57,8 +58,8 @@ export class HrService {
   }
 
 
-  GetEmployeesSalaryByBranch() {
-    return this.http.get<any>(this.URL + 'Employee/GetEmployeesSalaryByBranch');
+  GetEmployeesSalaryByBranch(branches:number[]) {
+    return this.http.post<EmployeeSalaryModel[]>(this.URL + 'Employee/GetEmployeesSalaryByBranch',branches);
   }
 
   GetIqamaIssuePlaces() {
