@@ -22,6 +22,7 @@ using System.Data.Entity;
 using MasterErp.Entities.DTOs.Auth;
 using Microsoft.AspNetCore.Identity;
 using MasterErp.Entities.DTOs.Shared;
+using MasterErp.Entities.Common.SQLTabeType;
 
 namespace MasterErp.Service.HR
 {
@@ -630,8 +631,8 @@ namespace MasterErp.Service.HR
         {
             SqlParameter[] Params = new SqlParameter[2];
             Params[0] = new SqlParameter("@ExecutionDate", ExecutionDate);
-            Params[1] = new SqlParameter("@BranchIds", SqlDbType.Structured);
-            Params[1].Value = BranchId.ToList().ToDataTable();
+            Params[1] = new SqlParameter("@BranchList", SqlDbType.Structured);
+            Params[1].Value = BranchId.Select(x => new LstInt_TableType { ID = x }).ToList().ToDataTable(); ;
 
             var result = SQLHelper.SQLQuery<EmployeeSalaryDto>("[HR].[SP_GetEmployeesSalaryByBranch]", ConnectionString, Params);
             return result;
