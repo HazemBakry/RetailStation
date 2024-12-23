@@ -39,10 +39,10 @@ namespace MasterErp.Entities.Models
         public DbSet<Religion> Religions { get; set; }
         public DbSet<SocialStatus> SocialStatus { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<EmployeeContract> EmployeeContracts { get; set; }
         public DbSet<EmployeeVerification> EmployeeVerifications { get; set; }
         public DbSet<EmployeeAttachment> EmployeeAttachments { get; set; }
         public DbSet<EmployeeSalary> EmployeeSalaries { get; set; }
+        public DbSet<EmployeeContract> EmployeeContracts { get; set; }
         public DbSet<IqamaIssuePlace> IqamaIssuePlaces { get; set; }
         public DbSet<IqamaJob> IqamaJobs { get; set; }
         public DbSet<ItemLookups> ItemLookups { get; set; }

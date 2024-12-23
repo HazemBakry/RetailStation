@@ -33,7 +33,7 @@ namespace MasterErp.Service.HR
                         select new EmployeeCareerDto
                         {
                             EmployeeId = career.EmployeeId,
-                            EmployeeName = emp.FullNameEN,
+                            EmployeeName = emp.FullNameAR,
                             EmployeeCareerId = career.EmployeeCareerId,
                             JobId = career.JobId,
                             JobName = job.NameEN,
@@ -72,7 +72,7 @@ namespace MasterErp.Service.HR
                         select new EmployeeCareerDto
                         {
                             EmployeeId = career.EmployeeId,
-                            EmployeeName = emp.FullNameEN,
+                            EmployeeName = emp.FullNameAR,
                             EmployeeCareerId = career.EmployeeCareerId,
                             JobId = career.JobId,
                             JobName = job.NameEN,

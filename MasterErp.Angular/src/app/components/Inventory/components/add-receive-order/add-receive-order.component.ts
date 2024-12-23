@@ -99,7 +99,6 @@ export class AddReceiveOrderComponent implements OnInit {
     this.orderProducts = products;
   }
   getPurchaseOrderProducts() {
-    debugger;
     this.showLoader = true;
     this.purchaseService.GetPurchaseOrderProducts_Data(this.selectedPurchaseOrder.orderId).subscribe((data: OrderProductModel[]) => {
       if (data) {

@@ -11,35 +11,32 @@ namespace MasterErp.Entities.DTOs.HR
     public class EmployeeContractDto : CreatorModel
     {
         public int? EmployeeContractId { get; set; }
-        public DateTime JoinDate { get; set; }//3
-        public DateTime LastJoinDate { get; set; }//3
-        public int ContractPeriodYears { get; set; }//3
-
-        public int? VacationPeriodDays { get; set; }//3
-
-        public DateTime? VacationDate { get; set; }//3
-        public bool IsGossi { get; set; }//3
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public int ContractPeriodYears { get; set; }
+        public int? VacationPeriodDays { get; set; }
+        public int? VacationEvery { get; set; }
+        public int? VacationDays { get; set; }
+        public bool IsGossi { get; set; }
 
 
         //salary
-        public int BasicSalary { get; set; }
-        public int ExtraSalary { get; set; }
-        public int Transportation { get; set; }
-        public int HousingAllowance { get; set; }
-        public int MobileAllowance { get; set; }
-        public int WorkNature { get; set; }
-        public int MealAllowance { get; set; }
-        public int? Other { get; set; }
-        public int? TotalSalary { get; set; }
-
-
+        public double? BasicSalary { get; set; }
+        public double? ExtraSalary { get; set; }
+        public double? Transportation { get; set; }
+        public double? HousingAllowance { get; set; }
+        public double? MobileAllowance { get; set; }
+        public double? WorkNature { get; set; }
+        public double? MealAllowance { get; set; }
+        public double? Other { get; set; }
+        public double? TotalSalary { get; set; }
         public int? EmployeeId { get; set; }
         public Employee Employee { get; set; }
 
-        public int CalcTotalSalary()
-        {
-            return BasicSalary + ExtraSalary + Transportation + HousingAllowance + MobileAllowance + WorkNature + MealAllowance + Other??0;
 
+        public double CalcTotalSalary()
+        {
+            return BasicSalary + ExtraSalary + Transportation + HousingAllowance + MobileAllowance + WorkNature + MealAllowance + Other ?? 0;
         }
     }
 }

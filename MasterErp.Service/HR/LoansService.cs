@@ -31,7 +31,7 @@ namespace MasterErp.Service.HR
                         select new EmployeeLoanDto
                         {
                             EmployeeId = loan.EmployeeId,
-                            EmployeeName = emp.FullNameEN,
+                            EmployeeName = emp.FullNameAR,
                             LoanId = loan.LoanId,
                             LoanTypeId = loan.LoanTypeId,
                             LoanTypeName = loanType.NameEN,
@@ -68,7 +68,7 @@ namespace MasterErp.Service.HR
             //            select new EmployeeLoanDto
             //            {
             //                EmployeeId = loan.EmployeeId,
-            //                EmployeeName = emp.FullNameEN,
+            //                EmployeeName = emp.FullNameAR,
             //                LoanId = loan.LoanId,
             //                LoanTypeId = loan.LoanTypeId,
             //                LoanTypeName = loanType.NameEN,

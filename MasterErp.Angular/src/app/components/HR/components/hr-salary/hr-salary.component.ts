@@ -6,6 +6,7 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { ToastrService } from 'ngx-toastr';
 import { EmployeeSalaryModel } from '../../models/Employee/EmployeeSalaryModel';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-hr-salary',
@@ -27,18 +28,20 @@ export class HrSalaryComponent implements OnInit {
   EmployeeData: any[] = [];
   BranchId: number;
   branchesSelectorData: FormDropdownModel[] = [];
-
+  ExecutonDate: any;
   public formGroup: FormGroup;
   public formErrors = {
     branchIds: ''
   };
 
   constructor(private modalService: NgbModal, private hrService: HrService,
-    private sharedService: SharedService, private toaster: ToastrService,
+    private sharedService: SharedService, private toaster: ToastrService, private datepipe: DatePipe,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.loadBranches();
+    let date = new Date();
+    this.ExecutonDate = this.datepipe.transform(date, 'yyyy-MM-dd');
     //this.getEmployeesSalaryByBranch();
   }
 
@@ -53,12 +56,12 @@ export class HrSalaryComponent implements OnInit {
   }
 
   getEmployeesSalaryByBranch() {
-    var checkedItems = this.branchesSelectorData.filter(b => b.isSelected && b.value).map(b =>b.value);
+    var checkedItems = this.branchesSelectorData.filter(b => b.isSelected && b.value).map(b => b.value);
     if (checkedItems.length <= 0) {
       this.toaster.warning('يرجي الاختيار من الفروع');
       return;
     }
-    this.hrService.GetEmployeesSalaryByBranch(checkedItems).subscribe(data => {
+    this.hrService.GetEmployeesSalaryByBranch(checkedItems, this.ExecutonDate).subscribe(data => {
 
       this.EmployeeSalaryData = data;
     });

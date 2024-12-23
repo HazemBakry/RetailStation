@@ -30,7 +30,7 @@ namespace MasterErp.Service.HR
                         select new EmployeeOverTimeDto
                         {
                             EmployeeId = overTime.EmployeeId,
-                            EmployeeName = emp.FullNameEN,
+                            EmployeeName = emp.FullNameAR,
                             OverTimeId = overTime.OverTimeId,
                             RequestDate = overTime.RequestDate,
                             ExecutionDate = overTime.ExecutionDate,
@@ -64,7 +64,7 @@ namespace MasterErp.Service.HR
                         select new EmployeeOverTimeDto
                         {
                             EmployeeId = overTime.EmployeeId,
-                            EmployeeName = emp.FullNameEN,
+                            EmployeeName = emp.FullNameAR,
                             OverTimeId = overTime.OverTimeId,
                             RequestDate = overTime.RequestDate,
                             ExecutionDate = overTime.ExecutionDate,

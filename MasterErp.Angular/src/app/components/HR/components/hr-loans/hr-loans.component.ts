@@ -19,25 +19,23 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 })
 export class HrLoansComponent implements OnInit {
   VacationData: any[] = [];
- 
   employeeSelectorData: FormDropdownModel[] = [];
   penaltyTypeSelectorData: FormDropdownModel[]=[];
-
   selectedLoanId: number;
-  
   employeeLoanModel: EmployeeLoanModel ={} as EmployeeLoanModel;
+  showLoader: boolean=false;
+  showAddLoader: boolean=false;
+  public formGroup: FormGroup;
+  selectedEmployeeId:number=null;
+  isUpdate: boolean=false;
+
   employeeLoanResponse:PagedResponseDTO<EmployeeLoanModel[]>={
     results:[],
     filterList:[],
     pageSize: 25,
     currentPage:1,
     searchText:''
-
   };
-  showLoader: boolean=false;
-  showAddLoader: boolean=false;
-
-  public formGroup: FormGroup;
   public formErrors = {
     loanId: '',
     employeeId: '',
@@ -49,8 +47,6 @@ export class HrLoansComponent implements OnInit {
     notes: ''
   };
 
-  selectedEmployeeId:number=null;
-  isUpdate: boolean=false;
   constructor(private modalService: NgbModal, private hrService: HrService,private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
     private datePipe: DatePipe,private toaster:ToastrService,private offcanvasService: NgbOffcanvas,) { }
 
@@ -61,7 +57,6 @@ export class HrLoansComponent implements OnInit {
   {
     if(!this.checkEmployee())
       return;
-    
 
     this.showLoader=true;
     this.hrService.GetLoansByEmployeeId(this.selectedEmployeeId,this.employeeLoanResponse).subscribe(data => {
@@ -74,13 +69,10 @@ export class HrLoansComponent implements OnInit {
     },()=>{
       this.showLoader=false;
     });
-
-    
   }
 
   checkEmployee()
   {
-
     if(!this.selectedEmployeeId)
     {
       this.toaster.warning('من فضلك اختر من قائمة الموظفين','تحذير');
@@ -88,7 +80,8 @@ export class HrLoansComponent implements OnInit {
     }
     return true;
   }
-  openNewLoanSidePanel(content: any,loanModel:EmployeeLoanModel=null) {
+
+  openNewSidePanel(content: any,loanModel:EmployeeLoanModel=null) {
     if(!this.checkEmployee())
       return;
 

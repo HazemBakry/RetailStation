@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { SaveEmployeeModel } from 'src/app/components/HR/models/SaveEmployeeModel';
 import { SearchFilterModel } from '../../Shared/models/FilterModel';
 import { FormDropdownModel } from '../../Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { EmployeeVacationModel } from '../models/EmployeeVacationModel';
@@ -14,6 +13,7 @@ import { EmployeeDeductModel } from '../models/EmployeeDeductModel';
 import { EmployeeCareerModel } from '../models/EmployeeCareerModel';
 import { EmployeeLoanModel } from '../models/EmployeeLoanModel';
 import { EmployeeSalaryModel } from '../models/Employee/EmployeeSalaryModel';
+import { EmployeeContractModel } from '../models/Employee/EmployeeContractModel';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +29,7 @@ export class HrService {
     return this.http.post<any>(this.URL + 'Employee/GetAllEmployees', model);
   }
 
-  GetEmployeesSummary(){
+  GetEmployeesSummary() {
     return this.http.get<any>(this.URL + 'Employee/GetEmployeesSummary');
   }
 
@@ -44,7 +44,7 @@ export class HrService {
   GetEmployeeRequests_Data(model: SearchFilterModel) {
     return this.http.post<any>(this.URL + 'Employee/GetEmployeeRequests_Data', model);
   }
-  
+
   AddNewEmployee(model: any) {
     return this.http.post<any>(this.URL + 'Employee/AddNewEmployee', model);
   }
@@ -57,9 +57,12 @@ export class HrService {
     return this.http.get<any>(this.URL + 'Employee/RemoveEmployee?employeeId=' + EmployeeId);
   }
 
+  GetEmployeeContract(EmployeeId: number) {
+    return this.http.get<EmployeeContractModel>(this.URL + 'Employee/GetEmployeeContract=' + EmployeeId);
+  }
 
-  GetEmployeesSalaryByBranch(branches:number[]) {
-    return this.http.post<EmployeeSalaryModel[]>(this.URL + 'Employee/GetEmployeesSalaryByBranch',branches);
+  GetEmployeesSalaryByBranch(branches: number[], ExecutionDate: any) {
+    return this.http.post<EmployeeSalaryModel[]>(this.URL + 'Employee/GetEmployeesSalaryByBranch?ExecutionDate=' + ExecutionDate, branches);
   }
 
   GetIqamaIssuePlaces() {
@@ -177,68 +180,68 @@ export class HrService {
   GetAllEmployeeVacationsData(model: SearchFilterModel) {
     return this.http.post<any>(this.URL + 'Vacation/GetAllEmployeeVacationsData', model);
   }
-  GetVacationsByEmployeeId(employeeId,model: PagedResponseDTO) {
-    return this.http.post<PagedResponseDTO<EmployeeVacationModel[]>>(this.URL + 'Vacation/GetVacationsByEmployeeId?EmployeeId='+employeeId, model);
+  GetVacationsByEmployeeId(employeeId, model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<EmployeeVacationModel[]>>(this.URL + 'Vacation/GetVacationsByEmployeeId?EmployeeId=' + employeeId, model);
   }
-  AddNewEmployeeVacation(employeeId:number,model: EmployeeVacationModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Vacation/AddNewEmployeeVacation?EmployeeId='+employeeId, model);
+  AddNewEmployeeVacation(employeeId: number, model: EmployeeVacationModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Vacation/AddNewEmployeeVacation?EmployeeId=' + employeeId, model);
   }
-  EditEmployeeVacation(employeeId:number,model: EmployeeVacationModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Vacation/EditEmployeeVacation?EmployeeId='+employeeId, model);
+  EditEmployeeVacation(employeeId: number, model: EmployeeVacationModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Vacation/EditEmployeeVacation?EmployeeId=' + employeeId, model);
   }
-  DeleteEmployeeVacation(VacationId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'Vacation/DeleteEmployeeVacation?VacationId=' + VacationId);
+  DeleteVacation(VacationId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Vacation/DeleteVacation?VacationId=' + VacationId);
   }
   //================================== OverTime ===============================
-    GetAllEmployeeOverTimeData(model: SearchFilterModel) {
-      return this.http.post<PagedResponseDTO<EmployeeOverTimeModel[]>>(this.URL + 'OverTime/GetAllEmployeeOverTimeData', model);
-    }
-    GetOverTimeByEmployeeId(employeeId,model: PagedResponseDTO) {
-      return this.http.post<PagedResponseDTO<EmployeeOverTimeModel[]>>(this.URL + 'OverTime/GetOverTimeByEmployeeId?EmployeeId='+employeeId, model);
-    }
-    AddNewEmployeeOverTime(employeeId:number,model: EmployeeOverTimeModel) {
-      return this.http.post<ActionsResponseModel>(this.URL + 'OverTime/AddNewEmployeeOverTime?EmployeeId='+employeeId, model);
-    }
-    EditEmployeeOverTime(employeeId:number,model: EmployeeOverTimeModel) {
-      return this.http.post<ActionsResponseModel>(this.URL + 'OverTime/EditEmployeeOverTime?EmployeeId='+employeeId, model);
-    }
-    DeleteEmployeeOverTime(overTimeId: number) {
-      return this.http.get<ActionsResponseModel>(this.URL + 'OverTime/DeleteEmployeeOverTime?OverTimeId=' + overTimeId);
-    }
+  GetAllEmployeeOverTimeData(model: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<EmployeeOverTimeModel[]>>(this.URL + 'OverTime/GetAllEmployeeOverTimeData', model);
+  }
+  GetOverTimeByEmployeeId(employeeId, model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<EmployeeOverTimeModel[]>>(this.URL + 'OverTime/GetOverTimeByEmployeeId?EmployeeId=' + employeeId, model);
+  }
+  AddNewEmployeeOverTime(employeeId: number, model: EmployeeOverTimeModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'OverTime/AddNewEmployeeOverTime?EmployeeId=' + employeeId, model);
+  }
+  EditEmployeeOverTime(employeeId: number, model: EmployeeOverTimeModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'OverTime/EditEmployeeOverTime?EmployeeId=' + employeeId, model);
+  }
+  DeleteEmployeeOverTime(overTimeId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'OverTime/DeleteEmployeeOverTime?OverTimeId=' + overTimeId);
+  }
 
-    //================================== Penalty ===============================
+  //================================== Penalty ===============================
 
-    GetAllEmployeePenaltiesData(model: SearchFilterModel) {
-      return this.http.post<PagedResponseDTO<EmployeePenaltyModel[]>>(this.URL + 'Penalty/GetAllEmployeePenaltiesData', model);
-    }
-    GetPenaltiesByEmployeeId(employeeId,model: PagedResponseDTO) {
-      return this.http.post<PagedResponseDTO<EmployeePenaltyModel[]>>(this.URL + 'Penalty/GetPenaltiesByEmployeeId?EmployeeId='+employeeId, model);
-    }
-    AddNewEmployeePenalty(employeeId:number,model: EmployeePenaltyModel) {
-      return this.http.post<ActionsResponseModel>(this.URL + 'Penalty/AddNewEmployeePenalty?EmployeeId='+employeeId, model);
-    }
-    EditEmployeePenalty(employeeId:number,model: EmployeePenaltyModel) {
-      return this.http.post<ActionsResponseModel>(this.URL + 'Penalty/EditEmployeePenalty?EmployeeId='+employeeId, model);
-    }
-    DeleteEmployeePenalty(PenaltyId: number) {
-      return this.http.get<ActionsResponseModel>(this.URL + 'Penalty/DeleteEmployeePenalty?PenaltyId=' + PenaltyId);
-    }
-    GetPenaltyTypesSelector() {
-      return this.http.get<FormDropdownModel[]>(this.URL + 'Penalty/GetPenaltyTypesSelector');
-    }
-  
+  GetAllEmployeePenaltiesData(model: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<EmployeePenaltyModel[]>>(this.URL + 'Penalty/GetAllEmployeePenaltiesData', model);
+  }
+  GetPenaltiesByEmployeeId(employeeId, model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<EmployeePenaltyModel[]>>(this.URL + 'Penalty/GetPenaltiesByEmployeeId?EmployeeId=' + employeeId, model);
+  }
+  AddNewEmployeePenalty(employeeId: number, model: EmployeePenaltyModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Penalty/AddNewEmployeePenalty?EmployeeId=' + employeeId, model);
+  }
+  EditEmployeePenalty(employeeId: number, model: EmployeePenaltyModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Penalty/EditEmployeePenalty?EmployeeId=' + employeeId, model);
+  }
+  DeleteEmployeePenalty(PenaltyId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Penalty/DeleteEmployeePenalty?PenaltyId=' + PenaltyId);
+  }
+  GetPenaltyTypesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Penalty/GetPenaltyTypesSelector');
+  }
+
   //================================== SickLeave ===============================
   GetAllEmployeeSickLeavesData(model: SearchFilterModel) {
     return this.http.post<PagedResponseDTO<EmployeeSickLeaveModel[]>>(this.URL + 'SickLeave/GetAllEmployeeSickLeavesData', model);
   }
-  GetSickLeavesByEmployeeId(employeeId,model: PagedResponseDTO) {
-    return this.http.post<PagedResponseDTO<EmployeeSickLeaveModel[]>>(this.URL + 'SickLeave/GetSickLeavesByEmployeeId?EmployeeId='+employeeId, model);
+  GetSickLeavesByEmployeeId(employeeId, model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<EmployeeSickLeaveModel[]>>(this.URL + 'SickLeave/GetSickLeavesByEmployeeId?EmployeeId=' + employeeId, model);
   }
-  AddNewEmployeeSickLeave(employeeId:number,model: EmployeeSickLeaveModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'SickLeave/AddNewEmployeeSickLeave?EmployeeId='+employeeId, model);
+  AddNewEmployeeSickLeave(employeeId: number, model: EmployeeSickLeaveModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'SickLeave/AddNewEmployeeSickLeave?EmployeeId=' + employeeId, model);
   }
-  EditEmployeeSickLeave(employeeId:number,model: EmployeeSickLeaveModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'SickLeave/EditEmployeeSickLeave?EmployeeId='+employeeId, model);
+  EditEmployeeSickLeave(employeeId: number, model: EmployeeSickLeaveModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'SickLeave/EditEmployeeSickLeave?EmployeeId=' + employeeId, model);
   }
   DeleteEmployeeSickLeave(overTimeId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'SickLeave/DeleteEmployeeSickLeave?SickLeaveId=' + overTimeId);
@@ -246,19 +249,19 @@ export class HrService {
 
 
 
-  
+
   //================================== Deducts ===============================
   GetAllEmployeeDeductsData(model: SearchFilterModel) {
     return this.http.post<PagedResponseDTO<EmployeeDeductModel[]>>(this.URL + 'Deducts/GetAllEmployeeDeductsData', model);
   }
-  GetDeductsByEmployeeId(employeeId,model: PagedResponseDTO) {
-    return this.http.post<PagedResponseDTO<EmployeeDeductModel[]>>(this.URL + 'Deducts/GetDeductsByEmployeeId?EmployeeId='+employeeId, model);
+  GetDeductsByEmployeeId(employeeId, model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<EmployeeDeductModel[]>>(this.URL + 'Deducts/GetDeductsByEmployeeId?EmployeeId=' + employeeId, model);
   }
-  AddNewEmployeeDeduct(employeeId:number,model: EmployeeDeductModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Deducts/AddNewEmployeeDeduct?EmployeeId='+employeeId, model);
+  AddNewEmployeeDeduct(employeeId: number, model: EmployeeDeductModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Deducts/AddNewEmployeeDeduct?EmployeeId=' + employeeId, model);
   }
-  EditEmployeeDeduct(employeeId:number,model: EmployeeDeductModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Deducts/EditEmployeeDeduct?EmployeeId='+employeeId, model);
+  EditEmployeeDeduct(employeeId: number, model: EmployeeDeductModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Deducts/EditEmployeeDeduct?EmployeeId=' + employeeId, model);
   }
   DeleteEmployeeDeduct(deductId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'Deducts/DeleteEmployeeDeduct?DeductId=' + deductId);
@@ -268,19 +271,19 @@ export class HrService {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Deducts/GetDeductTypesSelector');
   }
 
-    
+
   //================================== Careers ===============================
   GetAllEmployeeCareersData(model: SearchFilterModel) {
     return this.http.post<PagedResponseDTO<EmployeeCareerModel[]>>(this.URL + 'Careers/GetAllEmployeeCareersData', model);
   }
-  GetCareersByEmployeeId(employeeId,model: PagedResponseDTO) {
-    return this.http.post<PagedResponseDTO<EmployeeCareerModel[]>>(this.URL + 'Careers/GetCareersByEmployeeId?EmployeeId='+employeeId, model);
+  GetCareersByEmployeeId(employeeId, model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<EmployeeCareerModel[]>>(this.URL + 'Careers/GetCareersByEmployeeId?EmployeeId=' + employeeId, model);
   }
-  AddNewEmployeeCareer(employeeId:number,model: EmployeeCareerModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Careers/AddNewEmployeeCareer?EmployeeId='+employeeId, model);
+  AddNewEmployeeCareer(employeeId: number, model: EmployeeCareerModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Careers/AddNewEmployeeCareer?EmployeeId=' + employeeId, model);
   }
-  EditEmployeeCareer(employeeId:number,model: EmployeeCareerModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Careers/EditEmployeeCareer?EmployeeId='+employeeId, model);
+  EditEmployeeCareer(employeeId: number, model: EmployeeCareerModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Careers/EditEmployeeCareer?EmployeeId=' + employeeId, model);
   }
   DeleteEmployeeCareer(employeeCareerId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'Careers/DeleteEmployeeCareer?EmployeeCareerId=' + employeeCareerId);
@@ -296,19 +299,19 @@ export class HrService {
 
 
 
-    
+
   //================================== Loans ===============================
   GetAllEmployeeLoansData(model: SearchFilterModel) {
     return this.http.post<PagedResponseDTO<EmployeeLoanModel[]>>(this.URL + 'Loans/GetAllEmployeeLoansData', model);
   }
-  GetLoansByEmployeeId(employeeId,model: PagedResponseDTO) {
-    return this.http.post<PagedResponseDTO<EmployeeLoanModel[]>>(this.URL + 'Loans/GetLoansByEmployeeId?EmployeeId='+employeeId, model);
+  GetLoansByEmployeeId(employeeId, model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<EmployeeLoanModel[]>>(this.URL + 'Loans/GetLoansByEmployeeId?EmployeeId=' + employeeId, model);
   }
-  AddNewEmployeeLoan(employeeId:number,model: EmployeeLoanModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Loans/AddNewEmployeeLoan?EmployeeId='+employeeId, model);
+  AddNewEmployeeLoan(employeeId: number, model: EmployeeLoanModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Loans/AddNewEmployeeLoan?EmployeeId=' + employeeId, model);
   }
-  EditEmployeeLoan(employeeId:number,model: EmployeeLoanModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Loans/EditEmployeeLoan?EmployeeId='+employeeId, model);
+  EditEmployeeLoan(employeeId: number, model: EmployeeLoanModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Loans/EditEmployeeLoan?EmployeeId=' + employeeId, model);
   }
   DeleteEmployeeLoan(loanId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'Loans/DeleteEmployeeLoan?LoanId=' + loanId);

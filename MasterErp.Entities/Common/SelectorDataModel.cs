@@ -11,5 +11,6 @@ namespace MasterErp.Entities.Common
         public int Id { get; set; }
         public int Value => Id;
         public string Name { get; set; }
+        public string Code { get; set; }
     }
 }

@@ -18,6 +18,7 @@ import { HrEmployeeBasicInfoComponent } from './components/hr-employee-details-c
 import { HrEmployeeContractInfoComponent } from './components/hr-employee-details-container/hr-employee-contract-info/hr-employee-contract-info.component';
 import { HrEmployeeVerificationInfoComponent } from './components/hr-employee-details-container/hr-employee-verification-info/hr-employee-verification-info.component';
 import { HrEmployeeAttachmentsComponent } from './components/hr-employee-details-container/hr-employee-attachments/hr-employee-attachments.component';
+import { HrLoansPaymentsComponent } from './components/hr-loans-payments/hr-loans-payments.component';
 
 const routes: Routes = [
   {
@@ -95,6 +96,10 @@ const routes: Routes = [
       {
         path: 'loans',
         component: HrLoansComponent
+      },
+      {
+        path: 'loans-payments',
+        component: HrLoansPaymentsComponent
       },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { HrService } from '../../services/hr.service';
 import { DatePipe } from '@angular/common';
-import { FilterItem} from 'src/app/components/Shared/models/FilterModel';
+import { FilterItem } from 'src/app/components/Shared/models/FilterModel';
 import { ToastrService } from 'ngx-toastr';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
@@ -18,23 +18,23 @@ import { EmployeeSickLeaveModel } from '../../models/EmployeeSickLeaveModel';
 })
 export class HrSickLeaveComponent implements OnInit {
   VacationData: any[] = [];
- 
+
   employeeSelectorData: FormDropdownModel[] = [];
-  penaltyTypeSelectorData: FormDropdownModel[]=[];
+  penaltyTypeSelectorData: FormDropdownModel[] = [];
 
   selectedSickLeaveId: number;
-  
-  employeeSickLeaveModel: EmployeeSickLeaveModel ={} as EmployeeSickLeaveModel;
-  employeeSickLeaveResponse:PagedResponseDTO<EmployeeSickLeaveModel[]>={
-    results:[],
-    filterList:[],
+
+  employeeSickLeaveModel: EmployeeSickLeaveModel = {} as EmployeeSickLeaveModel;
+  employeeSickLeaveResponse: PagedResponseDTO<EmployeeSickLeaveModel[]> = {
+    results: [],
+    filterList: [],
     pageSize: 25,
-    currentPage:1,
-    searchText:''
+    currentPage: 1,
+    searchText: ''
 
   };
-  showLoader: boolean=false;
-  showAddLoader: boolean=false;
+  showLoader: boolean = false;
+  showAddLoader: boolean = false;
 
   public formGroup: FormGroup;
   public formErrors = {
@@ -49,55 +49,52 @@ export class HrSickLeaveComponent implements OnInit {
     toDate: '',
 
   };
-  selectedEmployeeId:number=null;
-  isUpdate: boolean=false;
+  selectedEmployeeId: number = null;
+  isUpdate: boolean = false;
   constructor(private modalService: NgbModal, private hrService: HrService, private form: FormBuilder, private _FormService: FormService,
-    private datePipe: DatePipe,private toaster:ToastrService,private offcanvasService: NgbOffcanvas,) { }
+    private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
 
   ngOnInit(): void {
     this.getActiveEmployeesSelector();
   }
-  getSickLeaveByEmployeeId()
-  {
-    if(!this.checkEmployee())
+  getSickLeaveByEmployeeId() {
+    if (!this.checkEmployee())
       return;
-    
 
-    this.showLoader=true;
-    this.hrService.GetSickLeavesByEmployeeId(this.selectedEmployeeId,this.employeeSickLeaveResponse).subscribe(data => {
+
+    this.showLoader = true;
+    this.hrService.GetSickLeavesByEmployeeId(this.selectedEmployeeId, this.employeeSickLeaveResponse).subscribe(data => {
       this.employeeSickLeaveResponse.results = data.results;
       this.employeeSickLeaveResponse.totalCount = data.totalCount;
 
-      this.showLoader=false;
-    }, err=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
 
-    
+
   }
 
-  checkEmployee()
-  {
+  checkEmployee() {
 
-    if(!this.selectedEmployeeId)
-    {
-      this.toaster.warning('من فضلك اختر من قائمة الموظفين','تحذير');
+    if (!this.selectedEmployeeId) {
+      this.toaster.warning('من فضلك اختر من قائمة الموظفين', 'تحذير');
       return false;
     }
     return true;
   }
-  openNewSickLeaveSidePanel(content: any,sickLeaveModel:EmployeeSickLeaveModel=null) {
-    if(!this.checkEmployee())
+  openNewSidePanel(content: any, sickLeaveModel: EmployeeSickLeaveModel = null) {
+    if (!this.checkEmployee())
       return;
-    this.isUpdate=false;
+    this.isUpdate = false;
     this.buildForm();
-    if(sickLeaveModel)
+    if (sickLeaveModel)
       this.fillEditForm(sickLeaveModel);
 
-    this.formGroup.patchValue({employeeId:this.selectedEmployeeId});
-   
+    this.formGroup.patchValue({ employeeId: this.selectedEmployeeId });
+
     this.offcanvasService.open(content, { panelClass: 'add-new-panel', position: 'end' });
   }
   buildForm() {
@@ -105,16 +102,16 @@ export class HrSickLeaveComponent implements OnInit {
     this.formGroup = this.form.group({
       sickLeaveId: [null],
       employeeId: [null],
-      executionDate: [null, [Validators.required,CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
-      noDays: [null, [Validators.required,CustomValidators.regexPattern(RegexType.number)]],
+      executionDate: [null],
+      noDays: [null],
       requestDate: [null],
-      moneyAmount: [null, [Validators.required,CustomValidators.regexPattern(RegexType.number)]],
+      moneyAmount: [null],
       notes: [null],
-      fromDate: [null],
-      toDate: [null],
+      fromDate: [null, [Validators.required]],
+      toDate: [null, [Validators.required]]
 
-    },{
-      validators: [CustomValidators.endDateGreaterThanStartDate('fromDate', 'toDate','يجب ان يكون تاريخ انتهاء الاجازه بعد تاريخ البدء')],
+    }, {
+      validators: [CustomValidators.endDateGreaterThanStartDate('fromDate', 'toDate', 'يجب ان يكون تاريخ انتهاء الاجازه بعد تاريخ البدء')],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -123,7 +120,7 @@ export class HrSickLeaveComponent implements OnInit {
     this.formGroup.get('fromDate').valueChanges.subscribe(() => {
       this.calculateNoDays();
     });
-  
+
     this.formGroup.get('toDate').valueChanges.subscribe(() => {
       this.calculateNoDays();
     });
@@ -135,18 +132,17 @@ export class HrSickLeaveComponent implements OnInit {
       return;
     }
     this.employeeSickLeaveModel = this.formGroup.value;
-    if(this.employeeSickLeaveModel?.sickLeaveId)
+    if (this.employeeSickLeaveModel?.sickLeaveId)
       this.editEmployeeSickLeave();
     else
       this.addNewEmployeeSickLeave();
   }
 
-  addNewEmployeeSickLeave()
-  {
+  addNewEmployeeSickLeave() {
 
-    this.showAddLoader=true;
-    this.hrService.AddNewEmployeeSickLeave(this.selectedEmployeeId,this.employeeSickLeaveModel).subscribe(data => {
-      if(data?.isSuccess) {
+    this.showAddLoader = true;
+    this.hrService.AddNewEmployeeSickLeave(this.selectedEmployeeId, this.employeeSickLeaveModel).subscribe(data => {
+      if (data?.isSuccess) {
         this.formGroup?.reset();
         this.offcanvasService?.dismiss();
         this.getSickLeaveByEmployeeId();
@@ -155,24 +151,19 @@ export class HrSickLeaveComponent implements OnInit {
       else {
         this.toaster.error(data?.message);
       }
-      this.showAddLoader=false;
-    }, err=>{
-      this.showAddLoader=false;
-    },()=>{
-      this.showAddLoader=false;
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
     });
-
-    
-
   }
 
-  editEmployeeSickLeave()
-  {
+  editEmployeeSickLeave() {
+    this.showAddLoader = true;
+    this.hrService.EditEmployeeSickLeave(this.selectedEmployeeId, this.employeeSickLeaveModel).subscribe(data => {
 
-    this.showAddLoader=true;
-    this.hrService.EditEmployeeSickLeave(this.selectedEmployeeId,this.employeeSickLeaveModel).subscribe(data => {
-
-      if(data?.isSuccess) {
+      if (data?.isSuccess) {
         this.formGroup?.reset();
         this.offcanvasService?.dismiss();
         this.getSickLeaveByEmployeeId();
@@ -181,14 +172,12 @@ export class HrSickLeaveComponent implements OnInit {
       else {
         this.toaster.error(data?.message);
       }
-      this.showAddLoader=false;
-    }, err=>{
-      this.showAddLoader=false;
-    },()=>{
-      this.showAddLoader=false;
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
     });
-
-    
   }
 
   validateForm(): boolean {
@@ -201,9 +190,8 @@ export class HrSickLeaveComponent implements OnInit {
     }
   }
 
-
-  fillEditForm(sickLeaveModel:EmployeeSickLeaveModel) {
-    this.isUpdate=true;
+  fillEditForm(sickLeaveModel: EmployeeSickLeaveModel) {
+    this.isUpdate = true;
     this.formGroup.patchValue({
       sickLeaveId: sickLeaveModel.sickLeaveId,
       employeeId: this.selectedEmployeeId,
@@ -215,14 +203,13 @@ export class HrSickLeaveComponent implements OnInit {
     });
   }
 
-
   openDeleteModal(content: any, sickLeaveId: number) {
     this.selectedSickLeaveId = sickLeaveId;
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
   getActiveEmployeesSelector() {
-    this.hrService.GetActiveEmployeesSelector().subscribe((data :FormDropdownModel[])=> {
+    this.hrService.GetActiveEmployeesSelector().subscribe((data: FormDropdownModel[]) => {
       this.employeeSelectorData = data;
     });
   }
@@ -230,19 +217,17 @@ export class HrSickLeaveComponent implements OnInit {
   filterChecked(filterItems: FilterItem[]) {
     this.employeeSickLeaveResponse.filterList = filterItems;
     this.getSickLeaveByEmployeeId();
- }
+  }
 
- pageChanged(obj: any) {
-   this.employeeSickLeaveResponse.currentPage = obj.page;
-   this.getSickLeaveByEmployeeId();
- }
-
+  pageChanged(obj: any) {
+    this.employeeSickLeaveResponse.currentPage = obj.page;
+    this.getSickLeaveByEmployeeId();
+  }
 
   deleteEmployeeSickLeave() {
-    this.showAddLoader=true;
+    this.showAddLoader = true;
     this.hrService.DeleteEmployeeSickLeave(this.selectedSickLeaveId).subscribe(data => {
-
-      if(data?.isSuccess) {
+      if (data?.isSuccess) {
         this.modalService?.dismissAll();
         this.getSickLeaveByEmployeeId();
         this.toaster.success(data?.message);
@@ -250,25 +235,24 @@ export class HrSickLeaveComponent implements OnInit {
       else {
         this.toaster.error(data?.message);
       }
-      this.showAddLoader=false;
-    }, err=>{
-      this.showAddLoader=false;
-    },()=>{
-      this.showAddLoader=false;
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
     });
   }
 
   calculateNoDays() {
     const fromDate = this.formGroup.get('fromDate').value;
     const toDate = this.formGroup.get('toDate').value;
-  
-    if (fromDate && toDate) {
 
-      var from=new Date(fromDate);
-      var to=new Date(toDate);
+    if (fromDate && toDate) {
+      var from = new Date(fromDate);
+      var to = new Date(toDate);
       from.setHours(0, 0, 0, 0);
       to.setHours(0, 0, 0, 0);
-    
+
       // Calculate the difference in milliseconds
       const diffInMills = to.getTime() - from.getTime();
 

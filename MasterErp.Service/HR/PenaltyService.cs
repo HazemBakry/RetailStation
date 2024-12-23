@@ -33,16 +33,16 @@ namespace MasterErp.Service.HR
                         select new EmployeePenaltyDto
                         {
                             EmployeeId = penalty.EmployeeId,
-                            EmployeeName = emp.FullNameEN,
+                            EmployeeName = emp.FullNameAR,
                             PenaltyId = penalty.PenaltyId,
                             PenaltyTypeId = penalty.PenaltyTypeId,
                             ExecutionDate = penalty.ExecutionDate,
                             PenaltyDate = penalty.PenaltyDate,
-                            MoneyAmount = penalty.MoneyAmount,
+                            TotalDeduction = penalty.TotalDeduction,
                             DeductionByDays = penalty.DeductionByDays,
                             DeductionAmount = penalty.DeductionAmount,
                             Reason = penalty.Reason,
-                            IsActive = penalty.IsActive,
+                            IsApproved = penalty.IsApproved,
                             CreatedBy = penalty.CreatedBy,
                             CreatedDate = penalty.CreatedDate,
                             ModifiedBy = penalty.ModifiedBy,
@@ -70,16 +70,16 @@ namespace MasterErp.Service.HR
                         select new EmployeePenaltyDto
                         {
                             EmployeeId = penalty.EmployeeId,
-                            EmployeeName = emp.FullNameEN,
+                            EmployeeName = emp.FatherNameAR,
                             PenaltyId = penalty.PenaltyId,
                             PenaltyTypeId = penalty.PenaltyTypeId,
                             ExecutionDate = penalty.ExecutionDate,
                             PenaltyDate = penalty.PenaltyDate,
-                            MoneyAmount = penalty.MoneyAmount,
+                            TotalDeduction = penalty.TotalDeduction,
                             DeductionByDays = penalty.DeductionByDays,
                             DeductionAmount = penalty.DeductionAmount,
                             Reason = penalty.Reason,
-                            IsActive = penalty.IsActive,
+                            IsApproved = penalty.IsApproved,
                             CreatedBy = penalty.CreatedBy,
                             CreatedDate = penalty.CreatedDate,
                             ModifiedBy = penalty.ModifiedBy,
@@ -110,11 +110,11 @@ namespace MasterErp.Service.HR
                 penalty.PenaltyTypeId = model.PenaltyTypeId;
                 penalty.ExecutionDate = model.ExecutionDate;
                 penalty.PenaltyDate = DateTime.Now;
-                penalty.MoneyAmount = model.MoneyAmount;
+                penalty.TotalDeduction = model.TotalDeduction;
                 penalty.DeductionByDays = model.DeductionByDays;
                 penalty.DeductionAmount = model.DeductionAmount;
                 penalty.Reason = model.Reason;
-                penalty.IsActive = model.IsActive;
+                penalty.IsApproved = model.IsApproved;
                 penalty.CreatedBy = model.CreatedBy;
                 penalty.CreatedDate = DateTime.Now;
 
@@ -141,12 +141,12 @@ namespace MasterErp.Service.HR
                 {
                     penalty.PenaltyTypeId = model.PenaltyTypeId;
                     penalty.ExecutionDate = model.ExecutionDate;
-                   // penalty.PenaltyDate = model.PenaltyDate;
-                    penalty.MoneyAmount = model.MoneyAmount;
+                    // penalty.PenaltyDate = model.PenaltyDate;
+                    penalty.TotalDeduction = model.TotalDeduction;
                     penalty.DeductionByDays = model.DeductionByDays;
                     penalty.DeductionAmount = model.DeductionAmount;
                     penalty.Reason = model.Reason;
-                    penalty.IsActive = model.IsActive;
+                    penalty.IsApproved = model.IsApproved;
 
                     penalty.ModifiedBy = model.ModifiedBy;
                     penalty.ModifiedDate = DateTime.Now;
@@ -191,10 +191,10 @@ namespace MasterErp.Service.HR
 
         public List<SelectorDataModel> GetPenaltyTypesSelector()
         {
-            var result=Context.PenaltyTypes.Select(type=>new SelectorDataModel 
-            { 
-                Id= type.PenaltyTypeId,
-                Name= type.NameEN
+            var result = Context.PenaltyTypes.Select(type => new SelectorDataModel
+            {
+                Id = type.PenaltyTypeId,
+                Name = type.NameEN
             }).ToList();
 
             return result;

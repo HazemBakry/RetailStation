@@ -23,11 +23,13 @@ export class DropDownFormControlComponent implements OnChanges {
   @Input() showSearch: boolean = false;
   @Input() selectMulti: boolean = false;
   @Input() isCustomDropdown: boolean = false;
-  @Output() valueChanged = new EventEmitter<any|any[]>();
+  @Output() valueChanged = new EventEmitter<any | any[]>();
   filteredData: any[] = [];
   searchText: string = '';
   selectedValue: any = '';
-  selectedItem: string = '';
+  selectedName: string = '';
+  selectedCode: string = '';
+  searchFields: string[] = ['name','code'];
 
   private onChange: any = () => { };
   private onTouched: any = () => { };
@@ -70,9 +72,9 @@ export class DropDownFormControlComponent implements OnChanges {
       if (value)
         this.selectedValue = value;
       if (sName)
-        this.selectedItem = sName;
+        this.selectedName = sName;
       else
-        this.selectedItem = '';
+        this.selectedName = '';
     }
     // this.filterData(); // Ensure filteredData is updated based on the initial value
   }
@@ -94,6 +96,7 @@ export class DropDownFormControlComponent implements OnChanges {
     const inputValue = event.target.value.toLowerCase();
     this.searchText = inputValue;
   }
+
   selectOption(option: any): void {
     this.selectedValue = option.value;
     // this.searchText = option.name;
@@ -101,9 +104,10 @@ export class DropDownFormControlComponent implements OnChanges {
     this.onChange(this.selectedValue);
     this.onTouched();
 
-    this.selectedItem = option.name;
-    this.valueChanged.emit(option.value);
+    this.selectedName = option.name;
+    this.selectedCode = option.code;
 
+    this.valueChanged.emit(option.value);
   }
 
 

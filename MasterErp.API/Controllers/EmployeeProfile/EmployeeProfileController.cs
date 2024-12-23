@@ -47,7 +47,6 @@ namespace MasterErp.API.Controllers.EmployeeProfile
                 TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
                 PageSize = Model.PageSize,
                 CurrentPage = Model.CurrentPage
-
             };
             return Ok(result);
         }
@@ -90,8 +89,6 @@ namespace MasterErp.API.Controllers.EmployeeProfile
         }
 
         #endregion
-
-
 
         #region Loans
 
@@ -155,7 +152,6 @@ namespace MasterErp.API.Controllers.EmployeeProfile
 
         #endregion
 
-
         #region Management
 
         [HttpPost]
@@ -198,7 +194,6 @@ namespace MasterErp.API.Controllers.EmployeeProfile
             return Ok(result);
         }
 
-
         [HttpGet]
         [Route("ApproveVacation")]
         public IActionResult ApproveVacation(int VacationId, int EmployeeId, bool ApproveStatus)
@@ -230,6 +225,7 @@ namespace MasterErp.API.Controllers.EmployeeProfile
             };
             return Ok(result);
         }
+        
         [HttpGet]
         [Route("ApproveLoan")]
         public IActionResult ApproveLoan(int LoanId, int EmployeeId, bool ApproveStatus)
@@ -241,6 +237,7 @@ namespace MasterErp.API.Controllers.EmployeeProfile
             var result = _loansService.ApproveEmployeeLoan(LoanId, EmployeeId, ApproveStatus);
             return Ok(result);
         }
+
         #endregion
     }
 }

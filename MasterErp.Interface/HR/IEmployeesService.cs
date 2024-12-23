@@ -31,6 +31,7 @@ namespace MasterErp.Interface.HR
         List<EmployeeBasicInfo> GetAllEmployees(SearchFilterModel model, int? ManagerId = null);
         List<StatisticsCardSummary> GetEmployeesSummary();
         List<SelectorDataModel> GetActiveEmployeesSelector();
+        EmployeeContract GetEmployeeContract(int EmployeeId);
         List<EmployeeSalaryDto> GetEmployeesSalaryByBranch(List<int> BranchId, DateTime ExecutionDate);
 
         #endregion

@@ -90,7 +90,7 @@ export class HrCareersComponent implements OnInit {
     }
     return true;
   }
-  openNewCareerSidePanel(content: any,careerModel:EmployeeCareerModel=null) {
+  openNewSidePanel(content: any,careerModel:EmployeeCareerModel=null) {
     if(!this.checkEmployee())
       return;
 

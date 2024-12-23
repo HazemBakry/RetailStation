@@ -163,6 +163,13 @@ namespace MasterErp.API.Controllers
             return _employeeService.GetEmployeesSummary();
         }
 
+        [HttpGet]
+        [Route("GetEmployeeContract")]
+        public EmployeeContract GetEmployeeContract(int EmployeeId)
+        {
+            return _employeeService.GetEmployeeContract(EmployeeId);
+        }
+
         [HttpPost]
         [Route("GetEmployeesSalaryByBranch")]
         public List<EmployeeSalaryDto> GetEmployeesSalaryByBranch(List<int> BranchId, DateTime ExecutionDate)

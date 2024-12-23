@@ -29,14 +29,15 @@ namespace MasterErp.Service.HR
                         select new EmployeeSickLeaveDto
                         {
                             EmployeeId = sickLeave.EmployeeId,
-                            EmployeeName = emp.FullNameEN,
+                            EmployeeName = emp.FullNameAR,
                             SickLeaveId = sickLeave.SickLeaveId,
                             RequestDate = sickLeave.RequestDate,
                             ExecutionDate = sickLeave.ExecutionDate,
+                            FromDate = sickLeave.FromDate,
+                            ToDate = sickLeave.ToDate,
                             NoDays = sickLeave.NoDays,
-                            MoneyAmount = sickLeave.MoneyAmount,
                             Notes = sickLeave.Notes,
-                            IsActive = sickLeave.IsActive,
+                            IsApproved = sickLeave.IsApproved,
                             CreatedBy = sickLeave.CreatedBy,
                             CreatedDate = sickLeave.CreatedDate,
                             ModifiedBy = sickLeave.ModifiedBy,
@@ -62,14 +63,15 @@ namespace MasterErp.Service.HR
                         select new EmployeeSickLeaveDto
                         {
                             EmployeeId = sickLeave.EmployeeId,
-                            EmployeeName = emp.FullNameEN,
+                            EmployeeName = emp.FullNameAR,
                             SickLeaveId = sickLeave.SickLeaveId,
                             RequestDate = sickLeave.RequestDate,
                             ExecutionDate = sickLeave.ExecutionDate,
+                            FromDate = sickLeave.FromDate,
+                            ToDate = sickLeave.ToDate,
                             NoDays = sickLeave.NoDays,
-                            MoneyAmount = sickLeave.MoneyAmount,
                             Notes = sickLeave.Notes,
-                            IsActive = sickLeave.IsActive,
+                            IsApproved = sickLeave.IsApproved,
                             CreatedBy = sickLeave.CreatedBy,
                             CreatedDate = sickLeave.CreatedDate,
                             ModifiedBy = sickLeave.ModifiedBy,
@@ -89,25 +91,25 @@ namespace MasterErp.Service.HR
 
         public ActionsResponseModel AddNewEmployeeSickLeave(int EmployeeId, EmployeeSickLeaveDto model)
         {
-
             try
             {
-                var sickLeave = new SickLeave();
+                var sickLeave = new SickLeave
+                {
 
-                sickLeave.EmployeeId = model.EmployeeId;
-                sickLeave.RequestDate = DateTime.Now;
-                sickLeave.ExecutionDate = model.ExecutionDate;
-                sickLeave.NoDays = model.NoDays;
-                sickLeave.MoneyAmount = model.MoneyAmount;
-                sickLeave.Notes = model.Notes;
-                sickLeave.IsActive = model.IsActive;
-                sickLeave.CreatedBy = model.CreatedBy;
-                sickLeave.CreatedDate = DateTime.Now;
-
+                    EmployeeId = model.EmployeeId,
+                    RequestDate = DateTime.Now,
+                    ExecutionDate = model.ExecutionDate,
+                    NoDays = model.NoDays,
+                    Notes = model.Notes,
+                    FromDate = model.FromDate,
+                    ToDate = model.ToDate,
+                    IsApproved = model.IsApproved,
+                    CreatedBy = model.CreatedBy,
+                    CreatedDate = DateTime.Now
+                };
 
                 Context.SickLeaves.Add(sickLeave);
                 var result = Context.SaveChanges();
-
 
                 return new ActionsResponseModel { Message = "SickLeave Added Successfly !" };
             }
@@ -115,12 +117,10 @@ namespace MasterErp.Service.HR
             {
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
-
         }
 
         public ActionsResponseModel EditEmployeeSickLeave(int EmployeeId, EmployeeSickLeaveDto model)
         {
-
             try
             {
                 var sickLeave = Context.SickLeaves.FirstOrDefault(i => i.SickLeaveId == model.SickLeaveId);
@@ -129,14 +129,12 @@ namespace MasterErp.Service.HR
                     sickLeave.RequestDate = DateTime.Now;
                     sickLeave.ExecutionDate = model.ExecutionDate;
                     sickLeave.NoDays = model.NoDays;
-                    sickLeave.MoneyAmount = model.MoneyAmount;
                     sickLeave.Notes = model.Notes;
-                    sickLeave.IsActive = model.IsActive;
+                    sickLeave.IsApproved = model.IsApproved;
                     sickLeave.ModifiedBy = model.ModifiedBy;
                     sickLeave.ModifiedDate = DateTime.Now;
 
                     Context.SaveChanges();
-
 
                     return new ActionsResponseModel { Message = "SickLeave Updated Successfly !" };
                 }
@@ -147,13 +145,10 @@ namespace MasterErp.Service.HR
             {
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
-
         }
-
 
         public ActionsResponseModel DeleteEmployeeSickLeave(int SickLeaveId)
         {
-
             try
             {
                 var sickLeave = Context.SickLeaves.FirstOrDefault(i => i.SickLeaveId == SickLeaveId);

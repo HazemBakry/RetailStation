@@ -32,21 +32,23 @@ namespace MasterErp.Service.HR
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
         private readonly ISharedFilterService SharedFilterService;
-        private readonly IFileService _fileService;
+        private readonly IFileService FileService;
+        private readonly IHttpContextAccessor HttpContextAccessor;
         public readonly string EmployeesFolderName;
         private readonly string ConnectionString;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EmployeeService(DBContext Context, ISQLHelper SQLHelper, IConfiguration Configuration, ISharedFilterService SharedFilterService, IHttpContextAccessor httpContextAccessor, IFileService fileService)
+        public EmployeeService(DBContext Context, ISQLHelper SQLHelper,
+            IConfiguration Configuration, ISharedFilterService SharedFilterService,
+            IHttpContextAccessor HttpContextAccessor, IFileService FileService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
             this.Configuration = Configuration;
             this.SharedFilterService = SharedFilterService;
-            ConnectionString = Configuration.GetConnectionString("DBConnection");
+            this.ConnectionString = Configuration.GetConnectionString("DBConnection");
+            this.HttpContextAccessor = HttpContextAccessor;
+            this.FileService = FileService;
             EmployeesFolderName = "Employees";
-            _httpContextAccessor = httpContextAccessor;
-            _fileService = fileService;
         }
 
         #region EmployeeCreation
@@ -103,24 +105,18 @@ namespace MasterErp.Service.HR
                 employee.CreatedDate = DateTime.Now;
 
 
-
                 Context.Employees.Add(employee);
                 var result = Context.SaveChanges();
 
                 if (model.ImageFile != null)
                 {
                     string employeeDirectory = GetEmployeetDirectoryName(employee.EmployeeId);
-                    var uploadResponse = await _fileService.UploadFileAsync(model.ImageFile, employeeDirectory, FileType.Image);
+                    var uploadResponse = await FileService.UploadFileAsync(model.ImageFile, employeeDirectory, FileType.Image);
                     if (uploadResponse.IsUploaded)
                     {
                         employee.Image = uploadResponse.FilePath;
                         Context.SaveChanges();
                     }
-                    else
-                    {
-
-                    }
-
                 }
 
                 return new ActionsResponseModel { Message = "Employee Added Successfly !", Id = employee.EmployeeId };
@@ -129,7 +125,6 @@ namespace MasterErp.Service.HR
             {
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
-
         }
 
         public async Task<ActionsResponseModel> EditEmployee(int EmployeeId, EmployeeDto model)
@@ -188,7 +183,7 @@ namespace MasterErp.Service.HR
                     if (model.ImageFile != null)
                     {
                         string employeeDirectory = GetEmployeetDirectoryName(employee.EmployeeId);
-                        var uploadResponse = await _fileService.UploadFileAsync(model.ImageFile, employeeDirectory, FileType.Image);
+                        var uploadResponse = await FileService.UploadFileAsync(model.ImageFile, employeeDirectory, FileType.Image);
                         if (uploadResponse.IsUploaded)
                         {
                             employee.Image = uploadResponse.FilePath;
@@ -213,84 +208,103 @@ namespace MasterErp.Service.HR
 
         public Task<ActionsResponseModel> SaveEmployeeContractData(int EmployeeId, EmployeeContractDto model)
         {
-
             try
             {
                 var employeeContract = Context.EmployeeContracts.FirstOrDefault(i => i.EmployeeId == EmployeeId);
-                //Edit
+
                 if (employeeContract != null)
                 {
-                    employeeContract.JoinDate = model.JoinDate;
-                    employeeContract.LastJoinDate = model.JoinDate.AddYears(model.ContractPeriodYears);
+                    employeeContract.StartDate = model.StartDate;
+                    employeeContract.EndDate = model.StartDate.AddYears(model.ContractPeriodYears);
                     employeeContract.ContractPeriodYears = model.ContractPeriodYears;
                     employeeContract.VacationPeriodDays = model.VacationPeriodDays;
-                    employeeContract.VacationDate = model.VacationDate;
+                    employeeContract.VacationEvery = model.VacationEvery;
+                    employeeContract.VacationDays = model.VacationDays;
                     employeeContract.IsGossi = model.IsGossi;
-
-
-                    employeeContract.BasicSalary = model.BasicSalary;
-                    employeeContract.ExtraSalary = model.ExtraSalary;
-                    employeeContract.Transportation = model.Transportation;
-                    employeeContract.HousingAllowance = model.HousingAllowance;
-                    employeeContract.MobileAllowance = model.MobileAllowance;
-                    employeeContract.WorkNature = model.WorkNature;
-                    employeeContract.MealAllowance = model.MealAllowance;
-                    employeeContract.Other = model.Other ?? 0;
-                    employeeContract.TotalSalary = model.CalcTotalSalary();
-
-
                     employeeContract.ModifiedBy = model.ModifiedBy;
                     employeeContract.ModifiedDate = DateTime.Now;
 
+                    var salary = Context.EmployeeSalaries.FirstOrDefault(s => s.EmployeeContractId == employeeContract.EmployeeContractId);
+                    bool IsNew = false;
+
+                    if (salary == null)
+                    {
+                        salary = new EmployeeSalary();
+                        salary.CreatedBy = model.CreatedBy;
+                        salary.CreatedDate = DateTime.Now;
+                        IsNew = true;
+                    }
+                    else
+                    {
+                        salary.ModifiedBy = model.CreatedBy;
+                        salary.ModifiedDate = DateTime.Now;
+                    }
+
+                    salary.EmployeeContractId = employeeContract.EmployeeContractId;
+                    salary.EmployeeId = employeeContract.EmployeeId;
+                    salary.BasicSalary = model.BasicSalary;
+                    salary.ExtraSalary = model.ExtraSalary;
+                    salary.Transportation = model.Transportation;
+                    salary.HousingAllowance = model.HousingAllowance;
+                    salary.MobileAllowance = model.MobileAllowance;
+                    salary.WorkNature = model.WorkNature;
+                    salary.MealAllowance = model.MealAllowance;
+                    salary.Other = model.Other ?? 0;
+                    salary.GrossSalary = model.CalcTotalSalary();
+                    salary.TotalSalary = model.CalcTotalSalary();
+
+                    if (IsNew)
+                        Context.EmployeeSalaries.Add(salary);
 
                     Context.SaveChanges();
 
-
                     return Task.FromResult(new ActionsResponseModel { Message = "Employee Contract Updated Successfly !" });
                 }
-                //Add
                 else
                 {
                     employeeContract = new EmployeeContract();
 
                     employeeContract.EmployeeId = EmployeeId;
-                    employeeContract.JoinDate = model.JoinDate;
-                    employeeContract.LastJoinDate = model.JoinDate.AddYears(model.ContractPeriodYears);
+                    employeeContract.StartDate = model.StartDate;
+                    employeeContract.EndDate = model.StartDate.AddYears(model.ContractPeriodYears);
                     employeeContract.ContractPeriodYears = model.ContractPeriodYears;
                     employeeContract.VacationPeriodDays = model.VacationPeriodDays;
-                    employeeContract.VacationDate = model.VacationDate;
+                    employeeContract.VacationEvery = model.VacationEvery;
+                    employeeContract.VacationDays = model.VacationDays;
                     employeeContract.IsGossi = model.IsGossi;
-
-
-                    employeeContract.BasicSalary = model.BasicSalary;
-                    employeeContract.ExtraSalary = model.ExtraSalary;
-                    employeeContract.Transportation = model.Transportation;
-                    employeeContract.HousingAllowance = model.HousingAllowance;
-                    employeeContract.MobileAllowance = model.MobileAllowance;
-                    employeeContract.WorkNature = model.WorkNature;
-                    employeeContract.MealAllowance = model.MealAllowance;
-                    employeeContract.Other = model.Other ?? 0;
-                    employeeContract.TotalSalary = model.CalcTotalSalary();
-
-
                     employeeContract.CreatedBy = model.CreatedBy;
                     employeeContract.CreatedDate = DateTime.Now;
 
                     Context.EmployeeContracts.Add(employeeContract);
-
                     Context.SaveChanges();
 
+                    var salary = new EmployeeSalary();
+
+                    salary.EmployeeContractId = employeeContract.EmployeeContractId;
+                    salary.EmployeeId = employeeContract.EmployeeId;
+                    salary.BasicSalary = model.BasicSalary;
+                    salary.ExtraSalary = model.ExtraSalary;
+                    salary.Transportation = model.Transportation;
+                    salary.HousingAllowance = model.HousingAllowance;
+                    salary.MobileAllowance = model.MobileAllowance;
+                    salary.WorkNature = model.WorkNature;
+                    salary.MealAllowance = model.MealAllowance;
+                    salary.Other = model.Other ?? 0;
+                    salary.GrossSalary = model.CalcTotalSalary();
+                    salary.TotalSalary = model.CalcTotalSalary();
+                    salary.CreatedBy = model.CreatedBy;
+                    salary.CreatedDate = DateTime.Now;
+
+                    Context.EmployeeSalaries.Add(salary);
+                    Context.SaveChanges();
 
                     return Task.FromResult(new ActionsResponseModel { Message = "Employee Contract Created Successfly !" });
-
                 }
             }
             catch (Exception ex)
             {
                 return Task.FromResult(new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message });
             }
-
-
         }
 
         public Task<ActionsResponseModel> SaveEmployeeVerificationData(int EmployeeId, EmployeeVerificationDto model)
@@ -314,7 +328,6 @@ namespace MasterErp.Service.HR
                     employeeVerification.VehicleId = model.VehicleId;
                     employeeVerification.VehicleNumber = model.VehicleNumber;
                     employeeVerification.VehicleCode = model.VehicleCode;
-
 
                     employeeVerification.ModifiedBy = model.ModifiedBy;
                     employeeVerification.ModifiedDate = DateTime.Now;
@@ -351,9 +364,7 @@ namespace MasterErp.Service.HR
 
                     Context.SaveChanges();
 
-
                     return Task.FromResult(new ActionsResponseModel { Message = "Employee Verification Created Successfly !" });
-
                 }
             }
             catch (Exception ex)
@@ -379,7 +390,7 @@ namespace MasterErp.Service.HR
                     return new ActionsResponseModel { IsSuccess = false, Message = "No files uploaded." };
                 }
                 string employeeDirectory = GetEmployeetDirectoryName(employeeId);
-                var uploadResponse = await _fileService.UploadMultipleFilesAsync(model.Files, employeeDirectory, FileType.Attachment);
+                var uploadResponse = await FileService.UploadMultipleFilesAsync(model.Files, employeeDirectory, FileType.Attachment);
 
                 var employeeAttachments = new List<EmployeeAttachment>();
 
@@ -402,9 +413,7 @@ namespace MasterErp.Service.HR
                     else
                     {
                         return new ActionsResponseModel { IsSuccess = false, Message = $"{file.FileName} >> {file.Message}" };
-
                     }
-
                 }
 
                 Context.EmployeeAttachments.AddRange(employeeAttachments);
@@ -474,56 +483,22 @@ namespace MasterErp.Service.HR
                     CreatedDate = employee.CreatedDate,
                     ModifiedBy = employee.ModifiedBy,
                     ModifiedDate = employee.ModifiedDate,
-                    Image = _fileService.GetFileDownloadUrl(employee.Image)
+                    Image = FileService.GetFileDownloadUrl(employee.Image)
                 };
             }
 
             return null;
-
-
         }
 
         public EmployeeContractDto GetEmployeeContractInfoById(int employeeId)
         {
+            SqlParameter[] Params = new SqlParameter[1];
+            Params[0] = new SqlParameter("@EmployeeId", employeeId);
 
-            var employee = Context.EmployeeContracts.FirstOrDefault(e => e.EmployeeId == employeeId);
-
-            if (employee is not null)
-            {
-
-                return new EmployeeContractDto
-                {
-
-                    EmployeeId = employee.EmployeeId,
-                    JoinDate = employee.JoinDate,
-                    LastJoinDate = employee.LastJoinDate,
-                    ContractPeriodYears = employee.ContractPeriodYears,
-                    VacationPeriodDays = employee.VacationPeriodDays,
-                    VacationDate = employee.VacationDate,
-                    IsGossi = employee.IsGossi,
-
-
-                    BasicSalary = employee.BasicSalary,
-                    ExtraSalary = employee.ExtraSalary,
-                    Transportation = employee.Transportation,
-                    HousingAllowance = employee.HousingAllowance,
-                    MobileAllowance = employee.MobileAllowance,
-                    WorkNature = employee.WorkNature,
-                    MealAllowance = employee.MealAllowance,
-                    Other = employee.Other,
-                    TotalSalary = employee.TotalSalary,
-
-                    CreatedBy = employee.CreatedBy,
-                    CreatedDate = employee.CreatedDate,
-                    ModifiedBy = employee.ModifiedBy,
-                    ModifiedDate = employee.ModifiedDate,
-
-                };
-            }
-
-            return null;
-
+            var result = SQLHelper.SQLQuery<EmployeeContractDto>("[HR].[SP_GetEmployeeContractInfoById]", ConnectionString, Params);
+            return result?.FirstOrDefault();
         }
+
         public EmployeeVerificationDto GetEmployeeVerificationInfoById(int employeeId)
         {
 
@@ -560,13 +535,11 @@ namespace MasterErp.Service.HR
             }
 
             return null;
-
         }
+
         public EmployeeAttachmentDto GetEmployeeAttachmentsById(int employeeId)
         {
-
             var employeeAttachemts = Context.EmployeeAttachments.Where(e => e.EmployeeId == employeeId).ToList();
-
 
             return employeeAttachemts.GroupBy(a => a.EmployeeId).Select(e => new EmployeeAttachmentDto
             {
@@ -577,11 +550,10 @@ namespace MasterErp.Service.HR
                     FileName = x.FileName,
                     FilePath = x.FilePath,
                     FileSize = x.FileSize,
-                    FileUrl = _fileService.GetFileDownloadUrl(x.FilePath)
+                    FileUrl = FileService.GetFileDownloadUrl(x.FilePath)
                 }).ToList()
 
             }).FirstOrDefault();
-
         }
 
         public string GetEmployeetDirectoryName(int employeeId)
@@ -592,6 +564,7 @@ namespace MasterErp.Service.HR
                 directory = Path.Combine(EmployeesFolderName, employeeCode.Code.ToString());
             return directory;
         }
+
         #endregion
 
         public List<EmployeeBasicInfo> GetAllEmployees(SearchFilterModel model, int? ManagerId = null)
@@ -605,7 +578,6 @@ namespace MasterErp.Service.HR
             Params[3] = new SqlParameter("@SearchText", model.SearchText);
             Params[4] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[4].Value = dt;
-
 
             var result = SQLHelper.SQLQuery<EmployeeBasicInfo>("[HR].[SP_GetAllEmployeeData]", ConnectionString, Params);
             return result;
@@ -627,6 +599,12 @@ namespace MasterErp.Service.HR
             return result;
         }
 
+        public EmployeeContract GetEmployeeContract(int EmployeeId)
+        {
+            var contract = Context.EmployeeContracts.Where(x => x.EmployeeId == EmployeeId).FirstOrDefault();
+            return contract ?? new EmployeeContract();
+        }
+
         public List<EmployeeSalaryDto> GetEmployeesSalaryByBranch(List<int> BranchId, DateTime ExecutionDate)
         {
             SqlParameter[] Params = new SqlParameter[2];
@@ -637,7 +615,6 @@ namespace MasterErp.Service.HR
             var result = SQLHelper.SQLQuery<EmployeeSalaryDto>("[HR].[SP_GetEmployeesSalaryByBranch]", ConnectionString, Params);
             return result;
         }
-
 
         //public List<IqamaIssuePlace> GetIqamaIssuePlaces()
         //{
@@ -818,8 +795,6 @@ namespace MasterErp.Service.HR
         //        return false;
         //    }
         //}
-
-
 
     }
 }

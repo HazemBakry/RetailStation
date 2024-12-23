@@ -50,12 +50,12 @@ namespace MasterErp.Service.HR
                         select new EmployeeVacationDto
                         {
                             EmployeeId = emp.EmployeeId,
-                            EmployeeName = emp.FullNameEN,
+                            EmployeeName = emp.FullNameAR,
                             VacationId = vacation.VacationId,
                             VacationTypeId = vacation.VacationTypeId,
                             VacationType = vacationType.NameEN,
                             AlternativeEmployeeId = vacation.AlternativeEmployeeId,
-                            AlternativeEmployeeName = alternativeEmp.FullNameEN,
+                            AlternativeEmployeeName = alternativeEmp.FullNameAR,
                             IsAlternativeAvailable = vacation.IsAlternativeAvailable,
                             IsApproved = vacation.IsApproved,
                             FromDate = vacation.FromDate,
@@ -85,12 +85,12 @@ namespace MasterErp.Service.HR
                         select new EmployeeVacationDto
                         {
                             EmployeeId = emp.EmployeeId,
-                            EmployeeName = emp.FullNameEN,
+                            EmployeeName = emp.FullNameAR,
                             VacationId = vacation.VacationId,
                             VacationTypeId = vacation.VacationTypeId,
                             VacationType = vacationType.NameEN,
                             AlternativeEmployeeId = vacation.AlternativeEmployeeId,
-                            AlternativeEmployeeName = alternativeEmp.FullNameEN,
+                            AlternativeEmployeeName = alternativeEmp.FullNameAR,
                             IsAlternativeAvailable = vacation.IsAlternativeAvailable,
                             IsApproved = vacation.IsApproved,
                             FromDate = vacation.FromDate,

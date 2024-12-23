@@ -21,6 +21,7 @@ import { HrEmployeeBasicInfoComponent } from './components/hr-employee-details-c
 import { HrEmployeeContractInfoComponent } from './components/hr-employee-details-container/hr-employee-contract-info/hr-employee-contract-info.component';
 import { HrEmployeeVerificationInfoComponent } from './components/hr-employee-details-container/hr-employee-verification-info/hr-employee-verification-info.component';
 import { HrEmployeeAttachmentsComponent } from './components/hr-employee-details-container/hr-employee-attachments/hr-employee-attachments.component';
+import { HrLoansPaymentsComponent } from './components/hr-loans-payments/hr-loans-payments.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { HrEmployeeAttachmentsComponent } from './components/hr-employee-details
     HrCareersComponent,
     HrDeductsComponent,
     HrLoansComponent,
+    HrLoansPaymentsComponent,
     HrEmployeeDetailsContainerComponent,
     HrEmployeeBasicInfoComponent,
     HrEmployeeContractInfoComponent,

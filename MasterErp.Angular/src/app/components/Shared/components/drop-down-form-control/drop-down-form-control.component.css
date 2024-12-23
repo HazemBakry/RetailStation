@@ -48,8 +48,8 @@
 } */
 
 .DropDownSelected {
-    background: rgba(0, 0, 0, .12);
-    color: #1976d2;
+    background: #909294;
+    color: #eeeeef
 }
 
 .dropdown-as-input>button {
@@ -140,6 +140,13 @@
 
 .dropdown-item {
     cursor: pointer;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+    text-decoration: none;
+    background: #909294;
+    color: #eeeeef
 }
 
 .validate-style {

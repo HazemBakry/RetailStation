@@ -28,10 +28,10 @@ namespace MasterErp.Service.HR
                         select new EmployeeDeductDto
                         {
                             EmployeeId = deduct.EmployeeId,
-                            EmployeeName = emp.FullNameEN,
+                            EmployeeName = emp.FullNameAR,
                             DeductId = deduct.DeductId,
                             DeductTypeId = deduct.DeductTypeId,
-                            DeductTypeName=deductType.NameEN,
+                            DeductTypeName=deductType.NameAR,
                             ExecutionDate = deduct.ExecutionDate,
                             MoneyAmount = deduct.MoneyAmount,
                             Notes = deduct.Notes,
@@ -63,10 +63,10 @@ namespace MasterErp.Service.HR
                         select new EmployeeDeductDto
                         {
                             EmployeeId = deduct.EmployeeId,
-                            EmployeeName = emp.FullNameEN,
+                            EmployeeName = emp.FullNameAR,
                             DeductId = deduct.DeductId,
                             DeductTypeId = deduct.DeductTypeId,
-                            DeductTypeName = deductType.NameEN,
+                            DeductTypeName = deductType.NameAR,
                             ExecutionDate = deduct.ExecutionDate,
                             MoneyAmount = deduct.MoneyAmount,
                             Notes = deduct.Notes,
@@ -176,7 +176,7 @@ namespace MasterErp.Service.HR
             var results = Context.DeductTypes.Select(b => new SelectorDataModel
             {
                 Id = b.DeductTypeId,
-                Name = b.NameEN,
+                Name = b.NameAR,
             }).ToList();
             return results;
         }

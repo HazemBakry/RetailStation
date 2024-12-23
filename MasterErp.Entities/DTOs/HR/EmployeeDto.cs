@@ -18,7 +18,7 @@ namespace MasterErp.Entities.DTOs.HR
         public int JobId { get; set; }//1
         public int? SocialStatusId { get; set; }//1
         public int? VisaJobId { get; set; }//1
-        public int BranchId { get; set; }//1
+        public int? BranchId { get; set; }//1
         public int? StatusId { get; set; }  // 1 by default
 
         public string FullNameAR { get; set; }// concatenate
@@ -33,12 +33,12 @@ namespace MasterErp.Entities.DTOs.HR
         public string LastNameEN { get; set; }//1
 
 
-        public DateTime BirthDate { get; set; }//1
+        public DateTime? BirthDate { get; set; }//1
         public string BirthPlace { get; set; }//1
         public string Phone { get; set; }//1
         public string Email { get; set; }//1
 
-        public int NationalityId { get; set; }//1
+        public int? NationalityId { get; set; }//1
         public int? SponsorId { get; set; }//1
         public string BorderEntryNumber { get; set; }//2
         public string PassportNumber { get; set; }//2
