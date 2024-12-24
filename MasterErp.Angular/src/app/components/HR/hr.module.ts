@@ -13,6 +13,15 @@ import { HrEmployeesComponent } from './components/hr-employees/hr-employees.com
 import { SharedModule } from "../Shared/shared.module";
 import { HrHomeComponent } from './components/hr-home/hr-home.component';
 import { HrLayoutComponent } from './hr-layout/hr-layout.component';
+import { HrCareersComponent } from './components/hr-careers/hr-careers.component';
+import { HrDeductsComponent } from './components/hr-deducts/hr-deducts.component';
+import { HrLoansComponent } from './components/hr-loans/hr-loans.component';
+import { HrEmployeeDetailsContainerComponent } from './components/hr-employee-details-container/hr-employee-details-container.component';
+import { HrEmployeeBasicInfoComponent } from './components/hr-employee-details-container/hr-employee-basic-info/hr-employee-basic-info.component';
+import { HrEmployeeContractInfoComponent } from './components/hr-employee-details-container/hr-employee-contract-info/hr-employee-contract-info.component';
+import { HrEmployeeVerificationInfoComponent } from './components/hr-employee-details-container/hr-employee-verification-info/hr-employee-verification-info.component';
+import { HrEmployeeAttachmentsComponent } from './components/hr-employee-details-container/hr-employee-attachments/hr-employee-attachments.component';
+import { HrLoansPaymentsComponent } from './components/hr-loans-payments/hr-loans-payments.component';
 
 
 @NgModule({
@@ -26,7 +35,16 @@ import { HrLayoutComponent } from './hr-layout/hr-layout.component';
     HrEmployeesComponent,
     HrEmployeeDetailsComponent,
     HrHomeComponent,
-    HrLayoutComponent
+    HrLayoutComponent,
+    HrCareersComponent,
+    HrDeductsComponent,
+    HrLoansComponent,
+    HrLoansPaymentsComponent,
+    HrEmployeeDetailsContainerComponent,
+    HrEmployeeBasicInfoComponent,
+    HrEmployeeContractInfoComponent,
+    HrEmployeeVerificationInfoComponent,
+    HrEmployeeAttachmentsComponent
   ],
   imports: [
     HrRoutingModule,

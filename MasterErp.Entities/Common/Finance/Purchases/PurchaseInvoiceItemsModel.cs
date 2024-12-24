@@ -9,13 +9,13 @@ namespace MasterErp.Entities.Common.Finance.Purchases
         public int? PurchaseInvoiceId { get; set; }
         public int InvoiceNumber { get; set; }
         public int SupplierId { get; set; }
-        public int BranchId { get; set; }
+        //public int BranchId { get; set; }
         public int InvoiceTypeId { get; set; }
         public string Notes { get; set; }
         public string SupplierNameAR { get; set; }
         public string SupplierNameEN { get; set; }
-        public double InvoiceTotalValue { get; set; }
-        public int? UserId { get; set; }
+        public double TotalValue { get; set; }
+        public int? CreatedBy { get; set; }
         public DateTime? InvoiceDate { get; set; }
         public string ItemNameAR { get; set; }
         public string ItemNameEN { get; set; }

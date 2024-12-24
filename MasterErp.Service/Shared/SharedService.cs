@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Service.Shared
 {
-    public class SharedService:ISharedService
+    public class SharedService : ISharedService
     {
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
@@ -28,12 +28,12 @@ namespace MasterErp.Service.Shared
             }
         }
 
-        public SharedService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration,IExportService exportService)
+        public SharedService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration, IExportService exportService)
         {
             Context = dBContext;
             SQLHelper = iSQLHelper;
             Configuration = _configuration;
-            _exportService = exportService; 
+            _exportService = exportService;
         }
 
 
@@ -46,12 +46,6 @@ namespace MasterErp.Service.Shared
             return Context.ReceiptLedger.ToList();
         }
 
-        public List<AccountTree> GetAccountsList(bool IsParent)
-        {
-            var result = Context.AccountTrees.Where(x => x.IsParent == IsParent).ToList();
-
-            return result;
-        }
         public List<AccountTree> GetAccountsByTypeId(int TypeId)
         {
             var result = Context.AccountTrees.Where(x => x.AccountTypeId == TypeId).ToList();
@@ -72,13 +66,6 @@ namespace MasterErp.Service.Shared
             return result;
         }
 
-        public List<AccountType> GetAccountTypes()
-        {
-            var result = Context.AccountTypes.ToList();
-
-            return result;
-        }
-
         public ActionsResponseModel DownloadImporterTemplate(ExcelExportStyle ImporterType)
         {
             var url = _exportService.DownloadImporterTemplate(ImporterType);
@@ -90,30 +77,214 @@ namespace MasterErp.Service.Shared
             };
         }
 
-        public DataTable MapFilterModelToDataTable(List<FilterItem> Items)
+        #region Selectors
+        public List<SelectorDataModel> GetBranchesSelector()
         {
-            DataTable dt = new DataTable();
-            dt.Clear();
-            dt.Columns.Add("CategoryDisplayName");
-            dt.Columns.Add("CategoryName");
-            dt.Columns.Add("ItemKey");
-            dt.Columns.Add("ItemFlag");
-            dt.Columns.Add("ItemValue");
-
-            foreach (FilterItem item in Items)
+            var results = Context.Branches.Select(b => new SelectorDataModel
             {
-                DataRow row = dt.NewRow();
-
-                row["CategoryDisplayName"] = item.CategoryDisplayName;
-                row["CategoryName"] = item.CategoryName;
-                row["ItemKey"] = item.ItemKey;
-                row["ItemFlag"] = item.ItemFlag;
-                row["ItemValue"] = item.ItemValue;
-                dt.Rows.Add(row);
-            }
-
-            return dt;
+                Id = b.BranchId,
+                Name = b.NameEN,
+            }).ToList();
+            return results;
         }
+
+        public List<SelectorDataModel> GetAccountsSelector(bool IsParent)
+        {
+            var result = Context.AccountTrees.Where(x => x.IsParent == IsParent).Select(a => new SelectorDataModel
+            {
+                Id = a.AccountId,
+                Name = a.NameAR
+            }).ToList();
+
+            return result;
+        }
+
+        public List<SelectorDataModel> GetAccountTypes()
+        {
+            var result = Context.AccountTypes.Select(a => new SelectorDataModel
+            {
+                Id = a.AccountTypeId,
+                Name = a.NameAR
+            }).ToList();
+            return result;
+        }
+
+        public List<SelectorDataModel> GetBanksSelector()
+        {
+            var results = Context.Banks.Select(b => new SelectorDataModel
+            {
+                Id = b.BankID,
+                Name = b.Name,
+            }).ToList();
+            return results;
+        }
+        public List<SelectorDataModel> GetNationalitiesSelector()
+        {
+            var results = Context.Nationalities.Select(b => new SelectorDataModel
+            {
+                Id = b.NationalityId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+        public List<SelectorDataModel> GetIqamaIssuePlacesSelector()
+        {
+            var results = Context.IqamaIssuePlaces.Select(b => new SelectorDataModel
+            {
+                Id = b.IqamaIssuePlaceId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+        public List<SelectorDataModel> GetVisaJobsSelector()
+        {
+            var results = Context.IqamaJobs.Select(b => new SelectorDataModel
+            {
+                Id = b.IqamaJobId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+        public List<SelectorDataModel> GetCountriesSelector()
+        {
+            var results = Context.Countries.Select(b => new SelectorDataModel
+            {
+                Id = b.CountryId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+        public List<SelectorDataModel> GetCitiesSelector()
+        {
+            var results = Context.Cities.Select(b => new SelectorDataModel
+            {
+                Id = b.CityId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+        public List<SelectorDataModel> GetRegionsSelector()
+        {
+            var results = Context.Regions.Select(b => new SelectorDataModel
+            {
+                Id = b.RegionId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+        public List<SelectorDataModel> GetSuppliersSelector()
+        {
+            var results = Context.Suppliers.Select(b => new SelectorDataModel
+            {
+                Id = b.SupplierId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+        public List<SelectorDataModel> GetSupplierGroupsSelector()
+        {
+            var results = Context.SupplierGroups.Select(b => new SelectorDataModel
+            {
+                Id = b.SupplierGroupId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+        public List<SelectorDataModel> GetPurchaseInvoiceTypesSelector()
+        {
+            var results = Context.PurchaseInvoiceTypes.Select(b => new SelectorDataModel
+            {
+                Id = b.PurchaseInvoiceTypeId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+
+        public List<SelectorDataModel> GetItemsSelector()
+        {
+            var results = Context.Items.Select(b => new SelectorDataModel
+            {
+                Id = b.ItemId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+
+        public List<SelectorDataModel> GetItemCategoriesSelector()
+        {
+            var results = Context.ItemCategories.Select(b => new SelectorDataModel
+            {
+                Id = b.ItemCategoryId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+        public List<SelectorDataModel> GetUnitsSelector()
+        {
+            var results = Context.Units.Select(b => new SelectorDataModel
+            {
+                Id = b.UnitId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+        public List<SelectorDataModel> GetChildAccountsSelector()
+        {
+            var results = Context.AccountTrees.Where(x => x.AccountLevel == 5).Select(b => new SelectorDataModel
+            {
+                Id = b.AccountId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+        public List<SelectorDataModel> GetInventoriesSelector()
+        {
+            var results = Context.Stores.Select(b => new SelectorDataModel
+            {
+                Id = b.StoreId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+        public List<SelectorDataModel> GetItemLookupsSelector()
+        {
+            var results = Context.ItemLookups.Select(b => new SelectorDataModel
+            {
+                Id = b.ItemLookupId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+
+        public List<SelectorDataModel> GetCurrencySelector()
+        {
+            var results = Context.Currency.Where(x => x.IsActive).Select(b => new SelectorDataModel
+            {
+                Id = b.CurrencyId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+        public List<SelectorDataModel> GetReligionsSelector()
+        {
+            var results = Context.Religions.Select(b => new SelectorDataModel
+            {
+                Id = b.ReligionId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+        public List<SelectorDataModel> GetSocialStatusSelector()
+        {
+            var results = Context.SocialStatus.Select(b => new SelectorDataModel
+            {
+                Id = b.SocialStatusId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+
+        #endregion
 
     }
 }

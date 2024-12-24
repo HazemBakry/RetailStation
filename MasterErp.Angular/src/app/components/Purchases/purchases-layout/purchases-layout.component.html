@@ -6,24 +6,17 @@
 
         <aside id="main_sidebar" class="main-sidebar" [ngClass]="{'toggled': toggler}">
             <ul class="nav list-unstyled flex-column p-0 m-0 small-scroll overflow-auto h-100 flex-column flex-nowrap">
-                <div class="nalika-profile"
-                    style="padding-top: 5px; padding-bottom: 5px; position: relative;z-index: 99999;background: #9f2316;color: white;">
-
-                    <a class="nav-link cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
-                        routerLink="/" routerLinkActive="active">
+                <div class="nalika-profile" style="background: #16487ad9;color: white;">
+                    <a class="nav-link cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" routerLink="/" routerLinkActive="active">
                         <div class="nav-text d-flex align-items-center w-100">
-                            <i class="uil uil-setting nav-icon" style="font-size: 25px; color: white;"></i>
-                            <span class="nav-link-text item-sidebar fw-bold main-nav-link ms-3"
-                                style="color: white; font-size: 14px;">لوحة
-                                التحكم</span>
+                            <i class="uil uil-home nav-icon" style="font-size: 20px; color: white;"></i>
+                            <span class="nav-link-text item-sidebar fw-bold main-nav-link ms-3" style="color: white; font-size: 14px;">الرئيسية
+                                </span>
                         </div>
                     </a>
                 </div>
-
                 <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100 active"
-                        (click)="toggleMenu(menu_purchase)"
-                        [ngClass]="{'active': menu_purchase.classList.contains('show')}">
+                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100 active" (click)="toggleMenu(menu_purchase)" [ngClass]="{'active': menu_purchase.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-database nav-icon"></i>
                             <span class="nav-link-text item-sidebar main-nav-link ms-3">المشتريات</span>
@@ -34,8 +27,7 @@
                     </a>
                     <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu_purchase>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
-                                routerLink="./purchase-invoices" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./purchase-invoices" routerLinkActive="active">
                                 <div class="nav-text d-flex align-items-center w-100">
                                     <i class="uil uil-users-alt nav-icon"></i>
                                     <span class="nav-link-text item-sidebar main-nav-link ms-3">فواتير الشراء</span>
@@ -43,8 +35,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
-                                routerLink="./add-purchase-invoice" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./add-purchase-invoice" routerLinkActive="active">
                                 <div class="nav-text d-flex align-items-center w-100">
                                     <i class="uil uil-users-alt nav-icon"></i>
                                     <span class="nav-link-text item-sidebar main-nav-link ms-3">انشاء فاتورة شراء</span>
@@ -52,8 +43,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
-                                routerLink="./purchase-orders" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./purchase-orders" routerLinkActive="active">
                                 <div class="nav-text d-flex align-items-center w-100">
                                     <i class="uil uil-users-alt nav-icon"></i>
                                     <span class="nav-link-text item-sidebar main-nav-link ms-3">أوامر الشراء</span>
@@ -61,8 +51,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
-                                routerLink="./purchase-returns" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./purchase-returns" routerLinkActive="active">
                                 <div class="nav-text d-flex align-items-center w-100">
                                     <i class="uil uil-users-alt nav-icon"></i>
                                     <span class="nav-link-text item-sidebar main-nav-link ms-3">مرتجعات المشتريات</span>
@@ -70,8 +59,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
-                                routerLink="./suppliers-account-statement" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./suppliers-account-statement" routerLinkActive="active">
                                 <div class="nav-text d-flex align-items-center w-100">
                                     <i class="uil uil-users-alt nav-icon"></i>
                                     <span class="nav-link-text item-sidebar main-nav-link ms-3">كشف حساب مورد</span>
@@ -79,17 +67,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
-                                routerLink="./suppliers-list" routerLinkActive="active">
-                                <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
-                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">قائمة الموردين</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
-                                routerLink="./supplier-returns-voucher" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./supplier-returns-voucher" routerLinkActive="active">
                                 <div class="nav-text d-flex align-items-center w-100">
                                     <i class="uil uil-users-alt nav-icon"></i>
                                     <span class="nav-link-text item-sidebar main-nav-link ms-3"> اشعارات خصم الموردين
@@ -97,14 +75,18 @@
                                 </div>
                             </a>
                         </li>
-
-
+                        <li class="nav-item">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./units" routerLinkActive="active">
+                                <div class="nav-text d-flex align-items-center w-100">
+                                    <i class="uil uil-users-alt nav-icon"></i>
+                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">وحدات الأصناف</span>
+                                </div>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
-                        (click)="toggleMenu(menu_PurchaseDef)"
-                        [ngClass]="{'active': menu_PurchaseDef.classList.contains('show')}">
+                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" (click)="toggleMenu(menu_PurchaseDef)" [ngClass]="{'active': menu_PurchaseDef.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-database nav-icon"></i>
                             <span class="nav-link-text item-sidebar main-nav-link ms-3">البيانات الاساسية</span>
@@ -115,15 +97,17 @@
                     </a>
                     <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu_PurchaseDef>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
-                                routerLink="/generalAccounts/currency" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/generalAccounts/currency" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">أنواع فواتير المشتريات-</span>
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
-                                routerLink="/generalAccounts/featured" routerLinkActive="active">
-                                <span class="nav-link-sub-text item-sidebar">بيانات الموردين</span>
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./suppliers-list" routerLinkActive="active">
+                                <div class="nav-text d-flex align-items-center w-100">
+                                    <i class="uil uil-users-alt nav-icon"></i>
+                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">قائمة الموردين</span>
+                                </div>
                             </a>
                         </li>
                     </ul>

@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
-  apiURL:'http://www.retailapi.mishwarsa.com/api/',
-  systemUrl: 'http://www.retailapi.mishwarsa.com/',
+  apiURL:'https://posapi.postaps.com/api/',
+  systemUrl: 'https://www.postaps.com/',
+  defaultUserPassword: '0000'
 };

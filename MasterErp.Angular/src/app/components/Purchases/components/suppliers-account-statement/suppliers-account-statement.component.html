@@ -4,14 +4,20 @@
     </div>
     <div class="card-body bg-light">
         <div class="row mb-3">
-            <div class="col-lg-4 offset-lg-1">
-                <app-erp-selector-with-search [SelectorName]="SupplierName" [ItemsList]="SuppliersList" (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector-with-search>
+            <div class="col-lg-4">
+                <!-- <app-erp-selector-with-search [SelectorName]="SupplierName" 
+                [ItemsList]="SuppliersList" (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector-with-search> -->
+                <app-drop-down-form-control formControlName="supplierId" [placeholder]="'الموردين'" [data]="suppliersSelectorData" (valueChanged)="getSelectedSupplier($event)"></app-drop-down-form-control>
             </div>
-            <div class="col-lg-4 mt-2">
-                <button class="btn btn-primary " (click)="loadData()">
-                    
+            <div class="col-lg-4">
+                <!-- <button class="btn btn-primary " (click)="getSupplierStatement()">
                     <i class="fas fa-search"></i>
                     <span class="ms-2">بحث</span>
+                </button> -->
+
+                <button class="btn btn-secondary border" (click)="getSupplierStatement()">
+                    <span class="me-2">بحــث</span>
+                    <i class="fas fa-search fs-5"></i>
                 </button>
             </div>
         </div>
@@ -22,12 +28,11 @@
     <div class="boxstyle1">
         <div class="boxstyle1-header">
             <div class="boxstyle1-header-left">
-                <!-- <button class="btn btn-primary" routerLink="/Purchases/newPurchasesInvoice">
+                <!-- <button class="btn btn-primary" routerLink="/purchases/newPurchasesInvoice">
                     <i class="fas fa-plus-circle"></i>
                     <span class="ms-2">New Purchase</span>
                 </button> -->
-                <h5 *ngIf="selectedSupplier" class="m-0"> اسم المورد : {{selectedSupplier?.nameAR}}<span> - </span>{{selectedSupplier?.nameEN}}</h5>
-
+                <h5 *ngIf="SupplierId" class="m-0"> اسم المورد : {{selectedSupplier?.nameAR}}<span> - </span>{{selectedSupplier?.nameEN}}</h5>
             </div>
         </div>
         <div class="boxstyle1-content hastable table-responsive table-vp-height small-scroll">
@@ -35,24 +40,25 @@
                 <thead>
                     <tr>
                         <!-- <th>Supplier Name</th> -->
-                        <th>Is Opening Balance</th>
-                        <th>Date</th>
-                        <th>Description</th>
-                        <th>Credit</th>
-                        <th>Debit</th>
-                        <th>Balance</th>
-                        <!-- <th>Action</th> -->
+                        <th>رقم العملية</th>
+                        <th>نوع العملية</th>
+                        <th>تاريخ العملية</th>
+                        <th>دائن</th>
+                        <th>مدين</th>
+                        <th>الرصيد</th>
+                        <th>الوصف</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of PurchaseList">
                         <!-- <td>{{item.supplierName}}</td> -->
-                        <td>{{item.isOpeningBalance}}</td>
-                        <td>{{item.date | date}}</td>
-                        <td>{{item.description}}</td>
-                        <td>{{item.credit}}</td>
+                        <td>{{item.orderNumber}}</td>
+                        <td>{{item.orderType}}</td>
+                        <td>{{item.orderDate | date}}</td>
                         <td>{{item.debit }}</td>
+                        <td>{{item.credit}}</td>
                         <td>{{item.balance}}</td>
+                        <td>{{item.description}}</td>
                         <!-- <td>
                             <div class="w-100 d-flex align-items-center justify-content-center">
                                 <button class="btn btn-danger me-2" (click)="CancelPurchaseInvoice(item.purchaseInvoiceID)">

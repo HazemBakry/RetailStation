@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { ReceiveOrderModel } from '../models/inventory';
-import { FilterModel } from '../../Shared/models/FilterModel';
-import { RawItemModel } from '../models/rawItem';
+import { OrderModel, OrderProductModel } from '../models/inventory';
+import { FilterModel, SearchFilterModel } from '../../Shared/models/FilterModel';
+import { ItemModel } from '../models/Item';
 import { PurchaseRequestModel } from '../models/PurchasesRequestModel';
+import { Unit } from '../models/unit';
+import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
+import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsModel';
+import { SupplierModel } from '../../Purchases/models/SupplierModel';
+import { ItemCategoryModel } from '../models/itemCategory';
+import { CategorySortModel } from '../models/categorySort';
+import { OrderDetailModel } from '../../Shared/models/ItemModel';
 
 @Injectable({
   providedIn: 'root'
@@ -16,62 +23,171 @@ export class InventoryService {
 
   // -------------------------------------- Items -------------------------------------- //
 
-  GetItemsList(RawCategoryId: number, SearchText: string) {
-    return this.http.get<any[]>(this.URL + 'Item/GetItemsList?RawCategoryId=' + RawCategoryId + '&SearchText=' + SearchText);
+
+  GetItemsLookups() {
+    return this.http.get<any[]>(this.URL + 'Items/GetItemsLookups');
   }
 
-  GetRawItemsDeleted(RawCategoryId: number, SearchText: string) {
-    return this.http.get<any[]>(this.URL + 'RawItem/GetRawItemsDeleted?RawCategoryId=' + RawCategoryId + '&SearchText=' + SearchText);
+  // GetItemsData() {
+  //   return this.http.get<OrderDetailModel[]>(this.URL + 'Items/GetItemsData');
+  // }
+
+  GetItemsByLookupId(LookupId: number) {
+    return this.http.get<OrderProductModel[]>(this.URL + 'Items/GetItemsByLookupId?LookupId=' + LookupId);
   }
 
-  GetRawItemCategories() {
-    return this.http.get<any[]>(this.URL + 'RawItem/GetRawItemCategories');
+
+
+
+  GetItemsData(searchModel: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<ItemModel[]>>(this.URL + 'Items/GetItemsData', searchModel);
   }
 
-  GetRawItemsByCategoryId(CategoryId: number) {
-    return this.http.get<any[]>(this.URL + 'RawItem/GetRawItemsByCategoryId?CategoryId=' + CategoryId);
+  GetItemById(itemId: number) {
+    return this.http.get<ItemModel>(this.URL + `Items/GetItemDetailsById?ItemId=${itemId}`);
   }
 
-  GetRawItemDetailsByRawItemId(RawItemId: number) {
-    return this.http.get<any>(this.URL + 'RawItem/GetRawItemDetailsByRawItemId?RawItemId=' + RawItemId);
+  AddNewItem(model: ItemModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Items/AddNewItem', model);
   }
+
+  EditItem(itemId: number, model: ItemModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Items/EditItem?ItemId=${itemId}`, model)
+  }
+
+  DeleteItem(itemId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `Items/DeleteItem?ItemId=${itemId}`);
+  }
+  ChangeItemActiveStatus(ItemId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Items/ChangeItemActiveStatus?ItemId=' + ItemId);
+  }
+
+  ExportItems(searchModel: PagedResponseDTO, categoryId: number) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Items/ExportItems?CategoryId=${categoryId} `, searchModel);
+  }
+  GetSuppliersByItemId(itemId: number) {
+    return this.http.get<PagedResponseDTO<SupplierModel[]>>(this.URL + `Suppliers/GetSuppliersByItemId?ItemId=${itemId} `);
+  }
+  GetItemsBySupplierId(supplierId: number) {
+    return this.http.get<ItemModel[]>(this.URL + `Items/GetItemsBySupplierId?SupplierId=${supplierId} `);
+  }
+
+  GetItemsDeleted(ItemCategoryId: number, SearchText: string) {
+    return this.http.get<any[]>(this.URL + 'Items/GetItemsDeleted?ItemCategoryId=' + ItemCategoryId + '&SearchText=' + SearchText);
+  }
+
+  GetItemsByCategoryId(CategoryId: number) {
+    return this.http.get<any[]>(this.URL + 'Items/GetItemsByCategoryId?CategoryId=' + CategoryId);
+  }
+
+  ExportItemsDeleted(ItemCategoryId: number, SearchText: string, UserName: string) {
+    return this.http.get<any>(this.URL + 'Items/ExportItemsDeleted?ItemCategoryId=' + ItemCategoryId + '&SearchText=' + SearchText + '&UserName=' + UserName);
+  }
+
+  //----------------------------------------------- Item Categories ---------------------------------------------//
+
+  AddNewItemCategory(model: ItemCategoryModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Items/AddNewItemCategory', model);
+  }
+
+  EditItemCategory(categoryId: number, model: ItemCategoryModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Items/EditItemCategory?ItemCategoryId=${categoryId}`, model)
+  }
+
+  DeleteItemCategory(categoryId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `Items/DeleteItemCategory?ItemCategoryId=${categoryId}`);
+  }
+
+  GetItemCategories() {
+    return this.http.get<PagedResponseDTO<ItemCategoryModel[]>>(this.URL + 'Items/GetItemCategories');
+  }
+
+  ChangeItemCategoryActiveStatus(CategoryId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Items/ChangeItemCategoryActiveStatus?CategoryId=' + CategoryId);
+  }
+
+  ChangeCategoriesDisplayOrder(SortedItems: CategorySortModel[]) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Items/ChangeCategoriesDisplayOrder', SortedItems);
+  }
+
+  //------------------------------------------------------- Units ------------------------------------------------------//
 
   GetUnits() {
-    return this.http.get<any>(this.URL + 'RawItem/GetUnits');
+    return this.http.get<any>(this.URL + 'Items/GetUnits');
   }
 
-  AddNewRawItem(model: RawItemModel) {
-    return this.http.post<any>(this.URL + 'RawItem/AddNewRawItem', model);
+  AddNewUnit(model: Unit) {
+    return this.http.post<any>(this.URL + 'Items/AddUnit', model);
   }
 
-  EditRawItem(model: RawItemModel) {
-    return this.http.post<any>(this.URL + 'RawItem/EditRawItem', model);
+  EditUnit(model: Unit) {
+    return this.http.post<any>(this.URL + 'Items/EditUnit', model);
   }
 
-  DeleteRawItem(RawItemId: number[]) {
-    return this.http.post<any>(this.URL + 'RawItem/DeleteRawItem', RawItemId);
+  DeleteUnit(UnitId: number[]) {
+    return this.http.post<any>(this.URL + 'Items/DeleteUnit', UnitId);
   }
 
-  ExportRawItems(RawCategoryId: number, SearchText: string, UserName: string) {
-    return this.http.get<any>(this.URL + 'RawItem/ExportRawItems?RawCategoryId=' + RawCategoryId + '&SearchText=' + SearchText + '&UserName=' + UserName);
-  }
 
-  ExportRawItemsDeleted(RawCategoryId: number, SearchText: string, UserName: string) {
-    return this.http.get<any>(this.URL + 'RawItem/ExportRawItemsDeleted?RawCategoryId=' + RawCategoryId + '&SearchText=' + SearchText + '&UserName=' + UserName);
-  }
-
-  // -------------------------------------- Receive Orders -------------------------------------- //
-
-  GetReceiveOrdersSummary(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'Inventory/GetReceiveOrdersSummary', model);
-  }
+  // -------------------------------------- Inventory operations -------------------------------------- //
 
   GetInventoryList() {
     return this.http.get<any[]>(this.URL + 'Inventory/GetInventoryList');
   }
 
-  CreateNewReceiveOrder(model: ReceiveOrderModel) {
-    return this.http.post<any>(this.URL + 'Inventory/CreateNewReceiveOrder', model);
+  GetInventoryStatistics() {
+    return this.http.get<any>(this.URL + 'Inventory/GetInventoryStatistics');
+  }
+
+  GetReceiveOrders_Data(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'Inventory/GetReceiveOrders_Data', model);
+  }
+
+  GetReceiveOrderDetailsById(orderId: number) {
+    return this.http.get<OrderModel>(this.URL + `Inventory/GetReceiveOrderDetailsById?OrderId=${orderId}`);
+  }
+
+  GetReceiveOrderProducts_Data(orderIds: number[]) {
+    return this.http.post<OrderProductModel[]>(this.URL + 'Inventory/GetReceiveOrderProducts_Data', orderIds);
+  }
+
+  AddNewReceiveOrder(model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/AddNewReceiveOrder', model);
+  }
+
+  EditReceiveOrder(orderId: number, model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/EditReceiveOrder?OrderId=' + orderId, model);
+  }
+
+  CancelReceiveOrder(OrderId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelReceiveOrder?OrderId=' + OrderId);
+  }
+
+
+  // ------------------------------------------- Delivery Orders ------------------------------------------- //
+
+  GetDeliveryOrders_Data(model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'Inventory/GetDeliveryOrders_Data', model);
+  }
+
+  GetDeliveryOrderDetailsById(orderId: number) {
+    return this.http.get<OrderModel>(this.URL + `Inventory/GetDeliveryOrderDetailsById?OrderId=${orderId}`);
+  }
+
+  GetDeliveryOrderProducts_Data(orderId: number) {
+    return this.http.get<OrderProductModel[]>(this.URL + `Inventory/GetDeliveryOrderProducts_Data?OrderId=${orderId}`);
+  }
+
+  AddNewDeliveryOrder(model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/AddNewDeliveryOrder', model);
+  }
+
+  EditDeliveryOrder(orderId: number, model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Inventory/EditDeliveryOrder?OrderId=${orderId}`, model);
+  }
+
+  CancelDeliveryOrder(OrderId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelDeliveryOrder?OrderId' + OrderId);
   }
 
   GetOrdersSearchData(supplierId: number, orderNumber: string, orderDate: string) {
@@ -81,19 +197,40 @@ export class InventoryService {
     return this.http.get<any[]>(this.URL + 'Inventory/GetOrdersSearchData?SupplierId=' + supplierId + '&OrderNumber=' + orderNumber + '&OrderDate=' + orderDate);
   }
 
-  CancelReceiveOrder(OrderId: number) {
-    return this.http.get<any[]>(this.URL + 'Inventory/CancelReceiveOrder?=OrderId' + OrderId);
+  //----------------------------------------- Supplier Vouchers ------------------------------------//
+
+  GetSupplierVouchers_Data(model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'Inventory/GetSupplierVouchers_Data', model);
   }
 
+  CancelSupplierVoucher(OrderId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelSupplierVoucher?OrderId' + OrderId);
+  }
 
+  //----------------------------------------- Purchase Requests ------------------------------------//
 
-  ///////////////////
+  GetPurchasesRequests_Data(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'Inventory/GetPurchasesRequests_Data', model);
+  }
 
-  GetPurchasesRequestsData(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'PurchasesRequests/GetPurchasesRequestsData', model);
+  GetPurchasesRequestDetailsById(orderId: number) {
+    return this.http.get<OrderModel>(this.URL + 'Inventory/GetPurchasesRequestDetailsById?OrderId=' + orderId);
   }
 
   CreateNewPurchasesRequest(model: PurchaseRequestModel) {
-    return this.http.post<any>(this.URL + 'PurchasesRequests/CreateNewPurchasesRequest', model);
+    return this.http.post<any>(this.URL + 'Inventory/CreateNewPurchasesRequest', model);
   }
+
+  EditPurchasesRequest(orderId: number, model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Inventory/EditPurchasesRequest?OrderId=${orderId}`, model);
+  }
+
+  CancelPurchaseRequest(OrderId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelPurchaseRequest?OrderId=' + OrderId);
+  }
+
+  GetPurchaseRequestProducts_Data(orderId: number) {
+    return this.http.get<OrderProductModel[]>(this.URL + `Inventory/GetPurchaseRequestProducts_Data?OrderId=${orderId}`);
+  }
+
 }

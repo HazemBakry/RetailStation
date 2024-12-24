@@ -9,11 +9,15 @@ export interface LoginUserModel {
     isAuthenticated: boolean;
     userName: string;
     userId: string;
-    fullName: string;
+    fullNameAr : string;
+    fullNameEn: string;
+    branchNameAr: string;
+    branchNameEn: string;
     phoneNumber: string;
     email: string;
     token: string;
     expireOn: string;
+    employeeId?:number |null;
     roles: string[];
     authorizedPages?:PagePermissionModel[];
 }

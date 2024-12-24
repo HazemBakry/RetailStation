@@ -44,7 +44,7 @@ export class ErpHomeComponent implements OnInit {
   }
   ngOnInit(): void {
     this.UserModel = this.authService.getCurrentUser();
-    
+    this.createClock();
   }
 
   // ngOnInit(): void {
@@ -56,6 +56,15 @@ export class ErpHomeComponent implements OnInit {
 
   GoToProductModule(App: any) {
     this.router.navigateByUrl(App.redirectUri);
+  }
+  intervalClock;
+  time = new Date();
+  clock: string;
+  createClock() {
+    this.intervalClock = setInterval(() => {
+      this.time = new Date();
+      this.clock = this.time.getHours() + ':' + (this.time.getMinutes()<10?'0':'') + this.time.getMinutes()
+    }, 1000);
   }
 
   // getCustomerApplications() {

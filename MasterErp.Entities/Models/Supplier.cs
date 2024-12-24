@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models
 {
-    public class Supplier
+    public class Supplier : CreatorModel
     {
 		[Key]
 		public int SupplierId { get; set; }
@@ -16,17 +16,18 @@ namespace MasterErp.Entities.Models
 		public string NameEN { get; set; }
 		public string Phone { get; set; }
 		public string Mobile { get; set; }
-		public string Address { get; set; }
-		public double? BeginningBalance { get; set; }
+        public int? CountryId { get; set; }
+        public int? CityId { get; set; }
+        public int? RegionId { get; set; }
+        public string Address { get; set; }
+        public string CommercialRegister { get; set; }
+        public string TaxNumber { get; set; }
+        public double? BeginningBalance { get; set; }
 		public string BalanceType { get; set; }
-		public int? GroupId { get; set; }
+		public int? SupplierGroupId { get; set; }
 		public string ContactPerson { get; set; }
 		public string ContactMobile { get; set; }
 		public string Notes { get; set; }
 		public bool IsActive { get; set; }
-		public int? InsertUser { get; set; }
-		public DateTime? InsertDate { get; set; }
-		public int? UpdateUser { get; set; }
-		public DateTime? UpdateDate { get; set; }
 	}
 }

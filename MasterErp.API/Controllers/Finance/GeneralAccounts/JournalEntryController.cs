@@ -1,6 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Models;
-using MasterErp.Interface.Finance.GeneralAccounts;
+using MasterErp.Interface.GeneralAccounts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;

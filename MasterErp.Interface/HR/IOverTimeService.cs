@@ -1,4 +1,6 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.HR;
+using MasterErp.Entities.Models.HR;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,9 +12,10 @@ namespace MasterErp.Interface.HR
 {
     public interface IOverTimeService
     {
-        DataTable GetOverTimeData();
-        bool AddNewOverTime(OverTime model);
-        bool EditOverTime(OverTime model);
-        bool DeleteOverTime(int OverTimeId);
+        List<EmployeeOverTimeDto> GetAllEmployeeOverTime(SearchFilterModel SearchModel);
+        List<EmployeeOverTimeDto> GetOverTimeByEmployeeId(int EmployeeId, SearchFilterModel SearchModel);
+        ActionsResponseModel AddNewEmployeeOverTime(int EmployeeId, EmployeeOverTimeDto model);
+        ActionsResponseModel EditEmployeeOverTime(int EmployeeId, EmployeeOverTimeDto model);
+        ActionsResponseModel DeleteEmployeeOverTime(int OverTimeId);
     }
 }

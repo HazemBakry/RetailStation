@@ -1,4 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { PaymentService } from 'src/app/components/GeneralAccounts/services/payment.service';
+import { HrService } from 'src/app/components/HR/services/hr.service';
+import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { InventoryService } from '../../services/inventory.service';
+import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { OrderModel } from '../../models/inventory';
 
 @Component({
   selector: 'app-inventory-home',
@@ -7,9 +16,95 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InventoryHomeComponent implements OnInit {
 
-  constructor() { }
+  overviewList: any;
+  dashboardFilterList = ['الأكثر شهرة', 'الأعلى تقييماً', 'الأسرع في التوصيل'];
+  activeFilter: number;
+  branchId = 0;
+  showLoader: boolean = false;
+  // VacationsTotalCount: any;
+  // LoansTotalCount: any;
+  // VacationsList: any[] = [];
+  // LoansList: any[] = [];
+  receiveOrders: any[] = [];
+  deliveryOrders: any[] = [];
+  suppliersList: any[] = [];
+  FilterModel: FilterModel = {
+    currentPage: 1,
+    pageSize: 25
+  };
+  pagedResponseModel:PagedResponseDTO<OrderModel[]>={
+    results:[],
+    filterList:[],
+    pageSize: 25,
+    currentPage:1,
+    searchText:''
+
+  };
+  constructor(private modalService: NgbModal,
+    private inventoryService: InventoryService,
+    private purchaseService: PurchaseService,
+    private toaster: ToastrService) { }
 
   ngOnInit(): void {
+    this.getInventoryStatistics();
+    this.getTopReceiveOrders();
+    this.getTopDeliveryOrders();
+    this.getSuppliersList();
+    // this.GetDailyJournalEntriesSummary();
+    // this.GetPurchaseInvoicesData();
+    // this.GetPaymentReceiptsSummary();
+    // this.GetReceiveReceiptsSummary();
   }
 
+  getInventoryStatistics() {
+    this.inventoryService.GetInventoryStatistics().subscribe(data => {
+      this.overviewList = data;
+    });
+  }
+
+  getTopReceiveOrders() {
+    this.showLoader = true;
+    this.inventoryService.GetReceiveOrders_Data(this.FilterModel).subscribe(data => {
+      this.receiveOrders = data.results;
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+
+  getTopDeliveryOrders() {
+    this.showLoader = true;
+    this.inventoryService.GetDeliveryOrders_Data(this.pagedResponseModel).subscribe(data => {
+      this.deliveryOrders = data.results;
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+
+  getSuppliersList() {
+    this.showLoader = true;
+    this.FilterModel.currentPage = 1;
+    this.FilterModel.pageSize = 10;
+    this.purchaseService.GetSuppliersData(this.FilterModel).subscribe(data => {
+      this.suppliersList = data.results;
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+
+  getStatusColor(status: boolean) {
+    if (status == true)
+      return "locked";
+    else
+      return "open";
+  }
 }
+

@@ -1,8 +1,13 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
-import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { OrderModel, OrderProductModel } from 'src/app/components/Inventory/models/inventory';
+import { FieldType } from 'src/app/components/Shared/Enums/FieldType';
+import { DataField } from 'src/app/components/Shared/models/DataField';
+import { DynamicComponentLoaderService } from 'src/app/components/Shared/services/dynamic-component-loader.service';
+import { ComponentHostDirective } from 'src/app/components/Shared/directives/component-host.directive';
 
 
 @Component({
@@ -12,55 +17,115 @@ import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 })
 
 export class PurchaseOrdersComponent implements OnInit {
-  PurchaseList: any[] = [];
+  TitleList = ['المشتريات', 'أوامر المشتريات'];
   showLoader: boolean;
   TotalCount: any;
   TotalPages: any;
-  FilterModel: FilterModel = {
+  pagedResponseModel: PagedResponseDTO<OrderModel[]> = {
+    results: [],
+    filterList: [],
+    pageSize: 25,
     currentPage: 1,
-    pageSize: 25
+    searchText: ''
   };
 
-  constructor(private purchaseService: PurchaseService, private toaster: ToastrService) { }
+  @ViewChild(ComponentHostDirective, { static: true }) detailsComponentHost!: ComponentHostDirective;
+  constructor(private purchaseService: PurchaseService, private toaster: ToastrService,private dynamicComponentService:DynamicComponentLoaderService ) { }
 
   ngOnInit(): void {
-    this.GetPurchasesOrdersData();
+    this.getPurchasesOrdersData();
   }
 
-  GetPurchasesOrdersData() {
+  getPurchasesOrdersData() {
     this.showLoader = true;
-    this.purchaseService.GetPurchasesOrdersData(this.FilterModel).subscribe(data => {
-      this.PurchaseList = data;
-      this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
-      this.showLoader = false;
-    }, (err) => {
-      this.showLoader = false;
-    }, () => {
-      this.showLoader = false;
-    })
+    this.purchaseService.GetPurchaseOrders_Data(this.pagedResponseModel).subscribe(data => {
+      this.pagedResponseModel.results=data.results;
+      this.pagedResponseModel.totalCount=data.totalCount;
+      this.showLoader=false;
+    },(err)=>{
+      this.showLoader=false;
+    },()=>{
+      this.showLoader=false;
+    });
   }
 
   pageChanged(obj: any) {
-    this.FilterModel.currentPage = obj.page;
-    this.GetPurchasesOrdersData();
+    this.pagedResponseModel.currentPage = obj.page;
+    this.getPurchasesOrdersData();
   }
 
-  CancelPurchaseOrder(orderId: number) {
+  cancelPurchaseOrder(orderId: number) {
     this.purchaseService.CancelPurchaseOrder(orderId).subscribe(data => {
-      if (data) {
+      if (data.isSuccess) {
         this.toaster.success('تم الغاء الطلب بنجاح');
-        this.GetPurchasesOrdersData();
+        this.getPurchasesOrdersData();
       }
       else {
         this.toaster.error('حدث خطأ اثناء الألغاء');
-
       }
     }, (error) => {
       this.toaster.error('حدث خطأ اثناء الألغاء');
-
     })
+  }
+
+  getStatusColor(status: boolean) {
+    if (status == true)
+      return "locked";
+    else
+      return "open";
+  }
+  showOrderDetails(detailsModel: OrderModel) {
+
+    // this.showLoader = true;
+    this.purchaseService.GetPurchaseOrderProducts_Data(detailsModel.orderId).subscribe((data: OrderProductModel[]) => {
+      this.dynamicComponentService.loadProductDetailsSidePanel(
+        this.detailsComponentHost.viewContainerRef,
+        detailsModel,
+        data,
+        this.orderDetailsDataFields,
+        `تفاصيل طلب المشترايات ${detailsModel.orderNumber}#`
+      );
+      
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
 
 
   }
+  orderDetailsDataFields :DataField[] = [
+    {
+      fieldName: 'itemNameAR', 
+      fieldType: FieldType.Text, 
+      displayName: 'الاسم (AR)', 
+    },
+    {
+      fieldName: 'itemNameEN', 
+      fieldType: FieldType.Text, 
+      displayName: 'الاسم (EN)', 
+    },
+    {
+      fieldName: 'unitNameAR', 
+      fieldType: FieldType.Text, 
+      displayName: 'الوحدة', 
+    },
+    {
+      fieldName: 'price', 
+      fieldType: FieldType.Text, 
+      displayName: 'السعر', 
+    },
+    {
+      fieldName: 'quantity', 
+      fieldType: FieldType.Text, 
+      displayName: 'الكمية', 
+    },
+    {
+      fieldName: 'totalValue', 
+      fieldType: FieldType.Text, 
+      displayName: 'الاجمالي', 
+    }
+  ];
 
 }

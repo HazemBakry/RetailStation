@@ -35,6 +35,14 @@ import { RoleCheckerDirective } from './directives/role-checker.directive';
 import { SidebarComponent } from '../Main/sidebar/sidebar.component';
 import { HeaderComponent } from '../Main/header/header.component';
 import { RouterModule } from '@angular/router';
+import { DropDownFormControlComponent } from './components/drop-down-form-control/drop-down-form-control.component';
+import { BusinessCoreLayoutComponent } from './components/business-core-layout/business-core-layout.component';
+import { GeneralOrderProductsComponent } from './components/general-order-products/general-order-products.component';
+import { ReceiveOrdersSidePanelComponent } from './components/sidepanel/receive-orders-side-panel/receive-orders-side-panel.component';
+import { ProductsDetailsSidePanelComponent } from './components/sidepanel/products-details-side-panel/products-details-side-panel.component';
+import { RenderComponent } from './components/render/render.component';
+import { ComponentHostDirective } from './directives/component-host.directive';
+import { EnglishToArabicNumbersDirective } from './directives/english-to-arabic-numbers.directive';
 
 @NgModule({
   declarations: [
@@ -62,14 +70,18 @@ import { RouterModule } from '@angular/router';
     ReceiptBooksComponent,
     OverviewCardComponent,
     ColorWithStatusDirective,
+    ComponentHostDirective,
     CustomFormDropdownComponent,
     ErpHomeComponent,
     NotAuthorizedComponent,
-
-
-
-    RoleCheckerDirective
-
+    DropDownFormControlComponent,
+    RoleCheckerDirective,
+    BusinessCoreLayoutComponent,
+    GeneralOrderProductsComponent,
+    ReceiveOrdersSidePanelComponent,
+    ProductsDetailsSidePanelComponent,
+    RenderComponent,
+    EnglishToArabicNumbersDirective
   ],
 
 
@@ -107,6 +119,7 @@ import { RouterModule } from '@angular/router';
     ErpFiltersComponent,
     EmptyDataComponent,
     OrderProductsComponent,
+    GeneralOrderProductsComponent,
     AppBreadcrumbComponent,
     AccountsReportHeaderComponent,
     AccountTreeV2Component,
@@ -114,14 +127,18 @@ import { RouterModule } from '@angular/router';
     StatsCardComponent,
     OverviewCardComponent,
     ColorWithStatusDirective,
+    ComponentHostDirective,
     CustomFormDropdownComponent,
     ErpHomeComponent,
     NotAuthorizedComponent,
+    DropDownFormControlComponent,
+    RoleCheckerDirective,
+    EnglishToArabicNumbersDirective,
 
-
-
-    RoleCheckerDirective
-
+    ReceiveOrdersSidePanelComponent,
+    ProductsDetailsSidePanelComponent,
+    RenderComponent,
+    
   ],
   providers: [
     DatePipe,

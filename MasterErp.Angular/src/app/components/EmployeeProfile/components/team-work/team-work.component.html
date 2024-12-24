@@ -1,0 +1,71 @@
+
+<div class="card radius-10 border-0 card-shadow mb-4">
+    <div class="card-body">
+        <div class="row p-2">
+            <div class="col-md-8">
+                <div class="d-flex align-items-center flex-wrap">
+                    <div class="search-box position-relative mb-2">
+                        <!-- <button class="btn btn-primary mb-2" (click)="toggleDetails()">
+                            <span class="me-2">إضافة </span>
+                            <i class="uil uil-plus-circle"></i>
+                        </button> -->
+                    </div>
+                    <!-- <ng-container *ngIf="filterList.length > 0">
+                        <app-pos-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-pos-filters>
+                    </ng-container> -->
+                    
+                </div>
+            </div>
+            <div class="col-md-4">
+                <app-erp-pagination (pageChanged)="pageChanged($event)"
+                    [currentPage]="employeeBasicInfoResponse.currentPage" [pageSize]="employeeBasicInfoResponse.pageSize"
+                    [totalCount]="employeeBasicInfoResponse.totalCount"></app-erp-pagination>
+            </div>
+        </div>
+        <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
+        <div class="table-responsive">
+            <table class="table align-middle table-blue mb-0 table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>اسم الموظف</th>
+                        <th>الوظيفة</th>
+                        <th>الفرع</th>
+                        <th>مدة العقد</th>
+                        <th> تاريخ الميلاد</th>
+                        <th> تاريخ الالتحاق</th>
+                        <th>الجنسية</th>
+                        <th>الديانة</th>
+                        <th>الحساب البنكي</th>
+                        <th>رقم الاقامة</th>
+                        <th>الحالة</th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of employeeBasicInfoResponse.results">
+                        <td>{{item.fullNameAR}}</td>
+                        <td>{{item.jobNameAR }}</td>
+                        <td>{{item.branchNameAR }}</td>
+                        <td>{{item.contractPeriod }}</td>
+                        <td>{{item.birthDate | date}}</td>
+                        <td>{{item.joinDate | date}}</td>
+                        <td>{{item.nationalityNameAR }}</td>
+                        <td>{{item.religionNameAR }}</td>
+                        <td>
+                            <div>{{item.bankName }}</div>
+                            <div>{{item.bankAccount }}</div>
+
+                        </td>
+                        <td>{{item.iqamaNumber}}</td>
+                        <td>
+                            <div appColorWithStatus status="isApproved" [text]="item.statusName"></div>
+                        </td>
+                       
+                    </tr>
+                </tbody>
+            </table>
+            <app-empty-data [showContainer]="!employeeBasicInfoResponse.results?.length&&!showLoader"
+                [showLoader]="showLoader"></app-empty-data>
+        </div>
+    </div>
+</div>

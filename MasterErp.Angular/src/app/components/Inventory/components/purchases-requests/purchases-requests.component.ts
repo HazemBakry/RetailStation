@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { InventoryService } from '../../services/inventory.service';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { ToastrService } from 'ngx-toastr';
-import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { OrderModel } from '../../models/inventory';
+import { InventoryService } from '../../services/inventory.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-purchases-requests',
@@ -11,51 +12,69 @@ import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 })
 
 export class PurchasesRequestsComponent implements OnInit {
+  TitleList = ['المخازن', 'طلبات الشراء'];
   showLoader: boolean;
-  TotalCount: any;
-  TotalPages: any;
-  FilterModel: FilterModel = {
-    currentPage: 1,
-    pageSize: 25
-  };
-  pagedResponse:PagedResponseDTO<any[]>={
-    currentPage:1,
-    pageSize:25,
+  OrderId: number;
+  pagedResponseModel:PagedResponseDTO<OrderModel[]>={
     results:[],
-    filterList:[]
-  }
+    filterList:[],
+    pageSize: 25,
+    currentPage:1,
+    searchText:''
+  };
 
-  constructor(private InventoryService: InventoryService, private toaster: ToastrService) { }
+  constructor(private inventoryService: InventoryService,  
+    private modalService: NgbModal,
+    private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.loadData();
+    this.getPurchasesRequestsData();
   }
 
-  loadData() {
-    this.showLoader=true;
-    this.InventoryService.GetPurchasesRequestsData(this.FilterModel).subscribe((data:any)=> {
-      this.pagedResponse.results=data.results;
-      this.pagedResponse.totalCount=data.totalCount;
-      this.pagedResponse.currentPage=data.currentPage;
-      this.pagedResponse.pageSize=data.pageSize;
-      this.pagedResponse.totalPages=data.totalPages;
-      // this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
-      this.showLoader=false;
-    },(err)=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+  getPurchasesRequestsData() {
+    this.showLoader = true;
+    this.inventoryService.GetPurchasesRequests_Data(this.pagedResponseModel).subscribe(data => {
+      this.pagedResponseModel.results = data.results;
+      this.pagedResponseModel.totalCount = data.totalCount;
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     })
   }
 
   pageChanged(obj: any) {
-    this.FilterModel.currentPage = obj.page;
-    this.loadData();
+    this.pagedResponseModel.currentPage = obj.page;
+    this.getPurchasesRequestsData();
+  }
+
+  openDeleteModal(content: any, itemId: number) {
+    this.OrderId = itemId;
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+
+  cancelOrder() {
+    this.inventoryService.CancelReceiveOrder(this.OrderId).subscribe(data => {
+      if (data?.isSuccess) {
+        this.modalService?.dismissAll();
+        this.getPurchasesRequestsData();
+        this.toaster.success(data?.message);
+      }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
   }
 
   getStatusColor(status: boolean) {
     if (status == true)
-      return "locked";
+      return "cancelled";
     else
       return "open";
   }

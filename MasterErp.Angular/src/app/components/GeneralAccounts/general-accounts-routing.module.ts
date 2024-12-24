@@ -4,7 +4,6 @@ import { CurrencyComponent } from '../Shared/components/BasicInformation/currenc
 import { FeaturedComponent } from '../Shared/components/BasicInformation/featured/featured.component';
 import { FiscalYearComponent } from '../Shared/components/BasicInformation/fiscal-year/fiscal-year.component';
 import { ReceiptBooksComponent } from '../Shared/components/BasicInformation/receipt-books/receipt-books.component';
-import { AccountTreeComponent } from './components/account-tree/account-tree.component';
 import { AccountsAssistantLedgerComponent } from './components/accounts-assistant-ledger/accounts-assistant-ledger.component';
 import { AccountsGeneralLedgerComponent } from './components/accounts-general-ledger/accounts-general-ledger.component';
 import { CostAssistantLedgerComponent } from './components/cost-assistant-ledger/cost-assistant-ledger.component';

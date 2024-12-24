@@ -1,5 +1,8 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.HR;
+using MasterErp.Entities.Models;
 using MasterErp.Interface.HR;
+using MasterErp.Service.HR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,31 +25,59 @@ namespace MasterErp.API.Controllers.HR
         }
 
         [HttpGet]
-        [Route("GetSickLeaveData")]
-        public DataTable GetSickLeaveData()
+        [Route("GetAllEmployeeSickLeaves")]
+        public IActionResult GetAllEmployeeSickLeaves(SearchFilterModel SearchModel)
         {
-            return _sickLeaveService.GetSickLeaveData();
+            var data = _sickLeaveService.GetAllEmployeeSickLeaves(SearchModel);
+            var result = new PagedResponseModel<EmployeeSickLeaveDto>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+
+            };
+            return Ok(result);
         }
 
         [HttpPost]
-        [Route("AddNewSickLeave")]
-        public bool AddNewSickLeave(SickLeave model)
+        [Route("GetSickLeavesByEmployeeId")]
+        public IActionResult GetSickLeavesByEmployeeId(int EmployeeId, SearchFilterModel SearchModel)
         {
-            return _sickLeaveService.AddNewSickLeave(model);
+            var data = _sickLeaveService.GetSickLeavesByEmployeeId(EmployeeId, SearchModel);
+            var result = new PagedResponseModel<EmployeeSickLeaveDto>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+
+            };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("AddNewEmployeeSickLeave")]
+        public IActionResult AddNewEmployeeSickLeave(int EmployeeId, EmployeeSickLeaveDto model)
+        {
+            var result = _sickLeaveService.AddNewEmployeeSickLeave(EmployeeId, model);
+            return Ok(result);
         }
 
         [HttpPost]
-        [Route("EditSickLeave")]
-        public bool EditSickLeave(SickLeave model)
+        [Route("EditEmployeeSickLeave")]
+        public IActionResult EditEmployeeSickLeave(int EmployeeId, EmployeeSickLeaveDto model)
         {
-            return _sickLeaveService.EditSickLeave(model);
+            var result = _sickLeaveService.EditEmployeeSickLeave(EmployeeId, model);
+
+            return Ok(result);
         }
 
         [HttpGet]
-        [Route("DeleteSickLeave")]
-        public bool DeleteSickLeave(int SickLeaveId)
+        [Route("DeleteEmployeeSickLeave")]
+        public IActionResult DeleteEmployeeSickLeave(int SickLeaveId)
         {
-            return _sickLeaveService.DeleteSickLeave(SickLeaveId);
+            var result = _sickLeaveService.DeleteEmployeeSickLeave(SickLeaveId);
+            return Ok(result);
         }
     }
 }

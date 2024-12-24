@@ -1,8 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { PurchaseService } from '../../services/purchase.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
+import { InventoryService } from '../../../Inventory/services/inventory.service';
+import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { ItemModel } from 'src/app/components/Inventory/models/Item';
 
 @Component({
   selector: 'app-order-products',
@@ -19,21 +22,24 @@ export class OrderProductsComponent implements OnInit, OnChanges {
   SuppliersList: any[] = [];
   BranchesList: any[] = [];
   LookupsList: any[] = [];
-  ItemsList: OrderDetailModel[] = [];
+  ItemsList: ItemModel[] = [];
   ItemsByLookup: OrderDetailModel[] = [];
   ItemsBySupplier: any[] = [];
-  // RawItemsList: any[] = [];
   EditQuantityList: OrderDetailModel[] = [];
   selectedItem: OrderDetailModel;
-  // selectedItem: any={} ;
   activeTab = 'Item';
   notes: any;
   BranchId: any;
   SupplierId: any;
   LookupId: any;
+  FilterModel: SearchFilterModel = {
+    currentPage: 1,
+    pageSize: 25
+  };
 
 
-  constructor(private purchaseService: PurchaseService, private modalService: NgbModal, private toaster: ToastrService) { }
+  constructor(private inventoryService: InventoryService,
+    private modalService: NgbModal, private toaster: ToastrService) { }
 
   ngOnInit(): void {
     this.AddSupplierProducts();
@@ -42,7 +48,6 @@ export class OrderProductsComponent implements OnInit, OnChanges {
     if (changes && changes.selectedSupplierProducts) {
       this.AddSupplierProducts();
     }
-
     if (changes && changes.clearAllProducts && !changes.clearAllProducts?.firstChange) {
       this.productsList = [];
     }
@@ -56,16 +61,19 @@ export class OrderProductsComponent implements OnInit, OnChanges {
     });
     this.emitSelectedProductsList();
   }
+
   GetItemsData() {
-    this.purchaseService.GetItemsData().subscribe(data => {
-      this.ItemsList = data;
+    this.inventoryService.GetItemsData(this.FilterModel).subscribe(data => {
+      this.ItemsList = data.results;
     });
   }
+
   GetItemsLookups() {
-    this.purchaseService.GetItemsLookups().subscribe(data => {
+    this.inventoryService.GetItemsLookups().subscribe(data => {
       this.LookupsList = data;
     });
   }
+  
   openItemsModal(content: any) {
     this.selectedItem = {} as OrderDetailModel;
     this.GetItemsData();
@@ -137,7 +145,7 @@ export class OrderProductsComponent implements OnInit, OnChanges {
   }
   GetSelectedLookup(item: any) {
     const lookupId = item.itemLookupId;
-    this.purchaseService.GetItemsByLookupId(lookupId).subscribe(data => {
+    this.inventoryService.GetItemsByLookupId(lookupId).subscribe(data => {
       let Items: any[] = data;
       this.ItemsByLookup = Items;
       // this.ItemsByLookup = Items.map<PurchaseInvoiceDetails>(item => {

@@ -14,12 +14,36 @@ namespace MasterErp.Interface.Shared
     {
         List<Customer> GetCustomersData();
         List<ReceiptLedger> GetReceiptLedgersData();
-        List<AccountTree> GetAccountsList(bool IsParent);
+        List<SelectorDataModel> GetAccountsSelector(bool IsParent);
         List<AccountTree> GetAccountsByTypeId(int TypeId);
         List<ReceitLedgerType> GetReceiptLedgerTypesData();
         List<FinancialPeriod> GetFinancialPeriods();
-        List<AccountType> GetAccountTypes();
         ActionsResponseModel DownloadImporterTemplate(ExcelExportStyle ImporterType);
-        DataTable MapFilterModelToDataTable(List<FilterItem> Items);
+
+        #region Selectors
+        List<SelectorDataModel> GetBranchesSelector();
+        List<SelectorDataModel> GetAccountTypes();
+        List<SelectorDataModel> GetBanksSelector();
+        List<SelectorDataModel> GetNationalitiesSelector();
+        List<SelectorDataModel> GetIqamaIssuePlacesSelector();
+        List<SelectorDataModel> GetVisaJobsSelector();
+        List<SelectorDataModel> GetCountriesSelector();
+        List<SelectorDataModel> GetCitiesSelector();
+        List<SelectorDataModel> GetRegionsSelector();
+        List<SelectorDataModel> GetSuppliersSelector();
+        List<SelectorDataModel> GetSupplierGroupsSelector();
+        List<SelectorDataModel> GetPurchaseInvoiceTypesSelector();
+        List<SelectorDataModel> GetItemsSelector();
+        List<SelectorDataModel> GetItemCategoriesSelector();
+        List<SelectorDataModel> GetUnitsSelector();
+        List<SelectorDataModel> GetChildAccountsSelector();
+        List<SelectorDataModel> GetInventoriesSelector();
+        List<SelectorDataModel> GetItemLookupsSelector();
+        List<SelectorDataModel> GetCurrencySelector();
+        List<SelectorDataModel> GetReligionsSelector();
+        List<SelectorDataModel> GetSocialStatusSelector();
+
+
+        #endregion
     }
 }

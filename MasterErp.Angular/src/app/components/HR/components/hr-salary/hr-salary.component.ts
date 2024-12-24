@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HrService } from '../../services/hr.service';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
+import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
+import { ToastrService } from 'ngx-toastr';
+import { EmployeeSalaryModel } from '../../models/Employee/EmployeeSalaryModel';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-hr-salary',
@@ -9,65 +14,65 @@ import { HrService } from '../../services/hr.service';
   styleUrls: ['./hr-salary.component.css']
 })
 export class HrSalaryComponent implements OnInit {
-  EmployeeSalaryData: any[] = [];
+  selectAll: boolean = false;
+  suppliersSelectorData: FormDropdownModel[] = [];
+  menuItems = [
+    { name: 'Dashboard', checked: false },
+    { name: 'Profile', checked: false },
+    { name: 'Settings', checked: false },
+    { name: 'Messages', checked: false },
+    { name: 'Notifications', checked: false },
+  ];
+  TitleList = ['ألموارد البشرية', 'الرواتب'];
+  EmployeeSalaryData: EmployeeSalaryModel[] = [];
   EmployeeData: any[] = [];
-  form: FormGroup;
-  PenaltyId: number;
-  constructor(private modalService: NgbModal, private hrService: HrService, private fb: FormBuilder) { }
+  BranchId: number;
+  branchesSelectorData: FormDropdownModel[] = [];
+  ExecutonDate: any;
+  public formGroup: FormGroup;
+  public formErrors = {
+    branchIds: ''
+  };
+
+  constructor(private modalService: NgbModal, private hrService: HrService,
+    private sharedService: SharedService, private toaster: ToastrService, private datepipe: DatePipe,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.FormInit();
-    this.GetAllEmployeeSalary();
+    this.loadBranches();
+    let date = new Date();
+    this.ExecutonDate = this.datepipe.transform(date, 'yyyy-MM-dd');
+    //this.getEmployeesSalaryByBranch();
   }
 
-  FormInit() {
-    this.form = this.fb.group({
-      employeeSalaryId: null,
-      basicSalary: null,
-      extraSalary: null,
-      transport: null,
-      home: null,
-      mopile: null,
-      food: null,
-      workNature: null,
-      other: null,
-      totalSalary: null,
+  loadBranches() {
+    this.sharedService.GetBranchesSelector().subscribe((data: FormDropdownModel[]) => {
+      this.branchesSelectorData = data;
     });
   }
 
-  FillEditForm(item: any) {
-    let Item = item.salary;
-    this.form.setValue({
-      employeeSalaryId: Item.employeeSalaryId,
-      basicSalary: Item.basicSalary,
-      extraSalary: Item.extraSalary,
-      transport: Item.transport,
-      home: Item.home,
-      mopile: Item.mopile,
-      food: Item.food,
-      workNature: Item.workNature,
-      other: Item.other,
-      totalSalary: Item.totalSalary,
-    });
+  getSelectedBranch(supplierId) {
+    //this.selectedSupplierId=supplierId;
   }
 
-  openEditModal(content: any, item: any) {
-    this.form.reset();
-    this.FillEditForm(item);
-    this.modalService.open(content, { centered: true, size: 'lg' });
-  }
+  getEmployeesSalaryByBranch() {
+    var checkedItems = this.branchesSelectorData.filter(b => b.isSelected && b.value).map(b => b.value);
+    if (checkedItems.length <= 0) {
+      this.toaster.warning('يرجي الاختيار من الفروع');
+      return;
+    }
+    this.hrService.GetEmployeesSalaryByBranch(checkedItems, this.ExecutonDate).subscribe(data => {
 
-  GetAllEmployeeSalary() {
-    this.hrService.GetAllEmployeeSalary().subscribe(data => {
       this.EmployeeSalaryData = data;
-      console.log(this.EmployeeSalaryData);
     });
   }
 
-  EditEmployeeSalary() {
-    this.hrService.EditEmployeeSalary(this.form.value).subscribe(data => {
-      this.GetAllEmployeeSalary();
-      this.form.reset();
-    });
+  selectAllData() {
+    if (this.branchesSelectorData && this.branchesSelectorData.length > 0) {
+      this.branchesSelectorData.map(c => {
+        c.isSelected = this.selectAll;
+      });
+    }
+
   }
 }

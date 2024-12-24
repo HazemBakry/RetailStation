@@ -6,6 +6,8 @@ import { FilterModel } from '../../Shared/models/FilterModel';
 import { PurchaseService } from '../../Purchases/services/purchase.service';
 import { PaymentService } from '../../GeneralAccounts/services/payment.service';
 import { ToastrService } from 'ngx-toastr';
+import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
+import { OrderModel } from '../../Inventory/models/inventory';
 
 
 @Component({
@@ -107,6 +109,14 @@ export class DashboardComponent implements OnInit {
     pageSize: 5,
     filterItems: []
   }
+  pagedResponseModel:PagedResponseDTO<OrderModel[]>={
+    results:[],
+    filterList:[],
+    pageSize: 25,
+    currentPage:1,
+    searchText:''
+
+  };
   constructor(private modalService: NgbModal,
               private datepipe: DatePipe,
               private generalAccountService:GeneralAccountService,
@@ -117,7 +127,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.GetSalesSummary();
     this.GetDailyJournalEntriesSummary();
-    this.GetPurchaseInvoicesSummary();
+    this.getPurchaseInvoicesData();
     this.GetPaymentReceiptsSummary();
     this.GetReceiveReceiptsSummary();
   }
@@ -178,10 +188,10 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  GetPurchaseInvoicesSummary() {
+  getPurchaseInvoicesData() {
     // this.showLoader=true;
-    this.purchaseService.GetPurchaseInvoicesSummary(this.FilterModel).subscribe(data => {
-      this.purchasesInvoicesList = data;
+    this.purchaseService.GetPurchaseInvoices_Data(this.pagedResponseModel).subscribe(data => {
+      this.purchasesInvoicesList = data.results;
       
     },(err)=>{
       // this.showLoader=false;

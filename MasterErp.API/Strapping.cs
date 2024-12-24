@@ -1,16 +1,18 @@
 ﻿using MasterErp.Interface.Common;
-using MasterErp.Interface.Finance.GeneralAccounts;
-using MasterErp.Interface.Finance.Purchase;
-using MasterErp.Interface.Finance.Sales;
+using MasterErp.Interface.EmployeeProfile;
+using MasterErp.Interface.GeneralAccounts;
 using MasterErp.Interface.HR;
 using MasterErp.Interface.Inventory;
+using MasterErp.Interface.Purchase;
+using MasterErp.Interface.Sales;
 using MasterErp.Interface.Shared;
 using MasterErp.Service.Common;
-using MasterErp.Service.Finance.GeneralAccounts;
-using MasterErp.Service.Finance.Purchase;
-using MasterErp.Service.Finance.Sales;
+using MasterErp.Service.EmployeeProfile;
+using MasterErp.Service.GeneralAccounts;
 using MasterErp.Service.HR;
 using MasterErp.Service.Inventory;
+using MasterErp.Service.Purchase;
+using MasterErp.Service.Sales;
 using MasterErp.Service.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +25,7 @@ namespace MasterErp.API
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            services.AddScoped<IFileService, FileService>();
             services.AddScoped<ISQLHelper, SQLHelper>();
             services.AddScoped<IEmployeeService, EmployeeService>(); 
             services.AddScoped<IAttendanceService, AttendanceService>();
@@ -30,6 +33,8 @@ namespace MasterErp.API
             services.AddScoped<IPenaltyService, PenaltyService>();
             services.AddScoped<ISickLeaveService, SickLeaveService>();
             services.AddScoped<IVacationService, VacationService>();
+            services.AddScoped<ICareersService, CareersService>();
+            services.AddScoped<IDeductsService, DeductsService>();
             services.AddScoped<IAccountTreeService, AccountTreeService>();
             services.AddScoped<ICostCenterTreeService, CostCenterTreeService>();
             services.AddScoped<IPurchaseInvoiceService, PurchaseInvoiceService>();
@@ -39,15 +44,17 @@ namespace MasterErp.API
             services.AddScoped<IInventoryService, InventoryService>();
             services.AddScoped<ISharedService, SharedService>();
             services.AddScoped<IPaymentService, PaymentService>();
-            services.AddScoped<IItemService, ItemService>();
+            services.AddScoped<IItemsService, ItemsService>();
             services.AddScoped<ISharedFilterService, SharedFilterService>();
             services.AddScoped<IGeneralAccountsReportService, GeneralAccountsReportService>();
-            services.AddScoped<IPurchasesRequestsService, PurchasesRequestsService>();
             services.AddScoped<ISupplierReturnsVoucherService, SupplierReturnsVoucherService>();
             services.AddScoped<IReceiptLedgerService, ReceiptLedgerService>();
             services.AddScoped<IJournalEntryTypeService, JournalEntryTypeService>();
             services.AddScoped<IFinancialPeriodService, FinancialPeriodService>();
             services.AddScoped<IExportService, ExportService>();
+            services.AddScoped<IEmployeeProfileService, EmployeeProfileService>();
+            services.AddScoped<ILoansService, LoansService>();
+            services.AddScoped<ISuppliersService, SuppliersService>();
         }
     }
 }

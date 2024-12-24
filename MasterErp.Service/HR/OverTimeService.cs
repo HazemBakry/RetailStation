@@ -1,4 +1,7 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.HR;
+using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.HR;
 using MasterErp.Service.Common;
 using System;
@@ -19,95 +22,157 @@ namespace MasterErp.Service.HR
             Context = context;
         }
 
-        public DataTable GetOverTimeData()
-        {
-            var results = (from emp in Context.Employees.ToList()
-                           join overtime in Context.OverTimes.ToList() on emp.EmployeeId equals overtime.EmployeeID
-                           select new
-                           {
-                               EmployeeId = emp.EmployeeId,
-                               EmployeeName = emp.FirstNameEN + " " + emp.LastNameEN,
-                               OverTimeId = overtime.OverTimeID,
-                               NoHours = overtime.NoHours,
-                               MoneyAmount = overtime.MoneyAmount,
-                               ExecutionDate = overtime.ExecutionDate,
-                               RequestDate = overtime.RequestDate,
-                               IsActive = overtime.IsActive
-                           }).ToList().ToDataTable();
-            return results;
 
+        public List<EmployeeOverTimeDto> GetAllEmployeeOverTime(SearchFilterModel SearchModel)
+        {
+            var query = from overTime in Context.OverTime
+                        join emp in Context.Employees on overTime.EmployeeId equals emp.EmployeeId
+                        select new EmployeeOverTimeDto
+                        {
+                            EmployeeId = overTime.EmployeeId,
+                            EmployeeName = emp.FullNameAR,
+                            OverTimeId = overTime.OverTimeId,
+                            RequestDate = overTime.RequestDate,
+                            ExecutionDate = overTime.ExecutionDate,
+                            NoHours = overTime.NoHours,
+                            MoneyAmount = overTime.MoneyAmount,
+                            Notes = overTime.Notes,
+                            IsActive = overTime.IsActive,
+                            CreatedBy = overTime.CreatedBy,
+                            CreatedDate = overTime.CreatedDate,
+                            ModifiedBy = overTime.ModifiedBy,
+                            ModifiedDate = overTime.ModifiedDate,
+                        };
+            int totalCount = query.Count();
+            if (SearchModel.CurrentPage > 0 && SearchModel.PageSize > 0)
+            {
+                int skip = (SearchModel.CurrentPage - 1) * SearchModel.PageSize;
+                query = query.Skip(skip).Take(SearchModel.PageSize);
+            }
+
+            var results = query.ToList();
+            results.ForEach(x => x.TotalCount = totalCount);
+            return results;
         }
 
-        public bool AddNewOverTime(OverTime model)
+        public List<EmployeeOverTimeDto> GetOverTimeByEmployeeId(int EmployeeId, SearchFilterModel SearchModel)
         {
+
+            var query = from overTime in Context.OverTime
+                        join emp in Context.Employees on overTime.EmployeeId equals emp.EmployeeId
+                        where overTime.EmployeeId == EmployeeId
+                        select new EmployeeOverTimeDto
+                        {
+                            EmployeeId = overTime.EmployeeId,
+                            EmployeeName = emp.FullNameAR,
+                            OverTimeId = overTime.OverTimeId,
+                            RequestDate = overTime.RequestDate,
+                            ExecutionDate = overTime.ExecutionDate,
+                            NoHours = overTime.NoHours,
+                            MoneyAmount = overTime.MoneyAmount,
+                            Notes = overTime.Notes,
+                            IsActive = overTime.IsActive,
+                            CreatedBy = overTime.CreatedBy,
+                            CreatedDate = overTime.CreatedDate,
+                            ModifiedBy = overTime.ModifiedBy,
+                            ModifiedDate = overTime.ModifiedDate,
+                        };
+            int totalCount = query.Count();
+            if (SearchModel.CurrentPage > 0 && SearchModel.PageSize > 0)
+            {
+                int skip = (SearchModel.CurrentPage - 1) * SearchModel.PageSize;
+                query = query.Skip(skip).Take(SearchModel.PageSize);
+            }
+
+            var results = query.ToList();
+            results.ForEach(x => x.TotalCount = totalCount);
+            return results;
+        }
+
+        public ActionsResponseModel AddNewEmployeeOverTime(int EmployeeId, EmployeeOverTimeDto model)
+        {
+
             try
             {
-                Context.OverTimes.Add(new OverTime
-                {
-                    EmployeeID = model.EmployeeID,
-                    ExecutionDate = model.ExecutionDate,
-                    RequestDate = model.RequestDate,
-                    NoHours = model.NoHours,
-                    MoneyAmount = model.MoneyAmount,
-                    InsertDate = DateTime.Now
-                });
+                var overTime = new OverTime();
 
-                Context.SaveChanges();
-                return true;
+                overTime.EmployeeId = model.EmployeeId;
+                overTime.RequestDate = DateTime.Now;
+                overTime.ExecutionDate = model.ExecutionDate;
+                overTime.NoHours = model.NoHours;
+                overTime.MoneyAmount = model.MoneyAmount;
+                overTime.Notes = model.Notes;
+                overTime.IsActive = model.IsActive;
+                overTime.CreatedBy = model.CreatedBy;
+                overTime.CreatedDate = DateTime.Now;
+                
+                
+                Context.OverTime.Add(overTime);
+                var result = Context.SaveChanges();
+
+
+                return new ActionsResponseModel { Message = "OverTime Added Successfly !" };
             }
             catch (Exception ex)
             {
-                return false;
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
-
+            
         }
 
-        public bool EditOverTime(OverTime model)
+        public ActionsResponseModel EditEmployeeOverTime(int EmployeeId, EmployeeOverTimeDto model)
         {
+
             try
             {
-                var OverTime = Context.OverTimes.FirstOrDefault(i => i.OverTimeID == model.OverTimeID);
-                if (OverTime != null)
+                var overTime = Context.OverTime.FirstOrDefault(i => i.OverTimeId == model.OverTimeId);
+                if (overTime != null)
                 {
-                    OverTime.ExecutionDate = model.ExecutionDate;
-                    OverTime.RequestDate = model.RequestDate;
-                    OverTime.NoHours = model.NoHours;
-                    OverTime.MoneyAmount = model.MoneyAmount;
-                    OverTime.UpdateDate = DateTime.Now;
+                    overTime.RequestDate = DateTime.Now;
+                    overTime.ExecutionDate = model.ExecutionDate;
+                    overTime.NoHours = model.NoHours;
+                    overTime.MoneyAmount = model.MoneyAmount;
+                    overTime.Notes = model.Notes;
+                    overTime.IsActive = model.IsActive;
+                    overTime.ModifiedBy = model.ModifiedBy;
+                    overTime.ModifiedDate = DateTime.Now;
 
                     Context.SaveChanges();
-                    return true;
+
+
+                    return new ActionsResponseModel { Message = "OverTime Updated Successfly !" };
                 }
                 else
-                    return false;
-
+                    return new ActionsResponseModel { IsSuccess = false, Message = "OverTime not found" };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
-
+          
         }
 
-        public bool DeleteOverTime(int OverTimeId)
+
+        public ActionsResponseModel DeleteEmployeeOverTime(int OverTimeId)
         {
+
             try
             {
-                var OverTime = Context.OverTimes.FirstOrDefault(i => i.OverTimeID == OverTimeId);
-                if (OverTime != null)
+                var overTime = Context.OverTime.FirstOrDefault(i => i.OverTimeId == OverTimeId);
+                if (overTime != null)
                 {
-                    Context.Remove(OverTime);
+                    Context.Remove(overTime);
                     Context.SaveChanges();
-                    return true;
+                    return new ActionsResponseModel { Message = "OverTime deleted successfly !" };
                 }
                 else
-                    return false;
+                    return new ActionsResponseModel { IsSuccess = false, Message = "OverTime not found" }; ;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
-
+            
         }
     }
 }

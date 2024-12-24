@@ -8,6 +8,11 @@ namespace MasterErp.Entities.Common
 {
     public class SearchFilterModel
     {
+        public SearchFilterModel()
+        {
+            FilterModel=new FilterModel();
+            FilterList = new List<FilterItem>();
+        }
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
         public int? BranchID { get; set; }
@@ -20,10 +25,15 @@ namespace MasterErp.Entities.Common
         public bool? HideEmptyAccounts { get; set; }
         public bool IsExport { get; set; }
         public FilterModel FilterModel { get; set; }
+        public List<FilterItem> FilterList { get; set; }
     }
 
     public class FilterModel
     {
+        public FilterModel()
+        {
+            FilterItems = new List<FilterItem>();
+        }
         public int CurrentPage { get; set; }
         public int PageSize { get; set; }
 

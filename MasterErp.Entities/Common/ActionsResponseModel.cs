@@ -8,7 +8,7 @@ namespace MasterErp.Entities.Common
 {
     public class ActionsResponseModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Number { get; set; }
         public string URL { get; set; }
         public bool HasError { get; set; }

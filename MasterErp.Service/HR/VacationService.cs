@@ -1,8 +1,18 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.HR;
+using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.HR;
+using MasterErp.Interface.Common;
 using MasterErp.Interface.HR;
+using MasterErp.Interface.Shared;
 using MasterErp.Service.Common;
+using MasterErp.Service.Shared;
+using Microsoft.CodeAnalysis;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -10,106 +20,215 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Service.HR
 {
-    public class VacationService: IVacationService
+    public class VacationService : IVacationService
     {
         private readonly DBContext Context;
+        private readonly IConfiguration Configuration;
+        private readonly ISQLHelper SQLHelper;
+        private readonly ISharedService SharedService;
+        private readonly string ConnectionString;
 
-        public VacationService(DBContext context)
+        public VacationService(DBContext Context, ISQLHelper SQLHelper, ISharedService SharedService, IConfiguration Configuration)
         {
-            Context = context;
+            this.Context = Context;
+            this.SQLHelper = SQLHelper;
+            this.SharedService = SharedService;
+            this.Configuration = Configuration;
+            ConnectionString = Configuration.GetConnectionString("DBConnection");
         }
 
 
-        public DataTable GetVacationData()
+        public List<EmployeeVacationDto> GetAllEmployeeVacationsData(SearchFilterModel SearchModel, int? EmployeeId = null, int? ManagerId = null)
         {
-            var results = (from emp in Context.Employees.ToList()
-                           join vacation in Context.Vacations.ToList() on emp.EmployeeId equals vacation.EmployeeID
-                           select new
-                           {
-                               EmployeeId = emp.EmployeeId,
-                               EmployeeName = emp.FullNameEN,
-                               VacationId = vacation.VacationID,
-                               AlternativeAvailable = vacation.AlternativeAvailable,
-                               AlternativeEmployee = vacation.AlternativeEmployee,
-                               FromDate = vacation.FromDate,
-                               ToDate = vacation.ToDate,
-                               LastDayWork = vacation.LastDayWork,
-                               Period = vacation.Period,
-                           }).ToList().ToDataTable();
+            var query = from vacation in Context.Vacations
+                        join emp in Context.Employees on vacation.EmployeeId equals emp.EmployeeId
+                        join vacationType in Context.VacationTypes on vacation.VacationTypeId equals vacationType.VacationTypeId
+                        join alternativeEmp in Context.Employees on vacation.AlternativeEmployeeId equals alternativeEmp.EmployeeId into jT
+                        from alternativeEmp in jT.DefaultIfEmpty()
+                        where (!EmployeeId.HasValue || vacation.EmployeeId == EmployeeId)
+                                && (!ManagerId.HasValue || emp.ManagerId == ManagerId)
+                        select new EmployeeVacationDto
+                        {
+                            EmployeeId = emp.EmployeeId,
+                            EmployeeName = emp.FullNameAR,
+                            VacationId = vacation.VacationId,
+                            VacationTypeId = vacation.VacationTypeId,
+                            VacationType = vacationType.NameEN,
+                            AlternativeEmployeeId = vacation.AlternativeEmployeeId,
+                            AlternativeEmployeeName = alternativeEmp.FullNameAR,
+                            IsAlternativeAvailable = vacation.IsAlternativeAvailable,
+                            IsApproved = vacation.IsApproved,
+                            FromDate = vacation.FromDate,
+                            ToDate = vacation.ToDate,
+                            LastDayWork = vacation.LastDayWork,
+                            Period = vacation.Period, //(x.ToDate - x.FromDate).Days
+                        };
+            int totalCount = query.Count();
+            if (SearchModel.CurrentPage>0 && SearchModel.PageSize >0)
+            {
+                int skip = (SearchModel.CurrentPage - 1) * SearchModel.PageSize;
+                query = query.Skip(skip).Take(SearchModel.PageSize);
+            }
+
+            var results = query.ToList();
+            results.ForEach(x => x.TotalCount = totalCount);
             return results;
-
         }
+        public List<EmployeeVacationDto> GetVacationsByEmployeeId(int employeeId, SearchFilterModel SearchModel)
+        {
+            var query = from vacation in Context.Vacations
+                        join emp in Context.Employees on vacation.EmployeeId equals emp.EmployeeId
+                        join vacationType in Context.VacationTypes on vacation.VacationTypeId equals vacationType.VacationTypeId
+                        join alternativeEmp in Context.Employees on vacation.AlternativeEmployeeId equals alternativeEmp.EmployeeId into jT
+                        from alternativeEmp in jT.DefaultIfEmpty()
+                        where vacation.EmployeeId == employeeId
+                        select new EmployeeVacationDto
+                        {
+                            EmployeeId = emp.EmployeeId,
+                            EmployeeName = emp.FullNameAR,
+                            VacationId = vacation.VacationId,
+                            VacationTypeId = vacation.VacationTypeId,
+                            VacationType = vacationType.NameEN,
+                            AlternativeEmployeeId = vacation.AlternativeEmployeeId,
+                            AlternativeEmployeeName = alternativeEmp.FullNameAR,
+                            IsAlternativeAvailable = vacation.IsAlternativeAvailable,
+                            IsApproved = vacation.IsApproved,
+                            FromDate = vacation.FromDate,
+                            ToDate = vacation.ToDate,
+                            LastDayWork = vacation.LastDayWork,
+                            Period = vacation.Period, //(x.ToDate - x.FromDate).Days
+                        };
+            int totalCount = query.Count();
+            if (SearchModel.CurrentPage>0 && SearchModel.PageSize >0)
+            {
+                int skip = (SearchModel.CurrentPage - 1) * SearchModel.PageSize;
+                query = query.Skip(skip).Take(SearchModel.PageSize);
+            }
 
-        public bool AddNewVacation(Vacation model)
+            var results = query.ToList();
+            results.ForEach(x => x.TotalCount = totalCount);
+            return results;
+        }
+        public ActionsResponseModel AddNewEmployeeVacation(int EmployeeId,EmployeeVacationDto model)
         {
             try
             {
-                Context.Vacations.Add(new Vacation
-                {
-                    EmployeeID = model.EmployeeID,
-                    AlternativeEmployee = model.AlternativeEmployee,
-                    FromDate = model.FromDate,
-                    ToDate = model.ToDate,
-                    LastDayWork = model.LastDayWork,
-                    Period = model.Period,
-                    InsertDate = DateTime.Now
-                });
+                var vacation = new Vacation();
+                vacation.EmployeeId = EmployeeId;
+                vacation.FromDate=model.FromDate;
+                vacation.ToDate=model.ToDate;
+                vacation.LastDayWork=model.LastDayWork;
+                vacation.VacationTypeId=model.VacationTypeId;
+                vacation.Period = (model.ToDate - model.FromDate).Days;
+                vacation.Notes=model.Notes;
+                vacation.CreatedDate = DateTime.Now;
+                vacation.CreatedBy = model.CreatedBy;
+                vacation.IsAlternativeAvailable=model.IsAlternativeAvailable;
+                if (model.IsAlternativeAvailable)
+                    vacation.AlternativeEmployeeId = model.AlternativeEmployeeId;
+                Context.Vacations.Add(vacation);
+                var result = Context.SaveChanges();
 
-                Context.SaveChanges();
-                return true;
+                
+                return new ActionsResponseModel { Message = "Vacation Applied Successfly !" };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return new ActionsResponseModel { IsSuccess=false,Message=ex.InnerException?.Message ?? ex.Message};
             }
 
         }
 
-        public bool EditVacation(Vacation model)
+        public ActionsResponseModel EditVacation(int EmployeeId, EmployeeVacationDto model)
         {
             try
             {
-                var Vacation = Context.Vacations.FirstOrDefault(i => i.VacationID == model.VacationID);
-                if (Vacation != null)
+                var vacation = Context.Vacations.FirstOrDefault(i => i.VacationId == model.VacationId);
+                if (vacation != null)
                 {
-                    Vacation.AlternativeEmployee = model.AlternativeEmployee;
-                    Vacation.FromDate = model.FromDate;
-                    Vacation.ToDate = model.ToDate;
-                    Vacation.LastDayWork = model.LastDayWork;
-                    Vacation.Period = model.Period;
-                    Vacation.UpdateDate = DateTime.Now;
+                    //vacation.EmployeeId = EmployeeId;
+                    vacation.FromDate = model.FromDate;
+                    vacation.ToDate = model.ToDate;
+                    vacation.LastDayWork = model.LastDayWork;
+                    vacation.Period = (model.ToDate - model.FromDate).Days;
+                    vacation.Notes = model.Notes;
+                    vacation.ModifiedDate = DateTime.Now;
+                    vacation.ModifiedBy = model.ModifiedBy;
+                    vacation.IsAlternativeAvailable = model.IsAlternativeAvailable;
+                    if (model.IsAlternativeAvailable)
+                        vacation.AlternativeEmployeeId = model.AlternativeEmployeeId;
+                    else
+                        vacation.AlternativeEmployeeId = null;
 
                     Context.SaveChanges();
-                    return true;
+
+
+                    return new ActionsResponseModel { Message = "Vacation Updated Successfly !" };
                 }
                 else
-                    return false;
-
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Vacation not found" };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
 
         }
+        public List<SelectorDataModel> GetVacationTypesSelector()
+        {
+            var result = Context.VacationTypes.Select(vt => new SelectorDataModel
+            {
+                Id = vt.VacationTypeId,
+                Name = vt.NameEN
+            }).ToList();
 
-        public bool DeleteVacation(int VacationId)
+            return result;
+        }
+
+        public ActionsResponseModel DeleteVacation(int VacationId)
         {
             try
             {
-                var Vacation = Context.Vacations.FirstOrDefault(i => i.VacationID == VacationId);
+                var Vacation = Context.Vacations.FirstOrDefault(i => i.VacationId == VacationId);
                 if (Vacation != null)
                 {
                     Context.Remove(Vacation);
                     Context.SaveChanges();
-                    return true;
+                    return new ActionsResponseModel { Message = "Vacation deleted successfly !" };
                 }
                 else
-                    return false;
+                    return  new ActionsResponseModel { IsSuccess = false, Message = "Vacation not found" }; ;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+
+        }
+
+
+        public ActionsResponseModel ApproveEmployeeVacation(int VacationId, int EmployeeId, bool ApproveStatus)
+        {
+
+            try
+            {
+                var vacation = Context.Vacations.FirstOrDefault(i => i.VacationId == VacationId && i.EmployeeId == EmployeeId);
+
+                if (vacation != null)
+                {
+                    vacation.IsApproved = ApproveStatus;
+                    vacation.ModifiedBy = string.Empty;
+                    vacation.ModifiedDate = DateTime.Now;
+
+                    Context.SaveChanges();
+                    return new ActionsResponseModel { Message = "Vacation approved successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Vacation not found" }; ;
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
 
         }

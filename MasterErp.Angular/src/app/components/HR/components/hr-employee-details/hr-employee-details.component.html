@@ -18,9 +18,8 @@
                     <span class="ms-2">القاهرة</span>
                 </div>
                 <button class="file-upload-button">
-            <input type="file" (change)="onSelectedFile($event)" style="cursor: pointer;"
-              />
-          </button>
+                    <input type="file" (change)="onSelectedFile($event)" style="cursor: pointer;" />
+                </button>
             </div>
         </div>
         <div class="employee-card-content card-shadow bg-light border mb-3">
@@ -94,11 +93,54 @@
                             </div>
                         </div>
                         <div class="col-xl-5">
-                            <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.iqamaIssuePlaceId">
-                  <option [defaultSelected]=true [value]="0" disabled>مكان الاصدار</option>
-                  <option [value]="item.iqamaIssuePlaceID" *ngFor="let item of IqamaIssueList">{{item.nameAR}}</option>
-                </select>
+                            <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.nationalityId">
+                                <option [defaultSelected]=true [value]="0" disabled>الجنسية</option>
+                                <option [value]="item.nationalityId" *ngFor="let item of NationalityList">
+                                    {{item.nameAR}}</option>
+                            </select>
                         </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.passportNumber" class="form-control" id="floatingInput4" placeholder="any">
+                                <label for="floatingInput4">رقم جواز السفر</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.passportIssuanceDate" class="form-control" id="floatingInput7" placeholder="any">
+                                <label for="floatingInput7">تاريخ الاصدار</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.passportExpireDate" class="form-control" id="floatingInput7" placeholder="any">
+                                <label for="floatingInput7">تاريخ الانتهاء</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-5">
+                            <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.iqamaIssuePlaceId">
+                                <option [defaultSelected]=true [value]="0" disabled>مكان الاصدار</option>
+                                <option [value]="item.iqamaIssuePlaceID" *ngFor="let item of IqamaIssueList">
+                                    {{item.nameAR}}</option>
+                            </select>
+                        </div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.borderEntryDate" class="form-control" id="floatingInput2" placeholder="any">
+                                <label for="floatingInput2">تاريخ الدخول</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="col-xl-5">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.arrivalPort" class="form-control" id="floatingInput3" placeholder="any">
+                                <label for="floatingInput3">مكان الوصول</label>
+                            </div>
+                        </div>
+
                         <div class="col-xl-1"></div>
                         <div class="col-xl-5">
                             <div class="form-floating mb-3">
@@ -116,23 +158,18 @@
                         <div class="col-xl-1"></div>
                         <div class="col-xl-5">
                             <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.sponsorId">
-                  <option [defaultSelected]=true [value]="0" disabled>الكفيل</option>
-                  <option [value]="item.sponsorID" *ngFor="let item of SponsorList">{{item.nameAR}}</option>
-                </select>
+                                <option [defaultSelected]=true [value]="0" disabled>الكفيل</option>
+                                <option [value]="item.sponsorID" *ngFor="let item of SponsorList">{{item.nameAR}}
+                                </option>
+                            </select>
                         </div>
                         <div class="col-xl-1"></div>
                         <div class="col-xl-5">
                             <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.iqamaJobId">
-                  <option [defaultSelected]=true [value]="0" disabled>عمل الاقامة</option>
-                  <option [value]="item.iqamaJobID" *ngFor="let item of IqamaJobList">{{item.nameAR}}</option>
-                </select>
-                        </div>
-                        <div class="col-xl-1"></div>
-                        <div class="col-xl-5">
-                            <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.nationalityId">
-                  <option [defaultSelected]=true [value]="0" disabled>الجنسية</option>
-                  <option [value]="item.nationalityId" *ngFor="let item of NationalityList">{{item.nameAR}}</option>
-                </select>
+                                <option [defaultSelected]=true [value]="0" disabled>عمل الاقامة</option>
+                                <option [value]="item.iqamaJobID" *ngFor="let item of IqamaJobList">{{item.nameAR}}
+                                </option>
+                            </select>
                         </div>
                         <div class="col-xl-1"></div>
                         <div class="col-xl-5">
@@ -144,16 +181,16 @@
                         <div class="col-xl-1"></div>
                         <div class="col-xl-5">
                             <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.jobId">
-                  <option [defaultSelected]=true [value]="0" disabled>العمل</option>
-                  <option [value]="item.jobID" *ngFor="let item of JobList">{{item.nameAR}}</option>
-                </select>
+                                <option [defaultSelected]=true [value]="0" disabled>العمل</option>
+                                <option [value]="item.jobID" *ngFor="let item of JobList">{{item.nameAR}}</option>
+                            </select>
                         </div>
                         <div class="col-xl-1"></div>
                         <div class="col-xl-5">
                             <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.branchId">
-                  <option [defaultSelected]=true [value]="0" disabled>الفرع</option>
-                  <option [value]="item.branchID" *ngFor="let item of BranchList">{{item.nameAR}}</option>
-                </select>
+                                <option [defaultSelected]=true [value]="0" disabled>الفرع</option>
+                                <option [value]="item.branchID" *ngFor="let item of BranchList">{{item.nameAR}}</option>
+                            </select>
                         </div>
                         <div class="col-xl-1"></div>
                         <div class="col-xl-5">
@@ -172,9 +209,9 @@
                         <div class="col-xl-1"></div>
                         <div class="col-xl-5">
                             <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.bankId">
-                  <option [defaultSelected]=true [value]="0" disabled>اسم البنك</option>
-                  <option [value]="item.bankID" *ngFor="let item of BankList">{{item.name}}</option>
-                </select>
+                                <option [defaultSelected]=true [value]="0" disabled>اسم البنك</option>
+                                <option [value]="item.bankID" *ngFor="let item of BankList">{{item.name}}</option>
+                            </select>
                         </div>
                         <div class="col-xl-1"></div>
                         <div class="col-xl-5">
@@ -201,41 +238,7 @@
                                 <label for="floatingInput1">الرقم الحدودي</label>
                             </div>
                         </div>
-                        <div class="col-xl-1"></div>
-                        <div class="col-xl-5">
-                            <div class="form-floating mb-3">
-                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.passportNumber" class="form-control" id="floatingInput4" placeholder="any">
-                                <label for="floatingInput4">رقم جواز السفر</label>
-                            </div>
-                        </div>
-                        <div class="col-xl-1"></div>
-                        <div class="col-xl-5">
-                            <div class="form-floating mb-3">
-                                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.borderEntryDate" class="form-control" id="floatingInput2" placeholder="any">
-                                <label for="floatingInput2">تاريخ الدخول</label>
-                            </div>
-                        </div>
-                        <div class="col-xl-1"></div>
-                        <div class="col-xl-5">
-                            <div class="form-floating mb-3">
-                                <input type="text" [(ngModel)]="SaveEmployeeModel.employee.arrivalPort" class="form-control" id="floatingInput3" placeholder="any">
-                                <label for="floatingInput3">مكان الوصول</label>
-                            </div>
-                        </div>
-                        <div class="col-xl-1"></div>
-                        <div class="col-xl-5">
-                            <div class="form-floating mb-3">
-                                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.passportIssuanceDate" class="form-control" id="floatingInput7" placeholder="any">
-                                <label for="floatingInput7">تاريخ الاصدار</label>
-                            </div>
-                        </div>
-                        <div class="col-xl-1"></div>
-                        <div class="col-xl-5">
-                            <div class="form-floating mb-3">
-                                <input type="date" [(ngModel)]="SaveEmployeeModel.employee.passportExpireDate" class="form-control" id="floatingInput7" placeholder="any">
-                                <label for="floatingInput7">تاريخ الانتهاء</label>
-                            </div>
-                        </div>
+
                         <div class="col-xl-1"></div>
                         <div class="col-xl-5">
                             <div class="form-floating mb-3">
@@ -253,10 +256,11 @@
                         <div class="col-xl-1"></div>
                         <div class="col-xl-5">
                             <select class="form-control mb-3 py-3" [(ngModel)]="SaveEmployeeModel.employee.passportIssunacePlace">
-                  <option [defaultSelected]=true value="" disabled>مكان الاصدار</option>
-                  <option [value]="item.passportIssuePlaceID" *ngFor="let item of PassportIssueList">{{item.nameAR}}
-                  </option>
-                </select>
+                                <option [defaultSelected]=true value="" disabled>مكان الاصدار</option>
+                                <option [value]="item.passportIssuePlaceID" *ngFor="let item of PassportIssueList">
+                                    {{item.nameAR}}
+                                </option>
+                            </select>
                         </div>
                     </div>
                 </ng-container>
@@ -406,7 +410,7 @@
                 </ng-container>
             </div>
         </div>
-        <button class="btn btn-primary" (click)="SaveEmployeeDate()">حفظ</button>
+        <button class="btn btn-primary" (click)="saveEmployeeDate()">حفظ</button>
     </div>
 </div>
 
@@ -417,8 +421,8 @@
             <h4 class="offcanvas-title m-0 d-flex align-items-center w-100"><i class="fas fa-history fa-2x main-color me-2"></i> التفاصيل</h4>
         </div>
         <button type="button" class="btn bg-danger text-white rounded" aria-label="Close" (click)="offcanvas.dismiss()">
-        <i class="fas fa-times"></i>
-      </button>
+            <i class="fas fa-times"></i>
+        </button>
     </div>
     <div class="offcanvas-body pt-0">
         <div class="table-responsive">

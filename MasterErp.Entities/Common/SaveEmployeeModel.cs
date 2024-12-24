@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.HR.Employee;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SaveEmployeeModel } from '../../models/SaveEmployeeModel';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { HrService } from '../../services/hr.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-hr-employee-details',
@@ -26,21 +27,32 @@ export class HrEmployeeDetailsComponent implements OnInit {
   active = 1;
   DefaultImage = '../../../../assets/images/default-image.png';
 
-  constructor(private offcanvasService: NgbOffcanvas, private hrService: HrService) { }
+  constructor(private offcanvasService: NgbOffcanvas, private hrService: HrService,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
-    this.GetIqamaIssuePlaces();
-    this.GetPassportIssuePlaces();
-    this.GetSponsorData();
-    this.GetIqamaJobData();
-    this.GetNationalityData();
-    this.GetJobData();
-    this.GetBranchData();
-    this.GetBankData();
+    let empId = this.route.snapshot.queryParamMap.get('OrderId');
+
+    if(empId)
+      this.loadEmployeeDetails(empId);
+
+    this.getIqamaIssuePlacesList();
+    this.getPassportIssuePlacesList();
+    this.getSponsorsList();
+    this.getIqamaJobsList();
+    this.getNationalitiesList();
+    this.getJobsList();
+    this.getBranchesList();
+    this.getBanksList();
     this.resetEmployeeModel();
 
   }
 
+  loadEmployeeDetails(employeeId: any){
+
+  }
+  
   resetEmployeeModel() {
     this.SaveEmployeeModel = {
       employee: {},
@@ -73,49 +85,49 @@ export class HrEmployeeDetailsComponent implements OnInit {
     this.offcanvasService.open(content, { position: 'end' });
   }
 
-  GetIqamaIssuePlaces() {
+  getIqamaIssuePlacesList() {
     this.hrService.GetIqamaIssuePlaces().subscribe(data => {
       this.IqamaIssueList = data;
     });
   }
 
-  GetPassportIssuePlaces() {
+  getPassportIssuePlacesList() {
     this.hrService.GetPassportIssuePlaces().subscribe(data => {
       this.PassportIssueList = data;
     });
   }
 
-  GetSponsorData() {
+  getSponsorsList() {
     this.hrService.GetSponsorData().subscribe(data => {
       this.SponsorList = data;
     });
   }
 
-  GetIqamaJobData() {
+  getIqamaJobsList() {
     this.hrService.GetIqamaJobData().subscribe(data => {
       this.IqamaJobList = data;
     });
   }
 
-  GetNationalityData() {
+  getNationalitiesList() {
     this.hrService.GetNationalityData().subscribe(data => {
       this.NationalityList = data;
     });
   }
 
-  GetJobData() {
+  getJobsList() {
     this.hrService.GetJobData().subscribe(data => {
       this.JobList = data;
     });
   }
 
-  GetBranchData() {
+  getBranchesList() {
     this.hrService.GetBranchData().subscribe(data => {
       this.BranchList = data;
     });
   }
 
-  GetBankData() {
+  getBanksList() {
     this.hrService.GetBankData().subscribe(data => {
       this.BankList = data;
     });
@@ -134,7 +146,7 @@ export class HrEmployeeDetailsComponent implements OnInit {
     }
   }
 
-  SaveEmployeeDate() {
+  saveEmployeeDate() {
     console.log(this.SaveEmployeeModel);
 
     // this.hrService.AddNewEmployee(this.SaveEmployeeModel).subscribe(data => {
@@ -142,5 +154,7 @@ export class HrEmployeeDetailsComponent implements OnInit {
     // })
 
   }
+
+
 }
 

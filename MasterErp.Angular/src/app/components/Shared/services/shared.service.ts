@@ -6,16 +6,16 @@ import { CustomerModel } from '../../GeneralAccounts/models/GeneralAccounts/Cust
 import { ExcelExportStyle } from '../Enums/ImporterTemplateEnum';
 import { CreateModifyReturnsModel } from '../models/CreateModifyReturnsModel';
 import { FormControl, FormGroup } from '@angular/forms';
+import { FormDropdownModel } from '../components/drop-down-form-control/drop-down-form-control.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
-  taxPercent:number=0.15;
+  taxPercent: number = 0.15;
   URL = environment.apiURL;
 
-  constructor(private http: HttpClient) 
-  { 
+  constructor(private http: HttpClient) {
 
   }
 
@@ -40,16 +40,15 @@ export class SharedService {
       }
     });
   }
-  
-  calculateTaxValue(totalAmount:number):number{
-    var taxValue=0;
-    if(totalAmount&&totalAmount>0)
-    {
-      taxValue=totalAmount-(totalAmount/(1+this.taxPercent));
+
+  calculateTaxValue(totalAmount: number): number {
+    var taxValue = 0;
+    if (totalAmount && totalAmount > 0) {
+      taxValue = totalAmount - (totalAmount / (1 + this.taxPercent));
     }
     return taxValue;
   }
-  
+
   //================================== AccountTree ===============================
 
   GetAccountTreeData_Old(SearchText: string) {
@@ -64,21 +63,21 @@ export class SharedService {
 
   //================================== CostCenterTree ===============================
 
-  GetCostCenterTreeData(isParent=false) {
-    return this.http.get<any>(this.URL + 'CostCenterTree/GetCostCenterTreeData?IsParent='+isParent);
+  GetCostCenterTreeData(isParent = false) {
+    return this.http.get<any>(this.URL + 'CostCenterTree/GetCostCenterTreeData?IsParent=' + isParent);
   }
 
 
-  
+
   //================================== GetCustomersData ===============================
 
-  GetCustomersData() :Observable<CustomerModel[]>{
+  GetCustomersData(): Observable<CustomerModel[]> {
     return this.http.get<CustomerModel[]>(this.URL + 'Shared/GetCustomersData').
-    pipe(
-      map(response => {
-        response.map(x=>x.nameAR=x.nameEN=x.name)
-        return response;
-      }));
+      pipe(
+        map(response => {
+          response.map(x => x.nameAR = x.nameEN = x.name)
+          return response;
+        }));
   }
 
   GetReceiptLedgersData() {
@@ -89,15 +88,12 @@ export class SharedService {
   //   return this.http.get<any[]>(this.URL + 'AccountTree/GetChildAccountsList');
   // }
 
-  GetSuppliersData() {
-    return this.http.get<any[]>(this.URL + 'Supplier/GetSuppliersData');
-  }
 
-  GetAccountsList(isParent:boolean=false) {
-    return this.http.get<any[]>(this.URL + 'Shared/GetAccountsList?IsParent='+isParent);
+  GetAccountsSelector(isParent: boolean = false) {
+    return this.http.get<any[]>(this.URL + 'Shared/GetAccountsSelector?IsParent=' + isParent);
   }
-  GetAccountsByTypeId(typeId:number) {
-    return this.http.get<any[]>(this.URL + 'Shared/GetAccountsByTypeId?TypeId='+typeId);
+  GetAccountsByTypeId(typeId: number) {
+    return this.http.get<any[]>(this.URL + 'Shared/GetAccountsByTypeId?TypeId=' + typeId);
   }
 
 
@@ -109,13 +105,87 @@ export class SharedService {
   }
 
 
-  GetAccountTypes()
-  {
-    return this.http.get<any[]>(this.URL + 'Shared/GetAccountTypes');
+
+
+  downloadImporterTemplate(template: ExcelExportStyle) {
+    return this.http.get<CreateModifyReturnsModel>(this.URL + 'Shared/DownloadImporterTemplate?ImporterType=' + template);
   }
 
-  downloadImporterTemplate(template:ExcelExportStyle)
-  {
-    return this.http.get<CreateModifyReturnsModel>(this.URL + 'Shared/DownloadImporterTemplate?ImporterType='+template);
+
+  //================================== Selectors (dropdown) ===============================
+  GetAccountTypesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetAccountTypes');
+  }
+  GetBranchesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetBranchesSelector');
+  }
+
+  GetVacationTypesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Vacation/GetVacationTypesSelector');
+  }
+  GetActiveEmployeesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Employee/GetActiveEmployeesSelector');
+  }
+
+  GetLoanTypesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Loans/GetLoanTypesSelector');
+  }
+
+  GetBanksSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetBanksSelector');
+  }
+  GetNationalitiesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetNationalitiesSelector');
+  }
+  GetIqamaIssuePlacesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetIqamaIssuePlacesSelector');
+  }
+  GetVisaJobsSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetVisaJobsSelector');
+  }
+  GetCountriesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetCountriesSelector');
+  }
+  GetCitiesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetCitiesSelector');
+  }
+  GetRegionsSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetRegionsSelector');
+  }
+  GetSuppliersSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetSuppliersSelector');
+  }
+  GetSupplierGroupsSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetSupplierGroupsSelector');
+  }
+  GetPurchaseInvoiceTypesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetPurchaseInvoiceTypesSelector');
+  }
+  GetItemsSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetItemsSelector');
+  }
+  GetItemCategoriesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetItemCategoriesSelector');
+  }
+  GetUnitsSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetUnitsSelector');
+  }
+  GetChildAccountsSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetChildAccountsSelector');
+  }
+  GetInventoriesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetInventoriesSelector');
+  }
+  GetItemLookupsSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetItemLookupsSelector');
+  }
+  GetCurrencySelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetCurrencySelector');
+  }
+  GetReligionsSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetReligionsSelector');
+  }
+  GetSocialStatusSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetSocialStatusSelector');
   }
 }

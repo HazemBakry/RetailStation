@@ -1,5 +1,8 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.HR;
+using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.HR;
+using MasterErp.Service.HR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,31 +25,60 @@ namespace MasterErp.API.Controllers.HR
         }
 
         [HttpGet]
-        [Route("GetOverTimeData")]
-        public DataTable GetOverTimeData()
+        [Route("GetAllEmployeeOverTime")]
+        public IActionResult GetAllEmployeeOverTime(SearchFilterModel SearchModel)
         {
-            return _overTimeService.GetOverTimeData();
+            var data= _overTimeService.GetAllEmployeeOverTime(SearchModel);
+            var result = new PagedResponseModel<EmployeeOverTimeDto>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+
+            };
+            return Ok(result);
         }
 
         [HttpPost]
-        [Route("AddNewOverTime")]
-        public bool AddNewOverTime(OverTime model)
+        [Route("GetOverTimeByEmployeeId")]
+        public IActionResult GetOverTimeByEmployeeId(int EmployeeId, SearchFilterModel SearchModel)
         {
-            return _overTimeService.AddNewOverTime(model);
+            var data = _overTimeService.GetOverTimeByEmployeeId(EmployeeId, SearchModel);
+            var result = new PagedResponseModel<EmployeeOverTimeDto>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+
+            };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("AddNewEmployeeOverTime")]
+        public IActionResult AddNewEmployeeOverTime(int EmployeeId, EmployeeOverTimeDto model)
+        {
+            var result = _overTimeService.AddNewEmployeeOverTime(EmployeeId, model);
+            return Ok(result);
         }
 
         [HttpPost]
-        [Route("EditOverTime")]
-        public bool EditOverTime(OverTime model)
+        [Route("EditEmployeeOverTime")]
+        public IActionResult EditEmployeeOverTime(int EmployeeId, EmployeeOverTimeDto model)
         {
-            return _overTimeService.EditOverTime(model);
+            var result = _overTimeService.EditEmployeeOverTime(EmployeeId, model);
+
+            return Ok(result);
         }
 
         [HttpGet]
-        [Route("DeleteOverTime")]
-        public bool DeleteOverTime(int OverTimeId)
+        [Route("DeleteEmployeeOverTime")]
+        public IActionResult DeleteEmployeeOverTime(int OverTimeId)
         {
-            return _overTimeService.DeleteOverTime(OverTimeId);
+            var result = _overTimeService.DeleteEmployeeOverTime(OverTimeId);
+            return Ok(result);
         }
+
     }
 }

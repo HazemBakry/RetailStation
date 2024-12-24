@@ -13,7 +13,7 @@ namespace MasterErp.Entities.Models
         public int ReceiveOrderDetailsId { get; set; }
         public int ReceiveOrderId { get; set; }
         public int ItemId { get; set; }
-        public int UnitId { get; set; }
+        public int? UnitId { get; set; }
         public double Price { get; set; }
         public double Quantity { get; set; }
         public double TotalValue { get; set; }

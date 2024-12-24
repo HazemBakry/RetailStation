@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models
 {
-    public class AccountTree
+    public class AccountTree : CreatorModel
     {
         [Key]
         public int AccountId { get; set; }
         public string AccountNumber { get; set; }
-        public int ParentAccountId { get; set; }
+        public int? ParentAccountId { get; set; }
         public int? AccountLevel { get; set; }
         public int? AccountTypeId { get; set; }
         public string NameAR { get; set; }
@@ -31,9 +31,5 @@ namespace MasterErp.Entities.Models
         public int? AccumulatedDepreciationId { get; set; }
         public double? PreCredit { get; set; }
         public double? PreDebit { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime? CreateDate { get; set; }
-        public string ModifiedBy { get; set; }
-        public DateTime? ModifyDate { get; set; }
     }
 }

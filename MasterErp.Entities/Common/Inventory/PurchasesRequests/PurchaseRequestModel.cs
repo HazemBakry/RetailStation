@@ -14,6 +14,6 @@ namespace MasterErp.Entities.Common.Inventory.PurchasesRequests
         public int? BranchId { get; set; }
         public string Notes { get; set; }
         public string UserId { get; set; }
-        public List<ItemModel> Items { get; set; }
+        public List<OrderModel> Items { get; set; }
     }
 }

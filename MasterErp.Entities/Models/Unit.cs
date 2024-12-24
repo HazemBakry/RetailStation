@@ -5,10 +5,13 @@ using System.Collections.Generic;
 
 namespace MasterErp.Entities.Models
 {
-    public class Unit
+    public class Unit : CreatorModel
     {
         public int UnitId { get; set; }
-        public string UnitNameEn { get; set; }
-        public string UnitNameAr { get; set; }
+        public string Code { get; set; }
+        public string NameAR { get; set; }
+        public string NameEN { get; set; }
+        public bool? IsActive { get; set; }
+        public string Notes { get; set; }
     }
 }

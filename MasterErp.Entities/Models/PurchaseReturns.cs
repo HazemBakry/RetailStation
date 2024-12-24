@@ -7,22 +7,15 @@ using System.Threading.Tasks;
 namespace MasterErp.Entities.Models
 {
 
-    public class PurchaseReturns
+    public class PurchaseReturns : CreatorModel
     {
-        public int PurchaseReturnsID { get; set; }
-        public int SupplierReturnsVoucherID { get; set; }
-        public int InvoiceTypeID { get; set; }
-        public string InvoiceNumber { get; set; }
-        public DateTime InvoiceDate { get; set; }
+        public int PurchaseReturnsId { get; set; }
+        public int? SupplierReturnsVoucherId { get; set; }
+        public int PurchaseInvoiceId { get; set; }
+        public double? TotalValue { get; set; }
         public DateTime? ReturnsDate { get; set; }
-        public int SupplierID { get; set; }
-        public double PurchaseInvoiceTotal{ get; set; }
-        public double ReturnsInvoiceTotal{ get; set; }
         public string Notes { get; set; }
-        public string InsertUser { get; set; }
-        public DateTime? InsertDate { get; set; }
-        public string UpdateUser { get; set; }
-        public DateTime? UpdateDate { get; set; }
+
 
 
     }

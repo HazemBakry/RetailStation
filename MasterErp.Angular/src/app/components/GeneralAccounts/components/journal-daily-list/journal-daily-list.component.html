@@ -11,7 +11,7 @@
                 <button ngbDropdownItem (click)="PrintJournalEntry()">طباعة</button>
             </div>
         </div>
-        <button class="btn btn-primary btn-lg me-2" routerLink="/GeneralAccounts/new-entry">
+        <button class="btn btn-primary btn-lg me-2" routerLink="/general-accounts/new-entry">
             <i class="fas fa-check-circle"></i>
             <span class="ms-2">انشاء قيد جديد</span>
         </button>
@@ -58,7 +58,7 @@
                             <td>{{item.entryNumber}}</td>
                             <!-- <td>{{item.docNumber}}</td> -->
                             <td>{{item.journalTypeAr}}</td>
-                            <td>                                    
+                            <td>
                                 <div appColorWithStatus status="entryStatus" [text]="item.entryStatus"></div>
                             </td>
                             <td>{{item.actionGroup}}</td>

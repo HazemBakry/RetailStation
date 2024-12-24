@@ -15,10 +15,13 @@ import { PurchaseOrdersComponent } from './components/purchase-orders/purchase-o
 import { PurchaseReturnsComponent } from './components/purchase-returns/purchase-returns.component';
 import { SuppliersAccountStatementComponent } from './components/suppliers-account-statement/suppliers-account-statement.component';
 import { PurchasesLayoutComponent } from './purchases-layout/purchases-layout.component';
-import { CreateSupplierReturnsVoucherComponent } from './components/create-supplier-returns-voucher/create-supplier-returns-voucher.component';
 import { SupplierReturnsVouchersComponent } from './components/supplier-returns-vouchers/supplier-returns-vouchers.component';
-import { SupplierListComponent } from './components/supplier-list/supplier-list.component';
+import { SuppliersListComponent } from './components/suppliers-list/suppliers-list.component';
 import { PurchasesHomeComponent } from './components/purchases-home/purchases-home.component';
+import { AddSupplierComponent } from './components/add-supplier/add-supplier.component';
+import { AddSupplierReturnsVoucherComponent } from './components/add-supplier-returns-voucher/add-supplier-returns-voucher.component';
+import { AddPurchaseQuotationComponent } from './components/add-purchase-quotation/add-purchase-quotation.component';
+import { PurchaseQuotationsComponent } from './components/purchase-quotations/purchase-quotations.component';
 
 
 @NgModule({
@@ -27,16 +30,19 @@ import { PurchasesHomeComponent } from './components/purchases-home/purchases-ho
     AddPurchaseInvoiceComponent,
     AddPurchaseOrderComponent,
     AddPurchaseReturnsComponent,
+    AddSupplierReturnsVoucherComponent,
     PurchaseInvoicesComponent,
     PurchaseOrdersComponent,
     PurchaseReturnsComponent,
     SuppliersAccountStatementComponent,
     InvoiceSearchSidepanelComponent,
     InvoiceDetailsSidepanelComponent,
-    CreateSupplierReturnsVoucherComponent,
     SupplierReturnsVouchersComponent,
-    SupplierListComponent,
+    SuppliersListComponent,
     PurchasesHomeComponent,
+    AddSupplierComponent,
+    AddPurchaseQuotationComponent,
+    PurchaseQuotationsComponent,
   ],
   imports: [
     CommonModule,

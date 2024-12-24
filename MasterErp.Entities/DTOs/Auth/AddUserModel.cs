@@ -24,5 +24,7 @@ namespace MasterErp.Entities.DTOs.Auth
         public string Password { get; set; }
         public string PhoneNumber { get; set; }
         public IFormFile Image { get; set; }
+
+        public int? EmployeeId { get; set; }
     }
 }

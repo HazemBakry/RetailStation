@@ -7,7 +7,9 @@ import { DesignHomeComponent } from './components/design-home/design-home.compon
 import { AccountTreeComponent } from './components/account-tree/account-tree.component';
 import { OpeningBalanceComponent } from './components/opening-balance/opening-balance.component';
 import { ReceiptsComponent } from './components/receipts/receipts.component';
-
+import { DesignEmployeeDetailsComponent } from './components/design-employee-details/design-employee-details.component';
+import { DesignTableComponent } from './components/design-table/design-table.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -15,11 +17,14 @@ import { ReceiptsComponent } from './components/receipts/receipts.component';
     DesignHomeComponent,
     AccountTreeComponent,
     OpeningBalanceComponent,
-    ReceiptsComponent
+    ReceiptsComponent,
+    DesignEmployeeDetailsComponent,
+    DesignTableComponent
   ],
   imports: [
     CommonModule,
-    DesignRoutingModule
+    DesignRoutingModule,
+    NgbModule
   ]
 })
 export class DesignModule { }

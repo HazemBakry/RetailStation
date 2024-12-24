@@ -1,0 +1,16 @@
+<ng-container [ngSwitch]="fieldType">
+    <!-- Display text fields -->
+    <div *ngSwitchCase="FieldType.Text" class="field-container">
+      <span>{{ value }}</span>
+    </div>
+  
+    <!-- Display number fields -->
+    <div *ngSwitchCase="FieldType.Number" class="field-container">
+      <span>{{ value }}</span>
+    </div>
+  
+    <!-- Display date fields -->
+    <div *ngSwitchCase="FieldType.Date" class="field-container">
+      <span *ngIf="value">{{ value | date }}</span>
+    </div>
+  </ng-container>

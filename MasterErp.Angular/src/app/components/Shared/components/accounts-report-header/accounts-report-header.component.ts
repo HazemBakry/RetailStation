@@ -11,10 +11,10 @@ import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './accounts-report-header.component.html',
   styleUrls: ['./accounts-report-header.component.css']
 })
-export class AccountsReportHeaderComponent implements OnInit  {
-  @Input() IsParentAccount:boolean = false;
-  @Input() showCostCenterFilter:boolean = false;
-  @Input() showAccountFilter:boolean = false;
+export class AccountsReportHeaderComponent implements OnInit {
+  @Input() IsParentAccount: boolean = false;
+  @Input() showCostCenterFilter: boolean = false;
+  @Input() showAccountFilter: boolean = false;
   @Output() SearchData = new EventEmitter<SearchFilterModel>();
 
   SearchModel: SearchFilterModel = {
@@ -32,67 +32,63 @@ export class AccountsReportHeaderComponent implements OnInit  {
   @ViewChild('Selector1') Selector1: ErpSelectorWithSearchComponent;
   @ViewChild('Selector2') Selector2: ErpSelectorWithSearchComponent;
   @ViewChild('Selector3') Selector3: ErpSelectorWithSearchComponent;
-  constructor(private sharedService:SharedService,
-              private datePipe: DatePipe,
-              private generalService: GeneralAccountService,
-              private offcanvasService: NgbOffcanvas 
-              ) { }
+  constructor(private sharedService: SharedService,
+    private datePipe: DatePipe,
+    private generalService: GeneralAccountService,
+    private offcanvasService: NgbOffcanvas
+  ) { }
 
   ngOnInit(): void {
-  
+
     // this.ToDate = this.datePipe.transform(endDate, 'yyyy-MM-dd');
     // this.FromDate = this.datePipe.transform(endDate, 'yyyy-MM-dd');
 
     this.loadAccountsTreeData();
-    this.GetCostCenterTreeData();
+    this.getCostCenterTreeData();
   }
 
   emitSearchModel() {
     this.SearchData.emit(this.SearchModel);
   }
-  loadAccountsTreeData()
-  {
-    this.sharedService.GetAccountsList(this.IsParentAccount).subscribe(data=>{
-      this.AccountsList=data;
-      
+
+  loadAccountsTreeData() {
+    this.sharedService.GetAccountsSelector(this.IsParentAccount).subscribe(data => {
+      this.AccountsList = data;
     })
   }
-  GetCostCenterTreeData() {
+
+  getCostCenterTreeData() {
     this.sharedService.GetCostCenterTreeData().subscribe(data => {
       this.CostCenterList = data;
     });
   }
 
-
-  GetSelectedAccount(acc)
-  {
-    this.Selector.SelectorName=acc.accountNumber;
-    this.Selector1.SelectorName=acc.nameEN;
-    
-    this.SearchModel.filterItems=this.SearchModel.filterItems.filter(x=>x.categoryName!='accountId');
+  getSelectedAccount(acc) {
+    this.Selector.SelectorName = acc.accountNumber;
+    this.Selector1.SelectorName = acc.nameEN;
+    this.SearchModel.filterItems = this.SearchModel.filterItems.filter(x => x.categoryName != 'accountId');
     this.SearchModel.filterItems.push({
-      categoryName:'accountId',
-      itemKey:acc.accountId?.toString(),
-      itemFlag:acc.accountId?.toString()
+      categoryName: 'accountId',
+      itemKey: acc.accountId?.toString(),
+      itemFlag: acc.accountId?.toString()
     });
     this.emitSearchModel();
     this.offcanvasService.dismiss();
   }
-  GetSelectedCostCenter(item: any) {
-    this.Selector2.SelectorName=item.costCenterNumber;
-    this.Selector3.SelectorName=item.nameAR;
-    this.SearchModel.filterItems=this.SearchModel.filterItems.filter(x=>x.categoryName!='costCenterId');
+
+  getSelectedCostCenter(item: any) {
+    this.Selector2.SelectorName = item.costCenterNumber;
+    this.Selector3.SelectorName = item.nameAR;
+    this.SearchModel.filterItems = this.SearchModel.filterItems.filter(x => x.categoryName != 'costCenterId');
     this.SearchModel.filterItems.push({
-      categoryName:'costCenterId',
-      itemKey:item.costCenterId?.toString(),
-      itemFlag:item.costCenterId?.toString()
+      categoryName: 'costCenterId',
+      itemKey: item.costCenterId?.toString(),
+      itemFlag: item.costCenterId?.toString()
     });
     this.emitSearchModel();
   }
 
-  OpenSidePanel(content: any) {
+  openSidePanel(content: any) {
     this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
   }
-
-
 }

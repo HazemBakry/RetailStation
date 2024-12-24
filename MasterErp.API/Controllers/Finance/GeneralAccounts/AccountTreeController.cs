@@ -1,8 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models;
-using MasterErp.Interface.Finance.GeneralAccounts;
-using MasterErp.Service.Finance.GeneralAccounts;
+using MasterErp.Interface.GeneralAccounts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -26,20 +25,20 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         }
 
         [HttpPost]
-        [Route("CreateNewAccount")]
+        [Route("AddNewAccount")]
 
-        public IActionResult CreateNewAccount(AccountTreeModel Model)
+        public IActionResult AddNewAccount(AccountTreeModel Model)
         {
-            var results = _accountTreeService.CreateNewAccount(Model);
+            var results = _accountTreeService.AddNewAccount(Model);
             return Ok(results);
         }
         
         [HttpPost]
-        [Route("UpdateAccountTree")]
+        [Route("EditAccountTree")]
 
-        public IActionResult UpdateAccountTree(int AccountId,AccountTreeModel Model)
+        public IActionResult EditAccountTree(int AccountId,AccountTreeModel Model)
         {
-            var results = _accountTreeService.UpdateAccountTree(AccountId, Model);
+            var results = _accountTreeService.EditAccountTree(AccountId, Model);
             return Ok(results);
         }
 
