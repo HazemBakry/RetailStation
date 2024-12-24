@@ -23,6 +23,7 @@ namespace MasterErp.Interface.Inventory
         #region Receive Orders
 
         List<OrderModel> GetReceiveOrders_Data(SearchFilterModel model, int? OrderId = null);
+        List<FilterModel> GetReceiveOrders_Filters(SearchFilterModel PagingFilter);
         OrderModel GetReceiveOrderDetailsById(int OrderId);
         List<OrderProductModel> GetReceiveOrderProducts_Data(List<int> OrderIds);
         ActionsResponseModel AddNewReceiveOrder(OrderModel model);

@@ -113,6 +113,19 @@ namespace MasterErp.Service.Inventory
             var result = SQLHelper.SQLQuery<OrderModel>("[Inventory].[SP_GetReceiveOrders_Data]", ConnectionString, Params);
             return result;
         }
+        public List<FilterModel> GetReceiveOrders_Filters(SearchFilterModel PagingFilter)
+        {
+            var FilterListDt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
+
+            SqlParameter[] Params = new SqlParameter[1];
+
+            
+            Params[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[0].Value = FilterListDt;
+
+            var results = SQLHelper.SQLQuery<FilterItem>("[Inventory].[SP_GetReceiveOrders_Filters]", ConnectionString, Params);
+            return SharedFilterService.GroupedFilterItems(results);
+        }
         public OrderModel GetReceiveOrderDetailsById(int OrderId)
         {
             return GetReceiveOrders_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, OrderId)?.FirstOrDefault();

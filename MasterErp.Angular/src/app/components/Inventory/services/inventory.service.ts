@@ -144,6 +144,9 @@ export class InventoryService {
   GetReceiveOrders_Data(model: SearchFilterModel) {
     return this.http.post<any>(this.URL + 'Inventory/GetReceiveOrders_Data', model);
   }
+  GetReceiveOrders_Filters(model: SearchFilterModel) {
+    return this.http.post<FilterModel[]>(this.URL + 'Inventory/GetReceiveOrders_Filters', model);
+  }
 
   GetReceiveOrderDetailsById(orderId: number) {
     return this.http.get<OrderModel>(this.URL + `Inventory/GetReceiveOrderDetailsById?OrderId=${orderId}`);

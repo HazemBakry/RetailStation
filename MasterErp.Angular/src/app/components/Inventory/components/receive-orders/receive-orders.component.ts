@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { OrderModel } from '../../models/inventory';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 
 
@@ -18,20 +19,22 @@ export class ReceiveOrdersComponent implements OnInit {
   TitleList = ['المخازن', 'أذونات الإضافة'];
   showLoader: boolean;
   OrderId: number;
-  pagedResponseModel:PagedResponseDTO<OrderModel[]>={
-    results:[],
-    filterList:[],
+  pagedResponseModel: PagedResponseDTO<OrderModel[]> = {
+    results: [],
+    filterList: [],
     pageSize: 25,
-    currentPage:1,
-    searchText:''
+    currentPage: 1,
+    searchText: ''
   };
+  filterList: FilterModel[] = [];
 
-  constructor(private inventoryService: InventoryService, 
+  constructor(private inventoryService: InventoryService,
     private modalService: NgbModal,
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
     this.getReceiveOrdersSummary();
+    this.getReceiveOrders_Filters();
   }
 
   getReceiveOrdersSummary() {
@@ -45,6 +48,22 @@ export class ReceiveOrdersComponent implements OnInit {
     }, () => {
       this.showLoader = false;
     })
+  }
+  getReceiveOrders_Filters() {
+    // this.showLoader = true;
+    this.inventoryService.GetReceiveOrders_Filters(this.pagedResponseModel).subscribe((data: FilterModel[]) => {
+      this.filterList = data;
+
+    }, (err) => {
+      // this.showLoader = false;
+    }, () => {
+      // this.showLoader = false;
+    })
+  }
+  filterChecked(filterItems: FilterItem[]) {
+    this.pagedResponseModel.filterList = filterItems;
+    this.getReceiveOrdersSummary();
+    this.getReceiveOrders_Filters();
   }
 
   pageChanged(obj: any) {

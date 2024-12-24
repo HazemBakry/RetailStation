@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static NuGet.Packaging.PackagingConstants;
 
 namespace MasterErp.Service.Common
 {
@@ -31,7 +32,24 @@ namespace MasterErp.Service.Common
             }).ToList();
             return List;
         }
+        public List<FilterModel> GroupedFilterItems(List<FilterItem> Filters)
+        {
 
+            List<FilterModel> List = Filters.GroupBy(x => x.CategoryDisplayName)
+            .Select(x => new FilterModel
+            {
+                CategoryDisplayName = x.Key,
+                FilterItems = x.Select(s => new FilterItem
+                {
+                    CategoryDisplayName = x.Key,
+                    CategoryName = s.CategoryName,
+                    ItemValue = s.ItemValue,
+                    ItemKey = s.ItemKey,
+                    ItemFlag = s.ItemFlag
+                }).ToList()
+            }).ToList();
+            return List;
+        }
         public DataTable MapFilterModelToDataTable(List<FilterItem> Items)
         {
             //DataTable dt = new DataTable();

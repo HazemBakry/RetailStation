@@ -62,6 +62,14 @@ namespace MasterErp.API.Controllers.Inventory
             };
             return Ok(result);
         }
+        [HttpPost]
+        [Route("GetReceiveOrders_Filters")]
+        public IActionResult GetReceiveOrders_Filters(SearchFilterModel PagingFilter)
+        {
+            var result = _inventoryService.GetReceiveOrders_Filters(PagingFilter);
+
+            return Ok(result);
+        }
 
         [HttpGet]
         [Route("GetReceiveOrderDetailsById")]
