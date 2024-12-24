@@ -14,7 +14,7 @@
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5 mb-3">
-                <app-drop-down-form-control formControlName="iqamaIssuePlaceId" [placeholder]="'مكان الاصدار'"
+                <app-drop-down-form-control formControlName="iqamaIssuePlaceId" [placeholder]="'مكان الاصدار'" [showSearch]="true"
                     [data]="iqamaIssuePlacesSelectorData"></app-drop-down-form-control>
                 <div *ngIf="formErrors.iqamaIssuePlaceId" class="text-danger  font-small-3 m-03">
                     {{formErrors.iqamaIssuePlaceId}}
@@ -44,7 +44,7 @@
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5 mb-3">
-                <app-drop-down-form-control formControlName="bankId" [placeholder]="'البنك'"
+                <app-drop-down-form-control formControlName="bankId" [placeholder]="'البنك'" [showSearch]="true"
                     [data]="banksSelectorData"></app-drop-down-form-control>
                 <div *ngIf="formErrors.bankId" class="text-danger  font-small-3 m-03">
                     {{formErrors.bankId}}

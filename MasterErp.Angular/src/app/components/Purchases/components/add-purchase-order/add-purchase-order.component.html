@@ -38,7 +38,7 @@
                 </div>
                 <div class="col-xl-4">
 
-                    <app-drop-down-form-control [disabled]="isUpdate" formControlName="supplierId" [placeholder]="'الموردين'"
+                    <app-drop-down-form-control [disabled]="isUpdate" formControlName="supplierId" [placeholder]="'الموردين'" [showSearch]="true"
                         [data]="suppliersSelectorData"
                         (valueChanged)="getSelectedSupplier($event)"></app-drop-down-form-control>
                     <div *ngIf="formErrors.supplierId" class="text-danger  font-small-3 m-03">

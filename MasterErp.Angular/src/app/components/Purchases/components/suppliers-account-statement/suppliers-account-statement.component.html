@@ -7,7 +7,7 @@
             <div class="col-lg-4">
                 <!-- <app-erp-selector-with-search [SelectorName]="SupplierName" 
                 [ItemsList]="SuppliersList" (ItemObj)="GetSelectedSupplier($event)"></app-erp-selector-with-search> -->
-                <app-drop-down-form-control formControlName="supplierId" [placeholder]="'الموردين'" [data]="suppliersSelectorData" (valueChanged)="getSelectedSupplier($event)"></app-drop-down-form-control>
+                <app-drop-down-form-control formControlName="supplierId" [placeholder]="'الموردين'" [showSearch]="true" [data]="suppliersSelectorData" (valueChanged)="getSelectedSupplier($event)"></app-drop-down-form-control>
             </div>
             <div class="col-lg-4">
                 <!-- <button class="btn btn-primary " (click)="getSupplierStatement()">

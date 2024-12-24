@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-xl-4">
 
-                    <app-drop-down-form-control formControlName="selectedItemIds"  [selectMulti]="true"  [placeholder]="'الاصناف'"
+                    <app-drop-down-form-control formControlName="selectedItemIds"  [selectMulti]="true"  [placeholder]="'الاصناف'" [showSearch]="true"
                         [data]="itemsSelectorData"
                         (valueChanged)="getSelectedItems($event)"></app-drop-down-form-control>
                     <div *ngIf="formErrors.selectedItemIds" class="text-danger  font-small-3 m-03">
@@ -26,7 +26,7 @@
 
                 <div class="col-xl-4">
 
-                    <app-drop-down-form-control formControlName="selectedSupplierIds"  [selectMulti]="true"  [placeholder]="'الموردين'"
+                    <app-drop-down-form-control formControlName="selectedSupplierIds"  [selectMulti]="true"  [placeholder]="'الموردين'" [showSearch]="true"
                         [data]="suppliersSelectorData"
                         (valueChanged)="getSelectedSuppliers($event)"></app-drop-down-form-control>
                         <div *ngIf="formErrors.selectedSupplierIds" class="text-danger  font-small-3 m-03">

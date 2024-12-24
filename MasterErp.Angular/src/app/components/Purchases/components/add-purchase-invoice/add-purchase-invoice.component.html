@@ -9,7 +9,7 @@
             <div class="employee-card-body row">
                 <div class="col-xl-4 mb-3">
 
-                    <app-drop-down-form-control [disabled]="isUpdate" formControlName="supplierId" [placeholder]="'الموردين'" [data]="suppliersSelectorData" (valueChanged)="getSelectedSupplier($event)"></app-drop-down-form-control>
+                    <app-drop-down-form-control [disabled]="isUpdate" formControlName="supplierId" [placeholder]="'الموردين'" [showSearch]="true" [data]="suppliersSelectorData" (valueChanged)="getSelectedSupplier($event)"></app-drop-down-form-control>
                     <div *ngIf="formErrors.supplierId" class="text-danger  font-small-3 m-03">
                         {{formErrors.supplierId}}
                     </div>
@@ -17,7 +17,7 @@
                 <div class="col-xl-1"></div>
                 <div class="col-xl-4  mb-3">
 
-                    <app-drop-down-form-control formControlName="orderTypeId" [placeholder]="'نوع الفاتورة'" [data]="invoiceTypesSelectorData"></app-drop-down-form-control>
+                    <app-drop-down-form-control formControlName="orderTypeId" [placeholder]="'نوع الفاتورة'" [showSearch]="true" [data]="invoiceTypesSelectorData"></app-drop-down-form-control>
                     <div *ngIf="formErrors.orderTypeId" class="text-danger  font-small-3 m-03">
                         {{formErrors.orderTypeId}}
                     </div>

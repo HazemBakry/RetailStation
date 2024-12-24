@@ -139,7 +139,7 @@
                     <div class="col-xl-1"></div>
 
                     <div class="col-xl-5 mb-3">
-                        <app-drop-down-form-control formControlName="countryId" [placeholder]="'الدولة'" [data]="countriesSelectorData"></app-drop-down-form-control>
+                        <app-drop-down-form-control formControlName="countryId" [placeholder]="'الدولة'" [showSearch]="true" [data]="countriesSelectorData"></app-drop-down-form-control>
                         <div *ngIf="formErrors.countryId" class="text-danger  font-small-3 m-03">
                             {{formErrors.countryId}}
                         </div>
@@ -147,7 +147,7 @@
                     </div>
                     <div class="col-xl-1"></div>
                     <div class="col-xl-5 mb-3">
-                        <app-drop-down-form-control formControlName="cityId" [placeholder]="'المدينة'" [data]="citiesSelectorData"></app-drop-down-form-control>
+                        <app-drop-down-form-control formControlName="cityId" [placeholder]="'المدينة'" [showSearch]="true" [data]="citiesSelectorData"></app-drop-down-form-control>
                         <div *ngIf="formErrors.cityId" class="text-danger  font-small-3 m-03">
                             {{formErrors.cityId}}
                         </div>
@@ -155,7 +155,7 @@
                     </div>
                     <div class="col-xl-1"></div>
                     <div class="col-xl-5 mb-3">
-                        <app-drop-down-form-control formControlName="regionId" [placeholder]="'المنطقة'" [data]="regionsSelectorData"></app-drop-down-form-control>
+                        <app-drop-down-form-control formControlName="regionId" [placeholder]="'المنطقة'" [showSearch]="true" [data]="regionsSelectorData"></app-drop-down-form-control>
                         <div *ngIf="formErrors.regionId" class="text-danger  font-small-3 m-03">
                             {{formErrors.regionId}}
                         </div>
@@ -171,7 +171,7 @@
                     </div>
                     <div class="col-xl-1"></div>
                     <div class="col-xl-5 mb-3">
-                        <app-drop-down-form-control formControlName="supplierGroupId" [placeholder]="'اسم المجموعة'" [data]="supplierGroupsSelectorData"></app-drop-down-form-control>
+                        <app-drop-down-form-control formControlName="supplierGroupId" [placeholder]="'اسم المجموعة'" [showSearch]="true" [data]="supplierGroupsSelectorData"></app-drop-down-form-control>
                         <div *ngIf="formErrors.supplierGroupId" class="text-danger  font-small-3 m-03">
                             {{formErrors.supplierGroupId}}
                         </div>

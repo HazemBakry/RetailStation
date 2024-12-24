@@ -180,14 +180,14 @@
                         <td class="table-value">
                             <div class="row">
                                 <div class="col-xl-6">
-                                    <app-drop-down-form-control formControlName="unitId" [placeholder]="'الوحدة'" [data]="unitsSelectorData"></app-drop-down-form-control>
+                                    <app-drop-down-form-control formControlName="unitId" [placeholder]="'الوحدة'" [showSearch]="true" [data]="unitsSelectorData"></app-drop-down-form-control>
                                     <div *ngIf="formErrors.unitId" class="text-danger  font-small-3 m-03">
                                         {{formErrors.unitId}}
                                     </div>
 
                                 </div>
                                 <div class="col-xl-6">
-                                    <app-drop-down-form-control formControlName="purchaseUnitId" [placeholder]="'وحدة الشراء'" [data]="unitsSelectorData"></app-drop-down-form-control>
+                                    <app-drop-down-form-control formControlName="purchaseUnitId" [placeholder]="'وحدة الشراء'" [showSearch]="true" [data]="unitsSelectorData"></app-drop-down-form-control>
                                     <div *ngIf="formErrors.purchaseUnitId" class="text-danger  font-small-3 m-03">
                                         {{formErrors.purchaseUnitId}}
                                     </div>
@@ -199,7 +199,7 @@
                     <tr>
                         <td class="table-feature">فئة الصنف</td>
                         <td class="table-value">
-                            <app-drop-down-form-control formControlName="itemCategoryId" [placeholder]="'فئة الصنف'" [data]="itemCategoriesSelectorData"></app-drop-down-form-control>
+                            <app-drop-down-form-control formControlName="itemCategoryId" [placeholder]="'فئة الصنف'" [showSearch]="true" [data]="itemCategoriesSelectorData"></app-drop-down-form-control>
                             <div *ngIf="formErrors.itemCategoryId" class="text-danger  font-small-3 m-03">
                                 {{formErrors.itemCategoryId}}
                             </div>
