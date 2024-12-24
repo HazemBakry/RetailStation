@@ -86,9 +86,13 @@
         </form>
 
         
-        <app-general-order-products [selectedProducts]="orderProducts" [clearAllProducts]="clearAllProducts"
-        
-        (selectedProductsList)="getSelectedProductsList($event)"></app-general-order-products>
+        <app-general-order-products 
+            [selectedProducts]="orderProducts" 
+            [clearAllProducts]="clearAllProducts"
+            [disableUnit]="false"
+            [disablePrice]="false"
+            (selectedProductsList)="getSelectedProductsList($event)">
+        </app-general-order-products>
 
     </div>
 </div>

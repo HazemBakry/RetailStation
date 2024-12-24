@@ -82,6 +82,12 @@ namespace MasterErp.API.Controllers.Inventory
         {
             return _itemService.ChangeItemActiveStatus(ItemId);
         }
+        [HttpGet]
+        [Route("ChangeItemPrice")]
+        public ActionsResponseModel ChangeItemPrice(int ItemId, double Price)
+        {
+            return _itemService.ChangeItemPrice(ItemId,Price);
+        }
         [HttpPost]
         [Route("ExportItems")]
         public IActionResult ExportItems(int categoryId, SearchFilterModel SearchModel)

@@ -353,6 +353,29 @@ namespace MasterErp.Service.Inventory
                 };
             }
         }
+        public ActionsResponseModel ChangeItemPrice(int ItemId, double Price)
+        {
+            try
+            {
+                var item = Context.Items.Where(a => a.ItemId == ItemId).FirstOrDefault();
+
+                item.Cost= Price;
+                Context.SaveChanges();
+
+                return new ActionsResponseModel
+                {
+                    Message = "تم حفظ تعديل السعر بنجاح"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.InnerException?.Message ?? ex.Message
+                };
+            }
+        }
         public List<ItemLookups> GetItemsLookups()
         {
             return Context.ItemLookups.ToList();

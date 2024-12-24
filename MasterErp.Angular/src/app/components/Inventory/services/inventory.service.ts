@@ -61,7 +61,9 @@ export class InventoryService {
   ChangeItemActiveStatus(ItemId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'Items/ChangeItemActiveStatus?ItemId=' + ItemId);
   }
-
+  ChangeItemPrice(ItemId: number,Price : number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `Items/ChangeItemPrice?ItemId=${ItemId}&Price=${Price}`);
+  }
   ExportItems(searchModel: PagedResponseDTO, categoryId: number) {
     return this.http.post<ActionsResponseModel>(this.URL + `Items/ExportItems?CategoryId=${categoryId} `, searchModel);
   }

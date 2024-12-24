@@ -98,8 +98,17 @@
                     <label for="exampleFormControlInput1" class="form-label">الوحدة
 
                     </label>
-                    <input type="text" [(ngModel)]="selectedItem.unitNameAR" disabled class="form-control py-3"
-                        id="exampleFormControlInput1">
+
+                    <app-drop-down-form-control id="exampleFormControlInput1"
+                        [disabled]="!selectedItem?.unitId||disableUnit"
+                        [(ngModel)]="selectedItem.unitId" 
+                        [data]="unitsSelectorData" 
+                        [showSearch]="true" 
+                        [placeholder]="'الوحدة'">
+                    </app-drop-down-form-control>
+
+                    <!-- <input type="text" [(ngModel)]="selectedItem.unitNameAR" disabled class="form-control py-3"
+                        id="exampleFormControlInput1"> -->
                 </div>
             </div>
             <div class="col-lg-12">
@@ -110,7 +119,7 @@
                     <label for="exampleFormControlInput1" class="form-label">السعر <sup class="text-danger">*</sup>
 
                     </label>
-                    <input type="text" [(ngModel)]="selectedItem.price" disabled class="form-control py-3"
+                    <input type="number" [(ngModel)]="selectedItem.price" [disabled]="disablePrice" class="form-control py-3"
                         id="exampleFormControlInput1">
                 </div>
             </div>

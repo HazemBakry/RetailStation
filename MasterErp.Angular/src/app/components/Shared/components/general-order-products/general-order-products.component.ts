@@ -19,6 +19,8 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
   @Input() clearAllProducts: boolean = false;
   @Input() showAddNew: boolean = true;
   @Input() showEditQuantity : boolean = true;
+  @Input() disablePrice : boolean = true;
+  @Input() disableUnit : boolean = true;
   @Output() selectedProductsList = new EventEmitter<OrderProductModel[]>();
 
 
@@ -26,6 +28,7 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
   productsList: OrderProductModel[] = [];
   itemsLookupsSelectorData: FormDropdownModel[] = [];
   itemsSelectorData: FormDropdownModel[] = [];
+  unitsSelectorData: FormDropdownModel[] = [];
 
   itemsList: any[] = [];
   itemsByLookup: OrderProductModel[] = [];
@@ -33,6 +36,7 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
   // RawItemsList: any[] = [];
   editQuantityList: OrderProductModel[] = [];
   selectedItem: OrderProductModel;
+  originalItem: ItemModel;
   // selectedItem: any={} ;
   activeTab = 'Item';
   notes: any;
@@ -73,6 +77,7 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
 
   openItemsModal(content: any) {
     this.selectedItem = {} as OrderProductModel;
+    this.originalItem = {} as ItemModel;
     this.loadSelectors()
     this.modalService.open(content, { centered: true, size: 'md' });
   }
@@ -81,6 +86,14 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
     this.sharedService.GetItemLookupsSelector().subscribe(data => {
       this.itemsLookupsSelectorData = data;
     });
+    this.loadItemsSelector();
+    this.sharedService.GetUnitsSelector().subscribe((data: FormDropdownModel[]) => {
+      this.unitsSelectorData = data;
+    });
+  }
+
+  loadItemsSelector()
+  {
     this.sharedService.GetItemsSelector().subscribe(data => {
       this.itemsSelectorData = data;
     });
@@ -123,6 +136,17 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
           // this.toaster.warning(this.selectedItem.itemNameAR + ' Is Exist In Purchase Item List')
         }
         this.modalService.dismissAll();
+        if (this.selectedItem.price != this.originalItem.cost) {
+          this.changeItemPrice(this.selectedItem.itemId, this.selectedItem.price);
+        }
+        if (this.selectedItem.unitId != this.originalItem.unitId) {
+          var newUnit = this.unitsSelectorData.find(u => u.value == this.selectedItem.unitId);
+          if (newUnit != null) 
+          {
+            this.selectedItem.unitNameAR = newUnit.name;
+            this.selectedItem.unitNameEN = newUnit.name;
+          }  
+        }
       }
       else
         this.toaster.warning('Please Select Item Or Lookups');
@@ -145,6 +169,7 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
   getSelectedItem(itemId) {
 
     this.inventoryService.GetItemById(itemId).subscribe((data:ItemModel) => {
+      this.originalItem = {...data};
       let item: ItemModel = data;
       this.selectedItem.itemId = item.itemId;
       this.selectedItem.itemNameAR = item.nameAR;
@@ -180,6 +205,21 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
   emitSelectedProductsList() {
     var list = this.productsList.filter(x => x.quantity && x.quantity > 0);
     this.selectedProductsList.emit(list);
+  }
+
+  changeItemPrice(ItemId: number,Price: number) {
+    this.inventoryService.ChangeItemPrice(ItemId,Price).subscribe(data => {
+      if (data.isSuccess) {
+        this.toaster.success(data.message);
+      } else {
+        this.toaster.error(data.message);
+      }
+      //this.showAddLoader = false;
+    }, err => {
+      //this.showAddLoader = false;
+    }, () => {
+      //this.showAddLoader = false;
+    });
   }
 }
 

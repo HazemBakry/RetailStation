@@ -64,7 +64,7 @@ namespace MasterErp.Service.Purchase
         {
             var result = (from orderProduct in Context.PurchaseOrderDetails
                           join item in Context.Items on orderProduct.ItemId equals item.ItemId
-                          join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
+                          join unit in Context.Units on orderProduct.UnitId equals unit.UnitId into jT2
                           from unit in jT2.DefaultIfEmpty()
                           where (orderProduct.PurchaseOrderId == OrderId)
                           select new OrderProductModel
@@ -75,9 +75,9 @@ namespace MasterErp.Service.Purchase
                               Price = orderProduct.Price,
                               Quantity = orderProduct.Quantity,
                               TotalValue = orderProduct.TotalValue,
-                              UnitId = item.UnitId,
+                              UnitId = orderProduct.UnitId,
                               UnitNameAR = unit.NameAR,
-                              UnitNameEN = unit.NameEN,
+                              UnitNameEN = unit.NameAR,
                               OrderId = orderProduct.PurchaseOrderId,
                               PurchaseOrderId = orderProduct.PurchaseOrderId,
 

@@ -125,7 +125,7 @@ export class PurchaseService {
     return this.http.post<ActionsResponseModel>(this.URL + 'PurchaseOrder/AddNewPurchaseOrder', model);
   }
   EditPurchaseOrder(orderId:number,model: OrderModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'PurchaseOrder/EditPurchaseOrder', model);
+    return this.http.post<ActionsResponseModel>(this.URL + 'PurchaseOrder/EditPurchaseOrder?OrderId=' + orderId, model);
   }
   CancelPurchaseOrder(orderId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'PurchaseOrder/CancelPurchaseOrder?OrderId=' + orderId);
