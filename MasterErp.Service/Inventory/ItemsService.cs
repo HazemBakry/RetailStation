@@ -353,18 +353,19 @@ namespace MasterErp.Service.Inventory
                 };
             }
         }
-        public ActionsResponseModel ChangeItemPrice(int ItemId, double Price)
+        public ActionsResponseModel ItemQuickUpdate(int ItemId, double Price, int UnitId)
         {
             try
             {
                 var item = Context.Items.Where(a => a.ItemId == ItemId).FirstOrDefault();
 
                 item.Cost= Price;
+                item.UnitId= UnitId;
                 Context.SaveChanges();
 
                 return new ActionsResponseModel
                 {
-                    Message = "تم حفظ تعديل السعر بنجاح"
+                    Message = "تم حفظ تعديل الصنف بنجاح"
                 };
             }
             catch (Exception ex)

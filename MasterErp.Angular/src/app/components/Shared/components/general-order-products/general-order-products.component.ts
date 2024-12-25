@@ -8,6 +8,7 @@ import { OrderProductModel } from 'src/app/components/Inventory/models/inventory
 import { FormDropdownModel } from '../drop-down-form-control/drop-down-form-control.component';
 import { SharedService } from '../../services/shared.service';
 import { ItemModel } from 'src/app/components/Inventory/models/Item';
+import { ActionsResponseModel } from '../../models/CreateModifyReturnsModel';
 
 @Component({
   selector: 'app-general-order-products',
@@ -136,17 +137,21 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
           // this.toaster.warning(this.selectedItem.itemNameAR + ' Is Exist In Purchase Item List')
         }
         this.modalService.dismissAll();
-        if (this.selectedItem.price != this.originalItem.cost) {
-          this.changeItemPrice(this.selectedItem.itemId, this.selectedItem.price);
+        if (this.selectedItem.price != this.originalItem.cost ||this.selectedItem.unitId != this.originalItem.unitId) {
+          // this.changeItemPrice(this.selectedItem.itemId, this.selectedItem.price);
+          if (this.selectedItem.unitId != this.originalItem.unitId) {
+            var newUnit = this.unitsSelectorData.find(u => u.value == this.selectedItem.unitId);
+            if (newUnit != null) 
+            {
+              this.selectedItem.unitNameAR = newUnit.name;
+              this.selectedItem.unitNameEN = newUnit.name;
+            }  
+          }
+          this.originalItem.unitId = this.selectedItem.unitId;
+          this.originalItem.cost = this.selectedItem.price;
+          this.itemQuickUpdate(this.selectedItem.itemId, this.selectedItem.price,this.selectedItem.unitId);
         }
-        if (this.selectedItem.unitId != this.originalItem.unitId) {
-          var newUnit = this.unitsSelectorData.find(u => u.value == this.selectedItem.unitId);
-          if (newUnit != null) 
-          {
-            this.selectedItem.unitNameAR = newUnit.name;
-            this.selectedItem.unitNameEN = newUnit.name;
-          }  
-        }
+        
       }
       else
         this.toaster.warning('Please Select Item Or Lookups');
@@ -207,8 +212,8 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
     this.selectedProductsList.emit(list);
   }
 
-  changeItemPrice(ItemId: number,Price: number) {
-    this.inventoryService.ChangeItemPrice(ItemId,Price).subscribe(data => {
+  itemQuickUpdate(ItemId: number,Price: number,unitId: number) {
+    this.inventoryService.ItemQuickUpdate(ItemId,Price,unitId).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message);
       } else {
@@ -221,5 +226,6 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
       //this.showAddLoader = false;
     });
   }
+
 }
 

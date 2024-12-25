@@ -27,7 +27,7 @@ namespace MasterErp.Interface.Inventory
         DataTable GetItemsBySupplierIdV2(int SupplierId);
         List<OrderProductModel> GetItemsByLookupId(int LookupId);
         ActionsResponseModel ChangeItemActiveStatus(int ItemId);
-        ActionsResponseModel ChangeItemPrice(int ItemId, double Price);
+        ActionsResponseModel ItemQuickUpdate(int ItemId, double Price, int UnitId);
         List<ItemLookups> GetItemsLookups();
         List<ItemDto> GetItemsDeleted(int ItemCategoryId, string SearchText);
         string ExportItemsDeleted(int categoryId, string SearchText, string UserName);
