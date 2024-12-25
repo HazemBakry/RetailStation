@@ -12,9 +12,10 @@
             <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
         </nav>
     </div>
-    <div class="d-flex align-items-center flex-wrap m-1">
+    <div class="m-1">
 
-        <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-erp-filters>
+        <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" 
+        [searchPlaceholder]="'البحث برقم الفاتوره واسم المورد ...'"></app-erp-filters>
         
     </div>
     <div class="card-body table-responsive p-0">

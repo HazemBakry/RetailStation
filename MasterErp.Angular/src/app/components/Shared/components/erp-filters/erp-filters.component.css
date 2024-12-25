@@ -31,3 +31,10 @@
 .check-row:hover {
     background-color: var(--hover-link);
 }
+
+.erp-filter-box{
+
+    max-height: 200px;
+    min-width: 200px;
+    overflow: auto ;
+}

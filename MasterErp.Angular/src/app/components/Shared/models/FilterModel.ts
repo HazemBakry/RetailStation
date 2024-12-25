@@ -2,6 +2,7 @@ export interface FilterModel {
     currentPage?: number;
     pageSize?: number;
     categoryDisplayName?: string;
+    searchText?: string;
     filterItems?: FilterItem[];
 }
 

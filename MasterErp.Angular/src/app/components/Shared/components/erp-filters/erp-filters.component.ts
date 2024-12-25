@@ -8,9 +8,13 @@ import { FilterItem, FilterModel } from '../../models/FilterModel';
 })
 export class ErpFiltersComponent implements OnInit {
   @Input() FilterList: FilterModel[];
+  @Input() showSearchText: boolean = false;
+  @Input() searchPlaceholder: string = '';
   @Output() filterChanged = new EventEmitter<FilterItem[]>();
   SelectedFilter: FilterItem[] = [];
-  SearchText: any;
+  SearchText: string = '';
+  
+  filterSearch: string = '';
 
   constructor() { }
 
@@ -28,6 +32,18 @@ export class ErpFiltersComponent implements OnInit {
         });
       }
     });
+    if(this.SearchText)
+    {
+      const textFilter:FilterItem={
+        categoryDisplayName: 'Search Text',
+        categoryName: 'SearchText',
+        itemKey: this.SearchText,
+        itemFlag: this.SearchText,
+        itemValue: this.SearchText,
+        isChecked: true
+      }
+      this.SelectedFilter.push(textFilter);
+    }
     this.filterChanged.emit(this.SelectedFilter);
   }
 
@@ -39,6 +55,9 @@ export class ErpFiltersComponent implements OnInit {
         checked.isChecked = false;
       }
     });
+    if (filter.categoryName =='SearchText')
+      this.SearchText='';
+
     this.filterChanged.emit(this.SelectedFilter);
   }
 
