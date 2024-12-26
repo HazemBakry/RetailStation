@@ -81,6 +81,8 @@ namespace MasterErp.Entities.Models
         public DbSet<Loan> Loans { get; set; }
         public DbSet<LoanType> LoanTypes { get; set; }
         public DbSet<Store> Stores { get; set; }
+        public DbSet<PaymentTerm> PaymentTerms { get; set; }
+        public DbSet<PaymentTermDetail> PaymentTermDetails { get; set; }
 
 
 

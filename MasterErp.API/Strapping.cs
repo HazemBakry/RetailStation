@@ -1,6 +1,7 @@
 ﻿using MasterErp.Interface.Common;
 using MasterErp.Interface.EmployeeProfile;
 using MasterErp.Interface.GeneralAccounts;
+using MasterErp.Interface.GeneralAccounts.GeneralAccountSettings;
 using MasterErp.Interface.HR;
 using MasterErp.Interface.Inventory;
 using MasterErp.Interface.Purchase;
@@ -9,6 +10,7 @@ using MasterErp.Interface.Shared;
 using MasterErp.Service.Common;
 using MasterErp.Service.EmployeeProfile;
 using MasterErp.Service.GeneralAccounts;
+using MasterErp.Service.GeneralAccounts.GeneralAccountSettings;
 using MasterErp.Service.HR;
 using MasterErp.Service.Inventory;
 using MasterErp.Service.Purchase;
@@ -55,6 +57,7 @@ namespace MasterErp.API
             services.AddScoped<IEmployeeProfileService, EmployeeProfileService>();
             services.AddScoped<ILoansService, LoansService>();
             services.AddScoped<ISuppliersService, SuppliersService>();
+            services.AddScoped<IPaymentTermService, PaymentTermService>();
         }
     }
 }

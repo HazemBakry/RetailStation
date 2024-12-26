@@ -249,6 +249,29 @@
                     </ul>
                 </li>
 
+                <li class="nav-item nav-item-item">
+                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" (click)="toggleMenu(generalAccountSettings_menu)" [ngClass]="{'active': generalAccountSettings_menu.classList.contains('show')}">
+                        <div class="nav-text d-flex align-items-center w-100">
+                            <i class="uil uil-database nav-icon"></i>
+                            <span class="nav-link-text item-sidebar main-nav-link ms-3"> إعدادات المالية</span>
+                        </div>
+                        <div class="nav-collapse">
+                            <i class="uil uil-angle-left-b"></i>
+                        </div>
+                    </a>
+                    <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #generalAccountSettings_menu>
+
+                        <li class="nav-item">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./payment-terms" routerLinkActive="active">
+                                <div class="nav-text d-flex align-items-center w-100">
+                                    <i class="uil uil-users-alt nav-icon"></i>
+                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">شروط السداد</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
 
                 <li class="nav-item nav-item-title item-sidebar">
                     <a class="nav-link title cursor-pointer text-lowercase fw-bold text-dark">التقارير</a>
