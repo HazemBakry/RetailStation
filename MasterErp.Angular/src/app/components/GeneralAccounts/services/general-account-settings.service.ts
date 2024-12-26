@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { FilterModel } from '../../Shared/models/FilterModel';
 
 @Injectable({
   providedIn: 'root'
@@ -46,5 +47,31 @@ export class GeneralAccountSettingsService {
 
   DeletePaymentTermDetails(PaymentTermDetailId: number) {
     return this.http.get<any>(this.URL + 'PaymentTerm/DeletePaymentTermDetails?PaymentTermDetailId=' + PaymentTermDetailId);
+  }
+
+  //================================== TaxCalculation ===============================
+
+  GetTaxCalculationData(model: FilterModel) {
+    return this.http.post<any[]>(this.URL + 'TaxCalculation/GetTaxCalculationData', model);
+  }
+
+  GetTaxLookups() {
+    return this.http.get<any[]>(this.URL + 'TaxCalculation/GetTaxLookups');
+  }
+
+  ChangeTaxCalculationStatus(TaxCalculationId: number, IsActive: boolean) {
+    return this.http.get<any>(this.URL + 'TaxCalculation/ChangeTaxCalculationStatus?TaxCalculationId=' + TaxCalculationId + '&IsActive=' + IsActive);
+  }
+
+  AddNewTaxCalculation(Model: any) {
+    return this.http.post<any>(this.URL + 'TaxCalculation/AddNewTaxCalculation', Model);
+  }
+
+  EditTaxCalculation(Model: any) {
+    return this.http.post<any>(this.URL + 'TaxCalculation/EditTaxCalculation', Model);
+  }
+
+  DeleteTaxCalculation(TaxCalculationId: number) {
+    return this.http.get<any>(this.URL + 'TaxCalculation/DeleteTaxCalculation?TaxCalculationId=' + TaxCalculationId);
   }
 }

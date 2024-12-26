@@ -217,11 +217,11 @@
                                 <td>أيام بعد تاريخ الفاتورة</td>
                                 <td>
                                     <div class="d-flex align-items-center justify-content-center text-center">
-                                        <button class="btn btn-warning text-white me-2" (click)="openEditModal(editModal,item)">
+                                        <button class="btn btn-warning text-white me-2" (click)="EditPaymentTermDetails(item)">
                                             <i class="uil uil-edit"></i>
                                             <span class="ms-2">تعديل</span>
                                         </button>
-                                        <button class="btn btn-danger" (click)="openDeleteModal(deleteModal,item.attendanceID)">
+                                        <button class="btn btn-danger" (click)="DeletePaymentTermDetails(item.paymentTermDetailId)">
                                             <i class="uil uil-trash-alt"></i>
                                             <span class="ms-2">حذف</span>
                                         </button>

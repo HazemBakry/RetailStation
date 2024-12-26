@@ -27,6 +27,7 @@ import { AccountTreeContainerComponent } from './components/account-tree-contain
 import { CostCenterTreeContainerComponent } from './components/cost-center-tree-container/cost-center-tree-container.component';
 import { GeneralAccountsHomeComponent } from './components/general-accounts-home/general-accounts-home.component';
 import { PaymentTermComponent } from './GeneralAccountSettings/payment-term/payment-term.component';
+import { TaxCalculationComponent } from './GeneralAccountSettings/tax-calculation/tax-calculation.component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,7 @@ const routes: Routes = [
       { path: 'financial-period', component: FinancialPeriodsComponent },
       { path: 'opening-balance', component: OpeningBalanceComponent },
       { path: 'payment-terms', component: PaymentTermComponent },
+      { path: 'tax-calculation', component: TaxCalculationComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
 
 

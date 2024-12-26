@@ -58,6 +58,7 @@ namespace MasterErp.API
             services.AddScoped<ILoansService, LoansService>();
             services.AddScoped<ISuppliersService, SuppliersService>();
             services.AddScoped<IPaymentTermService, PaymentTermService>();
+            services.AddScoped<ITaxCalculationService, TaxCalculationService>();
         }
     }
 }

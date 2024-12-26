@@ -41,7 +41,7 @@ export class PaymentTermComponent implements OnInit {
 
   buildForm() {
     this.formGroup = this.form.group({
-      paymentTermDetailId: [0],
+      paymentTermDetailId: [null],
       paymentTermId: [null],
       paymentTermValue: [null, [Validators.required]],
       duePercentage: [null, [Validators.required]],
@@ -64,7 +64,7 @@ export class PaymentTermComponent implements OnInit {
 
   openDeleteItemModal(content: any, id: any) {
     this.PaymentTermId = id;
-    this.modalService.open(content, { size: 'lg', centered: true, scrollable: true });
+    this.modalService.open(content, { size: 'md', centered: true, scrollable: true });
   }
 
   OpenPaymentTermsSidePanel(id: any) {
@@ -167,22 +167,51 @@ export class PaymentTermComponent implements OnInit {
     debugger;
     if (!this.validateForm())
       return;
+    let num = this.CheckCanAddPaymentTermDetails();
+    let duePerNum = this.formGroup.value.duePercentage;
+    if ((num + duePerNum) > 100) {
+      this.toaster.warning('لقد تخطيت النسبة المطلوبة 100 %');
+      return;
+    }
 
     this.formGroup.patchValue({ paymentTermId: this.PaymentTermId });
-    this.formGroup.patchValue({ paymentTermDetailId: 0 });
     let formData = this.formGroup.value;
     let paymentTermValue = formData.paymentTermValue;
+    if (!formData?.paymentTermDetailId) {
+      formData.paymentTermDetailId = 0;
+      this.generalAccountSettingsService.AddNewPaymentTermDetails(formData).subscribe(data => {
+        if (data?.isSuccess) {
+          this.formGroup?.reset();
+          this.formGroup.patchValue({ paymentTermValue: paymentTermValue });
+          this.toaster.success(data?.message);
+          this.GetPaymentTermDetailsById();
+        }
+        else
+          this.toaster.error(data?.message);
+      });
+    } else {
+      this.generalAccountSettingsService.EditPaymentTermDetails(formData).subscribe(data => {
+        if (data?.isSuccess) {
+          this.formGroup?.reset();
+          this.formGroup.patchValue({ paymentTermValue: paymentTermValue });
+          this.toaster.success(data?.message);
+          this.GetPaymentTermDetailsById();
+        }
+        else
+          this.toaster.error(data?.message);
+      });
+    }
+  }
 
-    this.generalAccountSettingsService.AddNewPaymentTermDetails(formData).subscribe(data => {
+  DeletePaymentTermDetails(id: any) {
+    this.generalAccountSettingsService.DeletePaymentTermDetails(id).subscribe(data => {
       if (data?.isSuccess) {
-        this.formGroup?.reset();
-        this.formGroup.patchValue({ paymentTermValue: paymentTermValue });
         this.toaster.success(data?.message);
         this.GetPaymentTermDetailsById();
       }
       else
         this.toaster.error(data?.message);
-    })
+    });
   }
 
   validateForm(): boolean {
@@ -195,8 +224,15 @@ export class PaymentTermComponent implements OnInit {
     }
   }
 
+  EditPaymentTermDetails(item: any) {
+    this.formGroup.patchValue({
+      paymentTermDetailId: item.paymentTermDetailId,
+      duePercentage: item.duePercentage,
+      afterDays: item.afterDays,
+    });
+  }
+
   CreatePaymentTermDetailsValue(item: any) {
-    debugger;
     let obj = {
       paymentTermDetailId: item.paymentTermDetailId,
       value: Math.round((Number(1000) * item.duePercentage) / 100),
@@ -210,6 +246,15 @@ export class PaymentTermComponent implements OnInit {
     const result = new Date(date);
     result.setDate(result.getDate() + days);
     return result;
+  }
+
+  CheckCanAddPaymentTermDetails(): number {
+    let duePercent = 0;
+    this.PaymentTermDetails.forEach(i => {
+      duePercent += i.duePercentage;
+    });
+
+    return duePercent;
   }
 
 }

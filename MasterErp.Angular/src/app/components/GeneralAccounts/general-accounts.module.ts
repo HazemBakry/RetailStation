@@ -32,6 +32,7 @@ import { AddEditCostCenterTreeComponent } from './components/cost-center-tree-co
 import { CostCenterTreeItemComponent } from './components/cost-center-tree-container/cost-center-tree-item/cost-center-tree-item.component';
 import { GeneralAccountsHomeComponent } from './components/general-accounts-home/general-accounts-home.component';
 import { PaymentTermComponent } from './GeneralAccountSettings/payment-term/payment-term.component';
+import { TaxCalculationComponent } from './GeneralAccountSettings/tax-calculation/tax-calculation.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { PaymentTermComponent } from './GeneralAccountSettings/payment-term/paym
     CostCenterTreeItemComponent,
     CostCenterTreeContainerComponent,
     GeneralAccountsHomeComponent,
-    PaymentTermComponent
+    PaymentTermComponent,
+    TaxCalculationComponent
   ],
   imports: [
     CommonModule,
