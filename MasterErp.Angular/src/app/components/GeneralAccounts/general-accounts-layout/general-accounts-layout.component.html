@@ -253,7 +253,7 @@
                     <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" (click)="toggleMenu(generalAccountSettings_menu)" [ngClass]="{'active': generalAccountSettings_menu.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-database nav-icon"></i>
-                            <span class="nav-link-text item-sidebar main-nav-link ms-3"> إعدادات المالية</span>
+                            <span class="nav-link-text item-sidebar main-nav-link ms-3"> التهيئة والإعدادات</span>
                         </div>
                         <div class="nav-collapse">
                             <i class="uil uil-angle-left-b"></i>
@@ -274,6 +274,14 @@
                                 <div class="nav-text d-flex align-items-center w-100">
                                     <i class="uil uil-users-alt nav-icon"></i>
                                     <span class="nav-link-text item-sidebar main-nav-link ms-3">حساب الضريبة</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./daily-notebook" routerLinkActive="active">
+                                <div class="nav-text d-flex align-items-center w-100">
+                                    <i class="uil uil-users-alt nav-icon"></i>
+                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">الدفاتر اليومية</span>
                                 </div>
                             </a>
                         </li>

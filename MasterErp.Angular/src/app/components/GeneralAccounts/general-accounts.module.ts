@@ -33,6 +33,7 @@ import { CostCenterTreeItemComponent } from './components/cost-center-tree-conta
 import { GeneralAccountsHomeComponent } from './components/general-accounts-home/general-accounts-home.component';
 import { PaymentTermComponent } from './GeneralAccountSettings/payment-term/payment-term.component';
 import { TaxCalculationComponent } from './GeneralAccountSettings/tax-calculation/tax-calculation.component';
+import { DailyNotebookComponent } from './GeneralAccountSettings/daily-notebook/daily-notebook.component';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { TaxCalculationComponent } from './GeneralAccountSettings/tax-calculatio
     CostCenterTreeContainerComponent,
     GeneralAccountsHomeComponent,
     PaymentTermComponent,
-    TaxCalculationComponent
+    TaxCalculationComponent,
+    DailyNotebookComponent
   ],
   imports: [
     CommonModule,

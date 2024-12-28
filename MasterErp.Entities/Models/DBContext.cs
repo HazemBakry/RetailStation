@@ -85,6 +85,7 @@ namespace MasterErp.Entities.Models
         public DbSet<PaymentTermDetail> PaymentTermDetails { get; set; }
         public DbSet<TaxCalculation> TaxCalculations { get; set; }
         public DbSet<TaxLookup> TaxLookups { get; set; }
+        public DbSet<DailyNotebook> DailyNotebooks { get; set; }
 
 
 

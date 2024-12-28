@@ -68,7 +68,7 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
             try
             {
                 var entity = Context.PaymentTerms.FirstOrDefault(i => i.PaymentTermName == Model.PaymentTermName);
-                if(entity != null)
+                if (entity != null)
                 {
                     return new ActionsResponseModel
                     {
@@ -197,9 +197,12 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
             try
             {
                 var entity = Context.PaymentTerms.FirstOrDefault(i => i.PaymentTermId == PaymentTermId);
+                var details = Context.PaymentTermDetails.Where(i => i.PaymentTermId == PaymentTermId);
                 if (entity != null)
                 {
                     Context.PaymentTerms.Remove(entity);
+                    if (details.Count() > 0)
+                        Context.PaymentTermDetails.RemoveRange(details);
                     Context.SaveChanges();
                     return new ActionsResponseModel
                     {

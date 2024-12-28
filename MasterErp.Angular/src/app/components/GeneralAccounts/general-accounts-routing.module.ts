@@ -28,6 +28,7 @@ import { CostCenterTreeContainerComponent } from './components/cost-center-tree-
 import { GeneralAccountsHomeComponent } from './components/general-accounts-home/general-accounts-home.component';
 import { PaymentTermComponent } from './GeneralAccountSettings/payment-term/payment-term.component';
 import { TaxCalculationComponent } from './GeneralAccountSettings/tax-calculation/tax-calculation.component';
+import { DailyNotebookComponent } from './GeneralAccountSettings/daily-notebook/daily-notebook.component';
 
 const routes: Routes = [
   {
@@ -63,6 +64,7 @@ const routes: Routes = [
       { path: 'opening-balance', component: OpeningBalanceComponent },
       { path: 'payment-terms', component: PaymentTermComponent },
       { path: 'tax-calculation', component: TaxCalculationComponent },
+      { path: 'daily-notebook', component: DailyNotebookComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
 
 

@@ -21,9 +21,9 @@ export class PaymentTermComponent implements OnInit {
   TermNameValidation = false;
   TermName = '';
   PaymentTermId: any;
+  PaymentTermName: any;
   formGroup: FormGroup;
   formErrors = {
-    paymentTermValue: '',
     duePercentage: '',
     afterDays: '',
   };
@@ -43,7 +43,6 @@ export class PaymentTermComponent implements OnInit {
     this.formGroup = this.form.group({
       paymentTermDetailId: [null],
       paymentTermId: [null],
-      paymentTermValue: [null, [Validators.required]],
       duePercentage: [null, [Validators.required]],
       afterDays: [null, [Validators.required]],
     });
@@ -67,8 +66,10 @@ export class PaymentTermComponent implements OnInit {
     this.modalService.open(content, { size: 'md', centered: true, scrollable: true });
   }
 
-  OpenPaymentTermsSidePanel(id: any) {
-    this.PaymentTermId = id;
+  OpenPaymentTermsSidePanel(item: any) {
+    this.formGroup?.reset();
+    this.PaymentTermId = item.paymentTermId;
+    this.PaymentTermName = item.paymentTermName;
     this.buildForm();
     this.GetPaymentTermDetailsById();
     this.offcanvasService.open(this.SidePanel, { position: 'end' });
@@ -83,10 +84,10 @@ export class PaymentTermComponent implements OnInit {
   GetPaymentTermDetailsById() {
     this.generalAccountSettingsService.GetPaymentTermDetailsById(this.PaymentTermId).subscribe(data => {
       this.PaymentTermDetails = data;
-      this.PaymentTermDetailsValues = [];
-      this.PaymentTermDetails.forEach(item => {
-        this.CreatePaymentTermDetailsValue(item);
-      });
+      // this.PaymentTermDetailsValues = [];
+      // this.PaymentTermDetails.forEach(item => {
+      //   this.CreatePaymentTermDetailsValue(item);
+      // });
     });
   }
 
@@ -167,22 +168,20 @@ export class PaymentTermComponent implements OnInit {
     debugger;
     if (!this.validateForm())
       return;
-    let num = this.CheckCanAddPaymentTermDetails();
-    let duePerNum = this.formGroup.value.duePercentage;
-    if ((num + duePerNum) > 100) {
-      this.toaster.warning('لقد تخطيت النسبة المطلوبة 100 %');
-      return;
-    }
 
     this.formGroup.patchValue({ paymentTermId: this.PaymentTermId });
     let formData = this.formGroup.value;
-    let paymentTermValue = formData.paymentTermValue;
     if (!formData?.paymentTermDetailId) {
       formData.paymentTermDetailId = 0;
+      let num = this.CheckCanAddPaymentTermDetails(formData.paymentTermDetailId);
+      let duePerNum = formData.duePercentage;
+      if ((num + duePerNum) > 100) {
+        this.toaster.warning('لقد تخطيت النسبة المطلوبة 100 %');
+        return;
+      }
       this.generalAccountSettingsService.AddNewPaymentTermDetails(formData).subscribe(data => {
         if (data?.isSuccess) {
           this.formGroup?.reset();
-          this.formGroup.patchValue({ paymentTermValue: paymentTermValue });
           this.toaster.success(data?.message);
           this.GetPaymentTermDetailsById();
         }
@@ -190,10 +189,15 @@ export class PaymentTermComponent implements OnInit {
           this.toaster.error(data?.message);
       });
     } else {
+      let num = this.CheckCanAddPaymentTermDetails(formData.paymentTermDetailId, true);
+      let duePerNum = formData.duePercentage;
+      if ((num + duePerNum) > 100) {
+        this.toaster.warning('لقد تخطيت النسبة المطلوبة 100 %');
+        return;
+      }
       this.generalAccountSettingsService.EditPaymentTermDetails(formData).subscribe(data => {
         if (data?.isSuccess) {
           this.formGroup?.reset();
-          this.formGroup.patchValue({ paymentTermValue: paymentTermValue });
           this.toaster.success(data?.message);
           this.GetPaymentTermDetailsById();
         }
@@ -248,11 +252,16 @@ export class PaymentTermComponent implements OnInit {
     return result;
   }
 
-  CheckCanAddPaymentTermDetails(): number {
+  CheckCanAddPaymentTermDetails(termDetailsId: any, idEdit = false): number {
     let duePercent = 0;
-    this.PaymentTermDetails.forEach(i => {
-      duePercent += i.duePercentage;
-    });
+    if (!idEdit)
+      this.PaymentTermDetails.forEach(i => {
+        duePercent += i.duePercentage;
+      });
+    else
+      this.PaymentTermDetails.filter(i => i.paymentTermDetailId != termDetailsId).forEach(i => {
+        duePercent += i.duePercentage;
+      });
 
     return duePercent;
   }

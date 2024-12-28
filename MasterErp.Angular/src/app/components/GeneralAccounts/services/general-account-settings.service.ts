@@ -74,4 +74,22 @@ export class GeneralAccountSettingsService {
   DeleteTaxCalculation(TaxCalculationId: number) {
     return this.http.get<any>(this.URL + 'TaxCalculation/DeleteTaxCalculation?TaxCalculationId=' + TaxCalculationId);
   }
+
+  //================================== DailyNotebook ===============================
+
+  GetDailyNotebookData() {
+    return this.http.get<any[]>(this.URL + 'DailyNotebook/GetDailyNotebookData');
+  }
+
+  AddNewDailyNotebook(Model: any) {
+    return this.http.post<any>(this.URL + 'DailyNotebook/AddNewDailyNotebook', Model);
+  }
+
+  EditDailyNotebook(Model: any) {
+    return this.http.post<any>(this.URL + 'DailyNotebook/EditDailyNotebook', Model);
+  }
+
+  DeleteDailyNotebook(DailyNotebookId: number) {
+    return this.http.get<any>(this.URL + 'DailyNotebook/DeleteDailyNotebook?DailyNotebookId=' + DailyNotebookId);
+  }
 }
