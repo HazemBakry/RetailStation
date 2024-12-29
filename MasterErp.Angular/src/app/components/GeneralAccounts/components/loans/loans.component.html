@@ -17,43 +17,38 @@
             <table class="table table-borderless align-middle table-hover table-component m-0">
                 <thead>
                     <tr>
-                        <th>اسم الضريبة</th>
-                        <th>الوصف</th>
-                        <th>نوع الضريبة</th>
-                        <th>نطاق الضريبة</th>
-                        <th>حساب الضريبة</th>
-                        <th>قيمة الضريبة</th>
-                        <th>نشط</th>
+                        <th>اسم القرض</th>
+                        <th>المبلغ المقترض</th>
+                        <th>تاريخ القرض</th>
+                        <th>الفائدة</th>
+                        <th>المدة</th>
+                        <th>المبلغ المستحق</th>
+                        <th>القسط الشهري</th>
                         <th class="actions-table-col"></th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    <tr *ngFor="let item of TaxCalculations">
+                    <tr *ngFor="let item of LoansData">
                         <td>
-                            <div class="fs-5 fw-bold">{{item.taxCalculationName}}</div>
+                            <div class="fs-5 fw-bold">{{item.loanName}}</div>
                         </td>
                         <td>
-                            <div class="fs-5 fw-bold">{{item.description}}</div>
+                            <div class="fs-5 fw-bold">{{item.loanAmount}}</div>
                         </td>
                         <td>
-                            <div class="fs-5 fw-bold">{{item.taxType}}</div>
+                            <div class="fs-5 fw-bold">{{item.date | date}}</div>
                         </td>
                         <td>
-                            <div class="fs-5 fw-bold">{{item.taxScope}}</div>
+                            <div class="fs-5 fw-bold">{{item.bnefit}} %</div>
                         </td>
                         <td>
-                            <div class="fs-5 fw-bold">{{item.taxLookupName}}</div>
+                            <div class="fs-5 fw-bold">{{item.duration}} شهر</div>
                         </td>
                         <td>
-                            <div class="fs-5 fw-bold">{{item.amount}} %</div>
+                            <div class="fs-5 fw-bold">{{item.amountDue}}</div>
                         </td>
                         <td>
-                            <label class="switch me-2">
-                                <input type="checkbox" [(ngModel)]="item.isActive"
-                                    (change)="ChangeTaxCalculationStatus(item)"
-                                    class="ng-valid ng-dirty ng-touched">
-                                <span class="slider round"></span>
-                            </label>
+                            <div class="fs-5 fw-bold">{{item.monthlyInstallment}}</div>
                         </td>
                         <td>
                             <div class="d-flex align-items-center justify-content-center">
@@ -61,7 +56,7 @@
                                     <i class="uil uil-pen"></i>
                                     <span>تعديل</span>
                                 </button>
-                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteItemModal(deleteItemModal,item.taxCalculationId)">
+                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteItemModal(deleteItemModal,item.loanId)">
                                     <i class="uil uil-trash-alt"></i>
                                     <span>حذف</span>
                                 </button>
@@ -89,63 +84,60 @@
             <table class="table table-bordered table-feature-value align-middle border m-0">
                 <tbody>
                     <tr>
-                        <td class="table-feature">اسم الضريبة</td>
+                        <td class="table-feature">اسم القرض</td>
                         <td class="table-value">
-                            <input type="text" class="form-control form-control-lg" placeholder="أدخل الاسم..." formControlName="taxCalculationName">
-                            <div *ngIf="formErrors.taxCalculationName" class="text-danger  font-small-3 m-03">
-                                {{formErrors.taxCalculationName}}
+                            <input type="text" class="form-control form-control-lg" placeholder="اسم القرض..." formControlName="loanName">
+                            <div *ngIf="formErrors.loanName" class="text-danger  font-small-3 m-03">
+                                {{formErrors.loanName}}
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="table-feature">الوصف</td>
+                        <td class="table-feature">المبلغ المقترض</td>
                         <td class="table-value">
-                            <input type="text" class="form-control form-control-lg" placeholder="أدخل الوصف..." formControlName="description">
-                            <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
-                                {{formErrors.description}}
+                            <input type="number" class="form-control form-control-lg text-align-right" placeholder="...المبلغ المقترض" formControlName="loanAmount">
+                            <div *ngIf="formErrors.loanAmount" class="text-danger  font-small-3 m-03">
+                                {{formErrors.loanAmount}}
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="table-feature">نوع الضريبة</td>
+                        <td class="table-feature">تاريخ القرض</td>
                         <td class="table-value">
-                            <div class="form-floating">
-                                <app-drop-down-form-control formControlName="taxType" [data]="TaxTypes" [showSearch]="true" [placeholder]="'نوع الضريبة'"></app-drop-down-form-control>
-                            </div>
-                            <div *ngIf="formErrors.taxType" class="text-danger  font-small-3 m-03">
-                                {{formErrors.taxType}}
+                            <input type="date" class="form-control form-control-lg" placeholder="تاريخ القرض..." formControlName="date">
+                            <div *ngIf="formErrors.date" class="text-danger  font-small-3 m-03">
+                                {{formErrors.date}}
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="table-feature">نطاق الضريبة</td>
+                        <td class="table-feature">الفائدة %</td>
                         <td class="table-value">
-                            <div class="form-floating">
-                                <app-drop-down-form-control formControlName="taxScope" [data]="TaxScopes" [showSearch]="true" [placeholder]="'نطاق الضريبة'"></app-drop-down-form-control>
-                            </div>
-                            <div *ngIf="formErrors.taxScope" class="text-danger  font-small-3 m-03">
-                                {{formErrors.taxScope}}
+                            <input type="number" class="form-control form-control-lg text-align-right" (input)="amountDueCalc()" placeholder="...الفائدة" formControlName="bnefit">
+                            <div *ngIf="formErrors.bnefit" class="text-danger  font-small-3 m-03">
+                                {{formErrors.bnefit}}
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="table-feature">حساب الضريبة</td>
+                        <td class="table-feature">المدة</td>
                         <td class="table-value">
-                            <div class="form-floating">
-                                <app-drop-down-form-control formControlName="taxLookupId" [data]="TaxLookups" [showSearch]="true" [placeholder]="'حساب الضريبة'"></app-drop-down-form-control>
-                            </div>
-                            <div *ngIf="formErrors.taxLookupId" class="text-danger  font-small-3 m-03">
-                                {{formErrors.taxLookupId}}
+                            <input type="number" class="form-control form-control-lg text-align-right" (input)="amountDueCalc()" placeholder="...المدة" formControlName="duration">
+                            <div *ngIf="formErrors.duration" class="text-danger  font-small-3 m-03">
+                                {{formErrors.duration}}
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="table-feature">قيمة الضريبة</td>
+                        <td class="table-feature">المبلغ المستحق</td>
                         <td class="table-value">
-                            <input type="number" class="form-control form-control-lg text-align-right" placeholder="...قيمة الضريبة" formControlName="amount">
-                            <div *ngIf="formErrors.amount" class="text-danger  font-small-3 m-03">
-                                {{formErrors.amount}}
-                            </div>
+                            <input type="number" class="form-control form-control-lg text-align-right" placeholder="...المبلغ المستحق" formControlName="amountDue" disabled>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">القسط الشهري</td>
+                        <td class="table-value">
+                            <input type="number" class="form-control form-control-lg text-align-right" placeholder="...القسط الشهري" formControlName="monthlyInstallment" disabled>
                         </td>
                     </tr>
                 </tbody>
@@ -153,7 +145,7 @@
         </form>
     </div>
     <div class="modal-footer flex-nowrap gap-2">
-        <button type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100" (click)="AddNewTaxCalculation()">
+        <button type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100" (click)="AddNewLoans()">
             <i class="uil uil-save fs-3"></i>
             <span>حفظ</span>
         </button>
@@ -173,7 +165,7 @@
         <p class="fs-5 m-0">Are you sure you want remove this Raw Item?</p>
     </div>
     <div class="modal-footer justify-content-start">
-        <button type="button" class="btn btn-success" (click)="DeleteTaxCalculation()">
+        <button type="button" class="btn btn-success" (click)="DeleteLoans()">
             <i class="fas fa-check"></i>
             <span class="ms-2">Yes</span>
         </button>

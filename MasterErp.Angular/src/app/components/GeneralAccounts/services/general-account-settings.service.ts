@@ -92,4 +92,22 @@ export class GeneralAccountSettingsService {
   DeleteDailyNotebook(DailyNotebookId: number) {
     return this.http.get<any>(this.URL + 'DailyNotebook/DeleteDailyNotebook?DailyNotebookId=' + DailyNotebookId);
   }
+
+  //================================== AssetsForm ===============================
+
+  GetAssetsFormData(model: FilterModel) {
+    return this.http.post<any[]>(this.URL + 'AssetsForm/GetAssetsFormData', model);
+  }
+
+  AddNewAssetsForm(Model: any) {
+    return this.http.post<any>(this.URL + 'AssetsForm/AddNewAssetsForm', Model);
+  }
+
+  EditAssetsForm(Model: any) {
+    return this.http.post<any>(this.URL + 'AssetsForm/EditAssetsForm', Model);
+  }
+
+  DeleteAssetsForm(AssetsFormId: number) {
+    return this.http.get<any>(this.URL + 'AssetsForm/DeleteAssetsForm?AssetsFormId=' + AssetsFormId);
+  }
 }

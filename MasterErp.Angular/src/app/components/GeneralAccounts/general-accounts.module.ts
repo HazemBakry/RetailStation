@@ -34,6 +34,8 @@ import { GeneralAccountsHomeComponent } from './components/general-accounts-home
 import { PaymentTermComponent } from './GeneralAccountSettings/payment-term/payment-term.component';
 import { TaxCalculationComponent } from './GeneralAccountSettings/tax-calculation/tax-calculation.component';
 import { DailyNotebookComponent } from './GeneralAccountSettings/daily-notebook/daily-notebook.component';
+import { AssetsFormComponent } from './GeneralAccountSettings/assets-form/assets-form.component';
+import { LoansComponent } from './components/loans/loans.component';
 
 
 @NgModule({
@@ -66,7 +68,9 @@ import { DailyNotebookComponent } from './GeneralAccountSettings/daily-notebook/
     GeneralAccountsHomeComponent,
     PaymentTermComponent,
     TaxCalculationComponent,
-    DailyNotebookComponent
+    DailyNotebookComponent,
+    AssetsFormComponent,
+    LoansComponent
   ],
   imports: [
     CommonModule,

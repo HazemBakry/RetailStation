@@ -115,6 +115,10 @@ export class TaxCalculationComponent implements OnInit {
     if (!this.validateForm())
       return;
     let formData = this.formGroup.value;
+    if (formData?.amount > 100) {
+      this.toaster.warning('لقد تخطيت النسبة المطلوبة 100 %');
+      return;
+    }
 
     if (!formData?.taxCalculationId) {
       formData.taxCalculationId = 0;

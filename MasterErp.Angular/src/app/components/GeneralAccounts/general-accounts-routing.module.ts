@@ -29,6 +29,8 @@ import { GeneralAccountsHomeComponent } from './components/general-accounts-home
 import { PaymentTermComponent } from './GeneralAccountSettings/payment-term/payment-term.component';
 import { TaxCalculationComponent } from './GeneralAccountSettings/tax-calculation/tax-calculation.component';
 import { DailyNotebookComponent } from './GeneralAccountSettings/daily-notebook/daily-notebook.component';
+import { AssetsFormComponent } from './GeneralAccountSettings/assets-form/assets-form.component';
+import { LoansComponent } from './components/loans/loans.component';
 
 const routes: Routes = [
   {
@@ -41,7 +43,6 @@ const routes: Routes = [
       { path: 'featured', component: FeaturedComponent },
       { path: 'fiscalYear', component: FiscalYearComponent },
       { path: 'receiptBooks', component: ReceiptBooksComponent },
-      // { path: 'account-tree', component: AccountTreeComponent },
       { path: 'account-tree', component: AccountTreeContainerComponent },
       { path: 'cost-center-tree', component: CostCenterTreeContainerComponent },
       { path: 'new-entry', component: NewEntryComponent },
@@ -65,6 +66,8 @@ const routes: Routes = [
       { path: 'payment-terms', component: PaymentTermComponent },
       { path: 'tax-calculation', component: TaxCalculationComponent },
       { path: 'daily-notebook', component: DailyNotebookComponent },
+      { path: 'assets-form', component: AssetsFormComponent },
+      { path: 'loans', component: LoansComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
 
 
