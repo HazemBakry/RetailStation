@@ -1,7 +1,15 @@
 <div class="card radius-10 border-0 card-shadow mb-3">
-    <div class="card-header bg-white">
-        <span class="m-0 fw-bold card-header-title">انشاء عرض  اسعار جديد
-        </span>
+    
+    <div class="card-header bg-white border-bottom bg-gray d-flex align-items-center justify-content-between">
+        <h5 class="mb-0 fw-bold">
+            <span class="ms-3">
+                انشاء عرض  اسعار جديد
+            </span>
+        </h5>
+        <button class="btn btn-secondary gap-2" routerLink="./../purchase-quotations">
+            <span>عودة للقائمة</span>
+            <i class="fa fa-arrow-left"></i>
+        </button>
     </div>
     <div class="card-body bg-light">
 
@@ -21,6 +29,11 @@
                     <div *ngIf="formErrors.selectedItemIds" class="text-danger  font-small-3 m-03">
                          {{formErrors.selectedItemIds}}
                     </div>
+                    <div class="d-flex align-items-center flex-wrap m-3">
+                        <span class="badge badge-size bg-primary me-1 mb-1" *ngFor="let selected of selectedItems;let i = index">
+                            {{selected.name}}
+                        </span>
+                    </div>
                 </div>
                 <div class="col-xl-1"></div>
 
@@ -28,10 +41,16 @@
 
                     <app-drop-down-form-control formControlName="selectedSupplierIds"  [selectMulti]="true"  [placeholder]="'الموردين'" [showSearch]="true"
                         [data]="suppliersSelectorData"
-                        (valueChanged)="getSelectedSuppliers($event)"></app-drop-down-form-control>
-                        <div *ngIf="formErrors.selectedSupplierIds" class="text-danger  font-small-3 m-03">
-                            {{formErrors.selectedSupplierIds}}
-                       </div>
+                        (valueChanged)="getSelectedSuppliers($event)">
+                    </app-drop-down-form-control>
+                    <div *ngIf="formErrors.selectedSupplierIds" class="text-danger  font-small-3 m-03">
+                        {{formErrors.selectedSupplierIds}}
+                    </div>
+                    <div class="d-flex align-items-center flex-wrap m-3">
+                        <span class="badge badge-size bg-primary me-1 mb-1" *ngFor="let selected of selectedSuppliers;let i = index">
+                            {{selected.name}}
+                        </span>
+                    </div>
                 </div>
 
                 
@@ -51,9 +70,9 @@
                     <i class="fas fa-check-circle"></i>
                     <span class="ms-2">حفظ</span>
                 </button>
-                <button class="btn btn-warning btn-lg fs-6 me-2" (click)="initNewForm()">
-                    <i class="fas fa-times"></i>
-                    <span class="ms-2">مسح</span>
+                <button class="btn btn-warning m-2 text-white" (click)="initNewForm()">
+                    <span class="me-2">افراغ الخانات</span>
+                    <i class="fas fa-trash"></i>
                 </button>
             </div>
         </form>
@@ -63,16 +82,16 @@
             <table *ngIf="selectedItems?.length >0&&selectedSuppliers?.length >0" class="table table-responsive table-borderless table-feature-value align-middle border m-0">
                 <thead>
                     <tr>
-                        <th class="table-feature">الصنف</th>
-                        <th  class="table-feature" *ngFor="let supplier of selectedSuppliers">
+                        <th class="table-feature text-start">الصنف</th>
+                        <th  class="table-feature text-start" *ngFor="let supplier of selectedSuppliers">
                             {{supplier.name}}
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of selectedItems">
-                        <td class="table-feature">{{item.name}}</td>
-                        <td *ngFor="let supplier of selectedSuppliers" class="table-value">
+                        <td class="table-feature item-td-size">{{item.name}}</td>
+                        <td *ngFor="let supplier of selectedSuppliers" class="table-value supplier-td-size">
                             <div class="form-floating">
                                 <input required type="number" dir="rtl" class="form-control form-control-lg" id="floatingInput{{item.value}}_{{supplier.value}}" placeholder="السعر"
                                     [value]="getSupplierPrice(item.value, supplier.value)"

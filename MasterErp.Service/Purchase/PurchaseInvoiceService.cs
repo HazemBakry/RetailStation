@@ -79,7 +79,7 @@ namespace MasterErp.Service.Purchase
                     order_tbl.IsCancelled = model.IsCancelled != null ? model.IsCancelled ?? false : false;
                     order_tbl.IsLocked = model.IsLocked !=null ? model.IsLocked ??false :false;
                     order_tbl.Notes = model.Notes;
-                    order_tbl.InvoiceDate = model?.OrderDate ?? DateTime.Now;
+                    //order_tbl.InvoiceDate = model?.OrderDate ?? DateTime.Now;
                     order_tbl.TotalValue = model.OrderProducts?.Sum(x => x.TotalValue) ?? 0;
                     order_tbl.SupplierId = model.SupplierId ?? 0;
                     order_tbl.InvoiceTypeId = model.OrderTypeId;
@@ -175,7 +175,7 @@ namespace MasterErp.Service.Purchase
                 order_tbl.IsCancelled = false;
                 order_tbl.IsLocked = false;
                 order_tbl.Notes = model.Notes;
-                order_tbl.InvoiceDate = model?.OrderDate ?? DateTime.Now;
+                order_tbl.InvoiceDate = DateTime.Now;
                 order_tbl.TotalValue = model.OrderProducts?.Sum(x => x.TotalValue) ?? 0;
                 order_tbl.SupplierId = model.SupplierId ?? 0;
                 order_tbl.InvoiceTypeId = model.OrderTypeId;

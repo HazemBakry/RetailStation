@@ -1,5 +1,5 @@
 
-import { Component, ComponentFactoryResolver, OnInit, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
 import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
@@ -11,6 +11,7 @@ import { DataField } from 'src/app/components/Shared/models/DataField';
 import { DynamicComponentLoaderService } from 'src/app/components/Shared/services/dynamic-component-loader.service';
 import { FieldType } from 'src/app/components/Shared/Enums/FieldType';
 import { PurchaseQuotationDetailsModel, PurchaseQuotationModel } from '../../models/PurchaseQuotationModel';
+import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-purchase-quotations',
@@ -21,8 +22,9 @@ import { PurchaseQuotationDetailsModel, PurchaseQuotationModel } from '../../mod
 export class PurchaseQuotationsComponent implements OnInit {
   TitleList = ['المشتريات', 'عرض المشتريات'];
   showLoader: boolean;
-
-
+  @ViewChild('QuotationsDetailsSidePanel', { static: true }) DetailsSidePanel: TemplateRef<any>;
+  quotationDetailsList: PurchaseQuotationDetailsModel[] = [];
+  distinctSuppliers: PurchaseQuotationDetailsModel[] = [];
   pagedResponseModel:PagedResponseDTO<PurchaseQuotationModel[]>={
     results:[],
     filterList:[],
@@ -32,8 +34,9 @@ export class PurchaseQuotationsComponent implements OnInit {
 
   };
   @ViewChild(ComponentHostDirective, { static: true }) detailsComponentHost!: ComponentHostDirective;
-
-  constructor(private purchaseService: PurchaseService, private toaster: ToastrService,private dynamicComponentService:DynamicComponentLoaderService ) { }
+  public FieldType = FieldType;
+  quotationDetailsModel: PurchaseQuotationModel;
+  constructor(private purchaseService: PurchaseService, private toaster: ToastrService,private dynamicComponentService:DynamicComponentLoaderService,private offcanvasService: NgbOffcanvas, ) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -57,18 +60,28 @@ export class PurchaseQuotationsComponent implements OnInit {
     this.loadData();
   }
 
-
+  openQuotationDetailsSidePanel(detailsModel: PurchaseQuotationModel) {
+    this.quotationDetailsModel = detailsModel;
+    this.showQuotationDetails(detailsModel);
+    this.offcanvasService.open(this.DetailsSidePanel, { panelClass: 'details-panel', position: 'end' });
+    
+  }
   showQuotationDetails(detailsModel: PurchaseQuotationModel) {
-
+    this.quotationDetailsList = [];
+    this.distinctSuppliers=[];
     // this.showLoader = true;
     this.purchaseService.GetPurchaseQuotationProducts_Data(detailsModel.purchaseQuotationId).subscribe((data: any[]) => {
-      this.dynamicComponentService.loadProductDetailsSidePanel(
-        this.detailsComponentHost.viewContainerRef,
-        null,
-        data,
-        this.quotationDetailsDataFields,
-        `تفاصيل العرض ${detailsModel.quotationNumber}#`
-      );
+      this.quotationDetailsList = this.groupItemsById(data);
+      if(this.quotationDetailsList.length>0)
+        this.distinctSuppliers=this.quotationDetailsList[0].supplierPrices;
+
+      // this.dynamicComponentService.loadProductDetailsSidePanel(
+      //   this.detailsComponentHost.viewContainerRef,
+      //   null,
+      //   data,
+      //   this.quotationDetailsDataFields,
+      //   `تفاصيل العرض ${detailsModel.quotationNumber}#`
+      // );
       
       this.showLoader = false;
     }, err => {
@@ -78,6 +91,54 @@ export class PurchaseQuotationsComponent implements OnInit {
     });
 
 
+  }
+  groupItemsById(purchaseQuotationDetails: PurchaseQuotationDetailsModel[]): (PurchaseQuotationDetailsModel[]) {
+    const groupedItems: { [key: number]: PurchaseQuotationDetailsModel } = {};
+  
+    purchaseQuotationDetails.forEach(detail => {
+      // Check if the itemId is already in the groupedItems object
+      if (!groupedItems[detail.itemId]) {
+        groupedItems[detail.itemId] = {
+          purchaseQuotationDetailsId:detail.purchaseQuotationDetailsId,
+          purchaseQuotationId:detail.purchaseQuotationId,
+          itemId:detail.itemId,
+          itemNameAR:detail.itemNameAR,
+          itemNameEN:detail.itemNameEN,
+          unitId:detail.unitId,
+          unitNameAR: detail.unitNameAR,
+          unitNameEN: detail.unitNameEN,
+          notes: detail.notes,
+          supplierPrices :purchaseQuotationDetails.filter(x=>x.itemId==detail.itemId)
+        };
+      }
+      // Check if the supplier is already in the suppliers array
+      // const supplier = groupedItems[detail.itemId].supplierPrices.find(s => s.supplierId === detail.supplierId);
+  
+      // if (supplier)  {
+      //   groupedItems[detail.itemId].supplierPrices.push({
+      //       purchaseQuotationDetailsId:detail.purchaseQuotationDetailsId,
+      //       purchaseQuotationId:detail.purchaseQuotationId,
+      //       itemId:detail.itemId,
+      //       itemNameAR:detail.itemNameAR,
+      //       itemNameEN:detail.itemNameEN,
+      //       unitId:detail.unitId,
+      //       unitNameAR: detail.unitNameAR,
+      //       unitNameEN: detail.unitNameEN,
+      //       supplierId : detail.supplierId,
+      //       supplierNameAR: detail.supplierNameAR,
+      //       supplierNameEN: detail.supplierNameEN,
+      //       notes: detail.notes,
+      //       price: detail.price,
+      //       supplierPrices :[]
+      //     });
+      // }
+    });
+  
+    // Convert the groupedItems object to an array
+    return Object.values(groupedItems);
+  }
+  getFieldValue(item: PurchaseQuotationDetailsModel[],supplierId): any {
+    return item.find(s=>s.supplierId==supplierId)?.price;
   }
   quotationDetailsDataFields :DataField[] = [
     {

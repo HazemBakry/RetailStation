@@ -135,7 +135,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
       orderId: [null],
       docNumber: [null],
       orderNumber: [null],
-      orderDate: [null, [Validators.required]],
+      orderDate: [null],
       dueDate: [null, [Validators.required]],
       orderTypeId: [null, [Validators.required]],
       supplierId: [null, [Validators.required]],

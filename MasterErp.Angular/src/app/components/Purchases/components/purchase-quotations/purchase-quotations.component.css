@@ -1,0 +1,14 @@
+.item-td-size
+{
+    min-width: 300px !important;
+    /* width: 300px !important; */
+    max-width: 500px !important;
+
+}
+ .supplier-td-size
+{
+    min-width: 150px !important;
+    /* width: 100px !important; */
+    max-width: 150px !important;
+
+}

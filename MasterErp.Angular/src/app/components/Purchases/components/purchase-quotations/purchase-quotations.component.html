@@ -36,7 +36,7 @@
                                 <span>تعديل</span>
                             </button>
                            
-                            <button (click)="showQuotationDetails(item)"
+                            <button (click)="openQuotationDetailsSidePanel(item)"
                                 class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
                                 <i class="uil uil-pen"></i>
                                 <span>تفاصيل</span>
@@ -53,4 +53,88 @@
 
 <ng-template appComponentHost></ng-template>
 
+
+<ng-template #QuotationsDetailsSidePanel let-offcanvas>
+    <div class="offcanvas-header justify-content-between gap-3 fs-4 border-bottom py-3">
+        <div class="d-flex align-items-center gap-2">
+            <i class="fas fa-store offcanvas-header-icon"></i>
+            <span>تفاصيل العرض </span>
+        </div>
+        <div class="cursor-pointer text-danger fs-2" (click)="offcanvas.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="offcanvas-body pt-4 bg-light">
+        <div *ngIf="quotationDetailsModel" class="employee-card-body mb-3">
+            <div class="row mb-3">
+                <div *ngIf="quotationDetailsModel?.quotationNumber" class="col-xl-6">
+                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
+                        <i class="fas fa-info-circle fa-1x me-2"></i> رقم العرض : {{quotationDetailsModel?.quotationNumber}}
+                    </h4>
+                </div>
+               
+            </div>
+            <div class="row mb-3">
+                <div *ngIf="quotationDetailsModel?.quotationDate" class="col-xl-6">
+                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
+                        <i class="fas fa-info-circle fa-1x me-2"></i>
+                         تاريخ العرض : {{quotationDetailsModel?.quotationDate | date:'shortDate'}}
+                    </h4>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div *ngIf="quotationDetailsModel?.notes" class="col-xl-6">
+                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
+                        <i class="fas fa-info-circle fa-1x me-2"></i> ملاحظات : {{quotationDetailsModel?.notes}}
+                    </h4>
+                </div>
+                
+            </div>
+            
+            <!-- <div class="col-xl-12">
+                <div class="d-flex justify-content-center mt-3">
+
+                </div>
+            </div> -->
+        </div>
+
+        <hr class="border-black" />
+
+        <div class="card card-with-table border shadow-none">
+            <!-- <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-end">
+                pagination
+            </div> -->
+            <div class="card-body table-responsive p-0">
+                <table *ngIf="distinctSuppliers?.length >0"
+                    class="table table-responsive table-borderless table-feature-value align-middle border m-0">
+                    
+                    <thead>
+                        
+                        <tr>
+                            <th class="table-feature text-start">الصنف</th>
+
+                            <th class="table-feature text-start" *ngFor="let field of distinctSuppliers">{{field.supplierNameAR ?? field.supplierNameEN}}</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of quotationDetailsList; let i = index">
+                            <td class="table-feature item-td-size">{{item.itemNameAR ?? item.itemNameEN}}</td>
+
+                            <td *ngFor="let supplier of distinctSuppliers" class="table-value supplier-td-size fw-bold">
+                                <app-render *ngIf="getFieldValue(item.supplierPrices,supplier.supplierId) as itemPrice" [value]="itemPrice"
+                                    [fieldType]="FieldType.Text">
+                                </app-render>
+                            </td>
+
+                        </tr>
+                    </tbody>
+
+                </table>
+                <app-empty-data [showContainer]="!distinctSuppliers?.length && !showLoader "></app-empty-data>
+            </div>
+        </div>
+    </div>
+
+</ng-template>
 <!-- <ngx-loading [show]="showLoader"></ngx-loading> -->

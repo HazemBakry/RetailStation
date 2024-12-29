@@ -63,7 +63,7 @@ export class ReceiveOrdersComponent implements OnInit {
   filterChecked(filterItems: FilterItem[]) {
     this.pagedResponseModel.filterList = filterItems;
     this.getReceiveOrdersSummary();
-    this.getReceiveOrders_Filters();
+    // this.getReceiveOrders_Filters();
   }
 
   pageChanged(obj: any) {

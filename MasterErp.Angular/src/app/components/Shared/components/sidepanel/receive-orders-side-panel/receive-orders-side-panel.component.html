@@ -4,60 +4,60 @@
     <span class="ms-2">بحث أذن أضافة</span>
 </button>
 <ng-template #OrderSearchSidepanel let-offcanvas>
-    <div class="m-1">
 
-        <div class="offcanvas-header pb-0" style="z-index: 9999;">
-            <div>
-                <!-- <h4 class="offcanvas-title m-0 d-flex align-items-center w-100"><i
-                        class="fas fa-history fa-2x main-color me-2"></i> التفاصيل</h4> -->
+    <div class="offcanvas-header justify-content-between gap-3 fs-4 border-bottom py-3">
+        <div class="d-flex align-items-center gap-2">
+            <i class="fas fa-store offcanvas-header-icon"></i>
+            <span>بحث أذن أضافة</span>
+        </div>
+        <div class="cursor-pointer text-danger fs-2" (click)="offcanvas.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="offcanvas-body pt-4 bg-light">
+
+        <div class="employee-card-body row mb-3">
+            <div class="col-xl-4 mb-2">
+                <app-drop-down-form-control [disabled]="true" [(ngModel)]="selectedSupplierId"
+                    [data]="suppliersSelectorData" [showSearch]="true"
+                    [placeholder]="'قائمة الموردين'"></app-drop-down-form-control>
             </div>
-            <button type="button" class="btn bg-danger text-white rounded" aria-label="Close"
-                (click)="offcanvas.dismiss()">
-                <i class="fas fa-times"></i>
-            </button>
+            <div class="col-xl-4 mb-2">
+                <input type="text" autocomplete="off" [(ngModel)]="orderNumber" class="form-control input-height"
+                    placeholder="رقم الطلب">
+
+            </div>
+            <div class="col-xl-4 mb-2">
+                <input type="date" [(ngModel)]="orderDate" class="form-control input-height"
+                    placeholder="تاريخ الاصدار">
+            </div>
+            <div class="col-xl-12">
+                <div class="d-flex justify-content-center mt-3">
+                    <button (click)="loadData()"
+                        class="btn btn-primary w-50 justify-content-center py-2 fs-5 radius-10">
+                        بحث
+                    </button>
+                </div>
+            </div>
         </div>
 
-        <div class="offcanvas-body pt-0">
+        <hr class="border-black" />
 
-            <div class="employee-card-body my-5 row">
-                <div class="col-xl-5 mb-3">
-                    <app-drop-down-form-control [disabled]="true" [(ngModel)]="selectedSupplierId" [data]="suppliersSelectorData"
-                        [showSearch]="true" [placeholder]="'قائمة الموردين'"></app-drop-down-form-control>
-                </div>
-                <!-- <div class="col-xl-1"></div> -->
-                <div class="col-xl-2  mb-3">
-                    <div class="form-floating mb-3">
-                        <input type="text" autocomplete="off" [(ngModel)]="orderNumber" class="form-control"
-                            id="floatingInput1" placeholder="any">
-                        <label for="floatingInput1">رقم الطلب</label>
-                    </div>
-                </div>
-
-                <!-- <div class="col-xl-1"></div> -->
-                <div class="col-xl-3  mb-3">
-                    <div class="form-floating mb-3">
-                        <input type="date" [(ngModel)]="orderDate" class="form-control" id="floatingInput6"
-                            placeholder="any">
-                        <label for="floatingInput6">تاريخ الاصدار</label>
-                    </div>
-                </div>
-                <div class="col-xl-2  mb-3">
-                    <button (click)="loadData()" class="btn btn-primary mt-2">بحث</button>
-
-                </div>
-            </div>
-            <div class="boxstyle1-content">
-                <button (click)="SelectOrders()" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
+        <div class="card card-with-table border shadow-none">
+            <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-start">
+                <button (click)="SelectOrders()"
+                    class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
                     <i class="far fa-eye"></i>
                     <span>تحميل</span>
                 </button>
             </div>
-            <div class="boxstyle1-content hastable table-responsive table-vp-height small-scroll">
-                <table class="table table-bordered table-responsive table-middle table-hover m-0 bg-white bigtitle">
+            <div class="card-body table-responsive p-0">
+                <table class="table table-borderless align-middle table-hover table-component text-center m-0">
                     <thead>
                         <tr>
                             <th>
-                                <input class="cursor-pointer" (change)="selectAllData()"  [(ngModel)]="selectAll" type="checkbox" >
+                                <input class="cursor-pointer" (change)="selectAllData()" [(ngModel)]="selectAll"
+                                    type="checkbox">
 
                             </th>
                             <th>رقم الفاتورة</th>
@@ -73,7 +73,7 @@
                     <tbody>
                         <tr *ngFor="let item of pagedResponseModel.results">
                             <td>
-                                <input class="cursor-pointer" type="checkbox"  [(ngModel)]="item.isChecked">
+                                <input class="cursor-pointer" type="checkbox" [(ngModel)]="item.isChecked">
 
                             </td>
                             <td>
@@ -93,7 +93,8 @@
                             </td>
                             <td>
                                 <div class="w-100 d-flex align-items-center justify-content-center">
-                                    <button (click)="SelectOrder(item)" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
+                                    <button (click)="SelectOrder(item)"
+                                        class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
                                         <i class="far fa-eye"></i>
                                         <span>تحميل</span>
                                     </button>
@@ -101,14 +102,11 @@
                             </td>
                         </tr>
                     </tbody>
-                    
                 </table>
-               
                 <app-empty-data [showContainer]="!pagedResponseModel.results?.length&&!showLoader"
                     [showLoader]="showLoader"></app-empty-data>
             </div>
-
         </div>
-    </div>
 
+    </div>
 </ng-template>

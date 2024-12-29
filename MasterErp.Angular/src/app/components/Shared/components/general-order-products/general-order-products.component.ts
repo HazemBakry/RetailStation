@@ -71,6 +71,13 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
       let checked = this.productsList?.find(i => i.itemId == item.itemId);
       if (!checked)
         this.productsList.push(item);
+      // else
+      // {
+      //   checked.price += item.price;
+      //   checked.totalValue += item.totalValue;
+      //   checked.quantity+= item.quantity;
+
+      // }
     });
     if(this.productsList)
      this.emitSelectedProductsList();

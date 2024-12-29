@@ -171,7 +171,8 @@ export class AddPurchaseQuotationComponent implements OnInit {
       notes:[null],
       quotationProducts: [[] as PurchaseQuotationDetailsModel[], [Validators.required,Validators.minLength(2)]],
       selectedItemIds: [[],[Validators.required]],
-      selectedSupplierIds: [[],[Validators.required,CustomValidators.arrayLengthValidator(1,3,'يجب ان لا يزيد الموردين عن 3')]],
+      selectedSupplierIds: [[],[Validators.required]],
+      // selectedSupplierIds: [[],[Validators.required,CustomValidators.arrayLengthValidator(1,3,'يجب ان لا يزيد الموردين عن 3')]],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);

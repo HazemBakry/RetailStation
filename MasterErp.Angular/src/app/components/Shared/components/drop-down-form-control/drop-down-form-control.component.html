@@ -24,8 +24,13 @@
     <button type="button" [disabled]="disabled" id="dropdownBasic1" ngbDropdownToggle>
         <div class="overflow-hidden"> 
             <span *ngIf="selectedItems.length === 0">{{placeholder}}</span>
-            <span *ngIf="selectedItems.length > 0" >{{selectedItems?.slice(0,2).join(', ')}}</span>
-            <span *ngIf="selectedItems.length > 2"> , ...</span>  
+            <span *ngIf="selectedItems.length > 0" >
+                <span *ngFor="let item of selectedItems?.slice(0,2)">
+                    {{item?.substring(0, 20)}} - 
+                </span>
+                <!-- {{selectedItems?.slice(0,2)?.join(', ').substring(0, 40)}} -->
+            </span>
+            <span *ngIf="selectedItems.length > 2"> ...</span>  
         </div>
     </button>
     <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="w-100">

@@ -29,7 +29,7 @@
                         {{formErrors.purchaseOrderId}}
                     </div>
                     <div class="col-md-2">
-                        <app-order-search-sidepanel (selectedOrder)="searchOrderSelected($event)"></app-order-search-sidepanel>
+                        <app-order-search-sidepanel (selectedOrder)="searchOrderSelected($event)" [selectedSupplierId]="formGroup?.value?.supplierId"></app-order-search-sidepanel>
                     </div>
                 </ng-container>
 
@@ -46,21 +46,25 @@
                     </div>
                 </div>
             </div>
+            <div class="mt-3">
+                <button class="btn btn-primary btn-lg fs-6 me-2" (click)="saveReceiveOrder()">
+                    <i class="fas fa-check-circle"></i>
+                    <span class="ms-2">حفظ</span>
+                </button>
+                <button class="btn btn-warning m-2 text-white" (click)="initNewForm()">
+                    <span class="me-2">افراغ الخانات</span>
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
         </form>
 
-        <app-general-order-products [selectedProducts]="orderProducts" [clearAllProducts]="clearAllProducts" (selectedProductsList)="getSelectedProductsList($event)"></app-general-order-products>
+        <app-general-order-products [selectedProducts]="orderProducts"
+            [disableUnit]="false"
+            [disablePrice]="false"
+            [clearAllProducts]="clearAllProducts" 
+            (selectedProductsList)="getSelectedProductsList($event)">
+        </app-general-order-products>
         <!-- <app-order-products [selectedSupplierProducts]="ItemsBySupplier" [clearAllProducts]="clearAllProducts" (selectedProductsList)="getSelectedProductsList($event)"></app-order-products> -->
-
-        <div class="mt-3">
-            <button class="btn btn-primary btn-lg fs-6 me-2" (click)="saveReceiveOrder()">
-                <i class="fas fa-check-circle"></i>
-                <span class="ms-2">حفظ</span>
-            </button>
-            <button class="btn btn-warning btn-lg fs-6 me-2" (click)="initNewForm()">
-                <i class="fas fa-times"></i>
-                <span class="ms-2">مسح</span>
-            </button>
-        </div>
 
     </div>
 </div>

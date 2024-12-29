@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { InventoryService } from '../../services/inventory.service';
@@ -16,6 +16,7 @@ import { FormDropdownModel } from 'src/app/components/Shared/components/drop-dow
 
 })
 export class OrderSearchSidepanelComponent implements OnInit {
+  @Input() selectedSupplierId: any;
 
   @Output() selectedOrder=new EventEmitter<any>()
   OrdersList: any[] = [];
@@ -24,7 +25,6 @@ export class OrderSearchSidepanelComponent implements OnInit {
 
   SuppliersList: any[] = [];
   SupplierId: any;
-  selectedSupplierId: any;
   SupplierName = 'الموردين';
   orderNumber:string = '';
   orderDate:string ;
@@ -98,11 +98,17 @@ export class OrderSearchSidepanelComponent implements OnInit {
       this.pagedResponseModel.filterList.push({categoryName:'SupplierId',itemFlag:this.selectedSupplierId})
     }
     if (this.orderNumber) {
-      this.pagedResponseModel.filterList.push({categoryName:'OrderNumber',itemFlag:this.orderNumber})
+      this.pagedResponseModel.filterList.push({categoryName:'SearchText',itemFlag:this.orderNumber})
     }
 
   }
   OpenSidePanel(content: any) {
+    if(!this.selectedSupplierId)
+    {
+      this.toaster.warning('يجب تحديد المورد');
+      return;
+    }
+    this.pagedResponseModel.results=[];
     this.offcanvasService.open(content, {panelClass: 'details-panel', position: 'end' });
   }
 

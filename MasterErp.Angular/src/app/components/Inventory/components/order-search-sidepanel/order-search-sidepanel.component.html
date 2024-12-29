@@ -16,7 +16,7 @@
 
         <div class="employee-card-body row mb-3">
             <div class="col-xl-4">
-                <app-drop-down-form-control [(ngModel)]="selectedSupplierId" [data]="suppliersSelectorData" [showSearch]="true" [placeholder]="'قائمة الموردين'"></app-drop-down-form-control>
+                <app-drop-down-form-control [(ngModel)]="selectedSupplierId" [disabled]="true" [data]="suppliersSelectorData" [showSearch]="true" [placeholder]="'قائمة الموردين'"></app-drop-down-form-control>
             </div>
             <div class="col-xl-4">
                 <input type="text" autocomplete="off" [(ngModel)]="orderNumber" class="form-control input-height" placeholder="رقم الأذن">
@@ -37,23 +37,7 @@
 
         <div class="card card-with-table border shadow-none">
             <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-end">
-                <nav>
-                    <ul class="table-pagination pagination m-0 p-0 gap-2">
-                        <li class="page-item">
-                            <a class="page-link" aria-label="Previous">
-                                <i class="fas fa-chevron-right"></i>
-                            </a>
-                        </li>
-                        <li class="page-item"><a class="page-link">1</a></li>
-                        <li class="page-item"><a class="page-link active">2</a></li>
-                        <li class="page-item"><a class="page-link">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" aria-label="Next">
-                                <i class="fas fa-chevron-left"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+               
             </div>
             <div class="card-body table-responsive p-0">
                 <table class="table table-borderless align-middle table-hover table-component text-center m-0">

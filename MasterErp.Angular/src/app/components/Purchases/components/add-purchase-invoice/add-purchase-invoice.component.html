@@ -1,8 +1,17 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
 <div class="card radius-10 border-0 card-shadow mb-3">
-    <div class="card-header bg-white">
-        <span class="m-0 fw-bold card-header-title">فاتورة مشتريات</span>
+
+    <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
+        <h5 class="mb-0 fw-bold">
+            <span class="ms-3">
+                فاتورة مشتريات            
+            </span>
+        </h5>
+        <button class="btn btn-secondary gap-2" routerLink="./../purchase-invoices">
+            <span>عودة للقائمة</span>
+            <i class="fa fa-arrow-left"></i>
+        </button>
     </div>
     <div class="card-body bg-light">
         <form [formGroup]="formGroup" autocomplete="off">
@@ -51,7 +60,7 @@
                 </ng-container>
 
 
-                <div class="col-xl-4 mb-3">
+                <!-- <div class="col-xl-4 mb-3">
 
 
                     <div class="form-floating mb-3">
@@ -63,7 +72,7 @@
                     </div>
 
                 </div>
-                <div class="col-xl-1"></div>
+                <div class="col-xl-1"></div> -->
                 <div class="col-xl-4">
 
 
@@ -76,7 +85,7 @@
                     </div>
 
                 </div>
-
+                <div class="col-xl-1"></div> 
                 <div class="col-xl-4 mb-3">
                     <div class="form-floating">
                         <input type="text" formControlName="docNumber" class="form-control" id="floatingInput1" placeholder="any">
@@ -106,9 +115,9 @@
                     <i class="fas fa-check-circle"></i>
                     <span class="ms-2">حفظ</span>
                 </button>
-                <button class="btn btn-warning btn-lg fs-6 me-2" (click)="initNewForm()">
-                    <i class="fas fa-times"></i>
-                    <span class="ms-2">مسح</span>
+                <button class="btn btn-warning m-2 text-white" (click)="initNewForm()">
+                    <span class="me-2">افراغ الخانات</span>
+                    <i class="fas fa-trash"></i>
                 </button>
             </div>
         </form>

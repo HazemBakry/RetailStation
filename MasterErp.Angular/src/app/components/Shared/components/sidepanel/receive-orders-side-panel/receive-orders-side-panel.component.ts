@@ -98,12 +98,13 @@ export class ReceiveOrdersSidePanelComponent implements OnInit {
       this.pagedResponseModel.filterList.push({categoryName:'SupplierId',itemFlag:this.selectedSupplierId})
     }
     if (this.orderNumber) {
-      this.pagedResponseModel.filterList.push({categoryName:'OrderNumber',itemFlag:this.orderNumber})
+      this.pagedResponseModel.filterList.push({categoryName:'searchText',itemFlag:this.orderNumber})
     }
-    this.pagedResponseModel.filterList.push({categoryName:'IsLocked',itemFlag:''})
+    this.pagedResponseModel.filterList.push({categoryName:'IsLocked',itemFlag:'1'})
 
   }
   OpenSidePanel(content: any) {
+    this.pagedResponseModel.results=[];
     this.offcanvasService.open(content, {panelClass: 'details-panel', position: 'end' });
   }
 
