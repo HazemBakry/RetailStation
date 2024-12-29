@@ -377,7 +377,7 @@ namespace MasterErp.Service.Inventory
             {
                 DeliveryOrder order_tbl = new DeliveryOrder();
 
-                order_tbl.DeliveryDate = model.OrderDate;
+                order_tbl.DeliveryDate = model.OrderDate ?? DateTime.Now;
                 order_tbl.CreatedDate = DateTime.Now;
                 order_tbl.CreatedBy = model.CreatedBy;
                 order_tbl.OrderNumber = (Context.DeliveryOrders.Count() > 0 ? Context.DeliveryOrders.Max(x => x.OrderNumber) + 1 : 1);
@@ -431,7 +431,7 @@ namespace MasterErp.Service.Inventory
                 var order_tbl = Context.DeliveryOrders.Where(i => i.DeliveryOrderId == OrderId).FirstOrDefault();
                 if (order_tbl != null)
                 {
-                    order_tbl.DeliveryDate = model.OrderDate;
+                    order_tbl.DeliveryDate = model.OrderDate ?? DateTime.Now;
                     order_tbl.DocNumber = model.DocNumber;
                     order_tbl.TotalValue = model.OrderProducts.Sum(x => x.TotalValue);
                     order_tbl.IsCancelled = model.IsCancelled;

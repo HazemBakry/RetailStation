@@ -100,7 +100,7 @@ export class ReceiveOrdersSidePanelComponent implements OnInit {
     if (this.orderNumber) {
       this.pagedResponseModel.filterList.push({categoryName:'searchText',itemFlag:this.orderNumber})
     }
-    this.pagedResponseModel.filterList.push({categoryName:'IsLocked',itemFlag:'1'})
+    this.pagedResponseModel.filterList.push({categoryName:'IsLocked',itemFlag:'0'})
 
   }
   OpenSidePanel(content: any) {

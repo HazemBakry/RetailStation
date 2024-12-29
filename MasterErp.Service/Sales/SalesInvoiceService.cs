@@ -64,7 +64,7 @@ namespace MasterErp.Service.Sales
 
                 order_tbl.InsertDate = DateTime.Now;
                 order_tbl.InsertUser = string.Empty;
-                order_tbl.InvoiceDate = model.OrderDate;
+                order_tbl.InvoiceDate = model.OrderDate ?? DateTime.Now;
                 order_tbl.IsCancelled = false;
                 order_tbl.Notes = model.Notes;
                 order_tbl.TaxPercent = model.TaxPercent;
