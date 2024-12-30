@@ -3,27 +3,25 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { FormService } from 'src/app/components/Shared/services/form.service';
-import { GeneralAccountSettingsService } from '../../services/general-account-settings.service';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { GeneralAccountService } from '../../services/general-account.service';
+import { DatePipe } from '@angular/common';
+import { GeneralAccountSettingsService } from '../../services/general-account-settings.service';
 
 @Component({
-  selector: 'app-daily-notebook',
-  templateUrl: './daily-notebook.component.html',
-  styleUrls: ['./daily-notebook.component.css']
+  selector: 'app-ledger-journal-type',
+  templateUrl: './ledger-journal-type.component.html',
+  styleUrls: ['./ledger-journal-type.component.css']
 })
-export class DailyNotebookComponent implements OnInit {
-  TitleList = ['الحسابات العامة', 'الدفاتر اليومية'];
-  DailyNotebooks: any[] = [];
-  LeadgerTypes = [];
+export class LedgerJournalTypeComponent implements OnInit {
+  TitleList = ['الحسابات العامة', 'أنواع الدفاتر اليومية'];
+  LeadgerTypesData: any[] = [];
   formGroup: FormGroup;
   TotalCount = 0;
-  DailyNotebookId: any;
+  LeadgerTypeId: any;
   totalPages: any;
   formErrors = {
-    dailyNotebookName: '',
-    leadgerTypeId: '',
-    code: '',
-    virtualAccount: ''
+    nameAr: ''
   };
   FilterModel: FilterModel = {
     currentPage: 1,
@@ -31,22 +29,18 @@ export class DailyNotebookComponent implements OnInit {
     filterItems: []
   };
 
-  constructor(private modalService: NgbModal, private toaster: ToastrService,
-    private form: FormBuilder, private _FormService: FormService, private generalAccountSettingsService: GeneralAccountSettingsService) { }
+  constructor(private modalService: NgbModal, private toaster: ToastrService, private generalAccountSettingsService: GeneralAccountSettingsService,
+    private form: FormBuilder, private _FormService: FormService) { }
 
   ngOnInit(): void {
     this.buildForm();
-    this.GetDailyNotebookData();
     this.GetLedgerJournalTypeData();
   }
 
   buildForm() {
     this.formGroup = this.form.group({
-      dailyNotebookId: [null],
-      dailyNotebookName: [null, [Validators.required]],
-      leadgerTypeId: [null, [Validators.required]],
-      code: [null, [Validators.required]],
-      virtualAccount: [null, [Validators.required]],
+      id: [null],
+      nameAr: [null, [Validators.required]],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -55,67 +49,53 @@ export class DailyNotebookComponent implements OnInit {
 
   fillEditForm(item: any) {
     this.formGroup.patchValue({
-      dailyNotebookId: item.dailyNotebookId,
-      dailyNotebookName: item.dailyNotebookName,
-      leadgerTypeId: item.leadgerTypeId,
-      code: item.code,
-      virtualAccount: item.virtualAccount
+      id: item.id,
+      nameAr: item.nameAr,
     });
   }
 
   openItemModal(content: any, item: any) {
+    this.formGroup?.reset();
     if (item)
       this.fillEditForm(item);
     this.modalService.open(content, { size: 'lg', centered: true, scrollable: true });
   }
 
   openDeleteItemModal(content: any, id: any) {
-    this.DailyNotebookId = id;
+    this.LeadgerTypeId = id;
     this.modalService.open(content, { size: 'md', centered: true, scrollable: true });
-  }
-
-
-  GetDailyNotebookData() {
-    this.generalAccountSettingsService.GetDailyNotebookData(this.FilterModel).subscribe(data => {
-      this.DailyNotebooks = data;
-      this.TotalCount = data && data.length > 0 && data[0].totalCount ? data[0].totalCount : 0;
-    });
   }
 
   GetLedgerJournalTypeData() {
     this.generalAccountSettingsService.GetLedgerJournalTypeData().subscribe(data => {
-      this.LeadgerTypes = data;
-      this.LeadgerTypes = this.LeadgerTypes.map(i => { return { name: i.nameAr, value: i.id } });
+      this.LeadgerTypesData = data;
     });
   }
 
   pageChanged(obj: any) {
-    this.FilterModel.currentPage = obj.page;
   }
 
-  AddNewDailyNotebook() {
+  AddNewLedgerJournalType() {
     if (!this.validateForm())
       return;
-    let formData = this.formGroup.value;
 
-    if (!formData?.dailyNotebookId) {
-      formData.dailyNotebookId = 0;
-      this.generalAccountSettingsService.AddNewDailyNotebook(formData).subscribe(data => {
+    let formData = this.formGroup.value;
+    if (!formData?.id) {
+      formData.id = 0;
+      this.generalAccountSettingsService.AddNewLedgerJournalType(formData).subscribe(data => {
         if (data?.isSuccess) {
-          this.formGroup?.reset();
           this.modalService.dismissAll();
-          this.GetDailyNotebookData();
+          this.GetLedgerJournalTypeData();
           this.toaster.success(data?.message);
         }
         else
           this.toaster.error(data?.message);
       });
     } else {
-      this.generalAccountSettingsService.EditDailyNotebook(formData).subscribe(data => {
+      this.generalAccountSettingsService.EditLedgerJournalType(formData).subscribe(data => {
         if (data?.isSuccess) {
-          this.formGroup?.reset();
           this.modalService.dismissAll();
-          this.GetDailyNotebookData();
+          this.GetLedgerJournalTypeData();
           this.toaster.success(data?.message);
         }
         else
@@ -124,11 +104,11 @@ export class DailyNotebookComponent implements OnInit {
     }
   }
 
-  DeleteDailyNotebook() {
-    this.generalAccountSettingsService.DeleteDailyNotebook(this.DailyNotebookId).subscribe(data => {
+  DeleteLedgerJournalType() {
+    this.generalAccountSettingsService.DeleteLedgerJournalType(this.LeadgerTypeId).subscribe(data => {
       if (data?.isSuccess) {
         this.toaster.success(data?.message);
-        this.GetDailyNotebookData();
+        this.GetLedgerJournalTypeData();
         this.modalService.dismissAll();
       }
       else

@@ -18,10 +18,10 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts.GeneralAccountSettin
             _dailyNotebookService = dailyNotebookService;
         }
 
-        [HttpGet("GetDailyNotebookData")]
-        public List<DailyNotebook> GetDailyNotebookData()
+        [HttpPost("GetDailyNotebookData")]
+        public DataTable GetDailyNotebookData(FilterModel model)
         {
-            var results = _dailyNotebookService.GetDailyNotebookData();
+            var results = _dailyNotebookService.GetDailyNotebookData(model);
             return results;
         }
 

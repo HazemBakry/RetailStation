@@ -36,6 +36,7 @@ import { TaxCalculationComponent } from './GeneralAccountSettings/tax-calculatio
 import { DailyNotebookComponent } from './GeneralAccountSettings/daily-notebook/daily-notebook.component';
 import { AssetsFormComponent } from './GeneralAccountSettings/assets-form/assets-form.component';
 import { LoansComponent } from './components/loans/loans.component';
+import { LedgerJournalTypeComponent } from './GeneralAccountSettings/ledger-journal-type/ledger-journal-type.component';
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import { LoansComponent } from './components/loans/loans.component';
     TaxCalculationComponent,
     DailyNotebookComponent,
     AssetsFormComponent,
-    LoansComponent
+    LoansComponent,
+    LedgerJournalTypeComponent
   ],
   imports: [
     CommonModule,

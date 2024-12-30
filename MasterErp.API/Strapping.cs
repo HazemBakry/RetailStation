@@ -62,6 +62,7 @@ namespace MasterErp.API
             services.AddScoped<IDailyNotebookService, DailyNotebookService>();
             services.AddScoped<IAssetsFormService, AssetsFormService>();
             services.AddScoped<ILoansFormService, LoansFormService>();
+            services.AddScoped<ILedgerJournalTypeService, LedgerJournalTypeService>();
         }
     }
 }

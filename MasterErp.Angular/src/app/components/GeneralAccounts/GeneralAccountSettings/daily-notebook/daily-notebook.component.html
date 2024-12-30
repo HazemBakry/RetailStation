@@ -6,7 +6,7 @@
             <div class="d-flex align-items-center gap-3">
                 <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2" (click)="openItemModal(ItemModal,null)">
                     <i class="uil uil-plus fs-5"></i>
-                    <span>إضافة وحدة</span>
+                    <span>إضافة دفتر جديد</span>
                 </button>
             </div>
             <div class="col-md-4">
@@ -30,7 +30,7 @@
                             <div class="fs-5 fw-bold">{{item.dailyNotebookName}}</div>
                         </td>
                         <td>
-                            <div class="fs-5 fw-bold">{{item.type}}</div>
+                            <div class="fs-5 fw-bold">{{item.leadgerTypeNameAr}}</div>
                         </td>
                         <td>
                             <div class="fs-5 fw-bold">{{item.code}}</div>
@@ -84,10 +84,10 @@
                         <td class="table-feature">النوع</td>
                         <td class="table-value">
                             <div class="form-floating">
-                                <app-drop-down-form-control formControlName="type" [data]="Types" [showSearch]="true" [placeholder]="'النوع'"></app-drop-down-form-control>
+                                <app-drop-down-form-control formControlName="leadgerTypeId" [data]="LeadgerTypes" [showSearch]="true" [placeholder]="'النوع'"></app-drop-down-form-control>
                             </div>
-                            <div *ngIf="formErrors.type" class="text-danger  font-small-3 m-03">
-                                {{formErrors.type}}
+                            <div *ngIf="formErrors.leadgerTypeId" class="text-danger  font-small-3 m-03">
+                                {{formErrors.leadgerTypeId}}
                             </div>
                         </td>
                     </tr>

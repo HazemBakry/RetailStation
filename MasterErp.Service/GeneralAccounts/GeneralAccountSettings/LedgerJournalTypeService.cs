@@ -2,8 +2,6 @@
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts.GeneralAccountSettings;
-using MasterErp.Service.Common;
-using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -14,35 +12,25 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
 {
-    public class DailyNotebookService: IDailyNotebookService
+    public class LedgerJournalTypeService: ILedgerJournalTypeService
     {
         private readonly DBContext Context;
-        private readonly ISQLHelper SQLHelper;
-        private readonly IConfiguration Configuration;
-        private readonly string ConnectionString;
-        public DailyNotebookService(DBContext dBContext, ISQLHelper sQLHelper, IConfiguration configuration)
+        public LedgerJournalTypeService(DBContext dBContext)
         {
-            Context = dBContext; ;
-            SQLHelper = sQLHelper;
-            Configuration = configuration;
-            ConnectionString = Configuration.GetConnectionString("DBConnection");
+            Context = dBContext;
         }
 
-        public DataTable GetDailyNotebookData(FilterModel model)
+        public List<LedgerJournalType> GetLedgerJournalTypeData()
         {
-            SqlParameter[] param = new SqlParameter[2];
-            param[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
-            param[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
-            var dt = SQLHelper.ExecuteDataTable("[Finance].[SP_GetDailyNotebookData]", ConnectionString, param);
-
-            return dt;
+            var results = Context.LedgerJournalTypes.ToList();
+            return results;
         }
 
-        public ActionsResponseModel AddNewDailyNotebook(DailyNotebook Model)
+        public ActionsResponseModel AddNewLedgerJournalType(LedgerJournalType Model)
         {
             try
             {
-                var entity = Context.DailyNotebooks.FirstOrDefault(i => i.DailyNotebookName == Model.DailyNotebookName);
+                var entity = Context.LedgerJournalTypes.FirstOrDefault(i => i.NameAr == Model.NameAr);
                 if (entity != null)
                 {
                     return new ActionsResponseModel
@@ -52,16 +40,13 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
                     };
                 }
 
-                DailyNotebook notebookObj = new DailyNotebook();
+                LedgerJournalType LedgerObj = new LedgerJournalType();
 
-                notebookObj.DailyNotebookName = Model.DailyNotebookName;
-                notebookObj.LeadgerTypeId = Model.LeadgerTypeId;
-                notebookObj.Code = Model.Code;
-                notebookObj.VirtualAccount = Model.VirtualAccount;
-                notebookObj.CreatedDate = DateTime.Now;
-                notebookObj.CreatedBy = Model.CreatedBy;
+                LedgerObj.NameAr = Model.NameAr;
+                LedgerObj.CreatedDate = DateTime.Now;
+                LedgerObj.CreatedBy = Model.CreatedBy;
 
-                Context.DailyNotebooks.Add(notebookObj);
+                Context.LedgerJournalTypes.Add(LedgerObj);
                 Context.SaveChanges();
 
 
@@ -80,17 +65,14 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
             }
         }
 
-        public ActionsResponseModel EditDailyNotebook(DailyNotebook Model)
+        public ActionsResponseModel EditLedgerJournalType(LedgerJournalType Model)
         {
             try
             {
-                var entity = Context.DailyNotebooks.FirstOrDefault(x => x.DailyNotebookId == Model.DailyNotebookId);
+                var entity = Context.LedgerJournalTypes.FirstOrDefault(x => x.Id == Model.Id);
                 if (entity != null)
                 {
-                    entity.DailyNotebookName = Model.DailyNotebookName;
-                    entity.LeadgerTypeId = Model.LeadgerTypeId;
-                    entity.Code = Model.Code;
-                    entity.VirtualAccount = Model.VirtualAccount;
+                    entity.NameAr = Model.NameAr;
                     entity.ModifiedDate = DateTime.Now;
                     entity.ModifiedBy = Model.ModifiedBy;
                 }
@@ -111,14 +93,14 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
             }
         }
 
-        public ActionsResponseModel DeleteDailyNotebook(int DailyNotebookId)
+        public ActionsResponseModel DeleteLedgerJournalType(int Id)
         {
             try
             {
-                var entity = Context.DailyNotebooks.FirstOrDefault(i => i.DailyNotebookId == DailyNotebookId);
+                var entity = Context.LedgerJournalTypes.FirstOrDefault(i => i.Id == Id);
                 if (entity != null)
                 {
-                    Context.DailyNotebooks.Remove(entity);
+                    Context.LedgerJournalTypes.Remove(entity);
                     Context.SaveChanges();
                     return new ActionsResponseModel
                     {

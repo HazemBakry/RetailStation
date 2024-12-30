@@ -39,6 +39,10 @@
                                     <i class="uil uil-pen"></i>
                                     <span>بنود السداد</span>
                                 </button>
+                                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="openItemModal(ItemModal,item)">
+                                    <i class="uil uil-pen"></i>
+                                    <span>تعديل</span>
+                                </button>
                                 <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteItemModal(deleteItemModal,item.paymentTermId)">
                                     <i class="uil uil-trash-alt"></i>
                                     <span>حذف</span>
@@ -115,7 +119,7 @@
     <div class="offcanvas-header justify-content-between gap-3 fs-4 border-bottom py-3">
         <div class="d-flex align-items-center gap-2">
             <i class="fas fa-store offcanvas-header-icon"></i>
-            <span>بنود السداد</span>
+            <span>{{PaymentTermName}}</span>
         </div>
         <div class="cursor-pointer text-danger fs-2" (click)="offcanvas.dismiss()">
             <i class="uil uil-times-circle"></i>
@@ -137,12 +141,6 @@
                     <form [formGroup]="formGroup" autocomplete="off">
                         <table class="table table-bordered table-feature-value align-middle border m-0">
                             <tbody>
-                                <tr>
-                                    <td class="table-feature">اسم الشرط</td>
-                                    <td class="table-value">
-                                        <input type="text" class="form-control form-control-lg" [value]="PaymentTermName" disabled>
-                                    </td>
-                                </tr>
                                 <tr>
                                     <td class="table-feature">النسبة المستحقة %</td>
                                     <td class="table-value">

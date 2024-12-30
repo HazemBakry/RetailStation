@@ -88,6 +88,7 @@ namespace MasterErp.Entities.Models
         public DbSet<DailyNotebook> DailyNotebooks { get; set; }
         public DbSet<AssetsForm> AssetsForms { get; set; }
         public DbSet<Loans> LoansForms { get; set; }
+        public DbSet<LedgerJournalType> LedgerJournalTypes { get; set; }
 
 
 

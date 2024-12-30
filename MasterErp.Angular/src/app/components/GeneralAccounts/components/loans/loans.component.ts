@@ -3,9 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { FormService } from 'src/app/components/Shared/services/form.service';
-import { GeneralAccountSettingsService } from '../../services/general-account-settings.service';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
-import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { GeneralAccountService } from '../../services/general-account.service';
 import { DatePipe } from '@angular/common';
 
@@ -145,18 +143,16 @@ export class LoansComponent implements OnInit {
       isValid = false;
       return;
     }
-    let yearCount = 0;
     let bnefitValue = 0;
     if (formData?.duration)
-      yearCount = Math.ceil(formData?.duration / 12);
-    if (formData?.bnefit && formData?.loanAmount && yearCount > 0) {
-      bnefitValue = (formData?.bnefit / 100) * formData?.loanAmount;
-      let amountDue = (bnefitValue * yearCount) + formData?.loanAmount
-      this.formGroup.patchValue({
-        amountDue: Math.round(amountDue),
-        monthlyInstallment: Math.round(amountDue / formData?.duration)
-      });
-    }
+      if (formData?.bnefit && formData?.loanAmount) {
+        bnefitValue = (formData?.bnefit / 100) * formData?.loanAmount;
+        let amountDue = bnefitValue + formData?.loanAmount;
+        this.formGroup.patchValue({
+          amountDue: Math.round(amountDue),
+          monthlyInstallment: Math.round(amountDue / formData?.duration)
+        });
+      }
 
     return isValid;
   }

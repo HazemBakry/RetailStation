@@ -12,7 +12,7 @@ namespace MasterErp.Entities.Models
     {
         public int DailyNotebookId { get; set; }
         public string DailyNotebookName { get; set; }
-        public string Type { get; set; }
+        public int LeadgerTypeId { get; set; }
         public string Code { get; set; }
         public string VirtualAccount { get; set; }
     }

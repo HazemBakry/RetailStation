@@ -77,8 +77,8 @@ export class GeneralAccountSettingsService {
 
   //================================== DailyNotebook ===============================
 
-  GetDailyNotebookData() {
-    return this.http.get<any[]>(this.URL + 'DailyNotebook/GetDailyNotebookData');
+  GetDailyNotebookData(model: FilterModel) {
+    return this.http.post<any[]>(this.URL + 'DailyNotebook/GetDailyNotebookData', model);
   }
 
   AddNewDailyNotebook(Model: any) {
@@ -109,5 +109,23 @@ export class GeneralAccountSettingsService {
 
   DeleteAssetsForm(AssetsFormId: number) {
     return this.http.get<any>(this.URL + 'AssetsForm/DeleteAssetsForm?AssetsFormId=' + AssetsFormId);
+  }
+
+  //================================== LedgerJournalType ===============================
+
+  GetLedgerJournalTypeData() {
+    return this.http.get<any[]>(this.URL + 'LedgerJournalType/GetLedgerJournalTypeData');
+  }
+
+  AddNewLedgerJournalType(Model: any) {
+    return this.http.post<any>(this.URL + 'LedgerJournalType/AddNewLedgerJournalType', Model);
+  }
+
+  EditLedgerJournalType(Model: any) {
+    return this.http.post<any>(this.URL + 'LedgerJournalType/EditLedgerJournalType', Model);
+  }
+
+  DeleteLedgerJournalType(Id: number) {
+    return this.http.get<any>(this.URL + 'LedgerJournalType/DeleteLedgerJournalType?Id=' + Id);
   }
 }
