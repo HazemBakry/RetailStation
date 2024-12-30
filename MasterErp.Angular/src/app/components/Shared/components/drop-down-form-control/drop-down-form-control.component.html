@@ -38,7 +38,7 @@
             <input type="text" class="form-control form-control-sm" (input)="onInputChange($event)" placeholder="Search..." />
         </div>
         <div class="dropdown-h large-scroll">
-            <ng-container *ngFor="let item of data | searchArry: searchText: 'name'">
+            <ng-container *ngFor="let item of data | searchArry: searchText: searchFields">
                 <!-- <a class="dropdown-item cursor-pointer" [class]="item.value==selectedValue?'active DropDownSelected':''"
                   (click)="selectOption(item)">{{item.name}}</a> -->
                 <div class="dropdown-item cursor-pointer">
