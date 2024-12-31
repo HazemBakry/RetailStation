@@ -32,6 +32,8 @@ import { DailyNotebookComponent } from './GeneralAccountSettings/daily-notebook/
 import { AssetsFormComponent } from './GeneralAccountSettings/assets-form/assets-form.component';
 import { LoansComponent } from './components/loans/loans.component';
 import { LedgerJournalTypeComponent } from './GeneralAccountSettings/ledger-journal-type/ledger-journal-type.component';
+import { CustomersComponent } from './Customers/customers/customers.component';
+import { BatchesComponent } from './Customers/batches/batches.component';
 
 const routes: Routes = [
   {
@@ -70,6 +72,8 @@ const routes: Routes = [
       { path: 'assets-form', component: AssetsFormComponent },
       { path: 'loans', component: LoansComponent },
       { path: 'ledger-journal-types', component: LedgerJournalTypeComponent },
+      { path: 'customers', component: CustomersComponent },
+      { path: 'batches', component: BatchesComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
 
 

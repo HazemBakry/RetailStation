@@ -37,6 +37,8 @@ import { DailyNotebookComponent } from './GeneralAccountSettings/daily-notebook/
 import { AssetsFormComponent } from './GeneralAccountSettings/assets-form/assets-form.component';
 import { LoansComponent } from './components/loans/loans.component';
 import { LedgerJournalTypeComponent } from './GeneralAccountSettings/ledger-journal-type/ledger-journal-type.component';
+import { CustomersComponent } from './Customers/customers/customers.component';
+import { BatchesComponent } from './Customers/batches/batches.component';
 
 
 @NgModule({
@@ -72,7 +74,9 @@ import { LedgerJournalTypeComponent } from './GeneralAccountSettings/ledger-jour
     DailyNotebookComponent,
     AssetsFormComponent,
     LoansComponent,
-    LedgerJournalTypeComponent
+    LedgerJournalTypeComponent,
+    CustomersComponent,
+    BatchesComponent
   ],
   imports: [
     CommonModule,
