@@ -6,7 +6,7 @@
             <div class="d-flex align-items-center gap-3">
                 <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2" (click)="openItemModal(ItemModal,null)">
                     <i class="uil uil-plus fs-5"></i>
-                    <span>إضافة دفتر جديد</span>
+                    <span>إضافة دفعة جديدة</span>
                 </button>
             </div>
             <div class="col-md-4">
@@ -17,26 +17,38 @@
             <table class="table table-borderless align-middle table-hover table-component m-0">
                 <thead>
                     <tr>
-                        <th>اسم دفتر اليومية</th>
-                        <th>النوع</th>
-                        <th>الكود المختصر</th>
-                        <th>حساب افتراضي</th>
+                        <th>الاسم</th>
+                        <th>نوع السداد</th>
+                        <th>العميل</th>
+                        <th>دفتر اليومية</th>
+                        <th>المبلغ</th>
+                        <th>تاريخ الاضافة</th>
+                        <th>طريقة الدفع</th>
                         <th class="actions-table-col"></th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
                     <tr *ngFor="let item of Batches">
                         <td>
-                            <div class="fs-5 fw-bold">{{item.dailyNotebookName}}</div>
+                            <div class="fs-5 fw-bold">{{item.batchName}}</div>
                         </td>
                         <td>
-                            <div class="fs-5 fw-bold">{{item.leadgerTypeNameAr}}</div>
+                            <div class="fs-5 fw-bold">{{item.batchType}}</div>
                         </td>
                         <td>
-                            <div class="fs-5 fw-bold">{{item.code}}</div>
+                            <div class="fs-5 fw-bold">{{item.customerName}}</div>
                         </td>
                         <td>
-                            <div class="fs-5 fw-bold">{{item.virtualAccount}}</div>
+                            <div class="fs-5 fw-bold">{{item.amount}}</div>
+                        </td>
+                        <td>
+                            <div class="fs-5 fw-bold">{{item.insertDate | date}}</div>
+                        </td>
+                        <td>
+                            <div class="fs-5 fw-bold">{{item.leadgerJournalName}}</div>
+                        </td>
+                        <td>
+                            <div class="fs-5 fw-bold">{{item.paymentMethod}}</div>
                         </td>
                         <td>
                             <div class="d-flex align-items-center justify-content-center">
@@ -72,40 +84,73 @@
             <table class="table table-bordered table-feature-value align-middle border m-0">
                 <tbody>
                     <tr>
-                        <td class="table-feature">اسم دفتر اليومية</td>
+                        <td class="table-feature">الاسم</td>
                         <td class="table-value">
-                            <input type="text" class="form-control form-control-lg" placeholder="الاسم..." formControlName="dailyNotebookName">
-                            <div *ngIf="formErrors.dailyNotebookName" class="text-danger  font-small-3 m-03">
-                                {{formErrors.dailyNotebookName}}
+                            <input type="text" class="form-control form-control-lg" placeholder="الاسم..." formControlName="nameAr">
+                            <div *ngIf="formErrors.nameAr" class="text-danger  font-small-3 m-03">
+                                {{formErrors.nameAr}}
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="table-feature">النوع</td>
+                        <td class="table-feature">نوع السداد</td>
+                        <td class="table-value">
+                            <div class="d-flex align-items-center">
+                                <label for="lbl-1" class="me-2">إرسال</label>
+                                <input type="radio" id="lbl-1" class="me-2" formControlName="batchType" value="Send">
+                                <label for="lbl-2" class="me-2">استلام</label>
+                                <input type="radio" id="lbl-2" formControlName="batchType" value="Receive">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">العميل</td>
                         <td class="table-value">
                             <div class="form-floating">
-                                <app-drop-down-form-control formControlName="leadgerTypeId" [data]="LeadgerTypes" [showSearch]="true" [placeholder]="'النوع'"></app-drop-down-form-control>
+                                <app-drop-down-form-control formControlName="customerId" [data]="Customers" [showSearch]="true" [placeholder]="'العميل'"></app-drop-down-form-control>
                             </div>
-                            <div *ngIf="formErrors.leadgerTypeId" class="text-danger  font-small-3 m-03">
-                                {{formErrors.leadgerTypeId}}
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="table-feature">الكود المختصر</td>
-                        <td class="table-value">
-                            <input type="text" class="form-control form-control-lg text-align-right" placeholder="الكود المختصر..." formControlName="code">
-                            <div *ngIf="formErrors.code" class="text-danger  font-small-3 m-03">
-                                {{formErrors.code}}
+                            <div *ngIf="formErrors.customerId" class="text-danger  font-small-3 m-03">
+                                {{formErrors.customerId}}
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="table-feature">حساب افتراضي</td>
+                        <td class="table-feature">دفتر اليومية</td>
                         <td class="table-value">
-                            <input type="text" class="form-control form-control-lg" placeholder="حساب افتراضي..." formControlName="virtualAccount">
-                            <div *ngIf="formErrors.virtualAccount" class="text-danger  font-small-3 m-03">
-                                {{formErrors.virtualAccount}}
+                            <div class="form-floating">
+                                <app-drop-down-form-control formControlName="leadgerJournalId" [data]="leadgerJournals" [showSearch]="true" [placeholder]="'دفتر اليومية'"></app-drop-down-form-control>
+                            </div>
+                            <div *ngIf="formErrors.leadgerJournalId" class="text-danger  font-small-3 m-03">
+                                {{formErrors.leadgerJournalId}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">المبلغ</td>
+                        <td class="table-value">
+                            <input type="number" class="form-control form-control-lg text-align-right" placeholder="...المبلغ" formControlName="amount">
+                            <div *ngIf="formErrors.amount" class="text-danger  font-small-3 m-03">
+                                {{formErrors.amount}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">تاريخ الاضافة</td>
+                        <td class="table-value">
+                            <input type="date" class="form-control form-control-lg" placeholder="تاريخ الاضافة..." formControlName="insertDate">
+                            <div *ngIf="formErrors.insertDate" class="text-danger  font-small-3 m-03">
+                                {{formErrors.insertDate}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">طريقة الدفع</td>
+                        <td class="table-value">
+                            <div class="form-floating">
+                                <app-drop-down-form-control formControlName="paymentMethod" [data]="PaymentMethods" [showSearch]="true" [placeholder]="'طريقة الدفع'"></app-drop-down-form-control>
+                            </div>
+                            <div *ngIf="formErrors.paymentMethod" class="text-danger  font-small-3 m-03">
+                                {{formErrors.paymentMethod}}
                             </div>
                         </td>
                     </tr>

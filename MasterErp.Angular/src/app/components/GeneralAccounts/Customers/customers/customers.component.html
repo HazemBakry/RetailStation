@@ -6,7 +6,7 @@
             <div class="d-flex align-items-center gap-3">
                 <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2" (click)="openItemModal(ItemModal,null)">
                     <i class="uil uil-plus fs-5"></i>
-                    <span>إضافة دفتر جديد</span>
+                    <span>إضافة عميل جديد</span>
                 </button>
             </div>
             <div class="col-md-4">
@@ -17,26 +17,55 @@
             <table class="table table-borderless align-middle table-hover table-component m-0">
                 <thead>
                     <tr>
-                        <th>اسم دفتر اليومية</th>
-                        <th>النوع</th>
-                        <th>الكود المختصر</th>
-                        <th>حساب افتراضي</th>
+                        <th>اسم بالعربي</th>
+                        <th>اسم بالانكليزي</th>
+                        <th>رقم الهاتف</th>
+                        <th>رقم الأرضي</th>
+                        <th>الدولة</th>
+                        <th>المدينة</th>
+                        <th>الفرع</th>
+                        <th>العنوان</th>
+                        <th>ملاحظات</th>
+                        <th>نشط</th>
                         <th class="actions-table-col"></th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
                     <tr *ngFor="let item of Customers">
                         <td>
-                            <div class="fs-5 fw-bold">{{item.dailyNotebookName}}</div>
+                            <div class="fs-5 fw-bold">{{item.customerNameAr}}</div>
                         </td>
                         <td>
-                            <div class="fs-5 fw-bold">{{item.leadgerTypeNameAr}}</div>
+                            <div class="fs-5 fw-bold">{{item.customerNameEn}}</div>
                         </td>
                         <td>
-                            <div class="fs-5 fw-bold">{{item.code}}</div>
+                            <div class="fs-5 fw-bold">{{item.phone}}</div>
                         </td>
                         <td>
-                            <div class="fs-5 fw-bold">{{item.virtualAccount}}</div>
+                            <div class="fs-5 fw-bold">{{item.mobile}}</div>
+                        </td>
+                        <td>
+                            <div class="fs-5 fw-bold">{{item.countryName}}</div>
+                        </td>
+                        <td>
+                            <div class="fs-5 fw-bold">{{item.cityName}}</div>
+                        </td>
+                        <td>
+                            <div class="fs-5 fw-bold">{{item.regionName}}</div>
+                        </td>
+                        <td>
+                            <div class="fs-5 fw-bold">{{item.address}}</div>
+                        </td>
+                        <td>
+                            <div class="fs-5 fw-bold">{{item.notes}}</div>
+                        </td>
+                        <td>
+                            <label class="switch me-2">
+                                <input type="checkbox" [(ngModel)]="item.isActive"
+                                    (change)="ChangeCustomerStatus(item)"
+                                    class="ng-valid ng-dirty ng-touched">
+                                <span class="slider round"></span>
+                            </label>
                         </td>
                         <td>
                             <div class="d-flex align-items-center justify-content-center">
@@ -72,41 +101,87 @@
             <table class="table table-bordered table-feature-value align-middle border m-0">
                 <tbody>
                     <tr>
-                        <td class="table-feature">اسم دفتر اليومية</td>
+                        <td class="table-feature">اسم بالعربي</td>
                         <td class="table-value">
-                            <input type="text" class="form-control form-control-lg" placeholder="الاسم..." formControlName="dailyNotebookName">
-                            <div *ngIf="formErrors.dailyNotebookName" class="text-danger  font-small-3 m-03">
-                                {{formErrors.dailyNotebookName}}
+                            <input type="text" class="form-control form-control-lg" placeholder="اسم بالعربي..." formControlName="nameAR">
+                            <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
+                                {{formErrors.nameAR}}
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="table-feature">النوع</td>
+                        <td class="table-feature">اسم بالانكليزي</td>
+                        <td class="table-value">
+                            <input type="text" class="form-control form-control-lg" placeholder="اسم بالانكليزي..." formControlName="nameEN">
+                            <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
+                                {{formErrors.nameEN}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">رقم الهاتف</td>
+                        <td class="table-value">
+                            <input type="number" class="form-control form-control-lg text-align-right" placeholder="...رقم الهاتف" formControlName="phone">
+                            <div *ngIf="formErrors.phone" class="text-danger  font-small-3 m-03">
+                                {{formErrors.phone}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">رقم الأرضي</td>
+                        <td class="table-value">
+                            <input type="number" class="form-control form-control-lg text-align-right" placeholder="...رقم الأرضي" formControlName="mobile">
+                            <div *ngIf="formErrors.mobile" class="text-danger  font-small-3 m-03">
+                                {{formErrors.mobile}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">الدولة</td>
                         <td class="table-value">
                             <div class="form-floating">
-                                <app-drop-down-form-control formControlName="leadgerTypeId" [data]="LeadgerTypes" [showSearch]="true" [placeholder]="'النوع'"></app-drop-down-form-control>
+                                <app-drop-down-form-control formControlName="countryId" [data]="Countries" [showSearch]="true" [placeholder]="'الدولة'"></app-drop-down-form-control>
                             </div>
-                            <div *ngIf="formErrors.leadgerTypeId" class="text-danger  font-small-3 m-03">
-                                {{formErrors.leadgerTypeId}}
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="table-feature">الكود المختصر</td>
-                        <td class="table-value">
-                            <input type="text" class="form-control form-control-lg text-align-right" placeholder="الكود المختصر..." formControlName="code">
-                            <div *ngIf="formErrors.code" class="text-danger  font-small-3 m-03">
-                                {{formErrors.code}}
+                            <div *ngIf="formErrors.countryId" class="text-danger  font-small-3 m-03">
+                                {{formErrors.countryId}}
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="table-feature">حساب افتراضي</td>
+                        <td class="table-feature">المدينة</td>
                         <td class="table-value">
-                            <input type="text" class="form-control form-control-lg" placeholder="حساب افتراضي..." formControlName="virtualAccount">
-                            <div *ngIf="formErrors.virtualAccount" class="text-danger  font-small-3 m-03">
-                                {{formErrors.virtualAccount}}
+                            <div class="form-floating">
+                                <app-drop-down-form-control formControlName="cityId" [data]="Cities" [showSearch]="true" [placeholder]="'المدينة'"></app-drop-down-form-control>
                             </div>
+                            <div *ngIf="formErrors.cityId" class="text-danger  font-small-3 m-03">
+                                {{formErrors.cityId}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">الفرع</td>
+                        <td class="table-value">
+                            <div class="form-floating">
+                                <app-drop-down-form-control formControlName="regionId" [data]="Regions" [showSearch]="true" [placeholder]="'الفرع'"></app-drop-down-form-control>
+                            </div>
+                            <div *ngIf="formErrors.regionId" class="text-danger  font-small-3 m-03">
+                                {{formErrors.regionId}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">العنوان</td>
+                        <td class="table-value">
+                            <input type="text" class="form-control form-control-lg" placeholder="العنوان..." formControlName="address">
+                            <div *ngIf="formErrors.address" class="text-danger  font-small-3 m-03">
+                                {{formErrors.address}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">ملاحطات</td>
+                        <td class="table-value">
+                            <input type="text" class="form-control form-control-lg" placeholder="ملاحطات..." formControlName="notes">
                         </td>
                     </tr>
                 </tbody>

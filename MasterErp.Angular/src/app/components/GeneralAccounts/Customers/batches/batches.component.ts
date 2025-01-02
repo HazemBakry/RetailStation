@@ -5,6 +5,9 @@ import { ToastrService } from 'ngx-toastr';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { CustomersService } from '../../services/customers.service';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
+import { GeneralAccountSettingsService } from '../../services/general-account-settings.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-batches',
@@ -14,16 +17,21 @@ import { CustomersService } from '../../services/customers.service';
 export class BatchesComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'الدفعات'];
   Batches: any[] = [];
-  LeadgerTypes = [];
+  Customers: any[] = [];
+  leadgerJournals: any[] = [];
+  PaymentMethods = [{ name: 'نقدي', value: 'نقدي' }, { name: 'حساب بنكي', value: 'حساب بنكي' }];
   formGroup: FormGroup;
   TotalCount = 0;
   BatchId: any;
   totalPages: any;
   formErrors = {
-    dailyNotebookName: '',
-    leadgerTypeId: '',
-    code: '',
-    virtualAccount: ''
+    nameAr: '',
+    batchType: '',
+    customerId: '',
+    amount: '',
+    insertDate: '',
+    leadgerJournalId: '',
+    paymentMethod: ''
   };
   FilterModel: FilterModel = {
     currentPage: 1,
@@ -31,21 +39,26 @@ export class BatchesComponent implements OnInit {
     filterItems: []
   };
 
-  constructor(private modalService: NgbModal, private toaster: ToastrService,
-    private form: FormBuilder, private _FormService: FormService, private customerService: CustomersService) { }
+  constructor(private modalService: NgbModal, private toaster: ToastrService, private sharedService: SharedService,
+    private form: FormBuilder, private _FormService: FormService, private customerService: CustomersService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.buildForm();
+    this.GetCustomersData();
+    this.GetLeadgerJournalsData();
     this.GetBatchData();
   }
 
   buildForm() {
     this.formGroup = this.form.group({
-      dailyNotebookId: [null],
-      dailyNotebookName: [null, [Validators.required]],
-      leadgerTypeId: [null, [Validators.required]],
-      code: [null, [Validators.required]],
-      virtualAccount: [null, [Validators.required]],
+      batchId: [null],
+      nameAr: [null, [Validators.required]],
+      batchType: ['Send'],
+      customerId: [null, [Validators.required]],
+      amount: [null, [Validators.required]],
+      insertDate: [null, [Validators.required]],
+      leadgerJournalId: [null, [Validators.required]],
+      paymentMethod: [null, [Validators.required]],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -53,16 +66,21 @@ export class BatchesComponent implements OnInit {
   }
 
   fillEditForm(item: any) {
+    debugger;
     this.formGroup.patchValue({
-      dailyNotebookId: item.dailyNotebookId,
-      dailyNotebookName: item.dailyNotebookName,
-      leadgerTypeId: item.leadgerTypeId,
-      code: item.code,
-      virtualAccount: item.virtualAccount
+      batchId: item.batchId,
+      nameAr: item.batchName,
+      batchType: item.batchType == 'إرسال' ? 'Send' : 'Receive',
+      customerId: item.customerId,
+      amount: item.amount,
+      insertDate: this.datePipe.transform(item.insertDate, 'yyyy-MM-dd'),
+      leadgerJournalId: item.leadgerJournalId,
+      paymentMethod: item.paymentMethod,
     });
   }
 
   openItemModal(content: any, item: any) {
+    this.formGroup.patchValue({ batchType: 'Send' });
     if (item)
       this.fillEditForm(item);
     this.modalService.open(content, { size: 'lg', centered: true, scrollable: true });
@@ -71,6 +89,21 @@ export class BatchesComponent implements OnInit {
   openDeleteItemModal(content: any, id: any) {
     this.BatchId = id;
     this.modalService.open(content, { size: 'md', centered: true, scrollable: true });
+  }
+
+  GetCustomersData() {
+    this.sharedService.GetCustomersData().subscribe(data => {
+      debugger;
+      this.Customers = data;
+      this.Customers = this.Customers.map(i => { return { name: i.nameAR, value: i.customerId } });
+    });
+  }
+
+  GetLeadgerJournalsData() {
+    this.sharedService.GetLeadgerJournalsData().subscribe(data => {
+      this.leadgerJournals = data;
+      this.leadgerJournals = this.leadgerJournals.map(i => { return { name: i.dailyNotebookName, value: i.dailyNotebookId } });
+    });
   }
 
 
@@ -89,9 +122,10 @@ export class BatchesComponent implements OnInit {
     if (!this.validateForm())
       return;
     let formData = this.formGroup.value;
-
-    if (!formData?.dailyNotebookId) {
-      formData.dailyNotebookId = 0;
+    formData.batchType = formData.batchType == 'Send' ? 'إرسال' : 'استلام';
+    debugger;
+    if (!formData?.batchId) {
+      formData.batchId = 0;
       this.customerService.AddNewBatch(formData).subscribe(data => {
         if (data?.isSuccess) {
           this.formGroup?.reset();

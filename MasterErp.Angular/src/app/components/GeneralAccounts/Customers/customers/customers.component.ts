@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { CustomersService } from '../../services/customers.service';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
 
 @Component({
   selector: 'app-customers',
@@ -14,16 +15,23 @@ import { CustomersService } from '../../services/customers.service';
 export class CustomersComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'العملاء'];
   Customers: any[] = [];
+  Countries: any[] = [];
+  Cities: any[] = [];
+  Regions: any[] = [];
   LeadgerTypes = [];
   formGroup: FormGroup;
   TotalCount = 0;
   CustomerId: any;
   totalPages: any;
   formErrors = {
-    dailyNotebookName: '',
-    leadgerTypeId: '',
-    code: '',
-    virtualAccount: ''
+    nameAR: '',
+    nameEN: '',
+    phone: '',
+    mobile: '',
+    countryId: '',
+    cityId: '',
+    regionId: '',
+    address: ''
   };
   FilterModel: FilterModel = {
     currentPage: 1,
@@ -31,21 +39,29 @@ export class CustomersComponent implements OnInit {
     filterItems: []
   };
 
-  constructor(private modalService: NgbModal, private toaster: ToastrService,
+  constructor(private modalService: NgbModal, private toaster: ToastrService, private sharedService: SharedService,
     private form: FormBuilder, private _FormService: FormService, private customerService: CustomersService) { }
 
   ngOnInit(): void {
     this.buildForm();
+    this.GetCountriesSelector();
+    this.GetCitiesSelector();
+    this.GetRegionsSelector();
     this.GetCustomerData();
   }
 
   buildForm() {
     this.formGroup = this.form.group({
-      dailyNotebookId: [null],
-      dailyNotebookName: [null, [Validators.required]],
-      leadgerTypeId: [null, [Validators.required]],
-      code: [null, [Validators.required]],
-      virtualAccount: [null, [Validators.required]],
+      customerId: [null],
+      nameAR: [null],
+      nameEN: [null, [Validators.required]],
+      phone: [null, [Validators.required]],
+      mobile: [null, [Validators.required]],
+      countryId: [null, [Validators.required]],
+      cityId: [null, [Validators.required]],
+      regionId: [null, [Validators.required]],
+      address: [null, [Validators.required]],
+      notes: [null]
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -54,11 +70,16 @@ export class CustomersComponent implements OnInit {
 
   fillEditForm(item: any) {
     this.formGroup.patchValue({
-      dailyNotebookId: item.dailyNotebookId,
-      dailyNotebookName: item.dailyNotebookName,
-      leadgerTypeId: item.leadgerTypeId,
-      code: item.code,
-      virtualAccount: item.virtualAccount
+      customerId: item.customerId,
+      nameAR: item.customerNameAr,
+      nameEN: item.customerNameEn,
+      phone: item.phone,
+      mobile: item.mobile,
+      countryId: item.countryId,
+      cityId: item.cityId,
+      regionId: item.regionId,
+      address: item.address,
+      notes: item.notes,
     });
   }
 
@@ -71,6 +92,24 @@ export class CustomersComponent implements OnInit {
   openDeleteItemModal(content: any, id: any) {
     this.CustomerId = id;
     this.modalService.open(content, { size: 'md', centered: true, scrollable: true });
+  }
+
+  GetCountriesSelector() {
+    this.sharedService.GetCountriesSelector().subscribe(data => {
+      this.Countries = data;
+    });
+  }
+
+  GetCitiesSelector() {
+    this.sharedService.GetCitiesSelector().subscribe(data => {
+      this.Cities = data;
+    });
+  }
+
+  GetRegionsSelector() {
+    this.sharedService.GetRegionsSelector().subscribe(data => {
+      this.Regions = data;
+    });
   }
 
 
@@ -90,8 +129,8 @@ export class CustomersComponent implements OnInit {
       return;
     let formData = this.formGroup.value;
 
-    if (!formData?.dailyNotebookId) {
-      formData.dailyNotebookId = 0;
+    if (!formData?.customerId) {
+      formData.customerId = 0;
       this.customerService.AddNewCustomer(formData).subscribe(data => {
         if (data?.isSuccess) {
           this.formGroup?.reset();

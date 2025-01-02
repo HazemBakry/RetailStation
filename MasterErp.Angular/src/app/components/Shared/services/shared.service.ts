@@ -75,9 +75,19 @@ export class SharedService {
     return this.http.get<CustomerModel[]>(this.URL + 'Shared/GetCustomersData').
       pipe(
         map(response => {
-          response.map(x => x.nameAR = x.nameEN = x.name)
+          debugger;
+          response.map(x => {
+            return {
+              ...x,
+              name:x.nameAR
+            }
+          })
           return response;
         }));
+  }
+
+  GetLeadgerJournalsData() {
+    return this.http.get<any[]>(this.URL + 'Shared/GetLeadgerJournalsData');
   }
 
   GetReceiptLedgersData() {

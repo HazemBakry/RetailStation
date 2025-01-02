@@ -27,6 +27,14 @@ namespace MasterErp.API.Controllers.Shared
         }
 
         [HttpGet]
+        [Route("GetLeadgerJournalsData")]
+        public IActionResult GetLeadgerJournalsData()
+        {
+            var results = _sharedService.GetLeadgerJournalsData();
+            return Ok(results);
+        }
+
+        [HttpGet]
         [Route("GetReceiptLedgersData")]
         public IActionResult GetReceiptLedgersData()
         {
