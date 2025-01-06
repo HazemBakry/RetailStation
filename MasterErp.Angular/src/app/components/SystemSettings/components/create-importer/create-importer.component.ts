@@ -257,40 +257,56 @@ export class CreateImporterComponent implements OnInit {
     ];
   columnTypesSelectorData: FormDropdownModel[] =
     [
-
+      
       {
-        value: 'bigint',
-        name: 'Big Int'
-      },
-
-      {
-        value: 'bit',
-        name: 'Bit'
-      },
-
-      {
-        value: 'datetime',
-        name: 'Date Time'
-      },
-
-      {
-        value: 'float',
-        name: 'Number - Float'
-      },
-
-      {
-        value: 'int',
-        name: 'Number -Int'
-      },
-
-      {
-        value: 'text',
+        value: 'Text',
         name: 'Text'
       },
       {
-        value: 'nvarchar',
-        name: 'Text - NVarChar'
+        value: 'Number',
+        name: 'Number'
+      },
+      {
+        value: 'Date',
+        name: 'Date'
+      },
+      {
+        value: 'Boolean',
+        name: 'Boolean'
       }
+      // {
+      //   value: 'bigint',
+      //   name: 'Big Int'
+      // },
+
+      // {
+      //   value: 'bit',
+      //   name: 'Bit'
+      // },
+
+      // {
+      //   value: 'datetime',
+      //   name: 'Date Time'
+      // },
+
+      // {
+      //   value: 'float',
+      //   name: 'Number - Float'
+      // },
+
+      // {
+      //   value: 'int',
+      //   name: 'Number -Int'
+      // },
+
+      // {
+      //   value: 'text',
+      //   name: 'Text'
+      // },
+      // {
+      //   value: 'nvarchar',
+      //   name: 'Text - NVarChar'
+      // }
     ];
 }
 

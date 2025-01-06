@@ -43,14 +43,11 @@
 
                             </app-create-importer>
                             <app-upload-importer-file 
-                                [importerName]="item.importerName">
+                                [importerName]="item.importerName"
+                                [btnDesign]="'gride'">
 
                             </app-upload-importer-file>
-                            <button [disabled]="showExportLoader" class="button-table-action btn-success d-flex align-items-center justify-content-center gap-2"
-                                (click)="exportTemplateById(item.importerId)">
-                                <i class="uil uil-import fs-5"></i>
-                                <span class="ms-2">تحميل</span>
-                            </button>
+                            
 
                             <button
                                 class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"

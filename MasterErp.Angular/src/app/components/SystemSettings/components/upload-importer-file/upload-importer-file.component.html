@@ -1,21 +1,34 @@
-<button *ngIf="btnDesign=='gride'" [disabled]="showAddLoader"
-    class="button-table-action btn-success d-flex align-items-center justify-content-center gap-2"
-    (click)="openImportFileSidePanel(ImportFileDialog)">
-    <i class="uil uil-import fs-5"></i>
-    <span class="ms-2">Import</span>
-</button>
-<div *ngIf="btnDesign=='header'"class="d-flex">
-    <button [disabled]="showAddLoader" class="btn btn-primary border m-2"
-        (click)="openImportFileSidePanel(ImportFileDialog)">
-        <i class="uil uil-import fs-5"></i>
-        <span class="ms-2">استيراد</span>
-    </button>
-    <button [disabled]="showAddLoader" class="btn btn-secondary border m-2"
-        (click)="exportTemplateByName()">
-        <i class="uil uil-export fs-5"></i>
-        <span class="ms-2">تحميل القالب</span>
-    </button>
-</div>
+<ng-container *ngIf="importerName">
+
+    <div *ngIf="btnDesign=='gride'" class="d-flex">
+
+        <button *ngIf="btnDesign=='gride'" [disabled]="showAddLoader"
+            class="button-table-action btn-success d-flex align-items-center justify-content-center gap-2"
+            (click)="openImportFileSidePanel(ImportFileDialog)">
+            <i class="uil uil-import fs-5"></i>
+            <span class="ms-2">Import</span>
+        </button>
+        <button [disabled]="showAddLoader"
+            class="button-table-action btn-success d-flex align-items-center justify-content-center gap-2"
+            (click)="exportTemplateByName()">
+            <i class="uil uil-import fs-5"></i>
+            <span class="ms-2">تحميل</span>
+        </button>
+    </div>
+    <div *ngIf="btnDesign=='default'" class="d-flex">
+        <button [disabled]="showAddLoader" class="btn btn-primary btn-lg me-2"
+            (click)="openImportFileSidePanel(ImportFileDialog)">
+            <i class="uil uil-import fs-7"></i>
+            <span class="ms-2">استيراد</span>
+        </button>
+        <button [disabled]="showAddLoader" 
+            class="btn btn-dark btn-lg me-2" 
+            (click)="exportTemplateByName()">
+            <i class="uil uil-export fs-7"></i>
+            <span class="ms-2">تحميل القالب</span>
+        </button>
+    </div>
+</ng-container>
 
 <ng-template #ImportFileDialog let-modal>
     <div class="modal-header modal-header-bg justify-content-between">

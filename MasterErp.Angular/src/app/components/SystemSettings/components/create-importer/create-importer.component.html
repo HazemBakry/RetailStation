@@ -126,15 +126,16 @@
                                 </div>
                             </td>
                             <td>
-                                <label *ngIf="column.isNullable" class="switch me-2">
-                                    <input  [disabled]="!column.isNullable" type="checkbox" [(ngModel)]="column.isRequired" (change)="true"
+                                <!-- *ngIf="column.isNullable"  -->
+                                <!-- [disabled]="!column.isNullable" -->
+                                <label class="switch me-2">
+                                    <input   type="checkbox" [(ngModel)]="column.isRequired" (change)="true"
                                         class="ng-valid ng-dirty ng-touched">
                                     <span class="slider round"></span>
                                 </label>
                             </td>
                             <td class="text-center">
-                                <button *ngIf="column.isNullable"  [disabled]="!column.isNullable"
-                                    class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
+                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
                                     (click)="deleteFromList(columns,i)">
                                     <i class="uil uil-trash-alt"></i>
                                     <!-- <span>حذف</span> -->

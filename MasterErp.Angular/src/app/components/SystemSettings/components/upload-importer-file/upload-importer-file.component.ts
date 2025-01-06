@@ -21,7 +21,7 @@ export class UploadImporterFileComponent implements OnInit {
   // @Input() importerId: number;
   @Input() importerName: string;
   @Input() fromSinglePage: boolean=true;
-  @Input() btnDesign: string = 'gride';
+  @Input() btnDesign: string = 'default';
   @Output() dataUpdated = new EventEmitter<boolean>();
   showExportLoader: boolean = false;
 
@@ -130,6 +130,9 @@ export class UploadImporterFileComponent implements OnInit {
       else {
         this.toaster.error(data?.message);
       }
+
+      this.sharedService.urlDownloadOrOpen(data.url);
+      
       this.showAddLoader = false;
     }, err => {
       this.showAddLoader = false;

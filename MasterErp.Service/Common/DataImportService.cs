@@ -422,9 +422,11 @@ namespace MasterErp.Service.Common
             param[2] = new SqlParameter("@FilePath", filePath);
             param[3] = new SqlParameter("@FileFormat", fileExtention);
 
-            var result = SQLHelper.SQLQuery<ActionsResponseModel>(importer.DestinationStoredProcedure, ConnectionString, param).FirstOrDefault();
+            var result = SQLHelper.ExecuteDataTable(importer.DestinationStoredProcedure, ConnectionString, param);
+            //var result = SQLHelper.SQLQuery<ActionsResponseModel>(importer.DestinationStoredProcedure, ConnectionString, param).FirstOrDefault();
             //var result = SQLHelper.SQLQuery<ActionsResponseModel>("[dbo].[SP_ImportFileDataByImporterId]", ConnectionString, param).FirstOrDefault();
-            return result;
+            string exportURL=GetExportUrl(result, importer.ImporterName + "Execute");
+            return new ActionsResponseModel { IsSuccess = true, Message = $"File Uploade >> check output",URL=exportURL };
         }
 
         public List<DBStoredProcedureDto> GetDBStoredProcedure(string SchemaName)
