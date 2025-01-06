@@ -4,6 +4,7 @@ import { SystemSettingsHomeComponent } from './components/system-settings-home/s
 import { SystemSettingsLayoutComponent } from './system-settings-layout/system-settings-layout.component';
 import { SystemUsersComponent } from './components/system-users/system-users.component';
 import { RolesComponent } from './components/roles/roles.component';
+import { DataImportersComponent } from './components/data-importers/data-importers.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
       { path: 'home', component: SystemSettingsHomeComponent },
       { path: 'system-users', component: SystemUsersComponent },
       { path: 'roles', component: RolesComponent },
+      { path: 'data-importers', component: DataImportersComponent },
       { path: '', redirectTo: 'home' ,pathMatch: 'full' },
       
       

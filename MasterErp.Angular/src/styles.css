@@ -1469,7 +1469,9 @@ td.td-disabled {
 .button-table-action.btn-delete {
     color: #ff323d;
 }
-
+.button-table-action.btn-success {
+    color: #198754;
+}
 .button-table-action.btn-edit:hover {
     background-color: #3581ff;
     color: #FFF;
@@ -1478,6 +1480,10 @@ td.td-disabled {
 .button-table-action.btn-delete:hover {
     background-color: #ff323d;
     color: #FFF;
+}
+.button-table-action.btn-success:hover {
+    background-color: #157347;
+    color: #fff;
 }
 
 

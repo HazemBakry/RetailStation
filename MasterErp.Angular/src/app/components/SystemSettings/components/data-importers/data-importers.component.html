@@ -1,0 +1,90 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="card card-with-table border shadow-none">
+
+    <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-3">
+            <app-create-importer (dataUpdated)="dataUpdated($event)">
+
+            </app-create-importer>
+            <!-- <button [disabled]="showExportLoader" class="btn btn-success border m-2" (click)="exportData()">
+                <i class="uil uil-export fs-5"></i>
+                <span class="ms-2">تصدير</span>
+            </button> -->
+        </div>
+        <nav>
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="importerResponseModel.currentPage"
+                [pageSize]="importerResponseModel.pageSize"
+                [totalCount]="importerResponseModel.totalCount"></app-erp-pagination>
+        </nav>
+    </div>
+
+    <div class="card-body table-responsive p-0">
+        <table class="table table-borderless align-middle table-hover table-component text-center m-0 p-0"
+            style="border-right-style: double;">
+            <thead>
+                <tr>
+                    <th>Template Name</th>
+                    <th>Template Type</th>
+                    <th>Destination Table</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of importerResponseModel.results">
+
+                    <td>{{item.importerName}}</td>
+                    <td>{{item.importerType}}</td>
+                    <td>{{item.destinationStoredProcedure}}</td>
+                    <td class="text-center">
+                        <div class="d-flex align-items-center gap-2">
+                            <app-create-importer [importerModel]="item" [isUpdate]="true"
+                                (dataUpdated)="dataUpdated($event)">
+
+                            </app-create-importer>
+                            <app-upload-importer-file 
+                                [importerName]="item.importerName">
+
+                            </app-upload-importer-file>
+                            <button [disabled]="showExportLoader" class="button-table-action btn-success d-flex align-items-center justify-content-center gap-2"
+                                (click)="exportTemplateById(item.importerId)">
+                                <i class="uil uil-import fs-5"></i>
+                                <span class="ms-2">تحميل</span>
+                            </button>
+
+                            <button
+                                class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
+                                (click)="openDeleteModal(deleteModal,item.importerId)">
+                                <i class="uil uil-trash-alt"></i>
+                                <span>حذف</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-empty-data [showContainer]="!importerResponseModel.results?.length&&!showLoader"
+            [showLoader]="showLoader"></app-empty-data>
+    </div>
+</div>
+
+
+
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد العملية</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد من الحذف ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click');deleteImporter()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">الغاء</span>
+        </button>
+    </div>
+</ng-template>

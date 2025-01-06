@@ -6,7 +6,7 @@ import { StatsCardComponent } from './components/stats-card/stats-card.component
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ngxLoadingAnimationTypes, NgxLoadingModule } from "ngx-loading";
 import { SearchArryPipe } from './Pipes/search-arry.pipe';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CostCentersTreeComponent } from './components/cost-center-tree/cost-centers-tree.component';
 import { ErpSelectorComponent } from './components/selectors/erp-selector/erp-selector.component';
 import { ErpSelectorWithSearchComponent } from './components/selectors/erp-selector-with-search/erp-selector-with-search.component';
@@ -43,6 +43,7 @@ import { ProductsDetailsSidePanelComponent } from './components/sidepanel/produc
 import { RenderComponent } from './components/render/render.component';
 import { ComponentHostDirective } from './directives/component-host.directive';
 import { EnglishToArabicNumbersDirective } from './directives/english-to-arabic-numbers.directive';
+import { UploadImporterFileComponent } from '../SystemSettings/components/upload-importer-file/upload-importer-file.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { EnglishToArabicNumbersDirective } from './directives/english-to-arabic-
     ReceiveOrdersSidePanelComponent,
     ProductsDetailsSidePanelComponent,
     RenderComponent,
-    EnglishToArabicNumbersDirective
+    EnglishToArabicNumbersDirective,
+    UploadImporterFileComponent
   ],
 
 
@@ -92,6 +94,7 @@ import { EnglishToArabicNumbersDirective } from './directives/english-to-arabic-
     RouterModule,
     PaginationModule.forRoot(),
     SwiperModule,
+    ReactiveFormsModule ,
     NgxLoadingModule.forRoot({
       animationType: ngxLoadingAnimationTypes.threeBounce,
       backdropBackgroundColour: 'rgba(0, 18, 59, 0.6)',
@@ -100,7 +103,8 @@ import { EnglishToArabicNumbersDirective } from './directives/english-to-arabic-
       secondaryColour: 'silver',
       tertiaryColour: '#ffffff',
       fullScreenBackdrop: true
-    })
+    }),
+    
   ],
 
   exports: [
@@ -138,6 +142,7 @@ import { EnglishToArabicNumbersDirective } from './directives/english-to-arabic-
     ReceiveOrdersSidePanelComponent,
     ProductsDetailsSidePanelComponent,
     RenderComponent,
+    UploadImporterFileComponent
     
   ],
   providers: [

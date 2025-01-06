@@ -19,6 +19,7 @@ namespace MasterErp.Entities.Common
     public enum FileType
     {
         Image=1,
-        Attachment
+        Attachment,
+        Importer
     }
 }

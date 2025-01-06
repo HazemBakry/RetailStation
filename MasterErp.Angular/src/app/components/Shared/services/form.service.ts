@@ -50,7 +50,7 @@ export class FormService {
           return string;
         }, '');
 
-        return `Invalid Invalid Extension , choose from ${matchedCharacters}`;
+        return `Invalid Extension , choose from ${matchedCharacters}`;
       },
       invalid_characters: (matches: any[]) => {
 

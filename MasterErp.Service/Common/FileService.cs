@@ -15,6 +15,7 @@ namespace MasterErp.Service.Common
     {
         private readonly List<string> _imageExtensions;
         private readonly List<string> _attachmentExtensions;
+        private readonly List<string> _importerExtensions;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
 
@@ -22,6 +23,7 @@ namespace MasterErp.Service.Common
         {
             _imageExtensions = new List<string> { ".jpg", ".jpeg", ".png" };
             _attachmentExtensions = new List<string> { ".jpg", ".jpeg", ".png", ".pdf", ".docx", ".xls", ".doc" };
+            _importerExtensions = new List<string> { ".xls", ".xlsx", ".csv" };
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -66,6 +68,7 @@ namespace MasterErp.Service.Common
                     FileName = $"{sanitizedFileName}{extension}",//safeFileName,
                     FilePath = filePath,
                     FileSize = file.Length,
+                    Extention = extension,
                     FileUrl = GetFileDownloadUrl(filePath)
                 };
             }
@@ -126,6 +129,7 @@ namespace MasterErp.Service.Common
             {
                 FileType.Image => _imageExtensions,
                 FileType.Attachment => _attachmentExtensions,
+                FileType.Importer => _importerExtensions,
                 _ => new List<string>()
             };
 

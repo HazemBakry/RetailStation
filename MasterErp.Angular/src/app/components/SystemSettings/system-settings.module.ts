@@ -9,6 +9,9 @@ import { SystemSettingsHomeComponent } from './components/system-settings-home/s
 import { SystemUsersComponent } from './components/system-users/system-users.component';
 import { SystemSettingsLayoutComponent } from './system-settings-layout/system-settings-layout.component';
 import { RolesComponent } from './components/roles/roles.component';
+import { DataImportersComponent } from './components/data-importers/data-importers.component';
+import { CreateImporterComponent } from './components/create-importer/create-importer.component';
+// import { UploadImporterFileComponent } from './components/upload-importer-file/upload-importer-file.component';
 
 
 @NgModule({
@@ -16,7 +19,10 @@ import { RolesComponent } from './components/roles/roles.component';
     SystemSettingsLayoutComponent,
     SystemSettingsHomeComponent,
     SystemUsersComponent,
-    RolesComponent
+    RolesComponent,
+    DataImportersComponent,
+    CreateImporterComponent,
+    // UploadImporterFileComponent
   ],
   imports: [
     CommonModule,
