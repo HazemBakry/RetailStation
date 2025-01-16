@@ -15,7 +15,7 @@ export class AuthPageGuard implements CanActivate {
   ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (state.url !== '/not-authorized') {
+    if (state.url !== '/unauthorized') {
       sessionStorage.setItem('returnUrl', state.url);
     }
 
@@ -26,7 +26,7 @@ export class AuthPageGuard implements CanActivate {
 
     const pageName: string = route.data["pageName"];
     if (!pageName || !this.authService.haveActionPermission(this.authService.VIEW_ACTION_NAME, pageName)) {
-      this.router.navigateByUrl('/not-authorized');
+      this.router.navigateByUrl('/unauthorized');
       return false;
     }
 

@@ -44,6 +44,7 @@ import { RenderComponent } from './components/render/render.component';
 import { ComponentHostDirective } from './directives/component-host.directive';
 import { EnglishToArabicNumbersDirective } from './directives/english-to-arabic-numbers.directive';
 import { UploadImporterFileComponent } from '../SystemSettings/components/upload-importer-file/upload-importer-file.component';
+import { ErpSpinnerComponentComponent } from './components/erp-spinner-component/erp-spinner-component.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { UploadImporterFileComponent } from '../SystemSettings/components/upload
     ProductsDetailsSidePanelComponent,
     RenderComponent,
     EnglishToArabicNumbersDirective,
-    UploadImporterFileComponent
+    UploadImporterFileComponent,
+    ErpSpinnerComponentComponent
   ],
 
 
@@ -116,6 +118,7 @@ import { UploadImporterFileComponent } from '../SystemSettings/components/upload
     CostCentersTreeComponent,
     NgxLoadingModule,
     SearchArryPipe,
+    ErpSpinnerComponentComponent,
     ErpSelectorComponent,
     ErpSelectorWithSearchComponent,
     ErpSelectorWithCheckboxComponent,
@@ -142,7 +145,7 @@ import { UploadImporterFileComponent } from '../SystemSettings/components/upload
     ReceiveOrdersSidePanelComponent,
     ProductsDetailsSidePanelComponent,
     RenderComponent,
-    UploadImporterFileComponent
+    UploadImporterFileComponent,
     
   ],
   providers: [

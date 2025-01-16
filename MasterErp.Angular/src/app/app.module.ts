@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReviewsComponent } from './components/Main/reviews/reviews.component';
 import { ErpLoginComponent } from './components/Shared/components/erp-login/erp-login.component';
 import { SigninComponent } from './components/Shared/components/signin/signin.component';
+import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,6 +23,7 @@ import { SigninComponent } from './components/Shared/components/signin/signin.co
     DashboardComponent,
     ReviewsComponent,
     SigninComponent,
+    AuthCallbackComponent,
 
   ],
   providers: [
