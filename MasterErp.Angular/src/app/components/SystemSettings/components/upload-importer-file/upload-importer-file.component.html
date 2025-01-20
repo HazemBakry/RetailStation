@@ -1,0 +1,102 @@
+<ng-container *ngIf="importerName">
+
+    <div *ngIf="btnDesign=='gride'" class="d-flex">
+
+        <button *ngIf="btnDesign=='gride'" [disabled]="showAddLoader"
+            class="button-table-action btn-success d-flex align-items-center justify-content-center gap-2"
+            (click)="openImportFileSidePanel(ImportFileDialog)">
+            <i class="uil uil-import fs-5"></i>
+            <span class="ms-2">Import</span>
+        </button>
+        <button [disabled]="showAddLoader"
+            class="button-table-action btn-success d-flex align-items-center justify-content-center gap-2"
+            (click)="exportTemplateByName()">
+            <i class="uil uil-import fs-5"></i>
+            <span class="ms-2">تحميل</span>
+        </button>
+    </div>
+    <div *ngIf="btnDesign=='default'" class="d-flex">
+        <button [disabled]="showAddLoader" class="btn btn-primary btn-lg me-2"
+            (click)="openImportFileSidePanel(ImportFileDialog)">
+            <i class="uil uil-import fs-7"></i>
+            <span class="ms-2">استيراد</span>
+        </button>
+        <button [disabled]="showAddLoader" 
+            class="btn btn-dark btn-lg me-2" 
+            (click)="exportTemplateByName()">
+            <i class="uil uil-export fs-7"></i>
+            <span class="ms-2">تحميل القالب</span>
+        </button>
+    </div>
+</ng-container>
+
+<ng-template #ImportFileDialog let-modal>
+    <div class="modal-header modal-header-bg justify-content-between">
+        <h2 class="d-flex align-items-center gap-2">
+            <i class="uil uil-plus"></i>
+            <!-- <span>املأ البيانات الأتية</span>
+            <span *ngIf="!isUpdate" class="ms-3">(إضافة)</span>
+            <span *ngIf="isUpdate" class="ms-3">(تعديل)</span> -->
+        </h2>
+        <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+
+    <div class="modal-body">
+        <div class="employee-card-body row">
+
+            <form [formGroup]="formGroup" autocomplete="off">
+                <div class="employee-card-body row">
+
+                    <div class="col-xl-3 mb-3">
+                        <div class="HeadFilterTags cursor-pointer" *ngIf="attachmentFiles?.length">
+                            <ng-container *ngFor="let item of attachmentFiles">
+                                <div class="badge badge-sky m-1 round spacer-x bg-info p-1"
+                                    (click)="removeSelectedFile(item)">
+                                    <ng-container>
+                                        {{ item.name?.substring(0, 20)}}
+                                        <i class="fas fa-times-circle font-small-3 px-02 cursor-pointer"></i>
+                                    </ng-container>
+
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 mb-3">
+                        <label for="importFile" class="drop-container" id="dropcontainer">
+                            <div *ngIf="selectedFile">
+                                <button class="btn btn-outline-secondary mb-1">
+                                    <i class="fas fa-paperclip"></i>
+                                    <span class="ms-2  text-underline">{{selectedFile.name}}</span>
+                                </button>
+                            </div>
+                            <span class="drop-title">Click to upload</span>
+                            or
+                            <input formControlName="importFile" (change)="onFileChange($event)" type="file"
+                                id="importFile" class="HeadFilterTags cursor-pointer">
+                        </label>
+                        <div *ngIf="formErrors.importFile" class="text-danger  font-small-3 m-03">
+                            {{formErrors.importFile}}
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="modal-footer flex-nowrap gap-2">
+        <button [disabled]="showAddLoader" (click)="saveImportFile()" type="button"
+            class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
+            <i class="uil uil-save fs-3"></i>
+            <span>
+                Import
+            </span>
+        </button>
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="modal.close()">
+            <i class="uil uil-times-circle fs-3"></i>
+            <span>الغاء</span>
+        </button>
+    </div>
+</ng-template>

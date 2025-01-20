@@ -1,0 +1,176 @@
+<button *ngIf="!isUpdate" class="btn btn-outline-primary border m-2"
+    (click)="openAddNewImporterSidePanel(AddNewImporterDialog)">
+    <i class="uil uil-plus fs-5"></i>
+    <span class="ms-2">إضافة </span>
+</button>
+
+<button *ngIf="isUpdate" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2"
+    (click)="openAddNewImporterSidePanel(AddNewImporterDialog)">
+    <i class="uil uil-pen"></i>
+    <span>تعديل</span>
+</button>
+
+<ng-template #AddNewImporterDialog let-modal>
+    <div class="modal-header modal-header-bg justify-content-between">
+        <h2 class="d-flex align-items-center gap-2">
+            <i class="uil uil-plus"></i>
+            <span>املأ البيانات الأتية</span>
+            <span *ngIf="!isUpdate" class="ms-3">(إضافة)</span>
+            <span *ngIf="isUpdate" class="ms-3">(تعديل)</span>
+        </h2>
+        <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div *ngIf="currentStep==1" class="modal-body">
+        <form [formGroup]="formGroup" autocomplete="off">
+            <table class="table table-bordered table-feature-value align-middle border m-0">
+                <tbody>
+                    <tr>
+                        <td class="table-feature">الاسم</td>
+                        <td class="table-value">
+                            <input type="text" formControlName="importerName" class="form-control form-control-lg"
+                                placeholder="الاسم انجليزي">
+                            <div *ngIf="formErrors.importerName" class="text-danger  font-small-3 m-03">
+                                {{formErrors.importerName}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">Type</td>
+                        <td class="table-value">
+                            <app-drop-down-form-control formControlName="importerType" [placeholder]="'Type'"
+                                [data]="importerTypesSelectorData">
+                            </app-drop-down-form-control>
+                            <div *ngIf="formErrors.importerType" class="text-danger  font-small-3 m-03">
+                                {{formErrors.importerType}}
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- <tr>
+                        <td class="table-feature">Destination SP</td>
+                        <td class="table-value">
+                            <input type="text" formControlName="destinationStoredProcedure" class="form-control form-control-lg"
+                                placeholder="Destination SP">
+                            <div *ngIf="formErrors.destinationStoredProcedure" class="text-danger  font-small-3 m-03">
+                                {{formErrors.destinationStoredProcedure}}
+                            </div>
+                        </td>
+                    </tr> -->
+                    <tr>
+                        <td class="table-feature">Destination Table</td>
+                        <td class="table-value">
+                            <app-drop-down-form-control formControlName="destinationStoredProcedure" [placeholder]="'Table Name'"
+                                [data]="dbStoredProceduresSelectorData" 
+                                [showSearch]="true"
+                                [isCustomDropdown]="true">
+                            </app-drop-down-form-control>
+                            <div *ngIf="formErrors.destinationStoredProcedure" class="text-danger  font-small-3 m-03">
+                                {{formErrors.destinationStoredProcedure}}
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div *ngIf="currentStep==2" class="modal-body">
+        <div class="card card-with-table border shadow-none">
+
+            <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-3">
+                    <button class="btn btn-outline-primary border m-2" (click)="addField()">
+                        <i class="uil uil-plus fs-5"></i>
+                        <!-- <span class="ms-2">إضافة صنف</span> -->
+                    </button>
+                </div>
+                
+            </div>
+            <div class="card-body table-responsive table-vp-height small-scroll">
+                <table class="table table-borderless align-middle table-hover table-component text-center m-0 p-0"
+                    style="border-right-style: double;">
+                    <thead>
+                        <tr>
+                            <th>Column Name</th>
+                            <th>Column Type</th>
+                            <th>Display Order</th>
+                            <th>Required</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let column of columns;let i=index">
+
+                            <td>
+                                <div class="form-floating">
+                                    <input required type="text" dir="rtl" class="form-control form-control-lg"
+                                        autocomplete="off"
+                                        id="floatingInputFieldName_{{i}}" placeholder="Field Name"
+                                        [(ngModel)]="column.columnName" name="columnName_{{i}}">
+                                    <label for="floatingInputFieldName_{{i}}"> Field Name</label>
+                                </div>
+                            </td>
+                            <td>
+                                <app-drop-down-form-control [(ngModel)]="column.dataType" [isCustomDropdown]="true" [placeholder]="'Type'"
+                                    [data]="columnTypesSelectorData">
+                                </app-drop-down-form-control>
+                            </td>
+                            <td>
+                                <div class="form-floating">
+                                    <input required type="number" dir="rtl" class="form-control form-control-lg"
+                                        autocomplete="off"
+                                        id="floatingInputDisplayOrder_{{i}}" placeholder="Display Order"
+                                        [(ngModel)]="column.displayOrder" name="displayOrder_{{i}}">
+                                    <label for="floatingInputDisplayOrder_{{i}}">Display Order</label>
+                                </div>
+                            </td>
+                            <td>
+                                <!-- *ngIf="column.isNullable"  -->
+                                <!-- [disabled]="!column.isNullable" -->
+                                <label class="switch me-2">
+                                    <input   type="checkbox" [(ngModel)]="column.isRequired" (change)="true"
+                                        class="ng-valid ng-dirty ng-touched">
+                                    <span class="slider round"></span>
+                                </label>
+                            </td>
+                            <td class="text-center">
+                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
+                                    (click)="deleteFromList(columns,i)">
+                                    <i class="uil uil-trash-alt"></i>
+                                    <!-- <span>حذف</span> -->
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <app-empty-data [showContainer]="!columns?.length"
+                    [showLoader]="false">
+                </app-empty-data>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer flex-nowrap gap-2">
+        <button [disabled]="showAddLoader" (click)="nextAction()" type="button"
+            class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
+            <i class="uil uil-save fs-3"></i>
+            <span *ngIf="currentStep <2">
+                التالي
+            </span>
+            <span *ngIf="currentStep ==2">
+                <span *ngIf="!isUpdate">إضافة</span>
+                <span *ngIf="isUpdate">تعديل</span>
+            </span>
+        </button>
+        <button [disabled]="showAddLoader ||currentStep ==1" (click)="previousAction()" type="button"
+            class="btn btn-light d-flex align-items-center justify-content-center gap-2 w-100">
+            <i class="uil uil-times-circle fs-3"></i>
+            السابق
+        </button>
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="modal.close()">
+            <i class="uil uil-times-circle fs-3"></i>
+            <span>الغاء</span>
+        </button>
+    </div>
+</ng-template>

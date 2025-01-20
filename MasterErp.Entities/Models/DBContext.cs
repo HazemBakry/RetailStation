@@ -1,4 +1,5 @@
-﻿using MasterErp.Entities.Models.HR;
+﻿using MasterErp.Entities.Models.DataImport;
+using MasterErp.Entities.Models.HR;
 using MasterErp.Entities.Models.HR.Employee;
 using MasterErp.Entities.Models.Inventory;
 using MasterErp.Entities.Models.Lookups;
@@ -115,7 +116,10 @@ namespace MasterErp.Entities.Models
         public DbSet<AccountOpeningBalance> AccountOpeningBalance { get; set; }
 
 
-
+        #region DataImport
+        public DbSet<ImporterModel> Importers { get; set; }
+        public DbSet<ImporterColumnModel> ImporterColumns { get; set; }
+        #endregion
         #region Lookups
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
@@ -130,6 +134,17 @@ namespace MasterErp.Entities.Models
                 optionsBuilder.UseSqlServer(connString);
                 optionsBuilder.EnableSensitiveDataLogging();
             }
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Configure relationships
+            modelBuilder.Entity<ImporterModel>()
+                .HasMany(t => t.Columns)
+                .WithOne(f => f.Importer)
+                .HasForeignKey(f => f.ImporterId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

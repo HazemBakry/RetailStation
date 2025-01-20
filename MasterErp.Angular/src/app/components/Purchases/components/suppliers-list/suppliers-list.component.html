@@ -8,6 +8,9 @@
                     <i class="uil uil-plus fs-5"></i>
                     <span>إضافة مورد</span>
                 </button>
+                <app-upload-importer-file 
+                    [importerName]="'SupplierImporter'">
+                </app-upload-importer-file>
             </div>
             <div class="col-md-4">
                 <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="FilterModel.currentPage" [pageSize]="FilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="TotalPages"></app-erp-pagination>

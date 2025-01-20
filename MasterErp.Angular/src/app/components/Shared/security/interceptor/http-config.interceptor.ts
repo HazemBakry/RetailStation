@@ -16,20 +16,20 @@ import { AuthService } from 'src/app/Auth/auth.service';
 export class HttpConfigInterceptor implements HttpInterceptor {
   constructor(private router: Router, private authService: AuthService) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    
+
     if (request && request.body && request.body.results) {
       const col = JSON.parse(JSON.stringify(request.body));
       col.results = []
-      request = request.clone({ body: col});
+      request = request.clone({ body: col });
     }
 
-      const accessToken = this.authService.authorizationAccess_Token;
-      if (this.authService.isAuthenticated()&&accessToken) {
-        request = request.clone({ headers: request.headers.set('Authorization', `Bearer ${accessToken}`) });
-      }
-      else{
+    if (this.authService.isAuthenticated()) {
+      const accessToken = this.authService.access_Token;
+      request = request.clone({ headers: request.headers.set('Authorization', `Bearer ${accessToken}`) });
+    }
+    else {
 
-      }
+    }
 
     // return next.handle(request).pipe(
     //   tap(
@@ -46,15 +46,14 @@ export class HttpConfigInterceptor implements HttpInterceptor {
     //     }
     //   )
     // );
-    return next.handle(request).pipe(catchError((error:any) => {
+    return next.handle(request).pipe(catchError((error: any) => {
 
       if (error.status === 401) {
         this.authService.loginRedirect();
         // window.location.href = this.router.url;
       }
-      else if(error.status == 403)
-      {
-        localStorage.clear();
+      else if (error.status == 403) {
+        this.authService.clearStorage()
         this.authService.loginRedirect();
         // window.location.href = this.router.url;
         //redirect to force logout

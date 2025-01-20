@@ -13,81 +13,122 @@ import { ActionsResponseModel } from '../components/Shared/models/CreateModifyRe
 })
 export class AuthService {
   URL = environment.apiURL;
+  authApi = environment.authApi+'Auth';
+  centralizedLoginUrl = environment.authServerUrl;
   hasPermission = true;
-  loggedInUser:LoginUserModel ;
-  isAuthenticatedSubject=new BehaviorSubject<boolean>(false);
-  private readonly JWT_TOKEN:string='JWT_TOKEN';
-  private readonly User_Model:string='User_Model';
-  public readonly VIEW_ACTION_NAME:string='View';
+  loggedInUser: LoginUserModel;
+  isAuthenticatedSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
+
+  private readonly JWT_TOKEN = 'JWT_TOKEN';
+  private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
+  private readonly USER_MODEL = 'USER_MODEL';
+  public readonly VIEW_ACTION_NAME: string = 'View';
   constructor(private http: HttpClient, private toaster: ToastrService, private router: Router) 
   {
   }
   loginRedirect():void
   {
-    this.router.navigateByUrl('/login');
+    if(this.isAuthenticated())
+    {
+      this.router.navigateByUrl('/');
+      return;
+    }
+    const appReturnUrl = encodeURIComponent(window.location.origin + '/auth-callback');
+    window.location.href = `${this.centralizedLoginUrl}/login?returnUrl=${appReturnUrl}`;
   }
+
   login(model: any) {
-    return this.http.post<LoginUserModel>(this.URL + 'Auth/Login', model).pipe(tap((data:LoginUserModel)=>{
-      if(data?.isAuthenticated)
-      {
-        this.loggedInUser=data;
-        this.isAuthenticatedSubject.next(true); 
-        localStorage.setItem(this.User_Model, JSON.stringify(data));
+    return this.http.post<LoginUserModel>(this.authApi + '/Login', model).pipe(tap((data: LoginUserModel) => {
+      if (data?.isAuthenticated) {
+        this.loggedInUser = data;
+        this.isAuthenticatedSubject.next(true);
+        this.storeUser(data);
       }
-      if(data?.token)
-      {
-        this.storeJwtToken(data.token);
+      if (data?.token) {
+        this.storeTokens(data.token, data.refreshToken);
       }
     }));
   }
-  
-  logout()
-  {
-    localStorage.removeItem(this.JWT_TOKEN);
-    localStorage.clear();
+  storeTokens(token: string, refreshToken: string): void {
+    localStorage.setItem(this.JWT_TOKEN, token);
+    localStorage.setItem(this.REFRESH_TOKEN, refreshToken);
+  }
+
+  private storeUser(user: any): void {
+    localStorage.setItem(this.USER_MODEL, JSON.stringify(user));
+  }
+
+  logout(): void {
+    this.clearStorage();
     this.loginRedirect();
     this.isAuthenticatedSubject.next(false);
   }
+  refreshToken() {
+    return this.http
+      .post<any>(`${this.authApi}/refresh-token`, {
+        refreshToken: this.refresh_Token,
+      })
+      .pipe(
+        tap((response) => {
+          if (response?.token) {
+            this.storeTokens(response.token, response.refreshToken);
+          }
+        })
+      );
+  }
+  get access_Token(): string | null {
+    return localStorage.getItem(this.JWT_TOKEN);
+  }
+  get refresh_Token(): string | null {
+    return localStorage.getItem(this.REFRESH_TOKEN);
+  }
+  clearStorage(): void {
+    localStorage.removeItem(this.JWT_TOKEN);
+    localStorage.removeItem(this.REFRESH_TOKEN);
+    localStorage.removeItem(this.USER_MODEL);
+    localStorage.clear();
+  }
 
   getCurrentUser(): LoginUserModel {
-    const user = localStorage.getItem(this.User_Model);
+    const user = localStorage.getItem(this.USER_MODEL);
     return user ? JSON.parse(user) : null;
   }
 
 
   isAuthenticated(): boolean {
-    let currentUser = this.getCurrentUser();
-    if (!currentUser ||this.isTokenExpired())
-      return false;
-    
-    return true;
-  }
-  isTokenExpired(): boolean {
-    let access_token = this.authorizationAccess_Token;
-    if (!access_token)
-      return true;
-    const decode=jwtDecode(access_token);
-    if(!decode.exp)
-      return true;
-    const expirationDate=decode.exp*1000;
-    const now =new Date().getTime();
-    return expirationDate<now ;
-  }
-  refreshToken()
-  {
-    return this.http.post<any>(this.URL + 'User/AdminLogin',{}).pipe(tap((tokens:any)=>this.storeJwtToken(tokens.access_token)))
-  }
-  storeJwtToken(token:string)
-  {
-    localStorage.setItem(this.JWT_TOKEN,token);
-  }
-  get authorizationAccess_Token(): string {
-    let currentToken = localStorage.getItem(this.JWT_TOKEN);
-    if (!currentToken)
-      return undefined;
-    return currentToken;
+    const token = this.access_Token;
+    if (!token) return false;
+    return !this.isTokenExpired(token);
   }
 
+
+  private isTokenExpired(token: string): boolean {
+    const decodedToken: any = jwtDecode(token);
+    if (!decodedToken.exp) return true;
+    const expirationDate = decodedToken.exp * 1000;
+    return Date.now() > expirationDate;
+  }
+  GetLoggedInUserAsync()
+  {
+    return this.http.get<LoginUserModel>(`${this.authApi}/GetLoggedInUser`);
+  }
+
+  async completeAuthentication() {
+    const token = this.access_Token;
+    if (token) {
+      try {
+        const user = await this.GetLoggedInUserAsync().toPromise();
+        if (user?.isAuthenticated) {
+          this.storeUser(user);
+        } else {
+          this.logout();
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        this.logout(); // Logout in case of error
+      }
+    }
+  }
   isInRole(roles: string|string[]): boolean {
     const allowedRoles = Array.isArray(roles) ? [...roles, 'SuperAdmin'].map(x => x.toLowerCase())
       : [roles, 'SuperAdmin'].map(x => x.toLowerCase());

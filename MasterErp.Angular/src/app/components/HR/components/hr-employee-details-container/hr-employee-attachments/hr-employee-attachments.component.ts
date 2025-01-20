@@ -83,10 +83,6 @@ export class HrEmployeeAttachmentsComponent implements OnInit {
     this.attachmentFiles=[];
     this.isUpdate = false;
     this.buildForm();
-    // if (employeeAttachmentModel)
-    //   this.fillEditForm(employeeAttachmentModel);
-
-    // this.formGroup.patchValue({employeeId:this.selectedEmployeeId});
 
   }
   buildForm() {

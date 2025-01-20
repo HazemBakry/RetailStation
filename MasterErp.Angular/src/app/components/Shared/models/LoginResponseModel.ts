@@ -16,6 +16,7 @@ export interface LoginUserModel {
     phoneNumber: string;
     email: string;
     token: string;
+    refreshToken: string;
     expireOn: string;
     employeeId?:number |null;
     roles: string[];

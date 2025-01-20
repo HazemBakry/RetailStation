@@ -1,7 +1,9 @@
 <input #ImportAccounts type="file" hidden (change)="onFileSelected($event)" accept=".pdf,.docx,.doc,.xls,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
         ,application/vnd.ms-excel,image/*,image/gif, image/jpeg,*/*" />
 <div class="btn-action d-flex align-items-center flex-wrap mb-3">
-
+    <app-upload-importer-file 
+        [importerName]="'AccountTreeImporter'">
+    </app-upload-importer-file>
     <div ngbDropdown class="d-inline-block me-2">
         <button type="button" class="btn btn-secondary btn-lg me-2" id="dropdownBasic1" ngbDropdownToggle>
             العمليات
