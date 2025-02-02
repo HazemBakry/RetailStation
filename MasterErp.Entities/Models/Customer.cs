@@ -7,19 +7,27 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models
 {
-    public class Customer
+    public class Customer:CreatorModel
     {
         [Key]
         public int CustomerId { get; set; }
-        public int CustomerType { get; set; }
-        public bool IsActive { get; set; }
-        public string Name { get; set; }
+        public string Code { get; set; }
+        public string NameAR { get; set; }
+        public string NameEN { get; set; }
         public string Phone { get; set; }
-        public string Phone2 { get; set; }
+        public string Mobile { get; set; }
+        public int CountryId { get; set; }
+        public int CityId { get; set; }
+        public int RegionId { get; set; }
+        public string Address { get; set; }
+        public string CommercialRegister { get; set; }
+        public string TaxNumber { get; set; }
+        public double? BeginningBalance { get; set; }
+        public string BalanceType { get; set; }
+        public int? CustomerGroupId { get; set; }
+        public string ContactPerson { get; set; }
+        public string ContactMobile { get; set; }
         public string Notes { get; set; }
-        public string InsertUser { get; set; }
-        public DateTime? InsertDate { get; set; }
-        public string UpdateUser { get; set; }
-        public DateTime? UpdateDate { get; set; }
+        public bool IsActive { get; set; }
     }
 }

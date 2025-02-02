@@ -41,6 +41,11 @@ namespace MasterErp.Service.Shared
         {
             return Context.Customers.ToList();
         }
+
+        public List<DailyNotebook> GetLeadgerJournalsData()
+        {
+            return Context.DailyNotebooks.ToList();
+        }
         public List<ReceiptLedger> GetReceiptLedgersData()
         {
             return Context.ReceiptLedger.ToList();

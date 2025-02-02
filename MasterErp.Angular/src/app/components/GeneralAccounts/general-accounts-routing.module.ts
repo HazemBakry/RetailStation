@@ -26,6 +26,14 @@ import { OpeningBalanceComponent } from './components/opening-balance/opening-ba
 import { AccountTreeContainerComponent } from './components/account-tree-container/account-tree-container.component';
 import { CostCenterTreeContainerComponent } from './components/cost-center-tree-container/cost-center-tree-container.component';
 import { GeneralAccountsHomeComponent } from './components/general-accounts-home/general-accounts-home.component';
+import { PaymentTermComponent } from './GeneralAccountSettings/payment-term/payment-term.component';
+import { TaxCalculationComponent } from './GeneralAccountSettings/tax-calculation/tax-calculation.component';
+import { DailyNotebookComponent } from './GeneralAccountSettings/daily-notebook/daily-notebook.component';
+import { AssetsFormComponent } from './GeneralAccountSettings/assets-form/assets-form.component';
+import { LoansComponent } from './components/loans/loans.component';
+import { LedgerJournalTypeComponent } from './GeneralAccountSettings/ledger-journal-type/ledger-journal-type.component';
+import { CustomersComponent } from './Customers/customers/customers.component';
+import { BatchesComponent } from './Customers/batches/batches.component';
 
 const routes: Routes = [
   {
@@ -38,7 +46,6 @@ const routes: Routes = [
       { path: 'featured', component: FeaturedComponent },
       { path: 'fiscalYear', component: FiscalYearComponent },
       { path: 'receiptBooks', component: ReceiptBooksComponent },
-      // { path: 'account-tree', component: AccountTreeComponent },
       { path: 'account-tree', component: AccountTreeContainerComponent },
       { path: 'cost-center-tree', component: CostCenterTreeContainerComponent },
       { path: 'new-entry', component: NewEntryComponent },
@@ -51,17 +58,25 @@ const routes: Routes = [
       { path: 'accounts-assistant-ledger', component: AccountsAssistantLedgerComponent },
       { path: 'monthly-assistant-ledger', component: MonthlyAssistantLedgerComponent },
       { path: 'trial-balance', component: TrialBalanceComponent },
-      { path: 'cost-general-ledger', component: CostGeneralLedgerComponent},
-      { path: 'cost-assistant-ledger', component: CostAssistantLedgerComponent},
-      { path: 'cost-trial-balance', component: CostTrialBalanceComponent},
-      { path: 'cost-center-matrix', component: CostCenterMatrixComponent},
-      { path: 'journal-entry-types', component: JournalEntryTypesComponent},
-      { path: 'receipt-ledgers', component: ReceiptLedgersComponent},
-      { path: 'financial-period', component: FinancialPeriodsComponent},
-      { path: 'opening-balance', component: OpeningBalanceComponent},
-      { path: '', redirectTo: 'home' ,pathMatch: 'full' },
+      { path: 'cost-general-ledger', component: CostGeneralLedgerComponent },
+      { path: 'cost-assistant-ledger', component: CostAssistantLedgerComponent },
+      { path: 'cost-trial-balance', component: CostTrialBalanceComponent },
+      { path: 'cost-center-matrix', component: CostCenterMatrixComponent },
+      { path: 'journal-entry-types', component: JournalEntryTypesComponent },
+      { path: 'receipt-ledgers', component: ReceiptLedgersComponent },
+      { path: 'financial-period', component: FinancialPeriodsComponent },
+      { path: 'opening-balance', component: OpeningBalanceComponent },
+      { path: 'payment-terms', component: PaymentTermComponent },
+      { path: 'tax-calculation', component: TaxCalculationComponent },
+      { path: 'daily-notebook', component: DailyNotebookComponent },
+      { path: 'assets-form', component: AssetsFormComponent },
+      { path: 'loans', component: LoansComponent },
+      { path: 'ledger-journal-types', component: LedgerJournalTypeComponent },
+      { path: 'customers', component: CustomersComponent },
+      { path: 'batches', component: BatchesComponent },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
 
-      
+
     ]
   }
 ];
