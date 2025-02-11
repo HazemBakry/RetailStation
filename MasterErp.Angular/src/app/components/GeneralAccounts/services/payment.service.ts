@@ -20,11 +20,13 @@ export class PaymentService {
     // },
     {
       id: 2,
+      name: 'مورد',
       nameAR: 'مورد',
       nameEN: 'Supplier'
     },
     {
       id: 3,
+      name: 'حساب',
       nameAR: 'حساب',
       nameEN: 'Account'
     }
@@ -33,11 +35,13 @@ export class PaymentService {
   paymentTypeList: any[] = [
     {
       id: PaymentOperationType.Cheque,
+      name: 'شيكات',
       nameAR: 'شيكات',
       nameEN: 'Cheque'
     },
     {
       id: PaymentOperationType.Cash,
+      name: 'نقدي',
       nameAR: 'نقدي',
       nameEN: 'Cash'
     }
@@ -51,8 +55,8 @@ export class PaymentService {
     return this.http.get<any[]>(this.URL + 'Payment/GetPaymentReceiptData');
   }
 
-  SaveNewPaymentReceipt(model: PaymentReceipt) {
-    return this.http.post<CreateModifyReturnsModel>(this.URL + 'Payment/SaveNewPaymentReceipt', model);
+  SavePaymentReceipt(model: PaymentReceipt) {
+    return this.http.post<CreateModifyReturnsModel>(this.URL + 'Payment/SavePaymentReceipt', model);
 
   }
 

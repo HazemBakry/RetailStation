@@ -114,7 +114,7 @@ namespace MasterErp.Entities.Models
         public DbSet<Customer> Customers { get; set; }
         public DbSet<PaymentReceipt> PaymentReceipt { get; set; }
         public DbSet<ReceiveReceipt> ReceiveReceipt { get; set; }
-        public DbSet<ReceiptLedger> ReceiptLedger { get; set; }
+        public DbSet<ReceiptLedger> ReceiptLedgers { get; set; }
         public DbSet<ReceitLedgerType> ReceitLedgerType { get; set; }
 
 

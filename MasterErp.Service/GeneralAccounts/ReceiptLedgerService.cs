@@ -41,7 +41,7 @@ namespace MasterErp.Service.GeneralAccounts
 
         public PagedResponseModel<ReceiptLedgerDTO> GetReceiptLedgersData(FilterModel Model)
         {
-            int totalCount = Context.ReceiptLedger.Count();
+            int totalCount = Context.ReceiptLedgers.Count();
 
             int skip = (Model.CurrentPage - 1) * Model.PageSize;
 
@@ -51,7 +51,7 @@ namespace MasterErp.Service.GeneralAccounts
             //    .Take(model.PageSize)
             //.ToList();
 
-            var data = (from entity1 in Context.ReceiptLedger
+            var data = (from entity1 in Context.ReceiptLedgers
                         join entity2 in Context.ReceitLedgerType
                         on entity1.ReceiptLedgerTypeId equals entity2.ReceiptLedgerTypeId into join1
                         from res in join1.DefaultIfEmpty()
@@ -73,10 +73,10 @@ namespace MasterErp.Service.GeneralAccounts
                             IsLocked = entity1.IsLocked,
                             NameAR = entity1.NameAR,
                             NameEN = entity1.NameEN,
-                            InsertDate = entity1.InsertDate,
-                            UpdateUser = entity1.UpdateUser,
-                            UpdateDate = entity1.UpdateDate,
-                        }).OrderByDescending(e => e.InsertDate)
+                            CreatedDate = entity1.CreatedDate,
+                            CreatedBy = entity1.CreatedBy,
+                            ModifiedDate = entity1.ModifiedDate,
+                        }).OrderByDescending(e => e.CreatedDate)
                             .Skip(skip)
                             .Take(Model.PageSize)
                             .ToList();
@@ -95,8 +95,8 @@ namespace MasterErp.Service.GeneralAccounts
             {
                 ReceiptLedger tbl = new ReceiptLedger();
 
-                tbl.InsertDate = DateTime.Now;
-                tbl.InsertUser = string.Empty;
+                tbl.CreatedDate = DateTime.Now;
+                tbl.CreatedBy = string.Empty;
 
                 tbl.StartReceiptNumber = Model.StartReceiptNumber;
                 tbl.ReceiptLedgerTypeId = Model.ReceiptLedgerTypeId;
@@ -110,7 +110,7 @@ namespace MasterErp.Service.GeneralAccounts
                 tbl.Notes = Model.Notes;
 
 
-                Context.ReceiptLedger.Add(tbl);
+                Context.ReceiptLedgers.Add(tbl);
                 Context.SaveChanges();
 
 

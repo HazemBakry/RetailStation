@@ -13,7 +13,7 @@ namespace MasterErp.Interface.GeneralAccounts
     {
         #region Payment Receipt
         DataTable GetPaymentReceiptsSummary(FilterModel model);
-        ActionsResponseModel SaveNewPaymentReceipt(PaymentReceipt Model);
+        ActionsResponseModel SavePaymentReceipt(PaymentReceipt Model);
         #endregion
 
         #region Receive Receipt

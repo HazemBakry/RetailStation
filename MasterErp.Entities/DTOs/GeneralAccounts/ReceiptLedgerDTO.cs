@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MasterErp.Entities.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.DTOs.GeneralAccounts
 {
-    public class ReceiptLedgerDTO
+    public class ReceiptLedgerDTO: CreatorModel
     {
         public int ReceiptLedgerId { get; set; }
         public int StartReceiptNumber { get; set; }
@@ -22,9 +23,5 @@ namespace MasterErp.Entities.DTOs.GeneralAccounts
         public string NameEN { get; set; }
         public string PeriodName { get; set; }
         public string Notes { get; set; }
-        public string InsertUser { get; set; }
-        public string UpdateUser { get; set; }
-        public DateTime InsertDate { get; set; }
-        public DateTime? UpdateDate { get; set; }
     }
 }

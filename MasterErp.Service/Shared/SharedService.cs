@@ -48,7 +48,7 @@ namespace MasterErp.Service.Shared
         }
         public List<ReceiptLedger> GetReceiptLedgersData()
         {
-            return Context.ReceiptLedger.ToList();
+            return Context.ReceiptLedgers.ToList();
         }
 
         public List<AccountTree> GetAccountsByTypeId(int TypeId)

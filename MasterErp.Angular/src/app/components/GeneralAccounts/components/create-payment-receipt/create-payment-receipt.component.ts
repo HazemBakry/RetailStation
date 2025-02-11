@@ -11,67 +11,63 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./create-payment-receipt.component.css']
 })
 export class CreatePaymentReceiptComponent implements OnInit {
-  agencyTypeList:any[]=[];
-  paymentTypeList:any[]=[];
+  agencyTypeList: any[] = [];
+  paymentTypeList: any[] = [];
 
 
-  selectedAgencyType:number;
-  agencyList:any[]=[];
-  accountList:any[]=[];
-  receiptLedgerList:any[]=[];
+  selectedAgencyType: number;
+  agencyList: any[] = [];
+  accountList: any[] = [];
+  receiptLedgerList: any[] = [];
 
-  paymentReceiptModel:PaymentReceipt={} as PaymentReceipt
-  constructor(private sharedService:SharedService,private paymentService:PaymentService,private toaster:ToastrService) { }
+  paymentReceiptModel: PaymentReceipt = {} as PaymentReceipt
+  constructor(private sharedService: SharedService,
+    private paymentService: PaymentService,
+    private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.agencyTypeList=this.paymentService.agencyTypeList;
-    this.paymentTypeList=this.paymentService.paymentTypeList;
+    this.agencyTypeList = this.paymentService.agencyTypeList;
+    this.paymentTypeList = this.paymentService.paymentTypeList;
     this.loadReceiptLedgersData();
-
   }
 
-  loadCustomersData()
-  {
-    this.sharedService.GetCustomersData().subscribe(data=>{
-      this.agencyList=data;
-      
+  loadCustomersData() {
+    this.sharedService.GetCustomersData().subscribe(data => {
+      this.agencyList = data;
     })
   }
 
-  
-  loadSuppliersData()
-  {
-    this.sharedService.GetSuppliersSelector().subscribe(data=>{
-      this.agencyList=data;
-      
-    })
-  }
-  loadAccountsTreeData()
-  {
-    this.sharedService.GetAccountsSelector().subscribe(data=>{
-      this.agencyList=data;
-      
+
+  loadSuppliersData() {
+    this.sharedService.GetSuppliersSelector().subscribe(data => {
+      this.agencyList = data;
     })
   }
 
-  loadAccountsByTypeData(typeId:number)
-  {
-    this.sharedService.GetAccountsByTypeId(typeId).subscribe(data=>{
-      this.accountList=data;
-      
-    })
-  }
-  loadReceiptLedgersData()
-  {
-    this.sharedService.GetReceiptLedgersData().subscribe(data=>{
-      this.receiptLedgerList=data;
-    })
-  }
-  GetSelectedAgencyType(accountType)
-  {
+  loadAccountsTreeData() {
+    this.sharedService.GetAccountsSelector().subscribe(data => {
+      this.accountList = data;
 
-    this.selectedAgencyType=accountType?.id;
-    this.paymentReceiptModel.agencyTypeId=accountType?.id;
+    })
+  }
+
+  loadAccountsByTypeData(typeId: number) {
+    this.sharedService.GetAccountsByTypeId(typeId).subscribe(data => {
+      this.accountList = data;
+
+    })
+  }
+
+  loadReceiptLedgersData() {
+    this.sharedService.GetReceiptLedgersData().subscribe(data => {
+      this.receiptLedgerList = data;
+    })
+  }
+
+  GetSelectedAgencyType(accountType) {
+    debugger;
+    this.selectedAgencyType = accountType?.id;
+    this.paymentReceiptModel.agencyTypeId = accountType?.id;
     switch (accountType?.id) {
       // case 1:
       //   this.loadCustomersData();
@@ -82,55 +78,48 @@ export class CreatePaymentReceiptComponent implements OnInit {
       case 3:
         this.loadAccountsTreeData();
         break;
+
       default:
         break;
     }
   }
 
-  GetSelectedAgency(account)
-  {
-
+  GetSelectedAgency(account) {
     switch (this.selectedAgencyType) {
-
       case 2:
         //supplier
-        this.paymentReceiptModel.agencyId=account.supplierID;
+        this.paymentReceiptModel.agencyId = account.supplierID;
         break;
       case 3:
         //account
-        this.paymentReceiptModel.agencyId=account.accountId;
+        this.paymentReceiptModel.agencyId = account.accountId;
+        break;
 
-      break;
       default:
         break;
     }
   }
 
-  GetSelectedPaymentType(type)
-  {
+  GetSelectedPaymentType(type) {
 
-    this.paymentReceiptModel.paymentTypeId=type.id;
+    this.paymentReceiptModel.paymentTypeId = type.id;
     this.loadAccountsByTypeData(type.id);
   }
-  
 
-  GetSelectedAccount(account)
-  {
-    this.paymentReceiptModel.accountId=account.accountId;
+  GetSelectedAccount(account) {
+    this.paymentReceiptModel.accountId = account.accountId;
   }
-  GetSelectedReceiptLedger(receiptLedger:ReceiptLedger)
-  {
-    this.paymentReceiptModel.receiptLedgerId=receiptLedger.receiptLedgerId;
+
+  GetSelectedReceiptLedger(receiptLedger: ReceiptLedger) {
+    this.paymentReceiptModel.receiptLedgerId = receiptLedger.receiptLedgerId;
   }
-  
 
+  SavePaymentReceipt() {
+    if (!this.validatePaymentReceipt()) {
+      return;
+    }
 
-  SaveNewPaymentReceipt() {
-      if (!this.validatePaymentReceipt()) {
-        return;
-      }
-    
-    this.paymentService.SaveNewPaymentReceipt(this.paymentReceiptModel).subscribe((data:CreateModifyReturnsModel) => {
+    this.paymentService.SavePaymentReceipt(this.paymentReceiptModel).subscribe((data: CreateModifyReturnsModel) => {
       if (data?.status) {
         this.ClearAllFields();
         this.paymentReceiptModel.receiptNumber = data.id;
@@ -142,30 +131,28 @@ export class CreatePaymentReceiptComponent implements OnInit {
 
   }
 
-  validatePaymentReceipt():boolean
-  {
-    let model:PaymentReceipt=this.paymentReceiptModel;
+  validatePaymentReceipt(): boolean {
+    debugger
+    let model: PaymentReceipt = this.paymentReceiptModel;
 
-    if(!model.benefitPerson||
-      !model.paymentTypeId||
-      !model.receiptLedgerId||
-      !model.agencyTypeId||
-      !model.agencyId||
-      !model.accountId||
-      !model.releaseDate||
-      !model.moneyAmount)
-      {
-        this.toaster.warning('يرجي ملئ جميع الخانات');
-        return false;
-      }
+    if (!model.benefitPerson ||
+      !model.paymentTypeId ||
+      !model.receiptLedgerId ||
+      // !model.agencyTypeId ||
+      // !model.agencyId ||
+      // !model.accountId ||
+      !model.releaseDate ||
+      !model.moneyAmount) {
+      this.toaster.warning('ييرج ملئ جميع الخانات');
+      return false;
+    }
     return true;
 
   }
-  ClearAllFields()
-  {
 
-    this.paymentReceiptModel={}as PaymentReceipt;
-    this.selectedAgencyType=null;
+  ClearAllFields() {
+    this.paymentReceiptModel = {} as PaymentReceipt;
+    this.selectedAgencyType = null;
   }
 
 }

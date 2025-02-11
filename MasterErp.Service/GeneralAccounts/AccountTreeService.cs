@@ -193,7 +193,7 @@ namespace MasterErp.Service.GeneralAccounts
 
         public List<AccountTree> GetChildAccountsList()
         {
-            var result = Context.AccountTrees.Where(x => x.AccountLevel == 5).ToList();
+            var result = Context.AccountTrees.Where(x => x.IsParent == false).ToList();
 
             return result;
         }

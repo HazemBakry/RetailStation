@@ -26,10 +26,10 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         }
 
         [HttpPost]
-        [Route("SaveNewPaymentReceipt")]
-        public IActionResult SaveNewPaymentReceipt(PaymentReceipt Model)
+        [Route("SavePaymentReceipt")]
+        public IActionResult SavePaymentReceipt(PaymentReceipt Model)
         {
-            var results = _paymentService.SaveNewPaymentReceipt(Model);
+            var results = _paymentService.SavePaymentReceipt(Model);
             return Ok(results);
         }
 
