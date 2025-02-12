@@ -75,7 +75,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpGet]
         [Route("GetChildAccountsList")]
-        public List<AccountTree> GetChildAccountsList()
+        public List<SelectorDataModel> GetChildAccountsList()
         {
             return _accountTreeService.GetChildAccountsList();
         }

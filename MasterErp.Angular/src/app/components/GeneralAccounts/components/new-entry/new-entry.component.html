@@ -49,23 +49,23 @@
         </div>
         <div class="row mb-3">
             <div class="col-lg-9 offset-lg-1 h-100">
-                <textarea class="form-control" placeholder="Notes *" [(ngModel)]="Notes" autocomplete="off"></textarea>
+                <textarea class="form-control" placeholder="Notes *" [(ngModel)]="Description" autocomplete="off"></textarea>
             </div>
         </div>
     </div>
     <div class="card-body ">
         <button class="btn btn-primary btn-lg fs-6 me-2" (click)="SaveNewAccount()">
-      <i class="fas fa-check-circle"></i>
-      <span class="ms-2">حفظ</span>
-    </button>
+            <i class="fas fa-check-circle"></i>
+            <span class="ms-2">حفظ</span>
+        </button>
         <!-- <button *ngIf="EntryNumber && entryModel" class="btn btn-secondary btn-lg fs-6 me-2" (click)="Print()">
             <i class="fas fa-print"></i>
             <span class="ms-2">Print</span>
         </button> -->
         <button class="btn btn-warning btn-lg fs-6 me-2" (click)="ClearAllFields()">
-      <i class="fas fa-times"></i>
-      <span class="ms-2">مسح</span>
-    </button>
+            <i class="fas fa-times"></i>
+            <span class="ms-2">مسح</span>
+        </button>
 
 
     </div>
@@ -78,14 +78,14 @@
             <h5 class="fw-bold m-0">الحسابات</h5>
             <div>
                 <button class="btn btn-secondary me-2" (click)="openAccountModal(AccountModal)">
-          <i class="fas fa-plus-circle"></i>
-          <span class="ms-2">اضافة حساب</span>
-        </button>
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="ms-2">اضافة حساب</span>
+                </button>
             </div>
         </div>
     </div>
     <div class="card-body bg-light">
-        <div class="table-responsive table-vp-height small-scroll">
+        <div class="table-responsive table-vp-height small-scroll mb-2">
             <table class="table table-bordered table-middle table-hover bg-white m-0">
                 <thead>
                     <tr>
@@ -100,37 +100,42 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of AccountsListTable;let i = index">
-                        <td>{{item.accountNumber}}</td>
-                        <td>{{item.nameAR}}</td>
+                        <td>{{item.code}}</td>
+                        <td>{{item.name}}</td>
                         <td>
-                            <input type="text" #inputs class="form-control" [(ngModel)]="item.debtor" id="Input1" autocomplete="off" (input)="CalcDefference()" (keypress)="NumbersOnly($event.key)" (keyup.arrowdown)="FocusDownAndUp('Input1',i,'down')" (keyup.arrowup)="FocusDownAndUp('Input1',i,'up')"
+                            <input type="text" #inputs class="form-control text-center" [(ngModel)]="item.debtor" id="Input1" autocomplete="off" (input)="CalcDefference()" (keypress)="NumbersOnly($event.key)" (keyup.arrowdown)="FocusDownAndUp('Input1',i,'down')" (keyup.arrowup)="FocusDownAndUp('Input1',i,'up')"
                                 (keyup.arrowleft)="FocusLeftAndRight('Input2',i)" focus [disabled]="item.creditor>0">
                         </td>
                         <td>
-                            <input type="text" #inputs2 class="form-control" [(ngModel)]="item.creditor" id="Input2" autocomplete="off" (input)="CalcDefference()" (keypress)="NumbersOnly($event.key)" (keyup.arrowdown)="FocusDownAndUp('Input2',i,'down')" (keyup.arrowup)="FocusDownAndUp('Input2',i,'up')"
+                            <input type="text" #inputs2 class="form-control text-center" [(ngModel)]="item.creditor" id="Input2" autocomplete="off" (input)="CalcDefference()" (keypress)="NumbersOnly($event.key)" (keyup.arrowdown)="FocusDownAndUp('Input2',i,'down')" (keyup.arrowup)="FocusDownAndUp('Input2',i,'up')"
                                 (keyup.arrowleft)="FocusLeftAndRight('Input3',i)" (keyup.arrowright)="FocusLeftAndRight('Input1', i)" [disabled]="item.debtor>0">
                         </td>
                         <td>
-                            <app-erp-selector-with-search [ItemsList]="CostCenterList" [SelectorName]="'مركز التكلفة'" [SearchKey]="'costCenterNumber'" [Height]="'35px'" (ItemObj)="GetSelectedCostCenter($event,item)"></app-erp-selector-with-search>
+                            <app-erp-selector-with-search [ItemsList]="CostCenterList" [SelectorName]="'مركز التكلفة'" [SearchKey]="'costCenterNumber'" [Height]="'30px'" (ItemObj)="GetSelectedCostCenter($event,item)"></app-erp-selector-with-search>
                         </td>
                         <td>
                             <input type="text" #inputs3 class="form-control" [(ngModel)]="item.notes" id="Input3" autocomplete="off" (keyup.arrowdown)="FocusDownAndUp('Input3',i,'down')" (keyup.arrowup)="FocusDownAndUp('Input3',i,'up')" (keyup.arrowright)="FocusLeftAndRight('Input2', i)">
                         </td>
-                        <td>
+                        <td class="justify-content-center d-flex" style="border-bottom-style: unset;">
                             <button class="btn btn-danger btn-rounded" (click)="RemoveAccount(i)">
-                <i class="fas fa-times"></i>
-              </button>
+                                <i class="fas fa-times"></i>
+                            </button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <table>
-            <thead>
-                <th>الفرق : {{Defference}}</th>
-            </thead>
-        </table>
     </div>
+    <div class="card-footer">
+        <h5 class="ms-2 fw-bold">الفرق : {{Defference}}</h5>
+    </div>
+
+    <!-- <table>
+        <thead>
+            <th>الفرق : {{Defference}}</th>
+        </thead>
+    </table> -->
+
 </div>
 
 
@@ -143,8 +148,8 @@
                 <div class="ms-3">اضافة حساب</div>
             </h4>
             <button class="btn btn-danger" (click)="modal.dismiss()">
-        <i class="fas fa-times"></i>
-      </button>
+                <i class="fas fa-times justify-content-end"></i>
+            </button>
         </div>
         <div class="modal-body bg-light">
             <div class="d-flex align-items-center mb-2">
@@ -162,13 +167,17 @@
             <hr class="border-dark">
             <div class="row" *ngIf="activeTab == 'Account'">
                 <div class="col-lg-12">
-                    <app-erp-selector-with-search [ItemsList]="AccountsList" [SelectorName]="'الحسابات'" [innerTextKey]="'nameAR'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAccount($event)"></app-erp-selector-with-search>
+                    <app-drop-down-form-control [(ngModel)]="selectedAccountId" [data]="AccountsList" [showSearch]="true" [placeholder]="'الحسابات'" (valueChanged)="GetSelectedAccount($event)"></app-drop-down-form-control>
+
+
+                    <!-- <app-erp-selector-with-search [ItemsList]="AccountsList" [SelectorName]="'الحسابات'" [innerTextKey]="'nameAR'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAccount($event)"></app-erp-selector-with-search> -->
                 </div>
                 <div>
-                    <div class="d-flex align-items-center flex-wrap">
-                        <span *ngFor="let item of SelectedAccounts let i = index" style="font-size: 15px;" class="badge badge-size bg-primary me-1 mb-1">{{item.nameAR}}
-              <i class="fas fa-times-circle ms-1 icon-close cursor-pointer" (click)="ClearSelectedAccount(i)"></i>
-            </span>
+                    <div class="d-flex align-items-center flex-wrap mt-2">
+                        <span *ngFor="let item of SelectedAccounts let i = index" style="font-size: 12px;" class="badge badge-size bg-primary m-1">{{item.name}}
+                            <i class="fas fa-times-circle ms-1 icon-close cursor-pointer"
+                                (click)="ClearSelectedAccount(i)"></i>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -180,9 +189,9 @@
         </div>
         <div class="modal-footer flex-nowrap">
             <button class="btn btn-primary w-100 justify-content-center py-3 fs-5 radius-10" (click)="SaveSelectedAccount()">
-        <i class="fas fa-check-square"></i>
-        <span class="ms-2">حفظ</span>
-      </button>
+                <i class="fas fa-check-square"></i>
+                <span class="ms-2">حفظ</span>
+            </button>
         </div>
     </div>
 

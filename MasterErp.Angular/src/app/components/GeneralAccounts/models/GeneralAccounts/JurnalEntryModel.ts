@@ -3,7 +3,7 @@ export interface JournalEntryModel {
     docNumber?: string;
     entryNumber?: string;
     entryDate?: string;
-    descirption?: string;
+    description?: string;
     notes?: string;
     month?: number;
     year?: number;

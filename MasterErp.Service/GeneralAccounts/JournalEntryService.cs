@@ -88,7 +88,7 @@ namespace MasterErp.Service.GeneralAccounts
                 EntryModel.EntryNumber = entry.EntryNumber.ToString();
                 EntryModel.Month = entry.EntryDate.Month;
                 EntryModel.DocNumber = entry.DocNumber;
-                EntryModel.Descirption = entry.Description;
+                EntryModel.Description = entry.Description;
                 EntryModel.JournalTypeID = entry.JournalTypeId;
                 EntryModel.EntryDate = entry.EntryDate;
 
@@ -129,7 +129,7 @@ namespace MasterErp.Service.GeneralAccounts
                 JournalEntry Entry_tbl = new JournalEntry
                 {
                     EntryNumber = PreEntries.Count > 0 ? PreEntries.Max(x => x.EntryNumber) + 1 : 1,
-                    Description = model.Descirption,
+                    Description = model.Description,
                     DocNumber = model.DocNumber,
                     Notes = model.Notes,
                     JournalTypeId = model.JournalTypeID,
@@ -187,25 +187,27 @@ namespace MasterErp.Service.GeneralAccounts
 
         public DataTable GetDailyJournalEntriesSummary(FilterModel model)
         {
-            DataTable dt = new DataTable();
-            dt.Clear();
-            dt.Columns.Add("CategoryDisplayName");
-            dt.Columns.Add("CategoryName");
-            dt.Columns.Add("ItemKey");
-            dt.Columns.Add("ItemValue");
-            dt.Columns.Add("DisplayOrder");
+            //DataTable dt = new DataTable();
+            //dt.Clear();
+            //dt.Columns.Add("CategoryDisplayName");
+            //dt.Columns.Add("CategoryName");
+            //dt.Columns.Add("ItemKey");
+            //dt.Columns.Add("ItemValue");
+            //dt.Columns.Add("DisplayOrder");
 
-            foreach (FilterItem item in model.FilterItems)
-            {
-                DataRow row = dt.NewRow();
+            //foreach (FilterItem item in model.FilterItems)
+            //{
+            //    DataRow row = dt.NewRow();
 
-                row["CategoryDisplayName"] = item.CategoryDisplayName;
-                row["CategoryName"] = item.CategoryName;
-                row["ItemKey"] = item.ItemKey;
-                row["ItemValue"] = item.ItemKey;
-                row["DisplayOrder"] = 1;
-                dt.Rows.Add(row);
-            }
+            //    row["CategoryDisplayName"] = item.CategoryDisplayName;
+            //    row["CategoryName"] = item.CategoryName;
+            //    row["ItemKey"] = item.ItemKey;
+            //    row["ItemValue"] = item.ItemKey;
+            //    row["DisplayOrder"] = 1;
+            //    dt.Rows.Add(row);
+            //}
+
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterItems);
 
             SqlParameter[] Params = new SqlParameter[3];
             Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);

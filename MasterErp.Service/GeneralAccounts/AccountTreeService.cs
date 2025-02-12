@@ -88,13 +88,13 @@ namespace MasterErp.Service.GeneralAccounts
                 if (entity != null)
                 {
                     var parentAccount = Context.AccountTrees.FirstOrDefault(x => x.AccountId == Model.ParentAccountId);
-                    
-                    
+
+
                     entity.AccountNumber = Model.AccountNumber;
                     entity.ParentAccountId = Model.ParentAccountId;
                     entity.AccountTypeId = Model.AccountTypeId;
-                    entity.AccountLevel = parentAccount !=null ? parentAccount.AccountLevel+1 : 1;
-                    entity.IsParent= parentAccount != null ?false : true;
+                    entity.AccountLevel = parentAccount != null ? parentAccount.AccountLevel + 1 : 1;
+                    entity.IsParent = parentAccount != null ? false : true;
                     entity.AccountNature = string.Empty;
                     entity.IsActive = Model.IsActive;
                     entity.NameAR = Model.NameAR;
@@ -191,9 +191,14 @@ namespace MasterErp.Service.GeneralAccounts
             return result;
         }
 
-        public List<AccountTree> GetChildAccountsList()
+        public List<SelectorDataModel> GetChildAccountsList()
         {
-            var result = Context.AccountTrees.Where(x => x.IsParent == false).ToList();
+            var result = Context.AccountTrees.Where(x => x.IsParent == false).Select(a => new SelectorDataModel
+            {
+                Id = a.AccountId,
+                Code = a.AccountNumber,
+                Name = a.NameAR
+            }).ToList();
 
             return result;
         }

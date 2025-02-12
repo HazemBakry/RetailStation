@@ -11,7 +11,7 @@ namespace MasterErp.Entities.Common
         public string DocNumber { get; set; }
         public string EntryNumber { get; set; }
         public DateTime EntryDate { get; set; }
-        public string Descirption { get; set; }
+        public string Description { get; set; }
         public string Notes { get; set; }
         public int Month { get; set; }
         public int Year { get; set; }

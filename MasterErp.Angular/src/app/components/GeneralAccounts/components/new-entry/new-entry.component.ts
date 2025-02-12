@@ -36,11 +36,14 @@ export class NewEntryComponent implements OnInit {
   EntryNumber: any;
   EntryDate: any;
   DocNumber: any;
-  Notes: any;
+  Description: any;
   CurrencyType = [{ currencyId: 1, nameAR: 'جنيه' }, { currencyId: 1, nameAR: 'ريال' }]
   JournalTypeName = 'نوع القيد';
   CurrencyName = 'العملة';
   entryModel: JournalEntryModel = {} as JournalEntryModel;
+  selectedAccountId: number = null;
+
+
   constructor(private modalService: NgbModal, private sharedService: SharedService, private toaster: ToastrService,
     private generalService: GeneralAccountService,
     private pdfExportService: PDFExportService,
@@ -112,12 +115,16 @@ export class NewEntryComponent implements OnInit {
   }
 
   GetSelectedAccount(item: any) {
-    this.Item = item;
-    let checked = this.SelectedAccounts.find(i => i.accountId == item.accountId);
-    if (!checked)
-      this.SelectedAccounts.push(item);
-    else
-      this.toaster.warning('This Account Alredy Selected');
+    let account = this.AccountsList.find(i => i.id == item);
+    if (account)
+      this.SelectedAccounts.push(account);
+
+    //this.Item = item;
+    // let checked = this.SelectedAccounts.find(i => i.id == item.id);
+    // if (!checked)
+    //   this.SelectedAccounts.push(item);
+    // else
+    //   this.toaster.warning('This Account Alredy Selected');
     
   }
 
@@ -142,6 +149,7 @@ export class NewEntryComponent implements OnInit {
   }
 
   SaveSelectedAccount() {
+    debugger
     if (!this.TemplateId && this.SelectedAccounts.length == 0) {
       this.toaster.warning('Please Select Account Or Template');
       return;
@@ -149,8 +157,8 @@ export class NewEntryComponent implements OnInit {
 
     if (this.activeTab == 'Account') {
       this.SelectedAccounts.forEach((account, index) => {
-        let checked = this.AccountsListTable.find(i => i.accountId == account.accountId);
-        if (!checked)
+        // let checked = this.AccountsListTable.find(i => i.accountId == account.accountId);
+        // if (!checked)
           this.AccountsListTable.push(account);
         account.creditor = '';
         account.debtor = '';
@@ -257,7 +265,7 @@ export class NewEntryComponent implements OnInit {
     model.entryNumber = this.EntryNumber;
     model.entryDate = this.EntryDate;
     // model.descirption = '';
-    model.notes = this.Notes;
+    model.description = this.Description;
     //model.month = Number(month);
     //model.year = year;
     model.journalTypeId = this.journalTypeId;
@@ -311,7 +319,7 @@ export class NewEntryComponent implements OnInit {
     this.EntryNumber = '';
     this.EntryDate = '';
     this.DocNumber = '';
-    this.Notes = '';
+    this.Description = '';
     this.Defference = 0;
     this.activeTab = 'Account';
     this.Selector.ResetSelectorName('نوع القيد');
