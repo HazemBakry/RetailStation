@@ -19,9 +19,17 @@ export interface LoginUserModel {
     refreshToken: string;
     expireOn: string;
     employeeId?:number |null;
+    fullName: string;
+    branchNameAR: string;
+    branchNameEN: string;
+    imageUrl: string;
+    subscriberId: string;
+    subscriberName: string;
     roles: string[];
     authorizedPages?:PagePermissionModel[];
 }
+
+
 
 
 export interface PagePermissionModel {
