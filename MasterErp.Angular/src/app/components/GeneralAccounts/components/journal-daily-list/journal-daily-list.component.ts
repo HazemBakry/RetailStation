@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { GeneralAccountService } from '../../services/general-account.service';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-journal-daily-list',
@@ -21,14 +22,16 @@ export class JournalDailyListComponent implements OnInit {
     filterItems: []
   }
 
-  constructor(private generalService: GeneralAccountService, private toaster: ToastrService) { }
+  constructor(private generalService: GeneralAccountService,
+    private router: Router,
+    private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.GetDailyJournalEntriesSummary();
-    this.GetDailyJournalEntriesFilters();
+    this.getDailyJournalEntriesSummary();
+    this.getDailyJournalEntriesFilters();
   }
 
-  GetDailyJournalEntriesSummary() {
+  getDailyJournalEntriesSummary() {
     this.generalService.GetDailyJournalEntriesSummary(this.FilterModel).subscribe(data => {
       this.DailyJournal = data;
       this.totalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
@@ -36,7 +39,7 @@ export class JournalDailyListComponent implements OnInit {
     });
   }
 
-  GetDailyJournalEntriesFilters() {
+  getDailyJournalEntriesFilters() {
     this.generalService.GetDailyJournalEntriesFilters(this.FilterModel).subscribe(data => {
       this.filterList = data;
     });
@@ -44,12 +47,12 @@ export class JournalDailyListComponent implements OnInit {
 
   pageChanged(obj: any) {
     this.FilterModel.currentPage = obj.page;
-    this.GetDailyJournalEntriesSummary();
+    this.getDailyJournalEntriesSummary();
   }
 
   filterChecked(filterItems: FilterItem[]) {
     this.FilterModel.filterItems = filterItems;
-    this.GetDailyJournalEntriesSummary();
+    this.getDailyJournalEntriesSummary();
   }
 
   SelectedAll(isSelected: boolean) {
@@ -69,7 +72,7 @@ export class JournalDailyListComponent implements OnInit {
       if (data) {
         this.SelectAll = false;
         this.DailyJournal.forEach(i => i.isChecked = false);
-        this.GetDailyJournalEntriesSummary();
+        this.getDailyJournalEntriesSummary();
         this.toaster.success('تم اسقاط القيود بنجاح');
       }
       else
@@ -90,7 +93,7 @@ export class JournalDailyListComponent implements OnInit {
       if (data) {
         this.SelectAll = false;
         this.DailyJournal.forEach(i => i.isChecked = false);
-        this.GetDailyJournalEntriesSummary();
+        this.getDailyJournalEntriesSummary();
         this.toaster.success('تم ترحيل القيوم بنجاح');
       }
       else
@@ -112,7 +115,7 @@ export class JournalDailyListComponent implements OnInit {
       if (data) {
         this.SelectAll = false;
         this.DailyJournal.forEach(i => i.isChecked = false);
-        this.GetDailyJournalEntriesSummary();
+        this.getDailyJournalEntriesSummary();
         this.toaster.success('تم عكس القيود بنجاح');
       }
       else
@@ -141,6 +144,10 @@ export class JournalDailyListComponent implements OnInit {
         this.toaster.error('Print Journal Failure');
       this.showLoader = false;
     });
+  }
+
+  onEditClick(entryId: any) {
+    this.router.navigate(['/general-accounts/new-entry'], { queryParams: { EntryId: entryId } });
   }
 
 }

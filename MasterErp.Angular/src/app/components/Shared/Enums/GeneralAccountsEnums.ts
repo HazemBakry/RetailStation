@@ -1,7 +1,7 @@
 export enum SearchLevelType {
     GroupsAndAccounts = 1,
     GroupsOnly = 2,
-    AccountsOnly=3
+    AccountsOnly = 3
 }
 
 export enum CostCenterType {
@@ -10,6 +10,6 @@ export enum CostCenterType {
 }
 
 export enum PaymentOperationType {
-    Cheque = 3,    //شيكات
-    Cash = 4 //نقدي
+    Cash = 1,    //شيكات
+    Cheque = 2 //نقدي
 }

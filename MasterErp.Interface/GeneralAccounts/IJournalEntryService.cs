@@ -13,6 +13,7 @@ namespace MasterErp.Interface.GeneralAccounts
     {
         List<JournalEntryType> GetJournalEntryTypes();
         List<Currency> GetCurrencyList();
+        int GenerateNewEntryNumber(int month, int year);
         List<JournalTemplate> GetSavedJournalTemplates();
         List<JournalTemplateDetails> GetAccountsByTemplateId(int templateId);
         JournalEntryModel GetJournalEntryDetailsByID(int journalId);
@@ -23,5 +24,7 @@ namespace MasterErp.Interface.GeneralAccounts
         bool PostJournalEntry(List<int> JournalEntryIds);
         bool ReverseJournalEntry(List<int> JournalEntryIds);
         bool PrintJournalEntry(List<int> JournalEntryIds);
+        bool SavePaymentJournalEntry(PaymentReceipt Model);
+        //bool SaveReceiveJournalEntry(ReceiveReceipt Model);
     }
 }

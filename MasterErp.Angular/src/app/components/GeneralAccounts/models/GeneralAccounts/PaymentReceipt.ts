@@ -7,8 +7,8 @@ export interface PaymentReceipt {
     safeId: number | null;
     moneyAmount: number;
     agencyTypeId: number;
-    agencyId: number;
-    accountId: number;
+    supplierId: number | null;
+    accountId: number | null;
     isLocked: boolean;
     isCancelled: boolean;
     notes: string;

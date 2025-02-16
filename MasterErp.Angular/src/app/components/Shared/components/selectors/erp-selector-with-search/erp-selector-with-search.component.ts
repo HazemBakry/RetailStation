@@ -11,7 +11,7 @@ export class ErpSelectorWithSearchComponent implements OnInit {
   @Input() Height = '35px';
   @Input() ValidateMessage: string;
   @Input() SearchKey = 'name';
-  @Input() innerTextKey:string = 'name';
+  @Input() innerTextKey: string = 'name';
   @Input() isValid = false;
   @Output() ItemObj = new EventEmitter<any>();
   SearchText: any;

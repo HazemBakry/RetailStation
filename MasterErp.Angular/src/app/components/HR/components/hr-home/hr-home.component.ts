@@ -116,10 +116,6 @@ export class HrHomeComponent implements OnInit {
     this.getEmployeesSummary();
     this.getVacationsRequests();
     this.getLoansRequests();
-    // this.GetDailyJournalEntriesSummary();
-    // this.GetPurchaseInvoicesData();
-    // this.GetPaymentReceiptsSummary();
-    // this.GetReceiveReceiptsSummary();
   }
 
   getEmployeesSummary() {

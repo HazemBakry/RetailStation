@@ -31,6 +31,14 @@ import { CostCenterTreeComponent } from './components/cost-center-tree-container
 import { AddEditCostCenterTreeComponent } from './components/cost-center-tree-container/add-edit-cost-center-tree/add-edit-cost-center-tree.component';
 import { CostCenterTreeItemComponent } from './components/cost-center-tree-container/cost-center-tree-item/cost-center-tree-item.component';
 import { GeneralAccountsHomeComponent } from './components/general-accounts-home/general-accounts-home.component';
+import { PaymentTermComponent } from './GeneralAccountSettings/payment-term/payment-term.component';
+import { TaxCalculationComponent } from './GeneralAccountSettings/tax-calculation/tax-calculation.component';
+import { DailyNotebookComponent } from './GeneralAccountSettings/daily-notebook/daily-notebook.component';
+import { AssetsFormComponent } from './GeneralAccountSettings/assets-form/assets-form.component';
+import { LoansComponent } from './components/loans/loans.component';
+import { LedgerJournalTypeComponent } from './GeneralAccountSettings/ledger-journal-type/ledger-journal-type.component';
+import { CustomersComponent } from './Customers/customers/customers.component';
+import { BatchesComponent } from './Customers/batches/batches.component';
 
 
 @NgModule({
@@ -60,7 +68,15 @@ import { GeneralAccountsHomeComponent } from './components/general-accounts-home
     AddEditCostCenterTreeComponent,
     CostCenterTreeItemComponent,
     CostCenterTreeContainerComponent,
-    GeneralAccountsHomeComponent
+    GeneralAccountsHomeComponent,
+    PaymentTermComponent,
+    TaxCalculationComponent,
+    DailyNotebookComponent,
+    AssetsFormComponent,
+    LoansComponent,
+    LedgerJournalTypeComponent,
+    CustomersComponent,
+    BatchesComponent
   ],
   imports: [
     CommonModule,

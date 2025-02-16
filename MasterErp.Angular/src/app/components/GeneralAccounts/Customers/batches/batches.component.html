@@ -1,0 +1,191 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="container-fluid pt-2">
+    <div class="card card-with-table border shadow-none">
+        <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2" (click)="openItemModal(ItemModal,null)">
+                    <i class="uil uil-plus fs-5"></i>
+                    <span>إضافة دفعة جديدة</span>
+                </button>
+            </div>
+            <div class="col-md-4">
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="FilterModel.currentPage" [pageSize]="FilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="totalPages"></app-erp-pagination>
+            </div>
+        </div>
+        <div class="card-body table-responsive">
+            <table class="table table-borderless align-middle table-hover table-component m-0">
+                <thead>
+                    <tr>
+                        <th>الاسم</th>
+                        <th>نوع السداد</th>
+                        <th>العميل</th>
+                        <th>دفتر اليومية</th>
+                        <th>المبلغ</th>
+                        <th>تاريخ الاضافة</th>
+                        <th>طريقة الدفع</th>
+                        <th class="actions-table-col"></th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <tr *ngFor="let item of Batches">
+                        <td>
+                            <div class="fs-5 fw-bold">{{item.batchName}}</div>
+                        </td>
+                        <td>
+                            <div class="fs-5 fw-bold">{{item.batchType}}</div>
+                        </td>
+                        <td>
+                            <div class="fs-5 fw-bold">{{item.customerName}}</div>
+                        </td>
+                        <td>
+                            <div class="fs-5 fw-bold">{{item.amount}}</div>
+                        </td>
+                        <td>
+                            <div class="fs-5 fw-bold">{{item.insertDate | date}}</div>
+                        </td>
+                        <td>
+                            <div class="fs-5 fw-bold">{{item.leadgerJournalName}}</div>
+                        </td>
+                        <td>
+                            <div class="fs-5 fw-bold">{{item.paymentMethod}}</div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="openItemModal(ItemModal,item)">
+                                    <i class="uil uil-pen"></i>
+                                    <span>تعديل</span>
+                                </button>
+                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteItemModal(deleteItemModal,item.batchId)">
+                                    <i class="uil uil-trash-alt"></i>
+                                    <span>حذف</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #ItemModal let-modal>
+    <div class="modal-header modal-header-bg justify-content-between">
+        <h2 class="d-flex align-items-center gap-2">
+            <i class="uil uil-plus"></i>
+            <span>املأ البيانات الأتية</span>
+        </h2>
+        <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formGroup" autocomplete="off">
+            <table class="table table-bordered table-feature-value align-middle border m-0">
+                <tbody>
+                    <tr>
+                        <td class="table-feature">الاسم</td>
+                        <td class="table-value">
+                            <input type="text" class="form-control form-control-lg" placeholder="الاسم..." formControlName="nameAr">
+                            <div *ngIf="formErrors.nameAr" class="text-danger  font-small-3 m-03">
+                                {{formErrors.nameAr}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">نوع السداد</td>
+                        <td class="table-value">
+                            <div class="d-flex align-items-center">
+                                <label for="lbl-1" class="me-2">إرسال</label>
+                                <input type="radio" id="lbl-1" class="me-2" formControlName="batchType" value="Send">
+                                <label for="lbl-2" class="me-2">استلام</label>
+                                <input type="radio" id="lbl-2" formControlName="batchType" value="Receive">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">العميل</td>
+                        <td class="table-value">
+                            <div class="form-floating">
+                                <app-drop-down-form-control formControlName="customerId" [data]="Customers" [showSearch]="true" [placeholder]="'العميل'"></app-drop-down-form-control>
+                            </div>
+                            <div *ngIf="formErrors.customerId" class="text-danger  font-small-3 m-03">
+                                {{formErrors.customerId}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">دفتر اليومية</td>
+                        <td class="table-value">
+                            <div class="form-floating">
+                                <app-drop-down-form-control formControlName="leadgerJournalId" [data]="leadgerJournals" [showSearch]="true" [placeholder]="'دفتر اليومية'"></app-drop-down-form-control>
+                            </div>
+                            <div *ngIf="formErrors.leadgerJournalId" class="text-danger  font-small-3 m-03">
+                                {{formErrors.leadgerJournalId}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">المبلغ</td>
+                        <td class="table-value">
+                            <input type="number" class="form-control form-control-lg text-align-right" placeholder="...المبلغ" formControlName="amount">
+                            <div *ngIf="formErrors.amount" class="text-danger  font-small-3 m-03">
+                                {{formErrors.amount}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">تاريخ الاضافة</td>
+                        <td class="table-value">
+                            <input type="date" class="form-control form-control-lg" placeholder="تاريخ الاضافة..." formControlName="insertDate">
+                            <div *ngIf="formErrors.insertDate" class="text-danger  font-small-3 m-03">
+                                {{formErrors.insertDate}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">طريقة الدفع</td>
+                        <td class="table-value">
+                            <div class="form-floating">
+                                <app-drop-down-form-control formControlName="paymentMethod" [data]="PaymentMethods" [showSearch]="true" [placeholder]="'طريقة الدفع'"></app-drop-down-form-control>
+                            </div>
+                            <div *ngIf="formErrors.paymentMethod" class="text-danger  font-small-3 m-03">
+                                {{formErrors.paymentMethod}}
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="modal-footer flex-nowrap gap-2">
+        <button type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100" (click)="AddNewDailyNotebook()">
+            <i class="uil uil-save fs-3"></i>
+            <span>حفظ</span>
+        </button>
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="modal.close()">
+            <i class="uil uil-times-circle fs-3"></i>
+            <span>الغاء</span>
+        </button>
+    </div>
+</ng-template>
+
+
+<ng-template #deleteItemModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Confirm Action</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">Are you sure you want remove this Raw Item?</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="DeleteDailyNotebook()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">Yes</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">No</span>
+        </button>
+    </div>
+</ng-template>

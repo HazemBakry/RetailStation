@@ -27,6 +27,14 @@ namespace MasterErp.API.Controllers.Shared
         }
 
         [HttpGet]
+        [Route("GetLeadgerJournalsData")]
+        public IActionResult GetLeadgerJournalsData()
+        {
+            var results = _sharedService.GetLeadgerJournalsData();
+            return Ok(results);
+        }
+
+        [HttpGet]
         [Route("GetReceiptLedgersData")]
         public IActionResult GetReceiptLedgersData()
         {
@@ -45,6 +53,13 @@ namespace MasterErp.API.Controllers.Shared
         public List<AccountTree> GetAccountsByTypeId(int TypeId)
         {
             return _sharedService.GetAccountsByTypeId(TypeId);
+        }
+
+        [HttpGet]
+        [Route("GetCostCenterSelector")]
+        public List<SelectorDataModel> GetCostCenterSelector(bool IsParent)
+        {
+            return _sharedService.GetCostCenterSelector(IsParent);
         }
 
         [HttpGet]

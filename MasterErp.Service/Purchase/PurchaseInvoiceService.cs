@@ -275,7 +275,7 @@ namespace MasterErp.Service.Purchase
 
             JournalEntryModel entry = new JournalEntryModel
             {
-                Descirption = " فواتير شهر " + invoice.InvoiceDate.Month + " فاتورة مشتريات رقم " + invoice.PurchaseInvoiceId.ToString() + (supplierName ?? " للمورد " + supplierName),
+                Description = " فواتير شهر " + invoice.InvoiceDate.Month + " فاتورة مشتريات رقم " + invoice.PurchaseInvoiceId.ToString() + (supplierName ?? " للمورد " + supplierName),
                 DocNumber = invoice.PurchaseInvoiceId.ToString(),
                 EntryDate = invoice.InvoiceDate,
                 Month = invoice.InvoiceDate.Month,

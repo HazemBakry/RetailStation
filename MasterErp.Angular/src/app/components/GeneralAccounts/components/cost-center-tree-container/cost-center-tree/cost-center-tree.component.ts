@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./cost-center-tree.component.css']
 })
 export class CostCenterTreeComponent implements OnInit {
-  
+
   @Input() isParentCostCenter: boolean = false;
   @Input() reloadData: boolean = false;
   @Output() selectedCostCenter = new EventEmitter<any>();
@@ -42,7 +42,7 @@ export class CostCenterTreeComponent implements OnInit {
 
 
   selectCostCenter(costCenter: CostCenterTreeModel) {
-   
+
 
     this.selectedCostCenter.emit(costCenter);
   }

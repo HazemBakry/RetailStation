@@ -2,8 +2,10 @@
 using MasterErp.Entities.Models.HR.Employee;
 using MasterErp.Interface.Common;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,15 +18,20 @@ namespace MasterErp.Service.Common
         private readonly List<string> _imageExtensions;
         private readonly List<string> _attachmentExtensions;
         private readonly List<string> _importerExtensions;
+        private readonly IConfiguration Configuration;
+        private readonly string PublicPath;
         private readonly IHttpContextAccessor _httpContextAccessor;
+
         private const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
 
-        public FileService(IHttpContextAccessor httpContextAccessor)
+        public FileService(IHttpContextAccessor httpContextAccessor, IConfiguration Configuration)
         {
             _imageExtensions = new List<string> { ".jpg", ".jpeg", ".png" };
             _attachmentExtensions = new List<string> { ".jpg", ".jpeg", ".png", ".pdf", ".docx", ".xls", ".doc" };
             _importerExtensions = new List<string> { ".xls", ".xlsx", ".csv" };
             _httpContextAccessor = httpContextAccessor;
+            this.Configuration = Configuration;
+            this.PublicPath = Configuration.GetSection("APIPath").Value;
         }
 
         public async Task<UploadFileResponse> UploadFileAsync(IFormFile file, string uploadDirectory, FileType fileType, List<string> allowedExtensions = null)
@@ -50,7 +57,7 @@ namespace MasterErp.Service.Common
             }
 
             string sanitizedFileName = SanitizeFileName(Path.GetFileNameWithoutExtension(file.FileName));
-            string safeFileName = $"{sanitizedFileName}_{Guid.NewGuid()}{extension}";
+            string safeFileName = $"{sanitizedFileName}{extension}"; //_{Guid.NewGuid()}{extension}";
             string filePath = Path.Combine(uploadDirectory, safeFileName);
             string uploadPath = Path.Combine("wwwroot", filePath);
 

@@ -9,15 +9,18 @@ export interface LoginUserModel {
     isAuthenticated: boolean;
     userName: string;
     userId: string;
-    fullNameAr : string;
+    fullName: string;
+    fullNameAr: string;
     fullNameEn: string;
-    branchNameAr: string;
-    branchNameEn: string;
+    branchId: number;
+    branchNameAR: string;
+    branchNameEN: string;
     phoneNumber: string;
     email: string;
     token: string;
     refreshToken: string;
     expireOn: string;
+    employeeId?: number | null;
     employeeId?:number |null;
     fullName: string;
     branchNameAR: string;
@@ -26,7 +29,7 @@ export interface LoginUserModel {
     subscriberId: string;
     subscriberName: string;
     roles: string[];
-    authorizedPages?:PagePermissionModel[];
+    authorizedPages?: PagePermissionModel[];
 }
 
 

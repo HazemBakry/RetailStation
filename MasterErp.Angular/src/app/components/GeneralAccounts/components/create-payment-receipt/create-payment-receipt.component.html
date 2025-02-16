@@ -25,28 +25,28 @@
             </div>
             <div class="col-lg-3 offset-lg-1 mb-3">
 
-                <app-erp-selector-with-search #Selector [SelectorName]="'دفتر ايصال'" [ItemsList]="receiptLedgerList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedReceiptLedger($event)">
+                <app-erp-selector-with-search #Selector [SelectorName]="'دفتر  ايصال'" [ItemsList]="receiptLedgerList" [Height]="'35px'" [SearchKey]="'nameAR'" [innerTextKey]="'nameAR'" (ItemObj)="GetSelectedReceiptLedger($event)">
                 </app-erp-selector-with-search>
             </div>
         </div>
 
         <div class="row">
             <div class="col-lg-3 offset-lg-1 mb-3">
-                <app-erp-selector-with-search #Selector [SelectorName]="'نوع جهةالتعامل'" [ItemsList]="agencyTypeList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAgencyType($event)">
+                <app-erp-selector-with-search #Selector [SelectorName]="'نوع  جهة التعامل'" [ItemsList]="agencyTypeList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAgencyType($event)">
                 </app-erp-selector-with-search>
 
             </div>
-            <div class="col-lg-3 offset-lg-1 mb-3">
-                <app-erp-selector-with-search #Selector [SelectorName]="'جهةالتعامل'" [ItemsList]="agencyList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAgency($event)">
+            <div *ngIf="selectedAgencyType == 0" class="col-lg-3 offset-lg-1 mb-3">
+                <app-erp-selector-with-search #Selector [SelectorName]="'جهة التعامل'" [ItemsList]="supplierList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedSupplier($event)">
+                </app-erp-selector-with-search>
+            </div>
+
+            <div *ngIf="selectedAgencyType == 1" class="col-lg-3 offset-lg-1 mb-3">
+                <app-erp-selector-with-search #Selector [SelectorName]="'الحسابات'" [ItemsList]="accountList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAccount($event)">
                 </app-erp-selector-with-search>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-3 offset-lg-1 mb-3">
-                <app-erp-selector-with-search #Selector [SelectorName]="'حساب الواجهه'" [ItemsList]="accountList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAccount($event)">
-                </app-erp-selector-with-search>
-
-            </div>
             <div class="col-lg-3 offset-lg-1 mb-3" *ngIf="paymentReceiptModel?.paymentTypeId==3">
                 <div class="form-floating">
                     <input type="text" [(ngModel)]="paymentReceiptModel.chequeNumber" class="form-control input-size" id="floatingInput2" placeholder="any" autocomplete="off">
@@ -73,7 +73,7 @@
         </div>
         <div class="row">
 
-            <div class="col-lg-6 offset-lg-1 mb-3">
+            <div class="col-lg-3 offset-lg-1 mb-3">
                 <div class="form-floating">
                     <input type="number" [(ngModel)]="paymentReceiptModel.moneyAmount" class="form-control input-size" id="floatingInput2" placeholder="any" autocomplete="off">
                     <label for="floatingInput2"> المبلغ</label>
@@ -105,7 +105,7 @@
         <div class="card-body ">
             <div class="offset-lg-1">
 
-                <button class="btn btn-primary btn-lg fs-6 me-2" (click)="SaveNewPaymentReceipt()">
+                <button class="btn btn-primary btn-lg fs-6 me-2" (click)="SavePaymentReceipt()">
                     <i class="fas fa-check-circle"></i>
                     <span class="ms-2">حفظ</span>
                 </button>

@@ -11,6 +11,7 @@ export const environment = {
 
   //login system
   authApi:'https://loginsso.infood.ai/api/',
+  //authApi:'http://localhost:41146/api/',
   authServerUrl: 'https://login.infood.ai/',
 };
 

@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
@@ -19,36 +20,74 @@ namespace MasterErp.Service.GeneralAccounts
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
         private readonly ISharedFilterService SharedFilterService;
+        private readonly string ConnectionString;
 
-        private string ConnectionString
-        {
-            get
-            {
-                return Configuration.GetConnectionString("DBConnection");
-            }
-        }
-
-        public JournalEntryService(DBContext Context, ISQLHelper SQLHelper, IConfiguration Configuration, ISharedFilterService SharedFilterService)
+        public JournalEntryService(DBContext Context, ISQLHelper SQLHelper, IConfiguration Configuration,
+            ISharedFilterService SharedFilterService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
             this.Configuration = Configuration;
             this.SharedFilterService = SharedFilterService;
+            this.ConnectionString = Configuration.GetConnectionString("DBConnection");
         }
 
-        private string GenerateNewEntryNumber(int month, int year)
+        public JournalEntryModel GetJournalEntryDetailsByID(int journalId)
+        {
+            var entry = Context.JournalEntries.Where(x => x.JournalEntryId == journalId).FirstOrDefault();
+            JournalEntryModel EntryModel = new JournalEntryModel();
+
+            if (entry != null)
+            {
+                EntryModel.EntryNumber = entry.EntryNumber.ToString();
+                EntryModel.Month = entry.EntryDate.Month;
+                EntryModel.DocNumber = entry.DocNumber;
+                EntryModel.Description = entry.Description;
+                EntryModel.JournalTypeID = entry.JournalTypeId;
+                EntryModel.EntryDate = entry.EntryDate;
+
+                //------------------------------Fill Entry Details-----------------------------------//
+
+                var details = (from journal_details in Context.JournalEntryDetails
+                               join Accounts in Context.AccountTrees on journal_details.AccountID equals Accounts.AccountId
+                               //join costs in Context.CostCenterTrees on journal_details.CostCenterID equals costs.CostCenterID
+                               //orderby journal_details.JournalDetialID
+                               where journal_details.JournalEntryId == entry.JournalEntryId
+                               select new JournalEntryAccount
+                               {
+                                   AccountID = Accounts.AccountId,
+                                   Debit = journal_details.Debit,
+                                   Credit = journal_details.Credit,
+                                   Description = journal_details.Description,
+                                   CostCenterID = journal_details.CostCenterId,
+                                   CostPercent = journal_details.CostPercent,
+                                   CostValue = journal_details.CostValue,
+                                   CurrencyID = journal_details.CurrencyId,
+                                   AccountName = Accounts.NameAR,
+                                   AccountNumber = Accounts.AccountNumber,
+                                   Notes = journal_details.Description
+                               }).ToList();
+
+                EntryModel.JournalEntryAccounts = details;
+            }
+
+            return EntryModel;
+        }
+
+
+        public int GenerateNewEntryNumber(int month, int year)
         {
             //int month = dtp_EntryDate.Date.Month;
             //int year = dtp_EntryDate.Date.Year;
-            string entry_number = "";
+            int entry_number = 1;
 
             try
             {
-                entry_number = (Context.JournalEntries.Where(x => x.EntryDate.Month == month && x.EntryDate.Year == year).Max(x => x.EntryNumber) + 1).ToString();
+                entry_number = (Context.JournalEntries.Where(x => x.EntryDate.Month == month && x.EntryDate.Year == year).Max(x => x.EntryNumber) + 1);
             }
             catch (Exception)
             {
-                entry_number = "1";
+                //entry_number = "1";
             }
 
             return entry_number;
@@ -78,44 +117,6 @@ namespace MasterErp.Service.GeneralAccounts
             return List;
         }
 
-        public JournalEntryModel GetJournalEntryDetailsByID(int journalId)
-        {
-            var entry = Context.JournalEntries.Where(x => x.JournalEntryId == journalId).FirstOrDefault();
-            JournalEntryModel EntryModel = new JournalEntryModel();
-
-            if (entry != null)
-            {
-                EntryModel.EntryNumber = entry.EntryNumber.ToString();
-                EntryModel.Month = entry.EntryDate.Month;
-                EntryModel.DocNumber = entry.DocNumber;
-                EntryModel.Descirption = entry.Description;
-                EntryModel.JournalTypeID = entry.JournalTypeId;
-                EntryModel.EntryDate = entry.EntryDate;
-
-                //------------------------------Fill Entry Details-----------------------------------//
-
-                var details = (from journal_details in Context.JournalEntryDetails
-                               where journal_details.JournalEntryId == entry.JournalEntryId
-                               join Accounts in Context.AccountTrees on journal_details.AccountID equals Accounts.AccountId
-                               //join costs in Context.CostCenterTrees on journal_details.CostCenterID equals costs.CostCenterID
-                               //orderby journal_details.JournalDetialID
-                               select new JournalEntryAccount
-                               {
-                                   AccountID = Accounts.AccountId,
-                                   Debit = journal_details.Debit,
-                                   Credit = journal_details.Credit,
-                                   Description = journal_details.Description,
-                                   CostCenterID = journal_details.CostCenterId,
-                                   CostPercent = journal_details.CostPercent,
-                                   CostValue = journal_details.CostValue,
-                                   CurrencyID = journal_details.CurrencyId
-                               }).ToList();
-
-                EntryModel.JournalEntryAccounts = details;
-            }
-
-            return EntryModel;
-        }
 
         public ActionsResponseModel SaveNewJouranlEntry(JournalEntryModel model)
         {
@@ -129,7 +130,7 @@ namespace MasterErp.Service.GeneralAccounts
                 JournalEntry Entry_tbl = new JournalEntry
                 {
                     EntryNumber = PreEntries.Count > 0 ? PreEntries.Max(x => x.EntryNumber) + 1 : 1,
-                    Description = model.Descirption,
+                    Description = model.Description,
                     DocNumber = model.DocNumber,
                     Notes = model.Notes,
                     JournalTypeId = model.JournalTypeID,
@@ -187,25 +188,27 @@ namespace MasterErp.Service.GeneralAccounts
 
         public DataTable GetDailyJournalEntriesSummary(FilterModel model)
         {
-            DataTable dt = new DataTable();
-            dt.Clear();
-            dt.Columns.Add("CategoryDisplayName");
-            dt.Columns.Add("CategoryName");
-            dt.Columns.Add("ItemKey");
-            dt.Columns.Add("ItemValue");
-            dt.Columns.Add("DisplayOrder");
+            //DataTable dt = new DataTable();
+            //dt.Clear();
+            //dt.Columns.Add("CategoryDisplayName");
+            //dt.Columns.Add("CategoryName");
+            //dt.Columns.Add("ItemKey");
+            //dt.Columns.Add("ItemValue");
+            //dt.Columns.Add("DisplayOrder");
 
-            foreach (FilterItem item in model.FilterItems)
-            {
-                DataRow row = dt.NewRow();
+            //foreach (FilterItem item in model.FilterItems)
+            //{
+            //    DataRow row = dt.NewRow();
 
-                row["CategoryDisplayName"] = item.CategoryDisplayName;
-                row["CategoryName"] = item.CategoryName;
-                row["ItemKey"] = item.ItemKey;
-                row["ItemValue"] = item.ItemKey;
-                row["DisplayOrder"] = 1;
-                dt.Rows.Add(row);
-            }
+            //    row["CategoryDisplayName"] = item.CategoryDisplayName;
+            //    row["CategoryName"] = item.CategoryName;
+            //    row["ItemKey"] = item.ItemKey;
+            //    row["ItemValue"] = item.ItemKey;
+            //    row["DisplayOrder"] = 1;
+            //    dt.Rows.Add(row);
+            //}
+
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterItems);
 
             SqlParameter[] Params = new SqlParameter[3];
             Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
@@ -301,6 +304,151 @@ namespace MasterErp.Service.GeneralAccounts
             catch (Exception Ex)
             {
                 return true;
+            }
+        }
+
+
+        public bool SavePaymentJournalEntry(PaymentReceipt Model)
+        {
+            try
+            {
+                JournalEntry JournalHeader_tbl = new JournalEntry();
+
+                JournalHeader_tbl.EntryNumber = GenerateNewEntryNumber(Model.ReleaseDate.Month, Model.ReleaseDate.Year);
+                JournalHeader_tbl.DocNumber = Model.DocNumber;
+                JournalHeader_tbl.EntryDate = Model.ReleaseDate;
+                JournalHeader_tbl.Description = Model.Notes;
+                JournalHeader_tbl.Notes = Model.Notes;
+                JournalHeader_tbl.IsLocked = false;
+                JournalHeader_tbl.IsCancelled = false;
+                JournalHeader_tbl.JournalTypeId = (int)EntryType.Cashing;
+                JournalHeader_tbl.PeriodId = Context.ReceiptLedgers.Single(x => x.ReceiptLedgerId == Model.ReceiptLedgerId).PeriodId;
+                JournalHeader_tbl.ActionTypeId = (int)JournalActionType.CashPayment;
+                JournalHeader_tbl.ActionId = Model.PaymentTypeId;
+                JournalHeader_tbl.CreateDate = DateTime.Now;
+                JournalHeader_tbl.CreatedBy = "";
+
+                Context.JournalEntries.Add(JournalHeader_tbl);
+                Context.SaveChanges();
+
+
+                int GeneralSupplierID = Context.AccountTrees.Single(x => x.AccountTypeId == 5).AccountId;
+
+                // Debit
+
+                JournalEntryDetail JournalDetailsCredit_tbl = new JournalEntryDetail();
+
+                JournalDetailsCredit_tbl.JournalEntryId = JournalHeader_tbl.JournalEntryId;
+
+                if (Model.AgencyTypeId == 0)
+                {
+                    JournalDetailsCredit_tbl.SupplierId = Model.SupplierId;
+                    JournalDetailsCredit_tbl.AccountID = GeneralSupplierID;
+                }
+                else
+                {
+                    JournalDetailsCredit_tbl.AccountID = (int)Model.AccountId;
+                }
+
+                JournalDetailsCredit_tbl.Credit = 0;
+                JournalDetailsCredit_tbl.Debit = Model.MoneyAmount;
+                JournalDetailsCredit_tbl.CurrencyId = 1;
+                JournalDetailsCredit_tbl.Description = Model.Notes;
+
+                Context.JournalEntryDetails.Add(JournalDetailsCredit_tbl);
+                Context.SaveChanges();
+
+
+                // Credit
+
+                JournalEntryDetail JournalDetailsDebit_tbl = new JournalEntryDetail();
+
+                JournalDetailsDebit_tbl.JournalEntryId = JournalHeader_tbl.JournalEntryId;
+                JournalDetailsDebit_tbl.AccountID = Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId;
+                JournalDetailsDebit_tbl.Credit = Model.MoneyAmount; //Double.Parse(((Label)gvc.FooterRow.FindControl("lbl_TotalAmount")).Text);
+                JournalDetailsDebit_tbl.Debit = 0;
+                JournalDetailsDebit_tbl.CurrencyId = 1; // Int32.Parse(cmb_Currency.SelectedItem.Value.ToString());
+                JournalDetailsDebit_tbl.Description = Model.Notes; //((Label)gvc.Rows[0].FindControl("lbl_Notes_Row")).Text;
+
+                Context.JournalEntryDetails.Add(JournalDetailsDebit_tbl);
+                Context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool SaveReceiveJournalEntry(ReceiveReceipt Model)
+        {
+            try
+            {
+                JournalEntry JournalHeader_tbl = new JournalEntry();
+
+                JournalHeader_tbl.EntryNumber = GenerateNewEntryNumber(Model.ReleaseDate.Month, Model.ReleaseDate.Year);
+                JournalHeader_tbl.DocNumber = "";// txt_ReceiptNumber.Text;
+                JournalHeader_tbl.EntryDate = Model.ReleaseDate;
+                JournalHeader_tbl.Description = Model.Notes;
+                JournalHeader_tbl.Notes = Model.Notes;
+                JournalHeader_tbl.IsLocked = false;
+                JournalHeader_tbl.IsCancelled = false;
+                JournalHeader_tbl.JournalTypeId = 3;
+                JournalHeader_tbl.PeriodId = Context.ReceiptLedgers.Single(x => x.ReceiptLedgerId == Model.ReceiptLedgerId).PeriodId;
+                JournalHeader_tbl.ActionTypeId = 4;
+                JournalHeader_tbl.ActionId = Model.ReceiveReceiptId;
+                JournalHeader_tbl.CreateDate = DateTime.Now;
+                JournalHeader_tbl.CreatedBy = "";
+
+                Context.JournalEntries.Add(JournalHeader_tbl);
+                Context.SaveChanges();
+
+
+                int GeneralSupplierID = Context.AccountTrees.Single(x => x.AccountTypeId == 5).AccountId;
+
+                // Debit
+
+                JournalEntryDetail JournalDetailsCredit_tbl = new JournalEntryDetail();
+
+                JournalDetailsCredit_tbl.JournalEntryId = JournalHeader_tbl.JournalEntryId;
+
+                if (Model.AgencyTypeId == 0)
+                {
+                    JournalDetailsCredit_tbl.SupplierId = Model.AgencyTypeId;
+                    JournalDetailsCredit_tbl.AccountID = GeneralSupplierID;
+                }
+                else
+                {
+                    JournalDetailsCredit_tbl.AccountID = Model.AccountId;
+                }
+
+                JournalDetailsCredit_tbl.Credit = 0;
+                JournalDetailsCredit_tbl.Debit = Model.MoneyAmount;
+                JournalDetailsCredit_tbl.CurrencyId = 1;
+                JournalDetailsCredit_tbl.Description = Model.Notes;
+
+                Context.JournalEntryDetails.Add(JournalDetailsCredit_tbl);
+                Context.SaveChanges();
+
+
+                // Credit
+
+                JournalEntryDetail JournalDetailsDebit_tbl = new JournalEntryDetail();
+
+                JournalDetailsDebit_tbl.JournalEntryId = JournalHeader_tbl.JournalEntryId;
+                JournalDetailsDebit_tbl.AccountID = 1; //Int32.Parse(cmb_Safe.SelectedItem.Value.ToString());
+                JournalDetailsDebit_tbl.Credit = Model.MoneyAmount; //Double.Parse(((Label)gvc.FooterRow.FindControl("lbl_TotalAmount")).Text);
+                JournalDetailsDebit_tbl.Debit = 0;
+                JournalDetailsDebit_tbl.CurrencyId = 1; // Int32.Parse(cmb_Currency.SelectedItem.Value.ToString());
+                JournalDetailsDebit_tbl.Description = Model.Notes; //((Label)gvc.Rows[0].FindControl("lbl_Notes_Row")).Text;
+
+                Context.JournalEntryDetails.Add(JournalDetailsDebit_tbl);
+                Context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 

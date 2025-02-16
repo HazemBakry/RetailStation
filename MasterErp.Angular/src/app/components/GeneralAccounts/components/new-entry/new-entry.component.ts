@@ -7,6 +7,8 @@ import { JournalEntryAccount, JournalEntryModel } from '../../models/GeneralAcco
 import { ErpSelectorWithSearchComponent } from 'src/app/components/Shared/components/selectors/erp-selector-with-search/erp-selector-with-search.component';
 import { PDFExportService } from 'src/app/components/Shared/services/pdfexport-service.service';
 import { NgbAlertModule, NgbDatepickerModule, NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute } from '@angular/router';
+import { PaymentService } from '../../services/payment.service';
 @Component({
   selector: 'app-new-entry',
   templateUrl: './new-entry.component.html',
@@ -22,70 +24,70 @@ export class NewEntryComponent implements OnInit {
   CostCenterList: any[] = [];
   AccountsListTable: any[] = [];
   EditQuantityList: any[] = [];
-  SelectedAccounts: any[] = [];
   JournalEntryTypes: any[] = [];
   JournalTemplates: any[] = [];
   AccountsByTemplate: any[] = [];
+  SelectedAccounts: any[] = [];
   Item: any;
   AccountNumber: string;
   activeTab = 'Account';
   journalTypeId: any;
   CurrencyId: any;
   TemplateId: any;
-  Defference = 0;
+  Difference = 0;
   EntryNumber: any;
   EntryDate: any;
   DocNumber: any;
-  Notes: any;
-  CurrencyType = [{ currencyId: 1, nameAR: 'جنيه' }, { currencyId: 1, nameAR: 'ريال' }]
+  Description: any;
   JournalTypeName = 'نوع القيد';
   CurrencyName = 'العملة';
   entryModel: JournalEntryModel = {} as JournalEntryModel;
-  constructor(private modalService: NgbModal, private sharedService: SharedService, private toaster: ToastrService,
+  selectedAccountId: number = null;
+  costCenterId: number = null;
+  showLoader: boolean = false;
+  CurrencyType: any[];
+
+  constructor(private modalService: NgbModal,
+    private sharedService: SharedService,
+    private toaster: ToastrService,
+    private route: ActivatedRoute,
+    private paymentService: PaymentService,
     private generalService: GeneralAccountService,
     private pdfExportService: PDFExportService,
     private calendar: NgbCalendar
   ) { }
 
   ngOnInit(): void {
-    this.GetChildAccountsList();
-    this.GetCostCenterTreeData();
-    this.GetJournalEntryTypes();
-    this.GetSavedJournalTemplates();
-    this.GetCurrencyList();
+    this.CurrencyType = this.paymentService.CurrencyType;
+    this.JournalEntryTypes = this.paymentService.JournalEntryType;
+    this.getAccountsSelector();
+    this.getCostCenterSelector();
+    this.getSavedJournalTemplates();
+    //this.getCurrencyList();
+    let entryId = this.route.snapshot.queryParamMap.get('EntryId');
+    if (entryId)
+      this.getEntryDetailsByEntryId(entryId);
   }
 
-  openAccountModal(content: any) {
-    this.AccountNumber = '';
-    this.SelectedAccounts = [];
-    this.modalService.open(content, { centered: true, size: 'md' });
-  }
-
-  GetChildAccountsList() {
-    this.generalService.GetChildAccountsList().subscribe(data => {
+  getAccountsSelector() {
+    this.sharedService.GetAccountsSelector(false).subscribe(data => {
       this.AccountsList = data;
     });
   }
 
-  GetJournalEntryTypes() {
-    this.generalService.GetJournalEntryTypes().subscribe(data => {
-      this.JournalEntryTypes = data;
+  getCostCenterSelector() {
+    this.sharedService.GetCostCenterSelector(false).subscribe(data => {
+      this.CostCenterList = data;
     });
   }
 
-  GetCurrencyList() {
-    this.generalService.GetCurrencyList().subscribe(data => {
-      this.CurrencyType = data;
-    });
-  }
-
-  GetSavedJournalTemplates() {
+  getSavedJournalTemplates() {
     this.generalService.GetSavedJournalTemplates().subscribe(data => {
       this.JournalTemplates = data;
     });
   }
 
-  GetAccountsByTemplateId() {
+  getAccountsByTemplateId() {
     this.AccountsListTable = [];
     this.generalService.GetAccountsByTemplateId(this.TemplateId).subscribe(data => {
       this.AccountsByTemplate = data;
@@ -105,24 +107,45 @@ export class NewEntryComponent implements OnInit {
     });
   }
 
-  GetCostCenterTreeData() {
-    this.sharedService.GetCostCenterTreeData().subscribe(data => {
-      this.CostCenterList = data;
-    });
+  openAccountModal(content: any) {
+    this.AccountNumber = '';
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+
+  getEntryDetailsByEntryId(entryId) {
+    this.showLoader = true;
+    this.generalService.GetJournalEntryDetailsByID(entryId).subscribe(data => {
+      if (data) {
+        this.entryModel.entryNumber = data?.entryNumber;
+        this.entryModel.docNumber = data?.docNumber;
+        this.entryModel.description = data?.description;
+        this.entryModel.entryDate = data?.entryDate;
+        this.entryModel.entryNumber = data?.entryNumber;
+        this.entryModel.journalTypeId = data?.journalTypeId;
+        this.entryModel.notes = data?.notes;
+        this.entryModel.journalEntryAccounts = data?.journalEntryAccounts;
+
+        this.SelectedAccounts = data?.journalEntryAccounts;
+      }
+      //this.createEntryModel(data);
+      this.showLoader = false;
+    }, (error) => { this.showLoader = false; }, () => { this.showLoader = false; });
   }
 
   GetSelectedAccount(item: any) {
-    this.Item = item;
-    let checked = this.SelectedAccounts.find(i => i.accountId == item.accountId);
-    if (!checked)
-      this.SelectedAccounts.push(item);
-    else
-      this.toaster.warning('This Account Alredy Selected');
-    
+    let account = this.AccountsList.find(i => i.id == item);
+    if (account)
+    {
+      this.SelectedAccounts.push({
+        accountID: account.id,
+        accountNumber: account.code,
+        accountName: account.name
+      });
+    }
   }
 
   ClearSelectedAccount(index: number) {
-    this.SelectedAccounts.splice(index, 1);
+    this.entryModel.journalEntryAccounts.splice(index, 1);
   }
 
   GetSelectedTemplate(item: any) {
@@ -141,25 +164,26 @@ export class NewEntryComponent implements OnInit {
     item.costCenter = obj.costCenterId;
   }
 
-  SaveSelectedAccount() {
-    if (!this.TemplateId && this.SelectedAccounts.length == 0) {
+  addSelectedAccountsToEntry() {
+    if (!this.TemplateId && this.entryModel.journalEntryAccounts.length == 0) {
       this.toaster.warning('Please Select Account Or Template');
       return;
     }
-
+    debugger
     if (this.activeTab == 'Account') {
-      this.SelectedAccounts.forEach((account, index) => {
-        let checked = this.AccountsListTable.find(i => i.accountId == account.accountId);
-        if (!checked)
-          this.AccountsListTable.push(account);
-        account.creditor = '';
-        account.debtor = '';
-        account.notes = '';
-      });
+      // this.SelectedAccounts.forEach((account, index) => {
+      //   //debugger
+      //   // let checked = this.AccountsListTable.find(i => i.accountId == account.accountId);
+      //   // if (!checked)
+      //   //this.entryModel.journalEntryAccounts.push(account);
+      //   //account.credit = null;
+      //   //account.debit = null;
+      //   //account.notes = '';
+      // });
       this.InputFocus();
       this.modalService.dismissAll();
     } else {
-      this.GetAccountsByTemplateId();
+      this.getAccountsByTemplateId();
     }
 
   }
@@ -205,14 +229,14 @@ export class NewEntryComponent implements OnInit {
       this.activeTab = 'Template';
   }
 
-  CalcDefference() {
-    let debtor = 0;
-    let creditor = 0;
-    this.AccountsListTable.forEach(item => {
-      debtor += item.debtor ? Number(item.debtor) : 0;
-      creditor += item.creditor ? Number(item.creditor) : 0;
+  CalcDifference() {
+    let debit = 0;
+    let credit = 0;
+    this.SelectedAccounts.forEach(item => {
+      debit += item.debit ? Number(item.debit) : 0;
+      credit += item.credit ? Number(item.credit) : 0;
     });
-    this.Defference = debtor - creditor;
+    this.Difference = debit - credit;
   }
 
   NumbersOnly(key: any): boolean {
@@ -233,23 +257,23 @@ export class NewEntryComponent implements OnInit {
     //let month = ("0" + ((new Date(this.EntryDate)).getMonth() + 1)).slice(-2);
     //let year = (new Date(this.EntryDate)).getFullYear();
 
-    let journalEntryAccounts = this.AccountsListTable.map<JournalEntryAccount>(item => {
-      {
-        return {
-          accountID: item.accountID,
-          accountName: item.nameEN,
-          notes: item.notes,
-          accountNumber: item.accountNumber,
-          costCenterId: item.costCenter ? item.costCenter : 0,
-          costPercent: 0,
-          costValue: 0,
-          currencyID: 0,
-          credit: item.creditor ? Number(item.creditor) : 0,
-          debit: item.debtor ? Number(item.debtor) : 0,
-          description: ''
-        }
-      }
-    })
+    // let journalEntryAccounts = this.AccountsListTable.map<JournalEntryAccount>(item => {
+    //   {
+    //     return {
+    //       accountID: item.accountID,
+    //       accountName: item.nameEN,
+    //       notes: item.notes,
+    //       accountNumber: item.accountNumber,
+    //       costCenterId: item.costCenter ? item.costCenter : 0,
+    //       costPercent: 0,
+    //       costValue: 0,
+    //       currencyID: 0,
+    //       credit: item.creditor ? Number(item.creditor) : 0,
+    //       debit: item.debtor ? Number(item.debtor) : 0,
+    //       description: ''
+    //     }
+    //   }
+    // })
 
     let model: JournalEntryModel = {} as JournalEntryModel;
 
@@ -257,11 +281,11 @@ export class NewEntryComponent implements OnInit {
     model.entryNumber = this.EntryNumber;
     model.entryDate = this.EntryDate;
     // model.descirption = '';
-    model.notes = this.Notes;
+    model.description = this.Description;
     //model.month = Number(month);
     //model.year = year;
     model.journalTypeId = this.journalTypeId;
-    model.journalEntryAccounts = journalEntryAccounts;
+    model.journalEntryAccounts = this.SelectedAccounts;
 
     this.generalService.SaveNewJouranlEntry(model).subscribe(data => {
       if (data?.status) {
@@ -296,7 +320,7 @@ export class NewEntryComponent implements OnInit {
 
       return false;
     }
-    if (this.Defference != 0) {
+    if (this.Difference != 0) {
       this.toaster.warning('Difference Between Debtor and Creditor Must Equals 0');
       return false;
     }
@@ -306,13 +330,8 @@ export class NewEntryComponent implements OnInit {
   }
   ClearAllFields() {
     this.TemplateId = '';
-    this.SelectedAccounts = [];
     this.AccountsListTable = [];
-    this.EntryNumber = '';
-    this.EntryDate = '';
-    this.DocNumber = '';
-    this.Notes = '';
-    this.Defference = 0;
+    this.Difference = 0;
     this.activeTab = 'Account';
     this.Selector.ResetSelectorName('نوع القيد');
     this.Selector1.ResetSelectorName('العملة');

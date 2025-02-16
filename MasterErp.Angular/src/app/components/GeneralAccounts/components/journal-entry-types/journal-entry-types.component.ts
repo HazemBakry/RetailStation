@@ -5,7 +5,7 @@ import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { GeneralAccountService } from '../../services/general-account.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
-import { JournalEntryTypeModel,  } from '../../models/JournalEntryTypeModel';
+import { JournalEntryTypeModel, } from '../../models/JournalEntryTypeModel';
 import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
 import { PaymentService } from '../../services/payment.service';
 
@@ -24,39 +24,39 @@ export class JournalEntryTypesComponent implements OnInit {
     currentPage: 1,
     pageSize: 25
   };
-  pagedResponse:PagedResponseDTO<any[]>={
-    currentPage:1,
-    pageSize:25,
-    results:[],
-    filterList:[]
+  pagedResponse: PagedResponseDTO<any[]> = {
+    currentPage: 1,
+    pageSize: 25,
+    results: [],
+    filterList: []
   }
   journalEntryTypeModel: JournalEntryTypeModel =
-  {} as JournalEntryTypeModel;
+    {} as JournalEntryTypeModel;
 
   constructor(private GeneralAccountsService: GeneralAccountService, private toaster: ToastrService,
     private sharedService: SharedService,
     private modalService: NgbModal,
-    private paymentService:PaymentService
-    ) { }
+    private paymentService: PaymentService
+  ) { }
 
   ngOnInit(): void {
     this.loadData();
   }
 
   loadData() {
-    this.showLoader=true;
-    this.GeneralAccountsService.GetJournalEntryTypesData(this.FilterModel).subscribe((data:any)=> {
-      this.pagedResponse.results=data.results;
-      this.pagedResponse.totalCount=data.totalCount;
-      this.pagedResponse.currentPage=data.currentPage;
-      this.pagedResponse.pageSize=data.pageSize;
-      this.pagedResponse.totalPages=data.totalPages;
+    this.showLoader = true;
+    this.GeneralAccountsService.GetJournalEntryTypesData(this.FilterModel).subscribe((data: any) => {
+      this.pagedResponse.results = data.results;
+      this.pagedResponse.totalCount = data.totalCount;
+      this.pagedResponse.currentPage = data.currentPage;
+      this.pagedResponse.pageSize = data.pageSize;
+      this.pagedResponse.totalPages = data.totalPages;
       // this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
-      this.showLoader=false;
-    },(err)=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     })
   }
 
@@ -83,14 +83,14 @@ export class JournalEntryTypesComponent implements OnInit {
       });
   }
 
-  
+
   validateFields(): boolean {
     let model: JournalEntryTypeModel = this.journalEntryTypeModel;
 
     if (
-          !model.code||
-          !model.nameEN||
-          !model.nameAR
+      !model.code ||
+      !model.nameEN ||
+      !model.nameAR
     ) {
       this.toaster.warning('يرجي ملئ جميع الخانات');
       return false;

@@ -13,8 +13,10 @@ namespace MasterErp.Interface.Shared
     public interface ISharedService
     {
         List<Customer> GetCustomersData();
+        List<DailyNotebook> GetLeadgerJournalsData();
         List<ReceiptLedger> GetReceiptLedgersData();
         List<SelectorDataModel> GetAccountsSelector(bool IsParent);
+        List<SelectorDataModel> GetCostCenterSelector(bool IsParent);
         List<AccountTree> GetAccountsByTypeId(int TypeId);
         List<ReceitLedgerType> GetReceiptLedgerTypesData();
         List<FinancialPeriod> GetFinancialPeriods();

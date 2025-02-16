@@ -48,6 +48,7 @@
                         <th>مدين كلي</th>
                         <th>دائن كلي</th>
                         <th>ملاحظات</th>
+                        <th>ِعمليات</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,12 +63,28 @@
                                 <div appColorWithStatus status="entryStatus" [text]="item.entryStatus"></div>
                             </td>
                             <td>{{item.actionGroup}}</td>
-                            <td>{{item.actionTypeAr}}</td>
+                            <td>{{item.actionType}}</td>
                             <td>{{item.entryMonth}}</td>
                             <td>{{item.entryDate | date}}</td>
                             <td>{{item.totalDebit}}</td>
                             <td>{{item.totalCredit}}</td>
                             <td>{{item.description}}</td>
+                            <td>
+                                <!-- <div class="d-flex align-items-center justify-content-center gap-2"> -->
+
+                                <div class="w-100 d-flex align-items-center justify-content-center">
+
+
+                                    <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="openSidepanel(item)">
+                                        <i class="uil uil-pen"></i>
+                                        <span>معاينة</span>
+                                    </button>
+                                    <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="onEditClick(item.journalEntryID)">
+                                        <i class="uil uil-pen"></i>
+                                        <span>تعديل</span>
+                                    </button>
+                                </div>
+                            </td>
                         </tr>
                     </ng-container>
 

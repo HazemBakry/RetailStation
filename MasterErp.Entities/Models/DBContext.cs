@@ -50,9 +50,9 @@ namespace MasterErp.Entities.Models
         public DbSet<Job> Jobs { get; set; }
         public DbSet<JournalEntry> JournalEntries { get; set; }
         public DbSet<JournalEntryDetail> JournalEntryDetails { get; set; }
-        public DbSet<JournalEntryType> JournalEntryTypes { get; set; }
         public DbSet<JournalTemplate> JournalTemplate { get; set; }
         public DbSet<JournalTemplateDetails> JournalTemplateDetails { get; set; }
+        public DbSet<JournalEntryType> JournalEntryTypes { get; set; }
         public DbSet<Nationality> Nationalities { get; set; }
         public DbSet<OverTime> OverTime { get; set; }
         public DbSet<Penalty> Penalties { get; set; }
@@ -82,6 +82,15 @@ namespace MasterErp.Entities.Models
         public DbSet<Loan> Loans { get; set; }
         public DbSet<LoanType> LoanTypes { get; set; }
         public DbSet<Store> Stores { get; set; }
+        public DbSet<PaymentTerm> PaymentTerms { get; set; }
+        public DbSet<PaymentTermDetail> PaymentTermDetails { get; set; }
+        public DbSet<TaxCalculation> TaxCalculations { get; set; }
+        public DbSet<TaxLookup> TaxLookups { get; set; }
+        public DbSet<DailyNotebook> DailyNotebooks { get; set; }
+        public DbSet<AssetsForm> AssetsForms { get; set; }
+        public DbSet<Loans> LoansForms { get; set; }
+        public DbSet<LedgerJournalType> LedgerJournalTypes { get; set; }
+        public DbSet<Batch> Batches { get; set; }
 
 
 
@@ -103,9 +112,9 @@ namespace MasterErp.Entities.Models
         public DbSet<DeliveryOrderDetails> DeliveryOrderDetails { get; set; }
 
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<PaymentReceipt> PaymentReceipt { get; set; }
+        public DbSet<PaymentReceipt> PaymentReceipts { get; set; }
         public DbSet<ReceiveReceipt> ReceiveReceipt { get; set; }
-        public DbSet<ReceiptLedger> ReceiptLedger { get; set; }
+        public DbSet<ReceiptLedger> ReceiptLedgers { get; set; }
         public DbSet<ReceitLedgerType> ReceitLedgerType { get; set; }
 
 
@@ -114,6 +123,8 @@ namespace MasterErp.Entities.Models
         public DbSet<SupplierReturnsVoucher> SupplierReturnsVouchers { get; set; }
         public DbSet<SupplierReturnsVoucherDetails> SupplierReturnsVoucherDetails { get; set; }
         public DbSet<AccountOpeningBalance> AccountOpeningBalance { get; set; }
+
+
 
 
         #region DataImport

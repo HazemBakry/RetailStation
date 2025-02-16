@@ -127,12 +127,12 @@ export class CreateReceiveReceiptComponent implements OnInit {
   
 
 
-  SaveNewReceiveReceipt() {
+  saveReceiveReceipt() {
       if (!this.validateReceiveReceipt()) {
         return;
       }
     
-    this.paymentService.SaveNewReceiveReceipt(this.receiveReceiptModel).subscribe((data:CreateModifyReturnsModel) => {
+    this.paymentService.SaveReceiveReceipt(this.receiveReceiptModel).subscribe((data:CreateModifyReturnsModel) => {
       if (data?.status) {
         this.ClearAllFields();
         this.receiveReceiptModel.receiptNumber = data.id;

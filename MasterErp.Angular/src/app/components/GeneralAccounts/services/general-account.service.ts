@@ -22,9 +22,9 @@ export class GeneralAccountService {
 
   searchTypeList: any[] = [
     {
-      id:SearchLevelType.GroupsAndAccounts,
-      nameAR:'مجموعات و حسابات معا',
-      nameEN:'Groups And Accounts'
+      id: SearchLevelType.GroupsAndAccounts,
+      nameAR: 'مجموعات و حسابات معا',
+      nameEN: 'Groups And Accounts'
     },
     {
       id: SearchLevelType.GroupsOnly,
@@ -40,9 +40,9 @@ export class GeneralAccountService {
 
   costCenterTypeList: any[] = [
     {
-      id:CostCenterType.Expenses,
-      nameAR:'مصروفات',
-      nameEN:'Expenses'
+      id: CostCenterType.Expenses,
+      nameAR: 'مصروفات',
+      nameEN: 'Expenses'
     },
     {
       id: CostCenterType.Withdrawals,
@@ -51,6 +51,18 @@ export class GeneralAccountService {
     }
   ]
   //================================== JournalEntry ===============================
+
+  GetDailyJournalEntriesSummary(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesSummary', model);
+  }
+
+  GetDailyJournalEntriesFilters(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesFilters', model);
+  }
+
+  GetJournalEntryDetailsByID(entryId: number) {
+    return this.http.get<any>(this.URL + 'JournalEntry/GetJournalEntryDetailsByID?EntryId=' + entryId);
+  }
 
   GetJournalEntryTypes() {
     return this.http.get<any[]>(this.URL + 'JournalEntry/GetJournalEntryTypes');
@@ -72,13 +84,7 @@ export class GeneralAccountService {
     return this.http.post<any>(this.URL + 'JournalEntry/SaveNewJouranlEntry', model);
   }
 
-  GetDailyJournalEntriesSummary(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesSummary', model);
-  }
 
-  GetDailyJournalEntriesFilters(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesFilters', model);
-  }
 
   CancelJournalEntry(JournalEntryIds: number[]) {
     return this.http.post<any>(this.URL + 'JournalEntry/CancelJournalEntry', JournalEntryIds);
@@ -98,36 +104,36 @@ export class GeneralAccountService {
   GetDailyJournalEntriesLastFiveRecords() {
     return this.http.get<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesLastFiveRecords');
   }
+
   //================================== AccountTree ===============================
 
   GetChildAccountsList() {
     return this.http.get<any[]>(this.URL + 'AccountTree/GetChildAccountsList');
   }
 
-
- 
   AddNewAccount(model: AccountTreeModel) {
     return this.http.post<any>(this.URL + 'AccountTree/AddNewAccount', model);
   }
 
-  EditAccountTree(accountId:number,model: AccountTreeModel) {
-    return this.http.post<any>(this.URL + 'AccountTree/EditAccountTree?AccountId='+accountId, model);
+  EditAccountTree(accountId: number, model: AccountTreeModel) {
+    return this.http.post<any>(this.URL + 'AccountTree/EditAccountTree?AccountId=' + accountId, model);
   }
 
-  ExportAccountTreeList(searchText:string){
-    return this.http.get<CreateModifyReturnsModel>(this.URL +'AccountTree/ExportAccountTreeList?SearchText='+searchText);
-  } 
-  ImportAccountTreeList(File:any){
-  
-    return this.http.post<CreateModifyReturnsModel>(this.URL +'AccountTree/ImportAccountTreeList',File);
+  ExportAccountTreeList(searchText: string) {
+    return this.http.get<CreateModifyReturnsModel>(this.URL + 'AccountTree/ExportAccountTreeList?SearchText=' + searchText);
+  }
+  ImportAccountTreeList(File: any) {
+
+    return this.http.post<CreateModifyReturnsModel>(this.URL + 'AccountTree/ImportAccountTreeList', File);
     // ,
     // {
     //     reportProgress: true,
     //     observe: 'events'
     //   }
-      
+
     // );
-  } 
+  }
+
   ////////////////// General Accounts Reports ///////
 
   GetAccountsGeneralLedger(model: SearchFilterModel) {
@@ -153,7 +159,7 @@ export class GeneralAccountService {
 
 
 
-  
+
 
   //////////////////////// Cost Center /////////////////
 
@@ -242,33 +248,51 @@ export class GeneralAccountService {
   }
 
 
-    ///////////////////// OpeningBalance
+  ///////////////////// OpeningBalance
 
-    GetCostCenterTreeHierarchicalData(SearchText: string) {
-      return this.http.get<any>(this.URL + 'CostCenterTree/GetCostCenterTreeHierarchicalData?SearchText=' + SearchText);
-    }
+  GetCostCenterTreeHierarchicalData(SearchText: string) {
+    return this.http.get<any>(this.URL + 'CostCenterTree/GetCostCenterTreeHierarchicalData?SearchText=' + SearchText);
+  }
 
-    CreateNewCostCenter(model: CostCenterTreeModel) {
-      return this.http.post<any>(this.URL + 'CostCenterTree/CreateNewCostCenter', model);
-    }
-  
-    UpdateCostCenterTree(costCenterId:number,model: CostCenterTreeModel) {
-      return this.http.post<any>(this.URL + 'CostCenterTree/UpdateCostCenterTree?CostCenterId='+costCenterId, model);
-    }
+  CreateNewCostCenter(model: CostCenterTreeModel) {
+    return this.http.post<any>(this.URL + 'CostCenterTree/CreateNewCostCenter', model);
+  }
 
-    ExportCostCenterTreeList(searchText:string){
-      return this.http.get<CreateModifyReturnsModel>(this.URL +'CostCenterTree/ExportCostCenterTreeList?SearchText='+searchText);
-    } 
-    ImportCostCenterTreeList(File:any){
-    
-      return this.http.post<CreateModifyReturnsModel>(this.URL +'CostCenterTree/ImportCostCenterTreeList',File);
-      // ,
-      // {
-      //     reportProgress: true,
-      //     observe: 'events'
-      //   }
-        
-      // );
-    } 
+  UpdateCostCenterTree(costCenterId: number, model: CostCenterTreeModel) {
+    return this.http.post<any>(this.URL + 'CostCenterTree/UpdateCostCenterTree?CostCenterId=' + costCenterId, model);
+  }
+
+  ExportCostCenterTreeList(searchText: string) {
+    return this.http.get<CreateModifyReturnsModel>(this.URL + 'CostCenterTree/ExportCostCenterTreeList?SearchText=' + searchText);
+  }
+  ImportCostCenterTreeList(File: any) {
+
+    return this.http.post<CreateModifyReturnsModel>(this.URL + 'CostCenterTree/ImportCostCenterTreeList', File);
+    // ,
+    // {
+    //     reportProgress: true,
+    //     observe: 'events'
+    //   }
+
+    // );
+  }
+
+  //================================== LoansForm ===============================
+
+  GetLoansData() {
+    return this.http.get<any[]>(this.URL + 'LoansForm/GetLoansData');
+  }
+
+  AddNewLoans(Model: any) {
+    return this.http.post<any>(this.URL + 'LoansForm/AddNewLoans', Model);
+  }
+
+  EditLoans(Model: any) {
+    return this.http.post<any>(this.URL + 'LoansForm/EditLoans', Model);
+  }
+
+  DeleteLoans(LoanId: number) {
+    return this.http.get<any>(this.URL + 'LoansForm/DeleteLoans?LoanId=' + LoanId);
+  }
 
 }

@@ -11,7 +11,7 @@ namespace MasterErp.Entities.Common
         public string DocNumber { get; set; }
         public string EntryNumber { get; set; }
         public DateTime EntryDate { get; set; }
-        public string Descirption { get; set; }
+        public string Description { get; set; }
         public string Notes { get; set; }
         public int Month { get; set; }
         public int Year { get; set; }
@@ -29,5 +29,9 @@ namespace MasterErp.Entities.Common
         public double? CostPercent { get; set; }
         public int? CurrencyID { get; set; }
         public string Description { get; set; }
+        public string AccountNumber { get; set; }
+        public string AccountName { get; set; }
+        public string Notes { get; set; }
     }
+
 }
