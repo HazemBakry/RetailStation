@@ -8,14 +8,14 @@
             <div class="search-box position-relative mb-2">
                 <input type="text" class="form-control" placeholder="بحث بالاسم..." [(ngModel)]="SearchText" style="width: 300px;">
                 <i class="fas fa-search search-icon text-muted cursor-pointer" (click)="OnSearchClick()"></i>
-              </div>
+            </div>
         </div>
 
         <div class="boxstyle1-content hastable">
             <table class="table table-bordered table-middle table-hover m-0 bg-white bigtitle">
                 <thead>
                     <tr>
-                        
+
                         <th>اسم مركز التكلفة</th>
                         <th>رقم مركز التكلفة</th>
                     </tr>
@@ -23,14 +23,11 @@
                 <ng-container *ngFor="let app of CenterData">
                     <tbody>
                         <tr>
-                            
+
                             <td>
-                                <div class="d-flex align-items-center collapser-title cursor-pointer ps-1"
-                                    (click)="app.isCollapse = !app.isCollapse;CloseCollapse(app,null,app.isCollapse)" [attr.aria-expanded]="!app.isCollapse">
-                                    <i *ngIf="app.isCollapse"
-                                        class="fas fa-plus font-small-3 cursor-pointer min-width-30"></i>
-                                    <i *ngIf="!app.isCollapse"
-                                        class="fas fa-minus font-small-3 cursor-pointer min-width-30"></i>
+                                <div class="d-flex align-items-center collapser-title cursor-pointer ps-1" (click)="app.isCollapse = !app.isCollapse;CloseCollapse(app,null,app.isCollapse)" [attr.aria-expanded]="!app.isCollapse">
+                                    <i *ngIf="app.isCollapse" class="fas fa-plus font-small-3 cursor-pointer min-width-30"></i>
+                                    <i *ngIf="!app.isCollapse" class="fas fa-minus font-small-3 cursor-pointer min-width-30"></i>
                                     <div>{{app.nameAR}}</div>
                                 </div>
                             </td>
@@ -40,15 +37,11 @@
                     <ng-container *ngFor="let level2 of app.level2">
                         <tbody #collapse="ngbCollapse" [(ngbCollapse)]="app.isCollapse">
                             <tr>
-                                
+
                                 <td>
-                                    <div class="d-flex align-items-center collapser-title cursor-pointer ps-2"
-                                        (click)="level2.isCollapse = !level2.isCollapse;CloseCollapse(null,level2,level2.isCollapse)"
-                                        [attr.aria-expanded]="!level2.isCollapse">
-                                        <i *ngIf="level2.isCollapse"
-                                            class="fas fa-plus font-small-3 cursor-pointer min-width-30"></i>
-                                        <i *ngIf="!level2.isCollapse"
-                                            class="fas fa-minus font-small-3 cursor-pointer min-width-30"></i>
+                                    <div class="d-flex align-items-center collapser-title cursor-pointer ps-2" (click)="level2.isCollapse = !level2.isCollapse;CloseCollapse(null,level2,level2.isCollapse)" [attr.aria-expanded]="!level2.isCollapse">
+                                        <i *ngIf="level2.isCollapse" class="fas fa-plus font-small-3 cursor-pointer min-width-30"></i>
+                                        <i *ngIf="!level2.isCollapse" class="fas fa-minus font-small-3 cursor-pointer min-width-30"></i>
                                         <div>{{level2.nameAR}}</div>
                                     </div>
                                 </td>
@@ -58,15 +51,11 @@
                         <ng-container *ngFor="let level3 of level2.level3">
                             <tbody #collapse="ngbCollapse" [(ngbCollapse)]="level2.isCollapse">
                                 <tr>
-                                    
+
                                     <td>
-                                        <div class="d-flex align-items-center collapser-title cursor-pointer ps-3"
-                                            (click)="level3.isCollapse = !level3.isCollapse;;CloseCollapse(null,level3,level3.isCollapse)"
-                                            [attr.aria-expanded]="!level3.isCollapse">
-                                            <i *ngIf="level3.isCollapse"
-                                                class="fas fa-plus font-small-3 cursor-pointer min-width-30"></i>
-                                            <i *ngIf="!level3.isCollapse"
-                                                class="fas fa-minus font-small-3 cursor-pointer min-width-30"></i>
+                                        <div class="d-flex align-items-center collapser-title cursor-pointer ps-3" (click)="level3.isCollapse = !level3.isCollapse;;CloseCollapse(null,level3,level3.isCollapse)" [attr.aria-expanded]="!level3.isCollapse">
+                                            <i *ngIf="level3.isCollapse" class="fas fa-plus font-small-3 cursor-pointer min-width-30"></i>
+                                            <i *ngIf="!level3.isCollapse" class="fas fa-minus font-small-3 cursor-pointer min-width-30"></i>
                                             <div>{{level3.nameAR}}</div>
                                         </div>
                                     </td>
@@ -76,15 +65,11 @@
                             <ng-container *ngFor="let level4 of level3.level4">
                                 <tbody #collapse="ngbCollapse" [(ngbCollapse)]="level3.isCollapse">
                                     <tr>
-                                        
+
                                         <td>
-                                            <div class="d-flex align-items-center collapser-title cursor-pointer ps-4"
-                                                (click)="level4.isCollapse = !level4.isCollapse"
-                                                [attr.aria-expanded]="!level4.isCollapse">
-                                                <i *ngIf="level4.isCollapse"
-                                                    class="fas fa-plus font-small-3 cursor-pointer min-width-30"></i>
-                                                <i *ngIf="!level4.isCollapse"
-                                                    class="fas fa-minus font-small-3 cursor-pointer min-width-30"></i>
+                                            <div class="d-flex align-items-center collapser-title cursor-pointer ps-4" (click)="level4.isCollapse = !level4.isCollapse" [attr.aria-expanded]="!level4.isCollapse">
+                                                <i *ngIf="level4.isCollapse" class="fas fa-plus font-small-3 cursor-pointer min-width-30"></i>
+                                                <i *ngIf="!level4.isCollapse" class="fas fa-minus font-small-3 cursor-pointer min-width-30"></i>
                                                 <div>{{level4.nameAR}}</div>
                                             </div>
                                         </td>
@@ -94,11 +79,9 @@
                                 <ng-container *ngFor="let level5 of level4.level5">
                                     <tbody #collapse="ngbCollapse" [(ngbCollapse)]="level4.isCollapse">
                                         <tr>
-                                            
+
                                             <td>
-                                                <div class="d-flex align-items-center collapser-title ps-5"
-                                                    (click)="level5.isCollapse = !level5.isCollapse"
-                                                    [attr.aria-expanded]="!level5.isCollapse">
+                                                <div class="d-flex align-items-center collapser-title ps-5" (click)="level5.isCollapse = !level5.isCollapse" [attr.aria-expanded]="!level5.isCollapse">
                                                     <div>{{level5.nameAR}}</div>
                                                 </div>
                                             </td>

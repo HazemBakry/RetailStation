@@ -3,6 +3,7 @@ using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
 using MasterErp.Service.Common;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -19,61 +20,77 @@ namespace MasterErp.Service.GeneralAccounts
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
+        private readonly IJournalEntryService entryService;
+        private readonly string ConnectionString;
 
-        private string ConnectionString
+        public PaymentService(DBContext DbContext, ISQLHelper SQLHelper, IConfiguration _configuration, IJournalEntryService EntryService)
         {
-            get
-            {
-                return Configuration.GetConnectionString("DBConnection");
-            }
+            this.Context = DbContext;
+            this.SQLHelper = SQLHelper;
+            this.Configuration = _configuration;
+            this.ConnectionString = Configuration.GetConnectionString("DBConnection");
+            this.entryService = EntryService;
         }
 
-        public PaymentService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration)
+        public DataTable GetPaymentReceipts_Summary(FilterModel model)
         {
-            Context = dBContext;
-            SQLHelper = iSQLHelper;
-            Configuration = _configuration;
+            //return Context.PaymentReceipts.ToList().ToDataTable();
+
+            SqlParameter[] Params = new SqlParameter[2];
+            Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
+            Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
+
+            var dt = SQLHelper.ExecuteDataTable("[Finance].[SP_GetPaymentReceipts_Summary]", ConnectionString, Params);
+            return dt;
         }
 
-        public DataTable GetPaymentReceiptsSummary(FilterModel model)
+        public DataTable GetPaymentReceipts_Filters(FilterModel model)
         {
-            return Context.PaymentReceipt.ToList().ToDataTable();
+            return new DataTable();
         }
 
         public ActionsResponseModel SavePaymentReceipt(PaymentReceipt Model)
         {
             try
             {
-                PaymentReceipt tbl = new PaymentReceipt();
+                PaymentReceipt tbl = new PaymentReceipt()
+                {
+                    ReceiptNumber = Context.PaymentReceipts.Count() > 0 ? Context.PaymentReceipts.Max(x => x.ReceiptNumber) + 1 : 1,
+                    ReceiptLedgerId = Model.ReceiptLedgerId,
+                    PaymentTypeId = Model.PaymentTypeId,
+                    ReleaseDate = Model.ReleaseDate,
+                    Notes = Model.Notes,
+                    MoneyAmount = Model.MoneyAmount,
+                    DocNumber = Model.DocNumber,
+                    AgencyTypeId = Model.AgencyTypeId,
+                    AccountId = Model.AccountId,
+                    SupplierId = Model.SupplierId,
+                    CreatedDate = DateTime.Now,
+                    CreatedBy = "",
+                    IsCancelled = false,
+                    IsLocked = false
+                };
 
-                tbl.ReceiptNumber = Context.PaymentReceipt.Count() > 0 ? Context.PaymentReceipt.Max(x => x.ReceiptNumber) + 1 : 1;
-                tbl.ReceiptLedgerId = Model.ReceiptLedgerId;
-                tbl.PaymentTypeId = Model.PaymentTypeId;
-                tbl.ReleaseDate = Model.ReleaseDate;
-                tbl.BenefitPerson = Model.BenefitPerson;
-                tbl.Notes = Model.Notes;
-                tbl.ChequeNumber = Model.ChequeNumber;
-                tbl.MoneyAmount = Model.MoneyAmount;
-                tbl.DocNumber = Model.DocNumber;
-                tbl.AgencyTypeId = Model.AgencyTypeId;
-                tbl.AgencyId = Model.AgencyId;
-                tbl.AccountId = Model.AccountId;
-                tbl.InsertDate = DateTime.Now;
-                tbl.InsertUser = "";
-                tbl.IsCancelled = false;
-                tbl.IsLocked = false;
-
-                Context.PaymentReceipt.Add(tbl);
+                Context.PaymentReceipts.Add(tbl);
                 Context.SaveChanges();
 
-                SaveNewEnrty(tbl);
-
-                return new ActionsResponseModel
+                if (entryService.SavePaymentJournalEntry(tbl))
                 {
-                    Status = 1,
-                    Message = "Payment Receipt Created",
-                    Id = tbl.ReceiptNumber
-                };
+                    return new ActionsResponseModel
+                    {
+                        Status = 1,
+                        Message = "تم حفظ البيانات بنجاح",
+                        Id = tbl.ReceiptNumber
+                    };
+                }
+                else
+                {
+                    return new ActionsResponseModel
+                    {
+                        Status = 0,
+                        Message = "فشل فى تسجيل القيد المحاسبى"
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -85,12 +102,17 @@ namespace MasterErp.Service.GeneralAccounts
             }
         }
 
-        public DataTable GetReceiveReceiptsSummary(FilterModel model)
+        public DataTable GetReceiveReceipts_Summary(FilterModel model)
         {
             return Context.ReceiveReceipt.ToList().ToDataTable();
         }
 
-        public ActionsResponseModel SaveNewReceiveReceipt(ReceiveReceipt Model)
+        public DataTable GetReceiveReceipts_Filters(FilterModel model)
+        {
+            return new DataTable();
+        }
+
+        public ActionsResponseModel SaveReceiveReceipt(ReceiveReceipt Model)
         {
             try
             {
@@ -127,15 +149,23 @@ namespace MasterErp.Service.GeneralAccounts
                 Context.ReceiveReceipt.Add(tbl);
                 Context.SaveChanges();
 
-                Model.ReceiveReceiptId = tbl.ReceiveReceiptId;
-                //SaveNewEnrty(Model);
-
+                //if (entryService.SaveReceiveJournalEntry(tbl))
+                //{
                 return new ActionsResponseModel
                 {
                     Status = 1,
-                    Message = "Payment Receipt Created",
+                    Message = "تم حفظ البيانات بنجاح",
                     Id = tbl.ReceiptNumber
                 };
+                //}
+                //else
+                //{
+                //    return new ActionsResponseModel
+                //    {
+                //        Status = 0,
+                //        Message = "فشل فى تسجيل القيد المحاسبى"
+                //    };
+                //}
             }
             catch (Exception ex)
             {
@@ -147,133 +177,5 @@ namespace MasterErp.Service.GeneralAccounts
             }
         }
 
-        public void SaveNewEnrty(PaymentReceipt Model)
-        {
-            JournalEntry JournalHeader_tbl = new JournalEntry();
-
-            //try
-            //{
-            //    JournalHeader_tbl.JournalEntryId = Context.JournalEntries.Max(x => x.JournalEntryId) + 1;
-            //}
-            //catch (Exception)
-            //{
-            //    JournalHeader_tbl.JournalEntryId = 1;
-            //}
-
-            JournalHeader_tbl.EntryNumber = Get_Entry_Number(Model.ReleaseDate);
-            JournalHeader_tbl.DocNumber = "";// txt_ReceiptNumber.Text;
-            JournalHeader_tbl.EntryDate = Model.ReleaseDate;
-            JournalHeader_tbl.Description = Model.Notes;
-            JournalHeader_tbl.Notes = Model.Notes;
-            JournalHeader_tbl.IsLocked = false;
-            JournalHeader_tbl.IsCancelled = false;
-            JournalHeader_tbl.JournalTypeId = 3;
-            JournalHeader_tbl.PeriodId = Context.ReceiptLedgers.Single(x => x.ReceiptLedgerId == Model.ReceiptLedgerId).PeriodId;
-            JournalHeader_tbl.ActionTypeId = 4;
-            JournalHeader_tbl.ActionId = Model.PaymentReceiptId;
-            JournalHeader_tbl.CreateDate = DateTime.Now;
-            JournalHeader_tbl.CreatedBy = "";
-
-            Context.JournalEntries.Add(JournalHeader_tbl);
-            Context.SaveChanges();
-
-
-            int GeneralSupplierID = Context.AccountTrees.Single(x => x.AccountTypeId == 5).AccountId;
-
-            //for (int i = 0; i < gvc.Rows.Count; i++)
-            //{
-            // Debit
-
-            JournalEntryDetail JournalDetailsCredit_tbl = new JournalEntryDetail();
-
-            //try
-            //{
-            //    JournalDetailsCredit_tbl.JournalEntryDetailId = Context.JournalEntryDetails.Max(x => x.JournalEntryDetailId) + 1;
-            //}
-            //catch (Exception)
-            //{
-            //    JournalDetailsCredit_tbl.JournalEntryDetailId = 1;
-            //}
-
-            JournalDetailsCredit_tbl.JournalEntryId = JournalHeader_tbl.JournalEntryId;
-
-            if (Model.AgencyTypeId == 0)
-            {
-                JournalDetailsCredit_tbl.SupplierId = Model.AgencyTypeId;
-                JournalDetailsCredit_tbl.AccountID = GeneralSupplierID;
-            }
-            else
-            {
-                JournalDetailsCredit_tbl.AccountID = Model.AccountId;
-            }
-
-            JournalDetailsCredit_tbl.Credit = 0;
-            JournalDetailsCredit_tbl.Debit = Model.MoneyAmount;
-            JournalDetailsCredit_tbl.CurrencyId = 1; // Int32.Parse(cmb_Currency.SelectedItem.Value.ToString());
-            JournalDetailsCredit_tbl.Description = Model.Notes;
-
-            Context.JournalEntryDetails.Add(JournalDetailsCredit_tbl);
-            Context.SaveChanges();
-            //}
-
-            // Credit
-
-            JournalEntryDetail JournalDetailsDebit_tbl = new JournalEntryDetail();
-
-            //try
-            //{
-            //    JournalDetailsDebit_tbl.JournalEntryDetailId = Context.JournalEntryDetails.Max(x => x.JournalEntryDetailId) + 1;
-            //}
-            //catch (Exception)
-            //{
-            //    JournalDetailsDebit_tbl.JournalEntryDetailId = 1;
-            //}
-
-            JournalDetailsDebit_tbl.JournalEntryId = JournalHeader_tbl.JournalEntryId;
-            JournalDetailsDebit_tbl.AccountID = 1; //Int32.Parse(cmb_Safe.SelectedItem.Value.ToString());
-            JournalDetailsDebit_tbl.Credit = Model.MoneyAmount; //Double.Parse(((Label)gvc.FooterRow.FindControl("lbl_TotalAmount")).Text);
-            JournalDetailsDebit_tbl.Debit = 0;
-            JournalDetailsDebit_tbl.CurrencyId = 1; // Int32.Parse(cmb_Currency.SelectedItem.Value.ToString());
-            JournalDetailsDebit_tbl.Description = Model.Notes; //((Label)gvc.Rows[0].FindControl("lbl_Notes_Row")).Text;
-
-            Context.JournalEntryDetails.Add(JournalDetailsDebit_tbl);
-            Context.SaveChanges();
-
-
-            //#endregion
-
-            //if (Session["Loan"] != null)
-            //{
-            //    int loan_id = int.Parse(Session["Loan"].ToString());
-            //    var Loan = Context.Loans.Where(x => x.LoanID == loan_id).FirstOrDefault();
-
-            //    Loan.IsActive = true;
-            //    Context.SaveChanges();
-            //}
-
-            //Session["JournalEntry"] = JournalHeader_tbl.JournalID;
-            //Session["Loan"] = null;
-
-            //pnl_SuccessMessage.Visible = true;
-            //pnl_SuccessMessage.BackColor = Color.FromArgb(51, 204, 51);
-            //lbl_SuccessMessage.Text = "تم حفظ الايصال بنجاح";
-        }
-
-        private int Get_Entry_Number(DateTime releaseDate)
-        {
-            int month = releaseDate.Date.Month;
-            int year = releaseDate.Date.Year;
-            int ID = 1;
-
-            try
-            {
-                ID = (Context.JournalEntries.Where(x => x.EntryDate.Month == month && x.EntryDate.Year == year).Max(x => x.EntryNumber) + 1);
-            }
-            catch (Exception)
-            {
-                ID = 1;
-            }
-            return ID;
-        }
     }
 }

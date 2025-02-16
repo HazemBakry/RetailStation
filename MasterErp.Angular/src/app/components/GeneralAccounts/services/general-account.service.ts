@@ -52,6 +52,18 @@ export class GeneralAccountService {
   ]
   //================================== JournalEntry ===============================
 
+  GetDailyJournalEntriesSummary(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesSummary', model);
+  }
+
+  GetDailyJournalEntriesFilters(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesFilters', model);
+  }
+
+  GetJournalEntryDetailsByID(entryId: number) {
+    return this.http.get<any>(this.URL + 'JournalEntry/GetJournalEntryDetailsByID?EntryId=' + entryId);
+  }
+
   GetJournalEntryTypes() {
     return this.http.get<any[]>(this.URL + 'JournalEntry/GetJournalEntryTypes');
   }
@@ -72,13 +84,7 @@ export class GeneralAccountService {
     return this.http.post<any>(this.URL + 'JournalEntry/SaveNewJouranlEntry', model);
   }
 
-  GetDailyJournalEntriesSummary(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesSummary', model);
-  }
 
-  GetDailyJournalEntriesFilters(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesFilters', model);
-  }
 
   CancelJournalEntry(JournalEntryIds: number[]) {
     return this.http.post<any>(this.URL + 'JournalEntry/CancelJournalEntry', JournalEntryIds);
@@ -98,13 +104,12 @@ export class GeneralAccountService {
   GetDailyJournalEntriesLastFiveRecords() {
     return this.http.get<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesLastFiveRecords');
   }
+
   //================================== AccountTree ===============================
 
   GetChildAccountsList() {
     return this.http.get<any[]>(this.URL + 'AccountTree/GetChildAccountsList');
   }
-
-
 
   AddNewAccount(model: AccountTreeModel) {
     return this.http.post<any>(this.URL + 'AccountTree/AddNewAccount', model);
@@ -128,6 +133,7 @@ export class GeneralAccountService {
 
     // );
   }
+
   ////////////////// General Accounts Reports ///////
 
   GetAccountsGeneralLedger(model: SearchFilterModel) {

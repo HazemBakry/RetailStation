@@ -79,7 +79,7 @@ export class SharedService {
           response.map(x => {
             return {
               ...x,
-              name:x.nameAR
+              name: x.nameAR
             }
           })
           return response;
@@ -98,24 +98,17 @@ export class SharedService {
   //   return this.http.get<any[]>(this.URL + 'AccountTree/GetChildAccountsList');
   // }
 
-
-  GetAccountsSelector(isParent: boolean = false) {
-    return this.http.get<any[]>(this.URL + 'Shared/GetAccountsSelector?IsParent=' + isParent);
-  }
   GetAccountsByTypeId(typeId: number) {
     return this.http.get<any[]>(this.URL + 'Shared/GetAccountsByTypeId?TypeId=' + typeId);
   }
 
-
   GetReceiptLedgerTypes() {
     return this.http.get<any[]>(this.URL + 'Shared/GetReceiptLedgerTypes');
   }
+
   GetFinancialPeriods() {
     return this.http.get<any[]>(this.URL + 'Shared/GetFinancialPeriods');
   }
-
-
-
 
   downloadImporterTemplate(template: ExcelExportStyle) {
     return this.http.get<CreateModifyReturnsModel>(this.URL + 'Shared/DownloadImporterTemplate?ImporterType=' + template);
@@ -123,9 +116,19 @@ export class SharedService {
 
 
   //================================== Selectors (dropdown) ===============================
+
+  GetAccountsSelector(IsParent: boolean = false) {
+    return this.http.get<any[]>(this.URL + 'Shared/GetAccountsSelector?IsParent=' + IsParent);
+  }
+
+  GetCostCenterSelector(IsParent: boolean = false) {
+    return this.http.get<any[]>(this.URL + 'Shared/GetCostCenterSelector?IsParent=' + IsParent);
+  }
+
   GetAccountTypesSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetAccountTypes');
   }
+
   GetBranchesSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetBranchesSelector');
   }

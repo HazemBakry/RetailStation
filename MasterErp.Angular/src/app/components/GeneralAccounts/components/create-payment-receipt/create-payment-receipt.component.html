@@ -36,12 +36,12 @@
                 </app-erp-selector-with-search>
 
             </div>
-            <div *ngIf="selectedAgencyType == 2" class="col-lg-3 offset-lg-1 mb-3">
-                <app-erp-selector-with-search #Selector [SelectorName]="'جهة التعامل'" [ItemsList]="agencyList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAgency($event)">
+            <div *ngIf="selectedAgencyType == 0" class="col-lg-3 offset-lg-1 mb-3">
+                <app-erp-selector-with-search #Selector [SelectorName]="'جهة التعامل'" [ItemsList]="supplierList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedSupplier($event)">
                 </app-erp-selector-with-search>
             </div>
 
-            <div *ngIf="selectedAgencyType == 3" class="col-lg-3 offset-lg-1 mb-3">
+            <div *ngIf="selectedAgencyType == 1" class="col-lg-3 offset-lg-1 mb-3">
                 <app-erp-selector-with-search #Selector [SelectorName]="'الحسابات'" [ItemsList]="accountList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAccount($event)">
                 </app-erp-selector-with-search>
             </div>

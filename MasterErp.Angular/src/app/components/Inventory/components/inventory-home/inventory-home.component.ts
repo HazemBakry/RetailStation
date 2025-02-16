@@ -50,10 +50,6 @@ export class InventoryHomeComponent implements OnInit {
     this.getTopReceiveOrders();
     this.getTopDeliveryOrders();
     this.getSuppliersList();
-    // this.GetDailyJournalEntriesSummary();
-    // this.GetPurchaseInvoicesData();
-    // this.GetPaymentReceiptsSummary();
-    // this.GetReceiveReceiptsSummary();
   }
 
   getInventoryStatistics() {

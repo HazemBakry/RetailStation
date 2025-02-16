@@ -98,7 +98,20 @@ namespace MasterErp.Service.Shared
             var result = Context.AccountTrees.Where(x => x.IsParent == IsParent).Select(a => new SelectorDataModel
             {
                 Id = a.AccountId,
-                Name = a.NameAR
+                Name = a.NameAR,
+                Code = a.AccountNumber
+            }).ToList();
+
+            return result;
+        }
+
+        public List<SelectorDataModel> GetCostCenterSelector(bool IsParent)
+        {
+            var result = Context.CostCenterTree.Where(x => x.IsParent == IsParent).Select(a => new SelectorDataModel
+            {
+                Id = a.CostCenterId,
+                Name = a.NameAR,
+                Code = a.CostCenterNumber
             }).ToList();
 
             return result;
@@ -211,6 +224,7 @@ namespace MasterErp.Service.Shared
             {
                 Id = b.ItemId,
                 Name = b.NameAR,
+                Code = b.Code
             }).ToList();
             return results;
         }

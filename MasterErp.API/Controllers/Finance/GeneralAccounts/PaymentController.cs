@@ -19,10 +19,17 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         }
 
         [HttpPost]
-        [Route("GetPaymentReceiptsSummary")]
+        [Route("GetPaymentReceipts_Summary")]
         public DataTable GetPaymentReceiptsSummary(FilterModel model)
         {
-            return _paymentService.GetPaymentReceiptsSummary(model);
+            return _paymentService.GetPaymentReceipts_Summary(model);
+        }
+
+        [HttpPost]
+        [Route("GetPaymentReceipts_Filters")]
+        public DataTable GetPaymentReceipts_Filters(FilterModel model)
+        {
+            return _paymentService.GetPaymentReceipts_Summary(model);
         }
 
         [HttpPost]
@@ -35,19 +42,18 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
 
         [HttpPost]
-        [Route("GetReceiveReceiptsSummary")]
-        public IActionResult GetReceiveReceiptsSummary(FilterModel model)
+        [Route("GetReceiveReceipts_Summary")]
+        public IActionResult GetReceiveReceipts_Summary(FilterModel model)
         {
-            var results = _paymentService.GetReceiveReceiptsSummary(model);
+            var results = _paymentService.GetReceiveReceipts_Summary(model);
             return Ok(results);
         }
 
-
         [HttpPost]
-        [Route("SaveNewReceiveReceipt")]
-        public IActionResult SaveNewReceiveReceipt(ReceiveReceipt Model)
+        [Route("SaveReceiveReceipt")]
+        public IActionResult SaveReceiveReceipt(ReceiveReceipt Model)
         {
-            var results = _paymentService.SaveNewReceiveReceipt(Model);
+            var results = _paymentService.SaveReceiveReceipt(Model);
             return Ok(results);
         }
     }

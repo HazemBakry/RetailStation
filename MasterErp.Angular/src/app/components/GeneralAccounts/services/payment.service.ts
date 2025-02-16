@@ -19,13 +19,13 @@ export class PaymentService {
     //   nameEN:'Customer'
     // },
     {
-      id: 2,
+      id: 0,
       name: 'مورد',
       nameAR: 'مورد',
       nameEN: 'Supplier'
     },
     {
-      id: 3,
+      id: 1,
       name: 'حساب',
       nameAR: 'حساب',
       nameEN: 'Account'
@@ -34,19 +34,44 @@ export class PaymentService {
 
   paymentTypeList: any[] = [
     {
-      id: PaymentOperationType.Cheque,
-      name: 'شيكات',
-      nameAR: 'شيكات',
-      nameEN: 'Cheque'
-    },
-    {
       id: PaymentOperationType.Cash,
       name: 'نقدي',
       nameAR: 'نقدي',
       nameEN: 'Cash'
+    },
+    {
+      id: PaymentOperationType.Cheque,
+      name: 'شيكات',
+      nameAR: 'شيكات',
+      nameEN: 'Cheque'
     }
   ]
 
+  CurrencyType = [
+    { 
+      currencyId: 1, 
+      nameAR: 'جنيه' 
+    }, 
+    { 
+      currencyId: 1, 
+      nameAR: 'ريال' 
+    }
+  ]
+
+  JournalEntryType = [
+    { 
+      journalTypeId: 1, 
+      nameAR: 'تسوية' 
+    }, 
+    { 
+      journalTypeId: 4, 
+      nameAR: 'اقفال' 
+    },
+    { 
+      journalTypeId: 5, 
+      nameAR: 'قيد افتتاحى' 
+    }
+  ]
 
   URL = environment.apiURL;
   constructor(private http: HttpClient) { }
@@ -65,13 +90,13 @@ export class PaymentService {
 
   }
 
-  SaveNewReceiveReceipt(model: ReceiveReceipt) {
-    return this.http.post<CreateModifyReturnsModel>(this.URL + 'Payment/SaveNewReceiveReceipt', model);
+  SaveReceiveReceipt(model: ReceiveReceipt) {
+    return this.http.post<CreateModifyReturnsModel>(this.URL + 'Payment/SaveReceiveReceipt', model);
 
   }
 
   GetReceiveReceiptsSummary(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'Payment/GetReceiveReceiptsSummary', model);
+    return this.http.post<any>(this.URL + 'Payment/GetReceiveReceipts_Summary', model);
   }
 
   CancelReceiveReceipt(ReceiptId: any) {
@@ -79,7 +104,7 @@ export class PaymentService {
   }
 
   GetPaymentReceiptsSummary(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'Payment/GetPaymentReceiptsSummary', model);
+    return this.http.post<any>(this.URL + 'Payment/GetPaymentReceipts_Summary', model);
   }
 
   CancelPaymentReceipt(ReceiptId: any) {

@@ -29,5 +29,9 @@ namespace MasterErp.Entities.Common
         public double? CostPercent { get; set; }
         public int? CurrencyID { get; set; }
         public string Description { get; set; }
+        public string AccountNumber { get; set; }
+        public string AccountName { get; set; }
+        public string Notes { get; set; }
     }
+
 }

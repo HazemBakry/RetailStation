@@ -16,7 +16,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
 
 
   selectedAgencyType: number;
-  agencyList: any[] = [];
+  supplierList: any[] = [];
   accountList: any[] = [];
   receiptLedgerList: any[] = [];
 
@@ -33,14 +33,14 @@ export class CreatePaymentReceiptComponent implements OnInit {
 
   loadCustomersData() {
     this.sharedService.GetCustomersData().subscribe(data => {
-      this.agencyList = data;
+      this.supplierList = data;
     })
   }
 
 
   loadSuppliersData() {
     this.sharedService.GetSuppliersSelector().subscribe(data => {
-      this.agencyList = data;
+      this.supplierList = data;
     })
   }
 
@@ -65,17 +65,16 @@ export class CreatePaymentReceiptComponent implements OnInit {
   }
 
   GetSelectedAgencyType(accountType) {
-    debugger;
     this.selectedAgencyType = accountType?.id;
     this.paymentReceiptModel.agencyTypeId = accountType?.id;
     switch (accountType?.id) {
       // case 1:
       //   this.loadCustomersData();
       //   break;
-      case 2:
+      case 0:
         this.loadSuppliersData();
         break;
-      case 3:
+      case 1:
         this.loadAccountsTreeData();
         break;
 
@@ -84,15 +83,15 @@ export class CreatePaymentReceiptComponent implements OnInit {
     }
   }
 
-  GetSelectedAgency(account) {
+  GetSelectedSupplier(account) {
     switch (this.selectedAgencyType) {
-      case 2:
+      case 0:
         //supplier
-        this.paymentReceiptModel.agencyId = account.supplierID;
+        this.paymentReceiptModel.supplierId = account.id;
         break;
-      case 3:
+      case 1:
         //account
-        this.paymentReceiptModel.agencyId = account.accountId;
+        this.paymentReceiptModel.accountId = account.id;
         break;
 
       default:
@@ -107,7 +106,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
   }
 
   GetSelectedAccount(account) {
-    this.paymentReceiptModel.accountId = account.accountId;
+    this.paymentReceiptModel.accountId = account.id;
   }
 
   GetSelectedReceiptLedger(receiptLedger: ReceiptLedger) {
@@ -118,6 +117,8 @@ export class CreatePaymentReceiptComponent implements OnInit {
     if (!this.validatePaymentReceipt()) {
       return;
     }
+
+    debugger;
 
     this.paymentService.SavePaymentReceipt(this.paymentReceiptModel).subscribe((data: CreateModifyReturnsModel) => {
       if (data?.status) {
@@ -132,7 +133,6 @@ export class CreatePaymentReceiptComponent implements OnInit {
   }
 
   validatePaymentReceipt(): boolean {
-    debugger
     let model: PaymentReceipt = this.paymentReceiptModel;
 
     if (!model.benefitPerson ||

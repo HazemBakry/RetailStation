@@ -56,6 +56,13 @@ namespace MasterErp.API.Controllers.Shared
         }
 
         [HttpGet]
+        [Route("GetCostCenterSelector")]
+        public List<SelectorDataModel> GetCostCenterSelector(bool IsParent)
+        {
+            return _sharedService.GetCostCenterSelector(IsParent);
+        }
+
+        [HttpGet]
         [Route("GetReceiptLedgerTypes")]
         public IActionResult GetReceiptLedgerTypes()
         {

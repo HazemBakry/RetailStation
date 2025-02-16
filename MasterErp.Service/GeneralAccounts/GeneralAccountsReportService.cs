@@ -65,8 +65,8 @@ namespace MasterErp.Service.GeneralAccounts
 
                     if (dt.Rows[i]["ActionTypeId"].ToString() == "3")
                     {
-                        var cheque = Context.PaymentReceipt.Where(x => x.PaymentReceiptId == actionId).FirstOrDefault();
-                        cheque_number = cheque.ChequeNumber;
+                        var cheque = Context.PaymentReceipts.Where(x => x.PaymentReceiptId == actionId).FirstOrDefault();
+                        cheque_number = ""; // cheque.ChequeNumber;
                     }
                     else if (dt.Rows[i]["ActionTypeId"].ToString() == "7")
                     {

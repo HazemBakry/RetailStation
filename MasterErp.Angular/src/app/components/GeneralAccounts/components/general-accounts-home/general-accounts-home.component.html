@@ -6,7 +6,7 @@
 </div>
 
 <div class="row mb-3">
-    <div class="col-lg-12" *ngIf="journalEntriesList?.length>0">
+    <div class="col-lg-12">
         <div class="card radius-10 border-0 card-shadow h-100">
             <div class="card-body">
                 <h5 class="mb-0 fw-bold">سجل القيود</h5>
@@ -31,6 +31,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of journalEntriesList">
+                                <td>{{item.rowNumber}}</td>
                                 <td>{{item.journalTypeAr}}</td>
                                 <td>{{item.entryNumber}}</td>
                                 <td>{{item.actionGroup}}</td>
@@ -38,12 +39,11 @@
                                 <td>{{item.entryDate | date}}</td>
                                 <td>{{item.totalDebit}}</td>
                                 <td>{{item.totalCredit}}</td>
-                                <td>{{item.isCancelled}}</td>
-                                <td>{{item.notes}}</td>
                                 <td>
                                     <!-- {{item.entryStatus}} -->
                                     <div appColorWithStatus status="entryStatus" [text]="item.entryStatus"></div>
                                 </td>
+                                <td>{{item.notes}}</td>
                                 <td>
                                     <div class="d-flex align-items-center justify-content-center">
                                         <div ngbDropdown container="body">

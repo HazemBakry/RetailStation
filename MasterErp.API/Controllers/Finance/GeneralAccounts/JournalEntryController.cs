@@ -52,9 +52,9 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpGet]
         [Route("GetJournalEntryDetailsByID")]
-        public JournalEntryModel GetJournalEntryDetailsByID(int journalId)
+        public JournalEntryModel GetJournalEntryDetailsByID(int EntryId)
         {
-            return EntryService.GetJournalEntryDetailsByID(journalId);
+            return EntryService.GetJournalEntryDetailsByID(EntryId);
         }
 
         [HttpPost]
