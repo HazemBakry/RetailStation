@@ -152,7 +152,7 @@ export class CreateJournalEntryComponent implements OnInit {
       docNumber: [null, [Validators.required]],
       entryDate: [null, [Validators.required]],
       journalTypeId: [null, [Validators.required]],
-      currencyTypeId: [null, [Validators.required]],
+      currencyTypeId: [null],
       journalEntryAccounts: [[] as JournalEntryAccount[], [Validators.required, Validators.minLength(1)]],
       description: [null],
       notes: [null],
@@ -168,7 +168,6 @@ export class CreateJournalEntryComponent implements OnInit {
       return true;
     } else {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, false)
-      console.log("🚀 ~ CreateJournalEntryComponent ~ validateForm ~ this.formErrors:", this.formErrors)
       return false;
     }
   }
@@ -191,10 +190,10 @@ export class CreateJournalEntryComponent implements OnInit {
   }
 
   saveEntry() {
-    if (this.entryAccounts?.length === 0)
+    if (this.entryAccounts?.length === 0 || this.entryAccounts?.every(entry =>!entry.accountId))
       this.toaster.warning('لا يوجد حسابات');
 
-    this.formGroup.patchValue({journalEntryAccounts: this.entryAccounts});
+    this.formGroup.patchValue({journalEntryAccounts: this.entryAccounts.filter(entry =>entry.accountId)});
     if (!this.validateForm()) {
       return;
     }

@@ -69,12 +69,18 @@
                 <div class="col-lg-9 offset-lg-1 h-100 mb-2">
                     <textarea class="form-control" placeholder="Description *" formControlName="description"
                         autocomplete="off"></textarea>
+                        <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
+                            {{formErrors.description}}
+                        </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-9 offset-lg-1 h-100 mb-2">
                     <textarea class="form-control" placeholder="Notes *" formControlName="notes"
                         autocomplete="off"></textarea>
+                        <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
+                            {{formErrors.notes}}
+                        </div>
                 </div>
             </div>
             
@@ -129,7 +135,7 @@
                 <tbody>
                     <tr *ngFor="let item of entryAccounts;let i = index">
                         <td colspan="2" class="justify-content-start">
-                            <app-drop-down-form-control [(ngModel)]="item.accountId" [data]="accountsSelector"
+                            <app-drop-down-form-control [showSearch]="true" [(ngModel)]="item.accountId" [data]="accountsSelector"
                                 [placeholder]="'الحسابات'"></app-drop-down-form-control>
                         </td>
 
@@ -192,6 +198,9 @@
             <i class="uil uil-plus fs-5"></i>
             <span>اضافة حساب</span>
         </button>
+        <div *ngIf="formErrors.journalEntryAccounts&&!entryAccounts?.length" class="text-danger  font-small-3 m-03">
+            {{formErrors.journalEntryAccounts}}
+        </div>
     </div>
 
     <!-- <table>
