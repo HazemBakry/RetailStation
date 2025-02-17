@@ -174,7 +174,8 @@ namespace MasterErp.Service.GeneralAccounts
                 return new ActionsResponseModel
                 {
                     Message = "New Entry Saved Successfully",
-                    Number = Entry_tbl.EntryNumber.ToString()
+                    Number = Entry_tbl.EntryNumber.ToString(),
+                    Id = Entry_tbl.JournalEntryId
 
                 };
             }
@@ -182,7 +183,7 @@ namespace MasterErp.Service.GeneralAccounts
             {
                 return new ActionsResponseModel
                 {
-                    Status = 0,
+                    IsSuccess = false,
                     Message = ex.InnerException?.Message ?? ex.Message
                 };
             }

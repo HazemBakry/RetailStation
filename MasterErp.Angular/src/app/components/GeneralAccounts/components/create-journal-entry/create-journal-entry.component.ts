@@ -214,6 +214,9 @@ export class CreateJournalEntryComponent implements OnInit {
         //this.initNewForm();
         this.toaster.success(data?.message);
         this.entryModel.entryNumber = data.number;
+        this.entryModel.entryId = data.id;
+        
+        this.initNewForm(this.entryModel)
       }
       else {
         this.toaster.error(data?.message);
