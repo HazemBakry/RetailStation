@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models
 {
-    public class CostCenterTree
+    public class CostCenterTree :CreatorModel
     {
 		[Key]
 		public int CostCenterId { get; set; }
@@ -22,9 +22,5 @@ namespace MasterErp.Entities.Models
 		public bool? IsPost { get; set; }
 		public int? IsExpences { get; set; }
 		public int? DisplayOrder { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public string ModifiedBy { get; set; }
-        public DateTime? ModifiedDate { get; set; }
     }
 }

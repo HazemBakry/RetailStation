@@ -114,7 +114,7 @@ export class NewEntryComponent implements OnInit {
 
   getEntryDetailsByEntryId(entryId) {
     this.showLoader = true;
-    this.generalService.GetJournalEntryDetailsByID(entryId).subscribe(data => {
+    this.generalService.GetJournalEntryDetailsById(entryId).subscribe(data => {
       if (data) {
         this.entryModel.entryNumber = data?.entryNumber;
         this.entryModel.docNumber = data?.docNumber;
@@ -287,7 +287,7 @@ export class NewEntryComponent implements OnInit {
     model.journalTypeId = this.journalTypeId;
     model.journalEntryAccounts = this.SelectedAccounts;
 
-    this.generalService.SaveNewJouranlEntry(model).subscribe(data => {
+    this.generalService.SaveNewJournalEntry(model).subscribe(data => {
       if (data?.status) {
         // this.ClearAllFields();
         this.EntryNumber = data.number;

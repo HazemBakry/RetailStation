@@ -11,6 +11,7 @@ export interface CreateModifyReturnsModel {
 export interface ActionsResponseModel {
 
     id?:number;
+    number?:any;
     hasError:boolean;
     isSuccess:boolean;
     message:string;

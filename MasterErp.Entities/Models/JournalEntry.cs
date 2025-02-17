@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models
 {
-    public class JournalEntry
+    public class JournalEntry  : CreatorModel
     {
         [Key]
         public int JournalEntryId { get; set; }
@@ -22,11 +22,8 @@ namespace MasterErp.Entities.Models
         public int? PeriodId { get; set; }
         public int? ActionTypeId { get; set; }
         public int? ActionId { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime CreateDate { get; set; }
         public string PostedBy { get; set; }
         public DateTime? PostDate { get; set; }
-        public string ModifiedBy { get; set; }
-        public DateTime? ModifyDate { get; set; }
+       
     }
 }

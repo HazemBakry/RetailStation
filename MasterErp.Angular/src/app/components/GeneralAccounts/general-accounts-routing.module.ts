@@ -34,6 +34,7 @@ import { LoansComponent } from './components/loans/loans.component';
 import { LedgerJournalTypeComponent } from './GeneralAccountSettings/ledger-journal-type/ledger-journal-type.component';
 import { CustomersComponent } from './Customers/customers/customers.component';
 import { BatchesComponent } from './Customers/batches/batches.component';
+import { CreateJournalEntryComponent } from './components/create-journal-entry/create-journal-entry.component';
 
 const routes: Routes = [
   {
@@ -48,7 +49,8 @@ const routes: Routes = [
       { path: 'receiptBooks', component: ReceiptBooksComponent },
       { path: 'account-tree', component: AccountTreeContainerComponent },
       { path: 'cost-center-tree', component: CostCenterTreeContainerComponent },
-      { path: 'new-entry', component: NewEntryComponent },
+      // { path: 'new-entry', component: NewEntryComponent },
+      { path: 'new-entry', component: CreateJournalEntryComponent },
       { path: 'journal-daily-list', component: JournalDailyListComponent },
       { path: 'create-payment-receipt', component: CreatePaymentReceiptComponent },
       { path: 'create-receive-receipt', component: CreateReceiveReceiptComponent },

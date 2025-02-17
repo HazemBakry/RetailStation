@@ -39,6 +39,7 @@ import { LoansComponent } from './components/loans/loans.component';
 import { LedgerJournalTypeComponent } from './GeneralAccountSettings/ledger-journal-type/ledger-journal-type.component';
 import { CustomersComponent } from './Customers/customers/customers.component';
 import { BatchesComponent } from './Customers/batches/batches.component';
+import { CreateJournalEntryComponent } from './components/create-journal-entry/create-journal-entry.component';
 
 
 @NgModule({
@@ -76,7 +77,8 @@ import { BatchesComponent } from './Customers/batches/batches.component';
     LoansComponent,
     LedgerJournalTypeComponent,
     CustomersComponent,
-    BatchesComponent
+    BatchesComponent,
+    CreateJournalEntryComponent
   ],
   imports: [
     CommonModule,

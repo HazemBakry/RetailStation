@@ -6,6 +6,7 @@ import { ReceiveReceipt } from '../models/GeneralAccounts/ReceiveReceipt';
 import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PaymentOperationType } from '../../Shared/Enums/GeneralAccountsEnums';
+import { FormDropdownModel } from '../../Shared/components/drop-down-form-control/drop-down-form-control.component';
 
 @Injectable({
   providedIn: 'root'
@@ -48,31 +49,54 @@ export class PaymentService {
   ]
 
   CurrencyType = [
-    { 
-      currencyId: 1, 
-      nameAR: 'جنيه' 
-    }, 
-    { 
-      currencyId: 1, 
-      nameAR: 'ريال' 
+    {
+      currencyId: 2,
+      nameAR: 'جنيه'
+    },
+    {
+      currencyId: 1,
+      nameAR: 'ريال'
+    }
+  ];
+  CurrencyTypesSelector: FormDropdownModel[] = [
+    {
+      value: 2,
+      name: 'جنيه'
+    },
+    {
+      value: 1,
+      name: 'ريال'
     }
   ]
 
   JournalEntryType = [
-    { 
-      journalTypeId: 1, 
-      nameAR: 'تسوية' 
-    }, 
-    { 
-      journalTypeId: 4, 
-      nameAR: 'اقفال' 
+    {
+      journalTypeId: 1,
+      nameAR: 'تسوية'
     },
-    { 
-      journalTypeId: 5, 
-      nameAR: 'قيد افتتاحى' 
+    {
+      journalTypeId: 4,
+      nameAR: 'اقفال'
+    },
+    {
+      journalTypeId: 5,
+      nameAR: 'قيد افتتاحى'
     }
   ]
-
+  JournalEntryTypesSelector: FormDropdownModel[] = [
+    {
+      value: 1,
+      name: 'تسوية'
+    },
+    {
+      value: 4,
+      name: 'اقفال'
+    },
+    {
+      value: 5,
+      name: 'قيد افتتاحى'
+    }
+  ]
   URL = environment.apiURL;
   constructor(private http: HttpClient) { }
 

@@ -11,6 +11,7 @@ import { AccountTreeModel } from '../models/GeneralAccounts/AccountTree';
 import { AccountOpeningBalanceModel } from '../models/GeneralAccounts/OpeningBalance';
 import { CostCenterTreeModel } from '../models/GeneralAccounts/CostCenter';
 import { CreateModifyReturnsModel } from '../../Shared/models/CreateModifyReturnsModel';
+import { JournalTemplateDetails } from '../models/GeneralAccounts/JournalTemplateDetailsModel';
 
 @Injectable({
   providedIn: 'root'
@@ -60,8 +61,8 @@ export class GeneralAccountService {
     return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesFilters', model);
   }
 
-  GetJournalEntryDetailsByID(entryId: number) {
-    return this.http.get<any>(this.URL + 'JournalEntry/GetJournalEntryDetailsByID?EntryId=' + entryId);
+  GetJournalEntryDetailsById(entryId: number) {
+    return this.http.get<JournalEntryModel>(this.URL + 'JournalEntry/GetJournalEntryDetailsById?EntryId=' + entryId);
   }
 
   GetJournalEntryTypes() {
@@ -77,11 +78,14 @@ export class GeneralAccountService {
   }
 
   GetAccountsByTemplateId(templateId: number) {
-    return this.http.get<any[]>(this.URL + 'JournalEntry/GetAccountsByTemplateId?templateId=' + templateId);
+    return this.http.get<JournalTemplateDetails[]>(this.URL + 'JournalEntry/GetAccountsByTemplateId?templateId=' + templateId);
   }
 
-  SaveNewJouranlEntry(model: JournalEntryModel) {
-    return this.http.post<any>(this.URL + 'JournalEntry/SaveNewJouranlEntry', model);
+  SaveNewJournalEntry(model: JournalEntryModel) {
+    return this.http.post<any>(this.URL + 'JournalEntry/SaveNewJournalEntry', model);
+  }
+  EditJournalEntry(entryId:number,model: JournalEntryModel) {
+    return this.http.post<any>(this.URL + 'JournalEntry/EditJournalEntry?EntryId='+entryId, model);
   }
 
 

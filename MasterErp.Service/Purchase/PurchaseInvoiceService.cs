@@ -243,18 +243,18 @@ namespace MasterErp.Service.Purchase
 
             accounts.Add(new JournalEntryAccount
             {
-                AccountID = supplier_account.AccountId,
+                AccountId = supplier_account.AccountId,
                 Debit = 0,
                 Credit = invoice.NetValue,
                 Description = " فواتير شهر " + invoice.InvoiceDate.Date.Month + " فاتورة مشتريات رقم " + invoice.InvoiceNumber.ToString() + (supplierName ?? " للمورد " + supplierName),
-                CurrencyID = 1
+                CurrencyId = 1
             });
             accounts.Add(new JournalEntryAccount
             {
-                AccountID = (int)invoice_type.AccountDebitId,
+                AccountId = (int)invoice_type.AccountDebitId,
                 Debit = invoice.NetValue,
                 Credit = 0,
-                CurrencyID = 1,
+                CurrencyId = 1,
                 Description = "فاتورة مشتريات رقم  " + invoice.InvoiceNumber.ToString() + (supplierName ?? " للمورد " + supplierName)
 
             });
@@ -265,10 +265,10 @@ namespace MasterErp.Service.Purchase
 
                 accounts.Add(new JournalEntryAccount
                 {
-                    AccountID = tax_account.AccountId,
+                    AccountId = tax_account.AccountId,
                     Debit = invoice.Tax,
                     Credit = 0,
-                    CurrencyID = 1,
+                    CurrencyId = 1,
                     Description = " فاتورة مشتريات رقم  " + invoice.InvoiceNumber.ToString() + (supplierName ?? " للمورد " + supplierName)
                 });
             }
@@ -281,11 +281,11 @@ namespace MasterErp.Service.Purchase
                 Month = invoice.InvoiceDate.Month,
                 Year = invoice.InvoiceDate.Year,
                 Notes = invoice.Notes,
-                JournalTypeID = 1,   // "قيد تسوية" 
+                JournalTypeId = 1,   // "قيد تسوية" 
                 JournalEntryAccounts = accounts
             };
 
-            JournalEntryService.SaveNewJouranlEntry(entry);
+            JournalEntryService.SaveNewJournalEntry(entry);
         }
 
         public bool CancelPurchaseInvoice(int InvoiceId)

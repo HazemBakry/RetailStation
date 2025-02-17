@@ -32,37 +32,40 @@ namespace MasterErp.Service.GeneralAccounts
             this.ConnectionString = Configuration.GetConnectionString("DBConnection");
         }
 
-        public JournalEntryModel GetJournalEntryDetailsByID(int journalId)
+        public JournalEntryModel GetJournalEntryDetailsById(int journalId)
         {
             var entry = Context.JournalEntries.Where(x => x.JournalEntryId == journalId).FirstOrDefault();
             JournalEntryModel EntryModel = new JournalEntryModel();
 
             if (entry != null)
             {
+                EntryModel.EntryId = entry.JournalEntryId;
                 EntryModel.EntryNumber = entry.EntryNumber.ToString();
                 EntryModel.Month = entry.EntryDate.Month;
                 EntryModel.DocNumber = entry.DocNumber;
                 EntryModel.Description = entry.Description;
-                EntryModel.JournalTypeID = entry.JournalTypeId;
+                EntryModel.JournalTypeId = entry.JournalTypeId;
                 EntryModel.EntryDate = entry.EntryDate;
+                EntryModel.Notes = entry.Notes;
 
                 //------------------------------Fill Entry Details-----------------------------------//
 
                 var details = (from journal_details in Context.JournalEntryDetails
                                join Accounts in Context.AccountTrees on journal_details.AccountID equals Accounts.AccountId
-                               //join costs in Context.CostCenterTrees on journal_details.CostCenterID equals costs.CostCenterID
-                               //orderby journal_details.JournalDetialID
+                               join costs in Context.CostCenterTree on journal_details.CostCenterId equals costs.CostCenterId into joinT
+                               from costs in joinT.DefaultIfEmpty()
+                                   //orderby journal_details.JournalDetialID
                                where journal_details.JournalEntryId == entry.JournalEntryId
                                select new JournalEntryAccount
                                {
-                                   AccountID = Accounts.AccountId,
+                                   AccountId = Accounts.AccountId,
                                    Debit = journal_details.Debit,
                                    Credit = journal_details.Credit,
                                    Description = journal_details.Description,
-                                   CostCenterID = journal_details.CostCenterId,
+                                   CostCenterId = journal_details.CostCenterId,
                                    CostPercent = journal_details.CostPercent,
                                    CostValue = journal_details.CostValue,
-                                   CurrencyID = journal_details.CurrencyId,
+                                   CurrencyId = journal_details.CurrencyId,
                                    AccountName = Accounts.NameAR,
                                    AccountNumber = Accounts.AccountNumber,
                                    Notes = journal_details.Description
@@ -118,7 +121,7 @@ namespace MasterErp.Service.GeneralAccounts
         }
 
 
-        public ActionsResponseModel SaveNewJouranlEntry(JournalEntryModel model)
+        public ActionsResponseModel SaveNewJournalEntry(JournalEntryModel model)
         {
             try
             {
@@ -133,14 +136,14 @@ namespace MasterErp.Service.GeneralAccounts
                     Description = model.Description,
                     DocNumber = model.DocNumber,
                     Notes = model.Notes,
-                    JournalTypeId = model.JournalTypeID,
+                    JournalTypeId = model.JournalTypeId,
                     IsCancelled = false,
                     IsLocked = false,
                     PeriodId = CurrentPeriod != null ? CurrentPeriod.FinancialPeriodId : 0,
                     EntryDate = model.EntryDate,
                     ActionTypeId = 1,
                     ActionId = 0,
-                    CreateDate = DateTime.Now,
+                    CreatedDate = DateTime.Now,
                     CreatedBy = ""
                 };
 
@@ -154,12 +157,12 @@ namespace MasterErp.Service.GeneralAccounts
                         JournalEntryDetail JournalDetials = new JournalEntryDetail
                         {
                             JournalEntryId = Entry_tbl.JournalEntryId,
-                            AccountID = row.AccountID,
+                            AccountID = row.AccountId,
                             Debit = row.Debit ?? 0,
                             Credit = row.Credit ?? 0,
-                            CurrencyId = row.CurrencyID,
+                            CurrencyId = row.CurrencyId,
                             Description = row.Description,
-                            CostCenterId = row.CostCenterID,
+                            CostCenterId = row.CostCenterId,
                             CostValue = row.CostValue,
                             CostPercent = row.CostPercent
                         };
@@ -170,7 +173,6 @@ namespace MasterErp.Service.GeneralAccounts
                 }
                 return new ActionsResponseModel
                 {
-                    Status = 1,
                     Message = "New Entry Saved Successfully",
                     Number = Entry_tbl.EntryNumber.ToString()
 
@@ -185,6 +187,67 @@ namespace MasterErp.Service.GeneralAccounts
                 };
             }
         }
+
+        public ActionsResponseModel EditJournalEntry(int EntryId, JournalEntryModel model)
+        {
+            try
+            {
+                var entry_tbl = Context.JournalEntries.Where(i => i.JournalEntryId == EntryId).FirstOrDefault();
+                if (entry_tbl != null)
+                {
+                    entry_tbl.Description = model.Description;
+                    entry_tbl.DocNumber = model.DocNumber;
+                    entry_tbl.Notes = model.Notes;
+                    entry_tbl.JournalTypeId = model.JournalTypeId;
+                    entry_tbl.EntryDate = model.EntryDate;
+                   
+                    entry_tbl.ModifiedDate = DateTime.Now;
+                    entry_tbl.ModifiedBy = "";
+
+                    
+                    Context.SaveChanges();
+
+                    var JournalEntryDetails = Context.JournalEntryDetails.Where(x => x.JournalEntryId == EntryId).ToList();
+                    Context.JournalEntryDetails.RemoveRange(JournalEntryDetails);
+                    foreach (JournalEntryAccount row in model.JournalEntryAccounts)
+                    {
+                        if (row.Debit != 0 || row.Credit != 0)
+                        {
+                            JournalEntryDetail JournalDetials = new JournalEntryDetail
+                            {
+                                JournalEntryId = entry_tbl.JournalEntryId,
+                                AccountID = row.AccountId,
+                                Debit = row.Debit ?? 0,
+                                Credit = row.Credit ?? 0,
+                                CurrencyId = row.CurrencyId,
+                                Description = row.Description,
+                                CostCenterId = row.CostCenterId,
+                                CostValue = row.CostValue,
+                                CostPercent = row.CostPercent
+                            };
+
+                            Context.JournalEntryDetails.Add(JournalDetials);
+                            Context.SaveChanges();
+                        }
+                    }
+
+                    return new ActionsResponseModel { Message = "Entry Updated Successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this entry" };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+
 
         public DataTable GetDailyJournalEntriesSummary(FilterModel model)
         {
@@ -325,7 +388,7 @@ namespace MasterErp.Service.GeneralAccounts
                 JournalHeader_tbl.PeriodId = Context.ReceiptLedgers.Single(x => x.ReceiptLedgerId == Model.ReceiptLedgerId).PeriodId;
                 JournalHeader_tbl.ActionTypeId = (int)JournalActionType.CashPayment;
                 JournalHeader_tbl.ActionId = Model.PaymentTypeId;
-                JournalHeader_tbl.CreateDate = DateTime.Now;
+                JournalHeader_tbl.CreatedDate = DateTime.Now;
                 JournalHeader_tbl.CreatedBy = "";
 
                 Context.JournalEntries.Add(JournalHeader_tbl);
@@ -397,7 +460,7 @@ namespace MasterErp.Service.GeneralAccounts
                 JournalHeader_tbl.PeriodId = Context.ReceiptLedgers.Single(x => x.ReceiptLedgerId == Model.ReceiptLedgerId).PeriodId;
                 JournalHeader_tbl.ActionTypeId = 4;
                 JournalHeader_tbl.ActionId = Model.ReceiveReceiptId;
-                JournalHeader_tbl.CreateDate = DateTime.Now;
+                JournalHeader_tbl.CreatedDate = DateTime.Now;
                 JournalHeader_tbl.CreatedBy = "";
 
                 Context.JournalEntries.Add(JournalHeader_tbl);

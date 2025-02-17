@@ -57,7 +57,7 @@ export class DropDownFormControlComponent implements OnChanges {
       if (value)
         this.selectedValues = value;
 
-      var items = this.data.filter(x => value?.includes(x.value));
+      var items = this.data?.filter(x => value?.includes(x.value));
       if (items && items.length > 0) {
         this.selectedItems = items.map(x => x.name);
         items.map(x => x.isSelected = true);
@@ -67,7 +67,7 @@ export class DropDownFormControlComponent implements OnChanges {
       this.valueChanged.emit(this.selectedValues);
     }
     else {
-      var sName = this.data.find(x => x.value === value)?.name;
+      var sName = this.data?.find(x => x.value === value)?.name;
 
       if (value)
         this.selectedValue = value;
@@ -116,7 +116,7 @@ export class DropDownFormControlComponent implements OnChanges {
   selectedValues: string[] = [];
   selectMultiOption(item: any) {
     const index = this.selectedValues.indexOf(item.value);
-    var obj = this.data.find(x => x.value == item.value);
+    var obj = this.data?.find(x => x.value == item.value);
     if (index > -1) {
       this.selectedItems.splice(index, 1);
       this.selectedValues.splice(index, 1);
@@ -136,7 +136,7 @@ export class DropDownFormControlComponent implements OnChanges {
   }
 
   removeSelected() {
-    this.data.map(x => x.isSelected = false);
+    this.data?.map(x => x.isSelected = false);
     this.selectedItems = [];
     this.selectedValues = [];
     this.onChange([]);

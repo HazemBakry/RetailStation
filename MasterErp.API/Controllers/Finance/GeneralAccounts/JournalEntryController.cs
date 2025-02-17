@@ -51,10 +51,10 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         }
 
         [HttpGet]
-        [Route("GetJournalEntryDetailsByID")]
-        public JournalEntryModel GetJournalEntryDetailsByID(int EntryId)
+        [Route("GetJournalEntryDetailsById")]
+        public JournalEntryModel GetJournalEntryDetailsById(int EntryId)
         {
-            return EntryService.GetJournalEntryDetailsByID(EntryId);
+            return EntryService.GetJournalEntryDetailsById(EntryId);
         }
 
         [HttpPost]
@@ -72,10 +72,17 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         }
 
         [HttpPost]
-        [Route("SaveNewJouranlEntry")]
+        [Route("SaveNewJournalEntry")]
         public IActionResult SaveNewJouranlEntry(JournalEntryModel model)
         {
-            var results = EntryService.SaveNewJouranlEntry(model);
+            var results = EntryService.SaveNewJournalEntry(model);
+            return Ok(results);
+        }
+        [HttpPost]
+        [Route("EditJournalEntry")]
+        public IActionResult EditJournalEntry(int EntryId, JournalEntryModel model)
+        {
+            var results = EntryService.EditJournalEntry(EntryId,model);
             return Ok(results);
         }
 

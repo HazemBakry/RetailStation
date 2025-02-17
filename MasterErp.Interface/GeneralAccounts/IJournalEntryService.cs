@@ -16,8 +16,9 @@ namespace MasterErp.Interface.GeneralAccounts
         int GenerateNewEntryNumber(int month, int year);
         List<JournalTemplate> GetSavedJournalTemplates();
         List<JournalTemplateDetails> GetAccountsByTemplateId(int templateId);
-        JournalEntryModel GetJournalEntryDetailsByID(int journalId);
-        ActionsResponseModel SaveNewJouranlEntry(JournalEntryModel model);
+        JournalEntryModel GetJournalEntryDetailsById(int journalId);
+        ActionsResponseModel SaveNewJournalEntry(JournalEntryModel model);
+        ActionsResponseModel EditJournalEntry(int EntryId,JournalEntryModel model);
         DataTable GetDailyJournalEntriesSummary(FilterModel model);
         List<FilterModel> GetDailyJournalEntriesFilters(FilterModel model);
         bool CancelJournalEntry(List<int> JournalEntryIds);

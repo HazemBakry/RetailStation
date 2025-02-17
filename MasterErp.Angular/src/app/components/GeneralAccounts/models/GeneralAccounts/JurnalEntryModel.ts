@@ -1,5 +1,6 @@
 
 export interface JournalEntryModel {
+    entryId?:number;
     docNumber?: string;
     entryNumber?: string;
     entryDate?: Date;
@@ -8,17 +9,18 @@ export interface JournalEntryModel {
     month?: number;
     year?: number;
     journalTypeId?: number;
+    currencyTypeId?: number;
     journalEntryAccounts?: JournalEntryAccount[];
 }
 
 export interface JournalEntryAccount {
-    accountID?: number;
+    accountId?: number;
     debit?: number | null;
     credit?: number | null;
     costCenterId?: number | null;
     costValue?: number | null;
     costPercent?: number | null;
-    currencyID?: number | null;
+    currencyId?: number | null;
     description?: string;
     accountNumber?: string;
     accountName?: string;
