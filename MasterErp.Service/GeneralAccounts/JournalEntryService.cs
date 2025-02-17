@@ -319,7 +319,7 @@ namespace MasterErp.Service.GeneralAccounts
                 }
                 return true;
             }
-            catch (Exception Ex)
+            catch (Exception)
             {
                 return true;
             }
@@ -342,7 +342,7 @@ namespace MasterErp.Service.GeneralAccounts
                 }
                 return true;
             }
-            catch (Exception Ex)
+            catch (Exception)
             {
                 return true;
             }
@@ -365,7 +365,7 @@ namespace MasterErp.Service.GeneralAccounts
                 //}
                 return true;
             }
-            catch (Exception Ex)
+            catch (Exception)
             {
                 return true;
             }
