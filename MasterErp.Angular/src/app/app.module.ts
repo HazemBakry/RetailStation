@@ -9,12 +9,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './components/Main/dashboard/dashboard.component';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SharedModule } from "./components/Shared/shared.module";
+import { SharedModule } from './components/Shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReviewsComponent } from './components/Main/reviews/reviews.component';
 import { ErpLoginComponent } from './components/Shared/components/erp-login/erp-login.component';
 import { SigninComponent } from './components/Shared/components/signin/signin.component';
 import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,11 +25,8 @@ import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
     ReviewsComponent,
     SigninComponent,
     AuthCallbackComponent,
-
   ],
-  providers: [
-    DatePipe,
-  ],
+  providers: [DatePipe],
   bootstrap: [AppComponent],
   imports: [
     CommonModule,
@@ -39,9 +37,9 @@ import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
     BrowserAnimationsModule,
     NgbModule,
     ToastrModule.forRoot({
-      preventDuplicates: true
+      preventDuplicates: true,
     }),
-    SharedModule
-  ]
+    SharedModule,
+  ],
 })
-export class AppModule { }
+export class AppModule {}

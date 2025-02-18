@@ -1,0 +1,135 @@
+<div class="inputs-wrapper border rounded bg-white mb-3">
+  <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">أنواع طرق الدفع</div>
+  <div class="inputs-sec-content px-3 py-2">
+    <div class="row gy-3">
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label class="form-label d-flex align-items-center gap-2">مسلسل <span class="text-danger">*</span></label>
+          <select class="form-select nw-form-input nw-form-select">
+            <option value="ACC-PAY-.YYYY.-">ACC-PAY-.YYYY.-</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label class="form-label d-flex align-items-center gap-2">تاريخ النشر <span
+              class="text-danger">*</span></label>
+          <input type="date" class="form-control nw-form-input" />
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label class="form-label d-flex align-items-center gap-2">نوع الدفع <span class="text-danger">*</span></label>
+          <select class="form-select nw-form-input nw-form-select">
+            <option value="Receive">Receive</option>
+            <option value="Pay">Pay</option>
+            <option value="Internal Transfer">Internal Transfer</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label class="form-label d-flex align-items-center gap-2">الشركة <span class="text-danger">*</span></label>
+          <input type="text" class="form-control nw-form-input" value="Mishwar (Demo)" />
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label class="form-label d-flex align-items-center gap-2">طريقة الدفع <span
+              class="text-danger">*</span></label>
+          <div ngbDropdown class="dropdown-filter-wrapper dropdown-as-input d-inline-block w-100">
+            <div class="position-relative">
+              <input type="text" class="form-control nw-form-input" #inputDrop ngbDropdownToggle
+                [value]="inputDropdownValue">
+              <div class="input-drop-action d-flex align-items-center gap-1 fw-normal" *ngIf="inputDrop.value != ''">
+                <i class="uil uil-times cursor-pointer" (click)="inputDrop.value = ''"></i>
+                <i class="uil uil-corner-up-left-alt cursor-pointer"></i>
+              </div>
+            </div>
+            <div ngbDropdownMenu class="dropdown-menu-search-input p-0 overflow-hidden w-100 shadow-sm">
+              <div class="max-height-150 min-width-200 overflow-auto small-scroll">
+                <div class="check-row" *ngFor="let payment of paymentList">
+                  <a class="dropdown-item cursor-pointer fw-semibold" (click)="onChoosePayment(payment)">{{ payment
+                    }}</a>
+                </div>
+              </div>
+              <div class="d-flex flex-column gap-2 bg-light border-top p-2">
+                <div class="check-row">
+                  <a class="dropdown-item d-flex align-items-center gap-2 cursor-pointer px-1">
+                    <i class="uil uil-plus"></i>
+                    <span>إنشاء طريقة دفع جديدة</span>
+                  </a>
+                </div>
+                <div class="check-row">
+                  <a class="dropdown-item d-flex align-items-center gap-2 cursor-pointer px-1">
+                    <i class="uil uil-search"></i>
+                    <span>بحث متقدم</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="inputs-wrapper border rounded bg-white">
+  <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">الضرائب والرسوم المسبقة</div>
+  <div class="inputs-sec-content px-3 py-2">
+    <table class="table table-bordered table-middle text-center table-actions m-0">
+      <thead>
+        <tr>
+          <th>
+            <input type="checkbox" />
+          </th>
+          <th>رقم.</th>
+          <th>
+            <div class="d-flex align-items-center justify-content-center gap-2">
+              <span>النوع</span>
+              <span class="text-danger">*</span>
+            </div>
+          </th>
+          <th>
+            <div class="d-flex align-items-center justify-content-center gap-2">
+              <span>رئيس الحساب</span>
+              <span class="text-danger">*</span>
+            </div>
+          </th>
+          <th>معدل الضريبة</th>
+          <th>الكمية</th>
+          <th>المجموع</th>
+          <th>
+            <i class="uil uil-setting cursor-pointer"></i>
+          </th>
+        </tr>
+      </thead>
+      <tbody *ngIf="!tableRows.length">
+        <tr>
+          <td colspan="8">
+            <div class="d-flex align-items0-center justify-content-center flex-column text-center w-100 height-100">
+              <img src="../../../../../assets/table-action-start.svg" width="60px" alt="" class="table-action-img">
+              <div class="mt-2 fs-16">No Data</div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="tableRows.length">
+        <tr class="row-hover" *ngFor="let row of tableRows">
+          <td><input type="checkbox" [checked]="row.isChecked" /></td>
+          <td>{{ row.number }}</td>
+          <td>{{ row.typeHead }}</td>
+          <td>{{ row.accountHead }}</td>
+          <td>{{ row.taxRate }}</td>
+          <td>{{ row.amount }}</td>
+          <td>{{ row.total }}</td>
+          <td>
+            <i class="uil uil-pen cursor-pointer"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-secondary mt-3" (click)="onAddRow()">إضافة صف</button>
+  </div>
+</div>

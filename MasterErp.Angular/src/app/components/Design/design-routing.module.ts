@@ -6,6 +6,7 @@ import { AccountTreeComponent } from './components/account-tree/account-tree.com
 import { OpeningBalanceComponent } from './components/opening-balance/opening-balance.component';
 import { ReceiptsComponent } from './components/receipts/receipts.component';
 import { DesignTableComponent } from './components/design-table/design-table.component';
+import { InputsAreaComponent } from './components/inputs-area/inputs-area.component';
 
 const routes: Routes = [
   {
@@ -17,13 +18,14 @@ const routes: Routes = [
       { path: 'opening-balance', component: OpeningBalanceComponent },
       { path: 'receipts', component: ReceiptsComponent },
       { path: 'table', component: DesignTableComponent },
+      { path: 'inputs-area', component: InputsAreaComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
-    ]
-  }
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class DesignRoutingModule { }
+export class DesignRoutingModule {}
