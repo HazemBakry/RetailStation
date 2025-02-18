@@ -1,12 +1,15 @@
 ﻿using MasterErp.Entities.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models
 {
+    [Table("ReceiptLedgers", Schema = "Finance")]
+
     public class ReceiptLedger: CreatorModel
     {
         public int ReceiptLedgerId { get; set; }

@@ -13,14 +13,22 @@ import { ToastrService } from 'ngx-toastr';
 export class CreatePaymentReceiptComponent implements OnInit {
   agencyTypeList: any[] = [];
   paymentTypeList: any[] = [];
-
-
   selectedAgencyType: number;
   supplierList: any[] = [];
   accountList: any[] = [];
   receiptLedgerList: any[] = [];
-
   paymentReceiptModel: PaymentReceipt = {} as PaymentReceipt
+
+  inputDropdownValue = '';
+  isFocused = false;
+  paymentList: string[] = [
+    'مشروع البنك',
+    'نقدي',
+    'شيك',
+    'بطاقة إئتمان',
+    'تحويل على الهواء',
+  ];
+
   constructor(private sharedService: SharedService,
     private paymentService: PaymentService,
     private toaster: ToastrService) { }
@@ -29,6 +37,10 @@ export class CreatePaymentReceiptComponent implements OnInit {
     this.agencyTypeList = this.paymentService.agencyTypeList;
     this.paymentTypeList = this.paymentService.paymentTypeList;
     this.loadReceiptLedgersData();
+  }
+
+  onChoosePayment(payment: string) {
+    this.inputDropdownValue = payment;
   }
 
   loadCustomersData() {
