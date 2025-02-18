@@ -10,6 +10,8 @@ import { ReceiptsComponent } from './components/receipts/receipts.component';
 import { DesignEmployeeDetailsComponent } from './components/design-employee-details/design-employee-details.component';
 import { DesignTableComponent } from './components/design-table/design-table.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { InputsAreaComponent } from './components/inputs-area/inputs-area.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,12 +21,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     OpeningBalanceComponent,
     ReceiptsComponent,
     DesignEmployeeDetailsComponent,
-    DesignTableComponent
+    DesignTableComponent,
+    InputsAreaComponent,
   ],
-  imports: [
-    CommonModule,
-    DesignRoutingModule,
-    NgbModule
-  ]
+  imports: [CommonModule, DesignRoutingModule, NgbModule, FormsModule],
 })
-export class DesignModule { }
+export class DesignModule {}

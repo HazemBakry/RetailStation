@@ -4,7 +4,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { AccountsTreeComponent } from './components/accounts-tree/accounts-tree.component';
 import { StatsCardComponent } from './components/stats-card/stats-card.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ngxLoadingAnimationTypes, NgxLoadingModule } from "ngx-loading";
+import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
 import { SearchArryPipe } from './Pipes/search-arry.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CostCentersTreeComponent } from './components/cost-center-tree/cost-centers-tree.component';
@@ -85,9 +85,8 @@ import { ErpSpinnerComponentComponent } from './components/erp-spinner-component
     RenderComponent,
     EnglishToArabicNumbersDirective,
     UploadImporterFileComponent,
-    ErpSpinnerComponentComponent
+    ErpSpinnerComponentComponent,
   ],
-
 
   imports: [
     CommonModule,
@@ -96,7 +95,7 @@ import { ErpSpinnerComponentComponent } from './components/erp-spinner-component
     RouterModule,
     PaginationModule.forRoot(),
     SwiperModule,
-    ReactiveFormsModule ,
+    ReactiveFormsModule,
     NgxLoadingModule.forRoot({
       animationType: ngxLoadingAnimationTypes.threeBounce,
       backdropBackgroundColour: 'rgba(0, 18, 59, 0.6)',
@@ -104,9 +103,8 @@ import { ErpSpinnerComponentComponent } from './components/erp-spinner-component
       primaryColour: '#337AB7',
       secondaryColour: 'silver',
       tertiaryColour: '#ffffff',
-      fullScreenBackdrop: true
+      fullScreenBackdrop: true,
     }),
-    
   ],
 
   exports: [
@@ -146,11 +144,14 @@ import { ErpSpinnerComponentComponent } from './components/erp-spinner-component
     ProductsDetailsSidePanelComponent,
     RenderComponent,
     UploadImporterFileComponent,
-    
   ],
   providers: [
     DatePipe,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }
-  ]
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpConfigInterceptor,
+      multi: true,
+    },
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}
