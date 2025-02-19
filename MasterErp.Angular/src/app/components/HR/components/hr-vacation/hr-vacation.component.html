@@ -154,7 +154,7 @@
                     </tr>
                 </tbody>
             </table>
-            <app-empty-data [showContainer]="!employeeVacationResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+            <app-empty-data [showEmptyData]="!employeeVacationResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
         </div>
     </div>
 </div>

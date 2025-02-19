@@ -51,7 +51,7 @@
                     </tbody>
 
                 </table>
-                <app-empty-data [showContainer]="!pagedResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+                <app-empty-data [showEmptyData]="!pagedResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
             </div>
         </div>
     </div>

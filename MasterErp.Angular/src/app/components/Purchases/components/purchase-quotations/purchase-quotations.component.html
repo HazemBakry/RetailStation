@@ -47,7 +47,7 @@
             </tbody>
 
         </table>
-        <app-empty-data [showContainer]="!pagedResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+        <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
     </div>
 </div>
 
@@ -131,7 +131,7 @@
                     </tbody>
 
                 </table>
-                <app-empty-data [showContainer]="!distinctSuppliers?.length && !showLoader "></app-empty-data>
+                <app-empty-data [showEmptyData]="!distinctSuppliers?.length && !showLoader "></app-empty-data>
             </div>
         </div>
     </div>

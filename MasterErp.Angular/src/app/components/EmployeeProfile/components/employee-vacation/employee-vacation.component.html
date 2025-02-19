@@ -173,7 +173,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <app-empty-data [showContainer]="!vacationResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+                <app-empty-data [showEmptyData]="!vacationResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
             </div>
         </div>
     </div>

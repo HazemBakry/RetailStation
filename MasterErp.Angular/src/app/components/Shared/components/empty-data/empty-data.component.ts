@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-empty-data',
@@ -6,10 +7,11 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./empty-data.component.css']
 })
 export class EmptyDataComponent implements OnInit {
-  @Input() showContainer:boolean=false;
+  @Input() showEmptyData:boolean=false;
   @Input() showLoader:boolean=false;
+  systemUrl:string=environment.systemUrl;
   constructor() { }
-
+  
   ngOnInit(): void {
   }
 

@@ -76,7 +76,7 @@
                     </tr>
                 </tbody>
             </table>
-            <app-empty-data [showContainer]="!employeeSickLeaveResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+            <app-empty-data [showEmptyData]="!employeeSickLeaveResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
         </div>
     </div>
 </div>

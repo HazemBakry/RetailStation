@@ -1,199 +1,203 @@
-<div class="card radius-10 border-0 card-shadow mb-3">
-    <div class="card-header bg-white">
-        <h5 class="m-0 fw-bold">قيود اليومية</h5>
-    </div>
-    <div class="card-body bg-light">
+<app-breadcrumb [TitleList]="titleList"></app-breadcrumb>
+
+
+<div class="inputs-wrapper border rounded bg-white mb-3">
+    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">قيود اليومية</div>
+    <div class="inputs-sec-content px-3 py-2">
         <form [formGroup]="formGroup" autocomplete="off">
-            <div class="row">
-                <div class="col-lg-3 offset-lg-1 mb-3">
-                    <div class="form-floating">
-                        <input type="text" disabled class="form-control input-size" formControlName="entryNumber"
-                            id="floatingInput2" placeholder="any" autocomplete="off">
-                        <label for="floatingInput2">رقم القيد</label>
-                    </div>
-                    <div *ngIf="formErrors.entryNumber" class="text-danger  font-small-3 m-03">
-                        {{formErrors.entryNumber}}
-                    </div>
-                </div>
-                <div class="col-lg-3 mb-3">
-                    <div class="form-floating">
-                        <input type="date" class="form-control input-size" formControlName="entryDate"
-                            id="floatingInput2" placeholder="any" autocomplete="off">
-                        <label for="floatingInput2">تاريخ القيد</label>
-                    </div>
-                    <div *ngIf="formErrors.entryDate" class="text-danger  font-small-3 m-03">
-                        {{formErrors.entryDate}}
-                    </div>
 
-                </div>
-                <div class="col-lg-3 mb-3">
-                    <div class="form-floating">
-                        <app-drop-down-form-control formControlName="journalTypeId" [data]="journalEntryTypesSelector"
-                            [placeholder]="'نوع القيد'"></app-drop-down-form-control>
-                    </div>
-                    <div *ngIf="formErrors.journalTypeId" class="text-danger  font-small-3 m-03">
-                        {{formErrors.journalTypeId}}
-                    </div>
+            <div class="row gy-3">
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            رقم القيد
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control nw-form-input" formControlName="entryNumber" disabled
+                            autocomplete="off" />
 
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-3 offset-lg-1 mb-2">
-                    <div class="form-floating">
-                        <input type="text" class="form-control input-size" formControlName="docNumber"
-                            id="floatingInput2" placeholder="any" autocomplete="off">
-                        <label for="floatingInput2">رقم الدفتر</label>
-                    </div>
-                    <div *ngIf="formErrors.docNumber" class="text-danger  font-small-3 m-03">
-                        {{formErrors.docNumber}}
+                        <div *ngIf="formErrors.entryNumber" class="text-danger  font-small-3 m-03">
+                            {{formErrors.entryNumber}}
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-3 mb-2">
-                    <div class="form-floating">
-                        <app-drop-down-form-control formControlName="currencyTypeId" [data]="currencyTypesSelector"
-                            [placeholder]="'العملة'"></app-drop-down-form-control>
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            تاريخ القيد
+                            <span class="text-danger">*</span></label>
+                        <input type="date" formControlName="entryDate" autocomplete="off"
+                            class="form-control nw-form-input" />
+                        <div *ngIf="formErrors.entryDate" class="text-danger  font-small-3 m-03">
+                            {{formErrors.entryDate}}
+                        </div>
                     </div>
-                    <div *ngIf="formErrors.currencyTypeId" class="text-danger  font-small-3 m-03">
-                        {{formErrors.currencyTypeId}}
-                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            نوع القيد
+                            <span class="text-danger">*</span>
+                        </label>
+                        <app-general-selector formControlName="journalTypeId" [data]="journalEntryTypesSelector"
+                            [placeholder]="'نوع القيد'"></app-general-selector>
 
-                </div>
-                <div class="col-lg-3 mb-2">
-                    <div class="form-floating">
-                        <app-drop-down-form-control (valueChanged)="journalTemplatesChanged($event)"
-                            [data]="journalTemplatesSelector" [placeholder]="'القوالب'"></app-drop-down-form-control>
+                        <div *ngIf="formErrors.journalTypeId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.journalTypeId}}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-9 offset-lg-1 h-100 mb-2">
-                    <textarea class="form-control" placeholder="Description *" formControlName="description"
-                        autocomplete="off"></textarea>
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            رقم الدفتر
+                        </label>
+                        <input type="text" class="form-control nw-form-input" formControlName="docNumber"
+                            autocomplete="off" />
+
+                        <div *ngIf="formErrors.docNumber" class="text-danger  font-small-3 m-03">
+                            {{formErrors.docNumber}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            القوالب
+                        </label>
+                        <app-general-selector (valueChanged)="journalTemplatesChanged($event)"
+                            [data]="journalTemplatesSelector" [placeholder]="'القوالب'"></app-general-selector>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-3">
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            البيان
+                        </label>
+                        <textarea class="form-control" placeholder="Description *" formControlName="description"
+                            autocomplete="off"></textarea>
                         <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
                             {{formErrors.description}}
                         </div>
+                    </div>
                 </div>
+
             </div>
-            <div class="row">
-                <div class="col-lg-9 offset-lg-1 h-100 mb-2">
-                    <textarea class="form-control" placeholder="Notes *" formControlName="notes"
-                        autocomplete="off"></textarea>
-                        <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
-                            {{formErrors.notes}}
-                        </div>
-                </div>
-            </div>
-            
         </form>
-    </div>
-    <div class="card-body ">
-        <button class="btn btn-primary btn-lg fs-6 me-2" (click)="saveEntry()">
-            <i class="fas fa-check-circle"></i>
-            <span class="ms-2" *ngIf="!isUpdate">إضافة</span>
-            <span class="ms-2" *ngIf="isUpdate">تعديل</span> 
-        </button>        
-        <!-- <button *ngIf="EntryNumber && entryModel" class="btn btn-secondary btn-lg fs-6 me-2" (click)="Print()">
-            <i class="fas fa-print"></i>
-            <span class="ms-2">Print</span>
-        </button> -->
-        <button *ngIf="!isUpdate" class="btn btn-warning btn-lg fs-6 me-2" (click)="initNewForm()">
-            <i class="fas fa-times"></i>
-            <span class="ms-2">مسح</span>
-        </button>
-
-
+        <div class="card-body ">
+            <button class="btn btn-primary btn-lg fs-6 me-2" (click)="saveEntry()">
+                <i class="fas fa-check-circle"></i>
+                <span class="ms-2" *ngIf="!isUpdate">إضافة</span>
+                <span class="ms-2" *ngIf="isUpdate">تعديل</span>
+            </button>
+            <button *ngIf="entryModel?.entryNumber" class="btn btn-secondary btn-lg fs-6 me-2">
+                <i class="fas fa-print"></i>
+                <span class="ms-2">Print</span>
+            </button>
+            <button *ngIf="!isUpdate" class="btn btn-warning btn-lg fs-6 me-2" (click)="initNewForm()">
+                <i class="fas fa-times"></i>
+                <span class="ms-2">مسح</span>
+            </button>
+        </div>
     </div>
 </div>
 
+<div class="inputs-wrapper border rounded bg-white mb-3">
+    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">الحسابات</div>
+    <div class="inputs-sec-content px-3 py-2 table-responsive table-vp-height small-scroll">
+        <table class="table table-bordered table-middle text-center table-actions m-0">
+            <thead>
+                <tr>
+                    <th>
+                        الحساب
+                        <span class="text-danger">*</span>
+                    </th>
+                    <th>
+                        مدين
+                        <span class="text-danger">*</span>
+                    </th>
+                    <th>
+                        دائن
+                        <span class="text-danger">*</span>
+                    </th>
+                    <th style="width: 290px;">مركز التكلفة</th>
+                    <th>ملاحظات</th>
+                    <th>العملية</th>
+                </tr>
 
-<div class="card radius-10 border-0 card-shadow mb-3">
-    <div class="card-header bg-white">
-        <div class="d-flex justify-content-between align-items-center">
-            <h5 class="fw-bold m-0">الحسابات</h5>
-            <div>
-                <!-- <button class="btn btn-secondary me-2" (click)="openAccountModal(AccountModal)">
-                    <i class="fas fa-plus-circle"></i>
-                    <span class="ms-2">اضافة حساب</span>
-                </button> -->
-            </div>
-        </div>
+            </thead>
+            <tbody>
+                <tr class="row-hover" *ngFor="let item of entryAccounts;let i = index">
+                    <td style="width: 300px;">
+                        <app-general-selector [showSearch]="true" [(ngModel)]="item.accountId" [data]="accountsSelector"
+                            [placeholder]="'الحسابات'"></app-general-selector>
+                    </td>
+
+                    <td>
+                        <input type="text" #inputs class="form-control text-center" [(ngModel)]="item.debit" id="Input1"
+                            autocomplete="off" (input)="calcDifference()" (keypress)="validateNumbers($event.key)"
+                            (keyup.arrowdown)="focusDownAndUp('Input1',i,'down')"
+                            (keyup.arrowup)="focusDownAndUp('Input1',i,'up')"
+                            (keyup.arrowleft)="focusLeftAndRight('Input2',i)" focus [disabled]="item.credit > 0">
+                    </td>
+                    <td>
+                        <input type="text" #inputs2 class="form-control text-center" [(ngModel)]="item.credit"
+                            id="Input2" autocomplete="off" (input)="calcDifference()"
+                            (keypress)="validateNumbers($event.key)"
+                            (keyup.arrowdown)="focusDownAndUp('Input2',i,'down')"
+                            (keyup.arrowup)="focusDownAndUp('Input2',i,'up')"
+                            (keyup.arrowleft)="focusLeftAndRight('Input3',i)"
+                            (keyup.arrowright)="focusLeftAndRight('Input1', i)" [disabled]="item.debit > 0">
+                    </td>
+                    <td>
+                        <!-- <app-erp-selector-with-search [ItemsList]="CostCenterList" [SelectorName]="'مركز التكلفة'" [SearchKey]="'costCenterNumber'" [Height]="'30px'" (ItemObj)="GetSelectedCostCenter($event,item)"></app-erp-selector-with-search> -->
+                        <app-general-selector [(ngModel)]="item.costCenterId" [data]="CostCenterList"
+                            [showSearch]="true" [placeholder]="'مراكز التكلفة'"
+                            (valueChanged)="GetSelectedCostCenter($event, item)"></app-general-selector>
+
+
+                    </td>
+                    <td>
+                        <!-- <input type="text" #inputs3 class="form-control" [(ngModel)]="item.notes" id="Input3"
+                        autocomplete="off" (keyup.arrowdown)="focusDownAndUp('Input3',i,'down')"
+                        (keyup.arrowup)="focusDownAndUp('Input3',i,'up')"
+                        (keyup.arrowright)="focusLeftAndRight('Input2', i)"> -->
+
+                        <textarea class="form-control" [(ngModel)]="item.description" placeholder="Notes *"
+                            autocomplete="off"></textarea>
+                    </td>
+                    <td class="justify-content-center d-flex">
+                        <button
+                            class="button-table-action mt-3 btn-delete d-flex align-items-center justify-content-center gap-2"
+                            (click)="deleteFromList(entryAccounts,i)">
+                            <i class="fas fa-times fs-5"></i>
+                        </button>
+                        <!-- <button class="btn  btn-rounded" (click)="deleteFromList(entryAccounts,i)">
+                            <i class="fas fa-times"></i>
+                        </button> -->
+                    </td>
+                </tr>
+                <tr *ngIf="!entryAccounts.length">
+                    <td colspan="6" class="text-right">
+                        <app-empty-data [showEmptyData]="!entryAccounts.length"></app-empty-data>
+                    </td>
+
+                </tr>
+            </tbody>
+
+        </table>
+
+
+
     </div>
-    <div class="card-body bg-light">
-        <div class="table-responsive table-vp-height small-scroll mb-2">
-            <table class="table table-bordered table-middle table-hover bg-white m-0">
-                <thead>
-                    <tr>
-                        <th>رقم الحساب</th>
-                        <th>الحساب</th>
-                        <th>مدين</th>
-                        <th>دائن</th>
-                        <th style="width: 290px;">مركز التكلفة</th>
-                        <th>ملاحظات</th>
-                        <th>العملية</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of entryAccounts;let i = index">
-                        <td colspan="2" class="justify-content-start">
-                            <app-drop-down-form-control [showSearch]="true" [(ngModel)]="item.accountId" [data]="accountsSelector"
-                                [placeholder]="'الحسابات'"></app-drop-down-form-control>
-                        </td>
-
-                        <td>
-                            <input type="text" #inputs class="form-control text-center" [(ngModel)]="item.debit"
-                                id="Input1" autocomplete="off" (input)="calcDifference()"
-                                (keypress)="validateNumbers($event.key)"
-                                (keyup.arrowdown)="focusDownAndUp('Input1',i,'down')"
-                                (keyup.arrowup)="focusDownAndUp('Input1',i,'up')"
-                                (keyup.arrowleft)="focusLeftAndRight('Input2',i)" focus [disabled]="item.credit > 0">
-                        </td>
-                        <td>
-                            <input type="text" #inputs2 class="form-control text-center" [(ngModel)]="item.credit"
-                                id="Input2" autocomplete="off" (input)="calcDifference()"
-                                (keypress)="validateNumbers($event.key)"
-                                (keyup.arrowdown)="focusDownAndUp('Input2',i,'down')"
-                                (keyup.arrowup)="focusDownAndUp('Input2',i,'up')"
-                                (keyup.arrowleft)="focusLeftAndRight('Input3',i)"
-                                (keyup.arrowright)="focusLeftAndRight('Input1', i)" [disabled]="item.debit > 0">
-                        </td>
-                        <td>
-                            <!-- <app-erp-selector-with-search [ItemsList]="CostCenterList" [SelectorName]="'مركز التكلفة'" [SearchKey]="'costCenterNumber'" [Height]="'30px'" (ItemObj)="GetSelectedCostCenter($event,item)"></app-erp-selector-with-search> -->
-                            <app-drop-down-form-control [(ngModel)]="item.costCenterId" [data]="CostCenterList"
-                                [showSearch]="true" [placeholder]="'مراكز التكلفة'"
-                                (valueChanged)="GetSelectedCostCenter($event, item)"></app-drop-down-form-control>
-
-
-                        </td>
-                        <td>
-                            <!-- <input type="text" #inputs3 class="form-control" [(ngModel)]="item.notes" id="Input3"
-                                autocomplete="off" (keyup.arrowdown)="focusDownAndUp('Input3',i,'down')"
-                                (keyup.arrowup)="focusDownAndUp('Input3',i,'up')"
-                                (keyup.arrowright)="focusLeftAndRight('Input2', i)"> -->
-
-                            <textarea class="form-control" [(ngModel)]="item.notes" placeholder="Notes *"
-                                autocomplete="off"></textarea>
-                        </td>
-                        <td class="justify-content-center d-flex" style="border-bottom-style: unset;">
-                            <button class="btn btn-danger btn-rounded" (click)="deleteFromList(entryAccounts,i)">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <!-- <tr>
-                        <td colspan="7" class="text-right">
-                            <button class="btn btn-secondary me-2" (click)="addField()">
-                                <i class="fas fa-plus-circle"></i>
-                                <span class="ms-2">اضافة حساب</span>
-                            </button>
-                        </td>
-
-                    </tr> -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="card-footer">
-        <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2"
+    <div class="p-2">
+        <!-- <button class="btn btn-secondary mt-3" (click)="addField()">إضافة صف</button> -->
+        <button class="button-table-action mt-3 btn-edit d-flex align-items-center justify-content-center gap-2"
             (click)="addField()">
             <i class="uil uil-plus fs-5"></i>
             <span>اضافة حساب</span>
@@ -202,119 +206,65 @@
             {{formErrors.journalEntryAccounts}}
         </div>
     </div>
-
-    <!-- <table>
-        <thead>
-            <th>الفرق : {{Defference}}</th>
-        </thead>
-    </table> -->
-
+    <hr />
+    <div class="row justify-content-end mb-3">
+        <div class="col-md-4 pe-4">
+            <div class="mb-3">
+                <label class="form-label d-flex align-items-center gap-2">
+                    أجمالي دائن 
+                   </label>
+                <input type="text" class="form-control nw-form-input" [value]="totalCredit" disabled
+                    autocomplete="off" />
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-end mb-3">
+        <div class="col-md-4 pe-4">
+            <div class="mb-3">
+                <label class="form-label d-flex align-items-center gap-2">
+                    أجمالي مدين 
+                   </label>
+                <input type="text" class="form-control nw-form-input" [value]="totalDebit" disabled
+                    autocomplete="off" />
+            </div>
+        </div>
+    </div>
+    <!-- <div class="row justify-content-end mb-3">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label d-flex align-items-center gap-2">
+                    الفرق 
+                   </label>
+                <input type="text" class="form-control nw-form-input" [value]="difference" disabled
+                    autocomplete="off" />
+            </div>
+        </div>
+    </div> -->
+    
 </div>
 
-<div class="card radius-10 border-0 card-shadow mb-3">
+<!-- <div class="card radius-10 border-0 card-shadow mb-3">
     <div class="card-header bg-white">
         <div class="d-flex justify-content-between align-items-center">
             <h5 class="fw-bold m-0">التفاصيل</h5>
 
         </div>
     </div>
-    <!-- <div class="card-body bg-light">
+    <div class="card-body bg-light">
 
-        <h5 class="ms-2 fw-bold">الفرق : {{difference}}</h5>
+        <div class="row justify-content-end mb-3">
+            <div class="col-md-6">
+                <h5 class="ms-2 fw-bold">الفرق : {{difference}}</h5>
+            </div>
+        </div>
 
-    </div> -->
+    </div>
     <div class="card-footer">
         <h5 class="ms-2 fw-bold">الفرق : {{difference}}</h5>
     </div>
 
-</div>
+</div> -->
 
-
-<ng-template #AccountModal let-modal>
-    <div class="modal-content">
-        <!-- <div class="modal-header">
-            <h4 class="d-flex align-items-center m-0">
-                <div class="ms-3">اضافة حساب</div>
-            </h4>
-            <button class="btn btn-danger" (click)="modal.dismiss()">
-                <i class="fas fa-times justify-content-end"></i>
-            </button>
-        </div> -->
-
-        <div class="modal-header modal-header-bg justify-content-between">
-            <h2 class="d-flex align-items-center gap-2">
-                <i class="uil uil-plus"></i>
-                <span>اضافة حساب</span>
-            </h2>
-            <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
-                <i class="uil uil-times-circle"></i>
-            </div>
-        </div>
-
-        <div class="modal-body bg-light">
-            <div class="d-flex align-items-center mb-2">
-                <div class="card order-card-payment shadow-sm cursor-pointer w-50 me-2"
-                    (click)="ItemTypeChange('Account')" [ngClass]="{'active': activeTab == 'Account' }">
-                    <div class="card-body d-flex align-items-center">
-                        <span class="ms-3">اضافة حساب</span>
-                    </div>
-                </div>
-                <div class="card order-card-payment shadow-sm cursor-pointer w-50 me-3"
-                    (click)="ItemTypeChange('Template')" [ngClass]="{'active': activeTab == 'Template'}">
-                    <div class="card-body d-flex align-items-center">
-                        <span class="ms-3">تحميل من القالب</span>
-                    </div>
-                </div>
-            </div>
-            <hr class="border-dark">
-            <div class="row" *ngIf="activeTab == 'Account'">
-                <div class="col-lg-12">
-                    <app-drop-down-form-control [(ngModel)]="selectedAccountId" [data]="accountsSelector"
-                        [showSearch]="true" [placeholder]="'الحسابات'"
-                        (valueChanged)="GetSelectedAccount($event)"></app-drop-down-form-control>
-
-
-                    <!-- <app-erp-selector-with-search [ItemsList]="AccountsList" [SelectorName]="'الحسابات'" [innerTextKey]="'nameAR'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAccount($event)"></app-erp-selector-with-search> -->
-                </div>
-                <div>
-                    <div class="d-flex align-items-center flex-wrap mt-2">
-                        <span *ngFor="let item of SelectedAccounts let i = index" style="font-size: 12px;"
-                            class="badge badge-size bg-primary m-1">{{item.accountName}}
-                            <i class="fas fa-times-circle ms-1 icon-close cursor-pointer"
-                                (click)="ClearSelectedAccount(i)"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="row" *ngIf="activeTab == 'Template'">
-                <div class="col-lg-12">
-                    <app-erp-selector-with-search [ItemsList]="JournalTemplates" [SelectorName]="'القوالب'"
-                        (ItemObj)="GetSelectedTemplate($event)"></app-erp-selector-with-search>
-                </div>
-            </div>
-        </div>
-        <!-- <div class="modal-footer flex-nowrap">
-            <button class="btn btn-primary w-100 justify-content-center py-3 fs-5 radius-10" (click)="addSelectedAccountsToEntry()">
-                <i class="fas fa-check-square"></i>
-                <span class="ms-2">حفظ</span>
-            </button>
-        </div> -->
-
-        <div class="modal-footer flex-nowrap gap-2">
-            <button [disabled]="showAddLoader" (click)="saveItem()" type="button"
-                class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
-                <i class="uil uil-save fs-3"></i>
-                <span *ngIf="!isUpdate">إضافة</span>
-                <span *ngIf="isUpdate">تعديل</span> </button>
-
-            <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="modal.close()">
-                <i class="uil uil-times-circle fs-3"></i>
-                <span>الغاء</span>
-            </button>
-        </div>
-    </div>
-
-</ng-template>
 
 
 <ngx-loading [show]="showLoader"></ngx-loading>

@@ -64,7 +64,7 @@
                     </tr>
                 </tbody>
             </table>
-            <app-empty-data [showContainer]="!employeeBasicInfoResponse.results?.length&&!showLoader"
+            <app-empty-data [showEmptyData]="!employeeBasicInfoResponse.results?.length&&!showLoader"
                 [showLoader]="showLoader"></app-empty-data>
         </div>
     </div>
