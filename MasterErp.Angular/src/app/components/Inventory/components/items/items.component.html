@@ -102,7 +102,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <app-empty-data [showContainer]="!itemResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+                <app-empty-data [showEmptyData]="!itemResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
             </div>
         </div>
     </div>
@@ -276,7 +276,7 @@
                     </tr>
                 </tbody>
             </table>
-            <app-empty-data [showContainer]="!itemSuppliers?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+            <app-empty-data [showEmptyData]="!itemSuppliers?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
 
         </div>
     </div>
@@ -347,7 +347,7 @@
                     </tr>
                 </tbody>
             </table>
-            <app-empty-data [showContainer]="!itemSuppliers?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+            <app-empty-data [showEmptyData]="!itemSuppliers?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
 
         </div>
     </div>

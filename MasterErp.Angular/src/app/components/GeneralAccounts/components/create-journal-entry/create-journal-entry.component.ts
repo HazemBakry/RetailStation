@@ -22,6 +22,7 @@ import { JournalTemplateDetails } from '../../models/GeneralAccounts/JournalTemp
 export class CreateJournalEntryComponent implements OnInit {
   entryModel: JournalEntryModel = {} as JournalEntryModel;
 
+  titleList = ['الحسابات العامة', 'قيد اليومية'];
 
   showLoader: boolean = false;
   showAddLoader: boolean = false;
@@ -38,6 +39,8 @@ export class CreateJournalEntryComponent implements OnInit {
   public formGroup: FormGroup;
   isUpdate: boolean = false;
   difference = 0;
+  totalDebit = 0;
+  totalCredit = 0;
 
   constructor(private modalService: NgbModal,
     private sharedService: SharedService,
@@ -58,7 +61,6 @@ export class CreateJournalEntryComponent implements OnInit {
       if (params.EntryId) {
         this.entryModel = params.EntryId;
         this.getEntryDetailsById(params.EntryId);
-        // this.getReceiveOrderProducts();
       }
     })
 
@@ -74,18 +76,7 @@ export class CreateJournalEntryComponent implements OnInit {
       if (data) {
         this.entryModel = data;
         this.initNewForm(this.entryModel);
-        // this.entryModel.entryNumber = data?.entryNumber;
-        // this.entryModel.docNumber = data?.docNumber;
-        // this.entryModel.description = data?.description;
-        // this.entryModel.entryDate = data?.entryDate;
-        // this.entryModel.entryNumber = data?.entryNumber;
-        // this.entryModel.journalTypeId = data?.journalTypeId;
-        // this.entryModel.notes = data?.notes;
-        // this.entryModel.journalEntryAccounts = data?.journalEntryAccounts;
-
-        // this.entryAccounts = data?.journalEntryAccounts;
       }
-      //this.createEntryModel(data);
       this.showLoader = false;
     }, (error) => {
       this.showLoader = false;
@@ -123,7 +114,9 @@ export class CreateJournalEntryComponent implements OnInit {
   }
   getAccountsByTemplateId(journalTemplateId) {
     this.entryAccounts = [];
-    this.generalService.GetAccountsByTemplateId(journalTemplateId).subscribe((data:JournalTemplateDetails[]) => {
+    if (!journalTemplateId)
+      return;
+    this.generalService.GetAccountsByTemplateId(journalTemplateId).subscribe((data: JournalTemplateDetails[]) => {
       this.entryAccounts = data.map(entryAccount => {
         return {
           accountId: entryAccount.accountId,
@@ -142,14 +135,15 @@ export class CreateJournalEntryComponent implements OnInit {
     this.buildForm();
     if (entryModel)
       this.fillEditForm(entryModel);
+    this.calcDifference();
   }
 
   buildForm() {
-    
+
     this.formGroup = this.form.group({
       entryId: [null],
       entryNumber: [null],
-      docNumber: [null, [Validators.required]],
+      docNumber: [null],
       entryDate: [null, [Validators.required]],
       journalTypeId: [null, [Validators.required]],
       currencyTypeId: [null],
@@ -172,7 +166,7 @@ export class CreateJournalEntryComponent implements OnInit {
     }
   }
   fillEditForm(entryModel: JournalEntryModel) {
-    this.entryAccounts =  entryModel.journalEntryAccounts;
+    this.entryAccounts = entryModel.journalEntryAccounts;
     this.isUpdate = true;
 
     this.formGroup.patchValue({
@@ -190,10 +184,10 @@ export class CreateJournalEntryComponent implements OnInit {
   }
 
   saveEntry() {
-    if (this.entryAccounts?.length === 0 || this.entryAccounts?.every(entry =>!entry.accountId))
-      this.toaster.warning('لا يوجد حسابات');
-
-    this.formGroup.patchValue({journalEntryAccounts: this.entryAccounts.filter(entry =>entry.accountId)});
+   
+    if(!this.validateAccounts())
+      return;
+    this.formGroup.patchValue({ journalEntryAccounts: this.entryAccounts.filter(entry => entry.accountId) });
     if (!this.validateForm()) {
       return;
     }
@@ -215,7 +209,7 @@ export class CreateJournalEntryComponent implements OnInit {
         this.toaster.success(data?.message);
         this.entryModel.entryNumber = data.number;
         this.entryModel.entryId = data.id;
-        
+
         this.initNewForm(this.entryModel)
       }
       else {
@@ -250,29 +244,26 @@ export class CreateJournalEntryComponent implements OnInit {
 
 
   }
-  // validateData(): boolean {
-  //   if (!this.DocNumber || !this.EntryDate || !this.journalTypeId) {
-  //     this.toaster.warning('Please Fill Fields');
-  //     return false;
+  validateAccounts(): boolean {
+    if (this.entryAccounts?.length === 0 || this.entryAccounts?.every(entry => !entry.accountId))
+    {
+      this.toaster.warning('لا يوجد حسابات');
+      return false;
+    }
+    if (this.entryAccounts.some(x => !x.credit && !x.debit)||this.difference != 0) {
+      this.toaster.warning('القيد غير متزن');
+      // this.toaster.warning('Please Fill Debtor or Creditor filed for each row');
+      return false;
+    }
 
-  //   }
-  //   if (this.AccountsListTable.some(x => !x.creditor && !x.debtor)) {
-  //     this.toaster.warning('Please Fill Debtor or Creditor filed for each row');
-  //     return false;
-  //   }
-  //   if (this.AccountsListTable.some(x => x.isDisToCostCenter && !x.costCenter)) {
-  //     this.toaster.warning('Please Select Cost Center');
+    // if (this.difference != 0) {
+    //   this.toaster.warning('Difference Between Debtor and Creditor Must Equals 0');
+    //   return false;
+    // }
 
-  //     return false;
-  //   }
-  //   if (this.Difference != 0) {
-  //     this.toaster.warning('Difference Between Debtor and Creditor Must Equals 0');
-  //     return false;
-  //   }
+    return true;
 
-  //   return true;
-
-  // }
+  }
   public formErrors = {
     entryId: '',
     entryNumber: '',
@@ -315,6 +306,8 @@ export class CreateJournalEntryComponent implements OnInit {
       debit += item.debit ? Number(item.debit) : 0;
       credit += item.credit ? Number(item.credit) : 0;
     });
+    this.totalDebit = debit;
+    this.totalCredit = credit;
     this.difference = debit - credit;
   }
   validateNumbers(key: any): boolean {

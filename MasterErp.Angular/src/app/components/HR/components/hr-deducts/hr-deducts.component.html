@@ -67,7 +67,7 @@
                     </tr>
                 </tbody>
             </table>
-            <app-empty-data [showContainer]="!employeeDeductResponse.results?.length && !showLoader" [showLoader]="showLoader"></app-empty-data>
+            <app-empty-data [showEmptyData]="!employeeDeductResponse.results?.length && !showLoader" [showLoader]="showLoader"></app-empty-data>
         </div>
     </div>
 </div>

@@ -45,6 +45,7 @@ import { ComponentHostDirective } from './directives/component-host.directive';
 import { EnglishToArabicNumbersDirective } from './directives/english-to-arabic-numbers.directive';
 import { UploadImporterFileComponent } from '../SystemSettings/components/upload-importer-file/upload-importer-file.component';
 import { ErpSpinnerComponentComponent } from './components/erp-spinner-component/erp-spinner-component.component';
+import { GeneralSelectorComponent } from './components/general-selector/general-selector.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { ErpSpinnerComponentComponent } from './components/erp-spinner-component
     EnglishToArabicNumbersDirective,
     UploadImporterFileComponent,
     ErpSpinnerComponentComponent,
+    GeneralSelectorComponent,
   ],
 
   imports: [
@@ -144,6 +146,7 @@ import { ErpSpinnerComponentComponent } from './components/erp-spinner-component
     ProductsDetailsSidePanelComponent,
     RenderComponent,
     UploadImporterFileComponent,
+    GeneralSelectorComponent
   ],
   providers: [
     DatePipe,

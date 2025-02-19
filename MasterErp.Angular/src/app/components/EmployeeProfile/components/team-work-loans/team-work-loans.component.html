@@ -68,7 +68,7 @@
                     </tr>
                 </tbody>
             </table>
-            <app-empty-data [showContainer]="!loanResponse.results?.length&&!showLoader"
+            <app-empty-data [showEmptyData]="!loanResponse.results?.length&&!showLoader"
                 [showLoader]="showLoader"></app-empty-data>
         </div>
     </div>

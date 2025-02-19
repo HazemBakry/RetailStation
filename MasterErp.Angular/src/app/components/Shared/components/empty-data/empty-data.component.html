@@ -1,10 +1,14 @@
-<div *ngIf="showContainer">
-    <div class="boxstyle1-content hastable loading-mess-stl text-center m-0 py-3">
+<div *ngIf="showEmptyData">
+    <!-- <div class="boxstyle1-content hastable loading-mess-stl text-center m-0 py-3">
         <span>No Data</span>
+    </div> -->
+    <div class="d-flex align-items0-center justify-content-center flex-column text-center w-100 height-100">
+        <img src="{{systemUrl}}assets/table-action-start.svg" width="60px" alt="" class="table-action-img">
+        <div class="mt-2 fs-16">No Data</div>
     </div>
 </div>
 
-<div *ngIf="showLoader && !showContainer" >
+<div *ngIf="showLoader && !showEmptyData">
     <div class="prcs flex-box  hastable loading-mess-stl ">
         <div class="prcs-lbl-container">
             <span class="prcs-lbl" id="prcs_lbl">Loading Data ...</span>

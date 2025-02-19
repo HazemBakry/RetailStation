@@ -77,7 +77,7 @@
                     </tr>
                 </tbody>
             </table>
-            <app-empty-data [showContainer]="!employeeOverTimeResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+            <app-empty-data [showEmptyData]="!employeeOverTimeResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
         </div>
     </div>
 </div>

@@ -1,0 +1,52 @@
+<ng-container *ngIf="!selectMulti">
+
+    <div ngbDropdown class="dropdown-filter-wrapper dropdown-as-input d-inline-block w-100">
+        <div class="position-relative">
+            <!-- [placeholder]="placeholder" -->
+            <input [disabled]="disabled" type="text" class="form-control nw-form-input"
+                #inputDrop ngbDropdownToggle [value]="selectedName?.substring(0, 30)" (input)="onInputChange($event)">
+            <!-- <input type="text" class="form-control nw-form-input" #inputDrop ngbDropdownToggle
+                    [value]="inputDropdownValue"> -->
+            <div class="input-drop-action d-flex align-items-center gap-1 fw-normal" *ngIf="selectedName">
+                <i class="uil uil-times cursor-pointer" (click)="removeSingleSelected()"></i>
+                <!-- <i class="uil uil-corner-up-left-alt cursor-pointer"></i> -->
+            </div>
+        </div>
+        <div ngbDropdownMenu class="dropdown-menu-search-input p-0 overflow-hidden w-100 shadow-sm">
+            <div *ngIf="showSearch" class="p-2 bg-light border-bottom">
+                <input type="text" class="form-control form-control" (input)="onInputChange($event)" placeholder="Search..." />
+            </div>
+            
+            <div class="max-height-150 min-width-200 overflow-auto small-scroll">
+                
+                <div class="check-row" *ngFor="let item of data | searchArry: searchText: searchFields">
+                    <a class="dropdown-item cursor-pointer fw-semibold"
+                        [class]="item.value==selectedValue?'active DropDownSelected':''" (click)="selectOption(item)">
+
+                        {{item.name}}
+                        <span *ngIf="item && item.code">
+                            ({{item.code}})
+                        </span>
+
+                    </a>
+                </div>
+            </div>
+            <div *ngIf="routeForCreate" class="d-flex flex-column gap-2 bg-light border-top p-2">
+                <div class="check-row">
+                    <a [routerLink]="routeForCreate"
+                        class="dropdown-item d-flex align-items-center gap-2 cursor-pointer px-1">
+                        <i class="uil uil-plus"></i>
+                        <a>إنشاء جديد</a>
+                    </a>
+                </div>
+                <!-- <div class="check-row">
+                        <a class="dropdown-item d-flex align-items-center gap-2 cursor-pointer px-1">
+                            <i class="uil uil-search"></i>
+                            <span>بحث متقدم</span>
+                        </a>
+                    </div> -->
+            </div>
+        </div>
+    </div>
+
+</ng-container>

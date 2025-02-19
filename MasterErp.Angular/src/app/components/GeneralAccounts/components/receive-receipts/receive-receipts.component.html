@@ -82,7 +82,7 @@
             </div>
         </div>
     </div>
-    <app-empty-data [showContainer]="!List?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+    <app-empty-data [showEmptyData]="!List?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
 </div>
 
 <ngx-loading [show]="showLoader"></ngx-loading>

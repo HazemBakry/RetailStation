@@ -60,7 +60,7 @@
                 </tr>
             </tbody>
         </table>
-        <app-empty-data [showContainer]="!importerResponseModel.results?.length&&!showLoader"
+        <app-empty-data [showEmptyData]="!importerResponseModel.results?.length&&!showLoader"
             [showLoader]="showLoader"></app-empty-data>
     </div>
 </div>
