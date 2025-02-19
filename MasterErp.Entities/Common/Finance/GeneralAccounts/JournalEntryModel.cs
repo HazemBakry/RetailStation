@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MasterErp.Entities.Common.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,9 @@ namespace MasterErp.Entities.Common
         public int Month { get; set; }
         public int Year { get; set; }
         public int JournalTypeId { get; set; }
+        public int? PeriodId { get; set; }
+        public int? ActionTypeId { get; set; }
+        public int? ActionId { get; set; }
         public List<JournalEntryAccount> JournalEntryAccounts { get; set; }
     }
 
@@ -29,6 +33,7 @@ namespace MasterErp.Entities.Common
         public double? CostValue { get; set; }
         public double? CostPercent { get; set; }
         public int? CurrencyId { get; set; }
+        public int? SupplierId { get; set; }
         public string Description { get; set; }
         public string AccountNumber { get; set; }
         public string AccountName { get; set; }

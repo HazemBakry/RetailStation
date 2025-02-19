@@ -25,7 +25,7 @@ namespace MasterErp.Interface.GeneralAccounts
         bool PostJournalEntry(List<int> JournalEntryIds);
         bool ReverseJournalEntry(List<int> JournalEntryIds);
         bool PrintJournalEntry(List<int> JournalEntryIds);
-        bool SavePaymentJournalEntry(PaymentReceipt Model);
+        //bool SavePaymentJournalEntry(PaymentReceipt Model);
         //bool SaveReceiveJournalEntry(ReceiveReceipt Model);
     }
 }

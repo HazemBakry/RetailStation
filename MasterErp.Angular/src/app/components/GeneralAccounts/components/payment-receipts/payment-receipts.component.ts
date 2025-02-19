@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./payment-receipts.component.css']
 })
 export class PaymentReceiptsComponent implements OnInit {
-
+  TitleList = ['الحسابات العامة', 'سندات الصرف'];
   List: any[] = [];
   showLoader: boolean;
   TotalCount: any;

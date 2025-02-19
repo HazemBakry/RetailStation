@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
@@ -74,23 +75,25 @@ namespace MasterErp.Service.GeneralAccounts
                 Context.PaymentReceipts.Add(tbl);
                 Context.SaveChanges();
 
-                if (entryService.SavePaymentJournalEntry(tbl))
+                var entry = PreparePaymentEntryModel(tbl);
+                var result = entryService.SaveNewJournalEntry(entry);
+
+                //{
+                return new ActionsResponseModel
                 {
-                    return new ActionsResponseModel
-                    {
-                        Status = 1,
-                        Message = "تم حفظ البيانات بنجاح",
-                        Id = tbl.ReceiptNumber
-                    };
-                }
-                else
-                {
-                    return new ActionsResponseModel
-                    {
-                        Status = 0,
-                        Message = "فشل فى تسجيل القيد المحاسبى"
-                    };
-                }
+                    Status = result.Status,
+                    Message = result.Status == 1 ? "تم حفظ البيانات بنجاح" : "فشل فى تسجيل القيد المحاسبى",
+                    Id = tbl.ReceiptNumber,
+                };
+                //}
+                //else
+                //{
+                //    return new ActionsResponseModel
+                //    {
+                //        Status = 0,
+                //        Message = "فشل فى تسجيل القيد المحاسبى"
+                //    };
+                //}
             }
             catch (Exception ex)
             {
@@ -99,6 +102,58 @@ namespace MasterErp.Service.GeneralAccounts
                     Status = 0,
                     Message = ex.Message
                 };
+            }
+        }
+
+        private JournalEntryModel PreparePaymentEntryModel(PaymentReceipt Model)
+        {
+            try
+            {
+                int generalSupplierId = Context.AccountTrees.Single(x => x.AccountTypeId == 5).AccountId;
+                int accountId = Model.AgencyTypeId == 0 ? generalSupplierId : (int)Model.AccountId;
+                List<JournalEntryAccount> accounts = new List<JournalEntryAccount>();
+
+                accounts.Add(new JournalEntryAccount
+                {
+                    AccountId = Model.AgencyTypeId == 0 ? generalSupplierId : (int)Model.AccountId,
+                    Credit = 0,
+                    Debit = Model.MoneyAmount,
+                    CurrencyId = 1,
+                    SupplierId = Model.AgencyTypeId == 0 ? Model.SupplierId : null,
+                    Description = Model.Notes
+                });
+
+                accounts.Add(new JournalEntryAccount
+                {
+                    AccountId = Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId,
+                    Credit = Model.MoneyAmount,
+                    Debit = 0,
+                    CurrencyId = 1,
+                    SupplierId = Model.AgencyTypeId == 0 ? Model.SupplierId : null,
+                    Description = Model.Notes
+                });
+
+                JournalEntryModel entry = new JournalEntryModel
+                {
+                    //EntryNumber = GenerateNewEntryNumber(Model.ReleaseDate.Month, Model.ReleaseDate.Year);
+                    DocNumber = Model.DocNumber,
+                    EntryDate = Model.ReleaseDate,
+                    Description = Model.Notes,
+                    Notes = Model.Notes,
+                    JournalTypeId = (int)EntryType.Cashing,
+                    PeriodId = Context.ReceiptLedgers.Single(x => x.ReceiptLedgerId == Model.ReceiptLedgerId).PeriodId,
+                    ActionTypeId = (int)JournalActionType.CashPayment,
+                    ActionId = Model.PaymentTypeId,
+                    Month = Model.ReleaseDate.Month,
+                    Year = Model.ReleaseDate.Year,
+                    JournalEntryAccounts = accounts
+                };
+
+                return entry;
+            }
+            catch (Exception)
+            {
+                throw new Exception();
             }
         }
 

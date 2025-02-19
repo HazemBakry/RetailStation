@@ -11,9 +11,10 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./create-payment-receipt.component.css']
 })
 export class CreatePaymentReceiptComponent implements OnInit {
+  TitleList = ['الحسابات العامة', 'سند صرف جديد'];
   agencyTypeList: any[] = [];
   paymentTypeList: any[] = [];
-  selectedAgencyType: number;
+  selectedAgencyType: number = 1;
   supplierList: any[] = [];
   accountList: any[] = [];
   receiptLedgerList: any[] = [];
@@ -129,8 +130,6 @@ export class CreatePaymentReceiptComponent implements OnInit {
     if (!this.validatePaymentReceipt()) {
       return;
     }
-
-    debugger;
 
     this.paymentService.SavePaymentReceipt(this.paymentReceiptModel).subscribe((data: CreateModifyReturnsModel) => {
       if (data?.status) {
