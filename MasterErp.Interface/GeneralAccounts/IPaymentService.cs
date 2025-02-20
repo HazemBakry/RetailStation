@@ -15,7 +15,7 @@ namespace MasterErp.Interface.GeneralAccounts
         DataTable GetPaymentReceipts_Summary(FilterModel model);
         DataTable GetPaymentReceipts_Filters(FilterModel model);
         ActionsResponseModel SavePaymentReceipt(PaymentReceipt Model);
-
+        ActionsResponseModel CancelPaymentReceipt(int ReceiptId);
         DataTable GetReceiveReceipts_Summary(FilterModel model);
         DataTable GetReceiveReceipts_Filters(FilterModel model);
         ActionsResponseModel SaveReceiveReceipt(ReceiveReceipt Model);

@@ -10,6 +10,6 @@ export enum CostCenterType {
 }
 
 export enum PaymentOperationType {
-    Cash = 1,    //شيكات
-    Cheque = 2 //نقدي
+    Cash = 1,    //نقدى
+    Cheque = 2 //شيكات
 }

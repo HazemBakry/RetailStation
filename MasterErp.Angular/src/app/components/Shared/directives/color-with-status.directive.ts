@@ -14,10 +14,10 @@ export class ColorWithStatusDirective implements OnInit {
 
   checkStatus()
   {
-    if (this.status&&this.status=='entryStatus') {
+    if (this.status&& this.status == 'entryStatus') {
       if (this.text) {
         switch (this.text) {
-          case 'مرحل':
+          case 'true':
             this.renderer.setAttribute(this.elem.nativeElement, 'class', 'status-box green');
             // this.elem.nativeElement.innerHTML = this.status + '&nbsp;<i class="fas fa-check"></i>';
             var div = this.renderer.createElement('div');
@@ -27,7 +27,7 @@ export class ColorWithStatusDirective implements OnInit {
               this.renderer.appendChild(this.elem.nativeElement, div);
             break;
         
-            case 'غير مرحل':
+            case 'false':
               this.renderer.setAttribute(this.elem.nativeElement, 'class', 'status-box orange');
               // this.elem.nativeElement.innerHTML = '&nbsp;<i class="fas fa-chevron-up"></i>';
               div = this.renderer.createElement('div');

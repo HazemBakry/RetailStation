@@ -5,7 +5,7 @@ import { SearchFilterModel } from '../../Shared/models/FilterModel';
 import { UserModel } from '../../Shared/models/UserModel';
 import { Observable } from 'rxjs';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
-import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { AddUserRoleModel, RoleModel } from '../../Shared/models/RoleModel';
 
 @Injectable({

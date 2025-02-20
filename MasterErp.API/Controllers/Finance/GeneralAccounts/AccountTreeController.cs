@@ -42,14 +42,6 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             return Ok(results);
         }
 
-
-        [HttpGet]
-        [Route("GetAccountTreeData_Old")]
-        public DataTable GetAccountTreeData_Old(string SearchText)
-        {
-            return _accountTreeService.GetAccountTreeData_Old(SearchText);
-        }
-
         [HttpGet]
         [Route("GetAccountTreeData")]
         public IActionResult GetAccountTreeData(string SearchText)

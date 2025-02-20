@@ -16,10 +16,12 @@
                 <div class="mb-2">
                     <label class="form-label d-flex align-items-center gap-2">المستفيـد<span
                             class="text-danger">*</span></label>
-                    <div ngbDropdown class="dropdown-filter-wrapper dropdown-as-input d-inline-block w-100">
+                    <!-- <div ngbDropdown class="dropdown-filter-wrapper dropdown-as-input d-inline-block w-100">
                         <div class="position-relative">
-                            <input type="text" class="form-control nw-form-input" #inputDrop ngbDropdownToggle [value]="inputDropdownValue">
-                            <div class="input-drop-action d-flex align-items-center gap-1 fw-normal" *ngIf="inputDrop.value != ''">
+                            <input type="text" class="form-control nw-form-input" #inputDrop ngbDropdownToggle
+                                [value]="inputDropdownValue">
+                            <div class="input-drop-action d-flex align-items-center gap-1 fw-normal"
+                                *ngIf="inputDrop.value != ''">
                                 <i class="uil uil-times cursor-pointer" (click)="inputDrop.value = ''"></i>
                                 <i class="uil uil-corner-up-left-alt cursor-pointer"></i>
                             </div>
@@ -27,7 +29,8 @@
                         <div ngbDropdownMenu class="dropdown-menu-search-input p-0 overflow-hidden w-100 shadow-sm">
                             <div class="max-height-150 min-width-200 overflow-auto small-scroll">
                                 <div class="check-row" *ngFor="let payment of paymentList">
-                                    <a class="dropdown-item cursor-pointer fw-semibold" (click)="onChoosePayment(payment)">{{ payment
+                                    <a class="dropdown-item cursor-pointer fw-semibold"
+                                        (click)="onChoosePayment(payment)">{{ payment
                                         }}</a>
                                 </div>
                             </div>
@@ -46,7 +49,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
+
+                    <input type="text" class="form-control nw-form-input" [(ngModel)]="paymentReceiptModel.contactName" />
                 </div>
             </div>
             <div class="col-lg-6">
@@ -79,7 +84,16 @@
                     <app-erp-selector-with-search *ngIf="selectedAgencyType == 1" #Selector [SelectorName]="'الحسابات'" [ItemsList]="accountList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAccount($event)">
                     </app-erp-selector-with-search>
 
-                    <app-erp-selector-with-search *ngIf="selectedAgencyType == 0" #Selector [SelectorName]="'جهة التعامل'" [ItemsList]="supplierList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedSupplier($event)">
+                    <app-erp-selector-with-search *ngIf="selectedAgencyType == 2" #Selector [SelectorName]="'جهة التعامل'" [ItemsList]="supplierList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedSupplier($event)">
+                    </app-erp-selector-with-search>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-2">
+                    <label class="form-label d-flex align-items-center gap-2"> دفتر الايصال <span
+                        class="text-danger">*</span></label>
+
+                    <app-erp-selector-with-search #Selector [ItemsList]="receiptLedgerList" [Height]="'35px'" [SearchKey]="'nameAR'" [innerTextKey]="'nameAR'" (ItemObj)="GetSelectedReceiptLedger($event)">
                     </app-erp-selector-with-search>
                 </div>
             </div>

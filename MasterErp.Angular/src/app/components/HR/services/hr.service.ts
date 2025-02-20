@@ -5,7 +5,7 @@ import { SearchFilterModel } from '../../Shared/models/FilterModel';
 import { FormDropdownModel } from '../../Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { EmployeeVacationModel } from '../models/EmployeeVacationModel';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
-import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { EmployeePenaltyModel } from '../models/EmployeePenaltyModel';
 import { EmployeeOverTimeModel } from '../models/EmployeeOverTimeModel';
 import { EmployeeSickLeaveModel } from '../models/EmployeeSickLeaveModel';

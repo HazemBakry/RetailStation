@@ -58,7 +58,7 @@ namespace MasterErp.Service.Shared
             return result;
         }
 
-        public List<ReceitLedgerType> GetReceiptLedgerTypesData()
+        public List<LedgerType> GetReceiptLedgerTypesData()
         {
             var result = Context.ReceitLedgerType.ToList();
 

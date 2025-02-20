@@ -9,7 +9,7 @@ import { CustomValidators, RegexType } from 'src/app/components/Shared/services/
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SupplierModel } from '../../models/SupplierModel';
-import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { BalanceType } from '../../enums/Suppliers';
 import { PurchaseService } from '../../services/purchase.service';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';

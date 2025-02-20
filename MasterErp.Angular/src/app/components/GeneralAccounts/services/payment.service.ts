@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { PaymentReceipt } from '../models/GeneralAccounts/PaymentReceipt';
 import { ReceiveReceipt } from '../models/GeneralAccounts/ReceiveReceipt';
-import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PaymentOperationType } from '../../Shared/Enums/GeneralAccountsEnums';
 import { FormDropdownModel } from '../../Shared/components/drop-down-form-control/drop-down-form-control.component';
+import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 
 @Injectable({
   providedIn: 'root'
@@ -20,16 +20,16 @@ export class PaymentService {
     //   nameEN:'Customer'
     // },
     {
-      id: 0,
-      name: 'مورد',
-      nameAR: 'مورد',
-      nameEN: 'Supplier'
-    },
-    {
       id: 1,
       name: 'حساب',
       nameAR: 'حساب',
       nameEN: 'Account'
+    },
+    {
+      id: 2,
+      name: 'مورد',
+      nameAR: 'مورد',
+      nameEN: 'Supplier'
     }
   ]
 
@@ -50,22 +50,22 @@ export class PaymentService {
 
   CurrencyType = [
     {
-      currencyId: 2,
-      nameAR: 'جنيه'
-    },
-    {
       currencyId: 1,
       nameAR: 'ريال'
+    },
+    {
+      currencyId: 2,
+      nameAR: 'جنيه'
     }
   ];
   CurrencyTypesSelector: FormDropdownModel[] = [
     {
-      value: 2,
-      name: 'جنيه'
-    },
-    {
       value: 1,
       name: 'ريال'
+    },
+    {
+      value: 2,
+      name: 'جنيه'
     }
   ]
 
@@ -105,7 +105,7 @@ export class PaymentService {
   }
 
   SavePaymentReceipt(model: PaymentReceipt) {
-    return this.http.post<CreateModifyReturnsModel>(this.URL + 'Payment/SavePaymentReceipt', model);
+    return this.http.post<ActionsResponseModel>(this.URL + 'Payment/SavePaymentReceipt', model);
 
   }
 
@@ -115,7 +115,7 @@ export class PaymentService {
   }
 
   SaveReceiveReceipt(model: ReceiveReceipt) {
-    return this.http.post<CreateModifyReturnsModel>(this.URL + 'Payment/SaveReceiveReceipt', model);
+    return this.http.post<ActionsResponseModel>(this.URL + 'Payment/SaveReceiveReceipt', model);
 
   }
 

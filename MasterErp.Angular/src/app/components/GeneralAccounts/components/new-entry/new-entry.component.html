@@ -98,10 +98,9 @@
                         <td>
                             <!-- <app-erp-selector-with-search [ItemsList]="CostCenterList" [SelectorName]="'مركز التكلفة'" [SearchKey]="'costCenterNumber'" [Height]="'30px'" (ItemObj)="GetSelectedCostCenter($event,item)"></app-erp-selector-with-search> -->
                             <app-drop-down-form-control [(ngModel)]="costCenterId" [data]="CostCenterList" [showSearch]="true" [placeholder]="'مراكز التكلفة'" (valueChanged)="GetSelectedCostCenter($event, item)"></app-drop-down-form-control>
-
                         </td>
                         <td>
-                            <input type="text" #inputs3 class="form-control" [(ngModel)]="item.notes" id="Input3" autocomplete="off" (keyup.arrowdown)="FocusDownAndUp('Input3',i,'down')" (keyup.arrowup)="FocusDownAndUp('Input3',i,'up')" (keyup.arrowright)="FocusLeftAndRight('Input2', i)">
+                            <input type="text" #inputs3 class="form-control nw-form-input" [(ngModel)]="item.notes" id="Input3" autocomplete="off" (keyup.arrowdown)="FocusDownAndUp('Input3',i,'down')" (keyup.arrowup)="FocusDownAndUp('Input3',i,'up')" (keyup.arrowright)="FocusLeftAndRight('Input2', i)">
                         </td>
                         <td class="justify-content-center d-flex" style="border-bottom-style: unset;">
                             <button class="btn btn-danger btn-rounded" (click)="RemoveAccount(i)">

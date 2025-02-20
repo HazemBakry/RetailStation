@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { SearchFilterModel } from '../../Shared/models/FilterModel';
 import { Observable } from 'rxjs';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
-import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { AddUserRoleModel, RoleModel } from '../../Shared/models/RoleModel';
 import { DBStoredProcedureModel, DBTableModel } from '../models/DBTableModel';
 import { ImporterModel } from '../models/DataImporter';

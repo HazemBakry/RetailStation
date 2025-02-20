@@ -13,8 +13,8 @@ export interface PaymentReceipt {
     isCancelled: boolean;
     notes: string;
     docNumber: string;
-    benefitPerson:string,
-    chequeNumber:string;
+    contactName: string,
+    chequeNumber: string;
     insertUser: string;
     updateUser: string;
     releaseDate: string;

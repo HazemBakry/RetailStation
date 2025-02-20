@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { AccountTreeModel } from '../../../GeneralAccounts/models/GeneralAccounts/AccountTree';
 import { GeneralAccountService } from '../../../GeneralAccounts/services/general-account.service';
-import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 
 @Component({
   selector: 'app-account-tree-v2',

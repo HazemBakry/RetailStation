@@ -10,7 +10,7 @@ import { FinancialPeriodModel } from '../models/FinancialPeriodModel';
 import { AccountTreeModel } from '../models/GeneralAccounts/AccountTree';
 import { AccountOpeningBalanceModel } from '../models/GeneralAccounts/OpeningBalance';
 import { CostCenterTreeModel } from '../models/GeneralAccounts/CostCenter';
-import { CreateModifyReturnsModel } from '../../Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { JournalTemplateDetails } from '../models/GeneralAccounts/JournalTemplateDetailsModel';
 
 @Injectable({
@@ -124,11 +124,11 @@ export class GeneralAccountService {
   }
 
   ExportAccountTreeList(searchText: string) {
-    return this.http.get<CreateModifyReturnsModel>(this.URL + 'AccountTree/ExportAccountTreeList?SearchText=' + searchText);
+    return this.http.get<ActionsResponseModel>(this.URL + 'AccountTree/ExportAccountTreeList?SearchText=' + searchText);
   }
   ImportAccountTreeList(File: any) {
 
-    return this.http.post<CreateModifyReturnsModel>(this.URL + 'AccountTree/ImportAccountTreeList', File);
+    return this.http.post<ActionsResponseModel>(this.URL + 'AccountTree/ImportAccountTreeList', File);
     // ,
     // {
     //     reportProgress: true,
@@ -267,11 +267,11 @@ export class GeneralAccountService {
   }
 
   ExportCostCenterTreeList(searchText: string) {
-    return this.http.get<CreateModifyReturnsModel>(this.URL + 'CostCenterTree/ExportCostCenterTreeList?SearchText=' + searchText);
+    return this.http.get<ActionsResponseModel>(this.URL + 'CostCenterTree/ExportCostCenterTreeList?SearchText=' + searchText);
   }
   ImportCostCenterTreeList(File: any) {
 
-    return this.http.post<CreateModifyReturnsModel>(this.URL + 'CostCenterTree/ImportCostCenterTreeList', File);
+    return this.http.post<ActionsResponseModel>(this.URL + 'CostCenterTree/ImportCostCenterTreeList', File);
     // ,
     // {
     //     reportProgress: true,

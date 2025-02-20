@@ -19,7 +19,7 @@ namespace MasterErp.Entities.Models
         public int ReceiptTypeId { get; set; }
         public int? ReceiptLedgerId { get; set; }
         public DateTime ReleaseDate { get; set; }
-        public int? ContactId { get; set; }
+        public string ContactName { get; set; }
         public int? BankAccountId { get; set; }
         public int? SafeId { get; set; }
         public int? AgencyTypeId { get; set; }

@@ -4,7 +4,7 @@ import { GeneralAccountService } from '../../services/general-account.service';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
 import { ExcelExportStyle } from 'src/app/components/Shared/Enums/ImporterTemplateEnum';
-import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 
 @Component({
   selector: 'app-cost-center-tree-container',
@@ -49,7 +49,7 @@ export class CostCenterTreeContainerComponent implements OnInit {
   }
   downloadImporterTemplate()
   {
-    this._SharedService.downloadImporterTemplate(ExcelExportStyle.costCenterTree).subscribe((data:CreateModifyReturnsModel)=>{
+    this._SharedService.downloadImporterTemplate(ExcelExportStyle.costCenterTree).subscribe((data:ActionsResponseModel)=>{
       this._SharedService.urlDownloadOrOpen(data.url);
     })
   }

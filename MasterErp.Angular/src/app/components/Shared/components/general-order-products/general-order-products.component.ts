@@ -8,7 +8,7 @@ import { OrderProductModel } from 'src/app/components/Inventory/models/inventory
 import { FormDropdownModel } from '../drop-down-form-control/drop-down-form-control.component';
 import { SharedService } from '../../services/shared.service';
 import { ItemModel } from 'src/app/components/Inventory/models/Item';
-import { ActionsResponseModel } from '../../models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from '../../models/ActionsResponseModel';
 
 @Component({
   selector: 'app-general-order-products',

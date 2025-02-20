@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { ActionsResponseModel, CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
-import { PurchaseRequestModel } from '../../models/PurchasesRequestModel';
-import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
 import { InventoryService } from '../../services/inventory.service';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';

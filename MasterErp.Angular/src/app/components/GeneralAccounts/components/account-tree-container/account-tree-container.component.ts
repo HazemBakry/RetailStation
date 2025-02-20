@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountTreeModel } from '../../models/GeneralAccounts/AccountTree';
 import { GeneralAccountService } from '../../services/general-account.service';
-import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { ExcelExportStyle } from 'src/app/components/Shared/Enums/ImporterTemplateEnum';
 import { ToastrService } from 'ngx-toastr';
@@ -45,7 +45,7 @@ export class AccountTreeContainerComponent implements OnInit {
   }
 
   downloadImporterTemplate() {
-    this._SharedService.downloadImporterTemplate(ExcelExportStyle.accountTree).subscribe((data: CreateModifyReturnsModel) => {
+    this._SharedService.downloadImporterTemplate(ExcelExportStyle.accountTree).subscribe((data: ActionsResponseModel) => {
       console.log("url", data.url);
       this._SharedService.urlDownloadOrOpen(data.url);
     })

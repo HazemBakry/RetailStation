@@ -6,7 +6,7 @@ import { GeneralAccountService } from '../../services/general-account.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { ReceiptLedgerModel } from '../../models/ReceiptLedgerModel';
-import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { PaymentService } from '../../services/payment.service';
 
 @Component({
@@ -73,7 +73,7 @@ export class ReceiptLedgersComponent implements OnInit {
     }
     this.GeneralAccountsService
       .CreateNewReceiptLedger(this.receiptLedgerModel)
-      .subscribe((data: CreateModifyReturnsModel) => {
+      .subscribe((data: ActionsResponseModel) => {
         if (data?.status) {
           this.ClearAllFields();
           this.toaster.success(data?.message);

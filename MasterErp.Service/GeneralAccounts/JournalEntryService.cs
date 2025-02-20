@@ -141,8 +141,8 @@ namespace MasterErp.Service.GeneralAccounts
                     IsLocked = false,
                     PeriodId = CurrentPeriod != null ? CurrentPeriod.FinancialPeriodId : 0,
                     EntryDate = model.EntryDate,
-                    ActionTypeId = 1,
-                    ActionId = 0,
+                    ActionTypeId = model.ActionTypeId,
+                    ActionId = model.ActionId,
                     CreatedDate = DateTime.Now,
                     CreatedBy = ""
                 };
@@ -173,9 +173,11 @@ namespace MasterErp.Service.GeneralAccounts
                 }
                 return new ActionsResponseModel
                 {
+                    IsSuccess = true,
                     Message = "تم حفظ البيانات بنجاح",
+                    Status = 200,
                     Number = Entry_tbl.EntryNumber.ToString(),
-                    Id = Entry_tbl.JournalEntryId
+                    Id = Entry_tbl.JournalEntryId,
 
                 };
             }
@@ -184,7 +186,8 @@ namespace MasterErp.Service.GeneralAccounts
                 return new ActionsResponseModel
                 {
                     IsSuccess = false,
-                    Message = ex.InnerException?.Message ?? ex.Message
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                    Status = 100
                 };
             }
         }
@@ -201,11 +204,11 @@ namespace MasterErp.Service.GeneralAccounts
                     entry_tbl.Notes = model.Notes;
                     entry_tbl.JournalTypeId = model.JournalTypeId;
                     entry_tbl.EntryDate = model.EntryDate;
-                   
+
                     entry_tbl.ModifiedDate = DateTime.Now;
                     entry_tbl.ModifiedBy = "";
 
-                    
+
                     Context.SaveChanges();
 
                     var JournalEntryDetails = Context.JournalEntryDetails.Where(x => x.JournalEntryId == EntryId).ToList();

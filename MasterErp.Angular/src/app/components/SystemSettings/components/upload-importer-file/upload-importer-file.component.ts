@@ -7,7 +7,7 @@ import { FormDropdownModel } from 'src/app/components/Shared/components/drop-dow
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 
-import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { FileImportModel, ImporterColumnModel} from '../../models/DataImporter';
 import { DataImportersService } from '../../services/data-importers.service';
 import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';

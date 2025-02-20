@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
@@ -70,7 +70,7 @@ export class AddSupplierReturnsVoucherComponent implements OnInit {
 
     this.purchaseService
       .CreateNewSupplierReturnsVoucher(this.supplierReturnsModel)
-      .subscribe((data: CreateModifyReturnsModel) => {
+      .subscribe((data: ActionsResponseModel) => {
         if (data?.status) {
           // this.ClearAllFields();
           this.supplierReturnsModel.invoiceNumber = data.id;

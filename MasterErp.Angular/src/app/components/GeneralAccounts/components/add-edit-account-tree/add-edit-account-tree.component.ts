@@ -3,7 +3,7 @@ import { AccountTreeModel } from '../../models/GeneralAccounts/AccountTree';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
 import { GeneralAccountService } from '../../services/general-account.service';
-import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { ErpSelectorWithSearchComponent } from 'src/app/components/Shared/components/selectors/erp-selector-with-search/erp-selector-with-search.component';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';

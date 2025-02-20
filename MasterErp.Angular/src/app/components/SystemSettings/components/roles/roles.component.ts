@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { RoleModel } from 'src/app/components/Shared/models/RoleModel';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 
 @Component({
   selector: 'app-roles',

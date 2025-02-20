@@ -40,6 +40,13 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             return Ok(results);
         }
 
+        [HttpGet]
+        [Route("CancelPaymentReceipt")]
+        public IActionResult CancelPaymentReceipt(int ReceiptId)
+        {
+            var results = _paymentService.CancelPaymentReceipt(ReceiptId);
+            return Ok(results);
+        }
 
         [HttpPost]
         [Route("GetReceiveReceipts_Summary")]

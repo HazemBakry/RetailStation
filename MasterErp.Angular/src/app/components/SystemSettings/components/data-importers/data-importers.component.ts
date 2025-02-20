@@ -9,7 +9,7 @@ import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponse
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
-import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { SupplierModel } from 'src/app/components/Purchases/models/SupplierModel';
 import { DataImportersService } from '../../services/data-importers.service';
 import { ImporterModel } from '../../models/DataImporter';

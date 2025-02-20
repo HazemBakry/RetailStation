@@ -120,25 +120,15 @@ namespace MasterErp.Service.GeneralAccounts
             }
         }
 
-        public DataTable GetAccountTreeData_Old(string SearchText)
-        {
-            SqlParameter[] param = new SqlParameter[1];
-            param[0] = new SqlParameter("@SearchText", SearchText);
-
-            var dt = SQLHelper.ExecuteDataTable("[dbo].[SP_GetAccountTreeData]", ConnectionString, param);
-
-            return dt;
-        }
-
         public List<AccountTreeModel> GetAccountTreeData(string SearchText)
         {
             SqlParameter[] param = new SqlParameter[1];
             param[0] = new SqlParameter("@SearchText", SearchText);
 
-            var lst = SQLHelper.SQLQuery<AccountTreeModel>("[Finance].[SP_GetAccountTreeData_V2]", ConnectionString, param);
+            var lst = SQLHelper.SQLQuery<AccountTreeModel>("[Finance].[SP_GetAccountTreeData]", ConnectionString, param);
             return lst;
-
         }
+
         public List<AccountTreeModel> GetAccountTreeHierarchicalData(string SearchText)
         {
             var lst = GetAccountTreeData(SearchText);

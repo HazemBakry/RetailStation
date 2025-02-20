@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models
 {
-    public class JournalEntry  : CreatorModel
+    [Table("JournalEntries", Schema = "Finance")]
+    public class JournalEntry : CreatorModel
     {
         [Key]
         public int JournalEntryId { get; set; }

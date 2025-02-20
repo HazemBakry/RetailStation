@@ -34,11 +34,11 @@
                         <tr>
                             <th>رقم الايصال</th>
                             <th>اسم المستفيد</th>
-                            <th>الرقم الدفترى</th>
+                            <th>دفتر إيصال</th>
                             <th>تاريخ الاصدار</th>
                             <th>طريقة الدفع</th>
-                            <th>نوع جهة التعامل</th>
-                            <th>جهة التعامل</th>
+                            <!-- <th>نوع جهة التعامل</th>
+                            <th>جهة التعامل</th> -->
                             <th>المبلغ</th>
                             <th>ملاحظات</th>
                             <th class="text-center"></th>
@@ -47,14 +47,14 @@
                     <tbody>
                         <tr *ngFor="let item of List">
                             <td>{{item.receiptNumber}}</td>
-                            <td>{{item.benefitPerson}}</td>
-                            <td>{{item.docNumber }}</td>
+                            <td>{{item.contactName}}</td>
+                            <td>{{item.receiptLedgerName}}</td>
                             <td>{{item.releaseDate | date}}</td>
-                            <td>{{item.paymentTypeId}}</td>
-                            <td>{{item.agencyTypeId}}</td>
-                            <td>{{item.agencyId}}</td>
+                            <td>{{item.paymentTypeName }}</td>
+                            <!-- <td>{{item.agencyTypeId}}</td>
+                            <td>{{item.agencyId}}</td> -->
                             <td>{{item.moneyAmount}}</td>
-                            <td>{{item.notes}}</td>
+                            <td class="min-width-200">{{item.notes}}</td>
                             <!-- <td>
                                 <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
                                     {{item.orderStatus}}
@@ -62,10 +62,17 @@
                             </td> -->
                             <td>
                                 <div class="w-100 d-flex align-items-center justify-content-center">
-                                    <button class="btn btn-danger me-2" (click)="CancelPaymentReceipt(item.paymentReceiptId)">
+                                    <!-- <button class="btn btn-danger me-2"
+                                        (click)="CancelPaymentReceipt(item.paymentReceiptId)">
                                         <i class="fas fa-times"></i>
                                         <span class="ms-2">الغاء</span>
+                                    </button> -->
+
+                                    <button (click)="CancelPaymentReceipt(item.paymentReceiptId)" class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2">
+                                        <i class="uil uil-times"></i>
+                                        <span>إلغاء</span>
                                     </button>
+
                                     <!-- <button class="btn btn-secondary me-2">
                                     <i class="far fa-eye"></i>
                                     <span class="ms-2">Lock Order</span>

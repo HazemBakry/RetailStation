@@ -10,7 +10,7 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../../../services/employee.service';
 import { EmployeeModel } from '../../../models/Employee/EmployeeModel';
-import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { HrService } from '../../../services/hr.service';
 
 

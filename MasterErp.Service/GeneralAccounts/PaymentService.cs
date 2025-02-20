@@ -60,6 +60,13 @@ namespace MasterErp.Service.GeneralAccounts
                     ReceiptLedgerId = Model.ReceiptLedgerId,
                     PaymentTypeId = Model.PaymentTypeId,
                     ReleaseDate = Model.ReleaseDate,
+                    ContactName = Model.ContactName,
+                    CurrencyId = Model.CurrencyId,
+                    ReceiptTypeId = Model.ReceiptTypeId,
+                    BankAccountId = Model.BankAccountId,
+                    CustomerId = Model.CustomerId,
+                    EmployeeId = Model.EmployeeId,
+                    SafeId = Model.SafeId,
                     Notes = Model.Notes,
                     MoneyAmount = Model.MoneyAmount,
                     DocNumber = Model.DocNumber,
@@ -78,29 +85,22 @@ namespace MasterErp.Service.GeneralAccounts
                 var entry = PreparePaymentEntryModel(tbl);
                 var result = entryService.SaveNewJournalEntry(entry);
 
-                //{
                 return new ActionsResponseModel
                 {
                     Status = result.Status,
-                    Message = result.Status == 1 ? "تم حفظ البيانات بنجاح" : "فشل فى تسجيل القيد المحاسبى",
-                    Id = tbl.ReceiptNumber,
+                    Message = result.IsSuccess ? "تم حفظ البيانات بنجاح" : "فشل فى تسجيل القيد المحاسبى",
+                    Id = tbl.PaymentReceiptId,
+                    Number = tbl.ReceiptNumber.ToString(),
+                    IsSuccess = result.IsSuccess
                 };
-                //}
-                //else
-                //{
-                //    return new ActionsResponseModel
-                //    {
-                //        Status = 0,
-                //        Message = "فشل فى تسجيل القيد المحاسبى"
-                //    };
-                //}
             }
             catch (Exception ex)
             {
                 return new ActionsResponseModel
                 {
                     Status = 0,
-                    Message = ex.Message
+                    Message = ex.Message,
+                    IsSuccess = false
                 };
             }
         }
@@ -110,16 +110,16 @@ namespace MasterErp.Service.GeneralAccounts
             try
             {
                 int generalSupplierId = Context.AccountTrees.Single(x => x.AccountTypeId == 5).AccountId;
-                int accountId = Model.AgencyTypeId == 0 ? generalSupplierId : (int)Model.AccountId;
+                int accountId = Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId;
                 List<JournalEntryAccount> accounts = new List<JournalEntryAccount>();
 
                 accounts.Add(new JournalEntryAccount
                 {
-                    AccountId = Model.AgencyTypeId == 0 ? generalSupplierId : (int)Model.AccountId,
+                    AccountId = Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId,
                     Credit = 0,
                     Debit = Model.MoneyAmount,
                     CurrencyId = 1,
-                    SupplierId = Model.AgencyTypeId == 0 ? Model.SupplierId : null,
+                    SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
                     Description = Model.Notes
                 });
 
@@ -129,7 +129,7 @@ namespace MasterErp.Service.GeneralAccounts
                     Credit = Model.MoneyAmount,
                     Debit = 0,
                     CurrencyId = 1,
-                    SupplierId = Model.AgencyTypeId == 0 ? Model.SupplierId : null,
+                    SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
                     Description = Model.Notes
                 });
 
@@ -154,6 +154,37 @@ namespace MasterErp.Service.GeneralAccounts
             catch (Exception)
             {
                 throw new Exception();
+            }
+        }
+
+        public ActionsResponseModel CancelPaymentReceipt(int ReceiptId)
+        {
+            var receipt = Context.PaymentReceipts.FirstOrDefault(x => x.PaymentReceiptId == ReceiptId);
+            if (receipt != null)
+            {
+                receipt.IsCancelled = true;
+                receipt.ModifiedDate = DateTime.Now;
+
+                Context.SaveChanges();
+                return new ActionsResponseModel
+                {
+                    Id = ReceiptId,
+                    IsSuccess = true,
+                    Message = "تم الغاء السند بنجاح",
+                    Status = 200,
+                    Number = receipt.ReceiptNumber.ToString()
+                };
+            }
+            else
+            {
+                return new ActionsResponseModel
+                {
+                    Id = ReceiptId,
+                    IsSuccess = false,
+                    Message = "هذا السند غير موجود",
+                    Status = 100,
+                    Number = receipt.ReceiptNumber.ToString()
+                };
             }
         }
 

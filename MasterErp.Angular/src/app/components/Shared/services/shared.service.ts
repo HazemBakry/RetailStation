@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Observable, map } from 'rxjs';
 import { CustomerModel } from '../../GeneralAccounts/models/GeneralAccounts/CustomerModel';
 import { ExcelExportStyle } from '../Enums/ImporterTemplateEnum';
-import { CreateModifyReturnsModel } from '../models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from '../models/ActionsResponseModel';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FormDropdownModel } from '../components/drop-down-form-control/drop-down-form-control.component';
 
@@ -111,7 +111,7 @@ export class SharedService {
   }
 
   downloadImporterTemplate(template: ExcelExportStyle) {
-    return this.http.get<CreateModifyReturnsModel>(this.URL + 'Shared/DownloadImporterTemplate?ImporterType=' + template);
+    return this.http.get<ActionsResponseModel>(this.URL + 'Shared/DownloadImporterTemplate?ImporterType=' + template);
   }
 
 

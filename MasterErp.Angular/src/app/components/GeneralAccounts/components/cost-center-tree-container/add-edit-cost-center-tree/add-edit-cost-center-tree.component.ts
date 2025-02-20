@@ -3,7 +3,7 @@ import { ErpSelectorWithSearchComponent } from 'src/app/components/Shared/compon
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
 import { GeneralAccountService } from '../../../services/general-account.service';
-import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { CostCenterTreeModel } from '../../../models/GeneralAccounts/CostCenter';
 
 @Component({
@@ -57,7 +57,7 @@ export class AddEditCostCenterTreeComponent implements OnInit {
     }
     this._GeneralAccountService
       .CreateNewCostCenter(this.costCenterTreeModel)
-      .subscribe((data: CreateModifyReturnsModel) => {
+      .subscribe((data: ActionsResponseModel) => {
         if (data?.status) {
           this.ClearAllFields();
           this.toaster.success(data?.message);
@@ -74,7 +74,7 @@ export class AddEditCostCenterTreeComponent implements OnInit {
     }
     this._GeneralAccountService
       .UpdateCostCenterTree(this.costCenterTreeModel.costCenterId,this.costCenterTreeModel)
-      .subscribe((data: CreateModifyReturnsModel) => {
+      .subscribe((data: ActionsResponseModel) => {
         if (data?.status) {
           this.ClearAllFields();
           this.toaster.success(data?.message);

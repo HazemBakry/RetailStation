@@ -9,7 +9,7 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
-import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 
 @Component({

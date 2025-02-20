@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 import { EmployeeVacationModel } from '../../HR/models/EmployeeVacationModel';
-import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { FormDropdownModel } from '../../Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { SearchFilterModel } from '../../Shared/models/FilterModel';
 import { EmployeeLoanModel } from '../../HR/models/EmployeeLoanModel';

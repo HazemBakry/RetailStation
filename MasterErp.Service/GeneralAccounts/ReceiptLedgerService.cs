@@ -53,7 +53,7 @@ namespace MasterErp.Service.GeneralAccounts
 
             var data = (from entity1 in Context.ReceiptLedgers
                         join entity2 in Context.ReceitLedgerType
-                        on entity1.ReceiptLedgerTypeId equals entity2.ReceiptLedgerTypeId into join1
+                        on entity1.ReceiptLedgerTypeId equals entity2.LedgerTypeId into join1
                         from res in join1.DefaultIfEmpty()
                         join entity3 in Context.FinancialPeriods on entity1.PeriodId equals entity3.FinancialPeriodId into join2
                         from res1 in join2.DefaultIfEmpty()

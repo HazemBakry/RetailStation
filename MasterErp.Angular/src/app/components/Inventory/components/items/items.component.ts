@@ -11,7 +11,7 @@ import { FormService } from 'src/app/components/Shared/services/form.service';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { ItemModel } from '../../models/Item';
 import { InventoryService } from '../../services/inventory.service';
-import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { SupplierModel } from 'src/app/components/Purchases/models/SupplierModel';
 
 @Component({

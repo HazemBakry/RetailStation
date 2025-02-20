@@ -4,7 +4,7 @@ import { SalesService } from '../../services/sales.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { SalesInvoiceModel } from '../../models/SalesInvoiceModel';
-import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 
 @Component({
@@ -92,7 +92,7 @@ export class AddSalesInvoiceComponent implements OnInit {
 
     this.salesService
       .CreateNewSalesInvoice(this.salesInvoiceModel)
-      .subscribe((data: CreateModifyReturnsModel) => {
+      .subscribe((data: ActionsResponseModel) => {
         if (data?.status) {
           // this.ClearAllFields();
           this.salesInvoiceModel.invoiceNumber = data.id;

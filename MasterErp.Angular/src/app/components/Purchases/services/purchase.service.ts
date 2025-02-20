@@ -9,7 +9,7 @@ import { SupplierReturnsVoucherModel } from '../models/SupplierReturnsVoucherMod
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 import { OrderModel, OrderProductModel } from '../../Inventory/models/inventory';
 import { SupplierModel } from '../models/SupplierModel';
-import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { PurchaseQuotationModel, PurchaseQuotationDetailsModel } from '../models/PurchaseQuotationModel';
 
 @Injectable({

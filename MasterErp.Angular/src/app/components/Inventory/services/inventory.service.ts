@@ -7,7 +7,7 @@ import { ItemModel } from '../models/Item';
 import { PurchaseRequestModel } from '../models/PurchasesRequestModel';
 import { Unit } from '../models/unit';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
-import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { SupplierModel } from '../../Purchases/models/SupplierModel';
 import { ItemCategoryModel } from '../models/itemCategory';
 import { CategorySortModel } from '../models/categorySort';

@@ -7,7 +7,7 @@ import { CategorySortModel } from '../../models/categorySort';
 import { ItemCategoryModel } from '../../models/itemCategory';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { FormService } from 'src/app/components/Shared/services/form.service';
-import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 

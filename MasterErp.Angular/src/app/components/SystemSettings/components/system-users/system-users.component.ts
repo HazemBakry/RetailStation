@@ -10,7 +10,7 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { AuthService } from 'src/app/Auth/auth.service';
-import { ActionsResponseModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { AddUserRoleModel, RoleModel } from 'src/app/components/Shared/models/RoleModel';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { HrService } from 'src/app/components/HR/services/hr.service';

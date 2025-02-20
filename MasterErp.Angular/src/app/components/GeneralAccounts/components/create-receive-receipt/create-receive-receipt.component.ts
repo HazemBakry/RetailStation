@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import {  ReceiptLedger } from '../../models/GeneralAccounts/PaymentReceipt';
 import { PaymentService } from '../../services/payment.service';
-import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { ToastrService } from 'ngx-toastr';
 import { ReceiveReceipt } from '../../models/GeneralAccounts/ReceiveReceipt';
 
@@ -132,7 +132,7 @@ export class CreateReceiveReceiptComponent implements OnInit {
         return;
       }
     
-    this.paymentService.SaveReceiveReceipt(this.receiveReceiptModel).subscribe((data:CreateModifyReturnsModel) => {
+    this.paymentService.SaveReceiveReceipt(this.receiveReceiptModel).subscribe((data:ActionsResponseModel) => {
       if (data?.status) {
         this.ClearAllFields();
         this.receiveReceiptModel.receiptNumber = data.id;

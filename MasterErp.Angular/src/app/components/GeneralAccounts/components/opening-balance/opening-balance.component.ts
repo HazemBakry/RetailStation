@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { AccountTreeModel } from '../../models/GeneralAccounts/AccountTree';
 import { GeneralAccountService } from '../../services/general-account.service';
-import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { AccountOpeningBalanceModel } from '../../models/GeneralAccounts/OpeningBalance';
 
 @Component({
@@ -97,7 +97,7 @@ export class OpeningBalanceComponent implements OnInit {
 
     const updateLst=this.accountsOpeningBalance.filter(x=>x.preCredit>0||x.preDebit);
     this.GeneralAccountService
-        .UpdateAccountsOpeningBalance(updateLst).subscribe((data: CreateModifyReturnsModel) => {
+        .UpdateAccountsOpeningBalance(updateLst).subscribe((data: ActionsResponseModel) => {
           if (data?.status) {
             this.ClearAllFields();
             this.toaster.success(data?.message);
@@ -120,7 +120,7 @@ export class OpeningBalanceComponent implements OnInit {
     }
     this.GeneralAccountService
       .AddNewAccount(this.accountTreeModel)
-      .subscribe((data: CreateModifyReturnsModel) => {
+      .subscribe((data: ActionsResponseModel) => {
         if (data?.status) {
           this.ClearAllFields();
           this.toaster.success(data?.message);

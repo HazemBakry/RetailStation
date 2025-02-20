@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { PaymentReceipt, ReceiptLedger } from '../../models/GeneralAccounts/PaymentReceipt';
 import { PaymentService } from '../../services/payment.service';
-import { CreateModifyReturnsModel } from 'src/app/components/Shared/models/CreateModifyReturnsModel';
 import { ToastrService } from 'ngx-toastr';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 
 @Component({
   selector: 'app-create-payment-receipt',
@@ -84,11 +84,11 @@ export class CreatePaymentReceiptComponent implements OnInit {
       // case 1:
       //   this.loadCustomersData();
       //   break;
-      case 0:
-        this.loadSuppliersData();
-        break;
       case 1:
         this.loadAccountsTreeData();
+        break;
+      case 2:
+        this.loadSuppliersData();
         break;
 
       default:
@@ -113,9 +113,8 @@ export class CreatePaymentReceiptComponent implements OnInit {
   }
 
   GetSelectedPaymentType(type) {
-
     this.paymentReceiptModel.paymentTypeId = type.id;
-    this.loadAccountsByTypeData(type.id);
+    //this.loadAccountsByTypeData(type.id);
   }
 
   GetSelectedAccount(account) {
@@ -130,11 +129,10 @@ export class CreatePaymentReceiptComponent implements OnInit {
     if (!this.validatePaymentReceipt()) {
       return;
     }
-
-    this.paymentService.SavePaymentReceipt(this.paymentReceiptModel).subscribe((data: CreateModifyReturnsModel) => {
+    this.paymentService.SavePaymentReceipt(this.paymentReceiptModel).subscribe((data: ActionsResponseModel) => {
       if (data?.status) {
         this.ClearAllFields();
-        this.paymentReceiptModel.receiptNumber = data.id;
+        this.paymentReceiptModel.receiptNumber = data.number;
         this.toaster.success(data?.message);
       } else {
         this.toaster.error(data?.message);
@@ -146,7 +144,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
   validatePaymentReceipt(): boolean {
     let model: PaymentReceipt = this.paymentReceiptModel;
 
-    if (!model.benefitPerson ||
+    if (!model.contactName ||
       !model.paymentTypeId ||
       !model.receiptLedgerId ||
       // !model.agencyTypeId ||
@@ -154,7 +152,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
       // !model.accountId ||
       !model.releaseDate ||
       !model.moneyAmount) {
-      this.toaster.warning('ييرج ملئ جميع الخانات');
+      this.toaster.warning(' يرجى ملئ الخانات الفارغة');
       return false;
     }
     return true;

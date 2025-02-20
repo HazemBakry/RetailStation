@@ -5,7 +5,7 @@ import { SearchFilterModel } from '../../Shared/models/FilterModel';
 import { EmployeeModel } from '../models/Employee/EmployeeModel';
 import { EmployeeContractModel } from '../models/Employee/EmployeeContractModel';
 import { EmployeeVerificationModel } from '../models/Employee/EmployeeVerificationModel';
-import { ActionsResponseModel } from '../../Shared/models/CreateModifyReturnsModel';
+import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { EmployeeAttachmentModel } from '../models/Employee/EmployeeAttachmentModel';
 
 @Injectable({
