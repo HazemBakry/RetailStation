@@ -91,6 +91,7 @@ export class GeneralAccountsHomeComponent implements OnInit {
     },
   ];
 
+  statisticsCardList: any[] = [];
   orders = []
   dashboardFilterList = ['الأكثر شهرة', 'الأعلى تقييماً', 'الأسرع في التوصيل'];
   activeFilter: number;
@@ -124,11 +125,19 @@ export class GeneralAccountsHomeComponent implements OnInit {
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
+    this.getGeneralAccountsStatistics();
     this.getSalesSummary();
     this.getDailyJournalEntriesSummary();
     this.getPurchaseInvoicesData();
     this.getPaymentReceiptsSummary();
     this.getReceiveReceiptsSummary();
+  }
+
+  getGeneralAccountsStatistics() {
+    this.generalAccountService.GetGeneralAccounts_Statistics().subscribe(data => {
+      this.statisticsCardList = data;
+    },
+      (error) => { console.log("error", error); }, () => { });
   }
 
   getSalesSummary() {

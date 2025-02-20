@@ -11,6 +11,7 @@ namespace MasterErp.Interface.GeneralAccounts
 {
     public interface IJournalEntryService
     {
+        DataTable GetGeneralAccounts_Statistics();
         List<JournalEntryType> GetJournalEntryTypes();
         List<Currency> GetCurrencyList();
         int GenerateNewEntryNumber(int month, int year);

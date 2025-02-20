@@ -53,6 +53,10 @@ export class GeneralAccountService {
   ]
   //================================== JournalEntry ===============================
 
+  GetGeneralAccounts_Statistics() {
+    return this.http.get<any>(this.URL + 'JournalEntry/GetGeneralAccounts_Statistics');
+  }
+
   GetDailyJournalEntriesSummary(model: FilterModel) {
     return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesSummary', model);
   }

@@ -23,6 +23,13 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         }
 
         [HttpGet]
+        [Route("GetGeneralAccounts_Statistics")]
+        public DataTable GetGeneralAccounts_Statistics()
+        {
+            return EntryService.GetGeneralAccounts_Statistics();
+        }
+
+        [HttpGet]
         [Route("GetJournalEntryTypes")]
         public List<JournalEntryType> GetJournalEntryTypes()
         {
