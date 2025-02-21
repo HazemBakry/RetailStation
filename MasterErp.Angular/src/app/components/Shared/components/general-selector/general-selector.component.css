@@ -1,19 +1,19 @@
 .nw-form-input {
-    position: relative;
-    height: 28px;
-    font-size: 14px;
-    letter-spacing: 0.02em;
-    padding: 6px 8px;
-    border: none;
-    box-shadow: none;
-    transition: none;
-    font-weight: 600;
-    background-color: #f3f3f3;
-    border-radius: 8px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    -ms-border-radius: 8px;
-    -o-border-radius: 8px;
+  position: relative;
+  height: 28px;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  padding: 6px 8px;
+  border: none;
+  box-shadow: none;
+  transition: none;
+  font-weight: 600;
+  background-color: #f3f3f3;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
 }
 
 /* .nw-form-select {
@@ -28,33 +28,46 @@
     background-position-y: 50%;
 } */
 
+.selector-icon-up-down {
+  width: 25px;
+  height: 28px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url("../../../../../assets/up-down-icon.png");
+  background-repeat: no-repeat;
+  background-position-x: 5px;
+  background-position-y: 50%;
+  background-size: 15px;
+}
+
 .nw-form-input:focus {
-    color: #383838;
-    background-color: #f3f3f3;
-    border-color: #999999;
-    outline: 0;
-    box-shadow: 0 0 0 2px #7c7c7c40;
+  color: #383838;
+  background-color: #f3f3f3;
+  border-color: #999999;
+  outline: 0;
+  box-shadow: 0 0 0 2px #7c7c7c40;
 }
 
 .input-drop-action {
-    position: absolute;
-    top: 50%;
-    left: 8px;
-    font-size: 15px;
-    transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  font-size: 15px;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
 }
 
 .dropdown-menu-search-input {
-    border-radius: 8px;
-    outline: 0;
-    border: none;
-    box-shadow: 0 0 0 2px #7c7c7c40 !important;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    -ms-border-radius: 8px;
-    -o-border-radius: 8px;
+  border-radius: 8px;
+  outline: 0;
+  border: none;
+  box-shadow: 0 0 0 2px #7c7c7c40 !important;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
 }
