@@ -9,12 +9,12 @@ namespace MasterErp.Entities.Common
 {
     public class JournalEntryModel
     {
-        public int? EntryId { get; set; }
+        public int? JournalEntryId { get; set; }
+
         public string DocNumber { get; set; }
         public string EntryNumber { get; set; }
         public DateTime EntryDate { get; set; }
         public string Description { get; set; }
-        public string Notes { get; set; }
         public int Month { get; set; }
         public int Year { get; set; }
         public int JournalTypeId { get; set; }
@@ -22,7 +22,27 @@ namespace MasterErp.Entities.Common
         public int? ActionTypeId { get; set; }
         public int? ActionId { get; set; }
         public List<JournalEntryAccount> JournalEntryAccounts { get; set; }
+
+
+
+
+        public int? EntryMonth { get; set; }
+        public string JournalTypeAR { get; set; }
+        public string JournalTypeEN { get; set; }
+        public string ActionTypeAR { get; set; }
+        public string ActionTypeEN { get; set; }
+        public string ActionGroup { get; set; }
+        public bool? IsLocked { get; set; }
+        public bool? EntryStatus { get; set; }
+        public bool? IsPosted { get; set; }
+        public bool? PostStatus { get; set; }
+        public double? TotalCredit { get; set; }
+        public double? TotalDebit { get; set; }
+        public int? TotalCount { get; set; }
     }
+
+
+
 
     public class JournalEntryAccount
     {

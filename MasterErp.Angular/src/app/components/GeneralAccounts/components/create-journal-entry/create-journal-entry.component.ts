@@ -58,9 +58,9 @@ export class CreateJournalEntryComponent implements OnInit {
 
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
-      if (params.EntryId) {
-        this.entryModel = params.EntryId;
-        this.getEntryDetailsById(params.EntryId);
+      if (params.JournalEntryId) {
+        this.entryModel = params.JournalEntryId;
+        this.getEntryDetailsById(params.JournalEntryId);
       }
     })
 
@@ -70,9 +70,9 @@ export class CreateJournalEntryComponent implements OnInit {
     this.loadSelectors();
   }
 
-  getEntryDetailsById(entryId) {
+  getEntryDetailsById(journalEntryId) {
     this.showLoader = true;
-    this.generalService.GetJournalEntryDetailsById(entryId).subscribe(data => {
+    this.generalService.GetJournalEntryDetailsById(journalEntryId).subscribe(data => {
       if (data) {
         this.entryModel = data;
         this.initNewForm(this.entryModel);
@@ -123,7 +123,7 @@ export class CreateJournalEntryComponent implements OnInit {
           debit: 0,
           credit: 0,
           costCenterId: entryAccount.costCenterId,
-          notes: entryAccount.description,
+          description: entryAccount.description,
         }
       });
       this.inputFocus();
@@ -141,7 +141,7 @@ export class CreateJournalEntryComponent implements OnInit {
   buildForm() {
 
     this.formGroup = this.form.group({
-      entryId: [null],
+      journalEntryId: [null],
       entryNumber: [null],
       docNumber: [null],
       entryDate: [null, [Validators.required]],
@@ -149,7 +149,6 @@ export class CreateJournalEntryComponent implements OnInit {
       currencyTypeId: [null],
       journalEntryAccounts: [[] as JournalEntryAccount[], [Validators.required, Validators.minLength(1)]],
       description: [null],
-      notes: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -171,7 +170,7 @@ export class CreateJournalEntryComponent implements OnInit {
 
     this.formGroup.patchValue({
 
-      entryId: entryModel.entryId,
+      journalEntryId: entryModel.journalEntryId,
       entryNumber: entryModel.entryNumber,
       docNumber: entryModel.docNumber,
       entryDate: this.datePipe.transform(entryModel.entryDate, 'yyyy-MM-dd'),
@@ -179,7 +178,6 @@ export class CreateJournalEntryComponent implements OnInit {
       currencyTypeId: entryModel.currencyTypeId,
       journalEntryAccounts: entryModel.journalEntryAccounts,
       description: entryModel.description,
-      notes: entryModel.notes,
     });
   }
 
@@ -208,7 +206,7 @@ export class CreateJournalEntryComponent implements OnInit {
         //this.initNewForm();
         this.toaster.success(data?.message);
         this.entryModel.entryNumber = data.number;
-        this.entryModel.entryId = data.id;
+        this.entryModel.journalEntryId = data.id;
 
         this.initNewForm(this.entryModel)
       }
@@ -225,7 +223,7 @@ export class CreateJournalEntryComponent implements OnInit {
 
   editEntry() {
     this.showAddLoader = true;
-    this.generalService.EditJournalEntry(this.entryModel.entryId, this.entryModel).subscribe((data: ActionsResponseModel) => {
+    this.generalService.EditJournalEntry(this.entryModel.journalEntryId, this.entryModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         // this.formGroup?.reset();
         // this.initNewForm();
@@ -265,7 +263,7 @@ export class CreateJournalEntryComponent implements OnInit {
 
   }
   public formErrors = {
-    entryId: '',
+    journalEntryId: '',
     entryNumber: '',
     docNumber: '',
     entryDate: '',
@@ -273,7 +271,6 @@ export class CreateJournalEntryComponent implements OnInit {
     currencyTypeId: '',
     journalEntryAccounts: '',
     description: '',
-    notes: '',
   };
 
   addField() {
@@ -289,7 +286,7 @@ export class CreateJournalEntryComponent implements OnInit {
         currencyId: null,
         accountNumber: null,
         accountName: null,
-        notes: '',
+        description: '',
       }
     );
   }

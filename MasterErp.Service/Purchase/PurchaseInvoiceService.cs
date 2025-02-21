@@ -280,7 +280,6 @@ namespace MasterErp.Service.Purchase
                 EntryDate = invoice.InvoiceDate,
                 Month = invoice.InvoiceDate.Month,
                 Year = invoice.InvoiceDate.Year,
-                Notes = invoice.Notes,
                 JournalTypeId = 1,   // "قيد تسوية" 
                 JournalEntryAccounts = accounts
             };

@@ -154,7 +154,7 @@ export class GeneralAccountsHomeComponent implements OnInit {
   }
 
   getDailyJournalEntriesSummary() {
-    this.generalAccountService.GetDailyJournalEntriesSummary(this.filterModel).subscribe(data => {
+    this.generalAccountService.GetDailyJournalEntriesSummary(this.pagedResponse).subscribe(data => {
       this.journalEntriesList = data;
     },
       (error) => {

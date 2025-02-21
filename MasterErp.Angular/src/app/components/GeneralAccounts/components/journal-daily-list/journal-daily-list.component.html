@@ -5,10 +5,10 @@
                 العمليات
             </button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                <button ngbDropdownItem (click)="CancelJournalEntry()">اسقاط</button>
-                <button ngbDropdownItem (click)="PostJournalEntry()">ترحيل</button>
-                <button ngbDropdownItem (click)="ReverseJournalEntry()">عكس</button>
-                <button ngbDropdownItem (click)="PrintJournalEntry()">طباعة</button>
+                <button ngbDropdownItem (click)="cancelJournalEntry()">اسقاط</button>
+                <button ngbDropdownItem (click)="postJournalEntry()">ترحيل</button>
+                <button ngbDropdownItem (click)="reverseJournalEntry()">عكس</button>
+                <button ngbDropdownItem (click)="printJournalEntry()">طباعة</button>
             </div>
         </div>
         <button class="btn btn-primary btn-lg me-2" routerLink="/general-accounts/new-entry">
@@ -21,12 +21,15 @@
             <div class="col-md-8">
                 <div class="d-flex align-items-center flex-wrap">
                     <ng-container>
-                        <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-erp-filters>
+                        <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"
+                            [searchPlaceholder]="'البحث برقم القيد ...'"></app-erp-filters>
                     </ng-container>
                 </div>
             </div>
             <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="FilterModel.currentPage" [pageSize]="FilterModel.pageSize" [totalCount]="totalCount" [totalPages]="totalPages"></app-erp-pagination>
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
+                    [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount">
+                </app-erp-pagination>
             </div>
         </div>
         <hr>
@@ -35,10 +38,12 @@
                 <thead>
                     <tr>
                         <th class="min-width-50 width-50 max-width-50">
-                            <input type="checkbox" class="big-checkbox" [(ngModel)]="SelectAll" (change)="SelectedAll($event.target.checked)" />
+                            <input type="checkbox" [(ngModel)]="selectAll" (change)="selectAllData()"
+                                class="big-checkbox cursor-pointer" />
                         </th>
                         <!-- <th>م</th> -->
                         <th>رقم القيد</th>
+                        <th>الرقم الدفتري</th>
                         <th>نوع القيد</th>
                         <th>حالة القيد</th>
                         <th>المجموعة</th>
@@ -52,18 +57,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <ng-container *ngFor="let item of DailyJournal">
+                    <ng-container *ngFor="let item of pagedResponseModel.results">
                         <tr (click)="item.isChecked = !item.isChecked">
                             <td><input type="checkbox" class="big-checkbox" [(ngModel)]="item.isChecked">
                             </td>
                             <td>{{item.entryNumber}}</td>
-                            <!-- <td>{{item.docNumber}}</td> -->
-                            <td>{{item.journalTypeAr}}</td>
+                            <td>{{item.docNumber}}</td>
+                            <td>{{item.journalTypeAR ||item.journalTypeEN }}</td>
                             <td>
                                 <div appColorWithStatus status="IsLocked" [text]="item.isLocked"></div>
                             </td>
                             <td>{{item.actionGroup}}</td>
-                            <td>{{item.actionType}}</td>
+                            <td>{{item.actionTypeAR || item.actionTypeEN}}</td>
                             <td>{{item.entryMonth}}</td>
                             <td>{{item.entryDate | date}}</td>
                             <td>{{item.totalDebit}}</td>
@@ -76,17 +81,22 @@
                                         <i class="uil uil-pen"></i>
                                         <span>معاينة</span>
                                     </button> -->
-                                    <button routerLink="/general-accounts/new-entry" [queryParams]="{EntryId:item.journalEntryId}" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+                                    <button routerLink="/general-accounts/new-entry"
+                                        [queryParams]="{JournalEntryId:item.journalEntryId}"
+                                        class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
                                         <i class="uil uil-pen"></i>
                                         <span>تعديل</span>
                                     </button>
                                 </div>
                             </td>
                         </tr>
+
                     </ng-container>
 
                 </tbody>
             </table>
+            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length && !showLoader"></app-empty-data>
+
         </div>
     </div>
 </div>
