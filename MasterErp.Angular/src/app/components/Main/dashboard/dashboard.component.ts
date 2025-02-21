@@ -201,7 +201,7 @@ export class DashboardComponent implements OnInit {
   }
   GetPaymentReceiptsSummary() {
     // this.showLoader = true;
-    this.paymentService.GetPaymentReceiptsSummary(this.FilterModel).subscribe(data => {
+    this.paymentService.GetPaymentReceipts_Summary(this.FilterModel).subscribe(data => {
       this.paymentReceiptsList = data;
       
     }, (err) => {
@@ -213,7 +213,7 @@ export class DashboardComponent implements OnInit {
 
   GetReceiveReceiptsSummary() {
     // this.showLoader=true;
-    this.paymentService.GetReceiveReceiptsSummary(this.FilterModel).subscribe(data => {
+    this.paymentService.GetReceiveReceipts_Summary(this.FilterModel).subscribe(data => {
       this.receiveReceiptsList = data;
 
     },(err)=>{

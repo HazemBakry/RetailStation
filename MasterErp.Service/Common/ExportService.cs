@@ -123,7 +123,7 @@ namespace MasterErp.Service.Common
                     package.Save();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

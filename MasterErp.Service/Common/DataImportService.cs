@@ -210,7 +210,7 @@ namespace MasterErp.Service.Common
                 else
                     return new ActionsResponseModel { IsSuccess = false, Message = "can't find this importer" };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //ex.InnerException?.Message ?? ex.Message
                 return new ActionsResponseModel { IsSuccess = false, Message = "error , try again later"  };

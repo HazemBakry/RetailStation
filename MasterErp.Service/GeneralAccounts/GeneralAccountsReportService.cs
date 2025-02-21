@@ -70,8 +70,8 @@ namespace MasterErp.Service.GeneralAccounts
                     }
                     else if (dt.Rows[i]["ActionTypeId"].ToString() == "7")
                     {
-                        var cheque = Context.ReceiveReceipt.Where(x => x.ReceiveReceiptId == actionId).FirstOrDefault();
-                        cheque_number = cheque.ChequeNumber;
+                        var cheque = Context.ReceiveReceipts.Where(x => x.ReceiveReceiptId == actionId).FirstOrDefault();
+                        //cheque_number = cheque.ChequeNumber;
                     }
                     dt.Rows[i]["ChequeNumber"] = cheque_number;
 

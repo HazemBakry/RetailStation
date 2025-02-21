@@ -35,10 +35,10 @@ namespace MasterErp.API.Controllers.Shared
         }
 
         [HttpGet]
-        [Route("GetReceiptLedgersData")]
-        public IActionResult GetReceiptLedgersData()
+        [Route("GetReceiptLedgersSelector")]
+        public IActionResult GetReceiptLedgersSelector()
         {
-            var results = _sharedService.GetReceiptLedgersData();
+            var results = _sharedService.GetReceiptLedgersSelector();
             return Ok(results);
         }
 

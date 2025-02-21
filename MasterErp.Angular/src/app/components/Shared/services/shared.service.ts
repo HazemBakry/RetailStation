@@ -90,8 +90,8 @@ export class SharedService {
     return this.http.get<any[]>(this.URL + 'Shared/GetLeadgerJournalsData');
   }
 
-  GetReceiptLedgersData() {
-    return this.http.get<any[]>(this.URL + 'Shared/GetReceiptLedgersData');
+  GetReceiptLedgersSelector() {
+    return this.http.get<any[]>(this.URL + 'Shared/GetReceiptLedgersSelector');
   }
 
   // GetAccountsTreeList() {

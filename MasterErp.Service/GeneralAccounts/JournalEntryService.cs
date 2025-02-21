@@ -32,6 +32,14 @@ namespace MasterErp.Service.GeneralAccounts
             this.ConnectionString = Configuration.GetConnectionString("DBConnection");
         }
 
+        public DataTable GetGeneralAccounts_Statistics()
+        {
+            SqlParameter[] Params = new SqlParameter[0];
+
+            DataTable result = SQLHelper.ExecuteDataTable("[Finance].[SP_GetGeneralAccounts_Statistics]", ConnectionString, Params);
+            return result;
+        }
+
         public JournalEntryModel GetJournalEntryDetailsById(int journalId)
         {
             var entry = Context.JournalEntries.Where(x => x.JournalEntryId == journalId).FirstOrDefault();
@@ -302,7 +310,24 @@ namespace MasterErp.Service.GeneralAccounts
 
         public bool CancelJournalEntry(List<int> JournalEntryIds)
         {
-            return true;
+            try
+            {
+                var entries = Context.JournalEntries.Where(item => JournalEntryIds.Contains(item.JournalEntryId)).ToList();
+
+                foreach (var item in entries)
+                {
+                    item.IsCancelled = true;
+                    item.ModifiedDate = DateTime.Now;
+                    item.ModifiedBy = "";
+                }
+                Context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public bool PostJournalEntry(List<int> JournalEntryIds)

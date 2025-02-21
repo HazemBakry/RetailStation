@@ -171,6 +171,7 @@ export class GeneralAccountsHomeComponent implements OnInit {
     this.generalAccountService.CancelJournalEntry(journalEntryIds).subscribe(data => {
       if (data) {
         this.getDailyJournalEntriesSummary();
+        this.getGeneralAccountsStatistics();
         this.toaster.success('تم اسقاط القيود بنجاح');
       }
       else
@@ -209,7 +210,7 @@ export class GeneralAccountsHomeComponent implements OnInit {
 
   getPaymentReceiptsSummary() {
     // this.showLoader = true;
-    this.paymentService.GetPaymentReceiptsSummary(this.filterModel).subscribe(data => {
+    this.paymentService.GetPaymentReceipts_Summary(this.filterModel).subscribe(data => {
       this.paymentReceiptsList = data;
 
     }, (err) => {
@@ -220,7 +221,7 @@ export class GeneralAccountsHomeComponent implements OnInit {
   }
 
   getReceiveReceiptsSummary() {
-    this.paymentService.GetReceiveReceiptsSummary(this.filterModel).subscribe(data => {
+    this.paymentService.GetReceiveReceipts_Summary(this.filterModel).subscribe(data => {
       this.receiveReceiptsList = data;
 
     }, (err) => {

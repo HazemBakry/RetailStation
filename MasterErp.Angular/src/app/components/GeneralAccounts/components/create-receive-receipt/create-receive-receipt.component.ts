@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
-import {  ReceiptLedger } from '../../models/GeneralAccounts/PaymentReceipt';
+import {  PaymentReceipt, ReceiptLedger } from '../../models/GeneralAccounts/PaymentReceipt';
 import { PaymentService } from '../../services/payment.service';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { ToastrService } from 'ngx-toastr';
@@ -15,159 +15,150 @@ import { ReceiveReceipt } from '../../models/GeneralAccounts/ReceiveReceipt';
 
 
 export class CreateReceiveReceiptComponent implements OnInit {
-  agencyTypeList:any[]=[];
-  paymentTypeList:any[]=[];
-
-  selectedAgencyType:number;
-  agencyList:any[]=[];
-  accountList:any[]=[];
-  receiptLedgerList:any[]=[];
-
-  receiveReceiptModel:ReceiveReceipt={} as ReceiveReceipt
-  constructor(private sharedService:SharedService,private paymentService:PaymentService,private toaster:ToastrService) { }
-
-  ngOnInit(): void {
-    this.agencyTypeList=this.paymentService.agencyTypeList;
-    this.paymentTypeList=this.paymentService.paymentTypeList;
-    this.loadReceiptLedgersData();
-  }
-
-  loadCustomersData()
-  {
-    this.sharedService.GetCustomersData().subscribe(data=>{
-      this.agencyList=data;
-      
-    })
-  }
-
+  TitleList = ['الحسابات العامة', 'سند قبض جديد'];
+    agencyTypeList: any[] = [];
+    paymentTypeList: any[] = [];
+    selectedAgencyType: number = 1;
+    supplierList: any[] = [];
+    accountList: any[] = [];
+    receiptLedgerList: any[] = [];
+    receiveReceiptModel: ReceiveReceipt = {} as ReceiveReceipt
+    inputDropdownValue = '';
+    isFocused = false;
   
-  loadSuppliersData()
-  {
-    this.sharedService.GetSuppliersSelector().subscribe(data=>{
-      this.agencyList=data;
-      
-    })
-  }
-  loadAccountsTreeData()
-  {
-    this.sharedService.GetAccountsSelector().subscribe(data=>{
-      this.agencyList=data;
-      
-    })
-  }
-
-  loadAccountsByTypeData(typeId:number)
-  {
-    this.sharedService.GetAccountsByTypeId(typeId).subscribe(data=>{
-      this.accountList=data;
-      
-    })
-  }
-  loadReceiptLedgersData()
-  {
-    this.sharedService.GetReceiptLedgersData().subscribe(data=>{
-      this.receiptLedgerList=data;
-    })
-  }
-  GetSelectedAgencyType(accountType)
-  {
-
-    this.selectedAgencyType=accountType?.id;
-    this.receiveReceiptModel.agencyTypeId=accountType?.id;
-    switch (accountType?.id) {
-      // case 1:
-      //   this.loadCustomersData();
-      //   break;
-      case 2:
-        this.loadSuppliersData();
-        break;
-      case 3:
-        this.loadAccountsTreeData();
-        break;
-      default:
-        break;
+    constructor(private sharedService: SharedService,
+      private paymentService: PaymentService,
+      private toaster: ToastrService) { }
+  
+    ngOnInit(): void {
+      this.agencyTypeList = this.paymentService.agencyTypeList;
+      this.paymentTypeList = this.paymentService.paymentTypeList;
+      this.loadReceiptLedgersData();
     }
-  }
-
-  GetSelectedAgency(account)
-  {
-
-    switch (this.selectedAgencyType) {
-
-      case 2:
-        //supplier
-        this.receiveReceiptModel.agencyId=account.supplierID;
-        break;
-      case 3:
-        //account
-        this.receiveReceiptModel.agencyId=account.accountId;
-
-      break;
-      default:
-        break;
+  
+    onChoosePayment(payment: string) {
+      this.inputDropdownValue = payment;
     }
-  }
-
-  GetSelectedReceiveType(type)
-  {
-
-    this.receiveReceiptModel.receiveTypeId=type.id;
-    this.loadAccountsByTypeData(type.id);
-  }
   
-
-  GetSelectedAccount(account)
-  {
-    this.receiveReceiptModel.accountId=account.accountId;
-  }
-  GetSelectedReceiptLedger(receiptLedger:ReceiptLedger)
-  {
-    this.receiveReceiptModel.receiptLedgerId=receiptLedger.receiptLedgerId;
-  }
+    loadCustomersData() {
+      this.sharedService.GetCustomersData().subscribe(data => {
+        this.supplierList = data;
+      })
+    }
   
-
-
-  saveReceiveReceipt() {
-      if (!this.validateReceiveReceipt()) {
+  
+    loadSuppliersData() {
+      this.sharedService.GetSuppliersSelector().subscribe(data => {
+        this.supplierList = data;
+      })
+    }
+  
+    loadAccountsTreeData() {
+      this.sharedService.GetAccountsSelector().subscribe(data => {
+        this.accountList = data;
+  
+      })
+    }
+  
+    loadAccountsByTypeData(typeId: number) {
+      this.sharedService.GetAccountsByTypeId(typeId).subscribe(data => {
+        this.accountList = data;
+  
+      })
+    }
+  
+    loadReceiptLedgersData() {
+      this.sharedService.GetReceiptLedgersSelector().subscribe(data => {
+        this.receiptLedgerList = data;
+      })
+    }
+  
+    GetSelectedAgencyType(accountType) {
+      this.selectedAgencyType = accountType?.id;
+      this.receiveReceiptModel.agencyTypeId = accountType?.id;
+      switch (accountType?.id) {
+        // case 1:
+        //   this.loadCustomersData();
+        //   break;
+        case 1:
+          this.loadAccountsTreeData();
+          break;
+        case 2:
+          this.loadSuppliersData();
+          break;
+  
+        default:
+          break;
+      }
+    }
+  
+    GetSelectedSupplier(account) {
+      switch (this.selectedAgencyType) {
+        case 0:
+          //supplier
+          this.receiveReceiptModel.supplierId = account.id;
+          break;
+        case 1:
+          //account
+          this.receiveReceiptModel.accountId = account.id;
+          break;
+  
+        default:
+          break;
+      }
+    }
+  
+    GetSelectedPaymentType(type) {
+      this.receiveReceiptModel.paymentTypeId = type.id;
+      //this.loadAccountsByTypeData(type.id);
+    }
+  
+    GetSelectedAccount(account) {
+      this.receiveReceiptModel.accountId = account.id;
+    }
+  
+    GetSelectedReceiptLedger(receiptLedger: ReceiptLedger) {
+      this.receiveReceiptModel.receiptLedgerId = receiptLedger.receiptLedgerId;
+    }
+  
+    SavePaymentReceipt() {
+      if (!this.validatePaymentReceipt()) {
         return;
       }
-    
-    this.paymentService.SaveReceiveReceipt(this.receiveReceiptModel).subscribe((data:ActionsResponseModel) => {
-      if (data?.status) {
-        this.ClearAllFields();
-        this.receiveReceiptModel.receiptNumber = data.id;
-        this.toaster.success(data?.message);
-      } else {
-        this.toaster.error(data?.message);
-      }
-    });
-
-  }
-
-  validateReceiveReceipt():boolean
-  {
-    let model:ReceiveReceipt=this.receiveReceiptModel;
-
-    if(!model.benefitPerson||
-      !model.receiveTypeId||
-      !model.receiptLedgerId||
-      !model.agencyTypeId||
-      !model.agencyId||
-      !model.accountId||
-      !model.releaseDate||
-      !model.moneyAmount)
-      {
-        this.toaster.warning('يرجي ملئ جميع الخانات');
+      this.paymentService.SaveReceiveReceipt(this.receiveReceiptModel).subscribe((data: ActionsResponseModel) => {
+        if (data?.status) {
+          this.ClearAllFields();
+          this.receiveReceiptModel.receiptNumber = data.number;
+          this.toaster.success(data?.message);
+        } else {
+          this.toaster.error(data?.message);
+        }
+      });
+  
+    }
+  
+    validatePaymentReceipt(): boolean {
+      let model: ReceiveReceipt = this.receiveReceiptModel;
+  
+      if (!model.contactName ||
+        !model.paymentTypeId ||
+        !model.receiptLedgerId ||
+        // !model.agencyTypeId ||
+        // !model.agencyId ||
+        // !model.accountId ||
+        !model.releaseDate ||
+        !model.moneyAmount) {
+        this.toaster.warning(' يرجى ملئ الخانات الفارغة');
         return false;
       }
-    return true;
-
+      return true;
+  
+    }
+  
+    ClearAllFields() {
+      this.receiveReceiptModel = {} as ReceiveReceipt;
+      this.selectedAgencyType = null;
+    }
+  
   }
-  ClearAllFields()
-  {
-
-    this.receiveReceiptModel={}as ReceiveReceipt;
-    this.selectedAgencyType=null;
-  }
-
-}
+  

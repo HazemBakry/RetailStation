@@ -14,7 +14,7 @@ namespace MasterErp.Interface.Shared
     {
         List<Customer> GetCustomersData();
         List<DailyNotebook> GetLeadgerJournalsData();
-        List<ReceiptLedger> GetReceiptLedgersData();
+        List<SelectorDataModel> GetReceiptLedgersSelector();
         List<SelectorDataModel> GetAccountsSelector(bool IsParent);
         List<SelectorDataModel> GetCostCenterSelector(bool IsParent);
         List<AccountTree> GetAccountsByTypeId(int TypeId);

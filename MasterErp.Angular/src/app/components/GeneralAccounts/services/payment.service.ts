@@ -97,42 +97,40 @@ export class PaymentService {
       name: 'قيد افتتاحى'
     }
   ]
+
   URL = environment.apiURL;
   constructor(private http: HttpClient) { }
 
-  GetPaymentReceiptData() {
-    return this.http.get<any[]>(this.URL + 'Payment/GetPaymentReceiptData');
+  GetPaymentReceipts_Summary(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'Payment/GetPaymentReceipts_Summary', model);
+  }
+
+  GetPaymentReceipts_Filters(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'Payment/GetPaymentReceipts_Filters', model);
   }
 
   SavePaymentReceipt(model: PaymentReceipt) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Payment/SavePaymentReceipt', model);
-
-  }
-
-  GetReceiveReceiptData() {
-    return this.http.get<any[]>(this.URL + 'Payment/GetReceiveReceiptData');
-
-  }
-
-  SaveReceiveReceipt(model: ReceiveReceipt) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Payment/SaveReceiveReceipt', model);
-
-  }
-
-  GetReceiveReceiptsSummary(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'Payment/GetReceiveReceipts_Summary', model);
-  }
-
-  CancelReceiveReceipt(ReceiptId: any) {
-    return this.http.get<any[]>(this.URL + 'Payment/CancelReceiveReceipt?ReceiptId=' + ReceiptId);
-  }
-
-  GetPaymentReceiptsSummary(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'Payment/GetPaymentReceipts_Summary', model);
   }
 
   CancelPaymentReceipt(ReceiptId: any) {
     return this.http.get<any[]>(this.URL + 'Payment/CancelPaymentReceipt?ReceiptId=' + ReceiptId);
+  }
+
+  GetReceiveReceipts_Summary(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'Payment/GetReceiveReceipts_Summary', model);
+  }
+
+  GetReceiveReceipts_Filters(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'Payment/GetReceiveReceipts_Filters', model);
+  }
+
+  SaveReceiveReceipt(model: ReceiveReceipt) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Payment/SaveReceiveReceipt', model);
+  }
+
+  CancelReceiveReceipt(ReceiptId: any) {
+    return this.http.get<any[]>(this.URL + 'Payment/CancelReceiveReceipt?ReceiptId=' + ReceiptId);
   }
 
 

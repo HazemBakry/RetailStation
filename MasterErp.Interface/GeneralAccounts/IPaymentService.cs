@@ -11,14 +11,18 @@ namespace MasterErp.Interface.GeneralAccounts
 {
     public interface IPaymentService
     {
-        
+
+        // ----------------- Payment Receipts -----------------//
         DataTable GetPaymentReceipts_Summary(FilterModel model);
         DataTable GetPaymentReceipts_Filters(FilterModel model);
         ActionsResponseModel SavePaymentReceipt(PaymentReceipt Model);
         ActionsResponseModel CancelPaymentReceipt(int ReceiptId);
+
+        // ----------------- Receive Receipts -----------------//
         DataTable GetReceiveReceipts_Summary(FilterModel model);
         DataTable GetReceiveReceipts_Filters(FilterModel model);
         ActionsResponseModel SaveReceiveReceipt(ReceiveReceipt Model);
+        ActionsResponseModel CancelReceiveReceipt(int ReceiptId);
 
     }
 }

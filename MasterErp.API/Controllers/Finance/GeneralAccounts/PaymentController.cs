@@ -50,10 +50,16 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("GetReceiveReceipts_Summary")]
-        public IActionResult GetReceiveReceipts_Summary(FilterModel model)
+        public DataTable GetReceiveReceiptsSummary(FilterModel model)
         {
-            var results = _paymentService.GetReceiveReceipts_Summary(model);
-            return Ok(results);
+            return _paymentService.GetReceiveReceipts_Summary(model);
+        }
+
+        [HttpPost]
+        [Route("GetReceiveReceipts_Filters")]
+        public DataTable GetReceiveReceipts_Filters(FilterModel model)
+        {
+            return _paymentService.GetReceiveReceipts_Summary(model);
         }
 
         [HttpPost]
@@ -61,6 +67,14 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         public IActionResult SaveReceiveReceipt(ReceiveReceipt Model)
         {
             var results = _paymentService.SaveReceiveReceipt(Model);
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("CancelReceiveReceipt")]
+        public IActionResult CancelReceiveReceipt(int ReceiptId)
+        {
+            var results = _paymentService.CancelReceiveReceipt(ReceiptId);
             return Ok(results);
         }
     }

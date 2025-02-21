@@ -15,35 +15,35 @@
                     <table class="table table-borderless align-middle table-middle mb-0 table-hover">
                         <thead>
                             <tr>
-                                <th>م</th>
-                                <th>نوع القيد</th>
                                 <th>رقم القيد</th>
+                                <th>نوع القيد</th>
+                                <th>حالة القيد</th>
                                 <th>المجموعة</th>
                                 <th>نوع العملية</th>
+                                <th>الشهر</th>
                                 <th>التاريخ</th>
                                 <th>مدين كلي</th>
                                 <th>دائن كلي</th>
-                                <th>حالة القيد</th>
                                 <th>ملاحظات</th>
                                 <th></th>
-
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of journalEntriesList">
-                                <td>{{item.rowNumber}}</td>
-                                <td>{{item.journalTypeAr}}</td>
                                 <td>{{item.entryNumber}}</td>
+                                <!-- <td>{{item.docNumber}}</td> -->
+                                <td>{{item.journalTypeAr}}</td>
+                                <td>
+                                    <!-- <div appColorWithStatus status="entryStatus" [text]="item.entryStatus"></div> -->
+                                    <div appColorWithStatus status="IsLocked" [text]="item.isLocked"></div>
+                                </td>
                                 <td>{{item.actionGroup}}</td>
                                 <td>{{item.actionType}}</td>
+                                <td>{{item.entryMonth}}</td>
                                 <td>{{item.entryDate | date}}</td>
                                 <td>{{item.totalDebit}}</td>
                                 <td>{{item.totalCredit}}</td>
-                                <td>
-                                    <!-- {{item.entryStatus}} -->
-                                    <div appColorWithStatus status="entryStatus" [text]="item.entryStatus"></div>
-                                </td>
-                                <td>{{item.notes}}</td>
+                                <td>{{item.description}}</td>
                                 <td>
                                     <div class="d-flex align-items-center justify-content-center">
                                         <div ngbDropdown container="body">

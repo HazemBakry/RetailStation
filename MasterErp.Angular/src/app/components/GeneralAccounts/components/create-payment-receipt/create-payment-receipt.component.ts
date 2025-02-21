@@ -19,16 +19,8 @@ export class CreatePaymentReceiptComponent implements OnInit {
   accountList: any[] = [];
   receiptLedgerList: any[] = [];
   paymentReceiptModel: PaymentReceipt = {} as PaymentReceipt
-
   inputDropdownValue = '';
   isFocused = false;
-  paymentList: string[] = [
-    'مشروع البنك',
-    'نقدي',
-    'شيك',
-    'بطاقة إئتمان',
-    'تحويل على الهواء',
-  ];
 
   constructor(private sharedService: SharedService,
     private paymentService: PaymentService,
@@ -72,7 +64,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
   }
 
   loadReceiptLedgersData() {
-    this.sharedService.GetReceiptLedgersData().subscribe(data => {
+    this.sharedService.GetReceiptLedgersSelector().subscribe(data => {
       this.receiptLedgerList = data;
     })
   }

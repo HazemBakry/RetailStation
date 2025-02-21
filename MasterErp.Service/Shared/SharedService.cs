@@ -46,9 +46,15 @@ namespace MasterErp.Service.Shared
         {
             return Context.DailyNotebooks.ToList();
         }
-        public List<ReceiptLedger> GetReceiptLedgersData()
+
+        public List<SelectorDataModel> GetReceiptLedgersSelector()
         {
-            return Context.ReceiptLedgers.ToList();
+            var results = Context.ReceiptLedgers.Select(b => new SelectorDataModel
+            {
+                Id = b.ReceiptLedgerId,
+                Name = b.NameEN,
+            }).ToList();
+            return results;
         }
 
         public List<AccountTree> GetAccountsByTypeId(int TypeId)

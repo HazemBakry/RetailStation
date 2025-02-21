@@ -27,7 +27,7 @@ export class PaymentReceiptsComponent implements OnInit {
 
   GetPaymentReceiptsSummary() {
     this.showLoader = true;
-    this.paymentService.GetPaymentReceiptsSummary(this.FilterModel).subscribe(data => {
+    this.paymentService.GetPaymentReceipts_Summary(this.FilterModel).subscribe(data => {
       this.List = data;
 
       this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;

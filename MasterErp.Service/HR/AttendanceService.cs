@@ -61,7 +61,7 @@ namespace MasterErp.Service.HR
                 Context.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

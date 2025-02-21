@@ -65,8 +65,10 @@
                 <div class="mb-2">
                     <label class="form-label d-flex align-items-center gap-2">طريقة الدفع <span
                             class="text-danger">*</span></label>
-                    <app-erp-selector-with-search #Selector [ItemsList]="paymentTypeList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedPaymentType($event)">
-                    </app-erp-selector-with-search>
+
+                    <app-general-selector formControlName="id" [data]="paymentTypeList" [placeholder]="'طريقة الدفع'"></app-general-selector>
+                    <!-- <app-erp-selector-with-search #Selector [ItemsList]="paymentTypeList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedPaymentType($event)">
+                    </app-erp-selector-with-search> -->
                 </div>
             </div>
             <div class="col-lg-6">
@@ -91,10 +93,12 @@
             <div class="col-lg-6">
                 <div class="mb-2">
                     <label class="form-label d-flex align-items-center gap-2"> دفتر الايصال <span
-                        class="text-danger">*</span></label>
+                            class="text-danger">*</span></label>
 
-                    <app-erp-selector-with-search #Selector [ItemsList]="receiptLedgerList" [Height]="'35px'" [SearchKey]="'nameAR'" [innerTextKey]="'nameAR'" (ItemObj)="GetSelectedReceiptLedger($event)">
-                    </app-erp-selector-with-search>
+                    <app-general-selector formControlName="receiptLedgerId" [data]="receiptLedgerList" [placeholder]="'دفتر الإيصال'"></app-general-selector>
+
+                    <!-- <app-erp-selector-with-search #Selector [ItemsList]="receiptLedgerList" [Height]="'35px'" [SearchKey]="'nameAR'" [innerTextKey]="'nameAR'" (ItemObj)="GetSelectedReceiptLedger($event)">
+                    </app-erp-selector-with-search> -->
                 </div>
             </div>
             <div class="col-lg-6">
