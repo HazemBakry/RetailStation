@@ -182,8 +182,8 @@ export class CreateJournalEntryComponent implements OnInit {
   }
 
   saveEntry() {
-   
-    if(!this.validateAccounts())
+
+    if (!this.validateAccounts())
       return;
     this.formGroup.patchValue({ journalEntryAccounts: this.entryAccounts.filter(entry => entry.accountId) });
     if (!this.validateForm()) {
@@ -243,12 +243,11 @@ export class CreateJournalEntryComponent implements OnInit {
 
   }
   validateAccounts(): boolean {
-    if (this.entryAccounts?.length === 0 || this.entryAccounts?.every(entry => !entry.accountId))
-    {
+    if (this.entryAccounts?.length === 0 || this.entryAccounts?.every(entry => !entry.accountId)) {
       this.toaster.warning('لا يوجد حسابات');
       return false;
     }
-    if (this.entryAccounts.some(x => !x.credit && !x.debit)||this.difference != 0) {
+    if (this.entryAccounts.some(x => !x.credit && !x.debit) || this.difference != 0) {
       this.toaster.warning('القيد غير متزن');
       // this.toaster.warning('Please Fill Debtor or Creditor filed for each row');
       return false;
@@ -296,6 +295,7 @@ export class CreateJournalEntryComponent implements OnInit {
       list.splice(index, 1);
     this.calcDifference();
   }
+  deleteAllAccounts() { this.entryAccounts = []; this.calcDifference(); }
   calcDifference() {
     let debit = 0;
     let credit = 0;

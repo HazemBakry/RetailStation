@@ -213,7 +213,7 @@
                 </div>
             </div>
             <button *ngIf="entryAccounts.length" class="button-table-action mt-3 btn-delete d-flex align-items-center justify-content-center gap-2"
-                (click)="entryAccounts = []">
+                (click)="entryAccounts = [];calcDifference()">
                 <i class="fas fa-times fs-5"></i>
                 حذف الكل
             </button>
