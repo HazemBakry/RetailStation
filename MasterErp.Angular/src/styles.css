@@ -760,7 +760,7 @@ select::after {
   border-collapse: collapse;
   background: #fff;
   max-height: 700px;
-  table-layout: fixed;
+  /* table-layout: fixed; */
 }
 
 tr {
