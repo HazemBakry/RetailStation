@@ -52,7 +52,7 @@ namespace MasterErp.Service.GeneralAccounts
                 EntryModel.Description = entry.Description;
                 EntryModel.DocNumber = entry.DocNumber;
                 EntryModel.EntryDate = entry.EntryDate;
-                EntryModel.EntryId = entry.JournalEntryId;
+                EntryModel.JournalEntryId = entry.JournalEntryId;
                 EntryModel.EntryNumber = entry.EntryNumber.ToString();
                 EntryModel.JournalTypeId = entry.JournalTypeId;
                 EntryModel.Month = entry.EntryDate.Month;
