@@ -147,7 +147,7 @@ export class DashboardComponent implements OnInit {
 
   
   GetDailyJournalEntriesSummary() {
-    this.generalAccountService.GetDailyJournalEntriesSummary(this.FilterModel).subscribe(data => {
+    this.generalAccountService.GetDailyJournalEntriesSummary(this.pagedResponseModel).subscribe(data => {
         // console.log("🚀  ~ data:", data)
         this.journalEntriesList=data;
     },

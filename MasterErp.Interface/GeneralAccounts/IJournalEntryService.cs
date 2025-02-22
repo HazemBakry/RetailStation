@@ -20,12 +20,12 @@ namespace MasterErp.Interface.GeneralAccounts
         JournalEntryModel GetJournalEntryDetailsById(int journalId);
         ActionsResponseModel SaveNewJournalEntry(JournalEntryModel model);
         ActionsResponseModel EditJournalEntry(int EntryId,JournalEntryModel model);
-        DataTable GetDailyJournalEntriesSummary(FilterModel model);
-        List<FilterModel> GetDailyJournalEntriesFilters(FilterModel model);
-        bool CancelJournalEntry(List<int> JournalEntryIds);
-        bool PostJournalEntry(List<int> JournalEntryIds);
-        bool ReverseJournalEntry(List<int> JournalEntryIds);
-        bool PrintJournalEntry(List<int> JournalEntryIds);
+        List<JournalEntryModel> GetDailyJournalEntriesSummary(SearchFilterModel model);
+        List<FilterModel> GetDailyJournalEntriesFilters(SearchFilterModel model);
+        ActionsResponseModel CancelJournalEntry(string UserId, List<int> JournalEntryIds);
+        ActionsResponseModel PostJournalEntry(string UserId, List<int> JournalEntryIds);
+        ActionsResponseModel ReverseJournalEntry(string UserId, List<int> JournalEntryIds);
+        ActionsResponseModel PrintJournalEntry(string UserId, List<int> JournalEntryIds);
         //bool SavePaymentJournalEntry(PaymentReceipt Model);
         //bool SaveReceiveJournalEntry(ReceiveReceipt Model);
     }

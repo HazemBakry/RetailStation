@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.GeneralAccounts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,6 +14,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class JournalEntryController : ControllerBase
     {
         private readonly IJournalEntryService EntryService;
@@ -64,18 +66,31 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             return EntryService.GetJournalEntryDetailsById(EntryId);
         }
 
+
+
         [HttpPost]
         [Route("GetDailyJournalEntriesSummary")]
-        public DataTable GetDailyJournalEntriesSummary(FilterModel model)
+        public IActionResult GetDailyJournalEntriesSummary(SearchFilterModel model)
         {
-            return EntryService.GetDailyJournalEntriesSummary(model);
+            var data = EntryService.GetDailyJournalEntriesSummary(model);
+
+            var result = new PagedResponseModel<JournalEntryModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
         }
+
 
         [HttpPost]
         [Route("GetDailyJournalEntriesFilters")]
-        public List<FilterModel> GetDailyJournalEntriesFilters(FilterModel model)
+        public IActionResult GetDailyJournalEntriesFilters(SearchFilterModel model)
         {
-            return EntryService.GetDailyJournalEntriesFilters(model);
+            var results = EntryService.GetDailyJournalEntriesFilters(model);
+            return Ok(results);
         }
 
         [HttpPost]
@@ -95,30 +110,38 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("CancelJournalEntry")]
-        public bool CancelJournalEntry(List<int> JournalEntryIds)
+        public IActionResult CancelJournalEntry(List<int> JournalEntryIds)
         {
-            return EntryService.CancelJournalEntry(JournalEntryIds);
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            return Ok(EntryService.CancelJournalEntry(UserId, JournalEntryIds));
         }
 
         [HttpPost]
         [Route("PostJournalEntry")]
-        public bool PostJournalEntry(List<int> JournalEntryIds)
+        public IActionResult PostJournalEntry(List<int> JournalEntryIds)
         {
-            return EntryService.PostJournalEntry(JournalEntryIds);
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            return Ok(EntryService.PostJournalEntry(UserId, JournalEntryIds));
         }
 
         [HttpPost]
         [Route("ReverseJournalEntry")]
-        public bool ReverseJournalEntry(List<int> JournalEntryIds)
+        public IActionResult ReverseJournalEntry(List<int> JournalEntryIds)
         {
-            return EntryService.ReverseJournalEntry(JournalEntryIds);
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            return Ok(EntryService.ReverseJournalEntry(UserId, JournalEntryIds));
         }
 
         [HttpPost]
         [Route("PrintJournalEntry")]
-        public bool PrintJournalEntry(List<int> JournalEntryIds)
+        public IActionResult PrintJournalEntry(List<int> JournalEntryIds)
         {
-            return EntryService.PrintJournalEntry(JournalEntryIds);
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            return Ok(EntryService.PrintJournalEntry(UserId,JournalEntryIds));
         }
     }
 }

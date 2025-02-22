@@ -12,6 +12,7 @@ import { AccountOpeningBalanceModel } from '../models/GeneralAccounts/OpeningBal
 import { CostCenterTreeModel } from '../models/GeneralAccounts/CostCenter';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { JournalTemplateDetails } from '../models/GeneralAccounts/JournalTemplateDetailsModel';
+import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +58,7 @@ export class GeneralAccountService {
     return this.http.get<any>(this.URL + 'JournalEntry/GetGeneralAccounts_Statistics');
   }
 
-  GetDailyJournalEntriesSummary(model: FilterModel) {
+  GetDailyJournalEntriesSummary(model: PagedResponseDTO<JournalEntryModel[]>) {
     return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesSummary', model);
   }
 
@@ -65,8 +66,8 @@ export class GeneralAccountService {
     return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesFilters', model);
   }
 
-  GetJournalEntryDetailsById(entryId: number) {
-    return this.http.get<JournalEntryModel>(this.URL + 'JournalEntry/GetJournalEntryDetailsById?EntryId=' + entryId);
+  GetJournalEntryDetailsById(journalEntryId: number) {
+    return this.http.get<JournalEntryModel>(this.URL + 'JournalEntry/GetJournalEntryDetailsById?EntryId=' + journalEntryId);
   }
 
   GetJournalEntryTypes() {
@@ -88,26 +89,26 @@ export class GeneralAccountService {
   SaveNewJournalEntry(model: JournalEntryModel) {
     return this.http.post<any>(this.URL + 'JournalEntry/SaveNewJournalEntry', model);
   }
-  EditJournalEntry(entryId:number,model: JournalEntryModel) {
-    return this.http.post<any>(this.URL + 'JournalEntry/EditJournalEntry?EntryId='+entryId, model);
+  EditJournalEntry(journalEntryId:number,model: JournalEntryModel) {
+    return this.http.post<any>(this.URL + 'JournalEntry/EditJournalEntry?EntryId='+journalEntryId, model);
   }
 
 
 
   CancelJournalEntry(JournalEntryIds: number[]) {
-    return this.http.post<any>(this.URL + 'JournalEntry/CancelJournalEntry', JournalEntryIds);
+    return this.http.post<ActionsResponseModel>(this.URL + 'JournalEntry/CancelJournalEntry', JournalEntryIds);
   }
 
   PostJournalEntry(JournalEntryIds: number[]) {
-    return this.http.post<any>(this.URL + 'JournalEntry/PostJournalEntry', JournalEntryIds);
+    return this.http.post<ActionsResponseModel>(this.URL + 'JournalEntry/PostJournalEntry', JournalEntryIds);
   }
 
   ReverseJournalEntry(JournalEntryIds: number[]) {
-    return this.http.post<any>(this.URL + 'JournalEntry/ReverseJournalEntry', JournalEntryIds);
+    return this.http.post<ActionsResponseModel>(this.URL + 'JournalEntry/ReverseJournalEntry', JournalEntryIds);
   }
 
   PrintJournalEntry(JournalEntryIds: number[]) {
-    return this.http.post<any>(this.URL + 'JournalEntry/PrintJournalEntry', JournalEntryIds);
+    return this.http.post<ActionsResponseModel>(this.URL + 'JournalEntry/PrintJournalEntry', JournalEntryIds);
   }
   GetDailyJournalEntriesLastFiveRecords() {
     return this.http.get<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesLastFiveRecords');

@@ -54,7 +54,6 @@ namespace MasterErp.Service.GeneralAccounts
                 EntryModel.EntryDate = entry.EntryDate;
                 EntryModel.EntryId = entry.JournalEntryId;
                 EntryModel.EntryNumber = entry.EntryNumber.ToString();
-                EntryModel.Month = entry.EntryDate.Month;
                 EntryModel.JournalTypeId = entry.JournalTypeId;
                 EntryModel.Month = entry.EntryDate.Month;
                 EntryModel.PeriodId = entry.PeriodId;
@@ -263,29 +262,11 @@ namespace MasterErp.Service.GeneralAccounts
 
 
 
-        public DataTable GetDailyJournalEntriesSummary(FilterModel model)
+        public List<JournalEntryModel> GetDailyJournalEntriesSummary(SearchFilterModel model)
         {
-            //DataTable dt = new DataTable();
-            //dt.Clear();
-            //dt.Columns.Add("CategoryDisplayName");
-            //dt.Columns.Add("CategoryName");
-            //dt.Columns.Add("ItemKey");
-            //dt.Columns.Add("ItemValue");
-            //dt.Columns.Add("DisplayOrder");
 
-            //foreach (FilterItem item in model.FilterItems)
-            //{
-            //    DataRow row = dt.NewRow();
 
-            //    row["CategoryDisplayName"] = item.CategoryDisplayName;
-            //    row["CategoryName"] = item.CategoryName;
-            //    row["ItemKey"] = item.ItemKey;
-            //    row["ItemValue"] = item.ItemKey;
-            //    row["DisplayOrder"] = 1;
-            //    dt.Rows.Add(row);
-            //}
-
-            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterItems);
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
             SqlParameter[] Params = new SqlParameter[3];
             Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
@@ -293,13 +274,13 @@ namespace MasterErp.Service.GeneralAccounts
             Params[2] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[2].Value = dt;
 
-            DataTable result = SQLHelper.ExecuteDataTable("[Finance].[SP_GetDailyJournalEntries_Summary]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<JournalEntryModel>("[Finance].[SP_GetDailyJournalEntries_Summary]", ConnectionString, Params);
             return result;
         }
 
-        public List<FilterModel> GetDailyJournalEntriesFilters(FilterModel model)
+        public List<FilterModel> GetDailyJournalEntriesFilters(SearchFilterModel model)
         {
-            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterItems);
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
             SqlParameter[] Params = new SqlParameter[1];
             Params[0] = new SqlParameter("@dt", SqlDbType.Structured);
@@ -310,75 +291,96 @@ namespace MasterErp.Service.GeneralAccounts
             return GroupFilters;
         }
 
-        public bool CancelJournalEntry(List<int> JournalEntryIds)
+        public ActionsResponseModel CancelJournalEntry(string UserId, List<int> JournalEntryIds)
         {
             try
             {
                 var entries = Context.JournalEntries.Where(item => JournalEntryIds.Contains(item.JournalEntryId)).ToList();
 
+                if(!entries.Any())
+                    return new ActionsResponseModel { IsSuccess = false, Message = "لا يوجد قيود !" };
+
                 foreach (var item in entries)
                 {
                     item.IsCancelled = true;
                     item.ModifiedDate = DateTime.Now;
-                    item.ModifiedBy = "";
+                    item.ModifiedBy = UserId;
                 }
                 Context.SaveChanges();
-
-                return true;
+                return new ActionsResponseModel { Message = "تم اسقاط القيود بنجاح" };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
             }
         }
 
-        public bool PostJournalEntry(List<int> JournalEntryIds)
+        public ActionsResponseModel PostJournalEntry(string UserId, List<int> JournalEntryIds)
         {
             try
             {
-                foreach (var entryId in JournalEntryIds)
-                {
-                    var Entry = Context.JournalEntries.Where(x => x.JournalEntryId == entryId).FirstOrDefault();
-                    if (Entry != null)
-                    {
-                        Entry.IsLocked = true;
-                        Entry.PostDate = DateTime.Now;
+                var entries = Context.JournalEntries.Where(item => JournalEntryIds.Contains(item.JournalEntryId)).ToList();
 
-                        Context.SaveChanges();
-                    }
+                if (!entries.Any())
+                    return new ActionsResponseModel { IsSuccess = false, Message = "لا يوجد قيود !" };
+
+                foreach (var Entry in entries)
+                {
+                    Entry.IsLocked = true;
+                    Entry.IsPosted = true;
+                    Entry.PostDate = DateTime.Now;
+                    Entry.ModifiedDate = DateTime.Now;
+                    Entry.ModifiedBy = UserId;
                 }
-                return true;
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "تم ترحيل القيود بنجاح" };
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return true;
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
             }
         }
 
-        public bool ReverseJournalEntry(List<int> JournalEntryIds)
+        public ActionsResponseModel ReverseJournalEntry(string UserId,List<int> JournalEntryIds)
         {
             try
             {
-                foreach (var entryId in JournalEntryIds)
-                {
-                    var Entry = Context.JournalEntries.Where(x => x.JournalEntryId == entryId).FirstOrDefault();
-                    if (Entry != null)
-                    {
-                        Entry.IsLocked = false;
-                        Entry.PostDate = null;
+                var entries = Context.JournalEntries.Where(item => JournalEntryIds.Contains(item.JournalEntryId)).ToList();
 
-                        Context.SaveChanges();
-                    }
+                if (!entries.Any())
+                    return new ActionsResponseModel { IsSuccess = false, Message = "لا يوجد قيود !" };
+
+                foreach (var Entry in entries)
+                {
+                    Entry.IsLocked = !Entry.IsLocked;
+                    Entry.IsPosted = !Entry.IsPosted;
+                    Entry.PostDate = Entry.IsPosted == true ? DateTime.Now:null;
+                    Entry.ModifiedDate = DateTime.Now;
+                    Entry.ModifiedBy = UserId;
                 }
-                return true;
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "تم عكس القيود بنجاح" };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return true;
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
             }
         }
 
-        public bool PrintJournalEntry(List<int> JournalEntryIds)
+        public ActionsResponseModel PrintJournalEntry(string UserId, List<int> JournalEntryIds)
         {
             try
             {
@@ -393,11 +395,15 @@ namespace MasterErp.Service.GeneralAccounts
                 //        Context.SaveChanges();
                 //    }
                 //}
-                return true;
+                return new ActionsResponseModel { Message = "تم طباعة القيود بنجاح" };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return true;
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
             }
         }
 

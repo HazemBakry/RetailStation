@@ -69,11 +69,15 @@
 
                     </div>
                 </div>
-                <div class="col-lg-12">
-                    <div class="mb-2">
-                        <label class="form-label d-flex align-items-center gap-2">البيان</label>
-
-                        <input type="text" class="form-control nw-form-input description-area" formControlName="description" />
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            البيان
+                        </label>
+                        <input type="text" class="form-control nw-form-input" formControlName="description"
+                            autocomplete="off" />
+                        <!-- <textarea class="form-control" placeholder="Description *" formControlName="description"
+                            autocomplete="off"></textarea> -->
                         <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
                             {{formErrors.description}}
                         </div>
@@ -178,13 +182,26 @@
     </div>
     <div class="p-2">
         <!-- <button class="btn btn-secondary mt-3" (click)="addField()">إضافة صف</button> -->
-        <button class="button-table-action mt-3 btn-edit d-flex align-items-center justify-content-center gap-2" (click)="addField()">
-            <i class="uil uil-plus fs-5"></i>
-            <span>اضافة حساب</span>
-        </button>
-        <div *ngIf="formErrors.journalEntryAccounts&&!entryAccounts?.length" class="text-danger  font-small-3 m-03">
-            {{formErrors.journalEntryAccounts}}
+        <div class="d-flex">
+
+            <div class="me-1">
+                <button class="button-table-action mt-3 btn-edit d-flex align-items-center justify-content-center gap-2"
+                    (click)="addField()">
+                    <i class="uil uil-plus fs-5"></i>
+                    <span>اضافة حساب</span>
+                </button>
+                <div *ngIf="formErrors.journalEntryAccounts&&!entryAccounts?.length"
+                    class="text-danger  font-small-3 m-03">
+                    {{formErrors.journalEntryAccounts}}
+                </div>
+            </div>
+            <button *ngIf="entryAccounts.length" class="button-table-action mt-3 btn-delete d-flex align-items-center justify-content-center gap-2"
+                (click)="entryAccounts = [];calcDifference()">
+                <i class="fas fa-times fs-5"></i>
+                حذف الكل
+            </button>
         </div>
+
     </div>
     <hr />
     <div class="row justify-content-end mb-3">
@@ -193,7 +210,8 @@
                 <label class="form-label d-flex align-items-center gap-2">
                     أجمالي دائن
                 </label>
-                <input type="text" class="form-control nw-form-input" [value]="totalCredit" disabled autocomplete="off" />
+                <input type="text" class="form-control nw-form-input" [value]="totalCredit" disabled
+                    autocomplete="off" />
             </div>
         </div>
     </div>
@@ -203,7 +221,8 @@
                 <label class="form-label d-flex align-items-center gap-2">
                     أجمالي مدين
                 </label>
-                <input type="text" class="form-control nw-form-input" [value]="totalDebit" disabled autocomplete="off" />
+                <input type="text" class="form-control nw-form-input" [value]="totalDebit" disabled
+                    autocomplete="off" />
             </div>
         </div>
     </div>

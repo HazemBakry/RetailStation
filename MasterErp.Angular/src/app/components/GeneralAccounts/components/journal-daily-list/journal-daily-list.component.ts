@@ -3,6 +3,9 @@ import { FilterItem, FilterModel } from 'src/app/components/Shared/models/Filter
 import { GeneralAccountService } from '../../services/general-account.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { JournalEntryModel } from '../../models/GeneralAccounts/JurnalEntryModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 
 @Component({
   selector: 'app-journal-daily-list',
@@ -11,17 +14,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class JournalDailyListComponent implements OnInit {
   filterList: FilterModel[] = [];
-  DailyJournal: any[] = [];
-  SelectAll = false;
-  showLoader: boolean;
-  totalCount: any;
-  totalPages: any;
-  FilterModel: FilterModel = {
-    currentPage: 1,
+  showLoader: boolean = false;
+  selectAll: boolean = false;
+  pagedResponseModel: PagedResponseDTO<JournalEntryModel[]> = {
+    results: [],
+    filterList: [],
     pageSize: 25,
-    filterItems: []
-  }
+    currentPage: 1,
+    searchText: ''
 
+  };
   constructor(private generalService: GeneralAccountService,
     private router: Router,
     private toaster: ToastrService) { }
@@ -30,124 +32,155 @@ export class JournalDailyListComponent implements OnInit {
     this.getDailyJournalEntriesSummary();
     this.getDailyJournalEntriesFilters();
   }
-
   getDailyJournalEntriesSummary() {
-    this.generalService.GetDailyJournalEntriesSummary(this.FilterModel).subscribe(data => {
-      this.DailyJournal = data;
-      this.totalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
-      this.DailyJournal.map(i => i.isChecked == false);
+
+    this.showLoader=true;
+    this.generalService.GetDailyJournalEntriesSummary(this.pagedResponseModel).subscribe(data => {
+      this.pagedResponseModel.results = data?.results;
+      this.pagedResponseModel.totalCount = data?.totalCount;
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
   }
 
+
   getDailyJournalEntriesFilters() {
-    this.generalService.GetDailyJournalEntriesFilters(this.FilterModel).subscribe(data => {
+    this.generalService.GetDailyJournalEntriesFilters(this.pagedResponseModel).subscribe((data: FilterModel[]) => {
       this.filterList = data;
+    }, (err) => {
+      // this.showLoader = false;
+    }, () => {
+      // this.showLoader = false;
     });
   }
 
   pageChanged(obj: any) {
-    this.FilterModel.currentPage = obj.page;
+    this.pagedResponseModel.currentPage = obj.page;
     this.getDailyJournalEntriesSummary();
   }
 
   filterChecked(filterItems: FilterItem[]) {
-    this.FilterModel.filterItems = filterItems;
+    this.pagedResponseModel.filterList = filterItems;
     this.getDailyJournalEntriesSummary();
   }
 
-  SelectedAll(isSelected: boolean) {
-    this.DailyJournal.forEach(i => i.isChecked = isSelected);
+
+  selectAllData() {
+    if (this.pagedResponseModel.results && this.pagedResponseModel.results.length > 0) {
+      this.pagedResponseModel.results.map(c => {
+        c.isChecked = this.selectAll;
+      });
+    }
+
   }
 
-  CancelJournalEntry() {
-    //let journalEntryIds = this.DailyJournal.map(i => i.journalEntryId);
-    let journalEntryIds = this.DailyJournal.filter(a => a.isChecked).map(i => Number(i.journalEntryId));
+  getSelectedEntries(): number[] {
+    var checkedItems = this.pagedResponseModel.results.filter(b => b.isChecked && b.journalEntryId).map(i => Number(i.journalEntryId));
+    if (checkedItems.length <= 0) {
+      this.toaster.warning('يجب الاختيار من القيود ');
 
-    if (journalEntryIds.length == 0) {
-      this.toaster.warning('Please Select Jurnal');
-      return;
     }
+    return checkedItems;
+  }
+  cancelJournalEntry() {
+
+    let journalEntryIds = this.getSelectedEntries();
+    if (!journalEntryIds?.length)
+      return;
+
     this.showLoader = true;
-    this.generalService.CancelJournalEntry(journalEntryIds).subscribe(data => {
-      if (data) {
-        this.SelectAll = false;
-        this.DailyJournal.forEach(i => i.isChecked = false);
+    this.generalService.CancelJournalEntry(journalEntryIds).subscribe((data: ActionsResponseModel) => {
+      if (data.isSuccess) {
+        this.selectAll = false;
         this.getDailyJournalEntriesSummary();
-        this.toaster.success('تم اسقاط القيود بنجاح');
+        this.toaster.success(data.message);
       }
-      else
-        this.toaster.error('Drop Journal Failure');
+      else {
+        this.toaster.error(data.message);
+      }
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
       this.showLoader = false;
     });
   }
 
-  PostJournalEntry() {
-    let journalEntryIds = this.DailyJournal.filter(a => a.isChecked).map(i => Number(i.journalEntryId));
-    //let journalEntryIds = this.DailyJournal.map(i => i.journalEntryId);
-    if (journalEntryIds.length == 0) {
-      this.toaster.warning('Please Select Jurnal');
+  postJournalEntry() {
+    let journalEntryIds = this.getSelectedEntries();
+    if (!journalEntryIds?.length)
       return;
-    }
+
     this.showLoader = true;
     this.generalService.PostJournalEntry(journalEntryIds).subscribe(data => {
-      if (data) {
-        this.SelectAll = false;
-        this.DailyJournal.forEach(i => i.isChecked = false);
+      if (data.isSuccess) {
+        this.selectAll = false;
         this.getDailyJournalEntriesSummary();
-        this.toaster.success('تم ترحيل القيوم بنجاح');
+        this.toaster.success(data.message);
       }
-      else
-        this.toaster.error('Expulsion Journal Failure');
+      else {
+        this.toaster.error(data.message);
+      }
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
       this.showLoader = false;
     });
   }
 
-  ReverseJournalEntry() {
-    //let journalEntryIds = this.DailyJournal.map(i => i.journalEntryId);
-    let journalEntryIds = this.DailyJournal.filter(a => a.isChecked).map(i => Number(i.journalEntryId));
-
-    if (journalEntryIds.length == 0) {
-      this.toaster.warning('Please Select Jurnal');
+  reverseJournalEntry() {
+    let journalEntryIds = this.getSelectedEntries();
+    if (!journalEntryIds?.length)
       return;
-    }
+
     this.showLoader = true;
     this.generalService.ReverseJournalEntry(journalEntryIds).subscribe(data => {
-      if (data) {
-        this.SelectAll = false;
-        this.DailyJournal.forEach(i => i.isChecked = false);
+      if (data.isSuccess) {
+        this.selectAll = false;
         this.getDailyJournalEntriesSummary();
-        this.toaster.success('تم عكس القيود بنجاح');
+        this.toaster.success(data.message);
       }
-      else
-        this.toaster.error('Reverse Journal Failure');
+      else {
+        this.toaster.error(data.message);
+      }
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
       this.showLoader = false;
     });
   }
 
-  PrintJournalEntry() {
-    //let journalEntryIds = this.DailyJournal.map(i => i.journalEntryId);
-    let journalEntryIds = this.DailyJournal.filter(a => a.isChecked).map(i => Number(i.journalEntryId));
-
-    if (journalEntryIds.length == 0) {
-      this.toaster.warning('Please Select Jurnal');
+  printJournalEntry() {
+    let journalEntryIds = this.getSelectedEntries();
+    if (!journalEntryIds?.length)
       return;
-    }
+
+
     this.showLoader = true;
     this.generalService.PrintJournalEntry(journalEntryIds).subscribe(data => {
-      if (data) {
-        this.SelectAll = false;
-        this.DailyJournal.forEach(i => i.isChecked = false);
-        //this.GetDailyJournalEntriesSummary();
-        //this.toaster.success('Print Journal Successfully');
+      if (data.isSuccess) {
+        this.selectAll = false;
+        this.getDailyJournalEntriesSummary();
+        this.toaster.success(data.message);
       }
-      else
-        this.toaster.error('Print Journal Failure');
+      else {
+        this.toaster.error(data.message);
+      }
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
       this.showLoader = false;
     });
   }
 
-  onEditClick(entryId: any) {
-    this.router.navigate(['/general-accounts/new-entry'], { queryParams: { EntryId: entryId } });
-  }
+  // onEditClick(journalEntryId: any) {
+  //   this.router.navigate(['/general-accounts/new-entry'], { queryParams: { EntryId: journalEntryId } });
+  // }
 
 }

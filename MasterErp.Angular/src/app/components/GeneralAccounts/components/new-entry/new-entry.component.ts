@@ -64,9 +64,9 @@ export class NewEntryComponent implements OnInit {
     this.getCostCenterSelector();
     this.getSavedJournalTemplates();
     //this.getCurrencyList();
-    let entryId = this.route.snapshot.queryParamMap.get('EntryId');
-    if (entryId)
-      this.getEntryDetailsByEntryId(entryId);
+    let journalEntryId = this.route.snapshot.queryParamMap.get('EntryId');
+    if (journalEntryId)
+      this.getEntryDetailsByEntryId(journalEntryId);
   }
 
   getAccountsSelector() {
@@ -112,9 +112,9 @@ export class NewEntryComponent implements OnInit {
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
-  getEntryDetailsByEntryId(entryId) {
+  getEntryDetailsByEntryId(journalEntryId) {
     this.showLoader = true;
-    this.generalService.GetJournalEntryDetailsById(entryId).subscribe(data => {
+    this.generalService.GetJournalEntryDetailsById(journalEntryId).subscribe(data => {
       if (data) {
         this.entryModel.entryNumber = data?.entryNumber;
         this.entryModel.docNumber = data?.docNumber;

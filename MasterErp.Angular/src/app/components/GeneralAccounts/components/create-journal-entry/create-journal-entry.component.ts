@@ -58,9 +58,9 @@ export class CreateJournalEntryComponent implements OnInit {
 
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
-      if (params.EntryId) {
-        this.entryModel = params.EntryId;
-        this.getEntryDetailsById(params.EntryId);
+      if (params.JournalEntryId) {
+        this.entryModel = params.JournalEntryId;
+        this.getEntryDetailsById(params.JournalEntryId);
       }
     })
 
@@ -70,9 +70,9 @@ export class CreateJournalEntryComponent implements OnInit {
     this.loadSelectors();
   }
 
-  getEntryDetailsById(entryId) {
+  getEntryDetailsById(journalEntryId) {
     this.showLoader = true;
-    this.generalService.GetJournalEntryDetailsById(entryId).subscribe(data => {
+    this.generalService.GetJournalEntryDetailsById(journalEntryId).subscribe(data => {
       if (data) {
         this.entryModel = data;
         this.initNewForm(this.entryModel);
@@ -141,14 +141,14 @@ export class CreateJournalEntryComponent implements OnInit {
   buildForm() {
 
     this.formGroup = this.form.group({
-      entryId: [null],
+      journalEntryId: [null],
       entryNumber: [null],
       docNumber: [null],
       entryDate: [null, [Validators.required]],
       journalTypeId: [null, [Validators.required]],
       currencyTypeId: [null],
       journalEntryAccounts: [[] as JournalEntryAccount[], [Validators.required, Validators.minLength(1)]],
-      description: [null]
+      description: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -170,20 +170,20 @@ export class CreateJournalEntryComponent implements OnInit {
 
     this.formGroup.patchValue({
 
-      entryId: entryModel.entryId,
+      journalEntryId: entryModel.journalEntryId,
       entryNumber: entryModel.entryNumber,
       docNumber: entryModel.docNumber,
       entryDate: this.datePipe.transform(entryModel.entryDate, 'yyyy-MM-dd'),
       journalTypeId: entryModel.journalTypeId,
       currencyTypeId: entryModel.currencyTypeId,
       journalEntryAccounts: entryModel.journalEntryAccounts,
-      description: entryModel.description
+      description: entryModel.description,
     });
   }
 
   saveEntry() {
-   
-    if(!this.validateAccounts())
+
+    if (!this.validateAccounts())
       return;
     this.formGroup.patchValue({ journalEntryAccounts: this.entryAccounts.filter(entry => entry.accountId) });
     if (!this.validateForm()) {
@@ -206,7 +206,7 @@ export class CreateJournalEntryComponent implements OnInit {
         //this.initNewForm();
         this.toaster.success(data?.message);
         this.entryModel.entryNumber = data.number;
-        this.entryModel.entryId = data.id;
+        this.entryModel.journalEntryId = data.id;
 
         this.initNewForm(this.entryModel)
       }
@@ -223,7 +223,7 @@ export class CreateJournalEntryComponent implements OnInit {
 
   editEntry() {
     this.showAddLoader = true;
-    this.generalService.EditJournalEntry(this.entryModel.entryId, this.entryModel).subscribe((data: ActionsResponseModel) => {
+    this.generalService.EditJournalEntry(this.entryModel.journalEntryId, this.entryModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         // this.formGroup?.reset();
         // this.initNewForm();
@@ -243,12 +243,11 @@ export class CreateJournalEntryComponent implements OnInit {
 
   }
   validateAccounts(): boolean {
-    if (this.entryAccounts?.length === 0 || this.entryAccounts?.every(entry => !entry.accountId))
-    {
+    if (this.entryAccounts?.length === 0 || this.entryAccounts?.every(entry => !entry.accountId)) {
       this.toaster.warning('لا يوجد حسابات');
       return false;
     }
-    if (this.entryAccounts.some(x => !x.credit && !x.debit)||this.difference != 0) {
+    if (this.entryAccounts.some(x => !x.credit && !x.debit) || this.difference != 0) {
       this.toaster.warning('القيد غير متزن');
       // this.toaster.warning('Please Fill Debtor or Creditor filed for each row');
       return false;
@@ -263,14 +262,14 @@ export class CreateJournalEntryComponent implements OnInit {
 
   }
   public formErrors = {
-    entryId: '',
+    journalEntryId: '',
     entryNumber: '',
     docNumber: '',
     entryDate: '',
     journalTypeId: '',
     currencyTypeId: '',
     journalEntryAccounts: '',
-    description: ''
+    description: '',
   };
 
   addField() {
@@ -295,6 +294,7 @@ export class CreateJournalEntryComponent implements OnInit {
       list.splice(index, 1);
     this.calcDifference();
   }
+  deleteAllAccounts() { this.entryAccounts = []; this.calcDifference(); }
   calcDifference() {
     let debit = 0;
     let credit = 0;
