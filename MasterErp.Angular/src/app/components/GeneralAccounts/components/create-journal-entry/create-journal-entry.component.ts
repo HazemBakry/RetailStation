@@ -94,6 +94,10 @@ export class CreateJournalEntryComponent implements OnInit {
       this.costCenterSelector = data;
     });
 
+    this.sharedService.GetJournalEntryTypesSelector().subscribe(data => {
+      this.journalEntryTypesSelector = data;
+    });
+
     this.generalService.GetSavedJournalTemplates().subscribe(data => {
       this.journalTemplates = data;
       this.journalTemplatesSelector = this.journalTemplates.map(x => {
@@ -105,8 +109,6 @@ export class CreateJournalEntryComponent implements OnInit {
       });
     });
     this.currencyTypesSelector = this.paymentService.CurrencyTypesSelector;
-    this.journalEntryTypesSelector = this.paymentService.JournalEntryTypesSelector;
-
   }
 
   journalTemplatesChanged(journalTemplateId) {

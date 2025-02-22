@@ -75,20 +75,6 @@ export class PaymentService {
       nameAR: 'قيد افتتاحى'
     }
   ]
-  JournalEntryTypesSelector: FormDropdownModel[] = [
-    {
-      value: 1,
-      name: 'تسوية'
-    },
-    {
-      value: 4,
-      name: 'اقفال'
-    },
-    {
-      value: 5,
-      name: 'قيد افتتاحى'
-    }
-  ]
 
   URL = environment.apiURL;
   constructor(private http: HttpClient) { }

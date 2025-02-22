@@ -63,6 +63,13 @@ namespace MasterErp.API.Controllers.Shared
         }
 
         [HttpGet]
+        [Route("GetJournalEntryTypesSelector")]
+        public List<SelectorDataModel> GetJournalEntryTypesSelector()
+        {
+            return _sharedService.GetJournalEntryTypesSelector();
+        }
+
+        [HttpGet]
         [Route("GetReceiptLedgerTypes")]
         public IActionResult GetReceiptLedgerTypes()
         {

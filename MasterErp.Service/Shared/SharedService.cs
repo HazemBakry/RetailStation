@@ -133,6 +133,17 @@ namespace MasterErp.Service.Shared
             return result;
         }
 
+        public List<SelectorDataModel> GetJournalEntryTypesSelector()
+        {
+            var result = Context.JournalEntryTypes.Select(a => new SelectorDataModel
+            {
+                Id = a.JournalTypeId,
+                Name = a.NameAR
+            }).ToList();
+
+            return result;
+        }
+
         public List<SelectorDataModel> GetBanksSelector()
         {
             var results = Context.Banks.Select(b => new SelectorDataModel

@@ -18,6 +18,7 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetAccountsSelector(bool IsParent);
         List<SelectorDataModel> GetCostCenterSelector(bool IsParent);
         List<AccountTree> GetAccountsByTypeId(int TypeId);
+        List<SelectorDataModel> GetJournalEntryTypesSelector();
         List<LedgerType> GetReceiptLedgerTypesData();
         List<FinancialPeriod> GetFinancialPeriods();
         ActionsResponseModel DownloadImporterTemplate(ExcelExportStyle ImporterType);

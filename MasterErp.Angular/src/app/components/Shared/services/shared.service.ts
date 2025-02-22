@@ -129,6 +129,10 @@ export class SharedService {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetAccountTypes');
   }
 
+  GetJournalEntryTypesSelector(){
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetJournalEntryTypesSelector');
+  }
+
   GetBranchesSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetBranchesSelector');
   }
