@@ -20,31 +20,23 @@ export class PaymentService {
     //   nameEN:'Customer'
     // },
     {
-      id: 1,
-      name: 'حساب',
-      nameAR: 'حساب',
-      nameEN: 'Account'
+      value: 1,
+      name: 'حساب'
     },
     {
-      id: 2,
-      name: 'مورد',
-      nameAR: 'مورد',
-      nameEN: 'Supplier'
+      value: 2,
+      name: 'مورد'
     }
   ]
 
   paymentTypeList: any[] = [
     {
-      id: PaymentOperationType.Cash,
-      name: 'نقدي',
-      nameAR: 'نقدي',
-      nameEN: 'Cash'
+      value: PaymentOperationType.Cash,
+      name: 'نقدي'
     },
     {
-      id: PaymentOperationType.Cheque,
-      name: 'شيكات',
-      nameAR: 'شيكات',
-      nameEN: 'Cheque'
+      value: PaymentOperationType.Cheque,
+      name: 'شيكات'
     }
   ]
 

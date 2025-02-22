@@ -14,7 +14,6 @@ namespace MasterErp.Entities.Common
         public string EntryNumber { get; set; }
         public DateTime EntryDate { get; set; }
         public string Description { get; set; }
-        public string Notes { get; set; }
         public int Month { get; set; }
         public int Year { get; set; }
         public int JournalTypeId { get; set; }
@@ -34,10 +33,9 @@ namespace MasterErp.Entities.Common
         public double? CostPercent { get; set; }
         public int? CurrencyId { get; set; }
         public int? SupplierId { get; set; }
-        public string Description { get; set; }
         public string AccountNumber { get; set; }
         public string AccountName { get; set; }
-        public string Notes { get; set; }
+        public string Description { get; set; }
     }
 
 }

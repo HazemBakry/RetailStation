@@ -123,7 +123,7 @@ export class CreateJournalEntryComponent implements OnInit {
           debit: 0,
           credit: 0,
           costCenterId: entryAccount.costCenterId,
-          notes: entryAccount.description,
+          description: entryAccount.description,
         }
       });
       this.inputFocus();
@@ -148,8 +148,7 @@ export class CreateJournalEntryComponent implements OnInit {
       journalTypeId: [null, [Validators.required]],
       currencyTypeId: [null],
       journalEntryAccounts: [[] as JournalEntryAccount[], [Validators.required, Validators.minLength(1)]],
-      description: [null],
-      notes: [null],
+      description: [null]
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -178,8 +177,7 @@ export class CreateJournalEntryComponent implements OnInit {
       journalTypeId: entryModel.journalTypeId,
       currencyTypeId: entryModel.currencyTypeId,
       journalEntryAccounts: entryModel.journalEntryAccounts,
-      description: entryModel.description,
-      notes: entryModel.notes,
+      description: entryModel.description
     });
   }
 
@@ -272,14 +270,12 @@ export class CreateJournalEntryComponent implements OnInit {
     journalTypeId: '',
     currencyTypeId: '',
     journalEntryAccounts: '',
-    description: '',
-    notes: '',
+    description: ''
   };
 
   addField() {
     this.entryAccounts.push(
       {
-
         accountId: null,
         debit: 0,
         credit: 0,
@@ -289,7 +285,7 @@ export class CreateJournalEntryComponent implements OnInit {
         currencyId: null,
         accountNumber: null,
         accountName: null,
-        notes: '',
+        description: '',
       }
     );
   }

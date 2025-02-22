@@ -150,21 +150,3 @@
 ::ng-deep ngb-datepicker ngb-datepicker-navigation-select>.form-select {
     font-size: 13px;
 }
-
-.nw-form-input {
-    position: relative;
-    height: 32px;
-    font-size: 14px;
-    letter-spacing: 0.02em;
-    padding: 6px 8px;
-    border: none;
-    box-shadow: none;
-    transition: none;
-    font-weight: 600;
-    background-color: #f3f3f3;
-    border-radius: 8px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    -ms-border-radius: 8px;
-    -o-border-radius: 8px;
-}

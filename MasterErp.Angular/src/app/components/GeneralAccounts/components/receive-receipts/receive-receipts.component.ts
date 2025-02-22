@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./receive-receipts.component.css']
 })
 export class ReceiveReceiptsComponent implements OnInit {
+  TitleList = ['الحسابات العامة', 'سندات القبض'];
   List: any[] = [];
   showLoader: boolean;
   TotalCount: any;

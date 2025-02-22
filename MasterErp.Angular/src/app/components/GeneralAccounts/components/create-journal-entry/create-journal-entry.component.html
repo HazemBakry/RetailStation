@@ -8,13 +8,12 @@
 
             <div class="row gy-3">
                 <div class="col-lg-6">
-                    <div class="mb-3">
+                    <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">
                             رقم القيد
                             <span class="text-danger">*</span>
                         </label>
-                        <input type="text" class="form-control nw-form-input" formControlName="entryNumber" disabled
-                            autocomplete="off" />
+                        <input type="text" class="form-control nw-form-input" formControlName="entryNumber" disabled autocomplete="off" />
 
                         <div *ngIf="formErrors.entryNumber" class="text-danger  font-small-3 m-03">
                             {{formErrors.entryNumber}}
@@ -22,25 +21,23 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="mb-3">
+                    <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">
                             تاريخ القيد
                             <span class="text-danger">*</span></label>
-                        <input type="date" formControlName="entryDate" autocomplete="off"
-                            class="form-control nw-form-input" />
+                        <input type="date" formControlName="entryDate" autocomplete="off" class="form-control nw-form-input" />
                         <div *ngIf="formErrors.entryDate" class="text-danger  font-small-3 m-03">
                             {{formErrors.entryDate}}
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="mb-3">
+                    <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">
                             نوع القيد
                             <span class="text-danger">*</span>
                         </label>
-                        <app-general-selector formControlName="journalTypeId" [data]="journalEntryTypesSelector"
-                            [placeholder]="'نوع القيد'"></app-general-selector>
+                        <app-general-selector formControlName="journalTypeId" [data]="journalEntryTypesSelector" [placeholder]="'نوع القيد'"></app-general-selector>
 
                         <div *ngIf="formErrors.journalTypeId" class="text-danger  font-small-3 m-03">
                             {{formErrors.journalTypeId}}
@@ -48,12 +45,11 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="mb-3">
+                    <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">
                             رقم الدفتر
                         </label>
-                        <input type="text" class="form-control nw-form-input" formControlName="docNumber"
-                            autocomplete="off" />
+                        <input type="text" class="form-control nw-form-input" formControlName="docNumber" autocomplete="off" />
 
                         <div *ngIf="formErrors.docNumber" class="text-danger  font-small-3 m-03">
                             {{formErrors.docNumber}}
@@ -61,51 +57,51 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="mb-3">
+                    <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">
                             القوالب
                         </label>
-                        <app-general-selector (valueChanged)="journalTemplatesChanged($event)"
-                            [data]="journalTemplatesSelector" [placeholder]="'القوالب'"></app-general-selector>
+                        <app-general-selector (valueChanged)="journalTemplatesChanged($event)" [data]="journalTemplatesSelector" [placeholder]="'القوالب'"></app-general-selector>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="mb-3">
+                    <div class="mb-2">
 
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="mb-3">
-                        <label class="form-label d-flex align-items-center gap-2">
-                            البيان
-                        </label>
-                        <textarea class="form-control" placeholder="Description *" formControlName="description"
-                            autocomplete="off"></textarea>
+                <div class="col-lg-12">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">البيان</label>
+
+                        <input type="text" class="form-control nw-form-input description-area" formControlName="description" />
                         <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
                             {{formErrors.description}}
                         </div>
                     </div>
                 </div>
-
             </div>
         </form>
-        <div class="card-body ">
-            <button class="btn btn-primary btn-lg fs-6 me-2" (click)="saveEntry()">
-                <i class="fas fa-check-circle"></i>
-                <span class="ms-2" *ngIf="!isUpdate">إضافة</span>
-                <span class="ms-2" *ngIf="isUpdate">تعديل</span>
-            </button>
-            <button *ngIf="entryModel?.entryNumber" class="btn btn-secondary btn-lg fs-6 me-2">
-                <i class="fas fa-print"></i>
-                <span class="ms-2">Print</span>
-            </button>
-            <button *ngIf="!isUpdate" class="btn btn-warning btn-lg fs-6 me-2" (click)="initNewForm()">
-                <i class="fas fa-times"></i>
-                <span class="ms-2">مسح</span>
-            </button>
-        </div>
+    </div>
+
+    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-top mb-2">
+        <button class="btn btn-primary btn-lg fs-6 me-2 mt-2" (click)="saveEntry()">
+            <i class="fas fa-check-circle"></i>
+            <span class="ms-2" *ngIf="!isUpdate">إضافة</span>
+            <span class="ms-2" *ngIf="isUpdate">تعديل</span>
+        </button>
+
+        <button class="btn btn-warning btn-lg fs-6 me-2 mt-2" (click)="initNewForm()">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">مسح</span>
+        </button>
+
+        <button class="btn btn-secondary btn-lg fs-6 me-2 mt-2">
+            <i class="fas fa-print"></i>
+            <span class="ms-2">طباعة</span>
+        </button>
     </div>
 </div>
+
 
 <div class="inputs-wrapper border rounded bg-white mb-3">
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">الحسابات</div>
@@ -134,47 +130,33 @@
             <tbody>
                 <tr class="row-hover" *ngFor="let item of entryAccounts;let i = index">
                     <td style="width: 300px;">
-                        <app-general-selector [showSearch]="true" [(ngModel)]="item.accountId" [data]="accountsSelector"
-                            [placeholder]="'الحسابات'"></app-general-selector>
+                        <app-general-selector [showSearch]="true" [(ngModel)]="item.accountId" [data]="accountsSelector" [placeholder]="'الحسابات'"></app-general-selector>
                     </td>
 
                     <td>
-                        <input type="text" #inputs class="form-control text-center" [(ngModel)]="item.debit" id="Input1"
-                            autocomplete="off" (input)="calcDifference()" (keypress)="validateNumbers($event.key)"
-                            (keyup.arrowdown)="focusDownAndUp('Input1',i,'down')"
-                            (keyup.arrowup)="focusDownAndUp('Input1',i,'up')"
+                        <input type="text" #inputs class="form-control text-center" [(ngModel)]="item.debit" id="Input1" autocomplete="off" (input)="calcDifference()" (keypress)="validateNumbers($event.key)" (keyup.arrowdown)="focusDownAndUp('Input1',i,'down')" (keyup.arrowup)="focusDownAndUp('Input1',i,'up')"
                             (keyup.arrowleft)="focusLeftAndRight('Input2',i)" focus [disabled]="item.credit > 0">
                     </td>
                     <td>
-                        <input type="text" #inputs2 class="form-control text-center" [(ngModel)]="item.credit"
-                            id="Input2" autocomplete="off" (input)="calcDifference()"
-                            (keypress)="validateNumbers($event.key)"
-                            (keyup.arrowdown)="focusDownAndUp('Input2',i,'down')"
-                            (keyup.arrowup)="focusDownAndUp('Input2',i,'up')"
-                            (keyup.arrowleft)="focusLeftAndRight('Input3',i)"
-                            (keyup.arrowright)="focusLeftAndRight('Input1', i)" [disabled]="item.debit > 0">
+                        <input type="text" #inputs2 class="form-control text-center" [(ngModel)]="item.credit" id="Input2" autocomplete="off" (input)="calcDifference()" (keypress)="validateNumbers($event.key)" (keyup.arrowdown)="focusDownAndUp('Input2',i,'down')" (keyup.arrowup)="focusDownAndUp('Input2',i,'up')"
+                            (keyup.arrowleft)="focusLeftAndRight('Input3',i)" (keyup.arrowright)="focusLeftAndRight('Input1', i)" [disabled]="item.debit > 0">
                     </td>
                     <td>
                         <!-- <app-erp-selector-with-search [ItemsList]="CostCenterList" [SelectorName]="'مركز التكلفة'" [SearchKey]="'costCenterNumber'" [Height]="'30px'" (ItemObj)="GetSelectedCostCenter($event,item)"></app-erp-selector-with-search> -->
-                        <app-general-selector [(ngModel)]="item.costCenterId" [data]="CostCenterList"
-                            [showSearch]="true" [placeholder]="'مراكز التكلفة'"
-                            (valueChanged)="GetSelectedCostCenter($event, item)"></app-general-selector>
+                        <app-general-selector [(ngModel)]="item.costCenterId" [data]="CostCenterList" [showSearch]="true" [placeholder]="'مراكز التكلفة'" (valueChanged)="GetSelectedCostCenter($event, item)"></app-general-selector>
 
 
                     </td>
                     <td>
-                        <!-- <input type="text" #inputs3 class="form-control" [(ngModel)]="item.notes" id="Input3"
+                        <!-- <input type="text" #inputs3 class="form-control" [(ngModel)]="item.description" id="Input3"
                         autocomplete="off" (keyup.arrowdown)="focusDownAndUp('Input3',i,'down')"
                         (keyup.arrowup)="focusDownAndUp('Input3',i,'up')"
                         (keyup.arrowright)="focusLeftAndRight('Input2', i)"> -->
 
-                        <textarea class="form-control" [(ngModel)]="item.description" placeholder="Notes *"
-                            autocomplete="off"></textarea>
+                        <textarea class="form-control" [(ngModel)]="item.description" placeholder="Description *" autocomplete="off"></textarea>
                     </td>
                     <td class="justify-content-center d-flex">
-                        <button
-                            class="button-table-action mt-3 btn-delete d-flex align-items-center justify-content-center gap-2"
-                            (click)="deleteFromList(entryAccounts,i)">
+                        <button class="button-table-action mt-3 btn-delete d-flex align-items-center justify-content-center gap-2" (click)="deleteFromList(entryAccounts,i)">
                             <i class="fas fa-times fs-5"></i>
                         </button>
                         <!-- <button class="btn  btn-rounded" (click)="deleteFromList(entryAccounts,i)">
@@ -186,7 +168,6 @@
                     <td colspan="6" class="text-right">
                         <app-empty-data [showEmptyData]="!entryAccounts.length"></app-empty-data>
                     </td>
-
                 </tr>
             </tbody>
 
@@ -197,8 +178,7 @@
     </div>
     <div class="p-2">
         <!-- <button class="btn btn-secondary mt-3" (click)="addField()">إضافة صف</button> -->
-        <button class="button-table-action mt-3 btn-edit d-flex align-items-center justify-content-center gap-2"
-            (click)="addField()">
+        <button class="button-table-action mt-3 btn-edit d-flex align-items-center justify-content-center gap-2" (click)="addField()">
             <i class="uil uil-plus fs-5"></i>
             <span>اضافة حساب</span>
         </button>
@@ -211,10 +191,9 @@
         <div class="col-md-4 pe-4">
             <div class="mb-3">
                 <label class="form-label d-flex align-items-center gap-2">
-                    أجمالي دائن 
-                   </label>
-                <input type="text" class="form-control nw-form-input" [value]="totalCredit" disabled
-                    autocomplete="off" />
+                    أجمالي دائن
+                </label>
+                <input type="text" class="form-control nw-form-input" [value]="totalCredit" disabled autocomplete="off" />
             </div>
         </div>
     </div>
@@ -222,10 +201,9 @@
         <div class="col-md-4 pe-4">
             <div class="mb-3">
                 <label class="form-label d-flex align-items-center gap-2">
-                    أجمالي مدين 
-                   </label>
-                <input type="text" class="form-control nw-form-input" [value]="totalDebit" disabled
-                    autocomplete="off" />
+                    أجمالي مدين
+                </label>
+                <input type="text" class="form-control nw-form-input" [value]="totalDebit" disabled autocomplete="off" />
             </div>
         </div>
     </div>
@@ -240,7 +218,7 @@
             </div>
         </div>
     </div> -->
-    
+
 </div>
 
 <!-- <div class="card radius-10 border-0 card-shadow mb-3">

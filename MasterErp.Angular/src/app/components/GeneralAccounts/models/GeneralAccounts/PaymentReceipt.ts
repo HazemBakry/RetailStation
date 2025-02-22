@@ -1,25 +1,27 @@
 export interface PaymentReceipt {
     paymentReceiptId: number;
-    receiptNumber: number;
+    receiptNumber: number;    
+    paymentTypeId: number;    
     receiptLedgerId: number;
-    paymentTypeId: number;
-    paidWithId: number | null;
+    releaseDate: string;
+    contactName: string,
+    bankAccountId: number | null;
     safeId: number | null;
-    moneyAmount: number;
     agencyTypeId: number;
-    supplierId: number | null;
     accountId: number | null;
+    supplierId: number | null;
+    customerId: number | null;
+    employeeId: number | null;
+    moneyAmount: number;
+    docNumber: string;
+    currencyId: number | null;
+    description: string;
     isLocked: boolean;
     isCancelled: boolean;
-    notes: string;
-    docNumber: string;
-    contactName: string,
-    chequeNumber: string;
-    insertUser: string;
-    updateUser: string;
-    releaseDate: string;
-    insertDate: string;
-    updateDate: string | null;
+    createdBy: string;
+    createdDate: string;
+    modifiedBy: string;
+    modifiedDate: string | null;
 }
 export interface ReceiptLedger {
     receiptLedgerId: number;

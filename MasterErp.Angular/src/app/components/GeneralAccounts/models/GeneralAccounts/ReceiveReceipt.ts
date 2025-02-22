@@ -16,7 +16,7 @@ export interface ReceiveReceipt {
     moneyAmount: number;
     docNumber: string;
     currencyId: number | null;
-    notes: string;
+    description: string;
     isLocked: boolean;
     isCancelled: boolean;
     createdBy: string;

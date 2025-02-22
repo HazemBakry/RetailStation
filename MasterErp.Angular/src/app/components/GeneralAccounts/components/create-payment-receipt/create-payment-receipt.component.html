@@ -4,118 +4,86 @@
 <div class="inputs-wrapper border rounded bg-white mb-3">
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">سند صرف</div>
     <div class="inputs-sec-content px-3 py-3">
-        <div class="row gy-3">
-            <div class="col-lg-6">
-                <div class="mb-2">
-                    <label class="form-label d-flex align-items-center gap-2">رقم الايصال <span
-                            class="text-danger">*</span></label>
-                    <input type="text" class="form-control nw-form-input" disabled [(ngModel)]="paymentReceiptModel.receiptNumber" />
+        <form [formGroup]="formGroup" autocomplete="off">
+            <div class="row gy-3">
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">رقم الايصال <span
+                                class="text-danger">*</span></label>
+                        <input type="text" disabled class="form-control nw-form-input" formControlName="receiptNumber" />
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="mb-2">
-                    <label class="form-label d-flex align-items-center gap-2">المستفيـد<span
-                            class="text-danger">*</span></label>
-                    <!-- <div ngbDropdown class="dropdown-filter-wrapper dropdown-as-input d-inline-block w-100">
-                        <div class="position-relative">
-                            <input type="text" class="form-control nw-form-input" #inputDrop ngbDropdownToggle
-                                [value]="inputDropdownValue">
-                            <div class="input-drop-action d-flex align-items-center gap-1 fw-normal"
-                                *ngIf="inputDrop.value != ''">
-                                <i class="uil uil-times cursor-pointer" (click)="inputDrop.value = ''"></i>
-                                <i class="uil uil-corner-up-left-alt cursor-pointer"></i>
-                            </div>
-                        </div>
-                        <div ngbDropdownMenu class="dropdown-menu-search-input p-0 overflow-hidden w-100 shadow-sm">
-                            <div class="max-height-150 min-width-200 overflow-auto small-scroll">
-                                <div class="check-row" *ngFor="let payment of paymentList">
-                                    <a class="dropdown-item cursor-pointer fw-semibold"
-                                        (click)="onChoosePayment(payment)">{{ payment
-                                        }}</a>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column gap-2 bg-light border-top p-2">
-                                <div class="check-row">
-                                    <a class="dropdown-item d-flex align-items-center gap-2 cursor-pointer px-1">
-                                        <i class="uil uil-plus"></i>
-                                        <span>إنشاء طريقة دفع جديدة</span>
-                                    </a>
-                                </div>
-                                <div class="check-row">
-                                    <a class="dropdown-item d-flex align-items-center gap-2 cursor-pointer px-1">
-                                        <i class="uil uil-search"></i>
-                                        <span>بحث متقدم</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">المستفيـد<span
+                                class="text-danger">*</span></label>
 
-                    <input type="text" class="form-control nw-form-input" [(ngModel)]="paymentReceiptModel.contactName" />
+                        <input type="text" class="form-control nw-form-input" formControlName="contactName" />
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="mb-2">
-                    <label class="form-label d-flex align-items-center gap-2">تاريخ السند <span
-                            class="text-danger">*</span></label>
-                    <input type="date" class="form-control nw-form-input" [(ngModel)]="paymentReceiptModel.releaseDate" id="floatingInput2" placeholder="any" autocomplete="off">
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">تاريخ السند <span
+                                class="text-danger">*</span></label>
+                        <input type="date" class="form-control nw-form-input" formControlName="releaseDate" placeholder="any" autocomplete="off">
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="mb-2">
-                    <label class="form-label d-flex align-items-center gap-2">طريقة الدفع <span
-                            class="text-danger">*</span></label>
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">طريقة الدفع <span
+                                class="text-danger">*</span></label>
 
-                    <app-general-selector formControlName="id" [data]="paymentTypeList" [placeholder]="'طريقة الدفع'"></app-general-selector>
-                    <!-- <app-erp-selector-with-search #Selector [ItemsList]="paymentTypeList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedPaymentType($event)">
+                        <app-general-selector formControlName="paymentTypeId" [data]="paymentTypeList" [placeholder]="'طريقة الدفع'"></app-general-selector>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">نوع جهة التعامل <span
+                                class="text-danger">*</span></label>
+                        <!-- <app-general-selector [data]="agencyTypeList" (ItemObj)="GetSelectedAgencyType($event)">
+                        </app-general-selector> -->
+
+                        <app-general-selector formControlName="agencyTypeId" [data]="agencyTypeList" (valueChanged)="getSelectedAgencyType($event)" [placeholder]="'نوع جهة التعامل '"></app-general-selector>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">الحساب / جهة التعامل <span
+                                class="text-danger">*</span></label>
+                        <app-general-selector *ngIf="selectedAgencyType == 1" formControlName="accountId" [data]="accountList" [placeholder]="'الحسابات'">
+                        </app-general-selector>
+
+                        <app-general-selector *ngIf="selectedAgencyType == 2" formControlName="supplierId" [data]="supplierList" [placeholder]="'جهة التعامل'">
+                        </app-general-selector>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2"> دفتر الايصال <span
+                                class="text-danger">*</span></label>
+
+                        <app-general-selector formControlName="receiptLedgerId" [data]="receiptLedgerList" [placeholder]="'دفتر الإيصال'"></app-general-selector>
+
+                        <!-- <app-erp-selector-with-search #Selector [ItemsList]="receiptLedgerList" [Height]="'35px'" [SearchKey]="'nameAR'" [innerTextKey]="'nameAR'" (ItemObj)="GetSelectedReceiptLedger($event)">
                     </app-erp-selector-with-search> -->
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="mb-2">
-                    <label class="form-label d-flex align-items-center gap-2">نوع جهة التعامل <span
-                            class="text-danger">*</span></label>
-                    <app-erp-selector-with-search #Selector [ItemsList]="agencyTypeList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAgencyType($event)">
-                    </app-erp-selector-with-search>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="mb-2">
-                    <label class="form-label d-flex align-items-center gap-2">الحساب / جهة التعامل <span
-                            class="text-danger">*</span></label>
-                    <app-erp-selector-with-search *ngIf="selectedAgencyType == 1" #Selector [SelectorName]="'الحسابات'" [ItemsList]="accountList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedAccount($event)">
-                    </app-erp-selector-with-search>
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">المبلغ</label>
 
-                    <app-erp-selector-with-search *ngIf="selectedAgencyType == 2" #Selector [SelectorName]="'جهة التعامل'" [ItemsList]="supplierList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="GetSelectedSupplier($event)">
-                    </app-erp-selector-with-search>
+                        <input type="number" class="form-control nw-form-input text-center" formControlName="moneyAmount" />
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">البيان</label>
+
+                        <input type="text" class="form-control nw-form-input description-area" formControlName="description" />
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="mb-2">
-                    <label class="form-label d-flex align-items-center gap-2"> دفتر الايصال <span
-                            class="text-danger">*</span></label>
-
-                    <app-general-selector formControlName="receiptLedgerId" [data]="receiptLedgerList" [placeholder]="'دفتر الإيصال'"></app-general-selector>
-
-                    <!-- <app-erp-selector-with-search #Selector [ItemsList]="receiptLedgerList" [Height]="'35px'" [SearchKey]="'nameAR'" [innerTextKey]="'nameAR'" (ItemObj)="GetSelectedReceiptLedger($event)">
-                    </app-erp-selector-with-search> -->
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="mb-2">
-                    <label class="form-label d-flex align-items-center gap-2">المبلغ</label>
-
-                    <input type="number" class="form-control nw-form-input text-center" [(ngModel)]="paymentReceiptModel.moneyAmount" />
-                </div>
-            </div>
-            <div class="col-lg-12">
-                <div class="mb-2">
-                    <label class="form-label d-flex align-items-center gap-2">البيان</label>
-
-                    <input type="text" class="form-control nw-form-input description-area" [(ngModel)]="paymentReceiptModel.notes" />
-                </div>
-            </div>
-        </div>
+        </form>
     </div>
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-top mb-2">
         <button class="btn btn-primary btn-lg fs-6 me-2 mt-2" (click)="SavePaymentReceipt()">
@@ -226,7 +194,7 @@
         <div class="row mb-3">
             <div class="col-lg-9 offset-lg-1 h-100">
                 <div class="form-floating">
-                    <textarea type="text" [(ngModel)]="paymentReceiptModel.notes" class="form-control " id="floatingInput2" placeholder="any" autocomplete="off">
+                    <textarea type="text" [(ngModel)]="paymentReceiptModel.description" class="form-control " id="floatingInput2" placeholder="any" autocomplete="off">
                     </textarea>
                     <label for="floatingInput2">البيان</label>
                 </div>

@@ -45,8 +45,21 @@ export class PaymentReceiptsComponent implements OnInit {
   }
 
   CancelPaymentReceipt(receiptId: number) {
-    debugger;
     this.paymentService.CancelPaymentReceipt(receiptId).subscribe(data => {
+      if (data) {
+        this.toaster.success('تم الغاء السند بنجاح');
+        this.GetPaymentReceiptsSummary();
+      }
+      else {
+        this.toaster.error('حدث خطأ اثناء الإلغاء');
+      }
+    }, (error) => {
+      this.toaster.error('حدث خطأ اثناء الإلغاء');
+    })
+  }
+
+  openJournalEntry(entryId: number) {
+    this.paymentService.CancelPaymentReceipt(entryId).subscribe(data => {
       if (data) {
         this.toaster.success('تم الغاء السند بنجاح');
         this.GetPaymentReceiptsSummary();

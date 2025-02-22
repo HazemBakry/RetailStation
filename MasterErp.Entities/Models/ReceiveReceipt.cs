@@ -30,7 +30,7 @@ namespace MasterErp.Entities.Models
         public double MoneyAmount { get; set; }
         public string DocNumber { get; set; }
         public int? CurrencyId { get; set; }
-        public string Notes { get; set; }
+        public string Description { get; set; }
         public bool IsLocked { get; set; }
         public bool IsCancelled { get; set; }
     }

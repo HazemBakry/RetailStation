@@ -14,7 +14,7 @@ namespace MasterErp.Entities.Models
     {
         [Key]
         public int PaymentReceiptId { get; set; }
-        public int ReceiptNumber { get; set; }
+        public int? ReceiptNumber { get; set; }
         public int PaymentTypeId { get; set; }
         public int ReceiptTypeId { get; set; }
         public int? ReceiptLedgerId { get; set; }
@@ -31,8 +31,8 @@ namespace MasterErp.Entities.Models
         public string DocNumber { get; set; }
         public int? CurrencyId { get; set; }
         public string Notes { get; set; }
-        public bool IsLocked { get; set; }
-        public bool IsCancelled { get; set; }
+        public bool? IsLocked { get; set; }
+        public bool? IsCancelled { get; set; }
 
     }
 }

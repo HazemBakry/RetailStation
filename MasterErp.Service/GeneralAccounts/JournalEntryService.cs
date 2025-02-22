@@ -47,14 +47,18 @@ namespace MasterErp.Service.GeneralAccounts
 
             if (entry != null)
             {
+                EntryModel.ActionId = entry.ActionId;
+                EntryModel.ActionTypeId = entry.ActionTypeId;
+                EntryModel.Description = entry.Description;
+                EntryModel.DocNumber = entry.DocNumber;
+                EntryModel.EntryDate = entry.EntryDate;
                 EntryModel.EntryId = entry.JournalEntryId;
                 EntryModel.EntryNumber = entry.EntryNumber.ToString();
                 EntryModel.Month = entry.EntryDate.Month;
-                EntryModel.DocNumber = entry.DocNumber;
-                EntryModel.Description = entry.Description;
                 EntryModel.JournalTypeId = entry.JournalTypeId;
-                EntryModel.EntryDate = entry.EntryDate;
-                EntryModel.Notes = entry.Notes;
+                EntryModel.Month = entry.EntryDate.Month;
+                EntryModel.PeriodId = entry.PeriodId;
+                EntryModel.Year = entry.EntryDate.Year;
 
                 //------------------------------Fill Entry Details-----------------------------------//
 
@@ -76,7 +80,7 @@ namespace MasterErp.Service.GeneralAccounts
                                    CurrencyId = journal_details.CurrencyId,
                                    AccountName = Accounts.NameAR,
                                    AccountNumber = Accounts.AccountNumber,
-                                   Notes = journal_details.Description
+                                   SupplierId = journal_details.SupplierId
                                }).ToList();
 
                 EntryModel.JournalEntryAccounts = details;
@@ -143,7 +147,6 @@ namespace MasterErp.Service.GeneralAccounts
                     EntryNumber = PreEntries.Count > 0 ? PreEntries.Max(x => x.EntryNumber) + 1 : 1,
                     Description = model.Description,
                     DocNumber = model.DocNumber,
-                    Notes = model.Notes,
                     JournalTypeId = model.JournalTypeId,
                     IsCancelled = false,
                     IsLocked = false,
@@ -209,7 +212,6 @@ namespace MasterErp.Service.GeneralAccounts
                 {
                     entry_tbl.Description = model.Description;
                     entry_tbl.DocNumber = model.DocNumber;
-                    entry_tbl.Notes = model.Notes;
                     entry_tbl.JournalTypeId = model.JournalTypeId;
                     entry_tbl.EntryDate = model.EntryDate;
 

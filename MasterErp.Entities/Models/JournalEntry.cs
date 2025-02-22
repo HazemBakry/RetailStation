@@ -17,7 +17,6 @@ namespace MasterErp.Entities.Models
         public string DocNumber { get; set; }
         public DateTime EntryDate { get; set; }
         public string Description { get; set; }
-        public string Notes { get; set; }
         public bool? IsLocked { get; set; }
         public bool? IsCancelled { get; set; }
         public int JournalTypeId { get; set; }
