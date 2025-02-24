@@ -11,6 +11,7 @@ import { CustomValidators } from 'src/app/components/Shared/services/custom-vali
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { EmployeeVacationModel } from 'src/app/components/HR/models/EmployeeVacationModel';
 import { EmployeeProfileService } from '../../services/employee-profile.service';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 
 @Component({
   selector: 'app-employee-vacation',
@@ -21,7 +22,7 @@ export class EmployeeVacationComponent implements OnInit {
   VacationData: any[] = [];
   employeeVacationsData: EmployeeVacationModel[] = [];
   employeeSelectorData: FormDropdownModel[] = [];
-  vacationTypeSelectorData: FormDropdownModel[]=[];
+  vacationTypeSelectorData: FormDropdownModel[] = [];
 
   selectedVacationId: number;
   CategorySearch: any;
@@ -31,18 +32,18 @@ export class EmployeeVacationComponent implements OnInit {
     pageSize: 25,
     filterModel: { filterItems: [] }
   };
-  employeeVacationModel: EmployeeVacationModel ={} as EmployeeVacationModel;
-  vacationResponse:PagedResponseDTO<EmployeeVacationModel[]>={
-    results:[],
-    filterList:[],
+  employeeVacationModel: EmployeeVacationModel = {} as EmployeeVacationModel;
+  vacationResponse: PagedResponseDTO<EmployeeVacationModel[]> = {
+    results: [],
+    filterList: [],
     pageSize: 25,
-    currentPage:1,
-    searchText:''
+    currentPage: 1,
+    searchText: ''
 
   };
-  showLoader: boolean=false;
-  detailsView: boolean=false;
-  showAddLoader: boolean=false;
+  showLoader: boolean = false;
+  detailsView: boolean = false;
+  showAddLoader: boolean = false;
 
   public formGroup: FormGroup;
 
@@ -59,10 +60,17 @@ export class EmployeeVacationComponent implements OnInit {
     notes: '',
 
   };
-  selectedEmployeeId:number=null;
-  isUpdate: boolean=false;
-  constructor(private modalService: NgbModal, private employeeProfile: EmployeeProfileService,private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
-    private datePipe: DatePipe,private toaster:ToastrService,private offcanvasService: NgbOffcanvas,) { }
+  selectedEmployeeId: number = null;
+  isUpdate: boolean = false;
+  constructor(private modalService: NgbModal,
+    private employeeProfile: EmployeeProfileService,
+    private sharedService: SharedService,
+    private form: FormBuilder,
+    private _FormService: FormService,
+    private datePipe: DatePipe,
+    private toaster: ToastrService,
+    private lookupService: LookupService,
+    private offcanvasService: NgbOffcanvas,) { }
 
   ngOnInit(): void {
     this.initNewVacationForm();
@@ -70,42 +78,40 @@ export class EmployeeVacationComponent implements OnInit {
     this.getActiveEmployeesSelector();
   }
 
-  toggleDetails(vacationModel:EmployeeVacationModel=null)
-  {
-    this.vacationResponse.results =[];
-    this.detailsView=!this.detailsView;
-    if(this.detailsView)
+  toggleDetails(vacationModel: EmployeeVacationModel = null) {
+    this.vacationResponse.results = [];
+    this.detailsView = !this.detailsView;
+    if (this.detailsView)
       this.getVacations();
 
     this.initNewVacationForm(vacationModel);
   }
-  getVacations()
-  {
+  getVacations() {
 
-    this.showLoader=true;
+    this.showLoader = true;
     this.employeeProfile.GetVacations(this.vacationResponse).subscribe(data => {
       this.vacationResponse.results = data.results;
       this.vacationResponse.totalCount = data.totalCount;
 
-      this.showLoader=false;
-    }, err=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
 
-    
+
   }
 
-  initNewVacationForm(vacationModel:EmployeeVacationModel=null) {
+  initNewVacationForm(vacationModel: EmployeeVacationModel = null) {
 
-    this.isUpdate=false;
+    this.isUpdate = false;
     this.buildForm();
-    if(vacationModel)
+    if (vacationModel)
       this.fillEditForm(vacationModel);
 
     // this.formGroup.patchValue({employeeId:this.selectedEmployeeId});
-    
+
   }
   buildForm() {
     this.formGroup = this.form.group({
@@ -119,9 +125,9 @@ export class EmployeeVacationComponent implements OnInit {
       lastDayWork: [null, [Validators.required]],
       notes: [null],
 
-    },{
-      validators: [CustomValidators.endDateGreaterThanStartDate('lastDayWork', 'fromDate','يجب ان يكون تاريخ بدء الاجازه بعد اخر يوم عمل'),
-        CustomValidators.endDateGreaterThanStartDate('fromDate', 'toDate','يجب ان يكون تاريخ انهاء الاجازه بعد البدء')],
+    }, {
+      validators: [CustomValidators.endDateGreaterThanStartDate('lastDayWork', 'fromDate', 'يجب ان يكون تاريخ بدء الاجازه بعد اخر يوم عمل'),
+      CustomValidators.endDateGreaterThanStartDate('fromDate', 'toDate', 'يجب ان يكون تاريخ انهاء الاجازه بعد البدء')],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -137,22 +143,21 @@ export class EmployeeVacationComponent implements OnInit {
       return;
     }
 
-    
+
 
     this.employeeVacationModel = this.formGroup.value;
 
-    if(this.employeeVacationModel?.vacationId)
+    if (this.employeeVacationModel?.vacationId)
       this.editVacation();
     else
       this.addNewVacation();
   }
 
-  addNewVacation()
-  {
+  addNewVacation() {
 
-    this.showAddLoader=true;
+    this.showAddLoader = true;
     this.employeeProfile.AddNewVacation(this.employeeVacationModel).subscribe(data => {
-      if(data?.isSuccess) {
+      if (data?.isSuccess) {
         this.formGroup?.reset();
         // this.offcanvasService?.dismiss();
         // this.getVacations();
@@ -161,24 +166,23 @@ export class EmployeeVacationComponent implements OnInit {
       else {
         this.toaster.error(data?.message);
       }
-      this.showAddLoader=false;
-    }, err=>{
-      this.showAddLoader=false;
-    },()=>{
-      this.showAddLoader=false;
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
     });
 
-    
+
 
   }
 
-  editVacation()
-  {
+  editVacation() {
 
-    this.showAddLoader=true;
+    this.showAddLoader = true;
     this.employeeProfile.EditVacation(this.employeeVacationModel).subscribe(data => {
 
-      if(data?.isSuccess) {
+      if (data?.isSuccess) {
         this.formGroup?.reset();
         // this.offcanvasService?.dismiss();
         // this.getVacations();
@@ -187,22 +191,22 @@ export class EmployeeVacationComponent implements OnInit {
       else {
         this.toaster.error(data?.message);
       }
-      this.showAddLoader=false;
-    }, err=>{
-      this.showAddLoader=false;
-    },()=>{
-      this.showAddLoader=false;
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
     });
 
-    
+
   }
-  getVacationTypesSelector(){
-    this.sharedService.GetVacationTypesSelector().subscribe((data :FormDropdownModel[])=> {
+  getVacationTypesSelector() {
+    this.lookupService.GetVacationTypesSelector().subscribe((data: FormDropdownModel[]) => {
       this.vacationTypeSelectorData = data;
     });
   }
   getActiveEmployeesSelector() {
-    this.sharedService.GetActiveEmployeesSelector().subscribe((data :FormDropdownModel[])=> {
+    this.sharedService.GetActiveEmployeesSelector().subscribe((data: FormDropdownModel[]) => {
       this.employeeSelectorData = data;
     });
   }
@@ -217,7 +221,7 @@ export class EmployeeVacationComponent implements OnInit {
   }
 
 
-  fillEditForm(vacationModel:EmployeeVacationModel) {
+  fillEditForm(vacationModel: EmployeeVacationModel) {
     this.isUpdate = true;
     this.formGroup.patchValue({
       vacationId: vacationModel.vacationId,
@@ -242,19 +246,19 @@ export class EmployeeVacationComponent implements OnInit {
   filterChecked(filterItems: FilterItem[]) {
     this.vacationResponse.filterList = filterItems;
     this.getVacations();
- }
+  }
 
- pageChanged(obj: any) {
-   this.vacationResponse.currentPage = obj.page;
-   this.getVacations();
- }
+  pageChanged(obj: any) {
+    this.vacationResponse.currentPage = obj.page;
+    this.getVacations();
+  }
 
 
   deleteVacation() {
-    this.showAddLoader=true;
+    this.showAddLoader = true;
     this.employeeProfile.DeleteVacation(this.selectedVacationId).subscribe(data => {
 
-      if(data?.isSuccess) {
+      if (data?.isSuccess) {
         this.modalService?.dismissAll();
         this.getVacations();
         this.toaster.success(data?.message);
@@ -262,11 +266,11 @@ export class EmployeeVacationComponent implements OnInit {
       else {
         this.toaster.error(data?.message);
       }
-      this.showAddLoader=false;
-    }, err=>{
-      this.showAddLoader=false;
-    },()=>{
-      this.showAddLoader=false;
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
     });
   }
 }

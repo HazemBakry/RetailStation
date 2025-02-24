@@ -11,6 +11,7 @@ import { CustomValidators, RegexType } from 'src/app/components/Shared/services/
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { EmployeeLoanModel } from 'src/app/components/HR/models/EmployeeLoanModel';
 import { EmployeeProfileService } from '../../services/employee-profile.service';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class EmployeeLoansComponent implements OnInit {
   LoanData: any[] = [];
   employeeLoansData: EmployeeLoanModel[] = [];
   employeeSelectorData: FormDropdownModel[] = [];
-  loanTypesSelectorData: FormDropdownModel[]=[];
+  loanTypesSelectorData: FormDropdownModel[] = [];
 
   selectedLoanId: number;
   CategorySearch: any;
@@ -32,18 +33,18 @@ export class EmployeeLoansComponent implements OnInit {
     pageSize: 25,
     filterModel: { filterItems: [] }
   };
-  employeeLoanModel: EmployeeLoanModel ={} as EmployeeLoanModel;
-  loanResponse:PagedResponseDTO<EmployeeLoanModel[]>={
-    results:[],
-    filterList:[],
+  employeeLoanModel: EmployeeLoanModel = {} as EmployeeLoanModel;
+  loanResponse: PagedResponseDTO<EmployeeLoanModel[]> = {
+    results: [],
+    filterList: [],
     pageSize: 25,
-    currentPage:1,
-    searchText:''
+    currentPage: 1,
+    searchText: ''
 
   };
-  showLoader: boolean=false;
-  detailsView: boolean=false;
-  showAddLoader: boolean=false;
+  showLoader: boolean = false;
+  detailsView: boolean = false;
+  showAddLoader: boolean = false;
 
   public formGroup: FormGroup;
 
@@ -57,62 +58,67 @@ export class EmployeeLoansComponent implements OnInit {
     isApproved: '',
     notes: ''
   };
-  selectedEmployeeId:number=null;
-  isUpdate: boolean=false;
-  constructor(private modalService: NgbModal, private employeeProfile: EmployeeProfileService,private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
-    private datePipe: DatePipe,private toaster:ToastrService,private offcanvasService: NgbOffcanvas,) { }
+  selectedEmployeeId: number = null;
+  isUpdate: boolean = false;
+  constructor(private modalService: NgbModal,
+    private employeeProfile: EmployeeProfileService,
+    private sharedService: SharedService,
+    private form: FormBuilder,
+    private _FormService: FormService,
+    private datePipe: DatePipe,
+    private toaster: ToastrService,
+    private lookupService: LookupService,
+    private offcanvasService: NgbOffcanvas,) { }
 
   ngOnInit(): void {
     this.initNewLoanForm();
     this.getLoanTypesSelector();
   }
 
-  toggleDetails(loanModel:EmployeeLoanModel=null)
-  {
-    this.loanResponse.results =[];
-    this.detailsView=!this.detailsView;
-    if(this.detailsView)
+  toggleDetails(loanModel: EmployeeLoanModel = null) {
+    this.loanResponse.results = [];
+    this.detailsView = !this.detailsView;
+    if (this.detailsView)
       this.getLoans();
 
     this.initNewLoanForm(loanModel);
   }
-  getLoans()
-  {
+  getLoans() {
 
-    this.showLoader=true;
+    this.showLoader = true;
     this.employeeProfile.GetLoans(this.loanResponse).subscribe(data => {
       this.loanResponse.results = data.results;
       this.loanResponse.totalCount = data.totalCount;
 
-      this.showLoader=false;
-    }, err=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
 
-    
+
   }
 
-  initNewLoanForm(loanModel:EmployeeLoanModel=null) {
+  initNewLoanForm(loanModel: EmployeeLoanModel = null) {
 
-    this.isUpdate=false;
+    this.isUpdate = false;
     this.buildForm();
-    if(loanModel)
+    if (loanModel)
       this.fillEditForm(loanModel);
 
     // this.formGroup.patchValue({employeeId:this.selectedEmployeeId});
-    
+
   }
   buildForm() {
     this.formGroup = this.form.group({
       loanId: [null],
       employeeId: [null],
-      loanTypeId: [null,[Validators.required]],
-      loanAmount: [null,[Validators.required,CustomValidators.regexPattern(RegexType.number)]],
-      paymentAmount: [null,[Validators.required,CustomValidators.regexPattern(RegexType.number)]],
+      loanTypeId: [null, [Validators.required]],
+      loanAmount: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
+      paymentAmount: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
       isApproved: [null],
-      paymentFromDate: [null, [Validators.required,CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
+      paymentFromDate: [null, [Validators.required, CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
       notes: [null],
 
     });
@@ -128,18 +134,16 @@ export class EmployeeLoansComponent implements OnInit {
     }
     this.employeeLoanModel = this.formGroup.value;
 
-    if(this.employeeLoanModel?.loanId)
+    if (this.employeeLoanModel?.loanId)
       this.editLoan();
     else
       this.addNewLoan();
   }
 
-  addNewLoan()
-  {
-
-    this.showAddLoader=true;
+  addNewLoan() {
+    this.showAddLoader = true;
     this.employeeProfile.AddNewLoan(this.employeeLoanModel).subscribe(data => {
-      if(data?.isSuccess) {
+      if (data?.isSuccess) {
         this.formGroup?.reset();
         // this.offcanvasService?.dismiss();
         // this.getLoans();
@@ -148,24 +152,20 @@ export class EmployeeLoansComponent implements OnInit {
       else {
         this.toaster.error(data?.message);
       }
-      this.showAddLoader=false;
-    }, err=>{
-      this.showAddLoader=false;
-    },()=>{
-      this.showAddLoader=false;
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
     });
-
-    
-
   }
 
-  editLoan()
-  {
+  editLoan() {
 
-    this.showAddLoader=true;
+    this.showAddLoader = true;
     this.employeeProfile.EditLoan(this.employeeLoanModel).subscribe(data => {
 
-      if(data?.isSuccess) {
+      if (data?.isSuccess) {
         this.formGroup?.reset();
         // this.offcanvasService?.dismiss();
         // this.getLoans();
@@ -174,17 +174,17 @@ export class EmployeeLoansComponent implements OnInit {
       else {
         this.toaster.error(data?.message);
       }
-      this.showAddLoader=false;
-    }, err=>{
-      this.showAddLoader=false;
-    },()=>{
-      this.showAddLoader=false;
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
     });
 
-    
+
   }
-  getLoanTypesSelector(){
-    this.sharedService.GetLoanTypesSelector().subscribe((data :FormDropdownModel[])=> {
+  getLoanTypesSelector() {
+    this.lookupService.GetLoanTypesSelector().subscribe((data: FormDropdownModel[]) => {
       this.loanTypesSelectorData = data;
     });
   }
@@ -200,8 +200,8 @@ export class EmployeeLoansComponent implements OnInit {
   }
 
 
-  fillEditForm(loanModel:EmployeeLoanModel) {
-    this.isUpdate=true;
+  fillEditForm(loanModel: EmployeeLoanModel) {
+    this.isUpdate = true;
 
     this.formGroup.patchValue({
       loanId: loanModel.loanId,
@@ -225,19 +225,19 @@ export class EmployeeLoansComponent implements OnInit {
   filterChecked(filterItems: FilterItem[]) {
     this.loanResponse.filterList = filterItems;
     this.getLoans();
- }
+  }
 
- pageChanged(obj: any) {
-   this.loanResponse.currentPage = obj.page;
-   this.getLoans();
- }
+  pageChanged(obj: any) {
+    this.loanResponse.currentPage = obj.page;
+    this.getLoans();
+  }
 
 
   deleteLoan() {
-    this.showAddLoader=true;
+    this.showAddLoader = true;
     this.employeeProfile.DeleteLoan(this.selectedLoanId).subscribe(data => {
 
-      if(data?.isSuccess) {
+      if (data?.isSuccess) {
         this.modalService?.dismissAll();
         this.getLoans();
         this.toaster.success(data?.message);
@@ -245,11 +245,11 @@ export class EmployeeLoansComponent implements OnInit {
       else {
         this.toaster.error(data?.message);
       }
-      this.showAddLoader=false;
-    }, err=>{
-      this.showAddLoader=false;
-    },()=>{
-      this.showAddLoader=false;
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
     });
   }
 }

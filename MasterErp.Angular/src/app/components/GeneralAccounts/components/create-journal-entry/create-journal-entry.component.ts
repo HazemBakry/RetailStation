@@ -13,6 +13,7 @@ import { JournalEntryAccount, JournalEntryModel } from '../../models/GeneralAcco
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { JournalTemplateDetails } from '../../models/GeneralAccounts/JournalTemplateDetailsModel';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 
 @Component({
   selector: 'app-create-journal-entry',
@@ -49,18 +50,17 @@ export class CreateJournalEntryComponent implements OnInit {
     private router: Router,
     private paymentService: PaymentService,
     private generalService: GeneralAccountService,
-    private pdfExportService: PDFExportService,
-    private calendar: NgbCalendar,
     private form: FormBuilder,
     private _FormService: FormService,
+    private lookupService: LookupService,
     private datePipe: DatePipe,
   ) { }
 
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
-      if (params.JournalEntryId) {
-        this.entryModel = params.JournalEntryId;
-        this.getEntryDetailsById(params.JournalEntryId);
+      if (params.journalEntryId) {
+        this.entryModel = params.journalEntryId;
+        this.getEntryDetailsById(params.journalEntryId);
       }
     })
 
@@ -94,7 +94,7 @@ export class CreateJournalEntryComponent implements OnInit {
       this.costCenterSelector = data;
     });
 
-    this.sharedService.GetJournalEntryTypesSelector().subscribe(data => {
+    this.lookupService.GetJournalEntryTypes().subscribe(data => {
       this.journalEntryTypesSelector = data;
     });
 

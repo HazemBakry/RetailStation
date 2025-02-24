@@ -1,4 +1,6 @@
-﻿using MasterErp.Interface.Common;
+﻿using MasterErp.Entities.Models;
+using MasterErp.Interface.Auth;
+using MasterErp.Interface.Common;
 using MasterErp.Interface.EmployeeProfile;
 using MasterErp.Interface.GeneralAccounts;
 using MasterErp.Interface.GeneralAccounts.Customers;
@@ -8,6 +10,7 @@ using MasterErp.Interface.Inventory;
 using MasterErp.Interface.Purchase;
 using MasterErp.Interface.Sales;
 using MasterErp.Interface.Shared;
+using MasterErp.Service.Auth;
 using MasterErp.Service.Common;
 using MasterErp.Service.EmployeeProfile;
 using MasterErp.Service.GeneralAccounts;
@@ -53,7 +56,6 @@ namespace MasterErp.API
             services.AddScoped<IGeneralAccountsReportService, GeneralAccountsReportService>();
             services.AddScoped<ISupplierReturnsVoucherService, SupplierReturnsVoucherService>();
             services.AddScoped<IReceiptLedgerService, ReceiptLedgerService>();
-            services.AddScoped<IJournalEntryTypeService, JournalEntryTypeService>();
             services.AddScoped<IFinancialPeriodService, FinancialPeriodService>();
             services.AddScoped<IExportService, ExportService>();
             services.AddScoped<IEmployeeProfileService, EmployeeProfileService>();
@@ -64,10 +66,13 @@ namespace MasterErp.API
             services.AddScoped<IDailyNotebookService, DailyNotebookService>();
             services.AddScoped<IAssetsFormService, AssetsFormService>();
             services.AddScoped<ILoansFormService, LoansFormService>();
-            services.AddScoped<ILedgerJournalTypeService, LedgerJournalTypeService>();
             services.AddScoped<IBatchService, BatchService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IDataImportService, DataImportService>();
+            services.AddScoped<ILookupService, LookupService>();
+
+            services.AddScoped<ITenantService, TenantService>();
+            services.AddScoped<IAuthService, AuthService>();
 
         }
     }

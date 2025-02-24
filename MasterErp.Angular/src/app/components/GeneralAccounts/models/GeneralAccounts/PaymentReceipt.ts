@@ -3,6 +3,7 @@ export interface PaymentReceipt {
     receiptNumber: number;    
     paymentTypeId: number;    
     receiptLedgerId: number;
+    receiptTypeId: number,
     releaseDate: string;
     contactName: string,
     bankAccountId: number | null;

@@ -12,6 +12,7 @@ import { EmployeeService } from '../../../services/employee.service';
 import { EmployeeModel } from '../../../models/Employee/EmployeeModel';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { HrService } from '../../../services/hr.service';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 
 
 @Component({
@@ -28,12 +29,12 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
   jobsSelectorData: FormDropdownModel[] = [];
   workStatusSelectorData: FormDropdownModel[] = [];
   branchSelectorData: FormDropdownModel[] = [];
-  nationalitiesSelectorData: FormDropdownModel[]= [];
-  iqamaIssuePlacesSelectorData: FormDropdownModel[]= [];
-  visaJobsSelectorData: FormDropdownModel[]= [];
-  religionsSelectorData: FormDropdownModel[]= [];
-  socialStatusSelectorData: FormDropdownModel[]= [];
-  vehiclesSelectorData: FormDropdownModel[]= [];
+  nationalitiesSelectorData: FormDropdownModel[] = [];
+  iqamaIssuePlacesSelectorData: FormDropdownModel[] = [];
+  visaJobsSelectorData: FormDropdownModel[] = [];
+  religionsSelectorData: FormDropdownModel[] = [];
+  socialStatusSelectorData: FormDropdownModel[] = [];
+  vehiclesSelectorData: FormDropdownModel[] = [];
   showLoader: boolean = false;
   showAddLoader: boolean = false;
   employeeImageFile: File;
@@ -42,8 +43,17 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
 
 
 
-  constructor(private acRoute: ActivatedRoute,private router:Router, private hrService: HrService, private modalService: NgbModal, private employeeService: EmployeeService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
-    private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
+  constructor(private acRoute: ActivatedRoute,
+    private router: Router,
+    private hrService: HrService,
+    private employeeService: EmployeeService,
+    private sharedService: SharedService,
+    private form: FormBuilder,
+    private _FormService: FormService,
+    private datePipe: DatePipe,
+    private toaster: ToastrService,
+    private lookupService: LookupService
+  ) { }
 
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
@@ -112,26 +122,26 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       imageFile: [null],
       attachmentFile: [null],
 
-    
+
       socialStatusId: [null, [Validators.required]],
       phone: [null],
-      passportNumber: [null, [ CustomValidators.regexPattern(RegexType.number)]],
+      passportNumber: [null, [CustomValidators.regexPattern(RegexType.number)]],
       passportIssuanceDate: [null],
       passportExpireDate: [null],
       passportIssuancePlace: [null],
       arrivalPort: [null],
       borderEntryNumber: [null],
-      visaNumber: [null, [ CustomValidators.regexPattern(RegexType.number)]],
+      visaNumber: [null, [CustomValidators.regexPattern(RegexType.number)]],
       visaIssueDate: [null],
       visaJobId: [null],
       email: [null, [CustomValidators.regexPattern(RegexType.email)]],
     },
-    {
-      
-      validators: [
-        CustomValidators.endDateGreaterThanStartDate('passportIssuanceDate', 'passportExpireDate', 'يجب ان يكون تاريخ الاصدار قبل الانتهاء '),
-       ],
-    });
+      {
+
+        validators: [
+          CustomValidators.endDateGreaterThanStartDate('passportIssuanceDate', 'passportExpireDate', 'يجب ان يكون تاريخ الاصدار قبل الانتهاء '),
+        ],
+      });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
 
@@ -140,20 +150,20 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
 
   saveEmployeeBasicInfo() {
     console.log(this.formErrors);
-    
+
     if (!this.validateForm()) {
       return;
     }
     this.employeeBasicInfoModel = this.formGroup.value;
 
     this.formData = new FormData();
-    if (this.employeeImageFile !=null) {
+    if (this.employeeImageFile != null) {
       this.formData.append('imageFile', this.employeeImageFile);
     }
 
 
     Object.keys(this.formGroup.value).forEach(key => {
-      if (key != 'imageFile'&& this.formGroup.value[key])
+      if (key != 'imageFile' && this.formGroup.value[key])
         this.formData.append(key, this.formGroup.value[key]);
     });
     if (this.employeeId)
@@ -208,7 +218,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
 
   }
   loadSelectors() {
-    this.hrService.GetActiveEmployeesSelector().subscribe((data :FormDropdownModel[])=> {
+    this.hrService.GetActiveEmployeesSelector().subscribe((data: FormDropdownModel[]) => {
       this.employeesSelectorData = data;
     });
     this.sharedService.GetBranchesSelector().subscribe((data: FormDropdownModel[]) => {
@@ -221,7 +231,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       this.jobsSelectorData = data;
     });
 
-    this.sharedService.GetNationalitiesSelector().subscribe((data: FormDropdownModel[]) => {
+    this.lookupService.GetNationalitiesSelector().subscribe((data: FormDropdownModel[]) => {
       this.nationalitiesSelectorData = data;
     });
 
@@ -276,7 +286,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       passportIssuanceDate: this.datePipe.transform(employeeBasicInfoModel.passportIssuanceDate, 'yyyy-MM-dd'),
       passportExpireDate: this.datePipe.transform(employeeBasicInfoModel.passportExpireDate, 'yyyy-MM-dd'),
 
-      birthDate:this.datePipe.transform(employeeBasicInfoModel.birthDate, 'yyyy-MM-dd'),
+      birthDate: this.datePipe.transform(employeeBasicInfoModel.birthDate, 'yyyy-MM-dd'),
       birthPlace: employeeBasicInfoModel.birthPlace,
       nationalityId: employeeBasicInfoModel.nationalityId,
       sponsorId: employeeBasicInfoModel.sponsorId,
@@ -290,14 +300,14 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       phone: employeeBasicInfoModel.phone,
       email: employeeBasicInfoModel.email,
       socialStatusId: employeeBasicInfoModel.socialStatusId,
-     
+
       visaJobId: employeeBasicInfoModel.visaJobId,
     });
   }
 
   navigateToAddedEmployee(employeeId: number) {
     if (employeeId)
-      this.router.navigate(['.'], { relativeTo: this.acRoute, queryParams: { EmployeeId: employeeId}});
+      this.router.navigate(['.'], { relativeTo: this.acRoute, queryParams: { EmployeeId: employeeId } });
 
   }
   onFileChange(event: any) {
@@ -323,12 +333,12 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
     birthPlace: '',
     nationalityId: '',
     sponsorId: '',
-    
+
     religionId: '',
     address: '',
     imageFile: '',
     attachmentFile: '',
-    
+
     passportNumber: '',
     passportIssuanceDate: '',
     passportExpireDate: '',

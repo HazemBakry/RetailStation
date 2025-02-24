@@ -1,9 +1,12 @@
-﻿using MasterErp.Entities.Models.DataImport;
+﻿using Azure.Core;
+using MasterErp.Entities.Models.DataImport;
+using MasterErp.Entities.Models.Finance;
 using MasterErp.Entities.Models.HR;
 using MasterErp.Entities.Models.HR.Employee;
 using MasterErp.Entities.Models.Inventory;
 using MasterErp.Entities.Models.Lookups;
 using MasterErp.Entities.Models.Purchases;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -14,27 +17,43 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models
 {
-    public class DBContext: DbContext
+    public class DBContext : DbContext
     {
-        private readonly IConfiguration Configuration;
+        //private readonly IConfiguration Configuration;
+        private readonly ITenantService _tenantService;
+        private readonly string ConnectionString;
 
-        public DBContext(IConfiguration _configuration)
+        public DBContext(DbContextOptions<DBContext> options, ITenantService tenantService)//, IConfiguration _configuration)
+            : base(options)
         {
-            Configuration = _configuration;
+            //Configuration = _configuration;
+            _tenantService = tenantService;
         }
 
-        public DBContext(DbContextOptions<DbContext> options)
-           : base(options)
+        public DBContext(DbContextOptions<DBContext> options, ITenantService tenantService, IHttpContextAccessor httpContextAccessor)
+       : base(options)
         {
+            var user = httpContextAccessor.HttpContext?.User;
+            if (user == null)
+            {
+                throw new Exception("SubscriberId is required in the request header.");
+            }
+            var subscriberId = user.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
 
+            //var token = httpContextAccessor.HttpContext?.Request.Headers["Authorization"].ToString();
+            //var tenantId = "Mishwar"; // httpContextAccessor.HttpContext?.Request.Headers["SubscriberId"].ToString();
+
+            ConnectionString = tenantService.GetConnectionString(subscriberId);
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(ConnectionString);
         }
 
         public DbSet<AccountTree> AccountTrees { get; set; }
-        public DbSet<AccountType> AccountTypes { get; set; }
-        public DbSet<ActionType> ActionTypes { get; set; }
         public DbSet<Attendance> Attendance { get; set; }
         public DbSet<Branch> Branches { get; set; }
-        public DbSet<Bank> Banks { get; set; }
         public DbSet<CostCenterTree> CostCenterTree { get; set; }
         public DbSet<Currency> Currency { get; set; }
         public DbSet<Religion> Religions { get; set; }
@@ -52,7 +71,6 @@ namespace MasterErp.Entities.Models
         public DbSet<JournalEntryDetail> JournalEntryDetails { get; set; }
         public DbSet<JournalTemplate> JournalTemplate { get; set; }
         public DbSet<JournalTemplateDetails> JournalTemplateDetails { get; set; }
-        public DbSet<JournalEntryType> JournalEntryTypes { get; set; }
         public DbSet<Nationality> Nationalities { get; set; }
         public DbSet<OverTime> OverTime { get; set; }
         public DbSet<Penalty> Penalties { get; set; }
@@ -62,7 +80,7 @@ namespace MasterErp.Entities.Models
         public DbSet<PurchaseInvoice> PurchaseInvoices { get; set; }
         public DbSet<PurchaseInvoiceDetails> PurchaseInvoiceDetails { get; set; }
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
-        public DbSet<PurchaseOrderDetails> PurchaseOrderDetails { get; set; }        
+        public DbSet<PurchaseOrderDetails> PurchaseOrderDetails { get; set; }
         public DbSet<PurchaseQuotation> PurchaseQuotations { get; set; }
         public DbSet<PurchaseQuotationDetails> PurchaseQuotationDetails { get; set; }
         public DbSet<SalesInvoice> SalesInvoices { get; set; }
@@ -89,7 +107,6 @@ namespace MasterErp.Entities.Models
         public DbSet<DailyNotebook> DailyNotebooks { get; set; }
         public DbSet<AssetsForm> AssetsForms { get; set; }
         public DbSet<Loans> LoansForms { get; set; }
-        public DbSet<LedgerJournalType> LedgerJournalTypes { get; set; }
         public DbSet<Batch> Batches { get; set; }
 
 
@@ -115,7 +132,6 @@ namespace MasterErp.Entities.Models
         public DbSet<PaymentReceipt> PaymentReceipts { get; set; }
         public DbSet<ReceiveReceipt> ReceiveReceipts { get; set; }
         public DbSet<ReceiptLedger> ReceiptLedgers { get; set; }
-        public DbSet<LedgerType> ReceitLedgerType { get; set; }
 
 
         public DbSet<PurchaseRequest> PurchaseRequests { get; set; }
@@ -137,15 +153,17 @@ namespace MasterErp.Entities.Models
         public DbSet<Region> Regions { get; set; }
 
         #endregion
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                string connString = this.Configuration.GetConnectionString("DBConnection");
-                optionsBuilder.UseSqlServer(connString);
-                optionsBuilder.EnableSensitiveDataLogging();
-            }
-        }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        string connString = this.Configuration.GetConnectionString("DBConnection");
+        //        optionsBuilder.UseSqlServer(connString);
+        //        optionsBuilder.EnableSensitiveDataLogging();
+        //    }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

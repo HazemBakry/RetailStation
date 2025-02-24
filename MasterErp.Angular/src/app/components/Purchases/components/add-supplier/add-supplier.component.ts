@@ -13,6 +13,7 @@ import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsRe
 import { BalanceType } from '../../enums/Suppliers';
 import { PurchaseService } from '../../services/purchase.service';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 
 
 
@@ -50,9 +51,8 @@ export class AddSupplierComponent implements OnInit {
     private purchaseService: PurchaseService,
     private form: FormBuilder,
     private _FormService: FormService,
-    private datePipe: DatePipe,
     private toaster: ToastrService,
-    private offcanvasService: NgbOffcanvas,) { }
+    private lookupService: LookupService) { }
 
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
@@ -176,10 +176,10 @@ export class AddSupplierComponent implements OnInit {
   }
 
   loadSelectors() {
-    this.sharedService.GetCountriesSelector().subscribe((data: FormDropdownModel[]) => {
+    this.lookupService.GetCountriesSelector().subscribe((data: FormDropdownModel[]) => {
       this.countriesSelectorData = data;
     });
-    this.sharedService.GetCitiesSelector().subscribe((data: FormDropdownModel[]) => {
+    this.lookupService.GetCitiesSelector().subscribe((data: FormDropdownModel[]) => {
       this.citiesSelectorData = data;
     });
     this.sharedService.GetRegionsSelector().subscribe((data: FormDropdownModel[]) => {

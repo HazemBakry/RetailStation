@@ -63,6 +63,8 @@
                         <th>دفتر إيصال</th>
                         <th>تاريخ الاصدار</th>
                         <th>طريقة الدفع</th>
+                        <!-- <th>نوع جهة التعامل</th>
+                    <th>جهة التعامل</th> -->
                         <th>المبلغ</th>
                         <th>Status</th>
                         <th>ملاحظات</th>
@@ -90,13 +92,13 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <div ngbDropdownMenu class="border">
-                                        <button ngbDropdownItem (click)="cancelPaymentReceipt(item.paymentReceiptId)">اسقاط</button>
-                                        <button ngbDropdownItem (click)="openJournalEntry(item.entryId)">معاينة القيد</button>
+                                        <button ngbDropdownItem (click)="cancelReceiveReceipt(item.receiveReceiptId)">اسقاط</button>
+                                        <button ngbDropdownItem routerLink="/general-accounts/new-entry" [queryParams]="{EntryId:item.entryId}">معاينة القيد</button>
                                     </div>
                                 </div>
                             </div>
                             <!-- <div class="w-100 d-flex align-items-center justify-content-center">
-                                <button (click)="CancelPaymentReceipt(item.paymentReceiptId)" class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2">
+                                <button (click)="CancelReceiveReceipt(item.receiveReceiptId)" class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2">
                                     <i class="uil uil-times"></i>
                                     <span>إلغاء</span>
                                 </button>

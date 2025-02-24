@@ -1469,7 +1469,7 @@ td.td-disabled {
     outline: none;
     box-shadow: none;
     border-radius: 50px;
-    -webkit-border-radius: 50px;
+    -webkit-border-radius: 10px;
     -moz-border-radius: 50px;
     -ms-border-radius: 50px;
     -o-border-radius: 50px;

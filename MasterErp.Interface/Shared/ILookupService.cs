@@ -1,0 +1,33 @@
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MasterErp.Interface.Shared
+{
+    public interface ILookupService
+    {
+        #region Global Lookups
+
+        List<SelectorDataModel> GetBanksSelector();
+        List<SelectorDataModel> GetCurrencySelector();
+        List<SelectorDataModel> GetCitiesSelector();
+
+        #endregion
+
+        #region Finance Lookups
+
+        List<SelectorDataModel> GetAccountTypes();
+        List<SelectorDataModel> GetActionTypes();
+        List<SelectorDataModel> GetBankDepositTypes();
+        List<SelectorDataModel> GetJournalEntryTypes();
+        List<SelectorDataModel> GetLedgerTypes();
+        List<SelectorDataModel> GetPaymentTypes();
+        List<SelectorDataModel> GetReceiptTypes(string GroupName);
+
+        #endregion
+    }
+}

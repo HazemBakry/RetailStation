@@ -14,16 +14,16 @@ namespace MasterErp.Entities.Models
     {
         [Key]
         public int ReceiveReceiptId { get; set; }
-        public int ReceiptNumber { get; set; }
+        public int? ReceiptNumber { get; set; }
         public int PaymentTypeId { get; set; }
-        public int ReceiptTypeId { get; set; }
+        public int? ReceiptTypeId { get; set; }
         public int? ReceiptLedgerId { get; set; }
         public DateTime ReleaseDate { get; set; }
         public string ContactName { get; set; }
         public int? BankAccountId { get; set; }
         public int? SafeId { get; set; }
         public int? AgencyTypeId { get; set; }
-        public int AccountId { get; set; }
+        public int? AccountId { get; set; }
         public int? SupplierId { get; set; }
         public int? CustomerId { get; set; }
         public int? EmployeeId { get; set; }
@@ -31,7 +31,7 @@ namespace MasterErp.Entities.Models
         public string DocNumber { get; set; }
         public int? CurrencyId { get; set; }
         public string Description { get; set; }
-        public bool IsLocked { get; set; }
-        public bool IsCancelled { get; set; }
+        public bool? IsLocked { get; set; }
+        public bool? IsCancelled { get; set; }
     }
 }

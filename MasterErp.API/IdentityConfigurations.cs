@@ -4,6 +4,7 @@ using MasterErp.Interface.Auth;
 using MasterErp.Service.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -34,9 +35,10 @@ namespace MasterErp.API
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<SubscriptionDbContext>();
             services.AddScoped<IAuthService, AuthService>();
 
-            //services.AddDbContext<SubscriptionDbContext>(options =>
+            //services.AddDbContext<DBContext>(options =>
             //{
-            //    options.UseSqlServer(Configuration.GetConnectionString("SubscriptionDB"));
+            //    options.UseSqlServer(tenantService.GetConnectionString("Mishwar"));
+            //    //options.UseSqlServer(configuration.GetConnectionString("SubscriptionDB"));
             //});
 
             services.AddAuthentication(options =>

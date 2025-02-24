@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.GeneralAccounts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -29,13 +30,6 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         public DataTable GetGeneralAccounts_Statistics()
         {
             return EntryService.GetGeneralAccounts_Statistics();
-        }
-
-        [HttpGet]
-        [Route("GetJournalEntryTypes")]
-        public List<JournalEntryType> GetJournalEntryTypes()
-        {
-            return EntryService.GetJournalEntryTypes();
         }
 
         [HttpGet]

@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.HR;
 using MasterErp.Service.Common;
 using System;

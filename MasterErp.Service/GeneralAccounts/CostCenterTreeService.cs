@@ -3,6 +3,7 @@ using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Export;
 using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
 using MasterErp.Service.Common;

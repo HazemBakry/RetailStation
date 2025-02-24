@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
-namespace MasterErp.API.Controllers.Finance.GeneralAccounts.Customers
+namespace MasterErp.API.Controllers.Finance.Sales
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -14,12 +14,15 @@ namespace MasterErp.API
 {
     public class Startup
     {
-        private readonly string ConnectionString;
+        //private readonly string ConnectionString;
         public IConfiguration Configuration { get; }
-        public Startup(IConfiguration configuration)
+        //public ITenantService tenantService { get; set; }
+
+        public Startup(IConfiguration configuration)//, ITenantService tenantService)
         {
             Configuration = configuration;
-            ConnectionString = Configuration.GetConnectionString("DBConnection");
+            //ConnectionString = Configuration.GetConnectionString("DBConnection");
+            //this.tenantService = tenantService;
         }
 
         readonly string MyAllowSpecificOrigins = "_MasterErp";
@@ -29,7 +32,7 @@ namespace MasterErp.API
         {
 
             var URLLists = Configuration.GetSection("URLList").Get<string[]>();
-            
+
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
@@ -40,8 +43,8 @@ namespace MasterErp.API
             });
 
             //setup Identity and auth config
-            IdentityConfigurations.Configure(services,Configuration);
-            
+            IdentityConfigurations.Configure(services, Configuration);
+
             services.AddControllers();
             services.AddDbContext<DBContext>();
             //services.AddHttpContextAccessor();

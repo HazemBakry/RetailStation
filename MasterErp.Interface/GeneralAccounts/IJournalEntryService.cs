@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Finance;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,7 +13,6 @@ namespace MasterErp.Interface.GeneralAccounts
     public interface IJournalEntryService
     {
         DataTable GetGeneralAccounts_Statistics();
-        List<JournalEntryType> GetJournalEntryTypes();
         List<Currency> GetCurrencyList();
         int GenerateNewEntryNumber(int month, int year);
         List<JournalTemplate> GetSavedJournalTemplates();

@@ -13,7 +13,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MasterErp.API.Controllers
+namespace MasterErp.API.Controllers.HR
 {
     [Route("api/[controller]")]
     [ApiController]

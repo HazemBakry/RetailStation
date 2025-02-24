@@ -5,6 +5,7 @@ import { AccountTreeModel } from '../../models/GeneralAccounts/AccountTree';
 import { GeneralAccountService } from '../../services/general-account.service';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { AccountOpeningBalanceModel } from '../../models/GeneralAccounts/OpeningBalance';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 
 @Component({
   selector: 'app-opening-balance',
@@ -13,25 +14,27 @@ import { AccountOpeningBalanceModel } from '../../models/GeneralAccounts/Opening
 })
 export class OpeningBalanceComponent implements OnInit {
 
-  @Input() isParentAccount:boolean = false;
+  @Input() isParentAccount: boolean = false;
   @Output() selectedAccount = new EventEmitter<any>();
 
-  showAllAccounts:boolean=false;
+  showAllAccounts: boolean = false;
   AccountTreeData: any[] = [];
   AccountData: any[] = [];
   showLoader: boolean;
   SearchText = '';
   isSearchMode = false;
   parentAccountsList: any[] = [];
-  accountTypes:any[]=[];
-  currencyType:any[] = [{ currencyId: 1, nameAR: 'جنيه' }, { currencyId: 1, nameAR: 'ريال' }]
+  accountTypes: any[] = [];
+  currencyType: any[] = [{ currencyId: 1, nameAR: 'جنيه' }, { currencyId: 1, nameAR: 'ريال' }]
 
   accountTreeModel: AccountTreeModel =
-  {} as AccountTreeModel;
+    {} as AccountTreeModel;
 
-  accountsOpeningBalance:AccountTreeModel[]=[];
+  accountsOpeningBalance: AccountTreeModel[] = [];
   constructor(private sharedService: SharedService,
-              private  GeneralAccountService:GeneralAccountService,private toaster:ToastrService) { }
+    private GeneralAccountService: GeneralAccountService,
+    private lookupService: LookupService,
+    private toaster: ToastrService) { }
 
   ngOnInit(): void {
     // this.loadData();
@@ -39,11 +42,10 @@ export class OpeningBalanceComponent implements OnInit {
     // this.loadParentAccountsData();
   }
 
-  GetAccountTypes()
-  {
-    this.sharedService.GetAccountTypesSelector().subscribe(data=>{
+  GetAccountTypes() {
+    this.lookupService.GetAccountTypes().subscribe(data => {
 
-      this.accountTypes=data;
+      this.accountTypes = data;
     })
   }
   GetCurrencyList() {
@@ -52,20 +54,18 @@ export class OpeningBalanceComponent implements OnInit {
     });
   }
 
-  loadParentAccountsData()
-  {
-    this.sharedService.GetAccountsSelector(true).subscribe(data=>{
-      this.parentAccountsList=data;
-      
+  loadParentAccountsData() {
+    this.sharedService.GetAccountsSelector(true).subscribe(data => {
+      this.parentAccountsList = data;
+
     })
   }
-  selectAccount(account)
-  {
-    if (!this.isParentAccount && account.accountLevel!=5) {
+  selectAccount(account) {
+    if (!this.isParentAccount && account.accountLevel != 5) {
       this.toaster.warning('please select child account');
       return;
     }
-    else if (this.isParentAccount && account.accountLevel==5) {
+    else if (this.isParentAccount && account.accountLevel == 5) {
       this.toaster.warning('please select parent account');
       return;
     }
@@ -73,44 +73,44 @@ export class OpeningBalanceComponent implements OnInit {
     this.selectedAccount.emit(account);
   }
 
-  loadData(SearchText='') {
+  loadData(SearchText = '') {
 
     this.showLoader = true;
-    this.GeneralAccountService.GetAccountsOpeningBalanceData(SearchText).subscribe((data:AccountTreeModel[]) => {
+    this.GeneralAccountService.GetAccountsOpeningBalanceData(SearchText).subscribe((data: AccountTreeModel[]) => {
       this.showLoader = false;
-      this.accountsOpeningBalance = this.SearchText? data.filter(x=>x.isSelected):data;
- 
-    },(error)=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.accountsOpeningBalance = this.SearchText ? data.filter(x => x.isSelected) : data;
+
+    }, (error) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
   }
   NumbersOnly(key: any): boolean {
     // let patt = /^\d+(\.\d+)?$/;
-    let patt =/^[1-9]\d*(\.\d+)?$/
+    let patt = /^[1-9]\d*(\.\d+)?$/
     let result = patt.test(key);
     return result;
   }
   updateAccountsOpeningBalance() {
     this.showLoader = true;
 
-    const updateLst=this.accountsOpeningBalance.filter(x=>x.preCredit>0||x.preDebit);
+    const updateLst = this.accountsOpeningBalance.filter(x => x.preCredit > 0 || x.preDebit);
     this.GeneralAccountService
-        .UpdateAccountsOpeningBalance(updateLst).subscribe((data: ActionsResponseModel) => {
-          if (data?.status) {
-            this.ClearAllFields();
-            this.toaster.success(data?.message);
-          } else {
-            this.toaster.error(data?.message);
-          }
-          this.loadData();
- 
-    },(error)=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
-    });
+      .UpdateAccountsOpeningBalance(updateLst).subscribe((data: ActionsResponseModel) => {
+        if (data?.status) {
+          this.ClearAllFields();
+          this.toaster.success(data?.message);
+        } else {
+          this.toaster.error(data?.message);
+        }
+        this.loadData();
+
+      }, (error) => {
+        this.showLoader = false;
+      }, () => {
+        this.showLoader = false;
+      });
   }
 
 
@@ -132,15 +132,15 @@ export class OpeningBalanceComponent implements OnInit {
       });
   }
 
-  
+
   validateFields(): boolean {
     let model: AccountTreeModel = this.accountTreeModel;
 
     if (
-          !model.accountNumber||
-          !model.nameEN||
-          !model.accountTypeId
-          
+      !model.accountNumber ||
+      !model.nameEN ||
+      !model.accountTypeId
+
     ) {
       this.toaster.warning('يرجي ملئ جميع الخانات');
       return false;
@@ -148,29 +148,25 @@ export class OpeningBalanceComponent implements OnInit {
     return true;
   }
   ClearAllFields() {
-    this.accountsOpeningBalance=[];
-    this.SearchText='';
+    this.accountsOpeningBalance = [];
+    this.SearchText = '';
     // this.accountTreeModel = {} as AccountTreeModel;
 
   }
 
-  GetSelectedAccountType(accountType)
-  {
+  GetSelectedAccountType(accountType) {
 
-    this.accountTreeModel.accountTypeId=accountType.accountTypeId;
+    this.accountTreeModel.accountTypeId = accountType.accountTypeId;
   }
-  GetSelectedCurrencyType(currencyType)
-  {
-    this.accountTreeModel.currencyTypeId=currencyType.currencyTypeId;
+  GetSelectedCurrencyType(currencyType) {
+    this.accountTreeModel.currencyTypeId = currencyType.currencyTypeId;
   }
-  GetSelectedParentAccount(account:AccountTreeModel)
-  {
-    this.accountTreeModel.parentAccountId=account.accountId;
-    this.accountTreeModel.accountLevel=account.accountLevel+1;
+  GetSelectedParentAccount(account: AccountTreeModel) {
+    this.accountTreeModel.parentAccountId = account.accountId;
+    this.accountTreeModel.accountLevel = account.accountLevel + 1;
 
   }
-  changeSearchType(event)
-  {
+  changeSearchType(event) {
 
   }
 }

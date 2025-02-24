@@ -23,5 +23,6 @@ namespace MasterErp.Entities.DTOs.GeneralAccounts
         public string NameEN { get; set; }
         public string PeriodName { get; set; }
         public string Notes { get; set; }
+        public int? TotalCount { get; set; }
     }
 }

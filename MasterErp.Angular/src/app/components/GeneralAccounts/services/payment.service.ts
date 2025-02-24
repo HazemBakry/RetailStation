@@ -26,6 +26,11 @@ export class PaymentService {
     {
       value: 2,
       name: 'مورد'
+    },
+    
+    {
+      value: 3,
+      name: 'عميل'
     }
   ]
 

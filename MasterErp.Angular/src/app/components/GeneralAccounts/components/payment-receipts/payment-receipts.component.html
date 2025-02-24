@@ -66,8 +66,8 @@
                         <!-- <th>نوع جهة التعامل</th>
                     <th>جهة التعامل</th> -->
                         <th>المبلغ</th>
-                        <th>Status</th>
-                        <th>ملاحظات</th>
+                        <th>نوع السند</th>
+                        <th>حالة السند</th>
                         <th class="text-center"></th>
                     </tr>
                 </thead>
@@ -79,12 +79,12 @@
                         <td>{{item.releaseDate | date}}</td>
                         <td>{{item.paymentTypeName }}</td>
                         <td>{{item.moneyAmount}}</td>
+                        <td>{{item.receiptTypeName}}</td>
                         <td>
                             <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
                                 {{item.orderStatus}}
                             </span>
                         </td>
-                        <td class="min-width-200">{{item.notes}}</td>
                         <td>
                             <div class="d-flex align-items-center justify-content-center">
                                 <div ngbDropdown container="body">
@@ -93,7 +93,7 @@
                                     </button>
                                     <div ngbDropdownMenu class="border">
                                         <button ngbDropdownItem (click)="cancelPaymentReceipt(item.paymentReceiptId)">اسقاط</button>
-                                        <button ngbDropdownItem routerLink="/general-accounts/new-entry" [queryParams]="{EntryId:item.entryId}">معاينة القيد</button>
+                                        <button ngbDropdownItem routerLink="/general-accounts/new-entry" [queryParams]="{journalEntryId:item.entryId}">معاينة القيد</button>
                                     </div>
                                 </div>
                             </div>

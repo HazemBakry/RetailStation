@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
 using Microsoft.Data.SqlClient;
@@ -119,18 +120,11 @@ namespace MasterErp.Service.GeneralAccounts
             return List;
         }
 
-        public List<JournalEntryType> GetJournalEntryTypes()
-        {
-            var List = Context.JournalEntryTypes.Where(x => x.IsActive).ToList();
-            return List;
-        }
-
         public List<Currency> GetCurrencyList()
         {
             var List = Context.Currency.Where(x => x.IsActive).ToList();
             return List;
         }
-
 
         public ActionsResponseModel SaveNewJournalEntry(JournalEntryModel model)
         {
@@ -260,12 +254,8 @@ namespace MasterErp.Service.GeneralAccounts
             }
         }
 
-
-
         public List<JournalEntryModel> GetDailyJournalEntriesSummary(SearchFilterModel model)
         {
-
-
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
             SqlParameter[] Params = new SqlParameter[3];

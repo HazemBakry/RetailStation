@@ -1,4 +1,4 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.HR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

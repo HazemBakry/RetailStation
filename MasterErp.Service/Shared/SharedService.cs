@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Shared;
 using Microsoft.Extensions.Configuration;
@@ -16,23 +17,11 @@ namespace MasterErp.Service.Shared
     public class SharedService : ISharedService
     {
         private readonly DBContext Context;
-        private readonly ISQLHelper SQLHelper;
-        private readonly IConfiguration Configuration;
         private readonly IExportService _exportService;
 
-        private string ConnectionString
-        {
-            get
-            {
-                return Configuration.GetConnectionString("DBConnection");
-            }
-        }
-
-        public SharedService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration, IExportService exportService)
+        public SharedService(DBContext dBContext, ISQLHelper iSQLHelper, IExportService exportService)
         {
             Context = dBContext;
-            SQLHelper = iSQLHelper;
-            Configuration = _configuration;
             _exportService = exportService;
         }
 
@@ -64,12 +53,6 @@ namespace MasterErp.Service.Shared
             return result;
         }
 
-        public List<LedgerType> GetReceiptLedgerTypesData()
-        {
-            var result = Context.ReceitLedgerType.ToList();
-
-            return result;
-        }
         public List<FinancialPeriod> GetFinancialPeriods()
         {
             var result = Context.FinancialPeriods.ToList();
@@ -123,36 +106,6 @@ namespace MasterErp.Service.Shared
             return result;
         }
 
-        public List<SelectorDataModel> GetAccountTypes()
-        {
-            var result = Context.AccountTypes.Select(a => new SelectorDataModel
-            {
-                Id = a.AccountTypeId,
-                Name = a.NameAR
-            }).ToList();
-            return result;
-        }
-
-        public List<SelectorDataModel> GetJournalEntryTypesSelector()
-        {
-            var result = Context.JournalEntryTypes.Select(a => new SelectorDataModel
-            {
-                Id = a.JournalTypeId,
-                Name = a.NameAR
-            }).ToList();
-
-            return result;
-        }
-
-        public List<SelectorDataModel> GetBanksSelector()
-        {
-            var results = Context.Banks.Select(b => new SelectorDataModel
-            {
-                Id = b.BankID,
-                Name = b.Name,
-            }).ToList();
-            return results;
-        }
         public List<SelectorDataModel> GetNationalitiesSelector()
         {
             var results = Context.Nationalities.Select(b => new SelectorDataModel
@@ -216,6 +169,17 @@ namespace MasterErp.Service.Shared
             }).ToList();
             return results;
         }
+
+        public List<SelectorDataModel>  GetCustomersSelector()
+        {
+            var results = Context.Customers.Select(b => new SelectorDataModel
+            {
+                Id = b.CustomerId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+
         public List<SelectorDataModel> GetSupplierGroupsSelector()
         {
             var results = Context.SupplierGroups.Select(b => new SelectorDataModel
@@ -292,15 +256,6 @@ namespace MasterErp.Service.Shared
             return results;
         }
 
-        public List<SelectorDataModel> GetCurrencySelector()
-        {
-            var results = Context.Currency.Where(x => x.IsActive).Select(b => new SelectorDataModel
-            {
-                Id = b.CurrencyId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
-        }
         public List<SelectorDataModel> GetReligionsSelector()
         {
             var results = Context.Religions.Select(b => new SelectorDataModel
@@ -310,6 +265,7 @@ namespace MasterErp.Service.Shared
             }).ToList();
             return results;
         }
+
         public List<SelectorDataModel> GetSocialStatusSelector()
         {
             var results = Context.SocialStatus.Select(b => new SelectorDataModel

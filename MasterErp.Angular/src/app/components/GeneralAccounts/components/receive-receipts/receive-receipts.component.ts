@@ -19,41 +19,41 @@ export class ReceiveReceiptsComponent implements OnInit {
     pageSize: 25
   };
 
-  constructor(private paymentService:PaymentService, private toaster: ToastrService) { }
+  constructor(private paymentService: PaymentService, private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.GetReceiveReceiptsSummary();
+    this.getReceiveReceiptsSummary();
   }
 
-  GetReceiveReceiptsSummary() {
-    this.showLoader=true;
+  getReceiveReceiptsSummary() {
+    this.showLoader = true;
     this.paymentService.GetReceiveReceipts_Summary(this.FilterModel).subscribe(data => {
       this.List = data;
+
       this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
-      this.showLoader=false;
-    },(err)=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     })
   }
 
   pageChanged(obj: any) {
     this.FilterModel.currentPage = obj.page;
-    this.GetReceiveReceiptsSummary();
+    this.getReceiveReceiptsSummary();
   }
 
-  CancelReceiveReceipt(receiveReceiptId:number)
-  {
-    this.paymentService.CancelReceiveReceipt(receiveReceiptId).subscribe(data => {
+  cancelReceiveReceipt(receiptId: number) {
+    this.paymentService.CancelReceiveReceipt(receiptId).subscribe(data => {
       if (data) {
         this.toaster.success('تم الغاء السند بنجاح');
-        this.GetReceiveReceiptsSummary();
+        this.getReceiveReceiptsSummary();
       }
-      else{
+      else {
         this.toaster.error('حدث خطأ اثناء الإلغاء');
       }
-    },(error)=>{
+    }, (error) => {
       this.toaster.error('حدث خطأ اثناء الإلغاء');
     })
   }

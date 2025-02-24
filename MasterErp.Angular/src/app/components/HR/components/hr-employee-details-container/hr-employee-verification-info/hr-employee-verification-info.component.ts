@@ -12,6 +12,7 @@ import { EmployeeService } from '../../../services/employee.service';
 import { EmployeeVerificationModel } from '../../../models/Employee/EmployeeVerificationModel';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { HrService } from '../../../services/hr.service';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 
 
 @Component({
@@ -28,10 +29,18 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
   showAddLoader: boolean = false;
   public formGroup: FormGroup;
   iqamaIssuePlacesSelectorData: FormDropdownModel[] = [];
-  banksSelectorData: FormDropdownModel[]= [];
+  banksSelectorData: FormDropdownModel[] = [];
 
-  constructor(private acRoute: ActivatedRoute, private hrService: HrService, private modalService: NgbModal, private employeeService: EmployeeService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
-    private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
+  constructor(private acRoute: ActivatedRoute,
+    private hrService: HrService,
+    private employeeService: EmployeeService,
+    private sharedService: SharedService,
+    private form: FormBuilder,
+    private _FormService: FormService,
+    private datePipe: DatePipe,
+    private toaster: ToastrService,
+    private lookupService: LookupService
+  ) { }
 
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
@@ -82,7 +91,7 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
       drivingLicenseNumber: [null, [CustomValidators.regexPattern(RegexType.number)]],
       drivingLicenseIssueDate: [null],
       drivingLicenseExpireDate: [null],
-      vehicleId: [null ,[CustomValidators.regexPattern(RegexType.number)]],
+      vehicleId: [null, [CustomValidators.regexPattern(RegexType.number)]],
       vehicleNumber: [null],
       vehicleCode: [null],
 
@@ -137,7 +146,7 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
     this.sharedService.GetIqamaIssuePlacesSelector().subscribe((data: FormDropdownModel[]) => {
       this.iqamaIssuePlacesSelectorData = data;
     });
-    this.sharedService.GetBanksSelector().subscribe((data: FormDropdownModel[]) => {
+    this.lookupService.GetBanksSelector().subscribe((data: FormDropdownModel[]) => {
       this.banksSelectorData = data;
     });
 

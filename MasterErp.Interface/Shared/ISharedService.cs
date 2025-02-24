@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Finance;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,15 +19,11 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetAccountsSelector(bool IsParent);
         List<SelectorDataModel> GetCostCenterSelector(bool IsParent);
         List<AccountTree> GetAccountsByTypeId(int TypeId);
-        List<SelectorDataModel> GetJournalEntryTypesSelector();
-        List<LedgerType> GetReceiptLedgerTypesData();
         List<FinancialPeriod> GetFinancialPeriods();
         ActionsResponseModel DownloadImporterTemplate(ExcelExportStyle ImporterType);
 
         #region Selectors
         List<SelectorDataModel> GetBranchesSelector();
-        List<SelectorDataModel> GetAccountTypes();
-        List<SelectorDataModel> GetBanksSelector();
         List<SelectorDataModel> GetNationalitiesSelector();
         List<SelectorDataModel> GetIqamaIssuePlacesSelector();
         List<SelectorDataModel> GetVisaJobsSelector();
@@ -34,6 +31,7 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetCitiesSelector();
         List<SelectorDataModel> GetRegionsSelector();
         List<SelectorDataModel> GetSuppliersSelector();
+        List<SelectorDataModel> GetCustomersSelector();  
         List<SelectorDataModel> GetSupplierGroupsSelector();
         List<SelectorDataModel> GetPurchaseInvoiceTypesSelector();
         List<SelectorDataModel> GetItemsSelector();
@@ -42,7 +40,6 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetChildAccountsSelector();
         List<SelectorDataModel> GetInventoriesSelector();
         List<SelectorDataModel> GetItemLookupsSelector();
-        List<SelectorDataModel> GetCurrencySelector();
         List<SelectorDataModel> GetReligionsSelector();
         List<SelectorDataModel> GetSocialStatusSelector();
 

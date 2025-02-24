@@ -14,6 +14,9 @@ using MasterErp.Entities.DTOs.GeneralAccounts;
 using Microsoft.EntityFrameworkCore;
 using MasterErp.Entities.Common.Enums;
 using MasterErp.Interface.GeneralAccounts;
+using Microsoft.Data.SqlClient;
+using MasterErp.Entities.DTOs.HR;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MasterErp.Service.GeneralAccounts
 {
@@ -39,54 +42,23 @@ namespace MasterErp.Service.GeneralAccounts
             Configuration = _configuration;
         }
 
-        public PagedResponseModel<ReceiptLedgerDTO> GetReceiptLedgersData(FilterModel Model)
+        public PagedResponseModel<ReceiptLedgerDTO> GetReceiptLedgersData(FilterModel model)
         {
-            int totalCount = Context.ReceiptLedgers.Count();
+            SqlParameter[] Params = new SqlParameter[2];
+            Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
+            Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
 
-            int skip = (Model.CurrentPage - 1) * Model.PageSize;
+            var data = SQLHelper.SQLQuery<ReceiptLedgerDTO>("[Finance].[SP_GetPaymentReceipts_Summary]", ConnectionString, Params);
 
-            //var data = Context.ReceiptLedger
-            //    .OrderByDescending(e => e.InsertDate)
-            //    .Skip(skip)
-            //    .Take(model.PageSize)
-            //.ToList();
-
-            var data = (from entity1 in Context.ReceiptLedgers
-                        join entity2 in Context.ReceitLedgerType
-                        on entity1.ReceiptLedgerTypeId equals entity2.LedgerTypeId into join1
-                        from res in join1.DefaultIfEmpty()
-                        join entity3 in Context.FinancialPeriods on entity1.PeriodId equals entity3.FinancialPeriodId into join2
-                        from res1 in join2.DefaultIfEmpty()
-                        select new ReceiptLedgerDTO
-                        {
-                            ReceiptLedgerId = entity1.ReceiptLedgerId,
-                            StartReceiptNumber = entity1.StartReceiptNumber,
-                            PeriodId = entity1.PeriodId,
-                            PeriodName = res1.NameAR ?? res1.NameEN,
-                            ReceiptLedgerTypeId = entity1.ReceiptLedgerTypeId,
-                            ReceiptLedgerType = res.NameAR ?? res.NameEN,
-                            OperationTypeId = entity1.OperationTypeId,
-                            OperationType = ((PaymentOperationType)entity1.OperationTypeId).ToString(),
-                            Notes = entity1.Notes,
-                            Code = entity1.Code,
-                            IsActive = entity1.IsActive,
-                            IsLocked = entity1.IsLocked,
-                            NameAR = entity1.NameAR,
-                            NameEN = entity1.NameEN,
-                            CreatedDate = entity1.CreatedDate,
-                            CreatedBy = entity1.CreatedBy,
-                            ModifiedDate = entity1.ModifiedDate,
-                        }).OrderByDescending(e => e.CreatedDate)
-                            .Skip(skip)
-                            .Take(Model.PageSize)
-                            .ToList();
-            return new PagedResponseModel<ReceiptLedgerDTO>
+            var result = new PagedResponseModel<ReceiptLedgerDTO>
             {
-                TotalCount = totalCount,
                 Results = data,
-                CurrentPage = Model.CurrentPage,
-                PageSize = Model.PageSize
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+
             };
+            return result;
         }
 
         public ActionsResponseModel CreateNewReceiptLedger(ReceiptLedgerModel Model)

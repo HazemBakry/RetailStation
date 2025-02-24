@@ -126,9 +126,9 @@ export class GeneralAccountsHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGeneralAccountsStatistics();
-    this.getSalesSummary();
+    //this.getSalesSummary();
     this.getDailyJournalEntriesSummary();
-    this.getPurchaseInvoicesData();
+    //this.getPurchaseInvoicesData();
     this.getPaymentReceiptsSummary();
     this.getReceiveReceiptsSummary();
   }
@@ -155,16 +155,15 @@ export class GeneralAccountsHomeComponent implements OnInit {
 
   getDailyJournalEntriesSummary() {
     this.generalAccountService.GetDailyJournalEntriesSummary(this.pagedResponse).subscribe(data => {
-      this.journalEntriesList = data;
+      this.journalEntriesList = data?.results;
     },
       (error) => {
         console.log("error", error);
-
       },
       () => { });
   }
 
-  CancelJournalEntry(journalEntryId: number) {
+  cancelJournalEntry(journalEntryId: number) {
     let journalEntryIds = [];
     journalEntryIds.push(journalEntryId);
     this.showLoader = true;

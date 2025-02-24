@@ -1,4 +1,5 @@
-﻿using MasterErp.Entities.Common;
+﻿using Azure.Core;
+using MasterErp.Entities.Common;
 using MasterErp.Entities.DTOs.Auth;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.HR.Employee;
@@ -30,7 +31,13 @@ namespace MasterErp.Service.Auth
         private readonly IFileService _fileService;
         public readonly string UserImagesFolder;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public AuthService(UserManager<ApplicationUser> userManager, JWT jwt, RoleManager<IdentityRole> roleManager, IHttpContextAccessor httpContextAccessor, IFileService fileService)
+        private readonly ITenantService _tenantService;
+        private readonly DBContext _context;
+        //private readonly IJwtService _jwtService;
+
+
+        public AuthService(UserManager<ApplicationUser> userManager, JWT jwt, RoleManager<IdentityRole> roleManager, 
+            IHttpContextAccessor httpContextAccessor, IFileService fileService, ITenantService tenantService)
         {
             _userManager = userManager;
             _jwt = jwt;
@@ -38,6 +45,7 @@ namespace MasterErp.Service.Auth
             UserImagesFolder = "UserImages";
             _httpContextAccessor = httpContextAccessor;
             _fileService = fileService;
+            _tenantService = tenantService;
         }
 
         public async Task<ActionsResponseModel> Register(AddUserModel model)
@@ -92,6 +100,7 @@ namespace MasterErp.Service.Auth
 
 
         }
+        
         public async Task<ActionsResponseModel> EditUserAsync(AddUserModel model)
         {
             var user = await _userManager.FindByIdAsync(model.UserId);
@@ -181,6 +190,15 @@ namespace MasterErp.Service.Auth
             authModel.UserName = User.UserName;
             authModel.EmployeeId = User.EmployeeId;
             authModel.Roles = roleList.ToList();
+            authModel.SubscriberId = User.SubscriberId;
+
+
+            var connectionString = _tenantService.GetConnectionString(User.SubscriberId);
+
+            var optionsBuilder = new DbContextOptionsBuilder<DBContext>();
+            optionsBuilder.UseSqlServer(connectionString);
+
+            using var dbContext = new DBContext(optionsBuilder.Options, _tenantService, new HttpContextAccessor());
 
             return authModel;
 

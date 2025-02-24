@@ -18,6 +18,7 @@ using LicenseContext = OfficeOpenXml.LicenseContext;
 using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Export;
 using MasterErp.Interface.GeneralAccounts;
+using MasterErp.Entities.Models.Finance;
 
 namespace MasterErp.Service.GeneralAccounts
 {

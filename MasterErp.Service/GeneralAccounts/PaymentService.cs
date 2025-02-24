@@ -74,7 +74,7 @@ namespace MasterErp.Service.GeneralAccounts
                         receipt.CustomerId = Model.CustomerId;
                         receipt.EmployeeId = Model.EmployeeId;
                         receipt.SafeId = Model.SafeId;
-                        receipt.Notes = Model.Notes;
+                        receipt.Description = Model.Description;
                         receipt.MoneyAmount = Model.MoneyAmount;
                         receipt.DocNumber = Model.DocNumber;
                         receipt.AgencyTypeId = Model.AgencyTypeId;
@@ -99,7 +99,7 @@ namespace MasterErp.Service.GeneralAccounts
                         CustomerId = Model.CustomerId,
                         EmployeeId = Model.EmployeeId,
                         SafeId = Model.SafeId,
-                        Notes = Model.Notes,
+                        Description = Model.Description,
                         MoneyAmount = Model.MoneyAmount,
                         DocNumber = Model.DocNumber,
                         AgencyTypeId = Model.AgencyTypeId,
@@ -153,7 +153,7 @@ namespace MasterErp.Service.GeneralAccounts
                     Debit = Model.MoneyAmount,
                     CurrencyId = 1,
                     SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
-                    Description = Model.Notes
+                    Description = Model.Description
                 });
 
                 accounts.Add(new JournalEntryAccount
@@ -163,7 +163,7 @@ namespace MasterErp.Service.GeneralAccounts
                     Debit = 0,
                     CurrencyId = 1,
                     SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
-                    Description = Model.Notes
+                    Description = Model.Description
                 });
 
                 JournalEntryModel entry = new JournalEntryModel
@@ -171,7 +171,7 @@ namespace MasterErp.Service.GeneralAccounts
                     //EntryNumber = GenerateNewEntryNumber(Model.ReleaseDate.Month, Model.ReleaseDate.Year);
                     DocNumber = Model.DocNumber,
                     EntryDate = Model.ReleaseDate,
-                    Description = Model.Notes,
+                    Description = Model.Description,
                     JournalTypeId = (int)EntryType.Cashing,
                     PeriodId = Context.ReceiptLedgers.Single(x => x.ReceiptLedgerId == Model.ReceiptLedgerId).PeriodId,
                     ActionTypeId = (int)JournalActionType.CashPayment,
@@ -234,43 +234,71 @@ namespace MasterErp.Service.GeneralAccounts
         {
             try
             {
-                ReceiveReceipt tbl = new ReceiveReceipt()
+                ReceiveReceipt receipt = new ReceiveReceipt();
+
+                if (Model.ReceiveReceiptId > 0)
                 {
-                    ReceiptNumber = Context.ReceiveReceipts.Count() > 0 ? Context.ReceiveReceipts.Max(x => x.ReceiptNumber) + 1 : 1,
-                    ReceiptLedgerId = Model.ReceiptLedgerId,
-                    PaymentTypeId = Model.PaymentTypeId,
-                    ReleaseDate = Model.ReleaseDate,
-                    ContactName = Model.ContactName,
-                    CurrencyId = Model.CurrencyId,
-                    ReceiptTypeId = Model.ReceiptTypeId,
-                    BankAccountId = Model.BankAccountId,
-                    CustomerId = Model.CustomerId,
-                    EmployeeId = Model.EmployeeId,
-                    SafeId = Model.SafeId,
-                    Description = Model.Description,
-                    MoneyAmount = Model.MoneyAmount,
-                    DocNumber = Model.DocNumber,
-                    AgencyTypeId = Model.AgencyTypeId,
-                    AccountId = Model.AccountId,
-                    SupplierId = Model.SupplierId,
-                    CreatedDate = DateTime.Now,
-                    CreatedBy = "",
-                    IsCancelled = false,
-                    IsLocked = false
-                };
+                    receipt = Context.ReceiveReceipts.FirstOrDefault(x => x.ReceiveReceiptId == Model.ReceiveReceiptId);
+                    if (receipt != null)
+                    {
+                        receipt.ReceiptLedgerId = Model.ReceiptLedgerId;
+                        receipt.PaymentTypeId = Model.PaymentTypeId;
+                        receipt.ContactName = Model.ContactName;
+                        receipt.CurrencyId = Model.CurrencyId;
+                        receipt.ReceiptTypeId = Model.ReceiptTypeId;
+                        receipt.BankAccountId = Model.BankAccountId;
+                        receipt.CustomerId = Model.CustomerId;
+                        receipt.EmployeeId = Model.EmployeeId;
+                        receipt.SafeId = Model.SafeId;
+                        receipt.Description = Model.Description;
+                        receipt.MoneyAmount = Model.MoneyAmount;
+                        receipt.DocNumber = Model.DocNumber;
+                        receipt.AgencyTypeId = Model.AgencyTypeId;
+                        receipt.AccountId = Model.AccountId;
+                        receipt.SupplierId = Model.SupplierId;
 
-                Context.ReceiveReceipts.Add(tbl);
-                Context.SaveChanges();
+                        Context.SaveChanges();
+                    }
+                }
+                else
+                {
+                    receipt = new ReceiveReceipt()
+                    {
+                        ReceiptNumber = Context.ReceiveReceipts.Count() > 0 ? Context.ReceiveReceipts.Max(x => x.ReceiptNumber) + 1 : 1,
+                        ReceiptLedgerId = Model.ReceiptLedgerId,
+                        PaymentTypeId = Model.PaymentTypeId,
+                        ReleaseDate = Model.ReleaseDate,
+                        ContactName = Model.ContactName,
+                        CurrencyId = Model.CurrencyId,
+                        ReceiptTypeId = Model.ReceiptTypeId,
+                        BankAccountId = Model.BankAccountId,
+                        CustomerId = Model.CustomerId,
+                        EmployeeId = Model.EmployeeId,
+                        SafeId = Model.SafeId,
+                        Description = Model.Description,
+                        MoneyAmount = Model.MoneyAmount,
+                        DocNumber = Model.DocNumber,
+                        AgencyTypeId = Model.AgencyTypeId,
+                        AccountId = Model.AccountId,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = "",
+                        IsCancelled = false,
+                        IsLocked = false
+                    };
 
-                var entry = PrepareReceiveEntryModel(tbl);
+                    Context.ReceiveReceipts.Add(receipt);
+                    Context.SaveChanges();
+                }
+
+                var entry = PrepareReceiveEntryModel(receipt);
                 var result = entryService.SaveNewJournalEntry(entry);
 
                 return new ActionsResponseModel
                 {
                     Status = result.Status,
                     Message = result.IsSuccess ? "تم حفظ البيانات بنجاح" : "فشل فى تسجيل القيد المحاسبى",
-                    Id = tbl.ReceiveReceiptId,
-                    Number = tbl.ReceiptNumber.ToString(),
+                    Id = receipt.ReceiveReceiptId,
+                    Number = receipt.ReceiptNumber.ToString(),
                     IsSuccess = result.IsSuccess
                 };
             }

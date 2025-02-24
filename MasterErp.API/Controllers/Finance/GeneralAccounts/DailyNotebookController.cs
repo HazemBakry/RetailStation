@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Data;
 
-namespace MasterErp.API.Controllers.Finance.GeneralAccounts.GeneralAccountSettings
+namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 {
     [Route("api/[controller]")]
     [ApiController]

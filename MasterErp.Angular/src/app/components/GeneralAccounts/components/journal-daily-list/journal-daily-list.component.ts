@@ -13,6 +13,7 @@ import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsRe
   styleUrls: ['./journal-daily-list.component.css']
 })
 export class JournalDailyListComponent implements OnInit {
+  TitleList = ['الحسابات العامة', 'سجل القيود اليومية'];
   filterList: FilterModel[] = [];
   showLoader: boolean = false;
   selectAll: boolean = false;

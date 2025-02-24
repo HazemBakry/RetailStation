@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models
+namespace MasterErp.Entities.Models.Finance
 {
     [Table("JournalTemplates", Schema = "Finance")]
     public class JournalTemplate

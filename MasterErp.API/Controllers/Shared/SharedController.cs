@@ -1,6 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Enums;
-using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -63,21 +63,6 @@ namespace MasterErp.API.Controllers.Shared
         }
 
         [HttpGet]
-        [Route("GetJournalEntryTypesSelector")]
-        public List<SelectorDataModel> GetJournalEntryTypesSelector()
-        {
-            return _sharedService.GetJournalEntryTypesSelector();
-        }
-
-        [HttpGet]
-        [Route("GetReceiptLedgerTypes")]
-        public IActionResult GetReceiptLedgerTypes()
-        {
-            var results = _sharedService.GetReceiptLedgerTypesData();
-            return Ok(results);
-        }
-
-        [HttpGet]
         [Route("GetFinancialPeriods")]
         public IActionResult GetFinancialPeriods()
         {
@@ -96,7 +81,6 @@ namespace MasterErp.API.Controllers.Shared
         }
 
 
-
         #region Selectors
 
         [HttpGet]
@@ -106,24 +90,7 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetBranchesSelector();
             return Ok(result);
         }
-             
-        [HttpGet]
-        [Route("GetAccountTypes")]
-        public IActionResult GetAccountTypes()
-        {
-            var results = _sharedService.GetAccountTypes();
-
-            return Ok(results);
-        }
-
-        [HttpGet]
-        [Route("GetBanksSelector")]
-        public IActionResult GetBanksSelector()
-        {
-            var result = _sharedService.GetBanksSelector();
-            return Ok(result);
-        }        
-        
+          
         [HttpGet]
         [Route("GetNationalitiesSelector")]
         public IActionResult GetNationalitiesSelector()
@@ -171,6 +138,7 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetRegionsSelector();
             return Ok(result);
         }
+
         [HttpGet]
         [Route("GetSuppliersSelector")]
         public IActionResult GetSuppliersSelector()
@@ -178,6 +146,15 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetSuppliersSelector();
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("GetCustomersSelector")]
+        public IActionResult GetCustomersSelector()
+        {
+            var result = _sharedService.GetCustomersSelector();
+            return Ok(result);
+        }
+
         [HttpGet]
         [Route("GetSupplierGroupsSelector")]
         public IActionResult GetSupplierGroupsSelector()
@@ -236,13 +213,7 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetItemLookupsSelector();
             return Ok(result);
         }
-        [HttpGet]
-        [Route("GetCurrencySelector")]
-        public IActionResult GetCurrencySelector()
-        {
-            var result = _sharedService.GetCurrencySelector();
-            return Ok(result);
-        }
+
         [HttpGet]
         [Route("GetReligionsSelector")]
         public IActionResult GetReligionsSelector()

@@ -3,15 +3,12 @@ import { AccountTreeModel } from '../../models/GeneralAccounts/AccountTree';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
 import { GeneralAccountService } from '../../services/general-account.service';
-import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
-import { ErpSelectorWithSearchComponent } from 'src/app/components/Shared/components/selectors/erp-selector-with-search/erp-selector-with-search.component';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { DatePipe } from '@angular/common';
-import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
-import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 
 @Component({
   selector: 'app-add-edit-account-tree',
@@ -50,8 +47,14 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
     notes: '',
 
   };
-  constructor(private modalService: NgbModal, private sharedService: SharedService,
-    private _GeneralAccountService: GeneralAccountService, private toaster: ToastrService, private form: FormBuilder, private _FormService: FormService, private datePipe: DatePipe,) { }
+  constructor(private modalService: NgbModal,
+    private sharedService: SharedService,
+    private _GeneralAccountService: GeneralAccountService,
+    private toaster: ToastrService,
+    private form: FormBuilder,
+    private _FormService: FormService,
+    private lookupService: LookupService,
+    private datePipe: DatePipe,) { }
 
 
 
@@ -78,7 +81,7 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
     if (accountModel)
       this.fillEditForm(accountModel);
     else
-      this.accountModel = {} as  AccountTreeModel;
+      this.accountModel = {} as AccountTreeModel;
 
     // this.formGroup.patchValue({employeeId:this.selectedAccountId});
 
@@ -147,21 +150,21 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
     this._GeneralAccountService
       .EditAccountTree(this.accountModel.accountId, this.accountModel).subscribe(data => {
 
-      if (data?.isSuccess) {
-        // this.formGroup?.reset();
-        this.initNewForm(); 
-        this.toaster.success(data?.message);
-        this.dataUpdated.emit(true);
-      }
-      else {
-        this.toaster.error(data?.message);
-      }
-      this.showLoader = false;
-    }, err => {
-      this.showLoader = false;
-    }, () => {
-      this.showLoader = false;
-    });
+        if (data?.isSuccess) {
+          // this.formGroup?.reset();
+          this.initNewForm();
+          this.toaster.success(data?.message);
+          this.dataUpdated.emit(true);
+        }
+        else {
+          this.toaster.error(data?.message);
+        }
+        this.showLoader = false;
+      }, err => {
+        this.showLoader = false;
+      }, () => {
+        this.showLoader = false;
+      });
 
 
   }
@@ -195,10 +198,10 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
     });
   }
   loadSelectors() {
-    this.sharedService.GetAccountTypesSelector().subscribe(data => {
+    this.lookupService.GetAccountTypes().subscribe(data => {
       this.accountTypesSelectorData = data;
     });
-    this.sharedService.GetCurrencySelector().subscribe(data => {
+    this.lookupService.GetCurrencySelector().subscribe(data => {
       this.currencyTypesSelectorData = data;
     });
     this.sharedService.GetAccountsSelector(true).subscribe(data => {

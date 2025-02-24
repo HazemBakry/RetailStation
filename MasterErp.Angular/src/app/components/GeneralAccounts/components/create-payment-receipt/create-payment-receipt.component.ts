@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 
 @Component({
   selector: 'app-create-payment-receipt',
@@ -22,6 +23,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
   supplierList: any[] = [];
   accountList: any[] = [];
   receiptLedgerList: any[] = [];
+  receiptTypeList: any[] = [];
   paymentReceiptModel: PaymentReceipt = {} as PaymentReceipt
   inputDropdownValue = '';
   isFocused = false;
@@ -42,6 +44,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
     moneyAmount: '',
     paymentTypeId: '',
     receiptLedgerId: '',
+    receiptTypeId: '',
     safeId: '',
   };
 
@@ -51,6 +54,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
     private _FormService: FormService,
     private datePipe: DatePipe,
     private acRoute: ActivatedRoute,
+    private lookupService: LookupService,
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
@@ -77,6 +81,16 @@ export class CreatePaymentReceiptComponent implements OnInit {
       this.receiptLedgerList = data;
     });
 
+    this.lookupService.GetReceiptTypes('Payment').subscribe(data => {
+      this.receiptTypeList = data;
+    });
+
+    this.lookupService.GetPaymentTypes().subscribe(data => {
+      this.paymentTypeList = data;
+    });
+    
+
+
     // this.generalService.GetSavedJournalTemplates().subscribe(data => {
     //   this.journalTemplates = data;
     //   this.journalTemplatesSelector = this.journalTemplates.map(x => {
@@ -89,7 +103,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
     // });
 
     this.agencyTypeList = this.paymentService.agencyTypeList;
-    this.paymentTypeList = this.paymentService.paymentTypeList;
+    //this.paymentTypeList = this.paymentService.paymentTypeList;
   }
 
   initNewForm(receiptModel: PaymentReceipt = null) {
@@ -114,6 +128,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
       moneyAmount: [null, [Validators.required]],
       paymentTypeId: [null, [Validators.required]],
       receiptLedgerId: [null, [Validators.required]],
+      receiptTypeId: [null, [Validators.required]],
       safeId: [null]
     });
     this.formGroup.valueChanges.subscribe((data) => {
@@ -147,6 +162,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
       moneyAmount: receiptModel.moneyAmount,
       paymentTypeId: receiptModel.paymentTypeId,
       receiptLedgerId: receiptModel.receiptLedgerId,
+      receiptTypeId: receiptModel.receiptTypeId,
       safeId: receiptModel.safeId,
     });
   }
@@ -177,31 +193,6 @@ export class CreatePaymentReceiptComponent implements OnInit {
     //     break;
     // }
   }
-
-  GetSelectedSupplier(account) {
-    switch (this.selectedAgencyType) {
-      case 0:
-        //supplier
-        this.paymentReceiptModel.supplierId = account.id;
-        break;
-      case 1:
-        //account
-        this.paymentReceiptModel.accountId = account.id;
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  GetSelectedAccount(account) {
-    this.paymentReceiptModel.accountId = account.id;
-  }
-
-  GetSelectedReceiptLedger(receiptLedger: ReceiptLedger) {
-    this.paymentReceiptModel.receiptLedgerId = receiptLedger.receiptLedgerId;
-  }
-
 
   SavePaymentReceipt() {
     if (!this.validateForm()) {

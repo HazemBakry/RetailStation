@@ -11,6 +11,7 @@ import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponse
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 
 @Component({
   selector: 'app-hr-vacation',
@@ -38,15 +39,11 @@ export class HrVacationComponent implements OnInit {
     pageSize: 25,
     currentPage: 1,
     searchText: ''
-
   };
   showLoader: boolean = false;
   showAddLoader: boolean = false;
-
   public formGroup: FormGroup;
-
   public formErrors = {
-
     vacationId: '',
     employeeId: '',
     isAlternativeAvailable: '',
@@ -63,8 +60,14 @@ export class HrVacationComponent implements OnInit {
 
   showAlternativeSelector = false;
   isUpdate: boolean = false;
-  constructor(private modalService: NgbModal, private hrService: HrService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
-    private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
+  constructor(private modalService: NgbModal,
+    private hrService: HrService,
+    private form: FormBuilder,
+    private _FormService: FormService,
+    private datePipe: DatePipe,
+    private toaster: ToastrService,
+    private lookupService: LookupService,
+    private offcanvasService: NgbOffcanvas,) { }
 
   ngOnInit(): void {
 
@@ -198,7 +201,7 @@ export class HrVacationComponent implements OnInit {
 
   }
   getVacationTypesSelector() {
-    this.sharedService.GetVacationTypesSelector().subscribe((data: FormDropdownModel[]) => {
+    this.lookupService.GetVacationTypesSelector().subscribe((data: FormDropdownModel[]) => {
       this.vacationTypeSelectorData = data;
     });
   }

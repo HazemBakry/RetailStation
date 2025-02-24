@@ -1,52 +1,89 @@
-<div class="card radius-10 border-0 card-shadow mb-3">
-    <div class="card-header py-3">
-        <div ngbDropdown class="d-inline-block me-2">
-            <button type="button" class="btn btn-secondary btn-lg me-2" id="dropdownBasic1" ngbDropdownToggle>
-                العمليات
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3" routerLink="/general-accounts/new-entry">
+                <i class="fas fa-plus-circle"></i>
+                <span>إضافة قيد</span>
             </button>
-            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                <button ngbDropdownItem (click)="cancelJournalEntry()">اسقاط</button>
-                <button ngbDropdownItem (click)="postJournalEntry()">ترحيل</button>
-                <button ngbDropdownItem (click)="reverseJournalEntry()">عكس</button>
-                <button ngbDropdownItem (click)="printJournalEntry()">طباعة</button>
+            <button class="btn btn-success d-flex align-items-center gap-2 border rounded px-3">
+                <i class="fas fa-file-download"></i>
+                <span>تصدير CSV</span>
+            </button>
+            <div ngbDropdown class="d-inline-block">
+                <button type="button" class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3" id="dropdownBasic1" ngbDropdownToggle>
+                    <i class="fas fa-cogs"></i>
+                    <span>الإجراءات</span>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="border rounded">
+                    <button ngbDropdownItem class="d-flex align-items-center gap-2" (click)="cancelJournalEntry()"><i
+                            class="fas fa-trash-alt"></i>
+                        <span> إسقاط</span>
+                    </button>
+                    <button ngbDropdownItem (click)="postJournalEntry()">ترحيل</button>
+                    <button ngbDropdownItem (click)="reverseJournalEntry()">عكس</button>
+                    <button ngbDropdownItem (click)="printJournalEntry()">طباعة</button>
+
+
+
+                    <!-- <button ngbDropdownItem class="d-flex align-items-center gap-2">
+                        <i class="fas fa-edit"></i>
+                        <span>تعديل</span>
+                    </button>
+                    <button ngbDropdownItem class="d-flex align-items-center gap-2">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>اسقاط</span>
+                    </button> -->
+                </div>
             </div>
+            <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+                <i class="fas fa-filter"></i>
+                <span>إضافة فلتر</span>
+            </button>
         </div>
-        <button class="btn btn-primary btn-lg me-2" routerLink="/general-accounts/new-entry">
-            <i class="fas fa-check-circle"></i>
-            <span class="ms-2">انشاء قيد جديد</span>
-        </button>
-    </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="d-flex align-items-center flex-wrap">
+        <nav>
+            <ul class="pagination table-paging m-0">
+                <li class="page-item disabled">
+                    <a class="page-link">السابق</a>
+                </li>
+                <li class="page-item"><a class="page-link">1</a></li>
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link">2</a>
+                </li>
+                <li class="page-item"><a class="page-link">3</a></li>
+                <li class="page-item">
+                    <a class="page-link">التالى</a>
+                </li>
+            </ul>
+        </nav>
+
+
+        <div class="row mt-3">
+            <div class="col-md-9">
+                <div class="d-flex align-items-center">
                     <ng-container>
-                        <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"
-                            [searchPlaceholder]="'البحث برقم القيد ...'"></app-erp-filters>
+                        <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث برقم القيد ...'"></app-erp-filters>
                     </ng-container>
                 </div>
             </div>
-            <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
-                    [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount">
-                </app-erp-pagination>
+            <div class="col-md-3">
+
             </div>
         </div>
-        <hr>
-        <div class="table-responsive">
-            <table class="table table-borderless align-middle table-middle mb-0 table-hover">
+    </div>
+    <div class="p-3 bg-white">
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
                 <thead>
                     <tr>
                         <th class="min-width-50 width-50 max-width-50">
-                            <input type="checkbox" [(ngModel)]="selectAll" (change)="selectAllData()"
-                                class="big-checkbox cursor-pointer" />
+                            <input type="checkbox" [(ngModel)]="selectAll" (change)="selectAllData()" class="big-checkbox cursor-pointer" />
                         </th>
-                        <!-- <th>م</th> -->
                         <th>رقم القيد</th>
-                        <th>الرقم الدفتري</th>
+                        <!-- <th>الرقم الدفتري</th> -->
                         <th>نوع القيد</th>
                         <th>حالة القيد</th>
-                        <th>المجموعة</th>
                         <th>نوع العملية</th>
                         <th>الشهر</th>
                         <th>التاريخ</th>
@@ -62,12 +99,12 @@
                             <td><input type="checkbox" class="big-checkbox" [(ngModel)]="item.isChecked">
                             </td>
                             <td>{{item.entryNumber}}</td>
-                            <td>{{item.docNumber}}</td>
+                            <!-- <td>{{item.docNumber}}</td> -->
                             <td>{{item.journalTypeAR ||item.journalTypeEN }}</td>
                             <td>
                                 <div appColorWithStatus status="IsLocked" [text]="item.isLocked"></div>
                             </td>
-                            <td>{{item.actionGroup}}</td>
+                            <!-- <td>{{item.actionGroup}}</td> -->
                             <td>{{item.actionTypeAR || item.actionTypeEN}}</td>
                             <td>{{item.entryMonth}}</td>
                             <td>{{item.entryDate | date}}</td>
@@ -81,13 +118,16 @@
                                         <i class="uil uil-pen"></i>
                                         <span>معاينة</span>
                                     </button> -->
-                                    <button routerLink="/general-accounts/new-entry"
-                                        [queryParams]="{JournalEntryId:item.journalEntryId}"
-                                        class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+                                    <button routerLink="/general-accounts/new-entry" [queryParams]="{JournalEntryId:item.journalEntryId}" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
                                         <i class="uil uil-pen"></i>
                                         <span>تعديل</span>
                                     </button>
                                 </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="!pagedResponseModel.results.length">
+                            <td colspan="12" class="text-right">
+                                <app-empty-data [showEmptyData]="!pagedResponseModel.results.length"></app-empty-data>
                             </td>
                         </tr>
 
@@ -95,7 +135,7 @@
 
                 </tbody>
             </table>
-            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length && !showLoader"></app-empty-data>
+            <!-- <app-empty-data [showEmptyData]="!pagedResponseModel.results.length && !showLoader"></app-empty-data> -->
 
         </div>
     </div>

@@ -70,6 +70,14 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2"> نوع السند <span
+                                class="text-danger">*</span></label>
+
+                        <app-general-selector formControlName="receiptTypeId" [data]="receiptTypeList" [placeholder]="'نوع السند'"></app-general-selector>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">المبلغ</label>
 
                         <input type="number" class="form-control nw-form-input text-center" formControlName="moneyAmount" />

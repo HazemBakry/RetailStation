@@ -6,6 +6,7 @@ import { FormService } from 'src/app/components/Shared/services/form.service';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { CustomersService } from '../../services/customers.service';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 
 @Component({
   selector: 'app-customers',
@@ -39,8 +40,13 @@ export class CustomersComponent implements OnInit {
     filterItems: []
   };
 
-  constructor(private modalService: NgbModal, private toaster: ToastrService, private sharedService: SharedService,
-    private form: FormBuilder, private _FormService: FormService, private customerService: CustomersService) { }
+  constructor(private modalService: NgbModal,
+    private toaster: ToastrService,
+    private sharedService: SharedService,
+    private form: FormBuilder,
+    private _FormService: FormService,
+    private lookupService: LookupService,
+    private customerService: CustomersService) { }
 
   ngOnInit(): void {
     this.buildForm();
@@ -95,13 +101,13 @@ export class CustomersComponent implements OnInit {
   }
 
   GetCountriesSelector() {
-    this.sharedService.GetCountriesSelector().subscribe(data => {
+    this.lookupService.GetCountriesSelector().subscribe(data => {
       this.Countries = data;
     });
   }
 
   GetCitiesSelector() {
-    this.sharedService.GetCitiesSelector().subscribe(data => {
+    this.lookupService.GetCitiesSelector().subscribe(data => {
       this.Cities = data;
     });
   }

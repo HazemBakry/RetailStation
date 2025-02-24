@@ -4,7 +4,7 @@ using MasterErp.Interface.GeneralAccounts.GeneralAccountSettings;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
-namespace MasterErp.API.Controllers.Finance.GeneralAccounts.GeneralAccountSettings
+namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 {
     [Route("api/[controller]")]
     [ApiController]
