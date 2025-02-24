@@ -262,15 +262,17 @@ namespace MasterErp.Service.GeneralAccounts
             string url = string.Empty;
             try
             {
-                SqlParameter[] Params = new SqlParameter[0];
-                var result = SQLHelper.ExecuteDataTable("[dbo].[SP_ExportCostCenterTreeList]", ConnectionString, Params);
 
-                url = GetExportUrl(result, "CostCenterImporter");
+
+                SqlParameter[] Params = new SqlParameter[0];
+                var dtExport = SQLHelper.ExecuteDataTable("[Finance].[SP_ExportCostCenterTreeList]", ConnectionString, Params);
+
+                url = GetExportUrl(dtExport, "Cost center tree");
 
 
                 return new ActionsResponseModel
                 {
-                    Status = 1,
+                    IsSuccess = true,
                     URL = url,
                     Message = "File Exported successfully"
                 };
@@ -280,11 +282,14 @@ namespace MasterErp.Service.GeneralAccounts
             {
                 return new ActionsResponseModel
                 {
+                    IsSuccess = false,
                     Status = 0,
                     URL = "",
-                    Message = ex.InnerException?.Message ?? ex.Message,
+                    Message = "Server error",
                 };
             }
+
+
         }
 
         private string GetExportUrl(DataTable DT, string Name)
