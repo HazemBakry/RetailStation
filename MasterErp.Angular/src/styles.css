@@ -965,6 +965,7 @@ tr {
 .big-checkbox {
     height: 20px;
     width: 30px;
+    cursor: pointer;
 }
 
 @media (max-width: 575px) {

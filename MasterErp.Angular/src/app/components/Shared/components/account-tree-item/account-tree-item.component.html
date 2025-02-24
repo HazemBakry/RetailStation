@@ -14,7 +14,7 @@
 
 <div class="tree-row d-flex align-items-center justify-content-between cursor-pointer ps-{{account.accountLevel}}"
   (click)="toggleNode(account)">
-  <div class="tree-row-text d-flex align-items-center">
+  <div class="tree-row-text d-flex align-items-center m-2">
     <i *ngIf="account.children?.length" class="fas " [class]="!expanded?'fa-plus-circle':'fa-minus-circle'"></i>
     <span class="ms-2" [ngClass]="{'bg-warning': account.isSelected}">{{ account.nameEN }}</span>
   </div>

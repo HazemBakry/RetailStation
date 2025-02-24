@@ -16,17 +16,27 @@
         </button>
     </div>
     <div *ngIf="btnDesign=='default'" class="d-flex">
-        <button [disabled]="showAddLoader" class="btn btn-primary btn-lg me-2"
+        <button [disabled]="showAddLoader" (click)="openImportFileSidePanel(ImportFileDialog)"
+            class="btn btn-table-action  d-flex align-items-center gap-2 border rounded px-3 me-2">
+            <i class="uil uil-export fs-7"></i>
+            <span>استيراد</span>
+        </button>
+        <!-- <button [disabled]="showAddLoader" class="btn btn-table-action  btn-lg me-2"
             (click)="openImportFileSidePanel(ImportFileDialog)">
             <i class="uil uil-import fs-7"></i>
             <span class="ms-2">استيراد</span>
+        </button> -->
+        <button [disabled]="showAddLoader" (click)="exportTemplateByName()"
+            class="btn btn-table-action  d-flex align-items-center gap-2 border rounded px-3 me-2">
+            <i class="uil uil-export fs-7"></i>
+            <span>تحميل القالب</span>
         </button>
-        <button [disabled]="showAddLoader" 
-            class="btn btn-dark btn-lg me-2" 
+        <!-- <button [disabled]="showAddLoader" 
+            class="btn btn-outline-secondary btn-lg me-2" 
             (click)="exportTemplateByName()">
             <i class="uil uil-export fs-7"></i>
             <span class="ms-2">تحميل القالب</span>
-        </button>
+        </button> -->
     </div>
 </ng-container>
 

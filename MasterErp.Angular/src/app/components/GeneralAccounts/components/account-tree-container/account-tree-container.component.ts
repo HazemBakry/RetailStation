@@ -15,6 +15,9 @@ export class AccountTreeContainerComponent implements OnInit {
   selectedAccountTreeModel: AccountTreeModel = {} as AccountTreeModel;
   isUpdate: boolean = false;
   reloadData: boolean = false;
+  showExportLoader: boolean = false;
+  TitleList = ['الحسابات العامة', 'شجرة الحسابات'];
+
   constructor(private _GeneralAccountService: GeneralAccountService, private _SharedService: SharedService, private toaster: ToastrService) { }
 
   ngOnInit(): void {
@@ -32,18 +35,27 @@ export class AccountTreeContainerComponent implements OnInit {
     this.isUpdate = true;
   }
 
-  exportData() {
-    this._GeneralAccountService.ExportAccountTreeList("").subscribe(
-      (data: any) => {
-        if (data) {
-          this._SharedService.urlDownloadOrOpen(data.url);
-          this.toaster.success("Exported Successfully");
-        } else {
-          this.toaster.error('Failed To Export');
-        }
-      });
-  }
 
+  exportData() {
+    this.showExportLoader = true;
+    this._GeneralAccountService.ExportAccountTreeList("").subscribe((data: ActionsResponseModel) => {
+      if (data.isSuccess) {
+        this._SharedService.urlDownloadOrOpen(data.url);
+        this.toaster.success(data.message);
+      } else {
+        this.toaster.error(data.message);
+      }
+
+
+      this.showExportLoader = false;
+    }, err => {
+      this.showExportLoader = false;
+    }, () => {
+      this.showExportLoader = false;
+    });
+
+
+  }
   downloadImporterTemplate() {
     this._SharedService.downloadImporterTemplate(ExcelExportStyle.accountTree).subscribe((data: ActionsResponseModel) => {
       console.log("url", data.url);
