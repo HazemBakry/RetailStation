@@ -1,9 +1,13 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Finance.GeneralAccounts;
+using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.HR.Employee;
 using MasterErp.Interface.GeneralAccounts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using System.Linq;
 
 namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 {
@@ -20,16 +24,24 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("GetPaymentReceipts_Summary")]
-        public DataTable GetPaymentReceiptsSummary(FilterModel model)
+        public IActionResult GetPaymentReceiptsSummary(FilterModel model)
         {
-            return _paymentService.GetPaymentReceipts_Summary(model);
+            var data = _paymentService.GetPaymentReceipts_Summary(model);
+            var result = new PagedResponseModel<ReceiptModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
         }
 
         [HttpPost]
         [Route("GetPaymentReceipts_Filters")]
         public DataTable GetPaymentReceipts_Filters(FilterModel model)
         {
-            return _paymentService.GetPaymentReceipts_Summary(model);
+            return _paymentService.GetPaymentReceipts_Filters(model);
         }
 
         [HttpPost]
@@ -50,16 +62,24 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("GetReceiveReceipts_Summary")]
-        public DataTable GetReceiveReceiptsSummary(FilterModel model)
+        public IActionResult GetReceiveReceiptsSummary(FilterModel model)
         {
-            return _paymentService.GetReceiveReceipts_Summary(model);
+            var data = _paymentService.GetReceiveReceipts_Summary(model);
+            var result = new PagedResponseModel<ReceiptModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
         }
 
         [HttpPost]
         [Route("GetReceiveReceipts_Filters")]
         public DataTable GetReceiveReceipts_Filters(FilterModel model)
         {
-            return _paymentService.GetReceiveReceipts_Summary(model);
+            return _paymentService.GetReceiveReceipts_Filters(model);
         }
 
         [HttpPost]

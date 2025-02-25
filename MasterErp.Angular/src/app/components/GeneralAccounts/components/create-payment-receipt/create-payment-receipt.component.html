@@ -15,6 +15,17 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2"> دفتر الايصال <span
+                                class="text-danger">*</span></label>
+
+                        <app-general-selector formControlName="receiptLedgerId" [data]="receiptLedgerList" [placeholder]="'دفتر الإيصال'"></app-general-selector>
+
+                        <!-- <app-erp-selector-with-search #Selector [ItemsList]="receiptLedgerList" [Height]="'35px'" [SearchKey]="'nameAR'" [innerTextKey]="'nameAR'" (ItemObj)="GetSelectedReceiptLedger($event)">
+                    </app-erp-selector-with-search> -->
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">المستفيـد<span
                                 class="text-danger">*</span></label>
 
@@ -26,6 +37,14 @@
                         <label class="form-label d-flex align-items-center gap-2">تاريخ السند <span
                                 class="text-danger">*</span></label>
                         <input type="date" class="form-control nw-form-input" formControlName="releaseDate" placeholder="any" autocomplete="off">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2"> نوع السند <span
+                                class="text-danger">*</span></label>
+
+                        <app-general-selector formControlName="receiptTypeId" [data]="receiptTypeList" [placeholder]="'نوع السند'"></app-general-selector>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -55,25 +74,6 @@
 
                         <app-general-selector *ngIf="selectedAgencyType == 2" formControlName="supplierId" [data]="supplierList" [placeholder]="'جهة التعامل'">
                         </app-general-selector>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="mb-2">
-                        <label class="form-label d-flex align-items-center gap-2"> دفتر الايصال <span
-                                class="text-danger">*</span></label>
-
-                        <app-general-selector formControlName="receiptLedgerId" [data]="receiptLedgerList" [placeholder]="'دفتر الإيصال'"></app-general-selector>
-
-                        <!-- <app-erp-selector-with-search #Selector [ItemsList]="receiptLedgerList" [Height]="'35px'" [SearchKey]="'nameAR'" [innerTextKey]="'nameAR'" (ItemObj)="GetSelectedReceiptLedger($event)">
-                    </app-erp-selector-with-search> -->
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="mb-2">
-                        <label class="form-label d-flex align-items-center gap-2"> نوع السند <span
-                                class="text-danger">*</span></label>
-
-                        <app-general-selector formControlName="receiptTypeId" [data]="receiptTypeList" [placeholder]="'نوع السند'"></app-general-selector>
                     </div>
                 </div>
                 <div class="col-lg-6">

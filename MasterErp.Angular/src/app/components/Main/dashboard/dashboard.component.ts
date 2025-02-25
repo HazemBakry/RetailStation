@@ -8,6 +8,7 @@ import { PaymentService } from '../../GeneralAccounts/services/payment.service';
 import { ToastrService } from 'ngx-toastr';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 import { OrderModel } from '../../Inventory/models/inventory';
+import { PaymentReceipt } from '../../GeneralAccounts/models/GeneralAccounts/PaymentReceipt';
 
 
 @Component({
@@ -99,30 +100,46 @@ export class DashboardComponent implements OnInit {
   ToDate = new Date();
   branchId = 0;
   SalesSummaryStatistics: any;
-  showLoader:boolean=false;
-  journalEntriesList:any[]=[];
-  purchasesInvoicesList:any[]=[];
-  paymentReceiptsList:any[]=[];
-  receiveReceiptsList:any[]=[];
+  showLoader: boolean = false;
+  journalEntriesList: any[] = [];
+  purchasesInvoicesList: any[] = [];
+  paymentReceiptsList: any[] = [];
+  receiveReceiptsList: any[] = [];
   FilterModel: FilterModel = {
     currentPage: 1,
     pageSize: 5,
     filterItems: []
   }
-  pagedResponseModel:PagedResponseDTO<OrderModel[]>={
-    results:[],
-    filterList:[],
+
+  pagedResponseModel: PagedResponseDTO<OrderModel[]> = {
+    results: [],
+    filterList: [],
     pageSize: 25,
-    currentPage:1,
-    searchText:''
+    currentPage: 1,
+    searchText: ''
 
   };
+  PaymentReceipts: PagedResponseDTO<PaymentReceipt[]> = {
+    results: [],
+    filterList: [],
+    pageSize: 25,
+    currentPage: 1,
+    searchText: ''
+  };
+  ReceiveReceipts: PagedResponseDTO<PaymentReceipt[]> = {
+    results: [],
+    filterList: [],
+    pageSize: 25,
+    currentPage: 1,
+    searchText: ''
+  };
+
   constructor(private modalService: NgbModal,
-              private datepipe: DatePipe,
-              private generalAccountService:GeneralAccountService,
-              private purchaseService:PurchaseService,
-              private paymentService:PaymentService,
-              private toaster:ToastrService) { }
+    private datepipe: DatePipe,
+    private generalAccountService: GeneralAccountService,
+    private purchaseService: PurchaseService,
+    private paymentService: PaymentService,
+    private toaster: ToastrService) { }
 
   ngOnInit(): void {
     this.GetSalesSummary();
@@ -145,20 +162,20 @@ export class DashboardComponent implements OnInit {
     this.modalService.open(content, { centered: true, scrollable: true, size: 'xl' })
   }
 
-  
+
   GetDailyJournalEntriesSummary() {
     this.generalAccountService.GetDailyJournalEntriesSummary(this.pagedResponseModel).subscribe(data => {
-        // console.log("🚀  ~ data:", data)
-        this.journalEntriesList=data;
+      // console.log("🚀  ~ data:", data)
+      this.journalEntriesList = data;
     },
-    (error) => {
-      console.log("error",error);
-      
-    },
-    () => {});
+      (error) => {
+        console.log("error", error);
+
+      },
+      () => { });
   }
-  CancelJournalEntry(journalEntryId:number) {
-    let journalEntryIds =[];
+  CancelJournalEntry(journalEntryId: number) {
+    let journalEntryIds = [];
     journalEntryIds.push(journalEntryId);
     this.showLoader = true;
     this.generalAccountService.CancelJournalEntry(journalEntryIds).subscribe(data => {
@@ -172,8 +189,8 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  PostJournalEntry(journalEntryId:number) {
-    let journalEntryIds =[];
+  PostJournalEntry(journalEntryId: number) {
+    let journalEntryIds = [];
     journalEntryIds.push(journalEntryId);
     this.showLoader = true;
     this.generalAccountService.PostJournalEntry(journalEntryIds).subscribe(data => {
@@ -192,35 +209,42 @@ export class DashboardComponent implements OnInit {
     // this.showLoader=true;
     this.purchaseService.GetPurchaseInvoices_Data(this.pagedResponseModel).subscribe(data => {
       this.purchasesInvoicesList = data.results;
-      
-    },(err)=>{
+
+    }, (err) => {
       // this.showLoader=false;
-    },()=>{
+    }, () => {
       // this.showLoader=false;
     })
   }
+
   GetPaymentReceiptsSummary() {
-    // this.showLoader = true;
+    //this.showLoader = true;
     this.paymentService.GetPaymentReceipts_Summary(this.FilterModel).subscribe(data => {
-      this.paymentReceiptsList = data;
-      
-    }, (err) => {
-      // this.showLoader = false;
+      this.PaymentReceipts.results = data.results;
+      this.PaymentReceipts.totalCount = data.totalCount;
+      //this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
+
+      //this.showLoader = false;
+    }, err => {
+      //this.showLoader = false;
     }, () => {
-      // this.showLoader = false;
-    })
+      //this.showLoader = false;
+    });
   }
 
   GetReceiveReceiptsSummary() {
-    // this.showLoader=true;
-    this.paymentService.GetReceiveReceipts_Summary(this.FilterModel).subscribe(data => {
-      this.receiveReceiptsList = data;
+    //this.showLoader = true;
+    this.paymentService.GetReceiveReceipts_Filters(this.FilterModel).subscribe(data => {
+      this.ReceiveReceipts.results = data.results;
+      this.ReceiveReceipts.totalCount = data.totalCount;
+      //this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
 
-    },(err)=>{
-      // this.showLoader=false;
-    },()=>{
-      // this.showLoader=false;
-    })
+      //this.showLoader = false;
+    }, err => {
+      //this.showLoader = false;
+    }, () => {
+      //this.showLoader = false;
+    });
   }
   getStatusColor(status: boolean) {
     if (status == true)

@@ -102,7 +102,8 @@ export class CreatePaymentReceiptComponent implements OnInit {
     //   });
     // });
 
-    this.agencyTypeList = this.paymentService.agencyTypeList;
+    this.agencyTypeList = this.paymentService.agencyTypeList.filter(x => x.value != 3);
+
     //this.paymentTypeList = this.paymentService.paymentTypeList;
   }
 
@@ -222,6 +223,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
 
     if (!model.contactName ||
       !model.paymentTypeId ||
+      !model.receiptTypeId ||
       !model.receiptLedgerId ||
       // !model.agencyTypeId ||
       // !model.agencyId ||

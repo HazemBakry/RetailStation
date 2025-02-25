@@ -8,6 +8,8 @@ import { PurchaseService } from 'src/app/components/Purchases/services/purchase.
 import { PaymentService } from '../../services/payment.service';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { OrderModel } from 'src/app/components/Inventory/models/inventory';
+import { PaymentReceipt } from '../../models/GeneralAccounts/PaymentReceipt';
+import { ReceiveReceipt } from '../../models/GeneralAccounts/ReceiveReceipt';
 
 @Component({
   selector: 'app-general-accounts-home',
@@ -15,81 +17,6 @@ import { OrderModel } from 'src/app/components/Inventory/models/inventory';
   styleUrls: ['./general-accounts-home.component.css']
 })
 export class GeneralAccountsHomeComponent implements OnInit {
-
-
-  overviewList = [
-    {
-      title: 'سجل القيود',
-      number: 574.12,
-      status: 'مقارنة بالاسبوع الماضى',
-      statusIcon: 'fa-arrow-circle-up',
-      subscribers: 427,
-      statusBgClass: 'bg-primary-gradient'
-    },
-    {
-      title: 'القيود المرحلة',
-      number: 180,
-      status: 'القيود المرحلة',
-      statusIcon: 'fa-arrow-circle-up',
-      subscribers: 523,
-      statusBgClass: 'bg-success-gradient'
-    },
-    {
-      title: 'القيود المعلقة',
-      number: -12,
-      status: 'مقارنة بالامس',
-      statusIcon: 'fa-arrow-circle-down',
-      subscribers: 312,
-      statusBgClass: 'bg-danger-gradient'
-    },
-    {
-      title: 'سندات الصرف',
-      number: 993.74,
-      status: 'مقارنة بأخر 10 أيام',
-      statusIcon: 'fa-arrow-circle-up',
-      subscribers: 12,
-      statusBgClass: 'bg-warning-gradient'
-    },
-    {
-      title: 'سندات القبض',
-      number: 486,
-      status: 'مقارنة بالشهر الماضى',
-      statusIcon: 'fa-arrow-circle-up',
-      subscribers: 150,
-      statusBgClass: 'bg-secondary-gradient'
-    },
-  ];
-
-  statsList = [
-    {
-      title: 'Orders Received',
-      icon: 'uil-shopping-cart-alt',
-      number: 486,
-      orderName: 'Completed Orders',
-      orderNumber: 351,
-    },
-    {
-      title: 'Total Sales',
-      icon: 'uil-tag-alt',
-      number: 1641,
-      orderName: 'This Month',
-      orderNumber: 216,
-    },
-    {
-      title: 'Revenue',
-      icon: 'uil-repeat',
-      number: '$42,562',
-      orderName: 'This Month',
-      orderNumber: '$5,032',
-    },
-    {
-      title: 'Total Profit',
-      icon: 'uil uil-award',
-      number: '$9,562',
-      orderName: 'This Month',
-      orderNumber: '$542',
-    },
-  ];
 
   statisticsCardList: any[] = [];
   orders = []
@@ -102,20 +29,32 @@ export class GeneralAccountsHomeComponent implements OnInit {
   showLoader: boolean = false;
   journalEntriesList: any[] = [];
   purchasesInvoicesList: any[] = [];
-  paymentReceiptsList: any[] = [];
   receiveReceiptsList: any[] = [];
-  filterModel: FilterModel = {
-    currentPage: 1,
-    pageSize: 25,
-    filterItems: []
-  }
 
+  FilterModel: FilterModel = {
+    currentPage: 1,
+    pageSize: 25
+  };
   pagedResponse: PagedResponseDTO<OrderModel[]> = {
     currentPage: 1,
     pageSize: 5,
     results: [],
     filterList: []
   }
+  PaymentReceipts: PagedResponseDTO<PaymentReceipt[]> = {
+    results: [],
+    filterList: [],
+    pageSize: 25,
+    currentPage: 1,
+    searchText: ''
+  };
+  ReceiveReceipts: PagedResponseDTO<ReceiveReceipt[]> = {
+    results: [],
+    filterList: [],
+    pageSize: 25,
+    currentPage: 1,
+    searchText: ''
+  };
 
   constructor(private modalService: NgbModal,
     private datepipe: DatePipe,
@@ -186,7 +125,7 @@ export class GeneralAccountsHomeComponent implements OnInit {
     this.generalAccountService.PostJournalEntry(journalEntryIds).subscribe(data => {
       if (data) {
         this.getDailyJournalEntriesSummary();
-        this.toaster.success('تم ترحيل القيوم بنجاح');
+        this.toaster.success('تم ترحيل القيود بنجاح');
       }
       else
         this.toaster.error('حدث خطأ');
@@ -195,39 +134,34 @@ export class GeneralAccountsHomeComponent implements OnInit {
     });
   }
 
-  getPurchaseInvoicesData() {
-    // this.showLoader=true;
-    this.purchaseService.GetPurchaseInvoices_Data(this.pagedResponse).subscribe(data => {
-      this.purchasesInvoicesList = data.results;
-
-    }, (err) => {
-      // this.showLoader=false;
-    }, () => {
-      // this.showLoader=false;
-    })
-  }
-
   getPaymentReceiptsSummary() {
-    // this.showLoader = true;
-    this.paymentService.GetPaymentReceipts_Summary(this.filterModel).subscribe(data => {
-      this.paymentReceiptsList = data;
+    //this.showLoader = true;
+    this.paymentService.GetPaymentReceipts_Summary(this.FilterModel).subscribe(data => {
+      this.PaymentReceipts.results = data.results;
+      this.PaymentReceipts.totalCount = data.totalCount;
+      //this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
 
-    }, (err) => {
-      // this.showLoader = false;
+      //this.showLoader = false;
+    }, err => {
+      //this.showLoader = false;
     }, () => {
-      // this.showLoader = false;
-    })
+      //this.showLoader = false;
+    });
   }
 
   getReceiveReceiptsSummary() {
-    this.paymentService.GetReceiveReceipts_Summary(this.filterModel).subscribe(data => {
-      this.receiveReceiptsList = data;
+    //this.showLoader = true;
+    this.paymentService.GetReceiveReceipts_Summary(this.FilterModel).subscribe(data => {
+      this.ReceiveReceipts.results = data.results;
+      this.ReceiveReceipts.totalCount = data.totalCount;
+      //this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
 
-    }, (err) => {
-      // this.showLoader=false;
+      //this.showLoader = false;
+    }, err => {
+      //this.showLoader = false;
     }, () => {
-      // this.showLoader=false;
-    })
+      //this.showLoader = false;
+    });
   }
 
   getStatusColor(status: boolean) {

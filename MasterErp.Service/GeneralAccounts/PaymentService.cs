@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Enums;
+using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.HR.Employee;
 using MasterErp.Interface.Common;
@@ -37,7 +38,7 @@ namespace MasterErp.Service.GeneralAccounts
             this.entryService = EntryService;
         }
 
-        public DataTable GetPaymentReceipts_Summary(FilterModel model)
+        public List<ReceiptModel> GetPaymentReceipts_Summary(FilterModel model)
         {
             //return Context.PaymentReceipts.ToList().ToDataTable();
 
@@ -45,8 +46,8 @@ namespace MasterErp.Service.GeneralAccounts
             Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
             Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
 
-            var dt = SQLHelper.ExecuteDataTable("[Finance].[SP_GetPaymentReceipts_Summary]", ConnectionString, Params);
-            return dt;
+            var result = SQLHelper.SQLQuery<ReceiptModel>("[Finance].[SP_GetPaymentReceipts_Summary]", ConnectionString, Params).ToList();
+            return result;
         }
 
         public DataTable GetPaymentReceipts_Filters(FilterModel model)
@@ -220,9 +221,15 @@ namespace MasterErp.Service.GeneralAccounts
             }
         }
 
-        public DataTable GetReceiveReceipts_Summary(FilterModel model)
+        public List<ReceiptModel> GetReceiveReceipts_Summary(FilterModel model)
         {
-            return Context.ReceiveReceipts.ToList().ToDataTable();
+            //return Context.ReceiveReceipts.ToList().ToDataTable();
+            SqlParameter[] Params = new SqlParameter[2];
+            Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
+            Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
+
+            var result = SQLHelper.SQLQuery<ReceiptModel>("[Finance].[SP_GetReceiveReceipts_Summary]", ConnectionString, Params).ToList();
+            return result;
         }
 
         public DataTable GetReceiveReceipts_Filters(FilterModel model)
@@ -318,19 +325,20 @@ namespace MasterErp.Service.GeneralAccounts
             try
             {
                 int generalSupplierId = Context.AccountTrees.Single(x => x.AccountTypeId == 5).AccountId;
-                int accountId = Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId;
                 List<JournalEntryAccount> accounts = new List<JournalEntryAccount>();
 
+                //---------- Debit Account ----------//
                 accounts.Add(new JournalEntryAccount
                 {
+                    SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
                     AccountId = Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId,
                     Credit = 0,
                     Debit = Model.MoneyAmount,
                     CurrencyId = 1,
-                    SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
                     Description = Model.Description
                 });
 
+                //---------- Credit Account ----------//
                 accounts.Add(new JournalEntryAccount
                 {
                     AccountId = Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId,
@@ -340,7 +348,7 @@ namespace MasterErp.Service.GeneralAccounts
                     SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
                     Description = Model.Description
                 });
-
+                
                 JournalEntryModel entry = new JournalEntryModel
                 {
                     //EntryNumber = GenerateNewEntryNumber(Model.ReleaseDate.Month, Model.ReleaseDate.Year);

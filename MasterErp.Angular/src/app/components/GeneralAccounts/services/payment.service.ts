@@ -7,6 +7,7 @@ import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PaymentOperationType } from '../../Shared/Enums/GeneralAccountsEnums';
 import { FormDropdownModel } from '../../Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
+import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class PaymentService {
       value: 2,
       name: 'مورد'
     },
-    
+
     {
       value: 3,
       name: 'عميل'
@@ -85,7 +86,7 @@ export class PaymentService {
   constructor(private http: HttpClient) { }
 
   GetPaymentReceipts_Summary(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'Payment/GetPaymentReceipts_Summary', model);
+    return this.http.post<PagedResponseDTO<PaymentReceipt[]>>(this.URL + 'Payment/GetPaymentReceipts_Summary', model);
   }
 
   GetPaymentReceipts_Filters(model: FilterModel) {
@@ -101,7 +102,7 @@ export class PaymentService {
   }
 
   GetReceiveReceipts_Summary(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'Payment/GetReceiveReceipts_Summary', model);
+    return this.http.post<PagedResponseDTO<ReceiveReceipt[]>>(this.URL + 'Payment/GetReceiveReceipts_Summary', model);
   }
 
   GetReceiveReceipts_Filters(model: FilterModel) {

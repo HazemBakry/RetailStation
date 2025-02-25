@@ -37,21 +37,24 @@
                 <span>المرشحات المحفوظة</span>
             </button> -->
         </div>
-        <nav>
-            <ul class="pagination table-paging m-0">
-                <li class="page-item disabled">
-                    <a class="page-link">السابق</a>
-                </li>
-                <li class="page-item"><a class="page-link">1</a></li>
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link">2</a>
-                </li>
-                <li class="page-item"><a class="page-link">3</a></li>
-                <li class="page-item">
-                    <a class="page-link">التالى</a>
-                </li>
-            </ul>
-        </nav>
+        <div class="justify-content-end">
+            <!-- <nav>
+                <ul class="pagination table-paging m-0">
+                    <li class="page-item disabled">
+                        <a class="page-link">السابق</a>
+                    </li>
+                    <li class="page-item"><a class="page-link">1</a></li>
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link">2</a>
+                    </li>
+                    <li class="page-item"><a class="page-link">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link">التالى</a>
+                    </li>
+                </ul>
+            </nav> -->
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="ReceiptList.currentPage" [pageSize]="ReceiptList.pageSize" [totalCount]="ReceiptList.totalCount"></app-erp-pagination>
+        </div>
     </div>
     <div class="p-3 bg-white">
         <div class="table-responsive shadow-sm radius-10">
@@ -72,7 +75,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of List">
+                    <tr *ngFor="let item of ReceiptList.results">
                         <td>{{item.receiptNumber}}</td>
                         <td>{{item.contactName}}</td>
                         <td>{{item.receiptLedgerName}}</td>
@@ -82,7 +85,7 @@
                         <td>{{item.receiptTypeName}}</td>
                         <td>
                             <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
-                                {{item.orderStatus}}
+                                {{item.isLocked}}
                             </span>
                         </td>
                         <td>
@@ -109,9 +112,9 @@
                             </div> -->
                         </td>
                     </tr>
-                    <tr *ngIf="!List.length">
+                    <tr *ngIf="!ReceiptList.results.length">
                         <td colspan="9" class="text-right">
-                            <app-empty-data [showEmptyData]="!List.length"></app-empty-data>
+                            <app-empty-data [showEmptyData]="!ReceiptList.results.length"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>
