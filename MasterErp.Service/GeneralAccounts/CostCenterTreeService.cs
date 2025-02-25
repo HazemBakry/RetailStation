@@ -87,7 +87,7 @@ namespace MasterErp.Service.GeneralAccounts
 
             foreach (var costCenter in costCenterList)
             {
-                if (costCenter.ParentId == 0)
+                if (costCenter.ParentId == 0 || costCenter.ParentId is null)
                 {
                     costCenter.CostLevel = 1;
                     roots.Add(costCenter);
@@ -107,7 +107,7 @@ namespace MasterErp.Service.GeneralAccounts
             return roots;
         }
 
-        public static void UpdateParentSelection(CostCenterTreeModel costCenter, Dictionary<int, CostCenterTreeModel> costCenterList)
+        public static void UpdateParentSelection(CostCenterTreeModel costCenter, Dictionary<int?, CostCenterTreeModel> costCenterList)
         {
             costCenter.IsSelected = true;
             if (costCenter.ParentId >= 0 && costCenterList.TryGetValue(costCenter.ParentId, out var parentCostCenter))
@@ -122,13 +122,16 @@ namespace MasterErp.Service.GeneralAccounts
             try
             {
                 CostCenterTree tbl = new CostCenterTree();
+                var parent = Context.CostCenterTree.FirstOrDefault(x => x.CostCenterId == Model.ParentId);
 
                 tbl.CreatedDate = DateTime.Now;
                 tbl.CreatedBy = string.Empty;
                 tbl.CostCenterNumber = Model.CostCenterNumber;
                 tbl.ParentId = Model.ParentId;
-                tbl.CostLevel = Model.CostLevel ?? 1;
-                tbl.NameAR = Model.NameEN;
+                //tbl.CostLevel = Model.CostLevel ?? 1;
+                tbl.CostLevel = parent != null ? parent.CostLevel + 1 : 1;
+
+                tbl.NameAR = Model.NameAR;
                 tbl.NameEN = Model.NameEN;
                 tbl.IsActive = Model.IsActive;
                 tbl.IsLocked = Model.IsLocked;
@@ -144,7 +147,6 @@ namespace MasterErp.Service.GeneralAccounts
 
                 return new ActionsResponseModel
                 {
-                    Status = 1,
                     Message = "تم الحفظ  بنجاح"
                 };
             }
@@ -152,7 +154,7 @@ namespace MasterErp.Service.GeneralAccounts
             {
                 return new ActionsResponseModel
                 {
-                    Status = 0,
+                    IsSuccess = false,
                     Message = ex.Message
                 };
             }
@@ -166,35 +168,41 @@ namespace MasterErp.Service.GeneralAccounts
 
                 if (entity != null)
                 {
+                    var parent = Context.CostCenterTree.FirstOrDefault(x => x.CostCenterId == Model.ParentId);
+
 
                     entity.ModifiedDate = DateTime.Now;
                     entity.CreatedBy = string.Empty;
 
                     entity.CostCenterNumber = Model.CostCenterNumber;
                     entity.ParentId = Model.ParentId;
-                    entity.CostLevel = Model.CostLevel ?? 1;
-                    entity.NameAR = Model.NameEN;
+                    entity.CostLevel = parent != null ? parent.CostLevel + 1 : 1;
+                    entity.NameAR = Model.NameAR;
                     entity.NameEN = Model.NameEN;
                     entity.IsActive = Model.IsActive;
                     entity.IsLocked = Model.IsLocked;
-                    entity.IsParent = Model.IsParent;
+                    entity.IsParent = entity.CostLevel == 1 ? true : false;
                     entity.IsPost = Model.IsPost;
                     entity.IsExpences = Model.IsExpences;
                     entity.DisplayOrder = Model.DisplayOrder;
+                    Context.SaveChanges();
+                    return new ActionsResponseModel
+                    {
+                        Message = "تم الحفظ  بنجاح"
+                    };
                 }
-
-                Context.SaveChanges();
                 return new ActionsResponseModel
                 {
-                    Status = 1,
-                    Message = "تم الحفظ  بنجاح"
+                    IsSuccess = false,
+                    Message = "can't find cost center"
                 };
+
             }
             catch (Exception ex)
             {
                 return new ActionsResponseModel
                 {
-                    Status = 0,
+                    IsSuccess = false,
                     Message = ex.Message
                 };
             }
