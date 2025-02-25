@@ -2,47 +2,58 @@
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
     <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
-        <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3" routerLink="/general-accounts/new-entry">
-                <i class="fas fa-plus-circle"></i>
-                <span>إضافة قيد</span>
-            </button>
-            <button class="btn btn-success d-flex align-items-center gap-2 border rounded px-3">
-                <i class="fas fa-file-download"></i>
-                <span>تصدير CSV</span>
-            </button>
-            <div ngbDropdown class="d-inline-block">
-                <button type="button" class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3" id="dropdownBasic1" ngbDropdownToggle>
-                    <i class="fas fa-cogs"></i>
-                    <span>الإجراءات</span>
+        <div class="col-md-8 mb-2">
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3"
+                    routerLink="/general-accounts/new-entry">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>إضافة قيد</span>
                 </button>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="border rounded">
-                    <button ngbDropdownItem class="d-flex align-items-center gap-2" (click)="cancelJournalEntry()"><i
-                            class="fas fa-trash-alt"></i>
-                        <span> إسقاط</span>
+                <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+                    <i class="fas fa-file-download"></i>
+                    <span>تصدير CSV</span>
+                </button>
+                <div ngbDropdown class="d-inline-block">
+                    <button type="button" class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3"
+                        id="dropdownBasic1" ngbDropdownToggle>
+                        <i class="fas fa-cogs"></i>
+                        <span>الإجراءات</span>
                     </button>
-                    <button ngbDropdownItem (click)="postJournalEntry()">ترحيل</button>
-                    <button ngbDropdownItem (click)="reverseJournalEntry()">عكس</button>
-                    <button ngbDropdownItem (click)="printJournalEntry()">طباعة</button>
-
-
-
-                    <!-- <button ngbDropdownItem class="d-flex align-items-center gap-2">
-                        <i class="fas fa-edit"></i>
-                        <span>تعديل</span>
-                    </button>
-                    <button ngbDropdownItem class="d-flex align-items-center gap-2">
-                        <i class="fas fa-trash-alt"></i>
-                        <span>اسقاط</span>
-                    </button> -->
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="border rounded">
+                        <button ngbDropdownItem class="d-flex align-items-center gap-2" (click)="cancelJournalEntry()"><i
+                                class="fas fa-trash-alt"></i>
+                            <span> إسقاط</span>
+                        </button>
+                        <button ngbDropdownItem (click)="postJournalEntry()">ترحيل</button>
+                        <button ngbDropdownItem (click)="reverseJournalEntry()">عكس</button>
+                        <button ngbDropdownItem (click)="printJournalEntry()">طباعة</button>
+        
+        
+        
+                        <!-- <button ngbDropdownItem class="d-flex align-items-center gap-2">
+                                    <i class="fas fa-edit"></i>
+                                    <span>تعديل</span>
+                                </button>
+                                <button ngbDropdownItem class="d-flex align-items-center gap-2">
+                                    <i class="fas fa-trash-alt"></i>
+                                    <span>اسقاط</span>
+                                </button> -->
+                    </div>
                 </div>
+                <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+                    <i class="fas fa-filter"></i>
+                    <span>إضافة فلتر</span>
+                </button>
             </div>
-            <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
-                <i class="fas fa-filter"></i>
-                <span>إضافة فلتر</span>
-            </button>
         </div>
-        <nav>
+        <div class="col-md-4 mb-2">
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
+                [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+        </div>
+        
+        
+
+        <!-- <nav>
             <ul class="pagination table-paging m-0">
                 <li class="page-item disabled">
                     <a class="page-link">السابق</a>
@@ -56,7 +67,7 @@
                     <a class="page-link">التالى</a>
                 </li>
             </ul>
-        </nav>
+        </nav> -->
 
 
         <div class="row mt-3">

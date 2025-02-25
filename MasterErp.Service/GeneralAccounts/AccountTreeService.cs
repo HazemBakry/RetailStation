@@ -19,6 +19,8 @@ using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Export;
 using MasterErp.Interface.GeneralAccounts;
 using MasterErp.Entities.Models.Finance;
+using MasterErp.Entities.DTOs.Inventory;
+using MasterErp.Service.Common;
 
 namespace MasterErp.Service.GeneralAccounts
 {
@@ -250,36 +252,44 @@ namespace MasterErp.Service.GeneralAccounts
             }
         }
 
+
         public ActionsResponseModel ExportAccountTreeList(string SearchText)
         {
             string url = string.Empty;
             try
             {
-                SqlParameter[] Params = new SqlParameter[0];
-                var result = SQLHelper.ExecuteDataTable("[dbo].[SP_ExportAccountTreeList]", ConnectionString, Params);
 
-                url = GetExportUrl(result, "AccountTreeExporter");
+
+                SqlParameter[] Params = new SqlParameter[0];
+                var dtExport = SQLHelper.ExecuteDataTable("[Finance].[SP_ExportAccountTreeList]", ConnectionString, Params);
+
+
+
+                url = GetExportUrl(dtExport, "Account tree");
+
 
                 return new ActionsResponseModel
                 {
-                    Status = 1,
+                    IsSuccess = true,
                     URL = url,
                     Message = "File Exported successfully"
                 };
+
             }
             catch (Exception ex)
             {
                 return new ActionsResponseModel
                 {
+                    IsSuccess = false,
                     Status = 0,
                     URL = "",
-                    Message = ex.InnerException?.Message ?? ex.Message,
+                    Message = "Server error",
                 };
             }
         }
-
         private string GetExportUrl(DataTable DT, string Name)
         {
+            DT.TableName = Name;
 
             ExportTemplateBase exportTemplateBase = new ExportTemplateBase
             {
@@ -363,5 +373,7 @@ namespace MasterErp.Service.GeneralAccounts
         }
 
         #endregion
+
+
     }
 }

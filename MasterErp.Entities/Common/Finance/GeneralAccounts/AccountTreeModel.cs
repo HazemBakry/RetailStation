@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,29 @@ namespace MasterErp.Entities.Common.Finance.GeneralAccounts
         public bool IsDisToCostCenter { get; set; }
         public bool IsParent { get; set; }
         public List<AccountTreeModel> Children { get; set; } = new List<AccountTreeModel>();
+
+    }
+    public class AccountTreeExportModel
+    {
+        [JsonProperty("Account Number")]
+        public string AccountNumber { get; set; }
+        [JsonProperty("Name (AR)")]
+        public string NameAR { get; set; }
+        [JsonProperty("Name (EN)")]
+        public string NameEN { get; set; }
+
+        [JsonProperty("Parent Account Number")]
+        public string ParentAccountNumber { get; set; }
+        [JsonProperty("Parent Name (AR)")]
+        public string ParentNameAR { get; set; }
+        [JsonProperty("Parent Account Name (EN)")]
+        public string ParentNameEN { get; set; }
+
+
+        [JsonProperty("Pre Credit")]
+        public string PreCredit { get; set; }
+        [JsonProperty("Pre Debit")]
+        public string PreDebit { get; set; }
 
     }
 }

@@ -8,11 +8,11 @@ namespace MasterErp.Entities.Common.Finance.GeneralAccounts
 {
     public class CostCenterTreeModel
     {
-        public int CostCenterId { get; set; }
+        public int? CostCenterId { get; set; }
         public string CostCenterNumber { get; set; }
         public string NameAR { get; set; }
         public string NameEN { get; set; }
-        public int ParentId { get; set; }
+        public int? ParentId { get; set; }
         public int? CostLevel { get; set; }
         public bool? IsActive { get; set; }
         public bool? IsLocked { get; set; }

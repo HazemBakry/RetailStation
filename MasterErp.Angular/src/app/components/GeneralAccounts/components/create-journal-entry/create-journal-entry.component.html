@@ -146,7 +146,7 @@
                     </td>
                     <td>
                         <!-- <app-erp-selector-with-search [ItemsList]="CostCenterList" [SelectorName]="'مركز التكلفة'" [SearchKey]="'costCenterNumber'" [Height]="'30px'" (ItemObj)="GetSelectedCostCenter($event,item)"></app-erp-selector-with-search> -->
-                        <app-general-selector [(ngModel)]="item.costCenterId" [data]="CostCenterList" [showSearch]="true" [placeholder]="'مراكز التكلفة'" (valueChanged)="GetSelectedCostCenter($event, item)"></app-general-selector>
+                        <app-general-selector [(ngModel)]="item.costCenterId" [data]="costCenterSelector" [showSearch]="true" [placeholder]="'مراكز التكلفة'" ></app-general-selector>
 
 
                     </td>

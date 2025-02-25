@@ -5,112 +5,103 @@
             <span *ngIf="isUpdate" class="ms-3">تعديل</span>
         </h6>
     </div>
-    <div class="card-body bg-light">
-        <div class="">
+    <!-- bg-light  >> for gray card-->
+    <div class="card-body ">
+        <div class="p-2">
 
 
             <form [formGroup]="formGroup" autocomplete="off">
                 <div class="row mb-3">
-                    <label class="col-sm-3 col-form-label col-form-label-md">رمز الحساب</label>
-                    <div class="col-sm-9">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" formControlName="accountNumber" id="floatingInput">
-                            <label for="floatingInput">رمز الحساب</label>
-                        </div>
-                        <div *ngIf="formErrors.accountNumber" class="text-danger  font-small-3 m-03">
-                            {{formErrors.accountNumber}}
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label class="col-sm-3 col-form-label col-form-label-md">اسم الحساب</label>
-                    <div class="col-sm-9">
-                        <div class="input-group">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" formControlName="nameAR" id="floatingInput">
-                                <label for="floatingInput">الأسم بالعربي</label>
-                            </div>
-                        </div>
-                        <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
-                            {{formErrors.nameAR}}
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label class="col-sm-3 col-form-label col-form-label-md"> </label>
+                    <label class="form-label d-flex align-items-center gap-2">
+                        رمز الحساب
+                    </label>
+                    <input type="text" class="form-control nw-form-input" formControlName="accountNumber"
+                        autocomplete="off" />
 
-                    <div class="col-sm-9">
-                        <div class="input-group">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" formControlName="nameEN" id="floatingInput">
-                                <label for="floatingInput">الأسم بالانجليزي</label>
-                            </div>
-                        </div>
-                        <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
-                            {{formErrors.nameEN}}
-                        </div>
+                    <div *ngIf="formErrors.accountNumber" class="text-danger  font-small-3 m-03">
+                        {{formErrors.accountNumber}}
+                    </div>
+
+                </div>
+                <div class="row mb-3">
+                    <label class="form-label d-flex align-items-center gap-2">
+                        اسم الحساب بالعربي
+                    </label>
+                    <input type="text" class="form-control nw-form-input" formControlName="nameAR" autocomplete="off" />
+
+                    <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
+                        {{formErrors.nameAR}}
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label class="col-sm-3 col-form-label col-form-label-md">نوع الحساب</label>
-                    <div class="col-sm-9">
+                    <label class="form-label d-flex align-items-center gap-2">
+                        اسم الحساب بالانجليزي
+                    </label>
+                    <input type="text" class="form-control nw-form-input" formControlName="nameEN" autocomplete="off" />
 
-                        <div class="form-floating">
-                            <app-drop-down-form-control formControlName="accountTypeId" [data]="accountTypesSelectorData" [showSearch]="true" [placeholder]="'نوع الحساب'"></app-drop-down-form-control>
-                        </div>
-                        <div *ngIf="formErrors.accountTypeId" class="text-danger  font-small-3 m-03">
-                            {{formErrors.accountTypeId}}
-                        </div>
+                    <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
+                        {{formErrors.nameEN}}
                     </div>
                 </div>
 
                 <div class="row mb-3">
+                    <label class="form-label d-flex align-items-center gap-2">
+                        نوع الحساب
+                        <span class="text-danger">*</span>
+                    </label>
+                    <app-general-selector formControlName="accountTypeId" [data]="accountTypesSelectorData"
+                        [showSearch]="true" [placeholder]="'نوع الحساب'"></app-general-selector>
 
-                    <label class="col-sm-3 col-form-label col-form-label-md">متفرع من حساب</label>
-                    <div class="col-sm-9">
-
-                        <div class="form-floating">
-                            <app-drop-down-form-control formControlName="parentAccountId" [data]="parentAccountsSelectorData" [showSearch]="true" [placeholder]="'متفرع من حساب'"></app-drop-down-form-control>
-                        </div>
-                        <div *ngIf="formErrors.parentAccountId" class="text-danger  font-small-3 m-03">
-                            {{formErrors.parentAccountId}}
-                        </div>
+                    <div *ngIf="formErrors.accountTypeId" class="text-danger  font-small-3 m-03">
+                        {{formErrors.accountTypeId}}
                     </div>
-                </div>
 
+                </div>
                 <div class="row mb-3">
-                    <label class="col-sm-3 col-form-label col-form-label-md">العملة الافتراضية</label>
-                    <div class="col-sm-9">
-                        <div class="form-floating">
-                            <app-drop-down-form-control formControlName="currencyTypeId" [data]="currencyTypesSelectorData" [showSearch]="true" [placeholder]="'العملة الافتراضية'"></app-drop-down-form-control>
-                        </div>
-                        <div *ngIf="formErrors.currencyTypeId" class="text-danger  font-small-3 m-03">
-                            {{formErrors.currencyTypeId}}
-                        </div>
+                    <label class="form-label d-flex align-items-center gap-2">
+                        متفرع من حساب
+                        <!-- <span class="text-danger">*</span> -->
+                    </label>
+                    <app-general-selector formControlName="parentAccountId" [data]="parentAccountsSelectorData"
+                        [showSearch]="true" [placeholder]="'نوع الحساب'"></app-general-selector>
 
+                    <div *ngIf="formErrors.parentAccountId" class="text-danger  font-small-3 m-03">
+                        {{formErrors.parentAccountId}}
                     </div>
+
                 </div>
+                <div class="row mb-3">
+                    <label class="form-label d-flex align-items-center gap-2">
+                        العملة الافتراضية
+                        <!-- <span class="text-danger">*</span> -->
+                    </label>
+                    <app-general-selector formControlName="parentAccountId" [data]="parentAccountsSelectorData"
+                        [showSearch]="true" [placeholder]="'العملة الافتراضية'"></app-general-selector>
+
+                    <div *ngIf="formErrors.parentAccountId" class="text-danger  font-small-3 m-03">
+                        {{formErrors.parentAccountId}}
+                    </div>
+
+                </div>
+
                 <hr class="my-4" />
                 <div class="row mb-3">
-                    <label class="col-sm-3 col-form-label col-form-label-md">دعم مركز التكلفة </label>
-                    <div class="col-sm-9">
+                    <div class="col-sm-4">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            دعم مركز التكلفة
+                        </label>
+                        <input class="big-checkbox" formControlName="isDisToCostCenter" type="checkbox">
 
-                        <div class="col-sm-9">
-                            <input class="form-check-input" formControlName="isDisToCostCenter" type="checkbox" value="" id="flexCheckDefault">
-                        </div>
                         <div *ngIf="formErrors.isDisToCostCenter" class="text-danger  font-small-3 m-03">
                             {{formErrors.isDisToCostCenter}}
                         </div>
                     </div>
-                </div>
+                    <div class="col-sm-4">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            حساب نشط
+                        </label>
+                        <input class="big-checkbox" formControlName="isActive" type="checkbox">
 
-                <div class="row mb-3">
-                    <label class="col-sm-3 col-form-label col-form-label-md">حساب نشط</label>
-                    <div class="col-sm-9">
-
-                        <div class="col-sm-9">
-                            <input class="form-check-input" formControlName="isActive" type="checkbox" value="" id="flexCheckDefault">
-                        </div>
                         <div *ngIf="formErrors.isActive" class="text-danger  font-small-3 m-03">
                             {{formErrors.isActive}}
                         </div>

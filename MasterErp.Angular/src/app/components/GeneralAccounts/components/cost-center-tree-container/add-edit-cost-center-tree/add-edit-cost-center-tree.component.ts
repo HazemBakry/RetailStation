@@ -1,115 +1,198 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { ErpSelectorWithSearchComponent } from 'src/app/components/Shared/components/selectors/erp-selector-with-search/erp-selector-with-search.component';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
-import { GeneralAccountService } from '../../../services/general-account.service';
-import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
+import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormService } from 'src/app/components/Shared/services/form.service';
+import { DatePipe } from '@angular/common';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 import { CostCenterTreeModel } from '../../../models/GeneralAccounts/CostCenter';
+import { GeneralAccountService } from '../../../services/general-account.service';
+
 
 @Component({
   selector: 'app-add-edit-cost-center-tree',
   templateUrl: './add-edit-cost-center-tree.component.html',
   styleUrls: ['./add-edit-cost-center-tree.component.css']
 })
-export class AddEditCostCenterTreeComponent implements OnInit {
-
+export class AddEditCostCenterTreeComponent implements OnInit, OnChanges {
   @Input() isUpdate: boolean = false;
-  @Input() costCenterTreeModel: CostCenterTreeModel = {} as CostCenterTreeModel;
+  @Input() costCenterModel: CostCenterTreeModel = {} as CostCenterTreeModel;
 
   @Output() dataUpdated = new EventEmitter<boolean>();
 
-  @ViewChild('Selector') Selector: ErpSelectorWithSearchComponent;
+  showLoader: boolean = false;
+  parentCostCenterSelectorData: FormDropdownModel[] = [];
+  selectedCostCenterId: number = null;
+  public formGroup: FormGroup;
 
-  showLoader: boolean;
-  parentCostCenterList: CostCenterTreeModel[] = [];
-  costCenterTypes: any[] = [];
-  currencyType: any[] = [{ currencyId: 1, nameAR: 'جنيه' }, { currencyId: 1, nameAR: 'ريال' }]
+  public formErrors = {
+    costCenterId: '',
+    costCenterNumber: '',
+    nameAR: '',
+    nameEN: '',
+    parentId: '',
+    isPost: '',
+    isActive: '',
+    notes: '',
+  };
+  constructor(private modalService: NgbModal,
+    private sharedService: SharedService,
+    private _GeneralAccountService: GeneralAccountService,
+    private toaster: ToastrService,
+    private form: FormBuilder,
+    private _FormService: FormService,
+    private lookupService: LookupService,
+    private datePipe: DatePipe,) { }
 
-  constructor(private sharedService: SharedService,
-    private _GeneralAccountService: GeneralAccountService, private toaster: ToastrService) { }
 
 
   ngOnInit(): void {
-    
-    this.loadParentCostCenterData();
-   
+    this.initNewForm();
+    this.loadSelectors();
+
   }
+
   ngOnChanges(changes): void {
-    if (changes&&!changes.costCenterTreeModel.firstChange) {
-      if (this.costCenterTreeModel&&this.costCenterTreeModel!=null) {
-        this.Selector.SelectorName=this.parentCostCenterList.find(x=>x.costCenterId==this.costCenterTreeModel.parentId)?.nameAR;
+    if (changes && !changes.costCenterModel.firstChange) {
+      if (this.costCenterModel && this.costCenterModel != null) {
+        this.initNewForm(this.costCenterModel);
       }
     }
   }
 
 
 
-  loadParentCostCenterData() {
-    this.sharedService.GetCostCenterTreeData(true).subscribe(data => {
-      this.parentCostCenterList = data;
+  initNewForm(costCenterModel: CostCenterTreeModel = null) {
 
-    })
+    this.isUpdate = false;
+    this.buildForm();
+    if (costCenterModel)
+      this.fillEditForm(costCenterModel);
+    else
+      this.costCenterModel = {} as CostCenterTreeModel;
+
+  }
+  buildForm() {
+
+    this.formGroup = this.form.group({
+      costCenterId: [null],
+      costCenterNumber: [null, [Validators.required]],
+      nameAR: [null, [Validators.required]],
+      nameEN: [null, [Validators.required]],
+      parentId: [null],
+      isPost: [false, [Validators.required]],
+      isActive: [true, [Validators.required]],
+      notes: [null],
+
+    });
+    this.formGroup.valueChanges.subscribe((data) => {
+      this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
+
+    });
   }
 
-  CreateNewCostCenter() {
-    if (!this.validateFields()) {
+  saveCostCenter() {
+    if (!this.validateForm()) {
       return;
     }
-    this._GeneralAccountService
-      .CreateNewCostCenter(this.costCenterTreeModel)
-      .subscribe((data: ActionsResponseModel) => {
-        if (data?.status) {
-          this.ClearAllFields();
-          this.toaster.success(data?.message);
-        } else {
-          this.toaster.error(data?.message);
-        }
-        // this.modalService.dismissAll();
-        this.dataUpdated.emit(true);
-      });
-  }
-  UpdateCostCenterTree(){
-    if (!this.validateFields()||!this.costCenterTreeModel.costCenterId) {
-      return;
-    }
-    this._GeneralAccountService
-      .UpdateCostCenterTree(this.costCenterTreeModel.costCenterId,this.costCenterTreeModel)
-      .subscribe((data: ActionsResponseModel) => {
-        if (data?.status) {
-          this.ClearAllFields();
-          this.toaster.success(data?.message);
-        } else {
-          this.toaster.error(data?.message);
-        }
-        // this.modalService.dismissAll();
-        this.dataUpdated.emit(true);
-      });
+    this.costCenterModel = this.formGroup.value;
+
+    if (this.costCenterModel?.costCenterId)
+      this.editCostCenter();
+    else
+      this.addNewCostCenter();
   }
 
-  validateFields(): boolean {
-    let model: CostCenterTreeModel = this.costCenterTreeModel;
+  addNewCostCenter() {
 
-    if (
-      !model.costCenterNumber ||
-      !model.nameEN 
+    this.showLoader = true;
+    this._GeneralAccountService
+      .CreateNewCostCenter(this.costCenterModel).subscribe(data => {
+        if (data?.isSuccess) {
+          this.formGroup?.reset();
+          this.toaster.success(data?.message);
+          this.dataUpdated.emit(true);
+        }
+        else {
+          this.toaster.error(data?.message);
+        }
+        this.showLoader = false;
+      }, err => {
+        this.showLoader = false;
+      }, () => {
+        this.showLoader = false;
+      });
 
-    ) {
-      this.toaster.warning('يرجي ملئ جميع الخانات');
+
+
+  }
+
+  editCostCenter() {
+
+    this.showLoader = true;
+    this._GeneralAccountService
+      .UpdateCostCenterTree(this.costCenterModel.costCenterId, this.costCenterModel).subscribe(data => {
+
+        if (data?.isSuccess) {
+          this.initNewForm();
+          this.toaster.success(data?.message);
+          this.dataUpdated.emit(true);
+        }
+        else {
+          this.toaster.error(data?.message);
+        }
+        this.showLoader = false;
+      }, err => {
+        this.showLoader = false;
+      }, () => {
+        this.showLoader = false;
+      });
+
+
+  }
+
+
+  validateForm(): boolean {
+    this._FormService.markFormGroupTouched(this.formGroup);
+    if (this.formGroup.valid) {
+      return true;
+    } else {
+      this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, false)
       return false;
     }
-    return true;
-  }
-  ClearAllFields() {
-    this.isUpdate=false;
-    this.costCenterTreeModel = {} as CostCenterTreeModel;
-    this.Selector.SelectorName='نوع مركز التكلفة';
-
   }
 
-  
-  GetSelectedParentCostCenter(costCenter: CostCenterTreeModel) {
-    this.costCenterTreeModel.parentId = costCenter.costCenterId;
-    this.costCenterTreeModel.costLevel = costCenter.costLevel + 1;
 
+  fillEditForm(costCenterModel: CostCenterTreeModel) {
+    this.isUpdate = true;
+
+    this.formGroup.patchValue({
+      costCenterId: costCenterModel.costCenterId,
+      costCenterNumber: costCenterModel.costCenterNumber,
+      nameAR: costCenterModel.nameAR,
+      nameEN: costCenterModel.nameEN,
+      parentId: costCenterModel.parentId,
+      isPost: costCenterModel.isPost,
+      isActive: costCenterModel.isActive
+
+    });
+  }
+  loadSelectors() {
+    this.sharedService.GetCostCenterSelector(true).subscribe(data => {
+      this.parentCostCenterSelectorData = data;
+    });
+  }
+
+
+
+
+
+
+  getSelectedParentCostCenter(costCenter: CostCenterTreeModel) {
+    this.costCenterModel.parentId = costCenter.costCenterId;
+    this.costCenterModel.costLevel = costCenter.costLevel + 1;
   }
 }
+
