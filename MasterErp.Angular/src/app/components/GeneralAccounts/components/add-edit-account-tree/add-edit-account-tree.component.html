@@ -75,11 +75,11 @@
                         العملة الافتراضية
                         <!-- <span class="text-danger">*</span> -->
                     </label>
-                    <app-general-selector formControlName="parentAccountId" [data]="parentAccountsSelectorData"
+                    <app-general-selector formControlName="currencyTypeId" [data]="currencyTypesSelectorData"
                         [showSearch]="true" [placeholder]="'العملة الافتراضية'"></app-general-selector>
 
-                    <div *ngIf="formErrors.parentAccountId" class="text-danger  font-small-3 m-03">
-                        {{formErrors.parentAccountId}}
+                    <div *ngIf="formErrors.currencyTypeId" class="text-danger  font-small-3 m-03">
+                        {{formErrors.currencyTypeId}}
                     </div>
 
                 </div>

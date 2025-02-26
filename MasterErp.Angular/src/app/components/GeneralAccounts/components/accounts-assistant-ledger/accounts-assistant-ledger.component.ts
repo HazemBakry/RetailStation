@@ -103,23 +103,23 @@ export class AccountsAssistantLedgerComponent implements OnInit {
     return true;
   }
   onExportClick(obj: any) {
-    this.SearchFilterModel.branchID = obj.BranchId;
-    this.SearchFilterModel.fromDate = obj.FromDate;
-    this.SearchFilterModel.toDate = obj.ToDate;
-    //this.SearchFilterModel.userName = this.UserModel?.fullName;
-    this.SearchFilterModel.isExport = true;
-    if (obj.FromDate == null || obj.ToDate == null || obj.BranchId == undefined) {
-      this.toaster.warning('insert search fields first');
-    } else {
-      this.generalService.ExportAccountsGeneralLedger(this.SearchFilterModel).subscribe(data => {
-        if (data.url != null) {
-          window.location.href = data.url;
-          this.toaster.success("File exported successfully");
-        } else {
-          this.toaster.error("an Error happened , file can not export");
-        }
-      });
-    }
+    // this.SearchFilterModel.branchID = obj.BranchId;
+    // this.SearchFilterModel.fromDate = obj.FromDate;
+    // this.SearchFilterModel.toDate = obj.ToDate;
+    // //this.SearchFilterModel.userName = this.UserModel?.fullName;
+    // this.SearchFilterModel.isExport = true;
+    // if (obj.FromDate == null || obj.ToDate == null || obj.BranchId == undefined) {
+    //   this.toaster.warning('insert search fields first');
+    // } else {
+    //   this.generalService.ExportAccountsGeneralLedger(this.SearchFilterModel).subscribe(data => {
+    //     if (data.url != null) {
+    //       window.location.href = data.url;
+    //       this.toaster.success("File exported successfully");
+    //     } else {
+    //       this.toaster.error("an Error happened , file can not export");
+    //     }
+    //   });
+    // }
   }
 
   onPrintClick(obj: any) {

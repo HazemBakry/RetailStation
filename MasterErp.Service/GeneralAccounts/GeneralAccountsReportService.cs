@@ -1,8 +1,13 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
+using MasterErp.Entities.Common.Export;
+using MasterErp.Entities.DTOs.GeneralAccounts;
+using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
+using MasterErp.Service.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -19,6 +24,7 @@ namespace MasterErp.Service.GeneralAccounts
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
+        private readonly IExportService ExportService;
         private double Sum_Pre_Debit = 0;
         private double Sum_Pre_Credit = 0;
 
@@ -33,16 +39,92 @@ namespace MasterErp.Service.GeneralAccounts
             }
         }
 
-        public GeneralAccountsReportService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration)
+        public GeneralAccountsReportService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration, IExportService exportService)
         {
             Context = dBContext;
             SQLHelper = iSQLHelper;
             Configuration = _configuration;
+            ExportService = exportService;
         }
 
-        public List<JournalEntry> GetAccountsGeneralLedger(SearchFilterModel model)
+        public List<AccountsGeneralLedgerModel> GetAccountsGeneralLedger(AccountsReportSearchFilterModel model)
         {
-            return new List<JournalEntry>();
+            //var accountFilter = model?.FilterList.FirstOrDefault(x => x.CategoryName == "accountId");
+            var results = new List<AccountsGeneralLedgerModel>();
+            if (model.AccountId is null)
+            {
+                return results;
+                
+            }
+            SqlParameter[] Params = new SqlParameter[6];
+            Params[0] = new SqlParameter("@AccountId", model.AccountId);
+            Params[1] = new SqlParameter("@FromDate", model.FromDate);
+            Params[2] = new SqlParameter("@ToDate", model.ToDate);
+            Params[3] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
+            Params[4] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[5] = new SqlParameter("@PageSize", model.PageSize);
+            results = SQLHelper.SQLQuery<AccountsGeneralLedgerModel>("[Finance].[SP_GetAccountsGeneralLedger_Data]", ConnectionString, Params);
+
+            return results;
+        }
+
+
+        public ActionsResponseModel ExportAccountsGeneralLedger(string UserName, AccountsReportSearchFilterModel SearchModel)
+        {
+            string url = string.Empty;
+            try
+            {
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var Data = GetAccountsGeneralLedger(SearchModel);
+
+                var result = Data.Select(res =>
+                                new AccountsGeneralLedgerExportModel
+                                {
+                                    NameEN = res.NameEN,
+                                    NameAR = res.NameAR,
+                                    AccountNumber = res.AccountNumber,
+                                    PreDebit=res.PreDebit,
+                                    PreCredit=res.PreCredit,
+                                    Debit=res.Debit,
+                                    Credit=res.Credit,
+                                    TotalDebit=res.TotalDebit,
+                                    TotalCredit=res.TotalCredit
+                                    //CreatedDate = res.CreatedDate?.ToString("MM/dd/yyyy"),
+
+                                }).ToList();
+
+                if (!result.Any())
+                {
+                    result.Add(new AccountsGeneralLedgerExportModel());
+
+                }
+
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "AccountsGeneralLedger");
+
+
+                url = GetExportFilePath(dtExport, UserName, "AccountsGeneralLedger");
+
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
         }
 
         public DataTable GetAccountsAssistantLedger(SearchFilterModel model)
@@ -257,5 +339,22 @@ namespace MasterErp.Service.GeneralAccounts
             }
         }
 
+
+        private string GetExportFilePath(DataTable dt, string UserName, string TemplateName)
+        {
+            ExportTemplateBase exportTemplateBase = new ExportTemplateBase
+            {
+                Name = TemplateName,
+                TemplateName = TemplateName,
+                ReportName = TemplateName,
+                CustomerName = "",
+                Username = UserName,
+                ExcelStyle = ExcelExportStyle.reportStyle,
+                SheetName = "Data",
+            };
+            var filePath = ExportService.Export(exportTemplateBase, dt);
+            return filePath;
+
+        }
     }
 }
