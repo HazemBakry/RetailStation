@@ -12,10 +12,11 @@ namespace MasterErp.Interface.GeneralAccounts
 {
     public interface IGeneralAccountsReportService
     {
-        List<AccountsGeneralLedgerModel> GetAccountsGeneralLedger(AccountsReportSearchFilterModel model);
-        ActionsResponseModel ExportAccountsGeneralLedger(string UserName, AccountsReportSearchFilterModel model);
+        List<AccountsGeneralLedgerModel> GetAccountsGeneralLedger(AccountsReportSearchFilterModel SearchModel);
+        ActionsResponseModel ExportAccountsGeneralLedger(string UserName, AccountsReportSearchFilterModel SearchModel);
 
-        DataTable GetAccountsAssistantLedger(SearchFilterModel model);
+        List<AccountsAssistantLedgerModel> GetAccountsAssistantLedger(AccountsReportSearchFilterModel SearchModel);
+        ActionsResponseModel ExportAccountsAssistantLedger(string UserName, AccountsReportSearchFilterModel SearchModel);
         List<JournalEntryViewModel> GetTrialBalanceReport(SearchFilterModel model);
     }
 }

@@ -49,11 +49,28 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("GetAccountsAssistantLedger")]
-        public DataTable GetAccountsAssistantLedger(SearchFilterModel model)
+        public IActionResult GetAccountsAssistantLedger(AccountsReportSearchFilterModel model)
         {
-            return ReportService.GetAccountsAssistantLedger(model);
-        }
 
+
+            var data = ReportService.GetAccountsAssistantLedger(model);
+            var result = new PagedResponseModel<AccountsAssistantLedgerModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("ExportAccountsAssistantLedger")]
+        public IActionResult ExportAccountsAssistantLedger(AccountsReportSearchFilterModel SearchModel)
+        {
+            string UserName = string.Empty;
+            var results = ReportService.ExportAccountsAssistantLedger(UserName, SearchModel);
+            return Ok(results);
+        }
         [HttpPost]
         [Route("GetTrialBalanceReport")]
         public List<JournalEntryViewModel> GetTrialBalanceReport(SearchFilterModel model)

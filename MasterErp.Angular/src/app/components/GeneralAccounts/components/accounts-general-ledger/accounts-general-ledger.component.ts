@@ -14,16 +14,8 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 })
 export class AccountsGeneralLedgerComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'دفتر الأستاذ العام'];
-  // SearchResult: any[] = [];
-  // TotalCount: any;
-  // TotalPages: any;
-  // SearchFilterModel: SearchFilterModel = {
-  //   currentPage: 1,
-  //   pageSize: 25,
-  //   isExport: false,
-  //   filterItems: [],
-  //   filterModel: { filterItems: [] }
-  // };
+
+  
   showLoader: boolean = false;
   showExportLoader: boolean = false;
   totalDebit = null;

@@ -19,3 +19,18 @@ export interface AccountsGeneralLedgerModel {
     totalDebit: number | null;
     totalCredit: number | null;
 }
+
+
+export interface AccountsAssistantLedgerModel {
+    accountId?: number;
+    entryNumber?: number;
+    entryDate?: Date;
+    entryType?: string;
+    chequeNumber?: string;
+    description?: string;
+    debit?: number;
+    credit?: number;
+    balanceDebit?: number;
+    balanceCredit?: number;
+    totalCount?: number;
+}
