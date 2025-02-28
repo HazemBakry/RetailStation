@@ -1,0 +1,15 @@
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: #f0f0f0;
+    padding-top: 20px;
+}
+
+.a4-page {
+    width: 794px;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc;
+}

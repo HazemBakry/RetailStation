@@ -8,6 +8,7 @@ using MasterErp.Interface.GeneralAccounts.GeneralAccountSettings;
 using MasterErp.Interface.HR;
 using MasterErp.Interface.Inventory;
 using MasterErp.Interface.Purchase;
+using MasterErp.Interface.Reports;
 using MasterErp.Interface.Sales;
 using MasterErp.Interface.Shared;
 using MasterErp.Service.Auth;
@@ -19,6 +20,7 @@ using MasterErp.Service.GeneralAccounts.GeneralAccountSettings;
 using MasterErp.Service.HR;
 using MasterErp.Service.Inventory;
 using MasterErp.Service.Purchase;
+using MasterErp.Service.Reports;
 using MasterErp.Service.Sales;
 using MasterErp.Service.Shared;
 using Microsoft.AspNetCore.Http;
@@ -70,9 +72,10 @@ namespace MasterErp.API
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IDataImportService, DataImportService>();
             services.AddScoped<ILookupService, LookupService>();
-
             services.AddScoped<ITenantService, TenantService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ITestReportService, TestReportService>();
+            services.AddScoped<IHelper, Helper>();
 
         }
     }

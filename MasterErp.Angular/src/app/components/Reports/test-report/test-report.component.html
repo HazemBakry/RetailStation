@@ -1,0 +1,57 @@
+<div class="a4-page">
+    <div id="ReportData">
+        <h1 style="text-align: center;">Company Name</h1>
+        <h2 style="text-align: center;">Agents Sales Report</h2>
+        <div style="display: flex;align-items: center;">
+            <div><strong>Branch:</strong> Makram</div>
+            <div style="flex: 1;"></div>
+            <div><strong>From Date:</strong> 2025-02-25</div>
+            <div style="flex: 1;"></div>
+            <div><strong>To Date:</strong> 2025-02-25</div>
+        </div>
+        <table style="width: 100%;border-collapse: collapse;margin-top: 20px;height: 200px">
+            <thead>
+                <tr (click)="CreateTestReport()">
+                    <th style="border: 1px solid #ddd;padding: 8px;text-align: center;background-color: #007bff;color: white;">Agent</th>
+                    <th style="border: 1px solid #ddd;padding: 8px;text-align: center;background-color: #007bff;color: white;">Orders Count</th>
+                    <th style="border: 1px solid #ddd;padding: 8px;text-align: center;background-color: #007bff;color: white;">Sub Total</th>
+                    <th style="border: 1px solid #ddd;padding: 8px;text-align: center;background-color: #007bff;color: white;">Del. Fees</th>
+                    <th style="border: 1px solid #ddd;padding: 8px;text-align: center;background-color: #007bff;color: white;">Discount</th>
+                    <th style="border: 1px solid #ddd;padding: 8px;text-align: center;background-color: #007bff;color: white;">Net Sales</th>
+                    <th style="border: 1px solid #ddd;padding: 8px;text-align: center;background-color: #007bff;color: white;">Tax</th>
+                    <th style="border: 1px solid #ddd;padding: 8px;text-align: center;background-color: #007bff;color: white;">Total Sales</th>
+                    <th style="border: 1px solid #ddd;padding: 8px;text-align: center;background-color: #007bff;color: white;">Total Cash</th>
+                    <th style="border: 1px solid #ddd;padding: 8px;text-align: center;background-color: #007bff;color: white;">Total Visa</th>
+                </tr>
+            </thead>
+            <tbody style="border: 1px solid #ddd;padding: 8px;text-align: center;">
+                <tr *ngFor="let item of tableData">
+                    <td style="border: 1px solid #ddd;padding: 8px;text-align: center">{{item.name}}</td>
+                    <td style="border: 1px solid #ddd;padding: 8px;text-align: center">{{item.count}}</td>
+                    <td style="border: 1px solid #ddd;padding: 8px;text-align: center">{{item.value1}}</td>
+                    <td style="border: 1px solid #ddd;padding: 8px;text-align: center">{{item.value2}}</td>
+                    <td style="border: 1px solid #ddd;padding: 8px;text-align: center">{{item.value3}}</td>
+                    <td style="border: 1px solid #ddd;padding: 8px;text-align: center">{{item.total}}</td>
+                    <td style="border: 1px solid #ddd;padding: 8px;text-align: center">{{item.tax}}</td>
+                    <td style="border: 1px solid #ddd;padding: 8px;text-align: center">{{item.finalTotal}}</td>
+                    <td style="border: 1px solid #ddd;padding: 8px;text-align: center">{{item.value4}}</td>
+                    <td style="border: 1px solid #ddd;padding: 8px;text-align: center">{{item.value5}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="display: flex; justify-content: center;">
+            <div style="padding: 20px">
+                <p style="margin: 0;"><strong>Orders Count:</strong> 25</p>
+                <p style="margin: 0;"><strong>Sub Total:</strong> 2335.00</p>
+                <p style="margin: 0;"><strong>Net Sales:</strong> 2426.00</p>
+                <p><strong>Total Cash:</strong> 2426.00</p>
+            </div>
+            <div style="padding: 20px;">
+                <p style="margin: 0;"><strong>Del.Fees:</strong> 1929.00</p>
+                <p style="margin: 0;"><strong>Total Tax:</strong> 2335.00</p>
+                <p style="margin: 0;"><strong>Total Sales:</strong> 2335.00</p>
+                <p><strong>Total Visa:</strong> 2335.00</p>
+            </div>
+        </div>
+    </div>
+</div>
