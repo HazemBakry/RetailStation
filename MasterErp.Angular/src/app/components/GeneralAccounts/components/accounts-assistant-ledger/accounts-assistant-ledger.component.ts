@@ -92,10 +92,6 @@ export class AccountsAssistantLedgerComponent implements OnInit {
     this.loadData();
   }
   validateSearchModel(): boolean {
-    // this.assistantLedgerResponse.filterList =[];
-    // this.assistantLedgerResponse.filterList.push({categoryName:'accountId',itemFlag:'1'})
-    // this.assistantLedgerResponse.fromDate = new Date('2025-01-01').toLocaleDateString();
-    // this.assistantLedgerResponse.toDate = new Date().toLocaleDateString();
     if (
       !this.assistantLedgerResponse.fromDate ||
       !this.assistantLedgerResponse.toDate ||

@@ -205,173 +205,258 @@ namespace MasterErp.Service.GeneralAccounts
             }
         }
 
+        
 
-        public List<JournalEntryViewModel> GetTrialBalanceReport(SearchFilterModel model)
+
+
+        public List<TrialBalanceModel> GetTrialBalanceReport(AccountsReportSearchFilterModel model)
         {
-            List<JournalEntryViewModel> List = new List<JournalEntryViewModel>();
-            int Level = Convert.ToInt32(model.SearchLevel);
 
-            var accountFilter = model?.FilterModel?.FilterItems.Where(x => x.CategoryName == "accountId").FirstOrDefault();
-            if (accountFilter != null)
+            var results = new List<TrialBalanceModel>();
+            if (model.AccountId is null)
             {
-                var Parents = Context.AccountTrees.Where(x => x.ParentAccountId == 0).ToList();
+                return results;
 
-                for (int i = 0; i < Parents.Count; i++)
-                    Fill_List_Levels(List, model, Parents[i].AccountId, Level);
             }
-            else
-            {
-                var account = Context.AccountTrees.Where(x => x.AccountId == Convert.ToInt32(accountFilter.ItemFlag)).FirstOrDefault();
-                Fill_List_Levels(List, model, account.AccountId, Convert.ToInt32(model.SearchLevel));
-            }
+            SqlParameter[] Params = new SqlParameter[8];
+            Params[0] = new SqlParameter("@AccountId", model.AccountId);
+            Params[1] = new SqlParameter("@FromDate", model.FromDate);
+            Params[2] = new SqlParameter("@ToDate", model.ToDate);
+            Params[3] = new SqlParameter("@SearchType", model.SearchType);
+            Params[4] = new SqlParameter("@SearchLevel", model.SearchLevel);
+            Params[5] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
+            Params[6] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[7] = new SqlParameter("@PageSize", model.PageSize);
+            results = SQLHelper.SQLQuery<TrialBalanceModel>("[Finance].[SP_GetTrialBalanceReport]", ConnectionString, Params);
 
-            return List;
+            return results;
         }
 
-        private void Fill_List_Levels(List<JournalEntryViewModel> List, SearchFilterModel model, int id, int current_level)
+        public ActionsResponseModel ExportTrialBalanceReport(string UserName, AccountsReportSearchFilterModel SearchModel)
         {
-            Sum_Pre_Debit = 0;
-            Sum_Pre_Credit = 0;
-            Sum_Debit = 0;
-            Sum_Credit = 0;
-
-            DateTime from_date = model.FromDate.Value;
-            DateTime to_date = model.ToDate.Value.AddDays(1);
-
-            var account = Context.AccountTrees.Where(x => x.AccountId == id).FirstOrDefault();
-
-            Sum_Pre_Debit += (from details in Context.JournalEntryDetails
-                              join journal in Context.JournalEntries on details.JournalEntryId equals journal.JournalEntryId
-                              where details.AccountID == id && journal.IsLocked == true && journal.EntryDate < from_date
-                              select details.Debit).DefaultIfEmpty(0).Sum() ?? 0;
-
-            Sum_Pre_Credit += (from details in Context.JournalEntryDetails
-                               join journal in Context.JournalEntries on details.JournalEntryId equals journal.JournalEntryId
-                               where details.AccountID == id && journal.IsLocked == true && journal.EntryDate < from_date
-                               select details.Credit).DefaultIfEmpty(0).Sum() ?? 0;
-
-            Sum_Debit += (from details in Context.JournalEntryDetails
-                          join journal in Context.JournalEntries on details.JournalEntryId equals journal.JournalEntryId
-                          where details.AccountID == id && journal.IsLocked == true && journal.EntryDate >= from_date &&
-                          journal.EntryDate < to_date
-                          select details.Debit).DefaultIfEmpty(0).Sum() ?? 0;
-
-            Sum_Credit += (from details in Context.JournalEntryDetails
-                           join journal in Context.JournalEntries on details.JournalEntryId equals journal.JournalEntryId
-                           where details.AccountID == id && journal.IsLocked == true && journal.EntryDate >= from_date &&
-                           journal.EntryDate < to_date
-                           select details.Credit).DefaultIfEmpty(0).Sum() ?? 0;
-
-            //Get_Entries_Summary(id);
-
-            if (current_level > 0)
+            string url = string.Empty;
+            try
             {
-                int Level_Type = int.Parse(model.SearchType);
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var Data = GetTrialBalanceReport(SearchModel);
 
-                switch (Level_Type)
+                var result = Data.Select(res =>
+                                new TrialBalanceExportModel
+                                {
+                                    AccountNameEN = res.AccountNameEN,
+                                    AccountNameAR = res.AccountNameAR,
+                                    AccountNumber = res.AccountNumber,
+                                    PreDebit = res.PreDebit,
+                                    PreCredit = res.PreCredit,
+                                    Debit = res.Debit,
+                                    Credit = res.Credit,
+                                    TotalDebit = res.TotalDebit,
+                                    TotalCredit = res.TotalCredit,
+                                    BalanceDebit = res.BalanceDebit,
+                                    BalanceCredit = res.BalanceCredit
+
+                                }).ToList();
+
+                if (!result.Any())
                 {
-                    case 0:
-                        if (account != null)
-                        {
-                            JournalEntryViewModel item = new JournalEntryViewModel();
-
-                            item.AccountNumber = account.AccountNumber;
-                            item.AccountName = account.NameAR;
-                            item.AccountID = account.AccountId;
-                            item.Debit = Math.Round(Sum_Debit, 2);
-                            item.Credit = Math.Round(Sum_Credit, 2);
-                            item.PreDebit = Math.Round(Sum_Pre_Debit, 2);
-                            item.PreCredit = Math.Round(Sum_Pre_Credit, 2);
-                            item.TotalDebit = Math.Round(item.PreDebit + item.Debit, 2);
-                            item.TotalCredit = Math.Round(item.PreCredit + item.Credit, 2);
-
-                            double net_value = item.TotalDebit - item.TotalCredit;
-
-                            item.NetDebit = net_value > 0 ? Math.Round(Math.Abs(net_value), 2) : 0;
-                            item.NetCredit = net_value < 0 ? Math.Abs(net_value) : 0;
-
-                            if (item.NetCredit == 0 && item.NetDebit == 0)
-                            {
-                                if (model.HideEmptyAccounts == false)
-                                    List.Add(item);
-                            }
-                            else
-                                List.Add(item);
-                        }
-                        break;
-
-                    case 1:
-                        if (account != null && account.IsParent == true)
-                        {
-                            JournalEntryViewModel item = new JournalEntryViewModel();
-
-                            item.AccountNumber = account.AccountNumber;
-                            item.AccountName = account.NameAR;
-                            item.AccountID = account.AccountId;
-                            item.Debit = Math.Round(Sum_Debit, 2);
-                            item.Credit = Math.Round(Sum_Credit, 2);
-                            item.PreDebit = Math.Round(Sum_Pre_Debit, 2);
-                            item.PreCredit = Math.Round(Sum_Pre_Credit, 2);
-                            item.TotalDebit = Math.Round(item.PreDebit + item.Debit, 2);
-                            item.TotalCredit = Math.Round(item.PreCredit + item.Credit, 2);
-
-                            double net_value = item.TotalDebit - item.TotalCredit;
-
-                            item.NetDebit = net_value > 0 ? Math.Round(Math.Abs(net_value), 2) : 0;
-                            item.NetCredit = net_value < 0 ? Math.Abs(net_value) : 0;
-
-                            if (item.NetCredit == 0 && item.NetDebit == 0)
-                            {
-                                if (model.HideEmptyAccounts == false)
-                                    List.Add(item);
-                            }
-                            else
-                                List.Add(item);
-                        }
-                        break;
-
-                    case 2:
-                        if (account != null && account.IsParent == false)
-                        {
-                            JournalEntryViewModel item = new JournalEntryViewModel();
-
-                            item.AccountNumber = account.AccountNumber;
-                            item.AccountName = account.NameAR;
-                            item.AccountID = account.AccountId;
-                            item.Debit = Math.Round(Sum_Debit, 2);
-                            item.Credit = Math.Round(Sum_Credit, 2);
-                            item.PreDebit = Math.Round(Sum_Pre_Debit, 2);
-                            item.PreCredit = Math.Round(Sum_Pre_Credit, 2);
-                            item.TotalDebit = Math.Round(item.PreDebit + item.Debit, 2);
-                            item.TotalCredit = Math.Round(item.PreCredit + item.Credit, 2);
-
-                            double net_value = item.TotalDebit - item.TotalCredit;
-
-                            item.NetDebit = net_value > 0 ? Math.Round(Math.Abs(net_value), 2) : 0;
-                            item.NetCredit = net_value < 0 ? Math.Abs(net_value) : 0;
-
-                            if (item.NetCredit == 0 && item.NetDebit == 0)
-                            {
-                                if (model.HideEmptyAccounts == false)
-                                    List.Add(item);
-                            }
-                            else
-                                List.Add(item);
-                        }
-                        break;
-
+                    result.Add(new TrialBalanceExportModel());
 
                 }
+
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "TrialBalanceReport");
+
+
+                url = GetExportFilePath(dtExport, UserName, "TrialBalanceReport");
+
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
             }
-
-            var childs = Context.AccountTrees.Where(x => x.ParentAccountId == id).ToList();
-
-            for (int i = 0; i < childs.Count; i++)
+            catch (Exception ex)
             {
-                int xx = current_level - 1;
-                Fill_List_Levels(List, model, childs[i].AccountId, xx);
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
             }
         }
+
+        //public List<TrialBalanceModel> GetTrialBalanceReport(SearchFilterModel model)
+        //{
+        //    List<TrialBalanceModel> List = new List<TrialBalanceModel>();
+        //    int Level = Convert.ToInt32(model.SearchLevel);
+
+        //    var accountFilter = model?.FilterModel?.FilterItems.Where(x => x.CategoryName == "accountId").FirstOrDefault();
+        //    if (accountFilter != null)
+        //    {
+        //        var Parents = Context.AccountTrees.Where(x => x.ParentAccountId == 0).ToList();
+
+        //        for (int i = 0; i < Parents.Count; i++)
+        //            Fill_List_Levels(List, model, Parents[i].AccountId, Level);
+        //    }
+        //    else
+        //    {
+        //        var account = Context.AccountTrees.Where(x => x.AccountId == Convert.ToInt32(accountFilter.ItemFlag)).FirstOrDefault();
+        //        Fill_List_Levels(List, model, account.AccountId, Convert.ToInt32(model.SearchLevel));
+        //    }
+
+        //    return List;
+        //}
+
+        //private void Fill_List_Levels(List<JournalEntryViewModel> List, SearchFilterModel model, int id, int current_level)
+        //{
+        //    Sum_Pre_Debit = 0;
+        //    Sum_Pre_Credit = 0;
+        //    Sum_Debit = 0;
+        //    Sum_Credit = 0;
+
+        //    DateTime from_date = model.FromDate.Value;
+        //    DateTime to_date = model.ToDate.Value.AddDays(1);
+
+        //    var account = Context.AccountTrees.Where(x => x.AccountId == id).FirstOrDefault();
+
+        //    Sum_Pre_Debit += (from details in Context.JournalEntryDetails
+        //                      join journal in Context.JournalEntries on details.JournalEntryId equals journal.JournalEntryId
+        //                      where details.AccountID == id && journal.IsLocked == true && journal.EntryDate < from_date
+        //                      select details.Debit).DefaultIfEmpty(0).Sum() ?? 0;
+
+        //    Sum_Pre_Credit += (from details in Context.JournalEntryDetails
+        //                       join journal in Context.JournalEntries on details.JournalEntryId equals journal.JournalEntryId
+        //                       where details.AccountID == id && journal.IsLocked == true && journal.EntryDate < from_date
+        //                       select details.Credit).DefaultIfEmpty(0).Sum() ?? 0;
+
+        //    Sum_Debit += (from details in Context.JournalEntryDetails
+        //                  join journal in Context.JournalEntries on details.JournalEntryId equals journal.JournalEntryId
+        //                  where details.AccountID == id && journal.IsLocked == true && journal.EntryDate >= from_date &&
+        //                  journal.EntryDate < to_date
+        //                  select details.Debit).DefaultIfEmpty(0).Sum() ?? 0;
+
+        //    Sum_Credit += (from details in Context.JournalEntryDetails
+        //                   join journal in Context.JournalEntries on details.JournalEntryId equals journal.JournalEntryId
+        //                   where details.AccountID == id && journal.IsLocked == true && journal.EntryDate >= from_date &&
+        //                   journal.EntryDate < to_date
+        //                   select details.Credit).DefaultIfEmpty(0).Sum() ?? 0;
+
+        //    //Get_Entries_Summary(id);
+
+        //    if (current_level > 0)
+        //    {
+        //        int Level_Type = int.Parse(model.SearchType);
+
+        //        switch (Level_Type)
+        //        {
+        //            case 0:
+        //                if (account != null)
+        //                {
+        //                    JournalEntryViewModel item = new JournalEntryViewModel();
+
+        //                    item.AccountNumber = account.AccountNumber;
+        //                    item.AccountName = account.NameAR;
+        //                    item.AccountID = account.AccountId;
+        //                    item.Debit = Math.Round(Sum_Debit, 2);
+        //                    item.Credit = Math.Round(Sum_Credit, 2);
+        //                    item.PreDebit = Math.Round(Sum_Pre_Debit, 2);
+        //                    item.PreCredit = Math.Round(Sum_Pre_Credit, 2);
+        //                    item.TotalDebit = Math.Round(item.PreDebit + item.Debit, 2);
+        //                    item.TotalCredit = Math.Round(item.PreCredit + item.Credit, 2);
+
+        //                    double net_value = item.TotalDebit - item.TotalCredit;
+
+        //                    item.NetDebit = net_value > 0 ? Math.Round(Math.Abs(net_value), 2) : 0;
+        //                    item.NetCredit = net_value < 0 ? Math.Abs(net_value) : 0;
+
+        //                    if (item.NetCredit == 0 && item.NetDebit == 0)
+        //                    {
+        //                        if (model.HideEmptyAccounts == false)
+        //                            List.Add(item);
+        //                    }
+        //                    else
+        //                        List.Add(item);
+        //                }
+        //                break;
+
+        //            case 1:
+        //                if (account != null && account.IsParent == true)
+        //                {
+        //                    JournalEntryViewModel item = new JournalEntryViewModel();
+
+        //                    item.AccountNumber = account.AccountNumber;
+        //                    item.AccountName = account.NameAR;
+        //                    item.AccountID = account.AccountId;
+        //                    item.Debit = Math.Round(Sum_Debit, 2);
+        //                    item.Credit = Math.Round(Sum_Credit, 2);
+        //                    item.PreDebit = Math.Round(Sum_Pre_Debit, 2);
+        //                    item.PreCredit = Math.Round(Sum_Pre_Credit, 2);
+        //                    item.TotalDebit = Math.Round(item.PreDebit + item.Debit, 2);
+        //                    item.TotalCredit = Math.Round(item.PreCredit + item.Credit, 2);
+
+        //                    double net_value = item.TotalDebit - item.TotalCredit;
+
+        //                    item.NetDebit = net_value > 0 ? Math.Round(Math.Abs(net_value), 2) : 0;
+        //                    item.NetCredit = net_value < 0 ? Math.Abs(net_value) : 0;
+
+        //                    if (item.NetCredit == 0 && item.NetDebit == 0)
+        //                    {
+        //                        if (model.HideEmptyAccounts == false)
+        //                            List.Add(item);
+        //                    }
+        //                    else
+        //                        List.Add(item);
+        //                }
+        //                break;
+
+        //            case 2:
+        //                if (account != null && account.IsParent == false)
+        //                {
+        //                    JournalEntryViewModel item = new JournalEntryViewModel();
+
+        //                    item.AccountNumber = account.AccountNumber;
+        //                    item.AccountName = account.NameAR;
+        //                    item.AccountID = account.AccountId;
+        //                    item.Debit = Math.Round(Sum_Debit, 2);
+        //                    item.Credit = Math.Round(Sum_Credit, 2);
+        //                    item.PreDebit = Math.Round(Sum_Pre_Debit, 2);
+        //                    item.PreCredit = Math.Round(Sum_Pre_Credit, 2);
+        //                    item.TotalDebit = Math.Round(item.PreDebit + item.Debit, 2);
+        //                    item.TotalCredit = Math.Round(item.PreCredit + item.Credit, 2);
+
+        //                    double net_value = item.TotalDebit - item.TotalCredit;
+
+        //                    item.NetDebit = net_value > 0 ? Math.Round(Math.Abs(net_value), 2) : 0;
+        //                    item.NetCredit = net_value < 0 ? Math.Abs(net_value) : 0;
+
+        //                    if (item.NetCredit == 0 && item.NetDebit == 0)
+        //                    {
+        //                        if (model.HideEmptyAccounts == false)
+        //                            List.Add(item);
+        //                    }
+        //                    else
+        //                        List.Add(item);
+        //                }
+        //                break;
+
+
+        //        }
+        //    }
+
+        //    var childs = Context.AccountTrees.Where(x => x.ParentAccountId == id).ToList();
+
+        //    for (int i = 0; i < childs.Count; i++)
+        //    {
+        //        int xx = current_level - 1;
+        //        Fill_List_Levels(List, model, childs[i].AccountId, xx);
+        //    }
+        //}
 
 
         private string GetExportFilePath(DataTable dt, string UserName, string TemplateName)

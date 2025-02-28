@@ -73,9 +73,25 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         }
         [HttpPost]
         [Route("GetTrialBalanceReport")]
-        public List<JournalEntryViewModel> GetTrialBalanceReport(SearchFilterModel model)
+        public IActionResult GetTrialBalanceReport(AccountsReportSearchFilterModel model)
         {
-            return ReportService.GetTrialBalanceReport(model);
+            var data = ReportService.GetTrialBalanceReport(model);
+            var result = new PagedResponseModel<TrialBalanceModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("ExportTrialBalanceReport")]
+        public IActionResult ExportTrialBalanceReport(AccountsReportSearchFilterModel SearchModel)
+        {
+            string UserName = string.Empty;
+            var results = ReportService.ExportTrialBalanceReport(UserName, SearchModel);
+            return Ok(results);
         }
 
         #region Cost Center

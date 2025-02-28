@@ -2,11 +2,9 @@ import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { GeneralAccountService } from 'src/app/components/GeneralAccounts/services/general-account.service';
 import { SharedService } from '../../services/shared.service';
-import { SearchFilterModel } from '../../models/FilterModel';
-import { ErpSelectorWithSearchComponent } from '../selectors/erp-selector-with-search/erp-selector-with-search.component';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { AccountsReportSearchFilterModel } from 'src/app/components/GeneralAccounts/models/GeneralAccounts/AccountsReportSearchFilterModel';
-import { FormDropdownModel } from '../drop-down-form-control/drop-down-form-control.component';
+import { GeneralSelectorModel } from '../general-selector/general-selector.component';
 
 @Component({
   selector: 'app-accounts-report-search',
@@ -34,12 +32,9 @@ export class AccountsReportSearchComponent implements OnInit {
 
   };
 
-  accountsSelectorData: FormDropdownModel[] = [];
-  costCenterSelectorData: FormDropdownModel[] = [];
-  // @ViewChild('Selector') Selector: ErpSelectorWithSearchComponent;
-  // @ViewChild('Selector1') Selector1: ErpSelectorWithSearchComponent;
-  // @ViewChild('Selector2') Selector2: ErpSelectorWithSearchComponent;
-  // @ViewChild('Selector3') Selector3: ErpSelectorWithSearchComponent;
+  accountsSelectorData: GeneralSelectorModel[] = [];
+  costCenterSelectorData: GeneralSelectorModel[] = [];
+  
   constructor(private sharedService: SharedService,
     private datePipe: DatePipe,
     private generalService: GeneralAccountService,

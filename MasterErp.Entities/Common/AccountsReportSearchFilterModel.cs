@@ -10,5 +10,7 @@ namespace MasterErp.Entities.Common
     {
         public int? AccountId { get; set; }
         public int? CostCenterId { get; set; }
+        public int? SearchType { get; set; }
+        public int? SearchLevel { get; set; }
     }
 }

@@ -13,7 +13,7 @@ import { CostCenterTreeModel } from '../models/GeneralAccounts/CostCenter';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { JournalTemplateDetails } from '../models/GeneralAccounts/JournalTemplateDetailsModel';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
-import { AccountsAssistantLedgerModel, AccountsGeneralLedgerModel, AccountsReportSearchFilterModel } from '../models/GeneralAccounts/AccountsReportSearchFilterModel';
+import { AccountsAssistantLedgerModel, AccountsGeneralLedgerModel, AccountsReportSearchFilterModel, TrialBalanceModel } from '../models/GeneralAccounts/AccountsReportSearchFilterModel';
 
 @Injectable({
   providedIn: 'root'
@@ -160,11 +160,11 @@ export class GeneralAccountService {
   ExportAccountsAssistantLedger(model: AccountsReportSearchFilterModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'GeneralAccountsReport/ExportAccountsAssistantLedger', model);
   }
-  GetTrialBalanceReport(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetTrialBalanceReport', model);
+  GetTrialBalanceReport(model: AccountsReportSearchFilterModel) {
+    return this.http.post<PagedResponseDTO<TrialBalanceModel[]>>(this.URL + 'GeneralAccountsReport/GetTrialBalanceReport', model);
   }
-  ExportTrialBalanceReport(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'GeneralAccountsReport/ExportTrialBalanceReport', model);
+  ExportTrialBalanceReport(model: AccountsReportSearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'GeneralAccountsReport/ExportTrialBalanceReport', model);
   }
 
 
