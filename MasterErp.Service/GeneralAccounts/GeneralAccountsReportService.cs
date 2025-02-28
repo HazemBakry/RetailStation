@@ -1,8 +1,13 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
+using MasterErp.Entities.Common.Export;
+using MasterErp.Entities.DTOs.GeneralAccounts;
+using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
+using MasterErp.Service.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -19,6 +24,7 @@ namespace MasterErp.Service.GeneralAccounts
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
+        private readonly IExportService ExportService;
         private double Sum_Pre_Debit = 0;
         private double Sum_Pre_Credit = 0;
 
@@ -33,62 +39,172 @@ namespace MasterErp.Service.GeneralAccounts
             }
         }
 
-        public GeneralAccountsReportService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration)
+        public GeneralAccountsReportService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration, IExportService exportService)
         {
             Context = dBContext;
             SQLHelper = iSQLHelper;
             Configuration = _configuration;
+            ExportService = exportService;
         }
 
-        public List<JournalEntry> GetAccountsGeneralLedger(SearchFilterModel model)
+        public List<AccountsGeneralLedgerModel> GetAccountsGeneralLedger(AccountsReportSearchFilterModel model)
         {
-            return new List<JournalEntry>();
-        }
-
-        public DataTable GetAccountsAssistantLedger(SearchFilterModel model)
-        {
-            var accountFilter = model?.FilterModel?.FilterItems.Where(x => x.CategoryName == "accountId").FirstOrDefault();
-            DataTable dt = new DataTable();
-
-            if (accountFilter != null)
+            //var accountFilter = model?.FilterList.FirstOrDefault(x => x.CategoryName == "accountId");
+            var results = new List<AccountsGeneralLedgerModel>();
+            if (model.AccountId is null)
             {
-                SqlParameter[] Params = new SqlParameter[3];
-                Params[0] = new SqlParameter("@AccountId", (object)accountFilter.ItemFlag ?? DBNull.Value);
-                Params[1] = new SqlParameter("@FromDate", (object)model.FromDate ?? DBNull.Value);
-                Params[2] = new SqlParameter("@ToDate", (object)model.ToDate ?? DBNull.Value);
-
-                dt = SQLHelper.ExecuteDataTable("[dbo].[SP_GetAccountsAssistantLedger]", ConnectionString, Params);
-
-                for (int i = 1; i < dt.Rows.Count; i++)
-                {
-                    string cheque_number = "";
-                    int actionId = int.Parse(dt.Rows[i]["ActionTypeId"].ToString());
-
-                    if (dt.Rows[i]["ActionTypeId"].ToString() == "3")
-                    {
-                        var cheque = Context.PaymentReceipts.Where(x => x.PaymentReceiptId == actionId).FirstOrDefault();
-                        cheque_number = ""; // cheque.ChequeNumber;
-                    }
-                    else if (dt.Rows[i]["ActionTypeId"].ToString() == "7")
-                    {
-                        var cheque = Context.ReceiveReceipts.Where(x => x.ReceiveReceiptId == actionId).FirstOrDefault();
-                        //cheque_number = cheque.ChequeNumber;
-                    }
-                    dt.Rows[i]["ChequeNumber"] = cheque_number;
-
-                    //double result = double.Parse(dt.Rows[i]["BalanceDebit"].ToString()) + (journal_list[i].Debit ?? 0)
-                    //    - double.Parse(dt.Rows[i]["BalanceCredit"].ToString()) + (journal_list[i].Credit ?? 0);
-
-                    double balance = double.Parse(dt.Rows[i]["Debit"].ToString()) + double.Parse(dt.Rows[i - 1]["BalanceDebit"].ToString()) -
-                        (double.Parse(dt.Rows[i]["Credit"].ToString()) + double.Parse(dt.Rows[i - 1]["BalanceCredit"].ToString()));
-
-                    dt.Rows[i]["BalanceDebit"] = balance > 0 ? balance : 0;
-                    dt.Rows[i]["BalanceCredit"] = balance < 0 ? Math.Abs(balance) : 0;
-                }
+                return results;
+                
             }
+            SqlParameter[] Params = new SqlParameter[6];
+            Params[0] = new SqlParameter("@AccountId", model.AccountId);
+            Params[1] = new SqlParameter("@FromDate", model.FromDate);
+            Params[2] = new SqlParameter("@ToDate", model.ToDate);
+            Params[3] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
+            Params[4] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[5] = new SqlParameter("@PageSize", model.PageSize);
+            results = SQLHelper.SQLQuery<AccountsGeneralLedgerModel>("[Finance].[SP_GetAccountsGeneralLedger_Data]", ConnectionString, Params);
 
-            return dt;
+            return results;
         }
+
+
+        public ActionsResponseModel ExportAccountsGeneralLedger(string UserName, AccountsReportSearchFilterModel SearchModel)
+        {
+            string url = string.Empty;
+            try
+            {
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var Data = GetAccountsGeneralLedger(SearchModel);
+
+                var result = Data.Select(res =>
+                                new AccountsGeneralLedgerExportModel
+                                {
+                                    NameEN = res.NameEN,
+                                    NameAR = res.NameAR,
+                                    AccountNumber = res.AccountNumber,
+                                    PreDebit=res.PreDebit,
+                                    PreCredit=res.PreCredit,
+                                    Debit=res.Debit,
+                                    Credit=res.Credit,
+                                    TotalDebit=res.TotalDebit,
+                                    TotalCredit=res.TotalCredit
+                                    //CreatedDate = res.CreatedDate?.ToString("MM/dd/yyyy"),
+
+                                }).ToList();
+
+                if (!result.Any())
+                {
+                    result.Add(new AccountsGeneralLedgerExportModel());
+
+                }
+
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "AccountsGeneralLedger");
+
+
+                url = GetExportFilePath(dtExport, UserName, "AccountsGeneralLedger");
+
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+        }
+
+        public List<AccountsAssistantLedgerModel> GetAccountsAssistantLedger(AccountsReportSearchFilterModel model)
+        {
+
+            var results = new List<AccountsAssistantLedgerModel>();
+            if (model.AccountId is null)
+            {
+                return results;
+
+            }
+            SqlParameter[] Params = new SqlParameter[6];
+            Params[0] = new SqlParameter("@AccountId", model.AccountId);
+            Params[1] = new SqlParameter("@FromDate", model.FromDate);
+            Params[2] = new SqlParameter("@ToDate", model.ToDate);
+            Params[3] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
+            Params[4] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[5] = new SqlParameter("@PageSize", model.PageSize);
+            results = SQLHelper.SQLQuery<AccountsAssistantLedgerModel>("[Finance].[SP_GetAccountsAssistantLedger_Data]", ConnectionString, Params);
+
+            return results;
+        }
+        public ActionsResponseModel ExportAccountsAssistantLedger(string UserName, AccountsReportSearchFilterModel SearchModel)
+        {
+            string url = string.Empty;
+            try
+            {
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var Data = GetAccountsAssistantLedger(SearchModel);
+
+                var result = Data.Select(res =>
+                                new AccountsAssistantLedgerExportModel
+                                {
+                                    EntryDate = res.EntryDate?.ToString("MM/dd/yyyy"),
+                                    EntryType = res.EntryType,
+                                    EntryNumber = res.EntryNumber,
+                                    ChequeNumber = res.ChequeNumber,
+                                    Description = res.Description,
+                                    Debit = res.Debit,
+                                    Credit = res.Credit,
+                                    BalanceDebit = res.BalanceDebit,
+                                    BalanceCredit = res.BalanceCredit
+                                    //CreatedDate = res.CreatedDate?.ToString("MM/dd/yyyy"),
+
+                                }).ToList();
+
+                if (!result.Any())
+                {
+                    result.Add(new AccountsAssistantLedgerExportModel());
+
+                }
+
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "AccountsAssistantLedger");
+
+
+                url = GetExportFilePath(dtExport, UserName, "AccountsAssistantLedger");
+
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+        }
+
 
         public List<JournalEntryViewModel> GetTrialBalanceReport(SearchFilterModel model)
         {
@@ -257,5 +373,22 @@ namespace MasterErp.Service.GeneralAccounts
             }
         }
 
+
+        private string GetExportFilePath(DataTable dt, string UserName, string TemplateName)
+        {
+            ExportTemplateBase exportTemplateBase = new ExportTemplateBase
+            {
+                Name = TemplateName,
+                TemplateName = TemplateName,
+                ReportName = TemplateName,
+                CustomerName = "",
+                Username = UserName,
+                ExcelStyle = ExcelExportStyle.reportStyle,
+                SheetName = "Data",
+            };
+            var filePath = ExportService.Export(exportTemplateBase, dt);
+            return filePath;
+
+        }
     }
 }

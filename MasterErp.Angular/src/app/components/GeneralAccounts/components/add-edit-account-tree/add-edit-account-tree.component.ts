@@ -124,7 +124,8 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
     this._GeneralAccountService
       .AddNewAccount(this.accountModel).subscribe(data => {
         if (data?.isSuccess) {
-          this.formGroup?.reset();
+          this.initNewForm();
+          // this.formGroup?.reset();
           // this.offcanvasService?.dismiss();
           // this.getAccounts();
           this.toaster.success(data?.message);

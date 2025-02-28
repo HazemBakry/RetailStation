@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.GeneralAccounts;
 using MasterErp.Entities.Models.Finance;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,11 @@ namespace MasterErp.Interface.GeneralAccounts
 {
     public interface IGeneralAccountsReportService
     {
-        List<JournalEntry> GetAccountsGeneralLedger(SearchFilterModel model);
-        DataTable GetAccountsAssistantLedger(SearchFilterModel model);
+        List<AccountsGeneralLedgerModel> GetAccountsGeneralLedger(AccountsReportSearchFilterModel SearchModel);
+        ActionsResponseModel ExportAccountsGeneralLedger(string UserName, AccountsReportSearchFilterModel SearchModel);
+
+        List<AccountsAssistantLedgerModel> GetAccountsAssistantLedger(AccountsReportSearchFilterModel SearchModel);
+        ActionsResponseModel ExportAccountsAssistantLedger(string UserName, AccountsReportSearchFilterModel SearchModel);
         List<JournalEntryViewModel> GetTrialBalanceReport(SearchFilterModel model);
     }
 }

@@ -1,20 +1,22 @@
 <div class="card ">
     <div class="card-header bg-white">
         <h6 class="fw-bold m-0">
-            <!-- <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
-            <span *ngIf="isUpdate" class="ms-3">تعديل</span> -->
-            <span *ngIf="isUpdate" class="ms-3">بيانات الحساب</span>
+            <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
+            <span *ngIf="isUpdate" class="ms-3">تعديل</span>
         </h6>
     </div>
     <!-- bg-light  >> for gray card-->
     <div class="card-body ">
         <div class="p-2">
+
+
             <form [formGroup]="formGroup" autocomplete="off">
                 <div class="row mb-3">
                     <label class="form-label d-flex align-items-center gap-2">
                         رمز الحساب
                     </label>
-                    <input type="text" class="form-control nw-form-input" formControlName="accountNumber" autocomplete="off" />
+                    <input type="text" class="form-control nw-form-input" formControlName="accountNumber"
+                        autocomplete="off" />
 
                     <div *ngIf="formErrors.accountNumber" class="text-danger  font-small-3 m-03">
                         {{formErrors.accountNumber}}
@@ -47,7 +49,8 @@
                         نوع الحساب
                         <span class="text-danger">*</span>
                     </label>
-                    <app-general-selector formControlName="accountTypeId" [data]="accountTypesSelectorData" [showSearch]="true" [placeholder]="'نوع الحساب'"></app-general-selector>
+                    <app-general-selector formControlName="accountTypeId" [data]="accountTypesSelectorData"
+                        [showSearch]="true" [placeholder]="'نوع الحساب'"></app-general-selector>
 
                     <div *ngIf="formErrors.accountTypeId" class="text-danger  font-small-3 m-03">
                         {{formErrors.accountTypeId}}
@@ -59,7 +62,8 @@
                         متفرع من حساب
                         <!-- <span class="text-danger">*</span> -->
                     </label>
-                    <app-general-selector formControlName="parentAccountId" [data]="parentAccountsSelectorData" [showSearch]="true" [placeholder]="'نوع الحساب'"></app-general-selector>
+                    <app-general-selector formControlName="parentAccountId" [data]="parentAccountsSelectorData"
+                        [showSearch]="true" [placeholder]="'نوع الحساب'"></app-general-selector>
 
                     <div *ngIf="formErrors.parentAccountId" class="text-danger  font-small-3 m-03">
                         {{formErrors.parentAccountId}}
@@ -71,10 +75,11 @@
                         العملة الافتراضية
                         <!-- <span class="text-danger">*</span> -->
                     </label>
-                    <app-general-selector formControlName="parentAccountId" [data]="parentAccountsSelectorData" [showSearch]="true" [placeholder]="'العملة الافتراضية'"></app-general-selector>
+                    <app-general-selector formControlName="currencyTypeId" [data]="currencyTypesSelectorData"
+                        [showSearch]="true" [placeholder]="'العملة الافتراضية'"></app-general-selector>
 
-                    <div *ngIf="formErrors.parentAccountId" class="text-danger  font-small-3 m-03">
-                        {{formErrors.parentAccountId}}
+                    <div *ngIf="formErrors.currencyTypeId" class="text-danger  font-small-3 m-03">
+                        {{formErrors.currencyTypeId}}
                     </div>
 
                 </div>

@@ -46,7 +46,11 @@ namespace MasterErp.Service.GeneralAccounts
             try
             {
                 var parentAccount = Context.AccountTrees.FirstOrDefault(x => x.AccountId == Model.ParentAccountId);
-
+                //elassal fix 26/2
+                if (parentAccount is not null && !parentAccount.IsParent)
+                {
+                    parentAccount.IsParent = true;
+                }
                 AccountTree tbl = new AccountTree();
 
                 tbl.AccountNumber = Model.AccountNumber;
@@ -56,7 +60,7 @@ namespace MasterErp.Service.GeneralAccounts
                 tbl.IsParent = parentAccount != null ? false : true;
                 tbl.AccountNature = string.Empty;
                 tbl.IsActive = Model.IsActive;
-                tbl.NameAR = Model.NameEN;
+                tbl.NameAR = Model.NameAR;
                 tbl.NameEN = Model.NameEN;
                 tbl.IsDisToCostCenter = Model.IsDisToCostCenter;
 
@@ -91,7 +95,11 @@ namespace MasterErp.Service.GeneralAccounts
                 if (entity != null)
                 {
                     var parentAccount = Context.AccountTrees.FirstOrDefault(x => x.AccountId == Model.ParentAccountId);
-
+                    //elassal fix 26/2
+                    if (parentAccount is not null && !parentAccount.IsParent)
+                    {
+                        parentAccount.IsParent = true;
+                    }
 
                     entity.AccountNumber = Model.AccountNumber;
                     entity.ParentAccountId = Model.ParentAccountId;

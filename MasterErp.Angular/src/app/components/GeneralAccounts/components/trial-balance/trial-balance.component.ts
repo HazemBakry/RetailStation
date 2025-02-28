@@ -134,16 +134,16 @@ export class TrialBalanceComponent implements OnInit {
     ) {
       this.toaster.warning('insert search fields first');
     } else {
-      this.generalService
-        .ExportAccountsGeneralLedger(this.SearchFilterModel)
-        .subscribe((data) => {
-          if (data.url != null) {
-            window.location.href = data.url;
-            this.toaster.success('File exported successfully');
-          } else {
-            this.toaster.error('an Error happened , file can not export');
-          }
-        });
+      // this.generalService
+      //   .ExportAccountsGeneralLedger(this.SearchFilterModel)
+      //   .subscribe((data) => {
+      //     if (data.url != null) {
+      //       window.location.href = data.url;
+      //       this.toaster.success('File exported successfully');
+      //     } else {
+      //       this.toaster.error('an Error happened , file can not export');
+      //     }
+      //   });
     }
   }
 
