@@ -4,15 +4,12 @@ using System;
 using System.IO;
 using iText.Html2pdf;
 using iText.Kernel.Pdf;
-using iText.Layout;
 using System.Text.RegularExpressions;
-using Microsoft.SqlServer.Server;
-using iText.Layout.Element;
-using iText.Layout.Properties;
 using iText.Kernel.Colors;
 using iText.Kernel.Pdf.Canvas;
 using iText.IO.Font.Constants;
 using iText.Kernel.Font;
+using iText.Layout.Font;
 
 namespace MasterErp.Service.Reports
 {
@@ -30,11 +27,11 @@ namespace MasterErp.Service.Reports
                 HTMLContent = ClearAngularAttrFromHTML(HTMLContent);
                 HTMLContent = Regex.Unescape(HTMLContent);
 
-                var FolderPath =System.IO.Path.Combine(_environment.WebRootPath, "Reports");
+                var FolderPath = Path.Combine(_environment.WebRootPath, "Reports");
                 if (!Directory.Exists(FolderPath))
                     Directory.CreateDirectory(FolderPath);
 
-                var FilePath = System.IO.Path.Combine(FolderPath, Guid.NewGuid().ToString() + "_TestReport.pdf");
+                var FilePath = Path.Combine(FolderPath, Guid.NewGuid().ToString() + "_TestReport.pdf");
                 ConvertHtmlToPdf(HTMLContent, FilePath);
 
                 return FilePath;
@@ -50,11 +47,17 @@ namespace MasterErp.Service.Reports
             try
             {
                 string tempFile = Path.GetTempFileName();
+                var ARFont = Path.Combine(_environment.WebRootPath, "Fonts", "Cairo-Regular.ttf");
                 using (FileStream pdfStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.None))
                 {
                     PdfWriter writer = new PdfWriter(pdfStream);
                     PdfDocument pdfDocument = new PdfDocument(writer);
-                    HtmlConverter.ConvertToPdf(HTMLContent, pdfDocument, new ConverterProperties());
+                    FontProvider fontProvider = new FontProvider();
+                    ConverterProperties properties = new ConverterProperties();
+                    fontProvider.AddFont(ARFont);
+                    properties.SetCharset("UTF-8");
+                    properties.SetFontProvider(fontProvider);
+                    HtmlConverter.ConvertToPdf(HTMLContent, pdfDocument, properties);
                 }
                 using (PdfReader reader = new PdfReader(tempFile))
                 using (PdfWriter writer = new PdfWriter(outputPath))
@@ -66,7 +69,7 @@ namespace MasterErp.Service.Reports
 
                 File.Delete(tempFile);
             }
-            
+
             catch (Exception ex)
             {
                 throw;
@@ -76,7 +79,7 @@ namespace MasterErp.Service.Reports
         private void AddFooter(PdfDocument pdfDocument)
         {
             int numberOfPages = pdfDocument.GetNumberOfPages();
-            string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+            string currentDate = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
 
             PdfFont font = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
 
@@ -87,6 +90,7 @@ namespace MasterErp.Service.Reports
 
                 float pageWidth = page.GetPageSize().GetWidth();
                 float margin = 40;
+                float margin22 = 100;
                 float y = 20;
 
                 string pageNumberText = $"Page {i} of {numberOfPages}";
@@ -100,7 +104,7 @@ namespace MasterErp.Service.Reports
                 canvas.BeginText()
                     .SetFontAndSize(font, 10)
                     .SetColor(ColorConstants.BLACK, true)
-                    .MoveText(pageWidth - margin - 50, y)
+                    .MoveText(pageWidth - margin22 - 50, y)
                     .ShowText(currentDate)
                     .EndText();
 
@@ -108,7 +112,7 @@ namespace MasterErp.Service.Reports
             }
         }
 
-        public string ClearAngularAttrFromHTML( string HTML)
+        public string ClearAngularAttrFromHTML(string HTML)
         {
             try
             {
