@@ -20,8 +20,6 @@ namespace MasterErp.Entities.Common
         public int CurrentPage { get; set; }
         public int PageSize { get; set; }
         public string SearchText { get; set; }
-        public string SearchType { get; set; }
-        public string SearchLevel { get; set; }
         public bool? HideEmptyAccounts { get; set; }
         public bool IsExport { get; set; }
         public FilterModel FilterModel { get; set; }

@@ -58,9 +58,9 @@ export class CreateJournalEntryComponent implements OnInit {
 
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
-      if (params.journalEntryId) {
-        this.entryModel = params.journalEntryId;
-        this.getEntryDetailsById(params.journalEntryId);
+      if (params.JournalEntryId) {
+        this.entryModel = params.JournalEntryId;
+        this.getEntryDetailsById(params.JournalEntryId);
       }
     })
 
