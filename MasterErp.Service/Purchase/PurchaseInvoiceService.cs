@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Purchases;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
 using MasterErp.Interface.Inventory;

@@ -4,6 +4,7 @@ using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.HR;
 using MasterErp.Entities.Models.HR.Employee;
+using MasterErp.Entities.Models.Purchases;
 using MasterErp.Interface.Purchase;
 using Microsoft.CodeAnalysis;
 using System;

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models
+namespace MasterErp.Entities.Models.HR
 {
-    public class Loans:CreatorModel
+    public class Loans : CreatorModel
     {
         [Key]
         public int LoanId { get; set; }

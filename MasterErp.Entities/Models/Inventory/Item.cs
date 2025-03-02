@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
-namespace MasterErp.Entities.Models
+namespace MasterErp.Entities.Models.Inventory
 {
     public class Item : CreatorModel
     {

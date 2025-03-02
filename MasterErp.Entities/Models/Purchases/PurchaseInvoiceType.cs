@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models
+namespace MasterErp.Entities.Models.Purchases
 {
-    public class PurchaseInvoiceType: CreatorModel
+    [Table("PurchaseInvoiceTypes", Schema = "Purchase")]
+
+    public class PurchaseInvoiceType : CreatorModel
     {
         [Key]
         public int PurchaseInvoiceTypeId { get; set; }

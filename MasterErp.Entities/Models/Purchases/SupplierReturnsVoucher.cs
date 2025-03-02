@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models
+namespace MasterErp.Entities.Models.Purchases
 {
-    public class SupplierReturnsVoucher: CreatorModel
+    [Table("SupplierReturnsVouchers", Schema = "Purchase")]
+
+    public class SupplierReturnsVoucher : CreatorModel
     {
         public int SupplierReturnsVoucherId { get; set; }
         public int InvoiceNumber { get; set; }

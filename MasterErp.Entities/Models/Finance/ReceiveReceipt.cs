@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models
+namespace MasterErp.Entities.Models.Finance
 {
     [Table("ReceiveReceipts", Schema = "Finance")]
 
-    public class ReceiveReceipt: CreatorModel
+    public class ReceiveReceipt : CreatorModel
     {
         [Key]
         public int ReceiveReceiptId { get; set; }

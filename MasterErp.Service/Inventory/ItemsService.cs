@@ -3,6 +3,7 @@ using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Export;
 using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Inventory;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Inventory;
 using MasterErp.Service.Common;

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models
+namespace MasterErp.Entities.Models.Purchases
 {
+    [Table("PurchaseOrderDetails", Schema = "Purchase")]
+
     public class PurchaseOrderDetails
     {
         public int PurchaseOrderDetailsId { get; set; }

@@ -117,5 +117,8 @@ export class PaymentService {
     return this.http.get<any[]>(this.URL + 'Payment/CancelReceiveReceipt?ReceiptId=' + ReceiptId);
   }
 
+  GetPaymentOrders(orderStatus: any ) {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Payment/GetPaymentOrders?OrderStatus=' + orderStatus);
+  }
 
 }

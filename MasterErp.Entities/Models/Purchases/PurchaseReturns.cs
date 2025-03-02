@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models
+namespace MasterErp.Entities.Models.Purchases
 {
+    [Table("PurchaseReturns", Schema = "Purchase")]
 
     public class PurchaseReturns : CreatorModel
     {

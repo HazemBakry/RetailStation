@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models
+namespace MasterErp.Entities.Models.Finance
 {
     [Table("AccountOpeningBalance", Schema = "Finance")]
 
@@ -15,7 +15,7 @@ namespace MasterErp.Entities.Models
         [Key]
         public int Id { get; set; }
         public int AccountId { get; set; }
-        
+
         public double Debit { get; set; }
         public double Credit { get; set; }
         public string CreatedBy { get; set; }

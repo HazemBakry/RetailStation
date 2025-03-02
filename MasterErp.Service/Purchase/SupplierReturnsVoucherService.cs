@@ -3,6 +3,7 @@ using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Purchases;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Purchase;
 using Microsoft.Extensions.Configuration;

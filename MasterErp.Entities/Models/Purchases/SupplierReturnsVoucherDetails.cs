@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models
+namespace MasterErp.Entities.Models.Purchases
 {
+    [Table("SupplierReturnsVoucherDetails", Schema = "Purchase")]
+
     public class SupplierReturnsVoucherDetails
     {
         public int SupplierReturnsVoucherDetailsId { get; set; }
@@ -15,7 +18,7 @@ namespace MasterErp.Entities.Models
         public double Price { get; set; }
         public double TotalValue { get; set; }
         public double? BalanceBefore { get; set; }
-        
+
         public int? UnitId { get; set; }
         public string Notes { get; set; }
         public DateTime? ProductionDate { get; set; }

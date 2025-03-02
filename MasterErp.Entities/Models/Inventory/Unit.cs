@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace MasterErp.Entities.Models
+namespace MasterErp.Entities.Models.Inventory
 {
     public class Unit : CreatorModel
     {

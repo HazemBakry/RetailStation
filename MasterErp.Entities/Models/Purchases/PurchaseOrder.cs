@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models
+namespace MasterErp.Entities.Models.Purchases
 {
-  
+    [Table("PurchaseOrders", Schema = "Purchase")]
+
     public class PurchaseOrder : CreatorModel
     {
         public int PurchaseOrderId { get; set; }

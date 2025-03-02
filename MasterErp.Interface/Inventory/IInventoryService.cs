@@ -3,7 +3,7 @@ using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Common.Inventory.ReceiveOrder;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.DTOs.Inventory;
-using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Inventory;
 using System;
 using System.Collections.Generic;
 using System.Data;

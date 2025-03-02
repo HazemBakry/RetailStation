@@ -40,6 +40,7 @@ import { LedgerJournalTypeComponent } from './GeneralAccountSettings/ledger-jour
 import { CustomersComponent } from './Customers/customers/customers.component';
 import { BatchesComponent } from './Customers/batches/batches.component';
 import { CreateJournalEntryComponent } from './components/create-journal-entry/create-journal-entry.component';
+import { PaymentOrdersComponent } from './components/payment-orders/payment-orders.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { CreateJournalEntryComponent } from './components/create-journal-entry/c
     CreateReceiveReceiptComponent,
     CreatePaymentReceiptComponent,
     PaymentReceiptsComponent,
+    PaymentOrdersComponent,
     ReceiveReceiptsComponent,
     AccountsGeneralLedgerComponent,
     MonthlyAssistantLedgerComponent,

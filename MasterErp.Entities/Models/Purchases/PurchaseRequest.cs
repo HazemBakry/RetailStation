@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models
+namespace MasterErp.Entities.Models.Purchases
 {
-    public class PurchaseRequest: CreatorModel
+    [Table("PurchaseRequests", Schema = "Purchase")]
+
+    public class PurchaseRequest : CreatorModel
     {
-        public int PurchaseRequestId{ get; set; }
+        public int PurchaseRequestId { get; set; }
         public int RequestNumber { get; set; }
         public string DocNumber { get; set; }
         public DateTime RequestDate { get; set; }

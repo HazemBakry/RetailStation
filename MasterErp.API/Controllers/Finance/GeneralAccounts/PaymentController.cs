@@ -1,7 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.DTOs.HR;
-using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Finance;
 using MasterErp.Entities.Models.HR.Employee;
 using MasterErp.Interface.GeneralAccounts;
 using Microsoft.AspNetCore.Http;

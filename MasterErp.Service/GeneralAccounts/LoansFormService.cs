@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
 using Microsoft.Extensions.Configuration;

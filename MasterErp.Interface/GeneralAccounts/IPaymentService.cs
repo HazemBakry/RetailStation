@@ -1,6 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.GeneralAccounts;
-using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Finance;
 using System;
 using System.Collections.Generic;
 using System.Data;

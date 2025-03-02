@@ -2,6 +2,7 @@
 using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Finance;
 using MasterErp.Entities.Models.HR.Employee;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
