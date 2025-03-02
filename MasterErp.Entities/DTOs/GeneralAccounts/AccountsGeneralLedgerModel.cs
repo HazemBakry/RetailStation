@@ -20,6 +20,8 @@ namespace MasterErp.Entities.DTOs.GeneralAccounts
         public double? Credit { get; set; }
         public double? TotalDebit { get; set; }
         public double? TotalCredit { get; set; }
+        public double? BalanceDebit { get; set; }
+        public double? BalanceCredit { get; set; }
         public int? TotalCount { get; set; }
     } 
     
@@ -44,6 +46,10 @@ namespace MasterErp.Entities.DTOs.GeneralAccounts
         public double? TotalDebit { get; set; }
         [JsonProperty("Total Credit")]
         public double? TotalCredit { get; set; }
+        [JsonProperty("Balance Debit")]
+        public double? BalanceDebit { get; set; }
+        [JsonProperty("Balance Credit")]
+        public double? BalanceCredit { get; set; }
     }
 
 }

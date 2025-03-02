@@ -62,6 +62,8 @@
                     <th>الحركة (دائن)</th>
                     <th>الإجمالى (مدين)</th>
                     <th>الإجمالى (دائن)</th>
+                    <th>الرصيد (مدين)</th>
+                    <th>الرصيد (دائن)</th>
                 </tr>
 
             </thead>
@@ -77,9 +79,11 @@
                     <td>{{item.credit}}</td>
                     <td>{{item.totalDebit}}</td>
                     <td>{{item.totalCredit}}</td>
+                    <td>{{item.balanceDebit}}</td>
+                    <td>{{item.balanceCredit}}</td>
                 </tr>
                 <tr *ngIf="!ledgersResponse.results.length">
-                    <td colspan="8" class="text-right">
+                    <td colspan="10" class="text-right">
                         <app-empty-data [showEmptyData]="!ledgersResponse.results.length"></app-empty-data>
                     </td>
                 </tr>
