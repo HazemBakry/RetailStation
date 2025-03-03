@@ -11,6 +11,7 @@ namespace MasterErp.Entities.Common.Finance.GeneralAccounts
     public class AccountTreeModel : CreatorModel
     {
         public int? AccountId { get; set; }
+        public int? CostAccountId { get; set; }
         public string AccountNumber { get; set; }
 
         public int? ParentAccountId { get; set; }

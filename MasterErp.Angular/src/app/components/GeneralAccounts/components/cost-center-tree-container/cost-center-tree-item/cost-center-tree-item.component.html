@@ -1,5 +1,5 @@
 <div (click)="toggleNode(costCenter)"
-  class="tree-row d-flex align-items-center justify-content-between cursor-pointer  ps-{{costCenter.costLevel+1}}">
+  class="tree-row d-flex align-items-center justify-content-between cursor-pointer  pss-{{costCenter.costLevel+1}}" [style]="getLevelClass(costCenter.costLevel)">
 
   <div class="tree-row-text d-flex align-items-center">
     <i *ngIf="costCenter.children?.length" class="fas " [class]="!expanded?'fa-plus-circle':'fa-minus-circle'"></i>

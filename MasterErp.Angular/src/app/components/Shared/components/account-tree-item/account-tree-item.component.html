@@ -12,7 +12,7 @@
       -->
 
 
-<div class="tree-row d-flex align-items-center justify-content-between cursor-pointer ps-{{account.accountLevel}}"
+<div class="tree-row d-flex align-items-center justify-content-between cursor-pointer pss-{{account.accountLevel}}" [style]="getLevelClass(account.accountLevel)"
   (click)="toggleNode(account)">
   <div class="tree-row-text d-flex align-items-center m-2">
     <i *ngIf="account.children?.length" class="fas " [class]="!expanded?'fa-plus-circle':'fa-minus-circle'"></i>

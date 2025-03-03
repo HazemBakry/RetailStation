@@ -84,6 +84,7 @@
 
                 </div>
 
+
                 <hr class="my-4" />
                 <div class="row mb-3">
                     <div class="col-sm-4">
@@ -107,7 +108,19 @@
                         </div>
                     </div>
                 </div>
+                <div *ngIf="formGroup?.value?.isDisToCostCenter" class="row mb-3">
+                    <label class="form-label d-flex align-items-center gap-2">
+                        مركز التكلفة
+                        <!-- <span class="text-danger">*</span> -->
+                    </label>
+                    <app-general-selector formControlName="costAccountId" [data]="costCenterSelector"
+                        [showSearch]="true" [placeholder]="'مركز التكلفة'"></app-general-selector>
 
+                    <div *ngIf="formErrors.costAccountId" class="text-danger  font-small-3 m-03">
+                        {{formErrors.costAccountId}}
+                    </div>
+
+                </div>
             </form>
 
             <div class="row mb-3">

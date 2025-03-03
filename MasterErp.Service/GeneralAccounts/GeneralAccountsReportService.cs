@@ -215,7 +215,7 @@ namespace MasterErp.Service.GeneralAccounts
         {
 
             var results = new List<TrialBalanceModel>();
-            if (model.AccountId is null)
+            if (model.FromDate is null || model.ToDate is null)
             {
                 return results;
 

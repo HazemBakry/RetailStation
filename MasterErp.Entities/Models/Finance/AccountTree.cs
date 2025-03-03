@@ -34,5 +34,6 @@ namespace MasterErp.Entities.Models.Finance
         public int? AccumulatedDepreciationId { get; set; }
         public double? PreCredit { get; set; }
         public double? PreDebit { get; set; }
+        public int? CostAccountId { get; set; }
     }
 }

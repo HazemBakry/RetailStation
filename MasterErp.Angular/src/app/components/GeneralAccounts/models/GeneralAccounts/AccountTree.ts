@@ -12,8 +12,9 @@ export interface AccountTreeModel {
     nameEN: string;
     assetType: string;
     descriptionMethod: string;
-
+    
     isDisToCostCenter:boolean;
+    costAccountId: number | null;
     isActive:boolean;
     children: AccountTreeModel[];
 }

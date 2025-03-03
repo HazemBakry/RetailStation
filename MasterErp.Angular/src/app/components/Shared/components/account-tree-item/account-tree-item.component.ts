@@ -42,4 +42,11 @@ export class AccountTreeItemComponent implements OnInit {
   //   // console.log(" account:", account);
   //   this.selectedAccount.emit(account);
   // }
+
+  getLevelClass(level: number) {
+    var paddingValue = level
+    if (level > 0)
+      paddingValue = level * 2;
+    return 'padding-right:' + paddingValue + 'rem !important';
+  }
 }

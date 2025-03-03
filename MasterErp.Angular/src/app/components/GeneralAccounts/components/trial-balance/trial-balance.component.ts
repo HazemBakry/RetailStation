@@ -21,7 +21,8 @@ export class TrialBalanceComponent implements OnInit {
   // LevelTypes: any[] = ['مجموعات وحسابات معاً', 'مجموعات', 'حسابات'];
   LevelNumber: any;
   levelTypesSelector: GeneralSelectorModel[] = [];
-
+  totalDebit = null;
+  totalCredit = null;
   trialBalanceResponse: AccountsReportSearchFilterModel = {
     results: [],
     filterList: [],
@@ -52,12 +53,23 @@ export class TrialBalanceComponent implements OnInit {
     if (!this.validateSearchModel()) {
       return;
     }
-
+    this.totalDebit = null;
+    this.totalCredit = null;
     this.showLoader = true;
     this.generalService.GetTrialBalanceReport(this.trialBalanceResponse).subscribe((data: PagedResponseDTO<TrialBalanceModel[]>) => {
       this.trialBalanceResponse.results = data.results;
       this.trialBalanceResponse.totalCount = data.totalCount;
 
+      if (this.trialBalanceResponse.results.length > 0) {
+        this.totalDebit = this.trialBalanceResponse.results.reduce(
+          (sum, x) => sum + (x.balanceDebit || 0),
+          0
+        );
+        this.totalCredit = this.trialBalanceResponse.results.reduce(
+          (sum, x) => sum + (x.balanceCredit || 0),
+          0
+        );
+      }
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
@@ -108,9 +120,8 @@ export class TrialBalanceComponent implements OnInit {
     if (
       !this.trialBalanceResponse.fromDate ||
       !this.trialBalanceResponse.toDate ||
-      !this.trialBalanceResponse.accountId
-      // this.SearchFilterModel.searchType ||
-      // !this.SearchFilterModel.searchLevel
+      !this.trialBalanceResponse.searchType ||
+      !this.trialBalanceResponse.searchLevel
     ) {
       this.toaster.warning('يرجي ملئ جميع الخانات');
       return false;

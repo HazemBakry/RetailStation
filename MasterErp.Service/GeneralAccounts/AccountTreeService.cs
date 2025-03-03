@@ -63,6 +63,7 @@ namespace MasterErp.Service.GeneralAccounts
                 tbl.NameAR = Model.NameAR;
                 tbl.NameEN = Model.NameEN;
                 tbl.IsDisToCostCenter = Model.IsDisToCostCenter;
+                tbl.CostAccountId = Model.CostAccountId;
 
                 tbl.CreatedDate = DateTime.Now;
                 tbl.CreatedBy = Model.CreatedBy;
@@ -111,6 +112,7 @@ namespace MasterErp.Service.GeneralAccounts
                     entity.NameAR = Model.NameAR;
                     entity.NameEN = Model.NameEN;
                     entity.IsDisToCostCenter = Model.IsDisToCostCenter;
+                    entity.CostAccountId = Model.CostAccountId;
                     entity.ModifiedDate = DateTime.Now;
                     entity.ModifiedBy = Model.ModifiedBy;
                 }
@@ -155,19 +157,22 @@ namespace MasterErp.Service.GeneralAccounts
 
             foreach (var acc in accList)
             {
-                if (acc.AccountLevel == 1)
+                if (acc.ParentAccountId == 0 || acc.ParentAccountId is null)
                 {
+                    acc.AccountLevel = 1;
                     roots.Add(acc);
                 }
 
-                if (acc.AccountLevel > 1 && accsById.TryGetValue(acc.ParentAccountId, out var parentAcc))
+                if (acc.ParentAccountId > 0 && accsById.TryGetValue(acc.ParentAccountId, out var parentAcc))
                 {
+                    acc.AccountLevel = parentAcc.AccountLevel + 1;
                     if (acc.IsSelected)
                     {
 
                         UpdateParentSelection(parentAcc, accsById);
                         //parentAcc.IsSelected = true;
                     }
+
                     parentAcc.Children.Add(acc);
                 }
             }
@@ -178,9 +183,9 @@ namespace MasterErp.Service.GeneralAccounts
         public static void UpdateParentSelection(AccountTreeModel acc, Dictionary<int?, AccountTreeModel> accounts)
         {
             acc.IsSelected = true;
-            if (acc.AccountLevel >= 1 && accounts.TryGetValue(acc.ParentAccountId, out var parentAcc))
+            if (acc.ParentAccountId >= 0 && accounts.TryGetValue(acc.ParentAccountId, out var parentAcc))
             {
-                if (!parentAcc.IsSelected && parentAcc.AccountLevel < acc.AccountLevel)
+                if (!parentAcc.IsSelected && parentAcc.ParentAccountId < acc.ParentAccountId)
                     UpdateParentSelection(parentAcc, accounts);
             }
         }
