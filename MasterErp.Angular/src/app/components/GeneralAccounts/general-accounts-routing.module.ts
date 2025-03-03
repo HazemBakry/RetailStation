@@ -36,6 +36,7 @@ import { CustomersComponent } from './Customers/customers/customers.component';
 import { BatchesComponent } from './Customers/batches/batches.component';
 import { CreateJournalEntryComponent } from './components/create-journal-entry/create-journal-entry.component';
 import { PaymentOrdersComponent } from './components/payment-orders/payment-orders.component';
+import { CreatePaymentOrderComponent } from './components/create-payment-order/create-payment-order.component';
 
 const routes: Routes = [
   {
@@ -53,8 +54,9 @@ const routes: Routes = [
       // { path: 'new-entry', component: NewEntryComponent },
       { path: 'new-entry', component: CreateJournalEntryComponent },
       { path: 'journal-daily-list', component: JournalDailyListComponent },
+      { path: 'create-payment-order', component: CreatePaymentOrderComponent },
       { path: 'create-payment-receipt', component: CreatePaymentReceiptComponent },
-      { path: 'create-receive-receipt', component: CreateReceiveReceiptComponent },
+      { path: 'create-receive-receipt', component:  CreateReceiveReceiptComponent},
       { path: 'payment-receipts', component: PaymentReceiptsComponent },
       { path: 'payment-orders', component: PaymentOrdersComponent },
       { path: 'receive-receipts', component: ReceiveReceiptsComponent },

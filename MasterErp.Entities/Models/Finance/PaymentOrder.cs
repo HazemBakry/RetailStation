@@ -1,34 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models.Finance
 {
-    [Table("PaymentReceipts", Schema = "Finance")]
-    public class PaymentReceipt : CreatorModel
+    [Table("PaymentOrders", Schema = "Finance")]
+
+    public class PaymentOrder: CreatorModel
     {
         [Key]
-        public int PaymentReceiptId { get; set; }
-        public int? ReceiptNumber { get; set; }
-        public int PaymentTypeId { get; set; }
-        public int ReceiptTypeId { get; set; }
-        public int? ReceiptLedgerId { get; set; }
+        public int PaymentOrderId { get; set; }
+        public int? OrderNumber { get; set; }
         public DateTime ReleaseDate { get; set; }
         public string ContactName { get; set; }
-        public int? BankAccountId { get; set; }
-        public int? FromAccountId { get; set; }
-        public int? SafeId { get; set; }
         public int? AgencyTypeId { get; set; }
+        public int? FromAccountId { get; set; }
         public int? AccountId { get; set; }
         public int? SupplierId { get; set; }
         public int? CustomerId { get; set; }
         public int? EmployeeId { get; set; }
         public double MoneyAmount { get; set; }
-        public string DocNumber { get; set; }
         public int? CurrencyId { get; set; }
         public string Description { get; set; }
         public bool? IsLocked { get; set; }

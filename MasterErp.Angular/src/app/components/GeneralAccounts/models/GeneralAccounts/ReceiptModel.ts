@@ -1,11 +1,13 @@
-export interface PaymentReceipt {
-    paymentReceiptId: number;
-    receiptNumber: number;    
-    paymentTypeId: number;    
-    receiptLedgerId: number;
-    receiptTypeId: number,
+export interface ReceiptModel {
+    paymentReceiptId: number | null;
+    receiptNumber: number | null;
+    paymentTypeId: number;
+    receiptLedgerId: number | null;
+    receiptTypeId: number | null;
+    paymentOrderId: number | null;
     releaseDate: string;
     contactName: string,
+    fromAccountId: number | null;
     bankAccountId: number | null;
     safeId: number | null;
     agencyTypeId: number;

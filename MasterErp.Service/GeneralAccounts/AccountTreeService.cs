@@ -28,17 +28,13 @@ namespace MasterErp.Service.GeneralAccounts
     {
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
-        private readonly IConfiguration Configuration;
         private readonly IExportService _exportService;
-        private readonly string ConnectionString;
 
-        public AccountTreeService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration, IExportService exportService)
+        public AccountTreeService(DBContext dBContext, ISQLHelper iSQLHelper, IExportService exportService)
         {
             Context = dBContext;
             SQLHelper = iSQLHelper;
-            Configuration = _configuration;
             _exportService = exportService;
-            ConnectionString = Configuration.GetConnectionString("DBConnection");
         }
 
         public ActionsResponseModel AddNewAccount(AccountTreeModel Model)
@@ -138,7 +134,7 @@ namespace MasterErp.Service.GeneralAccounts
             SqlParameter[] param = new SqlParameter[1];
             param[0] = new SqlParameter("@SearchText", SearchText);
 
-            var lst = SQLHelper.SQLQuery<AccountTreeModel>("[Finance].[SP_GetAccountTreeData]", ConnectionString, param);
+            var lst = SQLHelper.SQLQuery<AccountTreeModel>("[Finance].[SP_GetAccountTreeData]", null, param);
             return lst;
         }
 
@@ -234,7 +230,7 @@ namespace MasterErp.Service.GeneralAccounts
                             Params[0] = new SqlParameter("@AccountList", SqlDbType.Structured);
                             Params[0].Value = dt;
 
-                            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_ImportAccountTreeList]", ConnectionString, Params);
+                            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_ImportAccountTreeList]", null, Params);
                             url = GetExportUrl(result, "AccountTreeImporter");
                         }
                     }
@@ -271,15 +267,10 @@ namespace MasterErp.Service.GeneralAccounts
             string url = string.Empty;
             try
             {
-
-
                 SqlParameter[] Params = new SqlParameter[0];
-                var dtExport = SQLHelper.ExecuteDataTable("[Finance].[SP_ExportAccountTreeList]", ConnectionString, Params);
-
-
+                var dtExport = SQLHelper.ExecuteDataTable("[Finance].[SP_ExportAccountTreeList]", null, Params);
 
                 url = GetExportUrl(dtExport, "Account tree");
-
 
                 return new ActionsResponseModel
                 {
@@ -287,7 +278,6 @@ namespace MasterErp.Service.GeneralAccounts
                     URL = url,
                     Message = "File Exported successfully"
                 };
-
             }
             catch (Exception ex)
             {

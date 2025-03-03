@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PaymentService } from '../../services/payment.service';
 import { ToastrService } from 'ngx-toastr';
-import { PaymentReceipt } from '../../models/GeneralAccounts/PaymentReceipt';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
 
 @Component({
   selector: 'app-payment-orders',
@@ -18,7 +18,7 @@ export class PaymentOrdersComponent implements OnInit {
     pageSize: 25
   };
 
-  ReceiptList: PagedResponseDTO<PaymentReceipt[]> = {
+  ReceiptList: PagedResponseDTO<ReceiptModel[]> = {
     results: [],
     filterList: [],
     pageSize: 25,
@@ -30,12 +30,12 @@ export class PaymentOrdersComponent implements OnInit {
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.GetPaymentReceiptsSummary();
+    this.getPaymentOrdersSummary();
   }
 
-  GetPaymentReceiptsSummary() {
+  getPaymentOrdersSummary() {
     this.showLoader = true;
-    this.paymentService.GetPaymentReceipts_Summary(this.FilterModel).subscribe(data => {
+    this.paymentService.GetPaymentOrders_Summary(this.FilterModel).subscribe(data => {
       this.ReceiptList.results = data.results;
       this.ReceiptList.totalCount = data.totalCount;
       //this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
@@ -50,14 +50,14 @@ export class PaymentOrdersComponent implements OnInit {
 
   pageChanged(obj: any) {
     this.FilterModel.currentPage = obj.page;
-    this.GetPaymentReceiptsSummary();
+    this.getPaymentOrdersSummary();
   }
 
   CancelPaymentReceipt(receiptId: number) {
     this.paymentService.CancelPaymentReceipt(receiptId).subscribe(data => {
       if (data) {
-        this.toaster.success('تم الغاء السند بنجاح');
-        this.GetPaymentReceiptsSummary();
+        this.toaster.success('تم الغاء أمر الصرف بنجاح');
+        this.getPaymentOrdersSummary();
       }
       else {
         this.toaster.error('حدث خطأ اثناء الإلغاء');
@@ -70,8 +70,8 @@ export class PaymentOrdersComponent implements OnInit {
   openJournalEntry(entryId: number) {
     this.paymentService.CancelPaymentReceipt(entryId).subscribe(data => {
       if (data) {
-        this.toaster.success('تم الغاء السند بنجاح');
-        this.GetPaymentReceiptsSummary();
+        this.toaster.success('تم الغاء أمر الصرف بنجاح');
+        this.getPaymentOrdersSummary();
       }
       else {
         this.toaster.error('حدث خطأ اثناء الإلغاء');

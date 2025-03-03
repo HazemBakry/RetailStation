@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
-import { PaymentReceipt, ReceiptLedger } from '../../models/GeneralAccounts/PaymentReceipt';
 import { PaymentService } from '../../services/payment.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
@@ -9,6 +8,8 @@ import { FormService } from 'src/app/components/Shared/services/form.service';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { LookupService } from 'src/app/components/Shared/services/lookup.service';
+import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
 
 @Component({
   selector: 'app-create-payment-receipt',
@@ -26,10 +27,13 @@ export class CreatePaymentReceiptComponent implements OnInit {
   receiptLedgerList: any[] = [];
   receiptTypeList: any[] = [];
   paymentOrdersList: any[] = [];
-  paymentReceiptModel: PaymentReceipt = {} as PaymentReceipt
-  inputDropdownValue = '';
+  paymentReceiptModel: ReceiptModel = {} as ReceiptModel
   isFocused = false;
   isUpdate: any = false;
+  FilterModel: FilterModel = {
+    currentPage: 1,
+    pageSize: 25
+  };
   formData: FormData = new FormData();
   formGroup: FormGroup;
   formErrors = {
@@ -91,7 +95,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
       this.paymentTypeList = data;
     });
 
-    this.paymentService.GetPaymentOrders(1).subscribe(data => {
+    this.paymentService.GetOpenPaymentOrdersSelector(this.FilterModel).subscribe(data => {
       this.paymentOrdersList = data;
     });
 
@@ -114,7 +118,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
     //this.paymentTypeList = this.paymentService.paymentTypeList;
   }
 
-  initNewForm(receiptModel: PaymentReceipt = null) {
+  initNewForm(receiptModel: ReceiptModel = null) {
     this.isUpdate = false;
     this.buildForm();
     if (receiptModel)
@@ -154,7 +158,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
     }
   }
 
-  fillEditForm(receiptModel: PaymentReceipt) {
+  fillEditForm(receiptModel: ReceiptModel) {
     this.isUpdate = true;
     this.formGroup.patchValue({
       paymentReceiptId: receiptModel.paymentReceiptId,
@@ -179,10 +183,10 @@ export class CreatePaymentReceiptComponent implements OnInit {
 
   }
 
-  onChoosePayment(payment: string) {
-    this.inputDropdownValue = payment;
+  onChoosePayment(payment: number) {
+    //this.inputDropdownValue = payment;
 
-    this.sharedService.GetAccountsByTypeId(1).subscribe(data => {
+    this.sharedService.GetAccountsByTypeId(payment).subscribe(data => {
       this.fromAccounts = data;
     });
   }
@@ -230,7 +234,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
   }
 
   validatePaymentReceipt(): boolean {
-    let model: PaymentReceipt = this.paymentReceiptModel;
+    let model: ReceiptModel = this.paymentReceiptModel;
 
     if (!model.contactName ||
       !model.paymentTypeId ||
@@ -245,11 +249,10 @@ export class CreatePaymentReceiptComponent implements OnInit {
       return false;
     }
     return true;
-
   }
 
   ClearAllFields() {
-    this.paymentReceiptModel = {} as PaymentReceipt;
+    this.paymentReceiptModel = {} as ReceiptModel;
     this.selectedAgencyType = null;
   }
 

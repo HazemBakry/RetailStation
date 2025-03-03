@@ -41,6 +41,7 @@ import { CustomersComponent } from './Customers/customers/customers.component';
 import { BatchesComponent } from './Customers/batches/batches.component';
 import { CreateJournalEntryComponent } from './components/create-journal-entry/create-journal-entry.component';
 import { PaymentOrdersComponent } from './components/payment-orders/payment-orders.component';
+import { CreatePaymentOrderComponent } from './components/create-payment-order/create-payment-order.component';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { PaymentOrdersComponent } from './components/payment-orders/payment-orde
     NewEntryComponent,
     JournalDailyListComponent,
     CreateReceiveReceiptComponent,
+    CreatePaymentOrderComponent,
     CreatePaymentReceiptComponent,
     PaymentReceiptsComponent,
     PaymentOrdersComponent,

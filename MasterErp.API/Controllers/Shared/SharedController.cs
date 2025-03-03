@@ -50,7 +50,7 @@ namespace MasterErp.API.Controllers.Shared
         }
         [HttpGet]
         [Route("GetAccountsByTypeId")]
-        public List<AccountTree> GetAccountsByTypeId(int TypeId)
+        public List<SelectorDataModel> GetAccountsByTypeId(int TypeId)
         {
             return _sharedService.GetAccountsByTypeId(TypeId);
         }

@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Data.Common;
 using MasterErp.Service.Common;
 using MasterErp.Interface.Common;
+using MasterErp.Entities.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace MasterErp.Service.Common
 {
@@ -15,12 +17,24 @@ namespace MasterErp.Service.Common
     public class SQLHelper : ISQLHelper
     {
 
+        private readonly string CustomerConnectionString;
         int Timeout = 9999;
 
-        public List<TElement> SQLQuery<TElement>(string CommandText, string ConnectionString, params SqlParameter[] Parameters)
+        public SQLHelper(IHttpContextAccessor httpContextAccessor, ITenantService tenantService)
         {
-            //string ConnectionString = connectionStringName == null ? _ApplicationConfiguration.ConnectionString : _ApplicationConfiguration.GetConnectionString(connectionStringName);
-            using (SqlConnection sqlConn = new SqlConnection(ConnectionString))
+            var user = httpContextAccessor.HttpContext?.User;
+            if (user == null)
+            {
+                throw new Exception("SubscriberId is required in the request header.");
+            }
+            var subscriberId = user.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
+            CustomerConnectionString = tenantService.GetConnectionString(subscriberId);
+        }
+
+        public List<TElement> SQLQuery<TElement>(string CommandText, string ConnectionString = null, params SqlParameter[] Parameters)
+        {
+            string ConnString = ConnectionString == null ? this.CustomerConnectionString : ConnectionString;
+            using (SqlConnection sqlConn = new SqlConnection(ConnString))
             {
                 using (SqlCommand cmd = new SqlCommand(CommandText, sqlConn))
                 {
@@ -51,10 +65,11 @@ namespace MasterErp.Service.Common
             }
         }
 
-        public List<TElement> SQLQuery<TElement>(string CommandText, string ConnectionString, CommandType commandType = CommandType.StoredProcedure, params SqlParameter[] Parameters)
+        public List<TElement> SQLQuery<TElement>(string CommandText, string ConnectionString = null, CommandType commandType = CommandType.StoredProcedure, params SqlParameter[] Parameters)
         {
             //string ConnectionString = connectionStringName == null ? _ApplicationConfiguration.ConnectionString : _ApplicationConfiguration.GetConnectionString(connectionStringName);
-            using (SqlConnection sqlConn = new SqlConnection(ConnectionString))
+            string ConnString = ConnectionString == null ? this.CustomerConnectionString : ConnectionString;
+            using (SqlConnection sqlConn = new SqlConnection(ConnString))
             {
                 using (SqlCommand cmd = new SqlCommand(CommandText, sqlConn))
                 {

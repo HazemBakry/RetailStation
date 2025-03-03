@@ -39,6 +39,127 @@ namespace MasterErp.Service.GeneralAccounts
             this.entryService = EntryService;
         }
 
+        //----------------------------------- Payment Order ------------------------------------------//
+
+        public List<ReceiptModel> GetPaymentOrders_Summary(FilterModel model)
+        {
+            SqlParameter[] Params = new SqlParameter[2];
+            Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
+            Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
+
+            var result = SQLHelper.SQLQuery<ReceiptModel>("[Finance].[SP_GetPaymentOrders_Summary]", ConnectionString, Params).ToList();
+            return result;
+        }
+
+        public DataTable GetPaymentOrders_Filters(FilterModel model)
+        {
+            return new DataTable();
+        }
+
+        public ActionsResponseModel SavePaymentOrder(PaymentOrder Model)
+        {
+            try
+            {
+                PaymentOrder order = new PaymentOrder();
+
+                if (Model.PaymentOrderId > 0)
+                {
+                    order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == Model.PaymentOrderId);
+                    if (order != null)
+                    {
+                        order.ContactName = Model.ContactName;
+                        order.CurrencyId = Model.CurrencyId;
+                        order.CustomerId = Model.CustomerId;
+                        order.EmployeeId = Model.EmployeeId;
+                        order.Description = Model.Description;
+                        order.MoneyAmount = Model.MoneyAmount;
+                        order.AgencyTypeId = Model.AgencyTypeId;
+                        order.AccountId = Model.AccountId;
+                        order.SupplierId = Model.SupplierId;
+                        order.FromAccountId = Model.FromAccountId;
+
+                        Context.SaveChanges();
+                    }
+                }
+                else
+                {
+                    order = new PaymentOrder()
+                    {
+                        OrderNumber = Context.PaymentOrders.Count() > 0 ? Context.PaymentOrders.Max(x => x.OrderNumber) + 1 : 1,
+                        ReleaseDate = Model.ReleaseDate,
+                        ContactName = Model.ContactName,
+                        CurrencyId = Model.CurrencyId,
+                        CustomerId = Model.CustomerId,
+                        EmployeeId = Model.EmployeeId,
+                        Description = Model.Description,
+                        MoneyAmount = Model.MoneyAmount,
+                        AgencyTypeId = Model.AgencyTypeId,
+                        AccountId = Model.AccountId,
+                        SupplierId = Model.SupplierId,
+                        FromAccountId = Model.FromAccountId,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = "",
+                        IsCancelled = false,
+                        IsLocked = false
+                    };
+
+                    Context.PaymentOrders.Add(order);
+                    Context.SaveChanges();
+                }
+
+                return new ActionsResponseModel
+                {
+                    Status = 200,
+                    Message = "تم حفظ أمر الصرف بنجاح",
+                    Id = order.PaymentOrderId,
+                    Number = order.OrderNumber.ToString(),
+                    IsSuccess = true,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    Message = ex.Message,
+                    IsSuccess = false
+                };
+            }
+        }
+
+        public ActionsResponseModel CancelPaymentOrder(int OrderId)
+        {
+            var order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == OrderId);
+            if (order != null && order.IsLocked != true)
+            {
+                order.IsCancelled = true;
+                order.ModifiedDate = DateTime.Now;
+
+                Context.SaveChanges();
+                return new ActionsResponseModel
+                {
+                    Id = OrderId,
+                    IsSuccess = true,
+                    Message = "تم الغاء أمر الصرف بنجاح",
+                    Status = 200,
+                    Number = order.OrderNumber.ToString()
+                };
+            }
+            else
+            {
+                return new ActionsResponseModel
+                {
+                    Id = OrderId,
+                    IsSuccess = false,
+                    Message = "لا يمكن الغاء هذا الأمر",
+                    Status = 100,
+                    Number = order.OrderNumber.ToString()
+                };
+            }
+        }
+
+        //----------------------------------- Payment Receipt ------------------------------------------//
+
         public List<ReceiptModel> GetPaymentReceipts_Summary(FilterModel model)
         {
             //return Context.PaymentReceipts.ToList().ToDataTable();
@@ -349,7 +470,7 @@ namespace MasterErp.Service.GeneralAccounts
                     SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
                     Description = Model.Description
                 });
-                
+
                 JournalEntryModel entry = new JournalEntryModel
                 {
                     //EntryNumber = GenerateNewEntryNumber(Model.ReleaseDate.Month, Model.ReleaseDate.Year);

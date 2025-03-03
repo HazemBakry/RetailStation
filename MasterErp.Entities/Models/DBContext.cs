@@ -51,30 +51,36 @@ namespace MasterErp.Entities.Models
             optionsBuilder.UseSqlServer(ConnectionString);
         }
 
-        public DbSet<AccountTree> AccountTrees { get; set; }
-        public DbSet<Attendance> Attendance { get; set; }
-        public DbSet<Branch> Branches { get; set; }
-        public DbSet<CostCenterTree> CostCenterTree { get; set; }
-        public DbSet<Currency> Currency { get; set; }
-        public DbSet<Religion> Religions { get; set; }
-        public DbSet<SocialStatus> SocialStatus { get; set; }
+
+        #region HR
+
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Attendance> Attendance { get; set; }
         public DbSet<EmployeeVerification> EmployeeVerifications { get; set; }
         public DbSet<EmployeeAttachment> EmployeeAttachments { get; set; }
         public DbSet<EmployeeSalary> EmployeeSalaries { get; set; }
         public DbSet<EmployeeContract> EmployeeContracts { get; set; }
-        public DbSet<IqamaIssuePlace> IqamaIssuePlaces { get; set; }
-        public DbSet<IqamaJob> IqamaJobs { get; set; }
-        public DbSet<ItemLookups> ItemLookups { get; set; }
-        public DbSet<Job> Jobs { get; set; }
-        public DbSet<JournalEntry> JournalEntries { get; set; }
-        public DbSet<JournalEntryDetail> JournalEntryDetails { get; set; }
-        public DbSet<JournalTemplate> JournalTemplate { get; set; }
-        public DbSet<JournalTemplateDetails> JournalTemplateDetails { get; set; }
-        public DbSet<Nationality> Nationalities { get; set; }
         public DbSet<OverTime> OverTime { get; set; }
         public DbSet<Penalty> Penalties { get; set; }
         public DbSet<PenaltyType> PenaltyTypes { get; set; }
+
+        #endregion
+
+        #region Global
+
+        public DbSet<Branch> Branches { get; set; }
+
+        #endregion
+
+        public DbSet<Currency> Currency { get; set; }
+        public DbSet<Religion> Religions { get; set; }
+        public DbSet<SocialStatus> SocialStatus { get; set; }
+
+        public DbSet<ItemLookups> ItemLookups { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+
+        public DbSet<Nationality> Nationalities { get; set; }
+
         public DbSet<FinancialPeriod> FinancialPeriods { get; set; }
         public DbSet<PassportIssuePlace> PassportIssuePlaces { get; set; }
         public DbSet<PurchaseInvoice> PurchaseInvoices { get; set; }
@@ -113,40 +119,58 @@ namespace MasterErp.Entities.Models
 
 
 
-        //Elassal
-
+        #region Inventory
 
         public DbSet<ItemSupplier> ItemSuppliers { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<ItemCategory> ItemCategories { get; set; }
-        public DbSet<PurchaseReturns> PurchaseReturns { get; set; }
-        public DbSet<PurchaseReturnsDetails> PurchaseReturnsDetails { get; set; }
-        public DbSet<PurchaseInvoiceType> PurchaseInvoiceTypes { get; set; }
         public DbSet<ReceiveOrder> ReceiveOrders { get; set; }
         public DbSet<ReceiveOrderDetails> ReceiveOrderDetails { get; set; }
-
         public DbSet<DeliveryOrder> DeliveryOrders { get; set; }
         public DbSet<DeliveryOrderDetails> DeliveryOrderDetails { get; set; }
 
-        public DbSet<Customer> Customers { get; set; }
+
+        #endregion
+
+        #region Finance
+
+        public DbSet<AccountTree> AccountTrees { get; set; }
+        public DbSet<CostCenterTree> CostCenterTree { get; set; }
+        public DbSet<JournalEntry> JournalEntries { get; set; }
+        public DbSet<JournalEntryDetail> JournalEntryDetails { get; set; }
+        public DbSet<JournalTemplate> JournalTemplate { get; set; }
+        public DbSet<JournalTemplateDetails> JournalTemplateDetails { get; set; }
+        public DbSet<PaymentOrder> PaymentOrders { get; set; }
         public DbSet<PaymentReceipt> PaymentReceipts { get; set; }
         public DbSet<ReceiveReceipt> ReceiveReceipts { get; set; }
         public DbSet<ReceiptLedger> ReceiptLedgers { get; set; }
+        public DbSet<AccountOpeningBalance> AccountOpeningBalance { get; set; }
 
+        #endregion
 
+        #region Purchase
+
+        public DbSet<PurchaseReturns> PurchaseReturns { get; set; }
+        public DbSet<PurchaseReturnsDetails> PurchaseReturnsDetails { get; set; }
+        public DbSet<PurchaseInvoiceType> PurchaseInvoiceTypes { get; set; }
         public DbSet<PurchaseRequest> PurchaseRequests { get; set; }
         public DbSet<PurchaseRequestDetails> PurchaseRequestDetails { get; set; }
         public DbSet<SupplierReturnsVoucher> SupplierReturnsVouchers { get; set; }
         public DbSet<SupplierReturnsVoucherDetails> SupplierReturnsVoucherDetails { get; set; }
-        public DbSet<AccountOpeningBalance> AccountOpeningBalance { get; set; }
 
+        #endregion
 
+        #region Sales
 
+        public DbSet<Customer> Customers { get; set; }
+
+        #endregion
 
         #region DataImport
         public DbSet<ImporterModel> Importers { get; set; }
         public DbSet<ImporterColumnModel> ImporterColumns { get; set; }
         #endregion
+
         #region Lookups
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }

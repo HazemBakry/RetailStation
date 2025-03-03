@@ -22,6 +22,48 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         }
 
+        //----------------------------------- Payment Order ------------------------------------------//
+
+        [HttpPost]
+        [Route("GetPaymentOrders_Summary")]
+        public IActionResult GetPaymentOrders_Summary(FilterModel model)
+        {
+            var data = _paymentService.GetPaymentOrders_Summary(model);
+            var result = new PagedResponseModel<ReceiptModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("GetPaymentOrders_Filters")]
+        public DataTable GetPaymentOrders_Filters(FilterModel model)
+        {
+            return _paymentService.GetPaymentOrders_Filters(model);
+        }
+
+        [HttpPost]
+        [Route("SavePaymentOrder")]
+        public IActionResult SavePaymentOrder(PaymentOrder Model)
+        {
+            var results = _paymentService.SavePaymentOrder(Model);
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("CancelOrderOrder")]
+        public IActionResult CancelPaymentOrder(int OrderId)
+        {
+            var results = _paymentService.CancelPaymentOrder(OrderId);
+            return Ok(results);
+        }
+
+        //----------------------------------------------------------------------------//
+
         [HttpPost]
         [Route("GetPaymentReceipts_Summary")]
         public IActionResult GetPaymentReceiptsSummary(FilterModel model)
