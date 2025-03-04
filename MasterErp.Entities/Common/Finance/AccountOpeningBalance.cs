@@ -5,22 +5,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MasterErp.Entities.Models;
 
-namespace MasterErp.Entities.Models.Finance
+namespace MasterErp.Entities.Common.Finance
 {
-    [Table("AccountOpeningBalance", Schema = "Finance")]
-
-    public class AccountOpeningBalance
+    public class AccountOpeningBalance : CreatorModel
     {
         [Key]
         public int Id { get; set; }
         public int AccountId { get; set; }
-
         public double Debit { get; set; }
         public double Credit { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime? CreateDate { get; set; }
-        public string ModifiedBy { get; set; }
-        public DateTime? ModifyDate { get; set; }
     }
 }

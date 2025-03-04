@@ -16,8 +16,6 @@ using MasterErp.Entities.DTOs.DataImport;
 using Microsoft.Identity.Client;
 using MasterErp.Entities.Models.DataImport;
 using System.Data.Entity;
-using MasterErp.Entities.DTOs.HR;
-using MasterErp.Entities.Models.HR.Employee;
 
 namespace MasterErp.Service.Common
 {

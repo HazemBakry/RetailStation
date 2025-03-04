@@ -1,8 +1,8 @@
 ﻿using Azure.Core;
+using MasterErp.Entities.Common.Finance;
 using MasterErp.Entities.Models.DataImport;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Entities.Models.HR;
-using MasterErp.Entities.Models.HR.Employee;
 using MasterErp.Entities.Models.Inventory;
 using MasterErp.Entities.Models.Lookups;
 using MasterErp.Entities.Models.Purchases;
@@ -112,7 +112,7 @@ namespace MasterErp.Entities.Models
         public DbSet<TaxLookup> TaxLookups { get; set; }
         public DbSet<DailyNotebook> DailyNotebooks { get; set; }
         public DbSet<AssetsForm> AssetsForms { get; set; }
-        public DbSet<Loans> LoansForms { get; set; }
+        public DbSet<Loan> LoansForms { get; set; }
         public DbSet<Batch> Batches { get; set; }
 
 
@@ -140,6 +140,8 @@ namespace MasterErp.Entities.Models
         public DbSet<JournalEntryDetail> JournalEntryDetails { get; set; }
         public DbSet<JournalTemplate> JournalTemplate { get; set; }
         public DbSet<JournalTemplateDetails> JournalTemplateDetails { get; set; }
+        public DbSet<LedgerJournalType> LedgerJournalTypes { get; set; }
+
         public DbSet<PaymentOrder> PaymentOrders { get; set; }
         public DbSet<PaymentReceipt> PaymentReceipts { get; set; }
         public DbSet<ReceiveReceipt> ReceiveReceipts { get; set; }

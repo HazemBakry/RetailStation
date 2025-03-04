@@ -3,22 +3,14 @@ using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Finance;
-using MasterErp.Entities.Models.HR.Employee;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
-using MasterErp.Service.Common;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Azure.Core.HttpHeader;
 
 namespace MasterErp.Service.GeneralAccounts
 {
@@ -91,6 +83,7 @@ namespace MasterErp.Service.GeneralAccounts
                         CurrencyId = Model.CurrencyId,
                         CustomerId = Model.CustomerId,
                         EmployeeId = Model.EmployeeId,
+                        
                         Description = Model.Description,
                         MoneyAmount = Model.MoneyAmount,
                         AgencyTypeId = Model.AgencyTypeId,

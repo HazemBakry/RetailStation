@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models
+namespace MasterErp.Entities.Models.Finance
 {
     [Table("AssetsForms", Schema = "Finance")]
-    public class AssetsForm: CreatorModel
+    public class AssetsForm : CreatorModel
     {
         public int AssetsFormId { get; set; }
         public string AssetsFormName { get; set; }

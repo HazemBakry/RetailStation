@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models.HR.Employee
+namespace MasterErp.Entities.Models.HR
 {
-    public class EmployeeSalary: CreatorModel
+    [Table("EmployeeSalaries", Schema = "HR")]
+
+    public class EmployeeSalary : CreatorModel
     {
         public int EmployeeSalaryId { get; set; }
         public int EmployeeId { get; set; }

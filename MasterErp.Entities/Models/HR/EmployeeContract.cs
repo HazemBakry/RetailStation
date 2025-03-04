@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models.HR.Employee
+namespace MasterErp.Entities.Models.HR
 {
+    [Table("EmployeeContracts", Schema = "HR")]
+
     public class EmployeeContract : CreatorModel
     {
         public int EmployeeContractId { get; set; }

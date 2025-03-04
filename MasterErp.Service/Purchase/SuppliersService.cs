@@ -1,19 +1,12 @@
 ﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.HR;
-using MasterErp.Entities.Models.HR.Employee;
 using MasterErp.Entities.Models.Purchases;
 using MasterErp.Interface.Purchase;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MasterErp.Service.Purchase
 {

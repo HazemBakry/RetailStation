@@ -10,9 +10,9 @@ namespace MasterErp.Interface.GeneralAccounts
 {
     public interface ILoansFormService
     {
-        List<Loans> GetLoansData();
-        ActionsResponseModel AddNewLoans(Loans Model);
-        ActionsResponseModel EditLoans(Loans Model);
+        List<Loan> GetLoansData();
+        ActionsResponseModel AddNewLoans(Loan Model);
+        ActionsResponseModel EditLoans(Loan Model);
         ActionsResponseModel DeleteLoans(int LoanId);
     }
 }

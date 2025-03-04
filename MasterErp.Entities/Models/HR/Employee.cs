@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models.HR.Employee
+namespace MasterErp.Entities.Models.HR
 {
     [Table("Employees", Schema = "HR")]
 

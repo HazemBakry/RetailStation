@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models
+namespace MasterErp.Entities.Models.Finance
 {
     [Table("PaymentTerms", Schema = "Finance")]
-    public class PaymentTerm: CreatorModel
+    public class PaymentTerm : CreatorModel
     {
         public int PaymentTermId { get; set; }
         public string PaymentTermName { get; set; }

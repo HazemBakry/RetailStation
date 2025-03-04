@@ -63,13 +63,13 @@
                     <tr>
                         <th>رقم الأمر</th>
                         <th>اسم المستفيد</th>
-                        <th>دفتر إيصال</th>
+                        <!-- <th>دفتر إيصال</th> -->
                         <th>تاريخ الاصدار</th>
                         <th>طريقة الدفع</th>
                         <!-- <th>نوع جهة التعامل</th>
                     <th>جهة التعامل</th> -->
                         <th>المبلغ</th>
-                        <th>نوع السند</th>
+                        <!-- <th>نوع السند</th> -->
                         <th>حالة السند</th>
                         <th class="text-center"></th>
                     </tr>
@@ -78,11 +78,11 @@
                     <tr *ngFor="let item of ReceiptList.results">
                         <td>{{item.orderNumber}}</td>
                         <td>{{item.contactName}}</td>
-                        <td>{{item.receiptLedgerName}}</td>
+                        <!-- <td>{{item.receiptLedgerName}}</td> -->
                         <td>{{item.releaseDate | date}}</td>
                         <td>{{item.paymentTypeName }}</td>
                         <td>{{item.moneyAmount}}</td>
-                        <td>{{item.receiptTypeName}}</td>
+                        <!-- <td>{{item.receiptTypeName}}</td> -->
                         <td>
                             <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
                                 {{item.isLocked}}

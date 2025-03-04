@@ -1,5 +1,4 @@
 ﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Models.HR.Employee;
 using MasterErp.Interface.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
