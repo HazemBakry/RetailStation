@@ -93,7 +93,7 @@
             <span class="ms-2" *ngIf="isUpdate">تعديل</span>
         </button>
 
-        <button class="btn btn-warning btn-lg fs-6 me-2 mt-2" (click)="initNewForm()">
+        <button class="btn btn-warning btn-lg fs-6 me-2 mt-2" *ngIf="!entryModel?.journalEntryId &&!showLoader" (click)="initNewForm()">
             <i class="fas fa-times"></i>
             <span class="ms-2">مسح</span>
         </button>
