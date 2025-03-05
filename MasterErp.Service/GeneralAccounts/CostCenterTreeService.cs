@@ -126,7 +126,8 @@ namespace MasterErp.Service.GeneralAccounts
 
                 tbl.CreatedDate = DateTime.Now;
                 tbl.CreatedBy = string.Empty;
-                tbl.CostCenterNumber = Model.CostCenterNumber;
+                //tbl.CostCenterNumber = Model.CostCenterNumber;
+                tbl.CostCenterNumber = GenerateCostCenterNumber(Model.ParentId);
                 tbl.ParentId = Model.ParentId;
                 //tbl.CostLevel = Model.CostLevel ?? 1;
                 tbl.CostLevel = parent != null ? parent.CostLevel + 1 : 1;
@@ -159,7 +160,35 @@ namespace MasterErp.Service.GeneralAccounts
                 };
             }
         }
+        private string GenerateCostCenterNumber(int? parentId)
+        {
+            string newCostCenterNumber;
 
+            if (parentId == null)
+            {
+
+                var maxParentNumber = Context.CostCenterTree
+                    .Where(a => a.ParentId == null || a.ParentId == 0)
+                    .Max(a => (int?)Convert.ToInt32(a.CostCenterNumber)) ?? 0;
+
+                newCostCenterNumber = (maxParentNumber + 1).ToString();
+            }
+            else
+            {
+
+                var parent = Context.CostCenterTree.FirstOrDefault(acc => acc.CostCenterId == parentId);
+                if (parent == null) throw new Exception($"Parent (ID: {parentId}) not found");
+
+                var maxChildNumber = Context.CostCenterTree
+                    .Where(a => a.ParentId == parentId)
+                    .Max(a => (int?)Convert.ToInt32(a.CostCenterNumber.Substring(parent.CostCenterNumber.Length))) ?? 0;
+
+
+                newCostCenterNumber = $"{parent.CostCenterNumber}{(maxChildNumber + 1):D2}";
+            }
+
+            return newCostCenterNumber;
+        }
         public ActionsResponseModel UpdateCostCenterTree(int CostCenterId, CostCenterTreeModel Model)
         {
             try
@@ -174,7 +203,7 @@ namespace MasterErp.Service.GeneralAccounts
                     entity.ModifiedDate = DateTime.Now;
                     entity.CreatedBy = string.Empty;
 
-                    entity.CostCenterNumber = Model.CostCenterNumber;
+                    //entity.CostCenterNumber = Model.CostCenterNumber;
                     entity.ParentId = Model.ParentId;
                     entity.CostLevel = parent != null ? parent.CostLevel + 1 : 1;
                     entity.NameAR = Model.NameAR;

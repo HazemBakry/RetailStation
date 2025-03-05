@@ -92,7 +92,7 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
   buildForm() {
     this.formGroup = this.form.group({
       accountId: [null],
-      accountNumber: [null, [Validators.required]],
+      accountNumber: [null],
       parentAccountId: [null],
       accountTypeId: [null, [Validators.required]],
       currencyTypeId: [null],
