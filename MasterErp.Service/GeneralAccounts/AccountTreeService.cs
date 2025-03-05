@@ -21,6 +21,7 @@ using MasterErp.Interface.GeneralAccounts;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Service.Common;
+using MasterErp.Entities.Models.Inventory;
 
 namespace MasterErp.Service.GeneralAccounts
 {
@@ -49,7 +50,8 @@ namespace MasterErp.Service.GeneralAccounts
                 }
                 AccountTree tbl = new AccountTree();
 
-                tbl.AccountNumber = Model.AccountNumber;
+                //tbl.AccountNumber = Model.AccountNumber;
+                tbl.AccountNumber = GenerateAccountNumber(Model.ParentAccountId);
                 tbl.ParentAccountId = Model.ParentAccountId;
                 tbl.AccountTypeId = Model.AccountTypeId;
                 tbl.AccountLevel = parentAccount != null ? parentAccount.AccountLevel + 1 : 1;
@@ -59,7 +61,7 @@ namespace MasterErp.Service.GeneralAccounts
                 tbl.NameAR = Model.NameAR;
                 tbl.NameEN = Model.NameEN;
                 tbl.IsDisToCostCenter = Model.IsDisToCostCenter;
-                tbl.CostAccountId = Model.CostAccountId;
+                tbl.CostCenterId = Model.CostCenterId;
 
                 tbl.CreatedDate = DateTime.Now;
                 tbl.CreatedBy = Model.CreatedBy;
@@ -82,6 +84,36 @@ namespace MasterErp.Service.GeneralAccounts
                 };
             }
         }
+        private string GenerateAccountNumber(int? parentAccountId)
+        {
+            string newAccountNumber;
+
+            if (parentAccountId == null)
+            {
+               
+                var maxParentNumber = Context.AccountTrees
+                    .Where(a => a.ParentAccountId == null || a.ParentAccountId == 0)
+                    .Max(a => (int?)Convert.ToInt32(a.AccountNumber)) ?? 0;
+
+                newAccountNumber = (maxParentNumber + 1).ToString();
+            }
+            else
+            {
+                
+                var parent = Context.AccountTrees.FirstOrDefault(acc => acc.AccountId == parentAccountId);
+                if (parent == null) throw new Exception($"Parent account (ID: {parentAccountId}) not found");
+                 
+                var maxChildNumber = Context.AccountTrees
+                    .Where(a => a.ParentAccountId == parentAccountId)
+                    .Max(a => (int?)Convert.ToInt32(a.AccountNumber.Substring(parent.AccountNumber.Length))) ?? 0;
+
+                 
+                newAccountNumber = $"{parent.AccountNumber}{(maxChildNumber + 1):D2}";
+            }
+
+            return newAccountNumber;
+        }
+
 
         public ActionsResponseModel EditAccountTree(int AccountId, AccountTreeModel Model)
         {
@@ -98,7 +130,7 @@ namespace MasterErp.Service.GeneralAccounts
                         parentAccount.IsParent = true;
                     }
 
-                    entity.AccountNumber = Model.AccountNumber;
+                    //entity.AccountNumber = Model.AccountNumber;
                     entity.ParentAccountId = Model.ParentAccountId;
                     entity.AccountTypeId = Model.AccountTypeId;
                     entity.AccountLevel = parentAccount != null ? parentAccount.AccountLevel + 1 : 1;
@@ -108,7 +140,7 @@ namespace MasterErp.Service.GeneralAccounts
                     entity.NameAR = Model.NameAR;
                     entity.NameEN = Model.NameEN;
                     entity.IsDisToCostCenter = Model.IsDisToCostCenter;
-                    entity.CostAccountId = Model.CostAccountId;
+                    entity.CostCenterId = Model.CostCenterId;
                     entity.ModifiedDate = DateTime.Now;
                     entity.ModifiedBy = Model.ModifiedBy;
                 }
@@ -118,6 +150,47 @@ namespace MasterErp.Service.GeneralAccounts
                 {
                     Message = "تم التعديل  بنجاح"
                 };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+        public ActionsResponseModel DeleteAccountTree(int AccountId)
+        {
+            try
+            {
+                var entity = Context.AccountTrees.FirstOrDefault(x => x.AccountId == AccountId);
+
+                if (entity != null)
+                {
+
+                    var childAccounts = Context.AccountTrees.Where(x => x.ParentAccountId == AccountId);
+
+                    if (childAccounts.Any())
+                    {
+                        foreach (var acc in childAccounts)
+                        {
+                            acc.ParentAccountId = entity.ParentAccountId;
+                            acc.AccountLevel = entity.AccountLevel;
+                            acc.IsParent = entity.IsParent;
+                        }
+                    }
+                    Context.Remove(entity);
+
+                    Context.SaveChanges();
+                    return new ActionsResponseModel
+                    {
+                        Message = "تم الحذف بنجاح"
+                    };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this account" };
+
             }
             catch (Exception ex)
             {

@@ -16,6 +16,7 @@ namespace MasterErp.Interface.GeneralAccounts
         ActionsResponseModel CreateNewCostCenter(CostCenterTreeModel Model);
 
         ActionsResponseModel UpdateCostCenterTree(int CostCenterId, CostCenterTreeModel Model);
+        ActionsResponseModel DeleteCostCenterTree(int CostCenterId);
         List<CostCenterTree> GetCostCenterTreeData(bool IsParent);
         List<CostCenterTreeModel> GetCostCenterTreeHierarchicalData(string SearchText);
 

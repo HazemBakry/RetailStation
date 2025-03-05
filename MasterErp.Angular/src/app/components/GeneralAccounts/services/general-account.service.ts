@@ -62,7 +62,9 @@ export class GeneralAccountService {
   GetDailyJournalEntriesSummary(model: PagedResponseDTO<JournalEntryModel[]>) {
     return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesSummary', model);
   }
-
+  ExportDailyJournalEntries(model: PagedResponseDTO<JournalEntryModel[]>) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'JournalEntry/ExportDailyJournalEntries', model);
+  }
   GetDailyJournalEntriesFilters(model: FilterModel) {
     return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesFilters', model);
   }
@@ -127,6 +129,9 @@ export class GeneralAccountService {
 
   EditAccountTree(accountId: number, model: AccountTreeModel) {
     return this.http.post<any>(this.URL + 'AccountTree/EditAccountTree?AccountId=' + accountId, model);
+  }
+  DeleteAccountTree(accountId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'AccountTree/DeleteAccountTree?AccountId=' + accountId);
   }
 
   ExportAccountTreeList(searchText: string) {
@@ -271,7 +276,9 @@ export class GeneralAccountService {
   UpdateCostCenterTree(costCenterId: number, model: CostCenterTreeModel) {
     return this.http.post<any>(this.URL + 'CostCenterTree/UpdateCostCenterTree?CostCenterId=' + costCenterId, model);
   }
-
+  DeleteCostCenterTree(costCenterId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'CostCenterTree/DeleteCostCenterTree?CostCenterId=' + costCenterId);
+  }
   ExportCostCenterTreeList(searchText: string) {
     return this.http.get<ActionsResponseModel>(this.URL + 'CostCenterTree/ExportCostCenterTreeList?SearchText=' + searchText);
   }

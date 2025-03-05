@@ -78,7 +78,7 @@ export class AddEditCostCenterTreeComponent implements OnInit, OnChanges {
 
     this.formGroup = this.form.group({
       costCenterId: [null],
-      costCenterNumber: [null, [Validators.required]],
+      costCenterNumber: [null],
       nameAR: [null, [Validators.required]],
       nameEN: [null, [Validators.required]],
       parentId: [null],

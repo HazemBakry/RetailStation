@@ -77,6 +77,14 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             };
             return Ok(result);
         }
+        [HttpPost]
+        [Route("ExportDailyJournalEntries")]
+        public IActionResult ExportDailyJournalEntries(SearchFilterModel SearchModel)
+        {
+            string UserName = string.Empty;
+            var results = EntryService.ExportDailyJournalEntries(UserName, SearchModel);
+            return Ok(results);
+        }
 
 
         [HttpPost]

@@ -14,8 +14,9 @@ export interface AccountTreeModel {
     descriptionMethod: string;
     
     isDisToCostCenter:boolean;
-    costAccountId: number | null;
+    costCenterId: number | null;
     isActive:boolean;
     children: AccountTreeModel[];
+    isDeleteAction:boolean;
 }
 

@@ -217,6 +217,11 @@ select::after {
     background-color: #ccf4dc;
     color: #43c79c;
 }
+.icon-box.gray,
+.status-box.gray {
+    background-color: var(--gray-color);
+    /* color: #43c79c; */
+}
 
 .icon-box.orange,
 .status-box.orange {
