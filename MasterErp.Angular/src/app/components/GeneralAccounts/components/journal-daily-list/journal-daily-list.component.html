@@ -20,13 +20,24 @@
                         <span>الإجراءات</span>
                     </button>
                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="border rounded">
-                        <button ngbDropdownItem class="d-flex align-items-center gap-2" (click)="cancelJournalEntry()"><i
-                                class="fas fa-trash-alt"></i>
-                            <span> إسقاط</span>
+                        <button ngbDropdownItem class="d-flex align-items-center gap-2" (click)="cancelJournalEntry()">
+                            <!-- <i class="fas fa-trash-alt"></i> -->
+                            <i class="fas fa-times"></i>
+                            <span class="px-2"> إسقاط</span>
                         </button>
-                        <button ngbDropdownItem (click)="postJournalEntry()">ترحيل</button>
-                        <button ngbDropdownItem (click)="reverseJournalEntry()">عكس</button>
-                        <button ngbDropdownItem (click)="printJournalEntry()">طباعة</button>
+                        <button ngbDropdownItem (click)="postJournalEntry()">
+                            <i class="fas fa-save"></i>
+                            <span class="px-2">
+                                ترحيل
+                            </span>
+                        </button>
+                        <button ngbDropdownItem (click)="reverseJournalEntry()">
+                            <i class="fas fa-sync-alt"></i>
+                            <span class="px-2">
+                                عكس
+                            </span>
+                        </button>
+                        <!-- <button ngbDropdownItem (click)="printJournalEntry()">طباعة</button> -->
         
         
         
@@ -106,7 +117,7 @@
                 </thead>
                 <tbody>
                     <ng-container *ngFor="let item of pagedResponseModel.results">
-                        <tr (click)="item.isChecked = !item.isChecked">
+                        <tr>
                             <td><input type="checkbox" class="big-checkbox" [(ngModel)]="item.isChecked">
                             </td>
                             <td>{{item.entryNumber}}</td>
@@ -130,8 +141,9 @@
                                         <span>معاينة</span>
                                     </button> -->
                                     <button routerLink="/general-accounts/new-entry" [queryParams]="{JournalEntryId:item.journalEntryId}" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
-                                        <i class="uil uil-pen"></i>
-                                        <span>تعديل</span>
+                                        <!-- <i class="uil uil-pen"></i> -->
+                                        <i class="fas fa-eye"></i>
+                                        <span>معاينة</span>
                                     </button>
                                 </div>
                             </td>
