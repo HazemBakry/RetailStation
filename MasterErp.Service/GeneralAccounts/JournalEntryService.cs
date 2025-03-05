@@ -1,9 +1,12 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Enums;
+using MasterErp.Entities.Common.Export;
+using MasterErp.Entities.DTOs.GeneralAccounts;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
+using MasterErp.Service.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -22,15 +25,17 @@ namespace MasterErp.Service.GeneralAccounts
         private readonly IConfiguration Configuration;
         private readonly ISharedFilterService SharedFilterService;
         private readonly string ConnectionString;
+        private readonly IExportService ExportService;
 
         public JournalEntryService(DBContext Context, ISQLHelper SQLHelper, IConfiguration Configuration,
-            ISharedFilterService SharedFilterService)
+            ISharedFilterService SharedFilterService, IExportService exportService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
             this.Configuration = Configuration;
             this.SharedFilterService = SharedFilterService;
             this.ConnectionString = Configuration.GetConnectionString("DBConnection");
+            ExportService = exportService;
         }
 
         public DataTable GetGeneralAccounts_Statistics()
@@ -55,7 +60,7 @@ namespace MasterErp.Service.GeneralAccounts
                 EntryModel.EntryDate = entry.EntryDate;
                 EntryModel.JournalEntryId = entry.JournalEntryId;
                 EntryModel.EntryNumber = entry.EntryNumber.ToString();
-                EntryModel.JournalTypeId = entry.JournalTypeId;
+                EntryModel.JournalTypeId =  entry.JournalTypeId;
                 EntryModel.Month = entry.EntryDate.Month;
                 EntryModel.PeriodId = entry.PeriodId;
                 EntryModel.Year = entry.EntryDate.Year;
@@ -78,7 +83,8 @@ namespace MasterErp.Service.GeneralAccounts
                                    CostPercent = journal_details.CostPercent,
                                    CostValue = journal_details.CostValue,
                                    CurrencyId = journal_details.CurrencyId,
-                                   AccountName = Accounts.NameAR,
+                                   AccountName = Accounts.NameAR ?? Accounts.NameAR,
+                                   CostCenterName = costs.NameAR ?? costs.NameAR,
                                    AccountNumber = Accounts.AccountNumber,
                                    SupplierId = journal_details.SupplierId
                                }).ToList();
@@ -144,7 +150,7 @@ namespace MasterErp.Service.GeneralAccounts
                     IsCancelled = false,
                     IsLocked = false,
                     PeriodId = CurrentPeriod != null ? CurrentPeriod.FinancialPeriodId : 0,
-                    EntryDate = model.EntryDate,
+                    EntryDate = model.EntryDate??DateTime.Now,
                     ActionTypeId = model.ActionTypeId,
                     ActionId = model.ActionId,
                     CreatedDate = DateTime.Now,
@@ -206,7 +212,7 @@ namespace MasterErp.Service.GeneralAccounts
                     entry_tbl.Description = model.Description;
                     entry_tbl.DocNumber = model.DocNumber;
                     entry_tbl.JournalTypeId = model.JournalTypeId;
-                    entry_tbl.EntryDate = model.EntryDate;
+                    entry_tbl.EntryDate = model.EntryDate ?? DateTime.Now;
 
                     entry_tbl.ModifiedDate = DateTime.Now;
                     entry_tbl.ModifiedBy = "";
@@ -268,6 +274,63 @@ namespace MasterErp.Service.GeneralAccounts
             return result;
         }
 
+        public ActionsResponseModel ExportDailyJournalEntries(string UserName, SearchFilterModel SearchModel)
+        {
+            string url = string.Empty;
+            try
+            {
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var Data = GetDailyJournalEntriesSummary(SearchModel);
+
+                var result = Data.Select(res =>
+                                new JournalEntryExportModel
+                                {
+                                    EntryNumber = res.EntryNumber,
+                                    EntryType = res.JournalTypeAR ?? res.JournalTypeEN,
+                                    EntryStatus = res.IsLocked == true ? "مرحل": "غير مرحل",
+                                    ActionType = res.ActionTypeAR ?? res.ActionTypeEN,
+                                    EntryMonth = res.EntryMonth,
+                                    EntryDate = res.EntryDate?.ToString("MM/dd/yyyy"),
+                                    TotalCredit = res.TotalCredit ?? 0,
+                                    TotalDebit = res.TotalDebit ??0,
+                                    Description = res.Description,
+                                    
+
+                                }).ToList();
+
+                if (!result.Any())
+                {
+                    result.Add(new JournalEntryExportModel());
+
+                }
+
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "Journal Entry");
+
+
+                url = GetExportFilePath(dtExport, UserName, "Journal Entry");
+
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+        }
         public List<FilterModel> GetDailyJournalEntriesFilters(SearchFilterModel model)
         {
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
@@ -397,6 +460,22 @@ namespace MasterErp.Service.GeneralAccounts
             }
         }
 
+        private string GetExportFilePath(DataTable dt, string UserName, string TemplateName)
+        {
+            ExportTemplateBase exportTemplateBase = new ExportTemplateBase
+            {
+                Name = TemplateName,
+                TemplateName = TemplateName,
+                ReportName = TemplateName,
+                CustomerName = "",
+                Username = UserName,
+                ExcelStyle = ExcelExportStyle.reportStyle,
+                SheetName = "Data",
+            };
+            var filePath = ExportService.Export(exportTemplateBase, dt);
+            return filePath;
+
+        }
 
         //public bool SavePaymentJournalEntry(PaymentReceipt Model)
         //{

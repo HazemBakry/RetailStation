@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common.Enums;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace MasterErp.Entities.Common
 
         public string DocNumber { get; set; }
         public string EntryNumber { get; set; }
-        public DateTime EntryDate { get; set; }
+        public DateTime? EntryDate { get; set; }
         public string Description { get; set; }
         public int Month { get; set; }
         public int Year { get; set; }
@@ -56,7 +57,35 @@ namespace MasterErp.Entities.Common
         public int? SupplierId { get; set; }
         public string AccountNumber { get; set; }
         public string AccountName { get; set; }
+        public string CostCenterName { get; set; }
         public string Description { get; set; }
+    }
+
+    public class JournalEntryExportModel
+    {
+        [JsonProperty("Entry Number")]
+        public string EntryNumber { get; set; }
+       
+        [JsonProperty("Entry Type")]
+        public string EntryType { get; set; }
+        [JsonProperty("Status")]
+        public string EntryStatus { get; set; }
+
+        [JsonProperty("Action Type")]
+        public string ActionType { get; set; }
+        [JsonProperty("Entry Month")]
+        public int? EntryMonth { get; set; }
+        [JsonProperty("Entry Date")]
+        public string EntryDate { get; set; }
+
+        [JsonProperty("Total Debit")]
+        public double? TotalDebit { get; set; }
+        [JsonProperty("Total Credit")]
+        public double? TotalCredit { get; set; }
+        
+        [JsonProperty("Description")]
+        public string Description { get; set; }
+       
     }
 
 }

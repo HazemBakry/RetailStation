@@ -62,7 +62,9 @@ export class GeneralAccountService {
   GetDailyJournalEntriesSummary(model: PagedResponseDTO<JournalEntryModel[]>) {
     return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesSummary', model);
   }
-
+  ExportDailyJournalEntries(model: PagedResponseDTO<JournalEntryModel[]>) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'JournalEntry/ExportDailyJournalEntries', model);
+  }
   GetDailyJournalEntriesFilters(model: FilterModel) {
     return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesFilters', model);
   }
