@@ -66,8 +66,13 @@ export class CreatePaymentReceiptComponent implements OnInit {
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
       if (params.receiptId) {
-        this.paymentReceiptModel = params.receiptId;
+        this.paymentReceiptModel.paymentReceiptId = params.receiptId;
         this.getReceiptDetailsById(params.receiptId);
+      }
+
+      else if (params.paymentOrderId) {
+        //this.paymentReceiptModel.paymentOrderId = params.paymentOrderId;
+        this.getPaymentOrderDetails(params.paymentOrderId);
       }
     });
     this.initNewForm();
@@ -95,9 +100,9 @@ export class CreatePaymentReceiptComponent implements OnInit {
       this.paymentTypeList = data;
     });
 
-    this.paymentService.GetOpenPaymentOrdersSelector(this.FilterModel).subscribe(data => {
-      this.paymentOrdersList = data;
-    });
+    // this.paymentService.GetOpenPaymentOrdersSelector(this.FilterModel).subscribe(data => {
+    //   this.paymentOrdersList = data;
+    // });
 
 
 
@@ -121,8 +126,8 @@ export class CreatePaymentReceiptComponent implements OnInit {
   initNewForm(receiptModel: ReceiptModel = null) {
     this.isUpdate = false;
     this.buildForm();
-    if (receiptModel)
-      this.fillEditForm(receiptModel);
+    // if (receiptModel)
+    //   this.fillEditForm(receiptModel);
   }
 
   buildForm() {
@@ -141,6 +146,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
       paymentTypeId: [null, [Validators.required]],
       receiptLedgerId: [null, [Validators.required]],
       receiptTypeId: [null, [Validators.required]],
+      paymentOrderId: [null],
       safeId: [null]
     });
     this.formGroup.valueChanges.subscribe((data) => {
@@ -160,6 +166,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
 
   fillEditForm(receiptModel: ReceiptModel) {
     this.isUpdate = true;
+
     this.formGroup.patchValue({
       paymentReceiptId: receiptModel.paymentReceiptId,
       receiptNumber: receiptModel.receiptNumber,
@@ -176,7 +183,27 @@ export class CreatePaymentReceiptComponent implements OnInit {
       receiptLedgerId: receiptModel.receiptLedgerId,
       receiptTypeId: receiptModel.receiptTypeId,
       safeId: receiptModel.safeId,
+      paymentOrderId: receiptModel.paymentOrderId
     });
+  }
+
+  getPaymentOrderDetails(orderId: number) {
+    this.paymentService.GetPaymentOrderDetails(orderId).subscribe(data => {
+      debugger;
+
+      this.paymentReceiptModel.contactName = data?.contactName;      
+      this.paymentReceiptModel.description = data?.description;
+      this.paymentReceiptModel.agencyTypeId = data?.agencyTypeId;
+      this.paymentReceiptModel.paymentOrderId = data?.paymentOrderId;
+      this.paymentReceiptModel.accountId = data?.accountId;
+      this.paymentReceiptModel.currencyId = data?.currencyId;
+      this.paymentReceiptModel.fromAccountId = data?.fromAccountId;
+      this.paymentReceiptModel.paymentTypeId = data?.paymentTypeId;
+      this.paymentReceiptModel.moneyAmount = data?.moneyAmount;
+
+      this.fillEditForm(this.paymentReceiptModel);
+
+    });    
   }
 
   getReceiptDetailsById(receiptId: number) {

@@ -18,6 +18,7 @@ namespace MasterErp.Interface.GeneralAccounts
         DataTable GetPaymentOrders_Filters(FilterModel model);
         ActionsResponseModel SavePaymentOrder(PaymentOrder Model);
         ActionsResponseModel CancelPaymentOrder(int ReceiptId);
+        PaymentOrder GetPaymentOrderDetails(int OrderId);
 
         // ----------------- Payment Receipts -----------------//
         List<ReceiptModel> GetPaymentReceipts_Summary(FilterModel model);

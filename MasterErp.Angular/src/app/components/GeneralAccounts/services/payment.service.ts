@@ -96,12 +96,11 @@ export class PaymentService {
   }
 
   SavePaymentOrder(model: ReceiptModel) {
-    debugger;
     return this.http.post<ActionsResponseModel>(this.URL + 'Payment/SavePaymentOrder', model);
   }
 
   CancelPaymentOrder(OrderId: any) {
-    return this.http.get<any[]>(this.URL + 'Payment/CancelPaymentReceipt?OrderId=' + OrderId);
+    return this.http.get<ActionsResponseModel>(this.URL + 'Payment/CancelPaymentReceipt?OrderId=' + OrderId);
   }
 
   GetOpenPaymentOrdersSelector(model: FilterModel) {
@@ -123,7 +122,11 @@ export class PaymentService {
   }
 
   CancelPaymentReceipt(ReceiptId: any) {
-    return this.http.get<any[]>(this.URL + 'Payment/CancelPaymentReceipt?ReceiptId=' + ReceiptId);
+    return this.http.get<ActionsResponseModel>(this.URL + 'Payment/CancelPaymentReceipt?ReceiptId=' + ReceiptId);
+  }
+
+  GetPaymentOrderDetails(OrderId: number) {
+    return this.http.get<ReceiptModel>(this.URL + 'Payment/GetPaymentOrderDetails?OrderId=' + OrderId);
   }
 
   //----------------------------------- Receive Receipt ------------------------------------------//
@@ -141,6 +144,6 @@ export class PaymentService {
   }
 
   CancelReceiveReceipt(ReceiptId: any) {
-    return this.http.get<any[]>(this.URL + 'Payment/CancelReceiveReceipt?ReceiptId=' + ReceiptId);
+    return this.http.get<ActionsResponseModel>(this.URL + 'Payment/CancelReceiveReceipt?ReceiptId=' + ReceiptId);
   }
 }

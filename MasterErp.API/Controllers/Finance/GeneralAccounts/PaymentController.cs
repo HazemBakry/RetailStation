@@ -60,6 +60,14 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             return Ok(results);
         }
 
+        [HttpGet]
+        [Route("GetPaymentOrderDetails")]
+        public IActionResult GetPaymentOrderDetails(int OrderId)
+        {
+            var results = _paymentService.GetPaymentOrderDetails(OrderId);
+            return Ok(results);
+        }
+
         //----------------------------------------------------------------------------//
 
         [HttpPost]
