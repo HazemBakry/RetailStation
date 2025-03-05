@@ -232,7 +232,7 @@ namespace MasterErp.Service.GeneralAccounts
                             Params[0] = new SqlParameter("@CostCenterList", SqlDbType.Structured);
                             Params[0].Value = dt;
 
-                            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_ImportCostCenterTreeList]", ConnectionString, Params);
+                            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_ImportCostCenterTreeList]", Params, ConnectionString);
 
                             url = GetExportUrl(result, "CostCenterTreeImporter");
                         }
@@ -273,7 +273,7 @@ namespace MasterErp.Service.GeneralAccounts
 
 
                 SqlParameter[] Params = new SqlParameter[0];
-                var dtExport = SQLHelper.ExecuteDataTable("[Finance].[SP_ExportCostCenterTreeList]", ConnectionString, Params);
+                var dtExport = SQLHelper.ExecuteDataTable("[Finance].[SP_ExportCostCenterTreeList]", Params, ConnectionString);
 
                 url = GetExportUrl(dtExport, "Cost center tree");
 

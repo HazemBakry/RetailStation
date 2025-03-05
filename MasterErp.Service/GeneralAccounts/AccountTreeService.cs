@@ -230,7 +230,7 @@ namespace MasterErp.Service.GeneralAccounts
                             Params[0] = new SqlParameter("@AccountList", SqlDbType.Structured);
                             Params[0].Value = dt;
 
-                            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_ImportAccountTreeList]", null, Params);
+                            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_ImportAccountTreeList]", Params);
                             url = GetExportUrl(result, "AccountTreeImporter");
                         }
                     }
@@ -268,7 +268,7 @@ namespace MasterErp.Service.GeneralAccounts
             try
             {
                 SqlParameter[] Params = new SqlParameter[0];
-                var dtExport = SQLHelper.ExecuteDataTable("[Finance].[SP_ExportAccountTreeList]", null, Params);
+                var dtExport = SQLHelper.ExecuteDataTable("[Finance].[SP_ExportAccountTreeList]", Params);
 
                 url = GetExportUrl(dtExport, "Account tree");
 

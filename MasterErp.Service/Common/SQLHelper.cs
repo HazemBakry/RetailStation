@@ -100,13 +100,15 @@ namespace MasterErp.Service.Common
             }
         }
 
-        public object ExecuteScalar(string CommandText, string ConnectionString, params SqlParameter[] Parameters)
+        public object ExecuteScalar(string CommandText, string ConnectionString = null, params SqlParameter[] Parameters)
         {
-            using (SqlConnection sqlConn = new SqlConnection(ConnectionString))//_ApplicationConfiguration.ConnectionString))
+            string ConnString = ConnectionString == null ? this.CustomerConnectionString : ConnectionString;
+
+            using (SqlConnection sqlConn = new SqlConnection(ConnString))//_ApplicationConfiguration.ConnectionString))
             {
-                using (SqlCommand cmd = new SqlCommand(ConnectionString, sqlConn))
+                using (SqlCommand cmd = new SqlCommand(ConnString, sqlConn))
                 {
-                    cmd.CommandText = ConnectionString;
+                    cmd.CommandText = ConnString;
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandTimeout = (int)TimeSpan.FromMinutes(5).Milliseconds;
 
@@ -124,10 +126,11 @@ namespace MasterErp.Service.Common
             }
         }
 
-        public int ExecuteNonQuery(string CommandText, string ConnectionString, params SqlParameter[] Parameters)
+        public int ExecuteNonQuery(string CommandText, string ConnectionString = null, params SqlParameter[] Parameters)
         {
-            //string ConnectionString = connectionStringName == null ? _ApplicationConfiguration.ConnectionString : _ApplicationConfiguration.GetConnectionString(connectionStringName);
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            string ConnString = ConnectionString == null ? this.CustomerConnectionString : ConnectionString;
+
+            using (SqlConnection connection = new SqlConnection(ConnString))
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand();
@@ -153,9 +156,11 @@ namespace MasterErp.Service.Common
             }
         }
 
-        public DataTable ExecuteDataTable(string commandText, string ConnectionString, params SqlParameter[] Parameters)
+        public DataTable ExecuteDataTable(string commandText, SqlParameter[] Parameters, string ConnectionString = null)
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            string ConnString = ConnectionString == null ? this.CustomerConnectionString : ConnectionString;
+
+            using (SqlConnection connection = new SqlConnection(ConnString))
             {
                 DataTable dt = new DataTable();
                 connection.Open();
@@ -177,13 +182,15 @@ namespace MasterErp.Service.Common
             }
         }
 
-        public DataSet ExecuteDataset(string commandText, string ConnectionString, SqlParameter[] Parameters)
+        public DataSet ExecuteDataset(string commandText, SqlParameter[] Parameters, string ConnectionString = null)
         {
             try
             {
-                //string con = string.IsNullOrEmpty(ConnectionString) ? _ApplicationConfiguration.ConnectionString : _ApplicationConfiguration.GetConnectionString(ConnectionString);
+                string ConnString = ConnectionString == null ? this.CustomerConnectionString : ConnectionString;
 
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                //string con = string.IsNullOrEmpty(ConnString) ? _ApplicationConfiguration.ConnectionString : _ApplicationConfiguration.GetConnectionString(ConnectionString);
+
+                using (SqlConnection connection = new SqlConnection(ConnString))
                 {
                     SqlCommand sqlCommand = new SqlCommand();
 
@@ -229,10 +236,13 @@ namespace MasterErp.Service.Common
             }
         }
 
-        public async Task<List<TElement>> SQLQueryAsync<TElement>(string sql, string ConnectionString, params SqlParameter[] parameters)
+        public async Task<List<TElement>> SQLQueryAsync<TElement>(string sql, string ConnectionString = null, params SqlParameter[] parameters)
         {
             //string ConnectionString = connectionStringName == null ? _ApplicationConfiguration.ConnectionString : _ApplicationConfiguration.GetConnectionString(connectionStringName);
-            using (SqlConnection sqlConn = new SqlConnection(ConnectionString))
+
+            string ConnString = ConnectionString == null ? this.CustomerConnectionString : ConnectionString;
+
+            using (SqlConnection sqlConn = new SqlConnection(ConnString))
             {
                 using (SqlCommand cmd = new SqlCommand(sql, sqlConn))
                 {

@@ -33,7 +33,7 @@ namespace MasterErp.Service.GeneralAccounts.Customers
             SqlParameter[] param = new SqlParameter[2];
             param[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
             param[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
-            var dt = SQLHelper.ExecuteDataTable("[dbo].[SP_GetBatchData]", ConnectionString, param);
+            var dt = SQLHelper.ExecuteDataTable("[dbo].[SP_GetBatchData]", param, ConnectionString);
             return dt;
         }
 

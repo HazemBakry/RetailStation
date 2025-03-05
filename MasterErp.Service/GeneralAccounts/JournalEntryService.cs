@@ -37,7 +37,7 @@ namespace MasterErp.Service.GeneralAccounts
         {
             SqlParameter[] Params = new SqlParameter[0];
 
-            DataTable result = SQLHelper.ExecuteDataTable("[Finance].[SP_GetGeneralAccounts_Statistics]", ConnectionString, Params);
+            DataTable result = SQLHelper.ExecuteDataTable("[Finance].[SP_GetGeneralAccounts_Statistics]", Params, ConnectionString);
             return result;
         }
 
@@ -276,7 +276,7 @@ namespace MasterErp.Service.GeneralAccounts
             Params[0] = new SqlParameter("@dt", SqlDbType.Structured);
             Params[0].Value = dt;
 
-            DataTable result = SQLHelper.ExecuteDataTable("[Finance].[SP_GetDailyJournalEntries_Filters]", ConnectionString, Params);
+            DataTable result = SQLHelper.ExecuteDataTable("[Finance].[SP_GetDailyJournalEntries_Filters]", Params, ConnectionString);
             var GroupFilters = SharedFilterService.GroupedFilter(result);
             return GroupFilters;
         }

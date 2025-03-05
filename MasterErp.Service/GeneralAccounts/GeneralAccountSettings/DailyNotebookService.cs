@@ -34,7 +34,7 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
             SqlParameter[] param = new SqlParameter[2];
             param[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
             param[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
-            var dt = SQLHelper.ExecuteDataTable("[Finance].[SP_GetDailyNotebookData]", ConnectionString, param);
+            var dt = SQLHelper.ExecuteDataTable("[Finance].[SP_GetDailyNotebookData]", param, ConnectionString);
 
             return dt;
         }
