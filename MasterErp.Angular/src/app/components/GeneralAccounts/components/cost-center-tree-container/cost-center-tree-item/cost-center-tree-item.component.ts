@@ -21,9 +21,12 @@ export class CostCenterTreeItemComponent implements OnInit {
   toggleNode(costCenter: CostCenterTreeModel) {
     this.expanded = !this.expanded;
   }
-  onEvent(e:Event,costCenter: CostCenterTreeModel) {
+  onEvent(e:Event,costCenter: CostCenterTreeModel,isDelete:boolean=false) {
     event.preventDefault(); 
     event.stopPropagation();
+    if (isDelete) {
+      costCenter.isDeleteAction = true;
+    }
     this.selectCostCenter(costCenter);
   }
   selectCostCenter(costCenter: CostCenterTreeModel) {

@@ -21,9 +21,12 @@ export class AccountTreeItemComponent implements OnInit {
     // account.isSelected=!account.isSelected
     this.expanded = !this.expanded;
   }
-  onEvent(e:Event,account: AccountTreeModel) {
+  onEvent(e:Event,account: AccountTreeModel,isDelete:boolean=false):void {
     event.preventDefault(); 
     event.stopPropagation();
+    if (isDelete) {
+      account.isDeleteAction = true;
+    }
     this.selectAccount(account);
   }
   selectAccount(account: AccountTreeModel) {

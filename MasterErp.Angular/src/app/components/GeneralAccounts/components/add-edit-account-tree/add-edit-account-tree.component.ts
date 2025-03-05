@@ -45,7 +45,7 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
     nameEN: '',
     descriptionMethod: '',
     isDisToCostCenter: '',
-    costAccountId: '',
+    costCenterId: '',
     isActive: '',
     notes: '',
 
@@ -99,7 +99,7 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
       nameAR: [null, [Validators.required]],
       nameEN: [null, [Validators.required]],
       isDisToCostCenter: [false, [Validators.required]],
-      costAccountId: [null],
+      costCenterId: [null],
       isActive: [true, [Validators.required]],
       notes: [null],
 
@@ -198,7 +198,7 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
       nameAR: accountModel.nameAR,
       nameEN: accountModel.nameEN,
       isDisToCostCenter: accountModel.isDisToCostCenter,
-      costAccountId: accountModel.costAccountId,
+      costCenterId: accountModel.costCenterId,
       isActive: accountModel.isActive
 
     });

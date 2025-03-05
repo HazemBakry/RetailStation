@@ -113,11 +113,11 @@
                         مركز التكلفة
                         <!-- <span class="text-danger">*</span> -->
                     </label>
-                    <app-general-selector formControlName="costAccountId" [data]="costCenterSelector"
+                    <app-general-selector formControlName="costCenterId" [data]="costCenterSelector"
                         [showSearch]="true" [placeholder]="'مركز التكلفة'"></app-general-selector>
 
-                    <div *ngIf="formErrors.costAccountId" class="text-danger  font-small-3 m-03">
-                        {{formErrors.costAccountId}}
+                    <div *ngIf="formErrors.costCenterId" class="text-danger  font-small-3 m-03">
+                        {{formErrors.costCenterId}}
                     </div>
 
                 </div>

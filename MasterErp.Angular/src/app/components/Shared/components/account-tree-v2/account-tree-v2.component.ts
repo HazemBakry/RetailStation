@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { AccountTreeModel } from '../../../GeneralAccounts/models/GeneralAccounts/AccountTree';
 import { GeneralAccountService } from '../../../GeneralAccounts/services/general-account.service';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-account-tree-v2',
@@ -16,10 +17,11 @@ export class AccountTreeV2Component implements OnInit, OnChanges {
   @Input() isParentAccount: boolean = false;
   @Input() reloadData: boolean = false;
   @Output() selectedAccount = new EventEmitter<any>();
-
+  selectedAccountId: number;
   accountTreeData: any[] = [];
   AccountData: any[] = [];
-  showLoader: boolean;
+  showLoader: boolean = false;
+  showDeleteLoader: boolean = false;
   searchText = '';
   isSearchMode = false;
   parentAccountsList: any[] = [];
@@ -28,8 +30,11 @@ export class AccountTreeV2Component implements OnInit, OnChanges {
 
   accountTreeModel: AccountTreeModel =
     {} as AccountTreeModel;
+
+  @ViewChild('deleteModal') deleteModal: HTMLElement;
   constructor(private sharedService: SharedService,
-    private GeneralAccountService: GeneralAccountService, private toaster: ToastrService) { }
+    private GeneralAccountService: GeneralAccountService, private toaster: ToastrService,
+    private modalService: NgbModal) { }
 
 
   ngOnInit(): void {
@@ -54,6 +59,10 @@ export class AccountTreeV2Component implements OnInit, OnChanges {
     //   return;
     // }
     // console.log(" account:", account);
+    if (account.isDeleteAction) {
+      this.openDeleteModal(account.accountId);
+      return
+    }
     this.selectedAccount.emit(account);
   }
 
@@ -76,6 +85,31 @@ export class AccountTreeV2Component implements OnInit, OnChanges {
 
   changeSearchType(event) {
 
+  }
+
+  openDeleteModal(accountId: number) {
+    this.selectedAccountId = accountId;
+    this.modalService.open(this.deleteModal, { centered: true, size: 'md' });
+  }
+
+  deleteAccount() {
+    this.showDeleteLoader = true;
+    this.GeneralAccountService.DeleteAccountTree(this.selectedAccountId).subscribe(data => {
+
+      if (data?.isSuccess) {
+        this.modalService?.dismissAll();
+        this.loadData();
+        this.toaster.success(data?.message);
+      }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showDeleteLoader = false;
+    }, err => {
+      this.showDeleteLoader = false;
+    }, () => {
+      this.showDeleteLoader = false;
+    });
   }
 }
 

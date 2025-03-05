@@ -207,7 +207,47 @@ namespace MasterErp.Service.GeneralAccounts
                 };
             }
         }
+        public ActionsResponseModel DeleteCostCenterTree(int CostCenterId)
+        {
+            try
+            {
+                var entity = Context.CostCenterTree.FirstOrDefault(x => x.CostCenterId == CostCenterId);
 
+                if (entity != null)
+                {
+
+                    var childAccounts = Context.CostCenterTree.Where(x => x.ParentId == CostCenterId);
+
+                    if (childAccounts.Any())
+                    {
+                        foreach (var acc in childAccounts)
+                        {
+                            acc.ParentId = entity.ParentId;
+                            acc.CostLevel = entity.CostLevel;
+                            acc.IsParent = entity.IsParent;
+                        }
+                    }
+                    Context.Remove(entity);
+
+                    Context.SaveChanges();
+                    return new ActionsResponseModel
+                    {
+                        Message = "تم الحذف بنجاح"
+                    };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this cost center" };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
         public ActionsResponseModel ImportCostCenterTreeList(IFormFile File)
         {
             string url = string.Empty;
