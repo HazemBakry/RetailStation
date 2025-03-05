@@ -13,6 +13,7 @@ namespace MasterErp.Entities.Common.Finance.GeneralAccounts
         public int PaymentReceiptId { get; set; }
         public int? ReceiptNumber { get; set; }
         public int? OrderNumber { get; set; }
+        public int? PaymentOrderId { get; set; }
         public string PaymentTypeName { get; set; }
         public string ReceiptTypeName { get; set; }
         public string ReceiptLedgerName { get; set; }

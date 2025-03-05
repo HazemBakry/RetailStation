@@ -38,7 +38,7 @@
                         <label class="form-label d-flex align-items-center gap-2">المستفيـد<span
                                 class="text-danger">*</span></label>
 
-                        <input type="text" class="form-control nw-form-input" formControlName="contactName" />
+                        <input type="text" disabled class="form-control nw-form-input" formControlName="contactName" />
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -61,7 +61,7 @@
                         <label class="form-label d-flex align-items-center gap-2">طريقة الدفع <span
                                 class="text-danger">*</span></label>
 
-                        <app-general-selector formControlName="paymentTypeId" [data]="paymentTypeList" [placeholder]="'طريقة الدفع'"></app-general-selector>
+                        <app-general-selector disabled formControlName="paymentTypeId" [data]="paymentTypeList" [placeholder]="'طريقة الدفع'"></app-general-selector>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -89,7 +89,7 @@
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">من حساب<span
                                 class="text-danger">*</span></label>
-                        <app-general-selector formControlName="accountId" [data]="fromAccounts" [placeholder]="'الحسابات'">
+                        <app-general-selector formControlName="fromAccountId" [data]="fromAccounts" [placeholder]="'الحسابات'">
                         </app-general-selector>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">المبلغ</label>
 
-                        <input type="number" class="form-control nw-form-input text-center" formControlName="moneyAmount" />
+                        <input type="number" disabled class="form-control nw-form-input text-center" formControlName="moneyAmount" />
                     </div>
                 </div>
                 <div class="col-lg-12">

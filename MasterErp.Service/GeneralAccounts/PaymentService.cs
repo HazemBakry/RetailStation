@@ -151,6 +151,12 @@ namespace MasterErp.Service.GeneralAccounts
             }
         }
 
+        public PaymentOrder GetPaymentOrderDetails(int OrderId)
+        {
+            var order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == OrderId);
+            return order;
+        }
+
         //----------------------------------- Payment Receipt ------------------------------------------//
 
         public List<ReceiptModel> GetPaymentReceipts_Summary(FilterModel model)

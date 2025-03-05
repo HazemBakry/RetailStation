@@ -75,7 +75,6 @@ export class SharedService {
     return this.http.get<CustomerModel[]>(this.URL + 'Shared/GetCustomersData').
       pipe(
         map(response => {
-          debugger;
           response.map(x => {
             return {
               ...x,
