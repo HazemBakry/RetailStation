@@ -69,6 +69,7 @@ namespace MasterErp.Service.GeneralAccounts
                         order.AccountId = Model.AccountId;
                         order.SupplierId = Model.SupplierId;
                         order.FromAccountId = Model.FromAccountId;
+                        order.PaymentTypeId = Model.PaymentTypeId;
 
                         Context.SaveChanges();
                     }
@@ -83,7 +84,7 @@ namespace MasterErp.Service.GeneralAccounts
                         CurrencyId = Model.CurrencyId,
                         CustomerId = Model.CustomerId,
                         EmployeeId = Model.EmployeeId,
-                        
+                        PaymentTypeId = Model.PaymentTypeId,
                         Description = Model.Description,
                         MoneyAmount = Model.MoneyAmount,
                         AgencyTypeId = Model.AgencyTypeId,
@@ -157,6 +158,16 @@ namespace MasterErp.Service.GeneralAccounts
             return order;
         }
 
+        public List<SelectorDataModel> GetPaymentOrdersSelector()
+        {
+            var results = Context.PaymentOrders.Select(b => new SelectorDataModel
+            {
+                Id = b.PaymentOrderId,
+                Name = b.OrderNumber.ToString(),
+            }).ToList();
+            return results;
+        }
+
         //----------------------------------- Payment Receipt ------------------------------------------//
 
         public List<ReceiptModel> GetPaymentReceipts_Summary(FilterModel model)
@@ -176,15 +187,15 @@ namespace MasterErp.Service.GeneralAccounts
             return new DataTable();
         }
 
-        public ActionsResponseModel SavePaymentReceipt(PaymentReceipt Model)
+        public ActionsResponseModel SavePaymentReceipt(ReceiptModel Model)
         {
             try
             {
                 PaymentReceipt receipt = new PaymentReceipt();
 
-                if (Model.PaymentReceiptId > 0)
+                if (Model.ReceiptId > 0)
                 {
-                    receipt = Context.PaymentReceipts.FirstOrDefault(x => x.PaymentReceiptId == Model.PaymentReceiptId);
+                    receipt = Context.PaymentReceipts.FirstOrDefault(x => x.PaymentReceiptId == Model.ReceiptId);
                     if (receipt != null)
                     {
                         receipt.ReceiptLedgerId = Model.ReceiptLedgerId;
@@ -193,15 +204,16 @@ namespace MasterErp.Service.GeneralAccounts
                         receipt.CurrencyId = Model.CurrencyId;
                         receipt.ReceiptTypeId = Model.ReceiptTypeId;
                         receipt.BankAccountId = Model.BankAccountId;
+                        receipt.FromAccountId = Model.FromAccountId;
                         receipt.CustomerId = Model.CustomerId;
                         receipt.EmployeeId = Model.EmployeeId;
-                        receipt.SafeId = Model.SafeId;
                         receipt.Description = Model.Description;
                         receipt.MoneyAmount = Model.MoneyAmount;
                         receipt.DocNumber = Model.DocNumber;
                         receipt.AgencyTypeId = Model.AgencyTypeId;
                         receipt.AccountId = Model.AccountId;
                         receipt.SupplierId = Model.SupplierId;
+
 
                         Context.SaveChanges();
                     }
@@ -217,10 +229,10 @@ namespace MasterErp.Service.GeneralAccounts
                         ContactName = Model.ContactName,
                         CurrencyId = Model.CurrencyId,
                         ReceiptTypeId = Model.ReceiptTypeId,
+                        FromAccountId = Model.FromAccountId,
                         BankAccountId = Model.BankAccountId,
                         CustomerId = Model.CustomerId,
                         EmployeeId = Model.EmployeeId,
-                        SafeId = Model.SafeId,
                         Description = Model.Description,
                         MoneyAmount = Model.MoneyAmount,
                         DocNumber = Model.DocNumber,
@@ -264,13 +276,13 @@ namespace MasterErp.Service.GeneralAccounts
         {
             try
             {
-                int generalSupplierId = Context.AccountTrees.Single(x => x.AccountTypeId == 5).AccountId;
-                int accountId = Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId;
+                //int generalSupplierId = Context.AccountTrees.Single(x => x.AccountTypeId == 5).AccountId;
+                //int accountId = Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId;
                 List<JournalEntryAccount> accounts = new List<JournalEntryAccount>();
 
                 accounts.Add(new JournalEntryAccount
                 {
-                    AccountId = Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId,
+                    AccountId = (int)Model.FromAccountId,//Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId,
                     Credit = 0,
                     Debit = Model.MoneyAmount,
                     CurrencyId = 1,
@@ -280,7 +292,7 @@ namespace MasterErp.Service.GeneralAccounts
 
                 accounts.Add(new JournalEntryAccount
                 {
-                    AccountId = Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId,
+                    AccountId = (int)Model.AccountId,//Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId,
                     Credit = Model.MoneyAmount,
                     Debit = 0,
                     CurrencyId = 1,
@@ -358,15 +370,15 @@ namespace MasterErp.Service.GeneralAccounts
             return new DataTable();
         }
 
-        public ActionsResponseModel SaveReceiveReceipt(ReceiveReceipt Model)
+        public ActionsResponseModel SaveReceiveReceipt(ReceiptModel Model)
         {
             try
             {
                 ReceiveReceipt receipt = new ReceiveReceipt();
 
-                if (Model.ReceiveReceiptId > 0)
+                if (Model.ReceiptId > 0)
                 {
-                    receipt = Context.ReceiveReceipts.FirstOrDefault(x => x.ReceiveReceiptId == Model.ReceiveReceiptId);
+                    receipt = Context.ReceiveReceipts.FirstOrDefault(x => x.ReceiveReceiptId == Model.ReceiptId);
                     if (receipt != null)
                     {
                         receipt.ReceiptLedgerId = Model.ReceiptLedgerId;
@@ -377,7 +389,7 @@ namespace MasterErp.Service.GeneralAccounts
                         receipt.BankAccountId = Model.BankAccountId;
                         receipt.CustomerId = Model.CustomerId;
                         receipt.EmployeeId = Model.EmployeeId;
-                        receipt.SafeId = Model.SafeId;
+                        //receipt.SafeId = Model.SafeId;
                         receipt.Description = Model.Description;
                         receipt.MoneyAmount = Model.MoneyAmount;
                         receipt.DocNumber = Model.DocNumber;
@@ -402,7 +414,7 @@ namespace MasterErp.Service.GeneralAccounts
                         BankAccountId = Model.BankAccountId,
                         CustomerId = Model.CustomerId,
                         EmployeeId = Model.EmployeeId,
-                        SafeId = Model.SafeId,
+                        //SafeId = Model.SafeId,
                         Description = Model.Description,
                         MoneyAmount = Model.MoneyAmount,
                         DocNumber = Model.DocNumber,

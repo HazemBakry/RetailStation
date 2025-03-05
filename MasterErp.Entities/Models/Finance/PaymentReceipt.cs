@@ -15,7 +15,7 @@ namespace MasterErp.Entities.Models.Finance
         public int PaymentReceiptId { get; set; }
         public int? ReceiptNumber { get; set; }
         public int PaymentTypeId { get; set; }
-        public int ReceiptTypeId { get; set; }
+        public int? ReceiptTypeId { get; set; }
         public int? ReceiptLedgerId { get; set; }
         public DateTime ReleaseDate { get; set; }
         public string ContactName { get; set; }

@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
+import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 
 @Component({
   selector: 'app-create-payment-receipt',
@@ -26,10 +27,11 @@ export class CreatePaymentReceiptComponent implements OnInit {
   fromAccounts: any[] = [];
   receiptLedgerList: any[] = [];
   receiptTypeList: any[] = [];
-  paymentOrdersList: any[] = [];
+  paymentOrdersList: FormDropdownModel[] = [];
   paymentReceiptModel: ReceiptModel = {} as ReceiptModel
   isFocused = false;
   isUpdate: any = false;
+  paymentOrderId: any;
   FilterModel: FilterModel = {
     currentPage: 1,
     pageSize: 25
@@ -66,12 +68,12 @@ export class CreatePaymentReceiptComponent implements OnInit {
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
       if (params.receiptId) {
-        this.paymentReceiptModel.paymentReceiptId = params.receiptId;
+        this.paymentReceiptModel.receiptId = params.receiptId;
         this.getReceiptDetailsById(params.receiptId);
       }
 
       else if (params.paymentOrderId) {
-        //this.paymentReceiptModel.paymentOrderId = params.paymentOrderId;
+        this.paymentOrderId = params.paymentOrderId;
         this.getPaymentOrderDetails(params.paymentOrderId);
       }
     });
@@ -100,23 +102,10 @@ export class CreatePaymentReceiptComponent implements OnInit {
       this.paymentTypeList = data;
     });
 
-    // this.paymentService.GetOpenPaymentOrdersSelector(this.FilterModel).subscribe(data => {
-    //   this.paymentOrdersList = data;
-    // });
+    this.paymentService.GetPaymentOrdersSelector().subscribe((data: FormDropdownModel[]) => {
+      this.paymentOrdersList = data;
+    });
 
-
-
-
-    // this.generalService.GetSavedJournalTemplates().subscribe(data => {
-    //   this.journalTemplates = data;
-    //   this.journalTemplatesSelector = this.journalTemplates.map(x => {
-    //     return {
-    //       value: x.journalTemplateId,
-    //       name: x.nameAR,
-
-    //     }
-    //   });
-    // });
 
     this.agencyTypeList = this.paymentService.agencyTypeList.filter(x => x.value != 3);
 
@@ -147,7 +136,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
       receiptLedgerId: [null, [Validators.required]],
       receiptTypeId: [null, [Validators.required]],
       paymentOrderId: [null],
-      safeId: [null]
+      fromAccountId: [null]
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -168,7 +157,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
     this.isUpdate = true;
 
     this.formGroup.patchValue({
-      paymentReceiptId: receiptModel.paymentReceiptId,
+      paymentReceiptId: receiptModel.receiptId,
       receiptNumber: receiptModel.receiptNumber,
       docNumber: receiptModel.docNumber,
       releaseDate: this.datePipe.transform(receiptModel.releaseDate, 'yyyy-MM-dd'),
@@ -182,28 +171,29 @@ export class CreatePaymentReceiptComponent implements OnInit {
       paymentTypeId: receiptModel.paymentTypeId,
       receiptLedgerId: receiptModel.receiptLedgerId,
       receiptTypeId: receiptModel.receiptTypeId,
-      safeId: receiptModel.safeId,
-      paymentOrderId: receiptModel.paymentOrderId
+      paymentOrderId: receiptModel.paymentOrderId,
+      fromAccountId: receiptModel.fromAccountId
     });
   }
 
   getPaymentOrderDetails(orderId: number) {
     this.paymentService.GetPaymentOrderDetails(orderId).subscribe(data => {
-      debugger;
-
-      this.paymentReceiptModel.contactName = data?.contactName;      
+      this.paymentReceiptModel.contactName = data?.contactName;
       this.paymentReceiptModel.description = data?.description;
       this.paymentReceiptModel.agencyTypeId = data?.agencyTypeId;
       this.paymentReceiptModel.paymentOrderId = data?.paymentOrderId;
       this.paymentReceiptModel.accountId = data?.accountId;
       this.paymentReceiptModel.currencyId = data?.currencyId;
-      this.paymentReceiptModel.fromAccountId = data?.fromAccountId;
       this.paymentReceiptModel.paymentTypeId = data?.paymentTypeId;
       this.paymentReceiptModel.moneyAmount = data?.moneyAmount;
+      this.paymentReceiptModel.fromAccountId = data?.fromAccountId;
 
+      if (data.paymentTypeId) {
+        this.onChoosePayment(data.paymentTypeId);
+      }
       this.fillEditForm(this.paymentReceiptModel);
 
-    });    
+    });
   }
 
   getReceiptDetailsById(receiptId: number) {
@@ -211,11 +201,16 @@ export class CreatePaymentReceiptComponent implements OnInit {
   }
 
   onChoosePayment(payment: number) {
-    //this.inputDropdownValue = payment;
-
-    this.sharedService.GetAccountsByTypeId(payment).subscribe(data => {
-      this.fromAccounts = data;
-    });
+    if (payment == 1) {
+      this.sharedService.GetAccountsByTypeId(4).subscribe(data => {
+        this.fromAccounts = data;
+      });
+    }
+    else {
+      this.sharedService.GetAccountsByTypeId(3).subscribe(data => {
+        this.fromAccounts = data;
+      });
+    }
   }
 
   getSelectedAgencyType(accountType) {
@@ -246,8 +241,8 @@ export class CreatePaymentReceiptComponent implements OnInit {
     if (!this.validatePaymentReceipt()) {
       return;
     }
-    if (!this.paymentReceiptModel.paymentReceiptId)
-      this.paymentReceiptModel.paymentReceiptId = 0;
+    if (!this.paymentReceiptModel.receiptId)
+      this.paymentReceiptModel.receiptId = 0;
 
     this.paymentService.SavePaymentReceipt(this.paymentReceiptModel).subscribe((data: ActionsResponseModel) => {
       if (data?.status) {

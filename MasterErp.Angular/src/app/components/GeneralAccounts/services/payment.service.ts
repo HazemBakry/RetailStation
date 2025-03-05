@@ -103,8 +103,8 @@ export class PaymentService {
     return this.http.get<ActionsResponseModel>(this.URL + 'Payment/CancelPaymentReceipt?OrderId=' + OrderId);
   }
 
-  GetOpenPaymentOrdersSelector(model: FilterModel) {
-    return this.http.post<FormDropdownModel[]>(this.URL + 'Payment/GetOpenPaymentOrdersSelector', model);
+  GetPaymentOrdersSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Payment/GetPaymentOrdersSelector');    
   }
 
   //----------------------------------- Payment Receipt ------------------------------------------//

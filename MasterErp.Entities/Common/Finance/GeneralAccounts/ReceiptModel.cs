@@ -10,9 +10,20 @@ namespace MasterErp.Entities.Common.Finance.GeneralAccounts
 {
     public class ReceiptModel : CreatorModel
     {
-        public int PaymentReceiptId { get; set; }
+        public int ReceiptId { get; set; }
         public int? ReceiptNumber { get; set; }
         public int? OrderNumber { get; set; }
+        public int? ReceiptLedgerId { get; set; }
+        public int PaymentTypeId { get; set; }
+        public int? CurrencyId { get; set; }
+        public int? ReceiptTypeId { get; set; }
+        public int? BankAccountId { get; set; }
+        public int? CustomerId { get; set; }
+        public int? EmployeeId { get; set; }
+        public int? AgencyTypeId { get; set; }
+        public int? FromAccountId { get; set; }
+        public int? AccountId { get; set; }
+        public int? SupplierId { get; set; }
         public int? PaymentOrderId { get; set; }
         public string PaymentTypeName { get; set; }
         public string ReceiptTypeName { get; set; }
@@ -21,7 +32,6 @@ namespace MasterErp.Entities.Common.Finance.GeneralAccounts
         public string ContactName { get; set; }
         public string BankAccount { get; set; }
         public string ChequeNumber { get; set; }
-        public string Safe { get; set; }
         public string AgencyTypeName { get; set; }
         public string AccountName { get; set; }
         public string AccountNumber { get; set; }

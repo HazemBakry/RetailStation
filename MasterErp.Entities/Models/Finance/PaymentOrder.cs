@@ -17,6 +17,7 @@ namespace MasterErp.Entities.Models.Finance
         public int? OrderNumber { get; set; }
         public DateTime ReleaseDate { get; set; }
         public string ContactName { get; set; }
+        public int? PaymentTypeId { get; set; }
         public int? AgencyTypeId { get; set; }
         public int? FromAccountId { get; set; }
         public int? AccountId { get; set; }

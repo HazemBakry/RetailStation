@@ -1,5 +1,5 @@
 export interface ReceiptModel {
-    paymentReceiptId: number | null;
+    receiptId: number | null;
     receiptNumber: number | null;
     paymentTypeId: number;
     receiptLedgerId: number | null;
@@ -9,7 +9,6 @@ export interface ReceiptModel {
     contactName: string,
     fromAccountId: number | null;
     bankAccountId: number | null;
-    safeId: number | null;
     agencyTypeId: number;
     accountId: number | null;
     supplierId: number | null;

@@ -4,8 +4,7 @@
     <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="col-md-8 mb-2">
             <div class="d-flex align-items-center gap-2">
-                <button class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3"
-                    routerLink="/general-accounts/new-entry">
+                <button class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3" routerLink="/general-accounts/new-entry">
                     <i class="fas fa-plus-circle"></i>
                     <span>إضافة قيد</span>
                 </button>
@@ -14,8 +13,7 @@
                     <span>تصدير CSV</span>
                 </button>
                 <div ngbDropdown class="d-inline-block">
-                    <button type="button" class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3"
-                        id="dropdownBasic1" ngbDropdownToggle>
+                    <button type="button" class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3" id="dropdownBasic1" ngbDropdownToggle>
                         <i class="fas fa-cogs"></i>
                         <span>الإجراءات</span>
                     </button>
@@ -38,9 +36,9 @@
                             </span>
                         </button>
                         <!-- <button ngbDropdownItem (click)="printJournalEntry()">طباعة</button> -->
-        
-        
-        
+
+
+
                         <!-- <button ngbDropdownItem class="d-flex align-items-center gap-2">
                                     <i class="fas fa-edit"></i>
                                     <span>تعديل</span>
@@ -58,11 +56,10 @@
             </div>
         </div>
         <div class="col-md-4 mb-2">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
-                [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
         </div>
-        
-        
+
+
 
         <!-- <nav>
             <ul class="pagination table-paging m-0">
@@ -81,15 +78,10 @@
         </nav> -->
 
 
-        <div class="row mt-3">
-            <div class="col-md-9">
-                <div class="d-flex align-items-center">
-                    <ng-container>
-                        <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث برقم القيد ...'"></app-erp-filters>
-                    </ng-container>
-                </div>
-            </div>
-            <div class="col-md-3">
+        <div class="col-md-12 mt-3">
+            <div class="align-items-center">
+
+                <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث برقم القيد ...'"></app-erp-filters>
 
             </div>
         </div>

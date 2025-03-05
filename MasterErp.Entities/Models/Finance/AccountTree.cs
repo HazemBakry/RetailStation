@@ -21,6 +21,7 @@ namespace MasterErp.Entities.Models.Finance
         public string NameAR { get; set; }
         public string NameEN { get; set; }
         public bool IsParent { get; set; }
+        public int? CostAccountId { get; set; }
         public string AccountNature { get; set; }
         public string FName { get; set; }
         public bool? IsActive { get; set; }
@@ -34,6 +35,5 @@ namespace MasterErp.Entities.Models.Finance
         public int? AccumulatedDepreciationId { get; set; }
         public double? PreCredit { get; set; }
         public double? PreDebit { get; set; }
-        public int? CostAccountId { get; set; }
     }
 }

@@ -138,8 +138,6 @@ export class CreatePaymentOrderComponent implements OnInit {
   }
 
   onChoosePayment(payment: number) {
-    //this.inputDropdownValue = payment;
-
     if (payment == 1) {
       this.sharedService.GetAccountsByTypeId(4).subscribe(data => {
         this.fromAccounts = data;

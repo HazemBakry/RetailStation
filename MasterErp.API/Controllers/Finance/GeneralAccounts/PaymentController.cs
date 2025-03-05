@@ -68,6 +68,14 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             return Ok(results);
         }
 
+        [HttpGet]
+        [Route("GetPaymentOrdersSelector")]
+        public IActionResult GetPaymentOrdersSelector()
+        {
+            var results = _paymentService.GetPaymentOrdersSelector();
+            return Ok(results);
+        }
+
         //----------------------------------------------------------------------------//
 
         [HttpPost]
@@ -94,7 +102,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("SavePaymentReceipt")]
-        public IActionResult SavePaymentReceipt(PaymentReceipt Model)
+        public IActionResult SavePaymentReceipt(ReceiptModel Model)
         {
             var results = _paymentService.SavePaymentReceipt(Model);
             return Ok(results);
@@ -132,7 +140,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("SaveReceiveReceipt")]
-        public IActionResult SaveReceiveReceipt(ReceiveReceipt Model)
+        public IActionResult SaveReceiveReceipt(ReceiptModel Model)
         {
             var results = _paymentService.SaveReceiveReceipt(Model);
             return Ok(results);
