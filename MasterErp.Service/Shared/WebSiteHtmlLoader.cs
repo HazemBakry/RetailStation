@@ -4,7 +4,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
-namespace MasterErp.Service.Reports
+namespace MasterErp.Service.Shared
 {
     public class WebSiteHtmlLoader
     {
@@ -47,7 +47,7 @@ namespace MasterErp.Service.Reports
                             catch (Exception)
                             {
                                 Thread.Sleep(1000);
-                                if (++counter >= (3 * 60) - 10)
+                                if (++counter >= 3 * 60)
                                 {
                                     return false;
                                 }

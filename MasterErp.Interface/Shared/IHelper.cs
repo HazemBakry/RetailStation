@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Interface.Reports
+namespace MasterErp.Interface.Shared
 {
     public interface IHelper
     {
-        string SaveHTMLResult(string HTML);
+        string SaveHTMLResult(string HTML, bool IsLandScape);
     }
 }

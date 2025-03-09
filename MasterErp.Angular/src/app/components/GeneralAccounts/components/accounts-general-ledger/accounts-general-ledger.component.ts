@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { GeneralAccountService } from '../../services/general-account.service';
 import { AccountsGeneralLedgerModel, AccountsReportSearchFilterModel } from '../../models/GeneralAccounts/AccountsReportSearchFilterModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
+import { CreateReportsService } from 'src/app/components/Reports/Services/create-reports.service';
+import { Router } from '@angular/router';
+import { SearchReportModel } from 'src/app/components/Reports/Models/ReportParams';
+import { FilterItem } from 'src/app/components/Shared/models/FilterModel';
 
 @Component({
   selector: 'app-accounts-general-ledger',
@@ -14,8 +17,6 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 })
 export class AccountsGeneralLedgerComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'دفتر الأستاذ العام'];
-
-  
   showLoader: boolean = false;
   showExportLoader: boolean = false;
   totalDebit = null;
@@ -32,7 +33,9 @@ export class AccountsGeneralLedgerComponent implements OnInit {
     toDate: null
 
   };
-  constructor(private generalService: GeneralAccountService,private sharedService:SharedService, private toaster: ToastrService) { }
+  constructor(private generalService: GeneralAccountService, private sharedService: SharedService, private toaster: ToastrService,
+    private ReportsService: CreateReportsService, private router: Router
+  ) { }
 
   ngOnInit(): void {
   }
@@ -42,16 +45,15 @@ export class AccountsGeneralLedgerComponent implements OnInit {
       return;
     }
     //this.SearchFilterModel.isExport = false;
-    this.showLoader=true;
+    this.showLoader = true;
     this.totalDebit = null;
     this.totalCredit = null;
     this.generalService.GetAccountsGeneralLedger(this.ledgersResponse).subscribe((data: PagedResponseDTO<AccountsGeneralLedgerModel[]>) => {
       this.ledgersResponse.results = data.results;
       this.ledgersResponse.totalCount = data.totalCount;
-      var baseAccount = this.ledgersResponse.results?.find(x=>x.accountId==this.ledgersResponse.accountId);
+      var baseAccount = this.ledgersResponse.results?.find(x => x.accountId == this.ledgersResponse.accountId);
 
-      if(baseAccount)
-      {
+      if (baseAccount) {
         this.totalDebit = baseAccount.totalDebit;
         this.totalCredit = baseAccount.totalCredit;
       }
@@ -63,21 +65,6 @@ export class AccountsGeneralLedgerComponent implements OnInit {
     });
   }
 
-  // exportData() {
-  //   if (!this.validateSearchModel()) {
-  //     return;
-  //   }
-  //   // this.SearchFilterModel.isExport = true;
-
-  //   this.generalService.ExportAccountsGeneralLedger(this.ledgersResponse).subscribe(data => {
-  //     if (data.url != null) {
-  //       window.location.href = data.url;
-  //       this.toaster.success("File exported successfully");
-  //     } else {
-  //       this.toaster.error("an Error happened , file can not export");
-  //     }
-  //   });
-  // }
   exportData() {
     if (!this.validateSearchModel()) {
       return;
@@ -102,7 +89,19 @@ export class AccountsGeneralLedgerComponent implements OnInit {
 
   }
   printData() {
-
+    let reportParams: SearchReportModel = {} as SearchReportModel;
+    let filterItems: FilterItem[] = [
+      { categoryName: 'fromDate', itemFlag: this.ledgersResponse.fromDate },
+      { categoryName: 'toDate', itemFlag: this.ledgersResponse.toDate },
+      { categoryName: 'accountId', itemFlag: this.ledgersResponse.accountId.toString() }
+    ];
+    reportParams.ControllerName = 'GeneralAccountsReport';
+    reportParams.ApiName = 'GetAccountsGeneralLedger';
+    reportParams.MethodType = 'POST';
+    reportParams.companyName = 'CompanyName';
+    reportParams.pageName = 'دفتر الاستاذ العام';
+    reportParams.filterItems = filterItems;
+    this.ReportsService.CreateGeneralReport(reportParams);
   }
 
 
@@ -118,10 +117,6 @@ export class AccountsGeneralLedgerComponent implements OnInit {
     this.loadData();
   }
   validateSearchModel(): boolean {
-    // this.ledgersResponse.filterList =[];
-    // this.ledgersResponse.filterList.push({categoryName:'accountId',itemFlag:'1'})
-    // this.ledgersResponse.fromDate = new Date('2025-01-01').toLocaleDateString();
-    // this.ledgersResponse.toDate = new Date().toLocaleDateString();
     if (
       !this.ledgersResponse.fromDate ||
       !this.ledgersResponse.toDate ||
@@ -131,42 +126,5 @@ export class AccountsGeneralLedgerComponent implements OnInit {
       return false;
     }
     return true;
-  }
-  // onSearchClick(obj: any) {
-  //   if (obj.FromDate == null || obj.ToDate == null || obj.BranchId == undefined) {
-  //     this.toaster.warning('Insert Search Fields First');
-  //   } else {
-  //     this.SearchFilterModel.branchID = obj.BranchId;
-  //     this.SearchFilterModel.fromDate = obj.FromDate;
-  //     this.SearchFilterModel.toDate = obj.ToDate;
-  //     this.loadData();
-  //   }
-  // }
-
-  // onExportClick(obj: any) {
-  //   this.SearchFilterModel.branchID = obj.BranchId;
-  //   this.SearchFilterModel.fromDate = obj.FromDate;
-  //   this.SearchFilterModel.toDate = obj.ToDate;
-  //   //this.SearchFilterModel.userName = this.UserModel?.fullName;
-  //   this.SearchFilterModel.isExport = true;
-  //   if (obj.FromDate == null || obj.ToDate == null || obj.BranchId == undefined) {
-  //     this.toaster.warning('insert search fields first');
-  //   } else {
-  //     this.generalService.ExportAccountsGeneralLedger(this.SearchFilterModel).subscribe(data => {
-  //       if (data.url != null) {
-  //         window.location.href = data.url;
-  //         this.toaster.success("File exported successfully");
-  //       } else {
-  //         this.toaster.error("an Error happened , file can not export");
-  //       }
-  //     });
-  //   }
-  // }
-
-  onPrintClick(obj: any) {
-    // this.PrintList = this.DeliverySales;
-    // this.PrintList.forEach(function (x) { delete x.matchCount, delete x.totalValue });
-    // let headers = this.printToPdfService.MapColumnHeaders(Object.keys(this.PrintList[0]));
-    // this.printToPdfService.GeneratePDF(obj,'Delivery Sales Report','landscape',this.PrintList,this.SalesSummaryStatistics,headers);
   }
 }

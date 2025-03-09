@@ -1,5 +1,4 @@
-﻿using MasterErp.Interface.Reports;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using System;
 using System.IO;
 using iText.Html2pdf;
@@ -10,8 +9,10 @@ using iText.Kernel.Pdf.Canvas;
 using iText.IO.Font.Constants;
 using iText.Kernel.Font;
 using iText.Layout.Font;
+using iText.Kernel.Geom;
+using MasterErp.Interface.Shared;
 
-namespace MasterErp.Service.Reports
+namespace MasterErp.Service.Shared
 {
     public class Helper : IHelper
     {
@@ -20,19 +21,19 @@ namespace MasterErp.Service.Reports
         {
             _environment = environment;
         }
-        public string SaveHTMLResult(string HTMLContent)
+        public string SaveHTMLResult(string HTMLContent, bool IsLandScape)
         {
             try
             {
                 HTMLContent = ClearAngularAttrFromHTML(HTMLContent);
                 HTMLContent = Regex.Unescape(HTMLContent);
 
-                var FolderPath = Path.Combine(_environment.WebRootPath, "Reports");
+                var FolderPath = System.IO.Path.Combine(_environment.WebRootPath, "Reports");
                 if (!Directory.Exists(FolderPath))
                     Directory.CreateDirectory(FolderPath);
 
-                var FilePath = Path.Combine(FolderPath, Guid.NewGuid().ToString() + "_TestReport.pdf");
-                ConvertHtmlToPdf(HTMLContent, FilePath);
+                var FilePath = System.IO.Path.Combine(FolderPath, Guid.NewGuid().ToString() + "_TestReport.pdf");
+                ConvertHtmlToPdf(HTMLContent, FilePath, IsLandScape);
 
                 return FilePath;
             }
@@ -42,18 +43,20 @@ namespace MasterErp.Service.Reports
             }
         }
 
-        public void ConvertHtmlToPdf(string HTMLContent, string outputPath)
+        public void ConvertHtmlToPdf(string HTMLContent, string outputPath, bool IsLandScape)
         {
             try
             {
-                string tempFile = Path.GetTempFileName();
-                var ARFont = Path.Combine(_environment.WebRootPath, "Fonts", "Cairo-Regular.ttf");
+                string tempFile = System.IO.Path.GetTempFileName();
+                var ARFont = System.IO.Path.Combine(_environment.WebRootPath, "Fonts", "Cairo-Regular.ttf");
                 using (FileStream pdfStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.None))
                 {
                     PdfWriter writer = new PdfWriter(pdfStream);
                     PdfDocument pdfDocument = new PdfDocument(writer);
                     FontProvider fontProvider = new FontProvider();
                     ConverterProperties properties = new ConverterProperties();
+                    if (!IsLandScape)
+                        pdfDocument.SetDefaultPageSize(PageSize.A4.Rotate());
                     fontProvider.AddFont(ARFont);
                     properties.SetCharset("UTF-8");
                     properties.SetFontProvider(fontProvider);
