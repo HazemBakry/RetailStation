@@ -22,6 +22,8 @@ export interface AccountsGeneralLedgerModel {
     credit: number | null;
     totalDebit: number | null;
     totalCredit: number | null;
+    balanceDebit?: number;
+    balanceCredit?: number;
 }
 
 

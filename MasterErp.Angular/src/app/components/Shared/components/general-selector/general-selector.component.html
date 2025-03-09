@@ -6,7 +6,7 @@
             <input [disabled]="disabled" type="text" class="form-control nw-form-input" #inputDrop ngbDropdownToggle [value]="selectedName?.substring(0, 30)" (input)="onInputChange($event)">
             <!-- <input type="text" class="form-control nw-form-input" #inputDrop ngbDropdownToggle
                     [value]="inputDropdownValue"> -->
-            <div class="input-drop-action d-flex align-items-center gap-1 fw-normal" *ngIf="selectedName">
+            <div class="input-drop-action d-flex align-items-center gap-1 fw-normal" *ngIf="selectedName &&!disabled">
                 <i class="uil uil-times cursor-pointer" (click)="removeSingleSelected()"></i>
                 <!-- <i class="uil uil-corner-up-left-alt cursor-pointer"></i> -->
             </div>

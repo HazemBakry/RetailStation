@@ -169,10 +169,8 @@ export class NewEntryComponent implements OnInit {
       this.toaster.warning('Please Select Account Or Template');
       return;
     }
-    debugger
     if (this.activeTab == 'Account') {
       // this.SelectedAccounts.forEach((account, index) => {
-      //   //debugger
       //   // let checked = this.AccountsListTable.find(i => i.accountId == account.accountId);
       //   // if (!checked)
       //   //this.entryModel.journalEntryAccounts.push(account);

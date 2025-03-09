@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { DatePipe } from '@angular/common';
 import { LookupService } from 'src/app/components/Shared/services/lookup.service';
+import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 
 @Component({
   selector: 'app-add-edit-account-tree',
@@ -25,9 +26,10 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
   parentAccountsList: any[] = [];
   accountTypes: any[] = [];
   currencyType: any[] = [{ currencyId: 1, nameAR: 'جنيه' }, { currencyId: 1, nameAR: 'ريال' }]
-  accountTypesSelectorData: FormDropdownModel[] = [];
-  parentAccountsSelectorData: FormDropdownModel[] = [];
-  currencyTypesSelectorData: FormDropdownModel[] = [];
+  accountTypesSelectorData: GeneralSelectorModel[] = [];
+  parentAccountsSelectorData: GeneralSelectorModel[] = [];
+  currencyTypesSelectorData: GeneralSelectorModel[] = [];
+  costCenterSelector: GeneralSelectorModel[] = [];
   selectedAccountId: number = null;
   public formGroup: FormGroup;
 
@@ -43,6 +45,7 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
     nameEN: '',
     descriptionMethod: '',
     isDisToCostCenter: '',
+    costCenterId: '',
     isActive: '',
     notes: '',
 
@@ -89,13 +92,14 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
   buildForm() {
     this.formGroup = this.form.group({
       accountId: [null],
-      accountNumber: [null, [Validators.required]],
+      accountNumber: [null],
       parentAccountId: [null],
       accountTypeId: [null, [Validators.required]],
       currencyTypeId: [null],
       nameAR: [null, [Validators.required]],
       nameEN: [null, [Validators.required]],
       isDisToCostCenter: [false, [Validators.required]],
+      costCenterId: [null],
       isActive: [true, [Validators.required]],
       notes: [null],
 
@@ -194,6 +198,7 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
       nameAR: accountModel.nameAR,
       nameEN: accountModel.nameEN,
       isDisToCostCenter: accountModel.isDisToCostCenter,
+      costCenterId: accountModel.costCenterId,
       isActive: accountModel.isActive
 
     });
@@ -207,7 +212,12 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
     });
     this.sharedService.GetAccountsSelector(true).subscribe(data => {
       this.parentAccountsSelectorData = data;
-    })
+    });
+
+    this.sharedService.GetCostCenterSelector(false).subscribe(data => {
+      this.costCenterSelector = data;
+    });
+
   }
 
 

@@ -26,15 +26,16 @@ export class AuthService {
   constructor(private http: HttpClient, private toaster: ToastrService, private router: Router) 
   {
   }
-  loginRedirect():void
+  loginRedirect(logout:boolean=false):void
   {
     if(this.isAuthenticated())
     {
       this.router.navigateByUrl('/');
       return;
     }
+    var logoutQuery = logout ? 'logout=true' : '';
     const appReturnUrl = encodeURIComponent(window.location.origin + '/auth-callback');
-    window.location.href = `${this.centralizedLoginUrl}/login?returnUrl=${appReturnUrl}`;
+    window.location.href = `${this.centralizedLoginUrl}/login?returnUrl=${appReturnUrl}&${logoutQuery}`;
   }
 
   login(model: any) {
@@ -60,8 +61,8 @@ export class AuthService {
 
   logout(): void {
     this.clearStorage();
-    this.loginRedirect();
     this.isAuthenticatedSubject.next(false);
+    this.loginRedirect(true);
   }
   refreshToken() {
     return this.http

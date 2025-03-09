@@ -8,7 +8,7 @@ import { FormService } from 'src/app/components/Shared/services/form.service';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ReceiveReceipt } from '../../models/GeneralAccounts/ReceiveReceipt';
-import { ReceiptLedger } from '../../models/GeneralAccounts/PaymentReceipt';
+import { ReceiptLedger } from '../../models/GeneralAccounts/ReceiptModel';
 import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 
 @Component({

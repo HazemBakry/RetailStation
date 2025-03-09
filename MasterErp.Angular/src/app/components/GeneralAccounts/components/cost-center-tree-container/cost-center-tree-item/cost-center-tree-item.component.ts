@@ -21,13 +21,23 @@ export class CostCenterTreeItemComponent implements OnInit {
   toggleNode(costCenter: CostCenterTreeModel) {
     this.expanded = !this.expanded;
   }
-  onEvent(e:Event,costCenter: CostCenterTreeModel) {
+  onEvent(e:Event,costCenter: CostCenterTreeModel,isDelete:boolean=false) {
     event.preventDefault(); 
     event.stopPropagation();
+    if (isDelete) {
+      costCenter.isDeleteAction = true;
+    }
     this.selectCostCenter(costCenter);
   }
   selectCostCenter(costCenter: CostCenterTreeModel) {
     this.selectedCostCenter.emit(costCenter);
+  }
+
+  getLevelClass(level: number) {
+    var paddingValue = level
+    if (level > 0)
+      paddingValue = level * 2;
+    return 'padding-right:' + paddingValue + 'rem !important';
   }
 
 }

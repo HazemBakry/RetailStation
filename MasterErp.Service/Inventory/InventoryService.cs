@@ -6,6 +6,7 @@ using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Inventory;
+using MasterErp.Entities.Models.Purchases;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Inventory;
 using MasterErp.Service.Common;

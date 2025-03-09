@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PaymentService } from '../../services/payment.service';
 import { ToastrService } from 'ngx-toastr';
-import { PaymentReceipt } from '../../models/GeneralAccounts/PaymentReceipt';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
 
 @Component({
   selector: 'app-payment-receipts',
@@ -18,7 +18,7 @@ export class PaymentReceiptsComponent implements OnInit {
     pageSize: 25
   };
 
-  ReceiptList: PagedResponseDTO<PaymentReceipt[]> = {
+  ReceiptList: PagedResponseDTO<ReceiptModel[]> = {
     results: [],
     filterList: [],
     pageSize: 25,

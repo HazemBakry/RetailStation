@@ -1,5 +1,5 @@
 ﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.GeneralAccounts;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -17,21 +17,21 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         }
 
         [HttpGet("GetLoansData")]
-        public List<Loans> GetLoansData()
+        public List<Loan> GetLoansData()
         {
             var results = _loansFormService.GetLoansData();
             return results;
         }
 
         [HttpPost("AddNewLoans")]
-        public ActionsResponseModel AddNewLoans(Loans Model)
+        public ActionsResponseModel AddNewLoans(Loan Model)
         {
             var results = _loansFormService.AddNewLoans(Model);
             return results;
         }
 
         [HttpPost("EditLoans")]
-        public ActionsResponseModel EditLoans(Loans Model)
+        public ActionsResponseModel EditLoans(Loan Model)
         {
             var results = _loansFormService.EditLoans(Model);
             return results;

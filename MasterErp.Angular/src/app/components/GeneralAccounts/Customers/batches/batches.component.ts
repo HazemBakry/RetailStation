@@ -66,7 +66,6 @@ export class BatchesComponent implements OnInit {
   }
 
   fillEditForm(item: any) {
-    debugger;
     this.formGroup.patchValue({
       batchId: item.batchId,
       nameAr: item.batchName,
@@ -93,7 +92,6 @@ export class BatchesComponent implements OnInit {
 
   GetCustomersData() {
     this.sharedService.GetCustomersData().subscribe(data => {
-      debugger;
       this.Customers = data;
       this.Customers = this.Customers.map(i => { return { name: i.nameAR, value: i.customerId } });
     });
@@ -123,7 +121,6 @@ export class BatchesComponent implements OnInit {
       return;
     let formData = this.formGroup.value;
     formData.batchType = formData.batchType == 'Send' ? 'إرسال' : 'استلام';
-    debugger;
     if (!formData?.batchId) {
       formData.batchId = 0;
       this.customerService.AddNewBatch(formData).subscribe(data => {

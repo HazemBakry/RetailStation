@@ -26,7 +26,7 @@ export class AccountTreeContainerComponent implements OnInit {
   dataUpdated(event) {
 
     this.isUpdate = false;
-    this.selectedAccountTreeModel = {} as AccountTreeModel;
+    this.selectedAccountTreeModel = null;
     this.reloadData = !this.reloadData;
   }
 

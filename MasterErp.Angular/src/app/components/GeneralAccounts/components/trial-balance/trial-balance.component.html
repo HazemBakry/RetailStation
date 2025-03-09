@@ -5,7 +5,7 @@
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">ميزان المراجعة</div>
     <div class="inputs-sec-content px-3 py-2">
         <app-accounts-report-search (searchDataChanged)="searchDataChanged($event)" [showAccountFilter]="true"
-            [isParentAccount]="false"></app-accounts-report-search>
+            [isParentAccount]="true"></app-accounts-report-search>
 
         <div class="row">
 
@@ -14,7 +14,7 @@
                     <label class="form-label d-flex align-items-center gap-2">
                         التفرع
                     </label>
-                    <input type="number" class="form-control nw-form-input" [(ngModel)]="trialBalanceResponse.searchType" autocomplete="off" />
+                    <input type="number" class="form-control nw-form-input" [(ngModel)]="trialBalanceResponse.searchLevel" autocomplete="off" />
 
                 </div>
             </div>
@@ -23,7 +23,7 @@
                     <label class="form-label d-flex align-items-center gap-2">
                         نوع التفرع
                     </label>
-                    <app-general-selector [showSearch]="true" [(ngModel)]="trialBalanceResponse.searchLevel" [data]="levelTypesSelector"
+                    <app-general-selector [showSearch]="true" [(ngModel)]="trialBalanceResponse.searchType" [data]="levelTypesSelector"
                         [placeholder]="'نوع التفرع'"></app-general-selector>
                 </div>
             </div>
@@ -113,7 +113,7 @@
         </table>
 
     </div>
-    <!-- <ng-container *ngIf="totalDebit !=null &&totalCredit !=null">
+    <ng-container *ngIf="totalDebit !=null &&totalCredit !=null">
         <hr />
         <div class="row justify-content-end m-3">
             <div class="col-md-2">
@@ -135,6 +135,6 @@
 
         </div>
 
-    </ng-container> -->
+    </ng-container>
 </div>
 

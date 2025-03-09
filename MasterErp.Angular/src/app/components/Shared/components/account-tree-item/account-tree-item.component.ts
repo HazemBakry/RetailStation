@@ -21,9 +21,12 @@ export class AccountTreeItemComponent implements OnInit {
     // account.isSelected=!account.isSelected
     this.expanded = !this.expanded;
   }
-  onEvent(e:Event,account: AccountTreeModel) {
+  onEvent(e:Event,account: AccountTreeModel,isDelete:boolean=false):void {
     event.preventDefault(); 
     event.stopPropagation();
+    if (isDelete) {
+      account.isDeleteAction = true;
+    }
     this.selectAccount(account);
   }
   selectAccount(account: AccountTreeModel) {
@@ -42,4 +45,11 @@ export class AccountTreeItemComponent implements OnInit {
   //   // console.log(" account:", account);
   //   this.selectedAccount.emit(account);
   // }
+
+  getLevelClass(level: number) {
+    var paddingValue = level
+    if (level > 0)
+      paddingValue = level * 2;
+    return 'padding-right:' + paddingValue + 'rem !important';
+  }
 }

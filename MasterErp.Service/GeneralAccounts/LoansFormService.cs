@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
 using Microsoft.Extensions.Configuration;
@@ -20,13 +21,13 @@ namespace MasterErp.Service.GeneralAccounts
             Context = dBContext;
         }
 
-        public List<Loans> GetLoansData()
+        public List<Loan> GetLoansData()
         {
             var results = Context.LoansForms.ToList();
             return results;
         }
 
-        public ActionsResponseModel AddNewLoans(Loans Model)
+        public ActionsResponseModel AddNewLoans(Loan Model)
         {
             try
             {
@@ -40,15 +41,15 @@ namespace MasterErp.Service.GeneralAccounts
                     };
                 }
 
-                Loans loanObj = new Loans();
+                Loan loanObj = new Loan();
 
                 loanObj.LoanName = Model.LoanName;
                 loanObj.LoanAmount = Model.LoanAmount;
-                loanObj.Date = Model.Date;
-                loanObj.Bnefit = Model.Bnefit;
-                loanObj.Duration = Model.Duration;
-                loanObj.AmountDue = Model.AmountDue;
-                loanObj.MonthlyInstallment = Model.MonthlyInstallment;
+                loanObj.Benefit = Model.Benefit;
+                //loanObj.Date = Model.Date;
+                //loanObj.Duration = Model.Duration;
+                //loanObj.AmountDue = Model.AmountDue;
+                loanObj.PaymentAmount = Model.PaymentAmount;
                 loanObj.CreatedDate = DateTime.Now;
                 loanObj.CreatedBy = Model.CreatedBy;
 
@@ -71,7 +72,7 @@ namespace MasterErp.Service.GeneralAccounts
             }
         }
 
-        public ActionsResponseModel EditLoans(Loans Model)
+        public ActionsResponseModel EditLoans(Loan Model)
         {
             try
             {
@@ -80,11 +81,11 @@ namespace MasterErp.Service.GeneralAccounts
                 {
                     entity.LoanName = Model.LoanName;
                     entity.LoanAmount = Model.LoanAmount;
-                    entity.Date = Model.Date;
-                    entity.Bnefit = Model.Bnefit;
-                    entity.Duration = Model.Duration;
-                    entity.AmountDue = Model.AmountDue;
-                    entity.MonthlyInstallment = Model.MonthlyInstallment;
+                    //entity.Date = Model.Date;
+                    //entity.Bnefit = Model.Bnefit;
+                    //entity.Duration = Model.Duration;
+                    //entity.AmountDue = Model.AmountDue;
+                    //entity.MonthlyInstallment = Model.MonthlyInstallment;
                     entity.ModifiedDate = DateTime.Now;
                     entity.ModifiedBy = Model.ModifiedBy;
                 }

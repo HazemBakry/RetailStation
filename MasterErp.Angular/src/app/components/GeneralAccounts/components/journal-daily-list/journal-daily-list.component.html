@@ -4,32 +4,45 @@
     <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="col-md-8 mb-2">
             <div class="d-flex align-items-center gap-2">
-                <button class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3"
-                    routerLink="/general-accounts/new-entry">
+                <button class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3" routerLink="/general-accounts/new-entry">
                     <i class="fas fa-plus-circle"></i>
                     <span>إضافة قيد</span>
                 </button>
-                <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+                <!-- <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+                    <i class="fas fa-file-download"></i>
+                    <span>تصدير CSV</span>
+                </button> -->
+                <button [disabled]="showExportLoader" (click)="exportData()" class="btn  btn-outline-success d-flex align-items-center gap-2 border rounded px-3">
                     <i class="fas fa-file-download"></i>
                     <span>تصدير CSV</span>
                 </button>
                 <div ngbDropdown class="d-inline-block">
-                    <button type="button" class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3"
-                        id="dropdownBasic1" ngbDropdownToggle>
+                    <button type="button" class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3" id="dropdownBasic1" ngbDropdownToggle>
                         <i class="fas fa-cogs"></i>
                         <span>الإجراءات</span>
                     </button>
                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="border rounded">
-                        <button ngbDropdownItem class="d-flex align-items-center gap-2" (click)="cancelJournalEntry()"><i
-                                class="fas fa-trash-alt"></i>
-                            <span> إسقاط</span>
+                        <button ngbDropdownItem class="d-flex align-items-center gap-2" (click)="cancelJournalEntry()">
+                            <!-- <i class="fas fa-trash-alt"></i> -->
+                            <i class="fas fa-times"></i>
+                            <span class="px-2"> إسقاط</span>
                         </button>
-                        <button ngbDropdownItem (click)="postJournalEntry()">ترحيل</button>
-                        <button ngbDropdownItem (click)="reverseJournalEntry()">عكس</button>
-                        <button ngbDropdownItem (click)="printJournalEntry()">طباعة</button>
-        
-        
-        
+                        <button ngbDropdownItem (click)="postJournalEntry()">
+                            <i class="fas fa-save"></i>
+                            <span class="px-2">
+                                ترحيل
+                            </span>
+                        </button>
+                        <button ngbDropdownItem (click)="reverseJournalEntry()">
+                            <i class="fas fa-sync-alt"></i>
+                            <span class="px-2">
+                                عكس
+                            </span>
+                        </button>
+                        <!-- <button ngbDropdownItem (click)="printJournalEntry()">طباعة</button> -->
+
+
+
                         <!-- <button ngbDropdownItem class="d-flex align-items-center gap-2">
                                     <i class="fas fa-edit"></i>
                                     <span>تعديل</span>
@@ -47,11 +60,10 @@
             </div>
         </div>
         <div class="col-md-4 mb-2">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
-                [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
         </div>
-        
-        
+
+
 
         <!-- <nav>
             <ul class="pagination table-paging m-0">
@@ -69,17 +81,11 @@
             </ul>
         </nav> -->
 
-
-        <div class="row mt-3">
-            <div class="col-md-9">
-                <div class="d-flex align-items-center">
-                    <ng-container>
-                        <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث برقم القيد ...'"></app-erp-filters>
-                    </ng-container>
-                </div>
-            </div>
-            <div class="col-md-3">
-
+        <div class="col-md-12 mt-3">
+            <div class="d-flex align-items-center">
+                <ng-container>
+                    <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث برقم القيد ...'"></app-erp-filters>
+                </ng-container>
             </div>
         </div>
     </div>
@@ -106,7 +112,7 @@
                 </thead>
                 <tbody>
                     <ng-container *ngFor="let item of pagedResponseModel.results">
-                        <tr (click)="item.isChecked = !item.isChecked">
+                        <tr>
                             <td><input type="checkbox" class="big-checkbox" [(ngModel)]="item.isChecked">
                             </td>
                             <td>{{item.entryNumber}}</td>
@@ -129,9 +135,13 @@
                                         <i class="uil uil-pen"></i>
                                         <span>معاينة</span>
                                     </button> -->
-                                    <button routerLink="/general-accounts/new-entry" [queryParams]="{JournalEntryId:item.journalEntryId}" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+                                    <!-- <button routerLink="/general-accounts/new-entry" [queryParams]="{JournalEntryId:item.journalEntryId}" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
                                         <i class="uil uil-pen"></i>
                                         <span>تعديل</span>
+                                    </button> -->
+                                    <button (click)="openSidePanel(item.journalEntryId)" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+                                        <i class="fas fa-eye"></i>
+                                        <span>معاينة</span>
                                     </button>
                                 </div>
                             </td>
@@ -153,3 +163,113 @@
 </div>
 
 <ngx-loading [show]="showLoader"></ngx-loading>
+
+
+<ng-template #DetailsSidePanel let-offcanvas>
+    <div class="offcanvas-header justify-content-between gap-3 fs-4 border-bottom py-3">
+        <div class="d-flex align-items-center gap-2">
+            <i class="fas fa-info-circle offcanvas-header-icon"></i>
+            <span>
+                تفاصيل القيد رقم {{selectedEntryModel.entryNumber}}
+            </span>
+        </div>
+        <div class="cursor-pointer text-danger fs-2" (click)="offcanvas.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="offcanvas-body pt-4 bg-light">
+
+        <div *ngIf="selectedEntryModel" class="employee-card-body mb-3">
+            <div class="inputs-wrapper border rounded bg-white mb-3">
+                <div class="inputs-sec-content px-3 py-3">
+                    <div class="row gy-3">
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">رقم القيد</label>
+                                <input type="text" disabled class="form-control nw-form-input" ngModel={{selectedEntryModel?.entryNumber}} />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">تاريخ القيد</label>
+                                <input type="text" disabled class="form-control nw-form-input" ngModel={{selectedEntryModel?.entryDate}} />
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    البيان
+                                </label>
+                                <input type="text" disabled class="form-control nw-form-input description-area" ngModel={{selectedEntryModel?.description}} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start m-3">
+                    <button (click)="offcanvas.dismiss()" routerLink="/general-accounts/new-entry" [queryParams]="{JournalEntryId:selectedEntryModel?.journalEntryId}" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+                        <i class="uil uil-pen"></i>
+                        <span>تعديل</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <hr class="border-black" />
+
+        <div class="inputs-wrapper border rounded bg-white mb-3">
+            <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">الحسابات</div>
+            <div class="inputs-sec-content px-3 py-2 table-responsive table-vp-height small-scroll">
+                <table class="table table-bordered table-middle text-center table-actions m-0">
+                    <thead>
+                        <tr>
+                            <th>
+                                الحساب
+                            </th>
+                            <th>
+                                مدين
+                            </th>
+                            <th>
+                                دائن
+                            </th>
+                            <th>مركز التكلفة</th>
+                            <th style="width: 290px;">ملاحظات</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr class="row-hover" *ngFor="let item of selectedEntryModel?.journalEntryAccounts;let i = index">
+                            <td style="width: 300px;">
+                                {{item.accountName}}
+                                <!-- {{item.accountName}} - {{item.accountNumber}} -->
+                            </td>
+
+                            <td>
+                                {{item.debit}}
+                            </td>
+                            <td>
+                                {{item.credit}}
+
+                            </td>
+                            <td>
+                                {{item.costCenterName}}
+                            </td>
+                            <td>
+                                {{item.description}}
+                            </td>
+                        </tr>
+                        <tr *ngIf="!selectedEntryModel?.journalEntryAccounts?.length">
+                            <td colspan="5" class="text-right">
+                                <app-empty-data [showEmptyData]="!selectedEntryModel?.journalEntryAccounts?.length"></app-empty-data>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+
+
+            </div>
+        </div>
+    </div>
+
+</ng-template>

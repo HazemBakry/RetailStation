@@ -1,8 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.DTOs.Auth;
 using MasterErp.Entities.DTOs.HR;
-using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.HR.Employee;
+using MasterErp.Entities.Models.HR;
 using System;
 using System.Collections.Generic;
 using System.Data;

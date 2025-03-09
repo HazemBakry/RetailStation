@@ -89,7 +89,9 @@ namespace MasterErp.Service.GeneralAccounts
                                     Debit=res.Debit,
                                     Credit=res.Credit,
                                     TotalDebit=res.TotalDebit,
-                                    TotalCredit=res.TotalCredit
+                                    TotalCredit=res.TotalCredit,
+                                    BalanceDebit = res.BalanceDebit,
+                                    BalanceCredit = res.BalanceCredit
                                     //CreatedDate = res.CreatedDate?.ToString("MM/dd/yyyy"),
 
                                 }).ToList();
@@ -213,7 +215,7 @@ namespace MasterErp.Service.GeneralAccounts
         {
 
             var results = new List<TrialBalanceModel>();
-            if (model.AccountId is null)
+            if (model.FromDate is null || model.ToDate is null)
             {
                 return results;
 

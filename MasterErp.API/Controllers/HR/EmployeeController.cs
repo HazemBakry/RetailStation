@@ -1,15 +1,10 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.DTOs.HR;
-using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.HR.Employee;
+using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.HR;
-using MasterErp.Service.HR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.Operations;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 

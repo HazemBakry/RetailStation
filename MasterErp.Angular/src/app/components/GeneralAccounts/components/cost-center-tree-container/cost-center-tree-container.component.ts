@@ -28,7 +28,7 @@ export class CostCenterTreeContainerComponent implements OnInit {
   {
 
     this.isUpdate=false;
-    this.selectedCostCenterTreeModel={} as CostCenterTreeModel;
+    this.selectedCostCenterTreeModel=null;
     this.reloadData=!this.reloadData;
   }
   selectedCostCenter(costCenter:CostCenterTreeModel)

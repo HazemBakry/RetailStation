@@ -39,6 +39,14 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             var results = _costCenterTreeService.UpdateCostCenterTree(CostCenterId, Model);
             return Ok(results);
         }
+        [HttpGet]
+        [Route("DeleteCostCenterTree")]
+
+        public IActionResult DeleteCostCenterTree(int CostCenterId)
+        {
+            var results = _costCenterTreeService.DeleteCostCenterTree(CostCenterId);
+            return Ok(results);
+        }
 
 
         [HttpGet]

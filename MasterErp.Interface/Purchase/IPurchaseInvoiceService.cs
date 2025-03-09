@@ -1,6 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.Purchases;
-using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Purchases;
 using System;
 using System.Collections.Generic;
 using System.Data;

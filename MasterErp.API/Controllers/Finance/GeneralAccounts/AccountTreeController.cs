@@ -41,6 +41,14 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             var results = _accountTreeService.EditAccountTree(AccountId, Model);
             return Ok(results);
         }
+        [HttpGet]
+        [Route("DeleteAccountTree")]
+
+        public IActionResult DeleteAccountTree(int AccountId)
+        {
+            var results = _accountTreeService.DeleteAccountTree(AccountId);
+            return Ok(results);
+        }
 
         [HttpGet]
         [Route("GetAccountTreeData")]
