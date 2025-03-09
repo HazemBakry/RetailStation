@@ -102,7 +102,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
       this.paymentTypeList = data;
     });
 
-    this.paymentService.GetPaymentOrdersSelector().subscribe((data: FormDropdownModel[]) => {
+    this.paymentService.GetPaymentOrdersSelector(true).subscribe((data: FormDropdownModel[]) => {
       this.paymentOrdersList = data;
     });
 
@@ -275,7 +275,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
 
   ClearAllFields() {
     this.paymentReceiptModel = {} as ReceiptModel;
-    this.selectedAgencyType = null;
+    this.selectedAgencyType = 1;
   }
 
 }

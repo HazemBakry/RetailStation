@@ -70,9 +70,9 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpGet]
         [Route("GetPaymentOrdersSelector")]
-        public IActionResult GetPaymentOrdersSelector()
+        public IActionResult GetPaymentOrdersSelector(bool OrderStatus)
         {
-            var results = _paymentService.GetPaymentOrdersSelector();
+            var results = _paymentService.GetPaymentOrdersSelector(OrderStatus);
             return Ok(results);
         }
 
