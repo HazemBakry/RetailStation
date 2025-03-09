@@ -1,12 +1,10 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div
-        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="col-md-8 mb-2">
             <div class="d-flex align-items-center gap-2">
-                <button class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3"
-                    routerLink="/general-accounts/new-entry">
+                <button class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3" routerLink="/general-accounts/new-entry">
                     <i class="fas fa-plus-circle"></i>
                     <span>إضافة قيد</span>
                 </button>
@@ -14,14 +12,12 @@
                     <i class="fas fa-file-download"></i>
                     <span>تصدير CSV</span>
                 </button> -->
-                <button  [disabled]="showExportLoader" (click)="exportData()" class="btn  btn-outline-success d-flex align-items-center gap-2 border rounded px-3">
+                <button [disabled]="showExportLoader" (click)="exportData()" class="btn  btn-outline-success d-flex align-items-center gap-2 border rounded px-3">
                     <i class="fas fa-file-download"></i>
                     <span>تصدير CSV</span>
                 </button>
                 <div ngbDropdown class="d-inline-block">
-                    <button type="button"
-                        class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3"
-                        id="dropdownBasic1" ngbDropdownToggle>
+                    <button type="button" class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3" id="dropdownBasic1" ngbDropdownToggle>
                         <i class="fas fa-cogs"></i>
                         <span>الإجراءات</span>
                     </button>
@@ -64,9 +60,7 @@
             </div>
         </div>
         <div class="col-md-4 mb-2">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
-                [pageSize]="pagedResponseModel.pageSize"
-                [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
         </div>
 
 
@@ -87,18 +81,11 @@
             </ul>
         </nav> -->
 
-
-        <div class="row mt-3">
-            <div class="col-md-9">
-                <div class="d-flex align-items-center">
-                    <ng-container>
-                        <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"
-                            [searchPlaceholder]="'البحث برقم القيد ...'"></app-erp-filters>
-                    </ng-container>
-                </div>
-            </div>
-            <div class="col-md-3">
-
+        <div class="col-md-12 mt-3">
+            <div class="d-flex align-items-center">
+                <ng-container>
+                    <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث برقم القيد ...'"></app-erp-filters>
+                </ng-container>
             </div>
         </div>
     </div>
@@ -108,8 +95,7 @@
                 <thead>
                     <tr>
                         <th class="min-width-50 width-50 max-width-50">
-                            <input type="checkbox" [(ngModel)]="selectAll" (change)="selectAllData()"
-                                class="big-checkbox cursor-pointer" />
+                            <input type="checkbox" [(ngModel)]="selectAll" (change)="selectAllData()" class="big-checkbox cursor-pointer" />
                         </th>
                         <th>رقم القيد</th>
                         <!-- <th>الرقم الدفتري</th> -->
@@ -153,8 +139,7 @@
                                         <i class="uil uil-pen"></i>
                                         <span>تعديل</span>
                                     </button> -->
-                                    <button (click)="openSidePanel(item.journalEntryId)"
-                                        class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+                                    <button (click)="openSidePanel(item.journalEntryId)" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
                                         <i class="fas fa-eye"></i>
                                         <span>معاينة</span>
                                     </button>
@@ -195,55 +180,42 @@
     <div class="offcanvas-body pt-4 bg-light">
 
         <div *ngIf="selectedEntryModel" class="employee-card-body mb-3">
-            <div class="row mb-3">
-                <div class="col-xl-6">
-                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
-                        <i class="fas fa-info-circle fa-1x me-2"></i> رقم القيد : {{selectedEntryModel?.entryNumber}}
-                    </h4>
+            <div class="inputs-wrapper border rounded bg-white mb-3">
+                <div class="inputs-sec-content px-3 py-3">
+                    <div class="row gy-3">
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">رقم القيد</label>
+                                <input type="text" disabled class="form-control nw-form-input" ngModel={{selectedEntryModel?.entryNumber}} />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">تاريخ القيد</label>
+                                <input type="text" disabled class="form-control nw-form-input" ngModel={{selectedEntryModel?.entryDate}} />
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    البيان
+                                </label>
+                                <input type="text" disabled class="form-control nw-form-input description-area" ngModel={{selectedEntryModel?.description}} />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div *ngIf="selectedEntryModel?.entryDate" class="col-xl-6">
-                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
-                        تاريخ القيد : {{selectedEntryModel?.entryDate | date}}
-                    </h4>
+                <div class="d-flex justify-content-start m-3">
+                    <button (click)="offcanvas.dismiss()" routerLink="/general-accounts/new-entry" [queryParams]="{JournalEntryId:selectedEntryModel?.journalEntryId}" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+                        <i class="uil uil-pen"></i>
+                        <span>تعديل</span>
+                    </button>
                 </div>
             </div>
-            <div class="row mb-3">
-                <div *ngIf="selectedEntryModel?.journalTypeEN || selectedEntryModel?.journalTypeAR" class="col-xl-6">
-                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
-
-                        <i class="fas fa-info-circle fa-1x me-2"></i> نوع القيد : {{selectedEntryModel?.journalTypeEN ||
-                        selectedEntryModel?.journalTypeAR}}
-                    </h4>
-                </div>
-                <div *ngIf="selectedEntryModel?.docNumber" class="col-xl-6">
-                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
-                        الرقم الدفتري : {{selectedEntryModel?.docNumber}}
-                    </h4>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div *ngIf="selectedEntryModel?.description" class="col-xl-6">
-                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
-                        <i class="fas fa-info-circle fa-1x me-2"></i>البيان: {{selectedEntryModel?.description}}
-                    </h4>
-                </div>
-            </div>
-            <!-- <div class="col-xl-12">
-                <div class="d-flex justify-content-start mt-3">
-                    
-                </div>
-            </div> -->
         </div>
 
         <hr class="border-black" />
-        <div class="d-flex justify-content-start m-3">
-            <button (click)="offcanvas.dismiss()" routerLink="/general-accounts/new-entry"
-                [queryParams]="{JournalEntryId:selectedEntryModel?.journalEntryId}"
-                class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
-                <i class="uil uil-pen"></i>
-                <span>تعديل</span>
-            </button>
-        </div>
+
         <div class="inputs-wrapper border rounded bg-white mb-3">
             <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">الحسابات</div>
             <div class="inputs-sec-content px-3 py-2 table-responsive table-vp-height small-scroll">
@@ -265,12 +237,10 @@
 
                     </thead>
                     <tbody>
-                        <tr class="row-hover"
-                            *ngFor="let item of selectedEntryModel?.journalEntryAccounts;let i = index">
+                        <tr class="row-hover" *ngFor="let item of selectedEntryModel?.journalEntryAccounts;let i = index">
                             <td style="width: 300px;">
                                 {{item.accountName}}
-                                -
-                                {{item.accountNumber}}
+                                <!-- {{item.accountName}} - {{item.accountNumber}} -->
                             </td>
 
                             <td>
@@ -289,8 +259,7 @@
                         </tr>
                         <tr *ngIf="!selectedEntryModel?.journalEntryAccounts?.length">
                             <td colspan="5" class="text-right">
-                                <app-empty-data
-                                    [showEmptyData]="!selectedEntryModel?.journalEntryAccounts?.length"></app-empty-data>
+                                <app-empty-data [showEmptyData]="!selectedEntryModel?.journalEntryAccounts?.length"></app-empty-data>
                             </td>
                         </tr>
                     </tbody>

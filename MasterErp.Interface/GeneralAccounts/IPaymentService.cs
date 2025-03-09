@@ -19,7 +19,7 @@ namespace MasterErp.Interface.GeneralAccounts
         ActionsResponseModel SavePaymentOrder(PaymentOrder Model);
         ActionsResponseModel CancelPaymentOrder(int ReceiptId);
         PaymentOrder GetPaymentOrderDetails(int OrderId);
-        List<SelectorDataModel> GetPaymentOrdersSelector();
+        List<SelectorDataModel> GetPaymentOrdersSelector(bool OrderStatus);
 
         // ----------------- Payment Receipts -----------------//
         List<ReceiptModel> GetPaymentReceipts_Summary(FilterModel model);

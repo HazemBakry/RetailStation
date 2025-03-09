@@ -21,7 +21,7 @@ namespace MasterErp.Entities.Models.Finance
         public string NameAR { get; set; }
         public string NameEN { get; set; }
         public bool IsParent { get; set; }
-        public int? CostAccountId { get; set; }
+        public int? CostCenterId { get; set; }
         public string AccountNature { get; set; }
         public string FName { get; set; }
         public bool? IsActive { get; set; }

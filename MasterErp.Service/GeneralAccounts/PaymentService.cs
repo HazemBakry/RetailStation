@@ -158,9 +158,9 @@ namespace MasterErp.Service.GeneralAccounts
             return order;
         }
 
-        public List<SelectorDataModel> GetPaymentOrdersSelector()
+        public List<SelectorDataModel> GetPaymentOrdersSelector(bool OrderStatus)
         {
-            var results = Context.PaymentOrders.Select(b => new SelectorDataModel
+            var results = Context.PaymentOrders.Where(x => x.IsLocked != true).Select(b => new SelectorDataModel
             {
                 Id = b.PaymentOrderId,
                 Name = b.OrderNumber.ToString(),
@@ -192,6 +192,17 @@ namespace MasterErp.Service.GeneralAccounts
             try
             {
                 PaymentReceipt receipt = new PaymentReceipt();
+
+                if (Model.PaymentOrderId == null || Model.PaymentOrderId == 0)
+                {
+                    return new ActionsResponseModel
+                    {
+                        Status = 100,
+                        Message = "يجب اختيار أمر الشراء أولا لاتمام حفظ السند",
+                        Id = 0,
+                        IsSuccess = false
+                    };
+                }
 
                 if (Model.ReceiptId > 0)
                 {
@@ -248,6 +259,10 @@ namespace MasterErp.Service.GeneralAccounts
                     Context.PaymentReceipts.Add(receipt);
                     Context.SaveChanges();
                 }
+
+                var payment_order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == Model.PaymentOrderId);
+                payment_order.IsLocked = true;
+                Context.SaveChanges();
 
                 var entry = PreparePaymentEntryModel(receipt);
                 var result = entryService.SaveNewJournalEntry(entry);
