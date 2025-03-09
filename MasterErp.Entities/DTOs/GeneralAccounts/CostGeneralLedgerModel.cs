@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.DTOs.GeneralAccounts
 {
-    public class TrialBalanceModel
+
+    public class CostGeneralLedgerModel
     {
-        public int? AccountId { get; set; }
-        public string AccountNameAR { get; set; }
-        public string AccountNameEN { get; set; }
-        public string AccountNumber { get; set; }
+        public int? CostCenterId { get; set; }
+        public int? ParentCostCenterId { get; set; }
+        public string CostCenterNameAR { get; set; }
+        public string CostCenterNameEN { get; set; }
+        public string CostCenterNumber { get; set; }
         public double? PreDebit { get; set; }
         public double? PreCredit { get; set; }
         public double? Debit { get; set; }
@@ -23,16 +25,16 @@ namespace MasterErp.Entities.DTOs.GeneralAccounts
         public double? BalanceCredit { get; set; }
         public int? TotalCount { get; set; }
     }
-    public class TrialBalanceExportModel
+
+    public class CostGeneralLedgerExportModel
     {
-        [JsonProperty("Account Number")]
-        public string AccountNumber { get; set; }
 
-        [JsonProperty("Account Name (AR)")]
-        public string AccountNameAR { get; set; }
-        [JsonProperty("Account Name (EN)")]
-        public string AccountNameEN { get; set; }
-
+        [JsonProperty("CostCenter Name (AR)")]
+        public string CostCenterNameAR { get; set; }
+        [JsonProperty("CostCenter Name (EN)")]
+        public string CostCenterNameEN { get; set; }
+        [JsonProperty("CostCenter Number")]
+        public string CostCenterNumber { get; set; }
         [JsonProperty("Pre Debit")]
         public double? PreDebit { get; set; }
         [JsonProperty("Pre Credit")]
@@ -45,11 +47,9 @@ namespace MasterErp.Entities.DTOs.GeneralAccounts
         public double? TotalDebit { get; set; }
         [JsonProperty("Total Credit")]
         public double? TotalCredit { get; set; }
-
+        [JsonProperty("Balance Debit")]
         public double? BalanceDebit { get; set; }
         [JsonProperty("Balance Credit")]
         public double? BalanceCredit { get; set; }
-
-
     }
 }

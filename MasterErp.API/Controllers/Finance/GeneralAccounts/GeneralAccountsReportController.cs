@@ -72,11 +72,11 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             return Ok(results);
         }
         [HttpPost]
-        [Route("GetTrialBalanceReport")]
-        public IActionResult GetTrialBalanceReport(AccountsReportSearchFilterModel model)
+        [Route("GetAccountsTrialBalanceReport")]
+        public IActionResult GetAccountsTrialBalanceReport(AccountsReportSearchFilterModel model)
         {
-            var data = ReportService.GetTrialBalanceReport(model);
-            var result = new PagedResponseModel<TrialBalanceModel>
+            var data = ReportService.GetAccountsTrialBalanceReport(model);
+            var result = new PagedResponseModel<AccountsTrialBalanceModel>
             {
                 Results = data,
                 TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
@@ -86,11 +86,11 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             return Ok(result);
         }
         [HttpPost]
-        [Route("ExportTrialBalanceReport")]
-        public IActionResult ExportTrialBalanceReport(AccountsReportSearchFilterModel SearchModel)
+        [Route("ExportAccountsTrialBalanceReport")]
+        public IActionResult ExportAccountsTrialBalanceReport(AccountsReportSearchFilterModel SearchModel)
         {
             string UserName = string.Empty;
-            var results = ReportService.ExportTrialBalanceReport(UserName, SearchModel);
+            var results = ReportService.ExportAccountsTrialBalanceReport(UserName, SearchModel);
             return Ok(results);
         }
 
@@ -98,51 +98,78 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("GetCostGeneralLedger")]
-        public IActionResult GetCostGeneralLedger(SearchFilterModel model)
+        public IActionResult GetCostGeneralLedger(AccountsReportSearchFilterModel model)
         {
-            return Ok(null);
+            var data = ReportService.GetCostGeneralLedger(model);
+            var result = new PagedResponseModel<CostGeneralLedgerModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
         }
-
-
         [HttpPost]
         [Route("ExportCostGeneralLedger")]
-        public IActionResult ExportCostGeneralLedger(SearchFilterModel model)
+        public IActionResult ExportCostGeneralLedger(AccountsReportSearchFilterModel SearchModel)
         {
-            return Ok(null);
+            string UserName = string.Empty;
+            var results = ReportService.ExportCostGeneralLedger(UserName, SearchModel);
+            return Ok(results);
         }
 
-
+      
+        
         [HttpPost]
         [Route("GetCostAssistantLedger")]
-        public IActionResult GetCostAssistantLedger(SearchFilterModel model)
+        public IActionResult GetCostAssistantLedger(AccountsReportSearchFilterModel model)
         {
-            return Ok(null);
+            var data = ReportService.GetCostAssistantLedger(model);
+            var result = new PagedResponseModel<CostAssistantLedgerModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
         }
-
-
         [HttpPost]
         [Route("ExportCostAssistantLedger")]
-        public IActionResult ExportCostAssistantLedger(SearchFilterModel model)
+        public IActionResult ExportCostAssistantLedger(AccountsReportSearchFilterModel SearchModel)
         {
-            return Ok(null);
+            string UserName = string.Empty;
+            var results = ReportService.ExportCostAssistantLedger(UserName, SearchModel);
+            return Ok(results);
         }
 
-
+      
+        
         [HttpPost]
         [Route("GetCostTrialBalanceReport")]
-        public IActionResult GetCostTrialBalanceReport(SearchFilterModel model)
+        public IActionResult GetCostTrialBalanceReport(AccountsReportSearchFilterModel model)
         {
-            return Ok(null);
+            var data = ReportService.GetCostTrialBalanceReport(model);
+            var result = new PagedResponseModel<CostTrialBalanceModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
         }
-
-
         [HttpPost]
         [Route("ExportCostTrialBalanceReport")]
-        public IActionResult ExportCostTrialBalanceReport(SearchFilterModel model)
+        public IActionResult ExportCostTrialBalanceReport(AccountsReportSearchFilterModel SearchModel)
         {
-            return Ok(null);
+            string UserName = string.Empty;
+            var results = ReportService.ExportCostTrialBalanceReport(UserName, SearchModel);
+            return Ok(results);
         }
 
+      
 
         [HttpPost]
         [Route("GetCostCenterMatrix")]

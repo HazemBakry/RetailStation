@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GeneralAccountService } from '../../services/general-account.service';
 import { ToastrService } from 'ngx-toastr';
 import { SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
-import { AccountsAssistantLedgerModel, AccountsReportSearchFilterModel, TrialBalanceModel } from '../../models/GeneralAccounts/AccountsReportSearchFilterModel';
+import { AccountsAssistantLedgerModel, AccountsReportSearchFilterModel, AccountsTrialBalanceModel } from '../../models/GeneralAccounts/AccountsReportSearchFilterModel';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
@@ -56,7 +56,7 @@ export class TrialBalanceComponent implements OnInit {
     this.totalDebit = null;
     this.totalCredit = null;
     this.showLoader = true;
-    this.generalService.GetTrialBalanceReport(this.trialBalanceResponse).subscribe((data: PagedResponseDTO<TrialBalanceModel[]>) => {
+    this.generalService.GetAccountsTrialBalanceReport(this.trialBalanceResponse).subscribe((data: PagedResponseDTO<AccountsTrialBalanceModel[]>) => {
       this.trialBalanceResponse.results = data.results;
       this.trialBalanceResponse.totalCount = data.totalCount;
 
@@ -82,7 +82,7 @@ export class TrialBalanceComponent implements OnInit {
       return;
     }
     this.showExportLoader = true;
-    this.generalService.ExportTrialBalanceReport(this.trialBalanceResponse).subscribe((data: ActionsResponseModel) => {
+    this.generalService.ExportAccountsTrialBalanceReport(this.trialBalanceResponse).subscribe((data: ActionsResponseModel) => {
       if (data.isSuccess) {
         this.sharedService.urlDownloadOrOpen(data.url);
         this.toaster.success(data.message);

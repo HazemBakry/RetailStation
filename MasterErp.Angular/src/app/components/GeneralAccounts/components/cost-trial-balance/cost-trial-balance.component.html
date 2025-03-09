@@ -1,115 +1,140 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
-<div class="card radius-10 border-0 card-shadow mb-3">
-    <div class="card-body">
-        <app-accounts-report-header [showCostCenterFilter]="true" (SearchData)="headerSearchChanged($event)"></app-accounts-report-header>
 
-
+<div class="inputs-wrapper border rounded bg-white mb-3">
+    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">ميزان المراجعة - مراكز التكلفة</div>
+    <div class="inputs-sec-content px-3 py-2">
+        <app-accounts-report-search (searchDataChanged)="searchDataChanged($event)"
+            [isParent]="true" [showCostCenter]="true"></app-accounts-report-search>
 
         <div class="row">
-            <div class="col-lg-3 mb-3">
-                <!-- <input type="number" class="form-control" style="height: calc(3rem)" [(ngModel)]="SearchFilterModel.searchLevel" placeholder="التفرع"> -->
 
-                <div class="form-floating">
-                    <input type="number" [(ngModel)]="SearchFilterModel.searchLevel" class="form-control input-size" id="floatingInput2" placeholder="any" autocomplete="off">
-                    <label for="floatingInput2"> التفرع</label>
+            <div class="col-lg-6">
+                <div class="mb-2">
+                    <label class="form-label d-flex align-items-center gap-2">
+                        التفرع
+                    </label>
+                    <input type="number" class="form-control nw-form-input" [(ngModel)]="trialBalanceResponse.searchLevel" autocomplete="off" />
+
                 </div>
             </div>
-            <div class="col-lg-3 offset-lg-1  mb-3">
-                <app-erp-selector-with-search #Selector
-                    [SelectorName]="'نوع التفرع'"  
-                    [ItemsList]="LevelTypes" 
-                    [Height]="'35px'" 
-                    [SearchKey]="'nameAR'" 
-                    (ItemObj)="GetTypeSelected($event)">
-                </app-erp-selector-with-search>
+            <div class="col-lg-6">
+                <div class="mb-2">
+                    <label class="form-label d-flex align-items-center gap-2">
+                        نوع التفرع
+                    </label>
+                    <app-general-selector [showSearch]="true" [(ngModel)]="trialBalanceResponse.searchType" [data]="levelTypesSelector"
+                        [placeholder]="'نوع التفرع'"></app-general-selector>
+                </div>
             </div>
         </div>
+
         <div class="row">
 
             <div class="col-lg-4  mb-3">
-                <div class="d-flex align-items-center">
-                    <input type="checkbox" id="HideEmptyAccounts" [(ngModel)]="SearchFilterModel.hideEmptyAccounts">
-                    <label class="label-info white-space-nowrap m-3" for="HideEmptyAccounts" style="cursor: pointer;">
-                        اخفاء الحسابات بدون رصيد</label>
+                <label class="form-label d-flex align-items-center gap-2">
+                    اخفاء الحسابات بدون رصيد
+                </label>
+                <input class="big-checkbox" [(ngModel)]="trialBalanceResponse.hideEmptyAccounts" type="checkbox">
 
-                </div>
-            </div>
-        </div>
-        <div class="row ps-3">
-            <div class="col-xl-12 mt-3">
-                <div class="d-flex align-items-center">
-                    <button class="btn btn-primary me-2" (click)="loadData()">
-                        <i class="fas fa-search"></i>
-                        <span class="ms-2">بحث</span>
-                    </button>
-                    <button class="btn btn-success me-2" (click)="exportData()">
-                        <i class="fas fa-file-export"></i>
-                        <span class="ms-2">تصدير</span>
-                    </button>
-                    <button class="btn btn-secondary me-2" (click)="printData()">
-                        <i class="fas fa-print"></i>
-                        <span class="ms-2">طباعة</span>
-                    </button>
-                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="mb-3">
-    <div class="card radius-10 border-0 card-shadow">
-        <div class="card-body">
-            <div class="main-card-action">
-                <div class="row">
-                    <div class="col-md-8">
-                        <!-- <div class="col-md-12">
-                        <div class="d-flex align-items-center flex-wrap">
-                            <ng-container *ngIf="filterList.length > 0">
-                                <app-pos-filters [FilterList]="filterList"
-                                    (filterChanged)="filterChecked($event)"></app-pos-filters>
-                            </ng-container>
-                        </div>
-                    </div> -->
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="SearchFilterModel.currentPage" [pageSize]="SearchFilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="TotalPages"></app-erp-pagination>
-                    </div>
-                </div>
-            </div>
-            <div class="table-responsive large-scroll table-vp-height">
-                <table class="table table-bordered table-middle table-hover bg-white mb-3 table-fixed-width">
-                    <thead>
-                        <tr>
-                            <th>الكـود</th>
-                            <th>الحســاب</th>
-                            <th>رصيد ما قبل (مدين)</th>
-                            <th>رصيد ما قبل (دائن)</th>
-                            <th>الحركة (مدين)</th>
-                            <th>الحركة (دائن)</th>
-                            <th>الإجمالى (مدين)</th>
-                            <th>الإجمالى (دائن)</th>
-                            <th>الصافى (مدين)</th>
-                            <th>الصافى (دائن)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of SearchResult">
-                            <td>{{item.accountCode}}</td>
-                            <td>{{item.accountName}}</td>
-                            <td>{{item.preDebit}}</td>
-                            <td>{{item.preCredit}}</td>
-                            <td>{{item.debit}}</td>
-                            <td>{{item.credit}}</td>
-                            <td>{{item.totalDebit}}</td>
-                            <td>{{item.totalCredit}}</td>
-                            <td>{{item.balanceDebit}}</td>
-                            <td>{{item.balanceCredit}}</td>
-                        </tr>
-                    </tbody>
-
-                </table>
-            </div>
-        </div>
+    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-top mb-2">
+        <button class="btn btn-primary me-2" (click)="loadData()">
+            <i class="fas fa-search"></i>
+            <span class="ms-2">بحث</span>
+        </button>
+        <button [disabled]="showExportLoader" (click)="exportData()"
+            class="btn  btn-outline-success gap-2 border rounded px-3 me-2">
+            <i class="fas fa-file-download"></i>
+            <span>تصدير CSV</span>
+        </button>
+        <button (click)="printData()" class="btn btn-table-action  gap-2 border rounded px-3 me-2">
+            <i class="fas fa-print fs-7"></i>
+            <span>طباعة</span>
+        </button>
+        <!-- <button class="btn btn-secondary me-2" (click)="printData()">
+            <i class="fas fa-print"></i>
+            <span class="ms-2">طباعة</span>
+        </button> -->
     </div>
 </div>
+
+<div class="inputs-wrapper border rounded bg-white mb-3">
+    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">
+        مراكز التكلفة
+
+    </div>
+    <!-- <div class="px-3 py-2 mb-2">
+
+        <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="trialBalanceResponse.currentPage"
+            [pageSize]="trialBalanceResponse.pageSize" [totalCount]="trialBalanceResponse.totalCount"></app-erp-pagination>
+    </div> -->
+
+    <div class="table-responsive shadow-sm  table-vp-height small-scroll">
+        <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+
+            <thead>
+                <tr>
+                    <th>الكـود</th>
+                    <th>الحســاب</th>
+                    <th>رصيد ما قبل (مدين)</th>
+                    <th>رصيد ما قبل (دائن)</th>
+                    <th>الحركة (مدين)</th>
+                    <th>الحركة (دائن)</th>
+                    <th>الإجمالى (مدين)</th>
+                    <th>الإجمالى (دائن)</th>
+                    <th>الصافى (مدين)</th>
+                    <th>الصافى (دائن)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of  trialBalanceResponse.results">
+                    <td>{{item.costCenterNumber}}</td>
+                    <td>{{item.costCenterNameAR ?? item.costCenterNameEN}}</td>
+                    <td>{{item.preDebit}}</td>
+                    <td>{{item.preCredit}}</td>
+                    <td>{{item.debit}}</td>
+                    <td>{{item.credit}}</td>
+                    <td>{{item.totalDebit}}</td>
+                    <td>{{item.totalCredit}}</td>
+                    <td>{{item.balanceDebit}}</td>
+                    <td>{{item.balanceCredit}}</td>
+                </tr>
+                <tr *ngIf="!trialBalanceResponse.results.length">
+                    <td colspan="10" class="text-right">
+                        <app-empty-data [showEmptyData]="!trialBalanceResponse.results.length"></app-empty-data>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <ng-container *ngIf="totalDebit !=null &&totalCredit !=null">
+        <hr />
+        <div class="row justify-content-end m-3">
+            <div class="col-md-2">
+                <label class="form-label d-flex align-items-center gap-2">
+                    أجمالي دائن
+                </label>
+                <input type="text" class="form-control nw-form-input" [value]="totalCredit" disabled
+                    autocomplete="off" />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label d-flex align-items-center gap-2">
+                    أجمالي مدين
+                </label>
+                <input type="text" class="form-control nw-form-input" [value]="totalDebit" disabled
+                    autocomplete="off" />
+            </div>
+        </div>
+        <div class="row justify-content-end mb-3">
+
+        </div>
+
+    </ng-container>
+</div>
+

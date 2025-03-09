@@ -63,7 +63,7 @@ namespace MasterErp.Service.GeneralAccounts
             Params[3] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
             Params[4] = new SqlParameter("@CurrentPage", model.CurrentPage);
             Params[5] = new SqlParameter("@PageSize", model.PageSize);
-            results = SQLHelper.SQLQuery<AccountsGeneralLedgerModel>("[Finance].[SP_GetAccountsGeneralLedger_Data]", ConnectionString, Params);
+            results = SQLHelper.SQLQuery<AccountsGeneralLedgerModel>("[Finance].[SP_GetAccountsGeneralLedgerReport]", ConnectionString, Params);
 
             return results;
         }
@@ -145,7 +145,7 @@ namespace MasterErp.Service.GeneralAccounts
             Params[3] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
             Params[4] = new SqlParameter("@CurrentPage", model.CurrentPage);
             Params[5] = new SqlParameter("@PageSize", model.PageSize);
-            results = SQLHelper.SQLQuery<AccountsAssistantLedgerModel>("[Finance].[SP_GetAccountsAssistantLedger_Data]", ConnectionString, Params);
+            results = SQLHelper.SQLQuery<AccountsAssistantLedgerModel>("[Finance].[SP_GetAccountsAssistantLedgerReport]", ConnectionString, Params);
 
             return results;
         }
@@ -211,10 +211,10 @@ namespace MasterErp.Service.GeneralAccounts
 
 
 
-        public List<TrialBalanceModel> GetTrialBalanceReport(AccountsReportSearchFilterModel model)
+        public List<AccountsTrialBalanceModel> GetAccountsTrialBalanceReport(AccountsReportSearchFilterModel model)
         {
 
-            var results = new List<TrialBalanceModel>();
+            var results = new List<AccountsTrialBalanceModel>();
             if (model.FromDate is null || model.ToDate is null)
             {
                 return results;
@@ -229,22 +229,22 @@ namespace MasterErp.Service.GeneralAccounts
             Params[5] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
             Params[6] = new SqlParameter("@CurrentPage", model.CurrentPage);
             Params[7] = new SqlParameter("@PageSize", model.PageSize);
-            results = SQLHelper.SQLQuery<TrialBalanceModel>("[Finance].[SP_GetTrialBalanceReport]", ConnectionString, Params);
+            results = SQLHelper.SQLQuery<AccountsTrialBalanceModel>("[Finance].[SP_GetAccountsTrialBalanceReport]", ConnectionString, Params);
 
             return results;
         }
 
-        public ActionsResponseModel ExportTrialBalanceReport(string UserName, AccountsReportSearchFilterModel SearchModel)
+        public ActionsResponseModel ExportAccountsTrialBalanceReport(string UserName, AccountsReportSearchFilterModel SearchModel)
         {
             string url = string.Empty;
             try
             {
                 SearchModel.CurrentPage = 1;
                 SearchModel.PageSize = 990000;
-                var Data = GetTrialBalanceReport(SearchModel);
+                var Data = GetAccountsTrialBalanceReport(SearchModel);
 
                 var result = Data.Select(res =>
-                                new TrialBalanceExportModel
+                                new AccountsTrialBalanceExportModel
                                 {
                                     AccountNameEN = res.AccountNameEN,
                                     AccountNameAR = res.AccountNameAR,
@@ -262,15 +262,15 @@ namespace MasterErp.Service.GeneralAccounts
 
                 if (!result.Any())
                 {
-                    result.Add(new TrialBalanceExportModel());
+                    result.Add(new AccountsTrialBalanceExportModel());
 
                 }
 
 
-                var dtExport = DalHelper.ConvertToDataTable(result, "TrialBalanceReport");
+                var dtExport = DalHelper.ConvertToDataTable(result, "AccountsTrialBalanceReport");
 
 
-                url = GetExportFilePath(dtExport, UserName, "TrialBalanceReport");
+                url = GetExportFilePath(dtExport, UserName, "AccountsTrialBalanceReport");
 
 
                 return new ActionsResponseModel
@@ -292,6 +292,259 @@ namespace MasterErp.Service.GeneralAccounts
                 };
             }
         }
+
+
+
+        #region CostCenterReports
+
+        public List<CostGeneralLedgerModel> GetCostGeneralLedger(AccountsReportSearchFilterModel model)
+        {
+            var results = new List<CostGeneralLedgerModel>();
+            if (model.CostCenterId is null)
+            {
+                return results;
+
+            }
+            SqlParameter[] Params = new SqlParameter[6];
+            Params[0] = new SqlParameter("@CostCenterId", model.CostCenterId);
+            Params[1] = new SqlParameter("@FromDate", model.FromDate);
+            Params[2] = new SqlParameter("@ToDate", model.ToDate);
+            Params[3] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
+            Params[4] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[5] = new SqlParameter("@PageSize", model.PageSize);
+            results = SQLHelper.SQLQuery<CostGeneralLedgerModel>("[Finance].[SP_GetCostGeneralLedgerReport]", ConnectionString, Params);
+
+            return results;
+        }
+
+
+        public ActionsResponseModel ExportCostGeneralLedger(string UserName, AccountsReportSearchFilterModel SearchModel)
+        {
+            string url = string.Empty;
+            try
+            {
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var Data = GetCostGeneralLedger(SearchModel);
+
+                var result = Data.Select(res =>
+                                new CostGeneralLedgerExportModel
+                                {
+                                    CostCenterNameEN = res.CostCenterNameEN,
+                                    CostCenterNameAR = res.CostCenterNameAR,
+                                    CostCenterNumber = res.CostCenterNumber,
+                                    PreDebit = res.PreDebit,
+                                    PreCredit = res.PreCredit,
+                                    Debit = res.Debit,
+                                    Credit = res.Credit,
+                                    TotalDebit = res.TotalDebit,
+                                    TotalCredit = res.TotalCredit,
+                                    BalanceDebit = res.BalanceDebit,
+                                    BalanceCredit = res.BalanceCredit
+                                    //CreatedDate = res.CreatedDate?.ToString("MM/dd/yyyy"),
+
+                                }).ToList();
+
+                if (!result.Any())
+                {
+                    result.Add(new CostGeneralLedgerExportModel());
+
+                }
+
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "CostGeneralLedger");
+
+
+                url = GetExportFilePath(dtExport, UserName, "CostGeneralLedger");
+
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+        }
+
+        public List<CostAssistantLedgerModel> GetCostAssistantLedger(AccountsReportSearchFilterModel model)
+        {
+
+            var results = new List<CostAssistantLedgerModel>();
+            if (model.CostCenterId is null)
+            {
+                return results;
+
+            }
+            SqlParameter[] Params = new SqlParameter[7];
+            Params[0] = new SqlParameter("@AccountId", model.AccountId);
+            Params[1] = new SqlParameter("@CostCenterId", model.CostCenterId);
+            Params[2] = new SqlParameter("@FromDate", model.FromDate);
+            Params[3] = new SqlParameter("@ToDate", model.ToDate);
+            Params[4] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
+            Params[5] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[6] = new SqlParameter("@PageSize", model.PageSize);
+            results = SQLHelper.SQLQuery<CostAssistantLedgerModel>("[Finance].[SP_GetCostAssistantLedgerReport]", ConnectionString, Params);
+
+            return results;
+        }
+        public ActionsResponseModel ExportCostAssistantLedger(string UserName, AccountsReportSearchFilterModel SearchModel)
+        {
+            string url = string.Empty;
+            try
+            {
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var Data = GetCostAssistantLedger(SearchModel);
+
+                var result = Data.Select(res =>
+                                new CostAssistantLedgerExportModel
+                                {
+                                    EntryDate = res.EntryDate?.ToString("MM/dd/yyyy"),
+                                    EntryType = res.EntryType,
+                                    EntryNumber = res.EntryNumber,
+                                    ChequeNumber = res.ChequeNumber,
+                                    Description = res.Description,
+                                    Debit = res.Debit,
+                                    Credit = res.Credit,
+                                    BalanceDebit = res.BalanceDebit,
+                                    BalanceCredit = res.BalanceCredit
+                                    //CreatedDate = res.CreatedDate?.ToString("MM/dd/yyyy"),
+
+                                }).ToList();
+
+                if (!result.Any())
+                {
+                    result.Add(new CostAssistantLedgerExportModel());
+
+                }
+
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "CostAssistantLedger");
+
+
+                url = GetExportFilePath(dtExport, UserName, "CostAssistantLedger");
+
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+        }
+
+
+
+
+
+        public List<CostTrialBalanceModel> GetCostTrialBalanceReport(AccountsReportSearchFilterModel model)
+        {
+
+            var results = new List<CostTrialBalanceModel>();
+            if (model.FromDate is null || model.ToDate is null)
+            {
+                return results;
+
+            }
+            SqlParameter[] Params = new SqlParameter[8];
+            Params[0] = new SqlParameter("@CostCenterId", model.CostCenterId);
+            Params[1] = new SqlParameter("@FromDate", model.FromDate);
+            Params[2] = new SqlParameter("@ToDate", model.ToDate);
+            Params[3] = new SqlParameter("@SearchType", model.SearchType);
+            Params[4] = new SqlParameter("@SearchLevel", model.SearchLevel);
+            Params[5] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
+            Params[6] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[7] = new SqlParameter("@PageSize", model.PageSize);
+            results = SQLHelper.SQLQuery<CostTrialBalanceModel>("[Finance].[SP_GetCostTrialBalanceReport]", ConnectionString, Params);
+
+            return results;
+        }
+
+        public ActionsResponseModel ExportCostTrialBalanceReport(string UserName, AccountsReportSearchFilterModel SearchModel)
+        {
+            string url = string.Empty;
+            try
+            {
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var Data = GetCostTrialBalanceReport(SearchModel);
+
+                var result = Data.Select(res =>
+                                new CostTrialBalanceExportModel
+                                {
+                                    CostCenterNameEN = res.CostCenterNameEN,
+                                    CostCenterNameAR = res.CostCenterNameAR,
+                                    CostCenterNumber = res.CostCenterNumber,
+                                    PreDebit = res.PreDebit,
+                                    PreCredit = res.PreCredit,
+                                    Debit = res.Debit,
+                                    Credit = res.Credit,
+                                    TotalDebit = res.TotalDebit,
+                                    TotalCredit = res.TotalCredit,
+                                    BalanceDebit = res.BalanceDebit,
+                                    BalanceCredit = res.BalanceCredit
+
+                                }).ToList();
+
+                if (!result.Any())
+                {
+                    result.Add(new CostTrialBalanceExportModel());
+
+                }
+
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "CostTrialBalanceReport");
+
+
+                url = GetExportFilePath(dtExport, UserName, "CostTrialBalanceReport");
+
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+        }
+
+
+        #endregion
 
         //public List<TrialBalanceModel> GetTrialBalanceReport(SearchFilterModel model)
         //{

@@ -17,8 +17,22 @@ namespace MasterErp.Interface.GeneralAccounts
 
         List<AccountsAssistantLedgerModel> GetAccountsAssistantLedger(AccountsReportSearchFilterModel SearchModel);
         ActionsResponseModel ExportAccountsAssistantLedger(string UserName, AccountsReportSearchFilterModel SearchModel);
-        List<TrialBalanceModel> GetTrialBalanceReport(AccountsReportSearchFilterModel model);
-        ActionsResponseModel ExportTrialBalanceReport(string UserName, AccountsReportSearchFilterModel SearchModel);
+        List<AccountsTrialBalanceModel> GetAccountsTrialBalanceReport(AccountsReportSearchFilterModel model);
+        ActionsResponseModel ExportAccountsTrialBalanceReport(string UserName, AccountsReportSearchFilterModel SearchModel);
+
+
+        #region CostCenterReports
+
+        List<CostGeneralLedgerModel> GetCostGeneralLedger(AccountsReportSearchFilterModel SearchModel);
+        ActionsResponseModel ExportCostGeneralLedger(string UserName, AccountsReportSearchFilterModel SearchModel);
+
+        List<CostAssistantLedgerModel> GetCostAssistantLedger(AccountsReportSearchFilterModel SearchModel);
+        ActionsResponseModel ExportCostAssistantLedger(string UserName, AccountsReportSearchFilterModel SearchModel);
+        List<CostTrialBalanceModel> GetCostTrialBalanceReport(AccountsReportSearchFilterModel model);
+        ActionsResponseModel ExportCostTrialBalanceReport(string UserName, AccountsReportSearchFilterModel SearchModel);
+
+
+        #endregion
 
     }
 }

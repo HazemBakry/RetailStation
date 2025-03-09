@@ -12,9 +12,9 @@ import { GeneralSelectorModel } from '../general-selector/general-selector.compo
   styleUrls: ['./accounts-report-search.component.css']
 })
 export class AccountsReportSearchComponent implements OnInit {
-  @Input() isParentAccount: boolean = false;
-  @Input() showCostCenterFilter: boolean = false;
-  @Input() showAccountFilter: boolean = false;
+  @Input() isParent: boolean = false;
+  @Input() showCostCenter: boolean = false;
+  @Input() showAccounts: boolean = false;
   @Output() searchDataChanged = new EventEmitter<AccountsReportSearchFilterModel>();
 
 
@@ -45,9 +45,12 @@ export class AccountsReportSearchComponent implements OnInit {
 
     // this.ToDate = this.datePipe.transform(endDate, 'yyyy-MM-dd');
     // this.FromDate = this.datePipe.transform(endDate, 'yyyy-MM-dd');
-
-    this.loadAccountsTreeData();
-    this.getCostCenterTreeData();
+    if (this.showAccounts) {
+      this.loadAccountsTreeData();
+    } 
+    if (this.showCostCenter) {
+      this.loadLoadCostCenterTreeData();
+    }
   }
 
   emitSearchModel() {
@@ -55,13 +58,13 @@ export class AccountsReportSearchComponent implements OnInit {
   }
 
   loadAccountsTreeData() {
-    this.sharedService.GetAccountsSelector(this.isParentAccount).subscribe(data => {
+    this.sharedService.GetAccountsSelector(this.isParent).subscribe(data => {
       this.accountsSelectorData = data;
     })
   }
 
-  getCostCenterTreeData() {
-    this.sharedService.GetCostCenterSelector().subscribe(data => {
+  loadLoadCostCenterTreeData() {
+    this.sharedService.GetCostCenterSelector(this.isParent).subscribe(data => {
       this.costCenterSelectorData = data;
     });
   }
