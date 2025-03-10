@@ -14,6 +14,7 @@ namespace MasterErp.Interface.GeneralAccounts
     public interface IAccountTreeService
     {
         ActionsResponseModel AddNewAccount(AccountTreeModel Model);
+        string GenerateAccountNumber(int? ParentAccountId);
         ActionsResponseModel EditAccountTree(int AccountId, AccountTreeModel Model);
         ActionsResponseModel DeleteAccountTree(int AccountId);
         List<AccountTreeModel> GetAccountTreeData(string SearchText);

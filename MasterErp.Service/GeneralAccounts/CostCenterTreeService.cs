@@ -160,7 +160,7 @@ namespace MasterErp.Service.GeneralAccounts
                 };
             }
         }
-        private string GenerateCostCenterNumber(int? parentId)
+        public string GenerateCostCenterNumber(int? parentId)
         {
             string newCostCenterNumber;
 

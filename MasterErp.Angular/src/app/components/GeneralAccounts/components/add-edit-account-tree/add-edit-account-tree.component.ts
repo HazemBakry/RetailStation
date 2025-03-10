@@ -64,7 +64,7 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.initNewForm();
     this.loadSelectors();
-
+    
   }
 
   ngOnChanges(changes): void {
@@ -84,10 +84,11 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
     if (accountModel)
       this.fillEditForm(accountModel);
     else
+    {
       this.accountModel = {} as AccountTreeModel;
-
-    // this.formGroup.patchValue({employeeId:this.selectedAccountId});
-
+      this.generateAccountNumber();
+    }
+    
   }
   buildForm() {
     this.formGroup = this.form.group({
@@ -107,6 +108,13 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
 
+    });
+
+    this.formGroup.get('parentAccountId').valueChanges.subscribe((parentAccountId:number) => {
+      if(!this.isUpdate)
+      {
+        this.generateAccountNumber(parentAccountId ? parentAccountId :0);
+      }
     });
   }
 
@@ -174,6 +182,19 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
 
   }
 
+  generateAccountNumber(parentAccountId: number = 0) {
+    this._GeneralAccountService
+      .GenerateAccountNumber(parentAccountId).subscribe(data => {
+        if (data) {
+          this.formGroup?.patchValue({ accountNumber: data });
+        }
+
+      }, err => {
+
+      }, () => {
+
+      });
+  }
 
   validateForm(): boolean {
     this._FormService.markFormGroupTouched(this.formGroup);
