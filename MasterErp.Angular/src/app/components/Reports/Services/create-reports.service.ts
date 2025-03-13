@@ -16,15 +16,27 @@ export class CreateReportsService {
   CreateGeneralReport(model: SearchReportModel) {
     return this.http.post<any>(this.URL + 'CreateReport/CreateGeneralReport', model).subscribe({
       next: (response) => {
-        if (response && response.filePath)
-          window.open(response.filePath, '_blank');
+        if (response && response.filePath) {
+          const newTab = window.open(response.filePath, '_blank');
+          const interval = setInterval(() => {
+            if (newTab?.closed) {
+              clearInterval(interval);
+              let fileName = response.filePath.split('/').pop();
+              this.DeleteReportPdfFile(fileName);
+            }
+          }, 1000);
+        }
         else
           this.toaster.error('En Error Happened!');
       },
       error: () => {
         this.toaster.error('En Error Happened!');
       }
-    });;
+    });
+  }
+
+  DeleteReportPdfFile(FileName: string) {
+    return this.http.get<any>(this.URL + 'CreateReport/DeleteReportPdfFile?FileName=' + FileName).subscribe();
   }
 
   GetCreateReportData(Model: SearchReportModel): Observable<any> {
@@ -58,4 +70,7 @@ export class CreateReportsService {
     }
   }
 
+  GetReportJsonKeys() {
+    return this.http.get<any>('../../../../assets/Reports/ReportKeys-ar.json')
+  }
 }

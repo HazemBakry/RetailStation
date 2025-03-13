@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
+using Microsoft.AspNetCore.Hosting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
@@ -22,10 +24,10 @@ namespace MasterErp.Service.Shared
 
                 using (htmlLoader = new ChromeDriver(options))
                 {
+                    IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)htmlLoader;
                     try
                     {
                         htmlLoader.Navigate().GoToUrl(URL);
-                        IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)htmlLoader;
                         jsExecutor.ExecuteScript($"localStorage.setItem('JWT_TOKEN', '{jwtToken}');");
                     }
                     catch (Exception ex)
@@ -57,7 +59,15 @@ namespace MasterErp.Service.Shared
 
                         }
                         while (!isFind);
-                        HTML = driver.FindElement(By.Id("ReportData")).GetAttribute("outerHTML");
+
+
+                        var imageElement = htmlLoader.FindElement(By.Id("ReportImage"));
+                        if (imageElement != null)
+                        {
+                            jsExecutor.ExecuteScript(@"var img = document.getElementById('ReportImage');img.src = 'http://localhost:63246/ReportImage/logo2.png';");
+                            Thread.Sleep(1000);
+                            HTML = driver.FindElement(By.Id("ReportData")).GetAttribute("outerHTML");
+                        }
 
                         return true;
                     });

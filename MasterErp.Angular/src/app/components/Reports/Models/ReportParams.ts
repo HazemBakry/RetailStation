@@ -6,6 +6,7 @@ export interface SearchReportModel {
     MethodType: string;
     companyName: string;
     pageName: string;
+    sectionName: string;
     isLandScape: boolean;
-    filterItems: FilterItem[];
+    filterItems?: FilterItem[];
 }

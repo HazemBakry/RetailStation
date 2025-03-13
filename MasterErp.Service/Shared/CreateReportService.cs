@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common.Reports;
 using MasterErp.Interface.Shared;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace MasterErp.Service.Shared
             string angularDomain = request.Headers["Origin"].ToString();
             if (string.IsNullOrEmpty(angularDomain)) return null;
 
-            UriBuilder urlBuilder = new UriBuilder($"{angularDomain}/create-report/{Model.CompanyName}/{Model.PageName}/{Model.ControllerName}/{Model.ApiName}/{Model.MethodType}");
+            UriBuilder urlBuilder = new UriBuilder($"{angularDomain}/create-report/{Model.CompanyName}/{Model.PageName}/{Model.ControllerName}/{Model.ApiName}/{Model.MethodType}/{Model.SectionName}");
 
             if (Model.FilterItems != null && Model.FilterItems.Count > 0)
             {

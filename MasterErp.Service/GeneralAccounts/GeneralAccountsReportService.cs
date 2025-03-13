@@ -145,7 +145,7 @@ namespace MasterErp.Service.GeneralAccounts
             Params[3] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
             Params[4] = new SqlParameter("@CurrentPage", model.CurrentPage);
             Params[5] = new SqlParameter("@PageSize", model.PageSize);
-            results = SQLHelper.SQLQuery<AccountsAssistantLedgerModel>("[Finance].[SP_GetAccountsAssistantLedger_Data]", ConnectionString, Params);
+            results = SQLHelper.SQLQuery<AccountsAssistantLedgerModel>("[Finance].[SP_GetAccountsAssistantLedgerReport]", ConnectionString, Params);
 
             return results;
         }

@@ -1,11 +1,11 @@
-<div class="a4-page" *ngIf="ContentData.length > 0 && ContentHeaderData.length > 0 && FooterData.length > 0">
+<div class="a4-page" *ngIf="ContentData.length > 0 && ContentHeaderData.length > 0">
     <div id="ReportData" dir="rtl">
         <div style="display: flex;align-items: center;position: relative;">
             <div style="margin-bottom: 80px;font-size: 16px;font-weight: bold;">{{ReportParams.companyName}}</div>
-            <div style="font-size: 16px;font-weight: bold;position: absolute;right: 310px;">{{ReportParams.pageName}}</div>
-            <img style="width: 80px;height: 80px;position: absolute;left: 0px;" src="D:/Salam/ssss/MasterErp/MasterErp.Angular/src/assets/images/av-4.png">
+            <div style="font-size: 16px;font-weight: bold;position: absolute;right: 460px;">{{ReportParams.pageName}}</div>
+            <img id="ReportImage" style="width: 80px;height: 80px;position: absolute;left: 0px;">
         </div>
-        <div style="display: flex;align-items: center;margin-top: 5px;flex-direction: row-reverse">
+        <div style="display: flex;align-items: center;margin-top: 5px;">
             <div style="text-align: center;font-weight: bold;">Account :
                 <span style="font-weight: normal;text-decoration: underline;text-decoration-style: dashed;text-underline-offset: 5px;">دفتر الاستاذ العام</span>
             </div>
@@ -30,12 +30,12 @@
                 </tr>
             </tbody>
         </table>
-        <table style="border-collapse: collapse;float: left;width:210px" *ngIf="NewFooterArry.length > 0">
+        <!-- <table style="border-collapse: collapse;float: left;width:210px" *ngIf="NewFooterArry.length > 0">
             <tr style="height: 25px;" *ngFor="let part of NewFooterArry">
                 <td *ngFor="let item of part">
                     <p style="margin: 0px;"><strong>{{item.featureName}}:</strong> {{item.featureValue}}</p>
                 </td>
             </tr>
-        </table>
+        </table> -->
     </div>
 </div>

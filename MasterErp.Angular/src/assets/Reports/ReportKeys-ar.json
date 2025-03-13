@@ -1,0 +1,25 @@
+{
+    "AccountGeneralLeadger": {
+        "accountNumber": "الكـود",
+        "nameAR": "الحســاب",
+        "preDebit": "رصيد ما قبل (مدين)",
+        "preCredit": "رصيد ما قبل (دائن)",
+        "debit": "الحركة (مدين)",
+        "credit": "الحركة (دائن)",
+        "totalDebit": "الإجمالى (مدين)",
+        "totalCredit": "الإجمالى (دائن)",
+        "balanceDebit": "الرصيد (مدين)",
+        "balanceCredit": "الرصيد (دائن)"
+    },
+    "AccountAssistantLedger": {
+        "entryDate": "تاريخ القيد",
+        "entryType": "المميز",
+        "entryNumber": "قيد اليومية",
+        "chequeNumber": "رقم الشيك",
+        "description": "البيان",
+        "debit": "الحركة (مدين)",
+        "credit": "الحركة (دائن)",
+        "balanceDebit": "الرصيد (مدين)",
+        "balanceCredit": "الرصيد (دائن)"
+    }
+}

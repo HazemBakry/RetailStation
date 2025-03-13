@@ -89,6 +89,10 @@ export class AccountsGeneralLedgerComponent implements OnInit {
 
   }
   printData() {
+    if (!this.validateSearchModel()) {
+      return;
+    }
+
     let reportParams: SearchReportModel = {} as SearchReportModel;
     let filterItems: FilterItem[] = [
       { categoryName: 'fromDate', itemFlag: this.ledgersResponse.fromDate },
@@ -98,9 +102,10 @@ export class AccountsGeneralLedgerComponent implements OnInit {
     reportParams.ControllerName = 'GeneralAccountsReport';
     reportParams.ApiName = 'GetAccountsGeneralLedger';
     reportParams.MethodType = 'POST';
-    reportParams.companyName = 'CompanyName';
+    reportParams.companyName = 'Mishwar';
+    reportParams.sectionName = 'AccountGeneralLeadger';
     reportParams.pageName = 'دفتر الاستاذ العام';
-    reportParams.isLandScape = true;
+    reportParams.isLandScape = false;
     reportParams.filterItems = filterItems;
     this.ReportsService.CreateGeneralReport(reportParams);
   }

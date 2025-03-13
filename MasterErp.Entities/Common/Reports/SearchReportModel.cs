@@ -13,6 +13,7 @@ namespace MasterErp.Entities.Common.Reports
         public string MethodType { get; set; }
         public string CompanyName { get; set; }
         public string PageName { get; set; }
+        public string SectionName { get; set; }
         public bool IsLandScape { get; set; }
         public List<FilterItem> FilterItems { get; set; }
     }
