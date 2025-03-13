@@ -32,7 +32,7 @@ namespace MasterErp.Service.Shared
                 if (!Directory.Exists(FolderPath))
                     Directory.CreateDirectory(FolderPath);
 
-                var FilePath = System.IO.Path.Combine(FolderPath, Guid.NewGuid().ToString() + "_TestReport.pdf");
+                var FilePath = System.IO.Path.Combine(FolderPath, Guid.NewGuid().ToString() + "_Report.pdf");
                 ConvertHtmlToPdf(HTMLContent, FilePath, IsLandScape);
 
                 return FilePath;
