@@ -23,6 +23,8 @@ namespace MasterErp.Service.Shared
         {
             var request = _httpContextAccessor.HttpContext?.Request;
             if (request == null) return null;
+            string jwtToken = request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            if (string.IsNullOrEmpty(jwtToken)) return null;
 
             string angularDomain = request.Headers["Origin"].ToString();
             if (string.IsNullOrEmpty(angularDomain)) return null;
@@ -41,13 +43,12 @@ namespace MasterErp.Service.Shared
 
             string URL = urlBuilder.ToString();
 
-            var HTML = WebSiteHtmlLoader.RenderedHtmlPage(URL);
+            var HTML = WebSiteHtmlLoader.RenderedHtmlPage(URL, jwtToken);
             if (string.IsNullOrEmpty(HTML))
                 return null;
 
-            //var FilePath = _helper.SaveHTMLResult(HTML, Model.IsLandScape);
-            //return FilePath;
-            return null;
+            var FilePath = _helper.SaveHTMLResult(HTML, Model.IsLandScape);
+            return FilePath;
         }
     }
 }

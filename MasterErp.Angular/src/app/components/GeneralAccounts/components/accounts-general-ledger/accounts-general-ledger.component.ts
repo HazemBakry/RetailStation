@@ -100,6 +100,7 @@ export class AccountsGeneralLedgerComponent implements OnInit {
     reportParams.MethodType = 'POST';
     reportParams.companyName = 'CompanyName';
     reportParams.pageName = 'دفتر الاستاذ العام';
+    reportParams.isLandScape = true;
     reportParams.filterItems = filterItems;
     this.ReportsService.CreateGeneralReport(reportParams);
   }

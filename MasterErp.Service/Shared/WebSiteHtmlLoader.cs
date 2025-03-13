@@ -8,7 +8,7 @@ namespace MasterErp.Service.Shared
 {
     public class WebSiteHtmlLoader
     {
-        public static string RenderedHtmlPage(string webSiteUri)
+        public static string RenderedHtmlPage(string webSiteUri, string jwtToken)
         {
             ChromeDriver htmlLoader = null;
             string HTML = string.Empty;
@@ -25,6 +25,8 @@ namespace MasterErp.Service.Shared
                     try
                     {
                         htmlLoader.Navigate().GoToUrl(URL);
+                        IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)htmlLoader;
+                        jsExecutor.ExecuteScript($"localStorage.setItem('JWT_TOKEN', '{jwtToken}');");
                     }
                     catch (Exception ex)
                     {
