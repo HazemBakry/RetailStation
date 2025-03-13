@@ -121,16 +121,10 @@ namespace MasterErp.Service.Shared
             {
                 if (string.IsNullOrEmpty(HTML))
                     return HTML;
-                var splitor = new string[] { "<!---->", "z2dataconditions=\"\"", "textcolorstatus=\"\"" };
-                var HTMLList = HTML.Split(splitor, StringSplitOptions.RemoveEmptyEntries);
-                var html = string.Join("", HTMLList);
-                html = Regex.Replace(html, "( _nghost-ng-cli-universal-c| _ngcontent-ng-cli-universal-c)[1-9]*=\"\"", "");
-                html = Regex.Replace(html, "<!--([a-z]+)(?![^>]*\\/>)[^>]*-->", "");
-                html = Regex.Replace(html, @"\s_ngcontent-[a-zA-Z0-9\-]+?=""[^""]*""", "");
-                var splitor2 = new string[] { "<app-z2rendercomponent>", "</app-z2rendercomponent>", "<app-z2textcomponent>", "</app-z2textcomponent>", "<app-z2linkcomponent>", "</app-z2linkcomponent>" };
-                HTMLList = html.Split(splitor2, StringSplitOptions.RemoveEmptyEntries);
-                html = string.Join("", HTMLList);
-                return html;
+                HTML = Regex.Replace(HTML, "( _nghost-ng-cli-universal-c| _ngcontent-ng-cli-universal-c)[1-9]*=\"\"", "");
+                HTML = Regex.Replace(HTML, "<!--([a-z]+)(?![^>]*\\/>)[^>]*-->", "");
+                HTML = Regex.Replace(HTML, @"\s_ngcontent-[a-zA-Z0-9\-]+?=""[^""]*""", "");
+                return HTML;
             }
             catch (Exception)
             {
