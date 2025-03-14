@@ -42,6 +42,16 @@ export class CreateJournalEntryComponent implements OnInit {
   difference = 0;
   totalDebit = 0;
   totalCredit = 0;
+  public formErrors = {
+    journalEntryId: '',
+    entryNumber: '',
+    docNumber: '',
+    entryDate: '',
+    journalTypeId: '',
+    currencyTypeId: '',
+    journalEntryAccounts: '',
+    description: '',
+  };
 
   constructor(private modalService: NgbModal,
     private sharedService: SharedService,
@@ -263,16 +273,6 @@ export class CreateJournalEntryComponent implements OnInit {
     return true;
 
   }
-  public formErrors = {
-    journalEntryId: '',
-    entryNumber: '',
-    docNumber: '',
-    entryDate: '',
-    journalTypeId: '',
-    currencyTypeId: '',
-    journalEntryAccounts: '',
-    description: '',
-  };
 
   addField() {
     this.entryAccounts.push(

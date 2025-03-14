@@ -22,8 +22,8 @@ export class SupplierVoucherComponent implements OnInit {
     searchText: ''
   };
 
-  constructor(private inventoryService: InventoryService, 
-    private modalService: NgbModal, 
+  constructor(private inventoryService: InventoryService,
+    private modalService: NgbModal,
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
@@ -48,8 +48,8 @@ export class SupplierVoucherComponent implements OnInit {
     this.getSupplierVouchers_Data();
   }
 
-  cancelSupplierVoucher(InvoiceId: number) {
-    this.inventoryService.CancelDeliveryOrder(InvoiceId).subscribe(data => {
+  cancelSupplierVoucher(orderId: number) {
+    this.inventoryService.CancelDeliveryNote(orderId).subscribe(data => {
       if (data) {
         this.toaster.success('تم الغاء الطلب بنجاح');
         this.getSupplierVouchers_Data();

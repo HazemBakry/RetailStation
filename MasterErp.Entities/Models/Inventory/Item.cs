@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
 namespace MasterErp.Entities.Models.Inventory
 {
+    [Table("Items", Schema = "Inventory")]
+
     public class Item : CreatorModel
     {
         [Key]

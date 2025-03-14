@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models.Lookups
+namespace MasterErp.Entities.Models.Global
 {
+    [Table("Regions", Schema = "Global")]
+
     public class Region
     {
         public int RegionId { get; set; }

@@ -90,7 +90,15 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetBranchesSelector();
             return Ok(result);
         }
-          
+
+        [HttpGet]
+        [Route("GetStoresSelector")]
+        public IActionResult GetStoresSelector()
+        {
+            var result = _sharedService.GetStoresSelector();
+            return Ok(result);
+        }
+
         [HttpGet]
         [Route("GetNationalitiesSelector")]
         public IActionResult GetNationalitiesSelector()
@@ -197,15 +205,7 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetChildAccountsSelector();
             return Ok(result);
         }
-        
-        [HttpGet]
-        [Route("GetInventoriesSelector")]
-        public IActionResult GetInventoriesSelector()
-        {
-            var result = _sharedService.GetInventoriesSelector();
-            return Ok(result);
-        }
-        
+      
         [HttpGet]
         [Route("GetItemLookupsSelector")]
         public IActionResult GetItemLookupsSelector()

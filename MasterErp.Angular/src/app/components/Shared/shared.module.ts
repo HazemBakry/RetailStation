@@ -47,6 +47,7 @@ import { UploadImporterFileComponent } from '../SystemSettings/components/upload
 import { ErpSpinnerComponentComponent } from './components/erp-spinner-component/erp-spinner-component.component';
 import { GeneralSelectorComponent } from './components/general-selector/general-selector.component';
 import { AccountsReportSearchComponent } from './components/accounts-report-search/accounts-report-search.component';
+import { OrderItemsComponent } from './components/order-items/order-items.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { AccountsReportSearchComponent } from './components/accounts-report-sear
     ErpFiltersComponent,
     EmptyDataComponent,
     OrderProductsComponent,
+    OrderItemsComponent,
     AppBreadcrumbComponent,
     AccountsReportHeaderComponent,
     AccountTreeV2Component,
@@ -128,6 +130,7 @@ import { AccountsReportSearchComponent } from './components/accounts-report-sear
     ErpFiltersComponent,
     EmptyDataComponent,
     OrderProductsComponent,
+    OrderItemsComponent,
     GeneralOrderProductsComponent,
     AppBreadcrumbComponent,
     AccountsReportHeaderComponent,

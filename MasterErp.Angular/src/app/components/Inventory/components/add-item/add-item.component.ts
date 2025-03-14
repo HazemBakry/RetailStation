@@ -58,7 +58,7 @@ export class AddItemComponent implements OnInit {
 
   getItemDetailsById() {
     this.showLoader = true;
-    this.inventoryService.GetItemById(this.itemId).subscribe((data: ItemModel) => {
+    this.inventoryService.GetItemDetailsById(this.itemId).subscribe((data: ItemModel) => {
       if (data) {
         this.itemModel = data;
         this.initNewForm(this.itemModel);

@@ -2,7 +2,6 @@
 using MasterErp.Entities.Common.Inventory.ReceiveOrder;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.DTOs.Inventory;
-using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Inventory;
 using MasterErp.Interface.Inventory;
 using MasterErp.Service.Common;

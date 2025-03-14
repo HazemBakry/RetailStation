@@ -22,9 +22,9 @@ import { ItemModel } from 'src/app/components/Inventory/models/Item';
 
 export class AddPurchaseInvoiceComponent implements OnInit {
   TitleList = ['المشتريات', 'إضافة فاتورة مشتريات'];
-  purchaseInvoiceId:number;
+  purchaseInvoiceId: number;
   purchaseInvoiceModel: OrderModel = {} as OrderModel;
-  orderProducts : OrderProductModel[]=[];
+  orderProducts: OrderProductModel[] = [];
   isUpdate: boolean = false;
   clearAllProducts: boolean = false;
 
@@ -37,8 +37,8 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   formData: FormData = new FormData();
   public formGroup: FormGroup;
 
-  selectedReceiveOrder: OrderModel [] = [];
-  selectedSupplierId: number ;
+  selectedReceiveOrder: OrderModel[] = [];
+  selectedSupplierId: number;
 
   constructor(private acRoute: ActivatedRoute, private router: Router, private modalService: NgbModal, private inventoryService: InventoryService,
     private purchaseService: PurchaseService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
@@ -56,7 +56,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
 
 
     this.initNewForm();
-    
+
     this.loadSelectors();
   }
 
@@ -80,11 +80,11 @@ export class AddPurchaseInvoiceComponent implements OnInit {
     this.showLoader = true;
     this.purchaseService.GetPurchaseInvoiceProducts_Data(this.purchaseInvoiceId).subscribe((data: OrderProductModel[]) => {
       this.orderProducts = data;
-      if (this.orderProducts.length>0) {
+      if (this.orderProducts.length > 0) {
         // this.formGroup.patchValue({orderProducts:this.orderProducts});
       }
       // this.initNewForm(this.receiveOrderModel);
-    
+
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
@@ -92,25 +92,25 @@ export class AddPurchaseInvoiceComponent implements OnInit {
       this.showLoader = false;
     });
   }
-  searchOrderSelected(ord:OrderModel[]) {
-    this.selectedReceiveOrder= ord;
+  searchOrderSelected(ord: OrderModel[]) {
+    this.selectedReceiveOrder = ord;
     this.getReceiveOrderProducts();
   }
-  getSelectedProductsList(products:OrderProductModel[]) {
-    this.formGroup.patchValue({orderProducts:products});
+  getSelectedProductsList(products: OrderProductModel[]) {
+    this.formGroup.patchValue({ orderProducts: products });
     this.orderProducts = products;
   }
   getReceiveOrderProducts() {
-    var orderIds:number[]=[];
-    this.selectedReceiveOrder.forEach(ord=>{
-      if(!orderIds.some(x=>x==ord.orderId))
+    var orderIds: number[] = [];
+    this.selectedReceiveOrder.forEach(ord => {
+      if (!orderIds.some(x => x == ord.orderId))
         orderIds.push(ord.orderId);
     });
     this.showLoader = true;
     this.inventoryService.GetReceiveOrderProducts_Data(orderIds).subscribe((data: OrderProductModel[]) => {
       if (data) {
         this.orderProducts = data;
-        this.formGroup.patchValue({secondaryOrderIds:orderIds});
+        this.formGroup.patchValue({ secondaryOrderIds: orderIds });
       }
       this.showLoader = false;
     }, err => {
@@ -122,8 +122,8 @@ export class AddPurchaseInvoiceComponent implements OnInit {
 
   initNewForm(orderModel: OrderModel = null) {
     this.selectedReceiveOrder = [];
-    this.orderProducts=[];
-    this.clearAllProducts=!this.clearAllProducts;
+    this.orderProducts = [];
+    this.clearAllProducts = !this.clearAllProducts;
     this.isUpdate = false;
     this.buildForm();
     if (orderModel)
@@ -139,9 +139,9 @@ export class AddPurchaseInvoiceComponent implements OnInit {
       dueDate: [null, [Validators.required]],
       orderTypeId: [null, [Validators.required]],
       supplierId: [null, [Validators.required]],
-      secondaryOrderIds: [[],[Validators.required]],
-      orderProducts: [[] as OrderProductModel[], [Validators.required,Validators.minLength(1)]],
-      notes: [null],
+      secondaryOrderIds: [[], [Validators.required]],
+      orderProducts: [[] as OrderProductModel[], [Validators.required, Validators.minLength(1)]],
+      description: [null],
 
     });
     this.formGroup.valueChanges.subscribe((data) => {
@@ -152,9 +152,9 @@ export class AddPurchaseInvoiceComponent implements OnInit {
 
 
   savePurchaseInvoice() {
-    if(this.orderProducts.length === 0) 
+    if (this.orderProducts.length === 0)
       this.toaster.warning('لا يوجد اصناف');
-    
+
     if (!this.validateForm()) {
       return;
     }
@@ -207,14 +207,12 @@ export class AddPurchaseInvoiceComponent implements OnInit {
 
 
   }
-  getSelectedSupplier(supplierId)
-  {
-    this.selectedSupplierId=supplierId;
+  getSelectedSupplier(supplierId) {
+    this.selectedSupplierId = supplierId;
   }
   getSupplierItemsBySupplierId() {
-    this.orderProducts =[];
-    if(!this.selectedSupplierId)
-    {
+    this.orderProducts = [];
+    if (!this.selectedSupplierId) {
       this.toaster.warning('please select supplier');
       return;
     }
@@ -230,8 +228,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
     });
   }
 
-  loadSelectors()
-  {
+  loadSelectors() {
     this.sharedService.GetSuppliersSelector().subscribe(data => {
       this.suppliersSelectorData = data;
     });
@@ -259,9 +256,9 @@ export class AddPurchaseInvoiceComponent implements OnInit {
       supplierId: orderModel.supplierId,
       purchaseOrderId: orderModel.purchaseOrderId,
       storeId: orderModel.storeId,
-      notes:orderModel.notes,
-      orderDate:this.datePipe.transform(orderModel.orderDate, 'yyyy-MM-dd'),
-      dueDate:this.datePipe.transform(orderModel.dueDate, 'yyyy-MM-dd'),
+      description: orderModel.description,
+      orderDate: this.datePipe.transform(orderModel.orderDate, 'yyyy-MM-dd'),
+      dueDate: this.datePipe.transform(orderModel.dueDate, 'yyyy-MM-dd'),
       docNumber: orderModel.docNumber,
       orderNumber: orderModel.orderNumber,
       orderTypeId: orderModel.orderTypeId,
@@ -282,23 +279,23 @@ export class AddPurchaseInvoiceComponent implements OnInit {
       unitNameAR: x.unitName,
       unitNameEN: x.unitName,
       unitId: x.unitId,
-      price:x.cost,
-      quantity : 0,
-      totalValue :0
+      price: x.cost,
+      quantity: 0,
+      totalValue: 0
     };
   }
   public formErrors = {
     supplierId: '',
     orderId: '',
     orderProducts: '',
-    notes: '',
-    dueDate:'',
+    description: '',
+    dueDate: '',
     docNumber: '',
     orderNumber: '',
     orderDate: '',
     orderTypeId: '',
     secondaryOrderIds: '',
   };
-  
+
 
 }

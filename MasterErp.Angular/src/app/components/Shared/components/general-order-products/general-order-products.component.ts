@@ -180,7 +180,7 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
   }
   getSelectedItem(itemId) {
 
-    this.inventoryService.GetItemById(itemId).subscribe((data:ItemModel) => {
+    this.inventoryService.GetItemDetailsById(itemId).subscribe((data:ItemModel) => {
       this.originalItem = {...data};
       let item: ItemModel = data;
       this.selectedItem.itemId = item.itemId;

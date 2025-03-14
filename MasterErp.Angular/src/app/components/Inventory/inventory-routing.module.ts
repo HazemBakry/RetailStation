@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PurchasesRequestsComponent } from './components/purchases-requests/purchases-requests.component';
 import { InventoryHomeComponent } from './components/inventory-home/inventory-home.component';
-import { BusinessCoreLayoutComponent } from '../Shared/components/business-core-layout/business-core-layout.component';
 import { UnitsComponent } from './components/units/units.component';
 import { ItemsComponent } from './components/items/items.component';
 import { AddItemComponent } from './components/add-item/add-item.component';
@@ -10,28 +9,34 @@ import { ItemsCategoryComponent } from './components/items-category/items-catego
 import { AddReceiveOrderComponent } from './components/add-receive-order/add-receive-order.component';
 import { AddPurchasesRequestComponent } from './components/add-purchase-request/add-purchases-request.component';
 import { ReceiveOrdersComponent } from './components/receive-orders/receive-orders.component';
-import { DeliveryOrdersComponent } from './components/delivery-orders/delivery-orders.component';
-import { AddDeliveryOrderComponent } from './components/add-delivery-order/add-delivery-order.component';
-import { SupplierVoucherComponent } from './components/supplier-voucher/supplier-voucher.component';
+import { DeliveryNotesComponent } from './components/delivery-notes/delivery-notes.component';
+import { AddDeliveryNoteComponent } from './components/add-delivery-note/add-delivery-note.component';
+import { InventoryLayoutComponent } from './inventory-layout/inventory-layout.component';
+import { PurchaseReceiptsComponent } from './components/purchase-receipts/purchase-receipts.component';
+import { AddPurchasesReceiptComponent } from './components/add-purchase-receipt/add-purchase-receipt.component';
+import { AddMaterialIssueReceiptComponent } from './components/add-material-issue-receipt/add-material-issue-receipt.component';
+import { MaterialIssueReceiptsComponent } from './components/material-issue-receipts/material-issue-receipts.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: BusinessCoreLayoutComponent,
+    component: InventoryLayoutComponent,
     children: [
       { path: 'home', component: InventoryHomeComponent },
+      { path: 'items-category', component: ItemsCategoryComponent },
+      { path: 'items', component: ItemsComponent },
+      { path: 'purchase-receipts', component: PurchaseReceiptsComponent },
+      { path: 'add-purchase-receipt', component: AddPurchasesReceiptComponent },
+      { path: 'material-issue-receipts', component: MaterialIssueReceiptsComponent },
+      { path: 'add-material-issue-receipt', component: AddMaterialIssueReceiptComponent },
       { path: 'receive-orders', component: ReceiveOrdersComponent },
-      { path: 'delivery-orders', component: DeliveryOrdersComponent },
-      { path: 'add-delivery-order', component: AddDeliveryOrderComponent },
+      { path: 'delivery-notes', component: DeliveryNotesComponent },
+      { path: 'add-delivery-note', component: AddDeliveryNoteComponent },
       { path: 'add-receive-order', component: AddReceiveOrderComponent },
       { path: 'add-item', component: AddItemComponent },
-      { path: 'items', component: ItemsComponent },
-      { path: 'items-categories', component: ItemsCategoryComponent },
       { path: 'purchases-requests', component: PurchasesRequestsComponent },
       { path: 'add-purchases-request', component: AddPurchasesRequestComponent },
-      { path: 'units', component: UnitsComponent },
-      { path: 'supplier-voucher', component: SupplierVoucherComponent },
-      
+      { path: 'units', component: UnitsComponent },      
       { path: '', redirectTo: 'home', pathMatch: 'full' },
 
     ],

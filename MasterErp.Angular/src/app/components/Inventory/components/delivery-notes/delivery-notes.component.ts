@@ -4,14 +4,15 @@ import { ToastrService } from 'ngx-toastr';
 import { OrderModel } from '../../models/inventory';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 @Component({
-  selector: 'app-delivery-orders',
-  templateUrl: './delivery-orders.component.html',
-  styleUrls: ['./delivery-orders.component.css']
+  selector: 'app-delivery-notes',
+  templateUrl: './delivery-notes.component.html',
+  styleUrls: ['./delivery-notes.component.css']
 })
 
-export class DeliveryOrdersComponent implements OnInit {
+export class DeliveryNotesComponent implements OnInit {
   TitleList = ['المخازن', 'أذونات الصرف'];
   showLoader: boolean;
   OrderId: number;
@@ -22,16 +23,18 @@ export class DeliveryOrdersComponent implements OnInit {
     currentPage: 1,
     searchText: ''
   };
+  filterList: FilterModel[] = [];
 
   constructor(private inventoryService: InventoryService, private modalService: NgbModal, private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.getDeliveryOrders_Data();
+    this.getDeliveryNotes_Data();
+    this.getDeliveryNotes_Filters();
   }
 
-  getDeliveryOrders_Data() {
+  getDeliveryNotes_Data() {
     this.showLoader = true;
-    this.inventoryService.GetDeliveryOrders_Data(this.pagedResponseModel).subscribe(data => {
+    this.inventoryService.GetDeliveryNotes_Data(this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
       this.showLoader = false;
@@ -42,16 +45,34 @@ export class DeliveryOrdersComponent implements OnInit {
     })
   }
 
-  pageChanged(obj: any) {
-    this.pagedResponseModel.currentPage = obj.page;
-    this.getDeliveryOrders_Data();
+  getDeliveryNotes_Filters() {
+    // this.showLoader = true;
+    this.inventoryService.GetDeliveryNotes_Filters(this.pagedResponseModel).subscribe((data: FilterModel[]) => {
+      this.filterList = data;
+
+    }, (err) => {
+      // this.showLoader = false;
+    }, () => {
+      // this.showLoader = false;
+    })
   }
 
-  cancelDeliveryOrder(InvoiceId: number) {
-    this.inventoryService.CancelDeliveryOrder(InvoiceId).subscribe(data => {
+  filterChecked(filterItems: FilterItem[]) {
+    this.pagedResponseModel.filterList = filterItems;
+    this.getDeliveryNotes_Data();
+    // this.getReceiveOrders_Filters();
+  }
+
+  pageChanged(obj: any) {
+    this.pagedResponseModel.currentPage = obj.page;
+    this.getDeliveryNotes_Data();
+  }
+
+  cancelDeliveryNote(InvoiceId: number) {
+    this.inventoryService.CancelDeliveryNote(InvoiceId).subscribe(data => {
       if (data) {
         this.toaster.success('تم الغاء الطلب بنجاح');
-        this.getDeliveryOrders_Data();
+        this.getDeliveryNotes_Data();
       }
       else {
         this.toaster.error('حدث خطأ اثناء الألغاء');
@@ -74,10 +95,10 @@ export class DeliveryOrdersComponent implements OnInit {
   }
 
   cancelOrder() {
-    this.inventoryService.CancelDeliveryOrder(this.OrderId).subscribe(data => {
+    this.inventoryService.CancelDeliveryNote(this.OrderId).subscribe(data => {
       if (data?.isSuccess) {
         this.modalService?.dismissAll();
-        this.getDeliveryOrders_Data();
+        this.getDeliveryNotes_Data();
         this.toaster.success(data?.message);
       }
       else {

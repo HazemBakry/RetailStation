@@ -2,6 +2,7 @@
 using MasterErp.Entities.Common.Finance;
 using MasterErp.Entities.Models.DataImport;
 using MasterErp.Entities.Models.Finance;
+using MasterErp.Entities.Models.Global;
 using MasterErp.Entities.Models.HR;
 using MasterErp.Entities.Models.Inventory;
 using MasterErp.Entities.Models.Lookups;
@@ -69,6 +70,8 @@ namespace MasterErp.Entities.Models
         #region Global
 
         public DbSet<Branch> Branches { get; set; }
+        public DbSet<Region> Regions { get; set; }
+
 
         #endregion
 
@@ -126,8 +129,8 @@ namespace MasterErp.Entities.Models
         public DbSet<ItemCategory> ItemCategories { get; set; }
         public DbSet<ReceiveOrder> ReceiveOrders { get; set; }
         public DbSet<ReceiveOrderDetails> ReceiveOrderDetails { get; set; }
-        public DbSet<DeliveryOrder> DeliveryOrders { get; set; }
-        public DbSet<DeliveryOrderDetails> DeliveryOrderDetails { get; set; }
+        public DbSet<DeliveryNote> DeliveryNotes { get; set; }
+        public DbSet<DeliveryNoteDetails> DeliveryNoteDetails { get; set; }
 
 
         #endregion
@@ -176,7 +179,6 @@ namespace MasterErp.Entities.Models
         #region Lookups
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
-        public DbSet<Region> Regions { get; set; }
 
         #endregion
 

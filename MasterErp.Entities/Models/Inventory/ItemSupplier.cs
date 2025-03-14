@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MasterErp.Entities.Models.Inventory
 {
+    [Table("ItemSuppliers", Schema = "Inventory")]
     public class ItemSupplier
     {
         public int Id { get; set; }

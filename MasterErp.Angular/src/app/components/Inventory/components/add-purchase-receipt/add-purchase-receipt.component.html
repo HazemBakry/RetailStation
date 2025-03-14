@@ -1,55 +1,51 @@
-<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
-
 <div class="card radius-10 border-0 card-shadow mb-3">
     <div class="card-header bg-white">
-        <span class="m-0 fw-bold card-header-title">
-            إذن صرف
-            <span *ngIf="deliveryOrderModel.orderNumber">#{{deliveryOrderModel.orderNumber}}</span>
-        </span>
+        <!-- <h5 class="m-0 fw-bold"> {{requestNumber}}</h5> -->
+        <h6 class="m-0 fw-bold">انشاء طلب مشترايات جديد</h6>
     </div>
     <div class="card-body bg-light">
         <form [formGroup]="formGroup" autocomplete="off">
-            <div class="row">
-                <div class="col-xl-5 mb-3">
+            <div class="row mb-3">
+                <div class="col-md-3 mb-3">
                     <app-drop-down-form-control formControlName="branchId" [placeholder]="'الفروع'" [showSearch]="true" [disabled]="isUpdate" [data]="branchesSelectorData"></app-drop-down-form-control>
                     <div *ngIf="formErrors.branchId" class="text-danger  font-small-3 m-03">
                         {{formErrors.branchId}}
                     </div>
                 </div>
-                <div class="col-xl-5  mb-3">
-                    <app-drop-down-form-control formControlName="storeId" [placeholder]="'المخازن'" [showSearch]="true" [data]="inventoriesSelectorData"></app-drop-down-form-control>
-                    <div *ngIf="formErrors.storeId" class="text-danger  font-small-3 m-03">
-                        {{formErrors.storeId}}
+                <!-- <div class="col-md-3 mb-3">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" [(ngModel)]="purchasesRequestModel.requestNumber"
+                            placeholder="Invoice Number" disabled>
+                        <label>رقم الطلب</label>
                     </div>
-                </div>
-
-                <div class="col-xl-1"></div>
-                <div class="col-xl-5  mb-3">
+                </div> -->
+                <div class="col-lg-3 offset-lg-1">
                     <div class="form-floating mb-3">
                         <input type="date" formControlName="orderDate" class="form-control" id="floatingInput1" placeholder="any">
-                        <label for="floatingInput6">تاريخ التسليم</label>
+                        <label for="floatingInput6">تاريخ الطلب</label>
                         <div *ngIf="formErrors.orderDate" class="text-danger  font-small-3 m-03">
                             {{formErrors.orderDate}}
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-10">
-                    <div class="form-floating mb-3">
-                        <textarea type="text" formControlName="notes" class="form-control" id="floatingInput10" placeholder="ملاحظات"></textarea>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <div class="form-floating mb-3 min-height-30">
+                        <textarea type="text" formControlName="description" class="form-control" id="floatingInput10" placeholder="ملاحظات"></textarea>
                         <label for="floatingInput10">ملاحظات</label>
 
-                        <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
-                            {{formErrors.notes}}
+                        <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
+                            {{formErrors.description}}
                         </div>
                     </div>
                 </div>
             </div>
         </form>
-
         <app-general-order-products [selectedProducts]="orderProducts" [clearAllProducts]="clearAllProducts" (selectedProductsList)="getSelectedProductsList($event)"></app-general-order-products>
 
         <div class="mt-3">
-            <button class="btn btn-primary btn-lg fs-6 me-2" (click)="saveDeliveryOrder()">
+            <button class="btn btn-primary btn-lg fs-6 me-2" (click)="savePurchaseRequest()">
                 <i class="fas fa-check-circle"></i>
                 <span class="ms-2">حفظ</span>
             </button>

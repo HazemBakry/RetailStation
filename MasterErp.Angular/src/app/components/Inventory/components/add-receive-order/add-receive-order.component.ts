@@ -131,7 +131,7 @@ export class AddReceiveOrderComponent implements OnInit {
       purchaseOrderId: [null, [Validators.required]],
       storeId: [null, [Validators.required]],
       orderProducts: [[] as OrderProductModel[], [Validators.required, Validators.minLength(1)]],
-      notes: [null],
+      description: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -201,7 +201,7 @@ export class AddReceiveOrderComponent implements OnInit {
     this.sharedService.GetSuppliersSelector().subscribe((data: FormDropdownModel[]) => {
       this.suppliersSelectorData = data;
     });
-    this.sharedService.GetInventoriesSelector().subscribe((data: FormDropdownModel[]) => {
+    this.sharedService.GetStoresSelector().subscribe((data: FormDropdownModel[]) => {
       this.inventoriesSelectorData = data;
     });
 
@@ -225,7 +225,7 @@ export class AddReceiveOrderComponent implements OnInit {
       supplierId: orderModel.supplierId,
       purchaseOrderId: orderModel.purchaseOrderId,
       storeId: orderModel.storeId,
-      notes: orderModel.notes
+      description: orderModel.description
 
     });
   }
@@ -236,7 +236,7 @@ export class AddReceiveOrderComponent implements OnInit {
     purchaseOrderId: '',
     storeId: '',
     orderProducts: '',
-    notes: ''
+    description: ''
   };
 
 

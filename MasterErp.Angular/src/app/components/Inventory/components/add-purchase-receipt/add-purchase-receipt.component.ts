@@ -1,28 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { InventoryService } from '../../services/inventory.service';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
-import { OrderModel, OrderProductModel } from '../../models/inventory';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormService } from 'src/app/components/Shared/services/form.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SharedService } from 'src/app/components/Shared/services/shared.service';
-import { DatePipe } from '@angular/common';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
-import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
+import { OrderModel, OrderProductModel } from '../../models/inventory';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
+import { FormService } from 'src/app/components/Shared/services/form.service';
 
 @Component({
-  selector: 'app-add-delivery-order',
-  templateUrl: './add-delivery-order.component.html',
-  styleUrls: ['./add-delivery-order.component.css']
+  selector: 'app-add-purchase-receipt',
+  templateUrl: './add-purchase-receipt.component.html',
+  styleUrls: ['./add-purchase-receipt.component.css']
 })
 
-export class AddDeliveryOrderComponent implements OnInit {
-  TitleList = ['المخازن', 'إضافة إذن جديد'];
-  deliveryOrderId:number;
-  deliveryOrderModel: OrderModel = {} as OrderModel;
-  orderProducts : OrderProductModel[]=[];
+export class AddPurchasesReceiptComponent implements OnInit {
+  TitleList = ['المخازن', 'إضافة إذن استلام'];
+  purchaseRequestId: number;
+  purchaseRequestModel: OrderModel = {} as OrderModel;
+  orderProducts: OrderProductModel[] = [];
   isUpdate: boolean = false;
   clearAllProducts: boolean = false;
 
@@ -36,51 +36,36 @@ export class AddDeliveryOrderComponent implements OnInit {
   public formGroup: FormGroup;
 
 
-  constructor(private acRoute: ActivatedRoute, private router: Router, private modalService: NgbModal, private inventoryService: InventoryService,
-    private purchaseService: PurchaseService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
-    private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
-
+  constructor(private acRoute: ActivatedRoute, private router: Router,
+    private modalService: NgbModal,
+    private inventoryService: InventoryService,
+    private purchaseService: PurchaseService,
+    private sharedService: SharedService,
+    private form: FormBuilder, private _FormService: FormService,
+    private datePipe: DatePipe,
+    private toaster: ToastrService,
+    private offcanvasService: NgbOffcanvas,) { }
 
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
-      if (params.DeliveryOrderId) {
-        this.deliveryOrderId = params.DeliveryOrderId;
-        this.getDeliveryOrderDetailsById();
-        this.getDeliveryOrderProducts();
+      if (params.OrderId) {
+        this.purchaseRequestId = params.PurchaseRequestId;
+        this.getPurchaseRequestDetailsById();
+        this.getPurchaseRequestProducts();
       }
     })
 
-
     this.initNewForm();
-    
     this.loadSelectors();
   }
 
-  getDeliveryOrderDetailsById() {
+  getPurchaseRequestDetailsById() {
     this.showLoader = true;
-    this.inventoryService.GetDeliveryOrderDetailsById(this.deliveryOrderId).subscribe((data: OrderModel) => {
+    this.inventoryService.GetDeliveryNoteDetailsById(this.purchaseRequestId).subscribe((data: OrderModel) => {
       if (data) {
-        this.deliveryOrderModel = data;
-        // this.getDeliveryOrderProducts();
-        // this.initNewForm(this.deliveryOrderModel);
-        this.fillEditForm(this.deliveryOrderModel)
+        this.purchaseRequestModel = data;
+        this.fillEditForm(this.purchaseRequestModel)
       }
-      this.showLoader = false;
-    }, err => {
-      this.showLoader = false;
-    }, () => {
-      this.showLoader = false;
-    });
-  }
-  getDeliveryOrderProducts() {
-    this.showLoader = true;
-    this.inventoryService.GetDeliveryOrderProducts_Data(this.deliveryOrderId).subscribe((data: OrderProductModel[]) => {
-      this.orderProducts = data;
-      if (this.orderProducts.length>0) {
-        // this.formGroup.patchValue({orderProducts:this.orderProducts});
-      }
-      // this.initNewForm(this.deliveryOrderModel);
-    
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
@@ -89,14 +74,29 @@ export class AddDeliveryOrderComponent implements OnInit {
     });
   }
 
-  getSelectedProductsList(products:OrderProductModel[]) {
-    this.formGroup.patchValue({orderProducts:products});
+  getPurchaseRequestProducts() {
+    this.showLoader = true;
+    this.inventoryService.GetPurchaseRequestProducts_Data(this.purchaseRequestId).subscribe((data: OrderProductModel[]) => {
+      this.orderProducts = data;
+      if (this.orderProducts.length > 0) {
+        // this.formGroup.patchValue({orderProducts:this.orderProducts});
+      }
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+
+  getSelectedProductsList(products: OrderProductModel[]) {
+    this.formGroup.patchValue({ orderProducts: products });
     this.orderProducts = products;
   }
 
   initNewForm(orderModel: OrderModel = null) {
-    this.orderProducts=[];
-    this.clearAllProducts=!this.clearAllProducts;
+    this.orderProducts = [];
+    this.clearAllProducts = !this.clearAllProducts;
     this.isUpdate = false;
     this.buildForm();
     if (orderModel)
@@ -109,8 +109,8 @@ export class AddDeliveryOrderComponent implements OnInit {
       branchId: [null, [Validators.required]],
       orderDate: [null, [Validators.required]],
       storeId: [null, [Validators.required]],
-      orderProducts: [[] as OrderProductModel[], [Validators.required,Validators.minLength(1)]],
-      notes: [null],
+      orderProducts: [[] as OrderProductModel[], [Validators.required, Validators.minLength(1)]],
+      description: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -119,32 +119,31 @@ export class AddDeliveryOrderComponent implements OnInit {
   }
 
 
-  saveDeliveryOrder() {
-    if(this.orderProducts.length === 0) 
+  savePurchaseRequest() {
+    if (this.orderProducts.length === 0)
       this.toaster.warning('لا يوجد اصناف');
-    
+
     if (!this.validateForm()) {
       return;
     }
-    this.deliveryOrderModel = this.formGroup.value;
+    this.purchaseRequestModel = this.formGroup.value;
 
-    if (this.deliveryOrderId)
-      this.editDeliveryOrder();
+    if (this.purchaseRequestId)
+      this.editPurchaseRequest();
     else
-      this.addNewDeliveryOrder();
+      this.addNewPurchaseRequest();
   }
 
-  addNewDeliveryOrder() {
+  addNewPurchaseRequest() {
     this.showAddLoader = true;
-    this.inventoryService.AddNewDeliveryOrder(this.deliveryOrderModel).subscribe((data: ActionsResponseModel) => {
+    this.inventoryService.AddNewDeliveryNote(this.purchaseRequestModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         // this.formGroup?.reset();
         this.initNewForm();
-        if(data.id)
-        {
-          this.deliveryOrderId=data.id;
-          this.getDeliveryOrderDetailsById();
-          this.getDeliveryOrderProducts();
+        if (data.id) {
+          this.purchaseRequestId = data.id;
+          this.getPurchaseRequestDetailsById();
+          this.getPurchaseRequestProducts();
 
         }
         this.toaster.success(data?.message);
@@ -160,15 +159,15 @@ export class AddDeliveryOrderComponent implements OnInit {
     });
   }
 
-  editDeliveryOrder() {
+  editPurchaseRequest() {
     this.showAddLoader = true;
-    this.inventoryService.EditDeliveryOrder(this.deliveryOrderId, this.deliveryOrderModel).subscribe((data: ActionsResponseModel) => {
+    this.inventoryService.EditPurchasesRequest(this.purchaseRequestId, this.purchaseRequestModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.initNewForm();
         this.toaster.success(data?.message);
-        this.getDeliveryOrderDetailsById();
-        this.getDeliveryOrderProducts();
+        this.getPurchaseRequestDetailsById();
+        this.getPurchaseRequestProducts();
       }
       else {
         this.toaster.error(data?.message);
@@ -179,16 +178,17 @@ export class AddDeliveryOrderComponent implements OnInit {
     }, () => {
       this.showAddLoader = false;
     });
+
+
   }
 
   loadSelectors() {
     this.sharedService.GetBranchesSelector().subscribe((data: FormDropdownModel[]) => {
       this.branchesSelectorData = data;
     });
-    this.sharedService.GetInventoriesSelector().subscribe((data: FormDropdownModel[]) => {
+    this.sharedService.GetStoresSelector().subscribe((data: FormDropdownModel[]) => {
       this.inventoriesSelectorData = data;
     });
-    
   }
 
   validateForm(): boolean {
@@ -203,15 +203,12 @@ export class AddDeliveryOrderComponent implements OnInit {
 
   fillEditForm(orderModel: OrderModel) {
     this.isUpdate = true;
-
     this.formGroup.patchValue({
       orderId: orderModel.orderId,
       branchId: orderModel.branchId,
       storeId: orderModel.storeId,
-      notes:orderModel.notes,  
-      orderDate:this.datePipe.transform(orderModel.orderDate, 'yyyy-MM-dd'),
-    
-      
+      description: orderModel.description,
+      orderDate: this.datePipe.transform(orderModel.orderDate, 'yyyy-MM-dd'),
     });
   }
 
@@ -221,8 +218,6 @@ export class AddDeliveryOrderComponent implements OnInit {
     orderDate: '',
     storeId: '',
     orderProducts: '',
-    notes: ''
+    description: ''
   };
-  
-
 }

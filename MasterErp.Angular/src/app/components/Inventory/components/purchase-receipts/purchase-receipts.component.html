@@ -3,7 +3,7 @@
 <div class="card card-with-table border shadow-none">
     <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-3">
-            <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2" routerLink="./../add-delivery-order">
+            <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2" routerLink="./../add-purchases-request">
                 <i class="uil uil-plus fs-5"></i>
                 <span>إضافة إذن جديد</span>
             </button>
@@ -16,31 +16,27 @@
         <table class="table table-borderless align-middle table-hover table-component text-center m-0 p-0">
             <thead>
                 <tr>
-                    <th># الفاتورة</th>
-                    <th>الرقم الدفترى</th>
-                    <th>تاريخ الفاتورة</th>
+                    <th># الطلب</th>
+                    <th>تاريخ الطلب</th>
                     <th>اسم الفرع</th>
-                    <th>القيمة الإجمالية</th>
-                    <th>حالة الفاتورة</th>
-                    <th class="text-center"></th>
+                    <th>حالة الطلب</th>
+                    <th>ملاحظات</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of pagedResponseModel.results">
-                    <td>{{item.orderNumber}}</td>
-                    <td>{{item.docNumber}}</td>
-                    <td>{{item.orderDate | date}}</td>
-                    <td>{{item.branchNameAR}}</td>
-                    <td>{{item.totalValue}}</td>
+                    <td>{{item.requestNumber}}</td>
+                    <td>{{item.requestDate | date}}</td>
+                    <td>{{item.branchName}}</td>
                     <td>
-                        <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
+                        <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isCancelled)">
                             {{item.orderStatus}}
                         </span>
                     </td>
+                    <td>{{item.notes}}</td>
                     <td>
                         <div class="w-100 d-flex align-items-center justify-content-center">
-
-                            <button routerLink="../add-delivery-order" [queryParams]="{DeliveryOrderId:item.orderId}" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
+                            <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2" routerLink="../add-purchases-request" [queryParams]="{OrderId:item.orderId}">
                                 <i class="uil uil-pen"></i>
                                 <span>تعديل</span>
                             </button>
@@ -48,17 +44,13 @@
                                 <i class="uil uil-times"></i>
                                 <span>الغاء</span>
                             </button>
-
                             <app-invoice-details-sidepanel [invoiceId]="item.orderId">
                             </app-invoice-details-sidepanel>
                         </div>
                     </td>
                 </tr>
             </tbody>
-
         </table>
-        <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
-
     </div>
 </div>
 
@@ -80,3 +72,10 @@
         </button>
     </div>
 </ng-template>
+
+<app-empty-data [showEmptyData]="!pagedResponseModel.results?.length && !showLoader" [showLoader]="showLoader"></app-empty-data>
+
+
+
+
+<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->

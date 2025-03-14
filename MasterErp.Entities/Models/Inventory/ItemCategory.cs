@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models.Inventory
 {
+    [Table("ItemCategories", Schema = "Inventory")]
+
     public class ItemCategory : CreatorModel
     {
         public int ItemCategoryId { get; set; }

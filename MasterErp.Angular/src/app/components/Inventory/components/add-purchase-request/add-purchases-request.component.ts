@@ -48,7 +48,7 @@ export class AddPurchasesRequestComponent implements OnInit {
 
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
-      if (params.DeliveryOrderId) {
+      if (params.OrderId) {
         this.purchaseRequestId = params.PurchaseRequestId;
         this.getPurchaseRequestDetailsById();
         this.getPurchaseRequestProducts();
@@ -61,7 +61,7 @@ export class AddPurchasesRequestComponent implements OnInit {
 
   getPurchaseRequestDetailsById() {
     this.showLoader = true;
-    this.inventoryService.GetDeliveryOrderDetailsById(this.purchaseRequestId).subscribe((data: OrderModel) => {
+    this.inventoryService.GetDeliveryNoteDetailsById(this.purchaseRequestId).subscribe((data: OrderModel) => {
       if (data) {
         this.purchaseRequestModel = data;
         this.fillEditForm(this.purchaseRequestModel)
@@ -110,7 +110,7 @@ export class AddPurchasesRequestComponent implements OnInit {
       orderDate: [null, [Validators.required]],
       storeId: [null, [Validators.required]],
       orderProducts: [[] as OrderProductModel[], [Validators.required, Validators.minLength(1)]],
-      notes: [null],
+      description: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -136,7 +136,7 @@ export class AddPurchasesRequestComponent implements OnInit {
 
   addNewPurchaseRequest() {
     this.showAddLoader = true;
-    this.inventoryService.AddNewDeliveryOrder(this.purchaseRequestModel).subscribe((data: ActionsResponseModel) => {
+    this.inventoryService.AddNewDeliveryNote(this.purchaseRequestModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         // this.formGroup?.reset();
         this.initNewForm();
@@ -186,7 +186,7 @@ export class AddPurchasesRequestComponent implements OnInit {
     this.sharedService.GetBranchesSelector().subscribe((data: FormDropdownModel[]) => {
       this.branchesSelectorData = data;
     });
-    this.sharedService.GetInventoriesSelector().subscribe((data: FormDropdownModel[]) => {
+    this.sharedService.GetStoresSelector().subscribe((data: FormDropdownModel[]) => {
       this.inventoriesSelectorData = data;
     });
   }
@@ -207,7 +207,7 @@ export class AddPurchasesRequestComponent implements OnInit {
       orderId: orderModel.orderId,
       branchId: orderModel.branchId,
       storeId: orderModel.storeId,
-      notes: orderModel.notes,
+      description: orderModel.description,
       orderDate: this.datePipe.transform(orderModel.orderDate, 'yyyy-MM-dd'),
     });
   }
@@ -218,6 +218,6 @@ export class AddPurchasesRequestComponent implements OnInit {
     orderDate: '',
     storeId: '',
     orderProducts: '',
-    notes: ''
+    description: ''
   };
 }
