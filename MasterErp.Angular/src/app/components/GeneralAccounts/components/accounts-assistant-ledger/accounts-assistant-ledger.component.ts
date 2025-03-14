@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { FilterItem, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { GeneralAccountService } from '../../services/general-account.service';
 import { ToastrService } from 'ngx-toastr';
 import { AccountsAssistantLedgerModel, AccountsReportSearchFilterModel } from '../../models/GeneralAccounts/AccountsReportSearchFilterModel';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { SearchReportModel } from 'src/app/components/Reports/Models/ReportParams';
+import { CreateReportsService } from 'src/app/components/Reports/Services/create-reports.service';
 
 @Component({
   selector: 'app-accounts-assistant-ledger',
@@ -30,7 +32,9 @@ export class AccountsAssistantLedgerComponent implements OnInit {
 
   };
 
-  constructor(private generalService: GeneralAccountService, private sharedService: SharedService, private toaster: ToastrService) { }
+  constructor(private generalService: GeneralAccountService, private sharedService: SharedService, private toaster: ToastrService,
+    private ReportsService: CreateReportsService
+  ) { }
 
   ngOnInit(): void {
   }
@@ -76,7 +80,25 @@ export class AccountsAssistantLedgerComponent implements OnInit {
 
   }
   printData() {
+ if (!this.validateSearchModel()) {
+      return;
+    }
 
+    let reportParams: SearchReportModel = {} as SearchReportModel;
+    let filterItems: FilterItem[] = [
+      { categoryName: 'fromDate', itemFlag: this.assistantLedgerResponse.fromDate },
+      { categoryName: 'toDate', itemFlag: this.assistantLedgerResponse.toDate },
+      { categoryName: 'accountId', itemFlag: this.assistantLedgerResponse.accountId.toString() }
+    ];
+    reportParams.ControllerName = 'GeneralAccountsReport';
+    reportParams.ApiName = 'GetAccountsAssistantLedger';
+    reportParams.MethodType = 'POST';
+    reportParams.companyName = 'Mishwar';
+    reportParams.sectionName = 'AccountAssistantLedger';
+    reportParams.pageName = 'دفتر الأستاذ المساعد';
+    reportParams.isLandScape = false;
+    reportParams.filterItems = filterItems;
+    this.ReportsService.CreateGeneralReport(reportParams);
   }
 
 
