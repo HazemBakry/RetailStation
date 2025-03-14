@@ -130,6 +130,9 @@ export class GeneralAccountService {
   EditAccountTree(accountId: number, model: AccountTreeModel) {
     return this.http.post<any>(this.URL + 'AccountTree/EditAccountTree?AccountId=' + accountId, model);
   }
+  GenerateAccountNumber(parentAccountId: number) {
+    return this.http.get<string>(this.URL + 'AccountTree/GenerateAccountNumber?ParentAccountId=' + parentAccountId);
+  }
   DeleteAccountTree(accountId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'AccountTree/DeleteAccountTree?AccountId=' + accountId);
   }
@@ -275,6 +278,9 @@ export class GeneralAccountService {
 
   UpdateCostCenterTree(costCenterId: number, model: CostCenterTreeModel) {
     return this.http.post<any>(this.URL + 'CostCenterTree/UpdateCostCenterTree?CostCenterId=' + costCenterId, model);
+  }
+  GenerateCostCenterNumber(parentCostCenterId: number) {
+    return this.http.get<string>(this.URL + 'CostCenterTree/GenerateCostCenterNumber?ParentCostCenterId=' + parentCostCenterId);
   }
   DeleteCostCenterTree(costCenterId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'CostCenterTree/DeleteCostCenterTree?CostCenterId=' + costCenterId);

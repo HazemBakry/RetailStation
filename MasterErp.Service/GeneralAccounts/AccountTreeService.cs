@@ -84,7 +84,7 @@ namespace MasterErp.Service.GeneralAccounts
                 };
             }
         }
-        private string GenerateAccountNumber(int? parentAccountId)
+        public string GenerateAccountNumber(int? parentAccountId)
         {
             string newAccountNumber;
 
