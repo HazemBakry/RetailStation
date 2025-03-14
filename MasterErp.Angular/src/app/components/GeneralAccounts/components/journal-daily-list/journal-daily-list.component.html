@@ -1,36 +1,45 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
-        <div class="col-md-8 mb-2">
-            <div class="d-flex align-items-center gap-2">
-                <button class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3"
-                    routerLink="/general-accounts/new-entry">
-                    <i class="fas fa-plus-circle"></i>
-                    <span>إضافة قيد</span>
-                </button>
-                <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
-                    <i class="fas fa-file-download"></i>
-                    <span>تصدير CSV</span>
-                </button>
-                <div ngbDropdown class="d-inline-block">
-                    <button type="button" class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3"
-                        id="dropdownBasic1" ngbDropdownToggle>
-                        <i class="fas fa-cogs"></i>
-                        <span>الإجراءات</span>
-                    </button>
-                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="border rounded">
-                        <button ngbDropdownItem class="d-flex align-items-center gap-2" (click)="cancelJournalEntry()"><i
-                                class="fas fa-trash-alt"></i>
-                            <span> إسقاط</span>
-                        </button>
-                        <button ngbDropdownItem (click)="postJournalEntry()">ترحيل</button>
-                        <button ngbDropdownItem (click)="reverseJournalEntry()">عكس</button>
-                        <button ngbDropdownItem (click)="printJournalEntry()">طباعة</button>
-        
-        
-        
-                        <!-- <button ngbDropdownItem class="d-flex align-items-center gap-2">
+  <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+    <div class="col-md-8 mb-2">
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3"
+          routerLink="/general-accounts/new-entry">
+          <i class="fas fa-plus-circle"></i>
+          <span>إضافة قيد</span>
+        </button>
+        <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+          <i class="fas fa-file-download"></i>
+          <span>تصدير CSV</span>
+        </button>
+        <div ngbDropdown class="d-inline-block">
+          <button type="button" class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3"
+            id="dropdownBasic1" ngbDropdownToggle>
+            <i class="fas fa-cogs"></i>
+            <span>الإجراءات</span>
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="border rounded">
+            <button ngbDropdownItem class="d-flex align-items-center gap-2" (click)="cancelJournalEntry()"><i
+                class="fas fa-trash-alt"></i>
+              <span> إسقاط</span>
+            </button>
+            <button ngbDropdownItem class="d-flex align-items-center gap-2" (click)="postJournalEntry()">
+              <i class="fas fa-random"></i>
+              <span>ترحيل</span>
+            </button>
+            <button ngbDropdownItem class="d-flex align-items-center gap-2" (click)="reverseJournalEntry()">
+              <i class="fas fa-exchange-alt"></i>
+              <span>عكس</span>
+            </button>
+            <button ngbDropdownItem class="d-flex align-items-center gap-2" (click)="printJournalEntry()">
+              <i class="fas fa-print"></i>
+              <span>طباعة</span>
+            </button>
+
+
+
+            <!-- <button ngbDropdownItem class="d-flex align-items-center gap-2">
                                     <i class="fas fa-edit"></i>
                                     <span>تعديل</span>
                                 </button>
@@ -38,22 +47,64 @@
                                     <i class="fas fa-trash-alt"></i>
                                     <span>اسقاط</span>
                                 </button> -->
-                    </div>
-                </div>
-                <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
-                    <i class="fas fa-filter"></i>
-                    <span>إضافة فلتر</span>
-                </button>
+          </div>
+        </div>
+        <div ngbDropdown>
+          <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3" ngbDropdownToggle>
+            <i class="fas fa-filter"></i>
+            <span>إضافة فلتر</span>
+          </button>
+          <div class="dropdown-dim p-0 overflow-hidden" placement="bottom-start" ngbDropdownMenu>
+            <div class="px-2 py-3 border-bottom fw-bold bg-light">في هذا العرض، يظهر السجل</div>
+            <div class="px-2 py-3 border-bottom d-flex align-items-center flex-wrap gap-2">
+              <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"
+                [searchPlaceholder]="'البحث برقم القيد ...'"></app-erp-filters>
             </div>
+            <div class="px-2 py-3 d-flex align-items-center justify-content-between gap-3">
+              <a
+                class="delete-all-link cursor-pointer d-flex align-items-center gap-2 text-underline-none text-muted min-width-60">
+                <i class="fas fa-trash-alt"></i>
+                <span>مسح الكل</span>
+              </a>
+              <div class="d-flex align-items-center flex-wrap gap-1">
+                <span class="badge badge-size bg-primary">
+                  مرشح 1
+                  <i class="fas fa-times-circle icon-close cursor-pointer"></i>
+                </span>
+                <span class="badge badge-size bg-primary">
+                  مرشح 2
+                  <i class="fas fa-times-circle icon-close cursor-pointer"></i>
+                </span>
+                <span class="badge badge-size bg-primary">
+                  مرشح 3
+                  <i class="fas fa-times-circle icon-close cursor-pointer"></i>
+                </span>
+                <span class="badge badge-size bg-primary">
+                  مرشح 4
+                  <i class="fas fa-times-circle icon-close cursor-pointer"></i>
+                </span>
+                <span class="badge badge-size bg-primary">
+                  مرشح 5
+                  <i class="fas fa-times-circle icon-close cursor-pointer"></i>
+                </span>
+                <span class="badge badge-size bg-danger">
+                  مسح الجميع
+                  <i class="fas fa-times-circle icon-close cursor-pointer"></i>
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-md-4 mb-2">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
-                [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
-        </div>
-        
-        
+      </div>
+    </div>
+    <div class="col-md-4 mb-2">
+      <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
+        [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+    </div>
 
-        <!-- <nav>
+
+
+    <!-- <nav>
             <ul class="pagination table-paging m-0">
                 <li class="page-item disabled">
                     <a class="page-link">السابق</a>
@@ -70,86 +121,85 @@
         </nav> -->
 
 
-        <div class="row mt-3">
-            <div class="col-md-9">
-                <div class="d-flex align-items-center">
-                    <ng-container>
-                        <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث برقم القيد ...'"></app-erp-filters>
-                    </ng-container>
-                </div>
-            </div>
-            <div class="col-md-3">
-
-            </div>
-        </div>
+    <div class="row mt-3 w-100">
+      <div class="col-md-12">
+        <ng-container>
+          <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"
+            [searchPlaceholder]="'البحث برقم القيد ...'"></app-erp-filters>
+        </ng-container>
+      </div>
     </div>
-    <div class="p-3 bg-white">
-        <div class="table-responsive shadow-sm radius-10">
-            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
-                <thead>
-                    <tr>
-                        <th class="min-width-50 width-50 max-width-50">
-                            <input type="checkbox" [(ngModel)]="selectAll" (change)="selectAllData()" class="big-checkbox cursor-pointer" />
-                        </th>
-                        <th>رقم القيد</th>
-                        <!-- <th>الرقم الدفتري</th> -->
-                        <th>نوع القيد</th>
-                        <th>حالة القيد</th>
-                        <th>نوع العملية</th>
-                        <th>الشهر</th>
-                        <th>التاريخ</th>
-                        <th>مدين كلي</th>
-                        <th>دائن كلي</th>
-                        <th>ملاحظات</th>
-                        <th>ِعمليات</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <ng-container *ngFor="let item of pagedResponseModel.results">
-                        <tr (click)="item.isChecked = !item.isChecked">
-                            <td><input type="checkbox" class="big-checkbox" [(ngModel)]="item.isChecked">
-                            </td>
-                            <td>{{item.entryNumber}}</td>
-                            <!-- <td>{{item.docNumber}}</td> -->
-                            <td>{{item.journalTypeAR ||item.journalTypeEN }}</td>
-                            <td>
-                                <div appColorWithStatus status="IsLocked" [text]="item.isLocked"></div>
-                            </td>
-                            <!-- <td>{{item.actionGroup}}</td> -->
-                            <td>{{item.actionTypeAR || item.actionTypeEN}}</td>
-                            <td>{{item.entryMonth}}</td>
-                            <td>{{item.entryDate | date}}</td>
-                            <td>{{item.totalDebit}}</td>
-                            <td>{{item.totalCredit}}</td>
-                            <td>{{item.description}}</td>
-                            <td>
-                                <!-- <div class="d-flex align-items-center justify-content-center gap-2"> -->
-                                <div class="w-100 d-flex align-items-center justify-content-center">
-                                    <!-- <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="openSidepanel(item)">
+  </div>
+  <div class="p-3 bg-white">
+    <div class="table-responsive shadow-sm radius-10">
+      <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+        <thead>
+          <tr>
+            <th class="min-width-50 width-50 max-width-50">
+              <input type="checkbox" [(ngModel)]="selectAll" (change)="selectAllData()"
+                class="big-checkbox cursor-pointer" />
+            </th>
+            <th>رقم القيد</th>
+            <!-- <th>الرقم الدفتري</th> -->
+            <th>نوع القيد</th>
+            <th>حالة القيد</th>
+            <th>نوع العملية</th>
+            <th>الشهر</th>
+            <th>التاريخ</th>
+            <th>مدين كلي</th>
+            <th>دائن كلي</th>
+            <th>ملاحظات</th>
+            <th>ِعمليات</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let item of pagedResponseModel.results">
+            <tr (click)="item.isChecked = !item.isChecked">
+              <td><input type="checkbox" class="big-checkbox" [(ngModel)]="item.isChecked">
+              </td>
+              <td>{{item.entryNumber}}</td>
+              <!-- <td>{{item.docNumber}}</td> -->
+              <td>{{item.journalTypeAR ||item.journalTypeEN }}</td>
+              <td>
+                <div appColorWithStatus status="IsLocked" [text]="item.isLocked"></div>
+              </td>
+              <!-- <td>{{item.actionGroup}}</td> -->
+              <td>{{item.actionTypeAR || item.actionTypeEN}}</td>
+              <td>{{item.entryMonth}}</td>
+              <td>{{item.entryDate | date}}</td>
+              <td>{{item.totalDebit}}</td>
+              <td>{{item.totalCredit}}</td>
+              <td>{{item.description}}</td>
+              <td>
+                <!-- <div class="d-flex align-items-center justify-content-center gap-2"> -->
+                <div class="w-100 d-flex align-items-center justify-content-center">
+                  <!-- <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="openSidepanel(item)">
                                         <i class="uil uil-pen"></i>
                                         <span>معاينة</span>
                                     </button> -->
-                                    <button routerLink="/general-accounts/new-entry" [queryParams]="{journalEntryAccounts:item.journalEntryId}" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
-                                        <i class="uil uil-pen"></i>
-                                        <span>تعديل</span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr *ngIf="!pagedResponseModel.results.length">
-                            <td colspan="12" class="text-right">
-                                <app-empty-data [showEmptyData]="!pagedResponseModel.results.length"></app-empty-data>
-                            </td>
-                        </tr>
+                  <button routerLink="/general-accounts/new-entry"
+                    [queryParams]="{journalEntryAccounts:item.journalEntryId}"
+                    class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+                    <i class="uil uil-pen"></i>
+                    <span>تعديل</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="!pagedResponseModel.results.length">
+              <td colspan="12" class="text-right">
+                <app-empty-data [showEmptyData]="!pagedResponseModel.results.length"></app-empty-data>
+              </td>
+            </tr>
 
-                    </ng-container>
+          </ng-container>
 
-                </tbody>
-            </table>
-            <!-- <app-empty-data [showEmptyData]="!pagedResponseModel.results.length && !showLoader"></app-empty-data> -->
+        </tbody>
+      </table>
+      <!-- <app-empty-data [showEmptyData]="!pagedResponseModel.results.length && !showLoader"></app-empty-data> -->
 
-        </div>
     </div>
+  </div>
 </div>
 
 <ngx-loading [show]="showLoader"></ngx-loading>

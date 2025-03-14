@@ -71,6 +71,64 @@
           </div>
         </div>
       </div>
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label class="form-label d-flex align-items-center gap-2">طريقةالتسجيل الرقمى <span
+              class="text-danger">*</span></label>
+          <div ngbDropdown class="dropdown-filter-wrapper dropdown-as-input d-inline-block w-100">
+            <div class="position-relative with-arrow-tb">
+              <input type="text" class="form-control nw-form-input" #inputDrop_2 ngbDropdownToggle
+                [value]="inputDropdownValue_2">
+              <div class="arrow-tb" *ngIf="inputDrop_2.value == ''"></div>
+              <div class="input-drop-action d-flex align-items-center gap-1 fw-normal" *ngIf="inputDrop_2.value != ''">
+                <i class="uil uil-times cursor-pointer" (click)="inputDrop_2.value = ''"></i>
+                <i class="uil uil-corner-up-left-alt cursor-pointer"></i>
+              </div>
+            </div>
+            <div ngbDropdownMenu class="dropdown-menu-search-input p-0 overflow-hidden w-100 shadow-sm">
+              <div class="p-2 bg-light border-bottom">
+                <input type="text" class="form-control" placeholder="بحث..." />
+              </div>
+              <div class="max-height-150 min-width-200 overflow-auto small-scroll p-2">
+                <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+                  <thead>
+                    <tr>
+                      <th>الاسم</th>
+                      <th>الرقم</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>حازم بكرى</td>
+                      <td>100</td>
+                    </tr>
+                    <tr>
+                      <td>محمود محسن</td>
+                      <td>50</td>
+                    </tr>
+                    <tr>
+                      <td>أحمد المصرى</td>
+                      <td>99</td>
+                    </tr>
+                    <tr>
+                      <td>عادل سعيد</td>
+                      <td>712</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="d-flex flex-column gap-2 bg-light border-top p-2">
+                <div class="check-row">
+                  <a class="dropdown-item d-flex align-items-center gap-2 cursor-pointer px-1">
+                    <i class="uil uil-plus"></i>
+                    <span>إنشاء طريقة دفع جديدة</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -131,5 +189,106 @@
       </tbody>
     </table>
     <button class="btn btn-secondary mt-3" (click)="onAddRow()">إضافة صف</button>
+  </div>
+  <hr>
+  <div class="px-3 py-2">
+    <div class="table-responsive shadow-sm radius-10">
+      <table class="table table-card-table table-bordered border table-middle table-hover bg-transparent m-0">
+        <thead>
+          <tr>
+            <th rowspan="2">الكود</th>
+            <th rowspan="2">الحساب</th>
+            <th colspan="2">رصيد ماقبل</th>
+            <th colspan="2">الحركه</th>
+            <th colspan="2">الاجمالى</th>
+            <th colspan="2">الصافى</th>
+          </tr>
+          <tr>
+            <th>مدين</th>
+            <th>دائن</th>
+            <th>مدين</th>
+            <th>دائن</th>
+            <th>مدين</th>
+            <th>دائن</th>
+            <th>مدين</th>
+            <th>دائن</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>30101</td>
+            <td>تكلفه المواد</td>
+            <td>0257893541</td>
+            <td>9874563124</td>
+            <td>4567893232</td>
+            <td>0</td>
+            <td>4567893232</td>
+            <td>4567893232</td>
+            <td>4567893232</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>30101</td>
+            <td>تكلفه المواد</td>
+            <td>0257893541</td>
+            <td>9874563124</td>
+            <td>4567893232</td>
+            <td>0</td>
+            <td>4567893232</td>
+            <td>4567893232</td>
+            <td>4567893232</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>30101</td>
+            <td>تكلفه المواد</td>
+            <td>0257893541</td>
+            <td>9874563124</td>
+            <td>4567893232</td>
+            <td>0</td>
+            <td>4567893232</td>
+            <td>4567893232</td>
+            <td>4567893232</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>30101</td>
+            <td>تكلفه المواد</td>
+            <td>0257893541</td>
+            <td>9874563124</td>
+            <td>4567893232</td>
+            <td>0</td>
+            <td>4567893232</td>
+            <td>4567893232</td>
+            <td>4567893232</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>30101</td>
+            <td>تكلفه المواد</td>
+            <td>0257893541</td>
+            <td>9874563124</td>
+            <td>4567893232</td>
+            <td>0</td>
+            <td>4567893232</td>
+            <td>4567893232</td>
+            <td>4567893232</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>30101</td>
+            <td>تكلفه المواد</td>
+            <td>0257893541</td>
+            <td>9874563124</td>
+            <td>4567893232</td>
+            <td>0</td>
+            <td>4567893232</td>
+            <td>4567893232</td>
+            <td>4567893232</td>
+            <td>0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

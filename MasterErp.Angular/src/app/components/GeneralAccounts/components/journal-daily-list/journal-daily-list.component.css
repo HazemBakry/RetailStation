@@ -1,3 +1,12 @@
 .table-vp-height {
-    height: calc(100vh - 251px);
-  }
+  height: calc(100vh - 251px);
+}
+.dropdown-dim {
+  min-width: 500px;
+}
+.min-width-60 {
+  min-width: 60px;
+}
+.delete-all-link:hover {
+  color: tomato !important;
+}
