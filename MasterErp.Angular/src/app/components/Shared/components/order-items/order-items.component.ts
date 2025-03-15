@@ -21,27 +21,24 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   @Input() showAddNew: boolean = true;
   @Output() selectedProductsList = new EventEmitter<OrderDetailModel[]>();
   showLoader: boolean = false;
-  productsList: OrderDetailModel[] = [];
+  ItemsList: any[] = [];
   SuppliersList: any[] = [];
   BranchesList: any[] = [];
   LookupsList: any[] = [];
-  ItemsList: any[] = [];
+  orderItems: OrderDetailModel[] = [];
+
   ItemsByLookup: OrderDetailModel[] = [];
   ItemsBySupplier: any[] = [];
   // RawItemsList: any[] = [];
   EditQuantityList: OrderDetailModel[] = [];
   selectedItem: OrderDetailModel;
   // selectedItem: any={} ;
-  activeTab = 'Item';
   notes: any;
   BranchId: any;
   SupplierId: any;
   LookupId: any;
   itemModel: ItemModel = {} as ItemModel;
 
-
-  orderList: OrderModel = {} as OrderModel;
-  orderProducts: OrderProductModel[] = [];
   itemsSelector: FormDropdownModel[] = [];
   SearchFilterModel: SearchFilterModel = {
     currentPage: 1,
@@ -65,7 +62,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     }
 
     if (changes && changes.clearAllProducts && !changes.clearAllProducts?.firstChange) {
-      this.productsList = [];
+      this.orderItems = [];
     }
   }
 
@@ -73,11 +70,30 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     this.sharedService.GetItemsSelector().subscribe((data: FormDropdownModel[]) => {
       this.itemsSelector = data;
     });
+
+    this.sharedService.GetBranchesSelector().subscribe((data: FormDropdownModel[]) => {
+      this.BranchesList = data;
+    });
+
+    this.sharedService.GetSuppliersSelector().subscribe((data: FormDropdownModel[]) => {
+      this.SuppliersList = data;
+    });
+
+    this.sharedService.GetItemLookupsSelector().subscribe((data: FormDropdownModel[]) => {
+      this.LookupsList = data;
+    });
+  }
+
+  validateNumbers(key: any): boolean {
+    let patt = /^([0-9\+])$/;
+    let result = patt.test(key);
+    return result;
   }
 
   getItemDetailsById(itemId) {
     this.inventoryService.GetItemDetailsById(itemId).subscribe((data: ItemModel) => {
       if (data) {
+        debugger
         this.itemModel = data;
         //this.initNewForm(this.itemModel);
       }
@@ -91,24 +107,26 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   }
 
   AddSupplierProducts() {
-
     this.selectedSupplierProducts.forEach(item => {
-      let checked = this.productsList?.find(i => i.itemId == item.itemId);
+      let checked = this.orderItems?.find(i => i.itemId == item.itemId);
       if (!checked)
-        this.productsList.push(item);
+        this.orderItems.push(item);
     });
     this.emitSelectedProductsList();
   }
+
   GetItemsData() {
     this.inventoryService.GetItemsData(this.SearchFilterModel).subscribe(data => {
       this.ItemsList = data.results;
     });
   }
+
   GetItemsLookups() {
     this.inventoryService.GetItemsLookups().subscribe(data => {
       this.LookupsList = data;
     });
   }
+
   openItemsModal(content: any) {
     this.selectedItem = {} as OrderDetailModel;
     this.GetItemsData();
@@ -116,54 +134,37 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     this.modalService.open(content, { centered: true, size: 'md' });
   }
   openEditQuantityModal(content: any) {
-    if (this.productsList.length == 0) {
+    if (this.orderItems.length == 0) {
       this.toaster.warning('Please Enter Items');
       return;
     }
     this.EditQuantityList = [];
-    this.productsList.forEach(item => {
+    this.orderItems.forEach(item => {
       let newObj = JSON.parse(JSON.stringify(item));
       this.EditQuantityList.push(newObj);
     });
     this.modalService.open(content, { centered: true, size: 'md' });
   }
   RemoveItem(index: number) {
-    this.productsList.splice(index, 1);
+    this.orderItems.splice(index, 1);
     this.emitSelectedProductsList();
   }
-  ItemTypeChange(name) {
-    if (name == 'Item')
-      this.activeTab = 'Item';
-    else
-      this.activeTab = 'Lookups';
-  }
+
   SaveSelectedItem() {
     this.selectedItem.itemTotalValue = this.selectedItem.price && this.selectedItem.quantity ? this.selectedItem.price * this.selectedItem.quantity : 0;
-
-    if (this.activeTab == 'Item') {
-      if (this.selectedItem.itemId) {
-        let checked = this.productsList.find(i => i.itemId == this.selectedItem.itemId);
-        if (!checked)
-          this.productsList.push(this.selectedItem);
-        else
-          this.toaster.warning(this.selectedItem.itemNameAr + ' Is Exist In Purchase Item List')
-        this.modalService.dismissAll();
+    this.ItemsByLookup.forEach(item => {
+      let itemChecked = this.orderItems.find(i => i.itemId == item.itemId);
+      if (!itemChecked) {
+        this.orderItems.push(item);
+      } else {
+        this.toaster.warning(item.itemNameAr + ' is already exist');
       }
-      else
-        this.toaster.warning('Please Select Item Or Lookups');
-    } else {
-      this.ItemsByLookup.forEach(item => {
-        let itemChecked = this.productsList.find(i => i.itemId == item.itemId);
-        if (!itemChecked) {
-          this.productsList.push(item);
-        } else {
-          this.toaster.warning(item.itemNameAr + ' is already exist');
-        }
-      });
-      this.modalService.dismissAll();
-    }
+    });
+    this.modalService.dismissAll();
+
     this.emitSelectedProductsList();
   }
+
   GetSelectedItem(item: OrderDetailModel) {
 
     // let model: ItemModel = {} as ItemModel;
@@ -209,7 +210,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
       return;
     }
     this.EditQuantityList.forEach(item => {
-      let Item = this.productsList.find(i => i.itemId == item.itemId);
+      let Item = this.orderItems.find(i => i.itemId == item.itemId);
       Item.quantity = item.quantity;
       Item.itemTotalValue = item.price * item.quantity;
     });
@@ -218,23 +219,22 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   }
 
   emitSelectedProductsList() {
-    var list = this.productsList.filter(x => x.quantity && x.quantity > 0);
+    var list = this.orderItems.filter(x => x.quantity && x.quantity > 0);
     this.selectedProductsList.emit(list);
   }
 
   addField() {
-    this.orderProducts.push(
+    this.orderItems.push(
       {
         itemId: 0,
-        itemNameAR: '',
-        itemNameEN: '',
+        itemNameAr: '',
+        itemNameEn: '',
         unitId: 0,
-        unitNameAR: '',
-        unitNameEN: '',
+        unitNameAr: '',
+        unitNameEn: '',
         price: 0,
         quantity: 0,
-        totalValue: 0,
-        isActive: true
+        itemTotalValue: 0
       }
     );
   }

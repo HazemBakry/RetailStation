@@ -36,35 +36,31 @@
 
             </thead>
             <tbody>
-                <tr class="row-hover" *ngFor="let item of productsList;let i = index">
+                <tr class="row-hover" *ngFor="let item of orderItems;let i = index">
                     <td style="width: 300px;">
                         <app-general-selector [showSearch]="true" [(ngModel)]="item.itemId" [data]="itemsSelector" (valueChanged)="getItemDetailsById($event)" [placeholder]="'الحسابات'"></app-general-selector>
                     </td>
                     <td>
-                        <input type="text" #inputs class="form-control text-center" [(ngModel)]="item.unit" id="Input1" autocomplete="off" (input)="calcDifference()" (keypress)="validateNumbers($event.key)" (keyup.arrowdown)="focusDownAndUp('Input1',i,'down')" (keyup.arrowup)="focusDownAndUp('Input1',i,'up')"
-                            (keyup.arrowleft)="focusLeftAndRight('Input2',i)" focus>
+                        <input type="text" #inputs class="form-control text-center" disabled [(ngModel)]="item.unit" focus>
                     </td>
                     <td>
-                        <input type="text" #inputs class="form-control text-center" [(ngModel)]="item.price" id="Input1" autocomplete="off" (input)="calcDifference()" (keypress)="validateNumbers($event.key)" (keyup.arrowdown)="focusDownAndUp('Input1',i,'down')" (keyup.arrowup)="focusDownAndUp('Input1',i,'up')"
-                            (keyup.arrowleft)="focusLeftAndRight('Input2',i)" focus [disabled]="item.price > 0">
+                        <input type="text" #inputs class="form-control text-center" [(ngModel)]="item.price" autocomplete="off" (input)="calcDifference()" focus>
                     </td>
                     <td>
-                        <input type="text" #inputs2 class="form-control text-center" [(ngModel)]="item.quantity" id="Input2" autocomplete="off" (input)="calcDifference()" (keypress)="validateNumbers($event.key)" (keyup.arrowdown)="focusDownAndUp('Input2',i,'down')" (keyup.arrowup)="focusDownAndUp('Input2',i,'up')"
-                            (keyup.arrowleft)="focusLeftAndRight('Input3',i)" (keyup.arrowright)="focusLeftAndRight('Input1', i)">
+                        <input type="text" #inputs2 class="form-control text-center" [(ngModel)]="item.quantity" autocomplete="off" (input)="calcDifference()" (keypress)="validateNumbers($event.key)">
                     </td>
                     <td>
-                        <input type="text" #inputs class="form-control text-center" [(ngModel)]="item.totalValue" id="Input1" autocomplete="off" (input)="calcDifference()" (keypress)="validateNumbers($event.key)" (keyup.arrowdown)="focusDownAndUp('Input1',i,'down')" (keyup.arrowup)="focusDownAndUp('Input1',i,'up')"
-                            (keyup.arrowleft)="focusLeftAndRight('Input2',i)" focus [disabled]="item.totalValue > 0">
+                        <input type="text" #inputs class="form-control text-center" disabled [(ngModel)]="item.totalValue" autocomplete="off" (input)="calcDifference()" (keypress)="validateNumbers($event.key)">
                     </td>
                     <td class="justify-content-center d-flex">
-                        <button class="button-table-action mt-1 btn-delete d-flex align-items-center justify-content-center gap-2" (click)="deleteFromList(productsList,i)">
+                        <button class="button-table-action mt-1 btn-delete d-flex align-items-center justify-content-center gap-2" (click)="deleteFromList(orderItems,i)">
               <i class="fas fa-times fs-5"></i>
             </button>
                     </td>
                 </tr>
-                <tr *ngIf="!productsList.length">
+                <tr *ngIf="!orderItems.length">
                     <td colspan="7" class="text-right">
-                        <app-empty-data [showEmptyData]="!productsList.length"></app-empty-data>
+                        <app-empty-data [showEmptyData]="!orderItems.length"></app-empty-data>
                     </td>
                 </tr>
             </tbody>
@@ -77,11 +73,11 @@
           <i class="uil uil-plus fs-5"></i>
           <span>اضافة صنف</span>
         </button>
-                <!-- <div *ngIf="productsList&&!productsList?.length" class="text-danger  font-small-3 m-03">
-          {{formErrors.productsList}}
+                <!-- <div *ngIf="orderItems&&!orderItems?.length" class="text-danger  font-small-3 m-03">
+          {{formErrors.orderItems}}
         </div> -->
             </div>
-            <button *ngIf="productsList.length" class="button-table-action mt-3 btn-delete d-flex align-items-center justify-content-center gap-2" (click)="orderProducts = [];calcDifference()">
+            <button *ngIf="orderItems.length" class="button-table-action mt-3 btn-delete d-flex align-items-center justify-content-center gap-2" (click)="orderProducts = [];calcDifference()">
         <i class="fas fa-times fs-5"></i>
         حذف الكل
       </button>
