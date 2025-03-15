@@ -13,9 +13,12 @@ export class CreateReportsService {
 
   constructor(private http: HttpClient, private toaster: ToastrService) { }
 
-  CreateGeneralReport(model: SearchReportModel) {
+  CreateGeneralReport(model: SearchReportModel, callback?: (timeTaken: number) => void) {
+    const startTime = Date.now();
     return this.http.post<any>(this.URL + 'CreateReport/CreateGeneralReport', model).subscribe({
       next: (response) => {
+        const endTime = Date.now();
+        const timeTaken = Math.floor(endTime - startTime) / 1000;
         if (response && response.filePath) {
           const newTab = window.open(response.filePath, '_blank');
           const interval = setInterval(() => {
@@ -28,9 +31,14 @@ export class CreateReportsService {
         }
         else
           this.toaster.error('En Error Happened!');
+
+        if (callback) callback(timeTaken);
       },
       error: () => {
+        const endTime = Date.now();
+        const timeTaken = Math.floor(endTime - startTime) / 1000;
         this.toaster.error('En Error Happened!');
+        if (callback) callback(timeTaken);
       }
     });
   }

@@ -107,7 +107,11 @@ export class AccountsGeneralLedgerComponent implements OnInit {
     reportParams.pageName = 'دفتر الاستاذ العام';
     reportParams.isLandScape = false;
     reportParams.filterItems = filterItems;
-    this.ReportsService.CreateGeneralReport(reportParams);
+    this.showLoader = true;
+    this.ReportsService.CreateGeneralReport(reportParams, (timeTaken) => {
+      this.showLoader = false;
+      console.log(`Generate Report Request Time: ${timeTaken} S`);
+    });
   }
 
 

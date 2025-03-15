@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using System.Threading;
-using Microsoft.AspNetCore.Hosting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
@@ -17,80 +15,68 @@ namespace MasterErp.Service.Shared
             try
             {
                 var URL = new Uri(webSiteUri, UriKind.Absolute);
-                var options = new ChromeOptions()
+                var options = new ChromeOptions
                 {
                     PageLoadStrategy = PageLoadStrategy.Normal
                 };
 
-                using (htmlLoader = new ChromeDriver(options))
+                options.AddArgument("--headless");
+                options.AddArgument("--disable-gpu");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+
+                int maxRetries = 3;
+                for (int attempt = 0; attempt < maxRetries; attempt++)
                 {
-                    IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)htmlLoader;
                     try
                     {
-                        htmlLoader.Navigate().GoToUrl(URL);
-                        jsExecutor.ExecuteScript($"localStorage.setItem('JWT_TOKEN', '{jwtToken}');");
+                        htmlLoader = new ChromeDriver(options);
+                        break;
                     }
-                    catch (Exception ex)
+                    catch (WebDriverException)
                     {
-                        htmlLoader.Quit();
-                        return null;
+                        if (attempt == maxRetries - 1) throw;
+                        Thread.Sleep(2000);
                     }
-                    var wait = new WebDriverWait(htmlLoader, TimeSpan.FromMinutes(3));
+                }
+
+                IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)htmlLoader;
+                htmlLoader.Navigate().GoToUrl(URL);
+                jsExecutor.ExecuteScript($"localStorage.setItem('JWT_TOKEN', '{jwtToken}');");
+
+                var wait = new WebDriverWait(htmlLoader, TimeSpan.FromMinutes(3));
+
+                try
+                {
                     wait.Until(driver =>
                     {
-                        var isFind = false;
-                        int counter = 0;
-                        do
+                        try
                         {
-                            try
-                            {
-                                var el = driver.FindElement(By.Id("ReportData"));
-                                if (el != null)
-                                    isFind = true;
-                            }
-                            catch (Exception)
-                            {
-                                Thread.Sleep(1000);
-                                if (++counter >= 3 * 60)
-                                {
-                                    return false;
-                                }
-                            }
-
+                            var element = driver.FindElement(By.Id("ReportData"));
+                            return element.Displayed;
                         }
-                        while (!isFind);
-
-
-                        var imageElement = htmlLoader.FindElement(By.Id("ReportImage"));
-                        if (imageElement != null)
+                        catch (NoSuchElementException)
                         {
-                            jsExecutor.ExecuteScript(@"var img = document.getElementById('ReportImage');img.src = 'http://localhost:63246/ReportImage/logo2.png';");
-                            Thread.Sleep(1000);
-                            HTML = driver.FindElement(By.Id("ReportData")).GetAttribute("outerHTML");
+                            return false;
                         }
-
-                        return true;
                     });
-
-                    htmlLoader.Quit();
-                    if (string.IsNullOrEmpty(HTML))
-                        return null;
-                    else
-                        return HTML;
-
                 }
-            }
-            catch (Exception ex)
-            {
-                if (htmlLoader != null)
-                    try
-                    {
-                        htmlLoader.Quit();
-                    }
-                    catch (Exception)
-                    {
-                    }
+                catch (WebDriverTimeoutException)
+                {
+                    htmlLoader.Quit();
+                    return null;
+                }
 
+                jsExecutor.ExecuteScript(@"document.getElementById('ReportImage').src = 'http://localhost:63246/ReportImage/logo2.png';");
+                wait.Until(driver => driver.FindElement(By.Id("ReportImage")).GetAttribute("src").Contains("logo2.png"));
+                HTML = htmlLoader.FindElement(By.Id("ReportData")).GetAttribute("outerHTML");
+                htmlLoader.Quit();
+
+                return string.IsNullOrEmpty(HTML) ? null : HTML;
+            }
+            catch (Exception)
+            {
+                htmlLoader?.Quit();
                 return null;
             }
         }
