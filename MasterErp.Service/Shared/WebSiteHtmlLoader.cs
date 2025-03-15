@@ -71,14 +71,18 @@ namespace MasterErp.Service.Shared
                 wait.Until(driver => driver.FindElement(By.Id("ReportImage")).GetAttribute("src").Contains("logo2.png"));
                 HTML = htmlLoader.FindElement(By.Id("ReportData")).GetAttribute("outerHTML");
                 htmlLoader.Quit();
-
-                return string.IsNullOrEmpty(HTML) ? null : HTML;
             }
             catch (Exception)
             {
                 htmlLoader?.Quit();
                 return null;
             }
+            finally
+            {
+                htmlLoader?.Quit();
+            }
+
+            return string.IsNullOrEmpty(HTML) ? null : HTML;
         }
     }
 }
