@@ -131,22 +131,7 @@ export class AddMaterialIssueReceiptComponent implements OnInit {
     });
   }
 
-  addField() {
-    this.orderProducts.push(
-      {
-        itemId: 0,
-        itemNameAR: '',
-        itemNameEN: '',
-        unitId: 0,
-        unitNameAR: '',
-        unitNameEN: '',
-        price: 0,
-        quantity: 0,
-        totalValue: 0,
-        isActive: true
-      }
-    );
-  }
+
 
   saveData() {
     if (this.orderProducts.length === 0)
@@ -155,6 +140,7 @@ export class AddMaterialIssueReceiptComponent implements OnInit {
     if (!this.validateForm()) {
       return;
     }
+
     this.orderList = this.formGroup.value;
 
     if (this.purchaseRequestId)
@@ -240,9 +226,4 @@ export class AddMaterialIssueReceiptComponent implements OnInit {
     });
   }
 
-    GetSelectedProductsList(products: OrderDetailModel[]) {
-      //this.orderProducts = products;
-      //this.supplierReturnsModel.items = products;
-  
-    }
 }
