@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/Main/dashboard/dashboard.component';
 import { ReviewsComponent } from './components/Main/reviews/reviews.component';
-import { ErpLoginComponent } from './components/Shared/components/erp-login/erp-login.component';
-import { ErpHomeComponent } from './components/Shared/components/erp-home/erp-home.component';
 import { NotAuthorizedComponent } from './components/Shared/components/not-authorized/not-authorized.component';
 import { AuthGuard } from './Auth/auth.guard';
 import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
@@ -22,7 +20,8 @@ const routes: Routes = [
   { path: 'general-accounts', loadChildren: () => import('./components/GeneralAccounts/general-accounts.module').then(erp => erp.GeneralAccountsModule), canActivate: [AuthGuard] },
   { path: 'inventory', loadChildren: () => import('./components/Inventory/inventory.module').then(erp => erp.InventoryModule), canActivate: [AuthGuard] },
   { path: 'system-settings', loadChildren: () => import('./components/SystemSettings/system-settings.module').then(erp => erp.SystemSettingsModule), canActivate: [AuthGuard] },
-  { path: 'design', loadChildren: () => import('./components/Design/design.module').then(erp => erp.DesignModule), canActivate: [AuthGuard] }
+  { path: 'design', loadChildren: () => import('./components/Design/design.module').then(erp => erp.DesignModule), canActivate: [AuthGuard] },
+  { path: 'create-report/:companyName/:pageName/:controllerName/:apiName/:methodType/:sectionName', loadChildren: () => import('./components/Reports/reports.module').then(erp => erp.ReportsModule) }
 ];
 
 @NgModule({

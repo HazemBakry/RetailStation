@@ -2,7 +2,7 @@ import { OrderDetailModel } from "src/app/components/Shared/models/ItemModel";
 import { CreatorModel } from "../../Shared/models/CreatorModel";
 
 export interface InventoryModel {
-   
+
 }
 
 
@@ -35,7 +35,7 @@ export interface OrderModel extends CreatorModel {
     discountPercent: number | null;
     totalValue: number;
     netValue: number | null;
-    notes: string;
+    description: string;
     isLocked: boolean | null;
     isCancelled: boolean | null;
     totalCount: number | null;

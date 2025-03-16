@@ -71,14 +71,17 @@ export class AddEditCostCenterTreeComponent implements OnInit, OnChanges {
     if (costCenterModel)
       this.fillEditForm(costCenterModel);
     else
+    {
       this.costCenterModel = {} as CostCenterTreeModel;
+      this.generateCostCenterNumber();
+    }
 
   }
   buildForm() {
 
     this.formGroup = this.form.group({
       costCenterId: [null],
-      costCenterNumber: [null, [Validators.required]],
+      costCenterNumber: [null],
       nameAR: [null, [Validators.required]],
       nameEN: [null, [Validators.required]],
       parentId: [null],
@@ -90,6 +93,12 @@ export class AddEditCostCenterTreeComponent implements OnInit, OnChanges {
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
 
+    });
+    this.formGroup.get('parentId').valueChanges.subscribe((parentId:number) => {
+      if(!this.isUpdate)
+      {
+        this.generateCostCenterNumber(parentId ? parentId :0);
+      }
     });
   }
 
@@ -153,6 +162,19 @@ export class AddEditCostCenterTreeComponent implements OnInit, OnChanges {
 
   }
 
+  generateCostCenterNumber(parentCostCenterId: number = 0) {
+    this._GeneralAccountService
+      .GenerateCostCenterNumber(parentCostCenterId).subscribe(data => {
+        if (data) {
+          this.formGroup?.patchValue({ costCenterNumber: data });
+        }
+
+      }, err => {
+
+      }, () => {
+
+      });
+  }
 
   validateForm(): boolean {
     this._FormService.markFormGroupTouched(this.formGroup);

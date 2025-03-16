@@ -165,7 +165,6 @@ export class PaymentTermComponent implements OnInit {
   }
 
   AddNewPaymentTermDetails() {
-    debugger;
     if (!this.validateForm())
       return;
 

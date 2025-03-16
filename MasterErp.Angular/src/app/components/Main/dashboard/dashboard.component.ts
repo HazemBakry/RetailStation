@@ -8,7 +8,7 @@ import { PaymentService } from '../../GeneralAccounts/services/payment.service';
 import { ToastrService } from 'ngx-toastr';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 import { OrderModel } from '../../Inventory/models/inventory';
-import { PaymentReceipt } from '../../GeneralAccounts/models/GeneralAccounts/PaymentReceipt';
+import { ReceiptModel } from '../../GeneralAccounts/models/GeneralAccounts/ReceiptModel';
 
 
 @Component({
@@ -119,14 +119,14 @@ export class DashboardComponent implements OnInit {
     searchText: ''
 
   };
-  PaymentReceipts: PagedResponseDTO<PaymentReceipt[]> = {
+  PaymentReceipts: PagedResponseDTO<ReceiptModel[]> = {
     results: [],
     filterList: [],
     pageSize: 25,
     currentPage: 1,
     searchText: ''
   };
-  ReceiveReceipts: PagedResponseDTO<PaymentReceipt[]> = {
+  ReceiveReceipts: PagedResponseDTO<ReceiptModel[]> = {
     results: [],
     filterList: [],
     pageSize: 25,

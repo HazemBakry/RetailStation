@@ -16,8 +16,6 @@ using MasterErp.Entities.DTOs.DataImport;
 using Microsoft.Identity.Client;
 using MasterErp.Entities.Models.DataImport;
 using System.Data.Entity;
-using MasterErp.Entities.DTOs.HR;
-using MasterErp.Entities.Models.HR.Employee;
 
 namespace MasterErp.Service.Common
 {
@@ -422,7 +420,7 @@ namespace MasterErp.Service.Common
             param[2] = new SqlParameter("@FilePath", filePath);
             param[3] = new SqlParameter("@FileFormat", fileExtention);
 
-            var result = SQLHelper.ExecuteDataTable(importer.DestinationStoredProcedure, ConnectionString, param);
+            var result = SQLHelper.ExecuteDataTable(importer.DestinationStoredProcedure, param, ConnectionString);
             //var result = SQLHelper.SQLQuery<ActionsResponseModel>(importer.DestinationStoredProcedure, ConnectionString, param).FirstOrDefault();
             //var result = SQLHelper.SQLQuery<ActionsResponseModel>("[dbo].[SP_ImportFileDataByImporterId]", ConnectionString, param).FirstOrDefault();
             string exportURL=GetExportUrl(result, importer.ImporterName + "Execute");

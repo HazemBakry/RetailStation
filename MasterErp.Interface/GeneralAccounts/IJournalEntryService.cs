@@ -21,6 +21,8 @@ namespace MasterErp.Interface.GeneralAccounts
         ActionsResponseModel SaveNewJournalEntry(JournalEntryModel model);
         ActionsResponseModel EditJournalEntry(int EntryId,JournalEntryModel model);
         List<JournalEntryModel> GetDailyJournalEntriesSummary(SearchFilterModel model);
+        ActionsResponseModel ExportDailyJournalEntries(string UserName, SearchFilterModel SearchModel);
+
         List<FilterModel> GetDailyJournalEntriesFilters(SearchFilterModel model);
         ActionsResponseModel CancelJournalEntry(string UserId, List<int> JournalEntryIds);
         ActionsResponseModel PostJournalEntry(string UserId, List<int> JournalEntryIds);

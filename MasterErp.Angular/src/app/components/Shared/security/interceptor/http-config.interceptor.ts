@@ -16,7 +16,6 @@ import { AuthService } from 'src/app/Auth/auth.service';
 export class HttpConfigInterceptor implements HttpInterceptor {
   constructor(private router: Router, private authService: AuthService) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
     if (request && request.body && request.body.results) {
       const col = JSON.parse(JSON.stringify(request.body));
       col.results = []

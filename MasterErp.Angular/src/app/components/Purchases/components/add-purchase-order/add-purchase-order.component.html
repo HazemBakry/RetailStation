@@ -6,7 +6,7 @@
 
         <form [formGroup]="formGroup" autocomplete="off">
             <div class="employee-card-body row g-3">
-               
+
 
                 <div *ngIf="purchaseOrderModel" class="mb-3">
                     <div *ngIf="purchaseOrderModel?.orderNumber" class="col-xl-6 mb-3">
@@ -16,7 +16,7 @@
                     </div>
                     <div *ngIf="purchaseOrderModel?.orderDate" class="col-xl-6 mb-3">
                         <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
-                            <i class="fas fa-info-circle fa-1x me-2"></i>  تاريخ الفاتورة : {{purchaseOrderModel?.orderDate | date:'shortDate'}}
+                            <i class="fas fa-info-circle fa-1x me-2"></i> تاريخ الفاتورة : {{purchaseOrderModel?.orderDate | date:'shortDate'}}
                         </h4>
                     </div>
                     <div *ngIf="purchaseOrderModel?.supplierNameAR" class="col-xl-6 mb-3">
@@ -26,7 +26,7 @@
                     </div>
                     <div *ngIf="purchaseOrderModel?.storeNameAR" class="col-xl-6 mb-3">
                         <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
-                             المخزن : {{purchaseOrderModel?.storeNameAR}}
+                            المخزن : {{purchaseOrderModel?.storeNameAR}}
                         </h4>
                     </div>
                     <div *ngIf="purchaseOrderModel?.totalValue" class="col-xl-6 mb-3">
@@ -34,13 +34,11 @@
                             <i class="fas fa-info-circle fa-1x me-2"></i>الاجمالي: {{purchaseOrderModel?.totalValue}}
                         </h4>
                     </div>
-                    
+
                 </div>
                 <div class="col-xl-4">
 
-                    <app-drop-down-form-control [disabled]="isUpdate" formControlName="supplierId" [placeholder]="'الموردين'" [showSearch]="true"
-                        [data]="suppliersSelectorData"
-                        (valueChanged)="getSelectedSupplier($event)"></app-drop-down-form-control>
+                    <app-drop-down-form-control [disabled]="isUpdate" formControlName="supplierId" [placeholder]="'الموردين'" [showSearch]="true" [data]="suppliersSelectorData" (valueChanged)="getSelectedSupplier($event)"></app-drop-down-form-control>
                     <div *ngIf="formErrors.supplierId" class="text-danger  font-small-3 m-03">
                         {{formErrors.supplierId}}
                     </div>
@@ -54,7 +52,7 @@
                     </div>
                 </div> -->
                 <div *ngIf="selectedSupplierId" class="col-xl-3">
-                    <button (click)="getSupplierItemsBySupplierId()" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" >
+                    <button (click)="getSupplierItemsBySupplierId()" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
                         <i class="uil uil-pen"></i>
                         <span>تحميل اصناف المورد</span>
                     </button>
@@ -64,11 +62,11 @@
 
                 <div class="col-xl-9">
                     <div class="form-floating mb-3">
-                        <textarea type="text" formControlName="notes" class="form-control" id="floatingInput10" placeholder="ملاحظات"></textarea>
+                        <textarea type="text" formControlName="description" class="form-control" id="floatingInput10" placeholder="ملاحظات"></textarea>
                         <label for="floatingInput10">ملاحظات</label>
 
-                        <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
-                            {{formErrors.notes}}
+                        <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
+                            {{formErrors.description}}
                         </div>
                     </div>
                 </div>
@@ -85,13 +83,8 @@
             </div>
         </form>
 
-        
-        <app-general-order-products 
-            [selectedProducts]="orderProducts" 
-            [clearAllProducts]="clearAllProducts"
-            [disableUnit]="false"
-            [disablePrice]="false"
-            (selectedProductsList)="getSelectedProductsList($event)">
+
+        <app-general-order-products [selectedProducts]="orderProducts" [clearAllProducts]="clearAllProducts" [disableUnit]="false" [disablePrice]="false" (selectedProductsList)="getSelectedProductsList($event)">
         </app-general-order-products>
 
     </div>

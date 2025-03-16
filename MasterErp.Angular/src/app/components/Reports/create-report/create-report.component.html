@@ -1,0 +1,41 @@
+<div class="a4-page" *ngIf="ContentData.length > 0 && ContentHeaderData.length > 0">
+    <div id="ReportData" dir="rtl">
+        <div style="display: flex;align-items: center;position: relative;">
+            <div style="margin-bottom: 80px;font-size: 16px;font-weight: bold;">{{ReportParams.companyName}}</div>
+            <div style="font-size: 16px;font-weight: bold;position: absolute;right: 460px;">{{ReportParams.pageName}}</div>
+            <img id="ReportImage" style="width: 80px;height: 80px;position: absolute;left: 0px;">
+        </div>
+        <div style="display: flex;align-items: center;margin-top: 5px;">
+            <div style="text-align: center;font-weight: bold;">Account :
+                <span style="font-weight: normal;text-decoration: underline;text-decoration-style: dashed;text-underline-offset: 5px;">دفتر الاستاذ العام</span>
+            </div>
+            <div style="flex: 1;"></div>
+            <div style="text-align: center;font-weight: bold;">From Date :
+                <span style="font-weight: normal;text-decoration: underline;text-decoration-style: dashed;text-underline-offset: 5px;">{{FromDate}}</span>
+            </div>
+            <div style="flex: 1;"></div>
+            <div style="text-align: center;font-weight: bold;">To Date :
+                <span style="font-weight: normal;text-decoration: underline;text-decoration-style: dashed;text-underline-offset: 5px;">{{ToDate}}</span>
+            </div>
+        </div>
+        <table style="width: 100%;border-collapse: collapse;margin-top: 10px;">
+            <thead>
+                <tr>
+                    <th style="padding: 8px;text-align: center;background-color: #eee;color: black;" *ngFor="let header of ContentHeaderData">{{header.propDisName}}</th>
+                </tr>
+            </thead>
+            <tbody style="padding: 8px;text-align: center;">
+                <tr *ngFor="let item of ContentData">
+                    <td style="padding: 8px;text-align: center" *ngFor="let header of ContentHeaderData">{{item[header.propKey]}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- <table style="border-collapse: collapse;float: left;width:210px" *ngIf="NewFooterArry.length > 0">
+            <tr style="height: 25px;" *ngFor="let part of NewFooterArry">
+                <td *ngFor="let item of part">
+                    <p style="margin: 0px;"><strong>{{item.featureName}}:</strong> {{item.featureValue}}</p>
+                </td>
+            </tr>
+        </table> -->
+    </div>
+</div>

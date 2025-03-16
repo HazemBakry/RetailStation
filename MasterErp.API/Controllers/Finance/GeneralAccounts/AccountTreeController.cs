@@ -32,6 +32,15 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             var results = _accountTreeService.AddNewAccount(Model);
             return Ok(results);
         }
+        [HttpGet]
+        [Route("GenerateAccountNumber")]
+
+        public IActionResult GenerateAccountNumber(int? ParentAccountId)
+        {
+            int? id = ParentAccountId == 0 ? null : ParentAccountId;
+            var results = _accountTreeService.GenerateAccountNumber(id);
+            return Ok(results);
+        }
         
         [HttpPost]
         [Route("EditAccountTree")]
@@ -39,6 +48,14 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         public IActionResult EditAccountTree(int AccountId,AccountTreeModel Model)
         {
             var results = _accountTreeService.EditAccountTree(AccountId, Model);
+            return Ok(results);
+        }
+        [HttpGet]
+        [Route("DeleteAccountTree")]
+
+        public IActionResult DeleteAccountTree(int AccountId)
+        {
+            var results = _accountTreeService.DeleteAccountTree(AccountId);
             return Ok(results);
         }
 

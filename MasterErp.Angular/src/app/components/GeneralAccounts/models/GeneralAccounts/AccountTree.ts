@@ -12,9 +12,11 @@ export interface AccountTreeModel {
     nameEN: string;
     assetType: string;
     descriptionMethod: string;
-
+    
     isDisToCostCenter:boolean;
+    costCenterId: number | null;
     isActive:boolean;
     children: AccountTreeModel[];
+    isDeleteAction:boolean;
 }
 

@@ -26,7 +26,7 @@ export class InventoryHomeComponent implements OnInit {
   // VacationsList: any[] = [];
   // LoansList: any[] = [];
   receiveOrders: any[] = [];
-  deliveryOrders: any[] = [];
+  deliveryNotes: any[] = [];
   suppliersList: any[] = [];
   FilterModel: FilterModel = {
     currentPage: 1,
@@ -48,7 +48,7 @@ export class InventoryHomeComponent implements OnInit {
   ngOnInit(): void {
     this.getInventoryStatistics();
     this.getTopReceiveOrders();
-    this.getTopDeliveryOrders();
+    this.getTopDeliveryNotes();
     this.getSuppliersList();
   }
 
@@ -70,10 +70,10 @@ export class InventoryHomeComponent implements OnInit {
     });
   }
 
-  getTopDeliveryOrders() {
+  getTopDeliveryNotes() {
     this.showLoader = true;
-    this.inventoryService.GetDeliveryOrders_Data(this.pagedResponseModel).subscribe(data => {
-      this.deliveryOrders = data.results;
+    this.inventoryService.GetDeliveryNotes_Data(this.pagedResponseModel).subscribe(data => {
+      this.deliveryNotes = data.results;
       this.showLoader = false;
     }, err => {
       this.showLoader = false;

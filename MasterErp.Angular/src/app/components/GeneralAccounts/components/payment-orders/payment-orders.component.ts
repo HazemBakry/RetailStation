@@ -1,0 +1,91 @@
+import { Component, OnInit } from '@angular/core';
+import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { PaymentService } from '../../services/payment.service';
+import { ToastrService } from 'ngx-toastr';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
+
+@Component({
+  selector: 'app-payment-orders',
+  templateUrl: './payment-orders.component.html',
+  styleUrls: ['./payment-orders.component.css']
+})
+export class PaymentOrdersComponent implements OnInit {
+  TitleList = ['الحسابات العامة', 'أوامر الصرف'];
+  showLoader: boolean;
+  FilterModel: FilterModel = {
+    currentPage: 1,
+    pageSize: 25
+  };
+
+  ReceiptList: PagedResponseDTO<ReceiptModel[]> = {
+    results: [],
+    filterList: [],
+    pageSize: 25,
+    currentPage: 1,
+    searchText: ''
+  };
+
+  constructor(private paymentService: PaymentService,
+    private toaster: ToastrService) { }
+
+  ngOnInit(): void {
+    this.getPaymentOrdersSummary();
+  }
+
+  getPaymentOrdersSummary() {
+    this.showLoader = true;
+    this.paymentService.GetPaymentOrders_Summary(this.FilterModel).subscribe(data => {
+      this.ReceiptList.results = data.results;
+      this.ReceiptList.totalCount = data.totalCount;
+      //this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
+
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+
+  pageChanged(obj: any) {
+    this.FilterModel.currentPage = obj.page;
+    this.getPaymentOrdersSummary();
+  }
+
+  CancelPaymentReceipt(receiptId: number) {
+    this.paymentService.CancelPaymentReceipt(receiptId).subscribe(data => {
+      if (data) {
+        this.toaster.success('تم الغاء أمر الصرف بنجاح');
+        this.getPaymentOrdersSummary();
+      }
+      else {
+        this.toaster.error('حدث خطأ اثناء الإلغاء');
+      }
+    }, (error) => {
+      this.toaster.error('حدث خطأ اثناء الإلغاء');
+    })
+  }
+
+  openJournalEntry(entryId: number) {
+    this.paymentService.CancelPaymentReceipt(entryId).subscribe(data => {
+      if (data) {
+        this.toaster.success('تم الغاء أمر الصرف بنجاح');
+        this.getPaymentOrdersSummary();
+      }
+      else {
+        this.toaster.error('حدث خطأ اثناء الإلغاء');
+      }
+    }, (error) => {
+      this.toaster.error('حدث خطأ اثناء الإلغاء');
+    })
+  }
+
+  getStatusColor(status: boolean) {
+    if (status == true)
+      return "locked";
+    else
+      return "open";
+  }
+
+}

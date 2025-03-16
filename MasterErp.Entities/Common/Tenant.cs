@@ -62,12 +62,17 @@ namespace MasterErp.Entities.Models
                 new Tenant {
                     SubscriberId = "46FA6FEE-897F-41F8-95AA-F008666E1BAA",
                     Name = "Mishwar",
-                    ConnectionString = "Data Source=37.76.224.205; Initial Catalog=MasterERP_Test;User ID=sa;Password=zA0s5g?5!;TrustServerCertificate=True"
+                    ConnectionString = "Data Source=37.76.224.205; Initial Catalog=MasterERP_Test;User ID=sa;Password=zA0s5g?5!;TrustServerCertificate=True;"
                 },
                 new Tenant {
-                    SubscriberId = "2",
-                    Name = "Tenant2",
-                    ConnectionString = "Server=server2;Database=DB2;User Id=user;Password=pass;" }
+                    SubscriberId = "b2433573-de9b-4404-9781-5869391379d2",
+                    Name = "Demo Company",
+                    ConnectionString = "Data Source=37.76.224.205; Initial Catalog=Sub_Demo;User ID=sa;Password=zA0s5g?5!;TrustServerCertificate=True;"
+                },
+                new Tenant {
+                    SubscriberId = "bb1474d3-e09c-4976-b696-52c573a9aac7",
+                    Name = "Developers Company",
+                    ConnectionString = "Data Source=37.76.224.205; Initial Catalog=Sub_DevelopersCO;User ID=sa;Password=zA0s5g?5!;TrustServerCertificate=True;" }
             };
 
             var tenant = tenants.FirstOrDefault(t => t.SubscriberId.Equals(subscriberId, StringComparison.OrdinalIgnoreCase));

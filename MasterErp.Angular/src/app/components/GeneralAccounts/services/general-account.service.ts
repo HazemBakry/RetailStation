@@ -13,6 +13,7 @@ import { CostCenterTreeModel } from '../models/GeneralAccounts/CostCenter';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { JournalTemplateDetails } from '../models/GeneralAccounts/JournalTemplateDetailsModel';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
+import { AccountsAssistantLedgerModel, AccountsGeneralLedgerModel, AccountsReportSearchFilterModel, AccountsTrialBalanceModel, CostAssistantLedgerModel, CostGeneralLedgerModel, CostTrialBalanceModel } from '../models/GeneralAccounts/AccountsReportSearchFilterModel';
 
 @Injectable({
   providedIn: 'root'
@@ -61,7 +62,9 @@ export class GeneralAccountService {
   GetDailyJournalEntriesSummary(model: PagedResponseDTO<JournalEntryModel[]>) {
     return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesSummary', model);
   }
-
+  ExportDailyJournalEntries(model: PagedResponseDTO<JournalEntryModel[]>) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'JournalEntry/ExportDailyJournalEntries', model);
+  }
   GetDailyJournalEntriesFilters(model: FilterModel) {
     return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesFilters', model);
   }
@@ -127,6 +130,12 @@ export class GeneralAccountService {
   EditAccountTree(accountId: number, model: AccountTreeModel) {
     return this.http.post<any>(this.URL + 'AccountTree/EditAccountTree?AccountId=' + accountId, model);
   }
+  GenerateAccountNumber(parentAccountId: number) {
+    return this.http.get<string>(this.URL + 'AccountTree/GenerateAccountNumber?ParentAccountId=' + parentAccountId);
+  }
+  DeleteAccountTree(accountId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'AccountTree/DeleteAccountTree?AccountId=' + accountId);
+  }
 
   ExportAccountTreeList(searchText: string) {
     return this.http.get<ActionsResponseModel>(this.URL + 'AccountTree/ExportAccountTreeList?SearchText=' + searchText);
@@ -145,25 +154,25 @@ export class GeneralAccountService {
 
   ////////////////// General Accounts Reports ///////
 
-  GetAccountsGeneralLedger(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetAccountsGeneralLedger', model);
+  GetAccountsGeneralLedger(model: AccountsReportSearchFilterModel) {
+    return this.http.post<PagedResponseDTO<AccountsGeneralLedgerModel[]>>(this.URL + 'GeneralAccountsReport/GetAccountsGeneralLedger', model);
   }
 
-  ExportAccountsGeneralLedger(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'GeneralAccountsReport/ExportAccountsGeneralLedger', model);
+  ExportAccountsGeneralLedger(model: AccountsReportSearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'GeneralAccountsReport/ExportAccountsGeneralLedger', model);
   }
 
-  GetAccountsAssistantLedger(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetAccountsAssistantLedger', model);
+  GetAccountsAssistantLedger(model: AccountsReportSearchFilterModel) {
+    return this.http.post<PagedResponseDTO<AccountsAssistantLedgerModel[]>>(this.URL + 'GeneralAccountsReport/GetAccountsAssistantLedger', model);
   }
-  ExportAccountsAssistantLedger(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'GeneralAccountsReport/ExportAccountsAssistantLedger', model);
+  ExportAccountsAssistantLedger(model: AccountsReportSearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'GeneralAccountsReport/ExportAccountsAssistantLedger', model);
   }
-  GetTrialBalanceReport(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetTrialBalanceReport', model);
+  GetAccountsTrialBalanceReport(model: AccountsReportSearchFilterModel) {
+    return this.http.post<PagedResponseDTO<AccountsTrialBalanceModel[]>>(this.URL + 'GeneralAccountsReport/GetAccountsTrialBalanceReport', model);
   }
-  ExportTrialBalanceReport(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'GeneralAccountsReport/ExportTrialBalanceReport', model);
+  ExportAccountsTrialBalanceReport(model: AccountsReportSearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'GeneralAccountsReport/ExportAccountsTrialBalanceReport', model);
   }
 
 
@@ -172,30 +181,30 @@ export class GeneralAccountService {
 
   //////////////////////// Cost Center /////////////////
 
-  GetCostGeneralLedger(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetCostGeneralLedger', model);
+  GetCostGeneralLedger(model: AccountsReportSearchFilterModel) {
+    return this.http.post<PagedResponseDTO<CostGeneralLedgerModel[]>>(this.URL + 'GeneralAccountsReport/GetCostGeneralLedger', model);
   }
 
-  ExportCostGeneralLedger(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'GeneralAccountsReport/ExportCostGeneralLedger', model);
-  }
-
-
-  GetCostAssistantLedger(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetCostAssistantLedger', model);
-  }
-
-  ExportCostAssistantLedger(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'GeneralAccountsReport/ExportCostAssistantLedger', model);
+  ExportCostGeneralLedger(model: AccountsReportSearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'GeneralAccountsReport/ExportCostGeneralLedger', model);
   }
 
 
-  GetCostTrialBalanceReport(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'GeneralAccountsReport/GetCostTrialBalanceReport', model);
+  GetCostAssistantLedger(model: AccountsReportSearchFilterModel) {
+    return this.http.post<PagedResponseDTO<CostAssistantLedgerModel[]>>(this.URL + 'GeneralAccountsReport/GetCostAssistantLedger', model);
   }
 
-  ExportCostTrialBalanceReport(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'GeneralAccountsReport/ExportCostTrialBalanceReport', model);
+  ExportCostAssistantLedger(model: AccountsReportSearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'GeneralAccountsReport/ExportCostAssistantLedger', model);
+  }
+
+
+  GetCostTrialBalanceReport(model: AccountsReportSearchFilterModel) {
+    return this.http.post<PagedResponseDTO<CostTrialBalanceModel[]>>(this.URL + 'GeneralAccountsReport/GetCostTrialBalanceReport', model);
+  }
+
+  ExportCostTrialBalanceReport(model: AccountsReportSearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'GeneralAccountsReport/ExportCostTrialBalanceReport', model);
   }
 
 
@@ -270,7 +279,12 @@ export class GeneralAccountService {
   UpdateCostCenterTree(costCenterId: number, model: CostCenterTreeModel) {
     return this.http.post<any>(this.URL + 'CostCenterTree/UpdateCostCenterTree?CostCenterId=' + costCenterId, model);
   }
-
+  GenerateCostCenterNumber(parentCostCenterId: number) {
+    return this.http.get<string>(this.URL + 'CostCenterTree/GenerateCostCenterNumber?ParentCostCenterId=' + parentCostCenterId);
+  }
+  DeleteCostCenterTree(costCenterId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'CostCenterTree/DeleteCostCenterTree?CostCenterId=' + costCenterId);
+  }
   ExportCostCenterTreeList(searchText: string) {
     return this.http.get<ActionsResponseModel>(this.URL + 'CostCenterTree/ExportCostCenterTreeList?SearchText=' + searchText);
   }

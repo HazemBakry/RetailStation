@@ -17,6 +17,7 @@ using MasterErp.Interface.GeneralAccounts;
 using Microsoft.Data.SqlClient;
 using MasterErp.Entities.DTOs.HR;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using MasterErp.Entities.Models.Finance;
 
 namespace MasterErp.Service.GeneralAccounts
 {

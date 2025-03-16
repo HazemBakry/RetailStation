@@ -18,12 +18,13 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetReceiptLedgersSelector();
         List<SelectorDataModel> GetAccountsSelector(bool IsParent);
         List<SelectorDataModel> GetCostCenterSelector(bool IsParent);
-        List<AccountTree> GetAccountsByTypeId(int TypeId);
+        List<SelectorDataModel> GetAccountsByTypeId(int TypeId);
         List<FinancialPeriod> GetFinancialPeriods();
         ActionsResponseModel DownloadImporterTemplate(ExcelExportStyle ImporterType);
 
         #region Selectors
         List<SelectorDataModel> GetBranchesSelector();
+        List<SelectorDataModel> GetStoresSelector();
         List<SelectorDataModel> GetNationalitiesSelector();
         List<SelectorDataModel> GetIqamaIssuePlacesSelector();
         List<SelectorDataModel> GetVisaJobsSelector();
@@ -38,7 +39,6 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetItemCategoriesSelector();
         List<SelectorDataModel> GetUnitsSelector();
         List<SelectorDataModel> GetChildAccountsSelector();
-        List<SelectorDataModel> GetInventoriesSelector();
         List<SelectorDataModel> GetItemLookupsSelector();
         List<SelectorDataModel> GetReligionsSelector();
         List<SelectorDataModel> GetSocialStatusSelector();

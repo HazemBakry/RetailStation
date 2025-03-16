@@ -61,7 +61,7 @@
                                     </button>
                                     <div ngbDropdownMenu class="border">
                                         <button ngbDropdownItem (click)="cancelReceipt(item.receiptId)">اسقاط</button>
-                                        <button ngbDropdownItem routerLink="/general-accounts/new-entry" [queryParams]="{journalEntryId:item.entryId}">معاينة القيد</button>
+                                        <button *ngIf="item.entryId" ngbDropdownItem routerLink="/general-accounts/new-entry" [queryParams]="{JournalEntryId:item.entryId}">معاينة القيد</button>
                                     </div>
                                 </div>
                             </div>

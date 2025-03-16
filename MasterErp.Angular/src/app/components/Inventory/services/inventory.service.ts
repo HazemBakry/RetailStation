@@ -43,7 +43,7 @@ export class InventoryService {
     return this.http.post<PagedResponseDTO<ItemModel[]>>(this.URL + 'Items/GetItemsData', searchModel);
   }
 
-  GetItemById(itemId: number) {
+  GetItemDetailsById(itemId: number) {
     return this.http.get<ItemModel>(this.URL + `Items/GetItemDetailsById?ItemId=${itemId}`);
   }
 
@@ -168,31 +168,94 @@ export class InventoryService {
     return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelReceiveOrder?OrderId=' + OrderId);
   }
 
+  //-------------------------------------------- Purchase Receipt --------------------------------------------//
 
+  GetPurchaseReceipts_Data(model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'Inventory/GetPurchaseReceipts_Data', model);    
+  }
+
+  GetPurchaseReceipts_Filters(model: SearchFilterModel) {
+    return this.http.post<FilterModel[]>(this.URL + 'Inventory/GetPurchaseReceipts_Filters', model);
+  }
+  
+  GetPurchaseReceiptDetailsById(orderId: number) {
+    return this.http.get<OrderModel>(this.URL + `Inventory/GetPurchaseReceiptDetailsById?OrderId=${orderId}`);
+  }
+
+  GetPurchaseReceiptItems_Data(orderId: number) {
+    return this.http.get<OrderProductModel[]>(this.URL + `Inventory/GetPurchaseReceiptItems_Data?OrderId=${orderId}`);
+  }
+
+  AddNewPurchaseReceipt(model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/AddNewPurchaseReceipt', model);
+  }
+
+  EditPurchaseReceipt(receiptId: number, model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Inventory/EditPurchaseReceipt?ReceiptId=${receiptId}`, model);
+  }
+
+  CancelPurchaseReceipt(receiptId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelPurchaseReceipt?ReceiptId' + receiptId);
+  }
+
+  //-------------------------------------------- Material Issue Receipt --------------------------------------------//
+
+  GetMaterialIssueReceipts_Data(model: FilterModel) {
+    return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'Inventory/GetMaterialIssueReceipts_Data', model);
+  }
+
+  GetMaterialIssueReceipts_Filters(model: FilterModel) {
+    return this.http.post<FilterModel[]>(this.URL + 'Inventory/GetMaterialIssueReceipts_Filters', model);
+  }
+  
+  GetMaterialIssueReceiptDetailsById(receiptId: number) {
+    return this.http.get<OrderModel>(this.URL + `Inventory/GetMaterialIssueReceiptDetailsById?ReceiptId=${receiptId}`);
+  }
+
+  GetMaterialIssueReceiptItems_Data(receiptId: number) {
+    return this.http.get<OrderProductModel[]>(this.URL + `Inventory/GetMaterialIssueReceiptItems_Data?ReceiptId=${receiptId}`);
+  }
+
+  AddNewMaterialIssueReceipt(model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/AddNewMaterialIssueReceipt', model);
+  }
+
+  EditMaterialIssueReceipt(receiptId: number, model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Inventory/EditMaterialIssueReceipt?ReceiptId=${receiptId}`, model);
+  }
+
+  CancelMaterialIssueReceipt(receiptId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelMaterialIssueReceipt?ReceiptId' + receiptId);
+  }
+  
   // ------------------------------------------- Delivery Orders ------------------------------------------- //
 
-  GetDeliveryOrders_Data(model: PagedResponseDTO) {
-    return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'Inventory/GetDeliveryOrders_Data', model);
+  GetDeliveryNotes_Data(model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'Inventory/GetDeliveryNotes_Data', model);
   }
 
-  GetDeliveryOrderDetailsById(orderId: number) {
-    return this.http.get<OrderModel>(this.URL + `Inventory/GetDeliveryOrderDetailsById?OrderId=${orderId}`);
+  GetDeliveryNotes_Filters(model: SearchFilterModel) {
+    return this.http.post<FilterModel[]>(this.URL + 'Inventory/GetDeliveryNotes_Filters', model);
+  }
+  
+  GetDeliveryNoteDetailsById(orderId: number) {
+    return this.http.get<OrderModel>(this.URL + `Inventory/GetDeliveryNoteDetailsById?OrderId=${orderId}`);
   }
 
-  GetDeliveryOrderProducts_Data(orderId: number) {
-    return this.http.get<OrderProductModel[]>(this.URL + `Inventory/GetDeliveryOrderProducts_Data?OrderId=${orderId}`);
+  GetDeliveryNoteProducts_Data(orderId: number) {
+    return this.http.get<OrderProductModel[]>(this.URL + `Inventory/GetDeliveryNoteProducts_Data?OrderId=${orderId}`);
   }
 
-  AddNewDeliveryOrder(model: OrderModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/AddNewDeliveryOrder', model);
+  AddNewDeliveryNote(model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/AddNewDeliveryNote', model);
   }
 
-  EditDeliveryOrder(orderId: number, model: OrderModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + `Inventory/EditDeliveryOrder?OrderId=${orderId}`, model);
+  EditDeliveryNote(orderId: number, model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Inventory/EditDeliveryNote?OrderId=${orderId}`, model);
   }
 
-  CancelDeliveryOrder(OrderId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelDeliveryOrder?OrderId' + OrderId);
+  CancelDeliveryNote(OrderId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelDeliveryNote?OrderId' + OrderId);
   }
 
   GetOrdersSearchData(supplierId: number, orderNumber: string, orderDate: string) {

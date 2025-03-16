@@ -3,7 +3,7 @@ using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Common.Inventory.ReceiveOrder;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.DTOs.Inventory;
-using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Inventory;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -33,14 +33,15 @@ namespace MasterErp.Interface.Inventory
 
         #endregion
 
-        #region Delivery Orders
+        #region Delivery Notes
 
-        List<OrderModel> GetDeliveryOrders_Data(SearchFilterModel model, int? OrderId = null);
-        OrderModel GetDeliveryOrderDetailsById(int OrderId);
-        List<OrderProductModel> GetDeliveryOrderProducts_Data(int OrderId);
-        ActionsResponseModel AddNewDeliveryOrder(OrderModel model);
-        ActionsResponseModel EditDeliveryOrder(int OrderId, OrderModel model);
-        ActionsResponseModel CancelDeliveryOrder(int OrderId);
+        List<OrderModel> GetDeliveryNotes_Data(SearchFilterModel model, int? OrderId = null);
+        List<FilterModel> GetDeliveryNotes_Filters(SearchFilterModel PagingFilter);
+        OrderModel GetDeliveryNoteDetailsById(int OrderId);
+        List<OrderProductModel> GetDeliveryNoteProducts_Data(int OrderId);
+        ActionsResponseModel AddNewDeliveryNote(OrderModel model);
+        ActionsResponseModel EditDeliveryNote(int OrderId, OrderModel model);
+        ActionsResponseModel CancelDeliveryNote(int OrderId);
 
         #endregion
 

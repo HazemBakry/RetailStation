@@ -1,0 +1,186 @@
+<div class="inputs-wrapper border rounded bg-white mb-3">
+    <!-- <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">الأصناف</div> -->
+
+    <div class="d-flex justify-content-between align-items-center px-3 border-bottom mb-2">
+        <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2">الأصناف</div>
+        <div class="d-flex">
+            <!-- <button class="btn btn-secondary m-1" (click)="openEditQuantityModal(EditQuantityModal)">
+        <i class="fas fa-edit"></i>
+        <span class="ms-2">تعديل الكمية</span>
+      </button> -->
+
+
+            <button class="button-table-action m-2 btn-edit align-items-center justify-content-center gap-2" (click)="openItemsModal(ItemModal)">
+        <i class="fas fa-import"></i>
+        <span class="ms-2">تحميل من قالب</span>
+      </button>
+            <button class="button-table-action m-2 btn-edit align-items-center justify-content-center gap-2" (click)="openEditQuantityModal(EditQuantityModal)">
+        <i class="fas fa-edit"></i>
+        <span class="ms-2">تعديل الكمية</span>
+      </button>
+        </div>
+    </div>
+
+    <div class="inputs-sec-content px-3 py-2 table-responsive table-vp-height small-scroll">
+        <table class="table table-bordered table-middle text-center table-actions m-0">
+            <thead>
+                <tr>
+                    <th>اسم الصنف</th>
+                    <!-- <th>اسم الصنف (En)</th> -->
+                    <th>الوحدة</th>
+                    <th>سعر الوحدة</th>
+                    <th>الكمية</th>
+                    <th>إجمالى القيمة</th>
+                    <th></th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr class="row-hover" *ngFor="let item of orderItems;let i = index">
+                    <td style="width: 300px;">
+                        <app-general-selector [showSearch]="true" [(ngModel)]="item.itemId" [data]="itemsSelector" (valueChanged)="getItemDetailsById($event)" [placeholder]="'الحسابات'"></app-general-selector>
+                    </td>
+                    <td>
+                        <input type="text" #inputs class="form-control text-center" disabled [(ngModel)]="item.unit" focus>
+                    </td>
+                    <td>
+                        <input type="text" #inputs class="form-control text-center" [(ngModel)]="item.price" autocomplete="off" (input)="calcDifference()" focus>
+                    </td>
+                    <td>
+                        <input type="text" #inputs2 class="form-control text-center" [(ngModel)]="item.quantity" autocomplete="off" (input)="calcDifference()" (keypress)="validateNumbers($event.key)">
+                    </td>
+                    <td>
+                        <input type="text" #inputs class="form-control text-center" disabled [(ngModel)]="item.totalValue" autocomplete="off" (input)="calcDifference()" (keypress)="validateNumbers($event.key)">
+                    </td>
+                    <td class="justify-content-center d-flex">
+                        <button class="button-table-action mt-1 btn-delete d-flex align-items-center justify-content-center gap-2" (click)="deleteFromList(orderItems,i)">
+              <i class="fas fa-times fs-5"></i>
+            </button>
+                    </td>
+                </tr>
+                <tr *ngIf="!orderItems.length">
+                    <td colspan="7" class="text-right">
+                        <app-empty-data [showEmptyData]="!orderItems.length"></app-empty-data>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="p-2">
+        <div class="d-flex">
+            <div class="me-1 ms-2">
+                <button class="button-table-action mt-3 btn-edit d-flex align-items-center justify-content-center gap-2" (click)="addField()">
+          <i class="uil uil-plus fs-5"></i>
+          <span>اضافة صنف</span>
+        </button>
+                <!-- <div *ngIf="orderItems&&!orderItems?.length" class="text-danger  font-small-3 m-03">
+          {{formErrors.orderItems}}
+        </div> -->
+            </div>
+            <button *ngIf="orderItems.length" class="button-table-action mt-3 btn-delete d-flex align-items-center justify-content-center gap-2" (click)="orderProducts = [];calcDifference()">
+        <i class="fas fa-times fs-5"></i>
+        حذف الكل
+      </button>
+        </div>
+    </div>
+</div>
+
+<ng-template #ItemModal let-modal>
+    <div class="modal-header">
+        <h4 class="d-flex align-items-center m-0">
+            <div class="ms-3">اضافة صنف</div>
+        </h4>
+        <button class="btn btn-danger" (click)="modal.dismiss()">
+      <i class="fas fa-times"></i>
+    </button>
+    </div>
+    <div class="modal-body bg-light">
+        <div class="d-flex align-items-center mb-2">
+            <div class="card order-card-payment shadow-sm cursor-pointer w-50 me-2" (click)="ItemTypeChange('Item')" [ngClass]="{'active': activeTab == 'Item' }">
+                <div class="card-body d-flex align-items-center">
+                    <span class="ms-3">الأصناف</span>
+                </div>
+            </div>
+            <div class="card order-card-payment shadow-sm cursor-pointer w-50 me-3" (click)="ItemTypeChange('Lookups')" [ngClass]="{'active': activeTab == 'Lookups'}">
+                <div class="card-body d-flex align-items-center">
+                    <span class="ms-3">مجموعات الأصناف</span>
+                </div>
+            </div>
+        </div>
+        <hr class="border-dark">
+        <div class="row" *ngIf="activeTab == 'Item'">
+            <div class="col-lg-12">
+                <div class="mb-3">
+                    <app-erp-selector-with-search [SelectorName]="'العناصر'" [innerTextKey]="'itemNameAr'" [SearchKey]="'itemNameEn'" [ItemsList]="ItemsList" (ItemObj)="GetSelectedItem($event)"></app-erp-selector-with-search>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="mb-3">
+                    <i class="fas fa-info-circle ms-2 text-muted cursor-pointer me-2" ngbPopover="Here will be information about field!" placement="end" triggers="mouseenter:mouseleave"></i>
+                    <label for="exampleFormControlInput1" class="form-label">الوحدة
+
+          </label>
+                    <input type="text" [(ngModel)]="selectedItem.unitNameAr" disabled class="form-control py-3" id="exampleFormControlInput1">
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="mb-3">
+                    <i class="fas fa-info-circle ms-2 text-muted cursor-pointer me-2" ngbPopover="Here will be information about field!" placement="end" triggers="mouseenter:mouseleave"></i>
+                    <label for="exampleFormControlInput1" class="form-label">السعر <sup class="text-danger">*</sup>
+
+          </label>
+                    <input type="text" [(ngModel)]="selectedItem.price" disabled class="form-control py-3" id="exampleFormControlInput1">
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="mb-3">
+                    <i class="fas fa-info-circle ms-2 text-muted cursor-pointer me-2" ngbPopover="Here will be information about field!" placement="end" triggers="mouseenter:mouseleave"></i>
+                    <label for="exampleFormControlInput1" class="form-label">الكمية <sup class="text-danger">*</sup>
+
+          </label>
+                    <input type="number" [(ngModel)]="selectedItem.quantity" class="form-control py-3" autocomplete="off" id="exampleFormControlInput1" placeholder="ادخل رقم صحيح .">
+                </div>
+            </div>
+        </div>
+        <div class="mb-3" *ngIf="activeTab == 'Lookups'">
+            <app-erp-selector [SelectorName]="'المخزون'" [ItemsList]="LookupsList" (ItemObj)="GetSelectedLookup($event)"></app-erp-selector>
+        </div>
+    </div>
+    <div class="modal-footer flex-nowrap">
+        <button class="btn btn-primary w-100 justify-content-center py-3 fs-5 radius-10" (click)="SaveSelectedItem()">
+      <i class="fas fa-check-square"></i>
+      <span class="ms-2">Save</span>
+    </button>
+    </div>
+</ng-template>
+
+<ng-template #EditQuantityModal let-modal>
+    <div class="modal-header">
+        <h4 class="d-flex align-items-center m-0">
+            <div class="ms-3">تعديل الكمية</div>
+        </h4>
+        <button class="btn btn-danger" (click)="modal.dismiss()">
+      <i class="fas fa-times"></i>
+    </button>
+    </div>
+    <div class="modal-body bg-light">
+        <div class="row">
+            <div class="col-lg-12" *ngFor="let item of EditQuantityList">
+                <div class="mb-3">
+                    <i class="fas fa-info-circle ms-2 text-muted cursor-pointer me-2" ngbPopover="Here will be information about field!" placement="end" triggers="mouseenter:mouseleave"></i>
+                    <label for="exampleFormControlInput1" class="form-label">{{item.itemNameAr ?item.itemNameAr :item.itemNameEn}}
+            <sup class="text-danger">*</sup>
+
+          </label>
+                    <input type="number" [(ngModel)]="item.quantity" class="form-control py-3" id="exampleFormControlInput1">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer flex-nowrap">
+        <button class="btn btn-primary w-100 justify-content-center py-3 fs-5 radius-10" (click)="ChangeNewQuantity()">
+      <i class="fas fa-check-square"></i>
+      <span class="ms-2">حفظ</span>
+    </button>
+    </div>
+</ng-template>

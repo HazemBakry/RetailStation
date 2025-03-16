@@ -1,18 +1,12 @@
 ﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.HR;
-using MasterErp.Entities.Models.HR.Employee;
+using MasterErp.Entities.Models.Purchases;
 using MasterErp.Interface.Purchase;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MasterErp.Service.Purchase
 {
@@ -29,10 +23,10 @@ namespace MasterErp.Service.Purchase
         {
 
             var query = from supplier in Context.Suppliers
-                        join country in Context.Countries on supplier.CountryId equals country.CountryId into jT
-                        from country in jT.DefaultIfEmpty()
-                        join city in Context.Cities on supplier.CityId equals city.CityId into jT2
-                        from city in jT2.DefaultIfEmpty()
+                        //join country in Context.Countries on supplier.CountryId equals country.CountryId into jT
+                        //from country in jT.DefaultIfEmpty()
+                        //join city in Context.Cities on supplier.CityId equals city.CityId into jT2
+                        //from city in jT2.DefaultIfEmpty()
                         join region in Context.Regions on supplier.RegionId equals region.RegionId into jT3
                         from region in jT3.DefaultIfEmpty()
                         where !SupplierId.HasValue || supplier.SupplierId == SupplierId
@@ -44,8 +38,8 @@ namespace MasterErp.Service.Purchase
                             NameEN = supplier.NameEN,
                             Phone = supplier.Phone,
                             Mobile = supplier.Mobile,
-                            CountryId = supplier.CountryId,
-                            CityId = supplier.CityId,
+                            //CountryId = supplier.CountryId,
+                            //CityId = supplier.CityId,
                             RegionId = supplier.RegionId,
                             Address = supplier.Address,
                             CommercialRegister = supplier.CommercialRegister,

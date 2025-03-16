@@ -8,8 +8,8 @@ import { PurchaseService } from 'src/app/components/Purchases/services/purchase.
 import { PaymentService } from '../../services/payment.service';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { OrderModel } from 'src/app/components/Inventory/models/inventory';
-import { PaymentReceipt } from '../../models/GeneralAccounts/PaymentReceipt';
 import { ReceiveReceipt } from '../../models/GeneralAccounts/ReceiveReceipt';
+import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
 
 @Component({
   selector: 'app-general-accounts-home',
@@ -41,7 +41,7 @@ export class GeneralAccountsHomeComponent implements OnInit {
     results: [],
     filterList: []
   }
-  PaymentReceipts: PagedResponseDTO<PaymentReceipt[]> = {
+  PaymentReceipts: PagedResponseDTO<ReceiptModel[]> = {
     results: [],
     filterList: [],
     pageSize: 25,

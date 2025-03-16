@@ -46,9 +46,14 @@ namespace MasterErp.Service.Shared
             return results;
         }
 
-        public List<AccountTree> GetAccountsByTypeId(int TypeId)
+        public List<SelectorDataModel> GetAccountsByTypeId(int TypeId)
         {
-            var result = Context.AccountTrees.Where(x => x.AccountTypeId == TypeId).ToList();
+            var result = Context.AccountTrees.Where(x => x.AccountTypeId == TypeId).Select(b => new SelectorDataModel
+            {
+                Id = b.AccountId,
+                Name = b.NameAR,
+                //Code = b.AccountNumber
+            }).ToList();
 
             return result;
         }
@@ -77,7 +82,17 @@ namespace MasterErp.Service.Shared
             var results = Context.Branches.Select(b => new SelectorDataModel
             {
                 Id = b.BranchId,
-                Name = b.NameEN,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
+
+        public List<SelectorDataModel> GetStoresSelector()
+        {
+            var results = Context.Stores.Select(b => new SelectorDataModel
+            {
+                Id = b.StoreId,
+                Name = b.NameAR,
             }).ToList();
             return results;
         }
@@ -117,18 +132,18 @@ namespace MasterErp.Service.Shared
         }
         public List<SelectorDataModel> GetIqamaIssuePlacesSelector()
         {
-            var results = Context.IqamaIssuePlaces.Select(b => new SelectorDataModel
+            var results = Context.Countries.Select(b => new SelectorDataModel
             {
-                Id = b.IqamaIssuePlaceId,
+                Id = b.CountryId,
                 Name = b.NameAR,
             }).ToList();
             return results;
         }
         public List<SelectorDataModel> GetVisaJobsSelector()
         {
-            var results = Context.IqamaJobs.Select(b => new SelectorDataModel
+            var results = Context.Jobs.Select(b => new SelectorDataModel
             {
-                Id = b.IqamaJobId,
+                Id = b.JobId,
                 Name = b.NameAR,
             }).ToList();
             return results;
@@ -170,7 +185,7 @@ namespace MasterErp.Service.Shared
             return results;
         }
 
-        public List<SelectorDataModel>  GetCustomersSelector()
+        public List<SelectorDataModel> GetCustomersSelector()
         {
             var results = Context.Customers.Select(b => new SelectorDataModel
             {
@@ -237,15 +252,7 @@ namespace MasterErp.Service.Shared
             }).ToList();
             return results;
         }
-        public List<SelectorDataModel> GetInventoriesSelector()
-        {
-            var results = Context.Stores.Select(b => new SelectorDataModel
-            {
-                Id = b.StoreId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
-        }
+
         public List<SelectorDataModel> GetItemLookupsSelector()
         {
             var results = Context.ItemLookups.Select(b => new SelectorDataModel

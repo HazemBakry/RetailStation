@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { GeneralAccountService } from '../../services/general-account.service';
 import { ToastrService } from 'ngx-toastr';
@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { JournalEntryModel } from '../../models/GeneralAccounts/JurnalEntryModel';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
+import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
 
 @Component({
   selector: 'app-journal-daily-list',
@@ -16,6 +18,7 @@ export class JournalDailyListComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'سجل القيود اليومية'];
   filterList: FilterModel[] = [];
   showLoader: boolean = false;
+  showExportLoader: boolean = false;
   selectAll: boolean = false;
   pagedResponseModel: PagedResponseDTO<JournalEntryModel[]> = {
     results: [],
@@ -25,8 +28,13 @@ export class JournalDailyListComponent implements OnInit {
     searchText: ''
 
   };
+   @ViewChild('DetailsSidePanel', { static: true }) DetailsSidePanel: TemplateRef<any>;
+   selectedEntryModel: JournalEntryModel = {} as JournalEntryModel;
+
   constructor(private generalService: GeneralAccountService,
     private router: Router,
+    private offcanvasService: NgbOffcanvas, 
+    private sharedService:SharedService,
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
@@ -46,7 +54,26 @@ export class JournalDailyListComponent implements OnInit {
       this.showLoader = false;
     });
   }
+  exportData() {
+    this.showExportLoader = true;
+    this.generalService.ExportDailyJournalEntries(this.pagedResponseModel).subscribe((data: ActionsResponseModel) => {
+      if (data.isSuccess) {
+        this.sharedService.urlDownloadOrOpen(data.url);
+        this.toaster.success(data.message);
+      } else {
+        this.toaster.error(data.message);
+      }
 
+
+      this.showExportLoader = false;
+    }, err => {
+      this.showExportLoader = false;
+    }, () => {
+      this.showExportLoader = false;
+    });
+
+
+  }
 
   getDailyJournalEntriesFilters() {
     this.generalService.GetDailyJournalEntriesFilters(this.pagedResponseModel).subscribe((data: FilterModel[]) => {
@@ -180,6 +207,30 @@ export class JournalDailyListComponent implements OnInit {
     });
   }
 
+
+  openSidePanel(journalEntryId:number,content: any = null) {
+    this.getEntryDetailsById(journalEntryId);
+    if (content == null)
+      this.offcanvasService.open(this.DetailsSidePanel, { panelClass: 'details-panel', position: 'end' });
+    else
+      this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
+  }
+
+  getEntryDetailsById(journalEntryId:number) {
+    this.showLoader = true;
+    this.generalService.GetJournalEntryDetailsById(journalEntryId).subscribe(data => {
+      if (data) {
+        this.selectedEntryModel = data;
+
+      }
+      this.showLoader = false;
+    }, (error) => {
+      this.showLoader = false;
+
+    }, () => {
+      this.showLoader = false;
+    });
+  }
   // onEditClick(journalEntryId: any) {
   //   this.router.navigate(['/general-accounts/new-entry'], { queryParams: { EntryId: journalEntryId } });
   // }

@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { FilterItem, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { GeneralAccountService } from '../../services/general-account.service';
 import { ToastrService } from 'ngx-toastr';
+import { AccountsAssistantLedgerModel, AccountsReportSearchFilterModel } from '../../models/GeneralAccounts/AccountsReportSearchFilterModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { SearchReportModel } from 'src/app/components/Reports/Models/ReportParams';
+import { CreateReportsService } from 'src/app/components/Reports/Services/create-reports.service';
 
 @Component({
   selector: 'app-accounts-assistant-ledger',
@@ -10,123 +16,113 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AccountsAssistantLedgerComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'دفتر الأستاذ المساعد'];
-  SearchResult: any[] = [];
-  TotalCount: any;
-  TotalPages: any;
-  SearchFilterModel: SearchFilterModel = {
-    currentPage: 1,
+  showLoader: boolean = false;
+  showExportLoader: boolean = false;
+  
+  assistantLedgerResponse: AccountsReportSearchFilterModel = {
+    results: [],
+    filterList: [],
     pageSize: 25,
-    isExport: false,
-    filterItems: [],
-    filterModel: { filterItems: [] }
+    currentPage: 1,
+    searchText: '',
+    hideEmptyAccounts: false,
+    accountId: null,
+    fromDate: null,
+    toDate: null
+
   };
 
-  constructor(private generalService: GeneralAccountService, private toaster: ToastrService) { }
+  constructor(private generalService: GeneralAccountService, private sharedService: SharedService, private toaster: ToastrService,
+    private ReportsService: CreateReportsService
+  ) { }
 
   ngOnInit(): void {
   }
 
   loadData() {
-
     if (!this.validateSearchModel()) {
       return;
     }
-    this.SearchFilterModel.isExport = false;
-    this.generalService.GetAccountsAssistantLedger(this.SearchFilterModel).subscribe(data => {
-      this.SearchResult = data;
-      this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
+
+    this.showLoader = true;
+    this.generalService.GetAccountsAssistantLedger(this.assistantLedgerResponse).subscribe((data: PagedResponseDTO<AccountsAssistantLedgerModel[]>) => {
+      this.assistantLedgerResponse.results = data.results;
+      this.assistantLedgerResponse.totalCount = data.totalCount;
+      
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
   }
-
   exportData() {
     if (!this.validateSearchModel()) {
       return;
     }
-    this.SearchFilterModel.isExport = true;
-
-    this.generalService.ExportAccountsAssistantLedger(this.SearchFilterModel).subscribe(data => {
-      if (data.url != null) {
-        window.location.href = data.url;
-        this.toaster.success("File exported successfully");
+    this.showExportLoader = true;
+    this.generalService.ExportAccountsAssistantLedger(this.assistantLedgerResponse).subscribe((data: ActionsResponseModel) => {
+      if (data.isSuccess) {
+        this.sharedService.urlDownloadOrOpen(data.url);
+        this.toaster.success(data.message);
       } else {
-        this.toaster.error("an Error happened , file can not export");
+        this.toaster.error(data.message);
       }
+
+
+      this.showExportLoader = false;
+    }, err => {
+      this.showExportLoader = false;
+    }, () => {
+      this.showExportLoader = false;
     });
+
+
   }
-
-  printData()
-  {
-    
-  }
-
-
-
-
-  headerSearchChanged(filter:SearchFilterModel)
-  {
-    this.SearchFilterModel.fromDate=filter.fromDate;
-    this.SearchFilterModel.toDate=filter.toDate;
-
-    this.SearchFilterModel.filterItems=[];
-    this.SearchFilterModel.filterItems=filter.filterItems;
-    
-    this.SearchFilterModel.filterModel.filterItems=
-    this.SearchFilterModel.filterItems=[...new Set(this.SearchFilterModel.filterItems.map(item => item))]
-  
-  }
-
-
-  onSearchClick(obj: any) {
-    if (obj.FromDate == null || obj.ToDate == null || obj.BranchId == undefined) {
-      this.toaster.warning('Insert Search Fields First');
-    } else {
-      this.SearchFilterModel.branchID = obj.BranchId;
-      this.SearchFilterModel.fromDate = obj.FromDate;
-      this.SearchFilterModel.toDate = obj.ToDate;
-      this.loadData();
+  printData() {
+ if (!this.validateSearchModel()) {
+      return;
     }
+
+    let reportParams: SearchReportModel = {} as SearchReportModel;
+    let filterItems: FilterItem[] = [
+      { categoryName: 'fromDate', itemFlag: this.assistantLedgerResponse.fromDate },
+      { categoryName: 'toDate', itemFlag: this.assistantLedgerResponse.toDate },
+      { categoryName: 'accountId', itemFlag: this.assistantLedgerResponse.accountId.toString() }
+    ];
+    reportParams.ControllerName = 'GeneralAccountsReport';
+    reportParams.ApiName = 'GetAccountsAssistantLedger';
+    reportParams.MethodType = 'POST';
+    reportParams.companyName = 'Mishwar';
+    reportParams.sectionName = 'AccountAssistantLedger';
+    reportParams.pageName = 'دفتر الأستاذ المساعد';
+    reportParams.isLandScape = false;
+    reportParams.filterItems = filterItems;
+    this.ReportsService.CreateGeneralReport(reportParams);
   }
 
+
+  searchDataChanged(filter: AccountsReportSearchFilterModel) {
+
+    this.assistantLedgerResponse.fromDate = filter.fromDate;
+    this.assistantLedgerResponse.toDate = filter.toDate;
+    this.assistantLedgerResponse.accountId = filter.accountId;
+    this.assistantLedgerResponse.costCenterId = filter.costCenterId;
+  }
   pageChanged(obj: any) {
-    this.SearchFilterModel.currentPage = obj.page;
+    this.assistantLedgerResponse.currentPage = obj.page;
     this.loadData();
   }
   validateSearchModel(): boolean {
     if (
-      !this.SearchFilterModel.fromDate ||
-      !this.SearchFilterModel.toDate ||
-      this.SearchFilterModel.filterItems.length == 0
+      !this.assistantLedgerResponse.fromDate ||
+      !this.assistantLedgerResponse.toDate ||
+      !this.assistantLedgerResponse.accountId
     ) {
       this.toaster.warning('يرجي ملئ جميع الخانات');
       return false;
     }
     return true;
-  }
-  onExportClick(obj: any) {
-    this.SearchFilterModel.branchID = obj.BranchId;
-    this.SearchFilterModel.fromDate = obj.FromDate;
-    this.SearchFilterModel.toDate = obj.ToDate;
-    //this.SearchFilterModel.userName = this.UserModel?.fullName;
-    this.SearchFilterModel.isExport = true;
-    if (obj.FromDate == null || obj.ToDate == null || obj.BranchId == undefined) {
-      this.toaster.warning('insert search fields first');
-    } else {
-      this.generalService.ExportAccountsGeneralLedger(this.SearchFilterModel).subscribe(data => {
-        if (data.url != null) {
-          window.location.href = data.url;
-          this.toaster.success("File exported successfully");
-        } else {
-          this.toaster.error("an Error happened , file can not export");
-        }
-      });
-    }
-  }
-
-  onPrintClick(obj: any) {
-    // this.PrintList = this.DeliverySales;
-    // this.PrintList.forEach(function (x) { delete x.matchCount, delete x.totalValue });
-    // let headers = this.printToPdfService.MapColumnHeaders(Object.keys(this.PrintList[0]));
-    // this.printToPdfService.GeneratePDF(obj,'Delivery Sales Report','landscape',this.PrintList,this.SalesSummaryStatistics,headers);
   }
 }
 
