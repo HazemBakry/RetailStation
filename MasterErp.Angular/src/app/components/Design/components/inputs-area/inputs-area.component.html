@@ -73,30 +73,20 @@
       </div>
       <div class="col-lg-6">
         <div class="mb-3">
-          <label class="form-label d-flex align-items-center gap-2">طريقةالتسجيل الرقمى <span
+          <label class="form-label d-flex align-items-center gap-2">طريقة التسجيل الرقمى <span
               class="text-danger">*</span></label>
           <div ngbDropdown class="dropdown-filter-wrapper dropdown-as-input d-inline-block w-100">
-            <div class="position-relative with-arrow-tb">
-              <input type="text" class="form-control nw-form-input" #inputDrop_2 ngbDropdownToggle
-                [value]="inputDropdownValue_2">
-              <div class="arrow-tb" *ngIf="inputDrop_2.value == ''"></div>
-              <div class="input-drop-action d-flex align-items-center gap-1 fw-normal" *ngIf="inputDrop_2.value != ''">
-                <i class="uil uil-times cursor-pointer" (click)="inputDrop_2.value = ''"></i>
-                <i class="uil uil-corner-up-left-alt cursor-pointer"></i>
-              </div>
+            <div class="position-relative nw-form-input with-arrow-tb with-no-arrow-down cursor-pointer"
+              ngbDropdownToggle>
+              <div class="arrow-tb"></div>
             </div>
             <div ngbDropdownMenu class="dropdown-menu-search-input p-0 overflow-hidden w-100 shadow-sm">
               <div class="p-2 bg-light border-bottom">
                 <input type="text" class="form-control" placeholder="بحث..." />
               </div>
               <div class="max-height-150 min-width-200 overflow-auto small-scroll p-2">
-                <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
-                  <thead>
-                    <tr>
-                      <th>الاسم</th>
-                      <th>الرقم</th>
-                    </tr>
-                  </thead>
+                <table
+                  class="table table-card-table table-borderless border table-middle table-hover bg-transparent m-0">
                   <tbody>
                     <tr>
                       <td>حازم بكرى</td>

@@ -111,3 +111,7 @@ td {
   background-position-y: 45%;
   background-size: 15px;
 }
+
+.with-no-arrow-down::after {
+  content: unset;
+}

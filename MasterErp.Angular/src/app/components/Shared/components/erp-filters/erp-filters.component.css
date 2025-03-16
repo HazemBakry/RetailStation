@@ -36,6 +36,20 @@
   overflow: auto;
 }
 
+.min-width-100 {
+  min-width: 100px;
+}
 .max-width-200 {
   max-width: 200px;
+}
+
+.filter-button.dropdown-toggle::after {
+  content: "\f078";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  border: none;
+  font-size: 10px;
+}
+.filter-button.dropdown-toggle[aria-expanded="true"]::after {
+  content: "\f077";
 }

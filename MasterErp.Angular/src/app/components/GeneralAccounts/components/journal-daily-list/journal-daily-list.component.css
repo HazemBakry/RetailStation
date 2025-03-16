@@ -10,3 +10,13 @@
 .delete-all-link:hover {
   color: tomato !important;
 }
+
+.erp-filter-box {
+  min-height: 30px;
+  min-width: 200px;
+  overflow: auto;
+}
+
+.max-width-200 {
+  max-width: 200px;
+}
