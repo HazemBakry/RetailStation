@@ -42,6 +42,16 @@ export class CreateJournalEntryComponent implements OnInit {
   difference = 0;
   totalDebit = 0;
   totalCredit = 0;
+  public formErrors = {
+    journalEntryId: '',
+    entryNumber: '',
+    docNumber: '',
+    entryDate: '',
+    journalTypeId: '',
+    currencyTypeId: '',
+    journalEntryAccounts: '',
+    description: '',
+  };
 
   constructor(private modalService: NgbModal,
     private sharedService: SharedService,
@@ -58,9 +68,9 @@ export class CreateJournalEntryComponent implements OnInit {
 
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
-      if (params.journalEntryId) {
-        this.entryModel = params.journalEntryId;
-        this.getEntryDetailsById(params.journalEntryId);
+      if (params.JournalEntryId) {
+        this.entryModel = params.JournalEntryId;
+        this.getEntryDetailsById(params.JournalEntryId);
       }
     })
 
@@ -263,16 +273,6 @@ export class CreateJournalEntryComponent implements OnInit {
     return true;
 
   }
-  public formErrors = {
-    journalEntryId: '',
-    entryNumber: '',
-    docNumber: '',
-    entryDate: '',
-    journalTypeId: '',
-    currencyTypeId: '',
-    journalEntryAccounts: '',
-    description: '',
-  };
 
   addField() {
     this.entryAccounts.push(

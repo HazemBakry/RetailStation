@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CostCenterTreeModel } from '../../../models/GeneralAccounts/CostCenter';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
@@ -23,11 +23,15 @@ export class CostCenterTreeComponent implements OnInit {
   isSearchMode = false;
   parentCostCentersList: any[] = [];
   CostCenterTypes: any[] = [];
+  selectedCostCenterId: number;
+  showDeleteLoader: boolean = false;
 
   costCenterTreeModel: CostCenterTreeModel =
     {} as CostCenterTreeModel;
+  @ViewChild('deleteModal') deleteModal: HTMLElement;
   constructor(private sharedService: SharedService,
-    private _GeneralAccountService: GeneralAccountService, private toaster: ToastrService) { }
+    private _GeneralAccountService: GeneralAccountService, private toaster: ToastrService,
+    private modalService: NgbModal) { }
 
 
   ngOnInit(): void {
@@ -43,7 +47,10 @@ export class CostCenterTreeComponent implements OnInit {
 
   selectCostCenter(costCenter: CostCenterTreeModel) {
 
-
+    if (costCenter.isDeleteAction) {
+      this.openDeleteModal(costCenter.costCenterId);
+      return
+    }
     this.selectedCostCenter.emit(costCenter);
   }
 
@@ -62,7 +69,30 @@ export class CostCenterTreeComponent implements OnInit {
     });
   }
 
+  openDeleteModal(costCenterId: number) {
+    this.selectedCostCenterId = costCenterId;
+    this.modalService.open(this.deleteModal, { centered: true, size: 'md' });
+  }
 
+  deleteCostCenter() {
+    this.showDeleteLoader = true;
+    this._GeneralAccountService.DeleteCostCenterTree(this.selectedCostCenterId).subscribe(data => {
+
+      if (data?.isSuccess) {
+        this.modalService?.dismissAll();
+        this.loadData();
+        this.toaster.success(data?.message);
+      }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showDeleteLoader = false;
+    }, err => {
+      this.showDeleteLoader = false;
+    }, () => {
+      this.showDeleteLoader = false;
+    });
+  }
 
   changeSearchType(event) {
 

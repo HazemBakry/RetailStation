@@ -1,0 +1,82 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="card card-with-table border shadow-none">
+    <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-3">
+            <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2" routerLink="./../add-supplier-returns-voucher">
+                <i class="uil uil-plus fs-5"></i>
+                <span>إضافة إذن جديد</span>
+            </button>
+        </div>
+        <nav>
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+        </nav>
+    </div>
+    <div class="card-body table-responsive p-0">
+        <table class="table table-borderless align-middle table-hover table-component text-center m-0 p-0">
+            <thead>
+                <tr>
+                    <th># الفاتورة</th>
+                    <th>الرقم الدفترى</th>
+                    <th>تاريخ الفاتورة</th>
+                    <th>اسم الفرع</th>
+                    <th>القيمة الإجمالية</th>
+                    <th>حالة الفاتورة</th>
+                    <th class="text-center"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of pagedResponseModel.results">
+                    <td>{{item.orderNumber}}</td>
+                    <td>{{item.docNumber}}</td>
+                    <td>{{item.orderDate | date}}</td>
+                    <td>{{item.branchNameAR}}</td>
+                    <td>{{item.totalValue}}</td>
+                    <td>
+                        <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
+                            {{item.orderStatus}}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="w-100 d-flex align-items-center justify-content-center">
+
+                            <button routerLink="../add-delivery-note" [queryParams]="{DeliveryNoteId:item.orderId}" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
+                                <i class="uil uil-pen"></i>
+                                <span>تعديل</span>
+                            </button>
+                            <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteDialog,item.orderId)">
+                                <i class="uil uil-times"></i>
+                                <span>الغاء</span>
+                            </button>
+
+                            <app-invoice-details-sidepanel [invoiceId]="item.orderId">
+                            </app-invoice-details-sidepanel>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+        <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+
+    </div>
+</div>
+
+<ng-template #deleteDialog let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد العملية</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد من الحذف ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click'); cancelOrder()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">الغاء</span>
+        </button>
+    </div>
+</ng-template>

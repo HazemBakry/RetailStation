@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { GeneralAccountService } from '../../services/general-account.service';
+import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
+import { AccountsReportSearchFilterModel, AccountsTrialBalanceModel, CostTrialBalanceModel } from '../../models/GeneralAccounts/AccountsReportSearchFilterModel';
 
 @Component({
   selector: 'app-cost-trial-balance',
@@ -12,100 +17,118 @@ import { GeneralAccountService } from '../../services/general-account.service';
 
 export class CostTrialBalanceComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'ميزان مراجعة مراكز التكلفة'];
+  showLoader: boolean = false;
+  showExportLoader: boolean = false;
 
-  SearchResult: any[] = [];
-  TotalCount: any;
-  TotalPages: any;
-  LevelTypes: any[] = [];
-  SearchFilterModel: SearchFilterModel = {
-    currentPage: 1,
+  // LevelTypes: any[] = ['مجموعات وحسابات معاً', 'مجموعات', 'حسابات'];
+  LevelNumber: any;
+  levelTypesSelector: GeneralSelectorModel[] = [];
+  totalDebit = null;
+  totalCredit = null;
+  trialBalanceResponse: AccountsReportSearchFilterModel = {
+    results: [],
+    filterList: [],
     pageSize: 25,
-    isExport: false,
-    filterItems: [],
-    filterModel: { filterItems: [] },
+    currentPage: 1,
+    searchText: '',
+    hideEmptyAccounts: false,
+    accountId: null,
+    searchType: null,
+    searchLevel: null,
+    fromDate: null,
+    toDate: null
+
   };
 
-  constructor(
-    private generalService: GeneralAccountService,
-    private toaster: ToastrService
-  ) {}
+  constructor(private generalService: GeneralAccountService, private sharedService: SharedService, private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.LevelTypes = this.generalService.searchTypeList;
+    this.levelTypesSelector = this.generalService.searchTypeList.map(type => {
+      return {
+        value: type.id,
+        name: type.nameAR ?? type.nameEN
+      };
+    });
   }
 
   loadData() {
     if (!this.validateSearchModel()) {
       return;
     }
-    this.SearchFilterModel.isExport = false;
+    this.totalDebit = null;
+    this.totalCredit = null;
+    this.showLoader = true;
+    this.generalService.GetCostTrialBalanceReport(this.trialBalanceResponse).subscribe((data: PagedResponseDTO<CostTrialBalanceModel[]>) => {
+      this.trialBalanceResponse.results = data.results;
+      this.trialBalanceResponse.totalCount = data.totalCount;
 
-    this.generalService
-      .GetCostTrialBalanceReport(this.SearchFilterModel)
-      .subscribe((data) => {
-        this.SearchResult = data;
-        this.TotalCount =
-          data &&
-          data.length > 0 &&
-          (data[0].matchCount != null || data[0].matchCount != undefined)
-            ? data[0].matchCount
-            : 0;
-      });
+      if (this.trialBalanceResponse.results.length > 0) {
+        this.totalDebit = this.trialBalanceResponse.results.reduce(
+          (sum, x) => sum + (x.balanceDebit || 0),
+          0
+        );
+        this.totalCredit = this.trialBalanceResponse.results.reduce(
+          (sum, x) => sum + (x.balanceCredit || 0),
+          0
+        );
+      }
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
   }
   exportData() {
     if (!this.validateSearchModel()) {
       return;
     }
+    this.showExportLoader = true;
+    this.generalService.ExportCostTrialBalanceReport(this.trialBalanceResponse).subscribe((data: ActionsResponseModel) => {
+      if (data.isSuccess) {
+        this.sharedService.urlDownloadOrOpen(data.url);
+        this.toaster.success(data.message);
+      } else {
+        this.toaster.error(data.message);
+      }
 
-    this.SearchFilterModel.isExport = true;
-    this.generalService
-      .ExportCostTrialBalanceReport(this.SearchFilterModel)
-      .subscribe((data) => {
-        if (data.url != null) {
-          window.location.href = data.url;
-          this.toaster.success('File exported successfully');
-        } else {
-          this.toaster.error('an Error happened , file can not export');
-        }
-      });
+
+      this.showExportLoader = false;
+    }, err => {
+      this.showExportLoader = false;
+    }, () => {
+      this.showExportLoader = false;
+    });
+
+
+  }
+  printData() {
+
   }
 
-  printData() {}
 
-  headerSearchChanged(filter: SearchFilterModel) {
-    this.SearchFilterModel.fromDate = filter.fromDate;
-    this.SearchFilterModel.toDate = filter.toDate;
-    
-    this.SearchFilterModel.filterItems=[];
-    this.SearchFilterModel.filterItems=filter.filterItems;
-    
+  searchDataChanged(filter: AccountsReportSearchFilterModel) {
 
-    this.SearchFilterModel.filterModel.filterItems =
-      this.SearchFilterModel.filterItems = [
-        ...new Set(this.SearchFilterModel.filterItems.map((item) => item)),
-      ];
+    this.trialBalanceResponse.fromDate = filter.fromDate;
+    this.trialBalanceResponse.toDate = filter.toDate;
+    this.trialBalanceResponse.accountId = filter.accountId;
+    this.trialBalanceResponse.costCenterId = filter.costCenterId;
+  }
+  pageChanged(obj: any) {
+    this.trialBalanceResponse.currentPage = obj.page;
+    this.loadData();
   }
   validateSearchModel(): boolean {
     if (
-      !this.SearchFilterModel.fromDate ||
-      !this.SearchFilterModel.toDate ||
-      !this.SearchFilterModel.searchType ||
-      !this.SearchFilterModel.searchLevel ||
-      this.SearchFilterModel.filterItems.length == 0
+      !this.trialBalanceResponse.fromDate ||
+      !this.trialBalanceResponse.toDate ||
+      !this.trialBalanceResponse.searchType ||
+      !this.trialBalanceResponse.searchLevel
     ) {
       this.toaster.warning('يرجي ملئ جميع الخانات');
       return false;
     }
     return true;
   }
-  
-  pageChanged(obj: any) {
-    this.SearchFilterModel.currentPage = obj.page;
-    this.loadData();
-  }
 
-
-  GetTypeSelected(obj: any) {
-    this.SearchFilterModel.searchType = obj.id;
-  }
 }

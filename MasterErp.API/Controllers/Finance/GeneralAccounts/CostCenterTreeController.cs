@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.GeneralAccounts;
+using MasterErp.Service.GeneralAccounts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -37,6 +38,22 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         public IActionResult UpdateCostCenterTree(int CostCenterId, CostCenterTreeModel Model)
         {
             var results = _costCenterTreeService.UpdateCostCenterTree(CostCenterId, Model);
+            return Ok(results);
+        }
+        [HttpGet]
+        [Route("GenerateCostCenterNumber")]
+        public IActionResult GenerateCostCenterNumber(int? ParentCostCenterId)
+        {
+            int? id = ParentCostCenterId == 0 ? null : ParentCostCenterId;
+            var results = _costCenterTreeService.GenerateCostCenterNumber(id);
+            return Ok(results);
+        }
+        [HttpGet]
+        [Route("DeleteCostCenterTree")]
+
+        public IActionResult DeleteCostCenterTree(int CostCenterId)
+        {
+            var results = _costCenterTreeService.DeleteCostCenterTree(CostCenterId);
             return Ok(results);
         }
 

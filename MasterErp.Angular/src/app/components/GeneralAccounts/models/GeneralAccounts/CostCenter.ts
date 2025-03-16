@@ -12,5 +12,6 @@ export interface CostCenterTreeModel {
     isExpences: number | null;
     displayOrder: number | null;
     isSelected: boolean;
+    isDeleteAction: boolean;
     children: CostCenterTreeModel[];
 }

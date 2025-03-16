@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models.Inventory
 {
+    [Table("DeliveryNoteDetails", Schema = "Inventory")]
 
-    public class DeliveryOrderDetails
+    public class DeliveryNoteDetails
     {
         [Key]
-        public int DeliveryOrderDetailsId { get; set; }
-        public int DeliveryOrderId { get; set; }
+        public int DeliveryNoteDetailsId { get; set; }
+        public int DeliveryNoteId { get; set; }
         public int ItemId { get; set; }
         public int? UnitId { get; set; }
         public double Price { get; set; }

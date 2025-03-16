@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.GeneralAccounts;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.GeneralAccounts;
 using Microsoft.AspNetCore.Http;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 {
@@ -24,74 +26,150 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("GetAccountsGeneralLedger")]
-        public List<JournalEntry> GetAccountsGeneralLedger(SearchFilterModel model)
+        public IActionResult GetAccountsGeneralLedger(AccountsReportSearchFilterModel model)
+        { 
+            var data= ReportService.GetAccountsGeneralLedger(model);
+            var result = new PagedResponseModel<AccountsGeneralLedgerModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("ExportAccountsGeneralLedger")]
+        public IActionResult ExportAccountsGeneralLedger(AccountsReportSearchFilterModel SearchModel)
         {
-            return ReportService.GetAccountsGeneralLedger(model);
+            string UserName = string.Empty;
+            var results = ReportService.ExportAccountsGeneralLedger(UserName, SearchModel);
+            return Ok(results);
         }
 
         [HttpPost]
         [Route("GetAccountsAssistantLedger")]
-        public DataTable GetAccountsAssistantLedger(SearchFilterModel model)
+        public IActionResult GetAccountsAssistantLedger(AccountsReportSearchFilterModel model)
         {
-            return ReportService.GetAccountsAssistantLedger(model);
-        }
 
+
+            var data = ReportService.GetAccountsAssistantLedger(model);
+            var result = new PagedResponseModel<AccountsAssistantLedgerModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
         [HttpPost]
-        [Route("GetTrialBalanceReport")]
-        public List<JournalEntryViewModel> GetTrialBalanceReport(SearchFilterModel model)
+        [Route("ExportAccountsAssistantLedger")]
+        public IActionResult ExportAccountsAssistantLedger(AccountsReportSearchFilterModel SearchModel)
         {
-            return ReportService.GetTrialBalanceReport(model);
+            string UserName = string.Empty;
+            var results = ReportService.ExportAccountsAssistantLedger(UserName, SearchModel);
+            return Ok(results);
+        }
+        [HttpPost]
+        [Route("GetAccountsTrialBalanceReport")]
+        public IActionResult GetAccountsTrialBalanceReport(AccountsReportSearchFilterModel model)
+        {
+            var data = ReportService.GetAccountsTrialBalanceReport(model);
+            var result = new PagedResponseModel<AccountsTrialBalanceModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("ExportAccountsTrialBalanceReport")]
+        public IActionResult ExportAccountsTrialBalanceReport(AccountsReportSearchFilterModel SearchModel)
+        {
+            string UserName = string.Empty;
+            var results = ReportService.ExportAccountsTrialBalanceReport(UserName, SearchModel);
+            return Ok(results);
         }
 
         #region Cost Center
 
         [HttpPost]
         [Route("GetCostGeneralLedger")]
-        public IActionResult GetCostGeneralLedger(SearchFilterModel model)
+        public IActionResult GetCostGeneralLedger(AccountsReportSearchFilterModel model)
         {
-            return Ok(null);
+            var data = ReportService.GetCostGeneralLedger(model);
+            var result = new PagedResponseModel<CostGeneralLedgerModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
         }
-
-
         [HttpPost]
         [Route("ExportCostGeneralLedger")]
-        public IActionResult ExportCostGeneralLedger(SearchFilterModel model)
+        public IActionResult ExportCostGeneralLedger(AccountsReportSearchFilterModel SearchModel)
         {
-            return Ok(null);
+            string UserName = string.Empty;
+            var results = ReportService.ExportCostGeneralLedger(UserName, SearchModel);
+            return Ok(results);
         }
 
-
+      
+        
         [HttpPost]
         [Route("GetCostAssistantLedger")]
-        public IActionResult GetCostAssistantLedger(SearchFilterModel model)
+        public IActionResult GetCostAssistantLedger(AccountsReportSearchFilterModel model)
         {
-            return Ok(null);
+            var data = ReportService.GetCostAssistantLedger(model);
+            var result = new PagedResponseModel<CostAssistantLedgerModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
         }
-
-
         [HttpPost]
         [Route("ExportCostAssistantLedger")]
-        public IActionResult ExportCostAssistantLedger(SearchFilterModel model)
+        public IActionResult ExportCostAssistantLedger(AccountsReportSearchFilterModel SearchModel)
         {
-            return Ok(null);
+            string UserName = string.Empty;
+            var results = ReportService.ExportCostAssistantLedger(UserName, SearchModel);
+            return Ok(results);
         }
 
-
+      
+        
         [HttpPost]
         [Route("GetCostTrialBalanceReport")]
-        public IActionResult GetCostTrialBalanceReport(SearchFilterModel model)
+        public IActionResult GetCostTrialBalanceReport(AccountsReportSearchFilterModel model)
         {
-            return Ok(null);
+            var data = ReportService.GetCostTrialBalanceReport(model);
+            var result = new PagedResponseModel<CostTrialBalanceModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
         }
-
-
         [HttpPost]
         [Route("ExportCostTrialBalanceReport")]
-        public IActionResult ExportCostTrialBalanceReport(SearchFilterModel model)
+        public IActionResult ExportCostTrialBalanceReport(AccountsReportSearchFilterModel SearchModel)
         {
-            return Ok(null);
+            string UserName = string.Empty;
+            var results = ReportService.ExportCostTrialBalanceReport(UserName, SearchModel);
+            return Ok(results);
         }
 
+      
 
         [HttpPost]
         [Route("GetCostCenterMatrix")]

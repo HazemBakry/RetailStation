@@ -2,7 +2,6 @@
 using MasterErp.Entities.Common;
 using MasterErp.Entities.DTOs.Auth;
 using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.HR.Employee;
 using MasterErp.Interface.Auth;
 using MasterErp.Interface.Common;
 using Microsoft.AspNetCore.Http;

@@ -70,9 +70,10 @@ namespace MasterErp.API
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IDataImportService, DataImportService>();
             services.AddScoped<ILookupService, LookupService>();
-
             services.AddScoped<ITenantService, TenantService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ICreateReportService, CreateReportService>();
+            services.AddScoped<IHelper, Helper>();
 
         }
     }

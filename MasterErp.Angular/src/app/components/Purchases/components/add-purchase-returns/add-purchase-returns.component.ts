@@ -151,7 +151,7 @@ export class AddPurchaseReturnsComponent implements OnInit {
       secondaryOrderId: [null, [Validators.required]],
       // branchId: [null, [Validators.required]],
       orderProducts: [[] as OrderProductModel[], [Validators.required,Validators.minLength(1)]],
-      notes: [null],
+      description: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -246,7 +246,7 @@ export class AddPurchaseReturnsComponent implements OnInit {
       // orderDate:this.datePipe.transform(orderModel.orderDate, 'yyyy-MM-dd'),
       secondaryOrderId: orderModel.secondaryOrderId,
       // branchId: orderModel.branchId,
-      notes:orderModel.notes
+      description:orderModel.description
       
     });
   }
@@ -261,7 +261,7 @@ export class AddPurchaseReturnsComponent implements OnInit {
     branchId: '',
     orderDate:'',
     orderProducts: '',
-    notes: ''
+    description: ''
   };
   
 

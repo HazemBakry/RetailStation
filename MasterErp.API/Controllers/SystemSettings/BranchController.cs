@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Global;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

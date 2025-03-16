@@ -46,6 +46,8 @@ import { EnglishToArabicNumbersDirective } from './directives/english-to-arabic-
 import { UploadImporterFileComponent } from '../SystemSettings/components/upload-importer-file/upload-importer-file.component';
 import { ErpSpinnerComponentComponent } from './components/erp-spinner-component/erp-spinner-component.component';
 import { GeneralSelectorComponent } from './components/general-selector/general-selector.component';
+import { AccountsReportSearchComponent } from './components/accounts-report-search/accounts-report-search.component';
+import { OrderItemsComponent } from './components/order-items/order-items.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,7 @@ import { GeneralSelectorComponent } from './components/general-selector/general-
     ErpFiltersComponent,
     EmptyDataComponent,
     OrderProductsComponent,
+    OrderItemsComponent,
     AppBreadcrumbComponent,
     AccountsReportHeaderComponent,
     AccountTreeV2Component,
@@ -88,6 +91,7 @@ import { GeneralSelectorComponent } from './components/general-selector/general-
     UploadImporterFileComponent,
     ErpSpinnerComponentComponent,
     GeneralSelectorComponent,
+    AccountsReportSearchComponent,
   ],
 
   imports: [
@@ -126,6 +130,7 @@ import { GeneralSelectorComponent } from './components/general-selector/general-
     ErpFiltersComponent,
     EmptyDataComponent,
     OrderProductsComponent,
+    OrderItemsComponent,
     GeneralOrderProductsComponent,
     AppBreadcrumbComponent,
     AccountsReportHeaderComponent,
@@ -146,7 +151,8 @@ import { GeneralSelectorComponent } from './components/general-selector/general-
     ProductsDetailsSidePanelComponent,
     RenderComponent,
     UploadImporterFileComponent,
-    GeneralSelectorComponent
+    GeneralSelectorComponent,
+    AccountsReportSearchComponent
   ],
   providers: [
     DatePipe,

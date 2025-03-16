@@ -1,0 +1,25 @@
+{
+    "AccountGeneralLeadger": {
+        "accountNumber": "Account Number",
+        "nameEn": "NameEn",
+        "preDebit": "Pre Debit",
+        "preCredit": "Pre Credit",
+        "debit": "Debit",
+        "credit": "Credit",
+        "totalDebit": "Total Debit",
+        "totalCredit": "Total Credit",
+        "balanceDebit": "Balance Debit",
+        "balanceCredit": "Balance Credit"
+    },
+    "AccountAssistantLedger": {
+        "entryDate": "Entry Date",
+        "entryType": "Entry Type",
+        "entryNumber": "Entry Number",
+        "chequeNumber": "Cheque Number",
+        "description": "Description",
+        "debit": "Debit",
+        "credit": "Credit",
+        "balanceDebit": "Balance Debit",
+        "balanceCredit": "Balance Credit"
+    }
+}

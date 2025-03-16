@@ -10,12 +10,12 @@ namespace MasterErp.Interface.Common
 {
     public interface ISQLHelper
     {
-        List<TElement> SQLQuery<TElement>(string CommandText, string ConnectionString, params SqlParameter[] parameters);
-        List<TElement> SQLQuery<TElement>(string CommandText, string ConnectionString, CommandType commandType = CommandType.StoredProcedure, params SqlParameter[] parameters);
-        object ExecuteScalar(string CommandText, string ConnectionString, params SqlParameter[] Parameters);
-        int ExecuteNonQuery(string CommandText, string ConnectionString, params SqlParameter[] Parameters);
-        DataTable ExecuteDataTable(string CommandText, string ConnectionString, params SqlParameter[] Parameters);
-        DataSet ExecuteDataset(string CommandText, string ConnectionString, params SqlParameter[] Parameters);
-        Task<List<TElement>> SQLQueryAsync<TElement>(string CommandText, string connectionString, params SqlParameter[] Parameters);
+        List<TElement> SQLQuery<TElement>(string CommandText, string ConnectionString = null, params SqlParameter[] parameters);
+        List<TElement> SQLQuery<TElement>(string CommandText, string ConnectionString = null, CommandType commandType = CommandType.StoredProcedure, params SqlParameter[] parameters);
+        object ExecuteScalar(string CommandText, string ConnectionString = null, params SqlParameter[] Parameters);
+        int ExecuteNonQuery(string CommandText, string ConnectionString = null, params SqlParameter[] Parameters);
+        DataTable ExecuteDataTable(string CommandText, SqlParameter[] Parameters, string ConnectionString = null);
+        DataSet ExecuteDataset(string CommandText, SqlParameter[] Parameters, string ConnectionString = null);
+        Task<List<TElement>> SQLQueryAsync<TElement>(string CommandText, string connectionString = null, params SqlParameter[] Parameters);
     }
 }

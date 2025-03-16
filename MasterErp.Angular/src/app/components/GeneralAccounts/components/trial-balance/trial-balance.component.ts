@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { GeneralAccountService } from '../../services/general-account.service';
 import { ToastrService } from 'ngx-toastr';
 import { SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { AccountsAssistantLedgerModel, AccountsReportSearchFilterModel, AccountsTrialBalanceModel } from '../../models/GeneralAccounts/AccountsReportSearchFilterModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
+import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 
 @Component({
   selector: 'app-trial-balance',
@@ -10,156 +15,119 @@ import { SearchFilterModel } from 'src/app/components/Shared/models/FilterModel'
 })
 export class TrialBalanceComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'ميزان المراجعة'];
-  AccountsList: any[] = [];
-  FromDate: any;
-  ToDate: any;
-  SearchResult: any[] = [];
-  TotalCount: any;
-  TotalPages: any;
-  LevelNumber: any;
-  HideEmptyAccounts: any;
+  showLoader: boolean = false;
+  showExportLoader: boolean = false;
+
   // LevelTypes: any[] = ['مجموعات وحسابات معاً', 'مجموعات', 'حسابات'];
-  LevelTypes: any[] = [];
-  SearchFilterModel: SearchFilterModel = {
-    currentPage: 1,
+  LevelNumber: any;
+  levelTypesSelector: GeneralSelectorModel[] = [];
+  totalDebit = null;
+  totalCredit = null;
+  trialBalanceResponse: AccountsReportSearchFilterModel = {
+    results: [],
+    filterList: [],
     pageSize: 25,
-    isExport: false,
-    filterItems: [],
-    filterModel: { filterItems: [] },
+    currentPage: 1,
+    searchText: '',
+    hideEmptyAccounts: false,
+    accountId: null,
+    searchType: null,
+    searchLevel: null,
+    fromDate: null,
+    toDate: null
+
   };
 
-  constructor(
-    private generalService: GeneralAccountService,
-    private toaster: ToastrService
-  ) {}
+  constructor(private generalService: GeneralAccountService, private sharedService: SharedService, private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.LevelTypes = this.generalService.searchTypeList;
+    this.levelTypesSelector = this.generalService.searchTypeList.map(type => {
+      return {
+        value: type.id,
+        name: type.nameAR ?? type.nameEN
+      };
+    });
   }
 
   loadData() {
     if (!this.validateSearchModel()) {
       return;
     }
-    this.SearchFilterModel.isExport = false;
+    this.totalDebit = null;
+    this.totalCredit = null;
+    this.showLoader = true;
+    this.generalService.GetAccountsTrialBalanceReport(this.trialBalanceResponse).subscribe((data: PagedResponseDTO<AccountsTrialBalanceModel[]>) => {
+      this.trialBalanceResponse.results = data.results;
+      this.trialBalanceResponse.totalCount = data.totalCount;
 
-    this.generalService
-      .GetTrialBalanceReport(this.SearchFilterModel)
-      .subscribe((data) => {
-        this.SearchResult = data;
-        this.TotalCount =
-          data &&
-          data.length > 0 &&
-          (data[0].matchCount != null || data[0].matchCount != undefined)
-            ? data[0].matchCount
-            : 0;
-      });
+      if (this.trialBalanceResponse.results.length > 0) {
+        this.totalDebit = this.trialBalanceResponse.results.reduce(
+          (sum, x) => sum + (x.balanceDebit || 0),
+          0
+        );
+        this.totalCredit = this.trialBalanceResponse.results.reduce(
+          (sum, x) => sum + (x.balanceCredit || 0),
+          0
+        );
+      }
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
   }
   exportData() {
     if (!this.validateSearchModel()) {
       return;
     }
+    this.showExportLoader = true;
+    this.generalService.ExportAccountsTrialBalanceReport(this.trialBalanceResponse).subscribe((data: ActionsResponseModel) => {
+      if (data.isSuccess) {
+        this.sharedService.urlDownloadOrOpen(data.url);
+        this.toaster.success(data.message);
+      } else {
+        this.toaster.error(data.message);
+      }
 
-    this.SearchFilterModel.isExport = true;
-    this.generalService
-      .ExportTrialBalanceReport(this.SearchFilterModel)
-      .subscribe((data) => {
-        if (data.url != null) {
-          window.location.href = data.url;
-          this.toaster.success('File exported successfully');
-        } else {
-          this.toaster.error('an Error happened , file can not export');
-        }
-      });
+
+      this.showExportLoader = false;
+    }, err => {
+      this.showExportLoader = false;
+    }, () => {
+      this.showExportLoader = false;
+    });
+
+
+  }
+  printData() {
+
   }
 
-  printData() {}
 
-  headerSearchChanged(filter: SearchFilterModel) {
-    this.SearchFilterModel.fromDate = filter.fromDate;
-    this.SearchFilterModel.toDate = filter.toDate;
-    
-    this.SearchFilterModel.filterItems=[];
-    this.SearchFilterModel.filterItems=filter.filterItems;
-    
+  searchDataChanged(filter: AccountsReportSearchFilterModel) {
 
-    this.SearchFilterModel.filterModel.filterItems =
-      this.SearchFilterModel.filterItems = [
-        ...new Set(this.SearchFilterModel.filterItems.map((item) => item)),
-      ];
+    this.trialBalanceResponse.fromDate = filter.fromDate;
+    this.trialBalanceResponse.toDate = filter.toDate;
+    this.trialBalanceResponse.accountId = filter.accountId;
+    this.trialBalanceResponse.costCenterId = filter.costCenterId;
+  }
+  pageChanged(obj: any) {
+    this.trialBalanceResponse.currentPage = obj.page;
+    this.loadData();
   }
   validateSearchModel(): boolean {
     if (
-      !this.SearchFilterModel.fromDate ||
-      !this.SearchFilterModel.toDate ||
-      !this.SearchFilterModel.searchType ||
-      !this.SearchFilterModel.searchLevel ||
-      this.SearchFilterModel.filterItems.length == 0
+      !this.trialBalanceResponse.fromDate ||
+      !this.trialBalanceResponse.toDate ||
+      !this.trialBalanceResponse.searchType ||
+      !this.trialBalanceResponse.searchLevel
     ) {
       this.toaster.warning('يرجي ملئ جميع الخانات');
       return false;
     }
     return true;
   }
-  onSearchClick(obj: any) {
-    if (
-      obj.FromDate == null ||
-      obj.ToDate == null ||
-      obj.BranchId == undefined
-    ) {
-      this.toaster.warning('Insert Search Fields First');
-    } else {
-      this.SearchFilterModel.branchID = obj.BranchId;
-      this.SearchFilterModel.fromDate = obj.FromDate;
-      this.SearchFilterModel.toDate = obj.ToDate;
-      this.loadData();
-    }
-  }
 
-  pageChanged(obj: any) {
-    this.SearchFilterModel.currentPage = obj.page;
-    this.loadData();
-  }
-
-  onExportClick(obj: any) {
-    this.SearchFilterModel.branchID = obj.BranchId;
-    this.SearchFilterModel.fromDate = obj.FromDate;
-    this.SearchFilterModel.toDate = obj.ToDate;
-    //this.SearchFilterModel.userName = this.UserModel?.fullName;
-    this.SearchFilterModel.isExport = true;
-    if (
-      obj.FromDate == null ||
-      obj.ToDate == null ||
-      obj.BranchId == undefined
-    ) {
-      this.toaster.warning('insert search fields first');
-    } else {
-      this.generalService
-        .ExportAccountsGeneralLedger(this.SearchFilterModel)
-        .subscribe((data) => {
-          if (data.url != null) {
-            window.location.href = data.url;
-            this.toaster.success('File exported successfully');
-          } else {
-            this.toaster.error('an Error happened , file can not export');
-          }
-        });
-    }
-  }
-
-  onPrintClick(obj: any) {
-    // this.PrintList = this.DeliverySales;
-    // this.PrintList.forEach(function (x) { delete x.matchCount, delete x.totalValue });
-    // let headers = this.printToPdfService.MapColumnHeaders(Object.keys(this.PrintList[0]));
-    // this.printToPdfService.GeneratePDF(obj,'Delivery Sales Report','landscape',this.PrintList,this.SalesSummaryStatistics,headers);
-  }
-
-  GetAccountNumberSelected(obj: any) {}
-
-  GetAccountNameSelected(obj: any) {}
-
-  GetTypeSelected(obj: any) {
-    this.SearchFilterModel.searchType = obj.id;
-  }
 }
 

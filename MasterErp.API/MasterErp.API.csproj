@@ -21,4 +21,8 @@
     <ProjectReference Include="..\MasterErp.Service\MasterErp.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Fonts\" />
+  </ItemGroup>
+
 </Project>

@@ -12,30 +12,36 @@ import { AddItemComponent } from './components/add-item/add-item.component';
 import { InventoryHomeComponent } from './components/inventory-home/inventory-home.component';
 import { UnitsComponent } from './components/units/units.component';
 import { ItemsComponent } from './components/items/items.component';
-import { AddPurchasesRequestComponent } from './components/add-purchase-request/add-purchases-request.component';
 import { AddReceiveOrderComponent } from './components/add-receive-order/add-receive-order.component';
 import { ReceiveOrdersComponent } from './components/receive-orders/receive-orders.component';
-import { DeliveryOrdersComponent } from './components/delivery-orders/delivery-orders.component';
-import { AddDeliveryOrderComponent } from './components/add-delivery-order/add-delivery-order.component';
-import { SupplierVoucherComponent } from './components/supplier-voucher/supplier-voucher.component';
+import { AddDeliveryNoteComponent } from './components/add-delivery-note/add-delivery-note.component';
+import { DeliveryNotesComponent } from './components/delivery-notes/delivery-notes.component';
+import { PurchaseReceiptsComponent } from './components/purchase-receipts/purchase-receipts.component';
+import { AddPurchasesReceiptComponent } from './components/add-purchase-receipt/add-purchase-receipt.component';
+import { MaterialIssueReceiptsComponent } from './components/material-issue-receipts/material-issue-receipts.component';
+import { AddMaterialIssueReceiptComponent } from './components/add-material-issue-receipt/add-material-issue-receipt.component';
+import { AddMaterialRequestComponent } from './components/add-material-request/add-material-request.component';
 
 
 @NgModule({
   declarations: [
-    InventoryLayoutComponent,
+    InventoryLayoutComponent,    
+    InventoryHomeComponent,
+    ItemsCategoryComponent,
+    ItemsComponent,
+    PurchaseReceiptsComponent,
+    AddPurchasesReceiptComponent,
+    MaterialIssueReceiptsComponent,
+    AddMaterialIssueReceiptComponent,
     AddReceiveOrderComponent,
     ReceiveOrdersComponent,
-    DeliveryOrdersComponent,
-    AddDeliveryOrderComponent,
+    DeliveryNotesComponent,
+    AddDeliveryNoteComponent,
     OrderSearchSidepanelComponent,
-    ItemsComponent,
-    ItemsCategoryComponent,
-    AddPurchasesRequestComponent,
+    AddMaterialRequestComponent,
     PurchasesRequestsComponent,
     AddItemComponent,
-    InventoryHomeComponent,
-    UnitsComponent,
-    SupplierVoucherComponent
+    UnitsComponent
   ],
   imports: [
     CommonModule,

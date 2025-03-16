@@ -10,17 +10,17 @@ import { SuppliersAccountStatementComponent } from './components/suppliers-accou
 import { SupplierReturnsVouchersComponent } from './components/supplier-returns-vouchers/supplier-returns-vouchers.component';
 import { SuppliersListComponent } from './components/suppliers-list/suppliers-list.component';
 import { PurchasesHomeComponent } from './components/purchases-home/purchases-home.component';
-import { BusinessCoreLayoutComponent } from '../Shared/components/business-core-layout/business-core-layout.component';
 import { AddSupplierComponent } from './components/add-supplier/add-supplier.component';
 import { AddSupplierReturnsVoucherComponent } from './components/add-supplier-returns-voucher/add-supplier-returns-voucher.component';
 import { PurchaseQuotationsComponent } from './components/purchase-quotations/purchase-quotations.component';
 import { AddPurchaseQuotationComponent } from './components/add-purchase-quotation/add-purchase-quotation.component';
+import { PurchasesLayoutComponent } from './purchases-layout/purchases-layout.component';
 
 const routes: Routes = [
   {
 
     path: '',
-    component: BusinessCoreLayoutComponent,
+    component: PurchasesLayoutComponent,
     children: [
       { path: 'home', component: PurchasesHomeComponent },
       { path: 'purchase-invoices', component: PurchaseInvoicesComponent },

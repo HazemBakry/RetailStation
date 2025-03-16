@@ -2,22 +2,15 @@
 using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.HR.Employee;
+using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
-using MasterErp.Service.Common;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Azure.Core.HttpHeader;
 
 namespace MasterErp.Service.GeneralAccounts
 {
@@ -38,6 +31,145 @@ namespace MasterErp.Service.GeneralAccounts
             this.entryService = EntryService;
         }
 
+        //----------------------------------- Payment Order ------------------------------------------//
+
+        public List<ReceiptModel> GetPaymentOrders_Summary(FilterModel model)
+        {
+            SqlParameter[] Params = new SqlParameter[2];
+            Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
+            Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
+
+            var result = SQLHelper.SQLQuery<ReceiptModel>("[Finance].[SP_GetPaymentOrders_Summary]", ConnectionString, Params).ToList();
+            return result;
+        }
+
+        public DataTable GetPaymentOrders_Filters(FilterModel model)
+        {
+            return new DataTable();
+        }
+
+        public ActionsResponseModel SavePaymentOrder(PaymentOrder Model)
+        {
+            try
+            {
+                PaymentOrder order = new PaymentOrder();
+
+                if (Model.PaymentOrderId > 0)
+                {
+                    order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == Model.PaymentOrderId);
+                    if (order != null)
+                    {
+                        order.ContactName = Model.ContactName;
+                        order.CurrencyId = Model.CurrencyId;
+                        order.CustomerId = Model.CustomerId;
+                        order.EmployeeId = Model.EmployeeId;
+                        order.Description = Model.Description;
+                        order.MoneyAmount = Model.MoneyAmount;
+                        order.AgencyTypeId = Model.AgencyTypeId;
+                        order.AccountId = Model.AccountId;
+                        order.SupplierId = Model.SupplierId;
+                        order.FromAccountId = Model.FromAccountId;
+                        order.PaymentTypeId = Model.PaymentTypeId;
+
+                        Context.SaveChanges();
+                    }
+                }
+                else
+                {
+                    order = new PaymentOrder()
+                    {
+                        OrderNumber = Context.PaymentOrders.Count() > 0 ? Context.PaymentOrders.Max(x => x.OrderNumber) + 1 : 1,
+                        ReleaseDate = Model.ReleaseDate,
+                        ContactName = Model.ContactName,
+                        CurrencyId = Model.CurrencyId,
+                        CustomerId = Model.CustomerId,
+                        EmployeeId = Model.EmployeeId,
+                        PaymentTypeId = Model.PaymentTypeId,
+                        Description = Model.Description,
+                        MoneyAmount = Model.MoneyAmount,
+                        AgencyTypeId = Model.AgencyTypeId,
+                        AccountId = Model.AccountId,
+                        SupplierId = Model.SupplierId,
+                        FromAccountId = Model.FromAccountId,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = "",
+                        IsCancelled = false,
+                        IsLocked = false
+                    };
+
+                    Context.PaymentOrders.Add(order);
+                    Context.SaveChanges();
+                }
+
+                return new ActionsResponseModel
+                {
+                    Status = 200,
+                    Message = "تم حفظ أمر الصرف بنجاح",
+                    Id = order.PaymentOrderId,
+                    Number = order.OrderNumber.ToString(),
+                    IsSuccess = true,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    Status = 0,
+                    Message = ex.Message,
+                    IsSuccess = false
+                };
+            }
+        }
+
+        public ActionsResponseModel CancelPaymentOrder(int OrderId)
+        {
+            var order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == OrderId);
+            if (order != null && order.IsLocked != true)
+            {
+                order.IsCancelled = true;
+                order.ModifiedDate = DateTime.Now;
+
+                Context.SaveChanges();
+                return new ActionsResponseModel
+                {
+                    Id = OrderId,
+                    IsSuccess = true,
+                    Message = "تم الغاء أمر الصرف بنجاح",
+                    Status = 200,
+                    Number = order.OrderNumber.ToString()
+                };
+            }
+            else
+            {
+                return new ActionsResponseModel
+                {
+                    Id = OrderId,
+                    IsSuccess = false,
+                    Message = "لا يمكن الغاء هذا الأمر",
+                    Status = 100,
+                    Number = order.OrderNumber.ToString()
+                };
+            }
+        }
+
+        public PaymentOrder GetPaymentOrderDetails(int OrderId)
+        {
+            var order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == OrderId);
+            return order;
+        }
+
+        public List<SelectorDataModel> GetPaymentOrdersSelector(bool OrderStatus)
+        {
+            var results = Context.PaymentOrders.Where(x => x.IsLocked != true).Select(b => new SelectorDataModel
+            {
+                Id = b.PaymentOrderId,
+                Name = b.OrderNumber.ToString(),
+            }).ToList();
+            return results;
+        }
+
+        //----------------------------------- Payment Receipt ------------------------------------------//
+
         public List<ReceiptModel> GetPaymentReceipts_Summary(FilterModel model)
         {
             //return Context.PaymentReceipts.ToList().ToDataTable();
@@ -55,15 +187,26 @@ namespace MasterErp.Service.GeneralAccounts
             return new DataTable();
         }
 
-        public ActionsResponseModel SavePaymentReceipt(PaymentReceipt Model)
+        public ActionsResponseModel SavePaymentReceipt(ReceiptModel Model)
         {
             try
             {
                 PaymentReceipt receipt = new PaymentReceipt();
 
-                if (Model.PaymentReceiptId > 0)
+                if (Model.PaymentOrderId == null || Model.PaymentOrderId == 0)
                 {
-                    receipt = Context.PaymentReceipts.FirstOrDefault(x => x.PaymentReceiptId == Model.PaymentReceiptId);
+                    return new ActionsResponseModel
+                    {
+                        Status = 100,
+                        Message = "يجب اختيار أمر الشراء أولا لاتمام حفظ السند",
+                        Id = 0,
+                        IsSuccess = false
+                    };
+                }
+
+                if (Model.ReceiptId > 0)
+                {
+                    receipt = Context.PaymentReceipts.FirstOrDefault(x => x.PaymentReceiptId == Model.ReceiptId);
                     if (receipt != null)
                     {
                         receipt.ReceiptLedgerId = Model.ReceiptLedgerId;
@@ -72,15 +215,16 @@ namespace MasterErp.Service.GeneralAccounts
                         receipt.CurrencyId = Model.CurrencyId;
                         receipt.ReceiptTypeId = Model.ReceiptTypeId;
                         receipt.BankAccountId = Model.BankAccountId;
+                        receipt.FromAccountId = Model.FromAccountId;
                         receipt.CustomerId = Model.CustomerId;
                         receipt.EmployeeId = Model.EmployeeId;
-                        receipt.SafeId = Model.SafeId;
                         receipt.Description = Model.Description;
                         receipt.MoneyAmount = Model.MoneyAmount;
                         receipt.DocNumber = Model.DocNumber;
                         receipt.AgencyTypeId = Model.AgencyTypeId;
                         receipt.AccountId = Model.AccountId;
                         receipt.SupplierId = Model.SupplierId;
+
 
                         Context.SaveChanges();
                     }
@@ -96,10 +240,10 @@ namespace MasterErp.Service.GeneralAccounts
                         ContactName = Model.ContactName,
                         CurrencyId = Model.CurrencyId,
                         ReceiptTypeId = Model.ReceiptTypeId,
+                        FromAccountId = Model.FromAccountId,
                         BankAccountId = Model.BankAccountId,
                         CustomerId = Model.CustomerId,
                         EmployeeId = Model.EmployeeId,
-                        SafeId = Model.SafeId,
                         Description = Model.Description,
                         MoneyAmount = Model.MoneyAmount,
                         DocNumber = Model.DocNumber,
@@ -115,6 +259,10 @@ namespace MasterErp.Service.GeneralAccounts
                     Context.PaymentReceipts.Add(receipt);
                     Context.SaveChanges();
                 }
+
+                var payment_order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == Model.PaymentOrderId);
+                payment_order.IsLocked = true;
+                Context.SaveChanges();
 
                 var entry = PreparePaymentEntryModel(receipt);
                 var result = entryService.SaveNewJournalEntry(entry);
@@ -143,13 +291,13 @@ namespace MasterErp.Service.GeneralAccounts
         {
             try
             {
-                int generalSupplierId = Context.AccountTrees.Single(x => x.AccountTypeId == 5).AccountId;
-                int accountId = Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId;
+                //int generalSupplierId = Context.AccountTrees.Single(x => x.AccountTypeId == 5).AccountId;
+                //int accountId = Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId;
                 List<JournalEntryAccount> accounts = new List<JournalEntryAccount>();
 
                 accounts.Add(new JournalEntryAccount
                 {
-                    AccountId = Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId,
+                    AccountId = (int)Model.FromAccountId,//Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId,
                     Credit = 0,
                     Debit = Model.MoneyAmount,
                     CurrencyId = 1,
@@ -159,7 +307,7 @@ namespace MasterErp.Service.GeneralAccounts
 
                 accounts.Add(new JournalEntryAccount
                 {
-                    AccountId = Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId,
+                    AccountId = (int)Model.AccountId,//Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId,
                     Credit = Model.MoneyAmount,
                     Debit = 0,
                     CurrencyId = 1,
@@ -237,15 +385,15 @@ namespace MasterErp.Service.GeneralAccounts
             return new DataTable();
         }
 
-        public ActionsResponseModel SaveReceiveReceipt(ReceiveReceipt Model)
+        public ActionsResponseModel SaveReceiveReceipt(ReceiptModel Model)
         {
             try
             {
                 ReceiveReceipt receipt = new ReceiveReceipt();
 
-                if (Model.ReceiveReceiptId > 0)
+                if (Model.ReceiptId > 0)
                 {
-                    receipt = Context.ReceiveReceipts.FirstOrDefault(x => x.ReceiveReceiptId == Model.ReceiveReceiptId);
+                    receipt = Context.ReceiveReceipts.FirstOrDefault(x => x.ReceiveReceiptId == Model.ReceiptId);
                     if (receipt != null)
                     {
                         receipt.ReceiptLedgerId = Model.ReceiptLedgerId;
@@ -256,7 +404,7 @@ namespace MasterErp.Service.GeneralAccounts
                         receipt.BankAccountId = Model.BankAccountId;
                         receipt.CustomerId = Model.CustomerId;
                         receipt.EmployeeId = Model.EmployeeId;
-                        receipt.SafeId = Model.SafeId;
+                        //receipt.SafeId = Model.SafeId;
                         receipt.Description = Model.Description;
                         receipt.MoneyAmount = Model.MoneyAmount;
                         receipt.DocNumber = Model.DocNumber;
@@ -281,7 +429,7 @@ namespace MasterErp.Service.GeneralAccounts
                         BankAccountId = Model.BankAccountId,
                         CustomerId = Model.CustomerId,
                         EmployeeId = Model.EmployeeId,
-                        SafeId = Model.SafeId,
+                        //SafeId = Model.SafeId,
                         Description = Model.Description,
                         MoneyAmount = Model.MoneyAmount,
                         DocNumber = Model.DocNumber,
@@ -348,7 +496,7 @@ namespace MasterErp.Service.GeneralAccounts
                     SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
                     Description = Model.Description
                 });
-                
+
                 JournalEntryModel entry = new JournalEntryModel
                 {
                     //EntryNumber = GenerateNewEntryNumber(Model.ReleaseDate.Month, Model.ReleaseDate.Year);

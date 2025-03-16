@@ -116,13 +116,13 @@ namespace MasterErp.API.Controllers.Inventory
 
         #endregion
 
-        #region Delivery Orders
+        #region Delivery Notes
 
         [HttpPost]
-        [Route("GetDeliveryOrders_Data")]
-        public IActionResult GetDeliveryOrders_Data(SearchFilterModel model)
+        [Route("GetDeliveryNotes_Data")]
+        public IActionResult GetDeliveryNotes_Data(SearchFilterModel model)
         {
-            var data = _inventoryService.GetDeliveryOrders_Data(model);
+            var data = _inventoryService.GetDeliveryNotes_Data(model);
             var result = new PagedResponseModel<OrderModel>
             {
                 Results = data,
@@ -133,46 +133,55 @@ namespace MasterErp.API.Controllers.Inventory
             return Ok(result);
         }
 
-        [HttpGet]
-        [Route("GetDeliveryOrderDetailsById")]
-        public IActionResult GetDeliveryOrderDetailsById(int OrderId)
+        [HttpPost]
+        [Route("GetDeliveryNotes_Filters")]
+        public IActionResult GetDeliveryNotes_Filters(SearchFilterModel PagingFilter)
         {
-            var result = _inventoryService.GetDeliveryOrderDetailsById(OrderId);
+            var result = _inventoryService.GetDeliveryNotes_Filters(PagingFilter);
 
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("GetDeliveryOrderProducts_Data")]
-        public IActionResult GetDeliveryOrderProducts_Data(int OrderId)
+        [Route("GetDeliveryNoteDetailsById")]
+        public IActionResult GetDeliveryNoteDetailsById(int OrderId)
         {
-            var result = _inventoryService.GetDeliveryOrderProducts_Data(OrderId);
+            var result = _inventoryService.GetDeliveryNoteDetailsById(OrderId);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("GetDeliveryNoteProducts_Data")]
+        public IActionResult GetDeliveryNoteProducts_Data(int OrderId)
+        {
+            var result = _inventoryService.GetDeliveryNoteProducts_Data(OrderId);
 
             return Ok(result);
 
         }
 
         [HttpPost]
-        [Route("AddNewDeliveryOrder")]
-        public IActionResult AddNewDeliveryOrder(OrderModel model)
+        [Route("AddNewDeliveryNote")]
+        public IActionResult AddNewDeliveryNote(OrderModel model)
         {
-            var result = _inventoryService.AddNewDeliveryOrder(model);
+            var result = _inventoryService.AddNewDeliveryNote(model);
             return Ok(result);
         }
 
         [HttpPost]
-        [Route("EditDeliveryOrder")]
-        public IActionResult EditDeliveryOrder(int OrderId, OrderModel model)
+        [Route("EditDeliveryNote")]
+        public IActionResult EditDeliveryNote(int OrderId, OrderModel model)
         {
-            var result = _inventoryService.EditDeliveryOrder(OrderId, model);
+            var result = _inventoryService.EditDeliveryNote(OrderId, model);
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("CancelDeliveryOrder")]
-        public IActionResult CancelDeliveryOrder(int OrderId)
+        [Route("CancelDeliveryNote")]
+        public IActionResult CancelDeliveryNote(int OrderId)
         {
-            var results = _inventoryService.CancelDeliveryOrder(OrderId);
+            var results = _inventoryService.CancelDeliveryNote(OrderId);
             return Ok(results);
         }
 

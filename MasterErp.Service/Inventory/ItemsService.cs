@@ -3,6 +3,7 @@ using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Export;
 using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Inventory;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Inventory;
 using MasterErp.Service.Common;
@@ -319,7 +320,7 @@ namespace MasterErp.Service.Inventory
             SqlParameter[] param = new SqlParameter[1];
             param[0] = new SqlParameter("@SupplierId", SupplierId);
 
-            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetItemsBySupplierId]", ConnectionString, param);
+            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetItemsBySupplierId]", param, ConnectionString);
             return result;
         }
         public List<OrderProductModel> GetItemsByLookupId(int LookupId)
@@ -399,7 +400,7 @@ namespace MasterErp.Service.Inventory
             Params[0] = new SqlParameter("@ItemCategoryID", (object)categoryId ?? DBNull.Value);
             Params[1] = new SqlParameter("@SearchText", (object)SearchParam ?? DBNull.Value);
 
-            return SQLHelper.ExecuteDataTable("[dbo].[SP_GetAllItemsExportData]", ConnectionString, Params);
+            return SQLHelper.ExecuteDataTable("[dbo].[SP_GetAllItemsExportData]", Params, ConnectionString);
         }
         public DataTable GetItemsDeletedExportData(int categoryId, string SearchText)
         {
@@ -408,7 +409,7 @@ namespace MasterErp.Service.Inventory
             Params[0] = new SqlParameter("@ItemCategoryID", (object)categoryId ?? DBNull.Value);
             Params[1] = new SqlParameter("@SearchText", (object)SearchParam ?? DBNull.Value);
 
-            return SQLHelper.ExecuteDataTable("[dbo].[SP_GetItemsDeletedExportData]", ConnectionString, Params);
+            return SQLHelper.ExecuteDataTable("[dbo].[SP_GetItemsDeletedExportData]", Params, ConnectionString);
         }
         public string ExportItemsDeleted(int categoryId, string SearchText, string UserName)
         {

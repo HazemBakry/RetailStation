@@ -75,7 +75,6 @@ export class SharedService {
     return this.http.get<CustomerModel[]>(this.URL + 'Shared/GetCustomersData').
       pipe(
         map(response => {
-          debugger;
           response.map(x => {
             return {
               ...x,
@@ -129,6 +128,10 @@ export class SharedService {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetBranchesSelector');
   }
 
+  GetStoresSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetStoresSelector');
+  }
+
   GetSuppliersSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetSuppliersSelector');
   }
@@ -155,10 +158,6 @@ export class SharedService {
 
   GetChildAccountsSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetChildAccountsSelector');
-  }
-
-  GetInventoriesSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetInventoriesSelector');
   }
 
   GetItemLookupsSelector() {

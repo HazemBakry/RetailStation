@@ -1,8 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.GeneralAccounts;
-using MasterErp.Entities.DTOs.HR;
-using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.HR.Employee;
+using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.GeneralAccounts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +19,64 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             _paymentService = paymentService;
 
         }
+
+        //----------------------------------- Payment Order ------------------------------------------//
+
+        [HttpPost]
+        [Route("GetPaymentOrders_Summary")]
+        public IActionResult GetPaymentOrders_Summary(FilterModel model)
+        {
+            var data = _paymentService.GetPaymentOrders_Summary(model);
+            var result = new PagedResponseModel<ReceiptModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("GetPaymentOrders_Filters")]
+        public DataTable GetPaymentOrders_Filters(FilterModel model)
+        {
+            return _paymentService.GetPaymentOrders_Filters(model);
+        }
+
+        [HttpPost]
+        [Route("SavePaymentOrder")]
+        public IActionResult SavePaymentOrder(PaymentOrder Model)
+        {
+            var results = _paymentService.SavePaymentOrder(Model);
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("CancelOrderOrder")]
+        public IActionResult CancelPaymentOrder(int OrderId)
+        {
+            var results = _paymentService.CancelPaymentOrder(OrderId);
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("GetPaymentOrderDetails")]
+        public IActionResult GetPaymentOrderDetails(int OrderId)
+        {
+            var results = _paymentService.GetPaymentOrderDetails(OrderId);
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("GetPaymentOrdersSelector")]
+        public IActionResult GetPaymentOrdersSelector(bool OrderStatus)
+        {
+            var results = _paymentService.GetPaymentOrdersSelector(OrderStatus);
+            return Ok(results);
+        }
+
+        //----------------------------------------------------------------------------//
 
         [HttpPost]
         [Route("GetPaymentReceipts_Summary")]
@@ -46,7 +102,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("SavePaymentReceipt")]
-        public IActionResult SavePaymentReceipt(PaymentReceipt Model)
+        public IActionResult SavePaymentReceipt(ReceiptModel Model)
         {
             var results = _paymentService.SavePaymentReceipt(Model);
             return Ok(results);
@@ -84,7 +140,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("SaveReceiveReceipt")]
-        public IActionResult SaveReceiveReceipt(ReceiveReceipt Model)
+        public IActionResult SaveReceiveReceipt(ReceiptModel Model)
         {
             var results = _paymentService.SaveReceiveReceipt(Model);
             return Ok(results);

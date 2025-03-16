@@ -6,6 +6,7 @@ using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Inventory;
+using MasterErp.Entities.Models.Purchases;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Inventory;
 using MasterErp.Service.Common;
@@ -327,7 +328,7 @@ namespace MasterErp.Service.Inventory
 
         #region Delivery Orders
 
-        public List<OrderModel> GetDeliveryOrders_Data(SearchFilterModel model, int? OrderId = null)
+        public List<OrderModel> GetDeliveryNotes_Data(SearchFilterModel model, int? OrderId = null)
         {
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
@@ -339,20 +340,36 @@ namespace MasterErp.Service.Inventory
             Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[3].Value = dt;
 
-            var result = SQLHelper.SQLQuery<OrderModel>("[Inventory].[SP_GetDeliveryOrders_Data]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<OrderModel>("[Inventory].[SP_GetDeliveryNotes_Data]", ConnectionString, Params);
             return result;
         }
-        public OrderModel GetDeliveryOrderDetailsById(int OrderId)
+
+        public List<FilterModel> GetDeliveryNotes_Filters(SearchFilterModel PagingFilter)
         {
-            return GetDeliveryOrders_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, OrderId)?.FirstOrDefault();
+            var FilterListDt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
+
+            SqlParameter[] Params = new SqlParameter[1];
+
+
+            Params[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[0].Value = FilterListDt;
+
+            var results = SQLHelper.SQLQuery<FilterItem>("[Inventory].[SP_GetDeliveryNotes_Filters]", ConnectionString, Params);
+            return SharedFilterService.GroupedFilterItems(results);
         }
-        public List<OrderProductModel> GetDeliveryOrderProducts_Data(int OrderId)
+
+        public OrderModel GetDeliveryNoteDetailsById(int OrderId)
         {
-            var result = (from orderProduct in Context.DeliveryOrderDetails
+            return GetDeliveryNotes_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, OrderId)?.FirstOrDefault();
+        }
+
+        public List<OrderProductModel> GetDeliveryNoteProducts_Data(int OrderId)
+        {
+            var result = (from orderProduct in Context.DeliveryNoteDetails
                           join item in Context.Items on orderProduct.ItemId equals item.ItemId
                           join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
                           from unit in jT2.DefaultIfEmpty()
-                          where (orderProduct.DeliveryOrderId == OrderId)
+                          where (orderProduct.DeliveryNoteId == OrderId)
                           select new OrderProductModel
                           {
                               ItemId = item.ItemId,
@@ -364,23 +381,23 @@ namespace MasterErp.Service.Inventory
                               UnitId = item.UnitId,
                               UnitNameAR = unit.NameAR,
                               UnitNameEN = unit.NameEN,
-                              OrderId = orderProduct.DeliveryOrderId,
+                              OrderId = orderProduct.DeliveryNoteId,
 
                           }).ToList();
 
             return result;
 
         }
-        public ActionsResponseModel AddNewDeliveryOrder(OrderModel model)
+        public ActionsResponseModel AddNewDeliveryNote(OrderModel model)
         {
             try
             {
-                DeliveryOrder order_tbl = new DeliveryOrder();
+                DeliveryNote order_tbl = new DeliveryNote();
 
-                order_tbl.DeliveryDate = model.OrderDate ?? DateTime.Now;
+                order_tbl.OrderDate = model.OrderDate ?? DateTime.Now;
                 order_tbl.CreatedDate = DateTime.Now;
                 order_tbl.CreatedBy = model.CreatedBy;
-                order_tbl.OrderNumber = (Context.DeliveryOrders.Count() > 0 ? Context.DeliveryOrders.Max(x => x.OrderNumber) + 1 : 1);
+                order_tbl.OrderNumber = (Context.DeliveryNotes.Count() > 0 ? Context.DeliveryNotes.Max(x => x.OrderNumber) + 1 : 1);
                 order_tbl.DocNumber = model.DocNumber;
                 order_tbl.TotalValue = model.OrderProducts.Sum(x => x.TotalValue);
                 order_tbl.IsCancelled = false;
@@ -389,29 +406,29 @@ namespace MasterErp.Service.Inventory
                 order_tbl.BranchId = (int)model.BranchId;
                 order_tbl.StoreId = (int)model.StoreId;
 
-                Context.DeliveryOrders.Add(order_tbl);
+                Context.DeliveryNotes.Add(order_tbl);
                 Context.SaveChanges();
 
                 foreach (OrderProductModel item in model.OrderProducts)
                 {
-                    var detail = new DeliveryOrderDetails
+                    var detail = new DeliveryNoteDetails
                     {
                         Price = item.Price,
                         ItemId = item.ItemId,
                         Quantity = item.Quantity,
                         TotalValue = item.TotalValue,
-                        DeliveryOrderId = order_tbl.DeliveryOrderId,
+                        DeliveryNoteId = order_tbl.DeliveryNoteId,
                         UnitId = item.UnitId,
                         Notes = model.Notes
                     };
 
-                    Context.DeliveryOrderDetails.Add(detail);
+                    Context.DeliveryNoteDetails.Add(detail);
                     Context.SaveChanges();
                 }
                 return new ActionsResponseModel
                 {
                     Message = "Delivery Order Created",
-                    Id = order_tbl.DeliveryOrderId,
+                    Id = order_tbl.DeliveryNoteId,
                     Number = order_tbl.OrderNumber.ToString(),
                 };
             }
@@ -424,14 +441,14 @@ namespace MasterErp.Service.Inventory
                 };
             }
         }
-        public ActionsResponseModel EditDeliveryOrder(int OrderId, OrderModel model)
+        public ActionsResponseModel EditDeliveryNote(int OrderId, OrderModel model)
         {
             try
             {
-                var order_tbl = Context.DeliveryOrders.Where(i => i.DeliveryOrderId == OrderId).FirstOrDefault();
+                var order_tbl = Context.DeliveryNotes.Where(i => i.DeliveryNoteId == OrderId).FirstOrDefault();
                 if (order_tbl != null)
                 {
-                    order_tbl.DeliveryDate = model.OrderDate ?? DateTime.Now;
+                    order_tbl.OrderDate = model.OrderDate ?? DateTime.Now;
                     order_tbl.DocNumber = model.DocNumber;
                     order_tbl.TotalValue = model.OrderProducts.Sum(x => x.TotalValue);
                     order_tbl.IsCancelled = model.IsCancelled;
@@ -444,24 +461,24 @@ namespace MasterErp.Service.Inventory
 
                     Context.SaveChanges();
 
-                    var DeliveryOrderDetails = Context.DeliveryOrderDetails.Where(x => x.DeliveryOrderId == OrderId).ToList();
-                    Context.DeliveryOrderDetails.RemoveRange(DeliveryOrderDetails);
+                    var DeliveryNoteDetails = Context.DeliveryNoteDetails.Where(x => x.DeliveryNoteId == OrderId).ToList();
+                    Context.DeliveryNoteDetails.RemoveRange(DeliveryNoteDetails);
                     Context.SaveChanges();
 
                     foreach (OrderProductModel item in model.OrderProducts)
                     {
-                        var detail = new DeliveryOrderDetails
+                        var detail = new DeliveryNoteDetails
                         {
                             Price = item.Price,
                             ItemId = item.ItemId,
                             Quantity = item.Quantity,
                             TotalValue = item.TotalValue,
-                            DeliveryOrderId = order_tbl.DeliveryOrderId,
+                            DeliveryNoteId = order_tbl.DeliveryNoteId,
                             UnitId = item.UnitId,
                             Notes = model.Notes
                         };
 
-                        Context.DeliveryOrderDetails.Add(detail);
+                        Context.DeliveryNoteDetails.Add(detail);
                         Context.SaveChanges();
                     }
 
@@ -480,11 +497,11 @@ namespace MasterErp.Service.Inventory
                 };
             }
         }
-        public ActionsResponseModel CancelDeliveryOrder(int OrderId)
+        public ActionsResponseModel CancelDeliveryNote(int OrderId)
         {
             try
             {
-                var order = Context.DeliveryOrders.FirstOrDefault(m => m.DeliveryOrderId == OrderId);
+                var order = Context.DeliveryNotes.FirstOrDefault(m => m.DeliveryNoteId == OrderId);
                 if (order != null)
                 {
                     order.IsCancelled = true;

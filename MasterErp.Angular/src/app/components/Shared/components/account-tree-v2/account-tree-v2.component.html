@@ -37,3 +37,23 @@
 </div>
 
 <ngx-loading [show]="showLoader"></ngx-loading>
+
+
+<ng-template #deleteModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">تأكيد الحذف</h4>
+  </div>
+  <div class="modal-body">
+    <p class="fs-5 m-0">هل تريد حذف مركز الحساب ؟</p>
+  </div>
+  <div class="modal-footer justify-content-start">
+    <button type="button" class="btn btn-success" (click)="modal.close('Save click');deleteAccount()">
+      <i class="fas fa-check"></i>
+      <span class="ms-2">نعم</span>
+    </button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+      <i class="fas fa-times"></i>
+      <span class="ms-2">لا</span>
+    </button>
+  </div>
+</ng-template>

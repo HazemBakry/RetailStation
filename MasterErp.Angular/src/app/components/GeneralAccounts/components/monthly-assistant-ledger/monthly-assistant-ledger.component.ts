@@ -26,10 +26,10 @@ export class MonthlyAssistantLedgerComponent implements OnInit {
   }
 
   GetAccountsGeneralLedger() {
-    this.generalService.GetAccountsGeneralLedger(this.SearchFilterModel).subscribe(data => {
-      this.SearchResult = data;
-      this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
-    });
+    // this.generalService.GetAccountsGeneralLedger(this.SearchFilterModel).subscribe(data => {
+    //   this.SearchResult = data;
+    //   this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
+    // });
   }
 
   onSearchClick(obj: any) {
@@ -57,14 +57,14 @@ export class MonthlyAssistantLedgerComponent implements OnInit {
     if (obj.FromDate == null || obj.ToDate == null || obj.BranchId == undefined) {
       this.toaster.warning('insert search fields first');
     } else {
-      this.generalService.ExportAccountsGeneralLedger(this.SearchFilterModel).subscribe(data => {
-        if (data.url != null) {
-          window.location.href = data.url;
-          this.toaster.success("File exported successfully");
-        } else {
-          this.toaster.error("an Error happened , file can not export");
-        }
-      });
+      // this.generalService.ExportAccountsGeneralLedger(this.SearchFilterModel).subscribe(data => {
+      //   if (data.url != null) {
+      //     window.location.href = data.url;
+      //     this.toaster.success("File exported successfully");
+      //   } else {
+      //     this.toaster.error("an Error happened , file can not export");
+      //   }
+      // });
     }
   }
 
