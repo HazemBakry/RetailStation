@@ -13,12 +13,12 @@ import { DatePipe } from '@angular/common';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 
 @Component({
-  selector: 'app-add-purchases-request',
-  templateUrl: './add-purchases-request.component.html',
-  styleUrls: ['./add-purchases-request.component.css']
+  selector: 'app-add-material-request',
+  templateUrl: './add-material-request.component.html',
+  styleUrls: ['./add-material-request.component.css']
 })
 
-export class AddPurchasesRequestComponent implements OnInit {
+export class AddMaterialRequestComponent implements OnInit {
   TitleList = ['المخازن', 'إضافة طلب شراء'];
   purchaseRequestId: number;
   purchaseRequestModel: OrderModel = {} as OrderModel;

@@ -7,7 +7,6 @@ import { ItemsComponent } from './components/items/items.component';
 import { AddItemComponent } from './components/add-item/add-item.component';
 import { ItemsCategoryComponent } from './components/items-category/items-category.component';
 import { AddReceiveOrderComponent } from './components/add-receive-order/add-receive-order.component';
-import { AddPurchasesRequestComponent } from './components/add-purchase-request/add-purchases-request.component';
 import { ReceiveOrdersComponent } from './components/receive-orders/receive-orders.component';
 import { DeliveryNotesComponent } from './components/delivery-notes/delivery-notes.component';
 import { AddDeliveryNoteComponent } from './components/add-delivery-note/add-delivery-note.component';
@@ -16,6 +15,7 @@ import { PurchaseReceiptsComponent } from './components/purchase-receipts/purcha
 import { AddPurchasesReceiptComponent } from './components/add-purchase-receipt/add-purchase-receipt.component';
 import { AddMaterialIssueReceiptComponent } from './components/add-material-issue-receipt/add-material-issue-receipt.component';
 import { MaterialIssueReceiptsComponent } from './components/material-issue-receipts/material-issue-receipts.component';
+import { AddMaterialRequestComponent } from './components/add-material-request/add-material-request.component';
 
 const routes: Routes = [
   {
@@ -35,7 +35,7 @@ const routes: Routes = [
       { path: 'add-receive-order', component: AddReceiveOrderComponent },
       { path: 'add-item', component: AddItemComponent },
       { path: 'purchases-requests', component: PurchasesRequestsComponent },
-      { path: 'add-purchases-request', component: AddPurchasesRequestComponent },
+      { path: 'add-material-request', component: AddMaterialRequestComponent },
       { path: 'units', component: UnitsComponent },      
       { path: '', redirectTo: 'home', pathMatch: 'full' },
 
