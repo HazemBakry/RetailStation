@@ -265,6 +265,36 @@ export class InventoryService {
     return this.http.get<any[]>(this.URL + 'Inventory/GetOrdersSearchData?SupplierId=' + supplierId + '&OrderNumber=' + orderNumber + '&OrderDate=' + orderDate);
   }
 
+
+   // ------------------------------------------- Material Issue ------------------------------------------- //
+
+   GetMaterialIssue_Data(model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'Inventory/GetMaterialIssue_Data', model);
+  }
+
+  GetMaterialIssue_Filters(model: SearchFilterModel) {
+    return this.http.post<FilterModel[]>(this.URL + 'Inventory/GetMaterialIssue_Filters', model);
+  }
+  
+  GetMaterialIssueDetailsById(orderId: number) {
+    return this.http.get<OrderModel>(this.URL + `Inventory/GetMaterialIssueDetailsById?OrderId=${orderId}`);
+  }
+
+  GetMaterialIssueProducts_Data(orderId: number) {
+    return this.http.get<OrderProductModel[]>(this.URL + `Inventory/GetMaterialIssueProducts_Data?OrderId=${orderId}`);
+  }
+
+  AddNewMaterialIssue(model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/AddNewMaterialIssue', model);
+  }
+
+  EditMaterialIssue(orderId: number, model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Inventory/EditMaterialIssue?OrderId=${orderId}`, model);
+  }
+
+  CancelMaterialIssue(OrderId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelMaterialIssue?OrderId' + OrderId);
+  }
   //----------------------------------------- Supplier Vouchers ------------------------------------//
 
   GetSupplierVouchers_Data(model: PagedResponseDTO) {

@@ -15,6 +15,7 @@ import { GeneralSelectorModel } from '../general-selector/general-selector.compo
   styleUrls: ['./order-items.component.css']
 })
 export class OrderItemsComponent implements OnInit, OnChanges {
+  @Input() selectedProducts: OrderProductModel[] = [];
   @Input() selectedSupplierProducts: OrderProductModel[] = [];
   @Input() clearAllProducts: boolean = false;
   @Input() showAddNew: boolean = true;
@@ -51,11 +52,15 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
+    this.addProducts();
     this.addSupplierProducts();
     this.loadSelector();
   }
 
   ngOnChanges(changes: any): void {
+    if (changes && changes.selectedProducts && changes.selectedProducts?.currentValue?.length > 0) {
+      this.addProducts();
+    }
     if (changes && changes.selectedSupplierProducts) {
       this.addSupplierProducts();
     }
@@ -125,12 +130,12 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   }
 
   getItemDetailsById(itemId, index: number) {
-    let itemChecked = this.orderItems.find(i => i.itemId == itemId);
-    if (itemChecked) {
-      this.toaster.warning(itemChecked.itemNameAR + ' is already exist');
-      this.removeItem(index);
-      return;
-    }
+    // let itemChecked = this.orderItems.find(i => i.itemId == itemId);
+    // if (itemChecked) {
+    //   this.toaster.warning(itemChecked.itemNameAR + ' is already exist');
+    //   this.removeItem(index);
+    //   return;
+    // }
     var item = this.orderItems[index];
     this.inventoryService.GetItemDetailsById(itemId).subscribe((data: ItemModel) => {
       if (data) {
@@ -165,7 +170,22 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     });
     this.emitSelectedProductsList();
   }
+  addProducts() {    
+    this.selectedProducts.forEach(item => {
+      let checked = this.orderItems?.find(i => i.itemId == item.itemId);
+      if (!checked)
+        this.orderItems.push(item);
+      // else
+      // {
+      //   checked.price += item.price;
+      //   checked.totalValue += item.totalValue;
+      //   checked.quantity+= item.quantity;
 
+      // }
+    });
+    if(this.orderItems)
+     this.emitSelectedProductsList();
+  }
   saveSelectedLookup() {
     // this.selectedItem.itemTotalValue = this.selectedItem.price && this.selectedItem.quantity ? this.selectedItem.price * this.selectedItem.quantity : 0;
     // this.ItemsByLookup.forEach(item => {

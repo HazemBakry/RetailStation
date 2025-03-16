@@ -522,6 +522,202 @@ namespace MasterErp.Service.Inventory
 
         #endregion
 
+        #region Material Issue
+
+        public List<OrderModel> GetMaterialIssue_Data(SearchFilterModel model, int? OrderId = null)
+        {
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
+
+            SqlParameter[] Params = new SqlParameter[4];
+
+            Params[0] = new SqlParameter("@OrderId", OrderId);
+            Params[1] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[2] = new SqlParameter("@PageSize", model.PageSize);
+            Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[3].Value = dt;
+
+            var result = SQLHelper.SQLQuery<OrderModel>("[Inventory].[SP_GetMaterialIssue_Data]", ConnectionString, Params);
+            return result;
+        }
+
+        public List<FilterModel> GetMaterialIssue_Filters(SearchFilterModel PagingFilter)
+        {
+            var FilterListDt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
+
+            SqlParameter[] Params = new SqlParameter[1];
+
+
+            Params[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[0].Value = FilterListDt;
+
+            var results = SQLHelper.SQLQuery<FilterItem>("[Inventory].[SP_GetMaterialIssue_Filters]", ConnectionString, Params);
+            return SharedFilterService.GroupedFilterItems(results);
+        }
+
+        public OrderModel GetMaterialIssueDetailsById(int OrderId)
+        {
+            return GetMaterialIssue_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, OrderId)?.FirstOrDefault();
+        }
+
+        public List<OrderProductModel> GetMaterialIssueProducts_Data(int OrderId)
+        {
+            var result = (from orderProduct in Context.MaterialIssueDetails
+                          join item in Context.Items on orderProduct.ItemId equals item.ItemId
+                          join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
+                          from unit in jT2.DefaultIfEmpty()
+                          where (orderProduct.MaterialIssueId == OrderId)
+                          select new OrderProductModel
+                          {
+                              ItemId = item.ItemId,
+                              ItemNameEN = item.NameEN,
+                              ItemNameAR = item.NameAR,
+                              Price = orderProduct.Price,
+                              Quantity = orderProduct.Quantity,
+                              TotalValue = orderProduct.TotalValue,
+                              UnitId = item.UnitId,
+                              UnitNameAR = unit.NameAR,
+                              UnitNameEN = unit.NameEN,
+                              OrderId = orderProduct.MaterialIssueId,
+
+                          }).ToList();
+
+            return result;
+
+        }
+        public ActionsResponseModel AddNewMaterialIssue(OrderModel model)
+        {
+            try
+            {
+                MaterialIssue order_tbl = new MaterialIssue();
+
+                order_tbl.OrderDate = model.OrderDate ?? DateTime.Now;
+                order_tbl.CreatedDate = DateTime.Now;
+                order_tbl.CreatedBy = model.CreatedBy;
+                order_tbl.OrderNumber = (Context.MaterialIssues.Count() > 0 ? Context.MaterialIssues.Max(x => x.OrderNumber) + 1 : 1);
+                order_tbl.DocNumber = model.DocNumber;
+                order_tbl.TotalValue = model.OrderProducts.Sum(x => x.TotalValue);
+                order_tbl.IsCancelled = false;
+                order_tbl.IsLocked = false;
+                order_tbl.Notes = model.Notes;
+                order_tbl.BranchId = (int)model.BranchId;
+                order_tbl.StoreId = (int)model.StoreId;
+
+                Context.MaterialIssues.Add(order_tbl);
+                Context.SaveChanges();
+
+                foreach (OrderProductModel item in model.OrderProducts)
+                {
+                    var detail = new MaterialIssueDetails
+                    {
+                        Price = item.Price,
+                        ItemId = item.ItemId,
+                        Quantity = item.Quantity,
+                        TotalValue = item.TotalValue,
+                        MaterialIssueId = order_tbl.MaterialIssueId,
+                        UnitId = item.UnitId,
+                        Notes = model.Notes
+                    };
+
+                    Context.MaterialIssueDetails.Add(detail);
+                    Context.SaveChanges();
+                }
+                return new ActionsResponseModel
+                {
+                    Message = "Delivery Order Created",
+                    Id = order_tbl.MaterialIssueId,
+                    Number = order_tbl.OrderNumber.ToString(),
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+        public ActionsResponseModel EditMaterialIssue(int OrderId, OrderModel model)
+        {
+            try
+            {
+                var order_tbl = Context.MaterialIssues.Where(i => i.MaterialIssueId == OrderId).FirstOrDefault();
+                if (order_tbl != null)
+                {
+                    order_tbl.OrderDate = model.OrderDate ?? DateTime.Now;
+                    order_tbl.DocNumber = model.DocNumber;
+                    order_tbl.TotalValue = model.OrderProducts.Sum(x => x.TotalValue);
+                    order_tbl.IsCancelled = model.IsCancelled;
+                    order_tbl.IsLocked = model.IsLocked;
+                    order_tbl.Notes = model.Notes;
+                    order_tbl.BranchId = (int)model.BranchId;
+                    order_tbl.StoreId = (int)model.StoreId;
+                    order_tbl.ModifiedBy = model.ModifiedBy;
+                    order_tbl.ModifiedDate = DateTime.Now;
+
+                    Context.SaveChanges();
+
+                    var MaterialIssueDetails = Context.MaterialIssueDetails.Where(x => x.MaterialIssueId == OrderId).ToList();
+                    Context.MaterialIssueDetails.RemoveRange(MaterialIssueDetails);
+                    Context.SaveChanges();
+
+                    foreach (OrderProductModel item in model.OrderProducts)
+                    {
+                        var detail = new MaterialIssueDetails
+                        {
+                            Price = item.Price,
+                            ItemId = item.ItemId,
+                            Quantity = item.Quantity,
+                            TotalValue = item.TotalValue,
+                            MaterialIssueId = order_tbl.MaterialIssueId,
+                            UnitId = item.UnitId,
+                            Notes = model.Notes
+                        };
+
+                        Context.MaterialIssueDetails.Add(detail);
+                        Context.SaveChanges();
+                    }
+
+                    return new ActionsResponseModel { Message = "Delivery Order Updated Successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this delivery order" };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+        public ActionsResponseModel CancelMaterialIssue(int OrderId)
+        {
+            try
+            {
+                var order = Context.MaterialIssues.FirstOrDefault(m => m.MaterialIssueId == OrderId);
+                if (order != null)
+                {
+                    order.IsCancelled = true;
+                    order.ModifiedDate = DateTime.Now;
+                    order.ModifiedBy = "";
+
+                    Context.SaveChanges();
+                    return new ActionsResponseModel { Message = "Order Cancelled Successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Order not exist" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        #endregion
+
         #region Purchase Requests
 
         public PagedResponseModel<PurchasesRequestDTO> GetPurchasesRequestsData(FilterModel model)

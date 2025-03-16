@@ -16,12 +16,12 @@ export class MaterialIssueReceiptsComponent implements OnInit {
   TitleList = ['المخازن', 'إذن صرف مواد لفرع'];
   showLoader: boolean;
   ReceiptId: number;
-  FilterModel: FilterModel = {
-    currentPage: 1,
-    pageSize: 25
-  };
+  // FilterModel: FilterModel = {
+  //   currentPage: 1,
+  //   pageSize: 25
+  // };
 
-  ReceiptList: PagedResponseDTO<OrderModel[]> = {
+  pagedResponseModel: PagedResponseDTO<OrderModel[]> = {
     results: [],
     filterList: [],
     pageSize: 25,
@@ -34,14 +34,14 @@ export class MaterialIssueReceiptsComponent implements OnInit {
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.getMaterialIssueReceiptsSummary();
+    this.getMaterialIssueSummary();
   }
 
-  getMaterialIssueReceiptsSummary() {
+  getMaterialIssueSummary() {
     this.showLoader = true;
-    this.inventoryService.GetMaterialIssueReceipts_Data(this.FilterModel).subscribe(data => {
-      this.ReceiptList.results = data.results;
-      this.ReceiptList.totalCount = data.totalCount;
+    this.inventoryService.GetMaterialIssue_Data(this.pagedResponseModel).subscribe(data => {
+      this.pagedResponseModel.results = data.results;
+      this.pagedResponseModel.totalCount = data.totalCount;
       //this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
 
       this.showLoader = false;
@@ -53,15 +53,15 @@ export class MaterialIssueReceiptsComponent implements OnInit {
   }
 
   pageChanged(obj: any) {
-    this.FilterModel.currentPage = obj.page;
-    this.getMaterialIssueReceiptsSummary();
+    this.pagedResponseModel.currentPage = obj.page;
+    this.getMaterialIssueSummary();
   }
 
   CancelPaymentReceipt(receiptId: number) {
     this.inventoryService.CancelMaterialIssueReceipt(receiptId).subscribe(data => {
       if (data) {
         this.toaster.success('تم الغاء أمر الصرف بنجاح');
-        this.getMaterialIssueReceiptsSummary();
+        this.getMaterialIssueSummary();
       }
       else {
         this.toaster.error('حدث خطأ اثناء الإلغاء');
@@ -80,7 +80,7 @@ export class MaterialIssueReceiptsComponent implements OnInit {
     this.inventoryService.CancelReceiveOrder(this.ReceiptId).subscribe(data => {
       if (data?.isSuccess) {
         this.modalService?.dismissAll();
-        this.getMaterialIssueReceiptsSummary();
+        this.getMaterialIssueSummary();
         this.toaster.success(data?.message);
       }
       else {
