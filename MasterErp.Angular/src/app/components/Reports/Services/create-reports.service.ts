@@ -18,7 +18,7 @@ export class CreateReportsService {
     return this.http.post<any>(this.URL + 'CreateReport/CreateGeneralReport', model).subscribe({
       next: (response) => {
         const endTime = Date.now();
-        const timeTaken = Math.round(endTime - startTime) / 1000;
+        const timeTaken = Math.floor((endTime - startTime) / 1000);
         if (response && response.filePath) {
           const newTab = window.open(response.filePath, '_blank');
           const interval = setInterval(() => {
@@ -36,7 +36,7 @@ export class CreateReportsService {
       },
       error: () => {
         const endTime = Date.now();
-        const timeTaken = Math.round(endTime - startTime) / 1000;
+        const timeTaken = Math.floor((endTime - startTime) / 1000);
         this.toaster.error('En Error Happened!');
         if (callback) callback(timeTaken);
       }
@@ -54,7 +54,7 @@ export class CreateReportsService {
       params: new HttpParams()
     };
 
-    if (Model.MethodType === 'GET') {
+    if (Model.MethodType.toLowerCase() === 'get'.toLowerCase()) {
       if (Model.filterItems.length > 0) {
         Model.filterItems.forEach(item => {
           if (item)
@@ -64,7 +64,7 @@ export class CreateReportsService {
       return this.http.get<any>(url, httpOptions);
     }
 
-    else if (Model.MethodType === 'POST') {
+    else if (Model.MethodType.toLowerCase() === 'post'.toLowerCase()) {
       let paramBody = {
         currentPage: 1,
         pageSize: 999900

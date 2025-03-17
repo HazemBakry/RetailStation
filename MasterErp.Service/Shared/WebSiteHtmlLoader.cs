@@ -10,44 +10,29 @@ namespace MasterErp.Service.Shared
     {
         public static string RenderedHtmlPage(string webSiteUri, string jwtToken)
         {
-            ChromeDriver htmlLoader = null;
             string HTML = string.Empty;
+            ChromeDriverService service = ChromeDriverService.CreateDefaultService();
+            service.HideCommandPromptWindow = true;
+
+            var options = new ChromeOptions();
+            options.AddArgument("--headless");
+            options.AddArgument("--disable-gpu");
+            options.AddArgument("--no-sandbox");
+            options.AddArgument("--disable-dev-shm-usage");
+            options.AddUserProfilePreference("profile.default_content_setting_values.images", 2);
+            options.AddUserProfilePreference("profile.managed_default_content_settings.stylesheets", 2);
+            options.AddArgument("--disable-blink-features=AutomationControlled");
+            options.PageLoadStrategy = PageLoadStrategy.Normal;
+
             try
             {
-                var URL = new Uri(webSiteUri, UriKind.Absolute);
-                var options = new ChromeOptions
+                using (var htmlLoader = new ChromeDriver(service, options))
                 {
-                    PageLoadStrategy = PageLoadStrategy.Normal
-                };
+                    IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)htmlLoader;
+                    htmlLoader.Navigate().GoToUrl(webSiteUri);
+                    jsExecutor.ExecuteScript($"localStorage.setItem('JWT_TOKEN', '{jwtToken}');");
 
-                options.AddArgument("--headless");
-                options.AddArgument("--disable-gpu");
-                options.AddArgument("--no-sandbox");
-                options.AddArgument("--disable-dev-shm-usage");
-
-                int maxRetries = 3;
-                for (int attempt = 0; attempt < maxRetries; attempt++)
-                {
-                    try
-                    {
-                        htmlLoader = new ChromeDriver(options);
-                        break;
-                    }
-                    catch (WebDriverException)
-                    {
-                        if (attempt == maxRetries - 1) throw;
-                        Thread.Sleep(2000);
-                    }
-                }
-
-                IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)htmlLoader;
-                htmlLoader.Navigate().GoToUrl(URL);
-                jsExecutor.ExecuteScript($"localStorage.setItem('JWT_TOKEN', '{jwtToken}');");
-
-                var wait = new WebDriverWait(htmlLoader, TimeSpan.FromMinutes(3));
-
-                try
-                {
+                    var wait = new WebDriverWait(htmlLoader, TimeSpan.FromMinutes(3));
                     wait.Until(driver =>
                     {
                         try
@@ -60,26 +45,16 @@ namespace MasterErp.Service.Shared
                             return false;
                         }
                     });
-                }
-                catch (WebDriverTimeoutException)
-                {
-                    htmlLoader.Quit();
-                    return null;
-                }
 
-                jsExecutor.ExecuteScript(@"document.getElementById('ReportImage').src = 'http://localhost:63246/ReportImage/logo2.png';");
-                wait.Until(driver => driver.FindElement(By.Id("ReportImage")).GetAttribute("src").Contains("logo2.png"));
-                HTML = htmlLoader.FindElement(By.Id("ReportData")).GetAttribute("outerHTML");
-                htmlLoader.Quit();
+                    jsExecutor.ExecuteScript(@"document.getElementById('ReportImage').src = 'http://localhost:63246/ReportImage/logo2.png';");
+                    wait.Until(driver => driver.FindElement(By.Id("ReportImage")).GetAttribute("src").Contains("logo2.png"));
+
+                    HTML = htmlLoader.FindElement(By.Id("ReportData")).GetAttribute("outerHTML");
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                htmlLoader?.Quit();
-                return null;
-            }
-            finally
-            {
-                htmlLoader?.Quit();
+                Console.WriteLine($"Error: {ex.Message}");
             }
 
             return string.IsNullOrEmpty(HTML) ? null : HTML;
