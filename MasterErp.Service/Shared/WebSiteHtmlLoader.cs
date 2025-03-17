@@ -54,7 +54,7 @@ namespace MasterErp.Service.Shared
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                return null;
             }
 
             return string.IsNullOrEmpty(HTML) ? null : HTML;
