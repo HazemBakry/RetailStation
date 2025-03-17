@@ -187,6 +187,82 @@ namespace MasterErp.API.Controllers.Inventory
 
         #endregion
 
+        #region Material Issue
+
+        [HttpPost]
+        [Route("GetMaterialIssue_Data")]
+        public IActionResult GetMaterialIssues_Data(SearchFilterModel model)
+        {
+            var data = _inventoryService.GetMaterialIssue_Data(model);
+            var result = new PagedResponseModel<OrderModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("GetMaterialIssue_Filters")]
+        public IActionResult GetMaterialIssue_Filters(SearchFilterModel PagingFilter)
+        {
+            var result = _inventoryService.GetMaterialIssue_Filters(PagingFilter);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("GetMaterialIssueDetailsById")]
+        public IActionResult GetMaterialIssueDetailsById(int OrderId)
+        {
+            var result = _inventoryService.GetMaterialIssueDetailsById(OrderId);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("GetMaterialIssueProducts_Data")]
+        public IActionResult GetMaterialIssueProducts_Data(int OrderId)
+        {
+            var result = _inventoryService.GetMaterialIssueProducts_Data(OrderId);
+
+            return Ok(result);
+
+        }
+
+        [HttpPost]
+        [Route("AddNewMaterialIssue")]
+        public IActionResult AddNewMaterialIssue(OrderModel model)
+        {
+            model.CreatedBy = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            var result = _inventoryService.AddNewMaterialIssue(model);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("EditMaterialIssue")]
+        public IActionResult EditMaterialIssue(int OrderId, OrderModel model)
+        {
+            model.ModifiedBy = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            var result = _inventoryService.EditMaterialIssue(OrderId, model);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("CancelMaterialIssue")]
+        public IActionResult CancelMaterialIssue(int OrderId)
+        {
+            var results = _inventoryService.CancelMaterialIssue(OrderId);
+            return Ok(results);
+        }
+
+        #endregion
+
+
+
         #region Purchase Requests
 
         [HttpPost]

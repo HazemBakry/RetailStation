@@ -45,6 +45,18 @@ namespace MasterErp.Interface.Inventory
 
         #endregion
 
+        #region Material Issue
+
+        List<OrderModel> GetMaterialIssue_Data(SearchFilterModel model, int? OrderId = null);
+        List<FilterModel> GetMaterialIssue_Filters(SearchFilterModel PagingFilter);
+        OrderModel GetMaterialIssueDetailsById(int OrderId);
+        List<OrderProductModel> GetMaterialIssueProducts_Data(int OrderId);
+        ActionsResponseModel AddNewMaterialIssue(OrderModel model);
+        ActionsResponseModel EditMaterialIssue(int OrderId, OrderModel model);
+        ActionsResponseModel CancelMaterialIssue(int OrderId);
+
+        #endregion
+
         #region Purchase Requests
 
         PagedResponseModel<PurchasesRequestDTO> GetPurchasesRequestsData(FilterModel model);

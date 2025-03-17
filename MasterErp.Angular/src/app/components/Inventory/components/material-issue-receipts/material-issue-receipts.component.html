@@ -7,7 +7,7 @@
                 <i class="fas fa-plus-circle"></i>
                 <span>إضافة إذن صرف مواد</span>
             </button> -->
-            <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2" routerLink="./../add-material-issue-receipt">
+            <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2" routerLink="./../add-material-issue">
                 <i class="uil uil-plus fs-5"></i>
                 <span>إضافة إذن صرف مواد</span>
             </button>
@@ -57,7 +57,7 @@
                     </li>
                 </ul>
             </nav> -->
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="ReceiptList.currentPage" [pageSize]="ReceiptList.pageSize" [totalCount]="ReceiptList.totalCount"></app-erp-pagination>
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
         </div>
     </div>
     <div class="p-3 bg-white">
@@ -79,7 +79,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of ReceiptList.results">
+                    <tr *ngFor="let item of pagedResponseModel.results">
                         <td>{{item.orderNumber}}</td>
                         <td>{{item.contactName}}</td>
                         <!-- <td>{{item.receiptLedgerName}}</td> -->
@@ -117,9 +117,9 @@
                             </div> -->
                         </td>
                     </tr>
-                    <tr *ngIf="!ReceiptList.results.length">
+                    <tr *ngIf="!pagedResponseModel.results.length">
                         <td colspan="9" class="text-right">
-                            <app-empty-data [showEmptyData]="!ReceiptList.results.length"></app-empty-data>
+                            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>

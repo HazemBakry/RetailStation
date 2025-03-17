@@ -131,6 +131,8 @@ namespace MasterErp.Entities.Models
         public DbSet<ReceiveOrderDetails> ReceiveOrderDetails { get; set; }
         public DbSet<DeliveryNote> DeliveryNotes { get; set; }
         public DbSet<DeliveryNoteDetails> DeliveryNoteDetails { get; set; }
+        public DbSet<MaterialIssue> MaterialIssues { get; set; }
+        public DbSet<MaterialIssueDetails> MaterialIssueDetails { get; set; }
 
 
         #endregion

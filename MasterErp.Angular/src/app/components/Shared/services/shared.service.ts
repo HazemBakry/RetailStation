@@ -6,7 +6,7 @@ import { CustomerModel } from '../../GeneralAccounts/models/GeneralAccounts/Cust
 import { ExcelExportStyle } from '../Enums/ImporterTemplateEnum';
 import { ActionsResponseModel } from '../models/ActionsResponseModel';
 import { FormControl, FormGroup } from '@angular/forms';
-import { FormDropdownModel } from '../components/drop-down-form-control/drop-down-form-control.component';
+import { GeneralSelectorModel } from '../components/general-selector/general-selector.component';
 
 @Injectable({
   providedIn: 'root'
@@ -125,73 +125,73 @@ export class SharedService {
   }
 
   GetBranchesSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetBranchesSelector');
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetBranchesSelector');
   }
 
   GetStoresSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetStoresSelector');
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetStoresSelector');
   }
 
   GetSuppliersSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetSuppliersSelector');
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetSuppliersSelector');
   }
 
   GetSupplierGroupsSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetSupplierGroupsSelector');
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetSupplierGroupsSelector');
   }
 
   GetPurchaseInvoiceTypesSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetPurchaseInvoiceTypesSelector');
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetPurchaseInvoiceTypesSelector');
   }
 
   GetItemsSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetItemsSelector');
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetItemsSelector');
   }
 
   GetItemCategoriesSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetItemCategoriesSelector');
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetItemCategoriesSelector');
   }
 
   GetUnitsSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetUnitsSelector');
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetUnitsSelector');
   }
 
   GetChildAccountsSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetChildAccountsSelector');
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetChildAccountsSelector');
   }
 
   GetItemLookupsSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetItemLookupsSelector');
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetItemLookupsSelector');
   }
 
   // --------------------------------- HR Selectors --------------------------------- //
 
   GetActiveEmployeesSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Employee/GetActiveEmployeesSelector');
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Employee/GetActiveEmployeesSelector');
   }
 
   GetIqamaIssuePlacesSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetIqamaIssuePlacesSelector');
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetIqamaIssuePlacesSelector');
   }
 
   GetVisaJobsSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetVisaJobsSelector');
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetVisaJobsSelector');
   }
 
   GetRegionsSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetRegionsSelector');
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetRegionsSelector');
   }
 
   GetReligionsSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetReligionsSelector');
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetReligionsSelector');
   }
 
   GetSocialStatusSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetSocialStatusSelector');
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetSocialStatusSelector');
   }
 
   GetCustomersSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Shared/GetCustomersSelector');
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetCustomersSelector');
   }
 
 }

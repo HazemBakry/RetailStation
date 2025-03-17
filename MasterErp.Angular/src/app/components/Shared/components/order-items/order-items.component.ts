@@ -1,14 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
 import { FilterModel, SearchFilterModel } from '../../models/FilterModel';
 import { OrderModel, OrderProductModel } from 'src/app/components/Inventory/models/inventory';
-import { FormDropdownModel } from '../drop-down-form-control/drop-down-form-control.component';
 import { SharedService } from '../../services/shared.service';
 import { ItemModel } from 'src/app/components/Inventory/models/Item';
+import { GeneralSelectorModel } from '../general-selector/general-selector.component';
 
 @Component({
   selector: 'app-order-items',
@@ -16,30 +15,31 @@ import { ItemModel } from 'src/app/components/Inventory/models/Item';
   styleUrls: ['./order-items.component.css']
 })
 export class OrderItemsComponent implements OnInit, OnChanges {
-  @Input() selectedSupplierProducts: OrderDetailModel[] = [];
+  @Input() selectedProducts: OrderProductModel[] = [];
+  @Input() selectedSupplierProducts: OrderProductModel[] = [];
   @Input() clearAllProducts: boolean = false;
   @Input() showAddNew: boolean = true;
-  @Output() selectedProductsList = new EventEmitter<OrderDetailModel[]>();
+  @Output() selectedProductsList = new EventEmitter<OrderProductModel[]>();
   showLoader: boolean = false;
   ItemsList: any[] = [];
-  SuppliersList: any[] = [];
+  supplierSelector: any[] = [];
   BranchesList: any[] = [];
-  LookupsList: any[] = [];
-  orderItems: OrderDetailModel[] = [];
+  lookupSelector: any[] = [];
+  orderItems: OrderProductModel[] = [];
 
-  ItemsByLookup: OrderDetailModel[] = [];
+  ItemsByLookup: OrderProductModel[] = [];
   ItemsBySupplier: any[] = [];
   // RawItemsList: any[] = [];
-  EditQuantityList: OrderDetailModel[] = [];
-  selectedItem: OrderDetailModel;
+  EditQuantityList: OrderProductModel[] = [];
+  selectedItem: OrderProductModel;
   // selectedItem: any={} ;
   notes: any;
   BranchId: any;
   SupplierId: any;
-  LookupId: any;
-  itemModel: ItemModel = {} as ItemModel;
+  selectedLookupId: any;
+  //itemModel: ItemModel = {} as ItemModel;
 
-  itemsSelector: FormDropdownModel[] = [];
+  itemsSelector: GeneralSelectorModel[] = [];
   SearchFilterModel: SearchFilterModel = {
     currentPage: 1,
     pageSize: 25
@@ -52,13 +52,17 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.AddSupplierProducts();
+    this.addProducts();
+    this.addSupplierProducts();
     this.loadSelector();
   }
 
   ngOnChanges(changes: any): void {
+    if (changes && changes.selectedProducts && changes.selectedProducts?.currentValue?.length > 0) {
+      this.addProducts();
+    }
     if (changes && changes.selectedSupplierProducts) {
-      this.AddSupplierProducts();
+      this.addSupplierProducts();
     }
 
     if (changes && changes.clearAllProducts && !changes.clearAllProducts?.firstChange) {
@@ -67,22 +71,35 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   }
 
   loadSelector() {
-    this.sharedService.GetItemsSelector().subscribe((data: FormDropdownModel[]) => {
+    this.sharedService.GetItemsSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.itemsSelector = data;
     });
 
-    this.sharedService.GetBranchesSelector().subscribe((data: FormDropdownModel[]) => {
+    this.sharedService.GetBranchesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.BranchesList = data;
     });
 
-    this.sharedService.GetSuppliersSelector().subscribe((data: FormDropdownModel[]) => {
-      this.SuppliersList = data;
+    this.sharedService.GetSuppliersSelector().subscribe((data: GeneralSelectorModel[]) => {
+      this.supplierSelector = data;
     });
 
-    this.sharedService.GetItemLookupsSelector().subscribe((data: FormDropdownModel[]) => {
-      this.LookupsList = data;
+    this.sharedService.GetItemLookupsSelector().subscribe((data: GeneralSelectorModel[]) => {
+      this.lookupSelector = data;
     });
   }
+
+  openItemsModal(content: any) {
+    this.selectedItem = {} as OrderProductModel;
+    // this.GetItemsData();
+    // this.getItemsLookups();
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+  // getItemsLookups() {
+  //   this.inventoryService.GetItemsLookups().subscribe(data => {
+  //     this.lookupSelector = data;
+  //   });
+  // }
+
 
   validateNumbers(key: any): boolean {
     let patt = /^([0-9\+])$/;
@@ -90,12 +107,44 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     return result;
   }
 
-  getItemDetailsById(itemId) {
+  addField() {
+    var item: OrderProductModel = {
+      itemId: null,
+      itemNameAR: '',
+      itemNameEN: '',
+      unitId: null,
+      unitNameAR: '',
+      unitNameEN: '',
+      price: null,
+      quantity: null,
+      totalValue: null,
+      isActive: true
+    }
+    
+    this.orderItems.push(item);
+    this.emitSelectedProductsList();
+  }
+  removeItem(index: number) {
+    this.orderItems.splice(index, 1);
+    this.emitSelectedProductsList();
+  }
+
+  getItemDetailsById(itemId, index: number) {
+    // let itemChecked = this.orderItems.find(i => i.itemId == itemId);
+    // if (itemChecked) {
+    //   this.toaster.warning(itemChecked.itemNameAR + ' is already exist');
+    //   this.removeItem(index);
+    //   return;
+    // }
+    var item = this.orderItems[index];
     this.inventoryService.GetItemDetailsById(itemId).subscribe((data: ItemModel) => {
       if (data) {
-        debugger
-        this.itemModel = data;
-        //this.initNewForm(this.itemModel);
+        item.itemId = data.itemId;
+        item.itemNameAR = data.nameAR;
+        item.itemNameEN = data.nameEN;
+        item.unitId = data.unitId;
+        item.unitNameAR = data.unitName;
+        item.unitNameEN = data.unitName;
       }
 
       this.showLoader = false;
@@ -104,9 +153,10 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     }, () => {
       this.showLoader = false;
     });
+    this.emitSelectedProductsList();
   }
 
-  AddSupplierProducts() {
+  addSupplierProducts() {
     this.selectedSupplierProducts.forEach(item => {
       let checked = this.orderItems?.find(i => i.itemId == item.itemId);
       if (!checked)
@@ -114,128 +164,79 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     });
     this.emitSelectedProductsList();
   }
-
-  GetItemsData() {
-    this.inventoryService.GetItemsData(this.SearchFilterModel).subscribe(data => {
-      this.ItemsList = data.results;
-    });
-  }
-
-  GetItemsLookups() {
-    this.inventoryService.GetItemsLookups().subscribe(data => {
-      this.LookupsList = data;
-    });
-  }
-
-  openItemsModal(content: any) {
-    this.selectedItem = {} as OrderDetailModel;
-    this.GetItemsData();
-    this.GetItemsLookups();
-    this.modalService.open(content, { centered: true, size: 'md' });
-  }
-  openEditQuantityModal(content: any) {
-    if (this.orderItems.length == 0) {
-      this.toaster.warning('Please Enter Items');
-      return;
-    }
-    this.EditQuantityList = [];
+  calcTotalValue() {
     this.orderItems.forEach(item => {
-      let newObj = JSON.parse(JSON.stringify(item));
-      this.EditQuantityList.push(newObj);
+      item.totalValue = item.price * item.quantity;
     });
-    this.modalService.open(content, { centered: true, size: 'md' });
-  }
-  RemoveItem(index: number) {
-    this.orderItems.splice(index, 1);
     this.emitSelectedProductsList();
   }
-
-  SaveSelectedItem() {
-    this.selectedItem.itemTotalValue = this.selectedItem.price && this.selectedItem.quantity ? this.selectedItem.price * this.selectedItem.quantity : 0;
-    this.ItemsByLookup.forEach(item => {
-      let itemChecked = this.orderItems.find(i => i.itemId == item.itemId);
-      if (!itemChecked) {
+  addProducts() {    
+    this.selectedProducts.forEach(item => {
+      let checked = this.orderItems?.find(i => i.itemId == item.itemId);
+      if (!checked)
         this.orderItems.push(item);
-      } else {
-        this.toaster.warning(item.itemNameAr + ' is already exist');
-      }
+      // else
+      // {
+      //   checked.price += item.price;
+      //   checked.totalValue += item.totalValue;
+      //   checked.quantity+= item.quantity;
+
+      // }
     });
-    this.modalService.dismissAll();
+    if(this.orderItems)
+     this.emitSelectedProductsList();
+  }
+  saveSelectedLookup() {
+    // this.selectedItem.itemTotalValue = this.selectedItem.price && this.selectedItem.quantity ? this.selectedItem.price * this.selectedItem.quantity : 0;
+    // this.ItemsByLookup.forEach(item => {
+    //   let itemChecked = this.orderItems.find(i => i.itemId == item.itemId);
+    //   if (!itemChecked) {
+    //     this.orderItems.push(item);
+    //   } else {
+    //     this.toaster.warning(item.itemNameAr + ' is already exist');
+    //   }
+    // });
+    // this.modalService.dismissAll();
 
     this.emitSelectedProductsList();
   }
 
-  GetSelectedItem(item: OrderDetailModel) {
-
-    // let model: ItemModel = {} as ItemModel;
-    this.selectedItem.itemId = item.itemId;
-    this.selectedItem.itemNameAr = item.itemNameAr;
-    this.selectedItem.itemNameEn = item.itemNameEn;
-    this.selectedItem.unitId = item.unitId;
-    this.selectedItem.unitNameAr = item.unitNameAr;
-    this.selectedItem.unitNameEn = item.unitNameEn;
-    this.selectedItem.unitId = item.unitId;
-    this.selectedItem.price = item.price;
-    this.selectedItem.quantity = 0;
-    this.selectedItem.itemTotalValue = item.price && item.quantity ? item.price * item.quantity : 0;
-
-    // this.selectedItem=model;
+  selectedLookupChanged(lookupId: number) {
+    this.selectedLookupId = lookupId;
   }
-  GetSelectedLookup(item: any) {
-    const lookupId = item.itemLookupId;
-    this.inventoryService.GetItemsByLookupId(lookupId).subscribe(data => {
-      let Items: any[] = data;
-      this.ItemsByLookup = Items;
-      // this.ItemsByLookup = Items.map<PurchaseInvoiceDetails>(item => {
-      //   {
-      //     return {
-      //       purchaseInvoiceDetailsID: 0,
-      //       purchaseInvoiceID: 0,
-      //       itemID: item.itemID,
-      //       itemName: item.nameEN,
-      //       unitID: item.unitID,
-      //       unitName: item.unitNameEn,
-      //       price: item.price,
-      //       quantity: item.quantity,
-      //       totalValue: item.price
-      //     }
-      //   };
-      // });
-    });
-  }
+  getSelectedLookup() {
 
-  ChangeNewQuantity() {
-    if (this.EditQuantityList.length == 0) {
-      this.toaster.warning('Please Enter Items');
+    if (!this.selectedLookupId)
       return;
-    }
-    this.EditQuantityList.forEach(item => {
-      let Item = this.orderItems.find(i => i.itemId == item.itemId);
-      Item.quantity = item.quantity;
-      Item.itemTotalValue = item.price * item.quantity;
+
+    this.orderItems = [];
+    this.inventoryService.GetItemsByLookupId(this.selectedLookupId).subscribe((data: OrderProductModel[]) => {
+      this.orderItems = data.map<OrderProductModel>(item => {
+        return{
+          itemId: item.itemId,
+          itemNameAR: item.itemNameAR,
+          itemNameEN: item.itemNameEN,
+          unitId: item.unitId,
+          unitNameAR: item.unitNameAR,
+          unitNameEN: item.unitNameAR,
+          price: item.price,
+          quantity: item.quantity,
+          totalValue: item.price * item.quantity,
+          isActive: true
+        }
+      });
+
+      
     });
-    this.emitSelectedProductsList();
     this.modalService.dismissAll();
+
+    this.emitSelectedProductsList();
   }
 
   emitSelectedProductsList() {
-    var list = this.orderItems.filter(x => x.quantity && x.quantity > 0);
+    var list = this.orderItems.filter(x => x.itemId && x.quantity && x.quantity > 0);
     this.selectedProductsList.emit(list);
   }
 
-  addField() {
-    this.orderItems.push(
-      {
-        itemId: 0,
-        itemNameAr: '',
-        itemNameEn: '',
-        unitId: 0,
-        unitNameAr: '',
-        unitNameEn: '',
-        price: 0,
-        quantity: 0,
-        itemTotalValue: 0
-      }
-    );
-  }
+
 }

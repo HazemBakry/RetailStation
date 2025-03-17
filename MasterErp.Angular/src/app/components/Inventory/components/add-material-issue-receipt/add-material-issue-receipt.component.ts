@@ -21,8 +21,8 @@ import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
 
 export class AddMaterialIssueReceiptComponent implements OnInit {
   TitleList = ['المخازن', 'إضافة إذن صرف مواد'];
-  purchaseRequestId: number;
-  orderList: OrderModel = {} as OrderModel;
+  materialIssueId: number;
+  orderModel: OrderModel = {} as OrderModel;
   orderProducts: OrderProductModel[] = [];
   
   isUpdate: boolean = false;
@@ -41,6 +41,7 @@ export class AddMaterialIssueReceiptComponent implements OnInit {
   public formErrors = {
     branchId: '',
     orderNumber: '',
+    docNumber: '',
     orderId: '',
     orderDate: '',
     storeId: '',
@@ -62,9 +63,9 @@ export class AddMaterialIssueReceiptComponent implements OnInit {
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
       if (params.OrderId) {
-        this.purchaseRequestId = params.PurchaseRequestId;
-        this.getPurchaseRequestDetailsById();
-        this.getPurchaseRequestProducts();
+        this.materialIssueId = params.OrderId;
+        this.getMaterialIssueDetailsById();
+        this.getMaterialIssueProducts();
       }
     })
 
@@ -72,12 +73,12 @@ export class AddMaterialIssueReceiptComponent implements OnInit {
     this.loadSelectors();
   }
 
-  getPurchaseRequestDetailsById() {
+  getMaterialIssueDetailsById() {
     this.showLoader = true;
-    this.inventoryService.GetDeliveryNoteDetailsById(this.purchaseRequestId).subscribe((data: OrderModel) => {
+    this.inventoryService.GetMaterialIssueDetailsById(this.materialIssueId).subscribe((data: OrderModel) => {
       if (data) {
-        this.orderList = data;
-        this.fillEditForm(this.orderList)
+        this.orderModel = data;
+        this.fillEditForm(this.orderModel)
       }
       this.showLoader = false;
     }, err => {
@@ -87,9 +88,9 @@ export class AddMaterialIssueReceiptComponent implements OnInit {
     });
   }
 
-  getPurchaseRequestProducts() {
+  getMaterialIssueProducts() {
     this.showLoader = true;
-    this.inventoryService.GetPurchaseRequestProducts_Data(this.purchaseRequestId).subscribe((data: OrderProductModel[]) => {
+    this.inventoryService.GetMaterialIssueProducts_Data(this.materialIssueId).subscribe((data: OrderProductModel[]) => {
       this.orderProducts = data;
       if (this.orderProducts.length > 0) {
         // this.formGroup.patchValue({orderProducts:this.orderProducts});
@@ -120,6 +121,7 @@ export class AddMaterialIssueReceiptComponent implements OnInit {
     this.formGroup = this.form.group({
       orderId: [null],
       orderNumber: [null],
+      docNumber: [null],
       branchId: [null, [Validators.required]],
       orderDate: [null, [Validators.required]],
       storeId: [null, [Validators.required]],
@@ -131,22 +133,7 @@ export class AddMaterialIssueReceiptComponent implements OnInit {
     });
   }
 
-  addField() {
-    this.orderProducts.push(
-      {
-        itemId: 0,
-        itemNameAR: '',
-        itemNameEN: '',
-        unitId: 0,
-        unitNameAR: '',
-        unitNameEN: '',
-        price: 0,
-        quantity: 0,
-        totalValue: 0,
-        isActive: true
-      }
-    );
-  }
+
 
   saveData() {
     if (this.orderProducts.length === 0)
@@ -155,24 +142,25 @@ export class AddMaterialIssueReceiptComponent implements OnInit {
     if (!this.validateForm()) {
       return;
     }
-    this.orderList = this.formGroup.value;
 
-    if (this.purchaseRequestId)
-      this.editPurchaseRequest();
+    this.orderModel = this.formGroup.value;
+
+    if (this.materialIssueId)
+      this.editMaterialIssue();
     else
-      this.addNewPurchaseRequest();
+      this.addNewMaterialIssue();
   }
 
-  addNewPurchaseRequest() {
+  addNewMaterialIssue() {
     this.showAddLoader = true;
-    this.inventoryService.AddNewDeliveryNote(this.orderList).subscribe((data: ActionsResponseModel) => {
+    this.inventoryService.AddNewMaterialIssue(this.orderModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         // this.formGroup?.reset();
         this.initNewForm();
         if (data.id) {
-          this.purchaseRequestId = data.id;
-          this.getPurchaseRequestDetailsById();
-          this.getPurchaseRequestProducts();
+          this.materialIssueId = data.id;
+          this.getMaterialIssueDetailsById();
+          this.getMaterialIssueProducts();
 
         }
         this.toaster.success(data?.message);
@@ -188,15 +176,15 @@ export class AddMaterialIssueReceiptComponent implements OnInit {
     });
   }
 
-  editPurchaseRequest() {
+  editMaterialIssue() {
     this.showAddLoader = true;
-    this.inventoryService.EditPurchasesRequest(this.purchaseRequestId, this.orderList).subscribe((data: ActionsResponseModel) => {
+    this.inventoryService.EditMaterialIssue(this.materialIssueId, this.orderModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.initNewForm();
         this.toaster.success(data?.message);
-        this.getPurchaseRequestDetailsById();
-        this.getPurchaseRequestProducts();
+        this.getMaterialIssueDetailsById();
+        this.getMaterialIssueProducts();
       }
       else {
         this.toaster.error(data?.message);
@@ -233,6 +221,8 @@ export class AddMaterialIssueReceiptComponent implements OnInit {
     this.isUpdate = true;
     this.formGroup.patchValue({
       orderId: orderModel.orderId,
+      orderNumber: orderModel.orderNumber,
+      docNumber: orderModel.docNumber,
       branchId: orderModel.branchId,
       storeId: orderModel.storeId,
       description: orderModel.description,
@@ -240,9 +230,4 @@ export class AddMaterialIssueReceiptComponent implements OnInit {
     });
   }
 
-    GetSelectedProductsList(products: OrderDetailModel[]) {
-      //this.orderProducts = products;
-      //this.supplierReturnsModel.items = products;
-  
-    }
 }
