@@ -16,6 +16,8 @@ import { AddPurchasesReceiptComponent } from './components/add-purchase-receipt/
 import { AddMaterialIssueReceiptComponent } from './components/add-material-issue-receipt/add-material-issue-receipt.component';
 import { MaterialIssueReceiptsComponent } from './components/material-issue-receipts/material-issue-receipts.component';
 import { AddMaterialRequestComponent } from './components/add-material-request/add-material-request.component';
+import { PurchaseOrdersComponent } from '../Purchases/components/purchase-orders/purchase-orders.component';
+import { AddPurchaseOrderComponent } from '../Purchases/components/add-purchase-order/add-purchase-order.component';
 
 const routes: Routes = [
   {
@@ -37,6 +39,10 @@ const routes: Routes = [
       { path: 'purchases-requests', component: PurchasesRequestsComponent },
       { path: 'add-material-request', component: AddMaterialRequestComponent },
       { path: 'units', component: UnitsComponent },      
+      { path: 'purchase-orders', component: PurchaseOrdersComponent },
+      { path: 'add-purchase-order', component: AddPurchaseOrderComponent },
+      
+      
       { path: '', redirectTo: 'home', pathMatch: 'full' },
 
     ],

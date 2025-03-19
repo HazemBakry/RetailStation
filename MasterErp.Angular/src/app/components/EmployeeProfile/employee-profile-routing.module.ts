@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ErpHomeComponent } from '../Shared/components/erp-home/erp-home.component';
 import { EmployeeProfileLayoutComponent } from './employee-profile-layout/employee-profile-layout.component';
 import { EmployeeVacationComponent } from './components/employee-vacation/employee-vacation.component';
 import { EmployeeLoansComponent } from './components/employee-loans/employee-loans.component';
@@ -15,30 +14,26 @@ const routes: Routes = [
     component: EmployeeProfileLayoutComponent,
     children: [
       {
-        path: '',
-        component: ErpHomeComponent
-      },
-      {
-        path: 'profile/vacation',
+        path: 'vacation',
         component: EmployeeVacationComponent
       },
       {
-        path: 'profile/loans',
+        path: 'loans',
         component: EmployeeLoansComponent
       },
       {
-        path: 'management/team-work',
+        path: 'team-work',
         component: TeamWorkComponent
       },
       {
-        path: 'management/loans',
+        path: 'loans',
         component: TeamWorkLoansComponent
       },
       {
-        path: 'management/vacations',
+        path: 'vacations',
         component: TeamWorkVacationsComponent
       },
-      { path: '', redirectTo: '' ,pathMatch: 'full' },
+      { path: '', redirectTo: 'vacation' ,pathMatch: 'full' },
     ]
   }
 ];

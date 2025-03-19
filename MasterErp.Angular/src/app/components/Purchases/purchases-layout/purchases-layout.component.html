@@ -15,6 +15,9 @@
                         </div>
                     </a>
                 </div>
+
+
+
                 <li class="nav-item nav-item-item">
                     <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100 active" (click)="toggleMenu(menu_purchase)" [ngClass]="{'active': menu_purchase.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
@@ -67,6 +70,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/purchases/purchase-quotations" routerLinkActive="active">
+                                <div class="nav-text d-flex align-items-center w-100">
+                                    <i class="uil uil-users-alt nav-icon"></i>
+                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">عروض الاسعار</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./supplier-returns-voucher" routerLinkActive="active">
                                 <div class="nav-text d-flex align-items-center w-100">
                                     <i class="uil uil-users-alt nav-icon"></i>
@@ -75,14 +86,7 @@
                                 </div>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./units" routerLinkActive="active">
-                                <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
-                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">وحدات الأصناف</span>
-                                </div>
-                            </a>
-                        </li>
+                        
                     </ul>
                 </li>
                 <li class="nav-item nav-item-item">
@@ -96,11 +100,11 @@
                         </div>
                     </a>
                     <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu_PurchaseDef>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/generalAccounts/currency" routerLinkActive="active">
-                                <span class="nav-link-sub-text item-sidebar">أنواع فواتير المشتريات-</span>
+                                <span class="nav-link-sub-text item-sidebar">أنواع فواتير المشتريات</span>
                             </a>
-                        </li>
+                        </li> -->
 
                         <li class="nav-item">
                             <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./suppliers-list" routerLinkActive="active">
@@ -110,6 +114,7 @@
                                 </div>
                             </a>
                         </li>
+                       
                     </ul>
                 </li>
             </ul>
