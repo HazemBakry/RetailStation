@@ -9,12 +9,40 @@
         <span class="ms-2">تعديل الكمية</span>
       </button> -->
 
+            <div ngbDropdown class="d-inline-block">
+                <button type="button" class="btn btn-table-action m-2 d-flex align-items-center gap-2 border rounded px-3"
+                    id="dropdownBasic1" ngbDropdownToggle>
+                    <i class="fas fa-cogs"></i>
+                    <span>الإجراءات</span>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="border rounded">
 
-            <button class="button-table-action m-2 btn-edit align-items-center justify-content-center gap-2"
+                    <button ngbDropdownItem (click)="openItemsModal(ItemModal)">
+                        <i class="fas fa-download"></i>
+                        <span class="px-2">
+                            القوالب
+                        </span>
+                    </button>
+                    <button ngbDropdownItem (click)="openItemsModal(SuppliersModal)">
+                        <i class="fas fa-download"></i>
+                        <span class="px-2">
+                            عناصر الموردين
+                        </span>
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- <button class="button-table-action m-2 btn-edit align-items-center justify-content-center gap-2"
                 (click)="openItemsModal(ItemModal)">
                 <i class="fas fa-import"></i>
                 <span class="ms-2">تحميل من قالب</span>
             </button>
+            <button class="button-table-action m-2 btn-edit align-items-center justify-content-center gap-2"
+                (click)="openItemsModal(SuppliersModal)">
+                <i class="fas fa-import"></i>
+                <span class="ms-2">تحميل من الموردين</span>
+            </button> -->
         </div>
     </div>
 
@@ -101,15 +129,36 @@
     <div class="modal-header">
         <h4 class="modal-title">اختر من القوالب</h4>
     </div>
-    <div class="modal-body" >
-        <div  style="margin-bottom: 150px;">
+    <div class="modal-body">
+        <div style="margin-bottom: 150px;">
             <app-general-selector [(ngModel)]="selectedLookupId" [showSearch]="true" [data]="lookupSelector"
-            (valueChanged)="selectedLookupChanged($event)"
-            [placeholder]="'المخزون'"></app-general-selector>
+                (valueChanged)="selectedLookupChanged($event)" [placeholder]="'المخزون'"></app-general-selector>
         </div>
     </div>
     <div class="modal-footer justify-content-start">
         <button type="button" class="btn btn-success" (click)="modal.close('Save click');getSelectedLookup()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">حفظ</span>
+        </button>
+        <!-- <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">لا</span>
+        </button> -->
+    </div>
+</ng-template>
+
+<ng-template #SuppliersModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">اختر من الموردين</h4>
+    </div>
+    <div class="modal-body">
+        <div style="margin-bottom: 150px;">
+            <app-general-selector [(ngModel)]="selectedSupplierId" [showSearch]="true" [data]="supplierSelector"
+                (valueChanged)="selectedSupplierChanged($event)" [placeholder]="'المخزون'"></app-general-selector>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click');getSelectedSupplierItems()">
             <i class="fas fa-check"></i>
             <span class="ms-2">حفظ</span>
         </button>

@@ -37,6 +37,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   BranchId: any;
   SupplierId: any;
   selectedLookupId: any;
+  selectedSupplierId: any;
   //itemModel: ItemModel = {} as ItemModel;
 
   itemsSelector: GeneralSelectorModel[] = [];
@@ -120,7 +121,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
       totalValue: null,
       isActive: true
     }
-    
+
     this.orderItems.push(item);
     this.emitSelectedProductsList();
   }
@@ -170,7 +171,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     });
     this.emitSelectedProductsList();
   }
-  addProducts() {    
+  addProducts() {
     this.selectedProducts.forEach(item => {
       let checked = this.orderItems?.find(i => i.itemId == item.itemId);
       if (!checked)
@@ -183,8 +184,8 @@ export class OrderItemsComponent implements OnInit, OnChanges {
 
       // }
     });
-    if(this.orderItems)
-     this.emitSelectedProductsList();
+    if (this.orderItems)
+      this.emitSelectedProductsList();
   }
   saveSelectedLookup() {
     // this.selectedItem.itemTotalValue = this.selectedItem.price && this.selectedItem.quantity ? this.selectedItem.price * this.selectedItem.quantity : 0;
@@ -204,6 +205,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   selectedLookupChanged(lookupId: number) {
     this.selectedLookupId = lookupId;
   }
+
   getSelectedLookup() {
 
     if (!this.selectedLookupId)
@@ -212,7 +214,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     this.orderItems = [];
     this.inventoryService.GetItemsByLookupId(this.selectedLookupId).subscribe((data: OrderProductModel[]) => {
       this.orderItems = data.map<OrderProductModel>(item => {
-        return{
+        return {
           itemId: item.itemId,
           itemNameAR: item.itemNameAR,
           itemNameEN: item.itemNameEN,
@@ -226,12 +228,50 @@ export class OrderItemsComponent implements OnInit, OnChanges {
         }
       });
 
-      
+
     });
     this.modalService.dismissAll();
 
     this.emitSelectedProductsList();
   }
+
+  selectedSupplierChanged(supplierId: number) {
+    this.selectedSupplierId = supplierId;
+  }
+  getSelectedSupplierItems() {
+
+    if (!this.selectedSupplierId)
+      return;
+    this.orderItems = [];
+    this.inventoryService.GetItemsBySupplierId(this.selectedSupplierId).subscribe(data => {
+      if (data && data.length > 0) {
+        this.orderItems = data.map<OrderProductModel>(item => {
+          return {
+            itemId: item.itemId,
+            itemNameAR: item.nameAR,
+            itemNameEN: item.nameEN,
+            unitId: item.unitId,
+            unitNameAR: item.unitName,
+            unitNameEN: item.unitName,
+            price: item.cost,
+            quantity: 0,
+            totalValue: 0,
+            isActive: true
+          }
+        });
+      }
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+
+    this.modalService.dismissAll();
+
+    this.emitSelectedProductsList();
+  }
+
 
   emitSelectedProductsList() {
     var list = this.orderItems.filter(x => x.itemId && x.quantity && x.quantity > 0);
