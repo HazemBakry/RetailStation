@@ -125,7 +125,14 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     this.orderItems.push(item);
     this.emitSelectedProductsList();
   }
-  removeItem(index: number) {
+  removeItem(index: number=null) {
+    if (index) {
+      this.orderItems.splice(index, 1);
+    } else {
+      this.orderItems = [];
+      this.selectedLookupId = null;
+      this.selectedSupplierId = null;
+    }
     this.orderItems.splice(index, 1);
     this.emitSelectedProductsList();
   }
