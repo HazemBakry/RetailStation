@@ -189,8 +189,7 @@ select::after {
 }
 
 .status-box {
-  width: 70px;
-  margin: auto;
+  min-width: 70px;
   height: 25px;
   padding: 0 10px;
   display: flex;
@@ -221,8 +220,8 @@ select::after {
 }
 .icon-box.gray,
 .status-box.gray {
-    background-color: var(--gray-color);
-    /* color: #43c79c; */
+  background-color: #eaeaea;
+  /* color: #43c79c; */
 }
 
 .icon-box.orange,
