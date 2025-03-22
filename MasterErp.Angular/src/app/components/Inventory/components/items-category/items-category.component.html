@@ -24,6 +24,7 @@
                     <th>اسم المجموعة (EN)</th>
                     <th>حساب التشغيل</th>
                     <th>حساب الإدارة</th>
+                    <th>متفرع من</th>
                     <th></th>
                 </tr>
             </thead>
@@ -44,6 +45,7 @@
                     <td>{{ category.nameEN }}</td>
                     <td>{{ category.operationAccountName}}</td>
                     <td>{{ category.managementAccountName}}</td>
+                    <td>{{ category.parentCategoryNameAR ??category.parentCategoryNameEN}}</td>
                     <td>
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <label class="switch me-2">
@@ -91,7 +93,7 @@
                         <td class="table-value">
                             <!-- <input type="text" class="form-control form-control-lg" placeholder="أدخل الاسم..."> -->
                             <div class="row">
-                                <div class="col-xl-6">
+                                <div class="col-xl-6 mb-3">
                                     <input type="text" formControlName="nameAR" class="form-control form-control-lg" placeholder="الاسم عربي">
                                     <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
                                         {{formErrors.nameAR}}
@@ -121,6 +123,25 @@
                             <app-drop-down-form-control formControlName="managementAccountId" [showSearch]="true" [placeholder]="'حساب الإدارة'" [data]="childAccountSelectorData"></app-drop-down-form-control>
                             <div *ngIf="formErrors.managementAccountId" class="text-danger  font-small-3 m-03">
                                 {{formErrors.managementAccountId}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">مجموعة</td>
+                        <td class="table-value">
+                            <input class="big-checkbox" formControlName="isGroup" type="checkbox">
+
+                            <div *ngIf="formErrors.isGroup" class="text-danger  font-small-3 m-03">
+                                {{formErrors.isGroup}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="formGroup?.value?.isGroup">
+                        <td class="table-feature">اسم المجموعة</td>
+                        <td class="table-value">
+                            <app-drop-down-form-control formControlName="parentCategoryId" [showSearch]="true" [placeholder]="'اسم المجموعة'" [data]="itemCategoriesSelectorData"></app-drop-down-form-control>
+                            <div *ngIf="formErrors.parentCategoryId" class="text-danger  font-small-3 m-03">
+                                {{formErrors.parentCategoryId}}
                             </div>
                         </td>
                     </tr>
