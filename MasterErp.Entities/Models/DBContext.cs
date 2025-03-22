@@ -71,6 +71,7 @@ namespace MasterErp.Entities.Models
 
         public DbSet<Branch> Branches { get; set; }
         public DbSet<Region> Regions { get; set; }
+        public DbSet<OrderStatus> OrderStatus { get; set; }
 
 
         #endregion
@@ -133,6 +134,8 @@ namespace MasterErp.Entities.Models
         public DbSet<DeliveryNoteDetails> DeliveryNoteDetails { get; set; }
         public DbSet<MaterialIssue> MaterialIssues { get; set; }
         public DbSet<MaterialIssueDetails> MaterialIssueDetails { get; set; }
+        public DbSet<MaterialRequest> MaterialRequests { get; set; }
+        public DbSet<MaterialRequestDetails> MaterialRequestDetails { get; set; }
 
 
         #endregion

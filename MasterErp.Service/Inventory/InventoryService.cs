@@ -720,78 +720,60 @@ namespace MasterErp.Service.Inventory
 
         #region Purchase Requests
 
-        public PagedResponseModel<PurchasesRequestDTO> GetPurchasesRequestsData(FilterModel model)
+
+        public List<OrderModel> GetMaterialRequests_Data(SearchFilterModel model, int? OrderId = null)
         {
-            int totalCount = Context.PurchaseRequests.Count();
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
-            int skip = (model.CurrentPage - 1) * model.PageSize;
+            SqlParameter[] Params = new SqlParameter[4];
 
-            var data = (from req in Context.PurchaseRequests
-                        join branch in Context.Branches
-                        on req.BranchId equals branch.BranchId into temp
-                        from res in temp.DefaultIfEmpty()
-                        select new PurchasesRequestDTO
-                        {
-                            PurchaseRequestId = req.PurchaseRequestId,
-                            RequestNumber = req.RequestNumber,
-                            RequestDate = req.RequestDate,
-                            BranchId = req.BranchId,
-                            Notes = req.Notes,
-                            IsDelivered = req.IsDelivered,
-                            InsertUser = req.CreatedBy,
-                            InsertDate = req.CreatedDate,
-                            UpdateUser = req.ModifiedBy,
-                            UpdateDate = req.ModifiedDate,
-                            BranchName = res.NameEN ?? res.NameAR
-                        }).OrderByDescending(e => e.RequestDate)
-                            .Skip(skip)
-                            .Take(model.PageSize)
-                            .ToList();
-            return new PagedResponseModel<PurchasesRequestDTO>
-            {
-                TotalCount = totalCount,
-                Results = data,
-                CurrentPage = model.CurrentPage,
-                PageSize = model.PageSize
-            };
+            Params[0] = new SqlParameter("@OrderId", OrderId);
+            Params[1] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[2] = new SqlParameter("@PageSize", model.PageSize);
+            Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[3].Value = dt;
+
+            var result = SQLHelper.SQLQuery<OrderModel>("[Inventory].[SP_GetMaterialRequests_Data]", ConnectionString, Params);
+            return result;
         }
 
-        public ActionsResponseModel CreateNewPurchasesRequest(OrderModel model)
+        public ActionsResponseModel CreateNewMaterialRequest(OrderModel model)
         {
             try
             {
-                PurchaseRequest tbl = new PurchaseRequest();
+                MaterialRequest tbl = new MaterialRequest();
 
-                tbl.RequestNumber = (Context.PurchaseRequests.Count() > 0 ? Context.PurchaseRequests.Max(x => x.RequestNumber) + 1 : 1);
+                tbl.RequestNumber = (Context.MaterialRequests.Count() > 0 ? Context.MaterialRequests.Max(x => x.RequestNumber) + 1 : 1);
                 tbl.CreatedDate = DateTime.Now;
-                tbl.CreatedBy = String.Empty;
-                tbl.BranchId = model.BranchId;
-                tbl.IsDelivered = false;
+                tbl.CreatedBy = model.CreatedBy;
+                tbl.BranchId = model.BranchId.GetValueOrDefault();
                 tbl.Notes = model.Notes;
+                tbl.DocNumber = model.DocNumber;
+                tbl.StatusId = model.StatusId;
                 tbl.RequestDate = model?.OrderDate ?? DateTime.Now;
 
-                Context.PurchaseRequests.Add(tbl);
+                Context.MaterialRequests.Add(tbl);
                 Context.SaveChanges();
 
                 foreach (var item in model.OrderProducts)
                 {
-                    var detail = new PurchaseRequestDetails
+                    var detail = new MaterialRequestDetails
                     {
                         ItemId = item.ItemId,
                         Notes = model.Notes,
                         Quantity = item.Quantity,
-                        PurchaseRequestId = tbl.PurchaseRequestId,
+                        MaterialRequestId = tbl.MaterialRequestId,
                         UnitId = item.UnitId,
                     };
 
-                    Context.PurchaseRequestDetails.Add(detail);
+                    Context.MaterialRequestDetails.Add(detail);
                     Context.SaveChanges();
                 }
 
                 return new ActionsResponseModel
                 {
-                    Id = tbl.RequestNumber,
-                    Status = 1,
+                    Id = tbl.MaterialRequestId,
+                    Number = tbl.RequestNumber.ToString(),
                     Message = "تم حفظ طلب المشتريات بنجاح"
                 };
             }
@@ -799,13 +781,13 @@ namespace MasterErp.Service.Inventory
             {
                 return new ActionsResponseModel
                 {
-                    Status = 0,
+                    IsSuccess = false,
                     Message = ex.InnerException?.Message ?? ex.Message
                 };
             }
         }
 
-        public ActionsResponseModel CancelPurchaseRequest(int OrderId)
+        public ActionsResponseModel CancelMaterialRequest(int OrderId)
         {
             try
             {

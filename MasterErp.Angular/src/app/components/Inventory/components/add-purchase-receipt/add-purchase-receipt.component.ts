@@ -51,7 +51,7 @@ export class AddPurchasesReceiptComponent implements OnInit {
       if (params.OrderId) {
         this.purchaseRequestId = params.PurchaseRequestId;
         this.getPurchaseRequestDetailsById();
-        this.getPurchaseRequestProducts();
+        this.getMaterialRequestProducts();
       }
     })
 
@@ -74,9 +74,9 @@ export class AddPurchasesReceiptComponent implements OnInit {
     });
   }
 
-  getPurchaseRequestProducts() {
+  getMaterialRequestProducts() {
     this.showLoader = true;
-    this.inventoryService.GetPurchaseRequestProducts_Data(this.purchaseRequestId).subscribe((data: OrderProductModel[]) => {
+    this.inventoryService.GetMaterialRequestProducts_Data(this.purchaseRequestId).subscribe((data: OrderProductModel[]) => {
       this.orderProducts = data;
       if (this.orderProducts.length > 0) {
         // this.formGroup.patchValue({orderProducts:this.orderProducts});
@@ -143,7 +143,7 @@ export class AddPurchasesReceiptComponent implements OnInit {
         if (data.id) {
           this.purchaseRequestId = data.id;
           this.getPurchaseRequestDetailsById();
-          this.getPurchaseRequestProducts();
+          this.getMaterialRequestProducts();
 
         }
         this.toaster.success(data?.message);
@@ -161,13 +161,13 @@ export class AddPurchasesReceiptComponent implements OnInit {
 
   editPurchaseRequest() {
     this.showAddLoader = true;
-    this.inventoryService.EditPurchasesRequest(this.purchaseRequestId, this.purchaseRequestModel).subscribe((data: ActionsResponseModel) => {
+    this.inventoryService.EditMaterialRequest(this.purchaseRequestId, this.purchaseRequestModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.initNewForm();
         this.toaster.success(data?.message);
         this.getPurchaseRequestDetailsById();
-        this.getPurchaseRequestProducts();
+        this.getMaterialRequestProducts();
       }
       else {
         this.toaster.error(data?.message);

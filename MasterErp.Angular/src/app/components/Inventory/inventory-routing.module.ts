@@ -18,6 +18,7 @@ import { MaterialIssueReceiptsComponent } from './components/material-issue-rece
 import { AddMaterialRequestComponent } from './components/add-material-request/add-material-request.component';
 import { PurchaseOrdersComponent } from '../Purchases/components/purchase-orders/purchase-orders.component';
 import { AddPurchaseOrderComponent } from '../Purchases/components/add-purchase-order/add-purchase-order.component';
+import { MaterialRequestsComponent } from './components/material-requests/material-requests.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,7 @@ const routes: Routes = [
       { path: 'add-receive-order', component: AddReceiveOrderComponent },
       { path: 'add-item', component: AddItemComponent },
       { path: 'purchases-requests', component: PurchasesRequestsComponent },
+      { path: 'material-requests', component: MaterialRequestsComponent },
       { path: 'add-material-request', component: AddMaterialRequestComponent },
       { path: 'units', component: UnitsComponent },      
       { path: 'purchase-orders', component: PurchaseOrdersComponent },

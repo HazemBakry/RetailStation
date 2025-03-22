@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
-import { ToastrService } from 'ngx-toastr';
-import { OrderModel } from '../../models/inventory';
 import { InventoryService } from '../../services/inventory.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { OrderModel } from '../../models/inventory';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 
 @Component({
-  selector: 'app-purchases-requests',
-  templateUrl: './purchases-requests.component.html',
-  styleUrls: ['./purchases-requests.component.css']
+  selector: 'app-material-requests',
+  templateUrl: './material-requests.component.html',
+  styleUrls: ['./material-requests.component.css']
 })
+export class MaterialRequestsComponent implements OnInit {
 
-export class PurchasesRequestsComponent implements OnInit {
   TitleList = ['المخازن', 'طلبات الشراء'];
   showLoader: boolean;
   OrderId: number;
@@ -78,5 +78,6 @@ export class PurchasesRequestsComponent implements OnInit {
     else
       return "open";
   }
+
 
 }

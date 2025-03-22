@@ -36,6 +36,7 @@ export interface OrderModel extends CreatorModel {
     totalValue: number;
     netValue: number | null;
     description: string;
+    notes: string;
     isLocked: boolean | null;
     isCancelled: boolean | null;
     totalCount: number | null;
@@ -43,6 +44,10 @@ export interface OrderModel extends CreatorModel {
     orderProducts: OrderProductModel[];
     items: OrderProductModel[];
     isChecked: boolean;
+
+    statusId:number | null;
+    statusNameAR: string;
+    statusNameEN: string;
 }
 
 export interface OrderProductModel {

@@ -28,12 +28,12 @@ export class PurchaseReceiptsComponent implements OnInit {
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.getPurchasesRequestsData();
+    this.getMaterialRequestsData();
   }
 
-  getPurchasesRequestsData() {
+  getMaterialRequestsData() {
     this.showLoader = true;
-    this.inventoryService.GetPurchasesRequests_Data(this.pagedResponseModel).subscribe(data => {
+    this.inventoryService.GetMaterialRequests_Data(this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
       this.showLoader = false;
@@ -46,7 +46,7 @@ export class PurchaseReceiptsComponent implements OnInit {
 
   pageChanged(obj: any) {
     this.pagedResponseModel.currentPage = obj.page;
-    this.getPurchasesRequestsData();
+    this.getMaterialRequestsData();
   }
 
   openDeleteModal(content: any, itemId: number) {
@@ -58,7 +58,7 @@ export class PurchaseReceiptsComponent implements OnInit {
     this.inventoryService.CancelReceiveOrder(this.OrderId).subscribe(data => {
       if (data?.isSuccess) {
         this.modalService?.dismissAll();
-        this.getPurchasesRequestsData();
+        this.getMaterialRequestsData();
         this.toaster.success(data?.message);
       }
       else {

@@ -305,30 +305,30 @@ export class InventoryService {
     return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelSupplierVoucher?OrderId' + OrderId);
   }
 
-  //----------------------------------------- Purchase Requests ------------------------------------//
+  //----------------------------------------- Material Requests ------------------------------------//
 
-  GetPurchasesRequests_Data(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'Inventory/GetPurchasesRequests_Data', model);
+  GetMaterialRequests_Data(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'Inventory/GetMaterialRequests_Data', model);
   }
 
-  GetPurchasesRequestDetailsById(orderId: number) {
-    return this.http.get<OrderModel>(this.URL + 'Inventory/GetPurchasesRequestDetailsById?OrderId=' + orderId);
+  GetMaterialRequestDetailsById(orderId: number) {
+    return this.http.get<OrderModel>(this.URL + 'Inventory/GetMaterialRequestDetailsById?OrderId=' + orderId);
   }
 
-  CreateNewPurchasesRequest(model: PurchaseRequestModel) {
-    return this.http.post<any>(this.URL + 'Inventory/CreateNewPurchasesRequest', model);
+  CreateNewMaterialRequest(model: OrderModel) {
+    return this.http.post<any>(this.URL + 'Inventory/CreateNewMaterialRequest', model);
   }
 
-  EditPurchasesRequest(orderId: number, model: OrderModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + `Inventory/EditPurchasesRequest?OrderId=${orderId}`, model);
+  EditMaterialRequest(orderId: number, model: OrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Inventory/EditMaterialRequest?OrderId=${orderId}`, model);
   }
 
-  CancelPurchaseRequest(OrderId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelPurchaseRequest?OrderId=' + OrderId);
+  CancelMaterialRequest(OrderId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelMaterialRequest?OrderId=' + OrderId);
   }
 
-  GetPurchaseRequestProducts_Data(orderId: number) {
-    return this.http.get<OrderProductModel[]>(this.URL + `Inventory/GetPurchaseRequestProducts_Data?OrderId=${orderId}`);
+  GetMaterialRequestProducts_Data(orderId: number) {
+    return this.http.get<OrderProductModel[]>(this.URL + `Inventory/GetMaterialRequestProducts_Data?OrderId=${orderId}`);
   }
 
 }

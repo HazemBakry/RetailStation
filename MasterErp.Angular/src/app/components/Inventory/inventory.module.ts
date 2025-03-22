@@ -21,6 +21,7 @@ import { AddPurchasesReceiptComponent } from './components/add-purchase-receipt/
 import { MaterialIssueReceiptsComponent } from './components/material-issue-receipts/material-issue-receipts.component';
 import { AddMaterialIssueReceiptComponent } from './components/add-material-issue-receipt/add-material-issue-receipt.component';
 import { AddMaterialRequestComponent } from './components/add-material-request/add-material-request.component';
+import { MaterialRequestsComponent } from './components/material-requests/material-requests.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { AddMaterialRequestComponent } from './components/add-material-request/a
     AddMaterialRequestComponent,
     PurchasesRequestsComponent,
     AddItemComponent,
-    UnitsComponent
+    UnitsComponent,
+    MaterialRequestsComponent
   ],
   imports: [
     CommonModule,

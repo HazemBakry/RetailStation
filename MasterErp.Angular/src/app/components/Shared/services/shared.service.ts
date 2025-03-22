@@ -127,6 +127,9 @@ export class SharedService {
   GetBranchesSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetBranchesSelector');
   }
+  GetOrderStatusSelector() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetOrderStatusSelector');
+  }
 
   GetStoresSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetStoresSelector');

@@ -57,11 +57,11 @@ namespace MasterErp.Interface.Inventory
 
         #endregion
 
-        #region Purchase Requests
+        #region Material Requests
 
-        PagedResponseModel<PurchasesRequestDTO> GetPurchasesRequestsData(FilterModel model);
-        ActionsResponseModel CreateNewPurchasesRequest(OrderModel model);
-        public ActionsResponseModel CancelPurchaseRequest(int OrderId);
+        List<OrderModel> GetMaterialRequests_Data(SearchFilterModel model,int? OrderId = null);
+        ActionsResponseModel CreateNewMaterialRequest(OrderModel model);
+        public ActionsResponseModel CancelMaterialRequest(int OrderId);
 
         #endregion
         List<OrderModel> GetSupplierVouchers_Data(SearchFilterModel model, int? OrderId = null);
