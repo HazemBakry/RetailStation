@@ -14,15 +14,11 @@ namespace MasterErp.API
 {
     public class Startup
     {
-        //private readonly string ConnectionString;
         public IConfiguration Configuration { get; }
-        //public ITenantService tenantService { get; set; }
 
-        public Startup(IConfiguration configuration)//, ITenantService tenantService)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            //ConnectionString = Configuration.GetConnectionString("DBConnection");
-            //this.tenantService = tenantService;
         }
 
         readonly string MyAllowSpecificOrigins = "_MasterErp";
@@ -30,7 +26,6 @@ namespace MasterErp.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             var URLLists = Configuration.GetSection("URLList").Get<string[]>();
 
             services.AddCors(options =>
@@ -38,7 +33,10 @@ namespace MasterErp.API
                 options.AddPolicy(MyAllowSpecificOrigins,
                     builder =>
                     {
-                        builder.WithOrigins(URLLists).AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                        builder.WithOrigins(URLLists)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowAnyOrigin();
                     });
             });
 
@@ -58,10 +56,10 @@ namespace MasterErp.API
                         options.EnableEndpointRouting = false;
                     })
                     .AddNewtonsoftJson()
-                    .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                    //.SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                     .AddJsonOptions(options =>
                     {
-                        options.JsonSerializerOptions.IgnoreNullValues = true;
+                        //options.JsonSerializerOptions.IgnoreNullValues = true;
                         options.JsonSerializerOptions.WriteIndented = true;
                     });
 
