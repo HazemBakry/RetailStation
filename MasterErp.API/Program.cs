@@ -22,26 +22,6 @@ namespace MasterErp.API
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
-
-            //var builder = WebApplication.CreateBuilder(args);
-
-            //builder.Services.AddControllers();
-            //builder.Services.AddHttpContextAccessor();
-
-
-            //builder.Services.AddDbContext<DBContext>();
-
-            //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //    .AddJwtBearer(options =>
-            //    {
-            //        options.TokenValidationParameters = new TokenValidationParameters
-            //        {
-            //            ValidateIssuerSigningKey = true,
-            //            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
-            //            ValidateIssuer = false,
-            //            ValidateAudience = false
-            //        };
-            //    });
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
