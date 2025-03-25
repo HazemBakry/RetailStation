@@ -8,6 +8,7 @@ using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Purchases;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
+using MasterErp.Interface.Inventory;
 using MasterErp.Interface.Purchase;
 using MasterErp.Service.Common;
 using Microsoft.Data.SqlClient;
@@ -30,13 +31,15 @@ namespace MasterErp.Service.Purchase
         private readonly IConfiguration Configuration;
         private readonly IJournalEntryService JournalEntryService;
         private readonly ISharedFilterService SharedFilterService;
+        private readonly IInventoryService InventoryService;
         private readonly string ConnectionString;
 
         public PurchaseOrderService(DBContext Context,
             ISQLHelper SQLHelper,
             IConfiguration Configuration,
             IJournalEntryService JournalEntryService,
-            ISharedFilterService sharedFilterService)
+            ISharedFilterService sharedFilterService,
+            IInventoryService inventoryService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
@@ -44,6 +47,7 @@ namespace MasterErp.Service.Purchase
             this.JournalEntryService = JournalEntryService;
             this.ConnectionString = Configuration.GetConnectionString("DBConnection");
             SharedFilterService = sharedFilterService;
+            InventoryService = inventoryService;
         }
 
         public List<PurchaseOrderModel> GetPurchaseOrders_Data(SearchFilterModel PagingFilter, int? PurchaseOrderId = null)
@@ -126,6 +130,10 @@ namespace MasterErp.Service.Purchase
                     Context.PurchaseOrderDetails.Add(detail);
                     Context.SaveChanges();
                 }
+                if(model.MaterialRequestIds.Any())
+                {
+                    InventoryService.UpdateMaterialRequestPurchaseOrder(order_tbl.PurchaseOrderId, model.MaterialRequestIds);
+                }
 
                 return new ActionsResponseModel
                 {
@@ -177,7 +185,10 @@ namespace MasterErp.Service.Purchase
                         Context.PurchaseOrderDetails.Add(detail);
                         Context.SaveChanges();
                     }
-
+                    if (model.MaterialRequestIds.Any())
+                    {
+                        InventoryService.UpdateMaterialRequestPurchaseOrder(order_tbl.PurchaseOrderId, model.MaterialRequestIds);
+                    }
                     return new ActionsResponseModel { Message = "Purchase Order Updated Successfly !" };
                 }
                 else

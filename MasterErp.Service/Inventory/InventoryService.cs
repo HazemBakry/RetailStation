@@ -915,6 +915,44 @@ namespace MasterErp.Service.Inventory
         }
 
 
+        public ActionsResponseModel UpdateMaterialRequestPurchaseOrder(int purchaseOrderId, List<int> materialRequestIds)
+        {
+            try
+            {
+                //var oldMaterial = Context.MaterialRequests
+                //   .Where(m => m.PurchaseOrderId == purchaseOrderId)
+                //   .ToList();
+
+                //foreach (var order in oldMaterial)
+                //{
+                //    order.IsLocked = false;
+                //    order.PurchaseOrderId = null;
+                //    order.ModifiedDate = DateTime.Now;
+                //    order.ModifiedBy = "";
+                //}
+                var orders = Context.MaterialRequests.Where(m => materialRequestIds.Contains(m.MaterialRequestId)).ToList();
+
+                if (!orders.Any())
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Order not exist" };
+
+                foreach (var order in orders)
+                {
+                    order.IsLocked = true;
+                    order.PurchaseOrderId = purchaseOrderId;
+                    order.ModifiedDate = DateTime.Now;
+                    order.ModifiedBy = "";
+                }
+
+                Context.SaveChanges();
+                return new ActionsResponseModel { IsSuccess = true, Message = "Material request updated successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = "Error: " + ex.Message };
+            }
+        }
+
+
         #endregion
 
         #region Supplier Vouchers

@@ -66,6 +66,7 @@ namespace MasterErp.Interface.Inventory
         ActionsResponseModel EditMaterialRequest(int MaterialRequestId, MaterialRequestModel model);
         List<GeneralOrderDetailsModel> GetMaterialRequestProducts_Data(List<int> MaterialRequestIds);
         ActionsResponseModel CancelMaterialRequest(int MaterialRequestId);
+        ActionsResponseModel UpdateMaterialRequestPurchaseOrder(int PurchaseOrderId,List<int> MaterialRequestIds);
 
         #endregion
         List<OrderModel> GetSupplierVouchers_Data(SearchFilterModel model, int? OrderId = null);
