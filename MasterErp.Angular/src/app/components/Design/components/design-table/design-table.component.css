@@ -18,9 +18,10 @@
   background-color: #eee;
   border-left: none;
 }
-.table-card-table th:first-child {
+.table-card-table.table-borderless th:first-child {
   border-top-right-radius: 10px;
 }
-.table-card-table th:last-child {
+
+.table-card-table.table-borderless th:last-child {
   border-top-left-radius: 10px;
 }

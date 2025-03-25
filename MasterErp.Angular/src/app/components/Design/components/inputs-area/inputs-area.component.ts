@@ -11,6 +11,7 @@ export class InputsAreaComponent implements OnInit {
   ngOnInit(): void {}
 
   inputDropdownValue = '';
+  inputDropdownValue_2 = '';
 
   isFocused = false;
 
@@ -24,6 +25,9 @@ export class InputsAreaComponent implements OnInit {
 
   onChoosePayment(payment: string) {
     this.inputDropdownValue = payment;
+  }
+  onChoosePayment_2(payment: string) {
+    this.inputDropdownValue_2 = payment;
   }
 
   tableRows = [];
