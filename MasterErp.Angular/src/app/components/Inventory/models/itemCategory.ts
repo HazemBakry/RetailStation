@@ -10,5 +10,10 @@ export interface ItemCategoryModel extends CreatorModel {
     managementAccountName: string;
     description: string;
     isActive: boolean;
+    isGroup: boolean;
+    parentCategoryId: number | null;
     displayOrder: number | null;
+    parentCategoryNameAR: string;
+    parentCategoryNameEN: string;
+
 }

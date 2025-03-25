@@ -24,6 +24,7 @@ namespace MasterErp.Interface.Shared
 
         #region Selectors
         List<SelectorDataModel> GetBranchesSelector();
+        List<SelectorDataModel> GetOrderStatusSelector();
         List<SelectorDataModel> GetStoresSelector();
         List<SelectorDataModel> GetNationalitiesSelector();
         List<SelectorDataModel> GetIqamaIssuePlacesSelector();

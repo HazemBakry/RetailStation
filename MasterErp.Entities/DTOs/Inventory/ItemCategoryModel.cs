@@ -21,5 +21,10 @@ namespace MasterErp.Entities.DTOs.Inventory
         public bool IsActive { get; set; }
         public int? DisplayOrder { get; set; }
         public int? TotalCount { get; set; }
+
+        public bool? IsGroup { get; set; }
+        public int? ParentCategoryId { get; set; }
+        public string ParentCategoryNameAR { get; set; }
+        public string ParentCategoryNameEN { get; set; }
     }
 }

@@ -86,6 +86,15 @@ namespace MasterErp.Service.Shared
             }).ToList();
             return results;
         }
+        public List<SelectorDataModel> GetOrderStatusSelector()
+        {
+            var results = Context.OrderStatus.Select(b => new SelectorDataModel
+            {
+                Id = b.StatusId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
 
         public List<SelectorDataModel> GetStoresSelector()
         {

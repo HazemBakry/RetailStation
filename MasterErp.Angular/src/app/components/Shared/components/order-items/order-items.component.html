@@ -53,9 +53,9 @@
                     <th>اسم الصنف</th>
                     <!-- <th>اسم الصنف (En)</th> -->
                     <th>الوحدة</th>
-                    <th>سعر الوحدة</th>
+                    <th *ngIf="showPrice">سعر الوحدة</th>
                     <th>الكمية</th>
-                    <th>إجمالى القيمة</th>
+                    <th *ngIf="showPrice">إجمالى القيمة</th>
                     <th></th>
                 </tr>
 
@@ -71,7 +71,7 @@
                         <input type="text" #inputs class="form-control text-center" disabled
                             [(ngModel)]="item.unitNameAR" focus>
                     </td>
-                    <td>
+                    <td *ngIf="showPrice">
                         <input type="text" #inputs class="form-control text-center" [(ngModel)]="item.price"
                             autocomplete="off" (input)="calcTotalValue()" focus>
                     </td>
@@ -79,7 +79,7 @@
                         <input type="text" #inputs2 class="form-control text-center" [(ngModel)]="item.quantity"
                             autocomplete="off" (input)="calcTotalValue()" (keypress)="validateNumbers($event.key)">
                     </td>
-                    <td>
+                    <td *ngIf="showPrice">
                         <input type="text" #inputs class="form-control text-center" disabled
                             [(ngModel)]="item.totalValue" autocomplete="off">
                     </td>

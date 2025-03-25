@@ -19,6 +19,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   @Input() selectedSupplierProducts: OrderProductModel[] = [];
   @Input() clearAllProducts: boolean = false;
   @Input() showAddNew: boolean = true;
+  @Input() showPrice: boolean = true;
   @Output() selectedProductsList = new EventEmitter<OrderProductModel[]>();
   showLoader: boolean = false;
   ItemsList: any[] = [];
@@ -116,7 +117,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
       unitId: null,
       unitNameAR: '',
       unitNameEN: '',
-      price: null,
+      price: 0,
       quantity: null,
       totalValue: null,
       isActive: true

@@ -443,6 +443,8 @@ namespace MasterErp.Service.Inventory
             var result = (from cat in Context.ItemCategories
                           join op in Context.AccountTrees on cat.OperationAccountId equals op.AccountId
                           join ma in Context.AccountTrees on cat.ManagementAccountId equals ma.AccountId
+                          join parentGroup in Context.ItemCategories on cat.ParentCategoryId equals parentGroup.ItemCategoryId into jT2
+                          from parentGroup in jT2.DefaultIfEmpty()
                           select new ItemCategoryModel
                           {
                               ItemCategoryId = cat.ItemCategoryId,
@@ -459,6 +461,10 @@ namespace MasterErp.Service.Inventory
                               CreatedDate = cat.CreatedDate,
                               ModifiedBy = cat.ModifiedBy,
                               ModifiedDate = cat.ModifiedDate,
+                              IsGroup = cat.IsGroup,
+                              ParentCategoryId = cat.ParentCategoryId,
+                              ParentCategoryNameAR = parentGroup.NameAR,
+                              ParentCategoryNameEN = parentGroup.NameEN
                           }).OrderBy(c => c.DisplayOrder).ToList();
 
             //int totalCount = query.Count();
@@ -487,6 +493,8 @@ namespace MasterErp.Service.Inventory
                     Description = model.Description,
                     IsActive = model.IsActive,
                     DisplayOrder = model.DisplayOrder,
+                    ParentCategoryId= model.ParentCategoryId,
+                    IsGroup= model.ParentCategoryId !=null ? true : false,
                     CreatedBy = string.Empty,
                     CreatedDate = DateTime.Now,
                 };
@@ -517,6 +525,8 @@ namespace MasterErp.Service.Inventory
                     itemCategory.Description = model.Description;
                     itemCategory.IsActive = model.IsActive;
                     itemCategory.DisplayOrder = model.DisplayOrder;
+                    itemCategory.ParentCategoryId = model.ParentCategoryId;
+                    itemCategory.IsGroup = model.ParentCategoryId != null ? true : false;
                     itemCategory.ModifiedBy = "";
                     itemCategory.ModifiedDate = DateTime.Now;
                     Context.SaveChanges();

@@ -21,6 +21,8 @@ export class ItemsCategoryComponent implements OnInit {
   itemCategories: any[] = [];
   categoryModel: ItemCategoryModel = {} as ItemCategoryModel;
   childAccountSelectorData: FormDropdownModel[] = [];
+  itemCategoriesSelectorData: FormDropdownModel[] = [];
+
   URLs: any[] = [];
   ImagesName: any[] = [];
   totalCount: any;
@@ -53,6 +55,8 @@ export class ItemsCategoryComponent implements OnInit {
     managementAccountId: '',
     description: '',
     isActive: '',
+    isGroup: '',
+    parentGroupId: '',
 
   };
 
@@ -74,6 +78,8 @@ export class ItemsCategoryComponent implements OnInit {
       nameEN: [null, [Validators.required]],
       operationAccountId: [null, [Validators.required]],
       managementAccountId: [null, [Validators.required]],
+      isGroup: [null],
+      parentCategoryId: [null],
       description: [null],
       isActive: [true]
 
@@ -81,6 +87,8 @@ export class ItemsCategoryComponent implements OnInit {
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this.formService.validateForm(this.formGroup, this.formErrors, true);
     });
+
+
   }
 
   getItemCategories() {
@@ -107,8 +115,11 @@ export class ItemsCategoryComponent implements OnInit {
   }
   loadSelectors() {
 
-    this.sharedService.GetChildAccountsSelector().subscribe((data: FormDropdownModel[]) => {
+    this.sharedService.GetAccountsSelector().subscribe((data: FormDropdownModel[]) => {
       this.childAccountSelectorData = data;
+    });
+    this.sharedService.GetItemCategoriesSelector().subscribe((data: FormDropdownModel[]) => {
+      this.itemCategoriesSelectorData = data;
     });
 
   }
@@ -245,7 +256,9 @@ export class ItemsCategoryComponent implements OnInit {
       managementAccountId: categoryModel.managementAccountId,
       description: categoryModel.description,
       displayOrder: categoryModel.displayOrder,
-      IsActive: categoryModel.isActive
+      isActive: categoryModel.isActive,
+      isGroup: categoryModel.isGroup,
+      parentCategoryId: categoryModel.parentCategoryId,
     });
   }
   openDeleteModal(content: any, itemId: number) {

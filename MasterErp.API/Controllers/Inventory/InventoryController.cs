@@ -263,30 +263,38 @@ namespace MasterErp.API.Controllers.Inventory
 
 
 
-        #region Purchase Requests
+        #region Material Requests
 
         [HttpPost]
-        [Route("GetPurchasesRequestsData")]
-        public IActionResult GetPurchasesRequestsData(FilterModel model)
+        [Route("GetMaterialRequests_Data")]
+        public IActionResult GetMaterialRequests_Data(SearchFilterModel model)
         {
-            var results = _inventoryService.GetPurchasesRequestsData(model);
-
-            return Ok(results);
+            var data = _inventoryService.GetMaterialRequests_Data(model);
+            var result = new PagedResponseModel<OrderModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
         }
 
         [HttpPost]
-        [Route("CreateNewPurchasesRequest")]
-        public IActionResult CreateNewPurchasesRequest(OrderModel Model)
+        [Route("CreateNewMaterialRequest")]
+        public IActionResult CreateNewMaterialRequest(OrderModel Model)
         {
-            var results = _inventoryService.CreateNewPurchasesRequest(Model);
+            Model.CreatedBy = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            var results = _inventoryService.CreateNewMaterialRequest(Model);
             return Ok(results);
         }
 
         [HttpGet]
-        [Route("CancelPurchaseRequest")]
-        public IActionResult CancelPurchaseRequest(int OrderId)
+        [Route("CancelMaterialRequest")]
+        public IActionResult CancelMaterialRequest(int OrderId)
         {
-            var results = _inventoryService.CancelPurchaseRequest(OrderId);
+            var results = _inventoryService.CancelMaterialRequest(OrderId);
             return Ok(results);
         }
         #endregion
