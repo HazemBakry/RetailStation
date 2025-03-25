@@ -849,7 +849,7 @@ namespace MasterErp.Service.Inventory
         }
         public List<GeneralOrderDetailsModel> GetMaterialRequestProducts_Data(List<int> MaterialRequestIds)
         {
-            var result = (from orderProduct in Context.MaterialRequestDetails
+            var data = (from orderProduct in Context.MaterialRequestDetails
                           join item in Context.Items on orderProduct.ItemId equals item.ItemId
                           join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
                           from unit in jT2.DefaultIfEmpty()
@@ -869,6 +869,21 @@ namespace MasterErp.Service.Inventory
                               OrderId = orderProduct.MaterialRequestId,
 
                           }).ToList();
+
+            var result =data.GroupBy(p => new { p.ItemId, p.ItemNameEN, p.ItemNameAR, p.UnitId, p.UnitNameAR, p.UnitNameEN })
+                             .Select(g => new GeneralOrderDetailsModel
+                             {
+                                 ItemId = g.Key.ItemId,
+                                 ItemNameEN = g.Key.ItemNameEN,
+                                 ItemNameAR = g.Key.ItemNameAR,
+                                 UnitId = g.Key.UnitId,
+                                 UnitNameAR = g.Key.UnitNameAR,
+                                 UnitNameEN = g.Key.UnitNameEN,
+                                 Price = g.Sum(x => x.Price),
+                                 Quantity = g.Sum(x => x.Quantity),
+                                 TotalValue = g.Sum(x => x.TotalValue),
+                                 OrderId = g.First().OrderId
+                             }).ToList();
 
             return result;
 
