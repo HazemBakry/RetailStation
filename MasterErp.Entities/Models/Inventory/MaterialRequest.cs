@@ -16,12 +16,14 @@ namespace MasterErp.Entities.Models.Inventory
         [Key]
         public int MaterialRequestId { get; set; }
         public int? PurchaseOrderId { get; set; }
-        public int RequestNumber { get; set; }
+        public int OrderNumber { get; set; }
         public string DocNumber { get; set; }
-        public DateTime RequestDate { get; set; }
+        public DateTime OrderDate { get; set; }
         public int BranchId { get; set; }
         public int? StatusId { get; set; }
-        public double TotalValue { get; set; }
+        public double? TotalValue { get; set; }
         public string Notes { get; set; }
+        public bool? IsCancelled { get; set; }
+        public bool? IsLocked { get; set; }
     }
 }

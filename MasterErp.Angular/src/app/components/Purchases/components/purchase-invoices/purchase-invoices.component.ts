@@ -3,12 +3,13 @@ import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
 import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
-import { OrderModel, OrderProductModel } from 'src/app/components/Inventory/models/inventory';
+import { OrderModel } from 'src/app/components/Inventory/models/inventory';
 import { ComponentHostDirective } from 'src/app/components/Shared/directives/component-host.directive';
 import { ProductsDetailsSidePanelComponent } from 'src/app/components/Shared/components/sidepanel/products-details-side-panel/products-details-side-panel.component';
 import { DataField } from 'src/app/components/Shared/models/DataField';
 import { DynamicComponentLoaderService } from 'src/app/components/Shared/services/dynamic-component-loader.service';
 import { FieldType } from 'src/app/components/Shared/Enums/FieldType';
+import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
 
 @Component({
   selector: 'app-purchase-invoices',
@@ -82,7 +83,7 @@ export class PurchaseInvoicesComponent implements OnInit {
   showInvoiceDetails(detailsModel: OrderModel) {
 
     this.showLoader = true;
-    this.purchaseService.GetPurchaseInvoiceProducts_Data(detailsModel.orderId).subscribe((data: OrderProductModel[]) => {
+    this.purchaseService.GetPurchaseInvoiceProducts_Data(detailsModel.orderId).subscribe((data: GeneralOrderDetailsModel[]) => {
       this.dynamicComponentService.loadProductDetailsSidePanel(
         this.detailsComponentHost.viewContainerRef,
         detailsModel,

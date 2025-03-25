@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { OrderModel } from '../../models/inventory';
 import { InventoryService } from '../../services/inventory.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MaterialRequestModel } from '../../models/MaterialRequestModel ';
 
 @Component({
   selector: 'app-purchase-receipts',
@@ -15,7 +16,7 @@ export class PurchaseReceiptsComponent implements OnInit {
   TitleList = ['المخازن', 'أذونات الاستلام'];
   showLoader: boolean;
   OrderId: number;
-  pagedResponseModel:PagedResponseDTO<OrderModel[]>={
+  pagedResponseModel:PagedResponseDTO<MaterialRequestModel[]>={
     results:[],
     filterList:[],
     pageSize: 25,

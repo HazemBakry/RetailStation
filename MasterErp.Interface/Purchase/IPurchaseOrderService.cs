@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.Purchases;
+using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
 using System;
@@ -13,11 +14,11 @@ namespace MasterErp.Interface.Purchase
 {
     public interface IPurchaseOrderService
     {
-        List<OrderModel> GetPurchaseOrders_Data(SearchFilterModel PagingFilter, int? OrderId=null);
-        List<OrderProductModel> GetPurchaseOrderProducts_Data(int OrderId);
-        ActionsResponseModel AddNewPurchaseOrder(OrderModel model);
-        OrderModel GetPurchaseOrderDetailsById(int OrderId);
-        ActionsResponseModel EditPurchaseOrder(int OrderId, OrderModel model);
+        List<PurchaseOrderModel> GetPurchaseOrders_Data(SearchFilterModel PagingFilter, int? OrderId=null);
+        List<GeneralOrderDetailsModel> GetPurchaseOrderProducts_Data(int OrderId);
+        ActionsResponseModel AddNewPurchaseOrder(PurchaseOrderModel model);
+        PurchaseOrderModel GetPurchaseOrderDetailsById(int OrderId);
+        ActionsResponseModel EditPurchaseOrder(int OrderId, PurchaseOrderModel model);
         ActionsResponseModel CancelPurchaseOrder(int OrderId);
 
 

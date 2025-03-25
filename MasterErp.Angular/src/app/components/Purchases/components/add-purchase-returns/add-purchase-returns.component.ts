@@ -11,8 +11,9 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { DatePipe } from '@angular/common';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
-import { OrderModel, OrderProductModel } from 'src/app/components/Inventory/models/inventory';
+import { OrderModel } from 'src/app/components/Inventory/models/inventory';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
+import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
 
 @Component({
   selector: 'app-add-purchase-returns',
@@ -23,7 +24,7 @@ import { InventoryService } from 'src/app/components/Inventory/services/inventor
 export class AddPurchaseReturnsComponent implements OnInit {
   purchaseReturnsId:number;
   receiveOrderModel: OrderModel = {} as OrderModel;
-  orderProducts : OrderProductModel[]=[];
+  orderProducts : GeneralOrderDetailsModel[]=[];
   isUpdate: boolean = false;
   clearAllProducts: boolean = false;
 
@@ -94,7 +95,7 @@ export class AddPurchaseReturnsComponent implements OnInit {
   }
   getPurchaseReturnsProducts() {
     this.showLoader = true;
-    this.purchaseService.GetPurchaseReturnsProducts_Data(this.purchaseReturnsId).subscribe((data: OrderProductModel[]) => {
+    this.purchaseService.GetPurchaseReturnsProducts_Data(this.purchaseReturnsId).subscribe((data: GeneralOrderDetailsModel[]) => {
       this.orderProducts = data;
       if (this.orderProducts.length>0) {
         // this.formGroup.patchValue({orderProducts:this.orderProducts});
@@ -112,13 +113,13 @@ export class AddPurchaseReturnsComponent implements OnInit {
     this.selectedPurchaseInvoice = inv;
     this.getPurchaseInvoiceProducts();
   }
-  getSelectedProductsList(products:OrderProductModel[]) {
+  getSelectedProductsList(products:GeneralOrderDetailsModel[]) {
     this.formGroup.patchValue({orderProducts:products});
     this.orderProducts = products;
   }
   getPurchaseInvoiceProducts() {
     this.showLoader = true;
-    this.purchaseService.GetPurchaseInvoiceProducts_Data(this.selectedPurchaseInvoice.orderId).subscribe((data: OrderProductModel[]) => {
+    this.purchaseService.GetPurchaseInvoiceProducts_Data(this.selectedPurchaseInvoice.orderId).subscribe((data: GeneralOrderDetailsModel[]) => {
       if (data) {
         this.orderProducts = data;
         // this.formGroup.patchValue({orderProducts:this.orderProducts});
@@ -150,7 +151,7 @@ export class AddPurchaseReturnsComponent implements OnInit {
       // supplierId: [null, [Validators.required]],
       secondaryOrderId: [null, [Validators.required]],
       // branchId: [null, [Validators.required]],
-      orderProducts: [[] as OrderProductModel[], [Validators.required,Validators.minLength(1)]],
+      orderProducts: [[] as GeneralOrderDetailsModel[], [Validators.required,Validators.minLength(1)]],
       description: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {

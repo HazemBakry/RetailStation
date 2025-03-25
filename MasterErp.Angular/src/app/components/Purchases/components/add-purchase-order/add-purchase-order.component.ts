@@ -8,11 +8,13 @@ import { FormService } from 'src/app/components/Shared/services/form.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { DatePipe } from '@angular/common';
-import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
-import { OrderModel, OrderProductModel } from 'src/app/components/Inventory/models/inventory';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
 import { ItemModel } from 'src/app/components/Inventory/models/Item';
+import { MaterialRequestModel } from 'src/app/components/Inventory/models/MaterialRequestModel ';
+import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
+import { PurchaseOrderModel } from '../../models/PurchaseOrder';
+import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 
 @Component({
   selector: 'app-add-purchase-order',
@@ -21,14 +23,16 @@ import { ItemModel } from 'src/app/components/Inventory/models/Item';
 })
 
 export class AddPurchaseOrderComponent implements OnInit {
+  TitleList = ['المشترايات', 'إضافة امر شراء'];
+
   purchaseOrderId: number;
-  purchaseOrderModel: OrderModel = {} as OrderModel;
-  orderProducts: OrderProductModel[] = [];
+  purchaseOrderModel: PurchaseOrderModel = {} as PurchaseOrderModel;
+  orderDetails: GeneralOrderDetailsModel[] = [];
   isUpdate: boolean = false;
   clearAllProducts: boolean = false;
 
-  suppliersSelectorData: FormDropdownModel[] = [];
-  branchesSelectorData: FormDropdownModel[] = [];
+  suppliersSelectorData: GeneralSelectorModel[] = [];
+  branchesSelectorData: GeneralSelectorModel[] = [];
 
   showLoader: boolean = false;
   showAddLoader: boolean = false;
@@ -36,7 +40,6 @@ export class AddPurchaseOrderComponent implements OnInit {
   formData: FormData = new FormData();
   public formGroup: FormGroup;
 
-  selectedPurchaseInvoice: OrderModel = {} as OrderModel;
   selectedSupplierId: number;
   constructor(private acRoute: ActivatedRoute, private router: Router, private modalService: NgbModal, private inventoryService: InventoryService,
     private purchaseService: PurchaseService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
@@ -51,23 +54,19 @@ export class AddPurchaseOrderComponent implements OnInit {
         this.getPurchaseOrderProducts();
       }
     })
-
-
     this.initNewForm();
-
     this.loadSelectors();
   }
 
   getPurchaseOrderDetailsById() {
     this.showLoader = true;
-    this.purchaseService.GetPurchaseOrderDetailsById(this.purchaseOrderId).subscribe((data: OrderModel) => {
+    this.purchaseService.GetPurchaseOrderDetailsById(this.purchaseOrderId).subscribe((data: PurchaseOrderModel) => {
       if (data) {
         this.purchaseOrderModel = data;
         // this.getPurchaseOrderProducts();
         // this.initNewForm(this.purchaseOrderModel);
         this.fillEditForm(this.purchaseOrderModel);
-        if (data.secondaryOrderId) {
-        }
+
       }
       this.showLoader = false;
     }, err => {
@@ -80,10 +79,10 @@ export class AddPurchaseOrderComponent implements OnInit {
 
   getPurchaseOrderProducts() {
     this.showLoader = true;
-    this.purchaseService.GetPurchaseOrderProducts_Data(this.purchaseOrderId).subscribe((data: OrderProductModel[]) => {
-      this.orderProducts = data;
-      if (this.orderProducts.length > 0) {
-        // this.formGroup.patchValue({orderProducts:this.orderProducts});
+    this.purchaseService.GetPurchaseOrderProducts_Data(this.purchaseOrderId).subscribe((data: GeneralOrderDetailsModel[]) => {
+      this.orderDetails = data;
+      if (this.orderDetails.length > 0) {
+        // this.formGroup.patchValue({orderDetails:this.orderDetails});
       }
       // this.initNewForm(this.purchaseOrderModel);
 
@@ -94,34 +93,16 @@ export class AddPurchaseOrderComponent implements OnInit {
       this.showLoader = false;
     });
   }
-  searchInvoiceSelected(inv: OrderModel) {
-    this.selectedPurchaseInvoice = inv;
-    this.getPurchaseInvoiceProducts();
-  }
-  getSelectedProductsList(products: OrderProductModel[]) {
-    this.formGroup.patchValue({ orderProducts: products });
-    this.orderProducts = products;
-  }
-  getPurchaseInvoiceProducts() {
-    this.showLoader = true;
-    this.purchaseService.GetPurchaseInvoiceProducts_Data(this.selectedPurchaseInvoice.orderId).subscribe((data: OrderProductModel[]) => {
-      if (data) {
-        this.orderProducts = data;
-        // this.formGroup.patchValue({orderProducts:this.orderProducts});
-        this.formGroup.patchValue({ secondaryOrderId: this.selectedPurchaseInvoice.orderId });
 
-      }
-      this.showLoader = false;
-    }, err => {
-      this.showLoader = false;
-    }, () => {
-      this.showLoader = false;
-    });
+  getSelectedProductsList(products: GeneralOrderDetailsModel[]) {
+    this.formGroup.patchValue({ orderDetails: products });
+    this.orderDetails = products;
   }
 
-  initNewForm(orderModel: OrderModel = null) {
-    this.selectedPurchaseInvoice = {} as OrderModel;
-    this.orderProducts = [];
+
+  initNewForm(orderModel: PurchaseOrderModel = null) {
+    this.purchaseOrderModel = {} as PurchaseOrderModel;
+    this.orderDetails = [];
     this.clearAllProducts = !this.clearAllProducts;
     this.isUpdate = false;
     this.buildForm();
@@ -131,12 +112,15 @@ export class AddPurchaseOrderComponent implements OnInit {
 
   buildForm() {
     this.formGroup = this.form.group({
-      orderId: [null],
-      // orderDate: [null, [Validators.required]],
+      purchaseOrderId: [null],
+      orderNumber: [null],
+      orderDate: [null],
+      docNumber: [null],
       supplierId: [null, [Validators.required]],
+      materialRequestIds: [null],
       // branchId: [null, [Validators.required]],
-      orderProducts: [[] as OrderProductModel[], [Validators.required, Validators.minLength(1)]],
-      description: [null],
+      orderDetails: [[] as GeneralOrderDetailsModel[], [Validators.required, Validators.minLength(1)]],
+      notes: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -146,7 +130,7 @@ export class AddPurchaseOrderComponent implements OnInit {
 
 
   savePurchaseOrder() {
-    if (this.orderProducts.length === 0)
+    if (this.orderDetails.length === 0)
       this.toaster.warning('لا يوجد اصناف');
 
     if (!this.validateForm()) {
@@ -203,10 +187,10 @@ export class AddPurchaseOrderComponent implements OnInit {
   }
 
   loadSelectors() {
-    this.sharedService.GetSuppliersSelector().subscribe((data: FormDropdownModel[]) => {
+    this.sharedService.GetSuppliersSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.suppliersSelectorData = data;
     });
-    this.sharedService.GetBranchesSelector().subscribe((data: FormDropdownModel[]) => {
+    this.sharedService.GetBranchesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.branchesSelectorData = data;
     });
 
@@ -222,16 +206,18 @@ export class AddPurchaseOrderComponent implements OnInit {
     }
   }
 
-  fillEditForm(orderModel: OrderModel) {
+  fillEditForm(orderModel: PurchaseOrderModel) {
     this.isUpdate = true;
 
     this.formGroup.patchValue({
-      orderId: orderModel.orderId,
+      purchaseOrderId: orderModel.purchaseOrderId,
       supplierId: orderModel.supplierId,
+      orderNumber: orderModel.orderNumber,
+      docNumber: orderModel.docNumber,
       orderDate: this.datePipe.transform(orderModel.orderDate, 'yyyy-MM-dd'),
-      // secondaryOrderId: orderModel.secondaryOrderId,
-      branchId: orderModel.branchId,
-      description: orderModel.description
+      // materialRequestIds: orderModel.materialRequestIds,
+      // branchId: orderModel.branchId,
+      notes: orderModel.notes
 
     });
   }
@@ -239,7 +225,7 @@ export class AddPurchaseOrderComponent implements OnInit {
     this.selectedSupplierId = supplierId;
   }
   getSupplierItemsBySupplierId() {
-    this.orderProducts =[];
+    this.orderDetails =[];
     if(!this.selectedSupplierId)
     {
       this.toaster.warning('please select supplier');
@@ -247,7 +233,7 @@ export class AddPurchaseOrderComponent implements OnInit {
     }
     this.inventoryService.GetItemsBySupplierId(this.selectedSupplierId).subscribe(data => {
       if (data && data.length > 0) {
-        this.orderProducts = this.mapItemToOrderProduct(data);
+        this.orderDetails = this.mapItemToOrderProduct(data);
       }
       this.showLoader = false;
     }, err => {
@@ -256,15 +242,49 @@ export class AddPurchaseOrderComponent implements OnInit {
       this.showLoader = false;
     });
   }
-  mapItemToOrderProduct(arrayOfItems: ItemModel[]): OrderProductModel[] {
+
+  searchMaterialRequestSelected(materialRequests: MaterialRequestModel[]) {
+    if (materialRequests?.length) {
+      var ids = materialRequests.map(b => b.materialRequestId);
+      this.getMaterialRequestProducts(ids)
+    }
+    else
+    {
+      this.orderDetails = []
+    }
+  }
+
+  getMaterialRequestProducts(materialRequestIds:number[]) {
+    this.showLoader = true;
+    this.inventoryService.GetMaterialRequestProducts_Data(materialRequestIds).subscribe((data: GeneralOrderDetailsModel[]) => {
+      this.orderDetails = data.map(product => ({
+        ...product,
+        requestedQuantity: product.quantity,
+      }));
+
+      if (this.orderDetails.length > 0) {
+        this.formGroup.patchValue({materialRequestIds:materialRequestIds});
+      }
+      // this.initNewForm(this.purchaseOrderModel);
+
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+
+
+  mapItemToOrderProduct(arrayOfItems: ItemModel[]): GeneralOrderDetailsModel[] {
     return arrayOfItems.map(x => this.mapSingleItemToOrderProduct(x));
   }
-  private mapSingleItemToOrderProduct(x: ItemModel): OrderProductModel {
+  private mapSingleItemToOrderProduct(x: ItemModel): GeneralOrderDetailsModel {
     return {
       itemId: x.itemId,
       itemNameAR: x.nameAR,
       itemNameEN: x.nameEN,
-      isActive: x.isActive,
+      // isActive: x.isActive,
       unitNameAR: x.unitName,
       unitNameEN: x.unitName,
       unitId: x.unitId,
@@ -275,12 +295,14 @@ export class AddPurchaseOrderComponent implements OnInit {
   }
   public formErrors = {
     supplierId: '',
-    orderId: '',
-    secondaryOrderId: '',
+    purchaseOrderId: '',
+    orderNumber: '',
+    docNumber: '',
+    materialRequestIds: '',
     branchId: '',
     orderDate: '',
-    orderProducts: '',
-    description: ''
+    orderDetails: '',
+    notes: ''
   };
 
 

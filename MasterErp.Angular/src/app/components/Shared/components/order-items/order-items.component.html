@@ -153,14 +153,14 @@
     </div>
     <div class="modal-body">
         <div style="margin-bottom: 150px;">
-            <app-general-selector [(ngModel)]="selectedSupplierId" [showSearch]="true" [data]="supplierSelector"
-                (valueChanged)="selectedSupplierChanged($event)" [placeholder]="'المخزون'"></app-general-selector>
+            <app-general-selector [(ngModel)]="selectedSupplierId" [disabled]="true" [showSearch]="true" [data]="supplierSelector"
+                (valueChanged)="selectedSupplierChanged($event)" [placeholder]="'الموردين'"></app-general-selector>
         </div>
     </div>
     <div class="modal-footer justify-content-start">
         <button type="button" class="btn btn-success" (click)="modal.close('Save click');getSelectedSupplierItems()">
             <i class="fas fa-check"></i>
-            <span class="ms-2">حفظ</span>
+            <span class="ms-2">تحميل</span>
         </button>
         <!-- <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
             <i class="fas fa-times"></i>

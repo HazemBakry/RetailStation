@@ -4,11 +4,11 @@ import { ToastrService } from 'ngx-toastr';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
 import { FilterModel, SearchFilterModel } from '../../models/FilterModel';
-import { OrderProductModel } from 'src/app/components/Inventory/models/inventory';
 import { FormDropdownModel } from '../drop-down-form-control/drop-down-form-control.component';
 import { SharedService } from '../../services/shared.service';
 import { ItemModel } from 'src/app/components/Inventory/models/Item';
 import { ActionsResponseModel } from '../../models/ActionsResponseModel';
+import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
 
 @Component({
   selector: 'app-general-order-products',
@@ -16,27 +16,27 @@ import { ActionsResponseModel } from '../../models/ActionsResponseModel';
   styleUrls: ['./general-order-products.component.css']
 })
 export class GeneralOrderProductsComponent implements OnInit, OnChanges {
-  @Input() selectedProducts: OrderProductModel[] = [];
+  @Input() selectedProducts: GeneralOrderDetailsModel[] = [];
   @Input() clearAllProducts: boolean = false;
   @Input() showAddNew: boolean = true;
   @Input() showEditQuantity : boolean = true;
   @Input() disablePrice : boolean = true;
   @Input() disableUnit : boolean = true;
-  @Output() selectedProductsList = new EventEmitter<OrderProductModel[]>();
+  @Output() selectedProductsList = new EventEmitter<GeneralOrderDetailsModel[]>();
 
 
   showLoader: boolean = false;
-  productsList: OrderProductModel[] = [];
+  productsList: GeneralOrderDetailsModel[] = [];
   itemsLookupsSelectorData: FormDropdownModel[] = [];
   itemsSelectorData: FormDropdownModel[] = [];
   unitsSelectorData: FormDropdownModel[] = [];
 
   itemsList: any[] = [];
-  itemsByLookup: OrderProductModel[] = [];
+  itemsByLookup: GeneralOrderDetailsModel[] = [];
   ItemsBySupplier: any[] = [];
   // RawItemsList: any[] = [];
-  editQuantityList: OrderProductModel[] = [];
-  selectedItem: OrderProductModel;
+  editQuantityList: GeneralOrderDetailsModel[] = [];
+  selectedItem: GeneralOrderDetailsModel;
   originalItem: ItemModel;
   // selectedItem: any={} ;
   activeTab = 'Item';
@@ -84,7 +84,7 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
   }
 
   openItemsModal(content: any) {
-    this.selectedItem = {} as OrderProductModel;
+    this.selectedItem = {} as GeneralOrderDetailsModel;
     this.originalItem = {} as ItemModel;
     this.loadSelectors()
     this.modalService.open(content, { centered: true, size: 'md' });

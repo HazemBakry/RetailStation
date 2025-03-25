@@ -93,7 +93,7 @@
             <span class="ms-2">حفـظ</span>
         </button>
 
-        <button class="btn btn-warning btn-lg fs-6 me-2 mt-2" *ngIf="!purchaseRequestModel?.orderId &&!showLoader"
+        <button class="btn btn-warning btn-lg fs-6 me-2 mt-2" *ngIf="!materialRequestModel?.orderId &&!showLoader"
             (click)="initNewForm()">
             <i class="fas fa-times"></i>
             <span class="ms-2">مسح</span>
@@ -106,7 +106,7 @@
     </div>
 </div>
 
-<app-order-items [selectedProducts]="orderProducts" [clearAllProducts]="clearAllProducts" [showPrice]="false"
+<app-order-items [selectedProducts]="orderDetails" [clearAllProducts]="clearAllProducts" [showPrice]="false"
     (selectedProductsList)="getSelectedProductsList($event)"></app-order-items>
 
 

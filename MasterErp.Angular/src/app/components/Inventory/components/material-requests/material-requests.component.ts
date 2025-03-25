@@ -1,9 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { InventoryService } from '../../services/inventory.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { OrderModel } from '../../models/inventory';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { MaterialRequestModel } from '../../models/MaterialRequestModel ';
+import { ComponentHostDirective } from 'src/app/components/Shared/directives/component-host.directive';
+import { DynamicComponentLoaderService } from 'src/app/components/Shared/services/dynamic-component-loader.service';
+import { FieldType } from 'src/app/components/Shared/Enums/FieldType';
+import { DataField } from 'src/app/components/Shared/models/DataField';
+import { OrderModel } from '../../models/inventory';
+import { GeneralOrderDetailsModel } from '../../models/GeneralOrderModel ';
 
 @Component({
   selector: 'app-material-requests',
@@ -14,18 +20,19 @@ export class MaterialRequestsComponent implements OnInit {
 
   TitleList = ['المخازن', 'طلبات الشراء'];
   showLoader: boolean;
-  OrderId: number;
-  pagedResponseModel:PagedResponseDTO<OrderModel[]>={
+  materialRequestId: number;
+  pagedResponseModel:PagedResponseDTO<MaterialRequestModel[]>={
     results:[],
     filterList:[],
     pageSize: 25,
     currentPage:1,
     searchText:''
   };
+  @ViewChild(ComponentHostDirective, { static: true }) detailsComponentHost!: ComponentHostDirective;
 
   constructor(private inventoryService: InventoryService,  
     private modalService: NgbModal,
-    private toaster: ToastrService) { }
+    private toaster: ToastrService,private dynamicComponentService:DynamicComponentLoaderService) { }
 
   ngOnInit(): void {
     this.getPurchasesRequestsData();
@@ -50,12 +57,12 @@ export class MaterialRequestsComponent implements OnInit {
   }
 
   openDeleteModal(content: any, itemId: number) {
-    this.OrderId = itemId;
+    this.materialRequestId = itemId;
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
   cancelOrder() {
-    this.inventoryService.CancelReceiveOrder(this.OrderId).subscribe(data => {
+    this.inventoryService.CancelReceiveOrder(this.materialRequestId).subscribe(data => {
       if (data?.isSuccess) {
         this.modalService?.dismissAll();
         this.getPurchasesRequestsData();
@@ -78,6 +85,63 @@ export class MaterialRequestsComponent implements OnInit {
     else
       return "open";
   }
+  showMaterialRequestDetails(materialRequestModel:MaterialRequestModel) {
+    var orderModel:OrderModel ={
+      orderNumber: materialRequestModel.orderNumber,
+      docNumber: materialRequestModel.docNumber,
+      orderDate: materialRequestModel.orderDate,
+      dueDate: materialRequestModel.dueDate
+    }
+    // this.showLoader = true;
+    this.inventoryService.GetMaterialRequestProducts_Data([materialRequestModel.materialRequestId]).subscribe((data: GeneralOrderDetailsModel[]) => {
+      this.dynamicComponentService.loadProductDetailsSidePanel(
+        this.detailsComponentHost.viewContainerRef,
+        orderModel,
+        data,
+        this.materialRequestDetailsDataFields,
+        `تفاصيل طلب الشراء ${materialRequestModel.orderNumber}#`
+      );
+      
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
 
+
+  }
+  materialRequestDetailsDataFields :DataField[] = [
+    {
+      fieldName: 'itemNameAR', 
+      fieldType: FieldType.Text, 
+      displayName: 'الاسم (AR)', 
+    },
+    {
+      fieldName: 'itemNameEN', 
+      fieldType: FieldType.Text, 
+      displayName: 'الاسم (EN)', 
+    },
+    {
+      fieldName: 'unitNameAR', 
+      fieldType: FieldType.Text, 
+      displayName: 'الوحدة', 
+    },
+    {
+      fieldName: 'price', 
+      fieldType: FieldType.Text, 
+      displayName: 'السعر', 
+    },
+    {
+      fieldName: 'quantity', 
+      fieldType: FieldType.Text, 
+      displayName: 'الكمية', 
+    },
+    {
+      fieldName: 'totalValue', 
+      fieldType: FieldType.Text, 
+      displayName: 'الاجمالي', 
+    },
+  ];
 
 }

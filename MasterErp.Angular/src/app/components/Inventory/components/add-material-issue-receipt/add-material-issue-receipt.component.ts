@@ -6,12 +6,13 @@ import { InventoryService } from '../../services/inventory.service';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
-import { OrderModel, OrderProductModel } from '../../models/inventory';
+import { OrderModel } from '../../models/inventory';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { OrderDetailModel } from 'src/app/components/Shared/models/ItemModel';
+import { GeneralOrderDetailsModel } from '../../models/GeneralOrderModel ';
 
 @Component({
   selector: 'app-add-material-issue-receipt',
@@ -23,7 +24,7 @@ export class AddMaterialIssueReceiptComponent implements OnInit {
   TitleList = ['المخازن', 'إضافة إذن صرف مواد'];
   materialIssueId: number;
   orderModel: OrderModel = {} as OrderModel;
-  orderProducts: OrderProductModel[] = [];
+  orderProducts: GeneralOrderDetailsModel[] = [];
   
   isUpdate: boolean = false;
   clearAllProducts: boolean = false;
@@ -90,7 +91,7 @@ export class AddMaterialIssueReceiptComponent implements OnInit {
 
   getMaterialIssueProducts() {
     this.showLoader = true;
-    this.inventoryService.GetMaterialIssueProducts_Data(this.materialIssueId).subscribe((data: OrderProductModel[]) => {
+    this.inventoryService.GetMaterialIssueProducts_Data(this.materialIssueId).subscribe((data: GeneralOrderDetailsModel[]) => {
       this.orderProducts = data;
       if (this.orderProducts.length > 0) {
         // this.formGroup.patchValue({orderProducts:this.orderProducts});
@@ -103,7 +104,7 @@ export class AddMaterialIssueReceiptComponent implements OnInit {
     });
   }
 
-  getSelectedProductsList(products: OrderProductModel[]) {
+  getSelectedProductsList(products: GeneralOrderDetailsModel[]) {
     this.formGroup.patchValue({ orderProducts: products });
     this.orderProducts = products;
   }
@@ -125,7 +126,7 @@ export class AddMaterialIssueReceiptComponent implements OnInit {
       branchId: [null, [Validators.required]],
       orderDate: [null, [Validators.required]],
       storeId: [null, [Validators.required]],
-      orderProducts: [[] as OrderProductModel[], [Validators.required, Validators.minLength(1)]],
+      orderProducts: [[] as GeneralOrderDetailsModel[], [Validators.required, Validators.minLength(1)]],
       description: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {

@@ -59,9 +59,13 @@ namespace MasterErp.Interface.Inventory
 
         #region Material Requests
 
-        List<OrderModel> GetMaterialRequests_Data(SearchFilterModel model,int? OrderId = null);
-        ActionsResponseModel CreateNewMaterialRequest(OrderModel model);
-        public ActionsResponseModel CancelMaterialRequest(int OrderId);
+        List<MaterialRequestModel> GetMaterialRequests_Data(SearchFilterModel model,int? MaterialRequestId = null);
+        MaterialRequestModel GetMaterialRequestDetailsById(int MaterialRequestId);
+
+        ActionsResponseModel CreateNewMaterialRequest(MaterialRequestModel model);
+        ActionsResponseModel EditMaterialRequest(int MaterialRequestId, MaterialRequestModel model);
+        List<GeneralOrderDetailsModel> GetMaterialRequestProducts_Data(List<int> MaterialRequestIds);
+        ActionsResponseModel CancelMaterialRequest(int MaterialRequestId);
 
         #endregion
         List<OrderModel> GetSupplierVouchers_Data(SearchFilterModel model, int? OrderId = null);

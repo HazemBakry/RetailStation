@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Inventory.ReceiveOrder;
 using MasterErp.Entities.DTOs.HR;
+using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Interface.Inventory;
 using MasterErp.Service.Inventory;
 using MasterErp.Service.Purchase;
@@ -270,7 +271,7 @@ namespace MasterErp.API.Controllers.Inventory
         public IActionResult GetMaterialRequests_Data(SearchFilterModel model)
         {
             var data = _inventoryService.GetMaterialRequests_Data(model);
-            var result = new PagedResponseModel<OrderModel>
+            var result = new PagedResponseModel<MaterialRequestModel>
             {
                 Results = data,
                 TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
@@ -280,21 +281,54 @@ namespace MasterErp.API.Controllers.Inventory
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("GetMaterialRequestDetailsById")]
+        public IActionResult GetMaterialRequestDetailsById(int MaterialRequestId)
+        {
+            var result = _inventoryService.GetMaterialRequestDetailsById(MaterialRequestId);
+
+            return Ok(result);
+        }
+
+
         [HttpPost]
         [Route("CreateNewMaterialRequest")]
-        public IActionResult CreateNewMaterialRequest(OrderModel Model)
+        public IActionResult CreateNewMaterialRequest(MaterialRequestModel Model)
         {
             Model.CreatedBy = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
 
             var results = _inventoryService.CreateNewMaterialRequest(Model);
             return Ok(results);
         }
+        
+
+        [HttpPost]
+        [Route("EditMaterialRequest")]
+        public IActionResult EditMaterialRequest(int MaterialRequestId,MaterialRequestModel Model)
+        {
+            Model.ModifiedBy = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            var results = _inventoryService.EditMaterialRequest(MaterialRequestId, Model);
+            return Ok(results);
+        }
+
+
+        [HttpPost]
+        [Route("GetMaterialRequestProducts_Data")]
+        public IActionResult GetMaterialRequestProducts_Data(List<int> MaterialRequestIds)
+        {
+            var result = _inventoryService.GetMaterialRequestProducts_Data(MaterialRequestIds);
+
+            return Ok(result);
+
+        }
+
 
         [HttpGet]
         [Route("CancelMaterialRequest")]
-        public IActionResult CancelMaterialRequest(int OrderId)
+        public IActionResult CancelMaterialRequest(int MaterialRequestId)
         {
-            var results = _inventoryService.CancelMaterialRequest(OrderId);
+            var results = _inventoryService.CancelMaterialRequest(MaterialRequestId);
             return Ok(results);
         }
         #endregion

@@ -48,6 +48,7 @@ import { ErpSpinnerComponentComponent } from './components/erp-spinner-component
 import { GeneralSelectorComponent } from './components/general-selector/general-selector.component';
 import { AccountsReportSearchComponent } from './components/accounts-report-search/accounts-report-search.component';
 import { OrderItemsComponent } from './components/order-items/order-items.component';
+import { MaterialRequestsSidePanelComponent } from './components/material-requests-side-panel/material-requests-side-panel.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { OrderItemsComponent } from './components/order-items/order-items.compon
     ErpSpinnerComponentComponent,
     GeneralSelectorComponent,
     AccountsReportSearchComponent,
+    MaterialRequestsSidePanelComponent,
   ],
 
   imports: [
@@ -152,7 +154,8 @@ import { OrderItemsComponent } from './components/order-items/order-items.compon
     RenderComponent,
     UploadImporterFileComponent,
     GeneralSelectorComponent,
-    AccountsReportSearchComponent
+    AccountsReportSearchComponent,
+    MaterialRequestsSidePanelComponent
   ],
   providers: [
     DatePipe,

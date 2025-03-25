@@ -1,4 +1,5 @@
-﻿using MasterErp.Entities.Common;
+﻿using iText.Layout.Borders;
+using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Common.Inventory.ReceiveOrder;
 using MasterErp.Entities.Common.SQLTabeType;
@@ -718,44 +719,49 @@ namespace MasterErp.Service.Inventory
 
         #endregion
 
-        #region Purchase Requests
+        #region Material Requests
 
 
-        public List<OrderModel> GetMaterialRequests_Data(SearchFilterModel model, int? OrderId = null)
+        public List<MaterialRequestModel> GetMaterialRequests_Data(SearchFilterModel model, int? MaterialRequestId = null)
         {
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
             SqlParameter[] Params = new SqlParameter[4];
 
-            Params[0] = new SqlParameter("@OrderId", OrderId);
+            Params[0] = new SqlParameter("@OrderId", MaterialRequestId);
             Params[1] = new SqlParameter("@CurrentPage", model.CurrentPage);
             Params[2] = new SqlParameter("@PageSize", model.PageSize);
             Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[3].Value = dt;
 
-            var result = SQLHelper.SQLQuery<OrderModel>("[Inventory].[SP_GetMaterialRequests_Data]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<MaterialRequestModel>("[Inventory].[SP_GetMaterialRequests_Data]", ConnectionString, Params);
             return result;
         }
+        public MaterialRequestModel GetMaterialRequestDetailsById(int MaterialRequestId)
+        {
+            return GetMaterialRequests_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, MaterialRequestId)?.FirstOrDefault();
+        }
 
-        public ActionsResponseModel CreateNewMaterialRequest(OrderModel model)
+
+        public ActionsResponseModel CreateNewMaterialRequest(MaterialRequestModel model)
         {
             try
             {
                 MaterialRequest tbl = new MaterialRequest();
 
-                tbl.RequestNumber = (Context.MaterialRequests.Count() > 0 ? Context.MaterialRequests.Max(x => x.RequestNumber) + 1 : 1);
+                tbl.OrderNumber = (Context.MaterialRequests.Count() > 0 ? Context.MaterialRequests.Max(x => x.OrderNumber) + 1 : 1);
                 tbl.CreatedDate = DateTime.Now;
                 tbl.CreatedBy = model.CreatedBy;
-                tbl.BranchId = model.BranchId.GetValueOrDefault();
+                tbl.BranchId = model.BranchId;
                 tbl.Notes = model.Notes;
                 tbl.DocNumber = model.DocNumber;
                 tbl.StatusId = model.StatusId;
-                tbl.RequestDate = model?.OrderDate ?? DateTime.Now;
+                tbl.OrderDate = model?.OrderDate ?? DateTime.Now;
 
                 Context.MaterialRequests.Add(tbl);
                 Context.SaveChanges();
 
-                foreach (var item in model.OrderProducts)
+                foreach (var item in model.OrderDetails)
                 {
                     var detail = new MaterialRequestDetails
                     {
@@ -773,7 +779,7 @@ namespace MasterErp.Service.Inventory
                 return new ActionsResponseModel
                 {
                     Id = tbl.MaterialRequestId,
-                    Number = tbl.RequestNumber.ToString(),
+                    Number = tbl.OrderNumber.ToString(),
                     Message = "تم حفظ طلب المشتريات بنجاح"
                 };
             }
@@ -787,11 +793,94 @@ namespace MasterErp.Service.Inventory
             }
         }
 
-        public ActionsResponseModel CancelMaterialRequest(int OrderId)
+
+        public ActionsResponseModel EditMaterialRequest(int MaterialRequestId, MaterialRequestModel model)
         {
             try
             {
-                var order = Context.PurchaseRequests.FirstOrDefault(m => m.PurchaseRequestId == OrderId);
+                var order_tbl = Context.MaterialRequests.Where(i => i.MaterialRequestId == MaterialRequestId).FirstOrDefault();
+                if (order_tbl != null)
+                {
+                    order_tbl.OrderDate = model.OrderDate ?? DateTime.Now;
+                    order_tbl.DocNumber = model.DocNumber;
+                    order_tbl.TotalValue = model.OrderDetails.Sum(x => x.TotalValue);
+                    order_tbl.IsCancelled = model.IsCancelled;
+                    order_tbl.IsLocked = model.IsLocked;
+                    order_tbl.Notes = model.Notes;
+                    order_tbl.BranchId = model.BranchId;
+                    order_tbl.ModifiedBy = model.ModifiedBy;
+                    order_tbl.ModifiedDate = DateTime.Now;
+
+                    Context.SaveChanges();
+
+                    var MaterialRequestDetails = Context.MaterialRequestDetails.Where(x => x.MaterialRequestId == MaterialRequestId).ToList();
+                    Context.MaterialRequestDetails.RemoveRange(MaterialRequestDetails);
+                    Context.SaveChanges();
+
+                    foreach (var item in model.OrderDetails)
+                    {
+                        var detail = new MaterialRequestDetails
+                        {
+                            ItemId = item.ItemId,
+                            Notes = model.Notes,
+                            Quantity = item.Quantity,
+                            MaterialRequestId = MaterialRequestId,
+                            UnitId = item.UnitId,
+                        };
+
+                        Context.MaterialRequestDetails.Add(detail);
+                        Context.SaveChanges();
+                    }
+
+                    return new ActionsResponseModel { Message = "Material Request Updated Successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this material request" };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+        public List<GeneralOrderDetailsModel> GetMaterialRequestProducts_Data(List<int> MaterialRequestIds)
+        {
+            var result = (from orderProduct in Context.MaterialRequestDetails
+                          join item in Context.Items on orderProduct.ItemId equals item.ItemId
+                          join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
+                          from unit in jT2.DefaultIfEmpty()
+                          where MaterialRequestIds.Contains(orderProduct.MaterialRequestId)
+                          //where orderProduct.MaterialRequestId == MaterialRequestId
+                          select new GeneralOrderDetailsModel
+                          {
+                              ItemId = item.ItemId,
+                              ItemNameEN = item.NameEN,
+                              ItemNameAR = item.NameAR,
+                              Price = item.Cost,
+                              Quantity = orderProduct.Quantity,
+                              TotalValue = orderProduct.Quantity > 0 ? orderProduct.Quantity * item.Cost : orderProduct.Quantity,
+                              UnitId = item.UnitId,
+                              UnitNameAR = unit.NameAR,
+                              UnitNameEN = unit.NameEN,
+                              OrderId = orderProduct.MaterialRequestId,
+
+                          }).ToList();
+
+            return result;
+
+        }
+
+
+
+        public ActionsResponseModel CancelMaterialRequest(int MaterialRequestId)
+        {
+            try
+            {
+                var order = Context.MaterialRequests.FirstOrDefault(m => m.MaterialRequestId == MaterialRequestId);
                 if (order != null)
                 {
                     order.IsCancelled = true;

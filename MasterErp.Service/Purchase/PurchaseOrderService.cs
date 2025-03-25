@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Common.SQLTabeType;
+using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.DTOs.Shared;
 using MasterErp.Entities.Models;
@@ -45,29 +46,29 @@ namespace MasterErp.Service.Purchase
             SharedFilterService = sharedFilterService;
         }
 
-        public List<OrderModel> GetPurchaseOrders_Data(SearchFilterModel PagingFilter, int? OrderId = null)
+        public List<PurchaseOrderModel> GetPurchaseOrders_Data(SearchFilterModel PagingFilter, int? PurchaseOrderId = null)
         {
             var FilterList = PagingFilter?.FilterList?.Select(f => new FilterList_TableType { ItemKey = string.Empty, CategoryName = f.CategoryName, ItemValue = f.ItemFlag }).ToList();
             SqlParameter[] param = new SqlParameter[4];
 
-            param[0] = new SqlParameter("@OrderId", OrderId);
+            param[0] = new SqlParameter("@OrderId", PurchaseOrderId);
             param[1] = new SqlParameter("@CurrentPage", PagingFilter.CurrentPage);
             param[2] = new SqlParameter("@PageSize", PagingFilter.PageSize);
             param[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
             param[3].Value = FilterList.ToDataTable();
 
-            var result = SQLHelper.SQLQuery<OrderModel>("[dbo].[SP_GetPurchaseOrders_Data]", ConnectionString, param);
+            var result = SQLHelper.SQLQuery<PurchaseOrderModel>("[dbo].[SP_GetPurchaseOrders_Data]", ConnectionString, param);
             return result;
         }
 
-        public List<OrderProductModel> GetPurchaseOrderProducts_Data(int OrderId)
+        public List<GeneralOrderDetailsModel> GetPurchaseOrderProducts_Data(int PurchaseOrderId)
         {
             var result = (from orderProduct in Context.PurchaseOrderDetails
                           join item in Context.Items on orderProduct.ItemId equals item.ItemId
                           join unit in Context.Units on orderProduct.UnitId equals unit.UnitId into jT2
                           from unit in jT2.DefaultIfEmpty()
-                          where (orderProduct.PurchaseOrderId == OrderId)
-                          select new OrderProductModel
+                          where (orderProduct.PurchaseOrderId == PurchaseOrderId)
+                          select new GeneralOrderDetailsModel
                           {
                               ItemId = item.ItemId,
                               ItemNameEN = item.NameEN,
@@ -79,18 +80,17 @@ namespace MasterErp.Service.Purchase
                               UnitNameAR = unit.NameAR,
                               UnitNameEN = unit.NameAR,
                               OrderId = orderProduct.PurchaseOrderId,
-                              PurchaseOrderId = orderProduct.PurchaseOrderId,
 
                           }).ToList();
 
             return result;
 
         }
-        public OrderModel GetPurchaseOrderDetailsById(int OrderId)
+        public PurchaseOrderModel GetPurchaseOrderDetailsById(int PurchaseOrderId)
         {
-            return GetPurchaseOrders_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, OrderId)?.FirstOrDefault();
+            return GetPurchaseOrders_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, PurchaseOrderId)?.FirstOrDefault();
         }
-        public ActionsResponseModel AddNewPurchaseOrder(OrderModel model)
+        public ActionsResponseModel AddNewPurchaseOrder(PurchaseOrderModel model)
         {
             try
             {
@@ -103,18 +103,18 @@ namespace MasterErp.Service.Purchase
                 order_tbl.IsLocked = false;
                 order_tbl.Notes = model.Notes;
                 order_tbl.OrderDate = DateTime.Now;
-                order_tbl.TotalValue = (double)(model.OrderProducts != null ? model.OrderProducts.Sum(x => x.TotalValue) : 0);
+                order_tbl.TotalValue = (double)(model.OrderDetails != null ? model.OrderDetails.Sum(x => x.TotalValue) : 0);
                 order_tbl.SupplierId = (int)model?.SupplierId;
                 order_tbl.OrderNumber = Context.PurchaseOrders.Count() > 0 ? Context.PurchaseOrders.Max(x => x.PurchaseOrderId) + 1 : 1;
 
                 Context.PurchaseOrders.Add(order_tbl);
                 Context.SaveChanges();
 
-                foreach (OrderProductModel item in model.OrderProducts)
+                foreach (var item in model.OrderDetails)
                 {
                     var detail = new PurchaseOrderDetails
                     {
-                        Price = item.Price,
+                        Price = item.Price.GetValueOrDefault(),
                         ItemId = item.ItemId,
                         Notes = model.Notes,
                         Quantity = item.Quantity,
@@ -143,29 +143,29 @@ namespace MasterErp.Service.Purchase
         }
 
 
-        public ActionsResponseModel EditPurchaseOrder(int OrderId, OrderModel model)
+        public ActionsResponseModel EditPurchaseOrder(int PurchaseOrderId, PurchaseOrderModel model)
         {
             try
             {
-                var order_tbl = Context.PurchaseOrders.Where(i => i.PurchaseOrderId == OrderId).FirstOrDefault();
+                var order_tbl = Context.PurchaseOrders.Where(i => i.PurchaseOrderId == PurchaseOrderId).FirstOrDefault();
                 if (order_tbl != null)
                 {
                     order_tbl.ModifiedDate = DateTime.Now;
                     order_tbl.ModifiedBy = string.Empty;
                     order_tbl.Notes = model.Notes;
-                    order_tbl.TotalValue = (double)(model.OrderProducts != null ? model.OrderProducts.Sum(x => x.TotalValue) : 0);
+                    order_tbl.TotalValue = (double)(model.OrderDetails != null ? model.OrderDetails.Sum(x => x.TotalValue) : 0);
                     order_tbl.SupplierId = (int)model?.SupplierId;
 
 
                     Context.SaveChanges();
 
-                    var PurchaseOrderDetails = Context.PurchaseOrderDetails.Where(x => x.PurchaseOrderId == OrderId).ToList();
+                    var PurchaseOrderDetails = Context.PurchaseOrderDetails.Where(x => x.PurchaseOrderId == PurchaseOrderId).ToList();
                     Context.PurchaseOrderDetails.RemoveRange(PurchaseOrderDetails);
-                    foreach (OrderProductModel item in model.OrderProducts)
+                    foreach (var item in model.OrderDetails)
                     {
                         var detail = new PurchaseOrderDetails
                         {
-                            Price = item.Price,
+                            Price = item.Price.GetValueOrDefault(),
                             ItemId = item.ItemId,
                             Notes = model.Notes,
                             Quantity = item.Quantity,
@@ -194,10 +194,10 @@ namespace MasterErp.Service.Purchase
             }
         }
 
-        public ActionsResponseModel CancelPurchaseOrder(int OrderId)
+        public ActionsResponseModel CancelPurchaseOrder(int PurchaseOrderId)
         {
 
-            var Invoice = Context.PurchaseOrders.FirstOrDefault(x => x.PurchaseOrderId == OrderId);
+            var Invoice = Context.PurchaseOrders.FirstOrDefault(x => x.PurchaseOrderId == PurchaseOrderId);
             if (Invoice is null)
             {
                 return new ActionsResponseModel { IsSuccess = false, Message = "can't find this purchase order" };

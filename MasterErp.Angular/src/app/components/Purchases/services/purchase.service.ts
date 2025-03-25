@@ -7,10 +7,11 @@ import { PurchaseReturnsModel } from '../models/PurchaseReturns';
 import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { SupplierReturnsVoucherModel } from '../models/SupplierReturnsVoucherModel';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
-import { OrderModel, OrderProductModel } from '../../Inventory/models/inventory';
+import { OrderModel } from '../../Inventory/models/inventory';
 import { SupplierModel } from '../models/SupplierModel';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { PurchaseQuotationModel, PurchaseQuotationDetailsModel } from '../models/PurchaseQuotationModel';
+import { GeneralOrderDetailsModel } from '../../Inventory/models/GeneralOrderModel ';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class PurchaseService {
     return this.http.get<OrderModel>(this.URL + `PurchaseInvoice/GetPurchaseInvoiceDetailsById?InvoiceId=${invoiceId}`);
   }
   GetPurchaseInvoiceProducts_Data(invoiceId: number) {
-    return this.http.get<OrderProductModel[]>(this.URL + `PurchaseInvoice/GetPurchaseInvoiceProducts_Data?InvoiceId=${invoiceId}`);
+    return this.http.get<GeneralOrderDetailsModel[]>(this.URL + `PurchaseInvoice/GetPurchaseInvoiceProducts_Data?InvoiceId=${invoiceId}`);
   }
 
   AddNewPurchaseInvoice(model: OrderModel) {
@@ -84,7 +85,7 @@ export class PurchaseService {
     return this.http.get<OrderModel>(this.URL + `PurchaseInvoice/GetPurchaseReturnsDetailsById?OrderId=${orderId}`);
   }
   GetPurchaseReturnsProducts_Data(orderId: number) {
-    return this.http.get<OrderProductModel[]>(this.URL + `PurchaseInvoice/GetPurchaseReturnsProducts_Data?OrderId=${orderId}`);
+    return this.http.get<GeneralOrderDetailsModel[]>(this.URL + `PurchaseInvoice/GetPurchaseReturnsProducts_Data?OrderId=${orderId}`);
   }
 
   AddNewPurchaseReturns(model: OrderModel) {
@@ -112,23 +113,23 @@ export class PurchaseService {
   }
   //------------------------------------- Purchase Order ----------------------------------
   GetPurchaseOrders_Data(model: PagedResponseDTO) {
-    return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'PurchaseOrder/GetPurchaseOrders_Data', model);
+    return this.http.post<PagedResponseDTO<PurchaseOrderModel[]>>(this.URL + 'PurchaseOrder/GetPurchaseOrders_Data', model);
   }
 
-  GetPurchaseOrderDetailsById(orderId: number) {
-    return this.http.get<OrderModel>(this.URL + 'PurchaseOrder/GetPurchaseOrderDetailsById?OrderId=' + orderId);
+  GetPurchaseOrderDetailsById(PurchaseOrderId: number) {
+    return this.http.get<PurchaseOrderModel>(this.URL + 'PurchaseOrder/GetPurchaseOrderDetailsById?PurchaseOrderId=' + PurchaseOrderId);
   }
-  GetPurchaseOrderProducts_Data(orderId: number) {
-    return this.http.get<OrderProductModel[]>(this.URL + `PurchaseOrder/GetPurchaseOrderProducts_Data?OrderId=${orderId}`);
+  GetPurchaseOrderProducts_Data(PurchaseOrderId: number) {
+    return this.http.get<GeneralOrderDetailsModel[]>(this.URL + `PurchaseOrder/GetPurchaseOrderProducts_Data?PurchaseOrderId=${PurchaseOrderId}`);
   }
-  AddNewPurchaseOrder(model: OrderModel) {
+  AddNewPurchaseOrder(model: PurchaseOrderModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'PurchaseOrder/AddNewPurchaseOrder', model);
   }
-  EditPurchaseOrder(orderId:number,model: OrderModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'PurchaseOrder/EditPurchaseOrder?OrderId=' + orderId, model);
+  EditPurchaseOrder(PurchaseOrderId:number,model: PurchaseOrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'PurchaseOrder/EditPurchaseOrder?PurchaseOrderId=' + PurchaseOrderId, model);
   }
-  CancelPurchaseOrder(orderId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'PurchaseOrder/CancelPurchaseOrder?OrderId=' + orderId);
+  CancelPurchaseOrder(PurchaseOrderId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'PurchaseOrder/CancelPurchaseOrder?PurchaseOrderId=' + PurchaseOrderId);
   }
   //--------------------------------------- Suppliers ---------------------------------------
 

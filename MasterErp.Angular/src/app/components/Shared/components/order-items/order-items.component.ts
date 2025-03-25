@@ -4,10 +4,10 @@ import { ToastrService } from 'ngx-toastr';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
 import { FilterModel, SearchFilterModel } from '../../models/FilterModel';
-import { OrderModel, OrderProductModel } from 'src/app/components/Inventory/models/inventory';
 import { SharedService } from '../../services/shared.service';
 import { ItemModel } from 'src/app/components/Inventory/models/Item';
 import { GeneralSelectorModel } from '../general-selector/general-selector.component';
+import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
 
 @Component({
   selector: 'app-order-items',
@@ -15,30 +15,30 @@ import { GeneralSelectorModel } from '../general-selector/general-selector.compo
   styleUrls: ['./order-items.component.css']
 })
 export class OrderItemsComponent implements OnInit, OnChanges {
-  @Input() selectedProducts: OrderProductModel[] = [];
-  @Input() selectedSupplierProducts: OrderProductModel[] = [];
+  @Input() selectedProducts: GeneralOrderDetailsModel[] = [];
+  @Input() selectedSupplierProducts: GeneralOrderDetailsModel[] = [];
   @Input() clearAllProducts: boolean = false;
   @Input() showAddNew: boolean = true;
   @Input() showPrice: boolean = true;
-  @Output() selectedProductsList = new EventEmitter<OrderProductModel[]>();
+  @Input()   selectedSupplierId: number;
+  @Output() selectedProductsList = new EventEmitter<GeneralOrderDetailsModel[]>();
   showLoader: boolean = false;
   ItemsList: any[] = [];
   supplierSelector: any[] = [];
   BranchesList: any[] = [];
   lookupSelector: any[] = [];
-  orderItems: OrderProductModel[] = [];
+  orderItems: GeneralOrderDetailsModel[] = [];
 
-  ItemsByLookup: OrderProductModel[] = [];
+  ItemsByLookup: GeneralOrderDetailsModel[] = [];
   ItemsBySupplier: any[] = [];
   // RawItemsList: any[] = [];
-  EditQuantityList: OrderProductModel[] = [];
-  selectedItem: OrderProductModel;
+  EditQuantityList: GeneralOrderDetailsModel[] = [];
+  selectedItem: GeneralOrderDetailsModel;
   // selectedItem: any={} ;
   notes: any;
   BranchId: any;
   SupplierId: any;
   selectedLookupId: any;
-  selectedSupplierId: any;
   //itemModel: ItemModel = {} as ItemModel;
 
   itemsSelector: GeneralSelectorModel[] = [];
@@ -91,7 +91,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   }
 
   openItemsModal(content: any) {
-    this.selectedItem = {} as OrderProductModel;
+    this.selectedItem = {} as GeneralOrderDetailsModel;
     // this.GetItemsData();
     // this.getItemsLookups();
     this.modalService.open(content, { centered: true, size: 'md' });
@@ -110,7 +110,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   }
 
   addField() {
-    var item: OrderProductModel = {
+    var item: GeneralOrderDetailsModel = {
       itemId: null,
       itemNameAR: '',
       itemNameEN: '',
@@ -120,7 +120,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
       price: 0,
       quantity: null,
       totalValue: null,
-      isActive: true
+      // isActive: true
     }
 
     this.orderItems.push(item);
@@ -220,8 +220,8 @@ export class OrderItemsComponent implements OnInit, OnChanges {
       return;
 
     this.orderItems = [];
-    this.inventoryService.GetItemsByLookupId(this.selectedLookupId).subscribe((data: OrderProductModel[]) => {
-      this.orderItems = data.map<OrderProductModel>(item => {
+    this.inventoryService.GetItemsByLookupId(this.selectedLookupId).subscribe((data: GeneralOrderDetailsModel[]) => {
+      this.orderItems = data.map<GeneralOrderDetailsModel>(item => {
         return {
           itemId: item.itemId,
           itemNameAR: item.itemNameAR,
@@ -248,12 +248,14 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   }
   getSelectedSupplierItems() {
 
+    this.orderItems = [];
+
     if (!this.selectedSupplierId)
       return;
-    this.orderItems = [];
+    
     this.inventoryService.GetItemsBySupplierId(this.selectedSupplierId).subscribe(data => {
       if (data && data.length > 0) {
-        this.orderItems = data.map<OrderProductModel>(item => {
+        this.orderItems = data.map<GeneralOrderDetailsModel>(item => {
           return {
             itemId: item.itemId,
             itemNameAR: item.nameAR,

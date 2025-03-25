@@ -10,9 +10,10 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { DatePipe } from '@angular/common';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
-import { OrderModel, OrderProductModel } from 'src/app/components/Inventory/models/inventory';
+import { OrderModel } from 'src/app/components/Inventory/models/inventory';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
 import { ItemModel } from 'src/app/components/Inventory/models/Item';
+import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
 
 @Component({
   selector: 'app-add-purchase-invoice',
@@ -24,7 +25,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   TitleList = ['المشتريات', 'إضافة فاتورة مشتريات'];
   purchaseInvoiceId: number;
   purchaseInvoiceModel: OrderModel = {} as OrderModel;
-  orderProducts: OrderProductModel[] = [];
+  orderProducts: GeneralOrderDetailsModel[] = [];
   isUpdate: boolean = false;
   clearAllProducts: boolean = false;
 
@@ -78,7 +79,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   }
   getPurchaseInvoiceProducts() {
     this.showLoader = true;
-    this.purchaseService.GetPurchaseInvoiceProducts_Data(this.purchaseInvoiceId).subscribe((data: OrderProductModel[]) => {
+    this.purchaseService.GetPurchaseInvoiceProducts_Data(this.purchaseInvoiceId).subscribe((data: GeneralOrderDetailsModel[]) => {
       this.orderProducts = data;
       if (this.orderProducts.length > 0) {
         // this.formGroup.patchValue({orderProducts:this.orderProducts});
@@ -96,7 +97,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
     this.selectedReceiveOrder = ord;
     this.getReceiveOrderProducts();
   }
-  getSelectedProductsList(products: OrderProductModel[]) {
+  getSelectedProductsList(products: GeneralOrderDetailsModel[]) {
     this.formGroup.patchValue({ orderProducts: products });
     this.orderProducts = products;
   }
@@ -107,7 +108,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
         orderIds.push(ord.orderId);
     });
     this.showLoader = true;
-    this.inventoryService.GetReceiveOrderProducts_Data(orderIds).subscribe((data: OrderProductModel[]) => {
+    this.inventoryService.GetReceiveOrderProducts_Data(orderIds).subscribe((data: GeneralOrderDetailsModel[]) => {
       if (data) {
         this.orderProducts = data;
         this.formGroup.patchValue({ secondaryOrderIds: orderIds });
@@ -140,7 +141,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
       orderTypeId: [null, [Validators.required]],
       supplierId: [null, [Validators.required]],
       secondaryOrderIds: [[], [Validators.required]],
-      orderProducts: [[] as OrderProductModel[], [Validators.required, Validators.minLength(1)]],
+      orderProducts: [[] as GeneralOrderDetailsModel[], [Validators.required, Validators.minLength(1)]],
       description: [null],
 
     });
@@ -266,16 +267,16 @@ export class AddPurchaseInvoiceComponent implements OnInit {
     });
   }
 
-  mapItemToOrderProduct(arrayOfItems: ItemModel[]): OrderProductModel[] {
+  mapItemToOrderProduct(arrayOfItems: ItemModel[]): GeneralOrderDetailsModel[] {
     return arrayOfItems.map(x => this.mapSingleItemToOrderProduct(x));
   }
 
-  private mapSingleItemToOrderProduct(x: ItemModel): OrderProductModel {
+  private mapSingleItemToOrderProduct(x: ItemModel): GeneralOrderDetailsModel {
     return {
       itemId: x.itemId,
       itemNameAR: x.nameAR,
       itemNameEN: x.nameEN,
-      isActive: x.isActive,
+      // isActive: x.isActive,
       unitNameAR: x.unitName,
       unitNameEN: x.unitName,
       unitId: x.unitId,

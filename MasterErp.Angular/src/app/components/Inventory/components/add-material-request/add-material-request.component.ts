@@ -4,12 +4,13 @@ import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsRe
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { InventoryService } from '../../services/inventory.service';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { OrderModel, OrderProductModel } from '../../models/inventory';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
+import { MaterialRequestModel } from '../../models/MaterialRequestModel ';
+import { GeneralOrderDetailsModel } from '../../models/GeneralOrderModel ';
 
 @Component({
   selector: 'app-add-material-request',
@@ -20,8 +21,8 @@ import { GeneralSelectorModel } from 'src/app/components/Shared/components/gener
 export class AddMaterialRequestComponent implements OnInit {
   TitleList = ['المخازن', 'إضافة طلب شراء'];
   materialRequestId: number;
-  purchaseRequestModel: OrderModel = {} as OrderModel;
-  orderProducts: OrderProductModel[] = [];
+  materialRequestModel: MaterialRequestModel = {} as MaterialRequestModel;
+  orderDetails: GeneralOrderDetailsModel[] = [];
   isUpdate: boolean = false;
   clearAllProducts: boolean = false;
 
@@ -46,7 +47,7 @@ export class AddMaterialRequestComponent implements OnInit {
 
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
-      if (params.OrderId) {
+      if (params.MaterialRequestId) {
         this.materialRequestId = params.MaterialRequestId;
         this.getMaterialRequestDetailsById();
         this.getMaterialRequestProducts();
@@ -59,10 +60,10 @@ export class AddMaterialRequestComponent implements OnInit {
 
   getMaterialRequestDetailsById() {
     this.showLoader = true;
-    this.inventoryService.GetMaterialRequestDetailsById(this.materialRequestId).subscribe((data: OrderModel) => {
+    this.inventoryService.GetMaterialRequestDetailsById(this.materialRequestId).subscribe((data: MaterialRequestModel) => {
       if (data) {
-        this.purchaseRequestModel = data;
-        this.fillEditForm(this.purchaseRequestModel)
+        this.materialRequestModel = data;
+        this.fillEditForm(this.materialRequestModel)
       }
       this.showLoader = false;
     }, err => {
@@ -74,10 +75,10 @@ export class AddMaterialRequestComponent implements OnInit {
 
   getMaterialRequestProducts() {
     this.showLoader = true;
-    this.inventoryService.GetMaterialRequestProducts_Data(this.materialRequestId).subscribe((data: OrderProductModel[]) => {
-      this.orderProducts = data;
-      if (this.orderProducts.length > 0) {
-        // this.formGroup.patchValue({orderProducts:this.orderProducts});
+    this.inventoryService.GetMaterialRequestProducts_Data([this.materialRequestId]).subscribe((data: GeneralOrderDetailsModel[]) => {
+      this.orderDetails = data;
+      if (this.orderDetails.length > 0) {
+        // this.formGroup.patchValue({orderDetails:this.orderDetails});
       }
       this.showLoader = false;
     }, err => {
@@ -87,14 +88,14 @@ export class AddMaterialRequestComponent implements OnInit {
     });
   }
 
-  getSelectedProductsList(products: OrderProductModel[]) {
+  getSelectedProductsList(products: GeneralOrderDetailsModel[]) {
     console.log("🚀 ~ AddMaterialRequestComponent ~ getSelectedProductsList ~ products:", products)
-    this.formGroup.patchValue({ orderProducts: products });
-    this.orderProducts = products;
+    this.formGroup.patchValue({ orderDetails: products });
+    this.orderDetails = products;
   }
 
-  initNewForm(orderModel: OrderModel = null) {
-    this.orderProducts = [];
+  initNewForm(orderModel: MaterialRequestModel = null) {
+    this.orderDetails = [];
     this.clearAllProducts = !this.clearAllProducts;
     this.isUpdate = false;
     this.buildForm();
@@ -110,7 +111,7 @@ export class AddMaterialRequestComponent implements OnInit {
       branchId: [null, [Validators.required]],
       orderDate: [null, [Validators.required]],
       statusId: [null],
-      orderProducts: [[] as OrderProductModel[], [Validators.required, Validators.minLength(1)]],
+      orderDetails: [[] as GeneralOrderDetailsModel[], [Validators.required, Validators.minLength(1)]],
       notes: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {
@@ -121,13 +122,13 @@ export class AddMaterialRequestComponent implements OnInit {
 
 
   saveMaterialRequest() {
-    if (this.orderProducts.length === 0)
+    if (this.orderDetails.length === 0)
       this.toaster.warning('لا يوجد اصناف');
 
     if (!this.validateForm()) {
       return;
     }
-    this.purchaseRequestModel = this.formGroup.value;
+    this.materialRequestModel = this.formGroup.value;
 
     if (this.materialRequestId)
       this.editMaterialRequest();
@@ -137,7 +138,7 @@ export class AddMaterialRequestComponent implements OnInit {
 
   addNewMaterialRequest() {
     this.showAddLoader = true;
-    this.inventoryService.CreateNewMaterialRequest(this.purchaseRequestModel).subscribe((data: ActionsResponseModel) => {
+    this.inventoryService.CreateNewMaterialRequest(this.materialRequestModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         // this.formGroup?.reset();
         this.initNewForm();
@@ -162,7 +163,7 @@ export class AddMaterialRequestComponent implements OnInit {
 
   editMaterialRequest() {
     this.showAddLoader = true;
-    this.inventoryService.EditMaterialRequest(this.materialRequestId, this.purchaseRequestModel).subscribe((data: ActionsResponseModel) => {
+    this.inventoryService.EditMaterialRequest(this.materialRequestId, this.materialRequestModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.initNewForm();
@@ -202,7 +203,7 @@ export class AddMaterialRequestComponent implements OnInit {
     }
   }
 
-  fillEditForm(orderModel: OrderModel) {
+  fillEditForm(orderModel: MaterialRequestModel) {
     this.isUpdate = true;
     this.formGroup.patchValue({
       orderId: orderModel.orderId,
@@ -222,7 +223,7 @@ export class AddMaterialRequestComponent implements OnInit {
     orderId: '',
     orderDate: '',
     statusId: '',
-    orderProducts: '',
+    orderDetails: '',
     notes: ''
   };
 }

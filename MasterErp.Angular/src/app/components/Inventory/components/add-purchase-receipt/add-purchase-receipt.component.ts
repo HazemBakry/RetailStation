@@ -6,11 +6,12 @@ import { InventoryService } from '../../services/inventory.service';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
-import { OrderModel, OrderProductModel } from '../../models/inventory';
+import { OrderModel } from '../../models/inventory';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { FormService } from 'src/app/components/Shared/services/form.service';
+import { GeneralOrderDetailsModel } from '../../models/GeneralOrderModel ';
 
 @Component({
   selector: 'app-add-purchase-receipt',
@@ -22,7 +23,7 @@ export class AddPurchasesReceiptComponent implements OnInit {
   TitleList = ['المخازن', 'إضافة إذن استلام'];
   purchaseRequestId: number;
   purchaseRequestModel: OrderModel = {} as OrderModel;
-  orderProducts: OrderProductModel[] = [];
+  orderProducts: GeneralOrderDetailsModel[] = [];
   isUpdate: boolean = false;
   clearAllProducts: boolean = false;
 
@@ -75,21 +76,21 @@ export class AddPurchasesReceiptComponent implements OnInit {
   }
 
   getMaterialRequestProducts() {
-    this.showLoader = true;
-    this.inventoryService.GetMaterialRequestProducts_Data(this.purchaseRequestId).subscribe((data: OrderProductModel[]) => {
-      this.orderProducts = data;
-      if (this.orderProducts.length > 0) {
-        // this.formGroup.patchValue({orderProducts:this.orderProducts});
-      }
-      this.showLoader = false;
-    }, err => {
-      this.showLoader = false;
-    }, () => {
-      this.showLoader = false;
-    });
+    // this.showLoader = true;
+    // this.inventoryService.GetMaterialRequestProducts_Data(this.purchaseRequestId).subscribe((data: GeneralOrderDetailsModel[]) => {
+    //   this.orderProducts = data;
+    //   if (this.orderProducts.length > 0) {
+    //     // this.formGroup.patchValue({orderProducts:this.orderProducts});
+    //   }
+    //   this.showLoader = false;
+    // }, err => {
+    //   this.showLoader = false;
+    // }, () => {
+    //   this.showLoader = false;
+    // });
   }
 
-  getSelectedProductsList(products: OrderProductModel[]) {
+  getSelectedProductsList(products: GeneralOrderDetailsModel[]) {
     this.formGroup.patchValue({ orderProducts: products });
     this.orderProducts = products;
   }
@@ -109,7 +110,7 @@ export class AddPurchasesReceiptComponent implements OnInit {
       branchId: [null, [Validators.required]],
       orderDate: [null, [Validators.required]],
       storeId: [null, [Validators.required]],
-      orderProducts: [[] as OrderProductModel[], [Validators.required, Validators.minLength(1)]],
+      orderProducts: [[] as GeneralOrderDetailsModel[], [Validators.required, Validators.minLength(1)]],
       description: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {
@@ -161,23 +162,23 @@ export class AddPurchasesReceiptComponent implements OnInit {
 
   editPurchaseRequest() {
     this.showAddLoader = true;
-    this.inventoryService.EditMaterialRequest(this.purchaseRequestId, this.purchaseRequestModel).subscribe((data: ActionsResponseModel) => {
-      if (data?.isSuccess) {
-        this.formGroup?.reset();
-        this.initNewForm();
-        this.toaster.success(data?.message);
-        this.getPurchaseRequestDetailsById();
-        this.getMaterialRequestProducts();
-      }
-      else {
-        this.toaster.error(data?.message);
-      }
-      this.showAddLoader = false;
-    }, err => {
-      this.showAddLoader = false;
-    }, () => {
-      this.showAddLoader = false;
-    });
+    // this.inventoryService.EditMaterialRequest(this.purchaseRequestId, this.purchaseRequestModel).subscribe((data: ActionsResponseModel) => {
+    //   if (data?.isSuccess) {
+    //     this.formGroup?.reset();
+    //     this.initNewForm();
+    //     this.toaster.success(data?.message);
+    //     this.getPurchaseRequestDetailsById();
+    //     this.getMaterialRequestProducts();
+    //   }
+    //   else {
+    //     this.toaster.error(data?.message);
+    //   }
+    //   this.showAddLoader = false;
+    // }, err => {
+    //   this.showAddLoader = false;
+    // }, () => {
+    //   this.showAddLoader = false;
+    // });
 
 
   }

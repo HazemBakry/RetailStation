@@ -1,8 +1,9 @@
 import { ComponentFactoryResolver, Injectable, ViewContainerRef } from '@angular/core';
-import { OrderModel, OrderProductModel } from '../../Inventory/models/inventory';
+import { OrderModel } from '../../Inventory/models/inventory';
 import { ProductsDetailsSidePanelComponent } from '../components/sidepanel/products-details-side-panel/products-details-side-panel.component';
 import { DataField } from '../models/DataField';
 import { title } from 'process';
+import { GeneralOrderDetailsModel } from '../../Inventory/models/GeneralOrderModel ';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class DynamicComponentLoaderService {
   loadProductDetailsSidePanel(
     viewContainerRef: ViewContainerRef,
     detailsModel: OrderModel,
-    productList: OrderProductModel[],
+    productList: GeneralOrderDetailsModel[],
     dataFields: DataField[],
     title: string =null
   ) {

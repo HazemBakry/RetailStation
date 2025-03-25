@@ -48,7 +48,7 @@
                             <div class="w-100 d-flex align-items-center justify-content-center">
                                 
                                 <button routerLink="/purchases/add-purchase-order"
-                                    [queryParams]="{PurchaseOrderId:item.orderId}"
+                                    [queryParams]="{PurchaseOrderId:item.purchaseOrderId}"
                                     class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
                                     <i class="uil uil-pen"></i>
                                     <span>تعديل</span>
@@ -56,7 +56,7 @@
 
                                 <button
                                     class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
-                                    (click)="cancelPurchaseOrder(item.orderId)">
+                                    (click)="cancelPurchaseOrder(item.purchaseOrderId)">
                                     <i class="uil uil-trash-alt"></i>
                                     <span>حذف</span>
                                 </button>

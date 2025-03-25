@@ -3,11 +3,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
-import { OrderModel, OrderProductModel } from 'src/app/components/Inventory/models/inventory';
+import { OrderModel } from 'src/app/components/Inventory/models/inventory';
 import { FieldType } from 'src/app/components/Shared/Enums/FieldType';
 import { DataField } from 'src/app/components/Shared/models/DataField';
 import { DynamicComponentLoaderService } from 'src/app/components/Shared/services/dynamic-component-loader.service';
 import { ComponentHostDirective } from 'src/app/components/Shared/directives/component-host.directive';
+import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
+import { PurchaseOrderModel } from '../../models/PurchaseOrder';
 
 
 @Component({
@@ -21,7 +23,7 @@ export class PurchaseOrdersComponent implements OnInit {
   showLoader: boolean;
   TotalCount: any;
   TotalPages: any;
-  pagedResponseModel: PagedResponseDTO<OrderModel[]> = {
+  pagedResponseModel: PagedResponseDTO<PurchaseOrderModel[]> = {
     results: [],
     filterList: [],
     pageSize: 25,
@@ -74,10 +76,10 @@ export class PurchaseOrdersComponent implements OnInit {
     else
       return "open";
   }
-  showOrderDetails(detailsModel: OrderModel) {
+  showOrderDetails(detailsModel: PurchaseOrderModel) {
 
     // this.showLoader = true;
-    this.purchaseService.GetPurchaseOrderProducts_Data(detailsModel.orderId).subscribe((data: OrderProductModel[]) => {
+    this.purchaseService.GetPurchaseOrderProducts_Data(detailsModel.purchaseOrderId).subscribe((data: GeneralOrderDetailsModel[]) => {
       this.dynamicComponentService.loadProductDetailsSidePanel(
         this.detailsComponentHost.viewContainerRef,
         detailsModel,

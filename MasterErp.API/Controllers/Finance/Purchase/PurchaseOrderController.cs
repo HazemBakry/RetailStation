@@ -31,7 +31,7 @@ namespace MasterErp.API.Controllers.Finance.Purchase
         public IActionResult GetPurchaseOrders_Data(SearchFilterModel model)
         {
             var data= PurchaseOrderService.GetPurchaseOrders_Data(model);
-            var result = new PagedResponseModel<OrderModel>
+            var result = new PagedResponseModel<PurchaseOrderModel>
             {
                 Results = data,
                 TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
@@ -45,40 +45,40 @@ namespace MasterErp.API.Controllers.Finance.Purchase
         
         [HttpGet]
         [Route("GetPurchaseOrderProducts_Data")]
-        public IActionResult GetPurchaseOrderProducts_Data(int OrderId)
+        public IActionResult GetPurchaseOrderProducts_Data(int PurchaseOrderId)
         {
-            var result = PurchaseOrderService.GetPurchaseOrderProducts_Data(OrderId);
+            var result = PurchaseOrderService.GetPurchaseOrderProducts_Data(PurchaseOrderId);
             return Ok(result);
         }
         [HttpGet]
         [Route("GetPurchaseOrderDetailsById")]
-        public IActionResult GetPurchaseOrderDetailsById(int OrderId)
+        public IActionResult GetPurchaseOrderDetailsById(int PurchaseOrderId)
         {
-            var result = PurchaseOrderService.GetPurchaseOrderDetailsById(OrderId);
+            var result = PurchaseOrderService.GetPurchaseOrderDetailsById(PurchaseOrderId);
             return Ok(result);
         }
 
         [HttpPost]
         [Route("AddNewPurchaseOrder")]
-        public IActionResult AddNewPurchaseOrder(OrderModel model)
+        public IActionResult AddNewPurchaseOrder(PurchaseOrderModel model)
         {
             var result = PurchaseOrderService.AddNewPurchaseOrder(model);
             return Ok(result);
         }
         [HttpPost]
         [Route("EditPurchaseOrder")]
-        public IActionResult EditPurchaseOrder(int OrderId,OrderModel model)
+        public IActionResult EditPurchaseOrder(int PurchaseOrderId, PurchaseOrderModel model)
         {
-            var result = PurchaseOrderService.EditPurchaseOrder(OrderId, model);
+            var result = PurchaseOrderService.EditPurchaseOrder(PurchaseOrderId, model);
             return Ok(result);
         }
 
         [HttpGet]
         [Route("CancelPurchaseOrder")]
-        public IActionResult CancelPurchaseOrder(int OrderId)
+        public IActionResult CancelPurchaseOrder(int PurchaseOrderId)
         {
 
-            var result = PurchaseOrderService.CancelPurchaseOrder(OrderId);
+            var result = PurchaseOrderService.CancelPurchaseOrder(PurchaseOrderId);
             return Ok(result);
         }
 

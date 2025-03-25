@@ -10,10 +10,11 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { DatePipe } from '@angular/common';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
-import { OrderModel, OrderProductModel } from 'src/app/components/Inventory/models/inventory';
+import { OrderModel } from 'src/app/components/Inventory/models/inventory';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
 import { PurchaseQuotationDetailsModel, PurchaseQuotationModel } from '../../models/PurchaseQuotationModel';
 import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
+import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
 
 @Component({
   selector: 'app-add-purchase-quotation',
@@ -141,7 +142,7 @@ export class AddPurchaseQuotationComponent implements OnInit {
     });
   }
 
-  getSelectedProductsList(products:OrderProductModel[]) {
+  getSelectedProductsList(products:GeneralOrderDetailsModel[]) {
     this.formGroup.patchValue({quotationProducts:products});
   }
 

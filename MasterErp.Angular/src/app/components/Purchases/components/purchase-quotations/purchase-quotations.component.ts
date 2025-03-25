@@ -4,7 +4,7 @@ import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
 import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
-import { OrderModel, OrderProductModel } from 'src/app/components/Inventory/models/inventory';
+import { OrderModel } from 'src/app/components/Inventory/models/inventory';
 import { ComponentHostDirective } from 'src/app/components/Shared/directives/component-host.directive';
 import { ProductsDetailsSidePanelComponent } from 'src/app/components/Shared/components/sidepanel/products-details-side-panel/products-details-side-panel.component';
 import { DataField } from 'src/app/components/Shared/models/DataField';

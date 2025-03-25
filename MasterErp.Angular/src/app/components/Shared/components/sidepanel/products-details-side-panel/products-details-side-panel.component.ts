@@ -1,9 +1,10 @@
 import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { OrderDetailModel } from '../../../models/ItemModel';
-import { OrderModel, OrderProductModel } from 'src/app/components/Inventory/models/inventory';
+import { OrderModel } from 'src/app/components/Inventory/models/inventory';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { DataField } from '../../../models/DataField';
+import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
 
 @Component({
   selector: 'app-products-details-side-panel',
@@ -12,7 +13,7 @@ import { DataField } from '../../../models/DataField';
 })
 export class ProductsDetailsSidePanelComponent implements OnInit {
   @Input() detailsModel: OrderModel;
-  @Input() productList: OrderProductModel[] = [];
+  @Input() productList: GeneralOrderDetailsModel[] = [];
   @Input() dataFields: DataField[] = [];
   @Input() title: string = 'تفاصيل';
 
@@ -30,7 +31,7 @@ export class ProductsDetailsSidePanelComponent implements OnInit {
     else
       this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
   }
-  getFieldValue(product: OrderProductModel, field: DataField): any {
+  getFieldValue(product: GeneralOrderDetailsModel, field: DataField): any {
     // Check if the field exists in the product and return its value
     if (product && product.hasOwnProperty(field.fieldName)) {
       return product[field.fieldName];

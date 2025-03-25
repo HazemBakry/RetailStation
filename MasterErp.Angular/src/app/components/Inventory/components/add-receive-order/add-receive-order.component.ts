@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { InventoryService } from '../../services/inventory.service';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
-import { OrderModel, OrderProductModel } from '../../models/inventory';
+import { OrderModel } from '../../models/inventory';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormService } from 'src/app/components/Shared/services/form.service';
@@ -12,6 +12,7 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { DatePipe } from '@angular/common';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
+import { GeneralOrderDetailsModel } from '../../models/GeneralOrderModel ';
 
 @Component({
   selector: 'app-add-receive-order',
@@ -23,7 +24,7 @@ export class AddReceiveOrderComponent implements OnInit {
   TitleList = ['المخازن', 'إضافة إذن جديد'];
   receiveOrderId: number;
   receiveOrderModel: OrderModel = {} as OrderModel;
-  orderProducts: OrderProductModel[] = [];
+  orderProducts: GeneralOrderDetailsModel[] = [];
   isUpdate: boolean = false;
   clearAllProducts: boolean = false;
 
@@ -76,7 +77,7 @@ export class AddReceiveOrderComponent implements OnInit {
   }
   getReceiveOrderProducts() {
     this.showLoader = true;
-    this.inventoryService.GetReceiveOrderProducts_Data([this.receiveOrderId]).subscribe((data: OrderProductModel[]) => {
+    this.inventoryService.GetReceiveOrderProducts_Data([this.receiveOrderId]).subscribe((data: GeneralOrderDetailsModel[]) => {
       this.orderProducts = data;
       if (this.orderProducts.length > 0) {
         // this.formGroup.patchValue({orderProducts:this.orderProducts});
@@ -94,13 +95,13 @@ export class AddReceiveOrderComponent implements OnInit {
     this.selectedPurchaseOrder = ord;
     this.getPurchaseOrderProducts();
   }
-  getSelectedProductsList(products: OrderProductModel[]) {
+  getSelectedProductsList(products: GeneralOrderDetailsModel[]) {
     this.formGroup.patchValue({ orderProducts: products });
     this.orderProducts = products;
   }
   getPurchaseOrderProducts() {
     this.showLoader = true;
-    this.purchaseService.GetPurchaseOrderProducts_Data(this.selectedPurchaseOrder.orderId).subscribe((data: OrderProductModel[]) => {
+    this.purchaseService.GetPurchaseOrderProducts_Data(this.selectedPurchaseOrder.orderId).subscribe((data: GeneralOrderDetailsModel[]) => {
       if (data) {
         this.orderProducts = data;
         // this.formGroup.patchValue({orderProducts:this.orderProducts});
@@ -130,7 +131,7 @@ export class AddReceiveOrderComponent implements OnInit {
       supplierId: [null, [Validators.required]],
       purchaseOrderId: [null, [Validators.required]],
       storeId: [null, [Validators.required]],
-      orderProducts: [[] as OrderProductModel[], [Validators.required, Validators.minLength(1)]],
+      orderProducts: [[] as GeneralOrderDetailsModel[], [Validators.required, Validators.minLength(1)]],
       description: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {

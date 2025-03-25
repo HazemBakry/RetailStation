@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { InventoryService } from '../../services/inventory.service';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
-import { OrderModel, OrderProductModel } from '../../models/inventory';
+import { OrderModel } from '../../models/inventory';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -11,6 +11,7 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { DatePipe } from '@angular/common';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
+import { GeneralOrderDetailsModel } from '../../models/GeneralOrderModel ';
 
 @Component({
   selector: 'app-add-delivery-note',
@@ -22,7 +23,7 @@ export class AddDeliveryNoteComponent implements OnInit {
   TitleList = ['المخازن', 'إضافة إذن صرف'];
   deliveryNoteId: number;
   OrderModel: OrderModel = {} as OrderModel;
-  orderProducts: OrderProductModel[] = [];
+  orderProducts: GeneralOrderDetailsModel[] = [];
   isUpdate: boolean = false;
   clearAllProducts: boolean = false;
 
@@ -74,7 +75,7 @@ export class AddDeliveryNoteComponent implements OnInit {
 
   getDeliveryNoteProducts() {
     this.showLoader = true;
-    this.inventoryService.GetDeliveryNoteProducts_Data(this.deliveryNoteId).subscribe((data: OrderProductModel[]) => {
+    this.inventoryService.GetDeliveryNoteProducts_Data(this.deliveryNoteId).subscribe((data: GeneralOrderDetailsModel[]) => {
       this.orderProducts = data;
       if (this.orderProducts.length > 0) {
         // this.formGroup.patchValue({orderProducts:this.orderProducts});
@@ -89,7 +90,7 @@ export class AddDeliveryNoteComponent implements OnInit {
     });
   }
 
-  getSelectedProductsList(products: OrderProductModel[]) {
+  getSelectedProductsList(products: GeneralOrderDetailsModel[]) {
     this.formGroup.patchValue({ orderProducts: products });
     this.orderProducts = products;
   }
@@ -109,7 +110,7 @@ export class AddDeliveryNoteComponent implements OnInit {
       branchId: [null, [Validators.required]],
       orderDate: [null, [Validators.required]],
       storeId: [null, [Validators.required]],
-      orderProducts: [[] as OrderProductModel[], [Validators.required, Validators.minLength(1)]],
+      orderProducts: [[] as GeneralOrderDetailsModel[], [Validators.required, Validators.minLength(1)]],
       description: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {

@@ -3,4 +3,6 @@ export interface CreatorModel {
     createdDate?: string | null;
     modifiedBy?: string;
     modifiedDate?: string | null;
+    createdByName?: string | null;
+    modifiedByName?: string | null;
 }
