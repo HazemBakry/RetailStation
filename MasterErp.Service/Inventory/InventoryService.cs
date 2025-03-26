@@ -186,7 +186,7 @@ namespace MasterErp.Service.Inventory
                         Quantity = item.Quantity,
                         TotalValue = item.TotalValue,
                         MaterialReceiptId = order_tbl.MaterialReceiptId,
-                        //UnitId = item.UnitId,
+                        UnitId = item.UnitId,
                         //RemainQuantity = 0,
                         //ItemBalance = 0,
                         //IsLocked = false,
@@ -726,7 +726,7 @@ namespace MasterErp.Service.Inventory
 
             SqlParameter[] Params = new SqlParameter[4];
 
-            Params[0] = new SqlParameter("@OrderId", MaterialRequestId);
+            Params[0] = new SqlParameter("@MaterialRequestId", MaterialRequestId);
             Params[1] = new SqlParameter("@CurrentPage", model.CurrentPage);
             Params[2] = new SqlParameter("@PageSize", model.PageSize);
             Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);

@@ -10,7 +10,7 @@ namespace MasterErp.Entities.DTOs.Inventory
 
     public class MaterialReceiptModel : GeneralOrderModel
     {
-        public int? MaterialReceipttId { get; set; }
+        public int? MaterialReceiptId { get; set; }
         public int? PurchaseOrderId { get; set; }
         public int? SupplierId { get; set; }
         public string SupplierNameAR { get; set; }

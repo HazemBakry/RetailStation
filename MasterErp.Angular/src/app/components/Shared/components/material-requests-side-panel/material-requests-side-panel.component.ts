@@ -59,7 +59,7 @@ export class MaterialRequestsSidePanelComponent implements OnInit {
 
   loadData()
   {
-    if (!this.selectedBranchId &&(!this.orderDate||!this.orderNumber)) {
+    if (!this.selectedBranchId &&!this.orderDate&&!this.orderNumber) {
       this.toaster.warning('لا يمكن البحث ');
       return;
     }
@@ -89,7 +89,7 @@ export class MaterialRequestsSidePanelComponent implements OnInit {
     if (this.orderNumber) {
       this.pagedResponseModel.filterList.push({categoryName:'searchText',itemFlag:this.orderNumber})
     }
-    this.pagedResponseModel.filterList.push({categoryName:'IsLocked',itemFlag:'0'})
+    // this.pagedResponseModel.filterList.push({categoryName:'IsLocked',itemFlag:'0'})
 
   }
   OpenSidePanel(content: any) {

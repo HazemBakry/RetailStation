@@ -7,6 +7,8 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { OrderModel } from 'src/app/components/Inventory/models/inventory';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
+import { GeneralSelectorModel } from '../../general-selector/general-selector.component';
+import { MaterialReceiptModel } from 'src/app/components/Inventory/models/MaterialReceiptModel';
 
 @Component({
   selector: 'app-material-receipt-side-panel',
@@ -18,30 +20,27 @@ import { InventoryService } from 'src/app/components/Inventory/services/inventor
 export class MaterialReceiptSidePanelComponent implements OnInit {
   @Input() selectedSupplierId: any;
 
-  @Output() selectedOrder=new EventEmitter<OrderModel[]>()
+  @Output() selectedOrder = new EventEmitter<MaterialReceiptModel[]>()
   OrdersList: any[] = [];
   showLoader: boolean;
 
-  selectAll:boolean=false;
-  SuppliersList: any[] = [];
-  SupplierId: any;
-  SupplierName = 'الموردين';
-  orderNumber:string = '';
-  orderDate:string ;
-  pagedResponseModel:PagedResponseDTO<OrderModel[]>={
-    results:[],
-    filterList:[],
+  selectAll: boolean = false;
+  orderNumber: string = '';
+  orderDate: string;
+  pagedResponseModel: PagedResponseDTO<MaterialReceiptModel[]> = {
+    results: [],
+    filterList: [],
     pageSize: 25,
-    currentPage:1,
-    searchText:''
+    currentPage: 1,
+    searchText: ''
 
   };
-  suppliersSelectorData: FormDropdownModel[] = [];
+  suppliersSelectorData: GeneralSelectorModel[] = [];
   constructor(private offcanvasService: NgbOffcanvas,
-              private purchaseService: PurchaseService,
-              private inventoryService: InventoryService,
-              private sharedService: SharedService,
-              private toaster: ToastrService) { }
+    private purchaseService: PurchaseService,
+    private inventoryService: InventoryService,
+    private sharedService: SharedService,
+    private toaster: ToastrService) { }
 
 
   ngOnInit(): void {
@@ -52,28 +51,25 @@ export class MaterialReceiptSidePanelComponent implements OnInit {
       this.suppliersSelectorData = data;
     });
   }
-  GetSelectedSupplier(item: any) {
-    this.SupplierId = item.supplierId;
-  }
 
-  loadData()
-  {
-    if (!this.selectedSupplierId &&(!this.orderDate||!this.orderNumber)) {
+
+  loadData() {
+    if (!this.selectedSupplierId && (!this.orderDate || !this.orderNumber)) {
       this.toaster.warning('لا يمكن البحث ');
       return;
     }
 
     this.mapFilters();
-    this.showLoader=true;
-    this.inventoryService.GetMaterialReceipts_Data(this.pagedResponseModel).subscribe((data:PagedResponseDTO<OrderModel[]>) => {
+    this.showLoader = true;
+    this.inventoryService.GetMaterialReceipts_Data(this.pagedResponseModel).subscribe((data: PagedResponseDTO<MaterialReceiptModel[]>) => {
       // console.log("data",data);
-      this.pagedResponseModel.results=data.results;
-      this.pagedResponseModel.totalCount=data.totalCount;
-      this.showLoader=false;
-    },(err)=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.pagedResponseModel.results = data.results;
+      this.pagedResponseModel.totalCount = data.totalCount;
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
 
 
@@ -86,37 +82,35 @@ export class MaterialReceiptSidePanelComponent implements OnInit {
     // },()=>{
     //   this.showLoader=false;
     // });
-    
-    
+
+
   }
   mapFilters() {
-    this.pagedResponseModel.filterList=[];
+    this.pagedResponseModel.filterList = [];
     if (this.orderDate) {
-      this.pagedResponseModel.filterList.push({categoryName:'OrderDate',itemFlag:this.orderDate})
+      this.pagedResponseModel.filterList.push({ categoryName: 'OrderDate', itemFlag: this.orderDate })
     }
     if (this.selectedSupplierId) {
-      this.pagedResponseModel.filterList.push({categoryName:'SupplierId',itemFlag:this.selectedSupplierId})
+      this.pagedResponseModel.filterList.push({ categoryName: 'SupplierId', itemFlag: this.selectedSupplierId })
     }
     if (this.orderNumber) {
-      this.pagedResponseModel.filterList.push({categoryName:'searchText',itemFlag:this.orderNumber})
+      this.pagedResponseModel.filterList.push({ categoryName: 'searchText', itemFlag: this.orderNumber })
     }
-    this.pagedResponseModel.filterList.push({categoryName:'IsLocked',itemFlag:'0'})
+    //this.pagedResponseModel.filterList.push({ categoryName: 'IsLocked', itemFlag: '0' })
 
   }
   OpenSidePanel(content: any) {
-    this.pagedResponseModel.results=[];
-    this.offcanvasService.open(content, {panelClass: 'details-panel', position: 'end' });
+    this.pagedResponseModel.results = [];
+    this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
   }
 
 
-  SelectOrder(ord)
-  {
+  selectOrder(ord) {
     this.offcanvasService.dismiss();
     this.selectedOrder.emit([ord]);
   }
-  SelectOrders()
-  {
-    var checkedItems = this.pagedResponseModel.results.filter(b => b.isChecked &&b.orderId);
+  selectOrders() {
+    var checkedItems = this.pagedResponseModel.results.filter(b => b.isChecked && b.materialReceiptId);
     if (checkedItems.length <= 0) {
       this.toaster.warning('يجب الاختبار من اذونات الاضافة');
       return;

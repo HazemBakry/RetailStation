@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InventoryRoutingModule } from './inventory-routing.module';
 import { SharedModule } from '../Shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { OrderSearchSidepanelComponent } from './components/order-search-sidepanel/order-search-sidepanel.component';
+import { PurchaseOrderSidePanelComponent } from './components/purchase-order-side-panel/purchase-order-side-panel.component';
 import { ItemsCategoryComponent } from './components/items-category/items-category.component';
 import { InventoryLayoutComponent } from './inventory-layout/inventory-layout.component';
 import { PurchasesRequestsComponent } from './components/purchases-requests/purchases-requests.component';
@@ -38,7 +38,7 @@ import { MaterialReceiptsComponent } from './components/material-receipts/materi
     MaterialReceiptsComponent,
     DeliveryNotesComponent,
     AddDeliveryNoteComponent,
-    OrderSearchSidepanelComponent,
+    PurchaseOrderSidePanelComponent,
     AddMaterialRequestComponent,
     PurchasesRequestsComponent,
     AddItemComponent,

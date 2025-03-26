@@ -95,6 +95,7 @@ namespace MasterErp.API.Controllers.Inventory
         [Route("AddNewMaterialReceipt")]
         public IActionResult AddNewMaterialReceipt(MaterialReceiptModel model)
         {
+            model.CreatedBy = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
             var result = _inventoryService.AddNewMaterialReceipt(model);
             return Ok(result);
         }
@@ -103,6 +104,7 @@ namespace MasterErp.API.Controllers.Inventory
         [Route("EditMaterialReceipt")]
         public IActionResult EditMaterialReceipt(int MaterialReceiptId, MaterialReceiptModel model)
         {
+            model.ModifiedBy = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
             var result = _inventoryService.EditMaterialReceipt(MaterialReceiptId, model);
             return Ok(result);
         }

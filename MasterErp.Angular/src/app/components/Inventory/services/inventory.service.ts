@@ -151,24 +151,24 @@ export class InventoryService {
     return this.http.post<FilterModel[]>(this.URL + 'Inventory/GetMaterialReceipts_Filters', model);
   }
 
-  GetMaterialReceiptDetailsById(orderId: number) {
-    return this.http.get<MaterialReceiptModel>(this.URL + `Inventory/GetMaterialReceiptDetailsById?OrderId=${orderId}`);
+  GetMaterialReceiptDetailsById(materialReceiptId: number) {
+    return this.http.get<MaterialReceiptModel>(this.URL + `Inventory/GetMaterialReceiptDetailsById?MaterialReceiptId=${materialReceiptId}`);
   }
 
-  GetMaterialReceiptProducts_Data(orderIds: number[]) {
-    return this.http.post<GeneralOrderDetailsModel[]>(this.URL + 'Inventory/GetMaterialReceiptProducts_Data', orderIds);
+  GetMaterialReceiptProducts_Data(materialReceiptIds: number[]) {
+    return this.http.post<GeneralOrderDetailsModel[]>(this.URL + 'Inventory/GetMaterialReceiptProducts_Data', materialReceiptIds);
   }
 
   AddNewMaterialReceipt(model: MaterialReceiptModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/AddNewMaterialReceipt', model);
   }
 
-  EditMaterialReceipt(orderId: number, model: MaterialReceiptModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/EditMaterialReceipt?OrderId=' + orderId, model);
+  EditMaterialReceipt(materialReceiptId: number, model: MaterialReceiptModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/EditMaterialReceipt?MaterialReceiptId=' + materialReceiptId, model);
   }
 
-  CancelMaterialReceipt(OrderId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelMaterialReceipt?OrderId=' + OrderId);
+  CancelMaterialReceipt(MaterialReceiptId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelMaterialReceipt?MaterialReceiptId=' + MaterialReceiptId);
   }
 
   //-------------------------------------------- Purchase Receipt --------------------------------------------//

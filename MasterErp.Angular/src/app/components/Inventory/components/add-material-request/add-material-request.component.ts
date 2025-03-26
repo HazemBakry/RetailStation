@@ -89,7 +89,6 @@ export class AddMaterialRequestComponent implements OnInit {
   }
 
   getSelectedProductsList(products: GeneralOrderDetailsModel[]) {
-    console.log("🚀 ~ AddMaterialRequestComponent ~ getSelectedProductsList ~ products:", products)
     this.formGroup.patchValue({ orderDetails: products });
     this.orderDetails = products;
   }

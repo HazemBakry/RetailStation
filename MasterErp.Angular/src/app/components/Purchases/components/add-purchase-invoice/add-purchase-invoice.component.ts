@@ -14,6 +14,7 @@ import { OrderModel } from 'src/app/components/Inventory/models/inventory';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
 import { ItemModel } from 'src/app/components/Inventory/models/Item';
 import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
+import { MaterialReceiptModel } from 'src/app/components/Inventory/models/MaterialReceiptModel';
 
 @Component({
   selector: 'app-add-purchase-invoice',
@@ -38,7 +39,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   formData: FormData = new FormData();
   public formGroup: FormGroup;
 
-  selectedMaterialReceipt: OrderModel[] = [];
+  selectedMaterialReceipt: MaterialReceiptModel[] = [];
   selectedSupplierId: number;
 
   constructor(private acRoute: ActivatedRoute, private router: Router, private modalService: NgbModal, private inventoryService: InventoryService,
@@ -93,7 +94,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
       this.showLoader = false;
     });
   }
-  searchOrderSelected(ord: OrderModel[]) {
+  searchOrderSelected(ord: MaterialReceiptModel[]) {
     this.selectedMaterialReceipt = ord;
     this.getMaterialReceiptProducts();
   }
@@ -104,8 +105,8 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   getMaterialReceiptProducts() {
     var orderIds: number[] = [];
     this.selectedMaterialReceipt.forEach(ord => {
-      if (!orderIds.some(x => x == ord.orderId))
-        orderIds.push(ord.orderId);
+      if (!orderIds.some(x => x == ord.materialReceiptId))
+        orderIds.push(ord.materialReceiptId);
     });
     this.showLoader = true;
     this.inventoryService.GetMaterialReceiptProducts_Data(orderIds).subscribe((data: GeneralOrderDetailsModel[]) => {

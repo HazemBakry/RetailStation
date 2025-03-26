@@ -22,9 +22,9 @@ import { PurchaseOrderModel } from 'src/app/components/Purchases/models/Purchase
 })
 
 export class AddMaterialReceiptComponent implements OnInit {
-  TitleList = ['المخازن', 'إضافة إذن جديد'];
+  TitleList = ['المخازن', 'انشاء أذن أضافة جديد'];
   materialReceiptId: number;
-  MaterialReceiptModel: MaterialReceiptModel = {} as MaterialReceiptModel;
+  materialReceiptModel: MaterialReceiptModel = {} as MaterialReceiptModel;
   orderDetails: GeneralOrderDetailsModel[] = [];
   isUpdate: boolean = false;
   clearAllProducts: boolean = false;
@@ -47,8 +47,8 @@ export class AddMaterialReceiptComponent implements OnInit {
 
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
-      if (params.materialReceiptId) {
-        this.materialReceiptId = params.materialReceiptId;
+      if (params.MaterialReceiptId) {
+        this.materialReceiptId = params.MaterialReceiptId;
         this.getMaterialReceiptDetailsById();
         this.getMaterialReceiptProducts();
       }
@@ -64,10 +64,10 @@ export class AddMaterialReceiptComponent implements OnInit {
     this.showLoader = true;
     this.inventoryService.GetMaterialReceiptDetailsById(this.materialReceiptId).subscribe((data: MaterialReceiptModel) => {
       if (data) {
-        this.MaterialReceiptModel = data;
+        this.materialReceiptModel = data;
         // this.getMaterialReceiptProducts();
-        // this.initNewForm(this.MaterialReceiptModel);
-        this.fillEditForm(this.MaterialReceiptModel)
+        // this.initNewForm(this.materialReceiptModel);
+        this.fillEditForm(this.materialReceiptModel)
       }
       this.showLoader = false;
     }, err => {
@@ -83,7 +83,7 @@ export class AddMaterialReceiptComponent implements OnInit {
       if (this.orderDetails.length > 0) {
         // this.formGroup.patchValue({orderDetails:this.orderDetails});
       }
-      // this.initNewForm(this.MaterialReceiptModel);
+      // this.initNewForm(this.materialReceiptModel);
 
       this.showLoader = false;
     }, err => {
@@ -129,6 +129,9 @@ export class AddMaterialReceiptComponent implements OnInit {
   buildForm() {
     this.formGroup = this.form.group({
       materialReceiptId: [null],
+      orderNumber: [null],
+      docNumber: [null],
+      orderDate: [null, [Validators.required]],
       supplierId: [null, [Validators.required]],
       purchaseOrderId: [null, [Validators.required]],
       storeId: [null, [Validators.required]],
@@ -149,7 +152,7 @@ export class AddMaterialReceiptComponent implements OnInit {
     if (!this.validateForm()) {
       return;
     }
-    this.MaterialReceiptModel = this.formGroup.value;
+    this.materialReceiptModel = this.formGroup.value;
 
     if (this.materialReceiptId)
       this.editMaterialReceipt();
@@ -159,7 +162,7 @@ export class AddMaterialReceiptComponent implements OnInit {
 
   addNewMaterialReceipt() {
     this.showAddLoader = true;
-    this.inventoryService.AddNewMaterialReceipt(this.MaterialReceiptModel).subscribe((data: ActionsResponseModel) => {
+    this.inventoryService.AddNewMaterialReceipt(this.materialReceiptModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         // this.formGroup?.reset();
         this.initNewForm();
@@ -178,7 +181,7 @@ export class AddMaterialReceiptComponent implements OnInit {
 
   editMaterialReceipt() {
     this.showAddLoader = true;
-    this.inventoryService.EditMaterialReceipt(this.materialReceiptId, this.MaterialReceiptModel).subscribe((data: ActionsResponseModel) => {
+    this.inventoryService.EditMaterialReceipt(this.materialReceiptId, this.materialReceiptModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.initNewForm();
@@ -224,6 +227,9 @@ export class AddMaterialReceiptComponent implements OnInit {
 
     this.formGroup.patchValue({
       materialReceiptId: orderModel.materialReceiptId,
+      orderNumber: orderModel.orderNumber,
+      docNumber: orderModel.docNumber,
+      orderDate: this.datePipe.transform(orderModel.orderDate, 'yyyy-MM-dd'),
       supplierId: orderModel.supplierId,
       purchaseOrderId: orderModel.purchaseOrderId,
       storeId: orderModel.storeId,
@@ -235,6 +241,9 @@ export class AddMaterialReceiptComponent implements OnInit {
   public formErrors = {
     supplierId: '',
     materialReceiptId: '',
+    orderNumber: '',
+    docNumber: '',
+    orderDate: '',
     purchaseOrderId: '',
     storeId: '',
     orderDetails: '',

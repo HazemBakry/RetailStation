@@ -20,6 +20,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   @Input() clearAllProducts: boolean = false;
   @Input() showAddNew: boolean = true;
   @Input() showPrice: boolean = true;
+  @Input() isEditable: boolean = true;
   @Input()   selectedSupplierId: number;
   @Output() selectedProductsList = new EventEmitter<GeneralOrderDetailsModel[]>();
   showLoader: boolean = false;

@@ -7,16 +7,17 @@ import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponse
 import { OrderModel } from '../../models/inventory';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
+import { PurchaseOrderModel } from 'src/app/components/Purchases/models/PurchaseOrder';
 
 @Component({
-  selector: 'app-order-search-sidepanel',
-  templateUrl: './order-search-sidepanel.component.html',
-  styleUrls: ['./order-search-sidepanel.component.css'],
+  selector: 'app-purchase-order-side-panel',
+  templateUrl: './purchase-order-side-panel.component.html',
+  styleUrls: ['./purchase-order-side-panel.component.css'],
   encapsulation: ViewEncapsulation.None,
 
 })
-export class OrderSearchSidepanelComponent implements OnInit {
-  @Input() selectedSupplierId: any;
+export class PurchaseOrderSidePanelComponent implements OnInit {
+  @Input() selectedSupplierId: number;
 
   @Output() selectedOrder=new EventEmitter<any>()
   OrdersList: any[] = [];
@@ -65,7 +66,7 @@ export class OrderSearchSidepanelComponent implements OnInit {
 
     this.mapFilters();
     this.showLoader=true;
-    this.purchaseService.GetPurchaseOrders_Data(this.pagedResponseModel).subscribe((data:PagedResponseDTO<OrderModel[]>) => {
+    this.purchaseService.GetPurchaseOrders_Data(this.pagedResponseModel).subscribe((data:PagedResponseDTO<PurchaseOrderModel[]>) => {
       // console.log("data",data);
       this.pagedResponseModel.results=data.results;
       this.pagedResponseModel.totalCount=data.totalCount;
@@ -95,7 +96,7 @@ export class OrderSearchSidepanelComponent implements OnInit {
       this.pagedResponseModel.filterList.push({categoryName:'OrderDate',itemFlag:this.orderDate})
     }
     if (this.selectedSupplierId) {
-      this.pagedResponseModel.filterList.push({categoryName:'SupplierId',itemFlag:this.selectedSupplierId})
+      this.pagedResponseModel.filterList.push({categoryName:'SupplierId',itemFlag:this.selectedSupplierId?.toString()})
     }
     if (this.orderNumber) {
       this.pagedResponseModel.filterList.push({categoryName:'SearchText',itemFlag:this.orderNumber})

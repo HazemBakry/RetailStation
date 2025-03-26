@@ -1,8 +1,9 @@
-<button class="btn btn-primary" (click)="OpenSidePanel(OrderSearchSidepanel)">
+<div (click)="OpenSidePanel(OrderSearchSidepanel)">
+    <i class="uil uil-pen"></i>
+    <span class="ms-2">تحميل أذن أضافة</span>
+</div>
 
-    <i class="fas fa-search"></i>
-    <span class="ms-2">بحث أذن أضافة</span>
-</button>
+
 <ng-template #OrderSearchSidepanel let-offcanvas>
 
     <div class="offcanvas-header justify-content-between gap-3 fs-4 border-bottom py-3">
@@ -18,17 +19,16 @@
 
         <div class="employee-card-body row mb-3">
             <div class="col-xl-4 mb-2">
-                <app-drop-down-form-control [disabled]="true" [(ngModel)]="selectedSupplierId"
-                    [data]="suppliersSelectorData" [showSearch]="true"
-                    [placeholder]="'قائمة الموردين'"></app-drop-down-form-control>
+                <app-general-selector [(ngModel)]="selectedSupplierId" [disabled]="true" [data]="suppliersSelectorData"
+                    [showSearch]="true" [placeholder]="'الموردين'"></app-general-selector>
             </div>
             <div class="col-xl-4 mb-2">
-                <input type="text" autocomplete="off" [(ngModel)]="orderNumber" class="form-control input-height"
+                <input type="text" autocomplete="off" [(ngModel)]="orderNumber" class="form-control nw-form-input"
                     placeholder="رقم الطلب">
 
             </div>
             <div class="col-xl-4 mb-2">
-                <input type="date" [(ngModel)]="orderDate" class="form-control input-height"
+                <input type="date" [(ngModel)]="orderDate" class="form-control nw-form-input"
                     placeholder="تاريخ الاصدار">
             </div>
             <div class="col-xl-12">
@@ -45,9 +45,9 @@
 
         <div class="card card-with-table border shadow-none">
             <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-start">
-                <button (click)="SelectOrders()"
+                <button (click)="selectOrders()"
                     class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
-                    <i class="far fa-eye"></i>
+                    <i class="fas fa-upload"></i>
                     <span>تحميل</span>
                 </button>
             </div>
@@ -60,13 +60,13 @@
                                     type="checkbox">
 
                             </th>
-                            <th>رقم الفاتورة</th>
+                            <th>رقم الطلب</th>
                             <th>الرقم الدفترى</th>
-                            <th>تاريخ الفاتورة</th>
+                            <th>تاريخ الطلب</th>
                             <th>اسم المورد</th>
                             <th>المخزن</th>
                             <th>القيمة الإجمالية</th>
-                            <th>حالة الفاتورة</th>
+                            <th>حالة الطلب</th>
                             <th class="text-center"></th>
                         </tr>
                     </thead>
@@ -93,9 +93,9 @@
                             </td>
                             <td>
                                 <div class="w-100 d-flex align-items-center justify-content-center">
-                                    <button (click)="SelectOrder(item)"
+                                    <button (click)="selectOrder(item)"
                                         class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
-                                        <i class="far fa-eye"></i>
+                                        <i class="fas fa-upload"></i>
                                         <span>تحميل</span>
                                     </button>
                                 </div>

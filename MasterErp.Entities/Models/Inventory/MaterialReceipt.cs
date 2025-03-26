@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models.Inventory
 {
-    [Table("ReceiveOrders", Schema = "Inventory")]
+    [Table("MaterialReceipts", Schema = "Inventory")]
 
     public class MaterialReceipt : CreatorModel
     {

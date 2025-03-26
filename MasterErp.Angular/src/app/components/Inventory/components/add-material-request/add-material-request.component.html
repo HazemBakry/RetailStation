@@ -4,6 +4,7 @@
 <div class="inputs-wrapper border rounded bg-white mb-3">
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">انشاء طلب مشترايات جديد</div>
     <div class="inputs-sec-content px-3 py-2">
+
         <form [formGroup]="formGroup" autocomplete="off">
             <div class="row gy-3">
                 <div class="col-lg-6">
@@ -23,18 +24,6 @@
                 <div class="col-lg-6">
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">
-                            تاريخ الطلب
-                            <span class="text-danger">*</span></label>
-                        <input type="date" formControlName="orderDate" autocomplete="off"
-                            class="form-control nw-form-input" />
-                        <div *ngIf="formErrors.orderDate" class="text-danger  font-small-3 m-03">
-                            {{formErrors.orderDate}}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="mb-2">
-                        <label class="form-label d-flex align-items-center gap-2">
                             الرقم الدفتري
                             <span class="text-danger">*</span>
                         </label>
@@ -46,12 +35,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="mb-2">
-
-                    </div>
-                </div>
-
                 <div class="col-lg-6">
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">
@@ -66,11 +49,21 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-6">
                     <div class="mb-2">
-
+                        <label class="form-label d-flex align-items-center gap-2">
+                            تاريخ الطلب
+                            <span class="text-danger">*</span></label>
+                        <input type="date" formControlName="orderDate" autocomplete="off"
+                            class="form-control nw-form-input" />
+                        <div *ngIf="formErrors.orderDate" class="text-danger  font-small-3 m-03">
+                            {{formErrors.orderDate}}
+                        </div>
                     </div>
                 </div>
+
+
                 <div class="col-lg-12">
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">
