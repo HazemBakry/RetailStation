@@ -38,7 +38,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   formData: FormData = new FormData();
   public formGroup: FormGroup;
 
-  selectedReceiveOrder: OrderModel[] = [];
+  selectedMaterialReceipt: OrderModel[] = [];
   selectedSupplierId: number;
 
   constructor(private acRoute: ActivatedRoute, private router: Router, private modalService: NgbModal, private inventoryService: InventoryService,
@@ -94,21 +94,21 @@ export class AddPurchaseInvoiceComponent implements OnInit {
     });
   }
   searchOrderSelected(ord: OrderModel[]) {
-    this.selectedReceiveOrder = ord;
-    this.getReceiveOrderProducts();
+    this.selectedMaterialReceipt = ord;
+    this.getMaterialReceiptProducts();
   }
   getSelectedProductsList(products: GeneralOrderDetailsModel[]) {
     this.formGroup.patchValue({ orderProducts: products });
     this.orderProducts = products;
   }
-  getReceiveOrderProducts() {
+  getMaterialReceiptProducts() {
     var orderIds: number[] = [];
-    this.selectedReceiveOrder.forEach(ord => {
+    this.selectedMaterialReceipt.forEach(ord => {
       if (!orderIds.some(x => x == ord.orderId))
         orderIds.push(ord.orderId);
     });
     this.showLoader = true;
-    this.inventoryService.GetReceiveOrderProducts_Data(orderIds).subscribe((data: GeneralOrderDetailsModel[]) => {
+    this.inventoryService.GetMaterialReceiptProducts_Data(orderIds).subscribe((data: GeneralOrderDetailsModel[]) => {
       if (data) {
         this.orderProducts = data;
         this.formGroup.patchValue({ secondaryOrderIds: orderIds });
@@ -122,7 +122,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   }
 
   initNewForm(orderModel: OrderModel = null) {
-    this.selectedReceiveOrder = [];
+    this.selectedMaterialReceipt = [];
     this.orderProducts = [];
     this.clearAllProducts = !this.clearAllProducts;
     this.isUpdate = false;

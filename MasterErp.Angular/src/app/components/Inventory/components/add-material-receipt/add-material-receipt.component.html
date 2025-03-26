@@ -37,17 +37,17 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="form-floating mb-3 min-height-30">
-                        <textarea type="text" formControlName="description" class="form-control" id="floatingInput10" placeholder="ملاحظات"></textarea>
+                        <textarea type="text" formControlName="notes" class="form-control" id="floatingInput10" placeholder="ملاحظات"></textarea>
                         <label for="floatingInput10">ملاحظات</label>
 
-                        <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
-                            {{formErrors.description}}
+                        <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
+                            {{formErrors.notes}}
                         </div>
                     </div>
                 </div>
             </div>
             <div class="mt-3">
-                <button class="btn btn-primary btn-lg fs-6 me-2" (click)="saveReceiveOrder()">
+                <button class="btn btn-primary btn-lg fs-6 me-2" (click)="saveMaterialReceipt()">
                     <i class="fas fa-check-circle"></i>
                     <span class="ms-2">حفظ</span>
                 </button>
@@ -58,7 +58,7 @@
             </div>
         </form>
 
-        <app-general-order-products [selectedProducts]="orderProducts" [disableUnit]="false" [disablePrice]="false" [clearAllProducts]="clearAllProducts" (selectedProductsList)="getSelectedProductsList($event)">
+        <app-general-order-products [selectedProducts]="orderDetails" [disableUnit]="false" [disablePrice]="false" [clearAllProducts]="clearAllProducts" (selectedProductsList)="getSelectedProductsList($event)">
         </app-general-order-products>
         <!-- <app-order-products [selectedSupplierProducts]="ItemsBySupplier" [clearAllProducts]="clearAllProducts" (selectedProductsList)="getSelectedProductsList($event)"></app-order-products> -->
 

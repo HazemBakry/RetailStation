@@ -3,7 +3,6 @@ import { ToastrService } from 'ngx-toastr';
 import { InventoryService } from '../../services/inventory.service';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
-import { OrderModel } from '../../models/inventory';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormService } from 'src/app/components/Shared/services/form.service';
@@ -13,18 +12,20 @@ import { DatePipe } from '@angular/common';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { GeneralOrderDetailsModel } from '../../models/GeneralOrderModel ';
+import { MaterialReceiptModel } from '../../models/MaterialReceiptModel';
+import { PurchaseOrderModel } from 'src/app/components/Purchases/models/PurchaseOrder';
 
 @Component({
-  selector: 'app-add-receive-order',
-  templateUrl: './add-receive-order.component.html',
-  styleUrls: ['./add-receive-order.component.css']
+  selector: 'app-add-material-receipt',
+  templateUrl: './add-material-receipt.component.html',
+  styleUrls: ['./add-material-receipt.component.css']
 })
 
-export class AddReceiveOrderComponent implements OnInit {
+export class AddMaterialReceiptComponent implements OnInit {
   TitleList = ['المخازن', 'إضافة إذن جديد'];
-  receiveOrderId: number;
-  receiveOrderModel: OrderModel = {} as OrderModel;
-  orderProducts: GeneralOrderDetailsModel[] = [];
+  materialReceiptId: number;
+  MaterialReceiptModel: MaterialReceiptModel = {} as MaterialReceiptModel;
+  orderDetails: GeneralOrderDetailsModel[] = [];
   isUpdate: boolean = false;
   clearAllProducts: boolean = false;
 
@@ -37,7 +38,7 @@ export class AddReceiveOrderComponent implements OnInit {
   formData: FormData = new FormData();
   public formGroup: FormGroup;
 
-  selectedPurchaseOrder: OrderModel = {} as OrderModel;
+  selectedPurchaseOrder: PurchaseOrderModel = {} as PurchaseOrderModel;
 
   constructor(private acRoute: ActivatedRoute, private router: Router, private modalService: NgbModal, private inventoryService: InventoryService,
     private purchaseService: PurchaseService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
@@ -46,10 +47,10 @@ export class AddReceiveOrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
-      if (params.ReceiveOrderId) {
-        this.receiveOrderId = params.ReceiveOrderId;
-        this.getReceiveOrderDetailsById();
-        this.getReceiveOrderProducts();
+      if (params.materialReceiptId) {
+        this.materialReceiptId = params.materialReceiptId;
+        this.getMaterialReceiptDetailsById();
+        this.getMaterialReceiptProducts();
       }
     })
 
@@ -59,14 +60,14 @@ export class AddReceiveOrderComponent implements OnInit {
     this.loadSelectors();
   }
 
-  getReceiveOrderDetailsById() {
+  getMaterialReceiptDetailsById() {
     this.showLoader = true;
-    this.inventoryService.GetReceiveOrderDetailsById(this.receiveOrderId).subscribe((data: OrderModel) => {
+    this.inventoryService.GetMaterialReceiptDetailsById(this.materialReceiptId).subscribe((data: MaterialReceiptModel) => {
       if (data) {
-        this.receiveOrderModel = data;
-        // this.getReceiveOrderProducts();
-        // this.initNewForm(this.receiveOrderModel);
-        this.fillEditForm(this.receiveOrderModel)
+        this.MaterialReceiptModel = data;
+        // this.getMaterialReceiptProducts();
+        // this.initNewForm(this.MaterialReceiptModel);
+        this.fillEditForm(this.MaterialReceiptModel)
       }
       this.showLoader = false;
     }, err => {
@@ -75,14 +76,14 @@ export class AddReceiveOrderComponent implements OnInit {
       this.showLoader = false;
     });
   }
-  getReceiveOrderProducts() {
+  getMaterialReceiptProducts() {
     this.showLoader = true;
-    this.inventoryService.GetReceiveOrderProducts_Data([this.receiveOrderId]).subscribe((data: GeneralOrderDetailsModel[]) => {
-      this.orderProducts = data;
-      if (this.orderProducts.length > 0) {
-        // this.formGroup.patchValue({orderProducts:this.orderProducts});
+    this.inventoryService.GetMaterialReceiptProducts_Data([this.materialReceiptId]).subscribe((data: GeneralOrderDetailsModel[]) => {
+      this.orderDetails = data;
+      if (this.orderDetails.length > 0) {
+        // this.formGroup.patchValue({orderDetails:this.orderDetails});
       }
-      // this.initNewForm(this.receiveOrderModel);
+      // this.initNewForm(this.MaterialReceiptModel);
 
       this.showLoader = false;
     }, err => {
@@ -91,21 +92,21 @@ export class AddReceiveOrderComponent implements OnInit {
       this.showLoader = false;
     });
   }
-  searchOrderSelected(ord: OrderModel) {
+  searchOrderSelected(ord: PurchaseOrderModel) {
     this.selectedPurchaseOrder = ord;
     this.getPurchaseOrderProducts();
   }
   getSelectedProductsList(products: GeneralOrderDetailsModel[]) {
-    this.formGroup.patchValue({ orderProducts: products });
-    this.orderProducts = products;
+    this.formGroup.patchValue({ orderDetails: products });
+    this.orderDetails = products;
   }
   getPurchaseOrderProducts() {
     this.showLoader = true;
-    this.purchaseService.GetPurchaseOrderProducts_Data(this.selectedPurchaseOrder.orderId).subscribe((data: GeneralOrderDetailsModel[]) => {
+    this.purchaseService.GetPurchaseOrderProducts_Data(this.selectedPurchaseOrder.purchaseOrderId).subscribe((data: GeneralOrderDetailsModel[]) => {
       if (data) {
-        this.orderProducts = data;
-        // this.formGroup.patchValue({orderProducts:this.orderProducts});
-        this.formGroup.patchValue({ purchaseOrderId: this.selectedPurchaseOrder.orderId });
+        this.orderDetails = data;
+        // this.formGroup.patchValue({orderDetails:this.orderDetails});
+        this.formGroup.patchValue({ purchaseOrderId: this.selectedPurchaseOrder.purchaseOrderId });
       }
       this.showLoader = false;
     }, err => {
@@ -115,9 +116,9 @@ export class AddReceiveOrderComponent implements OnInit {
     });
   }
 
-  initNewForm(orderModel: OrderModel = null) {
-    this.selectedPurchaseOrder = {} as OrderModel;
-    this.orderProducts = [];
+  initNewForm(orderModel: MaterialReceiptModel = null) {
+    this.selectedPurchaseOrder = {} as PurchaseOrderModel;
+    this.orderDetails = [];
     this.clearAllProducts = !this.clearAllProducts;
     this.isUpdate = false;
     this.buildForm();
@@ -127,12 +128,12 @@ export class AddReceiveOrderComponent implements OnInit {
 
   buildForm() {
     this.formGroup = this.form.group({
-      orderId: [null],
+      materialReceiptId: [null],
       supplierId: [null, [Validators.required]],
       purchaseOrderId: [null, [Validators.required]],
       storeId: [null, [Validators.required]],
-      orderProducts: [[] as GeneralOrderDetailsModel[], [Validators.required, Validators.minLength(1)]],
-      description: [null],
+      orderDetails: [[] as GeneralOrderDetailsModel[], [Validators.required, Validators.minLength(1)]],
+      notes: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -141,24 +142,24 @@ export class AddReceiveOrderComponent implements OnInit {
   }
 
 
-  saveReceiveOrder() {
-    if (this.orderProducts.length === 0)
+  saveMaterialReceipt() {
+    if (this.orderDetails.length === 0)
       this.toaster.warning('لا يوجد اصناف');
 
     if (!this.validateForm()) {
       return;
     }
-    this.receiveOrderModel = this.formGroup.value;
+    this.MaterialReceiptModel = this.formGroup.value;
 
-    if (this.receiveOrderId)
-      this.editReceiveOrder();
+    if (this.materialReceiptId)
+      this.editMaterialReceipt();
     else
-      this.addNewReceiveOrder();
+      this.addNewMaterialReceipt();
   }
 
-  addNewReceiveOrder() {
+  addNewMaterialReceipt() {
     this.showAddLoader = true;
-    this.inventoryService.AddNewReceiveOrder(this.receiveOrderModel).subscribe((data: ActionsResponseModel) => {
+    this.inventoryService.AddNewMaterialReceipt(this.MaterialReceiptModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         // this.formGroup?.reset();
         this.initNewForm();
@@ -175,15 +176,15 @@ export class AddReceiveOrderComponent implements OnInit {
     });
   }
 
-  editReceiveOrder() {
+  editMaterialReceipt() {
     this.showAddLoader = true;
-    this.inventoryService.EditReceiveOrder(this.receiveOrderId, this.receiveOrderModel).subscribe((data: ActionsResponseModel) => {
+    this.inventoryService.EditMaterialReceipt(this.materialReceiptId, this.MaterialReceiptModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.initNewForm();
         this.toaster.success(data?.message);
-        this.getReceiveOrderDetailsById();
-        this.getReceiveOrderProducts();
+        this.getMaterialReceiptDetailsById();
+        this.getMaterialReceiptProducts();
       }
       else {
         this.toaster.error(data?.message);
@@ -218,26 +219,26 @@ export class AddReceiveOrderComponent implements OnInit {
     }
   }
 
-  fillEditForm(orderModel: OrderModel) {
+  fillEditForm(orderModel: MaterialReceiptModel) {
     this.isUpdate = true;
 
     this.formGroup.patchValue({
-      orderId: orderModel.orderId,
+      materialReceiptId: orderModel.materialReceiptId,
       supplierId: orderModel.supplierId,
       purchaseOrderId: orderModel.purchaseOrderId,
       storeId: orderModel.storeId,
-      description: orderModel.description
+      notes: orderModel.notes
 
     });
   }
 
   public formErrors = {
     supplierId: '',
-    orderId: '',
+    materialReceiptId: '',
     purchaseOrderId: '',
     storeId: '',
-    orderProducts: '',
-    description: ''
+    orderDetails: '',
+    notes: ''
   };
 
 

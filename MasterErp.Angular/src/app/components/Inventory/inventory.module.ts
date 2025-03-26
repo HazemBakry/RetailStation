@@ -12,8 +12,6 @@ import { AddItemComponent } from './components/add-item/add-item.component';
 import { InventoryHomeComponent } from './components/inventory-home/inventory-home.component';
 import { UnitsComponent } from './components/units/units.component';
 import { ItemsComponent } from './components/items/items.component';
-import { AddReceiveOrderComponent } from './components/add-receive-order/add-receive-order.component';
-import { ReceiveOrdersComponent } from './components/receive-orders/receive-orders.component';
 import { AddDeliveryNoteComponent } from './components/add-delivery-note/add-delivery-note.component';
 import { DeliveryNotesComponent } from './components/delivery-notes/delivery-notes.component';
 import { PurchaseReceiptsComponent } from './components/purchase-receipts/purchase-receipts.component';
@@ -22,6 +20,8 @@ import { MaterialIssueReceiptsComponent } from './components/material-issue-rece
 import { AddMaterialIssueReceiptComponent } from './components/add-material-issue-receipt/add-material-issue-receipt.component';
 import { AddMaterialRequestComponent } from './components/add-material-request/add-material-request.component';
 import { MaterialRequestsComponent } from './components/material-requests/material-requests.component';
+import { AddMaterialReceiptComponent } from './components/add-material-receipt/add-material-receipt.component';
+import { MaterialReceiptsComponent } from './components/material-receipts/material-receipts.component';
 
 
 @NgModule({
@@ -34,8 +34,8 @@ import { MaterialRequestsComponent } from './components/material-requests/materi
     AddPurchasesReceiptComponent,
     MaterialIssueReceiptsComponent,
     AddMaterialIssueReceiptComponent,
-    AddReceiveOrderComponent,
-    ReceiveOrdersComponent,
+    AddMaterialReceiptComponent,
+    MaterialReceiptsComponent,
     DeliveryNotesComponent,
     AddDeliveryNoteComponent,
     OrderSearchSidepanelComponent,

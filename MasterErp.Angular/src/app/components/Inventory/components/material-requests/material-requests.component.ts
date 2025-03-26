@@ -62,7 +62,7 @@ export class MaterialRequestsComponent implements OnInit {
   }
 
   cancelOrder() {
-    this.inventoryService.CancelReceiveOrder(this.materialRequestId).subscribe(data => {
+    this.inventoryService.CancelMaterialRequest(this.materialRequestId).subscribe(data => {
       if (data?.isSuccess) {
         this.modalService?.dismissAll();
         this.getPurchasesRequestsData();

@@ -14,6 +14,7 @@ import { CategorySortModel } from '../models/categorySort';
 import { OrderDetailModel } from '../../Shared/models/ItemModel';
 import { MaterialRequestModel } from '../models/MaterialRequestModel ';
 import { GeneralOrderDetailsModel } from '../models/GeneralOrderModel ';
+import { MaterialReceiptModel } from '../models/MaterialReceiptModel';
 
 @Injectable({
   providedIn: 'root'
@@ -143,31 +144,31 @@ export class InventoryService {
     return this.http.get<any>(this.URL + 'Inventory/GetInventoryStatistics');
   }
 
-  GetReceiveOrders_Data(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'Inventory/GetReceiveOrders_Data', model);
+  GetMaterialReceipts_Data(model: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<MaterialReceiptModel[]>>(this.URL + 'Inventory/GetMaterialReceipts_Data', model);
   }
-  GetReceiveOrders_Filters(model: SearchFilterModel) {
-    return this.http.post<FilterModel[]>(this.URL + 'Inventory/GetReceiveOrders_Filters', model);
-  }
-
-  GetReceiveOrderDetailsById(orderId: number) {
-    return this.http.get<OrderModel>(this.URL + `Inventory/GetReceiveOrderDetailsById?OrderId=${orderId}`);
+  GetMaterialReceipts_Filters(model: SearchFilterModel) {
+    return this.http.post<FilterModel[]>(this.URL + 'Inventory/GetMaterialReceipts_Filters', model);
   }
 
-  GetReceiveOrderProducts_Data(orderIds: number[]) {
-    return this.http.post<GeneralOrderDetailsModel[]>(this.URL + 'Inventory/GetReceiveOrderProducts_Data', orderIds);
+  GetMaterialReceiptDetailsById(orderId: number) {
+    return this.http.get<MaterialReceiptModel>(this.URL + `Inventory/GetMaterialReceiptDetailsById?OrderId=${orderId}`);
   }
 
-  AddNewReceiveOrder(model: OrderModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/AddNewReceiveOrder', model);
+  GetMaterialReceiptProducts_Data(orderIds: number[]) {
+    return this.http.post<GeneralOrderDetailsModel[]>(this.URL + 'Inventory/GetMaterialReceiptProducts_Data', orderIds);
   }
 
-  EditReceiveOrder(orderId: number, model: OrderModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/EditReceiveOrder?OrderId=' + orderId, model);
+  AddNewMaterialReceipt(model: MaterialReceiptModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/AddNewMaterialReceipt', model);
   }
 
-  CancelReceiveOrder(OrderId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelReceiveOrder?OrderId=' + OrderId);
+  EditMaterialReceipt(orderId: number, model: MaterialReceiptModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/EditMaterialReceipt?OrderId=' + orderId, model);
+  }
+
+  CancelMaterialReceipt(OrderId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelMaterialReceipt?OrderId=' + OrderId);
   }
 
   //-------------------------------------------- Purchase Receipt --------------------------------------------//

@@ -100,22 +100,22 @@ namespace MasterErp.Service.Inventory
 
         #region Receive Orders
 
-        public List<OrderModel> GetReceiveOrders_Data(SearchFilterModel PagingFilter, int? OrderId = null)
+        public List<MaterialReceiptModel> GetMaterialReceipts_Data(SearchFilterModel PagingFilter, int? MaterialReceiptId = null)
         {
             var FilterListDt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
 
             SqlParameter[] Params = new SqlParameter[4];
 
-            Params[0] = new SqlParameter("@OrderId", OrderId);
+            Params[0] = new SqlParameter("@MaterialReceiptId", MaterialReceiptId);
             Params[1] = new SqlParameter("@CurrentPage", PagingFilter.CurrentPage);
             Params[2] = new SqlParameter("@PageSize", PagingFilter.PageSize);
             Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[3].Value = FilterListDt;
 
-            var result = SQLHelper.SQLQuery<OrderModel>("[Inventory].[SP_GetReceiveOrders_Data]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<MaterialReceiptModel>("[Inventory].[SP_GetMaterialReceipts_Data]", ConnectionString, Params);
             return result;
         }
-        public List<FilterModel> GetReceiveOrders_Filters(SearchFilterModel PagingFilter)
+        public List<FilterModel> GetMaterialReceipts_Filters(SearchFilterModel PagingFilter)
         {
             var FilterListDt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
 
@@ -125,22 +125,22 @@ namespace MasterErp.Service.Inventory
             Params[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[0].Value = FilterListDt;
 
-            var results = SQLHelper.SQLQuery<FilterItem>("[Inventory].[SP_GetReceiveOrders_Filters]", ConnectionString, Params);
+            var results = SQLHelper.SQLQuery<FilterItem>("[Inventory].[SP_GetMaterialReceipts_Filters]", ConnectionString, Params);
             return SharedFilterService.GroupedFilterItems(results);
         }
-        public OrderModel GetReceiveOrderDetailsById(int OrderId)
+        public MaterialReceiptModel GetMaterialReceiptDetailsById(int MaterialReceiptId)
         {
-            return GetReceiveOrders_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, OrderId)?.FirstOrDefault();
+            return GetMaterialReceipts_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, MaterialReceiptId)?.FirstOrDefault();
         }
-        public List<OrderProductModel> GetReceiveOrderProducts_Data(List<int> OrderIds)
+        public List<GeneralOrderDetailsModel> GetMaterialReceiptProducts_Data(List<int> MaterialReceiptIds)
         {
-            var result = (from orderProduct in Context.ReceiveOrderDetails
+            var result = (from orderProduct in Context.MaterialReceiptDetails
                           join item in Context.Items on orderProduct.ItemId equals item.ItemId
                           join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
                           from unit in jT2.DefaultIfEmpty()
-                          where OrderIds.Contains(orderProduct.ReceiveOrderId)
-                          // where (orderProduct.ReceiveOrderId == OrderId)
-                          select new OrderProductModel
+                          where MaterialReceiptIds.Contains(orderProduct.MaterialReceiptId)
+                          // where (orderProduct.MaterialReceiptId == MaterialReceiptId)
+                          select new GeneralOrderDetailsModel
                           {
                               ItemId = item.ItemId,
                               ItemNameEN = item.NameEN,
@@ -151,52 +151,49 @@ namespace MasterErp.Service.Inventory
                               UnitId = item.UnitId,
                               UnitNameAR = unit.NameAR,
                               UnitNameEN = unit.NameEN,
-                              OrderId = orderProduct.ReceiveOrderId,
+                              OrderId = orderProduct.MaterialReceiptId,
 
                           }).ToList();
 
             return result;
 
         }
-        public ActionsResponseModel AddNewReceiveOrder(OrderModel model)
+        public ActionsResponseModel AddNewMaterialReceipt(MaterialReceiptModel model)
         {
             try
             {
-                ReceiveOrder order_tbl = new ReceiveOrder();
-
-                order_tbl.ReceiveDate = DateTime.Now;
+                MaterialReceipt order_tbl = new MaterialReceipt();
+                order_tbl.OrderDate = model.OrderDate ?? DateTime.Now;
                 order_tbl.CreatedDate = DateTime.Now;
-                order_tbl.OrderNumber = (Context.ReceiveOrders.Count() > 0 ? Context.ReceiveOrders.Max(x => x.OrderNumber) + 1 : 1);
-                order_tbl.DocNumber = string.Empty;
-                order_tbl.CreatedBy = string.Empty;
+                order_tbl.OrderNumber = (Context.MaterialReceipts.Count() > 0 ? Context.MaterialReceipts.Max(x => x.OrderNumber) + 1 : 1);
+                order_tbl.DocNumber =   model.DocNumber;
+                order_tbl.CreatedBy = model.CreatedBy;
                 order_tbl.PurchaseOrderId = model.PurchaseOrderId;
-                order_tbl.TotalValue = model.OrderProducts.Sum(x => x.TotalValue);
-                order_tbl.IsCancelled = false;
-                order_tbl.IsLocked = false;
+                order_tbl.TotalValue = model.OrderDetails.Sum(x => x.TotalValue);
                 order_tbl.Notes = model.Notes;
                 order_tbl.SupplierId = (int)model.SupplierId;
                 order_tbl.StoreId = model.StoreId;
 
-                Context.ReceiveOrders.Add(order_tbl);
+                Context.MaterialReceipts.Add(order_tbl);
                 Context.SaveChanges();
 
-                foreach (OrderProductModel item in model.OrderProducts)
+                foreach (var item in model.OrderDetails)
                 {
-                    var detail = new ReceiveOrderDetails
+                    var detail = new MaterialReceiptDetails
                     {
-                        Price = item.Price,
+                        Price = item.Price.GetValueOrDefault(),
                         ItemId = item.ItemId,
                         Quantity = item.Quantity,
                         TotalValue = item.TotalValue,
-                        ReceiveOrderId = order_tbl.ReceiveOrderId,
-                        UnitId = item.UnitId,
-                        RemainQuantity = 0,
-                        ItemBalance = 0,
-                        IsLocked = false,
+                        MaterialReceiptId = order_tbl.MaterialReceiptId,
+                        //UnitId = item.UnitId,
+                        //RemainQuantity = 0,
+                        //ItemBalance = 0,
+                        //IsLocked = false,
                         Notes = model.Notes
                     };
 
-                    Context.ReceiveOrderDetails.Add(detail);
+                    Context.MaterialReceiptDetails.Add(detail);
                     Context.SaveChanges();
                 }
                 return new ActionsResponseModel
@@ -213,16 +210,17 @@ namespace MasterErp.Service.Inventory
                 };
             }
         }
-        public ActionsResponseModel EditReceiveOrder(int OrderId, OrderModel model)
+        public ActionsResponseModel EditMaterialReceipt(int MaterialReceiptId, MaterialReceiptModel model)
         {
             try
             {
-                var order_tbl = Context.ReceiveOrders.Where(i => i.ReceiveOrderId == OrderId).FirstOrDefault();
+                var order_tbl = Context.MaterialReceipts.Where(i => i.MaterialReceiptId == MaterialReceiptId).FirstOrDefault();
                 if (order_tbl != null)
                 {
-                    order_tbl.DocNumber = string.Empty;
+                    order_tbl.OrderDate = model.OrderDate ?? DateTime.Now;
+                    order_tbl.DocNumber = model.DocNumber;
                     order_tbl.PurchaseOrderId = model.PurchaseOrderId;
-                    order_tbl.TotalValue = model.OrderProducts.Sum(x => x.TotalValue); ;
+                    order_tbl.TotalValue = model.OrderDetails.Sum(x => x.TotalValue); ;
                     //order_tbl.IsCancelled = false;
                     //order_tbl.IsLocked = false;
                     order_tbl.Notes = model.Notes;
@@ -233,27 +231,27 @@ namespace MasterErp.Service.Inventory
 
                     Context.SaveChanges();
 
-                    var ReceiveOrderDetails = Context.ReceiveOrderDetails.Where(x => x.ReceiveOrderId == OrderId).ToList();
-                    Context.ReceiveOrderDetails.RemoveRange(ReceiveOrderDetails);
+                    var MaterialReceiptDetails = Context.MaterialReceiptDetails.Where(x => x.MaterialReceiptId == MaterialReceiptId).ToList();
+                    Context.MaterialReceiptDetails.RemoveRange(MaterialReceiptDetails);
                     Context.SaveChanges();
 
-                    foreach (OrderProductModel item in model.OrderProducts)
+                    foreach (var item in model.OrderDetails)
                     {
-                        var detail = new ReceiveOrderDetails
+                        var detail = new MaterialReceiptDetails
                         {
-                            Price = item.Price,
+                            Price = item.Price.GetValueOrDefault(),
                             ItemId = item.ItemId,
                             Quantity = item.Quantity,
                             TotalValue = item.TotalValue,
-                            ReceiveOrderId = order_tbl.ReceiveOrderId,
+                            MaterialReceiptId = order_tbl.MaterialReceiptId,
                             UnitId = item.UnitId,
-                            RemainQuantity = 0,
-                            ItemBalance = 0,
-                            IsLocked = false,
+                            //RemainQuantity = 0,
+                            //ItemBalance = 0,
+                            //IsLocked = false,
                             Notes = model.Notes
                         };
 
-                        Context.ReceiveOrderDetails.Add(detail);
+                        Context.MaterialReceiptDetails.Add(detail);
                         Context.SaveChanges();
                     }
 
@@ -272,11 +270,11 @@ namespace MasterErp.Service.Inventory
                 };
             }
         }
-        public ActionsResponseModel AddInvoiceToReceiveOrders(List<int> OrderIds, int InvoiceId)
+        public ActionsResponseModel AddInvoiceToMaterialReceipts(List<int> MaterialReceiptIds, int InvoiceId)
         {
             try
             {
-                var order_tbl = Context.ReceiveOrders.Where(i => OrderIds.Contains(i.ReceiveOrderId)).ToList();
+                var order_tbl = Context.MaterialReceipts.Where(i => MaterialReceiptIds.Contains(i.MaterialReceiptId)).ToList();
                 if (order_tbl.Any())
                 {
 
@@ -302,11 +300,11 @@ namespace MasterErp.Service.Inventory
                 };
             }
         }
-        public ActionsResponseModel CancelReceiveOrder(int OrderId)
+        public ActionsResponseModel CancelMaterialReceipt(int MaterialReceiptId)
         {
             try
             {
-                var order = Context.ReceiveOrders.FirstOrDefault(m => m.ReceiveOrderId == OrderId);
+                var order = Context.MaterialReceipts.FirstOrDefault(m => m.MaterialReceiptId == MaterialReceiptId);
                 if (order != null)
                 {
                     order.IsCancelled = true;

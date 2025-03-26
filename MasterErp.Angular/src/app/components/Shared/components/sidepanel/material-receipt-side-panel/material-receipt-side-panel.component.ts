@@ -9,13 +9,13 @@ import { OrderModel } from 'src/app/components/Inventory/models/inventory';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
 
 @Component({
-  selector: 'app-receive-orders-side-panel',
-  templateUrl: './receive-orders-side-panel.component.html',
-  styleUrls: ['./receive-orders-side-panel.component.css'],
+  selector: 'app-material-receipt-side-panel',
+  templateUrl: './material-receipt-side-panel.component.html',
+  styleUrls: ['./material-receipt-side-panel.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
 
-export class ReceiveOrdersSidePanelComponent implements OnInit {
+export class MaterialReceiptSidePanelComponent implements OnInit {
   @Input() selectedSupplierId: any;
 
   @Output() selectedOrder=new EventEmitter<OrderModel[]>()
@@ -65,7 +65,7 @@ export class ReceiveOrdersSidePanelComponent implements OnInit {
 
     this.mapFilters();
     this.showLoader=true;
-    this.inventoryService.GetReceiveOrders_Data(this.pagedResponseModel).subscribe((data:PagedResponseDTO<OrderModel[]>) => {
+    this.inventoryService.GetMaterialReceipts_Data(this.pagedResponseModel).subscribe((data:PagedResponseDTO<OrderModel[]>) => {
       // console.log("data",data);
       this.pagedResponseModel.results=data.results;
       this.pagedResponseModel.totalCount=data.totalCount;

@@ -5,21 +5,22 @@ import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponse
 import { OrderModel } from '../../models/inventory';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { MaterialReceiptModel } from '../../models/MaterialReceiptModel';
 
 
 
 
 @Component({
-  selector: 'app-receive-orders',
-  templateUrl: './receive-orders.component.html',
-  styleUrls: ['./receive-orders.component.css']
+  selector: 'app-material-receipts',
+  templateUrl: './material-receipts.component.html',
+  styleUrls: ['./material-receipts.component.css']
 })
 
-export class ReceiveOrdersComponent implements OnInit {
+export class MaterialReceiptsComponent implements OnInit {
   TitleList = ['المخازن', 'أذونات الإضافة'];
   showLoader: boolean;
   OrderId: number;
-  pagedResponseModel: PagedResponseDTO<OrderModel[]> = {
+  pagedResponseModel: PagedResponseDTO<MaterialReceiptModel[]> = {
     results: [],
     filterList: [],
     pageSize: 25,
@@ -33,13 +34,13 @@ export class ReceiveOrdersComponent implements OnInit {
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.getReceiveOrdersSummary();
-    this.getReceiveOrders_Filters();
+    this.getMaterialReceipts_Data();
+    this.getMaterialReceipts_Filters();
   }
 
-  getReceiveOrdersSummary() {
+  getMaterialReceipts_Data() {
     this.showLoader = true;
-    this.inventoryService.GetReceiveOrders_Data(this.pagedResponseModel).subscribe(data => {
+    this.inventoryService.GetMaterialReceipts_Data(this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
       this.showLoader = false;
@@ -49,9 +50,9 @@ export class ReceiveOrdersComponent implements OnInit {
       this.showLoader = false;
     })
   }
-  getReceiveOrders_Filters() {
+  getMaterialReceipts_Filters() {
     // this.showLoader = true;
-    this.inventoryService.GetReceiveOrders_Filters(this.pagedResponseModel).subscribe((data: FilterModel[]) => {
+    this.inventoryService.GetMaterialReceipts_Filters(this.pagedResponseModel).subscribe((data: FilterModel[]) => {
       this.filterList = data;
 
     }, (err) => {
@@ -62,13 +63,13 @@ export class ReceiveOrdersComponent implements OnInit {
   }
   filterChecked(filterItems: FilterItem[]) {
     this.pagedResponseModel.filterList = filterItems;
-    this.getReceiveOrdersSummary();
-    // this.getReceiveOrders_Filters();
+    this.getMaterialReceipts_Data();
+    // this.getMaterialReceipts_Filters();
   }
 
   pageChanged(obj: any) {
     this.pagedResponseModel.currentPage = obj.page;
-    this.getReceiveOrdersSummary();
+    this.getMaterialReceipts_Data();
   }
 
   openDeleteModal(content: any, itemId: number) {
@@ -77,10 +78,10 @@ export class ReceiveOrdersComponent implements OnInit {
   }
 
   cancelOrder() {
-    this.inventoryService.CancelReceiveOrder(this.OrderId).subscribe(data => {
+    this.inventoryService.CancelMaterialReceipt(this.OrderId).subscribe(data => {
       if (data?.isSuccess) {
         this.modalService?.dismissAll();
-        this.getReceiveOrdersSummary();
+        this.getMaterialReceipts_Data();
         this.toaster.success(data?.message);
       }
       else {

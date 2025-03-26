@@ -47,7 +47,7 @@ export class InventoryHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getInventoryStatistics();
-    this.getTopReceiveOrders();
+    this.getTopMaterialReceipt();
     this.getTopDeliveryNotes();
     this.getSuppliersList();
   }
@@ -58,9 +58,9 @@ export class InventoryHomeComponent implements OnInit {
     });
   }
 
-  getTopReceiveOrders() {
+  getTopMaterialReceipt() {
     this.showLoader = true;
-    this.inventoryService.GetReceiveOrders_Data(this.FilterModel).subscribe(data => {
+    this.inventoryService.GetMaterialReceipts_Data(this.FilterModel).subscribe(data => {
       this.receiveOrders = data.results;
       this.showLoader = false;
     }, err => {

@@ -121,7 +121,7 @@ namespace MasterErp.Service.Purchase
                         Context.PurchaseInvoiceDetails.Add(detail);
                         Context.SaveChanges();
                     }
-                    var updateReceiveOrderResponse = _inventoryService.AddInvoiceToReceiveOrders(model.SecondaryOrderIds, order_tbl.PurchaseInvoiceId);
+                    var updateReceiveOrderResponse = _inventoryService.AddInvoiceToMaterialReceipts(model.SecondaryOrderIds, order_tbl.PurchaseInvoiceId);
 
                     return new ActionsResponseModel { Message = "Purchase Invoice Updated Successfly !" };
                 }
@@ -217,7 +217,7 @@ namespace MasterErp.Service.Purchase
                 {
                     CreateJournalEntryModel(order_tbl);
                 }
-                var updateReceiveOrderResponse = _inventoryService.AddInvoiceToReceiveOrders(model.SecondaryOrderIds, order_tbl.PurchaseInvoiceId);
+                var updateReceiveOrderResponse = _inventoryService.AddInvoiceToMaterialReceipts(model.SecondaryOrderIds, order_tbl.PurchaseInvoiceId);
                 return new ActionsResponseModel
                 {
                     Status = 1,

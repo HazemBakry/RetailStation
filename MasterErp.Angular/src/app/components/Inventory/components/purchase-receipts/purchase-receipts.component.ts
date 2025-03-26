@@ -56,7 +56,7 @@ export class PurchaseReceiptsComponent implements OnInit {
   }
 
   cancelOrder() {
-    this.inventoryService.CancelReceiveOrder(this.OrderId).subscribe(data => {
+    this.inventoryService.CancelPurchaseReceipt(this.OrderId).subscribe(data => {
       if (data?.isSuccess) {
         this.modalService?.dismissAll();
         this.getMaterialRequestsData();

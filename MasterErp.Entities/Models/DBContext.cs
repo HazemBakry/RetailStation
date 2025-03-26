@@ -128,8 +128,8 @@ namespace MasterErp.Entities.Models
         public DbSet<ItemSupplier> ItemSuppliers { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<ItemCategory> ItemCategories { get; set; }
-        public DbSet<ReceiveOrder> ReceiveOrders { get; set; }
-        public DbSet<ReceiveOrderDetails> ReceiveOrderDetails { get; set; }
+        public DbSet<MaterialReceipt> MaterialReceipts { get; set; }
+        public DbSet<MaterialReceiptDetails> MaterialReceiptDetails { get; set; }
         public DbSet<DeliveryNote> DeliveryNotes { get; set; }
         public DbSet<DeliveryNoteDetails> DeliveryNoteDetails { get; set; }
         public DbSet<MaterialIssue> MaterialIssues { get; set; }

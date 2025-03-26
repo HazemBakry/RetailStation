@@ -45,7 +45,7 @@
                     <!-- <div class="col-xl-2  mb-3">
      
                         <div class="form-floating">
-                            <input type="text" [value]="selectedReceiveOrder?.orderNumber ?? ''" disabled class="form-control" id="floatingInput1" placeholder="any">
+                            <input type="text" [value]="selectedMaterialReceipt?.orderNumber ?? ''" disabled class="form-control" id="floatingInput1" placeholder="any">
                             <label for="floatingInput1">رقم أمر الاستلام</label>
                         </div>
                         <div *ngIf="formErrors.purchaseOrderId" class="text-danger  font-small-3 m-03">
@@ -54,7 +54,7 @@
                     </div> -->
                     <div *ngIf="selectedSupplierId" class="col-xl-2 mb-3">
 
-                        <app-receive-orders-side-panel [selectedSupplierId]="selectedSupplierId" (selectedOrder)="searchOrderSelected($event)"></app-receive-orders-side-panel>
+                        <app-material-receipt-side-panel [selectedSupplierId]="selectedSupplierId" (selectedOrder)="searchOrderSelected($event)"></app-material-receipt-side-panel>
 
                     </div>
                 </ng-container>

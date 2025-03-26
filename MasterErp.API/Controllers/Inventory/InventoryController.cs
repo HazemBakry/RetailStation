@@ -49,12 +49,12 @@ namespace MasterErp.API.Controllers.Inventory
         #region Receive Orders 
 
         [HttpPost]
-        [Route("GetReceiveOrders_Data")]
-        public IActionResult GetReceiveOrders_Data(SearchFilterModel model)
+        [Route("GetMaterialReceipts_Data")]
+        public IActionResult GetMaterialReceipts_Data(SearchFilterModel model)
         {
-            var data = _inventoryService.GetReceiveOrders_Data(model);
+            var data = _inventoryService.GetMaterialReceipts_Data(model);
 
-            var result = new PagedResponseModel<OrderModel>
+            var result = new PagedResponseModel<MaterialReceiptModel>
             {
                 Results = data,
                 TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
@@ -64,54 +64,54 @@ namespace MasterErp.API.Controllers.Inventory
             return Ok(result);
         }
         [HttpPost]
-        [Route("GetReceiveOrders_Filters")]
-        public IActionResult GetReceiveOrders_Filters(SearchFilterModel PagingFilter)
+        [Route("GetMaterialReceipts_Filters")]
+        public IActionResult GetMaterialReceipts_Filters(SearchFilterModel PagingFilter)
         {
-            var result = _inventoryService.GetReceiveOrders_Filters(PagingFilter);
+            var result = _inventoryService.GetMaterialReceipts_Filters(PagingFilter);
 
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("GetReceiveOrderDetailsById")]
-        public IActionResult GetReceiveOrderDetailsById(int OrderId)
+        [Route("GetMaterialReceiptDetailsById")]
+        public IActionResult GetMaterialReceiptDetailsById(int MaterialReceiptId)
         {
-            var result = _inventoryService.GetReceiveOrderDetailsById(OrderId);
+            var result = _inventoryService.GetMaterialReceiptDetailsById(MaterialReceiptId);
 
             return Ok(result);
         }
 
         [HttpPost]
-        [Route("GetReceiveOrderProducts_Data")]
-        public IActionResult GetReceiveOrderProducts_Data(List<int> OrderIds)
+        [Route("GetMaterialReceiptProducts_Data")]
+        public IActionResult GetMaterialReceiptProducts_Data(List<int> MaterialReceiptIds)
         {
-            var result = _inventoryService.GetReceiveOrderProducts_Data(OrderIds);
+            var result = _inventoryService.GetMaterialReceiptProducts_Data(MaterialReceiptIds);
 
             return Ok(result);
 
         }
 
         [HttpPost]
-        [Route("AddNewReceiveOrder")]
-        public IActionResult AddNewReceiveOrder(OrderModel model)
+        [Route("AddNewMaterialReceipt")]
+        public IActionResult AddNewMaterialReceipt(MaterialReceiptModel model)
         {
-            var result = _inventoryService.AddNewReceiveOrder(model);
+            var result = _inventoryService.AddNewMaterialReceipt(model);
             return Ok(result);
         }
 
         [HttpPost]
-        [Route("EditReceiveOrder")]
-        public IActionResult EditReceiveOrder(int OrderId, OrderModel model)
+        [Route("EditMaterialReceipt")]
+        public IActionResult EditMaterialReceipt(int MaterialReceiptId, MaterialReceiptModel model)
         {
-            var result = _inventoryService.EditReceiveOrder(OrderId, model);
+            var result = _inventoryService.EditMaterialReceipt(MaterialReceiptId, model);
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("CancelReceiveOrder")]
-        public IActionResult CancelReceiveOrder(int OrderId)
+        [Route("CancelMaterialReceipt")]
+        public IActionResult CancelMaterialReceipt(int MaterialReceiptId)
         {
-            var results = _inventoryService.CancelReceiveOrder(OrderId);
+            var results = _inventoryService.CancelMaterialReceipt(MaterialReceiptId);
             return Ok(results);
         }
 

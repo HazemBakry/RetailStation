@@ -38,7 +38,7 @@ import { RouterModule } from '@angular/router';
 import { DropDownFormControlComponent } from './components/drop-down-form-control/drop-down-form-control.component';
 import { BusinessCoreLayoutComponent } from './components/business-core-layout/business-core-layout.component';
 import { GeneralOrderProductsComponent } from './components/general-order-products/general-order-products.component';
-import { ReceiveOrdersSidePanelComponent } from './components/sidepanel/receive-orders-side-panel/receive-orders-side-panel.component';
+import { MaterialReceiptSidePanelComponent} from './components/sidepanel/material-receipt-side-panel/material-receipt-side-panel.component';
 import { ProductsDetailsSidePanelComponent } from './components/sidepanel/products-details-side-panel/products-details-side-panel.component';
 import { RenderComponent } from './components/render/render.component';
 import { ComponentHostDirective } from './directives/component-host.directive';
@@ -85,7 +85,7 @@ import { MaterialRequestsSidePanelComponent } from './components/material-reques
     RoleCheckerDirective,
     BusinessCoreLayoutComponent,
     GeneralOrderProductsComponent,
-    ReceiveOrdersSidePanelComponent,
+    MaterialReceiptSidePanelComponent,
     ProductsDetailsSidePanelComponent,
     RenderComponent,
     EnglishToArabicNumbersDirective,
@@ -149,7 +149,7 @@ import { MaterialRequestsSidePanelComponent } from './components/material-reques
     RoleCheckerDirective,
     EnglishToArabicNumbersDirective,
 
-    ReceiveOrdersSidePanelComponent,
+    MaterialReceiptSidePanelComponent,
     ProductsDetailsSidePanelComponent,
     RenderComponent,
     UploadImporterFileComponent,

@@ -18,42 +18,42 @@ namespace MasterErp.Interface.Inventory
 
         List<Store> GetInventoryList();
         List<StatisticsCardSummary> GetInventoryStatistics();
-        List<OrderModel> GetOrdersSearchData(int SupplierId, string OrderNumber, string OrderDate, int OrderId = 0);
+        List<OrderModel> GetOrdersSearchData(int SupplierId, string OrderNumber, string OrderDate, int MaterialReceiptId = 0);
 
         #region Receive Orders
 
-        List<OrderModel> GetReceiveOrders_Data(SearchFilterModel model, int? OrderId = null);
-        List<FilterModel> GetReceiveOrders_Filters(SearchFilterModel PagingFilter);
-        OrderModel GetReceiveOrderDetailsById(int OrderId);
-        List<OrderProductModel> GetReceiveOrderProducts_Data(List<int> OrderIds);
-        ActionsResponseModel AddNewReceiveOrder(OrderModel model);
-        ActionsResponseModel EditReceiveOrder(int OrderId, OrderModel model);
-        ActionsResponseModel CancelReceiveOrder(int OrderId);
-        ActionsResponseModel AddInvoiceToReceiveOrders(List<int> OrderIds, int InvoiceId);
+        List<MaterialReceiptModel> GetMaterialReceipts_Data(SearchFilterModel model, int? MaterialReceiptId = null);
+        List<FilterModel> GetMaterialReceipts_Filters(SearchFilterModel PagingFilter);
+        MaterialReceiptModel GetMaterialReceiptDetailsById(int MaterialReceiptId);
+        List<GeneralOrderDetailsModel> GetMaterialReceiptProducts_Data(List<int> MaterialReceiptIds);
+        ActionsResponseModel AddNewMaterialReceipt(MaterialReceiptModel model);
+        ActionsResponseModel EditMaterialReceipt(int MaterialReceiptId, MaterialReceiptModel model);
+        ActionsResponseModel CancelMaterialReceipt(int MaterialReceiptId);
+        ActionsResponseModel AddInvoiceToMaterialReceipts(List<int> MaterialReceiptIds, int InvoiceId);
 
         #endregion
 
         #region Delivery Notes
 
-        List<OrderModel> GetDeliveryNotes_Data(SearchFilterModel model, int? OrderId = null);
+        List<OrderModel> GetDeliveryNotes_Data(SearchFilterModel model, int? MaterialReceiptId = null);
         List<FilterModel> GetDeliveryNotes_Filters(SearchFilterModel PagingFilter);
-        OrderModel GetDeliveryNoteDetailsById(int OrderId);
-        List<OrderProductModel> GetDeliveryNoteProducts_Data(int OrderId);
+        OrderModel GetDeliveryNoteDetailsById(int MaterialReceiptId);
+        List<OrderProductModel> GetDeliveryNoteProducts_Data(int MaterialReceiptId);
         ActionsResponseModel AddNewDeliveryNote(OrderModel model);
-        ActionsResponseModel EditDeliveryNote(int OrderId, OrderModel model);
-        ActionsResponseModel CancelDeliveryNote(int OrderId);
+        ActionsResponseModel EditDeliveryNote(int MaterialReceiptId, OrderModel model);
+        ActionsResponseModel CancelDeliveryNote(int MaterialReceiptId);
 
         #endregion
 
         #region Material Issue
 
-        List<OrderModel> GetMaterialIssue_Data(SearchFilterModel model, int? OrderId = null);
+        List<OrderModel> GetMaterialIssue_Data(SearchFilterModel model, int? MaterialReceiptId = null);
         List<FilterModel> GetMaterialIssue_Filters(SearchFilterModel PagingFilter);
-        OrderModel GetMaterialIssueDetailsById(int OrderId);
-        List<OrderProductModel> GetMaterialIssueProducts_Data(int OrderId);
+        OrderModel GetMaterialIssueDetailsById(int MaterialReceiptId);
+        List<OrderProductModel> GetMaterialIssueProducts_Data(int MaterialReceiptId);
         ActionsResponseModel AddNewMaterialIssue(OrderModel model);
-        ActionsResponseModel EditMaterialIssue(int OrderId, OrderModel model);
-        ActionsResponseModel CancelMaterialIssue(int OrderId);
+        ActionsResponseModel EditMaterialIssue(int MaterialReceiptId, OrderModel model);
+        ActionsResponseModel CancelMaterialIssue(int MaterialReceiptId);
 
         #endregion
 
@@ -66,11 +66,11 @@ namespace MasterErp.Interface.Inventory
         ActionsResponseModel EditMaterialRequest(int MaterialRequestId, MaterialRequestModel model);
         List<GeneralOrderDetailsModel> GetMaterialRequestProducts_Data(List<int> MaterialRequestIds);
         ActionsResponseModel CancelMaterialRequest(int MaterialRequestId);
-        ActionsResponseModel UpdateMaterialRequestPurchaseOrder(int PurchaseOrderId,List<int> MaterialRequestIds);
+        ActionsResponseModel UpdateMaterialRequestPurchaseOrder(int PurchaseMaterialReceiptId,List<int> MaterialRequestIds);
 
         #endregion
-        List<OrderModel> GetSupplierVouchers_Data(SearchFilterModel model, int? OrderId = null);
-        ActionsResponseModel CancelSupplierVoucher(int OrderId);
+        List<OrderModel> GetSupplierVouchers_Data(SearchFilterModel model, int? MaterialReceiptId = null);
+        ActionsResponseModel CancelSupplierVoucher(int MaterialReceiptId);
 
     }
 }

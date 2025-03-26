@@ -57,27 +57,15 @@ export class MaterialIssueReceiptsComponent implements OnInit {
     this.getMaterialIssueSummary();
   }
 
-  CancelPaymentReceipt(receiptId: number) {
-    this.inventoryService.CancelMaterialIssueReceipt(receiptId).subscribe(data => {
-      if (data) {
-        this.toaster.success('تم الغاء أمر الصرف بنجاح');
-        this.getMaterialIssueSummary();
-      }
-      else {
-        this.toaster.error('حدث خطأ اثناء الإلغاء');
-      }
-    }, (error) => {
-      this.toaster.error('حدث خطأ اثناء الإلغاء');
-    });
-  }
+
 
   openDeleteModal(content: any, itemId: number) {
     this.ReceiptId = itemId;
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
-  cancelOrder() {
-    this.inventoryService.CancelReceiveOrder(this.ReceiptId).subscribe(data => {
+  cancelOrder(receiptId: number) {
+    this.inventoryService.CancelMaterialIssueReceipt(receiptId).subscribe(data => {
       if (data?.isSuccess) {
         this.modalService?.dismissAll();
         this.getMaterialIssueSummary();

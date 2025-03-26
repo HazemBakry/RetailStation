@@ -10,20 +10,20 @@ namespace MasterErp.Entities.Models.Inventory
 {
     [Table("ReceiveOrders", Schema = "Inventory")]
 
-    public class ReceiveOrder : CreatorModel
+    public class MaterialReceipt : CreatorModel
     {
         [Key]
-        public int ReceiveOrderId { get; set; }
+        public int MaterialReceiptId { get; set; }
         public int OrderNumber { get; set; }
         public string DocNumber { get; set; }
-        public DateTime? ReceiveDate { get; set; }
+        public DateTime? OrderDate { get; set; }
         public int SupplierId { get; set; }
         public int? StoreId { get; set; }
         public double TotalValue { get; set; }
         public int? PurchaseOrderId { get; set; }
         public int? PurchaseInvoiceId { get; set; }
-        public bool IsLocked { get; set; }
-        public bool IsCancelled { get; set; }
+        public bool? IsLocked { get; set; }
+        public bool? IsCancelled { get; set; }
         public string Notes { get; set; }
     }
 }
