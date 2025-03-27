@@ -10,6 +10,7 @@ import { DataField } from 'src/app/components/Shared/models/DataField';
 import { DynamicComponentLoaderService } from 'src/app/components/Shared/services/dynamic-component-loader.service';
 import { FieldType } from 'src/app/components/Shared/Enums/FieldType';
 import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
+import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
 
 @Component({
   selector: 'app-purchase-invoices',
@@ -80,10 +81,10 @@ export class PurchaseInvoicesComponent implements OnInit {
     else
       return "open";
   }
-  showInvoiceDetails(detailsModel: OrderModel) {
+  showInvoiceDetails(detailsModel: PurchaseInvoiceModel) {
 
     this.showLoader = true;
-    this.purchaseService.GetPurchaseInvoiceProducts_Data(detailsModel.orderId).subscribe((data: GeneralOrderDetailsModel[]) => {
+    this.purchaseService.GetPurchaseInvoiceProducts_Data(detailsModel.purchaseInvoiceId).subscribe((data: GeneralOrderDetailsModel[]) => {
       this.dynamicComponentService.loadProductDetailsSidePanel(
         this.detailsComponentHost.viewContainerRef,
         detailsModel,

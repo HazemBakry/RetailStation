@@ -22,20 +22,20 @@ export class PurchaseService {
   constructor(private http: HttpClient) { }
 
   GetPurchaseInvoices_Data(model: PagedResponseDTO) {
-    return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'PurchaseInvoice/GetPurchaseInvoices_Data', model);
+    return this.http.post<PagedResponseDTO<PurchaseInvoiceModel[]>>(this.URL + 'PurchaseInvoice/GetPurchaseInvoices_Data', model);
   }
   GetPurchaseInvoiceDetailsById(invoiceId: number) {
-    return this.http.get<OrderModel>(this.URL + `PurchaseInvoice/GetPurchaseInvoiceDetailsById?InvoiceId=${invoiceId}`);
+    return this.http.get<PurchaseInvoiceModel>(this.URL + `PurchaseInvoice/GetPurchaseInvoiceDetailsById?InvoiceId=${invoiceId}`);
   }
   GetPurchaseInvoiceProducts_Data(invoiceId: number) {
     return this.http.get<GeneralOrderDetailsModel[]>(this.URL + `PurchaseInvoice/GetPurchaseInvoiceProducts_Data?InvoiceId=${invoiceId}`);
   }
 
-  AddNewPurchaseInvoice(model: OrderModel) {
-    return this.http.post<any>(this.URL + 'PurchaseInvoice/AddNewPurchaseInvoice', model);
+  AddNewPurchaseInvoice(model: PurchaseInvoiceModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'PurchaseInvoice/AddNewPurchaseInvoice', model);
   }
   
-  EditPurchaseInvoice(invoiceId:number,model: OrderModel) {
+  EditPurchaseInvoice(invoiceId:number,model: PurchaseInvoiceModel) {
     return this.http.post<ActionsResponseModel>(this.URL + `PurchaseInvoice/EditPurchaseInvoice?InvoiceId=${invoiceId}`, model);
   }
 

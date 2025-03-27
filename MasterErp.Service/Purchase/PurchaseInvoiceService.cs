@@ -1,5 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.Purchases;
+using MasterErp.Entities.DTOs.Inventory;
+using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Purchases;
 using MasterErp.Interface.Common;
@@ -47,7 +49,7 @@ namespace MasterErp.Service.Purchase
             _inventoryService = inventoryService;
         }
 
-        public List<OrderModel> GetPurchaseInvoices_Data(SearchFilterModel model, int? InvoiceId = null)
+        public List<PurchaseInvoiceModel> GetPurchaseInvoices_Data(SearchFilterModel model, int? InvoiceId = null)
         {
             DataTable FilterList = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
@@ -59,126 +61,30 @@ namespace MasterErp.Service.Purchase
             Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[3].Value = FilterList;
 
-            var result = SQLHelper.SQLQuery<OrderModel>("[dbo].[SP_GetPurchaseInvoicesData]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<PurchaseInvoiceModel>("[dbo].[SP_GetPurchaseInvoicesData]", ConnectionString, Params);
             return result;
         }
 
-        public OrderModel GetPurchaseInvoiceDetailsById(int InvoiceId)
+        public PurchaseInvoiceModel GetPurchaseInvoiceDetailsById(int InvoiceId)
         {
             return GetPurchaseInvoices_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, InvoiceId)?.FirstOrDefault();
 
         }
-
-        public ActionsResponseModel EditPurchaseInvoice(int InvoiceId, OrderModel model)
-        {
-            try
-            {
-                var order_tbl = Context.PurchaseInvoices.Where(i => i.PurchaseInvoiceId == InvoiceId).FirstOrDefault();
-                if (order_tbl != null)
-                {
-                    order_tbl.DueDate = DateTime.Now;
-                    order_tbl.IsCancelled = model.IsCancelled != null ? model.IsCancelled ?? false : false;
-                    order_tbl.IsLocked = model.IsLocked !=null ? model.IsLocked ??false :false;
-                    order_tbl.Notes = model.Notes;
-                    //order_tbl.InvoiceDate = model?.OrderDate ?? DateTime.Now;
-                    order_tbl.TotalValue = model.OrderProducts?.Sum(x => x.TotalValue) ?? 0;
-                    order_tbl.SupplierId = model.SupplierId ?? 0;
-                    order_tbl.InvoiceTypeId = model.OrderTypeId;
-                    order_tbl.ReceiveOrderId = model.ReceiveOrderId;
-                    order_tbl.DocNumber = model.DocNumber;
-
-                    order_tbl.Discount = model.Discount;
-                    order_tbl.DiscountPercent = model.DiscountPercent;
-                    order_tbl.Tax = model.Tax;
-                    order_tbl.TaxPercent = model.TaxPercent;
-                    order_tbl.NetValue = model.OrderProducts?.Sum(x => x.TotalValue) ?? 0;
-
-                    
-                    order_tbl.ModifiedBy = model.ModifiedBy;
-                    order_tbl.ModifiedDate = DateTime.Now;
-
-                    Context.SaveChanges();
-
-                    var PurchaseInvoiceDetails = Context.PurchaseInvoiceDetails.Where(x => x.PurchaseInvoiceId == InvoiceId).ToList();
-                    Context.PurchaseInvoiceDetails.RemoveRange(PurchaseInvoiceDetails);
-                    Context.SaveChanges();
-
-                    foreach (var item in model.OrderProducts)
-                    {
-                        var detail = new PurchaseInvoiceDetails
-                        {
-                            Price = item.Price,
-                            ItemId = item.ItemId,
-                            Notes = model.Notes,
-                            Quantity = item.Quantity,
-                            TotalValue = item.TotalValue,
-                            PurchaseInvoiceId = order_tbl.PurchaseInvoiceId,
-                            UnitId = item.UnitId,
-                            Discount = 0,
-                            NetValue = item.TotalValue
-                        };
-
-                        Context.PurchaseInvoiceDetails.Add(detail);
-                        Context.SaveChanges();
-                    }
-                    var updateReceiveOrderResponse = _inventoryService.AddInvoiceToMaterialReceipts(model.SecondaryOrderIds, order_tbl.PurchaseInvoiceId);
-
-                    return new ActionsResponseModel { Message = "Purchase Invoice Updated Successfly !" };
-                }
-                else
-                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this purchase invoicer" };
-
-            }
-            catch (Exception ex)
-            {
-                return new ActionsResponseModel
-                {
-                    IsSuccess = false,
-                    Message = ex.Message
-                };
-            }
-        }
-
-        public List<OrderProductModel> GetPurchaseInvoiceProducts_Data(int InvoiceId)
-        {
-
-            var result = (from invoiceProduct in Context.PurchaseInvoiceDetails
-                          join item in Context.Items on invoiceProduct.ItemId equals item.ItemId
-                          join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
-                          from unit in jT2.DefaultIfEmpty()
-                          where (invoiceProduct.PurchaseInvoiceId == InvoiceId)
-                          select new OrderProductModel
-                          {
-                              ItemId = item.ItemId,
-                              ItemNameEN = item.NameEN,
-                              ItemNameAR = item.NameAR,
-                              Price = invoiceProduct.Price,
-                              Quantity = invoiceProduct.Quantity,
-                              TotalValue = invoiceProduct.TotalValue,
-                              UnitId = item.UnitId,
-                              UnitNameAR = unit.NameAR,
-                              UnitNameEN = unit.NameEN,
-                              OrderId = invoiceProduct.PurchaseInvoiceId,
-
-                          }).ToList();
-
-            return result;
-        }
-        public ActionsResponseModel AddNewPurchaseInvoice(OrderModel model)
+        public ActionsResponseModel AddNewPurchaseInvoice(PurchaseInvoiceModel model)
         {
             try
             {
                 PurchaseInvoice order_tbl = new PurchaseInvoice();
 
-                order_tbl.DueDate = DateTime.Now;
+                order_tbl.DueDate = model.DueDate ?? DateTime.Now;
                 order_tbl.CreatedDate = DateTime.Now;
                 order_tbl.CreatedBy = model.CreatedBy;
                 order_tbl.IsCancelled = false;
                 order_tbl.IsLocked = false;
                 order_tbl.Notes = model.Notes;
-                order_tbl.InvoiceDate = DateTime.Now;
-                order_tbl.TotalValue = model.OrderProducts?.Sum(x => x.TotalValue) ?? 0;
-                order_tbl.SupplierId = model.SupplierId ?? 0;
+                order_tbl.InvoiceDate = model.OrderDate ?? DateTime.Now;
+                order_tbl.TotalValue = model.OrderDetails?.Sum(x => x.TotalValue) ?? 0;
+                order_tbl.SupplierId = model.SupplierId;
                 order_tbl.InvoiceTypeId = model.OrderTypeId;
                 order_tbl.InvoiceNumber = Context.PurchaseInvoices.Count() > 0 ? Context.PurchaseInvoices.Max(x => x.InvoiceNumber) + 1 : 1;
                 order_tbl.DocNumber = model.DocNumber;
@@ -186,15 +92,15 @@ namespace MasterErp.Service.Purchase
                 order_tbl.DiscountPercent = model.DiscountPercent;
                 order_tbl.Tax = model.Tax;
                 order_tbl.TaxPercent = model.TaxPercent;
-                order_tbl.NetValue = model.OrderProducts?.Sum(x => x.TotalValue) ?? 0;
+                order_tbl.NetValue = model.OrderDetails?.Sum(x => x.TotalValue) ?? 0;
                 Context.PurchaseInvoices.Add(order_tbl);
                 Context.SaveChanges();
 
-                foreach (var item in model.OrderProducts)
+                foreach (var item in model.OrderDetails)
                 {
                     var detail = new PurchaseInvoiceDetails
                     {
-                        Price = item.Price,
+                        Price = item.Price.GetValueOrDefault(),
                         ItemId = item.ItemId,
                         Notes = model.Notes,
                         Quantity = item.Quantity,
@@ -217,7 +123,7 @@ namespace MasterErp.Service.Purchase
                 {
                     CreateJournalEntryModel(order_tbl);
                 }
-                var updateReceiveOrderResponse = _inventoryService.AddInvoiceToMaterialReceipts(model.SecondaryOrderIds, order_tbl.PurchaseInvoiceId);
+                var updateReceiveOrderResponse = _inventoryService.AddInvoiceToMaterialReceipts(model.MaterialReceiptIds, order_tbl.PurchaseInvoiceId);
                 return new ActionsResponseModel
                 {
                     Status = 1,
@@ -233,6 +139,102 @@ namespace MasterErp.Service.Purchase
                 };
             }
         }
+        public ActionsResponseModel EditPurchaseInvoice(int InvoiceId, PurchaseInvoiceModel model)
+        {
+            try
+            {
+                var order_tbl = Context.PurchaseInvoices.Where(i => i.PurchaseInvoiceId == InvoiceId).FirstOrDefault();
+                if (order_tbl != null)
+                {
+                    order_tbl.DueDate = model?.DueDate ?? DateTime.Now; ;
+                    order_tbl.IsCancelled = model.IsCancelled != null ? model.IsCancelled ?? false : false;
+                    order_tbl.IsLocked = model.IsLocked !=null ? model.IsLocked ??false :false;
+                    order_tbl.Notes = model.Notes;
+                    order_tbl.InvoiceDate = model?.OrderDate ?? DateTime.Now;
+                    order_tbl.TotalValue = model.OrderDetails?.Sum(x => x.TotalValue) ?? 0;
+                    order_tbl.SupplierId = model.SupplierId;
+                    order_tbl.InvoiceTypeId = model.OrderTypeId;
+                    order_tbl.ReceiveOrderId = model.MaterialReceiptId;
+                    order_tbl.DocNumber = model.DocNumber;
+
+                    order_tbl.Discount = model.Discount;
+                    order_tbl.DiscountPercent = model.DiscountPercent;
+                    order_tbl.Tax = model.Tax;
+                    order_tbl.TaxPercent = model.TaxPercent;
+                    order_tbl.NetValue = model.OrderDetails?.Sum(x => x.TotalValue) ?? 0;
+
+                    
+                    order_tbl.ModifiedBy = model.ModifiedBy;
+                    order_tbl.ModifiedDate = DateTime.Now;
+
+                    Context.SaveChanges();
+
+                    var PurchaseInvoiceDetails = Context.PurchaseInvoiceDetails.Where(x => x.PurchaseInvoiceId == InvoiceId).ToList();
+                    Context.PurchaseInvoiceDetails.RemoveRange(PurchaseInvoiceDetails);
+                    Context.SaveChanges();
+
+                    foreach (var item in model.OrderDetails)
+                    {
+                        var detail = new PurchaseInvoiceDetails
+                        {
+                            Price = item.Price.GetValueOrDefault(),
+                            ItemId = item.ItemId,
+                            Notes = model.Notes,
+                            Quantity = item.Quantity,
+                            TotalValue = item.TotalValue,
+                            PurchaseInvoiceId = order_tbl.PurchaseInvoiceId,
+                            UnitId = item.UnitId,
+                            Discount = 0,
+                            NetValue = item.TotalValue
+                        };
+
+                        Context.PurchaseInvoiceDetails.Add(detail);
+                        Context.SaveChanges();
+                    }
+                    var updateReceiveOrderResponse = _inventoryService.AddInvoiceToMaterialReceipts(model.MaterialReceiptIds, order_tbl.PurchaseInvoiceId);
+
+                    return new ActionsResponseModel { Message = "Purchase Invoice Updated Successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this purchase invoicer" };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public List<GeneralOrderDetailsModel> GetPurchaseInvoiceProducts_Data(int InvoiceId)
+        {
+
+            var result = (from invoiceProduct in Context.PurchaseInvoiceDetails
+                          join item in Context.Items on invoiceProduct.ItemId equals item.ItemId
+                          join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
+                          from unit in jT2.DefaultIfEmpty()
+                          where (invoiceProduct.PurchaseInvoiceId == InvoiceId)
+                          select new GeneralOrderDetailsModel
+                          {
+                              ItemId = item.ItemId,
+                              ItemNameEN = item.NameEN,
+                              ItemNameAR = item.NameAR,
+                              Price = invoiceProduct.Price,
+                              Quantity = invoiceProduct.Quantity,
+                              TotalValue = invoiceProduct.TotalValue,
+                              UnitId = item.UnitId,
+                              UnitNameAR = unit.NameAR,
+                              UnitNameEN = unit.NameEN,
+                              OrderId = invoiceProduct.PurchaseInvoiceId,
+
+                          }).ToList();
+
+            return result;
+        }
+       
 
         private void CreateJournalEntryModel(PurchaseInvoice invoice)
         {

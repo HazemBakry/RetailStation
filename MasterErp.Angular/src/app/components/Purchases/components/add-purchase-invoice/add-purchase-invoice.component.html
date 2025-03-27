@@ -1,129 +1,173 @@
-<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
-<div class="card radius-10 border-0 card-shadow mb-3">
+
+
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+<div class="inputs-wrapper border rounded bg-white mb-3">
 
     <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
+
         <h5 class="mb-0 fw-bold">
             <span class="ms-3">
-                فاتورة مشتريات            
+                انشاء فاتورة مشتريات
             </span>
         </h5>
-        <button class="btn btn-secondary gap-2" routerLink="./../purchase-invoices">
-            <span>عودة للقائمة</span>
-            <i class="fa fa-arrow-left"></i>
-        </button>
+        <div ngbDropdown class="d-inline-block">
+            <button type="button" class="btn btn-table-action m-2 d-flex align-items-center gap-2 border rounded px-3"
+                id="dropdownBasic1" ngbDropdownToggle>
+                <i class="fas fa-cogs"></i>
+                <span>الإجراءات</span>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="border rounded">
+
+                <button ngbDropdownItem>
+                    <app-material-receipt-side-panel (selectedOrder)="searchOrderSelected($event)"
+                        [selectedSupplierId]="formGroup?.value?.supplierId"></app-material-receipt-side-panel>
+
+                </button>
+                <button ngbDropdownItem routerLink="./../purchase-invoices">
+                    <i class="fa fa-arrow-left"></i>
+                    <span class="px-2">
+                        عودة للقائمة
+                    </span>
+                </button>
+            </div>
+        </div>
+
+
     </div>
-    <div class="card-body bg-light">
+
+    <div class="inputs-sec-content px-3 py-2">
         <form [formGroup]="formGroup" autocomplete="off">
-            <div class="employee-card-body row">
-                <div class="col-xl-4 mb-3">
+            <div class="row gy-3">
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            رقم الفاتورة
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control nw-form-input" formControlName="orderNumber" disabled
+                            autocomplete="off" />
 
-                    <app-drop-down-form-control [disabled]="isUpdate" formControlName="supplierId" [placeholder]="'الموردين'" [showSearch]="true" [data]="suppliersSelectorData" (valueChanged)="getSelectedSupplier($event)"></app-drop-down-form-control>
-                    <div *ngIf="formErrors.supplierId" class="text-danger  font-small-3 m-03">
-                        {{formErrors.supplierId}}
-                    </div>
-                </div>
-                <div class="col-xl-1"></div>
-                <div class="col-xl-4  mb-3">
-
-                    <app-drop-down-form-control formControlName="orderTypeId" [placeholder]="'نوع الفاتورة'" [showSearch]="true" [data]="invoiceTypesSelectorData"></app-drop-down-form-control>
-                    <div *ngIf="formErrors.orderTypeId" class="text-danger  font-small-3 m-03">
-                        {{formErrors.orderTypeId}}
-                    </div>
-
-                </div>
-                <!-- <div class="col-xl-3 mb-3">
-
-                    <button class="btn btn-secondary me-2" (click)="getSupplierItemsBySupplierId()">
-                        <i class="fas fa-upload"></i>
-                        <span class="ms-2">تحميل أصناف المورد</span>
-                    </button>
-
-                </div> -->
-                <!-- <div class="col-xl-1"></div> -->
-                <ng-container *ngIf="!isUpdate">
-                    <!-- <div class="col-xl-2  mb-3">
-     
-                        <div class="form-floating">
-                            <input type="text" [value]="selectedMaterialReceipt?.orderNumber ?? ''" disabled class="form-control" id="floatingInput1" placeholder="any">
-                            <label for="floatingInput1">رقم أمر الاستلام</label>
-                        </div>
-                        <div *ngIf="formErrors.purchaseOrderId" class="text-danger  font-small-3 m-03">
-                            {{formErrors.purchaseOrderId}}
-                        </div>
-                    </div> -->
-                    <div *ngIf="selectedSupplierId" class="col-xl-2 mb-3">
-
-                        <app-material-receipt-side-panel [selectedSupplierId]="selectedSupplierId" (selectedOrder)="searchOrderSelected($event)"></app-material-receipt-side-panel>
-
-                    </div>
-                </ng-container>
-
-
-                <!-- <div class="col-xl-4 mb-3">
-
-
-                    <div class="form-floating mb-3">
-                        <input type="date" formControlName="orderDate" class="form-control" id="floatingInput1" placeholder="any">
-                        <label for="floatingInput6">تاريخ الاصدار</label>
-                        <div *ngIf="formErrors.orderDate" class="text-danger  font-small-3 m-03">
-                            {{formErrors.orderDate}}
+                        <div *ngIf="formErrors.orderNumber" class="text-danger font-small-3 m-03">
+                            {{formErrors.orderNumber}}
                         </div>
                     </div>
-
                 </div>
-                <div class="col-xl-1"></div> -->
-                <div class="col-xl-4">
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            الرقم الدفتري
+                            <!-- <span class="text-danger">*</span> -->
+                        </label>
+                        <input type="text" class="form-control nw-form-input" formControlName="docNumber"
+                            autocomplete="off" />
 
-
-                    <div class="form-floating mb-3">
-                        <input type="date" formControlName="dueDate" class="form-control" id="floatingInput1" placeholder="any">
-                        <label for="floatingInput6">تاريخ الاستحقاق</label>
-                        <div *ngIf="formErrors.dueDate" class="text-danger  font-small-3 m-03">
-                            {{formErrors.dueDate}}
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-xl-1"></div>
-                <div class="col-xl-4 mb-3">
-                    <div class="form-floating">
-                        <input type="text" formControlName="docNumber" class="form-control" id="floatingInput1" placeholder="any">
-                        <label for="floatingInput3"> الرقم الدفتري</label>
-                        <div *ngIf="formErrors.docNumber" class="text-danger  font-small-3 m-03">
+                        <div *ngIf="formErrors.docNumber" class="text-danger font-small-3 m-03">
                             {{formErrors.docNumber}}
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-1"></div>
-                <div class="col-xl-9">
-                    <div class="form-floating mb-3">
-                        <textarea type="text" formControlName="description" class="form-control" id="floatingInput10" placeholder="ملاحظات"></textarea>
-                        <label for="floatingInput10">ملاحظات</label>
+                <!-- <ng-container *ngIf="!isUpdate">
+                    <div *ngIf="formErrors.purchaseOrderId" class="text-danger  font-small-3 m-03">
+                        {{formErrors.purchaseOrderId}}
+                    </div>
+                    <div class="col-md-2">
+                        <app-material-receipt-side-panel (selectedOrder)="searchOrderSelected($event)" [selectedSupplierId]="formGroup?.value?.supplierId"></app-material-receipt-side-panel>
+                    </div>
+                </ng-container> -->
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            الموردين
+                            <span class="text-danger">*</span>
+                        </label>
+                        <app-general-selector formControlName="supplierId" [data]="suppliersSelectorData"
+                            [placeholder]="'الموردين'">
+                        </app-general-selector>
 
-                        <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
-                            {{formErrors.description}}
+                        <div *ngIf="formErrors.supplierId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.supplierId}}
                         </div>
                     </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            نوع الفاتورة
+                            <span class="text-danger">*</span>
+                        </label>
+                        <app-general-selector formControlName="orderTypeId" [data]="invoiceTypesSelectorData"
+                            [placeholder]="'نوع الفاتورة'">
+                        </app-general-selector>
+
+                        <div *ngIf="formErrors.orderTypeId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.orderTypeId}}
+                        </div>
+                    </div>
+                </div>
 
 
+
+
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            تاريخ الطلب
+                            <span class="text-danger">*</span></label>
+                        <input type="date" formControlName="orderDate" autocomplete="off"
+                            class="form-control nw-form-input" />
+                        <div *ngIf="formErrors.orderDate" class="text-danger  font-small-3 m-03">
+                            {{formErrors.orderDate}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            تاريخ الاستحقاق
+                            <span class="text-danger">*</span></label>
+                        <input type="date" formControlName="dueDate" autocomplete="off"
+                            class="form-control nw-form-input" />
+                        <div *ngIf="formErrors.dueDate" class="text-danger  font-small-3 m-03">
+                            {{formErrors.dueDate}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            البيان
+                        </label>
+                        <input type="text" class="form-control nw-form-input description-area" formControlName="notes"
+                            autocomplete="off" />
+                        <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
+                            {{formErrors.notes}}
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="m-3">
-                <button class="btn btn-primary btn-lg fs-6 me-2" (click)="savePurchaseInvoice()">
-                    <i class="fas fa-check-circle"></i>
-                    <span class="ms-2">حفظ</span>
-                </button>
-                <button class="btn btn-warning m-2 text-white" (click)="initNewForm()">
-                    <span class="me-2">افراغ الخانات</span>
-                    <i class="fas fa-trash"></i>
-                </button>
-            </div>
         </form>
+    </div>
 
-        <app-general-order-products [selectedProducts]="orderProducts" [clearAllProducts]="clearAllProducts" [showEditQuantity]="false" [showAddNew]="false" (selectedProductsList)="getSelectedProductsList($event)"></app-general-order-products>
-        <!-- <app-order-products [selectedSupplierProducts]="ItemsBySupplier" [clearAllProducts]="clearAllProducts" (selectedProductsList)="getSelectedProductsList($event)"></app-order-products> -->
+    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-top mb-2">
+        <button class="btn btn-primary btn-lg fs-6 me-2 mt-2" (click)="savePurchaseInvoice()">
+            <i class="fas fa-check-circle"></i>
+            <span class="ms-2">حفـظ</span>
+        </button>
 
+        <button class="btn btn-warning btn-lg fs-6 me-2 mt-2"
+            *ngIf="!purchaseInvoiceModel?.purchaseInvoiceId &&!showLoader" (click)="initNewForm()">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">افراغ الخانات</span>
+        </button>
+
+        <button class="btn btn-secondary btn-lg fs-6 me-2 mt-2">
+            <i class="fas fa-print"></i>
+            <span class="ms-2">طباعة</span>
+        </button>
     </div>
 </div>
+
+<app-order-items [selectedProducts]="orderDetails" [clearAllProducts]="clearAllProducts" [isEditable]="false"
+    (selectedProductsList)="getSelectedProductsList($event)"></app-order-items>

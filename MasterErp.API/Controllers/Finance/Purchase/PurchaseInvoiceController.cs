@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.Purchases;
+using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Purchase;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +30,7 @@ namespace MasterErp.API.Controllers.Finance.Purchase
         {
             var data = _purchaseInvoiceService.GetPurchaseInvoices_Data(model);
 
-            var result = new PagedResponseModel<OrderModel>
+            var result = new PagedResponseModel<PurchaseInvoiceModel>
             {
                 Results = data,
                 TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
@@ -58,14 +59,14 @@ namespace MasterErp.API.Controllers.Finance.Purchase
 
         [HttpPost]
         [Route("AddNewPurchaseInvoice")]
-        public IActionResult AddNewPurchaseInvoice(OrderModel model)
+        public IActionResult AddNewPurchaseInvoice(PurchaseInvoiceModel model)
         {
             var result= _purchaseInvoiceService.AddNewPurchaseInvoice(model);
             return Ok(result);
         }
         [HttpPost]
         [Route("EditPurchaseInvoice")]
-        public IActionResult EditPurchaseInvoice(int InvoiceId, OrderModel model)
+        public IActionResult EditPurchaseInvoice(int InvoiceId, PurchaseInvoiceModel model)
         {
             var result = _purchaseInvoiceService.EditPurchaseInvoice(InvoiceId, model);
 

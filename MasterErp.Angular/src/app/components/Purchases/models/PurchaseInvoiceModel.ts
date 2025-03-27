@@ -1,16 +1,20 @@
 import { OrderDetailModel } from "src/app/components/Shared/models/ItemModel";
-import { PurchaseInvoiceDetails } from "./PurchaseInvoiceDetailsModel";
+import { GeneralOrderDetailsModel, GeneralOrderModel } from "../../Inventory/models/GeneralOrderModel ";
 
-export interface PurchaseInvoiceModel {
+
+
+export interface PurchaseInvoiceModel extends GeneralOrderModel {
     purchaseInvoiceId: number | null;
-    invoiceNumber: string;
-    docNumber: string;
-    invoiceDate: Date;
+    materialReceiptId: number;
     supplierId: number;
-    InvoiceTypeId: number;
-    branchId: number;
-    totalValue: number;
-    notes: string;
-    userId: number | null;
-    items: OrderDetailModel[];
+    supplierNameAR: string;
+    supplierNameEN: string;
+    orderDetails: GeneralOrderDetailsModel[];
+    totalCount?: number;
+    isChecked: boolean;
+
+}
+
+export interface PurchaseInvoiceDetails {
+ 
 }

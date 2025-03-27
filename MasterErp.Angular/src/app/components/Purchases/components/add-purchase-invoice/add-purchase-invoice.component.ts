@@ -10,11 +10,11 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { DatePipe } from '@angular/common';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
-import { OrderModel } from 'src/app/components/Inventory/models/inventory';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
 import { ItemModel } from 'src/app/components/Inventory/models/Item';
 import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
 import { MaterialReceiptModel } from 'src/app/components/Inventory/models/MaterialReceiptModel';
+import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
 
 @Component({
   selector: 'app-add-purchase-invoice',
@@ -25,8 +25,8 @@ import { MaterialReceiptModel } from 'src/app/components/Inventory/models/Materi
 export class AddPurchaseInvoiceComponent implements OnInit {
   TitleList = ['المشتريات', 'إضافة فاتورة مشتريات'];
   purchaseInvoiceId: number;
-  purchaseInvoiceModel: OrderModel = {} as OrderModel;
-  orderProducts: GeneralOrderDetailsModel[] = [];
+  purchaseInvoiceModel: PurchaseInvoiceModel = {} as PurchaseInvoiceModel;
+  orderDetails: GeneralOrderDetailsModel[] = [];
   isUpdate: boolean = false;
   clearAllProducts: boolean = false;
 
@@ -64,7 +64,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
 
   getPurchaseInvoiceDetailsById() {
     this.showLoader = true;
-    this.purchaseService.GetPurchaseInvoiceDetailsById(this.purchaseInvoiceId).subscribe((data: OrderModel) => {
+    this.purchaseService.GetPurchaseInvoiceDetailsById(this.purchaseInvoiceId).subscribe((data: PurchaseInvoiceModel) => {
       if (data) {
         this.purchaseInvoiceModel = data;
         // this.getPurchaseInvoiceProducts();
@@ -81,9 +81,9 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   getPurchaseInvoiceProducts() {
     this.showLoader = true;
     this.purchaseService.GetPurchaseInvoiceProducts_Data(this.purchaseInvoiceId).subscribe((data: GeneralOrderDetailsModel[]) => {
-      this.orderProducts = data;
-      if (this.orderProducts.length > 0) {
-        // this.formGroup.patchValue({orderProducts:this.orderProducts});
+      this.orderDetails = data;
+      if (this.orderDetails.length > 0) {
+        // this.formGroup.patchValue({orderDetails:this.orderDetails});
       }
       // this.initNewForm(this.receiveOrderModel);
 
@@ -99,8 +99,8 @@ export class AddPurchaseInvoiceComponent implements OnInit {
     this.getMaterialReceiptProducts();
   }
   getSelectedProductsList(products: GeneralOrderDetailsModel[]) {
-    this.formGroup.patchValue({ orderProducts: products });
-    this.orderProducts = products;
+    this.formGroup.patchValue({ orderDetails: products });
+    this.orderDetails = products;
   }
   getMaterialReceiptProducts() {
     var orderIds: number[] = [];
@@ -111,8 +111,9 @@ export class AddPurchaseInvoiceComponent implements OnInit {
     this.showLoader = true;
     this.inventoryService.GetMaterialReceiptProducts_Data(orderIds).subscribe((data: GeneralOrderDetailsModel[]) => {
       if (data) {
-        this.orderProducts = data;
-        this.formGroup.patchValue({ secondaryOrderIds: orderIds });
+        this.orderDetails = data;
+        this.formGroup.patchValue({ materialReceiptId: 1 });
+        //this.formGroup.patchValue({ materialReceiptId: orderIds });
       }
       this.showLoader = false;
     }, err => {
@@ -122,30 +123,31 @@ export class AddPurchaseInvoiceComponent implements OnInit {
     });
   }
 
-  initNewForm(orderModel: OrderModel = null) {
+  initNewForm(purchaseInvoiceModel: PurchaseInvoiceModel = null) {
     this.selectedMaterialReceipt = [];
-    this.orderProducts = [];
+    this.orderDetails = [];
     this.clearAllProducts = !this.clearAllProducts;
     this.isUpdate = false;
     this.buildForm();
-    if (orderModel)
-      this.fillEditForm(orderModel);
+    if (purchaseInvoiceModel)
+      this.fillEditForm(purchaseInvoiceModel);
   }
 
   buildForm() {
     this.formGroup = this.form.group({
-      orderId: [null],
+      purchaseInvoiceId: [null],
       docNumber: [null],
       orderNumber: [null],
       orderDate: [null],
       dueDate: [null, [Validators.required]],
       orderTypeId: [null, [Validators.required]],
       supplierId: [null, [Validators.required]],
-      secondaryOrderIds: [[], [Validators.required]],
-      orderProducts: [[] as GeneralOrderDetailsModel[], [Validators.required, Validators.minLength(1)]],
-      description: [null],
+      materialReceiptId: [null, [Validators.required]],
+      orderDetails: [[] as GeneralOrderDetailsModel[], [Validators.required, Validators.minLength(1)]],
+      notes: [null],
 
     });
+
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
 
@@ -154,7 +156,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
 
 
   savePurchaseInvoice() {
-    if (this.orderProducts.length === 0)
+    if (this.orderDetails.length === 0)
       this.toaster.warning('لا يوجد اصناف');
 
     if (!this.validateForm()) {
@@ -213,14 +215,14 @@ export class AddPurchaseInvoiceComponent implements OnInit {
     this.selectedSupplierId = supplierId;
   }
   getSupplierItemsBySupplierId() {
-    this.orderProducts = [];
+    this.orderDetails = [];
     if (!this.selectedSupplierId) {
       this.toaster.warning('please select supplier');
       return;
     }
     this.inventoryService.GetItemsBySupplierId(this.selectedSupplierId).subscribe(data => {
       if (data && data.length > 0) {
-        this.orderProducts = this.mapItemToOrderProduct(data);
+        this.orderDetails = this.mapItemToOrderProduct(data);
       }
       this.showLoader = false;
     }, err => {
@@ -250,21 +252,19 @@ export class AddPurchaseInvoiceComponent implements OnInit {
     }
   }
 
-  fillEditForm(orderModel: OrderModel) {
+  fillEditForm(purchaseInvoiceModel: PurchaseInvoiceModel) {
     this.isUpdate = true;
 
     this.formGroup.patchValue({
-      orderId: orderModel.orderId,
-      supplierId: orderModel.supplierId,
-      purchaseOrderId: orderModel.purchaseOrderId,
-      storeId: orderModel.storeId,
-      description: orderModel.description,
-      orderDate: this.datePipe.transform(orderModel.orderDate, 'yyyy-MM-dd'),
-      dueDate: this.datePipe.transform(orderModel.dueDate, 'yyyy-MM-dd'),
-      docNumber: orderModel.docNumber,
-      orderNumber: orderModel.orderNumber,
-      orderTypeId: orderModel.orderTypeId,
-      secondaryOrderIds: orderModel.secondaryOrderIds,
+      purchaseInvoiceId: purchaseInvoiceModel.purchaseInvoiceId,
+      supplierId: purchaseInvoiceModel.supplierId,
+      notes: purchaseInvoiceModel.notes,
+      orderDate: this.datePipe.transform(purchaseInvoiceModel.orderDate, 'yyyy-MM-dd'),
+      dueDate: this.datePipe.transform(purchaseInvoiceModel.dueDate, 'yyyy-MM-dd'),
+      docNumber: purchaseInvoiceModel.docNumber,
+      orderNumber: purchaseInvoiceModel.orderNumber,
+      orderTypeId: purchaseInvoiceModel.orderTypeId,
+      materialReceiptId: purchaseInvoiceModel.materialReceiptId,
     });
   }
 
@@ -288,15 +288,16 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   }
   public formErrors = {
     supplierId: '',
-    orderId: '',
-    orderProducts: '',
-    description: '',
+    purchaseInvoiceId: '',
+    orderDetails: '',
+    notes: '',
     dueDate: '',
     docNumber: '',
     orderNumber: '',
     orderDate: '',
     orderTypeId: '',
-    secondaryOrderIds: '',
+    materialReceiptId: '',
+
   };
 
 
