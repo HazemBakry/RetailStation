@@ -5,13 +5,14 @@ import { ReviewsComponent } from './components/Main/reviews/reviews.component';
 import { NotAuthorizedComponent } from './components/Shared/components/not-authorized/not-authorized.component';
 import { AuthGuard } from './Auth/auth.guard';
 import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
+import { ErpHomeComponent } from './components/Shared/components/erp-home/erp-home.component';
 
 const routes: Routes = [
-  // { path: '', component: ErpHomeComponent , canActivate: [AuthGuard]},
+   { path: '', component: ErpHomeComponent , canActivate: [AuthGuard]},
   { path: '', loadChildren: () => import('./components/EmployeeProfile/employee-profile.module').then(erp => erp.EmployeeProfileModule), canActivate: [AuthGuard] },
   //{ path: 'login', component: ErpLoginComponent, canActivate: [AuthGuard] },
-  { path: 'auth-callback', component: AuthCallbackComponent },
-  { path: 'unauthorized', component: NotAuthorizedComponent, canActivate: [AuthGuard] },
+  // { path: 'auth-callback', component: AuthCallbackComponent },
+  // { path: 'unauthorized', component: NotAuthorizedComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'reviews', component: ReviewsComponent },
   { path: 'hr', loadChildren: () => import('./components/HR/hr.module').then(erp => erp.HrModule), canActivate: [AuthGuard] },
