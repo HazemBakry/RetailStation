@@ -1,5 +1,7 @@
+<app-header></app-header>
+
 <div class="erp-home-wrapper">
-    <div class="container-fluid width-90-per position-relative zindex-2 py-3">
+    <div class="container-fluid width-90-per position-relative zindex-2 px-3">
         <header class="module-header rounded shadow-lg d-flex align-items-center mb-4">
             <div class="half-content">
                 <div class="row gy-2">
@@ -45,7 +47,6 @@
         </header>
 
         <section class="erp-home-products">
-
             <div class="card radius-10 border shadow-sm mb-4">
                 <div class="card-body pt-3">
                     <div class="d-flex align-items-center mb-3 gap-3 pb-3 border-bottom">
@@ -55,8 +56,6 @@
                         <h4 class="fw-bold m-0">اختر نظام</h4>
                     </div>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-6 gy-4">
-
-
                         <div class="col" routerLink="general-accounts">
                             <div class="erp-prod-item prod-orange box-hover cursor-pointer">
                                 <div class="d-flex flex-column align-items-center justify-content-between">
@@ -87,8 +86,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        
                         <div class="col" routerLink="sales">
                             <div class="erp-prod-item prod-red box-hover cursor-pointer">
                                 <div class="d-flex flex-column align-items-center justify-content-between">
@@ -109,8 +106,7 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        
+
                         <!-- <div class="col" routerLink="sales">
                             <div class="erp-prod-item prod-red box-hover cursor-pointer">
                                 <div class="d-flex flex-column align-items-center justify-content-between">
@@ -121,6 +117,7 @@
                                 </div>
                             </div>
                         </div> -->
+
                         <div class="col" routerLink="system-settings">
                             <div class="erp-prod-item prod-green box-hover cursor-pointer">
                                 <div class="d-flex flex-column align-items-center justify-content-between">
@@ -128,17 +125,6 @@
                                         <img src="{{systemURL}}assets/images/settings.png" class="product-img" loading="lazy" alt="" />
                                     </div>
                                     <div class="erp-prod-text prod-text-green fw-bold fs-5">إعدادات النظام</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col" routerLink="profile">
-                            <div class="erp-prod-item prod-yellow box-hover cursor-pointer">
-                                <div class="d-flex flex-column align-items-center justify-content-between">
-                                    <div class="erp-prod-icon shadow-sm erp-icon-yellow">
-                                        <img src="{{systemURL}}assets/images/settings.png" class="product-img"
-                                            loading="lazy" alt="" />
-                                    </div>
-                                    <div class="erp-prod-text prod-text-yellow fw-bold fs-5">الملف الشخصي</div>
                                 </div>
                             </div>
                         </div>
@@ -153,12 +139,78 @@
                                 </div>
                             </div>
                         </div> -->
-
                     </div>
                 </div>
             </div>
-
         </section>
+
+        <section class="erp-home-products">
+
+            <div class="card radius-10 border shadow-sm mb-4">
+                <div class="card-body pt-3">
+                    <div class="d-flex align-items-center mb-3 gap-3 pb-3 border-bottom">
+                        <div class="title-with-img">
+                            <img src="{{systemURL}}assets/images/select-product.png" class="title-imaged" loading="lazy" alt="" />
+                        </div>
+                        <h4 class="fw-bold m-0">الملف الشخصى</h4>
+                    </div>
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-6 gy-4">
+
+                        <div class="col" routerLink="./profile/vacations">
+                            <div class="erp-prod-item prod-yellow box-hover cursor-pointer">
+                                <div class="d-flex flex-column align-items-center justify-content-between">
+                                    <div class="erp-prod-icon shadow-sm erp-icon-yellow">
+                                        <img src="{{systemURL}}assets/images/settings.png" class="product-img" loading="lazy" alt="" />
+                                    </div>
+                                    <div class="erp-prod-text prod-text-yellow fw-bold fs-5">الأجازات</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" routerLink="./profile/loans">
+                            <div class="erp-prod-item prod-gray box-hover cursor-pointer">
+                                <div class="d-flex flex-column align-items-center justify-content-between">
+                                    <div class="erp-prod-icon shadow-sm erp-icon-red">
+                                        <img src="{{systemURL}}assets/images/settings.png" class="product-img" loading="lazy" alt="" />
+                                    </div>
+                                    <div class="erp-prod-text prod-text-yellow fw-bold fs-5">السلف</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" routerLink="./profile/team-work">
+                            <div class="erp-prod-item prod-red box-hover cursor-pointer">
+                                <div class="d-flex flex-column align-items-center justify-content-between">
+                                    <div class="erp-prod-icon shadow-sm erp-icon-green">
+                                        <img src="{{systemURL}}assets/images/settings.png" class="product-img" loading="lazy" alt="" />
+                                    </div>
+                                    <div class="erp-prod-text prod-text-yellow fw-bold fs-5">فريق العمل</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" routerLink="profile">
+                            <div class="erp-prod-item prod-green box-hover cursor-pointer">
+                                <div class="d-flex flex-column align-items-center justify-content-between">
+                                    <div class="erp-prod-icon shadow-sm erp-icon-blue">
+                                        <img src="{{systemURL}}assets/images/settings.png" class="product-img" loading="lazy" alt="" />
+                                    </div>
+                                    <div class="erp-prod-text prod-text-yellow fw-bold fs-5">أجازات فريق العمل</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" routerLink="profile">
+                            <div class="erp-prod-item prod-blue box-hover cursor-pointer">
+                                <div class="d-flex flex-column align-items-center justify-content-between">
+                                    <div class="erp-prod-icon shadow-sm erp-icon-red">
+                                        <img src="{{systemURL}}assets/images/settings.png" class="product-img" loading="lazy" alt="" />
+                                    </div>
+                                    <div class="erp-prod-text prod-text-yellow fw-bold fs-5">سلف فريق العمل</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </div>
 </div>
 

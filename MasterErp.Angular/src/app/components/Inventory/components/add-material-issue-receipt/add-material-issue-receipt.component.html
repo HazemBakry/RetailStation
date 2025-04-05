@@ -2,7 +2,7 @@
 
 
 <div class="inputs-wrapper border rounded bg-white mb-3">
-    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">قيد اليومية</div>
+    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">بيانات الإذن</div>
     <div class="inputs-sec-content px-3 py-2">
         <form [formGroup]="formGroup" autocomplete="off">
             <div class="row gy-3">
@@ -30,24 +30,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="mb-2">
-                        <label class="form-label d-flex align-items-center gap-2">
-                            الرقم الدفتري
-                            <span class="text-danger">*</span>
-                        </label>
-                        <input type="text" class="form-control nw-form-input" formControlName="docNumber"  autocomplete="off" />
 
-                        <div *ngIf="formErrors.docNumber" class="text-danger font-small-3 m-03">
-                            {{formErrors.docNumber}}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="mb-2">
-                       
-                    </div>
-                </div>
                 <div class="col-lg-6">
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">
@@ -72,7 +55,24 @@
                         </div>
                     </div>
                 </div>
-                
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            الرقم الدفتري
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control nw-form-input" formControlName="docNumber" autocomplete="off" />
+
+                        <div *ngIf="formErrors.docNumber" class="text-danger font-small-3 m-03">
+                            {{formErrors.docNumber}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-2">
+
+                    </div>
+                </div>
                 <div class="col-lg-12">
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">

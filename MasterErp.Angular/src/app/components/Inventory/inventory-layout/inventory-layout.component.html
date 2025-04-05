@@ -30,7 +30,7 @@
                         <li class="nav-item">
                             <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./items-category" routerLinkActive="active">
                                 <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
+                                    <i class="uil uil-database nav-icon"></i>
                                     <span class="nav-link-text item-sidebar main-nav-link ms-3">مجموعات الأصناف</span>
                                 </div>
                             </a>
@@ -38,7 +38,7 @@
                         <li class="nav-item">
                             <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./items" routerLinkActive="active">
                                 <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
+                                    <i class="uil uil-database nav-icon"></i>
                                     <span class="nav-link-text item-sidebar main-nav-link ms-3">بيانات الأصناف</span>
                                 </div>
                             </a>
@@ -46,7 +46,7 @@
                         <li class="nav-item">
                             <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./material-requests" routerLinkActive="active">
                                 <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
+                                    <i class="uil uil-database nav-icon"></i>
                                     <span class="nav-link-text item-sidebar main-nav-link ms-3">طلب شراء</span>
                                 </div>
                             </a>
@@ -54,7 +54,7 @@
                         <li class="nav-item">
                             <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./purchase-orders" routerLinkActive="active">
                                 <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
+                                    <i class="uil uil-database nav-icon"></i>
                                     <span class="nav-link-text item-sidebar main-nav-link ms-3">أوامر الشراء</span>
                                 </div>
                             </a>
@@ -62,7 +62,7 @@
                         <li class="nav-item">
                             <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./material-receipt" routerLinkActive="active">
                                 <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
+                                    <i class="uil uil-database nav-icon"></i>
                                     <span class="nav-link-text item-sidebar main-nav-link ms-3">إذن استلام</span>
                                 </div>
                             </a>
@@ -70,7 +70,7 @@
                         <li class="nav-item">
                             <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./material-issue" routerLinkActive="active">
                                 <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
+                                    <i class="uil uil-database nav-icon"></i>
                                     <span class="nav-link-text item-sidebar main-nav-link ms-3">إذن صرف مواد</span>
                                 </div>
                             </a>
@@ -78,7 +78,7 @@
                         <!-- <li class="nav-item">
                             <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./receive-orders" routerLinkActive="active">
                                 <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
+                                    <i class="uil uil-database nav-icon"></i>
                                     <span class="nav-link-text item-sidebar main-nav-link ms-3">إذن إضافة مواد</span>
                                 </div>
                             </a>
@@ -86,25 +86,25 @@
                         <!-- <li class="nav-item">
                             <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./deliver-orders" routerLinkActive="active">
                                 <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
+                                    <i class="uil uil-database nav-icon"></i>
                                     <span class="nav-link-text item-sidebar main-nav-link ms-3">إذن صرف مواد</span>
                                 </div>
                             </a>
                         </li> -->
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./supplier-voucher" routerLinkActive="active">
                                 <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
+                                    <i class="uil uil-database nav-icon"></i>
                                     <span class="nav-link-text item-sidebar main-nav-link ms-3">إذن صرف مردودات مشتريات</span>
                                 </div>
                             </a>
-                        </li>
+                        </li> -->
 
                     </ul>
                 </li>
 
                 <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" (click)="toggleMenu(menu_PurchaseDef)" [ngClass]="{'active': menu_PurchaseDef.classList.contains('show')}">
+                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" (click)="toggleMenu(menu_Def)" [ngClass]="{'active': menu_Def.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-database nav-icon"></i>
                             <span class="nav-link-text item-sidebar main-nav-link ms-3">البيانات الاساسية</span>
@@ -113,17 +113,15 @@
                             <i class="uil uil-angle-left-b"></i>
                         </div>
                     </a>
-                    <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu_PurchaseDef>
-
+                    <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu_Def>
                         <li class="nav-item">
                             <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./units" routerLinkActive="active">
                                 <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
+                                    <i class="uil uil-database nav-icon"></i>
                                     <span class="nav-link-text item-sidebar main-nav-link ms-3">وحدات الأصناف</span>
                                 </div>
                             </a>
                         </li>
-                       
                     </ul>
                 </li>
             </ul>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models.Global
 {
-    [Table("Regions", Schema = "Global")]
+    [Table("Regions", Schema = "Pos")]
 
     public class Region
     {

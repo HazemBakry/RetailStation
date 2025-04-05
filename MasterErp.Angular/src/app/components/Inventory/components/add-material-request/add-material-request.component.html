@@ -2,7 +2,7 @@
 
 
 <div class="inputs-wrapper border rounded bg-white mb-3">
-    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">انشاء طلب مشترايات جديد</div>
+    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">بيانات الطلب</div>
     <div class="inputs-sec-content px-3 py-2">
 
         <form [formGroup]="formGroup" autocomplete="off">
@@ -13,8 +13,7 @@
                             رقم الطلب
                             <span class="text-danger">*</span>
                         </label>
-                        <input type="text" class="form-control nw-form-input" formControlName="orderNumber" disabled
-                            autocomplete="off" />
+                        <input type="text" class="form-control nw-form-input" formControlName="orderNumber" disabled autocomplete="off" />
 
                         <div *ngIf="formErrors.orderNumber" class="text-danger font-small-3 m-03">
                             {{formErrors.orderNumber}}
@@ -27,8 +26,7 @@
                             الرقم الدفتري
                             <span class="text-danger">*</span>
                         </label>
-                        <input type="text" class="form-control nw-form-input" formControlName="docNumber"
-                            autocomplete="off" />
+                        <input type="text" class="form-control nw-form-input" formControlName="docNumber" autocomplete="off" />
 
                         <div *ngIf="formErrors.docNumber" class="text-danger font-small-3 m-03">
                             {{formErrors.docNumber}}
@@ -41,8 +39,7 @@
                             الفرع
                             <span class="text-danger">*</span>
                         </label>
-                        <app-general-selector formControlName="branchId" [data]="branchesSelectorData"
-                            [placeholder]="'الفرع'"></app-general-selector>
+                        <app-general-selector formControlName="branchId" [showSearch]="true" [data]="branchesSelectorData" [placeholder]="'الفرع'"></app-general-selector>
 
                         <div *ngIf="formErrors.branchId" class="text-danger  font-small-3 m-03">
                             {{formErrors.branchId}}
@@ -55,8 +52,7 @@
                         <label class="form-label d-flex align-items-center gap-2">
                             تاريخ الطلب
                             <span class="text-danger">*</span></label>
-                        <input type="date" formControlName="orderDate" autocomplete="off"
-                            class="form-control nw-form-input" />
+                        <input type="date" formControlName="orderDate" autocomplete="off" class="form-control nw-form-input" />
                         <div *ngIf="formErrors.orderDate" class="text-danger  font-small-3 m-03">
                             {{formErrors.orderDate}}
                         </div>
@@ -69,8 +65,7 @@
                         <label class="form-label d-flex align-items-center gap-2">
                             البيان
                         </label>
-                        <input type="text" class="form-control nw-form-input description-area" formControlName="notes"
-                            autocomplete="off" />
+                        <input type="text" class="form-control nw-form-input description-area" formControlName="notes" autocomplete="off" />
                         <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
                             {{formErrors.notes}}
                         </div>
@@ -81,13 +76,12 @@
     </div>
 
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-top mb-2">
-        <button class="btn btn-primary btn-lg fs-6 me-2 mt-2" (click)="saveMaterialRequest()">
+        <button class="btn btn-secondary btn-lg fs-6 me-2 mt-2" (click)="saveMaterialRequest()">
             <i class="fas fa-check-circle"></i>
             <span class="ms-2">حفـظ</span>
         </button>
 
-        <button class="btn btn-warning btn-lg fs-6 me-2 mt-2" *ngIf="!materialRequestModel?.orderId &&!showLoader"
-            (click)="initNewForm()">
+        <button class="btn btn-secondary btn-lg fs-6 me-2 mt-2" *ngIf="!materialRequestModel?.orderId &&!showLoader" (click)="initNewForm()">
             <i class="fas fa-times"></i>
             <span class="ms-2">مسح</span>
         </button>
@@ -99,7 +93,4 @@
     </div>
 </div>
 
-<app-order-items [selectedProducts]="orderDetails" [clearAllProducts]="clearAllProducts" [showPrice]="false"
-    (selectedProductsList)="getSelectedProductsList($event)"></app-order-items>
-
-
+<app-order-items [selectedProducts]="orderDetails" [clearAllProducts]="clearAllProducts" [showPrice]="false" (selectedProductsList)="getSelectedProductsList($event)"></app-order-items>

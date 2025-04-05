@@ -37,6 +37,7 @@ import { BatchesComponent } from './Customers/batches/batches.component';
 import { CreateJournalEntryComponent } from './components/create-journal-entry/create-journal-entry.component';
 import { PaymentOrdersComponent } from './components/payment-orders/payment-orders.component';
 import { CreatePaymentOrderComponent } from './components/create-payment-order/create-payment-order.component';
+import { BalanceSheetComponent } from './components/balance-sheet/balance-sheet.component';
 
 const routes: Routes = [
   {
@@ -64,6 +65,7 @@ const routes: Routes = [
       { path: 'accounts-assistant-ledger', component: AccountsAssistantLedgerComponent },
       { path: 'monthly-assistant-ledger', component: MonthlyAssistantLedgerComponent },
       { path: 'trial-balance', component: TrialBalanceComponent },
+      { path: 'balance-sheet', component: BalanceSheetComponent },
       { path: 'cost-general-ledger', component: CostGeneralLedgerComponent },
       { path: 'cost-assistant-ledger', component: CostAssistantLedgerComponent },
       { path: 'cost-trial-balance', component: CostTrialBalanceComponent },

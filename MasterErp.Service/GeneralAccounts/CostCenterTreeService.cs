@@ -25,20 +25,12 @@ namespace MasterErp.Service.GeneralAccounts
     {
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
-        private readonly IConfiguration Configuration;
         private readonly IExportService _exportService;
-        private string ConnectionString
-        {
-            get
-            {
-                return Configuration.GetConnectionString("DBConnection");
-            }
-        }
-        public CostCenterTreeService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration, IExportService exportService)
+
+        public CostCenterTreeService(DBContext dBContext, ISQLHelper iSQLHelper, IExportService exportService)
         {
             Context = dBContext;
             SQLHelper = iSQLHelper;
-            Configuration = _configuration;
             _exportService = exportService;
         }
 
@@ -301,7 +293,7 @@ namespace MasterErp.Service.GeneralAccounts
                             Params[0] = new SqlParameter("@CostCenterList", SqlDbType.Structured);
                             Params[0].Value = dt;
 
-                            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_ImportCostCenterTreeList]", Params, ConnectionString);
+                            var result = SQLHelper.ExecuteDataTable("[dbo].[SP_ImportCostCenterTreeList]", Params, null);
 
                             url = GetExportUrl(result, "CostCenterTreeImporter");
                         }
@@ -342,7 +334,7 @@ namespace MasterErp.Service.GeneralAccounts
 
 
                 SqlParameter[] Params = new SqlParameter[0];
-                var dtExport = SQLHelper.ExecuteDataTable("[Finance].[SP_ExportCostCenterTreeList]", Params, ConnectionString);
+                var dtExport = SQLHelper.ExecuteDataTable("[Finance].[SP_ExportCostCenterTreeList]", Params, null);
 
                 url = GetExportUrl(dtExport, "Cost center tree");
 

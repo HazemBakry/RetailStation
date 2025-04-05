@@ -42,6 +42,7 @@ import { BatchesComponent } from './Customers/batches/batches.component';
 import { CreateJournalEntryComponent } from './components/create-journal-entry/create-journal-entry.component';
 import { PaymentOrdersComponent } from './components/payment-orders/payment-orders.component';
 import { CreatePaymentOrderComponent } from './components/create-payment-order/create-payment-order.component';
+import { BalanceSheetComponent } from './components/balance-sheet/balance-sheet.component';
 
 
 @NgModule({
@@ -82,7 +83,8 @@ import { CreatePaymentOrderComponent } from './components/create-payment-order/c
     LedgerJournalTypeComponent,
     CustomersComponent,
     BatchesComponent,
-    CreateJournalEntryComponent
+    CreateJournalEntryComponent,
+    BalanceSheetComponent
   ],
   imports: [
     CommonModule,

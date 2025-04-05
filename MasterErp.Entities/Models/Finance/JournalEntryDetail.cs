@@ -13,7 +13,7 @@ namespace MasterErp.Entities.Models.Finance
     {
         public int JournalEntryDetailId { get; set; }
         public int JournalEntryId { get; set; }
-        public int AccountID { get; set; }
+        public int AccountId { get; set; }
         public double? Debit { get; set; }
         public double? Credit { get; set; }
         public int? CostCenterId { get; set; }

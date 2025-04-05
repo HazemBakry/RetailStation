@@ -4,8 +4,7 @@
 <div class="inputs-wrapper border rounded bg-white mb-3">
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">ميزان المراجعة - مراكز التكلفة</div>
     <div class="inputs-sec-content px-3 py-2">
-        <app-accounts-report-search (searchDataChanged)="searchDataChanged($event)"
-            [isParent]="true" [showCostCenter]="true"></app-accounts-report-search>
+        <app-accounts-report-search (searchDataChanged)="searchDataChanged($event)" [isParent]="true" [showCostCenter]="true"></app-accounts-report-search>
 
         <div class="row">
 
@@ -23,8 +22,7 @@
                     <label class="form-label d-flex align-items-center gap-2">
                         نوع التفرع
                     </label>
-                    <app-general-selector [showSearch]="true" [(ngModel)]="trialBalanceResponse.searchType" [data]="levelTypesSelector"
-                        [placeholder]="'نوع التفرع'"></app-general-selector>
+                    <app-general-selector [showSearch]="true" [(ngModel)]="trialBalanceResponse.searchType" [data]="levelTypesSelector" [placeholder]="'نوع التفرع'"></app-general-selector>
                 </div>
             </div>
         </div>
@@ -46,8 +44,7 @@
             <i class="fas fa-search"></i>
             <span class="ms-2">بحث</span>
         </button>
-        <button [disabled]="showExportLoader" (click)="exportData()"
-            class="btn  btn-outline-success gap-2 border rounded px-3 me-2">
+        <button [disabled]="showExportLoader" (click)="exportData()" class="btn  btn-outline-success gap-2 border rounded px-3 me-2">
             <i class="fas fa-file-download"></i>
             <span>تصدير CSV</span>
         </button>
@@ -84,10 +81,10 @@
                     <th>رصيد ما قبل (دائن)</th>
                     <th>الحركة (مدين)</th>
                     <th>الحركة (دائن)</th>
-                    <th>الإجمالى (مدين)</th>
-                    <th>الإجمالى (دائن)</th>
-                    <th>الصافى (مدين)</th>
-                    <th>الصافى (دائن)</th>
+                    <!-- <th>الإجمالى (مدين)</th>
+                    <th>الإجمالى (دائن)</th> -->
+                    <th>الرصيد (مدين)</th>
+                    <th>الرصيد (دائن)</th>
                 </tr>
             </thead>
             <tbody>
@@ -98,8 +95,8 @@
                     <td>{{item.preCredit}}</td>
                     <td>{{item.debit}}</td>
                     <td>{{item.credit}}</td>
-                    <td>{{item.totalDebit}}</td>
-                    <td>{{item.totalCredit}}</td>
+                    <!-- <td>{{item.totalDebit}}</td>
+                    <td>{{item.totalCredit}}</td> -->
                     <td>{{item.balanceDebit}}</td>
                     <td>{{item.balanceCredit}}</td>
                 </tr>
@@ -120,15 +117,13 @@
                 <label class="form-label d-flex align-items-center gap-2">
                     أجمالي دائن
                 </label>
-                <input type="text" class="form-control nw-form-input" [value]="totalCredit" disabled
-                    autocomplete="off" />
+                <input type="text" class="form-control nw-form-input" [value]="totalCredit" disabled autocomplete="off" />
             </div>
             <div class="col-md-2">
                 <label class="form-label d-flex align-items-center gap-2">
                     أجمالي مدين
                 </label>
-                <input type="text" class="form-control nw-form-input" [value]="totalDebit" disabled
-                    autocomplete="off" />
+                <input type="text" class="form-control nw-form-input" [value]="totalDebit" disabled autocomplete="off" />
             </div>
         </div>
         <div class="row justify-content-end mb-3">
@@ -137,4 +132,3 @@
 
     </ng-container>
 </div>
-

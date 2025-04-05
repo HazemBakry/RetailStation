@@ -1,10 +1,10 @@
-/* .erp-home-wrapper {
+.erp-home-wrapper {
     width: 100%;
     min-height: 100vh;
     padding-top: 75px;
     position: relative;
     background-image: linear-gradient( to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
-} */
+}
 
 .module-header {
     position: relative;
@@ -18,13 +18,13 @@
 }
 
 .image-banner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  max-width: 100%;
-  width: auto;
-  transform: rotateY(180deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    max-width: 100%;
+    width: auto;
+    transform: rotateY(180deg);
 }
 
 .half-content {
@@ -414,26 +414,9 @@
     height: var(--dim);
 }
 
-/* .container-fluid.width-90-per {
+.container-fluid.width-90-per {
     width: 90%;
-} */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 
 /* //////////////// OLD */

@@ -3,19 +3,20 @@
     background: #f0f0f0;
     min-width: 250px;
     box-shadow: -2px 0px 5px 0px rgb(65 73 91);
-  }
-  .details-panel {
+}
+
+.details-panel {
     width: 50% !important;
     /* background-color: red; */
-  }
-  
-  @media (max-width: 767px) {
+}
+
+@media (max-width: 767px) {
     .offcanvas {
-      width: 90% !important;
+        width: 90% !important;
     }
-  }
-  
-  .sidepanel-close {
+}
+
+.sidepanel-close {
     background: #3c3c3c;
     color: #ffffff;
     border-radius: 4px;
@@ -23,35 +24,34 @@
     font-size: 1rem;
     margin-bottom: 7px;
     cursor: pointer;
-  }
-  
-  .offcanvas-title {
+}
+
+.offcanvas-title {
     line-height: 1;
     margin-bottom: 5px;
-  }
-  
-  .offcanvas-sub-header {
+}
+
+.offcanvas-sub-header {
     font-size: 1.1rem;
-  }
-  
-  .form-control:focus {
+}
+
+.form-control:focus {
     color: #212529;
-    background-color: #fff;
+    /* background-color: #fff; */
     border-color: #86b7fe;
     outline: 0;
     box-shadow: none;
-  }
-  
-  .sidepanel-card-wrapper {
+}
+
+.sidepanel-card-wrapper {
     max-height: calc(100vh - 340px);
-  }
-  
-  .sidepanel-card:not(:last-child) {
+}
+
+.sidepanel-card:not(:last-child) {
     margin-bottom: 10px;
-  }
-  
-  .sidepanel-card-img {
+}
+
+.sidepanel-card-img {
     max-width: 100%;
     height: 90px;
-  }
-  
+}

@@ -22,19 +22,15 @@ namespace MasterErp.Service.GeneralAccounts
     {
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
-        private readonly IConfiguration Configuration;
         private readonly ISharedFilterService SharedFilterService;
-        private readonly string ConnectionString;
         private readonly IExportService ExportService;
 
-        public JournalEntryService(DBContext Context, ISQLHelper SQLHelper, IConfiguration Configuration,
+        public JournalEntryService(DBContext Context, ISQLHelper SQLHelper,
             ISharedFilterService SharedFilterService, IExportService exportService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
-            this.Configuration = Configuration;
             this.SharedFilterService = SharedFilterService;
-            this.ConnectionString = Configuration.GetConnectionString("DBConnection");
             ExportService = exportService;
         }
 
@@ -42,7 +38,7 @@ namespace MasterErp.Service.GeneralAccounts
         {
             SqlParameter[] Params = new SqlParameter[0];
 
-            DataTable result = SQLHelper.ExecuteDataTable("[Finance].[SP_GetGeneralAccounts_Statistics]", Params, ConnectionString);
+            DataTable result = SQLHelper.ExecuteDataTable("[Finance].[SP_GetGeneralAccounts_Statistics]", Params, null);
             return result;
         }
 
@@ -68,7 +64,7 @@ namespace MasterErp.Service.GeneralAccounts
                 //------------------------------Fill Entry Details-----------------------------------//
 
                 var details = (from journal_details in Context.JournalEntryDetails
-                               join Accounts in Context.AccountTrees on journal_details.AccountID equals Accounts.AccountId
+                               join Accounts in Context.AccountTrees on journal_details.AccountId equals Accounts.AccountId
                                join costs in Context.CostCenterTree on journal_details.CostCenterId equals costs.CostCenterId into joinT
                                from costs in joinT.DefaultIfEmpty()
                                    //orderby journal_details.JournalDetialID
@@ -167,7 +163,7 @@ namespace MasterErp.Service.GeneralAccounts
                         JournalEntryDetail JournalDetials = new JournalEntryDetail
                         {
                             JournalEntryId = Entry_tbl.JournalEntryId,
-                            AccountID = row.AccountId,
+                            AccountId = row.AccountId,
                             Debit = row.Debit ?? 0,
                             Credit = row.Credit ?? 0,
                             CurrencyId = row.CurrencyId,
@@ -229,7 +225,7 @@ namespace MasterErp.Service.GeneralAccounts
                             JournalEntryDetail JournalDetials = new JournalEntryDetail
                             {
                                 JournalEntryId = entry_tbl.JournalEntryId,
-                                AccountID = row.AccountId,
+                                AccountId = row.AccountId,
                                 Debit = row.Debit ?? 0,
                                 Credit = row.Credit ?? 0,
                                 CurrencyId = row.CurrencyId,
@@ -270,7 +266,7 @@ namespace MasterErp.Service.GeneralAccounts
             Params[2] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[2].Value = dt;
 
-            var result = SQLHelper.SQLQuery<JournalEntryModel>("[Finance].[SP_GetDailyJournalEntries_Summary]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<JournalEntryModel>("[Finance].[SP_GetDailyJournalEntries_Summary]", null, Params);
             return result;
         }
 
@@ -339,7 +335,7 @@ namespace MasterErp.Service.GeneralAccounts
             Params[0] = new SqlParameter("@dt", SqlDbType.Structured);
             Params[0].Value = dt;
 
-            DataTable result = SQLHelper.ExecuteDataTable("[Finance].[SP_GetDailyJournalEntries_Filters]", Params, ConnectionString);
+            DataTable result = SQLHelper.ExecuteDataTable("[Finance].[SP_GetDailyJournalEntries_Filters]", Params, null);
             var GroupFilters = SharedFilterService.GroupedFilter(result);
             return GroupFilters;
         }

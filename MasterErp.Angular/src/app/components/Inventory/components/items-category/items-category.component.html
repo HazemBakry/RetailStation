@@ -1,194 +1,228 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
-<div class="card card-with-table border shadow-none">
-    <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center gap-3">
-            <button class="btn btn-outline-primary border m-2" (click)="openNewSidePanel(addItemCategoryModal)">
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3" (click)="openNewSidePanel(addItemCategoryModal)">
+                <i class="fas fa-plus-circle"></i>
+                <span>إضافة مجموعة</span>
+            </button>
+            <button [disabled]="showAddLoader" class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3" (click)="saveCategoriesDisplayOrder()">
+                <i class="fas fa-file-download"></i>
+                <span>تعديل الترتيب</span>
+            </button>
+
+            <!-- <button class="btn btn-outline-primary border m-2" (click)="openNewSidePanel(addItemCategoryModal)">
                 <span class="me-2">إضافة مجموعة</span>
                 <i class="uil uil-plus fs-5"></i>
             </button>
             <button [disabled]="showAddLoader" class="btn btn-secondary border m-2" (click)="saveCategoriesDisplayOrder()">
                 <span class="me-2">تعديل الترتيب</span>
                 <i class="uil uil-arrows-v fs-5"></i>
+            </button> -->
+            <!-- <div ngbDropdown class="d-inline-block">
+                <button type="button" class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3"
+                    id="dropdownBasic1" ngbDropdownToggle>
+                    <i class="fas fa-cogs"></i>
+                    <span>الإجراءات</span>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="border rounded">
+                    <button ngbDropdownItem class="d-flex align-items-center gap-2">
+                        <i class="fas fa-edit"></i>
+                        <span>تعديل</span>
+                    </button>
+                    <button ngbDropdownItem class="d-flex align-items-center gap-2">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>اسقاط</span>
+                    </button>
+                </div>
+            </div> -->
+            <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+                <i class="fas fa-filter"></i>
+                <span>إضافة فلتر</span>
             </button>
         </div>
-    </div>
-    <div class="card-body table-responsive p-0">
-        <table class="table table-borderless align-middle table-hover table-component text-center m-0 p-0">
-            <thead>
-                <tr>
-                    <th style="min-width: 20px !important; "></th>
-                    <!-- <th>Display Order</th> -->
-                    <!-- <th class="td-img"></th> -->
-                    <th>اسم المجموعة (AR)</th>
-                    <th>اسم المجموعة (EN)</th>
-                    <th>حساب التشغيل</th>
-                    <th>حساب الإدارة</th>
-                    <th>متفرع من</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let category of responseModel.results;let i = index" draggable="true" [class.sortable-item-active]="draggedOverIndex == i&& listIndex==1" (dragover)="XallowDrop($event, responseModel.results,i,1,true)" (dragstart)="XonDragStart(i,1)" (drop)="XonDrop($event,responseModel.results,i, 1)">
-                    <td class="cursor-pointer" style="font-size: 25px;">
-                        <i class="fas fa-grip-vertical"></i>
-                        <!-- <i class="fas fa-sort" ></i> -->
-
-                    </td>
-                    <!-- <td style="font-size: 16px;">
-                            {{category.displayOrder}}
-                        </td> -->
-                    <!-- <td>
-                            <img class="table-img" height="100" width="100" src="{{category.image}}" (error)="$event.target.src = DefaultImage">
-                        </td> -->
-                    <td>{{ category.nameAR }}</td>
-                    <td>{{ category.nameEN }}</td>
-                    <td>{{ category.operationAccountName}}</td>
-                    <td>{{ category.managementAccountName}}</td>
-                    <td>{{ category.parentCategoryNameAR ??category.parentCategoryNameEN}}</td>
-                    <td>
-                        <div class="d-flex align-items-center justify-content-center gap-2">
-                            <label class="switch me-2">
-                                <input type="checkbox" [(ngModel)]="category.isActive"
-                                    (change)="changeCategoryStatus(category.itemCategoryId)"
-                                    class="ng-valid ng-dirty ng-touched">
-                                <span class="slider round"></span>
-                            </label>
-                            <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="openNewSidePanel(addItemCategoryModal,category)">
-                                <i class="uil uil-pen"></i>
-                                <span>تعديل</span>
-                            </button>
-                            <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteDialog,category.itemCategoryId)">
-                                <i class="uil uil-trash-alt"></i>
-                                <span>حذف</span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<ngx-loading [show]="showLoader"></ngx-loading>
-
-<ng-template #addItemCategoryModal let-modal>
-    <div class="modal-header modal-header-bg justify-content-between">
-        <h4 class="d-flex align-items-center gap-2">
-            <i class="uil uil-plus"></i>
-            <span>املأ البيانات الأتية</span>
-            <span *ngIf="!isUpdate" class="ms-3">(إضافة)</span>
-            <span *ngIf="isUpdate" class="ms-3">(تعديل)</span>
-        </h4>
-        <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
-            <i class="uil uil-times-circle"></i>
+        <div class="justify-content-end">
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="responseModel.currentPage" [pageSize]="responseModel.pageSize" [totalCount]="responseModel.totalCount"></app-erp-pagination>
         </div>
     </div>
-    <div class="modal-body">
-        <form [formGroup]="formGroup" autocomplete="off">
-            <table class="table table-bordered table-feature-value align-middle border m-0">
+    <div class="p-3 bg-white">
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+                <thead>
+                    <tr>
+                        <th style="min-width: 20px !important; "></th>
+                        <!-- <th>Display Order</th> -->
+                        <!-- <th class="td-img"></th> -->
+                        <th>اسم المجموعة (AR)</th>
+                        <th>اسم المجموعة (EN)</th>
+                        <th>حساب التشغيل</th>
+                        <th>حساب الإدارة</th>
+                        <th>متفرع من</th>
+                        <th></th>
+                    </tr>
+                </thead>
                 <tbody>
-                    <tr>
-                        <td class="table-feature">الاسم</td>
-                        <td class="table-value">
-                            <!-- <input type="text" class="form-control form-control-lg" placeholder="أدخل الاسم..."> -->
-                            <div class="row">
-                                <div class="col-xl-6 mb-3">
-                                    <input type="text" formControlName="nameAR" class="form-control form-control-lg" placeholder="الاسم عربي">
-                                    <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
-                                        {{formErrors.nameAR}}
-                                    </div>
-                                </div>
-                                <div class="col-xl-6"><input type="text" formControlName="nameEN" class="form-control form-control-lg" placeholder="الاسم انجليزي">
-                                    <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
-                                        {{formErrors.nameEN}}
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="table-feature">حساب التشغيل</td>
-                        <td class="table-value">
-                            <app-drop-down-form-control formControlName="operationAccountId" [placeholder]="'حساب التشغيل'" [showSearch]="true" [data]="childAccountSelectorData"></app-drop-down-form-control>
-                            <div *ngIf="formErrors.operationAccountId" class="text-danger  font-small-3 m-03">
-                                {{formErrors.operationAccountId}}
-                            </div>
+                    <tr *ngFor="let category of responseModel.results;let i = index" draggable="true" [class.sortable-item-active]="draggedOverIndex == i&& listIndex==1" (dragover)="XallowDrop($event, responseModel.results,i,1,true)" (dragstart)="XonDragStart(i,1)" (drop)="XonDrop($event,responseModel.results,i, 1)">
+                        <td class="cursor-pointer" style="font-size: 25px;">
+                            <i class="fas fa-grip-vertical"></i>
+                            <!-- <i class="fas fa-sort" ></i> -->
 
                         </td>
-                    </tr>
-                    <tr>
-                        <td class="table-feature">حساب الإدارة</td>
-                        <td class="table-value">
-                            <app-drop-down-form-control formControlName="managementAccountId" [showSearch]="true" [placeholder]="'حساب الإدارة'" [data]="childAccountSelectorData"></app-drop-down-form-control>
-                            <div *ngIf="formErrors.managementAccountId" class="text-danger  font-small-3 m-03">
-                                {{formErrors.managementAccountId}}
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="table-feature">مجموعة</td>
-                        <td class="table-value">
-                            <input class="big-checkbox" formControlName="isGroup" type="checkbox">
-
-                            <div *ngIf="formErrors.isGroup" class="text-danger  font-small-3 m-03">
-                                {{formErrors.isGroup}}
-                            </div>
-                        </td>
-                    </tr>
-                    <tr *ngIf="formGroup?.value?.isGroup">
-                        <td class="table-feature">اسم المجموعة</td>
-                        <td class="table-value">
-                            <app-drop-down-form-control formControlName="parentCategoryId" [showSearch]="true" [placeholder]="'اسم المجموعة'" [data]="itemCategoriesSelectorData"></app-drop-down-form-control>
-                            <div *ngIf="formErrors.parentCategoryId" class="text-danger  font-small-3 m-03">
-                                {{formErrors.parentCategoryId}}
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="table-feature">الوصـف</td>
-                        <td class="table-value">
-                            <textarea type="text" formControlName="description" class="form-control" placeholder="الوصف"></textarea>
-                            <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
-                                {{formErrors.description}}
+                        <!-- <td style="font-size: 16px;">
+                            {{category.displayOrder}}
+                        </td> -->
+                        <!-- <td>
+                            <img class="table-img" height="100" width="100" src="{{category.image}}" (error)="$event.target.src = DefaultImage">
+                        </td> -->
+                        <td>{{ category.nameAR }}</td>
+                        <td>{{ category.nameEN }}</td>
+                        <td>{{ category.operationAccountName}}</td>
+                        <td>{{ category.managementAccountName}}</td>
+                        <td>{{ category.parentCategoryNameAR ??category.parentCategoryNameEN}}</td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center gap-2">
+                                <label class="switch me-2">
+                                    <input type="checkbox" [(ngModel)]="category.isActive"
+                                        (change)="changeCategoryStatus(category.itemCategoryId)"
+                                        class="ng-valid ng-dirty ng-touched">
+                                    <span class="slider round"></span>
+                                </label>
+                                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="openNewSidePanel(addItemCategoryModal,category)">
+                                    <i class="uil uil-pen"></i>
+                                    <span>تعديل</span>
+                                </button>
+                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteDialog,category.itemCategoryId)">
+                                    <i class="uil uil-trash-alt"></i>
+                                    <span>حذف</span>
+                                </button>
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
-        </form>
+        </div>
     </div>
-    <div class="modal-footer flex-nowrap gap-2">
-        <button [disabled]="showAddLoader" (click)="saveCategory()" type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
-            <i class="uil uil-save fs-3"></i>
-            <span *ngIf="!isUpdate">إضافة</span>
-            <span *ngIf="isUpdate">تعديل</span> </button>
 
-        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="modal.close()">
-            <i class="uil uil-times-circle fs-3"></i>
-            <span>الغاء</span>
-        </button>
-    </div>
-</ng-template>
+    <ngx-loading [show]="showLoader"></ngx-loading>
+
+    <ng-template #addItemCategoryModal let-modal>
+        <div class="modal-header modal-header-bg justify-content-between">
+            <h4 class="d-flex align-items-center gap-2">
+                <i class="uil uil-plus"></i>
+                <span>املأ البيانات الأتية</span>
+                <span *ngIf="!isUpdate" class="ms-3">(إضافة)</span>
+                <span *ngIf="isUpdate" class="ms-3">(تعديل)</span>
+            </h4>
+            <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
+                <i class="uil uil-times-circle"></i>
+            </div>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="formGroup" autocomplete="off">
+                <table class="table table-bordered table-feature-value align-middle border m-0">
+                    <tbody>
+                        <tr>
+                            <td class="table-feature">الاسم</td>
+                            <td class="table-value">
+                                <!-- <input type="text" class="form-control form-control-lg" placeholder="أدخل الاسم..."> -->
+                                <div class="row">
+                                    <div class="col-xl-6 mb-3">
+                                        <input type="text" formControlName="nameAR" class="form-control form-control-lg" placeholder="الاسم عربي">
+                                        <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
+                                            {{formErrors.nameAR}}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6"><input type="text" formControlName="nameEN" class="form-control form-control-lg" placeholder="الاسم انجليزي">
+                                        <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
+                                            {{formErrors.nameEN}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-feature">حساب التشغيل</td>
+                            <td class="table-value">
+                                <app-drop-down-form-control formControlName="operationAccountId" [placeholder]="'حساب التشغيل'" [showSearch]="true" [data]="childAccountSelectorData"></app-drop-down-form-control>
+                                <div *ngIf="formErrors.operationAccountId" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.operationAccountId}}
+                                </div>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-feature">حساب الإدارة</td>
+                            <td class="table-value">
+                                <app-drop-down-form-control formControlName="managementAccountId" [showSearch]="true" [placeholder]="'حساب الإدارة'" [data]="childAccountSelectorData"></app-drop-down-form-control>
+                                <div *ngIf="formErrors.managementAccountId" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.managementAccountId}}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-feature">مجموعة</td>
+                            <td class="table-value">
+                                <input class="big-checkbox" formControlName="isGroup" type="checkbox">
+
+                                <div *ngIf="formErrors.isGroup" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.isGroup}}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="formGroup?.value?.isGroup">
+                            <td class="table-feature">اسم المجموعة</td>
+                            <td class="table-value">
+                                <app-drop-down-form-control formControlName="parentCategoryId" [showSearch]="true" [placeholder]="'اسم المجموعة'" [data]="itemCategoriesSelectorData"></app-drop-down-form-control>
+                                <div *ngIf="formErrors.parentCategoryId" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.parentCategoryId}}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-feature">الوصـف</td>
+                            <td class="table-value">
+                                <textarea type="text" formControlName="description" class="form-control" placeholder="الوصف"></textarea>
+                                <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.description}}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        <div class="modal-footer flex-nowrap gap-2">
+            <button [disabled]="showAddLoader" (click)="saveCategory()" type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
+                <i class="uil uil-save fs-3"></i>
+                <span *ngIf="!isUpdate">إضافة</span>
+                <span *ngIf="isUpdate">تعديل</span> </button>
+
+            <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="modal.close()">
+                <i class="uil uil-times-circle fs-3"></i>
+                <span>الغاء</span>
+            </button>
+        </div>
+    </ng-template>
 
 
 
 
-<ng-template #deleteDialog let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title">تأكيد العملية</h4>
-    </div>
-    <div class="modal-body">
-        <p class="fs-5 m-0">هل انت متأكد من الحذف ؟</p>
-    </div>
-    <div class="modal-footer justify-content-start">
-        <button type="button" class="btn btn-success" (click)="modal.close('Save click'); submitDeleteAction()">
-            <i class="fas fa-check"></i>
-            <span class="ms-2">نعم</span>
-        </button>
-        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
-            <i class="fas fa-times"></i>
-            <span class="ms-2">الغاء</span>
-        </button>
-    </div>
-</ng-template>
+    <ng-template #deleteDialog let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title">تأكيد العملية</h4>
+        </div>
+        <div class="modal-body">
+            <p class="fs-5 m-0">هل انت متأكد من الحذف ؟</p>
+        </div>
+        <div class="modal-footer justify-content-start">
+            <button type="button" class="btn btn-success" (click)="modal.close('Save click'); submitDeleteAction()">
+                <i class="fas fa-check"></i>
+                <span class="ms-2">نعم</span>
+            </button>
+            <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+                <i class="fas fa-times"></i>
+                <span class="ms-2">الغاء</span>
+            </button>
+        </div>
+    </ng-template>

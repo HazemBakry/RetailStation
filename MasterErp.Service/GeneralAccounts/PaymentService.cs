@@ -7,6 +7,7 @@ using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,16 +19,16 @@ namespace MasterErp.Service.GeneralAccounts
     {
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
-        private readonly IConfiguration Configuration;
+        //private readonly IConfiguration Configuration;
         private readonly IJournalEntryService entryService;
-        private readonly string ConnectionString;
+        //private readonly string ConnectionString;
 
-        public PaymentService(DBContext DbContext, ISQLHelper SQLHelper, IConfiguration _configuration, IJournalEntryService EntryService)
+        public PaymentService(DBContext DbContext, ISQLHelper SQLHelper, IJournalEntryService EntryService) //IConfiguration _configuration )
         {
             this.Context = DbContext;
             this.SQLHelper = SQLHelper;
-            this.Configuration = _configuration;
-            this.ConnectionString = Configuration.GetConnectionString("DBConnection");
+            //this.Configuration = _configuration;
+            //this.ConnectionString = Configuration.GetConnectionString("DBConnection");
             this.entryService = EntryService;
         }
 
@@ -39,7 +40,7 @@ namespace MasterErp.Service.GeneralAccounts
             Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
             Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
 
-            var result = SQLHelper.SQLQuery<ReceiptModel>("[Finance].[SP_GetPaymentOrders_Summary]", ConnectionString, Params).ToList();
+            var result = SQLHelper.SQLQuery<ReceiptModel>("[Finance].[SP_GetPaymentOrders_Summary]", null, Params).ToList();
             return result;
         }
 
@@ -178,7 +179,7 @@ namespace MasterErp.Service.GeneralAccounts
             Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
             Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
 
-            var result = SQLHelper.SQLQuery<ReceiptModel>("[Finance].[SP_GetPaymentReceipts_Summary]", ConnectionString, Params).ToList();
+            var result = SQLHelper.SQLQuery<ReceiptModel>("[Finance].[SP_GetPaymentReceipts_Summary]", null, Params).ToList();
             return result;
         }
 
@@ -302,7 +303,8 @@ namespace MasterErp.Service.GeneralAccounts
                     Debit = Model.MoneyAmount,
                     CurrencyId = 1,
                     SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
-                    Description = Model.Description
+                    Description = Model.Description,
+                    CostCenterId = Context.AccountTrees.FirstOrDefault(x => x.AccountId == (int)Model.FromAccountId)?.CostCenterId
                 });
 
                 accounts.Add(new JournalEntryAccount
@@ -312,7 +314,8 @@ namespace MasterErp.Service.GeneralAccounts
                     Debit = 0,
                     CurrencyId = 1,
                     SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
-                    Description = Model.Description
+                    Description = Model.Description,
+                    CostCenterId = Context.AccountTrees.FirstOrDefault(x => x.AccountId == (int)Model.AccountId)?.CostCenterId
                 });
 
                 JournalEntryModel entry = new JournalEntryModel
@@ -376,7 +379,7 @@ namespace MasterErp.Service.GeneralAccounts
             Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
             Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
 
-            var result = SQLHelper.SQLQuery<ReceiptModel>("[Finance].[SP_GetReceiveReceipts_Summary]", ConnectionString, Params).ToList();
+            var result = SQLHelper.SQLQuery<ReceiptModel>("[Finance].[SP_GetReceiveReceipts_Summary]", null, Params).ToList();
             return result;
         }
 
@@ -474,27 +477,31 @@ namespace MasterErp.Service.GeneralAccounts
             {
                 int generalSupplierId = Context.AccountTrees.Single(x => x.AccountTypeId == 5).AccountId;
                 List<JournalEntryAccount> accounts = new List<JournalEntryAccount>();
+                int debitAccountId = Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId;
+                int creditAccountId = Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId;
 
                 //---------- Debit Account ----------//
                 accounts.Add(new JournalEntryAccount
                 {
                     SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
-                    AccountId = Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId,
+                    AccountId = debitAccountId, //Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId,
                     Credit = 0,
                     Debit = Model.MoneyAmount,
                     CurrencyId = 1,
-                    Description = Model.Description
+                    Description = Model.Description,
+                    CostCenterId = Context.AccountTrees.FirstOrDefault(x => x.AccountId == debitAccountId)?.CostCenterId
                 });
 
                 //---------- Credit Account ----------//
                 accounts.Add(new JournalEntryAccount
                 {
-                    AccountId = Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId,
+                    AccountId = creditAccountId, //Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId,
                     Credit = Model.MoneyAmount,
                     Debit = 0,
                     CurrencyId = 1,
                     SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
-                    Description = Model.Description
+                    Description = Model.Description,
+                    CostCenterId = Context.AccountTrees.FirstOrDefault(x => x.AccountId == creditAccountId)?.CostCenterId
                 });
 
                 JournalEntryModel entry = new JournalEntryModel

@@ -1,25 +1,29 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
-<div class="container-fluid pt-2">
-    <div class="card card-with-table border shadow-none">
-        <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2" (click)="open(formModal)">
-                    <i class="uil uil-plus fs-5"></i>
-                    <span>إضافة وحدة</span>
-                </button>
-            </div>
-            <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="FilterModel.currentPage" [pageSize]="FilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="TotalPages"></app-erp-pagination>
-            </div>
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3" (click)="open(formModal)">
+                <i class="fas fa-plus-circle"></i>
+                <span>إضافة وحدة</span>
+            </button>
+            <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+                <i class="fas fa-filter"></i>
+                <span>إضافة فلتر</span>
+            </button>
         </div>
-        <div class="card-body table-responsive">
-            <table class="table table-borderless align-middle table-hover table-component m-0">
+        <div class="justify-content-end">
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+        </div>
+    </div>
+    <div class="p-3 bg-white">
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
                 <thead>
                     <tr>
                         <th>اسم الوحدة (Ar)</th>
                         <th>اسم الوحدة (En)</th>
-                        <th>ملاحظــات</th>
+                        <!-- <th>ملاحظــات</th> -->
                         <th>نشط</th>
                         <th class="actions-table-col"></th>
                     </tr>
@@ -27,17 +31,17 @@
                 <tbody>
                     <tr *ngFor="let item of Units">
                         <td>
-                            <div class="define-status-table d-flex align-items-center gap-2">
-                                <div class="define-status-table-circle success"></div>
-                                <div class="fs-5 fw-bold"> {{item.nameAR}}</div>
-                            </div>
+                            <!-- <div class="define-status-table d-flex align-items-center gap-2"> -->
+                            <!-- <div class="define-status-table-circle success"></div> -->
+                            <div class="fs-5 fw-bold"> {{item.nameAR}}</div>
+                            <!-- </div> -->
                         </td>
                         <td>
                             <div class="fs-5 fw-bold"> {{item.nameEN}}</div>
                         </td>
-                        <td>
+                        <!-- <td>
                             <div class="fs-5 fw-bold"> {{item.notes}}</div>
-                        </td>
+                        </td> -->
                         <td>
                             <div class="status-table-ele success">نشــط</div>
                         </td>

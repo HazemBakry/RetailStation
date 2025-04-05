@@ -1,4 +1,3 @@
-
 <div (click)="OpenSidePanel(OrderSearchSidepanel)">
     <i class="uil uil-pen"></i>
     <span class="ms-2">طلبات الشراء</span>
@@ -18,37 +17,53 @@
     </div>
     <div class="offcanvas-body pt-4 bg-light">
 
-        <div class="employee-card-body row mb-3">
-            <div class="col-xl-4 mb-2">
-                <app-general-selector  [(ngModel)]="selectedBranchId"
-                    [data]="branchesSelectorData" [showSearch]="true"
-                    [placeholder]="'الفرع'"></app-general-selector>
-            </div>
-            <div class="col-xl-4 mb-2">
-                <input type="text" autocomplete="off" [(ngModel)]="orderNumber" class="form-control nw-form-input"
-                    placeholder="رقم الطلب">
+        <div class="card radius-10 border-0 card-shadow">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="mb-2">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                رقم الطلب
+                            </label>
+                            <input type="text" autocomplete="off" [(ngModel)]="orderNumber" class="form-control nw-form-input">
+                        </div>
+                    </div>
 
-            </div>
-            <div class="col-xl-4 mb-2">
-                <input type="date" [(ngModel)]="orderDate" class="form-control nw-form-input"
-                    placeholder="تاريخ الاصدار">
-            </div>
-            <div class="col-xl-12">
-                <div class="d-flex justify-content-center mt-3">
-                    <button (click)="loadData()"
-                        class="btn btn-primary w-50 justify-content-center py-2 fs-5 radius-10">
-                        بحث
-                    </button>
+                    <div class="col-lg-4">
+                        <div class="mb-2">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                الفرع
+                            </label>
+                            <app-general-selector [(ngModel)]="selectedBranchId" [data]="branchesSelectorData" [showSearch]="true" [placeholder]="'الفرع'"></app-general-selector>
+                        </div>
+                    </div>
+                    <!-- <div class="col-xl-4 mb-2">
+                        <input type="text" autocomplete="off" [(ngModel)]="orderNumber" class="form-control nw-form-input" placeholder="رقم الطلب">
+
+                    </div> -->
+                    <div class="col-lg-4 mb-2">
+                        <div class="mb-2">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                تاريخ الطلب
+                            </label>
+                            <input type="date" [(ngModel)]="orderDate" class="form-control nw-form-input" placeholder="تاريخ الاصدار">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2">
+                        <button (click)="loadData()" class="btn btn-primary w-50 justify-content-center py-2 fs-5 radius-10">
+                            بحث
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-
         <hr class="border-black" />
 
         <div class="card card-with-table border shadow-none">
             <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-start">
-                <button (click)="SelectOrders()"
-                    class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
+                <button (click)="SelectOrders()" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
                     <i class="far fa-eye"></i>
                     <span>تحميل</span>
                 </button>
@@ -58,11 +73,10 @@
                     <thead>
                         <tr>
                             <th>
-                                <input class="cursor-pointer" (change)="selectAllData()" [(ngModel)]="selectAll"
-                                    type="checkbox">
+                                <input class="cursor-pointer" (change)="selectAllData()" [(ngModel)]="selectAll" type="checkbox">
                             </th>
                             <th>رقم الطلب</th>
-                            <th>الرقم الدفترى</th>
+                            <!-- <th>الرقم الدفترى</th> -->
                             <th>تاريخ الطلب</th>
                             <th>اسم الفرع</th>
                             <th>حالة الطلب</th>
@@ -73,14 +87,13 @@
                         <tr *ngFor="let item of pagedResponseModel.results">
                             <td>
                                 <input class="cursor-pointer" type="checkbox" [(ngModel)]="item.isChecked">
-
                             </td>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
                                     <div class="fs-5 fw-bold text-center">{{item.orderNumber}}</div>
                                 </div>
                             </td>
-                            <td>{{item.docNumber}}</td>
+                            <!-- <td>{{item.docNumber}}</td> -->
                             <td>{{item.orderDate | date}}</td>
                             <td>{{item.branchNameAR}}</td>
                             <td>
@@ -90,8 +103,7 @@
                             </td>
                             <td>
                                 <div class="w-100 d-flex align-items-center justify-content-center">
-                                    <button (click)="SelectOrder(item)"
-                                        class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
+                                    <button (click)="SelectOrder(item)" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
                                         <i class="far fa-eye"></i>
                                         <span>تحميل</span>
                                     </button>
@@ -100,8 +112,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length&&!showLoader"
-                    [showLoader]="showLoader"></app-empty-data>
+                <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
             </div>
         </div>
 
