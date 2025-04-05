@@ -67,7 +67,6 @@ export class AccountTreeV2Component implements OnInit, OnChanges {
   }
 
   loadData() {
-debugger
     this.showLoader = true;
     this.sharedService.GetAccountTreeHierarchicalData(this.searchText).subscribe(data => {
       this.showLoader = false;

@@ -13,21 +13,19 @@
 
 
 <div class="tree-row d-flex align-items-center justify-content-between" (click)="toggleNode(account)">
-  <div
-    class="tree-row-text width-75-per max-width-390 d-flex align-items-center gap-3 cursor-pointer pss-{{account.accountLevel}}"
-    [style]="getLevelClass(account.accountLevel)">
-    <i *ngIf="account.children?.length" class="fas " [class]="!expanded?'fa-plus-circle':'fa-minus-circle'"></i>
-    <span [ngClass]="{'bg-warning': account.isSelected}">{{ account.nameEN }}</span>
-  </div>
-  <div class="tree-row-text width-20-per d-flex align-items-center justify-content-center">
-    <span class="status-box gray" [ngClass]="{'bg-warning': account.isSelected}">{{ account.accountNumber }}</span>
-  </div>
-  <div class="tree-row-icon width-5-per d-flex align-items-center justify-content-center gap-3">
-    <i class="fas fa-edit cursor-pointer" (click)="onEvent($event,account)"></i>
-    <i class="fas fa-trash-alt cursor-pointer text-danger" (click)="onEvent($event,account,true)"></i>
-    <!-- <span class="mx-3">-</span>
+    <div class="tree-row-text width-75-per   d-flex align-items-center gap-3 cursor-pointer pss-{{account.accountLevel}}" [style]="getLevelClass(account.accountLevel)">
+        <i *ngIf="account.children?.length" class="fas " [class]="!expanded?'fa-plus-circle':'fa-minus-circle'"></i>
+        <span [ngClass]="{'bg-warning': account.isSelected}">{{ account.accountNumber }} - {{ account.nameAR }} </span>
+    </div>
+    <!-- <div class="tree-row-text width-20-per d-flex align-items-center justify-content-center">
+        <span class="status-box" [ngClass]="{'bg-warning': account.isSelected}">{{ account.accountNumber }}</span>
+    </div> -->
+    <div class="tree-row-icon width-5-per d-flex align-items-center justify-content-center gap-3">
+        <i class="fas fa-edit cursor-pointer" (click)="onEvent($event,account)"></i>
+        <i class="fas fa-trash-alt cursor-pointer text-danger" (click)="onEvent($event,account,true)"></i>
+        <!-- <span class="mx-3">-</span>
               <i class="fas fa-eye cursor-pointer"></i> -->
-  </div>
+    </div>
 </div>
 
 
@@ -37,6 +35,5 @@
 
 <!-- (account.isSelected||expanded) -->
 <div *ngIf="account.children &&(expanded||account.isSelected) ">
-  <app-account-tree-item (selectedAccount)="selectAccount($event)" *ngFor="let child of account.children"
-    [account]="child"></app-account-tree-item>
+    <app-account-tree-item (selectedAccount)="selectAccount($event)" *ngFor="let child of account.children" [account]="child"></app-account-tree-item>
 </div>
