@@ -10,7 +10,11 @@
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">رقم الأمر <span
                                 class="text-danger">*</span></label>
-                        <input type="text" disabled class="form-control nw-form-input" formControlName="orderNumber" />
+                        <input type="text" disabled class="form-control nw-form-input"
+                            formControlName="orderNumber" />
+                        <div *ngIf="formErrors.orderNumber" class="text-danger  font-small-3 m-03">
+                            {{formErrors.orderNumber}}
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -19,6 +23,9 @@
                                 class="text-danger">*</span></label>
 
                         <input type="text" class="form-control nw-form-input" formControlName="contactName" />
+                        <div *ngIf="formErrors.contactName" class="text-danger  font-small-3 m-03">
+                            {{formErrors.contactName}}
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -26,15 +33,23 @@
                         <label class="form-label d-flex align-items-center gap-2">طريقة الدفع <span
                                 class="text-danger">*</span></label>
 
-                        <app-general-selector formControlName="paymentTypeId" [data]="paymentTypeList" (valueChanged)="onChoosePayment($event)" [placeholder]="'طريقة الدفع'"></app-general-selector>
+                        <app-general-selector formControlName="paymentTypeId" [data]="paymentTypeList"
+                            [placeholder]="'طريقة الدفع'"></app-general-selector>
+                        <div *ngIf="formErrors.paymentTypeId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.paymentTypeId}}
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">من حساب<span
                                 class="text-danger">*</span></label>
-                        <app-general-selector formControlName="fromAccountId" [data]="fromAccounts" [placeholder]="'الحسابات'">
+                        <app-general-selector formControlName="fromAccountId" [data]="fromAccounts"
+                            [placeholder]="'الحسابات'">
                         </app-general-selector>
+                        <div *ngIf="formErrors.fromAccountId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.fromAccountId}}
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -44,56 +59,82 @@
                         <!-- <app-general-selector [data]="agencyTypeList" (ItemObj)="GetSelectedAgencyType($event)">
                         </app-general-selector> -->
 
-                        <app-general-selector formControlName="agencyTypeId" [data]="agencyTypeList" (valueChanged)="getSelectedAgencyType($event)" [placeholder]="'نوع جهة التعامل '"></app-general-selector>
+                        <app-general-selector formControlName="agencyTypeId" [data]="agencyTypeList"
+                            (valueChanged)="getSelectedAgencyType($event)"
+                            [placeholder]="'نوع جهة التعامل '"></app-general-selector>
+                        <div *ngIf="formErrors.agencyTypeId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.agencyTypeId}}
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="mb-2">
+                    <div class="mb-2" *ngIf="formGroup?.value?.agencyTypeId">
                         <label class="form-label d-flex align-items-center gap-2">الحساب / جهة التعامل <span
                                 class="text-danger">*</span></label>
-                        <app-general-selector *ngIf="selectedAgencyType == 1" formControlName="accountId" [data]="accountList" [placeholder]="'الحسابات'">
+                        <app-general-selector *ngIf="formGroup?.value?.agencyTypeId == 1" formControlName="accountId"
+                            [data]="accountList" [placeholder]="'الحسابات'">
                         </app-general-selector>
-
-                        <app-general-selector *ngIf="selectedAgencyType == 2" formControlName="supplierId" [data]="supplierList" [placeholder]="'جهة التعامل'">
+                        <div *ngIf="formErrors.accountId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.accountId}}
+                        </div>
+                        <app-general-selector *ngIf="formGroup?.value?.agencyTypeId == 2" formControlName="supplierId"
+                            [data]="supplierList" [placeholder]="'جهة التعامل'">
                         </app-general-selector>
+                        <div *ngIf="formErrors.supplierId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.supplierId}}
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">تاريخ الأمر <span
                                 class="text-danger">*</span></label>
-                        <input type="date" class="form-control nw-form-input" formControlName="releaseDate" placeholder="any" autocomplete="off">
+                        <input type="date" class="form-control nw-form-input" formControlName="releaseDate"
+                            placeholder="any" autocomplete="off">
+                        <div *ngIf="formErrors.releaseDate" class="text-danger  font-small-3 m-03">
+                            {{formErrors.releaseDate}}
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="mb-2">
-                        <label class="form-label d-flex align-items-center gap-2">المبلغ</label>
+                        <label class="form-label d-flex align-items-center gap-2">المبلغ<span
+                                class="text-danger">*</span></label>
 
-                        <input type="number" class="form-control nw-form-input text-center" formControlName="moneyAmount" />
+
+                        <input type="number" class="form-control nw-form-input text-center"
+                            formControlName="moneyAmount" />
+                        <div *ngIf="formErrors.moneyAmount" class="text-danger  font-small-3 m-03">
+                            {{formErrors.moneyAmount}}
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-12">
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">البيان</label>
 
-                        <input type="text" class="form-control nw-form-input description-area" formControlName="description" />
+                        <input type="text" class="form-control nw-form-input description-area"
+                            formControlName="description" />
+                        <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
+                            {{formErrors.description}}
+                        </div>
                     </div>
                 </div>
             </div>
         </form>
     </div>
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-top mb-2">
-        <button class="btn btn-primary btn-lg fs-6 me-2 mt-2" (click)="SavePaymentOrder()">
+        <button [disabled]="showAddLoader" class="btn btn-secondary btn-lg fs-6 me-2 mt-2" (click)="savePaymentOrder()">
             <i class="fas fa-check-circle"></i>
             <span class="ms-2">حفظ</span>
         </button>
 
-        <button class="btn btn-warning btn-lg fs-6 me-2 mt-2" (click)="ClearAllFields()">
+        <button class="btn btn-secondary btn-lg fs-6 me-2 mt-2" (click)="initNewForm()">
             <i class="fas fa-times"></i>
             <span class="ms-2">مسح</span>
         </button>
 
-        <button class="btn btn-secondary btn-lg fs-6 me-2 mt-2" (click)="ClearAllFields()">
+        <button class="btn btn-secondary btn-lg fs-6 me-2 mt-2">
             <i class="fas fa-print"></i>
             <span class="ms-2">طباعة</span>
         </button>
@@ -113,7 +154,7 @@
         <div class="row ">
             <div class="col-lg-3 offset-lg-1 mb-3">
                 <div class="form-floating">
-                    <input type="text" disabled [(ngModel)]="paymentReceiptModel.receiptNumber" class="form-control input-size" id="floatingInput2" placeholder="any" autocomplete="off">
+                    <input type="text" disabled [(ngModel)]="paymentReceiptModel.orderNumber" class="form-control input-size" id="floatingInput2" placeholder="any" autocomplete="off">
                     <label for="floatingInput2"> رقم الايصال</label>
                 </div>
             </div>

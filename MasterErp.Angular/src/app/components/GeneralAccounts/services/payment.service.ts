@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ReceiveReceipt } from '../models/GeneralAccounts/ReceiveReceipt';
-import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PaymentOperationType } from '../../Shared/Enums/GeneralAccountsEnums';
 import { FormDropdownModel } from '../../Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
@@ -87,16 +87,22 @@ export class PaymentService {
 
   //----------------------------------- Payment Order ------------------------------------------//
 
-  GetPaymentOrders_Summary(model: FilterModel) {
+  GetPaymentOrders_Summary(model: PagedResponseDTO<ReceiptModel[]>) {
     return this.http.post<PagedResponseDTO<ReceiptModel[]>>(this.URL + 'Payment/GetPaymentOrders_Summary', model);
   }
 
-  GetPaymentOrders_Filters(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'Payment/GetPaymentOrders_Filters', model);
-  }
 
-  SavePaymentOrder(model: ReceiptModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Payment/SavePaymentOrder', model);
+  GetPaymentOrders_Filters(model: PagedResponseDTO<ReceiptModel[]>) {
+    return this.http.post<FilterItem[]>(this.URL + 'Payment/GetPaymentOrders_Filters', model);
+  }
+  GetPaymentOrderDetailsById(paymentOrderId: number) {
+    return this.http.get<ReceiptModel>(this.URL + `Payment/GetPaymentOrderDetailsById?PaymentOrderId=${paymentOrderId}`);
+  }
+  AddNewPaymentOrder(model: ReceiptModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Payment/AddNewPaymentOrder', model);
+  }
+  EditPaymentOrder( paymentOrderId:number,model: ReceiptModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Payment/EditPaymentOrder?PaymentOrderId=${paymentOrderId}`, model);
   }
 
   CancelPaymentOrder(OrderId: any) {
@@ -116,17 +122,17 @@ export class PaymentService {
   GetPaymentReceipts_Filters(model: FilterModel) {
     return this.http.post<any>(this.URL + 'Payment/GetPaymentReceipts_Filters', model);
   }
-
-  SavePaymentReceipt(model: ReceiptModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Payment/SavePaymentReceipt', model);
+  GetPaymentReceiptDetailsById(paymentReceiptId: number) {
+    return this.http.get<ReceiptModel>(this.URL + `Payment/GetPaymentReceiptDetailsById?PaymentReceiptId=${paymentReceiptId}`);
   }
-
+  AddNewPaymentReceipt(model: ReceiptModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Payment/AddNewPaymentReceipt', model);
+  }
+  EditPaymentReceipt( paymentReceiptId:number,model: ReceiptModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Payment/EditPaymentReceipt?PaymentReceiptId=${paymentReceiptId}`, model);
+  }
   CancelPaymentReceipt(ReceiptId: any) {
     return this.http.get<ActionsResponseModel>(this.URL + 'Payment/CancelPaymentReceipt?ReceiptId=' + ReceiptId);
-  }
-
-  GetPaymentOrderDetails(OrderId: number) {
-    return this.http.get<ReceiptModel>(this.URL + 'Payment/GetPaymentOrderDetails?OrderId=' + OrderId);
   }
 
   //----------------------------------- Receive Receipt ------------------------------------------//

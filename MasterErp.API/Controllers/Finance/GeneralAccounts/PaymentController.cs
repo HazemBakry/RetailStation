@@ -24,7 +24,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("GetPaymentOrders_Summary")]
-        public IActionResult GetPaymentOrders_Summary(FilterModel model)
+        public IActionResult GetPaymentOrders_Summary(SearchFilterModel model)
         {
             var data = _paymentService.GetPaymentOrders_Summary(model);
             var result = new PagedResponseModel<ReceiptModel>
@@ -37,18 +37,33 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("GetPaymentOrderDetailsById")]
+        public IActionResult GetPaymentOrderDetailsById(int PaymentOrderId)
+        {
+            var result = _paymentService.GetPaymentOrderDetailsById(PaymentOrderId);
+
+            return Ok(result);
+        }
         [HttpPost]
         [Route("GetPaymentOrders_Filters")]
-        public DataTable GetPaymentOrders_Filters(FilterModel model)
+        public DataTable GetPaymentOrders_Filters(SearchFilterModel model)
         {
             return _paymentService.GetPaymentOrders_Filters(model);
         }
 
         [HttpPost]
-        [Route("SavePaymentOrder")]
-        public IActionResult SavePaymentOrder(PaymentOrder Model)
+        [Route("AddNewPaymentOrder")]
+        public IActionResult AddNewPaymentOrder(ReceiptModel Model)
         {
-            var results = _paymentService.SavePaymentOrder(Model);
+            var results = _paymentService.AddNewPaymentOrder(Model);
+            return Ok(results);
+        }
+        [HttpPost]
+        [Route("EditPaymentOrder")]
+        public IActionResult EditPaymentOrder(int PaymentOrderId, ReceiptModel Model)
+        {
+            var results = _paymentService.EditPaymentOrder(PaymentOrderId,Model);
             return Ok(results);
         }
 
@@ -80,7 +95,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("GetPaymentReceipts_Summary")]
-        public IActionResult GetPaymentReceiptsSummary(FilterModel model)
+        public IActionResult GetPaymentReceiptsSummary(SearchFilterModel model)
         {
             var data = _paymentService.GetPaymentReceipts_Summary(model);
             var result = new PagedResponseModel<ReceiptModel>
@@ -95,16 +110,32 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("GetPaymentReceipts_Filters")]
-        public DataTable GetPaymentReceipts_Filters(FilterModel model)
+        public DataTable GetPaymentReceipts_Filters(SearchFilterModel model)
         {
             return _paymentService.GetPaymentReceipts_Filters(model);
         }
 
-        [HttpPost]
-        [Route("SavePaymentReceipt")]
-        public IActionResult SavePaymentReceipt(ReceiptModel Model)
+        [HttpGet]
+        [Route("GetPaymentReceiptDetailsById")]
+        public IActionResult GetPaymentReceiptDetailsById(int PaymentReceiptId)
         {
-            var results = _paymentService.SavePaymentReceipt(Model);
+            var result = _paymentService.GetPaymentReceiptDetailsById(PaymentReceiptId);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("AddNewPaymentReceipt")]
+        public IActionResult AddNewPaymentReceipt(ReceiptModel Model)
+        {
+            var results = _paymentService.AddNewPaymentReceipt(Model);
+            return Ok(results);
+        }
+        [HttpPost]
+        [Route("EditPaymentReceipt")]
+        public IActionResult EditPaymentReceipt(int PaymentReceiptId,ReceiptModel Model)
+        {
+            var results = _paymentService.EditPaymentReceipt(PaymentReceiptId, Model);
             return Ok(results);
         }
 

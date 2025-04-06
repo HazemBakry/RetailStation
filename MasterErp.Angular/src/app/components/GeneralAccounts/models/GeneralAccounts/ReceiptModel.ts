@@ -1,5 +1,6 @@
 export interface ReceiptModel {
     receiptId: number | null;
+    orderNumber: number | null;
     receiptNumber: number | null;
     paymentTypeId: number;
     receiptLedgerId: number | null;

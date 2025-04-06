@@ -100,7 +100,7 @@
                                     </button>
                                     <div ngbDropdownMenu class="border">
                                         <button ngbDropdownItem (click)="cancelPaymentOrder(item.paymentOrderId)">اسقاط</button>
-                                        <button ngbDropdownItem routerLink="/general-accounts/create-payment-receipt" [queryParams]="{paymentOrderId:item.paymentOrderId}">انشاء سند
+                                        <button ngbDropdownItem routerLink="/general-accounts/create-payment-receipt" [queryParams]="{PaymentOrderId:item.paymentOrderId}">انشاء سند
                                             الصرف</button>
                                     </div>
                                 </div>

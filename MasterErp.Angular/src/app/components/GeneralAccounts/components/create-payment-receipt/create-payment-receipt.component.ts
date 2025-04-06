@@ -11,6 +11,7 @@ import { LookupService } from 'src/app/components/Shared/services/lookup.service
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
+import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 
 @Component({
   selector: 'app-create-payment-receipt',
@@ -19,23 +20,23 @@ import { FormDropdownModel } from 'src/app/components/Shared/components/drop-dow
 })
 export class CreatePaymentReceiptComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'سند صرف جديد'];
-  agencyTypeList: any[] = [];
-  paymentTypeList: any[] = [];
+  agencyTypeList: GeneralSelectorModel[] = [];
+  paymentTypeList: GeneralSelectorModel[] = [];
   selectedAgencyType: number = 1;
-  supplierList: any[] = [];
-  accountList: any[] = [];
-  fromAccounts: any[] = [];
-  receiptLedgerList: any[] = [];
-  receiptTypeList: any[] = [];
-  paymentOrdersList: FormDropdownModel[] = [];
+  supplierList: GeneralSelectorModel[] = [];
+  accountList: GeneralSelectorModel[] = [];
+  fromAccounts: GeneralSelectorModel[] = [];
+  receiptLedgerList: GeneralSelectorModel[] = [];
+  receiptTypeList: GeneralSelectorModel[] = [];
+  paymentOrdersList: GeneralSelectorModel[] = [];
+  showLoader: boolean = false;
+  showAddLoader: boolean = false;
   paymentReceiptModel: ReceiptModel = {} as ReceiptModel
   isFocused = false;
   isUpdate: any = false;
   paymentOrderId: any;
-  FilterModel: FilterModel = {
-    currentPage: 1,
-    pageSize: 25
-  };
+  paymentReceiptId: any;
+
   formData: FormData = new FormData();
   formGroup: FormGroup;
   formErrors = {
@@ -54,6 +55,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
     receiptLedgerId: '',
     receiptTypeId: '',
     paymentOrderId: '',
+    fromAccountId:''
   };
 
   constructor(private sharedService: SharedService,
@@ -67,14 +69,15 @@ export class CreatePaymentReceiptComponent implements OnInit {
 
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
-      if (params.receiptId) {
-        this.paymentReceiptModel.receiptId = params.receiptId;
-        this.getReceiptDetailsById(params.receiptId);
+      if (params.PaymentReceiptId) {
+        this.paymentReceiptId = params.PaymentReceiptId;
+        this.paymentReceiptModel.receiptId = this.paymentReceiptId;
+        this.getPaymentReceiptDetailsById();
       }
 
-      else if (params.paymentOrderId) {
-        this.paymentOrderId = params.paymentOrderId;
-        this.getPaymentOrderDetails(params.paymentOrderId);
+      else if (params.PaymentOrderId) {
+        this.paymentOrderId = params.PaymentOrderId;
+        this.getPaymentOrderDetailsById(this.paymentOrderId);
       }
     });
     this.initNewForm();
@@ -115,8 +118,8 @@ export class CreatePaymentReceiptComponent implements OnInit {
   initNewForm(receiptModel: ReceiptModel = null) {
     this.isUpdate = false;
     this.buildForm();
-    // if (receiptModel)
-    //   this.fillEditForm(receiptModel);
+    if (receiptModel)
+      this.fillEditForm(receiptModel);
   }
 
   buildForm() {
@@ -136,10 +139,16 @@ export class CreatePaymentReceiptComponent implements OnInit {
       receiptLedgerId: [null, [Validators.required]],
       receiptTypeId: [null, [Validators.required]],
       paymentOrderId: [null],
-      fromAccountId: [null]
+      fromAccountId: [null],
+      supplierId: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
+    });
+    this.formGroup?.get('paymentTypeId')?.valueChanges.subscribe((paymentTypeId) => {
+      if (paymentTypeId) {
+        this.onChoosePaymentType(paymentTypeId);
+      }
     });
   }
 
@@ -172,35 +181,50 @@ export class CreatePaymentReceiptComponent implements OnInit {
       receiptLedgerId: receiptModel.receiptLedgerId,
       receiptTypeId: receiptModel.receiptTypeId,
       paymentOrderId: receiptModel.paymentOrderId,
-      fromAccountId: receiptModel.fromAccountId
+      fromAccountId: receiptModel.fromAccountId,
+      supplierId: receiptModel.supplierId,
     });
   }
 
-  getPaymentOrderDetails(orderId: number) {
-    this.paymentService.GetPaymentOrderDetails(orderId).subscribe(data => {
-      this.paymentReceiptModel.contactName = data?.contactName;
-      this.paymentReceiptModel.description = data?.description;
-      this.paymentReceiptModel.agencyTypeId = data?.agencyTypeId;
-      this.paymentReceiptModel.paymentOrderId = data?.paymentOrderId;
-      this.paymentReceiptModel.accountId = data?.accountId;
-      this.paymentReceiptModel.currencyId = data?.currencyId;
-      this.paymentReceiptModel.paymentTypeId = data?.paymentTypeId;
-      this.paymentReceiptModel.moneyAmount = data?.moneyAmount;
-      this.paymentReceiptModel.fromAccountId = data?.fromAccountId;
-
-      if (data.paymentTypeId) {
-        this.onChoosePayment(data.paymentTypeId);
+  getPaymentOrderDetailsById(paymentOrderId) {
+    this.showLoader = true;
+    this.paymentService.GetPaymentOrderDetailsById(paymentOrderId).subscribe((data: ReceiptModel) => {
+      if (data) {
+        this.paymentReceiptModel = data;
+        this.fillEditForm(this.paymentReceiptModel)
       }
-      this.fillEditForm(this.paymentReceiptModel);
-
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
   }
+
+
+
 
   getReceiptDetailsById(receiptId: number) {
 
   }
 
-  onChoosePayment(payment: number) {
+  getPaymentReceiptDetailsById() {
+    this.showLoader = true;
+    this.paymentService.GetPaymentReceiptDetailsById(this.paymentReceiptId).subscribe((data: ReceiptModel) => {
+      if (data) {
+        this.paymentReceiptModel = data;
+        this.initNewForm(this.paymentReceiptModel);
+        // this.fillEditForm(this.receiptModel)
+      }
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+
+  onChoosePaymentType(payment: number) {
     if (payment == 1) {
       this.sharedService.GetAccountsByTypeId(4).subscribe(data => {
         this.fromAccounts = data;
@@ -232,50 +256,62 @@ export class CreatePaymentReceiptComponent implements OnInit {
     // }
   }
 
-  SavePaymentReceipt() {
+  savePaymentReceipt() {
     if (!this.validateForm()) {
       return;
     }
-
     this.paymentReceiptModel = this.formGroup.value;
-    if (!this.validatePaymentReceipt()) {
-      return;
-    }
-    if (!this.paymentReceiptModel.receiptId)
-      this.paymentReceiptModel.receiptId = 0;
+    // if (!this.paymentReceiptModel.paymentReceiptId)
+    //   this.paymentReceiptModel.paymentReceiptId = 0;
 
-    this.paymentService.SavePaymentReceipt(this.paymentReceiptModel).subscribe((data: ActionsResponseModel) => {
-      if (data?.status) {
-        this.ClearAllFields();
-        this.paymentReceiptModel.receiptNumber = data.number;
+
+    if (this.paymentReceiptId)
+      this.editPaymentReceipt();
+    else
+      this.addNewPaymentReceipt();
+  }
+  addNewPaymentReceipt() {
+
+
+    this.paymentService.AddNewPaymentReceipt(this.paymentReceiptModel).subscribe((data: ActionsResponseModel) => {
+      if (data?.isSuccess) {
+        this.paymentReceiptModel.orderNumber = data.number;
+        this.paymentReceiptId = data.id;
+        this.formGroup.patchValue({ receiptNumber: data.number });
+        // this.formGroup?.reset();
+        // this.initNewForm();
         this.toaster.success(data?.message);
-      } else {
+      }
+      else {
         this.toaster.error(data?.message);
       }
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
     });
   }
 
-  validatePaymentReceipt(): boolean {
-    let model: ReceiptModel = this.paymentReceiptModel;
+  editPaymentReceipt() {
+    this.showAddLoader = true;
+    this.paymentService.EditPaymentReceipt(this.paymentReceiptId, this.paymentReceiptModel).subscribe((data: ActionsResponseModel) => {
+      if (data?.isSuccess) {
+        this.formGroup?.reset();
+        this.initNewForm();
+        this.toaster.success(data?.message);
+        this.getPaymentReceiptDetailsById();
+      }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
+    });
 
-    if (!model.contactName ||
-      !model.paymentTypeId ||
-      !model.receiptTypeId ||
-      !model.receiptLedgerId ||
-      // !model.agencyTypeId ||
-      // !model.agencyId ||
-      // !model.accountId ||
-      !model.releaseDate ||
-      !model.moneyAmount) {
-      this.toaster.warning(' يرجى ملئ الخانات الفارغة');
-      return false;
-    }
-    return true;
-  }
-
-  ClearAllFields() {
-    this.paymentReceiptModel = {} as ReceiptModel;
-    this.selectedAgencyType = 1;
   }
 
 }

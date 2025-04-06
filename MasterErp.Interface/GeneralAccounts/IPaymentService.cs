@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.GeneralAccounts;
+using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models.Finance;
 using System;
 using System.Collections.Generic;
@@ -14,17 +15,23 @@ namespace MasterErp.Interface.GeneralAccounts
     {
 
         // ----------------- Payment Orders -----------------//
-        List<ReceiptModel> GetPaymentOrders_Summary(FilterModel model);
-        DataTable GetPaymentOrders_Filters(FilterModel model);
-        ActionsResponseModel SavePaymentOrder(PaymentOrder Model);
+        List<ReceiptModel> GetPaymentOrders_Summary(SearchFilterModel model,int? PaymentOrderId = null);
+        ReceiptModel GetPaymentOrderDetailsById(int PaymentOrderId);
+
+        DataTable GetPaymentOrders_Filters(SearchFilterModel model);
+        ActionsResponseModel AddNewPaymentOrder(ReceiptModel Model);
+        ActionsResponseModel EditPaymentOrder(int PaymentOrderId, ReceiptModel Model);
         ActionsResponseModel CancelPaymentOrder(int ReceiptId);
         PaymentOrder GetPaymentOrderDetails(int OrderId);
         List<SelectorDataModel> GetPaymentOrdersSelector(bool OrderStatus);
 
         // ----------------- Payment Receipts -----------------//
-        List<ReceiptModel> GetPaymentReceipts_Summary(FilterModel model);
-        DataTable GetPaymentReceipts_Filters(FilterModel model);
-        ActionsResponseModel SavePaymentReceipt(ReceiptModel Model);
+        List<ReceiptModel> GetPaymentReceipts_Summary(SearchFilterModel model, int? PaymentReceiptId=null);
+        DataTable GetPaymentReceipts_Filters(SearchFilterModel model);
+        ReceiptModel GetPaymentReceiptDetailsById(int PaymentReceiptId);
+
+        ActionsResponseModel AddNewPaymentReceipt(ReceiptModel Model);
+        ActionsResponseModel EditPaymentReceipt(int PaymentReceiptId ,ReceiptModel Model);
         ActionsResponseModel CancelPaymentReceipt(int ReceiptId);
 
         // ----------------- Receive Receipts -----------------//

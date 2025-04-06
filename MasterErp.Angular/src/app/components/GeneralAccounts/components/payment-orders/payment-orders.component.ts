@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PaymentService } from '../../services/payment.service';
 import { ToastrService } from 'ngx-toastr';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
@@ -13,12 +12,9 @@ import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
 export class PaymentOrdersComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'أوامر الصرف'];
   showLoader: boolean;
-  FilterModel: FilterModel = {
-    currentPage: 1,
-    pageSize: 25
-  };
 
-  ReceiptList: PagedResponseDTO<ReceiptModel[]> = {
+
+  pagedResponseModel: PagedResponseDTO<ReceiptModel[]> = {
     results: [],
     filterList: [],
     pageSize: 25,
@@ -35,9 +31,9 @@ export class PaymentOrdersComponent implements OnInit {
 
   getPaymentOrdersSummary() {
     this.showLoader = true;
-    this.paymentService.GetPaymentOrders_Summary(this.FilterModel).subscribe(data => {
-      this.ReceiptList.results = data.results;
-      this.ReceiptList.totalCount = data.totalCount;
+    this.paymentService.GetPaymentOrders_Summary(this.pagedResponseModel).subscribe(data => {
+      this.pagedResponseModel.results = data.results;
+      this.pagedResponseModel.totalCount = data.totalCount;
       //this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
 
       this.showLoader = false;
@@ -49,7 +45,7 @@ export class PaymentOrdersComponent implements OnInit {
   }
 
   pageChanged(obj: any) {
-    this.FilterModel.currentPage = obj.page;
+    this.pagedResponseModel.currentPage = obj.page;
     this.getPaymentOrdersSummary();
   }
 

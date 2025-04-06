@@ -1,10 +1,12 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Finance.GeneralAccounts;
+using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
+using MasterErp.Service.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
@@ -22,93 +24,124 @@ namespace MasterErp.Service.GeneralAccounts
         //private readonly IConfiguration Configuration;
         private readonly IJournalEntryService entryService;
         //private readonly string ConnectionString;
+        private readonly ISharedFilterService SharedFilterService;
 
-        public PaymentService(DBContext DbContext, ISQLHelper SQLHelper, IJournalEntryService EntryService) //IConfiguration _configuration )
+        public PaymentService(DBContext DbContext, ISQLHelper SQLHelper, IJournalEntryService EntryService, ISharedFilterService sharedFilterService) //IConfiguration _configuration )
         {
             this.Context = DbContext;
             this.SQLHelper = SQLHelper;
             //this.Configuration = _configuration;
             //this.ConnectionString = Configuration.GetConnectionString("DBConnection");
             this.entryService = EntryService;
+            SharedFilterService = sharedFilterService;
         }
 
         //----------------------------------- Payment Order ------------------------------------------//
 
-        public List<ReceiptModel> GetPaymentOrders_Summary(FilterModel model)
+        public List<ReceiptModel> GetPaymentOrders_Summary(SearchFilterModel model,int? PaymentOrderId =null)
         {
-            SqlParameter[] Params = new SqlParameter[2];
-            Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
-            Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
 
-            var result = SQLHelper.SQLQuery<ReceiptModel>("[Finance].[SP_GetPaymentOrders_Summary]", null, Params).ToList();
+            DataTable FilterList = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
+
+            SqlParameter[] Params = new SqlParameter[4];
+
+            Params[0] = new SqlParameter("@PaymentOrderId", PaymentOrderId);
+            Params[1] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[2] = new SqlParameter("@PageSize", model.PageSize);
+            Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[3].Value = FilterList;
+
+            var result = SQLHelper.SQLQuery<ReceiptModel>("[Finance].[SP_GetPaymentOrders_Summary]", null, Params);
             return result;
         }
+        public ReceiptModel GetPaymentOrderDetailsById(int PaymentOrderId)
+        {
+            return GetPaymentOrders_Summary(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, PaymentOrderId)?.FirstOrDefault();
 
-        public DataTable GetPaymentOrders_Filters(FilterModel model)
+        }
+        public DataTable GetPaymentOrders_Filters(SearchFilterModel model)
         {
             return new DataTable();
         }
 
-        public ActionsResponseModel SavePaymentOrder(PaymentOrder Model)
+        public ActionsResponseModel AddNewPaymentOrder(ReceiptModel Model)
         {
             try
             {
                 PaymentOrder order = new PaymentOrder();
 
-                if (Model.PaymentOrderId > 0)
+                order = new PaymentOrder()
                 {
-                    order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == Model.PaymentOrderId);
-                    if (order != null)
-                    {
-                        order.ContactName = Model.ContactName;
-                        order.CurrencyId = Model.CurrencyId;
-                        order.CustomerId = Model.CustomerId;
-                        order.EmployeeId = Model.EmployeeId;
-                        order.Description = Model.Description;
-                        order.MoneyAmount = Model.MoneyAmount;
-                        order.AgencyTypeId = Model.AgencyTypeId;
-                        order.AccountId = Model.AccountId;
-                        order.SupplierId = Model.SupplierId;
-                        order.FromAccountId = Model.FromAccountId;
-                        order.PaymentTypeId = Model.PaymentTypeId;
+                    OrderNumber = Context.PaymentOrders.Count() > 0 ? Context.PaymentOrders.Max(x => x.OrderNumber) + 1 : 1,
+                    ReleaseDate = Model.ReleaseDate,
+                    ContactName = Model.ContactName,
+                    CurrencyId = Model.CurrencyId,
+                    CustomerId = Model.CustomerId,
+                    EmployeeId = Model.EmployeeId,
+                    PaymentTypeId = Model.PaymentTypeId,
+                    Description = Model.Description,
+                    MoneyAmount = Model.MoneyAmount,
+                    AgencyTypeId = Model.AgencyTypeId,
+                    AccountId = Model.AccountId,
+                    SupplierId = Model.SupplierId,
+                    FromAccountId = Model.FromAccountId,
+                    CreatedDate = DateTime.Now,
+                    CreatedBy = "",
+                    IsCancelled = false,
+                    IsLocked = false
+                };
 
-                        Context.SaveChanges();
-                    }
-                }
-                else
-                {
-                    order = new PaymentOrder()
-                    {
-                        OrderNumber = Context.PaymentOrders.Count() > 0 ? Context.PaymentOrders.Max(x => x.OrderNumber) + 1 : 1,
-                        ReleaseDate = Model.ReleaseDate,
-                        ContactName = Model.ContactName,
-                        CurrencyId = Model.CurrencyId,
-                        CustomerId = Model.CustomerId,
-                        EmployeeId = Model.EmployeeId,
-                        PaymentTypeId = Model.PaymentTypeId,
-                        Description = Model.Description,
-                        MoneyAmount = Model.MoneyAmount,
-                        AgencyTypeId = Model.AgencyTypeId,
-                        AccountId = Model.AccountId,
-                        SupplierId = Model.SupplierId,
-                        FromAccountId = Model.FromAccountId,
-                        CreatedDate = DateTime.Now,
-                        CreatedBy = "",
-                        IsCancelled = false,
-                        IsLocked = false
-                    };
-
-                    Context.PaymentOrders.Add(order);
-                    Context.SaveChanges();
-                }
+                Context.PaymentOrders.Add(order);
+                Context.SaveChanges();
+                
 
                 return new ActionsResponseModel
                 {
-                    Status = 200,
                     Message = "تم حفظ أمر الصرف بنجاح",
                     Id = order.PaymentOrderId,
                     Number = order.OrderNumber.ToString(),
-                    IsSuccess = true,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    Message = ex.Message,
+                    IsSuccess = false
+                };
+            }
+        }
+        public ActionsResponseModel EditPaymentOrder(int PaymentOrderId , ReceiptModel Model)
+        {
+            try
+            {
+                PaymentOrder order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == PaymentOrderId);
+
+                if (order != null)
+                {
+                    order.ContactName = Model.ContactName;
+                    order.CurrencyId = Model.CurrencyId;
+                    order.CustomerId = Model.CustomerId;
+                    order.EmployeeId = Model.EmployeeId;
+                    order.Description = Model.Description;
+                    order.MoneyAmount = Model.MoneyAmount;
+                    order.AgencyTypeId = Model.AgencyTypeId;
+                    order.AccountId = Model.AccountId;
+                    order.SupplierId = Model.SupplierId;
+                    order.FromAccountId = Model.FromAccountId;
+                    order.PaymentTypeId = Model.PaymentTypeId;
+
+                    Context.SaveChanges();
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this payment order" };
+
+
+                return new ActionsResponseModel
+                {
+                    Message = "تم تعديل أمر الصرف بنجاح",
+                    Id = order.PaymentOrderId,
+                    Number = order.OrderNumber.ToString(),
                 };
             }
             catch (Exception ex)
@@ -171,24 +204,104 @@ namespace MasterErp.Service.GeneralAccounts
 
         //----------------------------------- Payment Receipt ------------------------------------------//
 
-        public List<ReceiptModel> GetPaymentReceipts_Summary(FilterModel model)
+        public List<ReceiptModel> GetPaymentReceipts_Summary(SearchFilterModel model, int? PaymentReceiptId = null)
         {
-            //return Context.PaymentReceipts.ToList().ToDataTable();
 
-            SqlParameter[] Params = new SqlParameter[2];
-            Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
-            Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
+            DataTable FilterList = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
-            var result = SQLHelper.SQLQuery<ReceiptModel>("[Finance].[SP_GetPaymentReceipts_Summary]", null, Params).ToList();
+            SqlParameter[] Params = new SqlParameter[4];
+
+            Params[0] = new SqlParameter("@PaymentReceiptId", PaymentReceiptId);
+            Params[1] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[2] = new SqlParameter("@PageSize", model.PageSize);
+            Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[3].Value = FilterList;
+
+            var result = SQLHelper.SQLQuery<ReceiptModel>("[Finance].[SP_GetPaymentReceipts_Summary]", null, Params);
             return result;
         }
 
-        public DataTable GetPaymentReceipts_Filters(FilterModel model)
+        public ReceiptModel GetPaymentReceiptDetailsById(int PaymentReceiptId)
+        {
+            return GetPaymentReceipts_Summary(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, PaymentReceiptId)?.FirstOrDefault();
+
+        }
+
+        public DataTable GetPaymentReceipts_Filters(SearchFilterModel model)
         {
             return new DataTable();
         }
 
-        public ActionsResponseModel SavePaymentReceipt(ReceiptModel Model)
+        public ActionsResponseModel AddNewPaymentReceipt(ReceiptModel Model)
+        {
+            try
+            {
+                PaymentReceipt receipt = new PaymentReceipt();
+
+                if (Model.PaymentOrderId == null || Model.PaymentOrderId == 0)
+                {
+                    return new ActionsResponseModel
+                    {
+                        Message = "يجب اختيار أمر الشراء أولا لاتمام حفظ السند",
+                        IsSuccess = false
+                    };
+                }
+
+                receipt = new PaymentReceipt()
+                {
+                    ReceiptNumber = Context.PaymentReceipts.Count() > 0 ? Context.PaymentReceipts.Max(x => x.ReceiptNumber) + 1 : 1,
+                    ReceiptLedgerId = Model.ReceiptLedgerId,
+                    PaymentTypeId = Model.PaymentTypeId,
+                    ReleaseDate = Model.ReleaseDate,
+                    ContactName = Model.ContactName,
+                    CurrencyId = Model.CurrencyId,
+                    ReceiptTypeId = Model.ReceiptTypeId,
+                    FromAccountId = Model.FromAccountId,
+                    BankAccountId = Model.BankAccountId,
+                    CustomerId = Model.CustomerId,
+                    EmployeeId = Model.EmployeeId,
+                    Description = Model.Description,
+                    MoneyAmount = Model.MoneyAmount,
+                    DocNumber = Model.DocNumber,
+                    AgencyTypeId = Model.AgencyTypeId,
+                    AccountId = Model.AccountId,
+                    SupplierId = Model.SupplierId,
+                    CreatedDate = DateTime.Now,
+                    CreatedBy = "",
+                    IsCancelled = false,
+                    IsLocked = false
+                };
+
+                Context.PaymentReceipts.Add(receipt);
+                Context.SaveChanges();
+                
+
+                var payment_order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == Model.PaymentOrderId);
+                payment_order.IsLocked = true;
+                Context.SaveChanges();
+
+                var entry = PreparePaymentEntryModel(receipt);
+                var result = entryService.SaveNewJournalEntry(entry);
+                
+                return new ActionsResponseModel
+                {
+                    Message = result.IsSuccess ? "تم حفظ البيانات بنجاح" : "فشل فى تسجيل القيد المحاسبى",
+                    Id = receipt.PaymentReceiptId,
+                    Number = receipt.ReceiptNumber.ToString(),
+                    IsSuccess = result.IsSuccess
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    Message = ex.Message,
+                    IsSuccess = false
+                };
+            }
+        }
+        
+        public ActionsResponseModel EditPaymentReceipt(int PaymentReceiptId,ReceiptModel Model)
         {
             try
             {
@@ -205,61 +318,31 @@ namespace MasterErp.Service.GeneralAccounts
                     };
                 }
 
-                if (Model.ReceiptId > 0)
+                receipt = Context.PaymentReceipts.FirstOrDefault(x => x.PaymentReceiptId == PaymentReceiptId);
+                if (receipt != null)
                 {
-                    receipt = Context.PaymentReceipts.FirstOrDefault(x => x.PaymentReceiptId == Model.ReceiptId);
-                    if (receipt != null)
-                    {
-                        receipt.ReceiptLedgerId = Model.ReceiptLedgerId;
-                        receipt.PaymentTypeId = Model.PaymentTypeId;
-                        receipt.ContactName = Model.ContactName;
-                        receipt.CurrencyId = Model.CurrencyId;
-                        receipt.ReceiptTypeId = Model.ReceiptTypeId;
-                        receipt.BankAccountId = Model.BankAccountId;
-                        receipt.FromAccountId = Model.FromAccountId;
-                        receipt.CustomerId = Model.CustomerId;
-                        receipt.EmployeeId = Model.EmployeeId;
-                        receipt.Description = Model.Description;
-                        receipt.MoneyAmount = Model.MoneyAmount;
-                        receipt.DocNumber = Model.DocNumber;
-                        receipt.AgencyTypeId = Model.AgencyTypeId;
-                        receipt.AccountId = Model.AccountId;
-                        receipt.SupplierId = Model.SupplierId;
+                    receipt.ReceiptLedgerId = Model.ReceiptLedgerId;
+                    receipt.PaymentTypeId = Model.PaymentTypeId;
+                    receipt.ContactName = Model.ContactName;
+                    receipt.CurrencyId = Model.CurrencyId;
+                    receipt.ReceiptTypeId = Model.ReceiptTypeId;
+                    receipt.BankAccountId = Model.BankAccountId;
+                    receipt.FromAccountId = Model.FromAccountId;
+                    receipt.CustomerId = Model.CustomerId;
+                    receipt.EmployeeId = Model.EmployeeId;
+                    receipt.Description = Model.Description;
+                    receipt.MoneyAmount = Model.MoneyAmount;
+                    receipt.DocNumber = Model.DocNumber;
+                    receipt.AgencyTypeId = Model.AgencyTypeId;
+                    receipt.AccountId = Model.AccountId;
+                    receipt.SupplierId = Model.SupplierId;
 
 
-                        Context.SaveChanges();
-                    }
-                }
-                else
-                {
-                    receipt = new PaymentReceipt()
-                    {
-                        ReceiptNumber = Context.PaymentReceipts.Count() > 0 ? Context.PaymentReceipts.Max(x => x.ReceiptNumber) + 1 : 1,
-                        ReceiptLedgerId = Model.ReceiptLedgerId,
-                        PaymentTypeId = Model.PaymentTypeId,
-                        ReleaseDate = Model.ReleaseDate,
-                        ContactName = Model.ContactName,
-                        CurrencyId = Model.CurrencyId,
-                        ReceiptTypeId = Model.ReceiptTypeId,
-                        FromAccountId = Model.FromAccountId,
-                        BankAccountId = Model.BankAccountId,
-                        CustomerId = Model.CustomerId,
-                        EmployeeId = Model.EmployeeId,
-                        Description = Model.Description,
-                        MoneyAmount = Model.MoneyAmount,
-                        DocNumber = Model.DocNumber,
-                        AgencyTypeId = Model.AgencyTypeId,
-                        AccountId = Model.AccountId,
-                        SupplierId = Model.SupplierId,
-                        CreatedDate = DateTime.Now,
-                        CreatedBy = "",
-                        IsCancelled = false,
-                        IsLocked = false
-                    };
-
-                    Context.PaymentReceipts.Add(receipt);
                     Context.SaveChanges();
                 }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this payment order" };
+
 
                 var payment_order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == Model.PaymentOrderId);
                 payment_order.IsLocked = true;
@@ -270,18 +353,15 @@ namespace MasterErp.Service.GeneralAccounts
 
                 return new ActionsResponseModel
                 {
-                    Status = result.Status,
                     Message = result.IsSuccess ? "تم حفظ البيانات بنجاح" : "فشل فى تسجيل القيد المحاسبى",
                     Id = receipt.PaymentReceiptId,
                     Number = receipt.ReceiptNumber.ToString(),
-                    IsSuccess = result.IsSuccess
                 };
             }
             catch (Exception ex)
             {
                 return new ActionsResponseModel
                 {
-                    Status = 0,
                     Message = ex.Message,
                     IsSuccess = false
                 };

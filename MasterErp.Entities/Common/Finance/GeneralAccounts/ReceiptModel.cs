@@ -10,7 +10,7 @@ namespace MasterErp.Entities.Common.Finance.GeneralAccounts
 {
     public class ReceiptModel : CreatorModel
     {
-        public int ReceiptId { get; set; }
+        public int? ReceiptId { get; set; }
         public int? ReceiptNumber { get; set; }
         public int? OrderNumber { get; set; }
         public int? ReceiptLedgerId { get; set; }
