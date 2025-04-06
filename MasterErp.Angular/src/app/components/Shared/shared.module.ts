@@ -49,6 +49,7 @@ import { GeneralSelectorComponent } from './components/general-selector/general-
 import { AccountsReportSearchComponent } from './components/accounts-report-search/accounts-report-search.component';
 import { OrderItemsComponent } from './components/order-items/order-items.component';
 import { MaterialRequestsSidePanelComponent } from './components/material-requests-side-panel/material-requests-side-panel.component';
+import { WorkflowStatusDirective } from './directives/workflow-status.directive';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { MaterialRequestsSidePanelComponent } from './components/material-reques
     ReceiptBooksComponent,
     OverviewCardComponent,
     ColorWithStatusDirective,
+    WorkflowStatusDirective,
     ComponentHostDirective,
     CustomFormDropdownComponent,
     ErpHomeComponent,
@@ -141,6 +143,7 @@ import { MaterialRequestsSidePanelComponent } from './components/material-reques
     StatsCardComponent,
     OverviewCardComponent,
     ColorWithStatusDirective,
+    WorkflowStatusDirective,
     ComponentHostDirective,
     CustomFormDropdownComponent,
     ErpHomeComponent,

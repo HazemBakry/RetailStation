@@ -86,9 +86,7 @@ namespace MasterErp.Service.GeneralAccounts
                     SupplierId = Model.SupplierId,
                     FromAccountId = Model.FromAccountId,
                     CreatedDate = DateTime.Now,
-                    CreatedBy = "",
-                    IsCancelled = false,
-                    IsLocked = false
+                    CreatedBy = ""
                 };
 
                 Context.PaymentOrders.Add(order);
@@ -158,9 +156,9 @@ namespace MasterErp.Service.GeneralAccounts
         public ActionsResponseModel CancelPaymentOrder(int OrderId)
         {
             var order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == OrderId);
-            if (order != null && order.IsLocked != true)
+            if (order != null && order.WorkflowStatusId != (int)FinanceWorkflowStatus.Cancelled)
             {
-                order.IsCancelled = true;
+                order.WorkflowStatusId = (int)FinanceWorkflowStatus.Cancelled;
                 order.ModifiedDate = DateTime.Now;
 
                 Context.SaveChanges();
@@ -194,7 +192,7 @@ namespace MasterErp.Service.GeneralAccounts
 
         public List<SelectorDataModel> GetPaymentOrdersSelector(bool OrderStatus)
         {
-            var results = Context.PaymentOrders.Where(x => x.IsLocked != true).Select(b => new SelectorDataModel
+            var results = Context.PaymentOrders.Where(x => x.WorkflowStatusId != (int) FinanceWorkflowStatus.Paid).Select(b => new SelectorDataModel
             {
                 Id = b.PaymentOrderId,
                 Name = b.OrderNumber.ToString(),
@@ -267,9 +265,7 @@ namespace MasterErp.Service.GeneralAccounts
                     AccountId = Model.AccountId,
                     SupplierId = Model.SupplierId,
                     CreatedDate = DateTime.Now,
-                    CreatedBy = "",
-                    IsCancelled = false,
-                    IsLocked = false
+                    CreatedBy = ""
                 };
 
                 Context.PaymentReceipts.Add(receipt);
@@ -277,7 +273,7 @@ namespace MasterErp.Service.GeneralAccounts
                 
 
                 var payment_order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == Model.PaymentOrderId);
-                payment_order.IsLocked = true;
+                payment_order.WorkflowStatusId = (int)FinanceWorkflowStatus.Paid;
                 Context.SaveChanges();
 
                 var entry = PreparePaymentEntryModel(receipt);
@@ -345,7 +341,7 @@ namespace MasterErp.Service.GeneralAccounts
 
 
                 var payment_order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == Model.PaymentOrderId);
-                payment_order.IsLocked = true;
+                payment_order.WorkflowStatusId = (int)FinanceWorkflowStatus.Paid;
                 Context.SaveChanges();
 
                 var entry = PreparePaymentEntryModel(receipt);
@@ -426,7 +422,7 @@ namespace MasterErp.Service.GeneralAccounts
             var receipt = Context.PaymentReceipts.FirstOrDefault(x => x.PaymentReceiptId == ReceiptId);
             if (receipt != null)
             {
-                receipt.IsCancelled = true;
+                receipt.WorkflowStatusId = (int) FinanceWorkflowStatus.Cancelled;
                 receipt.ModifiedDate = DateTime.Now;
 
                 Context.SaveChanges();

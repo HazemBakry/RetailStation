@@ -19,8 +19,9 @@ export interface ReceiptModel {
     docNumber: string;
     currencyId: number | null;
     description: string;
-    isLocked: boolean;
-    isCancelled: boolean;
+    workflowStatusId: number | null;
+    workflowStatusNameAR: string;
+    workflowStatusNameEN: string;
     createdBy: string;
     createdDate: string;
     modifiedBy: string;

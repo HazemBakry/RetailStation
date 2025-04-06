@@ -3,7 +3,8 @@
 
 
 <div class="inputs-wrapper border rounded bg-white mb-3">
-    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">دفتر الأستاذ المساعد - مراكز التكلفة</div>
+    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">دفتر الأستاذ المساعد - مراكز التكلفة
+    </div>
     <div class="inputs-sec-content px-3 py-2">
         <app-accounts-report-search (searchDataChanged)="searchDataChanged($event)" [isParent]="false"
             [showAccounts]="true" [showCostCenter]="true"></app-accounts-report-search>
@@ -51,19 +52,26 @@
             [pageSize]="assistantLedgerResponse.pageSize" [totalCount]="assistantLedgerResponse.totalCount"></app-erp-pagination>
     </div> -->
 
-    <div class="table-responsive shadow-sm  table-vp-height small-scroll">
-        <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+    <div class="table-responsive shadow-sm radius-10  small-scroll">
+        <table class="table table-card-table table-bordered border table-middle table-hover bg-transparent m-0">
+
             <thead>
+
                 <tr>
-                    <th>تاريخ القيد</th>
-                    <th>المميز</th>
-                    <th>قيد اليومية</th>
-                    <th>رقم الشيك</th>
-                    <th>البيان</th>
-                    <th>الحركة (مدين)</th>
-                    <th>الحركة (دائن)</th>
-                    <th>الرصيد (مدين)</th>
-                    <th>الرصيد (دائن)</th>
+                    <th rowspan="2">تاريخ القيد</th>
+                    <th rowspan="2">المميز</th>
+                    <th rowspan="2">قيد اليومية</th>
+                    <th rowspan="2">رقم الشيك</th>
+                    <th rowspan="2">البيان</th>
+                    <th colspan="2">الحركه</th>
+                    <th colspan="2">الرصيد</th>
+                </tr>
+                <tr>
+                   
+                    <th>مدين</th>
+                    <th>دائن</th>
+                    <th>مدين</th>
+                    <th>دائن</th>
                 </tr>
             </thead>
             <tbody>

@@ -42,8 +42,9 @@ namespace MasterErp.Entities.Common.Finance.GeneralAccounts
         public string DocNumber { get; set; }
         public string Currency { get; set; }
         public string Description { get; set; }
-        public bool? IsLocked { get; set; }
-        public bool? IsCancelled { get; set; }
+        public string WorkflowStatusNameEN { get; set; }
+        public string WorkflowStatusNameAR { get; set; }
+        public int? WorkflowStatusId { get; set; }
         public int? EntryId { get; set; }
         public int? TotalCount { get; set; }
 

@@ -70,21 +70,26 @@
             [pageSize]="trialBalanceResponse.pageSize" [totalCount]="trialBalanceResponse.totalCount"></app-erp-pagination>
     </div> -->
 
-    <div class="table-responsive shadow-sm  table-vp-height small-scroll">
-        <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+    
+    <div class="table-responsive shadow-sm radius-10  small-scroll">
+        <table class="table table-card-table table-bordered border table-middle table-hover bg-transparent m-0">
 
             <thead>
                 <tr>
-                    <th>الكـود</th>
-                    <th>الحســاب</th>
-                    <th>رصيد ما قبل (مدين)</th>
-                    <th>رصيد ما قبل (دائن)</th>
-                    <th>الحركة (مدين)</th>
-                    <th>الحركة (دائن)</th>
-                    <!-- <th>الإجمالى (مدين)</th>
-                    <th>الإجمالى (دائن)</th> -->
-                    <th>الرصيد (مدين)</th>
-                    <th>الرصيد (دائن)</th>
+                    <th rowspan="2">الكود</th>
+                    <th rowspan="2">مركز التكلفة</th>
+                    <th colspan="2">رصيد ماقبل</th>
+                    <th colspan="2">الحركه</th>
+                    <th colspan="2">الرصيد</th>
+                </tr>
+                <tr>
+                    <th>مدين</th>
+                    <th>دائن</th>
+                    <th>مدين</th>
+                    <th>دائن</th>
+                    <th>مدين</th>
+                    <th>دائن</th>
+                  
                 </tr>
             </thead>
             <tbody>

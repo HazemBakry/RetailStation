@@ -3,8 +3,8 @@
 <div class="inputs-wrapper border rounded bg-white mb-3">
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">دفتر الاستاذ العام</div>
     <div class="inputs-sec-content px-3 py-2">
-        <app-accounts-report-search (searchDataChanged)="searchDataChanged($event)"
-            [isParent]="true" [showAccounts]="true"></app-accounts-report-search>
+        <app-accounts-report-search (searchDataChanged)="searchDataChanged($event)" [isParent]="true"
+            [showAccounts]="true"></app-accounts-report-search>
         <div class="row">
 
             <div class="col-lg-4  mb-3">
@@ -27,8 +27,7 @@
             <i class="fas fa-file-download"></i>
             <span>تصدير CSV</span>
         </button>
-        <button  (click)="printData()"
-            class="btn btn-table-action  gap-2 border rounded px-3 me-2">
+        <button (click)="printData()" class="btn btn-table-action  gap-2 border rounded px-3 me-2">
             <i class="fas fa-print fs-7"></i>
             <span>طباعة</span>
         </button>
@@ -50,22 +49,28 @@
             [pageSize]="ledgersResponse.pageSize" [totalCount]="ledgersResponse.totalCount"></app-erp-pagination>
     </div> -->
 
-    <div class="table-responsive shadow-sm  table-vp-height small-scroll">
-        <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+    <div class="table-responsive shadow-sm radius-10  small-scroll">
+        <table class="table table-card-table table-bordered border table-middle table-hover bg-transparent m-0">
+         
             <thead>
                 <tr>
-                    <th>الكـود</th>
-                    <th>الحســاب</th>
-                    <th>رصيد ما قبل (مدين)</th>
-                    <th>رصيد ما قبل (دائن)</th>
-                    <th>الحركة (مدين)</th>
-                    <th>الحركة (دائن)</th>
-                    <th>الإجمالى (مدين)</th>
-                    <th>الإجمالى (دائن)</th>
-                    <th>الرصيد (مدين)</th>
-                    <th>الرصيد (دائن)</th>
+                    <th rowspan="2">الكود</th>
+                    <th rowspan="2">الحساب</th>
+                    <th colspan="2">رصيد ماقبل</th>
+                    <th colspan="2">الحركه</th>
+                    <th colspan="2">الاجمالى</th>
+                    <th colspan="2">الرصيد</th>
                 </tr>
-
+                <tr>
+                    <th>مدين</th>
+                    <th>دائن</th>
+                    <th>مدين</th>
+                    <th>دائن</th>
+                    <th>مدين</th>
+                    <th>دائن</th>
+                    <th>مدين</th>
+                    <th>دائن</th>
+                </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of ledgersResponse.results" class="row-hover">

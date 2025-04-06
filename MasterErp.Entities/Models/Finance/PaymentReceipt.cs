@@ -31,8 +31,7 @@ namespace MasterErp.Entities.Models.Finance
         public string DocNumber { get; set; }
         public int? CurrencyId { get; set; }
         public string Description { get; set; }
-        public bool? IsLocked { get; set; }
-        public bool? IsCancelled { get; set; }
+        public int? WorkflowStatusId { get; set; }
 
     }
 }
