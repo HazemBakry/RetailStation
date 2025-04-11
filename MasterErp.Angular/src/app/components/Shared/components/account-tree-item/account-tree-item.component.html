@@ -12,8 +12,8 @@
       -->
 
 
-<div class="tree-row d-flex align-items-center justify-content-between" (click)="toggleNode(account)">
-    <div class="tree-row-text width-75-per   d-flex align-items-center gap-3 cursor-pointer pss-{{account.accountLevel}}" [style]="getLevelClass(account.accountLevel)">
+<div class="tree-row d-flex align-items-center justify-content-between" >
+    <div (click)="toggleNode(account)" class="tree-row-text width-75-per   d-flex align-items-center gap-3 cursor-pointer pss-{{account.accountLevel}}" [style]="getLevelClass(account.accountLevel)">
         <i *ngIf="account.children?.length" class="fas " [class]="!expanded?'fa-plus-circle':'fa-minus-circle'"></i>
         <span [ngClass]="{'bg-warning': account.isSelected}">{{ account.accountNumber }} - {{ account.nameAR }} </span>
     </div>
@@ -21,7 +21,9 @@
         <span class="status-box" [ngClass]="{'bg-warning': account.isSelected}">{{ account.accountNumber }}</span>
     </div> -->
     <div class="tree-row-icon width-5-per d-flex align-items-center justify-content-center gap-3">
-        <i class="fas fa-edit cursor-pointer" (click)="onEvent($event,account)"></i>
+        <!-- <i class="fas fa-edit cursor-pointer" (click)="onEvent($event,account)"></i> -->
+         <app-add-edit-account-tree *ngIf="account?.isGroup" [groupAccountId]="account.accountId" (dataUpdated)="accountActionUpdated($event)"></app-add-edit-account-tree>
+         <app-add-edit-account-tree *ngIf="!account?.isReadOnly" [isUpdate]="true" [accountModel]="account" [groupAccountId]="account.parentAccountId" (dataUpdated)="accountActionUpdated($event)"></app-add-edit-account-tree>
         <i class="fas fa-trash-alt cursor-pointer text-danger" (click)="onEvent($event,account,true)"></i>
         <!-- <span class="mx-3">-</span>
               <i class="fas fa-eye cursor-pointer"></i> -->
@@ -35,5 +37,5 @@
 
 <!-- (account.isSelected||expanded) -->
 <div *ngIf="account.children &&(expanded||account.isSelected) ">
-    <app-account-tree-item (selectedAccount)="selectAccount($event)" *ngFor="let child of account.children" [account]="child"></app-account-tree-item>
+    <app-account-tree-item (selectedAccount)="selectAccount($event)" *ngFor="let child of account.children" [account]="child" (dataUpdated)="accountActionUpdated($event)"></app-account-tree-item>
 </div>

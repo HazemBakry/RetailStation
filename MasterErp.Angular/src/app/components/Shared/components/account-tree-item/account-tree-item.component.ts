@@ -11,6 +11,8 @@ export class AccountTreeItemComponent implements OnInit {
   @Input() account: AccountTreeModel;
 
   @Output() selectedAccount = new EventEmitter<AccountTreeModel>();
+  @Output() dataUpdated = new EventEmitter<boolean>();
+
   constructor() {}
 
   ngOnInit(): void {
@@ -56,5 +58,9 @@ export class AccountTreeItemComponent implements OnInit {
     var paddingValue = level;
     if (level > 0) paddingValue = level / 1.1;
     return 'padding-right:' + paddingValue + 'rem !important';
+  }
+  accountActionUpdated(isUpdate:boolean)
+  {
+    this.dataUpdated.emit(isUpdate);
   }
 }

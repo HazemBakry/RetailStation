@@ -57,7 +57,9 @@
             </div>
             <div class="card-body bg-light">
                 <div class="row">
-                    <div class="col-lg-6 mb-3">
+                    <app-account-tree-v2 (selectedAccount)="selectedAccount($event)"
+                            [reloadData]="reloadData"></app-account-tree-v2>
+                    <!-- <div class="col-lg-6 mb-3">
                         <app-account-tree-v2 (selectedAccount)="selectedAccount($event)"
                             [reloadData]="reloadData"></app-account-tree-v2>
                     </div>
@@ -65,7 +67,7 @@
                         <app-add-edit-account-tree [accountModel]="selectedAccountTreeModel" [isUpdate]="isUpdate"
                             (dataUpdated)="dataUpdated($event)">
                         </app-add-edit-account-tree>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

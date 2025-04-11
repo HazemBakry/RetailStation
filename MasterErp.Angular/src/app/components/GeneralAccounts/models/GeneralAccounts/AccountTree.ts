@@ -2,6 +2,8 @@ export interface AccountTreeModel {
     accountId: number;
     accountNumber: string;
     parentAccountId: number;
+    isReadOnly: boolean;
+    isGroup: boolean;
     isSelected: boolean;
     accountLevel: number | null;
     accountTypeId: number | null;

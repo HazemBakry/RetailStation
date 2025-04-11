@@ -18,6 +18,7 @@ import { GeneralSelectorModel } from 'src/app/components/Shared/components/gener
 })
 export class AddEditAccountTreeComponent implements OnInit, OnChanges {
   @Input() isUpdate: boolean = false;
+  @Input() groupAccountId: number ;
   @Input() accountModel: AccountTreeModel = {} as AccountTreeModel;
 
   @Output() dataUpdated = new EventEmitter<boolean>();
@@ -47,6 +48,7 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
     isDisToCostCenter: '',
     costCenterId: '',
     isActive: '',
+    isGroup: '',
     notes: '',
 
   };
@@ -62,31 +64,42 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
 
 
   ngOnInit(): void {
-    this.initNewForm();
-    this.loadSelectors();
+    // this.initNewForm();
+    // this.loadSelectors();
     
   }
-
+  openNewSidePanel(content: any) {
+    this.loadSelectors();
+    
+    this.initNewForm();
+    // if (this.isUpdate)
+    //   this.fillEditForm(this.accountModel);
+    this.formGroup.patchValue({ parentAccountId: this.groupAccountId });
+    this.modalService.open(content, { centered: true, size: 'lg', fullscreen: 'lg' });
+  }
   ngOnChanges(changes): void {
-    if (changes && !changes.accountModel.firstChange) {
-      if (this.accountModel && this.accountModel != null) {
-        this.initNewForm(this.accountModel);
-      }
-    }
+    // if (changes && !changes.accountModel.firstChange) {
+    //   if (this.accountModel && this.accountModel != null) {
+    //     this.initNewForm(this.accountModel);
+    //   }
+    // }
   }
 
 
 
-  initNewForm(accountModel: AccountTreeModel = null) {
+  initNewForm() {
 
-    this.isUpdate = false;
+    // this.isUpdate = false;
     this.buildForm();
-    if (accountModel)
-      this.fillEditForm(accountModel);
+    if (this.isUpdate)
+      this.fillEditForm(this.accountModel);
     else
     {
       this.accountModel = {} as AccountTreeModel;
-      this.generateAccountNumber();
+      if(this.groupAccountId)
+        this.generateAccountNumber(this.groupAccountId);
+      else
+        this.generateAccountNumber();
     }
     
   }
@@ -102,6 +115,7 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
       isDisToCostCenter: [false, [Validators.required]],
       costCenterId: [null],
       isActive: [true, [Validators.required]],
+      isGroup: [false, [Validators.required]],
       notes: [null],
 
     });
@@ -138,7 +152,7 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
         if (data?.isSuccess) {
           this.initNewForm();
           // this.formGroup?.reset();
-          // this.offcanvasService?.dismiss();
+          this.modalService?.dismissAll();
           // this.getAccounts();
           this.toaster.success(data?.message);
           this.dataUpdated.emit(true);
@@ -165,9 +179,12 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
 
         if (data?.isSuccess) {
           // this.formGroup?.reset();
+          this.isUpdate = false;
+          this.modalService?.dismissAll();
           this.initNewForm();
           this.toaster.success(data?.message);
           this.dataUpdated.emit(true);
+
         }
         else {
           this.toaster.error(data?.message);
@@ -220,7 +237,8 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
       nameEN: accountModel.nameEN,
       isDisToCostCenter: accountModel.isDisToCostCenter,
       costCenterId: accountModel.costCenterId,
-      isActive: accountModel.isActive
+      isActive: accountModel.isActive,
+      isGroup: accountModel.isGroup,
 
     });
   }

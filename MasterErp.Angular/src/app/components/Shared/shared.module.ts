@@ -50,6 +50,7 @@ import { AccountsReportSearchComponent } from './components/accounts-report-sear
 import { OrderItemsComponent } from './components/order-items/order-items.component';
 import { MaterialRequestsSidePanelComponent } from './components/material-requests-side-panel/material-requests-side-panel.component';
 import { WorkflowStatusDirective } from './directives/workflow-status.directive';
+import { AddEditAccountTreeComponent } from '../GeneralAccounts/components/add-edit-account-tree/add-edit-account-tree.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { WorkflowStatusDirective } from './directives/workflow-status.directive'
     AccountsReportHeaderComponent,
     AccountTreeV2Component,
     AccountTreeItemComponent,
+    AddEditAccountTreeComponent,
     //Basic Information Components
     CurrencyComponent,
     FeaturedComponent,
@@ -140,6 +142,7 @@ import { WorkflowStatusDirective } from './directives/workflow-status.directive'
     AccountsReportHeaderComponent,
     AccountTreeV2Component,
     AccountTreeItemComponent,
+    AddEditAccountTreeComponent,
     StatsCardComponent,
     OverviewCardComponent,
     ColorWithStatusDirective,
