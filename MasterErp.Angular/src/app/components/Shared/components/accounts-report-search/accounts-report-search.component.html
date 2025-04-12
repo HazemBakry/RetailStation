@@ -1,18 +1,6 @@
 <div class="row gy-3">
-    <div *ngIf="showCostCenter" class="col-lg-6">
-        <div class="mb-2">
-            <label class="form-label d-flex align-items-center gap-2">
-                مركز التكلفة
-                <span class="text-danger">*</span>
-            </label>
-            <app-general-selector (valueChanged)="getSelectedCostCenter($event)" [data]="costCenterSelectorData"
-                [placeholder]="'مركز التكلفة'" [showSearch]="true"></app-general-selector>
-        </div>
-    </div>
-    <div *ngIf="showCostCenter" class="col-lg-6">
-    </div>
 
-    <div *ngIf="showAccounts" class="col-lg-6">
+    <div class="col-lg-3">
         <div class="mb-2">
             <label class="form-label d-flex align-items-center gap-2">
                 الحساب
@@ -21,29 +9,30 @@
             <app-general-selector (valueChanged)="getSelectedAccount($event)" [data]="accountsSelectorData" [placeholder]="'الحساب'" [showSearch]="true"></app-general-selector>
         </div>
     </div>
-   
-    <div *ngIf="showAccounts" class="col-lg-6">
-
-    </div>
-    <div class="col-lg-6">
+    <div class="col-lg-3">
         <div class="mb-2">
             <label class="form-label d-flex align-items-center gap-2">
                 من تاريخ
-                
                 <span class="text-danger">*</span>
             </label>
             <input type="date" (change)="emitSearchModel()" [(ngModel)]="searchModel.fromDate" autocomplete="off" class="form-control nw-form-input" />
-
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-3">
         <div class="mb-2">
             <label class="form-label d-flex align-items-center gap-2">
                 الي تاريخ
-
                 <span class="text-danger">*</span></label>
             <input type="date" (change)="emitSearchModel()" [(ngModel)]="searchModel.toDate" autocomplete="off" class="form-control nw-form-input" />
-
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="mb-2">
+            <label class="form-label d-flex align-items-center gap-2">
+                مركز التكلفة
+                <span class="text-danger">*</span>
+            </label>
+            <app-general-selector (valueChanged)="getSelectedCostCenter($event)" [data]="costCenterSelectorData" [placeholder]="'مركز التكلفة'" [showSearch]="true"></app-general-selector>
         </div>
     </div>
 
