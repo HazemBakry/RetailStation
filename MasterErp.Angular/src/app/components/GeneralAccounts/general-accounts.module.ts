@@ -24,7 +24,6 @@ import { ReceiptLedgersComponent } from './components/receipt-ledgers/receipt-le
 import { FinancialPeriodsComponent } from './components/financial-periods/financial-periods.component';
 import { JournalEntryTypesComponent } from './components/journal-entry-types/journal-entry-types.component';
 import { OpeningBalanceComponent } from './components/opening-balance/opening-balance.component';
-import { AddEditAccountTreeComponent } from './components/add-edit-account-tree/add-edit-account-tree.component';
 import { AccountTreeContainerComponent } from './components/account-tree-container/account-tree-container.component';
 import { CostCenterTreeContainerComponent } from './components/cost-center-tree-container/cost-center-tree-container.component';
 import { CostCenterTreeComponent } from './components/cost-center-tree-container/cost-center-tree/cost-center-tree.component';
@@ -69,7 +68,6 @@ import { BalanceSheetComponent } from './components/balance-sheet/balance-sheet.
     FinancialPeriodsComponent,
     JournalEntryTypesComponent,
     OpeningBalanceComponent,
-    AddEditAccountTreeComponent,
     AccountTreeContainerComponent,
     AddEditCostCenterTreeComponent,
     CostCenterTreeItemComponent,

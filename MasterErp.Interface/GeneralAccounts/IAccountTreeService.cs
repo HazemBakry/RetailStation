@@ -20,7 +20,6 @@ namespace MasterErp.Interface.GeneralAccounts
         List<AccountTreeModel> GetAccountTreeData(string SearchText);
         List<AccountTreeModel> GetAccountTreeHierarchicalData(string SearchText);
         List<AccountTree> GetAccountsList(bool IsParent);
-        List<SelectorDataModel> GetChildAccountsList();
         ActionsResponseModel ImportAccountTreeList(IFormFile File);
         ActionsResponseModel ExportAccountTreeList(string SearchText);
 

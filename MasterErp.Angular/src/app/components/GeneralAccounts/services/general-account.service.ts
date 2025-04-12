@@ -119,9 +119,6 @@ export class GeneralAccountService {
 
   //================================== AccountTree ===============================
 
-  GetChildAccountsList() {
-    return this.http.get<any[]>(this.URL + 'AccountTree/GetChildAccountsList');
-  }
 
   AddNewAccount(model: AccountTreeModel) {
     return this.http.post<any>(this.URL + 'AccountTree/AddNewAccount', model);

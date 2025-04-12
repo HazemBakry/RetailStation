@@ -30,7 +30,7 @@
     <div *ngIf="accountTreeData && accountTreeData.length>0" class="col-md-12">
       <div class="border bg-white small-scroll overflow-auto max-height-350 striped-row">
         <app-account-tree-item *ngFor="let account of accountTreeData" [account]="account"
-          (selectedAccount)="selectAccount($event)"></app-account-tree-item>
+          (selectedAccount)="selectAccount($event)" (dataUpdated)="dataUpdated($event)"></app-account-tree-item>
       </div>
     </div>
   </div>

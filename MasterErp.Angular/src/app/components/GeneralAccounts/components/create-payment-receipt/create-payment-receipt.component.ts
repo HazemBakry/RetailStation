@@ -89,7 +89,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
       this.supplierList = data;
     });
 
-    this.sharedService.GetAccountsSelector().subscribe(data => {
+    this.sharedService.GetAccountsSelector(false).subscribe(data => {
       this.accountList = data;
     });
 

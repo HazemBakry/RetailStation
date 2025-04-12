@@ -58,6 +58,7 @@ namespace MasterErp.Service.GeneralAccounts
                 tbl.IsParent = parentAccount != null ? false : true;
                 tbl.AccountNature = string.Empty;
                 tbl.IsActive = Model.IsActive;
+                tbl.IsGroup = Model.IsGroup;
                 tbl.NameAR = Model.NameAR;
                 tbl.NameEN = Model.NameEN;
                 tbl.IsDisToCostCenter = Model.IsDisToCostCenter;
@@ -137,6 +138,7 @@ namespace MasterErp.Service.GeneralAccounts
                     entity.IsParent = parentAccount != null ? false : true;
                     entity.AccountNature = string.Empty;
                     entity.IsActive = Model.IsActive;
+                    entity.IsGroup = Model.IsGroup;
                     entity.NameAR = Model.NameAR;
                     entity.NameEN = Model.NameEN;
                     entity.IsDisToCostCenter = Model.IsDisToCostCenter;
@@ -266,17 +268,6 @@ namespace MasterErp.Service.GeneralAccounts
             return result;
         }
 
-        public List<SelectorDataModel> GetChildAccountsList()
-        {
-            var result = Context.AccountTrees.Where(x => x.IsParent == false).Select(a => new SelectorDataModel
-            {
-                Id = a.AccountId,
-                Code = a.AccountNumber,
-                Name = a.NameAR
-            }).ToList();
-
-            return result;
-        }
 
         public ActionsResponseModel ImportAccountTreeList(IFormFile File)
         {

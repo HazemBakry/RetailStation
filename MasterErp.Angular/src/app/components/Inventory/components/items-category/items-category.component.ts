@@ -115,7 +115,7 @@ export class ItemsCategoryComponent implements OnInit {
   }
   loadSelectors() {
 
-    this.sharedService.GetAccountsSelector().subscribe((data: FormDropdownModel[]) => {
+    this.sharedService.GetAccountsSelector(false).subscribe((data: FormDropdownModel[]) => {
       this.childAccountSelectorData = data;
     });
     this.sharedService.GetItemCategoriesSelector().subscribe((data: FormDropdownModel[]) => {

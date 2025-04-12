@@ -110,5 +110,12 @@ export class AccountTreeV2Component implements OnInit, OnChanges {
       this.showDeleteLoader = false;
     });
   }
+
+  dataUpdated(isUpdate:boolean)
+  {
+    if (isUpdate) {
+      this.loadData();
+    }
+  }
 }
 

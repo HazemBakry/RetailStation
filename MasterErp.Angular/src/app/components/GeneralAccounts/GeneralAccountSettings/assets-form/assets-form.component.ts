@@ -98,7 +98,7 @@ export class AssetsFormComponent implements OnInit {
   }
 
   GetAccountsSelector() {
-    this.sharedService.GetAccountsSelector().subscribe(data => {
+    this.sharedService.GetAccountsSelector(false).subscribe(data => {
       this.AccountTreeData = data;
     });
   }

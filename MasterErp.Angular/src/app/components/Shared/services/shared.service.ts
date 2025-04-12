@@ -93,9 +93,6 @@ export class SharedService {
     return this.http.get<any[]>(this.URL + 'Shared/GetReceiptLedgersSelector');
   }
 
-  // GetAccountsTreeList() {
-  //   return this.http.get<any[]>(this.URL + 'AccountTree/GetChildAccountsList');
-  // }
 
   GetAccountsByTypeId(typeId: number) {
     return this.http.get<any[]>(this.URL + 'Shared/GetAccountsByTypeId?TypeId=' + typeId);
@@ -116,10 +113,13 @@ export class SharedService {
 
   // --------------------------------- Finance Lookups --------------------------------- //
 
-  GetAccountsSelector(IsParent: boolean = false) {
-    return this.http.get<any[]>(this.URL + 'Shared/GetAccountsSelector?IsParent=' + IsParent);
+  // GetAccountsSelector(IsGroup: boolean = false) {
+  //   return this.http.get<any[]>(this.URL + 'Shared/GetAccountsSelector?IsGroup=' + IsGroup);
+  // }
+  GetAccountsSelector(IsGroup: boolean = null) {
+    const param = IsGroup !== null ? `?IsGroup=${IsGroup}` : '';
+    return this.http.get<any[]>(this.URL + 'Shared/GetAccountsSelector' + param);
   }
-
   GetCostCenterSelector(IsParent: boolean = false) {
     return this.http.get<any[]>(this.URL + 'Shared/GetCostCenterSelector?IsParent=' + IsParent);
   }

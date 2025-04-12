@@ -28,6 +28,8 @@ namespace MasterErp.Entities.Common.Finance.GeneralAccounts
 
         public bool IsSelected { get; set; }
         public bool IsActive { get; set; }
+        public bool IsGroup { get; set; }
+        public bool IsReadOnly { get; set; }
         public bool IsDisToCostCenter { get; set; }
         public bool IsParent { get; set; }
         public List<AccountTreeModel> Children { get; set; } = new List<AccountTreeModel>();
