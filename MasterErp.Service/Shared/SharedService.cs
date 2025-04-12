@@ -106,9 +106,9 @@ namespace MasterErp.Service.Shared
             return results;
         }
 
-        public List<SelectorDataModel> GetAccountsSelector(bool IsParent)
+        public List<SelectorDataModel> GetAccountsSelector(bool? IsGroup)
         {
-            var result = Context.AccountTrees.Where(x => x.IsParent == IsParent).Select(a => new SelectorDataModel
+            var result = Context.AccountTrees.Where(x => IsGroup == null || x.IsGroup == IsGroup).Select(a => new SelectorDataModel
             {
                 Id = a.AccountId,
                 Name = a.NameAR,

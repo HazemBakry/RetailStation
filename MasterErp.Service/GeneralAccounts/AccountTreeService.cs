@@ -268,17 +268,6 @@ namespace MasterErp.Service.GeneralAccounts
             return result;
         }
 
-        public List<SelectorDataModel> GetChildAccountsList()
-        {
-            var result = Context.AccountTrees.Where(x => x.IsParent == false).Select(a => new SelectorDataModel
-            {
-                Id = a.AccountId,
-                Code = a.AccountNumber,
-                Name = a.NameAR
-            }).ToList();
-
-            return result;
-        }
 
         public ActionsResponseModel ImportAccountTreeList(IFormFile File)
         {

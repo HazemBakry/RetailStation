@@ -82,13 +82,6 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             return _accountTreeService.GetAccountsList(IsParent);
         }
 
-        [HttpGet]
-        [Route("GetChildAccountsList")]
-        public List<SelectorDataModel> GetChildAccountsList()
-        {
-            return _accountTreeService.GetChildAccountsList();
-        }
-
 
         [HttpPost("ImportAccountTreeList")]
         public IActionResult ImportAccountTreeList(IFormFile File)
