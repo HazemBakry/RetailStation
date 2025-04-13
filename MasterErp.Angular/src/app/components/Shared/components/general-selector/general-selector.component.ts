@@ -103,9 +103,9 @@ export class GeneralSelectorComponent implements OnInit {
   onInputChange(event: any) {
     const inputValue = event.target.value.toLowerCase();
     this.searchText = inputValue;
-    if (!inputValue) {
-      this.removeSingleSelected();
-    }
+    // if (!inputValue) {
+    //   this.removeSingleSelected();
+    // }
   }
 
   selectOption(option: any): void {
