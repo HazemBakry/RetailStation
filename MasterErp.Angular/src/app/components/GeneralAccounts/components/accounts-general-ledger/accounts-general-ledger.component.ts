@@ -16,7 +16,7 @@ import { FilterItem } from 'src/app/components/Shared/models/FilterModel';
   styleUrls: ['./accounts-general-ledger.component.css']
 })
 export class AccountsGeneralLedgerComponent implements OnInit {
-  TitleList = ['الحسابات العامة', 'دفتر الأستاذ العام'];
+  TitleList = ['الحسابات العامة', 'الأستاذ العام'];
   showLoader: boolean = false;
   showExportLoader: boolean = false;
   totalDebit = null;
