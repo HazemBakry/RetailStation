@@ -5,6 +5,7 @@ import { SharedService } from '../../services/shared.service';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { AccountsReportSearchFilterModel } from 'src/app/components/GeneralAccounts/models/GeneralAccounts/AccountsReportSearchFilterModel';
 import { GeneralSelectorModel } from '../general-selector/general-selector.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-accounts-report-search',
@@ -17,7 +18,7 @@ export class AccountsReportSearchComponent implements OnInit {
   @Input() showAccounts: boolean = false;
   @Output() searchDataChanged = new EventEmitter<AccountsReportSearchFilterModel>();
 
-
+  accountId:number;
 
   searchModel: AccountsReportSearchFilterModel = {
     results: [],
@@ -36,13 +37,18 @@ export class AccountsReportSearchComponent implements OnInit {
   costCenterSelectorData: GeneralSelectorModel[] = [];
   
   constructor(private sharedService: SharedService,
+    private acRoute: ActivatedRoute,
     private datePipe: DatePipe,
     private generalService: GeneralAccountService,
     private offcanvasService: NgbOffcanvas
   ) { }
 
   ngOnInit(): void {
-
+    this.acRoute.queryParams.subscribe((params: any) => {
+      if (params.AccountId) {
+        this.getSelectedAccount(Number(params.AccountId));
+      }
+    });
     // this.ToDate = this.datePipe.transform(endDate, 'yyyy-MM-dd');
     // this.FromDate = this.datePipe.transform(endDate, 'yyyy-MM-dd');
     if (this.showAccounts) {
@@ -70,6 +76,7 @@ export class AccountsReportSearchComponent implements OnInit {
   }
 
   getSelectedAccount(accountId) {
+
     this.searchModel.accountId = accountId;
 
     // this.searchModel.filterList = this.searchModel.filterList .filter(x => x.categoryName != 'accountId');

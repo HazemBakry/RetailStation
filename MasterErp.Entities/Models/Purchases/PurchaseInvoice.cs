@@ -26,8 +26,7 @@ namespace MasterErp.Entities.Models.Purchases
         public double? TaxPercent { get; set; }
         public double? NetValue { get; set; }
         public int? ReceiveOrderId { get; set; }
-        public bool IsLocked { get; set; }
-        public bool IsCancelled { get; set; }
+        public int? WorkflowStatusId { get; set; }
         public string Notes { get; set; }
     }
 }

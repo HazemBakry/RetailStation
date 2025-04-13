@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Entities.DTOs.Purchases;
@@ -79,8 +80,8 @@ namespace MasterErp.Service.Purchase
                 order_tbl.DueDate = model.DueDate ?? DateTime.Now;
                 order_tbl.CreatedDate = DateTime.Now;
                 order_tbl.CreatedBy = model.CreatedBy;
-                order_tbl.IsCancelled = false;
-                order_tbl.IsLocked = false;
+                //order_tbl.IsCancelled = false;
+                //order_tbl.IsLocked = false;
                 order_tbl.Notes = model.Notes;
                 order_tbl.InvoiceDate = model.OrderDate ?? DateTime.Now;
                 order_tbl.TotalValue = model.OrderDetails?.Sum(x => x.TotalValue) ?? 0;
@@ -147,8 +148,8 @@ namespace MasterErp.Service.Purchase
                 if (order_tbl != null)
                 {
                     order_tbl.DueDate = model?.DueDate ?? DateTime.Now; ;
-                    order_tbl.IsCancelled = model.IsCancelled != null ? model.IsCancelled ?? false : false;
-                    order_tbl.IsLocked = model.IsLocked !=null ? model.IsLocked ??false :false;
+                    //order_tbl.IsCancelled = model.IsCancelled != null ? model.IsCancelled ?? false : false;
+                    //order_tbl.IsLocked = model.IsLocked !=null ? model.IsLocked ??false :false;
                     order_tbl.Notes = model.Notes;
                     order_tbl.InvoiceDate = model?.OrderDate ?? DateTime.Now;
                     order_tbl.TotalValue = model.OrderDetails?.Sum(x => x.TotalValue) ?? 0;
@@ -290,17 +291,36 @@ namespace MasterErp.Service.Purchase
             JournalEntryService.SaveNewJournalEntry(entry);
         }
 
-        public bool CancelPurchaseInvoice(int InvoiceId)
+        public ActionsResponseModel CancelPurchaseInvoice(int InvoiceId)
         {
             var Invoice = Context.PurchaseInvoices.FirstOrDefault(x => x.PurchaseInvoiceId == InvoiceId);
-            if (Invoice is null)
+            if (Invoice != null && Invoice.WorkflowStatusId != (int)FinanceWorkflowStatus.Cancelled)
             {
-                return false;
+                Invoice.WorkflowStatusId = (int)FinanceWorkflowStatus.Cancelled;
+                Invoice.ModifiedDate = DateTime.Now;
+
+                Context.SaveChanges();
+                return new ActionsResponseModel
+                {
+                    Id = InvoiceId,
+                    IsSuccess = true,
+                    Message = "تم الغاء الفاتوره بنجاح",
+                    Status = 200,
+                    Number = Invoice.InvoiceNumber.ToString()
+                };
             }
-            //Context.PurchaseInvoices.Remove(Invoice);
-            Invoice.IsCancelled = true;
-            Context.SaveChanges();
-            return true;
+            else
+            {
+                return new ActionsResponseModel
+                {
+                    Id = InvoiceId,
+                    IsSuccess = false,
+                    Message = "لا يمكن الغاء هذه الفاتوره",
+                    Status = 100,
+                    Number = Invoice.InvoiceNumber.ToString()
+                };
+            }
+
         }
 
         public List<OrderModel> GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate, int InvoiceId = 0)
@@ -534,20 +554,19 @@ namespace MasterErp.Service.Purchase
                 };
             }
         }
+
         public bool CancelPurchaseReturns(int ReturnsId)
         {
-
-            var Invoice = Context.PurchaseInvoices.FirstOrDefault(x => x.PurchaseInvoiceId == ReturnsId);
+            var Invoice = Context.PurchaseReturns.FirstOrDefault(x => x.PurchaseReturnsId == ReturnsId);
             if (Invoice is null)
             {
                 return false;
             }
             //Context.PurchaseInvoices.Remove(Invoice);
-            Invoice.IsCancelled = true;
+            //Invoice.IsCancelled = true;
             Context.SaveChanges();
             return true;
         }
-
         public List<SupplierStatementModel> GetSupplierStatementData(int SupplierId)
         {
             SqlParameter[] param = new SqlParameter[1];

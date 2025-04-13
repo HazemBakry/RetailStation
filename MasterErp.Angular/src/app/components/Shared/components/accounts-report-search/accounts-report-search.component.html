@@ -6,7 +6,7 @@
                 الحساب
                 <span class="text-danger">*</span>
             </label>
-            <app-general-selector (valueChanged)="getSelectedAccount($event)" [data]="accountsSelectorData" [placeholder]="'الحساب'" [showSearch]="true"></app-general-selector>
+            <app-general-selector (valueChanged)="getSelectedAccount($event)" [(ngModel)]="searchModel.accountId"  [data]="accountsSelectorData" [placeholder]="'الحساب'" [showSearch]="true"></app-general-selector>
         </div>
     </div>
     <div class="col-lg-3">

@@ -11,6 +11,8 @@ import { LookupService } from 'src/app/components/Shared/services/lookup.service
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
+import { PurchaseInvoiceModel } from 'src/app/components/Purchases/models/PurchaseInvoiceModel';
+import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
 
 @Component({
   selector: 'app-create-payment-order',
@@ -32,7 +34,8 @@ export class CreatePaymentOrderComponent implements OnInit {
   isUpdate: any = false;
   formData: FormData = new FormData();
   formGroup: FormGroup;
-
+  purchaseInvoiceId: number;
+  purchaseInvoiceModel: PurchaseInvoiceModel = {} as PurchaseInvoiceModel;
   formErrors = {
     paymentOrderId: '',
     orderNumber: '',
@@ -56,17 +59,21 @@ export class CreatePaymentOrderComponent implements OnInit {
     private datePipe: DatePipe,
     private acRoute: ActivatedRoute,
     private lookupService: LookupService,
+    private purchaseService: PurchaseService,
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
+    this.initNewForm();
+    this.loadSelectors();
     this.acRoute.queryParams.subscribe((params: any) => {
       if (params.PaymentOrderId) {
         this.paymentOrderId = params.PaymentOrderId;
         this.getPaymentOrderDetailsById();
+      }else if (params.InvoiceId) {
+        this.purchaseInvoiceId = params.InvoiceId;
+        this.getPurchaseInvoiceDetailsById();
       }
     });
-    this.initNewForm();
-    this.loadSelectors();
   }
 
   loadSelectors() {
@@ -138,7 +145,7 @@ export class CreatePaymentOrderComponent implements OnInit {
       agencyTypeId: receiptModel.agencyTypeId,
       paymentTypeId: receiptModel.paymentTypeId,
       accountId: receiptModel.accountId,
-      Description: receiptModel.description,
+      description: receiptModel.description,
       contactName: receiptModel.contactName,
       currencyId: receiptModel.currencyId,
       moneyAmount: receiptModel.moneyAmount
@@ -162,7 +169,22 @@ export class CreatePaymentOrderComponent implements OnInit {
       this.showLoader = false;
     });
   }
-
+  getPurchaseInvoiceDetailsById() {
+    this.showLoader = true;
+    this.purchaseService.GetPurchaseInvoiceDetailsById(this.purchaseInvoiceId).subscribe((data: PurchaseInvoiceModel) => {
+      if (data) {
+        this.purchaseInvoiceModel = data;
+        this.formGroup?.patchValue({
+          moneyAmount: this.purchaseInvoiceModel.totalValue
+        });
+      }
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
   onChoosePaymentType(paymentTypeId: number) {
     if (paymentTypeId == 1) {
       this.sharedService.GetAccountsByTypeId(4).subscribe(data => {

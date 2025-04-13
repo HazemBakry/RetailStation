@@ -132,14 +132,14 @@ namespace MasterErp.Service.GeneralAccounts
         {
             try
             {
-                int month = model.Month;
-                int year = model.Year;
-                var PreEntries = Context.JournalEntries.Where(x => x.EntryDate.Month == month && x.EntryDate.Year == year).ToList();
+
                 var CurrentPeriod = Context.FinancialPeriods.OrderByDescending(x => x.FinancialPeriodId).FirstOrDefault();
+
+                int nextEntryNumber = GenerateEntryNumber(model.EntryDate ?? DateTime.Now, model.JournalTypeId);
 
                 JournalEntry Entry_tbl = new JournalEntry
                 {
-                    EntryNumber = PreEntries.Count > 0 ? PreEntries.Max(x => x.EntryNumber) + 1 : 1,
+                    EntryNumber = nextEntryNumber,
                     Description = model.Description,
                     DocNumber = model.DocNumber,
                     JournalTypeId = model.JournalTypeId,
@@ -205,6 +205,11 @@ namespace MasterErp.Service.GeneralAccounts
                 var entry_tbl = Context.JournalEntries.Where(i => i.JournalEntryId == EntryId).FirstOrDefault();
                 if (entry_tbl != null)
                 {
+                    if(entry_tbl.EntryDate != model.EntryDate || entry_tbl.JournalTypeId !=model.JournalTypeId)
+                    {
+                        entry_tbl.EntryNumber = GenerateEntryNumber(model.EntryDate ?? DateTime.Now, model.JournalTypeId);
+                    }
+
                     entry_tbl.Description = model.Description;
                     entry_tbl.DocNumber = model.DocNumber;
                     entry_tbl.JournalTypeId = model.JournalTypeId;
@@ -240,7 +245,10 @@ namespace MasterErp.Service.GeneralAccounts
                         }
                     }
 
-                    return new ActionsResponseModel { Message = "Entry Updated Successfly !" };
+                    return new ActionsResponseModel { Message = "Entry Updated Successfly !",
+                        Number = entry_tbl.EntryNumber.ToString(),
+                        Id = entry_tbl.JournalEntryId,
+                    };
                 }
                 else
                     return new ActionsResponseModel { IsSuccess = false, Message = "can't find this entry" };
@@ -255,7 +263,26 @@ namespace MasterErp.Service.GeneralAccounts
                 };
             }
         }
+        private int GenerateEntryNumber(DateTime EntryDate,int JournalTypeId)
+        {
+            int month = EntryDate.Month;
+            int year = EntryDate.Year ;
+            //var PreEntries = Context.JournalEntries.Where(x => x.EntryDate.Month == month && x.EntryDate.Year == year).ToList();
 
+            // base on month & year and JournalTypeId
+            var PreEntries = Context.JournalEntries
+                            .Where(x =>
+                                x.EntryDate.Month == month &&
+                                x.EntryDate.Year == year &&
+                                x.JournalTypeId == JournalTypeId
+                            ).ToList();
+
+            int nextEntryNumber = PreEntries.Any()
+                ? PreEntries.Max(x => x.EntryNumber) + 1
+                : 1;
+            return nextEntryNumber;
+
+        }
         public List<JournalEntryModel> GetDailyJournalEntriesSummary(SearchFilterModel model)
         {
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);

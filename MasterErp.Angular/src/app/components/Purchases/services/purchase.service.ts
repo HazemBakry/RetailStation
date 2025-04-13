@@ -43,7 +43,7 @@ export class PurchaseService {
 
 
   CancelPurchaseInvoice(InvoiceId: number) {
-    return this.http.get<any[]>(this.URL + 'PurchaseInvoice/CancelPurchaseInvoice?InvoiceId=' + InvoiceId);
+    return this.http.get<ActionsResponseModel>(this.URL + 'PurchaseInvoice/CancelPurchaseInvoice?InvoiceId=' + InvoiceId);
   }
 
   GetInvoiceTypesData() {
