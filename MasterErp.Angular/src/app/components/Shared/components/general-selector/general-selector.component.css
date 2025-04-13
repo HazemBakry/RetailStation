@@ -35,6 +35,25 @@
 }
 
 /* new  */
+.arrow-tb {
+    content: "";
+    width: 20px;
+    height: 100%;
+    background-color: #f3f3f3;
+    position: absolute;
+    top: 0;
+    left: 5px;
+    z-index: 1;
+    background-image: url("../../../../../assets/up-down-icon.png");
+    background-repeat: no-repeat;
+    background-position-x: 0;
+    background-position-y: 45%;
+    background-size: 15px;
+}
+
+.with-no-arrow-down::after {
+    content: unset;
+}
 
 .dropdown-toggle:after {
     content: none;

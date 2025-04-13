@@ -26,7 +26,7 @@ export class GeneralSelectorComponent implements OnInit {
   @Input() selectMulti: boolean = false;
   @Input() isCustomDropdown: boolean = false;
   @Output() valueChanged = new EventEmitter<any | any[]>();
-
+  @Input() menuDesign: string = '' //'table';
   searchText: string = '';
   selectedValue: any = '';
   selectedName: string = '';
@@ -44,15 +44,21 @@ export class GeneralSelectorComponent implements OnInit {
     else
       this.dropdownConfig.container = null;
 
+    this.checkCodeExists();
 
-  }
+  } 
   ngOnChanges(changes: any): void {
     if (changes.data) {
       if (this.selectMulti)
         this.writeValue(this.selectedValues);
       else
         this.writeValue(this.selectedValue);
+      this.checkCodeExists();
     }
+  }
+  checkCodeExists()
+  {
+    this.menuDesign= this.data.some(x=>x.code) ? 'table':''
   }
   writeValue(value: any): void {
     if (this.selectMulti) {
