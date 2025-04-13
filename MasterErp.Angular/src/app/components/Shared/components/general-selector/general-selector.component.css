@@ -33,3 +33,9 @@
     -ms-border-radius: 8px;
     -o-border-radius: 8px;
 }
+
+/* new  */
+
+.dropdown-toggle:after {
+    content: none;
+}

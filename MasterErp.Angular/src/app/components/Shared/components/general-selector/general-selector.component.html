@@ -1,13 +1,20 @@
 <ng-container *ngIf="!selectMulti">
 
     <div ngbDropdown class="dropdown-filter-wrapper dropdown-as-input d-inline-block w-100">
-        <div class="position-relative">
-            <!-- [placeholder]="placeholder" -->
+        <!-- <div class="position-relative">
             <input [disabled]="disabled" type="text" class="form-control nw-form-input" #inputDrop ngbDropdownToggle [value]="selectedName?.substring(0, 30)" (input)="onInputChange($event)">
-            <!-- <input type="text" class="form-control nw-form-input" #inputDrop ngbDropdownToggle
-                    [value]="inputDropdownValue"> -->
             <div class="input-drop-action d-flex align-items-center gap-1 fw-normal" *ngIf="selectedName &&!disabled">
                 <i class="uil uil-times cursor-pointer" (click)="removeSingleSelected()"></i>
+            </div>
+            <span class="selector-icon-up-down" *ngIf="!selectedName"></span>
+        </div> -->
+
+        <div class="position-relative">
+            <button [disabled]="disabled" class="d-flex form-control nw-form-input cursor-pointer"  ngbDropdownToggle>
+                {{selectedName??selectedName?.substring(0, 30)}}
+            </button>          
+            <div class="input-drop-action d-flex align-items-center gap-1 fw-normal" *ngIf="selectedName &&!disabled">
+                <i class="uil uil-times cursor-pointer" (click)="removeSingleSelected()" ngbDropdownToggle></i>
                 <!-- <i class="uil uil-corner-up-left-alt cursor-pointer"></i> -->
             </div>
             <span class="selector-icon-up-down" *ngIf="!selectedName"></span>
