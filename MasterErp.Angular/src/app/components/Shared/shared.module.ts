@@ -51,6 +51,7 @@ import { OrderItemsComponent } from './components/order-items/order-items.compon
 import { MaterialRequestsSidePanelComponent } from './components/material-requests-side-panel/material-requests-side-panel.component';
 import { WorkflowStatusDirective } from './directives/workflow-status.directive';
 import { AddEditAccountTreeComponent } from '../GeneralAccounts/components/add-edit-account-tree/add-edit-account-tree.component';
+import { GoToAccountReportDirective } from './directives/go-to-account-report.directive';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { AddEditAccountTreeComponent } from '../GeneralAccounts/components/add-e
     GeneralSelectorComponent,
     AccountsReportSearchComponent,
     MaterialRequestsSidePanelComponent,
+    GoToAccountReportDirective,
   ],
 
   imports: [
@@ -161,7 +163,8 @@ import { AddEditAccountTreeComponent } from '../GeneralAccounts/components/add-e
     UploadImporterFileComponent,
     GeneralSelectorComponent,
     AccountsReportSearchComponent,
-    MaterialRequestsSidePanelComponent
+    MaterialRequestsSidePanelComponent,
+    GoToAccountReportDirective
   ],
   providers: [
     DatePipe,

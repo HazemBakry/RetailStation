@@ -16,6 +16,9 @@ export interface GeneralOrderModel extends CreatorModel {
     notes?: string;
     isLocked?: boolean;
     isCancelled?: boolean;
+    workflowStatusId: number | null;
+    workflowStatusNameAR: string;
+    workflowStatusNameEN: string;
     totalValue?: number;
 }
 

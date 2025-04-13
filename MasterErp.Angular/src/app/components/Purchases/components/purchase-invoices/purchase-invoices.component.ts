@@ -61,16 +61,16 @@ export class PurchaseInvoicesComponent implements OnInit {
   CancelPurchaseInvoice(InvoiceId:number)
   {
     this.purchaseService.CancelPurchaseInvoice(InvoiceId).subscribe(data => {
-      if (data) {
-        this.toaster.success('تم الغاء الطلب بنجاح');
+      if (data?.isSuccess) {
+        this.toaster.success(data.message);
         this.getPurchaseInvoicesData();
       }
       else{
-        this.toaster.error('حدث خطأ اثناء الألغاء');
+        this.toaster.error(data.message);
 
       }
     },(error)=>{
-      this.toaster.error('حدث خطأ اثناء الألغاء');
+      this.toaster.error('error');
 
     })
   }

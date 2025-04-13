@@ -19,7 +19,7 @@ namespace MasterErp.Interface.Purchase
         ActionsResponseModel AddNewPurchaseInvoice(PurchaseInvoiceModel model);
         ActionsResponseModel EditPurchaseInvoice(int InvoiceId,PurchaseInvoiceModel model);
         List<GeneralOrderDetailsModel> GetPurchaseInvoiceProducts_Data(int InvoiceId);
-        bool CancelPurchaseInvoice(int InvoiceId);
+        ActionsResponseModel CancelPurchaseInvoice(int InvoiceId);
         List<OrderModel> GetInvoicesSearchData(int SupplierId, string InvoiceNumber, string InvoiceDate, int InvoiceId = 0);
         List<OrderModel> GetPurchaseInvoiceDetails(int InvoiceId);
 

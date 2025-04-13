@@ -13,9 +13,9 @@
 
 
 <div class="tree-row d-flex align-items-center justify-content-between" >
-    <div (click)="toggleNode(account)" class="tree-row-text width-75-per   d-flex align-items-center gap-3 cursor-pointer pss-{{account.accountLevel}}" [style]="getLevelClass(account.accountLevel)">
-        <i *ngIf="account.children?.length" class="fas " [class]="!expanded?'fa-plus-circle':'fa-minus-circle'"></i>
-        <span [ngClass]="{'bg-warning': account.isSelected}">{{ account.accountNumber }} - {{ account.nameAR }} </span>
+    <div  class="tree-row-text width-75-per   d-flex align-items-center gap-3 cursor-pointer pss-{{account.accountLevel}}" [style]="getLevelClass(account.accountLevel)">
+        <i (click)="toggleNode(account)" *ngIf="account.isGroup" class="fas " [class]="!expanded?'fa-plus-circle':'fa-minus-circle'"></i>
+        <span [ngClass]="{'bg-warning': account.isSelected}" appGoToAccountReport [accountId]="account.accountId">{{ account.accountNumber }} - {{ account.nameAR }} </span>
     </div>
     <!-- <div class="tree-row-text width-20-per d-flex align-items-center justify-content-center">
         <span class="status-box" [ngClass]="{'bg-warning': account.isSelected}">{{ account.accountNumber }}</span>

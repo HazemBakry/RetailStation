@@ -282,7 +282,8 @@
                     <tbody>
                         <tr class="row-hover" *ngFor="let item of selectedEntryModel?.journalEntryAccounts;let i = index">
                             <td style="width: 300px;">
-                                {{item.accountName}}
+                                <span appGoToAccountReport [accountId]="item.accountId">{{item.accountName}}</span>
+                                
                                 <!-- {{item.accountName}} - {{item.accountNumber}} -->
                             </td>
 
