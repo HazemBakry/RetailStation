@@ -93,6 +93,28 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             var results = ReportService.ExportAccountsTrialBalanceReport(UserName, SearchModel);
             return Ok(results);
         }
+        [HttpPost]
+        [Route("GetAccountsBalanceSheetReport")]
+        public IActionResult GetAccountsBalanceSheetReport(AccountsReportSearchFilterModel model)
+        {
+            var data = ReportService.GetAccountsBalanceSheetReport(model);
+            var result = new PagedResponseModel<AccountsBalanceSheetModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("ExportAccountsBalanceSheetReport")]
+        public IActionResult ExportAccountsBalanceSheetReport(AccountsReportSearchFilterModel SearchModel)
+        {
+            string UserName = string.Empty;
+            var results = ReportService.ExportAccountsBalanceSheetReport(UserName, SearchModel);
+            return Ok(results);
+        }
 
         #region Cost Center
 

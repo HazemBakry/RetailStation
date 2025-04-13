@@ -7,6 +7,7 @@ import { ExcelExportStyle } from '../Enums/ImporterTemplateEnum';
 import { ActionsResponseModel } from '../models/ActionsResponseModel';
 import { FormControl, FormGroup } from '@angular/forms';
 import { GeneralSelectorModel } from '../components/general-selector/general-selector.component';
+import { FinancialPeriodModel } from '../../GeneralAccounts/models/FinancialPeriodModel';
 
 @Injectable({
   providedIn: 'root'
@@ -103,7 +104,10 @@ export class SharedService {
   }
 
   GetFinancialPeriods() {
-    return this.http.get<any[]>(this.URL + 'Shared/GetFinancialPeriods');
+    return this.http.get<FinancialPeriodModel[]>(this.URL + 'Shared/GetFinancialPeriods');
+  }
+  GetCurrentFinancialPeriod() {
+    return this.http.get<FinancialPeriodModel>(this.URL + 'Shared/GetCurrentFinancialPeriod');
   }
 
   downloadImporterTemplate(template: ExcelExportStyle) {

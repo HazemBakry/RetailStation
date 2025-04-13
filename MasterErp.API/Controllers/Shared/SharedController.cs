@@ -70,6 +70,15 @@ namespace MasterErp.API.Controllers.Shared
 
             return Ok(results);
         }
+        
+        [HttpGet]
+        [Route("GetCurrentFinancialPeriod")]
+        public IActionResult GetCurrentFinancialPeriod()
+        {
+            var results = _sharedService.GetCurrentFinancialPeriod();
+
+            return Ok(results);
+        }
 
         [HttpGet]
         [Route("DownloadImporterTemplate")]

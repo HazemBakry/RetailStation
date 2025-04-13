@@ -19,6 +19,8 @@ namespace MasterErp.Interface.GeneralAccounts
         ActionsResponseModel ExportAccountsAssistantLedger(string UserName, AccountsReportSearchFilterModel SearchModel);
         List<AccountsTrialBalanceModel> GetAccountsTrialBalanceReport(AccountsReportSearchFilterModel model);
         ActionsResponseModel ExportAccountsTrialBalanceReport(string UserName, AccountsReportSearchFilterModel SearchModel);
+        List<AccountsBalanceSheetModel> GetAccountsBalanceSheetReport(AccountsReportSearchFilterModel model);
+        ActionsResponseModel ExportAccountsBalanceSheetReport(string UserName, AccountsReportSearchFilterModel SearchModel);
 
 
         #region CostCenterReports

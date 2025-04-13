@@ -57,6 +57,16 @@ export interface AccountsTrialBalanceModel {
     totalCount?: number;
 }
 
+export interface AccountsBalanceSheetModel {
+    accountId?: number;
+    accountNameAR: string;
+    accountNameEN: string;
+    accountNumber: string;
+    balanceDebit?: number;
+    balanceCredit?: number;
+    totalCount?: number;
+}
+
 
 
 /////// cost center 

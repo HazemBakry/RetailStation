@@ -6,7 +6,7 @@ import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponse
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { CreateReportsService } from 'src/app/components/Reports/Services/create-reports.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SearchReportModel } from 'src/app/components/Reports/Models/ReportParams';
 import { FilterItem } from 'src/app/components/Shared/models/FilterModel';
 
@@ -19,6 +19,7 @@ export class AccountsGeneralLedgerComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'الأستاذ العام'];
   showLoader: boolean = false;
   showExportLoader: boolean = false;
+  firstLoad: boolean = true;
   totalDebit = null;
   totalCredit = null;
   ledgersResponse: AccountsReportSearchFilterModel = {
@@ -34,7 +35,8 @@ export class AccountsGeneralLedgerComponent implements OnInit {
 
   };
   constructor(private generalService: GeneralAccountService, private sharedService: SharedService, private toaster: ToastrService,
-    private ReportsService: CreateReportsService, private router: Router
+    private ReportsService: CreateReportsService, private acRoute: ActivatedRoute,
+
   ) { }
 
   ngOnInit(): void {
@@ -117,6 +119,18 @@ export class AccountsGeneralLedgerComponent implements OnInit {
     this.ledgersResponse.toDate = filter.toDate;
     this.ledgersResponse.accountId = filter.accountId;
     this.ledgersResponse.costCenterId = filter.costCenterId;
+
+    // when redirect to ledger from account directive 
+    if (this.ledgersResponse.fromDate &&
+      this.ledgersResponse.toDate &&
+      this.ledgersResponse.accountId) {
+      this.acRoute.queryParams.subscribe((params: any) => {
+        if (params.AccountId) {
+          this.loadData();
+          this.firstLoad = false;
+        }
+      });
+    }
   }
   pageChanged(obj: any) {
     this.ledgersResponse.currentPage = obj.page;

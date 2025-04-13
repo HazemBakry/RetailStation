@@ -2,9 +2,10 @@
 
 
 <div class="inputs-wrapper border rounded bg-white mb-3">
-    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">ميزان المراجعة</div>
+    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">المركز المالي</div>
     <div class="inputs-sec-content px-3 py-2">
-        <app-accounts-report-search (searchDataChanged)="searchDataChanged($event)" [isParent]="true" [showAccounts]="true"></app-accounts-report-search>
+        <app-accounts-report-search (searchDataChanged)="searchDataChanged($event)" [showAccounts]="true">
+        </app-accounts-report-search>
 
         <div class="row">
 
@@ -13,7 +14,8 @@
                     <label class="form-label d-flex align-items-center gap-2">
                         التفرع
                     </label>
-                    <input type="number" class="form-control nw-form-input" [(ngModel)]="trialBalanceResponse.searchLevel" autocomplete="off" />
+                    <input type="number" class="form-control nw-form-input"
+                        [(ngModel)]="balanceSheetResponse.searchLevel" autocomplete="off" />
 
                 </div>
             </div>
@@ -22,7 +24,8 @@
                     <label class="form-label d-flex align-items-center gap-2">
                         نوع التفرع
                     </label>
-                    <app-general-selector [showSearch]="true" [(ngModel)]="trialBalanceResponse.searchType" [data]="levelTypesSelector" [placeholder]="'نوع التفرع'"></app-general-selector>
+                    <app-general-selector [showSearch]="true" [(ngModel)]="balanceSheetResponse.searchType"
+                        [data]="levelTypesSelector" [placeholder]="'نوع التفرع'"></app-general-selector>
                 </div>
             </div>
         </div>
@@ -33,7 +36,7 @@
                 <label class="form-label d-flex align-items-center gap-2">
                     اخفاء الحسابات بدون رصيد
                 </label>
-                <input class="big-checkbox" [(ngModel)]="trialBalanceResponse.hideEmptyAccounts" type="checkbox">
+                <input class="big-checkbox" [(ngModel)]="balanceSheetResponse.hideEmptyAccounts" type="checkbox">
 
             </div>
         </div>
@@ -44,7 +47,8 @@
             <i class="fas fa-search"></i>
             <span class="ms-2">بحث</span>
         </button>
-        <button [disabled]="showExportLoader" (click)="exportData()" class="btn  btn-outline-success gap-2 border rounded px-3 me-2">
+        <button [disabled]="showExportLoader" (click)="exportData()"
+            class="btn  btn-outline-success gap-2 border rounded px-3 me-2">
             <i class="fas fa-file-download"></i>
             <span>تصدير CSV</span>
         </button>
@@ -66,8 +70,8 @@
     </div>
     <!-- <div class="px-3 py-2 mb-2">
 
-        <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="trialBalanceResponse.currentPage"
-            [pageSize]="trialBalanceResponse.pageSize" [totalCount]="trialBalanceResponse.totalCount"></app-erp-pagination>
+        <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="balanceSheetResponse.currentPage"
+            [pageSize]="balanceSheetResponse.pageSize" [totalCount]="balanceSheetResponse.totalCount"></app-erp-pagination>
     </div> -->
 
     <div class="table-responsive shadow-sm  table-vp-height small-scroll">
@@ -77,32 +81,20 @@
                 <tr>
                     <th>الكـود</th>
                     <th>الحســاب</th>
-                    <th>الرصيد الافتتاحى (مدين)</th>
-                    <th>الرصيد الافتتاحى (دائن)</th>
-                    <th>الحركة (مدين)</th>
-                    <th>الحركة (دائن)</th>
-                    <!-- <th>الإجمالى (مدين)</th>
-                    <th>الإجمالى (دائن)</th> -->
                     <th>الرصيد الحالى (مدين)</th>
                     <th>الرصيد الحالى (دائن)</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of  trialBalanceResponse.results">
+                <tr *ngFor="let item of  balanceSheetResponse.results">
                     <td>{{item.accountNumber}}</td>
                     <td>{{item.accountNameAR ?? item.accountNameEN}}</td>
-                    <td>{{item.preDebit}}</td>
-                    <td>{{item.preCredit}}</td>
-                    <td>{{item.debit}}</td>
-                    <td>{{item.credit}}</td>
-                    <!-- <td>{{item.totalDebit}}</td>
-                    <td>{{item.totalCredit}}</td> -->
                     <td>{{item.balanceDebit}}</td>
                     <td>{{item.balanceCredit}}</td>
                 </tr>
-                <tr *ngIf="!trialBalanceResponse.results.length">
+                <tr *ngIf="!balanceSheetResponse.results.length">
                     <td colspan="10" class="text-right">
-                        <app-empty-data [showEmptyData]="!trialBalanceResponse.results.length"></app-empty-data>
+                        <app-empty-data [showEmptyData]="!balanceSheetResponse.results.length"></app-empty-data>
                     </td>
                 </tr>
             </tbody>
@@ -117,13 +109,15 @@
                 <label class="form-label d-flex align-items-center gap-2">
                     أجمالي دائن
                 </label>
-                <input type="text" class="form-control nw-form-input" [value]="totalCredit" disabled autocomplete="off" />
+                <input type="text" class="form-control nw-form-input" [value]="totalCredit" disabled
+                    autocomplete="off" />
             </div>
             <div class="col-md-2">
                 <label class="form-label d-flex align-items-center gap-2">
                     أجمالي مدين
                 </label>
-                <input type="text" class="form-control nw-form-input" [value]="totalDebit" disabled autocomplete="off" />
+                <input type="text" class="form-control nw-form-input" [value]="totalDebit" disabled
+                    autocomplete="off" />
             </div>
         </div>
         <div class="row justify-content-end mb-3">

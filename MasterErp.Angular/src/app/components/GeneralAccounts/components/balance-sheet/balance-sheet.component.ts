@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GeneralAccountService } from '../../services/general-account.service';
 import { ToastrService } from 'ngx-toastr';
-import { SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
-import { AccountsAssistantLedgerModel, AccountsReportSearchFilterModel, AccountsTrialBalanceModel } from '../../models/GeneralAccounts/AccountsReportSearchFilterModel';
+import { AccountsReportSearchFilterModel, AccountsBalanceSheetModel } from '../../models/GeneralAccounts/AccountsReportSearchFilterModel';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
@@ -23,7 +22,7 @@ export class BalanceSheetComponent implements OnInit {
   levelTypesSelector: GeneralSelectorModel[] = [];
   totalDebit = null;
   totalCredit = null;
-  trialBalanceResponse: AccountsReportSearchFilterModel = {
+  balanceSheetResponse: AccountsReportSearchFilterModel = {
     results: [],
     filterList: [],
     pageSize: 25,
@@ -56,16 +55,16 @@ export class BalanceSheetComponent implements OnInit {
     this.totalDebit = null;
     this.totalCredit = null;
     this.showLoader = true;
-    this.generalService.GetAccountsTrialBalanceReport(this.trialBalanceResponse).subscribe((data: PagedResponseDTO<AccountsTrialBalanceModel[]>) => {
-      this.trialBalanceResponse.results = data.results;
-      this.trialBalanceResponse.totalCount = data.totalCount;
+    this.generalService.GetAccountsBalanceSheetReport(this.balanceSheetResponse).subscribe((data: PagedResponseDTO<AccountsBalanceSheetModel[]>) => {
+      this.balanceSheetResponse.results = data.results;
+      this.balanceSheetResponse.totalCount = data.totalCount;
 
-      if (this.trialBalanceResponse.results.length > 0) {
-        this.totalDebit = this.trialBalanceResponse.results.reduce(
+      if (this.balanceSheetResponse.results.length > 0) {
+        this.totalDebit = this.balanceSheetResponse.results.reduce(
           (sum, x) => sum + (x.balanceDebit || 0),
           0
         );
-        this.totalCredit = this.trialBalanceResponse.results.reduce(
+        this.totalCredit = this.balanceSheetResponse.results.reduce(
           (sum, x) => sum + (x.balanceCredit || 0),
           0
         );
@@ -82,7 +81,7 @@ export class BalanceSheetComponent implements OnInit {
       return;
     }
     this.showExportLoader = true;
-    this.generalService.ExportAccountsTrialBalanceReport(this.trialBalanceResponse).subscribe((data: ActionsResponseModel) => {
+    this.generalService.ExportAccountsBalanceSheetReport(this.balanceSheetResponse).subscribe((data: ActionsResponseModel) => {
       if (data.isSuccess) {
         this.sharedService.urlDownloadOrOpen(data.url);
         this.toaster.success(data.message);
@@ -107,21 +106,21 @@ export class BalanceSheetComponent implements OnInit {
 
   searchDataChanged(filter: AccountsReportSearchFilterModel) {
 
-    this.trialBalanceResponse.fromDate = filter.fromDate;
-    this.trialBalanceResponse.toDate = filter.toDate;
-    this.trialBalanceResponse.accountId = filter.accountId;
-    this.trialBalanceResponse.costCenterId = filter.costCenterId;
+    this.balanceSheetResponse.fromDate = filter.fromDate;
+    this.balanceSheetResponse.toDate = filter.toDate;
+    this.balanceSheetResponse.accountId = filter.accountId;
+    this.balanceSheetResponse.costCenterId = filter.costCenterId;
   }
   pageChanged(obj: any) {
-    this.trialBalanceResponse.currentPage = obj.page;
+    this.balanceSheetResponse.currentPage = obj.page;
     this.loadData();
   }
   validateSearchModel(): boolean {
     if (
-      !this.trialBalanceResponse.fromDate ||
-      !this.trialBalanceResponse.toDate ||
-      !this.trialBalanceResponse.searchType ||
-      !this.trialBalanceResponse.searchLevel
+      !this.balanceSheetResponse.fromDate ||
+      !this.balanceSheetResponse.toDate ||
+      !this.balanceSheetResponse.searchType ||
+      !this.balanceSheetResponse.searchLevel
     ) {
       this.toaster.warning('يرجي ملئ جميع الخانات');
       return false;

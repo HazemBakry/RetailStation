@@ -20,6 +20,7 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetCostCenterSelector(bool IsParent);
         List<SelectorDataModel> GetAccountsByTypeId(int TypeId);
         List<FinancialPeriod> GetFinancialPeriods();
+        FinancialPeriod GetCurrentFinancialPeriod();
         ActionsResponseModel DownloadImporterTemplate(ExcelExportStyle ImporterType);
 
         #region Selectors

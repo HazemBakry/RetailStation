@@ -13,7 +13,7 @@ import { CostCenterTreeModel } from '../models/GeneralAccounts/CostCenter';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { JournalTemplateDetails } from '../models/GeneralAccounts/JournalTemplateDetailsModel';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
-import { AccountsAssistantLedgerModel, AccountsGeneralLedgerModel, AccountsReportSearchFilterModel, AccountsTrialBalanceModel, CostAssistantLedgerModel, CostGeneralLedgerModel, CostTrialBalanceModel } from '../models/GeneralAccounts/AccountsReportSearchFilterModel';
+import { AccountsAssistantLedgerModel, AccountsBalanceSheetModel, AccountsGeneralLedgerModel, AccountsReportSearchFilterModel, AccountsTrialBalanceModel, CostAssistantLedgerModel, CostGeneralLedgerModel, CostTrialBalanceModel } from '../models/GeneralAccounts/AccountsReportSearchFilterModel';
 
 @Injectable({
   providedIn: 'root'
@@ -172,7 +172,12 @@ export class GeneralAccountService {
     return this.http.post<ActionsResponseModel>(this.URL + 'GeneralAccountsReport/ExportAccountsTrialBalanceReport', model);
   }
 
-
+  GetAccountsBalanceSheetReport(model: AccountsReportSearchFilterModel) {
+    return this.http.post<PagedResponseDTO<AccountsBalanceSheetModel[]>>(this.URL + 'GeneralAccountsReport/GetAccountsBalanceSheetReport', model);
+  }
+  ExportAccountsBalanceSheetReport(model: AccountsReportSearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'GeneralAccountsReport/ExportAccountsBalanceSheetReport', model);
+  }
 
 
 

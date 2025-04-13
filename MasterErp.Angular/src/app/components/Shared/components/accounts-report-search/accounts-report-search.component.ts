@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./accounts-report-search.component.css']
 })
 export class AccountsReportSearchComponent implements OnInit {
-  @Input() isParent: boolean = false;
+  @Input() isParent: boolean = null;
   @Input() showCostCenter: boolean = false;
   @Input() showAccounts: boolean = false;
   @Output() searchDataChanged = new EventEmitter<AccountsReportSearchFilterModel>();
@@ -57,6 +57,8 @@ export class AccountsReportSearchComponent implements OnInit {
     if (this.showCostCenter) {
       this.loadLoadCostCenterTreeData();
     }
+
+    this.loadCurrentFinancialPeriod()
   }
 
   emitSearchModel() {
@@ -72,6 +74,16 @@ export class AccountsReportSearchComponent implements OnInit {
   loadLoadCostCenterTreeData() {
     this.sharedService.GetCostCenterSelector(this.isParent).subscribe(data => {
       this.costCenterSelectorData = data;
+    });
+  }
+  loadCurrentFinancialPeriod() {
+    this.sharedService.GetCurrentFinancialPeriod().subscribe(data => {
+      if(data)
+      {
+        this.searchModel.fromDate = this.datePipe.transform(data.startDate, 'yyyy-MM-dd') ;
+        this.searchModel.toDate = this.datePipe.transform(data.endDate, 'yyyy-MM-dd');
+        this.emitSearchModel();
+      }
     });
   }
 

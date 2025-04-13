@@ -64,6 +64,12 @@ namespace MasterErp.Service.Shared
 
             return result;
         }
+        public FinancialPeriod GetCurrentFinancialPeriod()
+        {
+            var result = Context.FinancialPeriods.Where(x=>x.IsActive).OrderByDescending(x=>x.NameEN).FirstOrDefault();
+
+            return result;
+        }
 
         public ActionsResponseModel DownloadImporterTemplate(ExcelExportStyle ImporterType)
         {

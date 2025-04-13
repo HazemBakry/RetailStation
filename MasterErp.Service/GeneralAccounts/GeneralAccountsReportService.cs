@@ -292,6 +292,82 @@ namespace MasterErp.Service.GeneralAccounts
                 };
             }
         }
+        
+        public List<AccountsBalanceSheetModel> GetAccountsBalanceSheetReport(AccountsReportSearchFilterModel model)
+        {
+
+            var results = new List<AccountsBalanceSheetModel>();
+            if (model.FromDate is null || model.ToDate is null)
+            {
+                return results;
+
+            }
+            SqlParameter[] Params = new SqlParameter[8];
+            Params[0] = new SqlParameter("@AccountId", model.AccountId);
+            Params[1] = new SqlParameter("@FromDate", model.FromDate);
+            Params[2] = new SqlParameter("@ToDate", model.ToDate);
+            Params[3] = new SqlParameter("@SearchType", model.SearchType);
+            Params[4] = new SqlParameter("@SearchLevel", model.SearchLevel);
+            Params[5] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
+            Params[6] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[7] = new SqlParameter("@PageSize", model.PageSize);
+            results = SQLHelper.SQLQuery<AccountsBalanceSheetModel>("[Finance].[SP_GetAccountsBalanceSheetReport]", ConnectionString, Params);
+
+            return results;
+        }
+
+        public ActionsResponseModel ExportAccountsBalanceSheetReport(string UserName, AccountsReportSearchFilterModel SearchModel)
+        {
+            string url = string.Empty;
+            try
+            {
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var Data = GetAccountsBalanceSheetReport(SearchModel);
+
+                var result = Data.Select(res =>
+                                new AccountsBalanceSheetExportModel
+                                {
+                                    AccountNameEN = res.AccountNameEN,
+                                    AccountNameAR = res.AccountNameAR,
+                                    AccountNumber = res.AccountNumber,
+                                    BalanceDebit = res.BalanceDebit,
+                                    BalanceCredit = res.BalanceCredit
+
+                                }).ToList();
+
+                if (!result.Any())
+                {
+                    result.Add(new AccountsBalanceSheetExportModel());
+
+                }
+
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "AccountsBalanceSheetReport");
+
+
+                url = GetExportFilePath(dtExport, UserName, "AccountsBalanceSheetReport");
+
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+        }
 
 
 
