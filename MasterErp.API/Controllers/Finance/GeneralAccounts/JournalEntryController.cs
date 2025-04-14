@@ -1,4 +1,6 @@
-﻿using MasterErp.Entities.Common;
+﻿using ICU4N.Util;
+using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.GeneralAccounts;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.GeneralAccounts;
@@ -39,19 +41,48 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             return EntryService.GetCurrencyList();
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetSavedJournalTemplates")]
-        public List<JournalTemplate> GetSavedJournalTemplates()
+        public IActionResult GetSavedJournalTemplates(SearchFilterModel model)
         {
-            return EntryService.GetSavedJournalTemplates();
+            var data = EntryService.GetSavedJournalTemplates(model);
+
+            var result = new PagedResponseModel<JournalTemplateModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("GetJournalTemplateDetailsById")]
+        public IActionResult GetJournalTemplateDetailsById(int templateId)
+        {
+            var result = EntryService.GetJournalTemplateDetailsById(templateId);
+            return Ok(result);
+
         }
 
-        [HttpGet]
-        [Route("GetAccountsByTemplateId")]
-        public List<JournalTemplateDetails> GetAccountTreeData(int templateId)
+
+        [HttpPost]
+        [Route("SaveNewJournalEntryTemplate")]
+        public IActionResult SaveNewJournalEntryTemplate(JournalTemplateModel model)
         {
-            return EntryService.GetAccountsByTemplateId(templateId);
+            var results = EntryService.SaveNewJournalEntryTemplate(model);
+            return Ok(results);
         }
+        [HttpPost]
+        [Route("EditJournalEntryTemplate")]
+        public IActionResult EditJournalEntryTemplate(int EntryId, JournalTemplateModel model)
+        {
+            var results = EntryService.EditJournalEntryTemplate(EntryId, model);
+            return Ok(results);
+        }
+
+
+
 
         [HttpGet]
         [Route("GetJournalEntryDetailsById")]
@@ -59,6 +90,8 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         {
             return EntryService.GetJournalEntryDetailsById(EntryId);
         }
+
+
 
 
 
@@ -85,6 +118,8 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             var results = EntryService.ExportDailyJournalEntries(UserName, SearchModel);
             return Ok(results);
         }
+
+      
 
 
         [HttpPost]

@@ -18,6 +18,7 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetReceiptLedgersSelector();
         List<SelectorDataModel> GetAccountsSelector(bool? IsGroup);
         List<SelectorDataModel> GetCostCenterSelector(bool IsParent);
+        List<SelectorDataModel> GetJournalTemplatesSelector();
         List<SelectorDataModel> GetAccountsByTypeId(int TypeId);
         List<FinancialPeriod> GetFinancialPeriods();
         FinancialPeriod GetCurrentFinancialPeriod();

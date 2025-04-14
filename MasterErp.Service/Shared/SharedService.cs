@@ -135,6 +135,16 @@ namespace MasterErp.Service.Shared
 
             return result;
         }
+        public List<SelectorDataModel> GetJournalTemplatesSelector()
+        {
+            var result = Context.JournalTemplates.Select(a => new SelectorDataModel
+            {
+                Id = a.JournalTemplateId,
+                Name = a.NameAR
+            }).ToList();
+
+            return result;
+        }
 
         public List<SelectorDataModel> GetNationalitiesSelector()
         {

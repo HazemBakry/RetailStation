@@ -2,6 +2,7 @@
 using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Export;
 using MasterErp.Entities.DTOs.GeneralAccounts;
+using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.Common;
@@ -110,17 +111,181 @@ namespace MasterErp.Service.GeneralAccounts
             return entry_number;
         }
 
-        public List<JournalTemplate> GetSavedJournalTemplates()
+        public List<JournalTemplateModel> GetSavedJournalTemplates(SearchFilterModel SearchModel)
         {
-            var List = Context.JournalTemplate.ToList();
-            return List;
+
+            var query =  Context.JournalTemplates.Select(template=> new JournalTemplateModel 
+            {
+                JournalTemplateId = template.JournalTemplateId,
+                NameAR = template.NameAR,
+                NameEN = template.NameEN,
+                Description = template.Description,
+                DocNumber = template.DocNumber,
+                JournalTypeId = template.JournalTypeId,
+                CurrencyId = template.CurrencyId,
+                PeriodId = template.PeriodId,
+            });
+            int totalCount = query.Count();
+            if (SearchModel.CurrentPage > 0 && SearchModel.PageSize > 0)
+            {
+                int skip = (SearchModel.CurrentPage - 1) * SearchModel.PageSize;
+                query = query.Skip(skip).Take(SearchModel.PageSize);
+            }
+
+            var results = query.ToList();
+            results.ForEach(x => x.TotalCount = totalCount);
+            return results;
         }
 
-        public List<JournalTemplateDetails> GetAccountsByTemplateId(int templateId)
+        public JournalTemplateModel GetJournalTemplateDetailsById(int templateId)
         {
-            var List = Context.JournalTemplateDetails.Where(x => x.JournalTemplateId == templateId).ToList();
-            return List;
+            var template = Context.JournalTemplates
+                        .Where(t => t.JournalTemplateId == templateId)
+                        .Select(t => new JournalTemplateModel
+                        {
+                            JournalTemplateId = t.JournalTemplateId,
+                            NameAR = t.NameAR,
+                            NameEN = t.NameEN,
+                            Description = t.Description,
+                            DocNumber = t.DocNumber,
+                            JournalTypeId = t.JournalTypeId,
+                            CurrencyId = t.CurrencyId,
+                            PeriodId = t.PeriodId,
+                            Accounts = (from td in Context.JournalTemplateDetails
+                                        join acc in Context.AccountTrees on td.AccountId equals acc.AccountId
+                                        join cc in Context.CostCenterTree on td.CostCenterId equals cc.CostCenterId into ccJoin
+                                        from cc in ccJoin.DefaultIfEmpty()
+                                        where td.JournalTemplateId == t.JournalTemplateId
+                                        select new JournalTemplateDetailsModel
+                                        {
+                                            AccountId = td.AccountId,
+                                            AccountNameAR = acc.NameAR,
+                                            AccountNameEN = acc.NameEN,
+                                            CostCenterId = td.CostCenterId,
+                                            CostCenterNameAR = cc != null ? cc.NameAR : null,
+                                            CostCenterNameEN = cc != null ? cc.NameEN : null,
+                                            Debit = td.Debit,
+                                            Credit = td.Credit,
+                                            Description = td.Description
+                                        }).ToList()
+                        }).FirstOrDefault();
+
+            return template;
         }
+
+
+        public ActionsResponseModel SaveNewJournalEntryTemplate(JournalTemplateModel model)
+        {
+            try
+            {
+                var CurrentPeriod = Context.FinancialPeriods.OrderByDescending(x => x.FinancialPeriodId).FirstOrDefault();
+
+                JournalTemplate Entry_tbl = new JournalTemplate
+                {
+                    NameAR = model.NameAR,
+                    NameEN = model.NameEN,
+                    Description = model.Description,
+                    DocNumber = model.DocNumber,
+                    JournalTypeId = model.JournalTypeId,
+                    CurrencyId = model.CurrencyId,
+                    PeriodId = CurrentPeriod != null ? CurrentPeriod.FinancialPeriodId : 0,
+                };
+
+                Context.JournalTemplates.Add(Entry_tbl);
+                Context.SaveChanges();
+
+                foreach (var row in model.Accounts)
+                {
+                    JournalTemplateDetails JournalDetials = new JournalTemplateDetails
+                    {
+                        JournalTemplateId = Entry_tbl.JournalTemplateId,
+                        AccountId = row.AccountId,
+                        Debit = row.Debit ?? 0,
+                        Credit = row.Credit ?? 0,
+                        Description = row.Description,
+                        CostCenterId = row.CostCenterId
+                       
+                    };
+
+                        Context.JournalTemplateDetails.Add(JournalDetials);
+                        Context.SaveChanges();
+                }
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    Message = "تم حفظ البيانات بنجاح",
+                    Id = Entry_tbl.JournalTemplateId,
+
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                    Status = 100
+                };
+            }
+        }
+
+        public ActionsResponseModel EditJournalEntryTemplate(int JournalTemplateId, JournalTemplateModel model)
+        {
+            try
+            {
+                var entry_tbl = Context.JournalTemplates.Where(i => i.JournalTemplateId == JournalTemplateId).FirstOrDefault();
+                if (entry_tbl != null)
+                {
+                    entry_tbl.Description = model.Description;
+                    entry_tbl.DocNumber = model.DocNumber;
+                    entry_tbl.JournalTypeId = model.JournalTypeId;
+                    entry_tbl.NameEN = model.NameEN;
+                    entry_tbl.NameAR = model.NameAR;
+                    Context.SaveChanges();
+
+                    var JournalTemplateDetails = Context.JournalTemplateDetails.Where(x => x.JournalTemplateId == JournalTemplateId).ToList();
+                    Context.JournalTemplateDetails.RemoveRange(JournalTemplateDetails);
+                    foreach (var row in model.Accounts)
+                    {
+
+
+                        JournalTemplateDetails JournalDetials = new JournalTemplateDetails
+                        {
+                            JournalTemplateId = JournalTemplateId,
+                            AccountId = row.AccountId,
+                            Debit = row.Debit ?? 0,
+                            Credit = row.Credit ?? 0,
+                            Description = row.Description,
+                            CostCenterId = row.CostCenterId
+
+                        };
+
+                        Context.JournalTemplateDetails.Add(JournalDetials);
+                        Context.SaveChanges();
+
+                    }
+
+                    return new ActionsResponseModel
+                    {
+                        Message = "Entry Updated Successfly !",
+                        Id = JournalTemplateId,
+                    };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this entry" };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+
 
         public List<Currency> GetCurrencyList()
         {

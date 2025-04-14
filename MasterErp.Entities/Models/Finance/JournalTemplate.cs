@@ -15,9 +15,10 @@ namespace MasterErp.Entities.Models.Finance
         public int JournalTemplateId { get; set; }
         public string DocNumber { get; set; }
         public string NameAR { get; set; }
-        public string Notes { get; set; }
-        public int JournalTypeID { get; set; }
-        public int PeriodID { get; set; }
-        public int CurrencyID { get; set; }
+        public string NameEN { get; set; }
+        public string Description { get; set; }
+        public int JournalTypeId { get; set; }
+        public int? PeriodId { get; set; }
+        public int? CurrencyId{ get; set; }
     }
 }

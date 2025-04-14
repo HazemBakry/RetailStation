@@ -9,30 +9,28 @@ import { PaymentService } from '../../services/payment.service';
 import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from 'src/app/components/Shared/services/form.service';
-import { JournalEntryAccount, JournalEntryModel } from '../../models/GeneralAccounts/JurnalEntryModel';
-import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
-import { JournalTemplateModel } from '../../models/GeneralAccounts/JournalTemplateDetailsModel';
 import { LookupService } from 'src/app/components/Shared/services/lookup.service';
+import { JournalTemplateDetailsModel, JournalTemplateModel } from '../../models/GeneralAccounts/JournalTemplateDetailsModel';
+import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 
 @Component({
-  selector: 'app-create-journal-entry',
-  templateUrl: './create-journal-entry.component.html',
-  styleUrls: ['./create-journal-entry.component.css']
+  selector: 'app-create-journal-entry-template',
+  templateUrl: './create-journal-entry-template.component.html',
+  styleUrls: ['./create-journal-entry-template.component.css']
 })
-export class CreateJournalEntryComponent implements OnInit {
-  entryModel: JournalEntryModel = {} as JournalEntryModel;
+export class CreateJournalEntryTemplateComponent implements OnInit {
+  entryTemplateModel: JournalTemplateModel = {} as JournalTemplateModel;
 
-  titleList = ['الحسابات العامة', 'قيد اليومية'];
+  titleList = ['الحسابات العامة', 'قوالب قيد اليومية'];
 
   showLoader: boolean = false;
   showAddLoader: boolean = false;
-  entryAccounts: JournalEntryAccount[] = [];
-  accountsSelector: FormDropdownModel[] = [];
-  costCenterSelector: FormDropdownModel[] = [];
-  currencyTypesSelector: FormDropdownModel[] = [];
-  journalEntryTypesSelector: FormDropdownModel[] = [];
-  journalTemplatesSelector: FormDropdownModel[] = [];
+  entryTemplateAccounts: JournalTemplateDetailsModel[] = [];
+  accountsSelector: GeneralSelectorModel[] = [];
+  costCenterSelector: GeneralSelectorModel[] = [];
+  currencyTypesSelector: GeneralSelectorModel[] = [];
+  journalEntryTypesSelector: GeneralSelectorModel[] = [];
 
   journalTemplates: any[] = [];
 
@@ -43,13 +41,14 @@ export class CreateJournalEntryComponent implements OnInit {
   totalDebit = 0;
   totalCredit = 0;
   public formErrors = {
-    journalEntryId: '',
-    entryNumber: '',
+    journalTemplateId: '',
+    nameAR: '',
+    nameEN: '',
     docNumber: '',
     entryDate: '',
     journalTypeId: '',
     currencyTypeId: '',
-    journalEntryAccounts: '',
+    accounts: '',
     description: '',
   };
 
@@ -68,9 +67,8 @@ export class CreateJournalEntryComponent implements OnInit {
 
   ngOnInit(): void {
     this.acRoute.queryParams.subscribe((params: any) => {
-      if (params.JournalEntryId) {
-        this.entryModel = params.JournalEntryId;
-        this.getEntryDetailsById(params.JournalEntryId);
+      if (params.JournalTemplateId) {
+        this.getJournalTemplateDetailsById(params.JournalTemplateId);
       }
     })
 
@@ -80,12 +78,12 @@ export class CreateJournalEntryComponent implements OnInit {
     this.loadSelectors();
   }
 
-  getEntryDetailsById(journalEntryId) {
+  getJournalTemplateDetailsById(journalTemplateId) {
     this.showLoader = true;
-    this.generalService.GetJournalEntryDetailsById(journalEntryId).subscribe(data => {
+    this.generalService.GetJournalTemplateDetailsById(journalTemplateId).subscribe(data => {
       if (data) {
-        this.entryModel = data;
-        this.initNewForm(this.entryModel);
+        this.entryTemplateModel = data;
+        this.initNewForm(this.entryTemplateModel);
       }
       this.showLoader = false;
     }, (error) => {
@@ -107,22 +105,17 @@ export class CreateJournalEntryComponent implements OnInit {
     this.lookupService.GetJournalEntryTypes().subscribe(data => {
       this.journalEntryTypesSelector = data;
     });
-    this.sharedService.GetJournalTemplatesSelector().subscribe(data => {
-      this.journalTemplatesSelector = data;
-    });
     this.currencyTypesSelector = this.paymentService.CurrencyTypesSelector;
   }
 
-  journalTemplatesChanged(journalTemplateId) {
-    this.getAccountsByTemplateId(journalTemplateId);
-  }
+
   getAccountsByTemplateId(journalTemplateId) {
-    this.entryAccounts = [];
+    this.entryTemplateAccounts = [];
     if (!journalTemplateId)
       return;
     this.generalService.GetJournalTemplateDetailsById(journalTemplateId).subscribe((data: JournalTemplateModel) => {
       if (data) {
-        this.entryAccounts = data.accounts?.map(entryAccount => {
+        this.entryTemplateAccounts = data.accounts?.map(entryAccount => {
           return {
             accountId: entryAccount.accountId,
             debit: entryAccount.debit,
@@ -132,11 +125,10 @@ export class CreateJournalEntryComponent implements OnInit {
           }
         });
       }
-      this.inputFocus();
     });
   }
-  initNewForm(entryModel: JournalEntryAccount = null) {
-    this.entryAccounts = [];
+  initNewForm(entryModel: JournalTemplateModel = null) {
+    this.entryTemplateAccounts = [];
     this.isUpdate = false;
     this.buildForm();
     if (entryModel)
@@ -147,13 +139,13 @@ export class CreateJournalEntryComponent implements OnInit {
   buildForm() {
 
     this.formGroup = this.form.group({
-      journalEntryId: [null],
-      entryNumber: [null],
+      journalTemplateId: [null],
       docNumber: [null],
-      entryDate: [null, [Validators.required]],
+      nameAR: [null, [Validators.required]],
+      nameEN: [null, [Validators.required]],
       journalTypeId: [null, [Validators.required]],
       currencyTypeId: [null],
-      journalEntryAccounts: [[] as JournalEntryAccount[], [Validators.required, Validators.minLength(1)]],
+      accounts: [[] as JournalTemplateDetailsModel[], [Validators.required, Validators.minLength(1)]],
       description: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {
@@ -170,51 +162,48 @@ export class CreateJournalEntryComponent implements OnInit {
       return false;
     }
   }
-  fillEditForm(entryModel: JournalEntryModel) {
-    this.entryAccounts = entryModel.journalEntryAccounts;
+  fillEditForm(entryModel: JournalTemplateModel) {
+    this.entryTemplateAccounts = entryModel.accounts;
     this.isUpdate = true;
 
     this.formGroup.patchValue({
-
-      journalEntryId: entryModel.journalEntryId,
-      entryNumber: entryModel.entryNumber,
+      journalTemplateId: entryModel.journalTemplateId,
       docNumber: entryModel.docNumber,
-      entryDate: this.datePipe.transform(entryModel.entryDate, 'yyyy-MM-dd'),
+      nameAR: entryModel.nameAR,
+      nameEN: entryModel.nameEN,
       journalTypeId: entryModel.journalTypeId,
       currencyTypeId: entryModel.currencyTypeId,
-      journalEntryAccounts: entryModel.journalEntryAccounts,
+      accounts: entryModel.accounts,
       description: entryModel.description,
     });
   }
 
-  saveEntry() {
+  saveEntryTemplate() {
 
     if (!this.validateAccounts())
       return;
-    this.formGroup.patchValue({ journalEntryAccounts: this.entryAccounts.filter(entry => entry.accountId) });
+    this.formGroup.patchValue({ accounts: this.entryTemplateAccounts.filter(entry => entry.accountId) });
     if (!this.validateForm()) {
       return;
     }
-    this.entryModel = this.formGroup.value;
+    this.entryTemplateModel = this.formGroup.value;
 
     if (this.isUpdate)
-      this.editEntry();
+      this.editEntryTemplate();
     else
-      this.addNewEntry();
+      this.addNewEntryTemplate();
   }
 
-  addNewEntry() {
+  addNewEntryTemplate() {
     this.showAddLoader = true;
 
-    this.generalService.SaveNewJournalEntry(this.entryModel).subscribe((data: ActionsResponseModel) => {
+    this.generalService.SaveNewJournalEntryTemplate(this.entryTemplateModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         // this.formGroup?.reset();
         //this.initNewForm();
         this.toaster.success(data?.message);
-        this.entryModel.entryNumber = data.number;
-        this.entryModel.journalEntryId = data.id;
-
-        this.initNewForm(this.entryModel)
+        this.entryTemplateModel.journalTemplateId = data.id;
+        this.initNewForm(this.entryTemplateModel)
       }
       else {
         this.toaster.error(data?.message);
@@ -227,18 +216,17 @@ export class CreateJournalEntryComponent implements OnInit {
     });
   }
 
-  editEntry() {
+  editEntryTemplate() {
     this.showAddLoader = true;
-    this.generalService.EditJournalEntry(this.entryModel.journalEntryId, this.entryModel).subscribe((data: ActionsResponseModel) => {
+    this.generalService.EditJournalEntryTemplate(this.entryTemplateModel.journalTemplateId, this.entryTemplateModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         // this.formGroup?.reset();
         // this.initNewForm();
         this.toaster.success(data?.message);
-        // this.getEntryDetailsById();
-        this.entryModel.entryNumber = data.number;
-        this.entryModel.journalEntryId = data.id;
+        // this.getJournalTemplateDetailsById();
+        this.entryTemplateModel.journalTemplateId = data.id;
 
-        this.initNewForm(this.entryModel)
+        this.initNewForm(this.entryTemplateModel)
       }
       else {
         this.toaster.error(data?.message);
@@ -253,37 +241,19 @@ export class CreateJournalEntryComponent implements OnInit {
 
   }
   validateAccounts(): boolean {
-    if (this.entryAccounts?.length === 0 || this.entryAccounts?.every(entry => !entry.accountId)) {
+    if (this.entryTemplateAccounts?.length === 0 || this.entryTemplateAccounts?.every(entry => !entry.accountId)) {
       this.toaster.warning('لا يوجد حسابات');
       return false;
     }
-    if (this.entryAccounts.some(x => !x.credit && !x.debit) || this.difference != 0) {
-      this.toaster.warning('القيد غير متزن');
-      // this.toaster.warning('Please Fill Debtor or Creditor filed for each row');
-      return false;
-    }
-
-    // if (this.difference != 0) {
-    //   this.toaster.warning('Difference Between Debtor and Creditor Must Equals 0');
-    //   return false;
-    // }
-
     return true;
-
   }
-
   addField() {
-    this.entryAccounts.push(
+    this.entryTemplateAccounts.push(
       {
         accountId: null,
         debit: 0,
         credit: 0,
         costCenterId: null,
-        costValue: null,
-        costPercent: null,
-        currencyId: null,
-        accountNumber: null,
-        accountName: null,
         description: '',
       }
     );
@@ -294,11 +264,11 @@ export class CreateJournalEntryComponent implements OnInit {
       list.splice(index, 1);
     this.calcDifference();
   }
-  deleteAllAccounts() { this.entryAccounts = []; this.calcDifference(); }
+  deleteAllAccounts() { this.entryTemplateAccounts = [];this.calcDifference(); }
   calcDifference() {
     let debit = 0;
     let credit = 0;
-    this.entryAccounts.forEach(item => {
+    this.entryTemplateAccounts.forEach(item => {
       debit += item.debit ? Number(item.debit) : 0;
       credit += item.credit ? Number(item.credit) : 0;
     });
@@ -311,40 +281,4 @@ export class CreateJournalEntryComponent implements OnInit {
     let result = patt.test(key);
     return result;
   }
-
-  inputFocus() {
-    // if (this.entryAccounts.length > 0) {
-    //   setTimeout(() => {
-    //     let inputEls = this.inputs.toArray();
-    //     inputEls[0].nativeElement.focus();
-    //   }, 1);
-    // }
-  }
-
-
-
-  focusDownAndUp(elementId: any, index: number, type: string) {
-    // let inputEls: any;
-    // let eventElement = [this.inputs, this.inputs2, this.inputs3];
-    // let input = eventElement.find(i => i._results[0].nativeElement.id == elementId);
-    // inputEls = input.toArray();
-    // if (type == 'down')
-    //   index = Math.min(index + 1, this.entryAccounts.length - 1);
-    // else
-    //   index = Math.max(0, index - 1);
-    // inputEls[index].nativeElement.focus();
-
-  }
-
-  focusLeftAndRight(elementId: any, index: number) {
-    // let inputEls: any;
-    // let eventElement = [this.inputs, this.inputs2, this.inputs3];
-    // let input = eventElement.find(i => i._results[0].nativeElement.id == elementId);
-    // inputEls = input.toArray();
-    // inputEls[index].nativeElement.focus();
-  }
-
-
-
-
 }

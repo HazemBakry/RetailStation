@@ -1,0 +1,217 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+        <div class="col-md-8 mb-2">
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3"
+                    routerLink="/general-accounts/new-entry-template">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>إضافة قالب</span>
+                </button>
+                <!-- <button [disabled]="showExportLoader" (click)="exportData()"
+                    class="btn  btn-outline-success d-flex align-items-center gap-2 border rounded px-3">
+                    <i class="fas fa-file-download"></i>
+                    <span>تصدير CSV</span>
+                </button> -->
+                <!-- <div ngbDropdown class="d-inline-block">
+                    <button type="button"
+                        class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3"
+                        id="dropdownBasic1" ngbDropdownToggle>
+                        <i class="fas fa-cogs"></i>
+                        <span>الإجراءات</span>
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="border rounded">
+                        <button ngbDropdownItem class="d-flex align-items-center gap-2" (click)="deletee()">
+                            <i class="fas fa-trash-alt"></i>
+                            <i class="fas fa-times"></i>
+                            <span class="px-2"> حذف</span>
+                        </button>
+                       
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <div class="col-md-4 mb-2">
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
+                [pageSize]="pagedResponseModel.pageSize"
+                [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+        </div>
+        <div class="col-md-12 mt-3">
+            <div class="d-flex align-items-center">
+                <!-- <ng-container>
+                    <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"
+                        [searchPlaceholder]="'البحث برقم القيد ...'"></app-erp-filters>
+                </ng-container> -->
+            </div>
+        </div>
+    </div>
+    <div class="p-3 bg-white">
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+                <thead>
+                    <tr>
+                        
+                        <th>اسم القالب بالعربي</th>
+                        <th>اسم القالب بالانجليزي</th>
+                        <th>نوع القيد</th>
+                        <th>الرقم الدفتري</th>
+                        <th>ملاحظات</th>
+                        <th>ِعمليات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let item of pagedResponseModel.results">
+                        <tr>
+                            <td>{{item.nameAR}}</td>
+                            <td>{{item.nameEN}}</td>
+                            <td>{{item.journalTypeAR ||item.journalTypeEN }}</td>
+                            <td>{{item.docNumber}}</td>
+                            <td>{{item.description}}</td>
+                            <td>
+                                <div class="w-100 d-flex align-items-center justify-content-center">
+                                    <button (click)="openSidePanel(item.journalTemplateId)"
+                                        class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+                                        <i class="fas fa-eye"></i>
+                                        <span>معاينة</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="!pagedResponseModel.results.length">
+                            <td colspan="6" class="text-right">
+                                <app-empty-data [showEmptyData]="!pagedResponseModel.results.length"></app-empty-data>
+                            </td>
+                        </tr>
+
+                    </ng-container>
+
+                </tbody>
+            </table>
+            <!-- <app-empty-data [showEmptyData]="!pagedResponseModel.results.length && !showLoader"></app-empty-data> -->
+
+        </div>
+    </div>
+</div>
+
+<ngx-loading [show]="showLoader"></ngx-loading>
+
+
+<ng-template #DetailsSidePanel let-offcanvas>
+    <div class="offcanvas-header justify-content-between gap-3 fs-4 border-bottom py-3">
+        <div class="d-flex align-items-center gap-2">
+            <i class="fas fa-info-circle offcanvas-header-icon"></i>
+            <span>
+                {{selectedEntryTemplateModel.nameEN}}
+            </span>
+        </div>
+        <div class="cursor-pointer text-danger fs-2" (click)="offcanvas.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="offcanvas-body pt-4 bg-light">
+
+        <div *ngIf="selectedEntryTemplateModel" class="employee-card-body mb-3">
+            <div class="inputs-wrapper border rounded bg-white mb-3">
+                <div class="inputs-sec-content px-3 py-3">
+                    <div class="row gy-3">
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">اسم القالب بالعربي</label>
+                                <input type="text" disabled class="form-control nw-form-input"
+                                    ngModel={{selectedEntryTemplateModel?.nameAR}} />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">اسم القالب بالانجليزي</label>
+                                <input type="text" disabled class="form-control nw-form-input"
+                                    ngModel={{selectedEntryTemplateModel?.nameEN}} />
+                            </div>
+                        </div>
+                      
+                        <div class="col-lg-12">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    البيان
+                                </label>
+                                <input type="text" disabled class="form-control nw-form-input description-area"
+                                    ngModel={{selectedEntryTemplateModel?.description}} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start m-3">
+                    <button (click)="offcanvas.dismiss()" routerLink="/general-accounts/new-entry-template"
+                        [queryParams]="{JournalTemplateId:selectedEntryTemplateModel?.journalTemplateId}"
+                        class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
+                        <i class="uil uil-pen"></i>
+                        <span>تعديل</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <hr class="border-black" />
+
+        <div class="inputs-wrapper border rounded bg-white mb-3">
+            <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">الحسابات</div>
+            <div class="inputs-sec-content px-3 py-2 table-responsive table-vp-height small-scroll">
+                <table class="table table-bordered table-middle text-center table-actions m-0">
+                    <thead>
+                        <tr>
+                            <th>
+                                الحساب
+                            </th>
+                            <th>
+                                مدين
+                            </th>
+                            <th>
+                                دائن
+                            </th>
+                            <th>مركز التكلفة</th>
+                            <th style="width: 290px;">ملاحظات</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr class="row-hover"
+                            *ngFor="let item of selectedEntryTemplateModel?.accounts ;let i = index">
+                            <td style="width: 300px;">
+                                <span appGoToAccountReport [accountId]="item.accountId">{{item.accountNameAR ?? item.accountNameEN}}</span>
+
+                                <!-- {{item.accountName}} - {{item.accountNumber}} -->
+                            </td>
+
+                            <td>
+                                {{item.debit}}
+                            </td>
+                            <td>
+                                {{item.credit}}
+
+                            </td>
+                            <td>
+                                {{item.costCenterName}}
+                            </td>
+                            <td>
+                                {{item.description}}
+                            </td>
+                        </tr>
+                        <tr *ngIf="!selectedEntryTemplateModel?.accounts?.length">
+                            <td colspan="5" class="text-right">
+                                <app-empty-data
+                                    [showEmptyData]="!selectedEntryTemplateModel?.accounts?.length"></app-empty-data>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+
+
+            </div>
+        </div>
+    </div>
+
+</ng-template>

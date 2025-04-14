@@ -146,7 +146,7 @@ namespace MasterErp.Entities.Models
         public DbSet<CostCenterTree> CostCenterTree { get; set; }
         public DbSet<JournalEntry> JournalEntries { get; set; }
         public DbSet<JournalEntryDetail> JournalEntryDetails { get; set; }
-        public DbSet<JournalTemplate> JournalTemplate { get; set; }
+        public DbSet<JournalTemplate> JournalTemplates { get; set; }
         public DbSet<JournalTemplateDetails> JournalTemplateDetails { get; set; }
         public DbSet<LedgerJournalType> LedgerJournalTypes { get; set; }
 

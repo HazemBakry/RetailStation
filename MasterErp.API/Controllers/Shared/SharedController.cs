@@ -61,6 +61,12 @@ namespace MasterErp.API.Controllers.Shared
         {
             return _sharedService.GetCostCenterSelector(IsParent);
         }
+        [HttpGet]
+        [Route("GetJournalTemplatesSelector")]
+        public List<SelectorDataModel> GetJournalTemplatesSelector()
+        {
+            return _sharedService.GetJournalTemplatesSelector();
+        }
 
         [HttpGet]
         [Route("GetFinancialPeriods")]

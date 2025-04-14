@@ -127,6 +127,9 @@ export class SharedService {
   GetCostCenterSelector(IsParent: boolean = false) {
     return this.http.get<any[]>(this.URL + 'Shared/GetCostCenterSelector?IsParent=' + IsParent);
   }
+  GetJournalTemplatesSelector() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetJournalTemplatesSelector');
+  }
 
   GetBranchesSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetBranchesSelector');

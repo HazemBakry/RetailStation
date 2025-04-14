@@ -11,7 +11,7 @@ import { AccountTreeModel } from '../models/GeneralAccounts/AccountTree';
 import { AccountOpeningBalanceModel } from '../models/GeneralAccounts/OpeningBalance';
 import { CostCenterTreeModel } from '../models/GeneralAccounts/CostCenter';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
-import { JournalTemplateDetails } from '../models/GeneralAccounts/JournalTemplateDetailsModel';
+import { JournalTemplateDetailsModel, JournalTemplateModel } from '../models/GeneralAccounts/JournalTemplateDetailsModel';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 import { AccountsAssistantLedgerModel, AccountsBalanceSheetModel, AccountsGeneralLedgerModel, AccountsReportSearchFilterModel, AccountsTrialBalanceModel, CostAssistantLedgerModel, CostGeneralLedgerModel, CostTrialBalanceModel } from '../models/GeneralAccounts/AccountsReportSearchFilterModel';
 
@@ -81,13 +81,22 @@ export class GeneralAccountService {
     return this.http.get<any[]>(this.URL + 'JournalEntry/GetCurrencyList');
   }
 
-  GetSavedJournalTemplates() {
-    return this.http.get<any[]>(this.URL + 'JournalEntry/GetSavedJournalTemplates');
+  GetSavedJournalTemplates(model: PagedResponseDTO<JournalTemplateModel[]>) {
+    return this.http.post<PagedResponseDTO<JournalTemplateModel[]>>(this.URL + 'JournalEntry/GetSavedJournalTemplates',model);
   }
 
-  GetAccountsByTemplateId(templateId: number) {
-    return this.http.get<JournalTemplateDetails[]>(this.URL + 'JournalEntry/GetAccountsByTemplateId?templateId=' + templateId);
+  GetJournalTemplateDetailsById(templateId: number) {
+    return this.http.get<JournalTemplateModel>(this.URL + 'JournalEntry/GetJournalTemplateDetailsById?templateId=' + templateId);
   }
+
+  SaveNewJournalEntryTemplate(model: JournalTemplateModel) {
+    return this.http.post<any>(this.URL + 'JournalEntry/SaveNewJournalEntryTemplate', model);
+  }
+  EditJournalEntryTemplate(journalEntryId:number,model: JournalTemplateModel) {
+    return this.http.post<any>(this.URL + 'JournalEntry/EditJournalEntryTemplate?EntryId='+journalEntryId, model);
+  }
+
+
 
   SaveNewJournalEntry(model: JournalEntryModel) {
     return this.http.post<any>(this.URL + 'JournalEntry/SaveNewJournalEntry', model);

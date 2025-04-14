@@ -12,7 +12,6 @@ import { CreatePaymentReceiptComponent } from './components/create-payment-recei
 import { CreateReceiveReceiptComponent } from './components/create-receive-receipt/create-receive-receipt.component';
 import { JournalDailyListComponent } from './components/journal-daily-list/journal-daily-list.component';
 import { MonthlyAssistantLedgerComponent } from './components/monthly-assistant-ledger/monthly-assistant-ledger.component';
-import { NewEntryComponent } from './components/new-entry/new-entry.component';
 import { PaymentReceiptsComponent } from './components/payment-receipts/payment-receipts.component';
 import { ReceiveReceiptsComponent } from './components/receive-receipts/receive-receipts.component';
 import { TrialBalanceComponent } from './components/trial-balance/trial-balance.component';
@@ -42,13 +41,14 @@ import { CreateJournalEntryComponent } from './components/create-journal-entry/c
 import { PaymentOrdersComponent } from './components/payment-orders/payment-orders.component';
 import { CreatePaymentOrderComponent } from './components/create-payment-order/create-payment-order.component';
 import { BalanceSheetComponent } from './components/balance-sheet/balance-sheet.component';
+import { CreateJournalEntryTemplateComponent } from './components/create-journal-entry-template/create-journal-entry-template.component';
+import { JournalEntryTemplatesComponent } from './components/journal-entry-templates/journal-entry-templates.component';
 
 
 @NgModule({
   declarations: [
     GeneralAccountsLayoutComponent,
     CostCenterTreeComponent,
-    NewEntryComponent,
     JournalDailyListComponent,
     CreateReceiveReceiptComponent,
     CreatePaymentOrderComponent,
@@ -82,7 +82,9 @@ import { BalanceSheetComponent } from './components/balance-sheet/balance-sheet.
     CustomersComponent,
     BatchesComponent,
     CreateJournalEntryComponent,
-    BalanceSheetComponent
+    BalanceSheetComponent,
+    CreateJournalEntryTemplateComponent,
+    JournalEntryTemplatesComponent
   ],
   imports: [
     CommonModule,

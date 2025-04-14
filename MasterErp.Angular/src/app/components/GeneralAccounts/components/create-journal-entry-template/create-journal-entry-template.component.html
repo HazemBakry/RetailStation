@@ -1,0 +1,224 @@
+<app-breadcrumb [TitleList]="titleList"></app-breadcrumb>
+
+
+<div class="inputs-wrapper border rounded bg-white mb-3">
+    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">انشاء قالب قيد اليومية</div>
+    <div class="inputs-sec-content px-3 py-2">
+        <form [formGroup]="formGroup" autocomplete="off">
+
+            <div class="row gy-3">
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            اسم القالب بالانجليزي
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control nw-form-input" formControlName="nameEN"
+                            autocomplete="off" />
+
+                        <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
+                            {{formErrors.nameEN}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            اسم القالب بالعربي
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control nw-form-input" formControlName="nameAR"
+                            autocomplete="off" />
+
+                        <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
+                            {{formErrors.nameAR}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            نوع القيد
+                            <span class="text-danger">*</span>
+                        </label>
+                        <app-general-selector formControlName="journalTypeId" [data]="journalEntryTypesSelector"
+                            [placeholder]="'نوع القيد'"></app-general-selector>
+
+                        <div *ngIf="formErrors.journalTypeId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.journalTypeId}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            رقم الدفتر
+                        </label>
+                        <input type="text" class="form-control nw-form-input" formControlName="docNumber"
+                            autocomplete="off" />
+
+                        <div *ngIf="formErrors.docNumber" class="text-danger  font-small-3 m-03">
+                            {{formErrors.docNumber}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            البيان
+                        </label>
+                        <input type="text" class="form-control nw-form-input description-area"
+                            formControlName="description" autocomplete="off" />
+                        <!-- <textarea class="form-control" placeholder="Description *" formControlName="description"
+                            autocomplete="off"></textarea> -->
+                        <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
+                            {{formErrors.description}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-top mb-2">
+        <button class="btn btn-primary btn-lg fs-6 me-2 mt-2" (click)="saveEntryTemplate()">
+            <i class="fas fa-check-circle"></i>
+            <span class="ms-2" *ngIf="!isUpdate">إضافة</span>
+            <span class="ms-2" *ngIf="isUpdate">تعديل</span>
+        </button>
+
+        <button class="btn btn-warning btn-lg fs-6 me-2 mt-2"
+            *ngIf="!entryTemplateModel?.journalTemplateId &&!showLoader" (click)="initNewForm()">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">مسح</span>
+        </button>
+
+        <button class="btn btn-secondary btn-lg fs-6 me-2 mt-2">
+            <i class="fas fa-print"></i>
+            <span class="ms-2">طباعة</span>
+        </button>
+    </div>
+</div>
+
+
+<div class="inputs-wrapper border rounded bg-white mb-3">
+    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">الحسابات</div>
+    <div class="inputs-sec-content px-3 py-2 table-responsive table-vp-height small-scroll">
+        <table class="table table-bordered table-middle text-center table-actions m-0">
+            <thead>
+                <tr>
+                    <th>
+                        الحساب
+                        <span class="text-danger">*</span>
+                    </th>
+                    <th>
+                        مدين
+                        <span class="text-danger">*</span>
+                    </th>
+                    <th>
+                        دائن
+                        <span class="text-danger">*</span>
+                    </th>
+                    <th>مركز التكلفة</th>
+                    <th style="width: 290px;">ملاحظات</th>
+                    <th>العملية</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr class="row-hover" *ngFor="let item of entryTemplateAccounts;let i = index">
+                    <td style="width: 300px;">
+                        <app-general-selector [showSearch]="true" [(ngModel)]="item.accountId" [data]="accountsSelector"
+                            [placeholder]="'الحسابات'"></app-general-selector>
+                    </td>
+
+                    <td>
+                        <input type="text" #inputs class="form-control text-center" [(ngModel)]="item.debit" id="Input1"
+                            autocomplete="off" (input)="calcDifference()" (keypress)="validateNumbers($event.key)"
+                            [disabled]="item.credit > 0">
+                    </td>
+                    <td>
+                        <input type="text" #inputs2 class="form-control text-center" [(ngModel)]="item.credit"
+                            id="Input2" autocomplete="off" (input)="calcDifference()"
+                            (keypress)="validateNumbers($event.key)" [disabled]="item.debit > 0">
+                    </td>
+                    <td>
+                        <!-- <app-erp-selector-with-search [ItemsList]="CostCenterList" [SelectorName]="'مركز التكلفة'" [SearchKey]="'costCenterNumber'" [Height]="'30px'" (ItemObj)="GetSelectedCostCenter($event,item)"></app-erp-selector-with-search> -->
+                        <app-general-selector [(ngModel)]="item.costCenterId" [data]="costCenterSelector"
+                            [showSearch]="true" [placeholder]="'مراكز التكلفة'"></app-general-selector>
+
+
+                    </td>
+                    <td>
+                        <input type="text" class="form-control nw-form-input" [(ngModel)]="item.description"
+                            placeholder="Description *" autocomplete="off" />
+                    </td>
+                    <td class="justify-content-center d-flex">
+                        <button
+                            class="button-table-action mt-1 btn-delete d-flex align-items-center justify-content-center gap-2"
+                            (click)="deleteFromList(entryTemplateAccounts,i)">
+                            <i class="fas fa-times fs-5"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="!entryTemplateAccounts.length">
+                    <td colspan="6" class="text-right">
+                        <app-empty-data [showEmptyData]="!entryTemplateAccounts.length"></app-empty-data>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+
+
+
+    </div>
+    <div class="p-2">
+        <div class="d-flex">
+
+            <div class="me-1 ms-2">
+                <button class="button-table-action mt-3 btn-edit d-flex align-items-center justify-content-center gap-2"
+                    (click)="addField()">
+                    <i class="uil uil-plus fs-5"></i>
+                    <span>اضافة حساب</span>
+                </button>
+                <div *ngIf="formErrors.accounts&&!entryTemplateAccounts?.length" class="text-danger  font-small-3 m-03">
+                    {{formErrors.accounts}}
+                </div>
+            </div>
+            <button *ngIf="entryTemplateAccounts.length"
+                class="button-table-action mt-3 btn-delete d-flex align-items-center justify-content-center gap-2"
+                (click)="entryTemplateAccounts = [];calcDifference()">
+                <i class="fas fa-times fs-5"></i>
+                حذف الكل
+            </button>
+        </div>
+
+    </div>
+    <hr />
+    <div class="row justify-content-end m-3">
+        <div class="col-md-2">
+            <label class="form-label d-flex align-items-center gap-2">
+                أجمالي دائن
+            </label>
+            <input type="text" class="form-control nw-form-input" [value]="totalCredit" disabled autocomplete="off" />
+        </div>
+        <div class="col-md-2">
+            <label class="form-label d-flex align-items-center gap-2">
+                أجمالي مدين
+            </label>
+            <input type="text" class="form-control nw-form-input" [value]="totalDebit" disabled autocomplete="off" />
+        </div>
+    </div>
+    <div class="row justify-content-end mb-3">
+
+    </div>
+
+</div>
+
+
+
+
+<ngx-loading [show]="showLoader"></ngx-loading>
