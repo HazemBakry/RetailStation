@@ -175,8 +175,11 @@ export class CreatePaymentOrderComponent implements OnInit {
       if (data) {
         this.purchaseInvoiceModel = data;
         this.formGroup?.patchValue({
-          moneyAmount: this.purchaseInvoiceModel.totalValue
+          moneyAmount: this.purchaseInvoiceModel.totalValue,
+          agencyTypeId: 2,
+          supplierId: this.purchaseInvoiceModel.supplierId,
         });
+        // this.formGroup?.get('moneyAmount')?.disable();
       }
       this.showLoader = false;
     }, err => {

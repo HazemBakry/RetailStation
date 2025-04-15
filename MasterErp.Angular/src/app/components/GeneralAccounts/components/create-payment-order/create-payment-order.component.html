@@ -61,6 +61,7 @@
 
                         <app-general-selector formControlName="agencyTypeId" [data]="agencyTypeList"
                             (valueChanged)="getSelectedAgencyType($event)"
+                            [disabled]="purchaseInvoiceId"
                             [placeholder]="'نوع جهة التعامل '"></app-general-selector>
                         <div *ngIf="formErrors.agencyTypeId" class="text-danger  font-small-3 m-03">
                             {{formErrors.agencyTypeId}}
@@ -77,7 +78,7 @@
                         <div *ngIf="formErrors.accountId" class="text-danger  font-small-3 m-03">
                             {{formErrors.accountId}}
                         </div>
-                        <app-general-selector *ngIf="formGroup?.value?.agencyTypeId == 2" formControlName="supplierId"
+                        <app-general-selector *ngIf="formGroup?.value?.agencyTypeId == 2" [disabled]="purchaseInvoiceId" formControlName="supplierId"
                             [data]="supplierList" [placeholder]="'جهة التعامل'">
                         </app-general-selector>
                         <div *ngIf="formErrors.supplierId" class="text-danger  font-small-3 m-03">
