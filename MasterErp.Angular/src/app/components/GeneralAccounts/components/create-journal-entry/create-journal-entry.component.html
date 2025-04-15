@@ -2,7 +2,34 @@
 
 
 <div class="inputs-wrapper border rounded bg-white mb-3">
-    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">قيد اليومية</div>
+    <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
+
+        <h5 class="mb-0 fw-bold">
+            <span class="ms-3">
+                انشاء قيد يومية جديد
+            </span>
+        </h5>
+        <div ngbDropdown class="d-inline-block">
+            <button type="button" class="btn btn-table-action m-2 d-flex align-items-center gap-2 border rounded px-3"
+                id="dropdownBasic1" ngbDropdownToggle>
+                <i class="fas fa-cogs"></i>
+                <span>الإجراءات</span>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="border rounded">
+
+                <button ngbDropdownItem (click)="openTemplatesModal(TemplatesModal)">
+                    <i class="fas fa-download"></i>
+                    <span class="px-2">
+                        القوالب
+                    </span>
+                </button>
+
+            </div>
+        </div>
+
+
+    </div>
+
     <div class="inputs-sec-content px-3 py-2">
         <form [formGroup]="formGroup" autocomplete="off">
 
@@ -258,5 +285,27 @@
 </div> -->
 
 
+<ng-template #TemplatesModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">اختر من القوالب</h4>
+    </div>
+    <div class="modal-body">
+        <div style="margin-bottom: 150px;">
 
+            <!-- (valueChanged)="journalTemplatesChanged($event)" -->
+            <app-general-selector [(ngModel)]="selectedTemplateId" [showSearch]="true" [data]="journalTemplatesSelector"
+                 [placeholder]="'القوالب'"></app-general-selector>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click');getAccountsByTemplateId(selectedTemplateId)">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">حفظ</span>
+        </button>
+        <!-- <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">لا</span>
+        </button> -->
+    </div>
+</ng-template>
 <ngx-loading [show]="showLoader"></ngx-loading>

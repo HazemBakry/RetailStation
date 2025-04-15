@@ -35,7 +35,7 @@ export class CreateJournalEntryComponent implements OnInit {
   journalTemplatesSelector: FormDropdownModel[] = [];
 
   journalTemplates: any[] = [];
-
+  selectedTemplateId:number ;
   formData: FormData = new FormData();
   public formGroup: FormGroup;
   isUpdate: boolean = false;
@@ -129,7 +129,14 @@ export class CreateJournalEntryComponent implements OnInit {
             credit: entryAccount.credit,
             costCenterId: entryAccount.costCenterId,
             description: entryAccount.description,
-          }
+          };
+        });
+        this.formGroup.patchValue({
+          docNumber: data.docNumber,
+          journalTypeId: data.journalTypeId,
+          currencyTypeId: data.currencyTypeId,
+          journalEntryAccounts: this.entryAccounts,
+          description: data.description,
         });
       }
       this.inputFocus();
@@ -345,6 +352,9 @@ export class CreateJournalEntryComponent implements OnInit {
   }
 
 
+  openTemplatesModal(content: any) {
 
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
 
 }
