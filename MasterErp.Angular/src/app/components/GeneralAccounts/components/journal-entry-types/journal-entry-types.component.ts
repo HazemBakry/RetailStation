@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { ToastrService } from 'ngx-toastr';
-import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { GeneralAccountService } from '../../services/general-account.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { JournalEntryTypeModel, } from '../../models/JournalEntryTypeModel';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { PaymentService } from '../../services/payment.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
+import { FormService } from 'src/app/components/Shared/services/form.service';
 
 
 @Component({
@@ -17,26 +20,27 @@ import { PaymentService } from '../../services/payment.service';
 })
 
 export class JournalEntryTypesComponent implements OnInit {
+  TitleList = ['الحسابات العامة', 'أنواع القيود'];
 
-  showLoader: boolean;
+  showLoader: boolean = false;
+  showAddLoader: boolean = false;
 
-  FilterModel: FilterModel = {
-    currentPage: 1,
-    pageSize: 25
-  };
-  pagedResponse: PagedResponseDTO<any[]> = {
+  pagedResponse: PagedResponseDTO<JournalEntryTypeModel[]> = {
     currentPage: 1,
     pageSize: 25,
     results: [],
-    filterList: []
+    filterList: [],
+    searchText: ''
   }
-  journalEntryTypeModel: JournalEntryTypeModel =
-    {} as JournalEntryTypeModel;
+  journalEntryTypeModel: JournalEntryTypeModel = {} as JournalEntryTypeModel;
 
   constructor(private GeneralAccountsService: GeneralAccountService, private toaster: ToastrService,
     private sharedService: SharedService,
     private modalService: NgbModal,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private form: FormBuilder,
+    private _FormService: FormService,
+    private datePipe: DatePipe,
   ) { }
 
   ngOnInit(): void {
@@ -45,13 +49,10 @@ export class JournalEntryTypesComponent implements OnInit {
 
   loadData() {
     this.showLoader = true;
-    this.GeneralAccountsService.GetJournalEntryTypesData(this.FilterModel).subscribe((data: any) => {
+    this.GeneralAccountsService.GetJournalEntryTypesData(this.pagedResponse).subscribe((data: any) => {
       this.pagedResponse.results = data.results;
       this.pagedResponse.totalCount = data.totalCount;
-      this.pagedResponse.currentPage = data.currentPage;
-      this.pagedResponse.pageSize = data.pageSize;
-      this.pagedResponse.totalPages = data.totalPages;
-      // this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
+
       this.showLoader = false;
     }, (err) => {
       this.showLoader = false;
@@ -61,57 +62,164 @@ export class JournalEntryTypesComponent implements OnInit {
   }
 
   pageChanged(obj: any) {
-    this.FilterModel.currentPage = obj.page;
+    this.pagedResponse.currentPage = obj.page;
     this.loadData();
   }
 
-  CreateNewJournalEntryType() {
-    if (!this.validateFields()) {
+  ////////////////////////////  Actions /////////////////////////////
+
+
+  isUpdate: boolean = false;
+  public formGroup: FormGroup;
+  public formErrors = {
+    journalTypeId: '',
+    code: '',
+    nameAR: '',
+    nameEN: '',
+    isActive: '',
+    notes: '',
+
+  };
+  selectedEntryTypeId: number;
+  openAddModal(content: any, journalEntryTypeModel: JournalEntryTypeModel = null) {
+    this.loadSelectors();
+    this.isUpdate = false;
+    this.buildForm();
+    if (journalEntryTypeModel)
+      this.fillEditForm(journalEntryTypeModel);
+
+    this.modalService.open(content, { centered: true, size: 'lg', fullscreen: 'lg' });
+  }
+  loadSelectors() {
+
+  }
+  buildForm() {
+    this.formGroup = this.form.group({
+      journalTypeId: [null],
+      code: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      nameAR: [null, [Validators.required]],
+      nameEN: [null, [Validators.required]],
+      isActive: [true, [Validators.required]],
+      notes: [null],
+
+    });
+    this.formGroup.valueChanges.subscribe((data) => {
+      this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
+
+    });
+
+  }
+
+  saveRecord() {
+    if (!this.validateForm()) {
       return;
     }
+    this.journalEntryTypeModel = this.formGroup.value;
+    if (this.journalEntryTypeModel?.journalTypeId)
+      this.editNewEntryType();
+    else
+      this.addNewEntryType();
+  }
+
+  addNewEntryType() {
+
+    this.showAddLoader = true;
     this.GeneralAccountsService
-      .CreateNewJournalEntryType(this.journalEntryTypeModel)
-      .subscribe((data: ActionsResponseModel) => {
-        if (data?.status) {
-          this.ClearAllFields();
+      .CreateNewJournalEntryType(this.journalEntryTypeModel).subscribe(data => {
+        if (data?.isSuccess) {
+          this.formGroup?.reset();
+          this.modalService?.dismissAll();
+          this.loadData();
           this.toaster.success(data?.message);
-        } else {
+        }
+        else {
           this.toaster.error(data?.message);
         }
-        this.modalService.dismissAll();
-        this.loadData();
+        this.showAddLoader = false;
+      }, err => {
+        this.showAddLoader = false;
+      }, () => {
+        this.showAddLoader = false;
       });
+
+
+
   }
 
+  editNewEntryType() {
 
-  validateFields(): boolean {
-    let model: JournalEntryTypeModel = this.journalEntryTypeModel;
 
-    if (
-      !model.code ||
-      !model.nameEN ||
-      !model.nameAR
-    ) {
-      this.toaster.warning('يرجي ملئ جميع الخانات');
+    this.showAddLoader = true;
+    this.GeneralAccountsService
+      .EditJournalEntryType(this.journalEntryTypeModel.journalTypeId, this.journalEntryTypeModel).subscribe(data => {
+
+        if (data?.isSuccess) {
+          // this.formGroup?.reset();
+          this.isUpdate = false;
+          this.modalService?.dismissAll();
+          this.formGroup?.reset();
+          this.toaster.success(data?.message);
+
+          this.loadData();
+        }
+        else {
+          this.toaster.error(data?.message);
+        }
+        this.showAddLoader = false;
+      }, err => {
+        this.showAddLoader = false;
+      }, () => {
+        this.showAddLoader = false;
+      });
+
+
+  }
+
+  validateForm(): boolean {
+    this._FormService.markFormGroupTouched(this.formGroup);
+    if (this.formGroup.valid) {
+      return true;
+    } else {
+      this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, false)
       return false;
     }
-    return true;
-  }
-  ClearAllFields() {
-    this.journalEntryTypeModel = {} as JournalEntryTypeModel;
-
-  }
-  openModal(content: any) {
-
-    this.ClearAllFields();
-    this.modalService.open(content, { centered: true, size: 'lg' });
   }
 
-  getStatusColor(status: boolean) {
-    if (status == true)
-      return "locked";
-    else
-      return "open";
+  fillEditForm(journalEntryTypeModel: JournalEntryTypeModel) {
+    this.isUpdate = true;
+
+    this.formGroup.patchValue({
+      journalTypeId: journalEntryTypeModel.journalTypeId,
+      code: journalEntryTypeModel.code,
+      nameAR: journalEntryTypeModel.nameAR,
+      nameEN: journalEntryTypeModel.nameAR,
+      isActive: journalEntryTypeModel.isActive,
+
+    });
+  }
+  openDeleteModal(content: any, id: number) {
+    this.selectedEntryTypeId = id;
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+
+  deleteEntryType() {
+    this.showAddLoader = true;
+    this.GeneralAccountsService.DeleteJournalEntryType(this.selectedEntryTypeId).subscribe(data => {
+
+      if (data?.isSuccess) {
+        this.modalService?.dismissAll();
+        this.loadData();
+        this.toaster.success(data?.message);
+      }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
+    });
   }
 
 }

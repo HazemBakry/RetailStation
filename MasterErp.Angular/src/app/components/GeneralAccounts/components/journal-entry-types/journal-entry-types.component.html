@@ -1,133 +1,186 @@
-<div class="card radius-10 border-0 card-shadow mb-3">
-    <div class="boxstyle1">
-        <div class="boxstyle1-header bg-light">
-            <div class="boxstyle1-header-left mb-3">
-                <button class="btn btn-primary" (click)="openModal(CreateNewReceiptLedgerModal)">
-                    <i class="fas fa-plus-circle"></i>
-                    <span class="ms-2">أضافة</span>
-                </button>
-            </div>
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2">
+            <button (click)="openAddModal(addNewModal)"
+                class="btn btn-success d-flex align-items-center gap-2 border rounded px-3">
+                <i class="fas fa-plus-circle"></i>
+                <span>إضافة</span>
+            </button>
         </div>
-        <div class="card radius-10 border-0 card-shadow">
-            <div class="card-body">
-                <div class="main-card-action pb-3">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <!-- <div class="col-md-12">
-                                <div class="d-flex align-items-center flex-wrap">
-                                    <ng-container *ngIf="filterList.length > 0">
-                                        <app-pos-filters [FilterList]="filterList"
-                                            (filterChanged)="filterChecked($event)"></app-pos-filters>
-                                    </ng-container>
-                                </div>
-                            </div> -->
-                        </div>
-                        <div class="col-md-4">
-                            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage" [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount" [totalPages]="pagedResponse.totalPages"></app-erp-pagination>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive table-vp-height small-scroll">
-                        <table class="table table-borderless align-middle table-middle mb-0 table-hover">
-                            <thead>
-                                <tr>
-                                    <th>الاسم (AR)</th>
-                                    <th>الاسم (EN)</th>
-                                    <th>الكود</th>
-                                    <th>نشط</th>
-                                    <th>ملاحظات</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of pagedResponse.results">
-                                    <td>{{item.nameAR}}</td>
-                                    <td>{{item.nameEN}}</td>
-                                    <td>{{item.code}}</td>
-                                    <td>{{item.isActive}}</td>
-                                    <td>{{item.notes}}</td>
-                                  
-                                </tr>
-                            </tbody>
-        
-                        </table>
-                    </div>
-                </div>
-                <app-empty-data [showEmptyData]="!pagedResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
-            </div>
+        <div class="justify-content-end">
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage"
+                [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount"></app-erp-pagination>
+        </div>
+    </div>
+    <div class="p-3 bg-white">
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+                <thead>
+                    <tr>
+                        <th>الاسم (AR)</th>
+                        <th>الاسم (EN)</th>
+                        <th>الكود</th>
+                        <th>نشط</th>
+                        <th>ملاحظات</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of pagedResponse.results">
+                        <td>{{item.nameAR}}</td>
+                        <td>{{item.nameEN}}</td>
+                        <td>{{item.code}}</td>
+                        <td>{{item.isActive}}</td>
+                        <td>{{item.notes}}</td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <!-- <button *ngIf="isUpdate"
+                                    class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2"
+                                    (click)="openAddNewImporterSidePanel(AddNewImporterDialog)">
+                                    <i class="uil uil-pen"></i>
+                                    <span>تعديل</span>
+                                </button> -->
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr *ngIf="!pagedResponse.results.length">
+                        <td colspan="6" class="text-right">
+                            <app-empty-data [showEmptyData]="!pagedResponse.results?.length&&!showLoader"
+                                [showLoader]="showLoader"></app-empty-data>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
+<ngx-loading [show]="showLoader"></ngx-loading>
 
-<ng-template #CreateNewReceiptLedgerModal let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">أضافة</h4>
-        <button type="button" class="btn btn-danger py-0 px-3 rounded fs-4 fw-bold" (click)="modal.dismiss()">
-            <i class="uil uil-times"></i>
+
+
+<ng-template #addNewModal let-modal>
+    <div class="modal-header modal-header-bg justify-content-between">
+        <h4 class="d-flex align-items-center gap-2">
+            <i class="uil uil-plus"></i>
+            <span>املأ البيانات الأتية</span>
+            <span *ngIf="!isUpdate" class="ms-3">(إضافة)</span>
+            <span *ngIf="isUpdate" class="ms-3">(تعديل)</span>
+        </h4>
+        <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="modal-body">
+
+        <div class="card ">
+            <!-- <div class="card-header bg-white">
+                <h6 class="fw-bold m-0">
+                    <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
+                    <span *ngIf="isUpdate" class="ms-3">تعديل</span>
+                </h6>
+            </div> -->
+            <!-- bg-light  >> for gray card-->
+            <div class="card-body ">
+                <div class="p-2">
+
+
+                    <form [formGroup]="formGroup" autocomplete="off">
+
+
+                        <div class="row mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                الاسم بالعربي
+                            </label>
+                            <input type="text" class="form-control nw-form-input" formControlName="nameAR"
+                                autocomplete="off" />
+
+                            <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
+                                {{formErrors.nameAR}}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                الاسم بالانجليزي
+                            </label>
+                            <input type="text" class="form-control nw-form-input" formControlName="nameEN"
+                                autocomplete="off" />
+
+                            <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
+                                {{formErrors.nameEN}}
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                الرمز
+                            </label>
+                            <input type="text" class="form-control nw-form-input" formControlName="code"
+                                autocomplete="off" />
+
+                            <div *ngIf="formErrors.code" class="text-danger  font-small-3 m-03">
+                                {{formErrors.code}}
+                            </div>
+
+                        </div>
+                        <div class="row mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                الملاحظات
+                            </label>
+
+                            <textarea formControlName="notes" class="form-control"></textarea>
+                            <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
+                                {{formErrors.notes}}
+                            </div>
+
+                        </div>
+
+
+                        <!-- <div class="row mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                نوع 
+                                <span class="text-danger">*</span>
+                            </label>
+                            <app-general-selector formControlName="accountTypeId" [data]="accountTypesSelectorData" [showSearch]="true" [placeholder]="'نوع الحساب'"></app-general-selector>
+
+                            <div *ngIf="formErrors.accountTypeId" class="text-danger  font-small-3 m-03">
+                                {{formErrors.accountTypeId}}
+                            </div>
+                        </div> -->
+                        <hr class="my-4" />
+                        <div class="row mb-3">
+                            <div class="col-sm-4">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    نشط
+                                </label>
+                                <input class="big-checkbox" formControlName="isActive" type="checkbox">
+
+                                <div *ngIf="formErrors.isActive" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.isActive}}
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer flex-nowrap gap-2">
+        <button [disabled]="showAddLoader" (click)="saveRecord()" type="button"
+            class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
+            <i class="uil uil-save fs-3"></i>
+            <span>{{isUpdate?'تعديل':'أضافة'}}</span>
+        </button>
+
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2"
+            (click)="initNewForm();modal.close()">
+            <i class="uil uil-times-circle fs-3"></i>
+            <span>الغاء</span>
         </button>
     </div>
-    <div class="modal-body bg-light">
-
-        <div class="card-body bg-light">
-            <div class="row mb-3">
-                <div class="col-lg-5 mb-3">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" [(ngModel)]="journalEntryTypeModel.nameAR" placeholder="Arabic Name">
-                        <label>الأسم العربي</label>
-                    </div>
-                </div>
-                <div class="col-lg-5 offset-lg-1">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" [(ngModel)]="journalEntryTypeModel.nameEN" placeholder="English Name">
-                        <label>الأسم الانجليزي</label>
-                    </div>
-                </div>
-              
-            </div>
-            <div class="row mb-3">
-                <div class="col-lg-5 mb-3">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" [(ngModel)]="journalEntryTypeModel.code" placeholder="Code">
-                        <label>الكود</label>
-                    </div>
-                </div>
-
-                <div class="col-lg-5 offset-lg-1">
-                    <div class="form-check form-switch my-2">
-                      <input  [(ngModel)]="journalEntryTypeModel.isActive" class="form-check-input" type="checkbox"
-                        role="switch" id="flexSwitchCheckDefault">
-                      <label class="form-check-label" for="flexSwitchCheckDefault">نشط</label>
-                    </div>
-                </div>
-              
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-lg-9 h-100 ">
-                    <div class="form-floating ">
-                        <textarea [(ngModel)]="journalEntryTypeModel.notes" class="form-control" id="floatingInput6" placeholder="any"></textarea>
-                        <label for="floatingInput6">الملاحظات</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-footer ">
-        <div class="offset-lg-1 boxstyle1-header-left">
-
-            <button class="btn btn-primary btn-lg fs-6 me-2" (click)="CreateNewJournalEntryType()">
-                <i class="fas fa-check-circle"></i>
-                <span class="ms-2">حفظ</span>
-            </button>
-
-            <button class="btn btn-warning btn-lg fs-6 me-2" (click)="ClearAllFields()">
-                <i class="fas fa-times"></i>
-                <span class="ms-2">مسح</span>
-            </button>
-        </div>
-
-    </div>
 </ng-template>
-<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->

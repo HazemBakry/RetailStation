@@ -245,11 +245,17 @@ export class GeneralAccountService {
 
 
   GetJournalEntryTypesData(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'JournalEntryType/GetJournalEntryTypesData', model);
+    return this.http.post<PagedResponseDTO<JournalEntryTypeModel[]>>(this.URL + 'JournalEntryType/GetJournalEntryTypesData', model);
   }
 
   CreateNewJournalEntryType(model: JournalEntryTypeModel) {
-    return this.http.post<any>(this.URL + 'JournalEntryType/CreateNewJournalEntryType', model);
+    return this.http.post<ActionsResponseModel>(this.URL + 'JournalEntryType/CreateNewJournalEntryType', model);
+  }
+  EditJournalEntryType(journalTypeId:number,model: JournalEntryTypeModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `JournalEntryType/EditJournalEntryType?JournalTypeId=${journalTypeId}`, model);
+  }
+  DeleteJournalEntryType(journalTypeId:number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `JournalEntryType/DeleteJournalEntryType?JournalTypeId=${journalTypeId}`);
   }
 
   ////////////////////////  
