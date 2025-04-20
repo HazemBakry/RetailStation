@@ -1,13 +1,24 @@
-<i *ngIf="!isUpdate" class="fas fa-plus cursor-pointer" (click)="openNewSidePanel(addAccountModal)"></i>
-<i *ngIf="isUpdate" class="fas fa-edit cursor-pointer" (click)="openNewSidePanel(addAccountModal)"></i>
+<!-- <i *ngIf="!isUpdate" class="fas fa-plus cursor-pointer" (click)="openNewSidePanel(addAccountModal)"></i>
+<i *ngIf="isUpdate" class="fas fa-edit cursor-pointer" (click)="openNewSidePanel(addAccountModal)"></i> -->
+
+<button class="btn btn-secondary gap-2 border rounded px-3" *ngIf="!isUpdate" (click)="openNewSidePanel(addAccountModal)">
+    <i class="fas fa-plus"></i>
+    <span>إضافة حساب </span>
+</button>
+
+<button class="btn btn-secondary gap-2 border rounded px-3" *ngIf="isUpdate" (click)="openNewSidePanel(addAccountModal)">
+    <i class="fas fa-edit"></i>
+    <span>تعديل</span>
+</button>
+
 
 <ng-template #addAccountModal let-modal>
     <div class="modal-header modal-header-bg justify-content-between">
         <h4 class="d-flex align-items-center gap-2">
             <i class="uil uil-plus"></i>
             <span>املأ البيانات الأتية</span>
-            <span *ngIf="!isUpdate" class="ms-3">(إضافة)</span>
-            <span *ngIf="isUpdate" class="ms-3">(تعديل)</span>
+            <!-- <span *ngIf="!isUpdate" class="ms-3">(إضافة)</span>
+            <span *ngIf="isUpdate" class="ms-3">(تعديل)</span> -->
         </h4>
         <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
             <i class="uil uil-times-circle"></i>
@@ -33,9 +44,7 @@
                                 اسم المجموعة
                                 <!-- <span class="text-danger">*</span> -->
                             </label>
-                            <app-general-selector [disabled]="true" formControlName="parentAccountId"
-                                [data]="parentAccountsSelectorData" [showSearch]="true"
-                                [placeholder]="'نوع الحساب'"></app-general-selector>
+                            <app-general-selector [disabled]="true" formControlName="parentAccountId" [data]="parentAccountsSelectorData" [showSearch]="true" [placeholder]="'نوع الحساب'"></app-general-selector>
 
                             <div *ngIf="formErrors.parentAccountId" class="text-danger  font-small-3 m-03">
                                 {{formErrors.parentAccountId}}
@@ -48,8 +57,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 رمز الحساب
                             </label>
-                            <input type="text" class="form-control nw-form-input" formControlName="accountNumber"
-                                disabled autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input" formControlName="accountNumber" disabled autocomplete="off" />
 
                             <div *ngIf="formErrors.accountNumber" class="text-danger  font-small-3 m-03">
                                 {{formErrors.accountNumber}}
@@ -58,34 +66,31 @@
                         </div>
                         <div class="row mb-3">
                             <label class="form-label d-flex align-items-center gap-2">
-                                اسم الحساب بالعربي
+                                اسم الحساب
                             </label>
-                            <input type="text" class="form-control nw-form-input" formControlName="nameAR"
-                                autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input" formControlName="nameAR" autocomplete="off" />
 
                             <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
                                 {{formErrors.nameAR}}
                             </div>
                         </div>
-                        <div class="row mb-3">
+                        <!-- <div class="row mb-3">
                             <label class="form-label d-flex align-items-center gap-2">
                                 اسم الحساب بالانجليزي
                             </label>
-                            <input type="text" class="form-control nw-form-input" formControlName="nameEN"
-                                autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input" formControlName="nameEN" autocomplete="off" />
 
                             <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
                                 {{formErrors.nameEN}}
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="row mb-3">
                             <label class="form-label d-flex align-items-center gap-2">
                                 نوع الحساب
                                 <span class="text-danger">*</span>
                             </label>
-                            <app-general-selector formControlName="accountTypeId" [data]="accountTypesSelectorData"
-                                [showSearch]="true" [placeholder]="'نوع الحساب'"></app-general-selector>
+                            <app-general-selector formControlName="accountTypeId" [data]="accountTypesSelectorData" [showSearch]="true" [placeholder]="'نوع الحساب'"></app-general-selector>
 
                             <div *ngIf="formErrors.accountTypeId" class="text-danger  font-small-3 m-03">
                                 {{formErrors.accountTypeId}}
@@ -98,8 +103,7 @@
                                 العملة الافتراضية
                                 <!-- <span class="text-danger">*</span> -->
                             </label>
-                            <app-general-selector formControlName="currencyTypeId" [data]="currencyTypesSelectorData"
-                                [showSearch]="true" [placeholder]="'العملة الافتراضية'"></app-general-selector>
+                            <app-general-selector formControlName="currencyTypeId" [data]="currencyTypesSelectorData" [showSearch]="true" [placeholder]="'العملة الافتراضية'"></app-general-selector>
 
                             <div *ngIf="formErrors.currencyTypeId" class="text-danger  font-small-3 m-03">
                                 {{formErrors.currencyTypeId}}
@@ -144,8 +148,7 @@
                                 مركز التكلفة
                                 <!-- <span class="text-danger">*</span> -->
                             </label>
-                            <app-general-selector formControlName="costCenterId" [data]="costCenterSelector"
-                                [showSearch]="true" [placeholder]="'مركز التكلفة'"></app-general-selector>
+                            <app-general-selector formControlName="costCenterId" [data]="costCenterSelector" [showSearch]="true" [placeholder]="'مركز التكلفة'"></app-general-selector>
 
                             <div *ngIf="formErrors.costCenterId" class="text-danger  font-small-3 m-03">
                                 {{formErrors.costCenterId}}
@@ -174,14 +177,12 @@
         </div>
     </div>
     <div class="modal-footer flex-nowrap gap-2">
-        <button [disabled]="showAddLoader" (click)="saveAccount()" type="button"
-            class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
+        <button [disabled]="showAddLoader" (click)="saveAccount()" type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
             <i class="uil uil-save fs-3"></i>
             <span>{{isUpdate?'تعديل':'أضافة'}}</span>
         </button>
 
-        <button type="button" class="btn btn-danger d-flex align-items-center gap-2"
-            (click)="initNewForm();modal.close()">
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="initNewForm();modal.close()">
             <i class="uil uil-times-circle fs-3"></i>
             <span>الغاء</span>
         </button>
