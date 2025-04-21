@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MasterErp.Entities.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Common.Finance.GeneralAccounts
 {
-    public class FinancialPeriodModel
+    public class FinancialPeriodModel : CreatorModel
     {
         public int? FinancialPeriodId { get; set; }
         public string Code { get; set; }
@@ -17,5 +18,6 @@ namespace MasterErp.Entities.Common.Finance.GeneralAccounts
         public bool IsLocked { get; set; }
         public bool IsActive { get; set; }
         public string Notes { get; set; }
+        public int? TotalCount { get; set; }
     }
 }

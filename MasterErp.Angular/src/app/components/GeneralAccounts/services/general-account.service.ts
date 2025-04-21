@@ -244,7 +244,7 @@ export class GeneralAccountService {
   ////////////////////////  
 
 
-  GetJournalEntryTypesData(model: FilterModel) {
+  GetJournalEntryTypesData(model: PagedResponseDTO<JournalEntryTypeModel[]>) {
     return this.http.post<PagedResponseDTO<JournalEntryTypeModel[]>>(this.URL + 'JournalEntryType/GetJournalEntryTypesData', model);
   }
 
@@ -261,14 +261,20 @@ export class GeneralAccountService {
   ////////////////////////  
 
 
-  GetFinancialPeriodsData(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'FinancialPeriod/GetFinancialPeriodsData', model);
+  GetFinancialPeriodsData(model: PagedResponseDTO<FinancialPeriodModel[]>) {
+    return this.http.post<PagedResponseDTO<FinancialPeriodModel[]>>(this.URL + 'FinancialPeriod/GetFinancialPeriodsData', model);
   }
 
   CreateNewFinancialPeriod(model: FinancialPeriodModel) {
-    return this.http.post<any>(this.URL + 'FinancialPeriod/CreateNewFinancialPeriod', model);
+    return this.http.post<ActionsResponseModel>(this.URL + 'FinancialPeriod/CreateNewFinancialPeriod', model);
   }
 
+  EditFinancialPeriod(financialPeriodId:number,model: FinancialPeriodModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `FinancialPeriod/EditFinancialPeriod?FinancialPeriodId=${financialPeriodId}`, model);
+  }
+  DeleteFinancialPeriod(financialPeriodId:number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `FinancialPeriod/DeleteFinancialPeriod?FinancialPeriodId=${financialPeriodId}`);
+  }
 
   ///////////////////// OpeningBalance
 

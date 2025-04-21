@@ -12,9 +12,12 @@
 <div *ngIf="showLoader && !showEmptyData">
     <div class="prcs flex-box  hastable loading-mess-stl ">
         <div class="prcs-lbl-container">
-            <span class="prcs-lbl" id="prcs_lbl">Loading Data ...</span>
+            <!-- <span class="prcs-lbl" id="prcs_lbl">Loading Data ...</span> -->
+            <span class="prcs-lbl" id="prcs_lbl">جاري تحميل البيانات ...</span>
         </div>
-        <app-erp-spinner-component></app-erp-spinner-component>
+        <div class="d-flex align-items-center justify-content-center">
+            <app-erp-spinner-component></app-erp-spinner-component>
+        </div>
 
     </div>
 </div>

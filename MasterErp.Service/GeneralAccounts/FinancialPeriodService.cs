@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Finance.GeneralAccounts;
+using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.Common;
@@ -37,25 +38,32 @@ namespace MasterErp.Service.GeneralAccounts
         }
 
 
-        public PagedResponseModel<FinancialPeriod> GetFinancialPeriodsData(FilterModel Model)
+        public List<FinancialPeriodModel> GetFinancialPeriodsData(SearchFilterModel SearchModel)
         {
-            int totalCount = Context.FinancialPeriods.Count();
 
-            int skip = (Model.CurrentPage - 1) * Model.PageSize;
-
-            var data = Context.FinancialPeriods
-                .OrderByDescending(e => e.NameEN)
-                .Skip(skip)
-                .Take(Model.PageSize)
-            .ToList();
-
-            return new PagedResponseModel<FinancialPeriod>
+            var query = Context.FinancialPeriods.Select(period => new FinancialPeriodModel
             {
-                TotalCount = totalCount,
-                Results = data,
-                CurrentPage = Model.CurrentPage,
-                PageSize = Model.PageSize
-            };
+                FinancialPeriodId = period.FinancialPeriodId,
+                NameAR = period.NameAR,
+                NameEN = period.NameEN,
+                Code = period.Code,
+                StartDate = period.StartDate,
+                EndDate = period.EndDate,
+                IsLocked = period.IsLocked,
+                IsActive = period.IsActive,
+                Notes = period.Notes,
+            });
+            int totalCount = query.Count();
+            if (SearchModel.CurrentPage > 0 && SearchModel.PageSize > 0)
+            {
+                int skip = (SearchModel.CurrentPage - 1) * SearchModel.PageSize;
+                query = query.OrderByDescending(e => e.NameEN).Skip(skip).Take(SearchModel.PageSize);
+            }
+
+            var results = query.ToList();
+            results.ForEach(x => x.TotalCount = totalCount);
+            return results;
+
         }
 
 
@@ -67,7 +75,7 @@ namespace MasterErp.Service.GeneralAccounts
                 FinancialPeriod tbl = new FinancialPeriod();
 
                 tbl.CreateDate = DateTime.Now;
-                tbl.CreatedBy = string.Empty;
+                tbl.CreatedBy = Model.CreatedBy;
                 tbl.Code = Model.Code;
                 tbl.IsActive = Model.IsActive;
                 tbl.IsLocked = Model.IsLocked;
@@ -83,7 +91,6 @@ namespace MasterErp.Service.GeneralAccounts
 
                 return new ActionsResponseModel
                 {
-                    Status = 1,
                     Message = "تم الحفظ  بنجاح"
                 };
             }
@@ -91,11 +98,70 @@ namespace MasterErp.Service.GeneralAccounts
             {
                 return new ActionsResponseModel
                 {
-                    Status = 0,
+                    IsSuccess = false,
                     Message = ex.Message
                 };
             }
         }
+
+        public ActionsResponseModel EditFinancialPeriod(int FinancialPeriodId, FinancialPeriodModel Model)
+        {
+
+            try
+            {
+                var entity = Context.FinancialPeriods.FirstOrDefault(i => i.FinancialPeriodId == FinancialPeriodId);
+                if (entity != null)
+                {
+
+                    entity.ModifyDate = DateTime.Now;
+                    entity.ModifiedBy = Model.ModifiedBy;
+                    entity.Code = Model.Code;
+                    entity.IsActive = Model.IsActive;
+                    entity.IsLocked = Model.IsLocked;
+                    entity.NameAR = Model.NameAR;
+                    entity.NameEN = Model.NameEN;
+                    entity.Notes = Model.Notes;
+                    entity.StartDate = Model.StartDate;
+                    entity.EndDate = Model.EndDate;
+
+                    Context.SaveChanges();
+
+
+                    return new ActionsResponseModel { Message = "Financial Period Updated Successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Financial period not found" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+
+        }
+
+
+        public ActionsResponseModel DeleteFinancialPeriod(int FinancialPeriodId)
+        {
+
+            try
+            {
+                var entity = Context.FinancialPeriods.FirstOrDefault(i => i.FinancialPeriodId == FinancialPeriodId);
+                if (entity != null)
+                {
+                    Context.Remove(entity);
+                    Context.SaveChanges();
+                    return new ActionsResponseModel { Message = "Financial period deleted successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Financial period not found" }; ;
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+
+        }
+
 
     }
 }

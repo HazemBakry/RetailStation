@@ -1640,8 +1640,8 @@ input[dir="rtl"] {
 }
 
 .lds-container {
-  width: 50px;
-  height: 50px;
+  /* width: 50px;
+  height: 50px; */
 }
 
 .prcs {
