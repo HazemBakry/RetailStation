@@ -9,7 +9,7 @@ namespace MasterErp.Entities.Models.Finance
 {
     [Table("FinancialPeriods", Schema = "Finance")]
 
-    public class FinancialPeriod
+    public class FinancialPeriod : CreatorModel
     {
         public int FinancialPeriodId { get; set; }
         public string Code { get; set; }
@@ -20,9 +20,5 @@ namespace MasterErp.Entities.Models.Finance
         public bool IsLocked { get; set; }
         public bool IsActive { get; set; }
         public string Notes { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime CreateDate { get; set; }
-        public string ModifiedBy { get; set; }
-        public DateTime? ModifyDate { get; set; }
     }
 }

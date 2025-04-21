@@ -58,7 +58,7 @@ export class GeneralSelectorComponent implements OnInit {
   }
   checkCodeExists()
   {
-    this.menuDesign= this.data.some(x=>x.code) ? 'table':''
+    this.menuDesign= this.data?.some(x=>x.code) ? 'table':''
   }
   writeValue(value: any): void {
     if (this.selectMulti) {

@@ -233,14 +233,20 @@ export class GeneralAccountService {
   ////////////////////////  
 
 
-  GetReceiptLedgersData(model: FilterModel) {
-    return this.http.post<any>(this.URL + 'ReceiptLedger/GetReceiptLedgersData', model);
+  GetReceiptLedgersData(model: PagedResponseDTO<ReceiptLedgerModel[]>) {
+    return this.http.post<PagedResponseDTO<ReceiptLedgerModel[]>>(this.URL + 'ReceiptLedger/GetReceiptLedgersData', model);
   }
 
   CreateNewReceiptLedger(model: ReceiptLedgerModel) {
-    return this.http.post<any>(this.URL + 'ReceiptLedger/CreateNewReceiptLedger', model);
+    return this.http.post<ActionsResponseModel>(this.URL + 'ReceiptLedger/CreateNewReceiptLedger', model);
   }
 
+  EditReceiptLedger(receiptLedgerId:number,model: ReceiptLedgerModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `ReceiptLedger/EditReceiptLedger?ReceiptLedgerId=${receiptLedgerId}`, model);
+  }
+  DeleteReceiptLedger(receiptLedgerId:number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `ReceiptLedger/DeleteReceiptLedger?ReceiptLedgerId=${receiptLedgerId}`);
+  }
   ////////////////////////  
 
 

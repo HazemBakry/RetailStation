@@ -45,6 +45,7 @@ namespace MasterErp.API
 
             services.AddControllers();
             services.AddDbContext<DBContext>();
+            services.AddDbContext<LookupsDbContext>();
             //services.AddHttpContextAccessor();
 
 

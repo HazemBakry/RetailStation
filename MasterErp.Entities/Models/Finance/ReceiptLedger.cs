@@ -16,9 +16,9 @@ namespace MasterErp.Entities.Models.Finance
         public string NameAR { get; set; }
         public string NameEN { get; set; }
         public int StartReceiptNumber { get; set; }
-        public int PeriodId { get; set; }
+        public int FinancialPeriodId { get; set; }
         public int ReceiptLedgerTypeId { get; set; }
-        public int OperationTypeId { get; set; }
+        public int PaymentTypeId { get; set; }
         public bool IsActive { get; set; }
         public bool IsLocked { get; set; }
         public string Notes { get; set; }

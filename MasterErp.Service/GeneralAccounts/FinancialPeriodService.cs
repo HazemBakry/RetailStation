@@ -74,7 +74,7 @@ namespace MasterErp.Service.GeneralAccounts
             {
                 FinancialPeriod tbl = new FinancialPeriod();
 
-                tbl.CreateDate = DateTime.Now;
+                tbl.CreatedDate = DateTime.Now;
                 tbl.CreatedBy = Model.CreatedBy;
                 tbl.Code = Model.Code;
                 tbl.IsActive = Model.IsActive;
@@ -113,7 +113,7 @@ namespace MasterErp.Service.GeneralAccounts
                 if (entity != null)
                 {
 
-                    entity.ModifyDate = DateTime.Now;
+                    entity.ModifiedDate = DateTime.Now;
                     entity.ModifiedBy = Model.ModifiedBy;
                     entity.Code = Model.Code;
                     entity.IsActive = Model.IsActive;
