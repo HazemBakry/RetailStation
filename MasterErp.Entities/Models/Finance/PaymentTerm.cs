@@ -11,7 +11,8 @@ namespace MasterErp.Entities.Models.Finance
     public class PaymentTerm : CreatorModel
     {
         public int PaymentTermId { get; set; }
-        public string PaymentTermName { get; set; }
+        public string NameEN { get; set; }
+        public string NameAR { get; set; }
         public bool IsActive { get; set; }
     }
 }

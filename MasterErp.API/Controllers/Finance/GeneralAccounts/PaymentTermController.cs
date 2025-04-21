@@ -1,13 +1,18 @@
-﻿using MasterErp.Entities.Common;
+﻿using ICU4N.Util;
+using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.GeneralAccounts.GeneralAccountSettings;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PaymentTermController : ControllerBase
     {
         private readonly IPaymentTermService _paymentTermService;
@@ -16,67 +21,83 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             _paymentTermService = paymentTermService;
         }
 
-        [HttpGet("GetPaymentTermsData")]
-        public List<PaymentTerm> GetPaymentTermsData()
+        [HttpPost("GetPaymentTermsData")]
+        public IActionResult GetPaymentTermsData(SearchFilterModel Model)
         {
-            var results = _paymentTermService.GetPaymentTermsData();
-            return results;
+            var data = _paymentTermService.GetPaymentTermsData(Model);
+            var result = new PagedResponseModel<PaymentTermModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = Model.PageSize,
+                CurrentPage = Model.CurrentPage
+            };
+            return Ok(result);
+         
         }
 
         [HttpGet("GetPaymentTermDetailsById")]
-        public List<PaymentTermDetail> GetPaymentTermDetailsById(int PaymentTermId)
+        public IActionResult GetPaymentTermDetailsById(int PaymentTermId)
         {
-            var results = _paymentTermService.GetPaymentTermDetailsById(PaymentTermId);
-            return results;
+            var result = _paymentTermService.GetPaymentTermDetailsById(PaymentTermId);
+            return Ok(result);
         }
 
         [HttpGet("ChangePaymentTermStatus")]
-        public ActionsResponseModel ChangePaymentTermStatus(bool IsActive, int PaymentTermId)
+        public IActionResult ChangePaymentTermStatus(int PaymentTermId,bool IsActive)
         {
-            var results = _paymentTermService.ChangePaymentTermStatus(IsActive, PaymentTermId);
-            return results;
+            var result = _paymentTermService.ChangePaymentTermStatus(PaymentTermId,IsActive);
+            return Ok(result);
         }
 
-        [HttpPost("AddNewPaymentTerm")]
-        public ActionsResponseModel AddNewPaymentTerm(PaymentTerm Model)
+        [HttpPost("CreateNewPaymentTerm")]
+        public IActionResult CreateNewPaymentTerm(PaymentTermModel Model)
         {
-            var results = _paymentTermService.AddNewPaymentTerm(Model);
-            return results;
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            Model.CreatedBy = UserId;
+            var result = _paymentTermService.CreateNewPaymentTerm(Model);
+            return Ok(result);
         }
 
-        [HttpPost("AddNewPaymentTermDetails")]
-        public ActionsResponseModel AddNewPaymentTermDetails(PaymentTermDetail Model)
+        [HttpPost("CreateNewPaymentTermDetails")]
+        public IActionResult CreateNewPaymentTermDetails(int PaymentTermId, PaymentTermDetailsModel Model)
         {
-            var results = _paymentTermService.AddNewPaymentTermDetails(Model);
-            return results;
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            Model.CreatedBy = UserId;
+            var result = _paymentTermService.CreateNewPaymentTermDetails(PaymentTermId,Model);
+            return Ok(result);
         }
 
         [HttpPost("EditPaymentTerm")]
-        public ActionsResponseModel EditPaymentTerm(PaymentTerm Model)
+        public IActionResult EditPaymentTerm(int PaymentTermId, PaymentTermModel Model)
         {
-            var results = _paymentTermService.EditPaymentTerm(Model);
-            return results;
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            Model.ModifiedBy = UserId;
+            var result = _paymentTermService.EditPaymentTerm(PaymentTermId,Model);
+            return Ok(result);
         }
 
         [HttpPost("EditPaymentTermDetails")]
-        public ActionsResponseModel EditPaymentTermDetails(PaymentTermDetail Model)
+        public IActionResult EditPaymentTermDetails(int PaymentTermDetailsId, PaymentTermDetailsModel Model)
         {
-            var results = _paymentTermService.EditPaymentTermDetails(Model);
-            return results;
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            Model.ModifiedBy = UserId;
+            var result = _paymentTermService.EditPaymentTermDetails(PaymentTermDetailsId,Model);
+            return Ok(result);
         }
 
         [HttpGet("DeletePaymentTerm")]
-        public ActionsResponseModel DeletePaymentTerm(int PaymentTermId)
+        public IActionResult DeletePaymentTerm(int PaymentTermId)
         {
-            var results = _paymentTermService.DeletePaymentTerm(PaymentTermId);
-            return results;
+            var result = _paymentTermService.DeletePaymentTerm(PaymentTermId);
+            return Ok(result);
         }
 
         [HttpGet("DeletePaymentTermDetails")]
-        public ActionsResponseModel DeletePaymentTermDetails(int PaymentTermDetailId)
+        public IActionResult DeletePaymentTermDetails(int PaymentTermDetailsId)
         {
-            var results = _paymentTermService.DeletePaymentTermDetails(PaymentTermDetailId);
-            return results;
+            var result = _paymentTermService.DeletePaymentTermDetails(PaymentTermDetailsId);
+            return Ok(result);
         }
     }
 }

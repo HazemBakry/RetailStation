@@ -28,19 +28,50 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
             ConnectionString = Configuration.GetConnectionString("DBConnection");
         }
 
-        public List<PaymentTerm> GetPaymentTermsData()
+        public List<PaymentTermModel> GetPaymentTermsData(SearchFilterModel searchModel)
         {
-            var results = Context.PaymentTerms.ToList();
+            var query = Context.PaymentTerms.Select(x => new PaymentTermModel
+            { 
+                PaymentTermId = x.PaymentTermId,
+                NameEN = x.NameEN,
+                NameAR = x.NameAR,
+                IsActive = x.IsActive,
+                CreatedBy = x.CreatedBy,
+                CreatedDate = x.CreatedDate,
+                ModifiedBy = x.ModifiedBy,
+                ModifiedDate = x.ModifiedDate,
+
+            });
+
+            int totalCount = query.Count();
+            if (searchModel.CurrentPage > 0 && searchModel.PageSize > 0)
+            {
+                int skip = (searchModel.CurrentPage - 1) * searchModel.PageSize;
+                query = query.Skip(skip).Take(searchModel.PageSize);
+            }
+
+            var pagedResults = query.ToList();
+            pagedResults.ForEach(x => x.TotalCount = totalCount);
+            return pagedResults;
+        }
+
+        public List<PaymentTermDetailsModel> GetPaymentTermDetailsById(int PaymentTermId)
+        {
+            var results = Context.PaymentTermDetails.Where(i => i.PaymentTermId == PaymentTermId).Select(x=>new PaymentTermDetailsModel
+            {
+                PaymentTermDetailsId =x.PaymentTermDetailsId,
+                PaymentTermId=x.PaymentTermId,
+                DueAfterDays=x.DueAfterDays,
+                DuePercentage=x.DuePercentage,
+                CreatedBy=x.CreatedBy,
+                CreatedDate=x.CreatedDate,
+                ModifiedBy=x.ModifiedBy,
+                ModifiedDate=x.ModifiedDate
+            }).ToList();
             return results;
         }
 
-        public List<PaymentTermDetail> GetPaymentTermDetailsById(int PaymentTermId)
-        {
-            var results = Context.PaymentTermDetails.Where(i => i.PaymentTermId == PaymentTermId).ToList();
-            return results;
-        }
-
-        public ActionsResponseModel ChangePaymentTermStatus(bool IsActive, int PaymentTermId)
+        public ActionsResponseModel ChangePaymentTermStatus(int PaymentTermId,bool IsActive)
         {
             try
             {
@@ -64,11 +95,11 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
             }
         }
 
-        public ActionsResponseModel AddNewPaymentTerm(PaymentTerm Model)
+        public ActionsResponseModel CreateNewPaymentTerm(PaymentTermModel Model)
         {
             try
             {
-                var entity = Context.PaymentTerms.FirstOrDefault(i => i.PaymentTermName == Model.PaymentTermName);
+                var entity = Context.PaymentTerms.FirstOrDefault(i => i.NameAR == Model.NameAR || i.NameEN == Model.NameEN);
                 if (entity != null)
                 {
                     return new ActionsResponseModel
@@ -80,7 +111,8 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
 
                 PaymentTerm termObj = new PaymentTerm();
 
-                termObj.PaymentTermName = Model.PaymentTermName;
+                termObj.NameEN = Model.NameEN;
+                termObj.NameAR = Model.NameAR;
                 termObj.IsActive = Model.IsActive;
                 termObj.CreatedDate = DateTime.Now;
                 termObj.CreatedBy = Model.CreatedBy;
@@ -104,15 +136,15 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
             }
         }
 
-        public ActionsResponseModel AddNewPaymentTermDetails(PaymentTermDetail Model)
+        public ActionsResponseModel CreateNewPaymentTermDetails(int PaymentTermId, PaymentTermDetailsModel Model)
         {
             try
             {
-                PaymentTermDetail termObj = new PaymentTermDetail();
+                PaymentTermDetails termObj = new PaymentTermDetails();
 
-                termObj.PaymentTermId = Model.PaymentTermId;
+                termObj.PaymentTermId = PaymentTermId;
                 termObj.DuePercentage = Model.DuePercentage;
-                termObj.AfterDays = Model.AfterDays;
+                termObj.DueAfterDays = Model.DueAfterDays;
                 termObj.CreatedDate = DateTime.Now;
                 termObj.CreatedBy = Model.CreatedBy;
 
@@ -135,24 +167,27 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
             }
         }
 
-        public ActionsResponseModel EditPaymentTerm(PaymentTerm Model)
+        public ActionsResponseModel EditPaymentTerm(int PaymentTermId,PaymentTermModel Model)
         {
             try
             {
-                var entity = Context.PaymentTerms.FirstOrDefault(x => x.PaymentTermId == Model.PaymentTermId);
+                var entity = Context.PaymentTerms.FirstOrDefault(x => x.PaymentTermId == PaymentTermId);
                 if (entity != null)
                 {
-                    entity.PaymentTermName = Model.PaymentTermName;
+                    entity.NameEN = Model.NameEN;
+                    entity.NameAR = Model.NameAR;
                     entity.IsActive = Model.IsActive;
                     entity.ModifiedDate = DateTime.Now;
                     entity.ModifiedBy = Model.ModifiedBy;
+                    Context.SaveChanges();
+                    return new ActionsResponseModel
+                    {
+                        Message = "تم التعديل  بنجاح"
+                    };
                 }
-
-                Context.SaveChanges();
-                return new ActionsResponseModel
-                {
-                    Message = "تم التعديل  بنجاح"
-                };
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Payment Term not found" };
+                
             }
             catch (Exception ex)
             {
@@ -164,24 +199,27 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
             }
         }
 
-        public ActionsResponseModel EditPaymentTermDetails(PaymentTermDetail Model)
+        public ActionsResponseModel EditPaymentTermDetails(int PaymentTermDetailsId,PaymentTermDetailsModel Model)
         {
             try
             {
-                var entity = Context.PaymentTermDetails.FirstOrDefault(x => x.PaymentTermDetailId == Model.PaymentTermDetailId);
+                var entity = Context.PaymentTermDetails.FirstOrDefault(x => x.PaymentTermDetailsId == PaymentTermDetailsId);
                 if (entity != null)
                 {
                     entity.DuePercentage = Model.DuePercentage;
-                    entity.AfterDays = Model.AfterDays;
+                    entity.DueAfterDays = Model.DueAfterDays;
                     entity.ModifiedDate = DateTime.Now;
                     entity.ModifiedBy = Model.ModifiedBy;
+                    Context.SaveChanges();
+                    return new ActionsResponseModel
+                    {
+                        Message = "تم التعديل  بنجاح"
+                    };
                 }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "not found" };
 
-                Context.SaveChanges();
-                return new ActionsResponseModel
-                {
-                    Message = "تم التعديل  بنجاح"
-                };
+
             }
             catch (Exception ex)
             {
@@ -228,11 +266,11 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
 
         }
 
-        public ActionsResponseModel DeletePaymentTermDetails(int PaymentTermDetailId)
+        public ActionsResponseModel DeletePaymentTermDetails(int PaymentTermDetailsId)
         {
             try
             {
-                var entity = Context.PaymentTermDetails.FirstOrDefault(i => i.PaymentTermDetailId == PaymentTermDetailId);
+                var entity = Context.PaymentTermDetails.FirstOrDefault(i => i.PaymentTermDetailsId == PaymentTermDetailsId);
                 if (entity != null)
                 {
                     Context.PaymentTermDetails.Remove(entity);

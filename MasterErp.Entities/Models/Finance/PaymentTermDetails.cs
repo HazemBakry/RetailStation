@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 namespace MasterErp.Entities.Models.Finance
 {
     [Table("PaymentTermDetails", Schema = "Finance")]
-    public class PaymentTermDetail : CreatorModel
+    public class PaymentTermDetails : CreatorModel
     {
-        public int PaymentTermDetailId { get; set; }
+        public int PaymentTermDetailsId { get; set; }
         public int PaymentTermId { get; set; }
         public int DuePercentage { get; set; } // النسبة المستحقة
-        public int AfterDays { get; set; } // بعد
+        public int DueAfterDays { get; set; } // بعد
     }
 }

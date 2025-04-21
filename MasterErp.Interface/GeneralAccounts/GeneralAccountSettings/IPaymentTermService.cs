@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models.Finance;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,14 @@ namespace MasterErp.Interface.GeneralAccounts.GeneralAccountSettings
 {
     public interface IPaymentTermService
     {
-        List<PaymentTerm> GetPaymentTermsData();
-        List<PaymentTermDetail> GetPaymentTermDetailsById(int PaymentTermId);
-        ActionsResponseModel ChangePaymentTermStatus(bool IsActive, int PaymentTermId);
-        ActionsResponseModel AddNewPaymentTerm(PaymentTerm Model);
-        ActionsResponseModel AddNewPaymentTermDetails(PaymentTermDetail Model);
-        ActionsResponseModel EditPaymentTerm(PaymentTerm Model);
-        ActionsResponseModel EditPaymentTermDetails(PaymentTermDetail Model);
+        List<PaymentTermModel> GetPaymentTermsData(SearchFilterModel Model);
+        List<PaymentTermDetailsModel> GetPaymentTermDetailsById(int PaymentTermId);
+        ActionsResponseModel ChangePaymentTermStatus(int PaymentTermId,bool IsActive);
+        ActionsResponseModel CreateNewPaymentTerm(PaymentTermModel Model);
+        ActionsResponseModel CreateNewPaymentTermDetails(int PaymentTermId, PaymentTermDetailsModel Model);
+        ActionsResponseModel EditPaymentTerm(int PaymentTermId, PaymentTermModel Model);
+        ActionsResponseModel EditPaymentTermDetails(int PaymentTermDetailsId,PaymentTermDetailsModel Model);
         ActionsResponseModel DeletePaymentTerm(int PaymentTermId);
-        ActionsResponseModel DeletePaymentTermDetails(int PaymentTermDetailId);
+        ActionsResponseModel DeletePaymentTermDetails(int PaymentTermDetailsId);
     }
 }

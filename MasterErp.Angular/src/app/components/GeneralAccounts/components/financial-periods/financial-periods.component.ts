@@ -51,10 +51,7 @@ export class FinancialPeriodsComponent implements OnInit {
     this.GeneralAccountsService.GetFinancialPeriodsData(this.pagedResponse).subscribe((data: any) => {
       this.pagedResponse.results = data.results;
       this.pagedResponse.totalCount = data.totalCount;
-      this.pagedResponse.currentPage = data.currentPage;
-      this.pagedResponse.pageSize = data.pageSize;
-      this.pagedResponse.totalPages = data.totalPages;
-      // this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
+      
       this.showLoader = false;
     }, (err) => {
       this.showLoader = false;
@@ -204,7 +201,7 @@ export class FinancialPeriodsComponent implements OnInit {
       financialPeriodId: financialPeriodModel.financialPeriodId,
       code: financialPeriodModel.code,
       nameAR: financialPeriodModel.nameAR,
-      nameEN: financialPeriodModel.nameAR,
+      nameEN: financialPeriodModel.nameEN,
       isActive: financialPeriodModel.isActive,
       isLocked: financialPeriodModel.isLocked,
       notes: financialPeriodModel.notes,

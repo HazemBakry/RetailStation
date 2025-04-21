@@ -25,6 +25,7 @@ export class FormService {
       email: 'Invalid Email',
       pattern:'Invalid Pattern',
       min:'Invalid Number , Enter greater than this',
+      max: 'Invalid Number , Enter less than this',
       invalid_URL:'Invalid URL',
       invalid_Html:'Invalid HTML',
       //endDateLessThanStartDate:'End Date Must Be Greater Than Start Date',

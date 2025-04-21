@@ -111,7 +111,7 @@ namespace MasterErp.Entities.Models
         public DbSet<LoanType> LoanTypes { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<PaymentTerm> PaymentTerms { get; set; }
-        public DbSet<PaymentTermDetail> PaymentTermDetails { get; set; }
+        public DbSet<PaymentTermDetails> PaymentTermDetails { get; set; }
         public DbSet<TaxCalculation> TaxCalculations { get; set; }
         public DbSet<TaxLookup> TaxLookups { get; set; }
         public DbSet<DailyNotebook> DailyNotebooks { get; set; }

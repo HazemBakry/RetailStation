@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { FilterModel } from '../../Shared/models/FilterModel';
+import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
+import { PaymentTermDetailsModel, PaymentTermModel } from '../models/GeneralAccounts/PaymentTermModel';
+import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 
 @Injectable({
   providedIn: 'root'
@@ -13,40 +16,40 @@ export class GeneralAccountSettingsService {
 
   //================================== PaymentTerm ===============================
 
-  GetPaymentTermsData() {
-    return this.http.get<any[]>(this.URL + 'PaymentTerm/GetPaymentTermsData');
+  GetPaymentTermsData(model: PagedResponseDTO<PaymentTermModel[]>) {
+    return this.http.post<PagedResponseDTO<PaymentTermModel[]>>(this.URL + 'PaymentTerm/GetPaymentTermsData', model);
   }
 
   GetPaymentTermDetailsById(PaymentTermId: number) {
-    return this.http.get<any[]>(this.URL + 'PaymentTerm/GetPaymentTermDetailsById?PaymentTermId=' + PaymentTermId);
+    return this.http.get<PaymentTermDetailsModel[]>(this.URL + 'PaymentTerm/GetPaymentTermDetailsById?PaymentTermId=' + PaymentTermId);
   }
 
-  ChangePaymentTermStatus(IsActive: boolean, PaymentTermId: number) {
-    return this.http.get<any>(this.URL + 'PaymentTerm/ChangePaymentTermStatus?IsActive=' + IsActive + '&PaymentTermId=' + PaymentTermId);
+  ChangePaymentTermStatus(PaymentTermId: number, IsActive: boolean) {
+    return this.http.get<ActionsResponseModel>(this.URL + `PaymentTerm/ChangePaymentTermStatus?PaymentTermId=${PaymentTermId}&IsActive=${IsActive}`);
   }
 
-  AddNewPaymentTerm(Model: any) {
-    return this.http.post<any>(this.URL + 'PaymentTerm/AddNewPaymentTerm', Model);
+  CreateNewPaymentTerm(Model: PaymentTermModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'PaymentTerm/CreateNewPaymentTerm', Model);
   }
 
-  AddNewPaymentTermDetails(Model: any) {
-    return this.http.post<any>(this.URL + 'PaymentTerm/AddNewPaymentTermDetails', Model);
+  CreateNewPaymentTermDetails(paymentTermId:number,Model: PaymentTermDetailsModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `PaymentTerm/CreateNewPaymentTermDetails?PaymentTermId=${paymentTermId}`, Model);
   }
 
-  EditPaymentTerm(Model: any) {
-    return this.http.post<any>(this.URL + 'PaymentTerm/EditPaymentTerm', Model);
+  EditPaymentTerm(paymentTermId:number,Model: PaymentTermModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `PaymentTerm/EditPaymentTerm?PaymentTermId=${paymentTermId}`, Model);
   }
 
-  EditPaymentTermDetails(Model: any) {
-    return this.http.post<any>(this.URL + 'PaymentTerm/EditPaymentTermDetails', Model);
+  EditPaymentTermDetails(paymentTermDetailsId:number,Model: PaymentTermDetailsModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `PaymentTerm/EditPaymentTermDetails?PaymentTermDetailsId=${paymentTermDetailsId}`, Model);
   }
 
   DeletePaymentTerm(PaymentTermId: number) {
-    return this.http.get<any>(this.URL + 'PaymentTerm/DeletePaymentTerm?PaymentTermId=' + PaymentTermId);
+    return this.http.get<ActionsResponseModel>(this.URL + 'PaymentTerm/DeletePaymentTerm?PaymentTermId=' + PaymentTermId);
   }
 
-  DeletePaymentTermDetails(PaymentTermDetailId: number) {
-    return this.http.get<any>(this.URL + 'PaymentTerm/DeletePaymentTermDetails?PaymentTermDetailId=' + PaymentTermDetailId);
+  DeletePaymentTermDetails(PaymentTermDetailsId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'PaymentTerm/DeletePaymentTermDetails?PaymentTermDetailsId=' + PaymentTermDetailsId);
   }
 
   //================================== TaxCalculation ===============================

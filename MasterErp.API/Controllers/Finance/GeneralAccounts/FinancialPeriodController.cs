@@ -7,11 +7,13 @@ using MasterErp.Interface.GeneralAccounts;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Entities.DTOs.GeneralAccounts;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class FinancialPeriodController : ControllerBase
     {
 
