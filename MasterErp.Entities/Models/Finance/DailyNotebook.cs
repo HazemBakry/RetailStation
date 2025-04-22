@@ -11,8 +11,9 @@ namespace MasterErp.Entities.Models.Finance
     public class DailyNotebook : CreatorModel
     {
         public int DailyNotebookId { get; set; }
-        public string DailyNotebookName { get; set; }
-        public int LeadgerTypeId { get; set; }
+        public string NameEN { get; set; }
+        public string NameAR { get; set; }
+        public int LedgerTypeId { get; set; }
         public string Code { get; set; }
         public string VirtualAccount { get; set; }
     }

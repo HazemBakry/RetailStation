@@ -54,8 +54,8 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
                             TaxScope = taxCalculation.TaxScope,
                             TaxType = taxCalculation.TaxType,
                             Amount = taxCalculation.Amount,
-                            NameEN = taxCalculation.NameAR,
-                            NameAR = taxCalculation.NameEN,
+                            NameEN = taxCalculation.NameEN,
+                            NameAR = taxCalculation.NameAR,
                             Description = taxCalculation.Description,
                             CreatedBy = taxCalculation.CreatedBy,
                             CreatedDate = taxCalculation.CreatedDate,
@@ -152,13 +152,15 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
                     entity.IsActive = Model.IsActive;
                     entity.ModifiedDate = DateTime.Now;
                     entity.ModifiedBy = Model.ModifiedBy;
+                    Context.SaveChanges();
+                    return new ActionsResponseModel
+                    {
+                        Message = "تم التعديل  بنجاح"
+                    };
                 }
-
-                Context.SaveChanges();
-                return new ActionsResponseModel
-                {
-                    Message = "تم التعديل  بنجاح"
-                };
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Tax Calculation not found" };
+               
             }
             catch (Exception ex)
             {

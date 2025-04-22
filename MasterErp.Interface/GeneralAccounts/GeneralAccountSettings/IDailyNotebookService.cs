@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models.Finance;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,9 @@ namespace MasterErp.Interface.GeneralAccounts.GeneralAccountSettings
 {
     public interface IDailyNotebookService
     {
-        DataTable GetDailyNotebookData(FilterModel model);
-        ActionsResponseModel AddNewDailyNotebook(DailyNotebook Model);
-        ActionsResponseModel EditDailyNotebook(DailyNotebook Model);
+        List<DailyNotebookModel> GetDailyNotebooksData(SearchFilterModel Model);
+        ActionsResponseModel CreateNewDailyNotebook(DailyNotebookModel Model);
+        ActionsResponseModel EditDailyNotebook(int DailyNotebookId, DailyNotebookModel Model);
         ActionsResponseModel DeleteDailyNotebook(int DailyNotebookId);
     }
 }

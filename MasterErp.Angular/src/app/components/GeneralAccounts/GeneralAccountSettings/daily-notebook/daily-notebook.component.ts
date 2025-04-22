@@ -5,6 +5,14 @@ import { ToastrService } from 'ngx-toastr';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { GeneralAccountSettingsService } from '../../services/general-account-settings.service';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { DatePipe } from '@angular/common';
+import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
+import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
+import { GeneralAccountService } from '../../services/general-account.service';
+import { PaymentService } from '../../services/payment.service';
+import { DailyNotebookModel } from '../../models/GeneralAccounts/DailyNotebookModel';
 
 @Component({
   selector: 'app-daily-notebook',
@@ -13,127 +21,165 @@ import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 })
 export class DailyNotebookComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'الدفاتر اليومية'];
-  DailyNotebooks: any[] = [];
-  LeadgerTypes = [];
-  formGroup: FormGroup;
-  TotalCount = 0;
-  DailyNotebookId: any;
-  totalPages: any;
-  formErrors = {
-    dailyNotebookName: '',
-    leadgerTypeId: '',
-    code: '',
-    virtualAccount: ''
-  };
-  FilterModel: FilterModel = {
+
+  showLoader: boolean = false;
+  showAddLoader: boolean = false;
+  pagedResponse: PagedResponseDTO<DailyNotebookModel[]> = {
     currentPage: 1,
     pageSize: 25,
-    filterItems: []
-  };
+    results: [],
+    filterList: [],
+    searchText: ''
+  }
+  dailyNotebookModel: DailyNotebookModel =
+    {} as DailyNotebookModel;
 
-  constructor(private modalService: NgbModal, private toaster: ToastrService,
-    private form: FormBuilder, private _FormService: FormService, private generalAccountSettingsService: GeneralAccountSettingsService) { }
+  constructor(private GeneralAccountsService: GeneralAccountService,
+    private generalAccountSettingsService: GeneralAccountSettingsService,
+    private toaster: ToastrService,
+    private sharedService: SharedService,
+    private modalService: NgbModal,
+    private paymentService: PaymentService,
+    private lookupService: LookupService,
+    private form: FormBuilder,
+    private _FormService: FormService,
+    private datePipe: DatePipe,
+  ) { }
 
   ngOnInit(): void {
-    this.buildForm();
-    this.GetDailyNotebookData();
-    this.GetLedgerJournalTypeData();
+    this.loadData();
   }
 
+  loadData() {
+    this.showLoader = true;
+    this.generalAccountSettingsService.GetDailyNotebooksData(this.pagedResponse).subscribe((data: any) => {
+      this.pagedResponse.results = data.results;
+      this.pagedResponse.totalCount = data.totalCount;
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    })
+  }
+
+
+
+  pageChanged(obj: any) {
+    this.pagedResponse.currentPage = obj.page;
+    this.loadData();
+  }
+
+
+
+  ////////////////////////////  Actions /////////////////////////////
+
+
+  isUpdate: boolean = false;
+  public formGroup: FormGroup;
+  public formErrors = {
+    dailyNotebookId: '',
+    code: '',
+    nameAR: '',
+    nameEN: '',
+    ledgerTypeId: '',
+    virtualAccount: ''
+  };
+
+  receiptLedgerTypesSelectorData: GeneralSelectorModel[] = [];
+  selectedDailyNotebookId: number;
+  openAddModal(content: any, dailyNotebookModel: DailyNotebookModel = null) {
+    this.loadSelectors();
+    this.isUpdate = false;
+    this.buildForm();
+    if (dailyNotebookModel)
+      this.fillEditForm(dailyNotebookModel);
+
+    this.modalService.open(content, { centered: true, size: 'lg', fullscreen: 'lg' });
+  }
+  loadSelectors() {
+    this.lookupService.GetLedgerTypes().subscribe(data => {
+      this.receiptLedgerTypesSelectorData = data;
+    });
+  }
   buildForm() {
     this.formGroup = this.form.group({
       dailyNotebookId: [null],
-      dailyNotebookName: [null, [Validators.required]],
-      leadgerTypeId: [null, [Validators.required]],
-      code: [null, [Validators.required]],
+      code: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      nameAR: [null, [Validators.required]],
+      nameEN: [null, [Validators.required]],
+      ledgerTypeId: [null, [Validators.required]],
       virtualAccount: [null, [Validators.required]],
+
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
+
     });
+
   }
 
-  fillEditForm(item: any) {
-    this.formGroup.patchValue({
-      dailyNotebookId: item.dailyNotebookId,
-      dailyNotebookName: item.dailyNotebookName,
-      leadgerTypeId: item.leadgerTypeId,
-      code: item.code,
-      virtualAccount: item.virtualAccount
-    });
-  }
-
-  openItemModal(content: any, item: any) {
-    if (item)
-      this.fillEditForm(item);
-    this.modalService.open(content, { size: 'lg', centered: true, scrollable: true });
-  }
-
-  openDeleteItemModal(content: any, id: any) {
-    this.DailyNotebookId = id;
-    this.modalService.open(content, { size: 'md', centered: true, scrollable: true });
-  }
-
-
-  GetDailyNotebookData() {
-    this.generalAccountSettingsService.GetDailyNotebookData(this.FilterModel).subscribe(data => {
-      this.DailyNotebooks = data;
-      this.TotalCount = data && data.length > 0 && data[0].totalCount ? data[0].totalCount : 0;
-    });
-  }
-
-  GetLedgerJournalTypeData() {
-    this.generalAccountSettingsService.GetLedgerJournalTypeData().subscribe(data => {
-      this.LeadgerTypes = data;
-      this.LeadgerTypes = this.LeadgerTypes.map(i => { return { name: i.nameAr, value: i.id } });
-    });
-  }
-
-  pageChanged(obj: any) {
-    this.FilterModel.currentPage = obj.page;
-  }
-
-  AddNewDailyNotebook() {
-    if (!this.validateForm())
+  saveRecord() {
+    if (!this.validateForm()) {
       return;
-    let formData = this.formGroup.value;
-
-    if (!formData?.dailyNotebookId) {
-      formData.dailyNotebookId = 0;
-      this.generalAccountSettingsService.AddNewDailyNotebook(formData).subscribe(data => {
-        if (data?.isSuccess) {
-          this.formGroup?.reset();
-          this.modalService.dismissAll();
-          this.GetDailyNotebookData();
-          this.toaster.success(data?.message);
-        }
-        else
-          this.toaster.error(data?.message);
-      });
-    } else {
-      this.generalAccountSettingsService.EditDailyNotebook(formData).subscribe(data => {
-        if (data?.isSuccess) {
-          this.formGroup?.reset();
-          this.modalService.dismissAll();
-          this.GetDailyNotebookData();
-          this.toaster.success(data?.message);
-        }
-        else
-          this.toaster.error(data?.message);
-      });
     }
+    this.dailyNotebookModel = this.formGroup.value;
+    if (this.dailyNotebookModel?.dailyNotebookId)
+      this.editNewDailyNotebook();
+    else
+      this.addNewDailyNotebook();
   }
 
-  DeleteDailyNotebook() {
-    this.generalAccountSettingsService.DeleteDailyNotebook(this.DailyNotebookId).subscribe(data => {
-      if (data?.isSuccess) {
-        this.toaster.success(data?.message);
-        this.GetDailyNotebookData();
-        this.modalService.dismissAll();
-      }
-      else
-        this.toaster.error(data?.message);
-    });
+  addNewDailyNotebook() {
+
+    this.showAddLoader = true;
+    this.generalAccountSettingsService
+      .CreateNewDailyNotebook(this.dailyNotebookModel).subscribe(data => {
+        if (data?.isSuccess) {
+          this.formGroup?.reset();
+          this.modalService?.dismissAll();
+          this.loadData();
+          this.toaster.success(data?.message);
+        }
+        else {
+          this.toaster.error(data?.message);
+        }
+        this.showAddLoader = false;
+      }, err => {
+        this.showAddLoader = false;
+      }, () => {
+        this.showAddLoader = false;
+      });
+
+
+
+  }
+
+  editNewDailyNotebook() {
+    this.showAddLoader = true;
+    this.generalAccountSettingsService
+      .EditDailyNotebook(this.dailyNotebookModel.dailyNotebookId, this.dailyNotebookModel).subscribe(data => {
+
+        if (data?.isSuccess) {
+          // this.formGroup?.reset();
+          this.isUpdate = false;
+          this.modalService?.dismissAll();
+          this.formGroup?.reset();
+          this.toaster.success(data?.message);
+
+          this.loadData();
+        }
+        else {
+          this.toaster.error(data?.message);
+        }
+        this.showAddLoader = false;
+      }, err => {
+        this.showAddLoader = false;
+      }, () => {
+        this.showAddLoader = false;
+      });
+
+
   }
 
   validateForm(): boolean {
@@ -145,4 +191,45 @@ export class DailyNotebookComponent implements OnInit {
       return false;
     }
   }
+
+  fillEditForm(dailyNotebookModel: DailyNotebookModel) {
+    this.isUpdate = true;
+
+    this.formGroup.patchValue({
+      dailyNotebookId: dailyNotebookModel.dailyNotebookId,
+      code: dailyNotebookModel.code,
+      nameAR: dailyNotebookModel.nameAR,
+      nameEN: dailyNotebookModel.nameEN,
+      virtualAccount: dailyNotebookModel.virtualAccount,
+      ledgerTypeId: dailyNotebookModel.ledgerTypeId,
+      // startDate: this.datePipe.transform(dailyNotebookModel.startDate, 'yyyy-MM-dd'),
+      // endDate: this.datePipe.transform(dailyNotebookModel.endDate, 'yyyy-MM-dd'),
+
+    });
+  }
+  openDeleteModal(content: any, id: number) {
+    this.selectedDailyNotebookId = id;
+    this.modalService.open(content, { centered: true, size: 'sm' });
+  }
+
+  deleteDailyNotebook() {
+    this.showAddLoader = true;
+    this.generalAccountSettingsService.DeleteDailyNotebook(this.selectedDailyNotebookId).subscribe(data => {
+
+      if (data?.isSuccess) {
+        this.modalService?.dismissAll();
+        this.loadData();
+        this.toaster.success(data?.message);
+      }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
+    });
+  }
+
 }

@@ -6,6 +6,7 @@ import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 import { PaymentTermDetailsModel, PaymentTermModel } from '../models/GeneralAccounts/PaymentTermModel';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { TaxCalculationModel } from '../models/GeneralAccounts/TaxCalculationModel';
+import { DailyNotebookModel } from '../models/GeneralAccounts/DailyNotebookModel';
 
 @Injectable({
   providedIn: 'root'
@@ -59,10 +60,6 @@ export class GeneralAccountSettingsService {
     return this.http.post<PagedResponseDTO<TaxCalculationModel[]>>(this.URL + 'TaxCalculation/GetTaxCalculationsData', model);
   }
 
-  GetTaxLookups() {
-    return this.http.get<any[]>(this.URL + 'TaxCalculation/GetTaxLookups');
-  }
-
   ChangeTaxCalculationStatus(TaxCalculationId: number, IsActive: boolean) {
     return this.http.get<ActionsResponseModel>(this.URL + 'TaxCalculation/ChangeTaxCalculationStatus?TaxCalculationId=' + TaxCalculationId + '&IsActive=' + IsActive);
   }
@@ -81,21 +78,23 @@ export class GeneralAccountSettingsService {
 
   //================================== DailyNotebook ===============================
 
-  GetDailyNotebookData(model: FilterModel) {
-    return this.http.post<any[]>(this.URL + 'DailyNotebook/GetDailyNotebookData', model);
+
+  GetDailyNotebooksData(model: PagedResponseDTO<DailyNotebookModel[]>) {
+    return this.http.post<PagedResponseDTO<DailyNotebookModel[]>>(this.URL + 'DailyNotebook/GetDailyNotebooksData', model);
   }
 
-  AddNewDailyNotebook(Model: any) {
-    return this.http.post<any>(this.URL + 'DailyNotebook/AddNewDailyNotebook', Model);
+  CreateNewDailyNotebook(Model: DailyNotebookModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'DailyNotebook/CreateNewDailyNotebook', Model);
   }
 
-  EditDailyNotebook(Model: any) {
-    return this.http.post<any>(this.URL + 'DailyNotebook/EditDailyNotebook', Model);
+  EditDailyNotebook(DailyNotebookId:number,Model: DailyNotebookModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `DailyNotebook/EditDailyNotebook?DailyNotebookId=${DailyNotebookId}`, Model);
   }
 
   DeleteDailyNotebook(DailyNotebookId: number) {
-    return this.http.get<any>(this.URL + 'DailyNotebook/DeleteDailyNotebook?DailyNotebookId=' + DailyNotebookId);
+    return this.http.get<ActionsResponseModel>(this.URL + 'DailyNotebook/DeleteDailyNotebook?DailyNotebookId=' + DailyNotebookId);
   }
+
 
   //================================== AssetsForm ===============================
 

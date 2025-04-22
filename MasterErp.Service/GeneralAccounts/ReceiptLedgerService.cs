@@ -104,6 +104,17 @@ namespace MasterErp.Service.GeneralAccounts
         {
             try
             {
+                var entity = Context.ReceiptLedgers.FirstOrDefault(i => i.NameEN == Model.NameEN || i.NameAR == Model.NameAR);
+                if (entity != null)
+                {
+                    return new ActionsResponseModel
+                    {
+                        IsSuccess = false,
+                        Message = "هذا الاسم موجود"
+                    };
+                }
+
+
                 ReceiptLedger tbl = new ReceiptLedger();
 
                 tbl.CreatedDate = DateTime.Now;
