@@ -5,6 +5,7 @@ import { FilterModel } from '../../Shared/models/FilterModel';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 import { PaymentTermDetailsModel, PaymentTermModel } from '../models/GeneralAccounts/PaymentTermModel';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
+import { TaxCalculationModel } from '../models/GeneralAccounts/TaxCalculationModel';
 
 @Injectable({
   providedIn: 'root'
@@ -54,8 +55,8 @@ export class GeneralAccountSettingsService {
 
   //================================== TaxCalculation ===============================
 
-  GetTaxCalculationData(model: FilterModel) {
-    return this.http.post<any[]>(this.URL + 'TaxCalculation/GetTaxCalculationData', model);
+  GetTaxCalculationsData(model: PagedResponseDTO<TaxCalculationModel[]>) {
+    return this.http.post<PagedResponseDTO<TaxCalculationModel[]>>(this.URL + 'TaxCalculation/GetTaxCalculationsData', model);
   }
 
   GetTaxLookups() {
@@ -63,19 +64,19 @@ export class GeneralAccountSettingsService {
   }
 
   ChangeTaxCalculationStatus(TaxCalculationId: number, IsActive: boolean) {
-    return this.http.get<any>(this.URL + 'TaxCalculation/ChangeTaxCalculationStatus?TaxCalculationId=' + TaxCalculationId + '&IsActive=' + IsActive);
+    return this.http.get<ActionsResponseModel>(this.URL + 'TaxCalculation/ChangeTaxCalculationStatus?TaxCalculationId=' + TaxCalculationId + '&IsActive=' + IsActive);
   }
 
-  AddNewTaxCalculation(Model: any) {
-    return this.http.post<any>(this.URL + 'TaxCalculation/AddNewTaxCalculation', Model);
+  CreateNewTaxCalculation(Model: TaxCalculationModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'TaxCalculation/CreateNewTaxCalculation', Model);
   }
 
-  EditTaxCalculation(Model: any) {
-    return this.http.post<any>(this.URL + 'TaxCalculation/EditTaxCalculation', Model);
+  EditTaxCalculation(taxCalculationId:number,Model: TaxCalculationModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `TaxCalculation/EditTaxCalculation?TaxCalculationId=${taxCalculationId}`, Model);
   }
 
   DeleteTaxCalculation(TaxCalculationId: number) {
-    return this.http.get<any>(this.URL + 'TaxCalculation/DeleteTaxCalculation?TaxCalculationId=' + TaxCalculationId);
+    return this.http.get<ActionsResponseModel>(this.URL + 'TaxCalculation/DeleteTaxCalculation?TaxCalculationId=' + TaxCalculationId);
   }
 
   //================================== DailyNotebook ===============================

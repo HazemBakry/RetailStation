@@ -11,6 +11,7 @@ namespace MasterErp.Entities.Models
     public class TaxLookup
     {
         public int TaxLookupId { get; set; }
-        public string TaxLookupName { get; set; }
+        public string NameEN { get; set; }
+        public string NameAR { get; set; }
     }
 }

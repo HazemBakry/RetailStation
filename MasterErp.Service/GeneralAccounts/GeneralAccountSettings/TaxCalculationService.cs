@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.Common;
@@ -20,61 +21,78 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
         private readonly string ConnectionString;
-        public TaxCalculationService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration)
+        private readonly LookupsDbContext LookupsContext;
+
+        public TaxCalculationService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration, LookupsDbContext lookupsContext)
         {
             Context = dBContext;
             SQLHelper = iSQLHelper;
             Configuration = _configuration;
             ConnectionString = Configuration.GetConnectionString("DBConnection");
+            LookupsContext = lookupsContext;
         }
 
-        public DataTable GetTaxCalculationData(FilterModel model)
-        {
-            SqlParameter[] param = new SqlParameter[2];
-            param[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
-            param[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
-            var dt = SQLHelper.ExecuteDataTable("[Finance].[SP_GetTaxCalculationData]", param, ConnectionString);
 
-            return dt;
-        }
 
-        public List<TaxLookup> GetTaxLookups()
+        public List<TaxCalculationModel> GetTaxCalculationsData(SearchFilterModel searchModel)
         {
-            var results = Context.TaxLookups.ToList();
+
+            //SqlParameter[] param = new SqlParameter[2];
+            //param[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
+            //param[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
+            //var dt = SQLHelper.ExecuteDataTable("[Finance].[SP_GetTaxCalculationData]", param, ConnectionString);
+
+
+            var taxLookups = LookupsContext.TaxLookups.ToList();
+
+            var query = Context.TaxCalculations.Select(taxCalculation=> 
+                        new TaxCalculationModel
+                        {
+                            TaxCalculationId = taxCalculation.TaxCalculationId,
+                            IsActive = taxCalculation.IsActive,
+                            TaxLookupId = taxCalculation.TaxLookupId,
+                            TaxScope = taxCalculation.TaxScope,
+                            TaxType = taxCalculation.TaxType,
+                            Amount = taxCalculation.Amount,
+                            NameEN = taxCalculation.NameAR,
+                            NameAR = taxCalculation.NameEN,
+                            Description = taxCalculation.Description,
+                            CreatedBy = taxCalculation.CreatedBy,
+                            CreatedDate = taxCalculation.CreatedDate,
+                            ModifiedBy = taxCalculation.ModifiedBy,
+                            ModifiedDate = taxCalculation.ModifiedDate,
+                        });
+
+            int totalCount = query.Count();
+            if (searchModel.CurrentPage > 0 && searchModel.PageSize > 0)
+            {
+                int skip = (searchModel.CurrentPage - 1) * searchModel.PageSize;
+                query = query.Skip(skip).Take(searchModel.PageSize);
+            }
+
+            var pagedResults = query.ToList();
+            //pagedResults.ForEach(x => x.TotalCount = totalCount);
+
+            var results = pagedResults.Select(x =>
+            {
+                var taxLookup = taxLookups.FirstOrDefault(p => p.TaxLookupId == x.TaxLookupId);
+                x.TotalCount = totalCount;
+                x.TaxLookupNameEN = taxLookup?.NameEN;
+                x.TaxLookupNameAR = taxLookup?.NameAR;
+                
+                return x;
+            }).ToList();
+
             return results;
         }
 
-        public ActionsResponseModel ChangeTaxCalculationStatus(int TaxCalculationId, bool IsActive)
+
+
+        public ActionsResponseModel CreateNewTaxCalculation(TaxCalculationModel Model)
         {
             try
             {
-                var entity = Context.TaxCalculations.FirstOrDefault(x => x.TaxCalculationId == TaxCalculationId);
-                if (entity != null)
-                {
-                    entity.IsActive = IsActive;
-                }
-
-                Context.SaveChanges();
-                return new ActionsResponseModel
-                {
-                    Message = "تم التعديل  الحالة بنجاح"
-                };
-            }
-            catch (Exception ex)
-            {
-                return new ActionsResponseModel
-                {
-                    IsSuccess = false,
-                    Message = ex.Message
-                };
-            }
-        }
-
-        public ActionsResponseModel AddNewTaxCalculation(TaxCalculation Model)
-        {
-            try
-            {
-                var entity = Context.TaxCalculations.FirstOrDefault(i => i.TaxCalculationName == Model.TaxCalculationName);
+                var entity = Context.TaxCalculations.FirstOrDefault(i => i.NameEN == Model.NameEN || i.NameAR == Model.NameAR);
                 if (entity != null)
                 {
                     return new ActionsResponseModel
@@ -86,13 +104,14 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
 
                 TaxCalculation taxObj = new TaxCalculation();
 
-                taxObj.TaxCalculationName = Model.TaxCalculationName;
+                taxObj.NameEN = Model.NameEN;
+                taxObj.NameAR = Model.NameAR;
                 taxObj.Description = Model.Description;
                 taxObj.TaxLookupId = Model.TaxLookupId;
                 taxObj.TaxType = Model.TaxType;
                 taxObj.TaxScope = Model.TaxScope;
                 taxObj.Amount = Model.Amount;
-                taxObj.IsActive = true;
+                taxObj.IsActive = Model.IsActive;
                 taxObj.CreatedDate = DateTime.Now;
                 taxObj.CreatedBy = Model.CreatedBy;
 
@@ -115,20 +134,22 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
             }
         }
 
-        public ActionsResponseModel EditTaxCalculation(TaxCalculation Model)
+        public ActionsResponseModel EditTaxCalculation(int TaxCalculationId, TaxCalculationModel Model)
         {
+
             try
             {
-                var entity = Context.TaxCalculations.FirstOrDefault(x => x.TaxCalculationId == Model.TaxCalculationId);
+                var entity = Context.TaxCalculations.FirstOrDefault(x => x.TaxCalculationId == TaxCalculationId);
                 if (entity != null)
                 {
-                    entity.TaxCalculationName = Model.TaxCalculationName;
+                    entity.NameEN = Model.NameEN;
+                    entity.NameAR = Model.NameAR;
                     entity.Description = Model.Description;
                     entity.TaxLookupId = Model.TaxLookupId;
                     entity.TaxType = Model.TaxType;
                     entity.TaxScope = Model.TaxScope;
                     entity.Amount = Model.Amount;
-                    entity.IsActive = true;
+                    entity.IsActive = Model.IsActive;
                     entity.ModifiedDate = DateTime.Now;
                     entity.ModifiedBy = Model.ModifiedBy;
                 }
@@ -147,7 +168,9 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
                     Message = ex.Message
                 };
             }
+
         }
+
 
         public ActionsResponseModel DeleteTaxCalculation(int TaxCalculationId)
         {
@@ -180,5 +203,37 @@ namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
             }
 
         }
+
+
+
+
+        public ActionsResponseModel ChangeTaxCalculationStatus(int TaxCalculationId, bool IsActive)
+        {
+            try
+            {
+                var entity = Context.TaxCalculations.FirstOrDefault(x => x.TaxCalculationId == TaxCalculationId);
+                if (entity != null)
+                {
+                    entity.IsActive = IsActive;
+                }
+
+                Context.SaveChanges();
+                return new ActionsResponseModel
+                {
+                    Message = "تم التعديل  الحالة بنجاح"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+
+
     }
 }

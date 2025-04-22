@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.GeneralAccounts.GeneralAccountSettings;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 {
@@ -20,46 +22,53 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             _taxCalculationService = taxCalculationService;
         }
 
-        [HttpPost("GetTaxCalculationData")]
-        public DataTable GetTaxCalculationData(FilterModel model)
+
+        [HttpPost]
+        [Route("GetTaxCalculationsData")]
+        public IActionResult GetTaxCalculationsData(SearchFilterModel model)
         {
-            var results = _taxCalculationService.GetTaxCalculationData(model);
-            return results;
+            var data = _taxCalculationService.GetTaxCalculationsData(model);
+            var result = new PagedResponseModel<TaxCalculationModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
         }
 
-        [HttpGet("GetTaxLookups")]
-        public List<TaxLookup> GetTaxLookups()
+        [HttpPost]
+        [Route("CreateNewTaxCalculation")]
+        public IActionResult CreateNewTaxCalculation(TaxCalculationModel Model)
         {
-            var results = _taxCalculationService.GetTaxLookups();
-            return results;
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            Model.CreatedBy = UserId;
+            var results = _taxCalculationService.CreateNewTaxCalculation(Model);
+            return Ok(results);
         }
-
-        [HttpGet("ChangeTaxCalculationStatus")]
-        public ActionsResponseModel ChangeTaxCalculationStatus(int TaxCalculationId, bool IsActive)
+        [HttpPost]
+        [Route("EditTaxCalculation")]
+        public IActionResult EditTaxCalculation(int TaxCalculationId, TaxCalculationModel Model)
         {
-            var results = _taxCalculationService.ChangeTaxCalculationStatus(TaxCalculationId, IsActive);
-            return results;
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            Model.ModifiedBy = UserId;
+            var results = _taxCalculationService.EditTaxCalculation(TaxCalculationId, Model);
+            return Ok(results);
         }
-
-        [HttpPost("AddNewTaxCalculation")]
-        public ActionsResponseModel AddNewTaxCalculation(TaxCalculation Model)
-        {
-            var results = _taxCalculationService.AddNewTaxCalculation(Model);
-            return results;
-        }
-
-        [HttpPost("EditTaxCalculation")]
-        public ActionsResponseModel EditTaxCalculation(TaxCalculation Model)
-        {
-            var results = _taxCalculationService.EditTaxCalculation(Model);
-            return results;
-        }
-
-        [HttpGet("DeleteTaxCalculation")]
-        public ActionsResponseModel DeleteTaxCalculation(int TaxCalculationId)
+        [HttpGet]
+        [Route("DeleteTaxCalculation")]
+        public IActionResult DeleteTaxCalculation(int TaxCalculationId)
         {
             var results = _taxCalculationService.DeleteTaxCalculation(TaxCalculationId);
-            return results;
+            return Ok(results);
+        }
+        [HttpGet]
+        [Route("ChangeTaxCalculationStatus")]
+        public IActionResult ChangeTaxCalculationStatus(int TaxCalculationId, bool IsActive)
+        {
+            var results = _taxCalculationService.ChangeTaxCalculationStatus(TaxCalculationId, IsActive);
+            return Ok(results);
         }
     }
 }

@@ -102,6 +102,14 @@ namespace MasterErp.API.Controllers.Shared
             var results = lookupService.GetReceiptTypes(GroupName);
             return Ok(results);
         }
+        [HttpGet]
+        [Route("GetTaxLookups")]
+        public IActionResult GetTaxLookups()
+        {
+
+            var results = lookupService.GetTaxLookups();
+            return Ok(results);
+        }
 
         #endregion
     }

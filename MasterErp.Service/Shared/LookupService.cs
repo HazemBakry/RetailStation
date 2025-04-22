@@ -21,12 +21,13 @@ namespace MasterErp.Service.Shared
         private readonly IConfiguration Configuration;
         private readonly IExportService _exportService;
         private readonly string ConnectionString;
-
-        public LookupService(DBContext dBContext, ISQLHelper ISQLHelper, IConfiguration _configuration)
+        private readonly LookupsDbContext LookupsContext;
+        public LookupService(DBContext dBContext, ISQLHelper ISQLHelper, IConfiguration _configuration, LookupsDbContext lookupsContext)
         {
             SQLHelper = ISQLHelper;
             Configuration = _configuration;
             ConnectionString = Configuration.GetConnectionString("LookupDB");
+            LookupsContext = lookupsContext;
         }
 
         #region Global Looups
@@ -114,6 +115,15 @@ namespace MasterErp.Service.Shared
 
             var result = SQLHelper.SQLQuery<SelectorDataModel>("[Finance].[SP_GetReceiptTypes]", ConnectionString, Params);
             return result;
+        }
+        
+        public List<SelectorDataModel> GetTaxLookups()
+        {
+            return LookupsContext.TaxLookups.Select(x => new SelectorDataModel
+            {
+                Id = x.TaxLookupId,
+                Name = x.NameAR ?? x.NameEN
+            }).ToList();
         }
 
         #endregion
