@@ -164,11 +164,11 @@
                     </td>
 
                     <td>
-                        <input type="text" #inputs class="form-control text-center" [(ngModel)]="item.debit" id="Input1" autocomplete="off" (input)="calcDifference()" (keypress)="validateNumbers($event.key)" (keyup.arrowdown)="focusDownAndUp('Input1',i,'down')" (keyup.arrowup)="focusDownAndUp('Input1',i,'up')"
+                        <input type="number" #inputs class="form-control text-center" [(ngModel)]="item.debit" id="Input1" autocomplete="off" (input)="calcDifference()" (keyup.arrowdown)="focusDownAndUp('Input1',i,'down')" (keyup.arrowup)="focusDownAndUp('Input1',i,'up')"
                             (keyup.arrowleft)="focusLeftAndRight('Input2',i)" focus [disabled]="item.credit > 0">
                     </td>
                     <td>
-                        <input type="text" #inputs2 class="form-control text-center" [(ngModel)]="item.credit" id="Input2" autocomplete="off" (input)="calcDifference()" (keypress)="validateNumbers($event.key)" (keyup.arrowdown)="focusDownAndUp('Input2',i,'down')" (keyup.arrowup)="focusDownAndUp('Input2',i,'up')"
+                        <input type="number" #inputs2 class="form-control text-center" [(ngModel)]="item.credit" id="Input2" autocomplete="off" (input)="calcDifference()" (keyup.arrowdown)="focusDownAndUp('Input2',i,'down')" (keyup.arrowup)="focusDownAndUp('Input2',i,'up')"
                             (keyup.arrowleft)="focusLeftAndRight('Input3',i)" (keyup.arrowright)="focusLeftAndRight('Input1', i)" [disabled]="item.debit > 0">
                     </td>
                     <td>
