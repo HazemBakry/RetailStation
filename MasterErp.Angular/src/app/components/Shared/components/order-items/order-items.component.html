@@ -56,6 +56,7 @@
                     <th *ngIf="showPrice">سعر الوحدة</th>
                     <th>الكمية</th>
                     <th *ngIf="showPrice">إجمالى القيمة</th>
+                    <th *ngIf="showDueDate">تاريخ الاستحقاق</th>
                     <th></th>
                 </tr>
 
@@ -82,6 +83,10 @@
                     <td *ngIf="showPrice">
                         <input type="text" #inputs class="form-control text-center" disabled
                             [(ngModel)]="item.totalValue" autocomplete="off">
+                    </td>
+                    <td *ngIf="showDueDate">
+                        <input type="date" #inputs class="form-control text-center"
+                            [(ngModel)]="item.dueDate" autocomplete="off">
                     </td>
                     <td class="justify-content-center d-flex">
                         <button

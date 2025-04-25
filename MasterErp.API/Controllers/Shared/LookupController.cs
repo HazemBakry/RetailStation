@@ -110,6 +110,14 @@ namespace MasterErp.API.Controllers.Shared
             var results = lookupService.GetTaxLookups();
             return Ok(results);
         }
+        [HttpGet]
+        [Route("GetMaterialRequestPurposes")]
+        public IActionResult GetMaterialRequestPurposes()
+        {
+
+            var results = lookupService.GetMaterialRequestPurposes();
+            return Ok(results);
+        }
 
         #endregion
     }

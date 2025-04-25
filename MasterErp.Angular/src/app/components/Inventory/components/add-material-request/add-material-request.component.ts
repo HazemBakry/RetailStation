@@ -11,6 +11,7 @@ import { FormService } from 'src/app/components/Shared/services/form.service';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { MaterialRequestModel } from '../../models/MaterialRequestModel ';
 import { GeneralOrderDetailsModel } from '../../models/GeneralOrderModel ';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 
 @Component({
   selector: 'app-add-material-request',
@@ -28,6 +29,7 @@ export class AddMaterialRequestComponent implements OnInit {
 
   branchesSelectorData: GeneralSelectorModel[] = [];
   orderStatusSelectorData: GeneralSelectorModel[] = [];
+  materialRequestPurposesSelectorData: GeneralSelectorModel[] = [];
 
   showLoader: boolean = false;
   showAddLoader: boolean = false;
@@ -40,6 +42,7 @@ export class AddMaterialRequestComponent implements OnInit {
     private modalService: NgbModal,
     private inventoryService: InventoryService,
     private sharedService: SharedService,
+    private lookupService: LookupService,
     private form: FormBuilder, private _FormService: FormService,
     private datePipe: DatePipe,
     private toaster: ToastrService,
@@ -76,6 +79,9 @@ export class AddMaterialRequestComponent implements OnInit {
   getMaterialRequestProducts() {
     this.showLoader = true;
     this.inventoryService.GetMaterialRequestProducts_Data([this.materialRequestId]).subscribe((data: GeneralOrderDetailsModel[]) => {
+      data.forEach((item: GeneralOrderDetailsModel) => {
+        item.dueDate = this.datePipe.transform(item.dueDate, 'yyyy-MM-dd');
+      });
       this.orderDetails = data;
       if (this.orderDetails.length > 0) {
         // this.formGroup.patchValue({orderDetails:this.orderDetails});
@@ -109,6 +115,8 @@ export class AddMaterialRequestComponent implements OnInit {
       docNumber: [null],
       branchId: [null, [Validators.required]],
       orderDate: [null, [Validators.required]],
+      dueDate: [null, [Validators.required]],
+      purposeId: [null, [Validators.required]],
       statusId: [null],
       orderDetails: [[] as GeneralOrderDetailsModel[], [Validators.required, Validators.minLength(1)]],
       notes: [null],
@@ -190,6 +198,10 @@ export class AddMaterialRequestComponent implements OnInit {
     this.sharedService.GetOrderStatusSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.orderStatusSelectorData = data;
     });
+    this.lookupService.GetMaterialRequestPurposesSelector().subscribe((data: GeneralSelectorModel[]) => {
+      this.materialRequestPurposesSelectorData = data;
+    });
+
   }
 
   validateForm(): boolean {
@@ -209,6 +221,8 @@ export class AddMaterialRequestComponent implements OnInit {
       orderNumber: orderModel.orderNumber,
       branchId: orderModel.branchId,
       docNumber: orderModel.docNumber,
+      dueDate: this.datePipe.transform(orderModel.dueDate, 'yyyy-MM-dd'),
+      purposeId: orderModel.purposeId,
       statusId: orderModel.statusId,
       notes: orderModel.notes,
       orderDate: this.datePipe.transform(orderModel.orderDate, 'yyyy-MM-dd'),
@@ -221,6 +235,8 @@ export class AddMaterialRequestComponent implements OnInit {
     docNumber:'',
     orderId: '',
     orderDate: '',
+    dueDate: '',
+    purposeId: '',
     statusId: '',
     orderDetails: '',
     notes: ''

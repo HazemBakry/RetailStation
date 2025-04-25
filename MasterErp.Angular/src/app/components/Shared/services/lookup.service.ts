@@ -78,5 +78,7 @@ export class LookupService {
   GetTaxLookupsSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetTaxLookups');
   }
-
+  GetMaterialRequestPurposesSelector() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetMaterialRequestPurposes');
+  }
 }

@@ -755,7 +755,8 @@ namespace MasterErp.Service.Inventory
                 tbl.DocNumber = model.DocNumber;
                 tbl.StatusId = model.StatusId;
                 tbl.OrderDate = model?.OrderDate ?? DateTime.Now;
-
+                tbl.DueDate = model.DueDate;
+                tbl.PurposeId = model.PurposeId;
                 Context.MaterialRequests.Add(tbl);
                 Context.SaveChanges();
 
@@ -768,6 +769,7 @@ namespace MasterErp.Service.Inventory
                         Quantity = item.Quantity,
                         MaterialRequestId = tbl.MaterialRequestId,
                         UnitId = item.UnitId,
+                        DueDate = item.DueDate,
                     };
 
                     Context.MaterialRequestDetails.Add(detail);
@@ -800,11 +802,13 @@ namespace MasterErp.Service.Inventory
                 if (order_tbl != null)
                 {
                     order_tbl.OrderDate = model.OrderDate ?? DateTime.Now;
+                    order_tbl.DueDate = model.DueDate;
                     order_tbl.DocNumber = model.DocNumber;
                     order_tbl.TotalValue = model.OrderDetails.Sum(x => x.TotalValue);
                     order_tbl.IsCancelled = model.IsCancelled;
                     order_tbl.IsLocked = model.IsLocked;
                     order_tbl.Notes = model.Notes;
+                    order_tbl.PurposeId = model.PurposeId;
                     order_tbl.BranchId = model.BranchId;
                     order_tbl.ModifiedBy = model.ModifiedBy;
                     order_tbl.ModifiedDate = DateTime.Now;
@@ -824,6 +828,7 @@ namespace MasterErp.Service.Inventory
                             Quantity = item.Quantity,
                             MaterialRequestId = MaterialRequestId,
                             UnitId = item.UnitId,
+                            DueDate = item.DueDate,
                         };
 
                         Context.MaterialRequestDetails.Add(detail);
@@ -865,6 +870,7 @@ namespace MasterErp.Service.Inventory
                               UnitNameAR = unit.NameAR,
                               UnitNameEN = unit.NameEN,
                               OrderId = orderProduct.MaterialRequestId,
+                              DueDate = orderProduct.DueDate,
 
                           }).ToList();
 
@@ -880,7 +886,8 @@ namespace MasterErp.Service.Inventory
                                  Price = g.Sum(x => x.Price),
                                  Quantity = g.Sum(x => x.Quantity),
                                  TotalValue = g.Sum(x => x.TotalValue),
-                                 OrderId = g.First().OrderId
+                                 OrderId = g.First().OrderId,
+                                 DueDate = g.First().DueDate
                              }).ToList();
 
             return result;

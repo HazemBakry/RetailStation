@@ -21,6 +21,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   @Input() showAddNew: boolean = true;
   @Input() showPrice: boolean = true;
   @Input() isEditable: boolean = true;
+  @Input() showDueDate: boolean = false;
   @Input()   selectedSupplierId: number;
   @Output() selectedProductsList = new EventEmitter<GeneralOrderDetailsModel[]>();
   showLoader: boolean = false;
@@ -121,6 +122,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
       price: 0,
       quantity: null,
       totalValue: null,
+      dueDate: null,
       // isActive: true
     }
 

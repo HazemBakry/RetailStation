@@ -5,7 +5,7 @@
         <div class="d-flex align-items-center gap-2">
             <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3" routerLink="./../add-material-request">
                 <i class="fas fa-plus-circle"></i>
-                <span>إضافة إذن</span>
+                <span>إضافة طلب جديد</span>
             </button>
             <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
                 <i class="fas fa-filter"></i>
@@ -23,9 +23,11 @@
                     <tr>
                         <th># الطلب</th>
                         <th>تاريخ الطلب</th>
+                        <th>تاريخ الاستحقاق</th>
+                        <th>الغرض من الطلب</th>
                         <th>اسم الفرع</th>
                         <th>حالة الطلب</th>
-                        <th>ملاحظات</th>
+                        <!-- <th>ملاحظات</th> -->
                         <th>العمليات</th>
                     </tr>
                 </thead>
@@ -33,30 +35,51 @@
                     <tr *ngFor="let item of pagedResponseModel.results">
                         <td>{{item.orderNumber}}</td>
                         <td>{{item.orderDate | date}}</td>
+                        <td>{{item.dueDate | date}}</td>
+                        <td>{{item.purposeNameAR ?? item.purposeNameEN}}</td>
                         <td>{{item.branchNameAR ?? item.branchNameEN}}</td>
                         <td>
-                            <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isCancelled)">
+                            <span *ngIf="item.orderStatus" class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isCancelled)">
                             {{item.orderStatus}}
                         </span>
                         </td>
-                        <td>{{item.notes}}</td>
+                        <!-- <td>{{item.notes}}</td> -->
                         <td>
-                            <div class="w-100 d-flex align-items-center justify-content-center">
-                                <button (click)="showMaterialRequestDetails(item)" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
-                                <i class="uil uil-pen"></i>
-                                <span>تفاصيل</span>
-                            </button>
-                                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2" routerLink="../add-material-request" [queryParams]="{MaterialRequestId:item.materialRequestId}">
-                                <i class="uil uil-pen"></i>
-                                <span>تعديل</span>
-                            </button>
-                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteDialog,item.materialRequestId)">
-                                <i class="uil uil-times"></i>
-                                <span>الغاء</span>
-                            </button>
-                                <!-- <app-invoice-details-sidepanel [invoiceId]="item.orderId">
-                            </app-invoice-details-sidepanel> -->
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div ngbDropdown container="body">
+                                    <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle>
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <div ngbDropdownMenu class="border">
+                                        <button ngbDropdownItem (click)="showMaterialRequestDetails(item)">تفاصيل</button>
+                                        <button ngbDropdownItem routerLink="../add-material-request" 
+                                                [queryParams]="{MaterialRequestId:item.materialRequestId}">
+                                                تعديل
+                                        </button>
+                                        <button ngbDropdownItem (click)="openDeleteModal(deleteDialog,item.materialRequestId)">الغاء</button>
+
+                                    </div>
+                                </div>
                             </div>
+
+                            <!-- <div class="w-100 d-flex align-items-center justify-content-center">
+                                <button (click)="showMaterialRequestDetails(item)"
+                                    class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
+                                    <i class="uil uil-pen"></i>
+                                    <span>تفاصيل</span>
+                                </button>
+                                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2"
+                                    routerLink="../add-material-request" [queryParams]="{MaterialRequestId:item.materialRequestId}">
+                                    <i class="uil uil-pen"></i>
+                                    <span>تعديل</span>
+                                </button>
+                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
+                                    (click)="openDeleteModal(deleteDialog,item.materialRequestId)">
+                                    <i class="uil uil-times"></i>
+                                    <span>الغاء</span>
+                                </button>
+                            
+                            </div> -->
                         </td>
                     </tr>
                     <tr *ngIf="!pagedResponseModel.results.length">

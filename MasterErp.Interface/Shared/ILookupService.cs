@@ -28,6 +28,7 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetPaymentTypes();
         List<SelectorDataModel> GetReceiptTypes(string GroupName);
         List<SelectorDataModel> GetTaxLookups();
+        List<SelectorDataModel> GetMaterialRequestPurposes();
 
         #endregion
     }

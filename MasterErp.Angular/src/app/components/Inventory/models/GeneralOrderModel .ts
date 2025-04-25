@@ -35,5 +35,6 @@ export interface GeneralOrderDetailsModel {
     requestedQuantity?: number;
     totalValue: number;
     orderId?: number;
+    dueDate?: string;
 }
 

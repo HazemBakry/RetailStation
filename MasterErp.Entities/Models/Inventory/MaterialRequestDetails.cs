@@ -19,6 +19,7 @@ namespace MasterErp.Entities.Models.Inventory
         public int ItemId { get; set; }
         public int? UnitId { get; set; }
         public double Quantity { get; set; }
+        public DateTime? DueDate { get; set; }
         public string Notes { get; set; }
     }
 }

@@ -14,6 +14,9 @@ namespace MasterErp.Entities.DTOs.Inventory
         public int BranchId { get; set; }
         public string BranchNameAR { get; set; }
         public string BranchNameEN { get; set; }
+        public int? PurposeId { get; set; }
+        public string PurposeNameAR { get; set; }
+        public string PurposeNameEN { get; set; }
         public List<GeneralOrderDetailsModel> OrderDetails { get; set; }
 
         public int? TotalCount { get; set; }

@@ -6,6 +6,9 @@ export interface MaterialRequestModel extends GeneralOrderModel {
     branchId: number;
     branchNameAR: string;
     branchNameEN: string;
+    purposeId: number;
+    purposeNameAR: string;
+    purposeNameEN: string;
     orderDetails: GeneralOrderDetailsModel[];
     totalCount?: number;
     isChecked: boolean;

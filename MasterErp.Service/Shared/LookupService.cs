@@ -107,7 +107,7 @@ namespace MasterErp.Service.Shared
             var result = SQLHelper.SQLQuery<SelectorDataModel>("[Finance].[SP_GetPaymentTypes]", ConnectionString, Params);
             return result;
         }
-
+        
         public List<SelectorDataModel> GetReceiptTypes(string GroupName)
         {
             SqlParameter[] Params = new SqlParameter[1];
@@ -124,6 +124,14 @@ namespace MasterErp.Service.Shared
                 Id = x.TaxLookupId,
                 Name = x.NameAR ?? x.NameEN
             }).ToList();
+        }
+
+        public List<SelectorDataModel> GetMaterialRequestPurposes()
+        {
+            SqlParameter[] Params = new SqlParameter[0];
+
+            var result = SQLHelper.SQLQuery<SelectorDataModel>("[Inventory].[SP_GetMaterialRequestPurposes]", ConnectionString, Params);
+            return result;
         }
 
         #endregion

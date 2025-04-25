@@ -19,6 +19,8 @@ namespace MasterErp.Entities.Models.Inventory
         public int OrderNumber { get; set; }
         public string DocNumber { get; set; }
         public DateTime OrderDate { get; set; }
+        public DateTime? DueDate { get; set; }
+        public int? PurposeId { get; set; }
         public int BranchId { get; set; }
         public int? StatusId { get; set; }
         public double? TotalValue { get; set; }
