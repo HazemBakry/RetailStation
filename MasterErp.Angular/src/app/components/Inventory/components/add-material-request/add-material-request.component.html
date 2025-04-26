@@ -20,7 +20,7 @@
                         *ngIf="!materialRequestModel?.orderId &&!showLoader">
                         <i class="fas fa-times"></i>
                         <span class="px-2">
-                            مسح
+                            افراغ الخانات
                         </span>
                     </button>
                     <button ngbDropdownItem>
@@ -32,18 +32,23 @@
 
                 </div>
             </div>
-            <button type="button" 
-             class="btn btn-table-action m-2 d-flex align-items-center gap-2 border rounded px-3">
-                <i class="fas fa-chevron-right"></i>            
-            </button>
-            <button type="button" 
-             class="btn btn-table-action m-2 d-flex align-items-center gap-2 border rounded px-3">
-                <i class="fas fa-chevron-left"></i>            
-            </button>
-            
+            <ng-container *ngIf="materialRequestId">
+
+                <button (click)="goToMaterialRequest(materialRequestModel?.nextId)" type="button"
+                    [disabled]="!materialRequestModel?.nextId" title="التالي"
+                    class="btn btn-table-action m-2 d-flex align-items-center gap-2 border rounded px-3">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <button (click)="goToMaterialRequest(materialRequestModel?.previousId)" type="button"
+                    [disabled]="!materialRequestModel?.previousId" title="السابق"
+                    class="btn btn-table-action m-2 d-flex align-items-center gap-2 border rounded px-3">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </ng-container>
+
             <button [disabled]="showAddLoader"
                 class="btn btn-secondary  m-2 d-flex align-items-center gap-2 border rounded px-3"
-                (click)="saveMaterialRequest()">
+                (click)="openSaveModal(saveDialog)">
                 <i class="fas fa-check-circle"></i>
                 <span class="ms-2">حفـظ</span>
             </button>
@@ -171,3 +176,24 @@
 
 <app-order-items [selectedProducts]="orderDetails" [clearAllProducts]="clearAllProducts" [showPrice]="false"
     [showDueDate]="true" (selectedProductsList)="getSelectedProductsList($event)"></app-order-items>
+
+
+
+<ng-template #saveDialog let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد العملية</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد من الحفظ ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click'); saveMaterialRequest()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">الغاء</span>
+        </button>
+    </div>
+</ng-template>

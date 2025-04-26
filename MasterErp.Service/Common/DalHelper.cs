@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using MasterErp.Entities.Common.Enums;
+using MasterErp.Entities.Common.Extentions;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -73,6 +75,13 @@ namespace MasterErp.Service.Common
             return dataTable;
         }
 
+        public static string GenerateSerialNumber(SerialType type, int code)
+        {
+            string abbreviation = type.GetDescription();
+            string currentYear = DateTime.Now.Year.ToString();
+            return $"{abbreviation}-{currentYear}-{code:D5}";
+        }
+        
     }
 
 }

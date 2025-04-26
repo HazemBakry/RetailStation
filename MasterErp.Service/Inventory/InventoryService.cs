@@ -1,5 +1,6 @@
 ﻿using iText.Layout.Borders;
 using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Common.Inventory.ReceiveOrder;
 using MasterErp.Entities.Common.SQLTabeType;
@@ -737,7 +738,22 @@ namespace MasterErp.Service.Inventory
         }
         public MaterialRequestModel GetMaterialRequestDetailsById(int MaterialRequestId)
         {
-            return GetMaterialRequests_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, MaterialRequestId)?.FirstOrDefault();
+            var result = GetMaterialRequests_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, MaterialRequestId)?.FirstOrDefault();
+            if(result !=null)
+            {
+                result.PreviousId = Context.MaterialRequests
+                                    .Where(p => p.MaterialRequestId < MaterialRequestId)
+                                    .OrderByDescending(p => p.MaterialRequestId)
+                                    .Select(p => p.MaterialRequestId)
+                                    .FirstOrDefault();
+
+                result.NextId = Context.MaterialRequests
+                                .Where(p => p.MaterialRequestId > MaterialRequestId)
+                                .OrderBy(p => p.MaterialRequestId)
+                                .Select(p => p.MaterialRequestId)
+                                .FirstOrDefault();
+            }
+            return result;
         }
 
 
@@ -746,8 +762,10 @@ namespace MasterErp.Service.Inventory
             try
             {
                 MaterialRequest tbl = new MaterialRequest();
+                int code = (Context.MaterialRequests.Count() > 0 ? Context.MaterialRequests.Max(x => x.OrderNumber) + 1 : 1);
+                tbl.OrderNumber = code;
+                tbl.SerialNumber = DalHelper.GenerateSerialNumber(SerialType.MaterialRequest, code);
 
-                tbl.OrderNumber = (Context.MaterialRequests.Count() > 0 ? Context.MaterialRequests.Max(x => x.OrderNumber) + 1 : 1);
                 tbl.CreatedDate = DateTime.Now;
                 tbl.CreatedBy = model.CreatedBy;
                 tbl.BranchId = model.BranchId;

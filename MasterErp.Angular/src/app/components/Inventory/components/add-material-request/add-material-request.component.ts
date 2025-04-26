@@ -52,6 +52,7 @@ export class AddMaterialRequestComponent implements OnInit {
     this.acRoute.queryParams.subscribe((params: any) => {
       if (params.MaterialRequestId) {
         this.materialRequestId = params.MaterialRequestId;
+        this.initNewForm();
         this.getMaterialRequestDetailsById();
         this.getMaterialRequestProducts();
       }
@@ -60,7 +61,15 @@ export class AddMaterialRequestComponent implements OnInit {
     this.initNewForm();
     this.loadSelectors();
   }
-
+  goToMaterialRequest(id: number) {
+    if (id) {
+      this.router.navigate([], {
+        relativeTo: this.acRoute,
+        queryParams: { MaterialRequestId:id },
+        queryParamsHandling: 'merge'
+      });
+    }
+  }
   getMaterialRequestDetailsById() {
     this.showLoader = true;
     this.inventoryService.GetMaterialRequestDetailsById(this.materialRequestId).subscribe((data: MaterialRequestModel) => {
@@ -82,7 +91,9 @@ export class AddMaterialRequestComponent implements OnInit {
       data.forEach((item: GeneralOrderDetailsModel) => {
         item.dueDate = this.datePipe.transform(item.dueDate, 'yyyy-MM-dd');
       });
+      
       this.orderDetails = data;
+      console.log(this.orderDetails);
       if (this.orderDetails.length > 0) {
         // this.formGroup.patchValue({orderDetails:this.orderDetails});
       }
@@ -227,6 +238,15 @@ export class AddMaterialRequestComponent implements OnInit {
       notes: orderModel.notes,
       orderDate: this.datePipe.transform(orderModel.orderDate, 'yyyy-MM-dd'),
     });
+  }
+  openSaveModal(content: any) {
+    if (this.orderDetails.length === 0)
+      this.toaster.warning('لا يوجد اصناف');
+
+    if (!this.validateForm()) {
+      return;
+    }
+    this.modalService.open(content, { centered: true, size: 'md' });
   }
 
   public formErrors = {

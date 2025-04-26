@@ -3,6 +3,7 @@ import { CreatorModel } from "../../Shared/models/CreatorModel";
 export interface GeneralOrderModel extends CreatorModel {
     orderId?: number;
     orderNumber?: number;
+    serialNumber?: string;
     docNumber?: string;
     orderDate?: string;
     dueDate?: string;

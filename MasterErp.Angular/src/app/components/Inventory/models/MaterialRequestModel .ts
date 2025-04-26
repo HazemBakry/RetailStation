@@ -11,6 +11,8 @@ export interface MaterialRequestModel extends GeneralOrderModel {
     purposeNameEN: string;
     orderDetails: GeneralOrderDetailsModel[];
     totalCount?: number;
+    nextId?: number|null;
+    previousId?: number|null;
     isChecked: boolean;
 
 }

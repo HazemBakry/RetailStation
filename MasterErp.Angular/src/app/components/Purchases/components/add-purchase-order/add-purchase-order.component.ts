@@ -53,6 +53,9 @@ export class AddPurchaseOrderComponent implements OnInit {
         this.getPurchaseOrderDetailsById();
         this.getPurchaseOrderProducts();
       }
+      if (params.MaterialRequestId) {
+       
+      }
     })
     this.initNewForm();
     this.loadSelectors();

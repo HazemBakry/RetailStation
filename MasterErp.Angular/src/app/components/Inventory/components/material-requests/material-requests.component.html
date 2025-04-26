@@ -22,6 +22,7 @@
                 <thead>
                     <tr>
                         <th># الطلب</th>
+                        <th>#</th>
                         <th>تاريخ الطلب</th>
                         <th>تاريخ الاستحقاق</th>
                         <th>الغرض من الطلب</th>
@@ -34,6 +35,7 @@
                 <tbody>
                     <tr *ngFor="let item of pagedResponseModel.results">
                         <td>{{item.orderNumber}}</td>
+                        <td>{{item.serialNumber}}</td>
                         <td>{{item.orderDate | date}}</td>
                         <td>{{item.dueDate | date}}</td>
                         <td>{{item.purposeNameAR ?? item.purposeNameEN}}</td>
@@ -83,7 +85,7 @@
                         </td>
                     </tr>
                     <tr *ngIf="!pagedResponseModel.results.length">
-                        <td colspan="6" class="text-right">
+                        <td colspan="8" class="text-right">
                             <app-empty-data [showEmptyData]="!pagedResponseModel.results.length"></app-empty-data>
                         </td>
                     </tr>

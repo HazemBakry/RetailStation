@@ -18,6 +18,8 @@ namespace MasterErp.Entities.DTOs.Inventory
         public string PurposeNameAR { get; set; }
         public string PurposeNameEN { get; set; }
         public List<GeneralOrderDetailsModel> OrderDetails { get; set; }
+        public int? NextId { get; set; }
+        public int? PreviousId { get; set; }
 
         public int? TotalCount { get; set; }
 
