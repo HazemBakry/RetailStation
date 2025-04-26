@@ -25,10 +25,17 @@
                                 طباعة
                             </span>
                         </button>
+                        <button *ngIf="materialRequestId" ngbDropdownItem routerLink="/purchases/add-purchase-order"
+                            [queryParams]="{MaterialRequestId:materialRequestId}">
+                            <i class="fas fa-print"></i>
+                            <span class="px-2">
+                                انشاء امر شراء
+                            </span>
+                        </button>
                     </div>
                 </div>
             </div>
-            
+
             <ng-container *ngIf="materialRequestId">
 
                 <button (click)="goToMaterialRequest(materialRequestModel?.nextId)" type="button"

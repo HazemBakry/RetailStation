@@ -138,6 +138,11 @@ export class MaterialRequestsComponent implements OnInit {
       displayName: 'الكمية', 
     },
     {
+      fieldName: 'dueDate', 
+      fieldType: FieldType.Date, 
+      displayName: 'تاريخ الاستحقاق', 
+    },
+    {
       fieldName: 'totalValue', 
       fieldType: FieldType.Text, 
       displayName: 'الاجمالي', 

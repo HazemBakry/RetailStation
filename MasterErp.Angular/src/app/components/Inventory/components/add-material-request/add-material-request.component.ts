@@ -160,13 +160,13 @@ export class AddMaterialRequestComponent implements OnInit {
       if (data?.isSuccess) {
         // this.formGroup?.reset();
         this.initNewForm();
+        this.toaster.success(data?.message);
         if (data.id) {
           this.materialRequestId = data.id;
-          this.getMaterialRequestDetailsById();
-          this.getMaterialRequestProducts();
-
+          // this.getMaterialRequestDetailsById();
+          // this.getMaterialRequestProducts();
+          this.goToMaterialRequest(this.materialRequestId);
         }
-        this.toaster.success(data?.message);
       }
       else {
         this.toaster.error(data?.message);

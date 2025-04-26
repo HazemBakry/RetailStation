@@ -1,9 +1,11 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3" routerLink="./../add-material-request">
+            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3"
+                routerLink="./../add-material-request">
                 <i class="fas fa-plus-circle"></i>
                 <span>إضافة طلب جديد</span>
             </button>
@@ -13,7 +15,9 @@
             </button>
         </div>
         <div class="justify-content-end">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
+                [pageSize]="pagedResponseModel.pageSize"
+                [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
         </div>
     </div>
     <div class="p-3 bg-white">
@@ -41,9 +45,10 @@
                         <td>{{item.purposeNameAR ?? item.purposeNameEN}}</td>
                         <td>{{item.branchNameAR ?? item.branchNameEN}}</td>
                         <td>
-                            <span *ngIf="item.orderStatus" class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isCancelled)">
-                            {{item.orderStatus}}
-                        </span>
+                            <span *ngIf="item.orderStatus" class="badge rounded-pill default p-2 text-uppercase px-3"
+                                [ngClass]="getStatusColor(item.isCancelled)">
+                                {{item.orderStatus}}
+                            </span>
                         </td>
                         <!-- <td>{{item.notes}}</td> -->
                         <td>
@@ -53,12 +58,18 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <div ngbDropdownMenu class="border">
-                                        <button ngbDropdownItem (click)="showMaterialRequestDetails(item)">تفاصيل</button>
-                                        <button ngbDropdownItem routerLink="../add-material-request" 
-                                                [queryParams]="{MaterialRequestId:item.materialRequestId}">
-                                                تعديل
+                                        <button ngbDropdownItem
+                                            (click)="showMaterialRequestDetails(item)">تفاصيل</button>
+                                        <button ngbDropdownItem routerLink="../add-material-request"
+                                            [queryParams]="{MaterialRequestId:item.materialRequestId}">
+                                            تعديل
                                         </button>
-                                        <button ngbDropdownItem (click)="openDeleteModal(deleteDialog,item.materialRequestId)">الغاء</button>
+                                        <button ngbDropdownItem routerLink="/purchases/add-purchase-order"
+                                            [queryParams]="{MaterialRequestId:item.materialRequestId}">
+                                            انشاء امر شراء
+                                        </button>
+                                        <button ngbDropdownItem
+                                            (click)="openDeleteModal(deleteDialog,item.materialRequestId)">الغاء</button>
 
                                     </div>
                                 </div>
@@ -103,13 +114,13 @@
         </div>
         <div class="modal-footer justify-content-start">
             <button type="button" class="btn btn-success" (click)="modal.close('Save click'); cancelOrder()">
-            <i class="fas fa-check"></i>
-            <span class="ms-2">نعم</span>
-        </button>
+                <i class="fas fa-check"></i>
+                <span class="ms-2">نعم</span>
+            </button>
             <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
-            <i class="fas fa-times"></i>
-            <span class="ms-2">الغاء</span>
-        </button>
+                <i class="fas fa-times"></i>
+                <span class="ms-2">الغاء</span>
+            </button>
         </div>
     </ng-template>
 

@@ -1766,7 +1766,7 @@ td {
 }
 
 .description-area {
-  min-height: 70px;
+  /* min-height: 70px; */
 }
 
 .btn-table-action {
