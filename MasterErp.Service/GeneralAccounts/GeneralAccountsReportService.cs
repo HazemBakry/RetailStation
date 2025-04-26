@@ -63,7 +63,7 @@ namespace MasterErp.Service.GeneralAccounts
             Params[3] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
             Params[4] = new SqlParameter("@CurrentPage", model.CurrentPage);
             Params[5] = new SqlParameter("@PageSize", model.PageSize);
-            results = SQLHelper.SQLQuery<AccountsGeneralLedgerModel>("[Finance].[SP_GetAccountsGeneralLedgerReport]", ConnectionString, Params);
+            results = SQLHelper.SQLQuery<AccountsGeneralLedgerModel>("[Finance].[SP_GetAccountsGeneralLedgerReport]", null, Params);
 
             return results;
         }
@@ -145,7 +145,7 @@ namespace MasterErp.Service.GeneralAccounts
             Params[3] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
             Params[4] = new SqlParameter("@CurrentPage", model.CurrentPage);
             Params[5] = new SqlParameter("@PageSize", model.PageSize);
-            results = SQLHelper.SQLQuery<AccountsAssistantLedgerModel>("[Finance].[SP_GetAccountsAssistantLedgerReport]", ConnectionString, Params);
+            results = SQLHelper.SQLQuery<AccountsAssistantLedgerModel>("[Finance].[SP_GetAccountsAssistantLedgerReport]", null, Params);
 
             return results;
         }
@@ -229,7 +229,7 @@ namespace MasterErp.Service.GeneralAccounts
             Params[5] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
             Params[6] = new SqlParameter("@CurrentPage", model.CurrentPage);
             Params[7] = new SqlParameter("@PageSize", model.PageSize);
-            results = SQLHelper.SQLQuery<AccountsTrialBalanceModel>("[Finance].[SP_GetAccountsTrialBalanceReport]", ConnectionString, Params);
+            results = SQLHelper.SQLQuery<AccountsTrialBalanceModel>("[Finance].[SP_GetAccountsTrialBalanceReport]", null, Params);
 
             return results;
         }
@@ -311,7 +311,7 @@ namespace MasterErp.Service.GeneralAccounts
             Params[5] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
             Params[6] = new SqlParameter("@CurrentPage", model.CurrentPage);
             Params[7] = new SqlParameter("@PageSize", model.PageSize);
-            results = SQLHelper.SQLQuery<AccountsBalanceSheetModel>("[Finance].[SP_GetAccountsBalanceSheetReport]", ConnectionString, Params);
+            results = SQLHelper.SQLQuery<AccountsBalanceSheetModel>("[Finance].[SP_GetAccountsBalanceSheetReport]", null, Params);
 
             return results;
         }
@@ -388,7 +388,7 @@ namespace MasterErp.Service.GeneralAccounts
             Params[3] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
             Params[4] = new SqlParameter("@CurrentPage", model.CurrentPage);
             Params[5] = new SqlParameter("@PageSize", model.PageSize);
-            results = SQLHelper.SQLQuery<CostGeneralLedgerModel>("[Finance].[SP_GetCostGeneralLedgerReport]", ConnectionString, Params);
+            results = SQLHelper.SQLQuery<CostGeneralLedgerModel>("[Finance].[SP_GetCostGeneralLedgerReport]", null, Params);
 
             return results;
         }
@@ -471,7 +471,7 @@ namespace MasterErp.Service.GeneralAccounts
             Params[4] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
             Params[5] = new SqlParameter("@CurrentPage", model.CurrentPage);
             Params[6] = new SqlParameter("@PageSize", model.PageSize);
-            results = SQLHelper.SQLQuery<CostAssistantLedgerModel>("[Finance].[SP_GetCostAssistantLedgerReport]", ConnectionString, Params);
+            results = SQLHelper.SQLQuery<CostAssistantLedgerModel>("[Finance].[SP_GetCostAssistantLedgerReport]", null, Params);
 
             return results;
         }
@@ -555,7 +555,7 @@ namespace MasterErp.Service.GeneralAccounts
             Params[5] = new SqlParameter("@HideEmptyAccounts", model.HideEmptyAccounts);
             Params[6] = new SqlParameter("@CurrentPage", model.CurrentPage);
             Params[7] = new SqlParameter("@PageSize", model.PageSize);
-            results = SQLHelper.SQLQuery<CostTrialBalanceModel>("[Finance].[SP_GetCostTrialBalanceReport]", ConnectionString, Params);
+            results = SQLHelper.SQLQuery<CostTrialBalanceModel>("[Finance].[SP_GetCostTrialBalanceReport]", null, Params);
 
             return results;
         }
