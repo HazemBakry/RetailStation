@@ -1,0 +1,10 @@
+<div class="d-flex">
+    <button (click)="emitValue(nextId)" type="button" [disabled]="!nextId" title="التالي"
+        class="btn btn-table-action m-2 d-flex align-items-center gap-2 border rounded px-3">
+        <i class="fas fa-chevron-right"></i>
+    </button>
+    <button (click)="emitValue(previousId)" type="button" [disabled]="!previousId" title="السابق"
+        class="btn btn-table-action m-2 d-flex align-items-center gap-2 border rounded px-3">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+</div>

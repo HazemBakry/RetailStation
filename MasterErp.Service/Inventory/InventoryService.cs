@@ -131,7 +131,21 @@ namespace MasterErp.Service.Inventory
         }
         public MaterialReceiptModel GetMaterialReceiptDetailsById(int MaterialReceiptId)
         {
-            return GetMaterialReceipts_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, MaterialReceiptId)?.FirstOrDefault();
+            var result = GetMaterialReceipts_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, MaterialReceiptId)?.FirstOrDefault();
+            if (result != null)
+            {
+                result.PreviousId = Context.MaterialReceipts
+                                    .Where(p => p.MaterialReceiptId < MaterialReceiptId)
+                                    .OrderByDescending(p => p.MaterialReceiptId)
+                                    .Select(p => p.MaterialReceiptId)
+                                    .FirstOrDefault();
+                result.NextId = Context.MaterialReceipts
+                                .Where(p => p.MaterialReceiptId > MaterialReceiptId)
+                                .OrderBy(p => p.MaterialReceiptId)
+                                .Select(p => p.MaterialReceiptId)
+                                .FirstOrDefault();
+            }
+            return result;
         }
         public List<GeneralOrderDetailsModel> GetMaterialReceiptProducts_Data(List<int> MaterialReceiptIds)
         {
@@ -164,9 +178,11 @@ namespace MasterErp.Service.Inventory
             try
             {
                 MaterialReceipt order_tbl = new MaterialReceipt();
+                int code = (Context.MaterialReceipts.Count() > 0 ? Context.MaterialReceipts.Max(x => x.OrderNumber) + 1 : 1);
+                order_tbl.OrderNumber = code;
+                order_tbl.SerialNumber = DalHelper.GenerateSerialNumber(SerialType.MaterialReceipt, code);
                 order_tbl.OrderDate = model.OrderDate ?? DateTime.Now;
                 order_tbl.CreatedDate = DateTime.Now;
-                order_tbl.OrderNumber = (Context.MaterialReceipts.Count() > 0 ? Context.MaterialReceipts.Max(x => x.OrderNumber) + 1 : 1);
                 order_tbl.DocNumber =   model.DocNumber;
                 order_tbl.CreatedBy = model.CreatedBy;
                 order_tbl.PurchaseOrderId = model.PurchaseOrderId;
@@ -199,7 +215,9 @@ namespace MasterErp.Service.Inventory
                 }
                 return new ActionsResponseModel
                 {
-                    Message = "Purchase Order Created"
+                    Id = order_tbl.MaterialReceiptId,
+                    Number = order_tbl.SerialNumber,
+                    Message = "Material Receipt Created"
                 };
             }
             catch (Exception ex)

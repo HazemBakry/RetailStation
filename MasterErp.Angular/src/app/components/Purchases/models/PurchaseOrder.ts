@@ -8,6 +8,8 @@ export interface PurchaseOrderModel extends GeneralOrderModel {
     supplierNameAR: string;
     supplierNameEN: string;
     orderDetails: GeneralOrderDetailsModel[];
+    nextId?: number|null;
+    previousId?: number|null;
     totalCount?: number;
     isChecked: boolean;
 

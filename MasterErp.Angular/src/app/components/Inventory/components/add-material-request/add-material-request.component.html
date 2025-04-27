@@ -19,7 +19,7 @@
                                 افراغ الخانات
                             </span>
                         </button>
-                        <button ngbDropdownItem>
+                        <button *ngIf="materialRequestId" ngbDropdownItem>
                             <i class="fas fa-print"></i>
                             <span class="px-2">
                                 طباعة
@@ -27,7 +27,7 @@
                         </button>
                         <button *ngIf="materialRequestId" ngbDropdownItem routerLink="/purchases/add-purchase-order"
                             [queryParams]="{MaterialRequestId:materialRequestId}">
-                            <i class="fas fa-print"></i>
+                            <i class="fas fa-upload"></i>
                             <span class="px-2">
                                 انشاء امر شراء
                             </span>
@@ -37,17 +37,9 @@
             </div>
 
             <ng-container *ngIf="materialRequestId">
-
-                <button (click)="goToMaterialRequest(materialRequestModel?.nextId)" type="button"
-                    [disabled]="!materialRequestModel?.nextId" title="التالي"
-                    class="btn btn-table-action m-2 d-flex align-items-center gap-2 border rounded px-3">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-                <button (click)="goToMaterialRequest(materialRequestModel?.previousId)" type="button"
-                    [disabled]="!materialRequestModel?.previousId" title="السابق"
-                    class="btn btn-table-action m-2 d-flex align-items-center gap-2 border rounded px-3">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
+                <app-next-previous [nextId]="materialRequestModel?.nextId"
+                    [previousId]="materialRequestModel?.previousId" (valueChanged)="goToMaterialRequest($event)">
+                </app-next-previous>
             </ng-container>
 
             <button [disabled]="showAddLoader"

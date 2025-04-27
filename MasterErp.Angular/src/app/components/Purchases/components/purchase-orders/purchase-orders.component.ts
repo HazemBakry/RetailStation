@@ -10,6 +10,7 @@ import { DynamicComponentLoaderService } from 'src/app/components/Shared/service
 import { ComponentHostDirective } from 'src/app/components/Shared/directives/component-host.directive';
 import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
 import { PurchaseOrderModel } from '../../models/PurchaseOrder';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -30,9 +31,11 @@ export class PurchaseOrdersComponent implements OnInit {
     currentPage: 1,
     searchText: ''
   };
-
+  selectedPurchaseOrderId: number;
   @ViewChild(ComponentHostDirective, { static: true }) detailsComponentHost!: ComponentHostDirective;
-  constructor(private purchaseService: PurchaseService, private toaster: ToastrService,private dynamicComponentService:DynamicComponentLoaderService ) { }
+  constructor(private purchaseService: PurchaseService,
+    private modalService: NgbModal,
+    private toaster: ToastrService, private dynamicComponentService: DynamicComponentLoaderService) { }
 
   ngOnInit(): void {
     this.getPurchasesOrdersData();
@@ -41,13 +44,13 @@ export class PurchaseOrdersComponent implements OnInit {
   getPurchasesOrdersData() {
     this.showLoader = true;
     this.purchaseService.GetPurchaseOrders_Data(this.pagedResponseModel).subscribe(data => {
-      this.pagedResponseModel.results=data.results;
-      this.pagedResponseModel.totalCount=data.totalCount;
-      this.showLoader=false;
-    },(err)=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.pagedResponseModel.results = data.results;
+      this.pagedResponseModel.totalCount = data.totalCount;
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
   }
 
@@ -55,9 +58,12 @@ export class PurchaseOrdersComponent implements OnInit {
     this.pagedResponseModel.currentPage = obj.page;
     this.getPurchasesOrdersData();
   }
-
-  cancelPurchaseOrder(orderId: number) {
-    this.purchaseService.CancelPurchaseOrder(orderId).subscribe(data => {
+  openDeleteModal(content: any, itemId: number) {
+    this.selectedPurchaseOrderId = itemId;
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+  cancelPurchaseOrder() {
+    this.purchaseService.CancelPurchaseOrder(this.selectedPurchaseOrderId).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success('تم الغاء الطلب بنجاح');
         this.getPurchasesOrdersData();
@@ -87,7 +93,7 @@ export class PurchaseOrdersComponent implements OnInit {
         this.orderDetailsDataFields,
         `تفاصيل طلب المشترايات ${detailsModel.orderNumber}#`
       );
-      
+
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
@@ -97,36 +103,36 @@ export class PurchaseOrdersComponent implements OnInit {
 
 
   }
-  orderDetailsDataFields :DataField[] = [
+  orderDetailsDataFields: DataField[] = [
     {
-      fieldName: 'itemNameAR', 
-      fieldType: FieldType.Text, 
-      displayName: 'الاسم (AR)', 
+      fieldName: 'itemNameAR',
+      fieldType: FieldType.Text,
+      displayName: 'الاسم (AR)',
     },
     {
-      fieldName: 'itemNameEN', 
-      fieldType: FieldType.Text, 
-      displayName: 'الاسم (EN)', 
+      fieldName: 'itemNameEN',
+      fieldType: FieldType.Text,
+      displayName: 'الاسم (EN)',
     },
     {
-      fieldName: 'unitNameAR', 
-      fieldType: FieldType.Text, 
-      displayName: 'الوحدة', 
+      fieldName: 'unitNameAR',
+      fieldType: FieldType.Text,
+      displayName: 'الوحدة',
     },
     {
-      fieldName: 'price', 
-      fieldType: FieldType.Text, 
-      displayName: 'السعر', 
+      fieldName: 'price',
+      fieldType: FieldType.Text,
+      displayName: 'السعر',
     },
     {
-      fieldName: 'quantity', 
-      fieldType: FieldType.Text, 
-      displayName: 'الكمية', 
+      fieldName: 'quantity',
+      fieldType: FieldType.Text,
+      displayName: 'الكمية',
     },
     {
-      fieldName: 'totalValue', 
-      fieldType: FieldType.Text, 
-      displayName: 'الاجمالي', 
+      fieldName: 'totalValue',
+      fieldType: FieldType.Text,
+      displayName: 'الاجمالي',
     }
   ];
 

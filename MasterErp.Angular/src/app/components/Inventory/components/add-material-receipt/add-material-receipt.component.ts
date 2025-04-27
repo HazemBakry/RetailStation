@@ -38,26 +38,25 @@ export class AddMaterialReceiptComponent implements OnInit {
   formData: FormData = new FormData();
   public formGroup: FormGroup;
 
-  selectedPurchaseOrder: PurchaseOrderModel = {} as PurchaseOrderModel;
-
   constructor(private acRoute: ActivatedRoute, private router: Router, private modalService: NgbModal, private inventoryService: InventoryService,
     private purchaseService: PurchaseService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
     private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
 
 
   ngOnInit(): void {
+    
+    this.loadSelectors();
     this.acRoute.queryParams.subscribe((params: any) => {
       if (params.MaterialReceiptId) {
+        this.initNewForm();
         this.materialReceiptId = params.MaterialReceiptId;
         this.getMaterialReceiptDetailsById();
         this.getMaterialReceiptProducts();
+      } else if (params.PurchaseOrderId) {
+        this.getPurchaseOrderProducts(params.PurchaseOrderId);
       }
-    })
-
-
+    });
     this.initNewForm();
-
-    this.loadSelectors();
   }
 
   getMaterialReceiptDetailsById() {
@@ -93,20 +92,26 @@ export class AddMaterialReceiptComponent implements OnInit {
     });
   }
   searchOrderSelected(ord: PurchaseOrderModel) {
-    this.selectedPurchaseOrder = ord;
-    this.getPurchaseOrderProducts();
+    if (ord?.purchaseOrderId) {
+      this.getPurchaseOrderProducts(ord?.purchaseOrderId)
+    }
+    else {
+      this.orderDetails = []
+    }
   }
   getSelectedProductsList(products: GeneralOrderDetailsModel[]) {
     this.formGroup.patchValue({ orderDetails: products });
     this.orderDetails = products;
   }
-  getPurchaseOrderProducts() {
+  getPurchaseOrderProducts(purchaseOrderId: number) {
     this.showLoader = true;
-    this.purchaseService.GetPurchaseOrderProducts_Data(this.selectedPurchaseOrder.purchaseOrderId).subscribe((data: GeneralOrderDetailsModel[]) => {
+    this.purchaseService.GetPurchaseOrderProducts_Data(purchaseOrderId).subscribe((data: GeneralOrderDetailsModel[]) => {
       if (data) {
+        this.orderDetails =[];
+        this.clearAllProducts = !this.clearAllProducts;
         this.orderDetails = data;
         // this.formGroup.patchValue({orderDetails:this.orderDetails});
-        this.formGroup.patchValue({ purchaseOrderId: this.selectedPurchaseOrder.purchaseOrderId });
+        this.formGroup.patchValue({ purchaseOrderId: purchaseOrderId });
       }
       this.showLoader = false;
     }, err => {
@@ -117,7 +122,6 @@ export class AddMaterialReceiptComponent implements OnInit {
   }
 
   initNewForm(orderModel: MaterialReceiptModel = null) {
-    this.selectedPurchaseOrder = {} as PurchaseOrderModel;
     this.orderDetails = [];
     this.clearAllProducts = !this.clearAllProducts;
     this.isUpdate = false;
@@ -167,6 +171,10 @@ export class AddMaterialReceiptComponent implements OnInit {
         // this.formGroup?.reset();
         this.initNewForm();
         this.toaster.success(data?.message);
+        if (data.id) {
+          this.materialReceiptId = data.id;
+          this.goToPage(this.materialReceiptId);
+        }
       }
       else {
         this.toaster.error(data?.message);
@@ -236,6 +244,25 @@ export class AddMaterialReceiptComponent implements OnInit {
       notes: orderModel.notes
 
     });
+  }
+
+  openSaveModal(content: any) {
+    if (this.orderDetails.length === 0)
+      this.toaster.warning('لا يوجد اصناف');
+
+    if (!this.validateForm()) {
+      return;
+    }
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+  goToPage(id: number) {
+    if (id) {
+      this.router.navigate([], {
+        relativeTo: this.acRoute,
+        queryParams: { MaterialReceiptId: id },
+        queryParamsHandling: 'merge'
+      });
+    }
   }
 
   public formErrors = {

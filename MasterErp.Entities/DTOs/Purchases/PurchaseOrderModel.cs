@@ -16,6 +16,8 @@ namespace MasterErp.Entities.DTOs.Purchases
         public int SupplierId { get; set; }
         public string SupplierNameAR { get; set; }
         public string SupplierNameEN { get; set; }
+        public int? NextId { get; set; }
+        public int? PreviousId { get; set; }
         public List<GeneralOrderDetailsModel> OrderDetails { get; set; }
 
         public int? TotalCount { get; set; }

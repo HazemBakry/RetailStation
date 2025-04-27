@@ -13,6 +13,7 @@ namespace MasterErp.Entities.Models.Purchases
     {
         public int PurchaseInvoiceId { get; set; }
         public int InvoiceNumber { get; set; }
+        public string SerialNumber { get; set; }
         public string DocNumber { get; set; }
         public DateTime InvoiceDate { get; set; }
         public int? InvoiceTypeId { get; set; }

@@ -52,6 +52,7 @@ import { MaterialRequestsSidePanelComponent } from './components/material-reques
 import { WorkflowStatusDirective } from './directives/workflow-status.directive';
 import { AddEditAccountTreeComponent } from '../GeneralAccounts/components/add-edit-account-tree/add-edit-account-tree.component';
 import { GoToAccountReportDirective } from './directives/go-to-account-report.directive';
+import { NextPreviousComponent } from './components/tools/next-previous/next-previous.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +101,7 @@ import { GoToAccountReportDirective } from './directives/go-to-account-report.di
     AccountsReportSearchComponent,
     MaterialRequestsSidePanelComponent,
     GoToAccountReportDirective,
+    NextPreviousComponent,
   ],
 
   imports: [
@@ -164,7 +166,9 @@ import { GoToAccountReportDirective } from './directives/go-to-account-report.di
     GeneralSelectorComponent,
     AccountsReportSearchComponent,
     MaterialRequestsSidePanelComponent,
-    GoToAccountReportDirective
+    GoToAccountReportDirective,
+    NextPreviousComponent
+
   ],
   providers: [
     DatePipe,

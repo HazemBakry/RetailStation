@@ -14,10 +14,13 @@ namespace MasterErp.Entities.Common.Enums
 
         [Description("MR")]
         MaterialRequest,
+        [Description("RC")]
+        MaterialReceipt,
 
         [Description("INV")]
         Invoice,
-
+        [Description("PI")]
+        PurchaseInvoice,
         [Description("SO")]
         SalesOrder
     }

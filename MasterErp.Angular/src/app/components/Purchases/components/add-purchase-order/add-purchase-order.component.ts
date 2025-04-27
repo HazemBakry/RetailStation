@@ -47,18 +47,19 @@ export class AddPurchaseOrderComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.loadSelectors();
     this.acRoute.queryParams.subscribe((params: any) => {
       if (params.PurchaseOrderId) {
+        this.initNewForm();
         this.purchaseOrderId = params.PurchaseOrderId;
         this.getPurchaseOrderDetailsById();
         this.getPurchaseOrderProducts();
       }
-      if (params.MaterialRequestId) {
+      else if (params.MaterialRequestId) {
        this.getMaterialRequestProducts([params.MaterialRequestId]);
       }
     })
     this.initNewForm();
-    this.loadSelectors();
   }
 
   getPurchaseOrderDetailsById() {
@@ -154,6 +155,10 @@ export class AddPurchaseOrderComponent implements OnInit {
         // this.formGroup?.reset();
         this.initNewForm();
         this.toaster.success(data?.message);
+        if (data.id) {
+          this.purchaseOrderId = data.id;
+          this.goToPage(this.purchaseOrderId);
+        }
       }
       else {
         this.toaster.error(data?.message);
@@ -277,8 +282,24 @@ export class AddPurchaseOrderComponent implements OnInit {
       this.showLoader = false;
     });
   }
+  openSaveModal(content: any) {
+    if (this.orderDetails.length === 0)
+      this.toaster.warning('لا يوجد اصناف');
 
-
+    if (!this.validateForm()) {
+      return;
+    }
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+  goToPage(id: number) {
+    if (id) {
+      this.router.navigate([], {
+        relativeTo: this.acRoute,
+        queryParams: { PurchaseOrderId:id },
+        queryParamsHandling: 'merge'
+      });
+    }
+  }
   mapItemToOrderProduct(arrayOfItems: ItemModel[]): GeneralOrderDetailsModel[] {
     return arrayOfItems.map(x => this.mapSingleItemToOrderProduct(x));
   }

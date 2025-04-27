@@ -1,31 +1,75 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 <div class="inputs-wrapper border rounded bg-white mb-3">
 
-    <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
-        <!-- <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">انشاء طلب مشترايات جديد</div> -->
+    <div class="d-flex justify-content-between align-items-center px-3 border-bottom mb-2">
+        <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2">
+            انشاء امر شراء جديد
+        </div>
+        <div class="d-flex">
 
-        <h5 class="mb-0 fw-bold">
-            <span class="ms-3">
-                انشاء امر شراء جديد
-            </span>
-        </h5>
-        <div ngbDropdown class="d-inline-block">
-            <button type="button" class="btn btn-table-action m-2 d-flex align-items-center gap-2 border rounded px-3" id="dropdownBasic1" ngbDropdownToggle>
-                <i class="fas fa-cogs"></i>
-                <span>الإجراءات</span>
-            </button>
-            <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="border rounded">
-                <button ngbDropdownItem>
-                    <app-material-requests-side-panel (selectedMaterialRequest)="searchMaterialRequestSelected($event)">
-                    </app-material-requests-side-panel>
-                </button>
-                <!-- <div ngbDropdownItem>
-                    <i class="fas fa-download"></i>
-                    <app-material-requests-side-panel (selectedOrder)="searchMaterialRequestSelected($event)"></app-material-requests-side-panel>
-                </div> -->
+            <div class="d-flex align-items-center justify-content-center">
+                <div ngbDropdown container="body">
+                    <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle>
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                    <div ngbDropdownMenu class="border">
+                        <button ngbDropdownItem (click)="initNewForm()"
+                        *ngIf="!purchaseOrderModel?.purchaseOrderId &&!showLoader">
+                            <i class="fas fa-times"></i>
+                            <span class="px-2">
+                                افراغ الخانات
+                            </span>
+                        </button>
+                        <button ngbDropdownItem>
+                            <app-material-requests-side-panel
+                                (selectedMaterialRequest)="searchMaterialRequestSelected($event)">
+                            </app-material-requests-side-panel>
+                        </button>
+                        <button *ngIf="purchaseOrderId" ngbDropdownItem>
+                            <i class="fas fa-print"></i>
+                            <span class="px-2">
+                                طباعة
+                            </span>
+                        </button>
+                        <button *ngIf="purchaseOrderId" ngbDropdownItem routerLink="/inventory/add-material-receipt"
+                            [queryParams]="{PurchaseOrderId:purchaseOrderId}">
+                            <i class="fas fa-upload"></i>
+                            <span class="px-2">
+                                انشاء أذن أضافة
+                            </span>
+                        </button>
+                    </div>
+                </div>
             </div>
+
+            <ng-container *ngIf="purchaseOrderId">
+                <app-next-previous [nextId]="purchaseOrderModel?.nextId" [previousId]="purchaseOrderModel?.previousId"
+                    (valueChanged)="goToPage($event)">
+                </app-next-previous>
+            </ng-container>
+
+            <!-- <div ngbDropdown class="d-inline-block">
+                <button type="button" class="btn btn-table-action m-2 d-flex align-items-center gap-2 border rounded px-3" id="dropdownBasic1" ngbDropdownToggle>
+                    <i class="fas fa-cogs"></i>
+                    <span>الإجراءات</span>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="border rounded">
+                    <button ngbDropdownItem>
+                        <app-material-requests-side-panel (selectedMaterialRequest)="searchMaterialRequestSelected($event)">
+                        </app-material-requests-side-panel>
+                    </button>
+                </div>
+            </div> -->
+
+            <button [disabled]="showAddLoader"
+                class="btn btn-secondary  m-2 d-flex align-items-center gap-2 border rounded px-3"
+                (click)="openSaveModal(saveDialog)">
+                <i class="fas fa-check-circle"></i>
+                <span class="ms-2">حفـظ</span>
+            </button>
         </div>
     </div>
+
 
     <div class="inputs-sec-content px-3 py-2">
         <form [formGroup]="formGroup" autocomplete="off">
@@ -36,7 +80,8 @@
                             رقم الطلب
                             <span class="text-danger">*</span>
                         </label>
-                        <input type="text" class="form-control nw-form-input" formControlName="orderNumber" disabled autocomplete="off" />
+                        <input type="text" class="form-control nw-form-input" formControlName="orderNumber" disabled
+                            autocomplete="off" />
 
                         <div *ngIf="formErrors.orderNumber" class="text-danger font-small-3 m-03">
                             {{formErrors.orderNumber}}
@@ -49,7 +94,8 @@
                             الرقم الدفتري
                             <!-- <span class="text-danger">*</span> -->
                         </label>
-                        <input type="text" class="form-control nw-form-input" formControlName="docNumber" autocomplete="off" />
+                        <input type="text" class="form-control nw-form-input" formControlName="docNumber"
+                            autocomplete="off" />
 
                         <div *ngIf="formErrors.docNumber" class="text-danger font-small-3 m-03">
                             {{formErrors.docNumber}}
@@ -62,7 +108,9 @@
                             الموردين
                             <span class="text-danger">*</span>
                         </label>
-                        <app-general-selector formControlName="supplierId" [data]="suppliersSelectorData" [placeholder]="'الموردين'" (valueChanged)="getSelectedSupplier($event)"></app-general-selector>
+                        <app-general-selector formControlName="supplierId" [data]="suppliersSelectorData"
+                            [placeholder]="'الموردين'"
+                            (valueChanged)="getSelectedSupplier($event)"></app-general-selector>
 
                         <div *ngIf="formErrors.supplierId" class="text-danger  font-small-3 m-03">
                             {{formErrors.supplierId}}
@@ -75,7 +123,8 @@
                         <label class="form-label d-flex align-items-center gap-2">
                             تاريخ الطلب
                             <span class="text-danger">*</span></label>
-                        <input type="date" formControlName="orderDate" autocomplete="off" class="form-control nw-form-input" />
+                        <input type="date" formControlName="orderDate" autocomplete="off"
+                            class="form-control nw-form-input" />
                         <div *ngIf="formErrors.orderDate" class="text-danger  font-small-3 m-03">
                             {{formErrors.orderDate}}
                         </div>
@@ -87,7 +136,8 @@
                         <label class="form-label d-flex align-items-center gap-2">
                             البيان
                         </label>
-                        <input type="text" class="form-control nw-form-input notes-area" formControlName="notes" autocomplete="off" />
+                        <input type="text" class="form-control nw-form-input notes-area" formControlName="notes"
+                            autocomplete="off" />
                         <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
                             {{formErrors.notes}}
                         </div>
@@ -97,22 +147,30 @@
         </form>
     </div>
 
-    <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-top mb-2">
-        <button class="btn btn-secondary btn-lg fs-6 me-2 mt-2" (click)="savePurchaseOrder()">
-            <i class="fas fa-check-circle"></i>
-            <span class="ms-2">حفـظ</span>
-        </button>
-
-        <button class="btn btn-secondary btn-lg fs-6 me-2 mt-2" *ngIf="!purchaseOrderModel?.purchaseOrderId &&!showLoader" (click)="initNewForm()">
-            <i class="fas fa-times-circle"></i>
-            <span class="ms-2">مسح</span>
-        </button>
-
-        <button class="btn btn-secondary btn-lg fs-6 me-2 mt-2">
-            <i class="fas fa-print"></i>
-            <span class="ms-2">طباعة</span>
-        </button>
-    </div>
+    <!-- <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-top mb-2">
+       
+    </div> -->
 </div>
 
-<app-order-items [selectedProducts]="orderDetails" [clearAllProducts]="clearAllProducts" [selectedSupplierId]="selectedSupplierId" (selectedProductsList)="getSelectedProductsList($event)"></app-order-items>
+<app-order-items [selectedProducts]="orderDetails" [clearAllProducts]="clearAllProducts"
+    [selectedSupplierId]="selectedSupplierId"
+    (selectedProductsList)="getSelectedProductsList($event)"></app-order-items>
+
+<ng-template #saveDialog let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد العملية</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد من الحفظ ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click'); savePurchaseOrder()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">الغاء</span>
+        </button>
+    </div>
+</ng-template>

@@ -15,6 +15,7 @@ namespace MasterErp.Entities.Models.Inventory
         [Key]
         public int MaterialReceiptId { get; set; }
         public int OrderNumber { get; set; }
+        public string SerialNumber { get; set; }
         public string DocNumber { get; set; }
         public DateTime? OrderDate { get; set; }
         public int SupplierId { get; set; }

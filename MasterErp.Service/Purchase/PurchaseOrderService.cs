@@ -1,10 +1,12 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Common.SQLTabeType;
 using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.DTOs.Shared;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Inventory;
 using MasterErp.Entities.Models.Purchases;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
@@ -92,24 +94,41 @@ namespace MasterErp.Service.Purchase
         }
         public PurchaseOrderModel GetPurchaseOrderDetailsById(int PurchaseOrderId)
         {
-            return GetPurchaseOrders_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, PurchaseOrderId)?.FirstOrDefault();
+            var result = GetPurchaseOrders_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, PurchaseOrderId)?.FirstOrDefault();
+            if (result != null)
+            {
+                result.PreviousId = Context.PurchaseOrders
+                                    .Where(p => p.PurchaseOrderId < PurchaseOrderId)
+                                    .OrderByDescending(p => p.PurchaseOrderId)
+                                    .Select(p => p.PurchaseOrderId)
+                                    .FirstOrDefault();
+                result.NextId = Context.PurchaseOrders
+                                .Where(p => p.PurchaseOrderId > PurchaseOrderId)
+                                .OrderBy(p => p.PurchaseOrderId)
+                                .Select(p => p.PurchaseOrderId)
+                                .FirstOrDefault();
+            }
+            return result;
         }
         public ActionsResponseModel AddNewPurchaseOrder(PurchaseOrderModel model)
         {
             try
             {
                 PurchaseOrder order_tbl = new PurchaseOrder();
-
+                int code = Context.PurchaseOrders.Count() > 0 ? Context.PurchaseOrders.Max(x => x.PurchaseOrderId) + 1 : 1;
+                order_tbl.OrderNumber = code;
+                order_tbl.SerialNumber = DalHelper.GenerateSerialNumber(SerialType.PurchaseOrder, code);
                 order_tbl.DueDate = DateTime.Now;
                 order_tbl.CreatedDate = DateTime.Now;
                 order_tbl.CreatedBy = string.Empty;
                 order_tbl.IsCancelled = false;
                 order_tbl.IsLocked = false;
+                order_tbl.DocNumber = model.DocNumber;
                 order_tbl.Notes = model.Notes;
                 order_tbl.OrderDate = DateTime.Now;
                 order_tbl.TotalValue = (double)(model.OrderDetails != null ? model.OrderDetails.Sum(x => x.TotalValue) : 0);
                 order_tbl.SupplierId = (int)model?.SupplierId;
-                order_tbl.OrderNumber = Context.PurchaseOrders.Count() > 0 ? Context.PurchaseOrders.Max(x => x.PurchaseOrderId) + 1 : 1;
+                
 
                 Context.PurchaseOrders.Add(order_tbl);
                 Context.SaveChanges();
@@ -130,13 +149,15 @@ namespace MasterErp.Service.Purchase
                     Context.PurchaseOrderDetails.Add(detail);
                     Context.SaveChanges();
                 }
-                if(model.MaterialRequestIds.Any())
+                if(model.MaterialRequestIds != null && model.MaterialRequestIds.Any())
                 {
                     InventoryService.UpdateMaterialRequestPurchaseOrder(order_tbl.PurchaseOrderId, model.MaterialRequestIds);
                 }
 
                 return new ActionsResponseModel
                 {
+                    Id = order_tbl.PurchaseOrderId,
+                    Number = order_tbl.SerialNumber,
                     Message = "Purchase Order Created"
                 };
             }
@@ -160,6 +181,7 @@ namespace MasterErp.Service.Purchase
                 {
                     order_tbl.ModifiedDate = DateTime.Now;
                     order_tbl.ModifiedBy = string.Empty;
+                    order_tbl.DocNumber = model.DocNumber;
                     order_tbl.Notes = model.Notes;
                     order_tbl.TotalValue = (double)(model.OrderDetails != null ? model.OrderDetails.Sum(x => x.TotalValue) : 0);
                     order_tbl.SupplierId = (int)model?.SupplierId;
@@ -185,7 +207,7 @@ namespace MasterErp.Service.Purchase
                         Context.PurchaseOrderDetails.Add(detail);
                         Context.SaveChanges();
                     }
-                    if (model.MaterialRequestIds.Any())
+                    if (model.MaterialRequestIds != null && model.MaterialRequestIds.Any())
                     {
                         InventoryService.UpdateMaterialRequestPurchaseOrder(order_tbl.PurchaseOrderId, model.MaterialRequestIds);
                     }

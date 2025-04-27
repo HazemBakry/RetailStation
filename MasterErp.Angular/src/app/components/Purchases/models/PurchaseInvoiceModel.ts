@@ -5,11 +5,13 @@ import { GeneralOrderDetailsModel, GeneralOrderModel } from "../../Inventory/mod
 
 export interface PurchaseInvoiceModel extends GeneralOrderModel {
     purchaseInvoiceId: number | null;
-    materialReceiptId: number;
+    materialReceiptIds: number[];
     supplierId: number;
     supplierNameAR: string;
     supplierNameEN: string;
     orderDetails: GeneralOrderDetailsModel[];
+    nextId?: number|null;
+    previousId?: number|null;
     totalCount?: number;
     isChecked: boolean;
 

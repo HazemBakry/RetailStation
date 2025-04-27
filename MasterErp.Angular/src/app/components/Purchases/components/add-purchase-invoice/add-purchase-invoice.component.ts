@@ -39,7 +39,6 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   formData: FormData = new FormData();
   public formGroup: FormGroup;
 
-  selectedMaterialReceipt: MaterialReceiptModel[] = [];
   selectedSupplierId: number;
 
   constructor(private acRoute: ActivatedRoute, private router: Router, private modalService: NgbModal, private inventoryService: InventoryService,
@@ -48,18 +47,22 @@ export class AddPurchaseInvoiceComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.loadSelectors();
     this.acRoute.queryParams.subscribe((params: any) => {
       if (params.InvoiceId) {
+        this.initNewForm();
         this.purchaseInvoiceId = params.InvoiceId;
         this.getPurchaseInvoiceDetailsById();
         this.getPurchaseInvoiceProducts();
+      } else if (params.MaterialReceiptId) {
+        this.getMaterialReceiptProducts([params.MaterialReceiptId]);
       }
     })
 
 
     this.initNewForm();
 
-    this.loadSelectors();
+
   }
 
   getPurchaseInvoiceDetailsById() {
@@ -95,24 +98,25 @@ export class AddPurchaseInvoiceComponent implements OnInit {
     });
   }
   searchOrderSelected(ord: MaterialReceiptModel[]) {
-    this.selectedMaterialReceipt = ord;
-    this.getMaterialReceiptProducts();
+    if (ord?.length) {
+      var orderIds = ord.map(b => b.materialReceiptId);
+      this.getMaterialReceiptProducts(orderIds)
+    }
+    else {
+      this.orderDetails = []
+    }
   }
   getSelectedProductsList(products: GeneralOrderDetailsModel[]) {
     this.formGroup.patchValue({ orderDetails: products });
     this.orderDetails = products;
   }
-  getMaterialReceiptProducts() {
-    var orderIds: number[] = [];
-    this.selectedMaterialReceipt.forEach(ord => {
-      if (!orderIds.some(x => x == ord.materialReceiptId))
-        orderIds.push(ord.materialReceiptId);
-    });
+  getMaterialReceiptProducts(materialReceiptIds: number[]) {
+
     this.showLoader = true;
-    this.inventoryService.GetMaterialReceiptProducts_Data(orderIds).subscribe((data: GeneralOrderDetailsModel[]) => {
+    this.inventoryService.GetMaterialReceiptProducts_Data(materialReceiptIds).subscribe((data: GeneralOrderDetailsModel[]) => {
       if (data) {
         this.orderDetails = data;
-        this.formGroup.patchValue({ materialReceiptId: 1 });
+        this.formGroup.patchValue({ materialReceiptIds: materialReceiptIds });
         //this.formGroup.patchValue({ materialReceiptId: orderIds });
       }
       this.showLoader = false;
@@ -124,7 +128,6 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   }
 
   initNewForm(purchaseInvoiceModel: PurchaseInvoiceModel = null) {
-    this.selectedMaterialReceipt = [];
     this.orderDetails = [];
     this.clearAllProducts = !this.clearAllProducts;
     this.isUpdate = false;
@@ -177,6 +180,10 @@ export class AddPurchaseInvoiceComponent implements OnInit {
         // this.formGroup?.reset();
         this.initNewForm();
         this.toaster.success(data?.message);
+        if (data.id) {
+          this.purchaseInvoiceId = data.id;
+          this.goToPage(this.purchaseInvoiceId);
+        }
       }
       else {
         this.toaster.error(data?.message);
@@ -264,10 +271,27 @@ export class AddPurchaseInvoiceComponent implements OnInit {
       docNumber: purchaseInvoiceModel.docNumber,
       orderNumber: purchaseInvoiceModel.orderNumber,
       orderTypeId: purchaseInvoiceModel.orderTypeId,
-      materialReceiptId: purchaseInvoiceModel.materialReceiptId,
+      materialReceiptIds: purchaseInvoiceModel.materialReceiptIds,
     });
   }
+  openSaveModal(content: any) {
+    if (this.orderDetails.length === 0)
+      this.toaster.warning('لا يوجد اصناف');
 
+    if (!this.validateForm()) {
+      return;
+    }
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+  goToPage(id: number) {
+    if (id) {
+      this.router.navigate([], {
+        relativeTo: this.acRoute,
+        queryParams: { PurchaseOrderId: id },
+        queryParamsHandling: 'merge'
+      });
+    }
+  }
   mapItemToOrderProduct(arrayOfItems: ItemModel[]): GeneralOrderDetailsModel[] {
     return arrayOfItems.map(x => this.mapSingleItemToOrderProduct(x));
   }
@@ -296,7 +320,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
     orderNumber: '',
     orderDate: '',
     orderTypeId: '',
-    materialReceiptId: '',
+    materialReceiptIds: '',
 
   };
 

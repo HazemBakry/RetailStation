@@ -49,6 +49,7 @@ export class AddMaterialRequestComponent implements OnInit {
     private offcanvasService: NgbOffcanvas,) { }
 
   ngOnInit(): void {
+    this.loadSelectors();
     this.acRoute.queryParams.subscribe((params: any) => {
       if (params.MaterialRequestId) {
         this.materialRequestId = params.MaterialRequestId;
@@ -56,10 +57,9 @@ export class AddMaterialRequestComponent implements OnInit {
         this.getMaterialRequestDetailsById();
         this.getMaterialRequestProducts();
       }
-    })
-
+    });
     this.initNewForm();
-    this.loadSelectors();
+    
   }
   goToMaterialRequest(id: number) {
     if (id) {

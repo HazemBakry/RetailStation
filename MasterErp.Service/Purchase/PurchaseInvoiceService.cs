@@ -76,6 +76,10 @@ namespace MasterErp.Service.Purchase
             try
             {
                 PurchaseInvoice order_tbl = new PurchaseInvoice();
+                int code = Context.PurchaseInvoices.Count() > 0 ? Context.PurchaseInvoices.Max(x => x.InvoiceNumber) + 1 : 1;
+                order_tbl.InvoiceNumber = code;
+                order_tbl.SerialNumber = DalHelper.GenerateSerialNumber(SerialType.PurchaseInvoice, code);
+
 
                 order_tbl.DueDate = model.DueDate ?? DateTime.Now;
                 order_tbl.CreatedDate = DateTime.Now;
@@ -87,7 +91,6 @@ namespace MasterErp.Service.Purchase
                 order_tbl.TotalValue = model.OrderDetails?.Sum(x => x.TotalValue) ?? 0;
                 order_tbl.SupplierId = model.SupplierId;
                 order_tbl.InvoiceTypeId = model.OrderTypeId;
-                order_tbl.InvoiceNumber = Context.PurchaseInvoices.Count() > 0 ? Context.PurchaseInvoices.Max(x => x.InvoiceNumber) + 1 : 1;
                 order_tbl.DocNumber = model.DocNumber;
                 order_tbl.Discount = model.Discount;
                 order_tbl.DiscountPercent = model.DiscountPercent;
@@ -124,10 +127,16 @@ namespace MasterErp.Service.Purchase
                 {
                     CreateJournalEntryModel(order_tbl);
                 }
-                var updateReceiveOrderResponse = _inventoryService.AddInvoiceToMaterialReceipts(model.MaterialReceiptIds, order_tbl.PurchaseInvoiceId);
+                if(model.MaterialReceiptIds!=null && model.MaterialReceiptIds.Any())
+                {
+                    var updateReceiveOrderResponse = _inventoryService.AddInvoiceToMaterialReceipts(model.MaterialReceiptIds, order_tbl.PurchaseInvoiceId);
+                }
+
+
                 return new ActionsResponseModel
                 {
-                    Status = 1,
+                    Id = order_tbl.PurchaseInvoiceId,
+                    Number = order_tbl.SerialNumber,
                     Message = "تم حفظ الفاتورة بنجاح"
                 };
             }
@@ -192,8 +201,10 @@ namespace MasterErp.Service.Purchase
                         Context.PurchaseInvoiceDetails.Add(detail);
                         Context.SaveChanges();
                     }
-                    var updateReceiveOrderResponse = _inventoryService.AddInvoiceToMaterialReceipts(model.MaterialReceiptIds, order_tbl.PurchaseInvoiceId);
-
+                    if (model.MaterialReceiptIds != null && model.MaterialReceiptIds.Any())
+                    {
+                        var updateReceiveOrderResponse = _inventoryService.AddInvoiceToMaterialReceipts(model.MaterialReceiptIds, order_tbl.PurchaseInvoiceId);
+                    }
                     return new ActionsResponseModel { Message = "Purchase Invoice Updated Successfly !" };
                 }
                 else
