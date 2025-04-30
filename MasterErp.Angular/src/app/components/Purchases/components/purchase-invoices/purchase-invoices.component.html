@@ -1,113 +1,121 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
-<div class="card card-with-table border shadow-none">
-    <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center gap-3">
-            <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2"
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3"
                 routerLink="/purchases/add-purchase-invoice">
-                <i class="uil uil-plus fs-5"></i>
+                <i class="fas fa-plus-circle"></i>
                 <span>انشاء فاتورة</span>
             </button>
+
+            <!-- <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+                <i class="fas fa-filter"></i>
+                <span>إضافة فلتر</span>
+            </button> -->
         </div>
-        <div class="col-md-4">
+        <div class="justify-content-end">
             <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
                 [pageSize]="pagedResponseModel.pageSize"
                 [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
         </div>
     </div>
-    <div class="card-body table-responsive p-0">
-        <table class="table table-borderless align-middle table-hover table-component text-center m-0 p-0">
-            <thead>
-                <tr>
-                    <th>رقم الفاتورة</th>
-                    <th>الرقم الدفترى</th>
-                    <th>تاريخ الفاتورة</th>
-                    <th>اسم المورد</th>
-                    <th>نوع الفاتورة</th>
-                    <!-- <th>Insert User</th>
-                        <th>Insert Date</th> -->
-                    <th>حالة الفاتورة</th>
-                    <th>القيمة الإجمالية</th>
-                    <th class="text-center"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of pagedResponseModel.results">
-                    <td>
-                        {{item.serialNumber}}
-                    </td>
-                    <td>{{item.docNumber}}</td>
-                    <td>{{item.orderDate | date}}</td>
-                    <td>{{item.supplierNameAR}}</td>
-                    <td>{{item.orderTypeName}}</td>
-                    <!-- <td>{{item.insertUser}}</td>
-                        <td>{{item.insertDate | date}}</td>-->
-                    <td>
-                        <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
-                            [nameAR]="item?.workflowStatusNameAR">
-                        </span>
-                    </td>
-                    <td>{{item.totalValue}}</td>
-                    <!-- <td>
-                            <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
-                                {{item.orderStatus}}
+    <div class="p-3 bg-white">
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+
+                <thead>
+                    <tr>
+                        <th>رقم الفاتورة</th>
+                        <th>الرقم الدفترى</th>
+                        <th>تاريخ الفاتورة</th>
+                        <th>اسم المورد</th>
+                        <th>نوع الفاتورة</th>
+                        <!-- <th>Insert User</th>
+                            <th>Insert Date</th> -->
+                        <th>حالة الفاتورة</th>
+                        <th>القيمة الإجمالية</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of pagedResponseModel.results">
+                        <td>
+                            {{item.serialNumber}}
+                        </td>
+                        <td>{{item.docNumber}}</td>
+                        <td>{{item.orderDate | date}}</td>
+                        <td>{{item.supplierNameAR}}</td>
+                        <td>{{item.orderTypeName}}</td>
+                        <!-- <td>{{item.insertUser}}</td>
+                            <td>{{item.insertDate | date}}</td>-->
+                        <td>
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
+                                [nameAR]="item?.workflowStatusNameAR">
                             </span>
-                        </td> -->
-                    <td>
-                        <div class="d-flex align-items-center justify-content-center">
-                            <div ngbDropdown container="body">
-                                <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle>
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <div ngbDropdownMenu class="border">
-                                    <button ngbDropdownItem routerLink="/purchases/add-purchase-invoice"
-                                        [queryParams]="{InvoiceId:item.purchaseInvoiceId}">
-                                        تعديل
+                        </td>
+                        <td>{{item.totalValue}}</td>
+                        <!-- <td>
+                                <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
+                                    {{item.orderStatus}}
+                                </span>
+                            </td> -->
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div ngbDropdown container="body">
+                                    <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle>
+                                        <i class="fas fa-ellipsis-v"></i>
                                     </button>
-                                    <button ngbDropdownItem (click)="CancelPurchaseInvoice(item.purchaseInvoiceId)">
-                                        <span>حذف</span>
-                                    </button>
-                                    <button ngbDropdownItem (click)="showInvoiceDetails(item)">
-                                        <span>تفاصيل</span>
-                                    </button>
-                                    <button ngbDropdownItem routerLink="/general-accounts/create-payment-order"
-                                        [queryParams]="{InvoiceId:item.purchaseInvoiceId}">
-                                        انشاء أمر صرف
-                                    </button>
+                                    <div ngbDropdownMenu class="border">
+                                        <button ngbDropdownItem routerLink="/purchases/add-purchase-invoice"
+                                            [queryParams]="{InvoiceId:item.purchaseInvoiceId}">
+                                            تعديل
+                                        </button>
+                                        <button ngbDropdownItem
+                                            (click)="openDeleteModal(deleteDialog,item.purchaseInvoiceId)">
+                                            <span>حذف</span>
+                                        </button>
+                                        <button ngbDropdownItem (click)="showInvoiceDetails(item)">
+                                            <span>تفاصيل</span>
+                                        </button>
+                                        <ng-container *ngIf="![wfStatus.Cancelled , wfStatus.Paid].includes(item.workflowStatusId)">
+                                            <button ngbDropdownItem routerLink="/general-accounts/create-payment-order"
+                                                [queryParams]="{InvoiceId:item.purchaseInvoiceId}">
+                                                انشاء أمر صرف
+                                            </button>
+                                        </ng-container>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-
-                        <!-- <div class="w-100 d-flex align-items-center justify-content-center">
-                            <button routerLink="/purchases/add-purchase-invoice"
-                                [queryParams]="{InvoiceId:item.purchaseInvoiceId}"
-                                class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
-                                <i class="uil uil-pen"></i>
-                                <span>تعديل</span>
-                            </button>
-                            <button
-                                class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2 me-2"
-                                (click)="CancelPurchaseInvoice(item.purchaseInvoiceId)">
-                                <i class="uil uil-trash-alt"></i>
-                                <span>حذف</span>
-                            </button>
-                            <button (click)="showInvoiceDetails(item)"
-                                class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
-                                <i class="uil uil-pen"></i>
-                                <span>تفاصيل</span>
-                            </button>
-                        </div> -->
-                    </td>
-                </tr>
-            </tbody>
-
-        </table>
-        <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length&&!showLoader"
-            [showLoader]="showLoader"></app-empty-data>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+<ng-template #deleteDialog let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد العملية</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد من الحذف ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click'); cancelPurchaseInvoice()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">الغاء</span>
+        </button>
+    </div>
+</ng-template>
+
+
 
 <ng-template appComponentHost></ng-template>
 
-<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->
+<ngx-loading [show]="showLoader"></ngx-loading>

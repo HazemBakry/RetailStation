@@ -11,6 +11,8 @@ import { DynamicComponentLoaderService } from 'src/app/components/Shared/service
 import { FieldType } from 'src/app/components/Shared/Enums/FieldType';
 import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
 import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FinanceWorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
 
 @Component({
   selector: 'app-purchase-invoices',
@@ -21,8 +23,8 @@ import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
 export class PurchaseInvoicesComponent implements OnInit {
   TitleList = ['المشتريات', 'فواتير المشتريات'];
   showLoader: boolean;
-
-
+  selectedInvoiceId: number;
+  public wfStatus=FinanceWorkflowStatus;
   pagedResponseModel:PagedResponseDTO<OrderModel[]>={
     results:[],
     filterList:[],
@@ -33,7 +35,7 @@ export class PurchaseInvoicesComponent implements OnInit {
   };
   @ViewChild(ComponentHostDirective, { static: true }) detailsComponentHost!: ComponentHostDirective;
 
-  constructor(private purchaseService: PurchaseService, private toaster: ToastrService,private dynamicComponentService:DynamicComponentLoaderService ) { }
+  constructor(private purchaseService: PurchaseService,  private modalService: NgbModal, private toaster: ToastrService,private dynamicComponentService:DynamicComponentLoaderService ) { }
 
   ngOnInit(): void {
     this.getPurchaseInvoicesData();
@@ -57,10 +59,13 @@ export class PurchaseInvoicesComponent implements OnInit {
     this.pagedResponseModel.currentPage = obj.page;
     this.getPurchaseInvoicesData();
   }
-
-  CancelPurchaseInvoice(InvoiceId:number)
+  openDeleteModal(content: any, itemId: number) {
+    this.selectedInvoiceId = itemId;
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+  cancelPurchaseInvoice()
   {
-    this.purchaseService.CancelPurchaseInvoice(InvoiceId).subscribe(data => {
+    this.purchaseService.CancelPurchaseInvoice(this.selectedInvoiceId).subscribe(data => {
       if (data?.isSuccess) {
         this.toaster.success(data.message);
         this.getPurchaseInvoicesData();
@@ -90,7 +95,7 @@ export class PurchaseInvoicesComponent implements OnInit {
         detailsModel,
         data,
         this.invoiceDetailsDataFields,
-        `تفاصيل الفاتورة ${detailsModel.orderNumber}#`
+        `تفاصيل الفاتورة #${detailsModel.serialNumber}`
       );
       
       this.showLoader = false;

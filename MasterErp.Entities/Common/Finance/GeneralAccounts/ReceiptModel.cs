@@ -48,5 +48,7 @@ namespace MasterErp.Entities.Common.Finance.GeneralAccounts
         public int? EntryId { get; set; }
         public int? TotalCount { get; set; }
 
+        public int? NextId { get; set; }
+        public int? PreviousId { get; set; }
     }
 }

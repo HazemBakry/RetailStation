@@ -4,6 +4,7 @@ using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Finance;
+using MasterErp.Entities.Models.Inventory;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
 using MasterErp.Service.Common;
@@ -56,7 +57,21 @@ namespace MasterErp.Service.GeneralAccounts
         }
         public ReceiptModel GetPaymentOrderDetailsById(int PaymentOrderId)
         {
-            return GetPaymentOrders_Summary(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, PaymentOrderId)?.FirstOrDefault();
+            var result = GetPaymentOrders_Summary(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, PaymentOrderId)?.FirstOrDefault();
+            if (result != null)
+            {
+                result.PreviousId = Context.PaymentOrders
+                                    .Where(p => p.PaymentOrderId < PaymentOrderId)
+                                    .OrderByDescending(p => p.PaymentOrderId)
+                                    .Select(p => p.PaymentOrderId)
+                                    .FirstOrDefault();
+                result.NextId = Context.PaymentOrders
+                                .Where(p => p.PaymentOrderId > PaymentOrderId)
+                                .OrderBy(p => p.PaymentOrderId)
+                                .Select(p => p.PaymentOrderId)
+                                .FirstOrDefault();
+            }
+            return result;
 
         }
         public DataTable GetPaymentOrders_Filters(SearchFilterModel model)

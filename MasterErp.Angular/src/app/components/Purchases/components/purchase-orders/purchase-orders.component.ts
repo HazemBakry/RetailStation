@@ -91,7 +91,7 @@ export class PurchaseOrdersComponent implements OnInit {
         detailsModel,
         data,
         this.orderDetailsDataFields,
-        `تفاصيل طلب المشترايات ${detailsModel.orderNumber}#`
+        `تفاصيل طلب #${detailsModel.serialNumber}`
       );
 
       this.showLoader = false;

@@ -6,13 +6,15 @@ import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsRe
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { DatePipe } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { PurchaseInvoiceModel } from 'src/app/components/Purchases/models/PurchaseInvoiceModel';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
+import { FinanceWorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-create-payment-order',
@@ -53,6 +55,7 @@ export class CreatePaymentOrderComponent implements OnInit {
   };
 
   constructor(private sharedService: SharedService,
+    private router: Router, private modalService: NgbModal,
     private paymentService: PaymentService,
     private form: FormBuilder,
     private _FormService: FormService,
@@ -172,14 +175,17 @@ export class CreatePaymentOrderComponent implements OnInit {
   getPurchaseInvoiceDetailsById() {
     this.showLoader = true;
     this.purchaseService.GetPurchaseInvoiceDetailsById(this.purchaseInvoiceId).subscribe((data: PurchaseInvoiceModel) => {
-      if (data) {
+      if (data && ![FinanceWorkflowStatus.Cancelled , FinanceWorkflowStatus.Paid].includes(data.workflowStatusId)) {
         this.purchaseInvoiceModel = data;
         this.formGroup?.patchValue({
           moneyAmount: this.purchaseInvoiceModel.totalValue,
           agencyTypeId: 2,
           supplierId: this.purchaseInvoiceModel.supplierId,
         });
-        // this.formGroup?.get('moneyAmount')?.disable();
+        this.formGroup?.get('moneyAmount')?.disable();
+      }else {
+        this.purchaseInvoiceId = null;
+        this.toaster.error("لا يمكن انشاء أمر صرف على فاتورة تم دفعها أو ملغية");
       }
       this.showLoader = false;
     }, err => {
@@ -225,12 +231,14 @@ export class CreatePaymentOrderComponent implements OnInit {
 
     this.paymentService.AddNewPaymentOrder(this.receiptModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
-        this.receiptModel.orderNumber = data.number;
-        this.paymentOrderId = data.id;
-        this.formGroup.patchValue({ orderNumber: data.number });
-        // this.formGroup?.reset();
-        // this.initNewForm();
+        
+        this.initNewForm();
         this.toaster.success(data?.message);
+        if (data.id) {
+          this.receiptModel.orderNumber = data.number;
+          this.paymentOrderId = data.id;
+          this.goToPage(this.paymentOrderId);
+        }
       }
       else {
         this.toaster.error(data?.message);
@@ -263,7 +271,21 @@ export class CreatePaymentOrderComponent implements OnInit {
     });
 
   }
-
+  openSaveModal(content: any) {
+    if (!this.validateForm()) {
+      return;
+    }
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+  goToPage(id: number) {
+    if (id) {
+      this.router.navigate([], {
+        relativeTo: this.acRoute,
+        queryParams: { PaymentOrderId:id },
+        queryParamsHandling: 'merge'
+      });
+    }
+  }
 
 
 }

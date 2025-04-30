@@ -16,55 +16,60 @@
         </div>
     </div>
     <div class="offcanvas-body pt-4 bg-light">
-
         <div *ngIf="detailsModel" class="employee-card-body mb-3">
-            <div class="row mb-3">
-                <div class="col-xl-6">
-                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
-                        <i class="fas fa-info-circle fa-1x me-2"></i> رقم الطلب : {{detailsModel?.orderNumber}}
-                    </h4>
+            <div class="inputs-wrapper border rounded bg-white mb-3">
+                <div class="inputs-sec-content px-3 py-3">
+                    <div class="row gy-3">
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">رقم الطلب</label>
+                                <input type="text" disabled class="form-control nw-form-input"
+                                    [value]="detailsModel?.orderNumber" />
+                            </div>
+                        </div>
+                        <div *ngIf="detailsModel?.orderDate" class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">تاريخ الطلب</label>
+                                <input type="text" disabled class="form-control nw-form-input"
+                                    [value]="detailsModel?.orderDate | date" />
+                            </div>
+                        </div>
+                        <div *ngIf="detailsModel?.supplierNameAR" class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">المورد</label>
+                                <input type="text" disabled class="form-control nw-form-input"
+                                    [value]="detailsModel?.supplierNameAR" />
+                            </div>
+                        </div>
+                        <div *ngIf="detailsModel?.storeNameAR" class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">المخزن</label>
+                                <input type="text" disabled class="form-control nw-form-input"
+                                    [value]="detailsModel?.storeNameAR" />
+                            </div>
+                        </div>
+                        <div *ngIf="detailsModel?.totalValue" class="col-lg-12">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    الاجمالي
+                                </label>
+                                <input type="text" disabled class="form-control nw-form-input description-area"
+                                    [value]="detailsModel?.totalValue" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div *ngIf="detailsModel?.orderDate" class="col-xl-6">
-                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
-                         تاريخ الطلب : {{detailsModel?.orderDate | date:'shortDate'}}
-                    </h4>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div *ngIf="detailsModel?.supplierNameAR" class="col-xl-6">
-                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
-                        <i class="fas fa-info-circle fa-1x me-2"></i> المورد : {{detailsModel?.supplierNameAR}}
-                    </h4>
-                </div>
-                <div *ngIf="detailsModel?.storeNameAR" class="col-xl-6">
-                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
-                         المخزن : {{detailsModel?.storeNameAR}}
-                    </h4>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div *ngIf="detailsModel?.totalValue" class="col-xl-6">
-                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
-                        <i class="fas fa-info-circle fa-1x me-2"></i>الاجمالي: {{detailsModel?.totalValue}}
-                    </h4>
-                </div>
-            </div>
-            <!-- <div class="col-xl-12">
-                <div class="d-flex justify-content-center mt-3">
 
-                </div>
-            </div> -->
+            </div>
         </div>
 
         <hr class="border-black" />
 
-        <div class="card card-with-table border shadow-none">
-            <!-- <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-end">
-                pagination
-            </div> -->
-            <div class="card-body table-responsive p-0">
+        <div class="inputs-wrapper border rounded bg-white mb-3">
+            <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">الاصناف</div>
+            <div class="inputs-sec-content px-3 py-2 table-responsive table-vp-height small-scroll">
                 <table *ngIf="dataFields?.length >0"
-                    class="table table-borderless align-middle table-hover table-component text-center m-0">
+                    class="table table-bordered table-middle text-center table-actions m-0">
                     <thead>
                         <tr>
                             <th *ngFor="let field of dataFields">{{field.displayName ?? field.fieldName}}</th>
@@ -81,12 +86,20 @@
                             </td>
 
                         </tr>
+                        <tr *ngIf="!productList?.length">
+                            <td [colspan]="dataFields?.length" class="text-right">
+                                <app-empty-data [showEmptyData]="!productList?.length"></app-empty-data>
+                            </td>
+                        </tr>
                     </tbody>
 
                 </table>
-                <app-empty-data [showEmptyData]="!productList?.length || !dataFields?.length "></app-empty-data>
+
+
+
             </div>
         </div>
+
     </div>
 
 </ng-template>

@@ -92,14 +92,14 @@ export class MaterialRequestsComponent implements OnInit {
       orderDate: materialRequestModel.orderDate,
       dueDate: materialRequestModel.dueDate
     }
-    // this.showLoader = true;
+    this.showLoader = true;
     this.inventoryService.GetMaterialRequestProducts_Data([materialRequestModel.materialRequestId]).subscribe((data: GeneralOrderDetailsModel[]) => {
       this.dynamicComponentService.loadProductDetailsSidePanel(
         this.detailsComponentHost.viewContainerRef,
         orderModel,
         data,
         this.materialRequestDetailsDataFields,
-        `تفاصيل طلب الشراء ${materialRequestModel.orderNumber}#`
+        `تفاصيل طلب #${materialRequestModel.serialNumber}`
       );
       
       this.showLoader = false;
