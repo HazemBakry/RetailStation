@@ -34,7 +34,7 @@ namespace MasterErp.Service.HR
             this.SQLHelper = SQLHelper;
             this.SharedService = SharedService;
             this.Configuration = Configuration;
-            ConnectionString = Configuration.GetConnectionString("DBConnection");
+            //ConnectionString = Configuration.GetConnectionString("DBConnection");
         }
 
 

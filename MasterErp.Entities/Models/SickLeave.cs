@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models
 {
+    [Table("SickLeaves", Schema = "HR")]
+
     public class SickLeave : CreatorModel
     {
 		public int SickLeaveId { get; set; }

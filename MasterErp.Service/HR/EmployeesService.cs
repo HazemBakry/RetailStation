@@ -26,20 +26,18 @@ namespace MasterErp.Service.HR
         private readonly IConfiguration Configuration;
         private readonly ISharedFilterService SharedFilterService;
         private readonly IFileService FileService;
-        private readonly IHttpContextAccessor HttpContextAccessor;
         public readonly string EmployeesFolderName;
-        private readonly string ConnectionString;
+        //private readonly string ConnectionString;
 
         public EmployeeService(DBContext Context, ISQLHelper SQLHelper,
             IConfiguration Configuration, ISharedFilterService SharedFilterService,
-            IHttpContextAccessor HttpContextAccessor, IFileService FileService)
+            IFileService FileService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
             this.Configuration = Configuration;
             this.SharedFilterService = SharedFilterService;
-            this.ConnectionString = Configuration.GetConnectionString("DBConnection");
-            this.HttpContextAccessor = HttpContextAccessor;
+            //this.ConnectionString = Configuration.GetConnectionString("DBConnection");
             this.FileService = FileService;
             EmployeesFolderName = "Employees";
         }
@@ -488,7 +486,7 @@ namespace MasterErp.Service.HR
             SqlParameter[] Params = new SqlParameter[1];
             Params[0] = new SqlParameter("@EmployeeId", employeeId);
 
-            var result = SQLHelper.SQLQuery<EmployeeContractDto>("[HR].[SP_GetEmployeeContractInfoById]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<EmployeeContractDto>("[HR].[SP_GetEmployeeContractInfoById]", null, Params);
             return result?.FirstOrDefault();
         }
 
@@ -572,7 +570,7 @@ namespace MasterErp.Service.HR
             Params[4] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[4].Value = dt;
 
-            var result = SQLHelper.SQLQuery<EmployeeBasicInfo>("[HR].[SP_GetAllEmployeeData]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<EmployeeBasicInfo>("[HR].[SP_GetAllEmployeeData]", null, Params);
             return result;
         }
 
@@ -580,7 +578,7 @@ namespace MasterErp.Service.HR
         {
             SqlParameter[] Params = new SqlParameter[0];
 
-            var result = SQLHelper.SQLQuery<StatisticsCardSummary>("[HR].[SP_GetEmployeesSummary]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<StatisticsCardSummary>("[HR].[SP_GetEmployeesSummary]", null, Params);
             return result;
         }
 
@@ -588,7 +586,7 @@ namespace MasterErp.Service.HR
         {
             SqlParameter[] Params = new SqlParameter[0];
 
-            var result = SQLHelper.SQLQuery<SelectorDataModel>("[HR].[SP_GetActiveEmployees]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<SelectorDataModel>("[HR].[SP_GetActiveEmployees]", null, Params);
             return result;
         }
 
@@ -605,7 +603,7 @@ namespace MasterErp.Service.HR
             Params[1] = new SqlParameter("@BranchList", SqlDbType.Structured);
             Params[1].Value = BranchId.Select(x => new LstInt_TableType { ID = x }).ToList().ToDataTable(); ;
 
-            var result = SQLHelper.SQLQuery<EmployeeSalaryDto>("[HR].[SP_GetEmployeesSalaryByBranch]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<EmployeeSalaryDto>("[HR].[SP_GetEmployeesSalaryByBranch]", null, Params);
             return result;
         }
 
