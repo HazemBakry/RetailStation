@@ -45,10 +45,11 @@
                         <td>{{item.purposeNameAR ?? item.purposeNameEN}}</td>
                         <td>{{item.branchNameAR ?? item.branchNameEN}}</td>
                         <td>
-                            <span *ngIf="item.orderStatus" class="badge rounded-pill default p-2 text-uppercase px-3"
+                            <div appColorWithStatus [text]="item.isCancelled" status='isCancelled'></div>
+                            <!-- <span *ngIf="item.orderStatus" class="badge rounded-pill default p-2 text-uppercase px-3"
                                 [ngClass]="getStatusColor(item.isCancelled)">
                                 {{item.orderStatus}}
-                            </span>
+                            </span> -->
                         </td>
                         <!-- <td>{{item.notes}}</td> -->
                         <td>
@@ -60,15 +61,15 @@
                                     <div ngbDropdownMenu class="border">
                                         <button ngbDropdownItem
                                             (click)="showMaterialRequestDetails(item)">تفاصيل</button>
-                                        <button ngbDropdownItem routerLink="../add-material-request"
+                                        <button *ngIf="!item.isCancelled" ngbDropdownItem routerLink="../add-material-request"
                                             [queryParams]="{MaterialRequestId:item.materialRequestId}">
                                             تعديل
                                         </button>
-                                        <button ngbDropdownItem routerLink="/purchases/add-purchase-order"
+                                        <button *ngIf="!item.isCancelled" ngbDropdownItem routerLink="/purchases/add-purchase-order"
                                             [queryParams]="{MaterialRequestId:item.materialRequestId}">
                                             انشاء امر شراء
                                         </button>
-                                        <button ngbDropdownItem
+                                        <button *ngIf="!item.isCancelled" ngbDropdownItem
                                             (click)="openDeleteModal(deleteDialog,item.materialRequestId)">الغاء</button>
 
                                     </div>
@@ -104,29 +105,29 @@
             </table>
         </div>
     </div>
-
-    <ng-template #deleteDialog let-modal>
-        <div class="modal-header">
-            <h4 class="modal-title">تأكيد العملية</h4>
-        </div>
-        <div class="modal-body">
-            <p class="fs-5 m-0">هل انت متأكد من الحذف ؟</p>
-        </div>
-        <div class="modal-footer justify-content-start">
-            <button type="button" class="btn btn-success" (click)="modal.close('Save click'); cancelOrder()">
-                <i class="fas fa-check"></i>
-                <span class="ms-2">نعم</span>
-            </button>
-            <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
-                <i class="fas fa-times"></i>
-                <span class="ms-2">الغاء</span>
-            </button>
-        </div>
-    </ng-template>
-
-
-
-    <ng-template appComponentHost></ng-template>
+</div>
+<ng-template #deleteDialog let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد العملية</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد من الحذف ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click'); cancelOrder()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">الغاء</span>
+        </button>
+    </div>
+</ng-template>
 
 
-    <!-- <ngx-loading [show]="showLoader"></ngx-loading> -->
+
+<ng-template appComponentHost></ng-template>
+
+
+<ngx-loading [show]="showLoader"></ngx-loading>

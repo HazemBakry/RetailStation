@@ -174,7 +174,7 @@
     </div>
 </div>
 
-<app-order-items [selectedProducts]="orderDetails" [clearAllProducts]="clearAllProducts" [isEditable]="false"
+<app-order-items [selectedProducts]="orderDetails" [clearAllProducts]="clearAllProducts" [disabled]="true"
     (selectedProductsList)="getSelectedProductsList($event)"></app-order-items>
 
     <ng-template #saveDialog let-modal>

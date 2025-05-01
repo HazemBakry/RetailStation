@@ -85,6 +85,26 @@ export class ColorWithStatusDirective implements OnInit {
 
       // }
     }
+    else if (this.status && this.status.toLowerCase() == 'iscancelled') {
+      var label = '';
+      // var style = 'gray'
+      if (this.text == true) {
+        label = 'ملغي';
+        style = 'red';
+      }
+      // else {
+      //   label = 'غير معروف';
+      //   style = 'orange';
+      // }
+
+      this.renderer.setAttribute(this.elem.nativeElement, 'class', 'status-box text-nowrap ' + style);
+      var div = this.renderer.createElement('div');
+      // this.renderer.addClass(div, 'ms-2');
+      var text = this.renderer.createText(label);
+      this.renderer.appendChild(div, text);
+      this.renderer.appendChild(this.elem.nativeElement, div);
+
+    }
   }
 
 

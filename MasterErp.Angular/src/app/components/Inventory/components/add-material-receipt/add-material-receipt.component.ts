@@ -109,7 +109,10 @@ export class AddMaterialReceiptComponent implements OnInit {
       if (data) {
         this.orderDetails =[];
         this.clearAllProducts = !this.clearAllProducts;
-        this.orderDetails = data;
+        this.orderDetails = data.map(product => ({
+          ...product,
+          requestedQuantity: product.quantity,
+        }));
         // this.formGroup.patchValue({orderDetails:this.orderDetails});
         this.formGroup.patchValue({ purchaseOrderId: purchaseOrderId });
       }

@@ -153,8 +153,10 @@
 </div>
 
 <app-order-items [selectedProducts]="orderDetails" [clearAllProducts]="clearAllProducts"
-    [selectedSupplierId]="selectedSupplierId"
+    [selectedSupplierId]="selectedSupplierId" [showRequestedQuantity]="!isUpdate"
     (selectedProductsList)="getSelectedProductsList($event)"></app-order-items>
+
+<ngx-loading [show]="showLoader"></ngx-loading>
 
 <ng-template #saveDialog let-modal>
     <div class="modal-header">

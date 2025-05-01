@@ -18,11 +18,12 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   @Input() selectedProducts: GeneralOrderDetailsModel[] = [];
   @Input() selectedSupplierProducts: GeneralOrderDetailsModel[] = [];
   @Input() clearAllProducts: boolean = false;
+  @Input() disabled: boolean = false;
   @Input() showAddNew: boolean = true;
+  @Input() showRequestedQuantity: boolean = false;
   @Input() showPrice: boolean = true;
-  @Input() isEditable: boolean = true;
   @Input() showDueDate: boolean = false;
-  @Input()   selectedSupplierId: number;
+  @Input() selectedSupplierId: number;
   @Output() selectedProductsList = new EventEmitter<GeneralOrderDetailsModel[]>();
   showLoader: boolean = false;
   ItemsList: any[] = [];
@@ -110,7 +111,14 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     let result = patt.test(key);
     return result;
   }
-
+  checkQuantityValue(event:Event, item: GeneralOrderDetailsModel) {
+    var value = +(event.target as HTMLInputElement).value;
+    if (this.showRequestedQuantity && value && value > item.requestedQuantity) {
+      this.toaster.warning('الكمية المطلوبة اكبر من الكمية المدخلة');
+      item.quantity = item.requestedQuantity;
+    }
+    this.calcTotalValue();
+  }
   addField() {
     var item: GeneralOrderDetailsModel = {
       itemId: null,

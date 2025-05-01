@@ -155,10 +155,13 @@
     </div>
 </div>
 
-<app-order-items [selectedProducts]="orderDetails" [clearAllProducts]="clearAllProducts" [isEditable]="false"
+<app-order-items [selectedProducts]="orderDetails" [clearAllProducts]="clearAllProducts"
+    [showRequestedQuantity]="formGroup?.value?.purchaseOrderId &&!isUpdate" [disabled]="formGroup?.value?.purchaseOrderId"
     (selectedProductsList)="getSelectedProductsList($event)"></app-order-items>
 
 
+
+<ngx-loading [show]="showLoader"></ngx-loading>
 <ng-template #saveDialog let-modal>
     <div class="modal-header">
         <h4 class="modal-title">تأكيد العملية</h4>

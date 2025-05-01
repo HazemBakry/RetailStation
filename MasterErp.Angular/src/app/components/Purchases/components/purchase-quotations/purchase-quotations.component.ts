@@ -69,7 +69,7 @@ export class PurchaseQuotationsComponent implements OnInit {
   showQuotationDetails(detailsModel: PurchaseQuotationModel) {
     this.quotationDetailsList = [];
     this.distinctSuppliers=[];
-    // this.showLoader = true;
+    this.showLoader = true;
     this.purchaseService.GetPurchaseQuotationProducts_Data(detailsModel.purchaseQuotationId).subscribe((data: any[]) => {
       this.quotationDetailsList = this.groupItemsById(data);
       if(this.quotationDetailsList.length>0)

@@ -26,6 +26,9 @@ export interface ReceiptModel {
     createdDate: string;
     modifiedBy: string;
     modifiedDate: string | null;
+
+    nextId: number | null;
+    previousId: number | null;
 }
 export interface ReceiptLedger {
     receiptLedgerId: number;
