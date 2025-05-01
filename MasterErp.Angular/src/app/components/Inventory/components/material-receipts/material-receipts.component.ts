@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { InventoryService } from '../../services/inventory.service';
 import { ToastrService } from 'ngx-toastr';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
@@ -6,6 +6,11 @@ import { OrderModel } from '../../models/inventory';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { MaterialReceiptModel } from '../../models/MaterialReceiptModel';
+import { ComponentHostDirective } from 'src/app/components/Shared/directives/component-host.directive';
+import { DynamicComponentLoaderService } from 'src/app/components/Shared/services/dynamic-component-loader.service';
+import { GeneralOrderDetailsModel } from '../../models/GeneralOrderModel ';
+import { FieldType } from 'src/app/components/Shared/Enums/FieldType';
+import { DataField } from 'src/app/components/Shared/models/DataField';
 
 
 
@@ -28,9 +33,11 @@ export class MaterialReceiptsComponent implements OnInit {
     searchText: ''
   };
   filterList: FilterModel[] = [];
+  @ViewChild(ComponentHostDirective, { static: true }) detailsComponentHost!: ComponentHostDirective;
 
   constructor(private inventoryService: InventoryService,
     private modalService: NgbModal,
+    private dynamicComponentService:DynamicComponentLoaderService,
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
@@ -95,11 +102,73 @@ export class MaterialReceiptsComponent implements OnInit {
     });
   }
 
+
+  showMaterialReceiptDetails(materialReceiptModel: MaterialReceiptModel) {
+    var orderModel: OrderModel = {
+      orderNumber: materialReceiptModel.orderNumber,
+      docNumber: materialReceiptModel.docNumber,
+      orderDate: materialReceiptModel.orderDate,
+      dueDate: materialReceiptModel.dueDate,
+      storeNameAR: materialReceiptModel.storeNameAR,
+      storeNameEN: materialReceiptModel.storeNameEN,
+      supplierNameAR: materialReceiptModel.supplierNameAR,
+      supplierNameEN: materialReceiptModel.supplierNameEN,
+    }
+    this.showLoader = true;
+    this.inventoryService.GetMaterialReceiptProducts_Data([materialReceiptModel.materialReceiptId]).subscribe((data: GeneralOrderDetailsModel[]) => {
+      this.dynamicComponentService.loadProductDetailsSidePanel(
+        this.detailsComponentHost.viewContainerRef,
+        orderModel,
+        data,
+        this.materialReceiptDetailsDataFields,
+        `تفاصيل طلب #${materialReceiptModel.serialNumber}`
+      );
+
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+
+
+  }
   getStatusColor(status: boolean) {
     if (status == true)
       return "cancelled";
     else
       return "open";
   }
-
+  materialReceiptDetailsDataFields :DataField[] = [
+    {
+      fieldName: 'itemNameAR', 
+      fieldType: FieldType.Text, 
+      displayName: 'الاسم (AR)', 
+    },
+    {
+      fieldName: 'itemNameEN', 
+      fieldType: FieldType.Text, 
+      displayName: 'الاسم (EN)', 
+    },
+    {
+      fieldName: 'unitNameAR', 
+      fieldType: FieldType.Text, 
+      displayName: 'الوحدة', 
+    },
+    {
+      fieldName: 'price', 
+      fieldType: FieldType.Text, 
+      displayName: 'السعر', 
+    },
+    {
+      fieldName: 'quantity', 
+      fieldType: FieldType.Text, 
+      displayName: 'الكمية', 
+    },
+    {
+      fieldName: 'totalValue', 
+      fieldType: FieldType.Text, 
+      displayName: 'الاجمالي', 
+    },
+  ];
 }

@@ -9,7 +9,7 @@
         <span class="ms-2">تعديل الكمية</span>
       </button> -->
 
-            <div ngbDropdown class="d-inline-block">
+            <div *ngIf="!disabled" ngbDropdown class="d-inline-block">
                 <button type="button" class="btn btn-table-action m-2 d-flex align-items-center gap-2 border rounded px-3"
                     id="dropdownBasic1" ngbDropdownToggle>
                     <i class="fas fa-cogs"></i>
@@ -54,6 +54,7 @@
                     <!-- <th>اسم الصنف (En)</th> -->
                     <th>الوحدة</th>
                     <th *ngIf="showPrice">سعر الوحدة</th>
+                    <th *ngIf="showRequestedQuantity">الكمية المطلوبه</th>
                     <th>الكمية</th>
                     <th *ngIf="showPrice">إجمالى القيمة</th>
                     <th *ngIf="showDueDate">تاريخ الاستحقاق</th>
@@ -64,7 +65,7 @@
             <tbody>
                 <tr class="row-hover" *ngFor="let item of orderItems;let i = index">
                     <td style="width: 300px;">
-                        <app-general-selector [showSearch]="true" [data]="itemsSelector" [(ngModel)]="item.itemId"
+                        <app-general-selector [disabled]="disabled" [showSearch]="true" [data]="itemsSelector" [(ngModel)]="item.itemId"
                             (valueChanged)="getItemDetailsById($event,i)"
                             [placeholder]="'الحسابات'"></app-general-selector>
                     </td>
@@ -73,15 +74,19 @@
                             [(ngModel)]="item.unitNameAR" focus>
                     </td>
                     <td *ngIf="showPrice">
-                        <input type="text" #inputs class="form-control text-center" [(ngModel)]="item.price"
-                            autocomplete="off" (input)="calcTotalValue()" focus>
+                        <input type="number" min="0" #inputs class="form-control text-center" [(ngModel)]="item.price"
+                            autocomplete="off" (input)="calcTotalValue()" disabled>
+                    </td>
+                    <td *ngIf="showRequestedQuantity">
+                        <input type="number"  disabled #inputs class="form-control text-center" [value]="item.requestedQuantity"
+                            autocomplete="off" >
                     </td>
                     <td>
-                        <input type="text" #inputs2 class="form-control text-center" [(ngModel)]="item.quantity"
-                            autocomplete="off" (input)="calcTotalValue()" (keypress)="validateNumbers($event.key)">
+                        <input type="number" min="0" [max]="showRequestedQuantity ? item.requestedQuantity:null" class="form-control text-center" 
+                            autocomplete="off" (input)="checkQuantityValue($event,item)" >
                     </td>
                     <td *ngIf="showPrice">
-                        <input type="text" #inputs class="form-control text-center" disabled
+                        <input type="number" #inputs class="form-control text-center" disabled
                             [(ngModel)]="item.totalValue" autocomplete="off">
                     </td>
                     <td *ngIf="showDueDate">
@@ -104,7 +109,7 @@
             </tbody>
         </table>
     </div>
-    <div class="p-2">
+    <div *ngIf="!disabled" class="p-2">
         <div class="d-flex">
             <div class="me-1 ms-2">
                 <button class="button-table-action mt-3 btn-edit d-flex align-items-center justify-content-center gap-2"
