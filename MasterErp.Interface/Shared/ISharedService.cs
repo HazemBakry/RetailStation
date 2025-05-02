@@ -28,7 +28,6 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetBranchesSelector();
         List<SelectorDataModel> GetOrderStatusSelector();
         List<SelectorDataModel> GetStoresSelector();
-        List<SelectorDataModel> GetNationalitiesSelector();
         List<SelectorDataModel> GetIqamaIssuePlacesSelector();
         List<SelectorDataModel> GetVisaJobsSelector();
         List<SelectorDataModel> GetCountriesSelector();
@@ -43,9 +42,6 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetUnitsSelector();
         List<SelectorDataModel> GetChildAccountsSelector();
         List<SelectorDataModel> GetItemLookupsSelector();
-        List<SelectorDataModel> GetReligionsSelector();
-        List<SelectorDataModel> GetSocialStatusSelector();
-
 
         #endregion
     }

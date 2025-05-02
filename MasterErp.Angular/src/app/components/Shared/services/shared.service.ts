@@ -192,14 +192,6 @@ export class SharedService {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetRegionsSelector');
   }
 
-  GetReligionsSelector() {
-    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetReligionsSelector');
-  }
-
-  GetSocialStatusSelector() {
-    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetSocialStatusSelector');
-  }
-
   GetCustomersSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetCustomersSelector');
   }

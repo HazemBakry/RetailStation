@@ -146,15 +146,6 @@ namespace MasterErp.Service.Shared
             return result;
         }
 
-        public List<SelectorDataModel> GetNationalitiesSelector()
-        {
-            var results = Context.Nationalities.Select(b => new SelectorDataModel
-            {
-                Id = b.NationalityId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
-        }
         public List<SelectorDataModel> GetIqamaIssuePlacesSelector()
         {
             var results = Context.Countries.Select(b => new SelectorDataModel
@@ -283,26 +274,6 @@ namespace MasterErp.Service.Shared
             var results = Context.ItemLookups.Select(b => new SelectorDataModel
             {
                 Id = b.ItemLookupId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
-        }
-
-        public List<SelectorDataModel> GetReligionsSelector()
-        {
-            var results = Context.Religions.Select(b => new SelectorDataModel
-            {
-                Id = b.ReligionId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
-        }
-
-        public List<SelectorDataModel> GetSocialStatusSelector()
-        {
-            var results = Context.SocialStatus.Select(b => new SelectorDataModel
-            {
-                Id = b.SocialStatusId,
                 Name = b.NameAR,
             }).ToList();
             return results;

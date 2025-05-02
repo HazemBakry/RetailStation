@@ -120,14 +120,6 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetStoresSelector();
             return Ok(result);
         }
-
-        [HttpGet]
-        [Route("GetNationalitiesSelector")]
-        public IActionResult GetNationalitiesSelector()
-        {
-            var result = _sharedService.GetNationalitiesSelector();
-            return Ok(result);
-        }
          
         [HttpGet]
         [Route("GetIqamaIssuePlacesSelector")]
@@ -235,23 +227,6 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetItemLookupsSelector();
             return Ok(result);
         }
-
-        [HttpGet]
-        [Route("GetReligionsSelector")]
-        public IActionResult GetReligionsSelector()
-        {
-            var result = _sharedService.GetReligionsSelector();
-            return Ok(result);
-        }
-        [HttpGet]
-        [Route("GetSocialStatusSelector")]
-        public IActionResult GetSocialStatusSelector()
-        {
-            var result = _sharedService.GetSocialStatusSelector();
-            return Ok(result);
-        }
-
-
 
         #endregion
     }

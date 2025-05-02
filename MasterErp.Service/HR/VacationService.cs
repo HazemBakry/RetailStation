@@ -1,7 +1,10 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.SQLTabeType;
 using MasterErp.Entities.DTOs.HR;
+using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.HR;
+using MasterErp.Entities.Models.Purchases;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.HR;
 using MasterErp.Interface.Shared;
@@ -40,6 +43,20 @@ namespace MasterErp.Service.HR
 
         public List<EmployeeVacationDto> GetAllEmployeeVacationsData(SearchFilterModel SearchModel, int? EmployeeId = null, int? ManagerId = null)
         {
+            var FilterList = SearchModel?.FilterList?.Select(f => new FilterList_TableType { ItemKey = string.Empty, CategoryName = f.CategoryName, ItemValue = f.ItemFlag }).ToList();
+            SqlParameter[] param = new SqlParameter[5];
+
+            param[0] = new SqlParameter("@EmployeeId", EmployeeId);
+            param[1] = new SqlParameter("@ManagerID", ManagerId);
+            param[2] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            param[3] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            param[4] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[4].Value = FilterList.ToDataTable();
+
+            var result = SQLHelper.SQLQuery<EmployeeVacationDto>("[HR].[SP_GetAllEmployeeVacationsData]", ConnectionString, param);
+            return result;
+
+
             var query = from vacation in Context.Vacations
                         join emp in Context.Employees on vacation.EmployeeId equals emp.EmployeeId
                         join vacationType in Context.VacationTypes on vacation.VacationTypeId equals vacationType.VacationTypeId

@@ -30,7 +30,7 @@ namespace MasterErp.Service.Shared
             LookupsContext = lookupsContext;
         }
 
-        #region Global Looups
+        #region Global Lookups
 
         public List<SelectorDataModel> GetBanksSelector()
         {
@@ -131,6 +131,42 @@ namespace MasterErp.Service.Shared
             SqlParameter[] Params = new SqlParameter[0];
 
             var result = SQLHelper.SQLQuery<SelectorDataModel>("[Inventory].[SP_GetMaterialRequestPurposes]", ConnectionString, Params);
+            return result;
+        }
+
+        #endregion
+
+        #region HR Lookups
+
+        public List<SelectorDataModel> GetWorkStatusSelector()
+        {
+            SqlParameter[] Params = new SqlParameter[0];
+
+            var result = SQLHelper.SQLQuery<SelectorDataModel>("[HR].[SP_GetWorkStatus]", ConnectionString, Params);
+            return result;
+        }
+
+        public List<SelectorDataModel> GetNationalitiesSelector()
+        {
+            SqlParameter[] Params = new SqlParameter[0];
+
+            var result = SQLHelper.SQLQuery<SelectorDataModel>("[HR].[SP_GetNationalities]", ConnectionString, Params);
+            return result;
+        }
+
+        public List<SelectorDataModel> GetReligionsSelector()
+        {
+            SqlParameter[] Params = new SqlParameter[0];
+
+            var result = SQLHelper.SQLQuery<SelectorDataModel>("[HR].[SP_GetReligions]", ConnectionString, Params);
+            return result;
+        }
+
+        public List<SelectorDataModel> GetSocialStatusSelector()
+        {
+            SqlParameter[] Params = new SqlParameter[0];
+
+            var result = SQLHelper.SQLQuery<SelectorDataModel>("[HR].[SP_GetSocialStatus]", ConnectionString, Params);
             return result;
         }
 

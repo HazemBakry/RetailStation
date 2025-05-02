@@ -289,9 +289,6 @@ export class HrService {
     return this.http.get<ActionsResponseModel>(this.URL + 'Careers/DeleteEmployeeCareer?EmployeeCareerId=' + employeeCareerId);
   }
 
-  GetWorkStatusSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Careers/GetWorkStatusSelector');
-  }
   GetJobsSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Careers/GetJobsSelector');
   }

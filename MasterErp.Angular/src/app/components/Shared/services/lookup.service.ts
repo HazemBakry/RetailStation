@@ -65,6 +65,19 @@ export class LookupService {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetNationalitiesSelector');
   }
 
+  GetWorkStatusSelector() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetWorkStatusSelector');
+  }
+
+  GetReligionsSelector() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetReligionsSelector');
+  }
+
+  GetSocialStatusSelector() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetSocialStatusSelector');
+  }
+
+
   // --------------------------------- Global Lookups --------------------------------- //
 
   GetCountriesSelector() {

@@ -31,5 +31,14 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetMaterialRequestPurposes();
 
         #endregion
+
+        #region HR Lookups
+
+        List<SelectorDataModel> GetWorkStatusSelector();
+        List<SelectorDataModel> GetNationalitiesSelector();
+        List<SelectorDataModel> GetReligionsSelector();
+        List<SelectorDataModel> GetSocialStatusSelector();
+
+        #endregion
     }
 }

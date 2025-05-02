@@ -120,5 +120,41 @@ namespace MasterErp.API.Controllers.Shared
         }
 
         #endregion
+
+        #region HR Lookups
+
+        [HttpGet]
+        [Route("GetWorkStatusSelector")]
+        public IActionResult GetWorkStatusSelector()
+        {
+            var results = lookupService.GetWorkStatusSelector();
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("GetNationalitiesSelector")]
+        public IActionResult GetNationalitiesSelector()
+        {
+            var results = lookupService.GetNationalitiesSelector();
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("GetReligionsSelector")]
+        public IActionResult GetReligionsSelector()
+        {
+            var results = lookupService.GetReligionsSelector();
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("GetSocialStatusSelector")]
+        public IActionResult GetSocialStatusSelector()
+        {
+            var results = lookupService.GetSocialStatusSelector();
+            return Ok(results);
+        }
+
+        #endregion
     }
 }

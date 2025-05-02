@@ -224,7 +224,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
     this.sharedService.GetBranchesSelector().subscribe((data: FormDropdownModel[]) => {
       this.branchSelectorData = data;
     });
-    this.hrService.GetWorkStatusSelector().subscribe((data: FormDropdownModel[]) => {
+    this.lookupService.GetWorkStatusSelector().subscribe((data: FormDropdownModel[]) => {
       this.workStatusSelectorData = data;
     });
     this.hrService.GetJobsSelector().subscribe((data: FormDropdownModel[]) => {
@@ -238,10 +238,10 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
     this.sharedService.GetVisaJobsSelector().subscribe((data: FormDropdownModel[]) => {
       this.visaJobsSelectorData = data;
     });
-    this.sharedService.GetReligionsSelector().subscribe((data: FormDropdownModel[]) => {
+    this.lookupService.GetReligionsSelector().subscribe((data: FormDropdownModel[]) => {
       this.religionsSelectorData = data;
     });
-    this.sharedService.GetSocialStatusSelector().subscribe((data: FormDropdownModel[]) => {
+    this.lookupService.GetSocialStatusSelector().subscribe((data: FormDropdownModel[]) => {
       this.socialStatusSelectorData = data;
     });
     // this.sharedService.GetVehiclesSelector().subscribe((data: FormDropdownModel[]) => {
