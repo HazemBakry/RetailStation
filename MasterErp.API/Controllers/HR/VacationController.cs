@@ -74,13 +74,6 @@ namespace MasterErp.API.Controllers.HR
         }
 
         [HttpGet]
-        [Route("GetVacationTypesSelector")]
-        public IActionResult GetVacationTypesSelector()
-        {
-            var result= _vacationService.GetVacationTypesSelector();
-            return Ok(result);
-        }
-        [HttpGet]
         [Route("DeleteVacation")]
         public IActionResult DeleteVacation(int VacationId)
         {

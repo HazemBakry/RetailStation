@@ -21,24 +21,42 @@ import { EmployeeContractModel } from '../models/Employee/EmployeeContractModel'
 export class HrService {
   URL = environment.apiURL;
 
+  payrollProcessTypes: any[] = [
+    {
+      id: 1,
+      value: 1,
+      name: "الأجازات",
+    },
+    {
+      id: 2,
+      value: 2,
+      name: "السلف",
+    },
+    {
+      id: 3,
+      value: 3,
+      name: "الجزاءات",
+    }
+  ];
+
   constructor(private http: HttpClient) { }
 
   //================================== Employees ===============================
 
-  GetAllEmployees(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'Employee/GetAllEmployees', model);
+  GetEmployeesSummary_Data(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'Employee/GetEmployeesSummary_Data', model);
   }
 
-  GetEmployeesSummary() {
-    return this.http.get<any>(this.URL + 'Employee/GetEmployeesSummary');
-  }
+  // GetEmployeesSummary() {
+  //   return this.http.get<any>(this.URL + 'Employee/GetEmployeesSummary');
+  // }
 
   GetActiveEmployeesSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Employee/GetActiveEmployeesSelector');
   }
 
-  GetEmployeesFilter(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'Employee/GetEmployeesFilter', model);
+  GetEmployeesSummary_Filters(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'Employee/GetEmployeesSummary_Filters', model);
   }
 
   GetEmployeeRequests_Data(model: SearchFilterModel) {
@@ -58,7 +76,7 @@ export class HrService {
   }
 
   GetEmployeeContract(EmployeeId: number) {
-    return this.http.get<EmployeeContractModel>(this.URL + 'Employee/GetEmployeeContract=' + EmployeeId);
+    return this.http.get<EmployeeContractModel>(this.URL + 'Employee/GetEmployeeContract?employeeId=' + EmployeeId);
   }
 
   GetEmployeesSalaryByBranch(branches: number[], ExecutionDate: any) {

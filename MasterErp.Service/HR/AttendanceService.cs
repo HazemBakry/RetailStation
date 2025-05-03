@@ -56,7 +56,7 @@ namespace MasterErp.Service.HR
                     Type = model.Type,
                     NoOfDays = model.NoOfDays,
                     MoneyAmount = model.MoneyAmount,
-                    InserDate = DateTime.Now
+                    CreatedDate = DateTime.Now
                 });
 
                 Context.SaveChanges();
@@ -83,7 +83,7 @@ namespace MasterErp.Service.HR
                     Attendance.Type = model.Type;
                     Attendance.NoOfDays = model.NoOfDays;
                     Attendance.MoneyAmount = model.MoneyAmount;
-                    Attendance.UpdateDate = DateTime.Now;
+                    Attendance.ModifiedDate = DateTime.Now;
 
                     Context.SaveChanges();
                     return true;

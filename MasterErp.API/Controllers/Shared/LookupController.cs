@@ -155,6 +155,14 @@ namespace MasterErp.API.Controllers.Shared
             return Ok(results);
         }
 
+        [HttpGet]
+        [Route("GetVacationTypesSelector")]
+        public IActionResult GetVacationTypesSelector()
+        {
+            var results = lookupService.GetVacationTypesSelector();
+            return Ok(results);
+        }
+
         #endregion
     }
 }

@@ -42,31 +42,28 @@ export class HrEmployeesComponent implements OnInit {
     pageSize: 25,
     currentPage:1,
     searchText:''
-
   };
+
+
   constructor(private modalService: NgbModal, private toaster: ToastrService, private hrService: HrService, private router: Router,
     private validationService: ValidationService, private sharedService: SharedService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.getAllEmployees();
-    // this.getEmployeesFilter();
+    this.getEmployeesSummary_Data();
+    this.GetEmployeesSummary_Filters();
     this.getBranches();
   }
 
-  getAllEmployees() {
-    //this.pagedResponseModel.SearchText = this.SearchText;
-    this.hrService.GetAllEmployees(this.pagedResponseModel).subscribe(data => {
+  getEmployeesSummary_Data() {
+    this.showLoader=true;
+    this.hrService.GetEmployeesSummary_Data(this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data?.results;
       this.pagedResponseModel.totalCount = data?.totalCount;
-      this.pagedResponseModel.results = data?.results;
-      if (this.pagedResponseModel.results.length > 0) {
-        this.showEmployeeCardData(this.pagedResponseModel.results[0]);
-      }
-
-    }, err=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
   }
 
@@ -74,10 +71,26 @@ export class HrEmployeesComponent implements OnInit {
     this.router.navigateByUrl('/hr/employee-details?EmployeeId=' + employeeId);
   }
 
-  getEmployeesFilter() {
-    this.hrService.GetEmployeesFilter(this.pagedResponseModel).subscribe(data => {
+  GetEmployeesSummary_Filters() {
+    this.hrService.GetEmployeesSummary_Filters(this.pagedResponseModel).subscribe((data: FilterModel[]) => {
       this.filterList = data;
+    }, (err) => {
+      // this.showLoader = false;
+    }, () => {
+      // this.showLoader = false;
     });
+  }
+
+  pageChanged(obj: any) {
+    this.pagedResponseModel.currentPage = obj.page;
+    this.getEmployeesSummary_Data();
+    //this.GetEmployeesSummary_Filters();
+  }
+
+  filterChecked(filterItems: FilterItem[]) {
+    this.pagedResponseModel.filterList = filterItems;
+    this.getEmployeesSummary_Data();
+    //this.GetEmployeesSummary_Filters();
   }
 
   getBranches() {
@@ -85,22 +98,6 @@ export class HrEmployeesComponent implements OnInit {
       this.Branches = data;
     });
   }
-
-  filterChecked(filterItems: FilterItem[]) {
-    this.pagedResponseModel.filterList = filterItems;
-    this.getAllEmployees();
-  }
-
-  pageChanged(obj: any) {
-    this.pagedResponseModel.currentPage = obj.page;
-    this.getAllEmployees();
-  }
-
-  // pageChanged(obj: any) {
-  //   this.currentPage = obj.page;
-  //   this.StartIndex = (this.currentPage - 1) * this.pageSize;
-  //   this.pagingUsersData = this.UsersData.slice(this.StartIndex, this.StartIndex + this.pageSize);
-  // }
 
   onBranchClick(branch: any) {
     this.BranchName = branch.nameEn;
@@ -124,13 +121,13 @@ export class HrEmployeesComponent implements OnInit {
     }
   }
 
-  showEmployeeCardData(item: EmployeeModel) {
-    this.pagedResponseModel.results.map(emp => {
-      emp.isChecked = false;
-    });
-    item.isChecked = true;
-    this.selectedEmployee = item;
+  // showEmployeeCardData(item: EmployeeModel) {
+  //   this.pagedResponseModel.results.map(emp => {
+  //     emp.isChecked = false;
+  //   });
+  //   item.isChecked = true;
+  //   this.selectedEmployee = item;
     
-  }
+  // }
 
 }

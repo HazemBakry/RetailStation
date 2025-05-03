@@ -43,6 +43,7 @@ import { CreatePaymentOrderComponent } from './components/create-payment-order/c
 import { BalanceSheetComponent } from './components/balance-sheet/balance-sheet.component';
 import { CreateJournalEntryTemplateComponent } from './components/create-journal-entry-template/create-journal-entry-template.component';
 import { JournalEntryTemplatesComponent } from './components/journal-entry-templates/journal-entry-templates.component';
+import { LoansRequestsComponent } from './components/loans-requests/loans-requests.component';
 
 
 @NgModule({
@@ -84,7 +85,8 @@ import { JournalEntryTemplatesComponent } from './components/journal-entry-templ
     CreateJournalEntryComponent,
     BalanceSheetComponent,
     CreateJournalEntryTemplateComponent,
-    JournalEntryTemplatesComponent
+    JournalEntryTemplatesComponent,
+    LoansRequestsComponent
   ],
   imports: [
     CommonModule,

@@ -41,8 +41,8 @@ export class JournalDailyListComponent implements OnInit {
     this.getDailyJournalEntriesSummary();
     this.getDailyJournalEntriesFilters();
   }
-  getDailyJournalEntriesSummary() {
 
+  getDailyJournalEntriesSummary() {
     this.showLoader=true;
     this.generalService.GetDailyJournalEntriesSummary(this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data?.results;
@@ -54,6 +54,7 @@ export class JournalDailyListComponent implements OnInit {
       this.showLoader = false;
     });
   }
+  
   exportData() {
     this.showExportLoader = true;
     this.generalService.ExportDailyJournalEntries(this.pagedResponseModel).subscribe((data: ActionsResponseModel) => {

@@ -22,6 +22,9 @@ import { HrEmployeeContractInfoComponent } from './components/hr-employee-detail
 import { HrEmployeeVerificationInfoComponent } from './components/hr-employee-details-container/hr-employee-verification-info/hr-employee-verification-info.component';
 import { HrEmployeeAttachmentsComponent } from './components/hr-employee-details-container/hr-employee-attachments/hr-employee-attachments.component';
 import { HrLoansPaymentsComponent } from './components/hr-loans-payments/hr-loans-payments.component';
+import { HREmployeesReportComponent } from './components/hr-employees-report/hr-employees-report.component';
+import { HRIqamaReportComponent } from './components/hr-iqama-report/hr-iqama-report.component';
+import { HRPayrollReportComponent } from './components/hr-payroll-report/hr-payroll-report.component';
 
 
 @NgModule({
@@ -44,7 +47,10 @@ import { HrLoansPaymentsComponent } from './components/hr-loans-payments/hr-loan
     HrEmployeeBasicInfoComponent,
     HrEmployeeContractInfoComponent,
     HrEmployeeVerificationInfoComponent,
-    HrEmployeeAttachmentsComponent
+    HrEmployeeAttachmentsComponent,
+    HREmployeesReportComponent,
+    HRIqamaReportComponent,
+    HRPayrollReportComponent
   ],
   imports: [
     HrRoutingModule,

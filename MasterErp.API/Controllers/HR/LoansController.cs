@@ -24,7 +24,7 @@ namespace MasterErp.API.Controllers.HR
         [Route("GetAllEmployeeLoansData")]
         public IActionResult GetAllEmployeeLoansData(SearchFilterModel SearchModel)
         {
-            var data = _loansService.GetAllEmployeeLoansData(SearchModel);
+            var data = _loansService.GetEmployeeLoansData(SearchModel);
             var result = new PagedResponseModel<EmployeeLoanDto>
             {
                 Results = data,

@@ -1,61 +1,82 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.SQLTabeType;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.HR;
+using MasterErp.Interface.Common;
 using MasterErp.Interface.HR;
+using MasterErp.Service.Common;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MasterErp.Service.HR
 {
-    public class LoansService : ILoansService 
+    public class LoansService : ILoansService
     {
         private DBContext Context;
-        public LoansService(DBContext context)
+        private readonly ISQLHelper SQLHelper;
+
+        public LoansService(DBContext Context, ISQLHelper SQLHelper)
         {
-            Context = context;
+            this.Context = Context;
+            this.SQLHelper = SQLHelper;
         }
 
 
 
-        public List<EmployeeLoanDto> GetAllEmployeeLoansData(SearchFilterModel SearchModel,int? EmployeeId=null,int? ManagerId=null)
+        public List<EmployeeLoanDto> GetEmployeeLoansData(SearchFilterModel SearchModel)
         {
-            var query = from loan in Context.Loans
-                        join emp in Context.Employees on loan.EmployeeId equals emp.EmployeeId
-                        join loanType in Context.LoanTypes on loan.LoanTypeId equals loanType.LoanTypeId
-                        where (!EmployeeId.HasValue || loan.EmployeeId == EmployeeId ) 
-                                && (!ManagerId.HasValue||emp.ManagerId == ManagerId)
-                        select new EmployeeLoanDto
-                        {
-                            EmployeeId = loan.EmployeeId,
-                            EmployeeName = emp.FullNameAR,
-                            LoanId = loan.LoanId,
-                            LoanTypeId = loan.LoanTypeId,
-                            LoanTypeName = loanType.NameEN,
-                            PaymentFromDate = loan.PaymentFromDate,
-                            PaymentToDate = loan.PaymentToDate,
-                            LoanAmount = loan.LoanAmount,
-                            PaymentAmount = loan.PaymentAmount,
-                            Notes = loan.Notes,
-                            IsApproved = loan.IsApproved,
-                            CreatedBy = loan.CreatedBy,
-                            CreatedDate = loan.CreatedDate,
-                            ModifiedBy = loan.ModifiedBy,
-                            ModifiedDate = loan.ModifiedDate,
-                        };
-            int totalCount = query.Count();
-            if (SearchModel.CurrentPage > 0 && SearchModel.PageSize > 0)
-            {
-                int skip = (SearchModel.CurrentPage - 1) * SearchModel.PageSize;
-                query = query.Skip(skip).Take(SearchModel.PageSize);
-            }
 
-            var results = query.ToList();
-            results.ForEach(x => x.TotalCount = totalCount);
-            return results;
+            var FilterList = SearchModel?.FilterList?.Select(f => new FilterList_TableType { ItemKey = string.Empty, CategoryName = f.CategoryName, ItemValue = f.ItemFlag }).ToList();
+            SqlParameter[] param = new SqlParameter[3];
+
+            param[0] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            param[1] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            param[2] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[2].Value = FilterList.ToDataTable();
+
+            var result = SQLHelper.SQLQuery<EmployeeLoanDto>("[HR].[SP_GetEmployeeLoansData]", null, param);
+            return result;
+
+
+            //var query = from loan in Context.Loans
+            //            join emp in Context.Employees on loan.EmployeeId equals emp.EmployeeId
+            //            join loanType in Context.LoanTypes on loan.LoanTypeId equals loanType.LoanTypeId
+            //            where (!EmployeeId.HasValue || loan.EmployeeId == EmployeeId)
+            //                    && (!ManagerId.HasValue || emp.ManagerId == ManagerId)
+            //            select new EmployeeLoanDto
+            //            {
+            //                EmployeeId = loan.EmployeeId,
+            //                EmployeeName = emp.FullNameAR,
+            //                LoanId = loan.LoanId,
+            //                LoanTypeId = loan.LoanTypeId,
+            //                LoanTypeName = loanType.NameEN,
+            //                PaymentFromDate = loan.PaymentFromDate,
+            //                PaymentToDate = loan.PaymentToDate,
+            //                LoanAmount = loan.LoanAmount,
+            //                PaymentAmount = loan.PaymentAmount,
+            //                Notes = loan.Notes,
+            //                IsApproved = loan.IsApproved,
+            //                CreatedBy = loan.CreatedBy,
+            //                CreatedDate = loan.CreatedDate,
+            //                ModifiedBy = loan.ModifiedBy,
+            //                ModifiedDate = loan.ModifiedDate,
+            //            };
+            //int totalCount = query.Count();
+            //if (SearchModel.CurrentPage > 0 && SearchModel.PageSize > 0)
+            //{
+            //    int skip = (SearchModel.CurrentPage - 1) * SearchModel.PageSize;
+            //    query = query.Skip(skip).Take(SearchModel.PageSize);
+            //}
+
+            //var results = query.ToList();
+            //results.ForEach(x => x.TotalCount = totalCount);
+            //return results;
         }
 
         public List<EmployeeLoanDto> GetLoansByEmployeeId(int EmployeeId, SearchFilterModel SearchModel)
@@ -94,7 +115,7 @@ namespace MasterErp.Service.HR
             //results.ForEach(x => x.TotalCount = totalCount);
             //return results;
 
-            return GetAllEmployeeLoansData(SearchModel, EmployeeId);
+            return GetEmployeeLoansData(SearchModel); //, EmployeeId);
         }
 
         public ActionsResponseModel AddNewEmployeeLoan(int EmployeeId, EmployeeLoanDto model)
@@ -188,7 +209,7 @@ namespace MasterErp.Service.HR
 
             try
             {
-                var loan = Context.Loans.FirstOrDefault(i => i.LoanId == LoanId&&i.EmployeeId==EmployeeId);
+                var loan = Context.Loans.FirstOrDefault(i => i.LoanId == LoanId && i.EmployeeId == EmployeeId);
                 if (loan != null)
                 {
                     loan.IsApproved = ApproveStatus;

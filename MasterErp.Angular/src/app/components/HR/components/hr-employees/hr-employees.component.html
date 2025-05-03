@@ -1,201 +1,122 @@
-<!-- <div class="card radius-10 border-0 card-shadow mb-3">
-    <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
-        <h5 class="mb-0 fw-bold">الموظفين</h5>
-       
-    </div>
-    <div class="card-body">
-        <div class="main-card-action d-flex align-items-center flex-wrap">
-            <button class="btn btn-dark mb-1">
-                <i class="uil uil-eye"></i>
-                <span class="ms-2">Preview</span>
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-success d-flex align-items-center gap-2 border rounded px-3" routerLink="../employee-details" routerLinkActive="active">
+                <i class="fas fa-plus-circle"></i>
+                <span>إضافة موظف</span>
             </button>
-            <button class="btn btn-warning mb-1">
-                <i class="uil uil-location-arrow"></i>
-                <span class="ms-2">Update</span>
-            </button>
-            <button class="btn btn-secondary mb-1">
-                <i class="uil uil-print"></i>
-                <span class="ms-2">Print</span>
-            </button>
-            <button class="btn btn-danger mb-1">
-                <i class="uil uil-times-circle"></i>
-                <span class="ms-2">Exist</span>
-            </button>
-        </div>
-        <div class="row py-3">
-            
-            <div class="col-lg-4">
-
-            </div>
-            <div class="col-lg-2">
-               
-            </div>
-        </div>
-
-    </div>
-</div> -->
-
-
-<div class="card radius-10 border-0 card-shadow mb-1">
-    <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
-        <h5 class="mb-0 fw-bold">الموظفين</h5>
-
-    </div>
-    <div class="card-body">
-        <div class="row p-2">
-            <div class="col-md-8">
-                <div class="d-flex align-items-center flex-wrap">
-                    <a routerLink="../employee-details" routerLinkActive="active" class="btn btn-primary mb-2">
-                        <span class="me-2">إضافة موظف</span>
-                        <i class="uil uil-plus-circle"></i>
-                    </a>
-
-                    <ng-container *ngIf="filterList.length > 0">
-                        <app-pos-filters [FilterList]="filterList"
-                            (filterChanged)="filterChecked($event)"></app-pos-filters>
-                    </ng-container>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
-                    [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount" ></app-erp-pagination>
-            </div>
-        </div>
-
-        <div class="row p-2">
-            <div class="col-md-8">
-                <div class="search-box position-relative mb-2">
-                    <input type="text" class="form-control" [(ngModel)]="pagedResponseModel.searchText"
-                        placeholder=" اسم الموظف , الرقم الوظيفي , رقم الاقامة " (keyup.enter)="getAllEmployees()">
-                    <i class="fas fa-search search-icon text-muted cursor-pointer" (click)="getAllEmployees()"></i>
-
-                </div>
-            </div>
-            <div class="col-md-4">
-            </div>
-        </div>
-        <div class="row gy-5 gx-4 mt-1">
-            <div class="col-xl-8">
-                <div class="user-card bg-light p-2 rounded shadow-sm border cursor-pointer"
-                    *ngFor="let item of pagedResponseModel.results" (click)="showEmployeeCardData(item)" [ngClass]="{'active-emp-card': item.isChecked}">
-                    <!-- (click)="showEmployeeCardData(item)"> -->
-                    <div class="row g-3 align-items-center">
-                        <div class="col-xl-9">
-                            <div class="user-info d-flex align-items-center">
-                                <div class="user-star me-2"  [ngClass]="{'active': item.isChecked}">
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <div class="user-profile d-flex align-items-center">
-                                    <!-- <img src="{{item?.image}}" class="user-img" alt="" loading="lazy" /> -->
-                                    <div class="ms-3 mt-2">
-                                        <div class="d-flex align-items-center mb-2">
-                                            <h5 class="m-0 fw-bold">{{item.fullNameAR}}</h5>
-                                            <div class="user-status-box ms-3">
-                                                <div *ngIf="item.statusId != 1"
-                                                    class="user-status shadow-sm not-active">Not Active</div>
-                                                <div *ngIf="item.statusId == 1" class="user-status shadow-sm active">
-                                                    Active</div>
-                                            </div>
-                                        </div>
-                                        <div class="user-position">
-                                            <!-- <span class="fw-bold me-2">{{item.jobNameAr}}</span> -->
-                                            <span class="text-muted">{{item.jobNameAr}} - {{item.branchNameAr}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 d-flex justify-content-end">
-                            <button type="button" class="btn btn-primary me-2">
-                                <span class="me-2" (click)="goToEmployeeDetails(item.employeeId)">تفاصيل</span>
-                                <i class="fas fa-info-circle"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4">
-                <div *ngIf="selectedEmployee" class="single-user-info bg-light px-4 py-3 rounded  border position-relative h-100 mt-1">
-                    <div class="single-user-img img-thumbnail shadow-sm">
-                        <img src="{{selectedEmployee?.image}}" (error)="$event.target.src = defaultImage"
-                            class="single-img" alt="" loading="lazy" />
-                    </div>
-                    <div class="pt-5 text-center">
-                        <h4 class="mb-2 fw-bold">{{selectedEmployee?.fullNameAR}}</h4>
-                        <h4 class="mb-2 fw-bold">{{selectedEmployee?.fullNameEN}}</h4>
-                        <div class="text-muted">
-                            <div>{{selectedEmployee?.jonNameAR}} - {{selectedEmployee?.email}}</div>
-                            <div>{{selectedEmployee?.birthDate |date}}</div>
-                        </div>
-                    </div>
-                    <hr class="my-4">
-                    <div class="single-user-stats">
-                        <div class="single-user-stats-item d-flex align-items-center justify-content-between">
-                            <div class="text-muted">كود الموظف</div>
-                            <div class="fw-bold">{{selectedEmployee?.code}}</div>
-                        </div>
-                        <div class="single-user-stats-item d-flex align-items-center justify-content-between">
-                            <div class="text-muted">الفرع</div>
-                            <div class="fw-bold">{{selectedEmployee?.branchNameAR}}</div>
-                        </div>
-                        <div class="single-user-stats-item d-flex align-items-center justify-content-between">
-                            <div class="text-muted">الوظيفة</div>
-                            <div class="fw-bold">{{selectedEmployee?.jonNameAR}}</div>
-                        </div>
-                        <div class="single-user-stats-item d-flex align-items-center justify-content-between">
-                            <div class="text-muted">الجنسية</div>
-                            <div class="fw-bold">{{selectedEmployee?.nationalityNameAR}}</div>
-                        </div>
-                        <!-- <div class="single-user-stats-item d-flex align-items-center justify-content-between">
-              <div class="text-muted">Salary</div>
-              <div class="fw-bold">250-300 SAR</div>
-            </div> -->
-                    </div>
-                    <hr class="my-4">
-                    <div class="single-user-files">
-                        <div class="text-muted mb-2">الملفات المرفقة</div>
-                        <div class="single-user-file-box">
-                            <div
-                                class="single-user-file d-flex align-items-center justify-content-between border shadow-sm cursor-pointer px-4 py-2">
-                                <div class="d-flex align-items-center">
-                                    <div class="file-box-icon">
-                                        <i class="fas fa-file-alt"></i>
-                                    </div>
-                                    <div class="file-info ms-3">
-                                        <div class="fw-bold">Overview.pdf</div>
-                                        <div class="text-muted">50 Kb</div>
-                                    </div>
-                                </div>
-                                <div class="file-downloader">
-                                    <i class="fas fa-download"></i>
-                                </div>
-                            </div>
-                            <div
-                                class="single-user-file d-flex align-items-center justify-content-between border shadow-sm cursor-pointer px-4 py-2">
-                                <div class="d-flex align-items-center">
-                                    <div class="file-box-icon">
-                                        <i class="fas fa-file-alt"></i>
-                                    </div>
-                                    <div class="file-info ms-3">
-                                        <div class="fw-bold">Contract.pdf</div>
-                                        <div class="text-muted">30 Kb</div>
-                                    </div>
-                                </div>
-                                <div class="file-downloader">
-                                    <i class="fas fa-download"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="my-4">
-                    <button routerLink="../employee-details" routerLinkActive="active"
-                        [queryParams]="{EmployeeId:selectedEmployee?.employeeId}"
-                        class="btn btn-primary w-100 justify-content-center py-3 fs-5 radius-10">
-                        <i class="fas fa-id-card"></i>
-                        <span class="ms-3">تعديل البيانات</span>
+            <!-- <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+                <i class="fas fa-file-download"></i>
+                <span>تصدير CSV</span>
+            </button> -->
+            <!-- <div ngbDropdown class="d-inline-block">
+                <button type="button" class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3"
+                    id="dropdownBasic1" ngbDropdownToggle>
+                    <i class="fas fa-cogs"></i>
+                    <span>الإجراءات</span>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="border rounded">
+                    <button ngbDropdownItem class="d-flex align-items-center gap-2">
+                        <i class="fas fa-edit"></i>
+                        <span>تعديل</span>
+                    </button>
+                    <button ngbDropdownItem class="d-flex align-items-center gap-2">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>اسقاط</span>
                     </button>
                 </div>
-            </div>
+            </div> -->
+            <!-- <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+                <i class="fas fa-filter"></i>
+                <span>إضافة فلتر</span>
+            </button> -->
+        </div>
+        <div class="justify-content-end">
+            <!-- <nav>
+                <ul class="pagination table-paging m-0">
+                    <li class="page-item disabled">
+                        <a class="page-link">السابق</a>
+                    </li>
+                    <li class="page-item"><a class="page-link">1</a></li>
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link">2</a>
+                    </li>
+                    <li class="page-item"><a class="page-link">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link">التالى</a>
+                    </li>
+                </ul>
+            </nav> -->
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+        </div>
+    </div>
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+
+        <ng-container>
+            <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث بالاسم , الرقم الوظيفى ...'"></app-erp-filters>
+        </ng-container>
+
+    </div>
+
+    <div class="p-3 bg-white">
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+                <thead>
+                    <tr>
+                        <th>الرقم الوظيفى</th>
+                        <th>اسم الموظف</th>
+                        <th>الفرع</th>
+                        <th>رقم الهوية</th>
+                        <th>الوظيفة</th>
+                        <th>الحالة</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of pagedResponseModel.results">
+                        <td>{{item.code}}</td>
+                        <td>{{item.fullNameAR}}</td>
+                        <td>{{item.branchNameAR}}</td>
+                        <td>{{item.iqamaNumber}}</td>
+                        <td>{{item.jobNameAR}}</td>
+                        <td>
+                            <span appWorkflowStatus [id]="item.statusId" [nameEN]="item?.jobStatusEN" [nameAR]="item?.jobStatusAR">
+                            </span>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div ngbDropdown container="body">
+                                    <button class="btn-sm-action sm-action-dropdown" (click)="goToEmployeeDetails(item.employeeId)">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <!-- <div ngbDropdownMenu class="border">
+                                        <button ngbDropdownItem (click)="cancelPaymentOrder(item.paymentOrderId)">اسقاط</button>
+                                        <button ngbDropdownItem routerLink="/general-accounts/create-payment-receipt" [queryParams]="{PaymentOrderId:item.paymentOrderId}">انشاء سند
+                                            الصرف</button>
+                                    </div> -->
+                                </div>
+                            </div>
+                            <!-- <div class="w-100 d-flex align-items-center justify-content-center">
+                                <button (click)="CancelPaymentReceipt(item.paymentReceiptId)" class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2">
+                                    <i class="uil uil-times"></i>
+                                    <span>إلغاء</span>
+                                </button>
+                                <button class="btn btn-primary me-2">
+                                    <i class="fas fa-edit"></i>
+                                    <span class="ms-2">Edit</span>
+                                </button>
+                            </div> -->
+                        </td>
+                    </tr>
+                    <tr *ngIf="!pagedResponseModel.results.length">
+                        <td colspan="9" class="text-right">
+                            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length"></app-empty-data>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -243,11 +164,9 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" formControlName="fullName" id="floatingInput"
-                            placeholder="name" required>
+                        <input type="text" class="form-control" formControlName="fullName" id="floatingInput" placeholder="name" required>
                         <label for="floatingInput">Full Name</label>
-                        <div *ngIf="form.controls['fullName']?.invalid && (form.controls['fullName']?.dirty || form.controls['fullName']?.touched)"
-                            class="alert text-danger">
+                        <div *ngIf="form.controls['fullName']?.invalid && (form.controls['fullName']?.dirty || form.controls['fullName']?.touched)" class="alert text-danger">
                             <div *ngIf="form.controls['fullName'].errors?.['required']">
                                 fullName is required.
                             </div>
@@ -256,11 +175,9 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" (keypress)="CheckInputKey($event.key)"
-                            formControlName="userName" id="floatingPassword" placeholder="phone" required>
+                        <input type="text" class="form-control" (keypress)="CheckInputKey($event.key)" formControlName="userName" id="floatingPassword" placeholder="phone" required>
                         <label for="floatingPassword">User Name</label>
-                        <div *ngIf="form.controls['userName']?.invalid && (form.controls['userName']?.dirty || form.controls['userName']?.touched)"
-                            class="alert text-danger">
+                        <div *ngIf="form.controls['userName']?.invalid && (form.controls['userName']?.dirty || form.controls['userName']?.touched)" class="alert text-danger">
                             <div *ngIf="form.controls['userName'].errors?.['required']">
                                 userName is required.
                             </div>
@@ -269,8 +186,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" formControlName="phoneNumber" id="floatingPassword"
-                            placeholder="flat">
+                        <input type="text" class="form-control" formControlName="phoneNumber" id="floatingPassword" placeholder="flat">
                         <label for="floatingPassword">Phone Number</label>
                     </div>
                 </div>
@@ -281,8 +197,7 @@
                         </button>
                         <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-h large-scroll w-100">
                             <ng-container *ngFor="let branch of Branches">
-                                <a class="dropdown-item" (click)="onBranchClick(branch)"
-                                    [ngClass]="{'DropDownSelected': BranchName == branch.nameEn}">{{branch.nameEn}}</a>
+                                <a class="dropdown-item" (click)="onBranchClick(branch)" [ngClass]="{'DropDownSelected': BranchName == branch.nameEn}">{{branch.nameEn}}</a>
                             </ng-container>
                         </div>
                     </div>
@@ -292,8 +207,7 @@
                 </div>
                 <div class="col-lg-12">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" formControlName="normalizedEmail" id="floatingPassword"
-                            placeholder="flat">
+                        <input type="text" class="form-control" formControlName="normalizedEmail" id="floatingPassword" placeholder="flat">
                         <label for="floatingPassword">User Mail</label>
                     </div>
                 </div>
@@ -358,3 +272,202 @@
         </button>
     </div>
 </ng-template>
+
+
+
+
+<!-- <div class="card radius-10 border-0 card-shadow mb-1">
+    <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
+        <h5 class="mb-0 fw-bold">الموظفين</h5>
+
+    </div>
+    <div class="card-body">
+        <div class="row p-2">
+            <div class="col-md-8">
+                <div class="d-flex align-items-center flex-wrap">
+                    <a routerLink="../employee-details" routerLinkActive="active" class="btn btn-primary mb-2">
+                        <span class="me-2">إضافة موظف</span>
+                        <i class="uil uil-plus-circle"></i>
+                    </a>
+
+                    <ng-container *ngIf="filterList.length > 0">
+                        <app-pos-filters [FilterList]="filterList"
+                            (filterChanged)="filterChecked($event)"></app-pos-filters>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
+                    [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount" ></app-erp-pagination>
+            </div>
+        </div>
+
+        <div class="row p-2">
+            <div class="col-md-8">
+                <div class="search-box position-relative mb-2">
+                    <input type="text" class="form-control" [(ngModel)]="pagedResponseModel.searchText"
+                        placeholder=" اسم الموظف , الرقم الوظيفي , رقم الاقامة " (keyup.enter)="getAllEmployees()">
+                    <i class="fas fa-search search-icon text-muted cursor-pointer" (click)="getAllEmployees()"></i>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
+        <div class="row gy-5 gx-4 mt-1">
+            <div class="col-xl-8">
+                <div class="user-card bg-light p-2 rounded shadow-sm border cursor-pointer"
+                    *ngFor="let item of pagedResponseModel.results" (click)="showEmployeeCardData(item)" [ngClass]="{'active-emp-card': item.isChecked}">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-xl-9">
+                            <div class="user-info d-flex align-items-center">
+                                <div class="user-star me-2"  [ngClass]="{'active': item.isChecked}">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="user-profile d-flex align-items-center">
+                                    <div class="ms-3 mt-2">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <h5 class="m-0 fw-bold">{{item.fullNameAR}}</h5>
+                                            <div class="user-status-box ms-3">
+                                                <div *ngIf="item.statusId != 1"
+                                                    class="user-status shadow-sm not-active">Not Active</div>
+                                                <div *ngIf="item.statusId == 1" class="user-status shadow-sm active">
+                                                    Active</div>
+                                            </div>
+                                        </div>
+                                        <div class="user-position">
+                                            <span class="text-muted">{{item.jobNameAr}} - {{item.branchNameAr}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary me-2">
+                                <span class="me-2" (click)="goToEmployeeDetails(item.employeeId)">تفاصيل</span>
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div *ngIf="selectedEmployee" class="single-user-info bg-light px-4 py-3 rounded  border position-relative h-100 mt-1">
+                    <div class="single-user-img img-thumbnail shadow-sm">
+                        <img src="{{selectedEmployee?.image}}" (error)="$event.target.src = defaultImage"
+                            class="single-img" alt="" loading="lazy" />
+                    </div>
+                    <div class="pt-5 text-center">
+                        <h4 class="mb-2 fw-bold">{{selectedEmployee?.fullNameAR}}</h4>
+                        <h4 class="mb-2 fw-bold">{{selectedEmployee?.fullNameEN}}</h4>
+                        <div class="text-muted">
+                            <div>{{selectedEmployee?.jonNameAR}} - {{selectedEmployee?.email}}</div>
+                            <div>{{selectedEmployee?.birthDate |date}}</div>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <div class="single-user-stats">
+                        <div class="single-user-stats-item d-flex align-items-center justify-content-between">
+                            <div class="text-muted">كود الموظف</div>
+                            <div class="fw-bold">{{selectedEmployee?.code}}</div>
+                        </div>
+                        <div class="single-user-stats-item d-flex align-items-center justify-content-between">
+                            <div class="text-muted">الفرع</div>
+                            <div class="fw-bold">{{selectedEmployee?.branchNameAR}}</div>
+                        </div>
+                        <div class="single-user-stats-item d-flex align-items-center justify-content-between">
+                            <div class="text-muted">الوظيفة</div>
+                            <div class="fw-bold">{{selectedEmployee?.jonNameAR}}</div>
+                        </div>
+                        <div class="single-user-stats-item d-flex align-items-center justify-content-between">
+                            <div class="text-muted">الجنسية</div>
+                            <div class="fw-bold">{{selectedEmployee?.nationalityNameAR}}</div>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <div class="single-user-files">
+                        <div class="text-muted mb-2">الملفات المرفقة</div>
+                        <div class="single-user-file-box">
+                            <div
+                                class="single-user-file d-flex align-items-center justify-content-between border shadow-sm cursor-pointer px-4 py-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="file-box-icon">
+                                        <i class="fas fa-file-alt"></i>
+                                    </div>
+                                    <div class="file-info ms-3">
+                                        <div class="fw-bold">Overview.pdf</div>
+                                        <div class="text-muted">50 Kb</div>
+                                    </div>
+                                </div>
+                                <div class="file-downloader">
+                                    <i class="fas fa-download"></i>
+                                </div>
+                            </div>
+                            <div
+                                class="single-user-file d-flex align-items-center justify-content-between border shadow-sm cursor-pointer px-4 py-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="file-box-icon">
+                                        <i class="fas fa-file-alt"></i>
+                                    </div>
+                                    <div class="file-info ms-3">
+                                        <div class="fw-bold">Contract.pdf</div>
+                                        <div class="text-muted">30 Kb</div>
+                                    </div>
+                                </div>
+                                <div class="file-downloader">
+                                    <i class="fas fa-download"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <button routerLink="../employee-details" routerLinkActive="active"
+                        [queryParams]="{EmployeeId:selectedEmployee?.employeeId}"
+                        class="btn btn-primary w-100 justify-content-center py-3 fs-5 radius-10">
+                        <i class="fas fa-id-card"></i>
+                        <span class="ms-3">تعديل البيانات</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+
+<!-- <div class="card radius-10 border-0 card-shadow mb-3">
+    <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
+        <h5 class="mb-0 fw-bold">الموظفين</h5>
+       
+    </div>
+    <div class="card-body">
+        <div class="main-card-action d-flex align-items-center flex-wrap">
+            <button class="btn btn-dark mb-1">
+                <i class="uil uil-eye"></i>
+                <span class="ms-2">Preview</span>
+            </button>
+            <button class="btn btn-warning mb-1">
+                <i class="uil uil-location-arrow"></i>
+                <span class="ms-2">Update</span>
+            </button>
+            <button class="btn btn-secondary mb-1">
+                <i class="uil uil-print"></i>
+                <span class="ms-2">Print</span>
+            </button>
+            <button class="btn btn-danger mb-1">
+                <i class="uil uil-times-circle"></i>
+                <span class="ms-2">Exist</span>
+            </button>
+        </div>
+        <div class="row py-3">
+            
+            <div class="col-lg-4">
+
+            </div>
+            <div class="col-lg-2">
+               
+            </div>
+        </div>
+
+    </div>
+</div> -->

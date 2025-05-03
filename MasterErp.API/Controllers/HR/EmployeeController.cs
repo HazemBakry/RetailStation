@@ -136,10 +136,10 @@ namespace MasterErp.API.Controllers.HR
         }
 
         [HttpPost]
-        [Route("GetAllEmployees")]
-        public ActionResult<PagedResponseModel<EmployeeBasicInfo>> GetAllEmployees(SearchFilterModel model)
+        [Route("GetEmployeesSummary_Data")]
+        public ActionResult<PagedResponseModel<EmployeeBasicInfo>> GetEmployeesSummary_Data(SearchFilterModel model)
         {
-            var result = _employeeService.GetAllEmployees(model);
+            var result = _employeeService.GetEmployeesSummary_Data(model);
             var Response = new PagedResponseModel<EmployeeBasicInfo>
             {
                 CurrentPage = model.CurrentPage,
@@ -151,16 +151,24 @@ namespace MasterErp.API.Controllers.HR
             return Ok(Response);
         }
 
-        [HttpGet]
-        [Route("GetEmployeesSummary")]
-        public List<StatisticsCardSummary> GetEmployeesSummary()
+        [HttpPost]
+        [Route("GetEmployeesSummary_Filters")]
+        public IActionResult GetEmployeesSummary_Filters(SearchFilterModel model)
         {
-            return _employeeService.GetEmployeesSummary();
+            var results = _employeeService.GetEmployeesSummary_Filters(model);
+            return Ok(results);
         }
+
+        //[HttpGet]
+        //[Route("GetEmployeesSummary")]
+        //public List<StatisticsCardSummary> GetEmployeesSummary()
+        //{
+        //    return _employeeService.GetEmployeesSummary();
+        //}
 
         [HttpGet]
         [Route("GetEmployeeContract")]
-        public EmployeeContract GetEmployeeContract(int EmployeeId)
+        public ContractDetail GetEmployeeContract(int EmployeeId)
         {
             return _employeeService.GetEmployeeContract(EmployeeId);
         }
@@ -179,21 +187,7 @@ namespace MasterErp.API.Controllers.HR
         //    return _employeeService.EditEmployeeSalary(model);
         //}
 
-        //[HttpPost]
-        //[Route("GetEmployeesFilter")]
-        //public ActionResult<PagedResponseModel<EmployeeBasicInfo>> GetEmployeesFilter(SearchFilterModel model)
-        //{
-        //    var result = _employeeService.GetAllEmployees(model);
-        //    var Response = new PagedResponseModel<EmployeeBasicInfo>
-        //    {
-        //        CurrentPage = model.CurrentPage,
-        //        PageSize = model.PageSize,
-        //        Results = result,
-        //        TotalCount = result.Count > 0 ? result.FirstOrDefault().TotalCount : 0
-        //    };
 
-        //    return Ok(Response);
-        //}
 
         //[HttpPost]
         //[Route("GetEmployeeRequests_Data")]

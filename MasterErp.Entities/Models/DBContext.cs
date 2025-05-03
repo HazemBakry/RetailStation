@@ -59,8 +59,8 @@ namespace MasterErp.Entities.Models
         public DbSet<Attendance> Attendance { get; set; }
         public DbSet<EmployeeVerification> EmployeeVerifications { get; set; }
         public DbSet<EmployeeAttachment> EmployeeAttachments { get; set; }
-        public DbSet<EmployeeSalary> EmployeeSalaries { get; set; }
-        public DbSet<EmployeeContract> EmployeeContracts { get; set; }
+        public DbSet<Contract> Contracts { get; set; }
+        public DbSet<ContractDetail> ContractDetails { get; set; }
         public DbSet<OverTime> OverTime { get; set; }
         public DbSet<Penalty> Penalties { get; set; }
         public DbSet<PenaltyType> PenaltyTypes { get; set; }

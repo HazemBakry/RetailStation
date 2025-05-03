@@ -45,7 +45,7 @@ namespace MasterErp.Entities.Models.HR
         public DateTime? PassportExpireDate { get; set; }//2
         public string Phone { get; set; }//1
         public string Email { get; set; }//1
-        public EmployeeContract EmployeeContract { get; set; }
+        public Contract EmployeeContract { get; set; }
         public EmployeeVerification EmployeeVerification { get; set; }
         public EmployeeAttachment EmployeeExtraData { get; set; }
 

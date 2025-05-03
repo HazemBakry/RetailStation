@@ -29,7 +29,6 @@ namespace MasterErp.Service.HR
         private readonly IConfiguration Configuration;
         private readonly ISQLHelper SQLHelper;
         private readonly ISharedService SharedService;
-        private readonly string ConnectionString;
 
         public VacationService(DBContext Context, ISQLHelper SQLHelper, ISharedService SharedService, IConfiguration Configuration)
         {
@@ -44,58 +43,22 @@ namespace MasterErp.Service.HR
         public List<EmployeeVacationDto> GetAllEmployeeVacationsData(SearchFilterModel SearchModel, int? EmployeeId = null, int? ManagerId = null)
         {
             var FilterList = SearchModel?.FilterList?.Select(f => new FilterList_TableType { ItemKey = string.Empty, CategoryName = f.CategoryName, ItemValue = f.ItemFlag }).ToList();
-            SqlParameter[] param = new SqlParameter[5];
+            SqlParameter[] param = new SqlParameter[3];
 
-            param[0] = new SqlParameter("@EmployeeId", EmployeeId);
-            param[1] = new SqlParameter("@ManagerID", ManagerId);
-            param[2] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
-            param[3] = new SqlParameter("@PageSize", SearchModel.PageSize);
-            param[4] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            param[4].Value = FilterList.ToDataTable();
+            param[0] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            param[1] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            param[2] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[2].Value = FilterList.ToDataTable();
 
-            var result = SQLHelper.SQLQuery<EmployeeVacationDto>("[HR].[SP_GetAllEmployeeVacationsData]", ConnectionString, param);
+            var result = SQLHelper.SQLQuery<EmployeeVacationDto>("[HR].[SP_GetEmployeeVacationsData]", null, param);
             return result;
-
-
-            var query = from vacation in Context.Vacations
-                        join emp in Context.Employees on vacation.EmployeeId equals emp.EmployeeId
-                        join vacationType in Context.VacationTypes on vacation.VacationTypeId equals vacationType.VacationTypeId
-                        join alternativeEmp in Context.Employees on vacation.AlternativeEmployeeId equals alternativeEmp.EmployeeId into jT
-                        from alternativeEmp in jT.DefaultIfEmpty()
-                        where (!EmployeeId.HasValue || vacation.EmployeeId == EmployeeId)
-                                && (!ManagerId.HasValue || emp.ManagerId == ManagerId)
-                        select new EmployeeVacationDto
-                        {
-                            EmployeeId = emp.EmployeeId,
-                            EmployeeName = emp.FullNameAR,
-                            VacationId = vacation.VacationId,
-                            VacationTypeId = vacation.VacationTypeId,
-                            VacationType = vacationType.NameEN,
-                            AlternativeEmployeeId = vacation.AlternativeEmployeeId,
-                            AlternativeEmployeeName = alternativeEmp.FullNameAR,
-                            IsAlternativeAvailable = vacation.IsAlternativeAvailable,
-                            IsApproved = vacation.IsApproved,
-                            FromDate = vacation.FromDate,
-                            ToDate = vacation.ToDate,
-                            LastDayWork = vacation.LastDayWork,
-                            Period = vacation.Period, //(x.ToDate - x.FromDate).Days
-                        };
-            int totalCount = query.Count();
-            if (SearchModel.CurrentPage>0 && SearchModel.PageSize >0)
-            {
-                int skip = (SearchModel.CurrentPage - 1) * SearchModel.PageSize;
-                query = query.Skip(skip).Take(SearchModel.PageSize);
-            }
-
-            var results = query.ToList();
-            results.ForEach(x => x.TotalCount = totalCount);
-            return results;
         }
+
         public List<EmployeeVacationDto> GetVacationsByEmployeeId(int employeeId, SearchFilterModel SearchModel)
         {
             var query = from vacation in Context.Vacations
                         join emp in Context.Employees on vacation.EmployeeId equals emp.EmployeeId
-                        join vacationType in Context.VacationTypes on vacation.VacationTypeId equals vacationType.VacationTypeId
+                        //join vacationType in Context.VacationTypes on vacation.VacationTypeId equals vacationType.VacationTypeId
                         join alternativeEmp in Context.Employees on vacation.AlternativeEmployeeId equals alternativeEmp.EmployeeId into jT
                         from alternativeEmp in jT.DefaultIfEmpty()
                         where vacation.EmployeeId == employeeId
@@ -105,7 +68,7 @@ namespace MasterErp.Service.HR
                             EmployeeName = emp.FullNameAR,
                             VacationId = vacation.VacationId,
                             VacationTypeId = vacation.VacationTypeId,
-                            VacationType = vacationType.NameEN,
+                            //VacationType = vacationType.NameEN,
                             AlternativeEmployeeId = vacation.AlternativeEmployeeId,
                             AlternativeEmployeeName = alternativeEmp.FullNameAR,
                             IsAlternativeAvailable = vacation.IsAlternativeAvailable,
@@ -190,16 +153,6 @@ namespace MasterErp.Service.HR
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
 
-        }
-        public List<SelectorDataModel> GetVacationTypesSelector()
-        {
-            var result = Context.VacationTypes.Select(vt => new SelectorDataModel
-            {
-                Id = vt.VacationTypeId,
-                Name = vt.NameEN
-            }).ToList();
-
-            return result;
         }
 
         public ActionsResponseModel DeleteVacation(int VacationId)

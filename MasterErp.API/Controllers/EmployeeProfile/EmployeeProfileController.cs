@@ -162,7 +162,7 @@ namespace MasterErp.API.Controllers.EmployeeProfile
             if (EmployeeId == 0)
                 return BadRequest("can't find employeeId");
 
-            var data = _employeeService.GetAllEmployees(Model, EmployeeId); ;
+            var data = _employeeService.GetEmployeesSummary_Data(Model);//, EmployeeId); ;
             var result = new PagedResponseModel<EmployeeBasicInfo>
             {
                 Results = data,
@@ -214,7 +214,7 @@ namespace MasterErp.API.Controllers.EmployeeProfile
             if (EmployeeId == 0)
                 return BadRequest("can't find employeeId");
 
-            var data = _loansService.GetAllEmployeeLoansData(Model, null, EmployeeId); ;
+            var data = _loansService.GetEmployeeLoansData(Model); //(Model, null, EmployeeId); ;
             var result = new PagedResponseModel<EmployeeLoanDto>
             {
                 Results = data,

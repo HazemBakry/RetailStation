@@ -112,7 +112,7 @@ namespace MasterErp.Service.HR
                 penalty.PenaltyDate = DateTime.Now;
                 penalty.TotalDeduction = model.TotalDeduction;
                 penalty.DeductionByDays = model.DeductionByDays;
-                penalty.DeductionAmount = model.DeductionAmount;
+                penalty.DeductionAmount = model.DeductionAmount ?? 0;
                 penalty.Reason = model.Reason;
                 penalty.IsApproved = model.IsApproved;
                 penalty.CreatedBy = model.CreatedBy;

@@ -113,17 +113,17 @@ export class HrHomeComponent implements OnInit {
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.getEmployeesSummary();
+    //this.getEmployeesSummary();
     this.getVacationsRequests();
     this.getLoansRequests();
   }
 
-  getEmployeesSummary() {
-    this.hrService.GetEmployeesSummary().subscribe(data => {
-      this.overviewList = data;
-      console.log(data);
-    });
-  }
+  // getEmployeesSummary() {
+  //   this.hrService.GetEmployeesSummary().subscribe(data => {
+  //     this.overviewList = data;
+  //     console.log(data);
+  //   });
+  // }
 
   getVacationsRequests() {
     this.showLoader = true;

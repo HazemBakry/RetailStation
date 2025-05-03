@@ -11,7 +11,7 @@ using static NuGet.Packaging.PackagingConstants;
 
 namespace MasterErp.Service.Common
 {
-    public class SharedFilterService: ISharedFilterService
+    public class SharedFilterService : ISharedFilterService
     {
         public List<FilterModel> GroupedFilter(DataTable dt)
         {
@@ -74,11 +74,14 @@ namespace MasterErp.Service.Common
 
             //return dt;
 
-            return Items.Select(f => new FilterList_TableType 
-            {   
-                ItemKey = string.Empty, 
+            return Items.Select(f => new FilterList_TableType
+            {
+                ItemKey = string.Empty,
                 CategoryName = f.CategoryName,
-                ItemValue = f.ItemFlag 
+                ItemFlag = f.ItemFlag,
+                ItemValue = f.ItemValue,
+                CategoryDisplayName = f.CategoryDisplayName,
+                DisplayOrder = f.DisplayOrder
             }).ToList().ToDataTable();
 
         }

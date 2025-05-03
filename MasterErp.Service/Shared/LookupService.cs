@@ -170,6 +170,14 @@ namespace MasterErp.Service.Shared
             return result;
         }
 
+        public List<SelectorDataModel> GetVacationTypesSelector()
+        {
+            SqlParameter[] Params = new SqlParameter[0];
+
+            var result = SQLHelper.SQLQuery<SelectorDataModel>("[HR].[SP_GetVacationTypes]", ConnectionString, Params);
+            return result;
+        }
+
         #endregion
     }
 }

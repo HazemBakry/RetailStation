@@ -201,7 +201,7 @@ namespace MasterErp.Service.HR
         {
             try
             {
-                var employeeContract = Context.EmployeeContracts.FirstOrDefault(i => i.EmployeeId == EmployeeId);
+                var employeeContract = Context.Contracts.FirstOrDefault(i => i.EmployeeId == EmployeeId);
 
                 if (employeeContract != null)
                 {
@@ -215,23 +215,10 @@ namespace MasterErp.Service.HR
                     employeeContract.ModifiedBy = model.ModifiedBy;
                     employeeContract.ModifiedDate = DateTime.Now;
 
-                    var salary = Context.EmployeeSalaries.FirstOrDefault(s => s.EmployeeContractId == employeeContract.EmployeeContractId);
+                    var salary = Context.ContractDetails.FirstOrDefault(s => s.ContractId == employeeContract.ContractId);
                     bool IsNew = false;
 
-                    if (salary == null)
-                    {
-                        salary = new EmployeeSalary();
-                        salary.CreatedBy = model.CreatedBy;
-                        salary.CreatedDate = DateTime.Now;
-                        IsNew = true;
-                    }
-                    else
-                    {
-                        salary.ModifiedBy = model.CreatedBy;
-                        salary.ModifiedDate = DateTime.Now;
-                    }
-
-                    salary.EmployeeContractId = employeeContract.EmployeeContractId;
+                    salary.ContractId = employeeContract.ContractId;
                     salary.EmployeeId = employeeContract.EmployeeId;
                     salary.BasicSalary = model.BasicSalary;
                     salary.ExtraSalary = model.ExtraSalary;
@@ -245,7 +232,7 @@ namespace MasterErp.Service.HR
                     salary.TotalSalary = model.CalcTotalSalary();
 
                     if (IsNew)
-                        Context.EmployeeSalaries.Add(salary);
+                        Context.ContractDetails.Add(salary);
 
                     Context.SaveChanges();
 
@@ -253,7 +240,7 @@ namespace MasterErp.Service.HR
                 }
                 else
                 {
-                    employeeContract = new EmployeeContract();
+                    employeeContract = new Contract();
 
                     employeeContract.EmployeeId = EmployeeId;
                     employeeContract.StartDate = model.StartDate;
@@ -266,12 +253,12 @@ namespace MasterErp.Service.HR
                     employeeContract.CreatedBy = model.CreatedBy;
                     employeeContract.CreatedDate = DateTime.Now;
 
-                    Context.EmployeeContracts.Add(employeeContract);
+                    Context.Contracts.Add(employeeContract);
                     Context.SaveChanges();
 
-                    var salary = new EmployeeSalary();
+                    var salary = new ContractDetail();
 
-                    salary.EmployeeContractId = employeeContract.EmployeeContractId;
+                    salary.ContractId = employeeContract.ContractId;
                     salary.EmployeeId = employeeContract.EmployeeId;
                     salary.BasicSalary = model.BasicSalary;
                     salary.ExtraSalary = model.ExtraSalary;
@@ -283,10 +270,8 @@ namespace MasterErp.Service.HR
                     salary.Other = model.Other ?? 0;
                     salary.GrossSalary = model.CalcTotalSalary();
                     salary.TotalSalary = model.CalcTotalSalary();
-                    salary.CreatedBy = model.CreatedBy;
-                    salary.CreatedDate = DateTime.Now;
 
-                    Context.EmployeeSalaries.Add(salary);
+                    Context.ContractDetails.Add(salary);
                     Context.SaveChanges();
 
                     return Task.FromResult(new ActionsResponseModel { Message = "Employee Contract Created Successfly !" });
@@ -558,20 +543,33 @@ namespace MasterErp.Service.HR
 
         #endregion
 
-        public List<EmployeeBasicInfo> GetAllEmployees(SearchFilterModel model, int? ManagerId = null)
+        public List<EmployeeBasicInfo> GetEmployeesSummary_Data(SearchFilterModel model)
         {
-            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model?.FilterModel?.FilterItems);
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
-            SqlParameter[] Params = new SqlParameter[5];
-            Params[0] = new SqlParameter("@ManagerId", ManagerId);
-            Params[1] = new SqlParameter("@CurrentPage", model.CurrentPage);
-            Params[2] = new SqlParameter("@PageSize", model.PageSize);
-            Params[3] = new SqlParameter("@SearchText", model.SearchText);
-            Params[4] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            Params[4].Value = dt;
+            SqlParameter[] Params = new SqlParameter[3];
+            //Params[0] = new SqlParameter("@ManagerId", ManagerId);
+            //Params[3] = new SqlParameter("@SearchText", model.SearchText);
+            Params[0] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[1] = new SqlParameter("@PageSize", model.PageSize);
+            Params[2] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[2].Value = dt;
 
-            var result = SQLHelper.SQLQuery<EmployeeBasicInfo>("[HR].[SP_GetAllEmployeeData]", null, Params);
+            var result = SQLHelper.SQLQuery<EmployeeBasicInfo>("[HR].[SP_GetEmployeesSummary_Data]", null, Params);
             return result;
+        }
+
+        public List<FilterModel> GetEmployeesSummary_Filters(SearchFilterModel model)
+        {
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
+
+            SqlParameter[] Params = new SqlParameter[1];
+            Params[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[0].Value = dt;
+
+            DataTable result = SQLHelper.ExecuteDataTable("[HR].[SP_GetEmployeesSummary_Filters]", Params, null);
+            var GroupFilters = SharedFilterService.GroupedFilter(result);
+            return GroupFilters;
         }
 
         public List<StatisticsCardSummary> GetEmployeesSummary()
@@ -590,10 +588,10 @@ namespace MasterErp.Service.HR
             return result;
         }
 
-        public EmployeeContract GetEmployeeContract(int EmployeeId)
+        public ContractDetail GetEmployeeContract(int EmployeeId)
         {
-            var contract = Context.EmployeeContracts.Where(x => x.EmployeeId == EmployeeId).FirstOrDefault();
-            return contract ?? new EmployeeContract();
+            var contract = Context.ContractDetails.Where(x => x.EmployeeId == EmployeeId).FirstOrDefault();
+            return contract ?? new ContractDetail();
         }
 
         public List<EmployeeSalaryDto> GetEmployeesSalaryByBranch(List<int> BranchId, DateTime ExecutionDate)

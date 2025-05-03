@@ -67,7 +67,7 @@ namespace MasterErp.Service.HR
                         join emp in Context.Employees on career.EmployeeId equals emp.EmployeeId
                         join job in Context.Jobs on career.JobId equals job.JobId
                         join branch in Context.Branches on career.BranchId equals branch.BranchId
-                        join workStatus in Context.WorkStatus on career.WorkStatusId equals workStatus.WorkStatusId
+                        //join workStatus in Context.WorkStatus on career.WorkStatusId equals workStatus.WorkStatusId
                         where career.EmployeeId == EmployeeId
                         select new EmployeeCareerDto
                         {
@@ -79,7 +79,7 @@ namespace MasterErp.Service.HR
                             BranchId = career.BranchId,
                             BranchName = branch.NameEN,
                             WorkStatusId = career.WorkStatusId,
-                            WorkStatusName = workStatus.NameEN,
+                            //WorkStatusName = workStatus.NameEN,
                             ExecutionDate = career.ExecutionDate,
                             Notes = career.Notes,
                             CreatedBy = career.CreatedBy,

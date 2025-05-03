@@ -71,6 +71,8 @@ export class HrPenaltyComponent implements OnInit {
     }, () => {
       this.showLoader = false;
     });
+
+    this.getEmployeeContractSalary();
   }
 
   getEmployeeContractSalary() {
@@ -107,7 +109,7 @@ export class HrPenaltyComponent implements OnInit {
       penaltyTypeId: [null, [Validators.required]],
       executionDate: [null, [Validators.required]],
       deductionByDays: [null, [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9])?$/)]],
-      deductionAmount: [null, [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9])?$/)]],
+      deductionAmount: [null],//[null, [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9])?$/)]],
       totalDeduction: [null, [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9])?$/)]],
       reason: [null, [Validators.required]],
     }, {

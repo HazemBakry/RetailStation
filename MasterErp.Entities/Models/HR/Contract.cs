@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models.HR
 {
-    [Table("EmployeeContracts", Schema = "HR")]
+    [Table("Contracts", Schema = "HR")]
 
-    public class EmployeeContract : CreatorModel
+    public class Contract : CreatorModel
     {
-        public int EmployeeContractId { get; set; }
+        public int ContractId { get; set; }
         public int EmployeeId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -19,7 +19,8 @@ namespace MasterErp.Entities.Models.HR
         public int? VacationPeriodDays { get; set; }
         public int? VacationEvery { get; set; }
         public int? VacationDays { get; set; }
-        public bool IsGossi { get; set; }
+        public bool? IsGossi { get; set; }
+        public bool? IsActive { get; set; }
         public Employee Employee { get; set; }
     }
 }

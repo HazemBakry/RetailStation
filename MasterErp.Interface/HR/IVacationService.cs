@@ -17,7 +17,6 @@ namespace MasterErp.Interface.HR
         List<EmployeeVacationDto> GetVacationsByEmployeeId(int EmployeeId,SearchFilterModel SearchModel);
         ActionsResponseModel AddNewEmployeeVacation(int EmployeeId, EmployeeVacationDto model);
         ActionsResponseModel EditVacation(int EmployeeId, EmployeeVacationDto model);
-        List<SelectorDataModel> GetVacationTypesSelector();
         ActionsResponseModel DeleteVacation(int VacationId);
         ActionsResponseModel ApproveEmployeeVacation(int LoanId, int EmployeeId, bool ApproveStatus);
     }

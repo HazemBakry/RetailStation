@@ -22,15 +22,16 @@ namespace MasterErp.Interface.HR
         #endregion
 
         #region GetEmployee
-        
+
         EmployeeDto GetEmployeeBasicInfoById(int EmployeeId);
         EmployeeContractDto GetEmployeeContractInfoById(int EmployeeId);
         EmployeeVerificationDto GetEmployeeVerificationInfoById(int EmployeeId);
         EmployeeAttachmentDto GetEmployeeAttachmentsById(int EmployeeId);
-        List<EmployeeBasicInfo> GetAllEmployees(SearchFilterModel model, int? ManagerId = null);
+        List<EmployeeBasicInfo> GetEmployeesSummary_Data(SearchFilterModel model);
+        List<FilterModel> GetEmployeesSummary_Filters(SearchFilterModel model);
         List<StatisticsCardSummary> GetEmployeesSummary();
         List<SelectorDataModel> GetActiveEmployeesSelector();
-        EmployeeContract GetEmployeeContract(int EmployeeId);
+        ContractDetail GetEmployeeContract(int EmployeeId);
         List<EmployeeSalaryDto> GetEmployeesSalaryByBranch(List<int> BranchId, DateTime ExecutionDate);
 
         #endregion

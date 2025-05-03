@@ -11,7 +11,7 @@ namespace MasterErp.Entities.Common
     public class SaveEmployeeModel
     {
         public Employee Employee { get; set; }
-        public EmployeeSalary EmployeeSalary { get; set; }
-        public EmployeeContract EmployeeContract { get; set; }
+        public ContractDetail ContractDetail { get; set; }
+        public Contract EmployeeContract { get; set; }
     }
 }

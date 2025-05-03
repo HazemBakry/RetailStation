@@ -524,7 +524,7 @@ namespace MasterErp.Service.GeneralAccounts
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
             SqlParameter[] Params = new SqlParameter[1];
-            Params[0] = new SqlParameter("@dt", SqlDbType.Structured);
+            Params[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[0].Value = dt;
 
             DataTable result = SQLHelper.ExecuteDataTable("[Finance].[SP_GetDailyJournalEntries_Filters]", Params, null);

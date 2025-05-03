@@ -19,6 +19,10 @@ import { HrEmployeeContractInfoComponent } from './components/hr-employee-detail
 import { HrEmployeeVerificationInfoComponent } from './components/hr-employee-details-container/hr-employee-verification-info/hr-employee-verification-info.component';
 import { HrEmployeeAttachmentsComponent } from './components/hr-employee-details-container/hr-employee-attachments/hr-employee-attachments.component';
 import { HrLoansPaymentsComponent } from './components/hr-loans-payments/hr-loans-payments.component';
+import { HREmployeesReportComponent } from './components/hr-employees-report/hr-employees-report.component';
+import { HRIqamaReportComponent } from './components/hr-iqama-report/hr-iqama-report.component';
+import { HRPayrollReportComponent } from './components/hr-payroll-report/hr-payroll-report.component';
+
 
 const routes: Routes = [
   {
@@ -101,6 +105,19 @@ const routes: Routes = [
         path: 'loans-payments',
         component: HrLoansPaymentsComponent
       },
+      {
+        path: 'employees-report',
+        component: HREmployeesReportComponent
+      },
+      {
+        path: 'iqama-report',
+        component: HRIqamaReportComponent
+      },
+      {
+        path: 'payroll-report',
+        component: HRPayrollReportComponent
+      },
+      
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]
   }

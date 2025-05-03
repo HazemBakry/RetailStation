@@ -52,7 +52,7 @@ namespace MasterErp.Entities.DTOs.HR
         public string Address { get; set; }//1
         public string Image { get; set; } //1
         public string FilesPath { get; set; }//1
-        public EmployeeContract EmployeeContract { get; set; }
+        public Contract EmployeeContract { get; set; }
         public EmployeeVerification EmployeeVerification { get; set; }
         public EmployeeAttachment EmployeeExtraData { get; set; }
         public IFormFile ImageFile { get; set; }

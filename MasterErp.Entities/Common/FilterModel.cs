@@ -41,11 +41,13 @@ namespace MasterErp.Entities.Common
 
     public class FilterItem
     {
+        public int? CategoryId { get; set; }
         public string CategoryDisplayName { get; set; }
         public string CategoryName { get; set; }
         public string ItemKey { get; set; }
         public string ItemFlag { get; set; }
         public string ItemValue { get; set; }
+        public int? DisplayOrder { get; set; }
         public bool IsChecked { get; set; }
         public FilterItem()
         {

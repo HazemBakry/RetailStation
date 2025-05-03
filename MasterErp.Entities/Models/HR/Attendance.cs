@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace MasterErp.Entities.Models.HR
 {
     [Table("Attendance", Schema = "HR")]
-    public class Attendance
+    public class Attendance : CreatorModel
     {
         public int AttendanceID { get; set; }
         public int EmployeeID { get; set; }
@@ -19,11 +19,6 @@ namespace MasterErp.Entities.Models.HR
         public double NoOfDays { get; set; }
         public double MoneyAmount { get; set; }
         public DateTime ExecutionDate { get; set; }
-        public string Notes { get; set; }
         public bool? IsActive { get; set; }
-        public int? InsertUser { get; set; }
-        public int? UpdateUser { get; set; }
-        public DateTime? InserDate { get; set; }
-        public DateTime? UpdateDate { get; set; }
     }
 }

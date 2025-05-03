@@ -24,7 +24,7 @@ export class HrOverTimeComponent implements OnInit {
   penaltyTypeSelectorData: FormDropdownModel[] = [];
 
   selectedOverTimeId: number;
-
+  noHours: number;
   employeeOverTimeModel: EmployeeOverTimeModel = {} as EmployeeOverTimeModel;
   employeeOverTimeResponse: PagedResponseDTO<EmployeeOverTimeModel[]> = {
     results: [],
@@ -77,6 +77,8 @@ export class HrOverTimeComponent implements OnInit {
     }, () => {
       this.showLoader = false;
     });
+
+    this.getEmployeeContractSalary();
   }
 
   checkEmployee() {
@@ -120,10 +122,13 @@ export class HrOverTimeComponent implements OnInit {
       timeTo: [null],
 
     });
+
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
 
     });
+
+    debugger
     this.formGroup.get('timeFrom').valueChanges.subscribe(() => {
       this.calculateNoHours();
     });
@@ -255,33 +260,71 @@ export class HrOverTimeComponent implements OnInit {
     });
   }
 
+  getHoursDifference(): number {
+
+    const start = this.formGroup.get('timeFrom').value;
+    const end = this.formGroup.get('timeTo').value;
+
+    if (start && end) {
+
+      const [startHours, startMinutes] = start.split(':').map(Number);
+      const [endHours, endMinutes] = end.split(':').map(Number);
+
+      const startDate = new Date();
+      startDate.setHours(startHours, startMinutes, 0, 0);
+
+      const endDate = new Date();
+      endDate.setHours(endHours, endMinutes, 0, 0);
+
+      const diffMs = Math.abs(endDate.getTime() - startDate.getTime());
+      const diffHours = diffMs / (1000 * 60 * 60);
+
+      return Math.floor(diffHours);
+    }
+  }
+
+  // Example usage
+  // const minHours = Math.min(
+  //   this.getHoursDifference('13:00', '16:00'),
+  //   this.getHoursDifference('10:30', '11:15')
+  // );
+
+
+
+
   calculateNoHours() {
-    const timeFrom = this.formGroup.get('timeFrom').value;
-    const timeTo = this.formGroup.get('timeTo').value;
+    const start = this.formGroup.get('timeFrom').value;
+    const end = this.formGroup.get('timeTo').value;
 
-    if (timeFrom && timeTo) {
-      const [fromHours, fromMinutes] = timeFrom.split(':').map(Number);
-      const [toHours, toMinutes] = timeTo.split(':').map(Number);
+    if (start && end) {
 
-      const fromTimeInMinutes = fromHours * 60 + fromMinutes;
-      const toTimeInMinutes = toHours * 60 + toMinutes;
+      const [startHours, startMinutes] = start.split(':').map(Number);
+      const [endHours, endMinutes] = end.split(':').map(Number);
 
-      const diffInMinutes = toTimeInMinutes - fromTimeInMinutes;
+      const startDate = new Date();
+      startDate.setHours(startHours, startMinutes, 0, 0);
 
-      let roundedDiffInHours = 0;
-      if (diffInMinutes >= 0) {
-        const diffInHours = diffInMinutes / 60;
-        roundedDiffInHours = Math.round(diffInHours * 10) / 10; // Round to one decimal place
-        this.formGroup.get('noHours').setValue(roundedDiffInHours);
+      const endDate = new Date();
+      endDate.setHours(endHours, endMinutes, 0, 0);
+
+      const diffMs = Math.abs(endDate.getTime() - startDate.getTime());
+      const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+
+      // let roundedDiffInHours = 0;
+      if (diffHours >= 0) {
+        //   const diffInHours = diffInMinutes / 60;
+        //   roundedDiffInHours = Math.round(diffInHours * 10) / 10; // Round to one decimal place
+        this.formGroup.get('noHours').setValue(diffHours);
       } else {
         this.formGroup.get('noHours').setValue(null);
       }
 
       let salaryPerHour = 0;
       if (this.employeeContract && this.employeeContract?.basicSalary)
-        salaryPerHour = this.employeeContract?.basicSalary / 30;
+        salaryPerHour = parseFloat((this.employeeContract?.basicSalary / 30).toFixed(2));
 
-      this.formGroup.get('moneyAmount').setValue(roundedDiffInHours * salaryPerHour);
+      this.formGroup.get('moneyAmount').setValue(diffHours * salaryPerHour);
     }
+
   }
 }

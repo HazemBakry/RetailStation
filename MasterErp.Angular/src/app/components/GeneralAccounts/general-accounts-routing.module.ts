@@ -39,6 +39,7 @@ import { CreatePaymentOrderComponent } from './components/create-payment-order/c
 import { BalanceSheetComponent } from './components/balance-sheet/balance-sheet.component';
 import { CreateJournalEntryTemplateComponent } from './components/create-journal-entry-template/create-journal-entry-template.component';
 import { JournalEntryTemplatesComponent } from './components/journal-entry-templates/journal-entry-templates.component';
+import { LoansRequestsComponent } from './components/loans-requests/loans-requests.component';
 
 const routes: Routes = [
   {
@@ -84,6 +85,7 @@ const routes: Routes = [
       { path: 'ledger-journal-types', component: LedgerJournalTypeComponent },
       { path: 'customers', component: CustomersComponent },
       { path: 'batches', component: BatchesComponent },
+      { path: 'loans-requests', component: LoansRequestsComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
 
 
