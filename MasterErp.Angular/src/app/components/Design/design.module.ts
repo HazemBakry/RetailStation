@@ -12,6 +12,10 @@ import { DesignTableComponent } from './components/design-table/design-table.com
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InputsAreaComponent } from './components/inputs-area/inputs-area.component';
 import { FormsModule } from '@angular/forms';
+import { NwHeaderComponent } from './components/nw-header/nw-header.component';
+import { GeneralAccountsComponent } from './components/general-accounts/general-accounts.component';
+import { NwSidebarComponent } from './components/nw-sidebar/nw-sidebar.component';
+import { GoogleChartsModule } from 'angular-google-charts';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,16 @@ import { FormsModule } from '@angular/forms';
     DesignEmployeeDetailsComponent,
     DesignTableComponent,
     InputsAreaComponent,
+    NwHeaderComponent,
+    GeneralAccountsComponent,
+    NwSidebarComponent,
   ],
-  imports: [CommonModule, DesignRoutingModule, NgbModule, FormsModule],
+  imports: [
+    CommonModule,
+    DesignRoutingModule,
+    NgbModule,
+    FormsModule,
+    GoogleChartsModule,
+  ],
 })
 export class DesignModule {}
