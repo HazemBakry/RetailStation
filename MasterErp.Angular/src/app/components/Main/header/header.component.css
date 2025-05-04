@@ -1,5 +1,4 @@
-.bg-header {
-  /* background: linear-gradient(to right, #4099ff, #73b4ff); */
+/* .bg-header {
   background: linear-gradient(to right, #102339, #1f5ca2);
 }
 
@@ -205,4 +204,50 @@
   .setting-menu {
     margin-top: -35px;
   }
+} */
+
+.new-rounded-header {
+    box-shadow: 0px 0px 20px 0px #0000001c;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+}
+
+.bg-nw-header {
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 0px 11px 0px #0000001c;
+}
+
+.new-rounded-header .logo-blue-clr {
+    color: #3f8cff;
+}
+
+.new-rounded-header .nw-search-header {
+    width: 300px;
+    height: 32px;
+}
+
+.new-rounded-header .nw-user-img-header {
+    max-width: 33px;
+}
+
+.new-rounded-header .nav-link {
+    padding: 0;
+    --padding: 10px;
+    padding-top: var(--padding);
+    padding-bottom: var(--padding);
+    display: flex;
+    align-items: center;
+    height: 100%;
+    cursor: pointer;
+}
+
+.nw-header-icon-link-img {
+    max-width: 33px;
+}
+
+.head-lang-img {
+    max-width: 25px;
 }

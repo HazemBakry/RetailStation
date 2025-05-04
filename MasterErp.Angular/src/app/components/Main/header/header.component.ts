@@ -10,6 +10,7 @@ export class HeaderComponent implements OnInit {
 
   @Input() showToggler: boolean = true;
   @Output() toggler = new EventEmitter<boolean>();
+  collapsed = true;
 
   constructor(private authService:AuthService) { }
 
@@ -23,4 +24,7 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.authService.logout();
   }
+
+
+
 }

@@ -53,6 +53,8 @@ import { WorkflowStatusDirective } from './directives/workflow-status.directive'
 import { AddEditAccountTreeComponent } from '../GeneralAccounts/components/add-edit-account-tree/add-edit-account-tree.component';
 import { GoToAccountReportDirective } from './directives/go-to-account-report.directive';
 import { NextPreviousComponent } from './components/tools/next-previous/next-previous.component';
+import { ERPSidebarComponent } from './components/erp-sidebar/erp-sidebar.component';
+import { GoogleChartsModule } from 'angular-google-charts';
 
 @NgModule({
   declarations: [
@@ -102,6 +104,7 @@ import { NextPreviousComponent } from './components/tools/next-previous/next-pre
     MaterialRequestsSidePanelComponent,
     GoToAccountReportDirective,
     NextPreviousComponent,
+    ERPSidebarComponent
   ],
 
   imports: [
@@ -158,7 +161,6 @@ import { NextPreviousComponent } from './components/tools/next-previous/next-pre
     DropDownFormControlComponent,
     RoleCheckerDirective,
     EnglishToArabicNumbersDirective,
-
     MaterialReceiptSidePanelComponent,
     ProductsDetailsSidePanelComponent,
     RenderComponent,
@@ -167,7 +169,9 @@ import { NextPreviousComponent } from './components/tools/next-previous/next-pre
     AccountsReportSearchComponent,
     MaterialRequestsSidePanelComponent,
     GoToAccountReportDirective,
-    NextPreviousComponent
+    NextPreviousComponent,
+    ERPSidebarComponent,
+    GoogleChartsModule
 
   ],
   providers: [
