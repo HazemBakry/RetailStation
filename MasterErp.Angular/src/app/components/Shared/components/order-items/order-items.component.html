@@ -82,7 +82,7 @@
                             autocomplete="off" >
                     </td>
                     <td>
-                        <input type="number" min="0" [max]="showRequestedQuantity ? item.requestedQuantity:null" class="form-control text-center" 
+                        <input type="number" min="0" [max]="showRequestedQuantity ? item.requestedQuantity:null" class="form-control text-center" [(ngModel)]="item.quantity"
                             autocomplete="off" (input)="checkQuantityValue($event,item)" >
                     </td>
                     <td *ngIf="showPrice">
