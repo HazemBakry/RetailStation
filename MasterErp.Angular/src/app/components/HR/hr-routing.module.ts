@@ -22,6 +22,7 @@ import { HrLoansPaymentsComponent } from './components/hr-loans-payments/hr-loan
 import { HREmployeesReportComponent } from './components/hr-employees-report/hr-employees-report.component';
 import { HRIqamaReportComponent } from './components/hr-iqama-report/hr-iqama-report.component';
 import { HRPayrollReportComponent } from './components/hr-payroll-report/hr-payroll-report.component';
+import { HrDashboardComponent } from './components/hr-dashboard/hr-dashboard.component';
 
 
 const routes: Routes = [
@@ -31,7 +32,8 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        component: HrHomeComponent
+        // component: HrHomeComponent
+        component: HrDashboardComponent
       },
       {
         path: 'employees',

@@ -5,13 +5,13 @@ import { HrService } from '../../services/hr.service';
 import { DatePipe } from '@angular/common';
 import { FilterItem, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { ToastrService } from 'ngx-toastr';
-import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { EmployeeVacationModel } from '../../models/EmployeeVacationModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { LookupService } from 'src/app/components/Shared/services/lookup.service';
+import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 
 @Component({
   selector: 'app-hr-vacation',
@@ -21,8 +21,8 @@ import { LookupService } from 'src/app/components/Shared/services/lookup.service
 export class HrVacationComponent implements OnInit {
   VacationData: any[] = [];
   employeeVacationsData: EmployeeVacationModel[] = [];
-  employeeSelectorData: FormDropdownModel[] = [];
-  vacationTypeSelectorData: FormDropdownModel[] = [];
+  employeeSelectorData: GeneralSelectorModel[] = [];
+  vacationTypeSelectorData: GeneralSelectorModel[] = [];
 
   selectedVacationId: number;
   CategorySearch: any;
@@ -201,7 +201,7 @@ export class HrVacationComponent implements OnInit {
 
   }
   getVacationTypesSelector() {
-    this.lookupService.GetVacationTypesSelector().subscribe((data: FormDropdownModel[]) => {
+    this.lookupService.GetVacationTypesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.vacationTypeSelectorData = data;
     });
   }
@@ -238,7 +238,7 @@ export class HrVacationComponent implements OnInit {
   }
 
   getActiveEmployeesSelector() {
-    this.hrService.GetActiveEmployeesSelector().subscribe((data: FormDropdownModel[]) => {
+    this.hrService.GetActiveEmployeesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.employeeSelectorData = data;
     });
   }
