@@ -7,6 +7,7 @@ import { OpeningBalanceComponent } from './components/opening-balance/opening-ba
 import { ReceiptsComponent } from './components/receipts/receipts.component';
 import { DesignTableComponent } from './components/design-table/design-table.component';
 import { InputsAreaComponent } from './components/inputs-area/inputs-area.component';
+import { GeneralAccountsComponent } from './components/general-accounts/general-accounts.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
       { path: 'receipts', component: ReceiptsComponent },
       { path: 'table', component: DesignTableComponent },
       { path: 'inputs-area', component: InputsAreaComponent },
+      { path: 'general-accounts', component: GeneralAccountsComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ],
   },
