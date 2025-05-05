@@ -75,9 +75,9 @@
         <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
     </div>
 
-    <div class="table-responsive shadow-sm radius-10  small-scroll">
-        <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
-            <thead>
+    <div class="table-responsive shadow-sm radius-10">
+        <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0 table-vp-height">
+            <thead class="table-light">
                 <tr>
                     <th>الرقم الوظيفى</th>
                     <th>اسم الموظف</th>

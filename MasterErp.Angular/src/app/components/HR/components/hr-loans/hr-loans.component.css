@@ -1,5 +1,5 @@
 .table-vp-height {
-    height: calc(100vh - 250px);
+    height: calc(100vh - 450px);
 }
 
 .add-new-panel {
@@ -11,6 +11,6 @@ td {
     text-align: center;
 }
 
- ::ng-deep ngb-offcanvas-panel {
+::ng-deep ngb-offcanvas-panel {
     width: 35% !important;
 }

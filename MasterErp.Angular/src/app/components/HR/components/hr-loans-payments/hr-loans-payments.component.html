@@ -35,8 +35,8 @@
             </div>
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
-        <div class="table-responsive table-vp-height">
-            <table class="table align-middle table-blue mb-0 table-hover">
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0 table-vp-height">
                 <thead class="table-light">
                     <tr>
                         <th>اسم الموظف</th>
@@ -44,6 +44,7 @@
                         <th>نوع السلفة</th>
                         <th>تاريخ التنفيذ</th>
                         <th>قيمة القسـط</th>
+                        <th>ملاحظات</th>
                         <th>العمليات</th>
                     </tr>
                 </thead>
@@ -68,9 +69,13 @@
                             </div>
                         </td>
                     </tr>
+                    <tr *ngIf="!employeeLoanResponse.results.length || !showLoader">
+                        <td colspan="7" class="text-right">
+                            <app-empty-data [showEmptyData]="!employeeLoanResponse.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
-            <app-empty-data [showEmptyData]="!employeeLoanResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
         </div>
     </div>
 </div>
