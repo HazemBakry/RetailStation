@@ -110,7 +110,7 @@ export class HrPenaltyComponent implements OnInit {
       executionDate: [null, [Validators.required]],
       deductionByDays: [null, [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9])?$/)]],
       deductionAmount: [null],//[null, [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9])?$/)]],
-      totalDeduction: [null, [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9])?$/)]],
+      totalDeduction: [{ value: null, disabled: true }, [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9])?$/)]],
       reason: [null, [Validators.required]],
     }, {
       validators: [CustomValidators.endDateGreaterThanStartDate('lastDayWork', 'fromDate'),
