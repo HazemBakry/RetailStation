@@ -78,6 +78,7 @@ export class HrVacationComponent implements OnInit {
     if (!this.checkEmployee())
       return;
 
+    
     this.showLoader = true;
     this.hrService.GetVacationsByEmployeeId(this.selectedEmployeeId, this.employeeVacationResponse).subscribe(data => {
       this.employeeVacationResponse.results = data.results;

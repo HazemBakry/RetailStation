@@ -35,7 +35,8 @@ export class ErpFiltersComponent implements OnInit {
     if(this.SearchText)
     {
       const textFilter:FilterItem={
-        categoryDisplayName: 'Search Text',
+        // categoryDisplayName: 'Search Text',
+        categoryDisplayName: 'بحث بالنص',
         categoryName: 'SearchText',
         itemKey: this.SearchText,
         itemFlag: this.SearchText,

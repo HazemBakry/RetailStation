@@ -34,10 +34,24 @@ namespace MasterErp.Service.Shared
 
         public List<SelectorDataModel> GetBanksSelector()
         {
-            SqlParameter[] Params = new SqlParameter[0];
+            //SqlParameter[] Params = new SqlParameter[0];
 
-            var result = SQLHelper.SQLQuery<SelectorDataModel>("[Global].[SP_GetBanks]", ConnectionString, Params);
-            return result;
+            //var result = SQLHelper.SQLQuery<SelectorDataModel>("[Global].[SP_GetBanks]", ConnectionString, Params);
+            //return result;
+            return LookupsContext.Banks.Select(x => new SelectorDataModel
+            {
+                Id = x.BankId,
+                Name = x.NameAR ?? x.NameEN
+            }).ToList();
+        }
+        public List<SelectorDataModel> GetIqamaIssuePlacesSelector()
+        {
+         
+            return LookupsContext.IqamaIssuePlaces.Select(x => new SelectorDataModel
+            {
+                Id = x.IqamaIssuePlaceId,
+                Name = x.NameAR ?? x.NameEN
+            }).ToList();
         }
 
         public List<SelectorDataModel> GetCurrencySelector()

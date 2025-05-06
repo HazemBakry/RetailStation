@@ -46,6 +46,8 @@ namespace MasterErp.Entities.Models
         public DbSet<PaymentType> PaymentTypes { get; set; }
         public DbSet<ReceiptType> ReceiptTypes { get; set; }
         public DbSet<TaxLookup> TaxLookups { get; set; }
+        public DbSet<Bank> Banks { get; set; }
+        public DbSet<IqamaIssuePlace> IqamaIssuePlaces { get; set; }
 
 
     }

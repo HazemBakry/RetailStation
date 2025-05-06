@@ -26,6 +26,13 @@ namespace MasterErp.API.Controllers.Shared
             var results = lookupService.GetBanksSelector();
             return Ok(results);
         }
+        [HttpGet]
+        [Route("GetIqamaIssuePlacesSelector")]
+        public IActionResult GetIqamaIssuePlacesSelector()
+        {
+            var results = lookupService.GetIqamaIssuePlacesSelector();
+            return Ok(results);
+        }
 
         [HttpGet]
         [Route("GetCurrencySelector")]
