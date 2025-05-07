@@ -10,7 +10,7 @@ namespace MasterErp.Interface.HR
 {
     public interface IAttendanceService
     {
-        DataTable GetAttendanceData();
+        DataTable GetAttendance_Data();
         bool AddNewAttendance(Attendance model);
         bool EditAttendance(Attendance model);
         bool DeleteAttendance(int AttendanceId);
