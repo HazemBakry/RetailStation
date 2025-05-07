@@ -54,8 +54,7 @@ import { HrAdvancePaymentsComponent } from './components/hr-advance-payments/hr-
     HRIqamaReportComponent,
     HRPayrollReportComponent,
     HrDashboardComponent,
-    HrAttendanceReportComponent
-    HrDashboardComponent,
+    HrAttendanceReportComponent,
     HrAdvancesComponent,
     HrAdvancePaymentsComponent
   ],
