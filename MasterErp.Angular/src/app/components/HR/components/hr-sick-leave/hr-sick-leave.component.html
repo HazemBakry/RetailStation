@@ -82,7 +82,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr *ngIf="!employeeSickLeaveResponse.results.length || !showLoader">
+                    <tr *ngIf="!employeeSickLeaveResponse.results.length || showLoader">
                         <td colspan="7" class="text-right">
                             <app-empty-data [showEmptyData]="!employeeSickLeaveResponse.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
                         </td>

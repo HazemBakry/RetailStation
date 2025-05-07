@@ -149,8 +149,6 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
   }
 
   saveEmployeeBasicInfo() {
-    console.log(this.formErrors);
-
     if (!this.validateForm()) {
       return;
     }

@@ -114,9 +114,11 @@ export class HrOverTimeComponent implements OnInit {
       overTimeId: [null],
       employeeId: [null],
       executionDate: [null, [Validators.required]],
-      noHours: [{ value: null, disabled: true }, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
+      // noHours: [{ value: null, disabled: true }, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
+      noHours: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
       requestDate: [null],
-      moneyAmount: [{ value: null, disabled: true }, [Validators.required, CustomValidators.regexPattern(RegexType.number),]],
+      // moneyAmount: [{ value: null, disabled: true }, [Validators.required, CustomValidators.regexPattern(RegexType.number),]],
+      moneyAmount: [ null, [Validators.required, CustomValidators.regexPattern(RegexType.number),]],
       notes: [null],
       timeFrom: [null],
       timeTo: [null],
@@ -128,7 +130,6 @@ export class HrOverTimeComponent implements OnInit {
 
     });
 
-    debugger
     this.formGroup.get('timeFrom').valueChanges.subscribe(() => {
       this.calculateNoHours();
     });
@@ -323,7 +324,8 @@ export class HrOverTimeComponent implements OnInit {
       if (this.employeeContract && this.employeeContract?.basicSalary)
         salaryPerHour = parseFloat((this.employeeContract?.basicSalary / 30).toFixed(2));
 
-      this.formGroup.get('moneyAmount').setValue(diffHours * salaryPerHour);
+      const val = (diffHours * salaryPerHour).toFixed(2);
+      this.formGroup.get('moneyAmount').setValue(val);
     }
 
   }

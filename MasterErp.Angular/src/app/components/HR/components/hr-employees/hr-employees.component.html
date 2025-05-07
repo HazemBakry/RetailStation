@@ -61,8 +61,8 @@
     </div>
 
     <div class="p-3 bg-white">
-        <div class="table-responsive shadow-sm radius-10 ">
-            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0 table-vp-height">
+        <div class="table-responsive shadow-sm radius-10  table-vp-height">
+            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
                 <thead>
                     <tr>
                         <th>الرقم الوظيفى</th>
@@ -110,9 +110,9 @@
                             </div> -->
                         </td>
                     </tr>
-                    <tr *ngIf="!pagedResponseModel.results.length">
+                    <tr *ngIf="!pagedResponseModel.results.length || showLoader">
                         <td colspan="9" class="text-right">
-                            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length"></app-empty-data>
+                            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>

@@ -2022,8 +2022,12 @@ td {
     -moz-border-radius: 15px;
     -ms-border-radius: 15px;
     -o-border-radius: 15px;
+    
 }
 
+.column-card :hover {
+    background-color: var(--nw_background_color) !important;
+}
 .column-card-icon {
     background-color: var(--nw_background_color);
     color: var(--nw-color);

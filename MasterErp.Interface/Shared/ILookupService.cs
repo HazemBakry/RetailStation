@@ -13,6 +13,7 @@ namespace MasterErp.Interface.Shared
         #region Global Lookups
 
         List<SelectorDataModel> GetBanksSelector();
+        List<SelectorDataModel> GetIqamaIssuePlacesSelector();
         List<SelectorDataModel> GetCurrencySelector();
         List<SelectorDataModel> GetCitiesSelector();
 

@@ -143,7 +143,7 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
 
   }
   loadSelectors() {
-    this.sharedService.GetIqamaIssuePlacesSelector().subscribe((data: FormDropdownModel[]) => {
+    this.lookupService.GetIqamaIssuePlacesSelector().subscribe((data: FormDropdownModel[]) => {
       this.iqamaIssuePlacesSelectorData = data;
     });
     this.lookupService.GetBanksSelector().subscribe((data: FormDropdownModel[]) => {
