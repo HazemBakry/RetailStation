@@ -1,4 +1,4 @@
-<div class="a4-page" *ngIf="ContentData.length > 0 && ContentHeaderData.length > 0">
+<!-- <div class="a4-page" *ngIf="ContentData.length > 0 && ContentHeaderData.length > 0">
     <div id="ReportData" dir="rtl">
         <div style="display: flex;align-items: center;position: relative;">
             <div style="margin-bottom: 80px;font-size: 16px;font-weight: bold;">{{ReportParams.companyName}}</div>
@@ -30,12 +30,64 @@
                 </tr>
             </tbody>
         </table>
-        <!-- <table style="border-collapse: collapse;float: left;width:210px" *ngIf="NewFooterArry.length > 0">
+        <table style="border-collapse: collapse;float: left;width:210px" *ngIf="NewFooterArry.length > 0">
             <tr style="height: 25px;" *ngFor="let part of NewFooterArry">
                 <td *ngFor="let item of part">
                     <p style="margin: 0px;"><strong>{{item.featureName}}:</strong> {{item.featureValue}}</p>
                 </td>
             </tr>
-        </table> -->
+        </table>
+    </div>
+</div> -->
+
+
+<div class="container">
+    <div>
+        <h1 class="header-title">MONTHLY LEDGER TEMPLATE</h1>
+        <div class="company-info">
+            <p>1234 Maharlika St., Barangay San Isidro, Quezon City, Metro Manila, 1100, Philippines</p>
+            <p>Email: {{ReportParams.companyName}}</p>
+            <p>Phone: {{ReportParams.pageName}}</p>
+        </div>
+    </div>
+    <div class="logo-section">
+        <div>
+            <img id="ReportImage" class="logo-img">
+        </div>
+        <div class="slogan">
+            BRING <span>joy</span> TO WORK
+        </div>
+        <div class="date-container">
+            <span class="date-label">Current date:</span>
+            <div class="date-value">
+                {{ FromDate }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="table-container">
+    <table class="ledger-table">
+        <thead>
+            <tr>
+                <th *ngFor="let header of ContentHeaderData">{{header.propDisName}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of ContentData">
+                <td *ngFor="let header of ContentHeaderData">{{item[header.propKey]}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="summary-container" *ngIf="NewFooterArry.length > 0">
+    <div class="summary-row mt-1" *ngFor="let part of NewFooterArry">
+        <div class="summary-label">
+            <div class="summary-icon-text">
+                <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                <span>{{item.featureName}}:</span>
+            </div>
+        </div>
+        <div class="summary-value">{{item.featureValue}}</div>
+        <div></div>
     </div>
 </div>
