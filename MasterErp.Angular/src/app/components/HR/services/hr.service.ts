@@ -123,8 +123,12 @@ export class HrService {
 
   //================================== Attendance ===============================
 
-  GetAttendanceData() {
-    return this.http.get<any>(this.URL + 'Attendance/GetAttendanceData');
+  GetAttendance_Data(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'Attendance/GetAttendance_Data', model);
+  }
+
+  GetAttendance_Filters(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'Attendance/GetAttendance_Filters', model);
   }
 
   AddNewAttendance(model: any) {

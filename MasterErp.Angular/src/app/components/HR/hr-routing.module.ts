@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HrEmployeesComponent } from './components/hr-employees/hr-employees.component';
 import { HrVacationComponent } from './components/hr-vacation/hr-vacation.component';
-import { HrAttendanceComponent } from './components/hr-attendance/hr-attendance.component';
 import { HrOverTimeComponent } from './components/hr-over-time/hr-over-time.component';
 import { HrSickLeaveComponent } from './components/hr-sick-leave/hr-sick-leave.component';
 import { HrPenaltyComponent } from './components/hr-penalty/hr-penalty.component';
@@ -23,6 +22,7 @@ import { HREmployeesReportComponent } from './components/hr-employees-report/hr-
 import { HRIqamaReportComponent } from './components/hr-iqama-report/hr-iqama-report.component';
 import { HRPayrollReportComponent } from './components/hr-payroll-report/hr-payroll-report.component';
 import { HrDashboardComponent } from './components/hr-dashboard/hr-dashboard.component';
+import { HrAttendanceReportComponent } from './components/hr-attendance-report/hr-attendance-report.component';
 
 
 const routes: Routes = [
@@ -81,7 +81,7 @@ const routes: Routes = [
       },
       {
         path: 'attendance',
-        component: HrAttendanceComponent
+        component: HrAttendanceReportComponent
       },
       {
         path: 'sick-leaves',

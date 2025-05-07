@@ -23,10 +23,10 @@ namespace MasterErp.API.Controllers.HR
 
 
         [HttpGet]
-        [Route("GetAttendanceData")]
-        public DataTable GetAttendanceData()
+        [Route("GetAttendance_Data")]
+        public DataTable GetAttendance_Data()
         {
-            return _attendanceService.GetAttendanceData();
+            return _attendanceService.GetAttendance_Data();
         }
 
         [HttpPost]

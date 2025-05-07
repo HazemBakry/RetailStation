@@ -32,8 +32,8 @@ export class HrOverTimeComponent implements OnInit {
     pageSize: 25,
     currentPage: 1,
     searchText: ''
-
   };
+  
   showLoader: boolean = false;
   showAddLoader: boolean = false;
 
