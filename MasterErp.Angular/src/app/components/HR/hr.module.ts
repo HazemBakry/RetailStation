@@ -26,6 +26,8 @@ import { HREmployeesReportComponent } from './components/hr-employees-report/hr-
 import { HRIqamaReportComponent } from './components/hr-iqama-report/hr-iqama-report.component';
 import { HRPayrollReportComponent } from './components/hr-payroll-report/hr-payroll-report.component';
 import { HrDashboardComponent } from './components/hr-dashboard/hr-dashboard.component';
+import { HrAdvancesComponent } from './components/hr-advances/hr-advances.component';
+import { HrAdvancePaymentsComponent } from './components/hr-advance-payments/hr-advance-payments.component';
 
 
 @NgModule({
@@ -52,7 +54,9 @@ import { HrDashboardComponent } from './components/hr-dashboard/hr-dashboard.com
     HREmployeesReportComponent,
     HRIqamaReportComponent,
     HRPayrollReportComponent,
-    HrDashboardComponent
+    HrDashboardComponent,
+    HrAdvancesComponent,
+    HrAdvancePaymentsComponent
   ],
   imports: [
     HrRoutingModule,

@@ -1,0 +1,90 @@
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.HR;
+using MasterErp.Interface.HR;
+using MasterErp.Service.HR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+
+namespace MasterErp.API.Controllers.HR
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AdvanceController : ControllerBase
+    {
+        private readonly IAdvancesService _advancesService;
+        public AdvanceController(IAdvancesService advancesService)
+        {
+            _advancesService = advancesService;
+        }
+
+
+
+        [HttpPost]
+        [Route("GetAllEmployeeAdvancesData")]
+        public IActionResult GetAllEmployeeAdvancesData(SearchFilterModel SearchModel)
+        {
+            var data = _advancesService.GetEmployeeAdvancesData(SearchModel);
+            var result = new PagedResponseModel<EmployeeAdvanceModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+
+            };
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("GetAdvancesByEmployeeId")]
+        public IActionResult GetAdvancesByEmployeeId(int EmployeeId, SearchFilterModel SearchModel)
+        {
+            var data = _advancesService.GetAdvancesByEmployeeId(EmployeeId, SearchModel);
+            var result = new PagedResponseModel<EmployeeAdvanceModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+
+            };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("AddNewEmployeeAdvance")]
+        public IActionResult AddNewEmployeeAdvance(int EmployeeId, EmployeeAdvanceModel model)
+        {
+            var result = _advancesService.AddNewEmployeeAdvance(EmployeeId, model);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("EditEmployeeAdvance")]
+        public IActionResult EditEmployeeAdvance(int EmployeeId, EmployeeAdvanceModel model)
+        {
+            var result = _advancesService.EditEmployeeAdvance(EmployeeId, model);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("DeleteEmployeeAdvance")]
+        public IActionResult DeleteEmployeeAdvance(int EmployeeAdvanceId)
+        {
+            var result = _advancesService.DeleteEmployeeAdvance(EmployeeAdvanceId);
+            return Ok(result);
+        }
+
+
+        [HttpGet]
+        [Route("GetAdvanceTypesSelector")]
+        public IActionResult GetAdvanceTypesSelector()
+        {
+            var result = _advancesService.GetAdvanceTypesSelector();
+            return Ok(result);
+        }
+
+
+    }
+}
