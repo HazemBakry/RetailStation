@@ -5,7 +5,8 @@ export interface EmployeeAdvanceModel extends CreatorModel {
     employeeAdvanceId: number | null;
     employeeId: number | null;
     employeeName: string;
-    advanceTypeName: string;
+    advanceTypeNameEN: string;
+    advanceTypeNameAR: string;
     advanceTypeId: number;
     advanceAmount: number;
     paymentAmount: number;
@@ -25,7 +26,8 @@ export interface AdvancePaymentModel extends CreatorModel {
     moneyAmount: number;
     executionDate: string;
     workflowStatusId: number | null;
-    advanceTypeName: string;
+    advanceTypeNameEN: string;
+    advanceTypeNameAR: string;
     advanceTypeId: number;
     advanceAmount: number;
     workflowStatusNameEN: string;
