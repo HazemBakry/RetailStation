@@ -10,10 +10,10 @@ namespace MasterErp.API.Controllers.HR
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdvanceController : ControllerBase
+    public class EmployeeAdvancesController : ControllerBase
     {
-        private readonly IAdvancesService _advancesService;
-        public AdvanceController(IAdvancesService advancesService)
+        private readonly IEmployeeAdvancesService _advancesService;
+        public EmployeeAdvancesController(IEmployeeAdvancesService advancesService)
         {
             _advancesService = advancesService;
         }
@@ -26,6 +26,23 @@ namespace MasterErp.API.Controllers.HR
         {
             var data = _advancesService.GetEmployeeAdvancesData(SearchModel);
             var result = new PagedResponseModel<EmployeeAdvanceModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+
+            };
+            return Ok(result);
+        }
+        
+
+        [HttpPost]
+        [Route("GetAdvancePaymentsData")]
+        public IActionResult GetAdvancePaymentsData(int EmployeeId, SearchFilterModel SearchModel)
+        {
+            var data = _advancesService.GetAdvancePaymentsData(SearchModel, EmployeeId);
+            var result = new PagedResponseModel<AdvancePaymentModel>
             {
                 Results = data,
                 TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,

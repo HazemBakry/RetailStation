@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.Auth;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.EmployeeProfile;
@@ -74,6 +75,7 @@ namespace MasterErp.API
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ICreateReportService, CreateReportService>();
             services.AddScoped<IHelper, Helper>();
+            services.AddScoped<IEmployeeAdvancesService, EmployeeAdvancesService>();
 
         }
     }

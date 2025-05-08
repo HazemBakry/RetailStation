@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Interface.HR
 {
-    public interface IAdvancesService
+    public interface IEmployeeAdvancesService
     {
         List<EmployeeAdvanceModel> GetEmployeeAdvancesData(SearchFilterModel SearchModel, int? EmployeeId=null, int? ManagerId=null);
+        List<AdvancePaymentModel> GetAdvancePaymentsData(SearchFilterModel SearchModel, int? EmployeeId = null, int? ManagerId = null);
         List<EmployeeAdvanceModel> GetAdvancesByEmployeeId(int EmployeeId, SearchFilterModel SearchModel);
         ActionsResponseModel AddNewEmployeeAdvance(int EmployeeId, EmployeeAdvanceModel model);
         ActionsResponseModel EditEmployeeAdvance(int EmployeeId, EmployeeAdvanceModel model);

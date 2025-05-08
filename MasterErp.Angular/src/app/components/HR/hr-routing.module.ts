@@ -23,6 +23,8 @@ import { HRIqamaReportComponent } from './components/hr-iqama-report/hr-iqama-re
 import { HRPayrollReportComponent } from './components/hr-payroll-report/hr-payroll-report.component';
 import { HrDashboardComponent } from './components/hr-dashboard/hr-dashboard.component';
 import { HrAttendanceReportComponent } from './components/hr-attendance-report/hr-attendance-report.component';
+import { HrAdvancesComponent } from './components/hr-advances/hr-advances.component';
+import { HrAdvancePaymentsComponent } from './components/hr-advance-payments/hr-advance-payments.component';
 
 
 const routes: Routes = [
@@ -106,6 +108,14 @@ const routes: Routes = [
       {
         path: 'loans-payments',
         component: HrLoansPaymentsComponent
+      },
+      {
+        path: 'advances',
+        component: HrAdvancesComponent
+      },
+      {
+        path: 'advances-payments',
+        component: HrAdvancePaymentsComponent
       },
       {
         path: 'employees-report',
