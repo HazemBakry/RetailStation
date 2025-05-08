@@ -7,6 +7,8 @@ export interface EmployeeSickLeaveModel extends CreatorModel
     employeeName: string;
     requestDate: string | null;
     executionDate: string;
+    toDate: string;
+    fromDate: string;
     noDays: number;
     moneyAmount: number;
     notes: string;

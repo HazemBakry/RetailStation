@@ -201,7 +201,7 @@ namespace MasterErp.Service.HR
             var results = Context.Jobs.Select(b => new SelectorDataModel
             {
                 Id = b.JobId,
-                Name = b.NameEN,
+                Name = b.NameAR,
             }).ToList();
             return results;
         }
