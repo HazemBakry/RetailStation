@@ -588,7 +588,7 @@ namespace MasterErp.Service.HR
             return result;
         }
 
-        public ContractDetail GetEmployeeContract(int EmployeeId)
+        public ContractDetail GetEmployeeContractDetails(int EmployeeId)
         {
             var contract = Context.ContractDetails.Where(x => x.EmployeeId == EmployeeId).FirstOrDefault();
             return contract ?? new ContractDetail();

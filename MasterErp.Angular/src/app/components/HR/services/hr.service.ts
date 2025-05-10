@@ -76,8 +76,8 @@ export class HrService {
     return this.http.get<any>(this.URL + 'Employee/RemoveEmployee?employeeId=' + EmployeeId);
   }
 
-  GetEmployeeContract(EmployeeId: number) {
-    return this.http.get<EmployeeContractModel>(this.URL + 'Employee/GetEmployeeContract?employeeId=' + EmployeeId);
+  GetEmployeeContractDetails(EmployeeId: number) {
+    return this.http.get<EmployeeContractModel>(this.URL + 'Employee/GetEmployeeContractDetails?EmployeeId=' + EmployeeId);
   }
 
   GetEmployeesSalaryByBranch(branches: number[], ExecutionDate: any) {

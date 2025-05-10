@@ -2,9 +2,9 @@ import { CreatorModel } from "src/app/components/Shared/models/CreatorModel";
 import { EmployeeModel } from "./EmployeeModel";
 
 export interface EmployeeContractModel extends CreatorModel {
-    employeeContractId: number | null;
-    joinDate: string;
-    lastJoinDate: string;
+    contractId: number | null;
+    startDate: string;
+    endDate: string;
     contractPeriodYears: number;
     vacationPeriodDays: number | null;
     vacationDate: string | null;

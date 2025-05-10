@@ -10,7 +10,8 @@ namespace MasterErp.Entities.DTOs.HR
 {
     public class EmployeeContractDto : CreatorModel
     {
-        public int? EmployeeContractId { get; set; }
+        public int? ContractId { get; set; }
+        public int? EmployeeId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int ContractPeriodYears { get; set; }
@@ -30,7 +31,6 @@ namespace MasterErp.Entities.DTOs.HR
         public double? MealAllowance { get; set; }
         public double? Other { get; set; }
         public double? TotalSalary { get; set; }
-        public int? EmployeeId { get; set; }
         public Employee Employee { get; set; }
 
 
