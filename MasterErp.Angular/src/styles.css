@@ -2025,9 +2025,9 @@ td {
     
 }
 
-.column-card :hover {
+/* .column-card :hover {
     background-color: var(--nw_background_color) !important;
-}
+} */
 .column-card-icon {
     background-color: var(--nw_background_color);
     color: var(--nw-color);

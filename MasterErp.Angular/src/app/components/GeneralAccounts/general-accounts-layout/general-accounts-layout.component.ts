@@ -6,11 +6,33 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./general-accounts-layout.component.css']
 })
 export class GeneralAccountsLayoutComponent implements OnInit {
+  isToggle = false;
 
   constructor() { }
 
   ngOnInit(): void {
   }
+
+
+
+  onToggleContent() {
+    this.isToggle = !this.isToggle;
+    const htmlElement = document.querySelector('html');
+    if (this.isToggle) {
+      htmlElement.style.cssText = `overflow: hidden`;
+    } else {
+      htmlElement.style.cssText = `overflow: auto`;
+    }
+  }
+
+  onOverlayClicked() {
+    this.isToggle = false;
+    const htmlElement = document.querySelector('html');
+    htmlElement.style.cssText = `overflow: auto`;
+  }
+
+  //old
+
   toggler = false;
 
   onToggler() {
