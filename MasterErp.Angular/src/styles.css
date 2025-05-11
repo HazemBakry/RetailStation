@@ -6,6 +6,33 @@
 @import "~swiper/modules/pagination/pagination.min.css";
 @import "~swiper/modules/navigation/navigation.min.css";
 :root {
+  --main-color: #4099ff;
+  --gray-color: #f6f7fb;
+  --green-color: #15ca20;
+  --toggled-transition: 500ms cubic-bezier(0.25, 0.8, 0.25, 1);
+  --animated-transition: 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --icon-transition: 0.15s cubic-bezier(0.97, 0.75, 0.61, 1.84);
+  --nav-link-color: rgba(255, 255, 255, 0.8);
+  --nav-link-height: 56px;
+  --aside-bar-width: 270px;
+  --aside-bar-width-toggled: 70px;
+  --active: rgba(202, 202, 202, 0.3);
+  --scroll-color: #ccc;
+
+  /* NEW COLOR OF NEW DESIGN */
+  --nw_background_color: #0d948826;
+  --nw-color: #0d9488;
+
+  --nw_gray_background_color: linear-gradient(
+    221.99deg,
+    #d9dce8 3.37%,
+    #d7d6e0 50.48%,
+    #dec8c1 100%
+  );
+  --nw_white_4_background_color: rgba(255, 255, 255, 0.4);
+  --nw_white_5_background_color: rgba(255, 255, 255, 0.5);
+
+  --nw-transition: all 0.2s cubic-bezier(0.45, 0.25, 0.6, 0.95);
     --main-color: #4099ff;
     --gray-color: #f6f7fb;
     --green-color: #15ca20;
@@ -175,6 +202,10 @@ select::after {
 
 .bg-gray {
     background-color: #f8f9fb;
+}
+
+.bg-white-5 {
+  background-color: var(--nw_white_5_background_color) !important;
 }
 
 .icon-box {
@@ -406,6 +437,14 @@ select::after {
     -o-border-radius: 10px;
 }
 
+.radius-15 {
+  border-radius: 15px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
 .radius-50 {
     border-radius: 50px;
     -webkit-border-radius: 50px;
@@ -594,6 +633,10 @@ select::after {
 
 .orange-clr {
     color: #f1c480;
+}
+
+.fs-11 {
+  font-size: 11px;
 }
 
 .fs-16 {
@@ -1880,6 +1923,11 @@ input[dir="rtl"] {
     -moz-border-radius: 8px;
     -ms-border-radius: 8px;
     -o-border-radius: 8px;
+}
+
+.nw-dropdown .dropdown-menu {
+  width: 100% !important;
+  min-width: unset !important;
 }
 
 .table-actions {
