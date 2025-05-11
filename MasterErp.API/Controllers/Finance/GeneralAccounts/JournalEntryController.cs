@@ -164,6 +164,14 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         }
 
         [HttpPost]
+        [Route("CancelPostJournalEntry")]
+        public IActionResult CancelPostJournalEntry(List<int> JournalEntryIds)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            return Ok(EntryService.CancelPostJournalEntry(UserId, JournalEntryIds));
+        }
+        [HttpPost]
         [Route("ReverseJournalEntry")]
         public IActionResult ReverseJournalEntry(List<int> JournalEntryIds)
         {

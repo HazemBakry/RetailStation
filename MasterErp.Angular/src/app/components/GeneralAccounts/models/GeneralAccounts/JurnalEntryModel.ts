@@ -22,6 +22,7 @@ export interface JournalEntryModel {
     isLocked?: boolean | null;
     entryStatus?: boolean | null;
     isPosted?: boolean | null;
+    isCancelled?: boolean | null;
     postStatus?: boolean | null;
     totalCredit?: number | null;
     totalDebit?: number | null;

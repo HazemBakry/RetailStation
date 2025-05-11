@@ -590,7 +590,36 @@ namespace MasterErp.Service.GeneralAccounts
                 };
             }
         }
+        public ActionsResponseModel CancelPostJournalEntry(string UserId, List<int> JournalEntryIds)
+        {
+            try
+            {
+                var entries = Context.JournalEntries.Where(item => JournalEntryIds.Contains(item.JournalEntryId)).ToList();
 
+                if (!entries.Any())
+                    return new ActionsResponseModel { IsSuccess = false, Message = "لا يوجد قيود !" };
+
+                foreach (var Entry in entries)
+                {
+                    Entry.IsLocked = false;
+                    Entry.IsPosted = false;
+                    //Entry.PostDate = Entry.IsPosted == true ? DateTime.Now : null;
+                    Entry.PostDate = null;
+                    Entry.ModifiedDate = DateTime.Now;
+                    Entry.ModifiedBy = UserId;
+                }
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "تم الغاء ترحيل القيود بنجاح" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
         public ActionsResponseModel ReverseJournalEntry(string UserId,List<int> JournalEntryIds)
         {
             try

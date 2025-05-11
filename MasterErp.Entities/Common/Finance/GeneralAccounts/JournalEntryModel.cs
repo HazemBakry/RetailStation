@@ -36,6 +36,7 @@ namespace MasterErp.Entities.Common
         public bool? IsLocked { get; set; }
         public bool? EntryStatus { get; set; }
         public bool? IsPosted { get; set; }
+        public bool? IsCancelled { get; set; }
         public bool? PostStatus { get; set; }
         public double? TotalCredit { get; set; }
         public double? TotalDebit { get; set; }

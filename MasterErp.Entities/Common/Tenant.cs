@@ -62,7 +62,7 @@ namespace MasterErp.Entities.Models
                 new Tenant {
                     SubscriberId = "46FA6FEE-897F-41F8-95AA-F008666E1BAA",
                     Name = "Mishwar",
-                    ConnectionString = "Data Source=37.76.224.205; Initial Catalog=MasterERP_Test;User ID=sa;Password=zA0s5g?5!;TrustServerCertificate=True;"
+                    ConnectionString = "Data Source=37.76.224.205; Initial Catalog=MasterERP_V2;User ID=sa;Password=zA0s5g?5!;TrustServerCertificate=True;"
                 },
                 new Tenant {
                     SubscriberId = "b2433573-de9b-4404-9781-5869391379d2",

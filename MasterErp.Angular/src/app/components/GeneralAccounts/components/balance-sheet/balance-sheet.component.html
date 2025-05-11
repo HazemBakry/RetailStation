@@ -80,6 +80,7 @@
             <thead>
                 <tr>
                     <th>الكـود</th>
+                    <th>نوع الحســاب</th>
                     <th>الحســاب</th>
                     <th>الرصيد الحالى (مدين)</th>
                     <th>الرصيد الحالى (دائن)</th>
@@ -88,12 +89,17 @@
             <tbody>
                 <tr *ngFor="let item of  balanceSheetResponse.results">
                     <td>{{item.accountNumber}}</td>
+                    <td>
+                        
+                        <span *ngIf="item.isParent" class="badge bg-primary">حساب رئيسى</span>
+                        <span *ngIf="!item.isParent" class="badge bg-secondary">حساب فرعى</span>
+                    </td>
                     <td>{{item.accountNameAR ?? item.accountNameEN}}</td>
                     <td>{{item.balanceDebit}}</td>
                     <td>{{item.balanceCredit}}</td>
                 </tr>
                 <tr *ngIf="!balanceSheetResponse.results.length">
-                    <td colspan="10" class="text-right">
+                    <td colspan="5" class="text-right">
                         <app-empty-data [showEmptyData]="!balanceSheetResponse.results.length"></app-empty-data>
                     </td>
                 </tr>
