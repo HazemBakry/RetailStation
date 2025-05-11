@@ -6,6 +6,7 @@
         <span class="hamburger-inner"></span>
       </span>
     </button>
+
     <a class="navbar-brand logo-blue-clr fw-bold">شعار</a>
     <button class="navbar-toggler hamburger nw-hamburger hamburger--elastic rounded-1 main-bgcolor my-2"
       [class.is-active]="!collapsed" type="button" aria-controls="navbar-content" [attr.aria-expanded]="!collapsed"
@@ -14,25 +15,20 @@
         <span class="hamburger-inner"></span>
       </span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent" [class.collapse]="collapsed">
-      <form class="d-flex ms-auto justify-content-center justify-content-lg-start" role="search">
-        <div class="input-group">
-          <!-- <span class="input-group-text bg-white pe-0">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </span>
-          <input type="text" class="form-control me-4 nw-search-header border-start-0" placeholder="ابحث عن اى شى..." /> -->
-        </div>
-      </form>
-      <ul class="navbar-nav mb-2 mb-lg-0 gap-4">
-        <li class="nav-item">
-          <a class="nav-link justify-content-center justify-content-md-start" routerLink="/" routerLinkActive="router-link-active" >
-            <span class="nw-header-icon-link-img">
-              <i class="uil uil-home text-black-100"></i>
+      <div class="d-flex ms-auto justify-content-center justify-content-lg-start">
+        <!-- <form role="search">
+          <div class="input-group">
+            <span class="input-group-text bg-white pe-0">
+              <i class="fa-solid fa-magnifying-glass"></i>
             </span>
-          </a>
-        </li>
-        
+            <input type="text" class="form-control me-4 nw-search-header border-start-0"
+              placeholder="ابحث عن اى شى..." />
+          </div>
+        </form> -->
+      </div>
+
+      <ul class="navbar-nav mb-2 mb-lg-0 gap-4">
         <li class="nav-item">
           <a class="nav-link justify-content-center justify-content-md-start">
             <img src="{{systemUrl}}assets/alert.svg" class="nw-header-icon-link-img" alt="AlertImage" loading="lazy" />
@@ -74,10 +70,89 @@
           </ul>
 
         </li>
+        <li ngbDropdown class="nav-item nw-dropdown" display="dynamic" routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: false }">
+          <a class="nav-link justify-content-center d-inline-flex align-items-center gap-2 bg-white my-2 py-2 px-3 h-auto radius-15"
+            ngbDropdownToggle>
+            <div class="dropdown-header-icon">
+              <i class="fa-solid fa-building-columns"></i>
+            </div>
+            <span class="dropdown-header-text text-nowrap">الحسابات العامة</span>
+            <i class="fa-solid fa-chevron-down dropdown-arrow fs-13"></i>
+          </a>
+          <ul class="border shadow-lg" ngbDropdownMenu aria-labelledby="user-settings">
+            <li>
+              <a routerLink="/accounts/chart" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size fa-solid fa-book"></i>
+                دليل الحسابات
+              </a>
+            </li>
+            <li>
+              <a routerLink="/journal-entries" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size fa-solid fa-pen-nib"></i>
+                قيود اليومية
+              </a>
+            </li>
+            <li>
+              <a routerLink="/trial-balance" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size fa-solid fa-scale-balanced"></i>
+                ميزان المراجعة
+              </a>
+            </li>
+            <li>
+              <a routerLink="/financial-position" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size fa-solid fa-building-columns"></i>
+                قائمة المركز المالي
+              </a>
+            </li>
+            <li>
+              <a routerLink="/income-statement" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size fa-solid fa-chart-line"></i>
+                قائمة الأرباح والخسائر
+              </a>
+            </li>
+            <li>
+              <a routerLink="/financial-period/close" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size fa-solid fa-lock"></i>
+                إقفال الفترة المالية
+              </a>
+            </li>
+            <li>
+              <a routerLink="/accounts/settings" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size fa-solid fa-gear"></i>
+                إعدادات الحسابات
+              </a>
+            </li>
+            <li>
+              <a routerLink="/reports/accounting" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size fa-solid fa-file-invoice-dollar"></i>
+                التقارير المحاسبية
+              </a>
+            </li>
+            <li>
+              <a routerLink="/auto-entries/setup" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size fa-solid fa-robot"></i>
+                إعداد القيود الآلية
+              </a>
+            </li>
+          </ul>
+
+        </li>
       </ul>
     </div>
   </div>
 </nav>
+
+
 
 <app-sidebar [toggler]="showMenu"></app-sidebar>
 
