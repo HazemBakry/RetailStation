@@ -15,6 +15,7 @@ import { EmployeeLoanModel } from '../models/EmployeeLoanModel';
 import { EmployeeSalaryModel } from '../models/Employee/EmployeeSalaryModel';
 import { EmployeeContractModel } from '../models/Employee/EmployeeContractModel';
 import { EmployeeAdvanceModel } from '../models/EmployeeAdvanceModel';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -31,16 +32,71 @@ export class HrService {
     {
       id: 2,
       value: 2,
-      name: "السلف",
+      name: "ساعات العمل الاضافية",
     },
     {
       id: 3,
       value: 3,
       name: "الجزاءات",
-    }
+    },
+    {
+      id: 4,
+      value: 4,
+      name: "الاجازات المرضية",
+    },
+    {
+      id: 5,
+      value: 5,
+      name: "الترقيات والتنقلات",
+    },
+    {
+      id: 6,
+      value: 6,
+      name: "الخصم",
+    },
+    {
+      id: 7,
+      value: 7,
+      name: "السلف",
+    },
+    {
+      id: 8,
+      value: 8,
+      name: "أقساط السلف",
+    },
+    // {
+    //   id: 9,
+    //   value: 9,
+    //   name: "الحضور والانصراف",
+    // },
+    // {
+    //   id: 10,
+    //   value: 10,
+    //   name: "رواتب الموظفين",
+    // }
   ];
 
+
+
   constructor(private http: HttpClient) { }
+
+  getEmplyeePayrollReport(type: number, model: SearchFilterModel): Observable<any> {
+    model.pageSize = 50000;
+    const fetchFn = new Map<number, () => Observable<any>>([
+      [1, () => this.GetAllEmployeeVacationsData(model)],
+      [2, () => this.GetAllEmployeeOverTimeData(model)],
+      [3, () => this.GetAllEmployeePenaltiesData(model)],
+      [4, () => this.GetAllEmployeeSickLeavesData(model)],
+      [5, () => this.GetAllEmployeeCareersData(model)],
+      [6, () => this.GetAllEmployeeDeductsData(model)],
+      [7, () => this.GetAllEmployeeLoansData(model)],
+      [8, () => this.GetAllEmployeeLoansData(model)],
+      // [9, () => this.GetAttendance_Data(model)],
+      // [10, () => this.GetEmployeesSalaryByBranch(model)],
+    ]).get(type);
+
+    if (fetchFn) return fetchFn();
+  }
 
   //================================== Employees ===============================
 
@@ -48,9 +104,9 @@ export class HrService {
     return this.http.post<any>(this.URL + 'Employee/GetEmployeesSummary_Data', model);
   }
 
-  // GetEmployeesSummary() {
-  //   return this.http.get<any>(this.URL + 'Employee/GetEmployeesSummary');
-  // }
+  ExportEmployeesSummaryData(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'Employee/ExportEmployeesSummaryData', model);
+  }
 
   GetActiveEmployeesSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Employee/GetActiveEmployeesSelector');

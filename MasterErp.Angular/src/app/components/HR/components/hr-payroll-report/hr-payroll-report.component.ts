@@ -17,8 +17,8 @@ export class HRPayrollReportComponent implements OnInit {
   showExportLoader: boolean = false;
   filterList: FilterModel[] = [];
   TitleList = ['الموارد البشرية', 'Payroll'];
-  payrollProcessTypes : any[] = [];
-  
+  payrollProcessTypes: any[] = [];
+
   pagedResponseModel: PagedResponseDTO<SearchFilterModel[]> = {
     results: [],
     filterList: [],
@@ -39,6 +39,22 @@ export class HRPayrollReportComponent implements OnInit {
     this.GetEmployeesSummary_Filters();
     this.payrollProcessTypes = this.hrService.payrollProcessTypes;
 
+  }
+
+  getEmplyeePayrollReport(type: any) {
+    debugger;
+    this.showLoader = true;
+    this.hrService.getEmplyeePayrollReport(type, this.pagedResponseModel).subscribe(data => {
+      debugger;
+      this.pagedResponseModel.results = data.results;
+      this.pagedResponseModel.totalCount = data.totalCount;
+
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
   }
 
   getEmployeesSummary_Data() {

@@ -51,7 +51,7 @@
                         نوع العملية
                         <span class="text-danger">*</span>
                     </label>
-                    <app-general-selector [data]="payrollProcessTypes" [placeholder]="'نوع العملية'"></app-general-selector>
+                    <app-general-selector [data]="payrollProcessTypes" [placeholder]="'نوع العملية'" (valueChanged)="getEmplyeePayrollReport($event)"></app-general-selector>
                 </div>
             </div>
 

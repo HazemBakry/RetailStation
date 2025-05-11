@@ -29,6 +29,7 @@ namespace MasterErp.Interface.HR
         EmployeeAttachmentDto GetEmployeeAttachmentsById(int EmployeeId);
         List<EmployeeBasicInfo> GetEmployeesSummary_Data(SearchFilterModel model);
         List<FilterModel> GetEmployeesSummary_Filters(SearchFilterModel model);
+        ActionsResponseModel ExportEmployeesSummaryData(SearchFilterModel model);
         List<StatisticsCardSummary> GetEmployeesSummary();
         List<SelectorDataModel> GetActiveEmployeesSelector();
         ContractDetail GetEmployeeContract(int EmployeeId);
