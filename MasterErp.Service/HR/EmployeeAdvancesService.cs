@@ -17,13 +17,13 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Service.HR
 {
-    public class AdvancesService : IAdvancesService
+    public class EmployeeAdvancesService : IEmployeeAdvancesService
     {
         private DBContext Context;
         private readonly ISQLHelper SQLHelper;
-        private readonly SharedFilterService sharedFilterService;
+        private readonly ISharedFilterService sharedFilterService;
 
-        public AdvancesService(DBContext Context, ISQLHelper SQLHelper, SharedFilterService sharedFilterService)
+        public EmployeeAdvancesService(DBContext Context, ISQLHelper SQLHelper, ISharedFilterService sharedFilterService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
@@ -36,7 +36,7 @@ namespace MasterErp.Service.HR
         {
 
             var FilterListTable = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
-            SqlParameter[] param = new SqlParameter[3];
+            SqlParameter[] param = new SqlParameter[5];
 
             param[0] = new SqlParameter("@EmployeeId", EmployeeId);
             param[1] = new SqlParameter("@ManagerId", ManagerId);
@@ -82,6 +82,22 @@ namespace MasterErp.Service.HR
             //var results = query.ToList();
             //results.ForEach(x => x.TotalCount = totalCount);
             //return results;
+        }
+        public List<AdvancePaymentModel> GetAdvancePaymentsData(SearchFilterModel SearchModel, int? EmployeeId = null, int? ManagerId = null)
+        {
+
+            var FilterListTable = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
+            SqlParameter[] param = new SqlParameter[5];
+
+            param[0] = new SqlParameter("@EmployeeId", EmployeeId);
+            param[1] = new SqlParameter("@ManagerId", ManagerId);
+            param[2] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            param[3] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            param[4] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[4].Value = FilterListTable;
+
+            var result = SQLHelper.SQLQuery<AdvancePaymentModel>("[HR].[SP_GetEmployeeAdvancePaymentsData]", null, param);
+            return result;
         }
 
         public List<EmployeeAdvanceModel> GetAdvancesByEmployeeId(int EmployeeId, SearchFilterModel SearchModel)
@@ -131,6 +147,7 @@ namespace MasterErp.Service.HR
                 var advance = new EmployeeAdvance();
 
                 advance.EmployeeId = EmployeeId;
+                advance.AdvanceName = string.Empty;
                 advance.AdvanceTypeId = model.AdvanceTypeId;
                 advance.PaymentFromDate = model.PaymentFromDate;
                 advance.PaymentToDate = CalcAdvancePaymentToDate(model.AdvanceAmount, model.PaymentAmount, model.PaymentFromDate);
@@ -184,7 +201,7 @@ namespace MasterErp.Service.HR
                     EmployeeAdvanceId = advance.EmployeeAdvanceId,
                     MoneyAmount = monthlyPayment,
                     ExecutionDate = executionDate,
-                    WorkflowStatusId = (int)HRWorkflowStatus.Pending,
+                    WorkflowStatusId = (int)FinanceWorkflowStatus.Pending,
                     Notes = $"Installment {i + 1} of {totalMonths}",
                     CreatedBy = advance.CreatedBy,
                     CreatedDate = DateTime.Now
@@ -280,7 +297,7 @@ namespace MasterErp.Service.HR
             var results = Context.AdvanceTypes.Select(b => new SelectorDataModel
             {
                 Id = b.AdvanceTypeId,
-                Name = b.NameEN,
+                Name = b.NameAR,
             }).ToList();
             return results;
         }

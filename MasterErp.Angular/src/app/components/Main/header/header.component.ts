@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { AuthService } from 'src/app/Auth/auth.service';
+import { environment } from 'src/environments/environment';
+import { LoginUserModel } from '../../Shared/models/LoginResponseModel';
 
 @Component({
   selector: 'app-header',
@@ -11,14 +13,20 @@ export class HeaderComponent implements OnInit {
   @Input() showToggler: boolean = true;
   @Output() toggler = new EventEmitter<boolean>();
   collapsed = true;
-
-  constructor(private authService:AuthService) { }
+  showMenu: boolean = false;
+  systemUrl:string=environment.systemUrl;
+  UserModel: LoginUserModel;
+  
+  constructor(private authService:AuthService) { 
+    this.UserModel = this.authService.getCurrentUser();
+  }
 
   ngOnInit(): void {
   }
 
   onToggler() {
-    this.toggler.emit();
+    this.showMenu = !this.showMenu;
+    // this.toggler.emit();
     console.log(this.toggler);
   }
   logout() {

@@ -1,16 +1,150 @@
-<app-header (toggler)="onToggler()"></app-header>
+<div class="p-4 gradient-nw-wrraper-bg">
+    <div class="container-fluid width-90-per">
+        <app-header></app-header>
+
+        <main class="main-design-wrapper pt-3">
+            <div class="d-flex">
+                <!-- <erp-sidebar id="nw-sidebar" (sidebarEvent)="onToggleContent()" [isToggle]="isToggle"></erp-sidebar> -->
+
+                <aside class="nw-sidebar-wrapper" [class.is-toggle]="isToggle">
+                    <button class="sidebar-button-collapser" (click)="onToggleContent()">
+                        <i class="uil uil-angle-left"></i>
+                    </button>
+
+                    <div class="p-2">
+                        <div class="sidebar-scrolling small-scroll d-flex flex-column gap-4 nw-sidebar-height">
+                            <section class="d-flex flex-column gap-4">
+                                <h4 
+                                    class="nw-sidebar-title cursor-pointer mb-0">
+                                    الحسابات العامة
+                                </h4>
+                                <ul class="nw-sidebar-list list-unstyled p-0 m-0 d-flex flex-column gap-3">
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./home/1" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-money-insert"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">الادلة</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./home/2" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-money-insert"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">العمليات المالية</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./home/3" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-chart-growth"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">تقارير مالية</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./home/4" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-money-insert"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">الحسابات الختامية</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./home/5" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-chart-growth"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">تقارير مراكز التكلفة</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./home/6" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-user-nurse"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">العملاء</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./home/7" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-pricetag-alt"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">التهيئة والاعدادات</div>
+                                        </a>
+                                    </li>
+
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./home/8" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-money-insert "></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">اعدادات النظام</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./home/9" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-chart-growth"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">التقارير</div>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </section>
+                            
+                        </div>
+                    </div>
+                </aside>
+
+
+                <div class="main-general-account-content py-3">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+
+            <div id="overlaying-element" class="cursor-pointer" [class.show]="isToggle" (click)="onOverlayClicked()">
+            </div>
+        </main>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- <app-header (toggler)="onToggler()"></app-header>
 <main id="app">
     <div class="app-content">
-        <!-- <app-sidebar [toggler]="toggler"></app-sidebar> -->
 
 
         <aside id="main_sidebar" class="main-sidebar" [ngClass]="{'toggled': toggler}">
             <ul class="nav list-unstyled flex-column p-0 m-0 small-scroll overflow-auto h-100 flex-column flex-nowrap">
                 <div class="nalika-profile" style="background: #16487ad9;color: white;">
-                    <a class="nav-link cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" routerLink="/" routerLinkActive="active">
+                    <a class="nav-link cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+                        routerLink="/" routerLinkActive="active">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-home nav-icon" style="font-size: 20px; color: white;"></i>
-                            <span class="nav-link-text item-sidebar fw-bold main-nav-link ms-3" style="color: white; font-size: 14px;">الرئيسية
+                            <span class="nav-link-text item-sidebar fw-bold main-nav-link ms-3"
+                                style="color: white; font-size: 14px;">الرئيسية
                             </span>
                         </div>
                     </a>
@@ -20,7 +154,8 @@
                         <i class="uil uil-database nav-icon"></i> الحسابات العامة</a>
                 </li>
                 <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" (click)="toggleMenu(menu2)" [ngClass]="{'active': menu2.classList.contains('show')}">
+                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+                        (click)="toggleMenu(menu2)" [ngClass]="{'active': menu2.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-files-landscapes nav-icon"></i>
                             <span class="nav-link-text item-sidebar main-nav-link ms-3">الادلة</span>
@@ -31,19 +166,22 @@
                     </a>
                     <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu2>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./account-tree" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./account-tree" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">شجرة الحسابات</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./cost-center-tree" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./cost-center-tree" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">مراكز التكلفة</span>
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" (click)="toggleMenu(menu3)" [ngClass]="{'active': menu3.classList.contains('show')}">
+                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+                        (click)="toggleMenu(menu3)" [ngClass]="{'active': menu3.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-money-withdrawal nav-icon"></i>
                             <span class="nav-link-text item-sidebar main-nav-link ms-3">العمليات المالية</span>
@@ -54,45 +192,53 @@
                     </a>
                     <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu3>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./journal-daily-list" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./journal-daily-list" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">سجل القيود اليومية</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./new-entry" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./new-entry" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">انشاء قيد جديد</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./payment-orders" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./payment-orders" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">أوامر الصرف</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./payment-receipts" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./payment-receipts" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">سندات الصرف</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./receive-receipts" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./receive-receipts" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">سندات القبض</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./opening-balance" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./opening-balance" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">الرصيد الافتتاحي</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./loans" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./loans"
+                                routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">القروض</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./loans-requests" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./loans-requests" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">طلبات السلف</span>
                             </a>
                         </li>
@@ -100,7 +246,8 @@
                     </ul>
                 </li>
                 <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" (click)="toggleMenu(menu4)" [ngClass]="{'active': menu4.classList.contains('show')}">
+                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+                        (click)="toggleMenu(menu4)" [ngClass]="{'active': menu4.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-receipt nav-icon"></i>
                             <span class="nav-link-text item-sidebar main-nav-link ms-3">تقارير مالية</span>
@@ -111,34 +258,40 @@
                     </a>
                     <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu4>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./accounts-general-ledger" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./accounts-general-ledger" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">الأستاذ العام</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./accounts-assistant-ledger" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./accounts-assistant-ledger" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">الأستاذ المساعد</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./trial-balance" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./trial-balance" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">ميزان المراجعة</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./balance-sheet" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./balance-sheet" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">المركز المالى</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./monthly-assistant-ledger" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./monthly-assistant-ledger" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">الأستاذ المساعد الشهرى</span>
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" (click)="toggleMenu(menu6)" [ngClass]="{'active': menu6.classList.contains('show')}">
+                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+                        (click)="toggleMenu(menu6)" [ngClass]="{'active': menu6.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-calculator-alt nav-icon"></i>
                             <span class="nav-link-text item-sidebar main-nav-link ms-3">الحسابات الختامية</span>
@@ -161,7 +314,8 @@
                     </ul>
                 </li>
                 <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" (click)="toggleMenu(menu7)" [ngClass]="{'active': menu7.classList.contains('show')}">
+                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+                        (click)="toggleMenu(menu7)" [ngClass]="{'active': menu7.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-chart-growth nav-icon"></i>
                             <span class="nav-link-text item-sidebar main-nav-link ms-3">تقارير مراكز التكلفة</span>
@@ -172,22 +326,26 @@
                     </a>
                     <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu7>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./cost-general-ledger" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./cost-general-ledger" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">الأستاذ العام - مراكز التكلفة</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./cost-assistant-ledger" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./cost-assistant-ledger" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">الأستاذ المساعد - مراكز التكلفة</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./cost-trial-balance" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./cost-trial-balance" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">ميزان مراجعة مراكز التكلفة</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./cost-center-matrix" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./cost-center-matrix" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">مصفوفة مراكز التكلفة</span>
                             </a>
                         </li>
@@ -195,7 +353,9 @@
                 </li>
 
                 <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" (click)="toggleMenu(customerMenu)" [ngClass]="{'active': customerMenu.classList.contains('show')}">
+                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+                        (click)="toggleMenu(customerMenu)"
+                        [ngClass]="{'active': customerMenu.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-chart-growth nav-icon"></i>
                             <span class="nav-link-text item-sidebar main-nav-link ms-3">العملاء</span>
@@ -206,12 +366,14 @@
                     </a>
                     <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #customerMenu>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./customers" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./customers" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">العملاء</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./batches" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./batches"
+                                routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">الدفعات</span>
                             </a>
                         </li>
@@ -219,7 +381,8 @@
                 </li>
 
                 <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" (click)="toggleMenu(menu1)" [ngClass]="{'active': menu1.classList.contains('show')}">
+                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+                        (click)="toggleMenu(menu1)" [ngClass]="{'active': menu1.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-database nav-icon"></i>
                             <span class="nav-link-text item-sidebar main-nav-link ms-3">التهيئة والاعدادات</span>
@@ -229,49 +392,53 @@
                         </div>
                     </a>
                     <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu1>
-                        <!-- <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./journal-entry-types" routerLinkActive="active">
-                                <span class="nav-link-sub-text item-sidebar">أنواع القيود</span>
-                            </a>
-                        </li> -->
+
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./journal-entry-templates" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./journal-entry-templates" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">قوالب القيود</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./financial-period" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./financial-period" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">السنة المالية</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./receipt-ledgers" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./receipt-ledgers" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">دفاتر الايصال</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./payment-terms" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./payment-terms" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">شروط السداد</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./tax-calculation" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./tax-calculation" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">حساب الضريبة</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./daily-notebook" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./daily-notebook" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">الدفاتر اليومية</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./receipt-ledgers" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./receipt-ledgers" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">نماذج الأصول</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./ledger-journal-types" routerLinkActive="active">
+                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center"
+                                routerLink="./ledger-journal-types" routerLinkActive="active">
                                 <span class="nav-link-sub-text item-sidebar">أنواع الدفاتر اليومية</span>
                             </a>
                         </li>
@@ -280,7 +447,9 @@
                 </li>
 
                 <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" (click)="toggleMenu(menu_definitions)" [ngClass]="{'active': menu_definitions.classList.contains('show')}">
+                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+                        (click)="toggleMenu(menu_definitions)"
+                        [ngClass]="{'active': menu_definitions.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-database nav-icon"></i>
                             <span class="nav-link-text item-sidebar main-nav-link ms-3"> اعدادات النظام</span>
@@ -318,29 +487,15 @@
                     </ul>
                 </li>
 
-                <!-- <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" (click)="toggleMenu(generalAccountSettings_menu)" [ngClass]="{'active': generalAccountSettings_menu.classList.contains('show')}">
-                        <div class="nav-text d-flex align-items-center w-100">
-                            <i class="uil uil-database nav-icon"></i>
-                            <span class="nav-link-text item-sidebar main-nav-link ms-3"> التهيئة والإعدادات</span>
-                        </div>
-                        <div class="nav-collapse">
-                            <i class="uil uil-angle-left-b"></i>
-                        </div>
-                    </a>
-                    <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #generalAccountSettings_menu>
-
-
-                    </ul>
-                </li> -->
-
 
 
                 <li class="nav-item nav-item-title item-sidebar">
                     <a class="nav-link title cursor-pointer text-lowercase fw-bold text-dark">التقارير</a>
                 </li>
                 <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" routerLink="./payment-terms" routerLinkActive="active" [ngClass]="{'active': menu1.classList.contains('show')}">
+                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+                        routerLink="./payment-terms" routerLinkActive="active"
+                        [ngClass]="{'active': menu1.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-chart-growth nav-icon"></i>
                             <span class="nav-link-text item-sidebar main-nav-link ms-3">الميزانية العمومية</span>
@@ -348,7 +503,9 @@
                     </a>
                 </li>
                 <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" routerLink="./payment-terms" routerLinkActive="active" [ngClass]="{'active': menu1.classList.contains('show')}">
+                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+                        routerLink="./payment-terms" routerLinkActive="active"
+                        [ngClass]="{'active': menu1.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-chart-growth nav-icon"></i>
                             <span class="nav-link-text item-sidebar main-nav-link ms-3">كشف التدفقات النقدية</span>
@@ -356,7 +513,9 @@
                     </a>
                 </li>
                 <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" routerLink="./payment-terms" routerLinkActive="active" [ngClass]="{'active': menu1.classList.contains('show')}">
+                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+                        routerLink="./payment-terms" routerLinkActive="active"
+                        [ngClass]="{'active': menu1.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-chart-growth nav-icon"></i>
                             <span class="nav-link-text item-sidebar main-nav-link ms-3">الإقرار الضريبي</span>
@@ -364,15 +523,21 @@
                     </a>
                 </li>
                 <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" routerLink="./payment-terms" routerLinkActive="active" [ngClass]="{'active': menu1.classList.contains('show')}">
+                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+                        routerLink="./payment-terms" routerLinkActive="active"
+                        [ngClass]="{'active': menu1.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-chart-growth nav-icon"></i>
-                            <span class="nav-link-text item-sidebar main-nav-link ms-3">دفتر الأستاذ العام للشركاء</span>
+                            <span class="nav-link-text item-sidebar main-nav-link ms-3">
+                                دفتر الأستاذ العام للشركاء
+                            </span>
                         </div>
                     </a>
                 </li>
                 <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" routerLink="./payment-terms" routerLinkActive="active" [ngClass]="{'active': menu1.classList.contains('show')}">
+                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+                        routerLink="./payment-terms" routerLinkActive="active"
+                        [ngClass]="{'active': menu1.classList.contains('show')}">
                         <div class="nav-text d-flex align-items-center w-100">
                             <i class="uil uil-chart-growth nav-icon"></i>
                             <span class="nav-link-text item-sidebar main-nav-link ms-3">تدقيق دفتر اليومية</span>
@@ -388,4 +553,4 @@
             <router-outlet></router-outlet>
         </div>
     </div>
-</main>
+</main> -->

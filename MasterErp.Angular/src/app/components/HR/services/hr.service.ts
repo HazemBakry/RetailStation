@@ -14,8 +14,8 @@ import { EmployeeCareerModel } from '../models/EmployeeCareerModel';
 import { EmployeeLoanModel } from '../models/EmployeeLoanModel';
 import { EmployeeSalaryModel } from '../models/Employee/EmployeeSalaryModel';
 import { EmployeeContractModel } from '../models/Employee/EmployeeContractModel';
-import { EmployeeAdvanceModel } from '../models/EmployeeAdvanceModel';
 import { Observable } from 'rxjs';
+import { AdvancePaymentModel, EmployeeAdvanceModel } from '../models/EmployeeAdvanceModel';
 
 @Injectable({
   providedIn: 'root'
@@ -132,8 +132,8 @@ export class HrService {
     return this.http.get<any>(this.URL + 'Employee/RemoveEmployee?employeeId=' + EmployeeId);
   }
 
-  GetEmployeeContract(EmployeeId: number) {
-    return this.http.get<EmployeeContractModel>(this.URL + 'Employee/GetEmployeeContract?employeeId=' + EmployeeId);
+  GetEmployeeContractDetails(EmployeeId: number) {
+    return this.http.get<EmployeeContractModel>(this.URL + 'Employee/GetEmployeeContractDetails?EmployeeId=' + EmployeeId);
   }
 
   GetEmployeesSalaryByBranch(branches: number[], ExecutionDate: any) {
@@ -402,26 +402,29 @@ export class HrService {
 
   //================================== Advances ===============================
   GetAllEmployeeAdvancesData(model: SearchFilterModel) {
-    return this.http.post<PagedResponseDTO<EmployeeAdvanceModel[]>>(this.URL + 'Advances/GetAllEmployeeAdvancesData', model);
+    return this.http.post<PagedResponseDTO<EmployeeAdvanceModel[]>>(this.URL + 'EmployeeAdvances/GetAllEmployeeAdvancesData', model);
+  }
+  GetAdvancePaymentsData(employeeId, model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<AdvancePaymentModel[]>>(this.URL + 'EmployeeAdvances/GetAdvancePaymentsData?EmployeeId=' + employeeId, model);
   }
   GetAdvancesByEmployeeId(employeeId, model: PagedResponseDTO) {
-    return this.http.post<PagedResponseDTO<EmployeeAdvanceModel[]>>(this.URL + 'Advances/GetAdvancesByEmployeeId?EmployeeId=' + employeeId, model);
+    return this.http.post<PagedResponseDTO<EmployeeAdvanceModel[]>>(this.URL + 'EmployeeAdvances/GetAdvancesByEmployeeId?EmployeeId=' + employeeId, model);
   }
   GetAdvancesPaymentsByEmployeeId(employeeId, model: PagedResponseDTO) {
-    return this.http.post<PagedResponseDTO<EmployeeAdvanceModel[]>>(this.URL + 'Advances/GetAdvancesPaymentsByEmployeeId?EmployeeId=' + employeeId, model);
+    return this.http.post<PagedResponseDTO<EmployeeAdvanceModel[]>>(this.URL + 'EmployeeAdvances/GetAdvancesPaymentsByEmployeeId?EmployeeId=' + employeeId, model);
   }
   AddNewEmployeeAdvance(employeeId: number, model: EmployeeAdvanceModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Advances/AddNewEmployeeAdvance?EmployeeId=' + employeeId, model);
+    return this.http.post<ActionsResponseModel>(this.URL + 'EmployeeAdvances/AddNewEmployeeAdvance?EmployeeId=' + employeeId, model);
   }
   EditEmployeeAdvance(employeeId: number, model: EmployeeAdvanceModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Advances/EditEmployeeAdvance?EmployeeId=' + employeeId, model);
+    return this.http.post<ActionsResponseModel>(this.URL + 'EmployeeAdvances/EditEmployeeAdvance?EmployeeId=' + employeeId, model);
   }
   DeleteEmployeeAdvance(employeeAdvanceId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'Advances/DeleteEmployeeAdvance?EmployeeAdvanceId=' + employeeAdvanceId);
+    return this.http.get<ActionsResponseModel>(this.URL + 'EmployeeAdvances/DeleteEmployeeAdvance?EmployeeAdvanceId=' + employeeAdvanceId);
   }
 
   GetAdvanceTypesSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Advances/GetAdvanceTypesSelector');
+    return this.http.get<FormDropdownModel[]>(this.URL + 'EmployeeAdvances/GetAdvanceTypesSelector');
   }
 
 

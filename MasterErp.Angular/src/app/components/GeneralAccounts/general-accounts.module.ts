@@ -44,6 +44,7 @@ import { BalanceSheetComponent } from './components/balance-sheet/balance-sheet.
 import { CreateJournalEntryTemplateComponent } from './components/create-journal-entry-template/create-journal-entry-template.component';
 import { JournalEntryTemplatesComponent } from './components/journal-entry-templates/journal-entry-templates.component';
 import { LoansRequestsComponent } from './components/loans-requests/loans-requests.component';
+import { GeneralAccountsDashboardComponent } from './components/general-accounts-dashboard/general-accounts-dashboard.component';
 
 
 @NgModule({
@@ -86,7 +87,8 @@ import { LoansRequestsComponent } from './components/loans-requests/loans-reques
     BalanceSheetComponent,
     CreateJournalEntryTemplateComponent,
     JournalEntryTemplatesComponent,
-    LoansRequestsComponent
+    LoansRequestsComponent,
+    GeneralAccountsDashboardComponent
   ],
   imports: [
     CommonModule,

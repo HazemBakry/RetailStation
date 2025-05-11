@@ -78,10 +78,10 @@ export class HrEmployeeContractInfoComponent implements OnInit {
   }
   buildForm() {
     this.formGroup = this.form.group({
-      employeeContractId: [null],
+      contractId: [null],
       employeeId: [null],
-      joinDate: [null, [Validators.required]],
-      lastJoinDate: [null, [Validators.required]],
+      startDate: [null, [Validators.required]],
+      endDate: [null, [Validators.required]],
       vacationPeriodDays: [null,[CustomValidators.regexPattern(RegexType.number)]],
       contractPeriodYears: [null,[CustomValidators.regexPattern(RegexType.number)]],
       isGossi: [null],
@@ -98,7 +98,7 @@ export class HrEmployeeContractInfoComponent implements OnInit {
     {
       
       validators: [
-        CustomValidators.endDateGreaterThanStartDate('joinDate', 'lastJoinDate','يجب ان يكون تاريخ اصدار العقد قبل الانتهاء '),
+        CustomValidators.endDateGreaterThanStartDate('startDate', 'endDate','يجب ان يكون تاريخ اصدار العقد قبل الانتهاء '),
 
        ],
     });
@@ -163,10 +163,10 @@ export class HrEmployeeContractInfoComponent implements OnInit {
 
     this.formGroup.patchValue({
 
-      employeeContractId:employeeContractInfoModel.employeeContractId ,
+      contractId:employeeContractInfoModel.contractId ,
       employeeId:employeeContractInfoModel.employeeId ,
-      joinDate:this.datePipe.transform(employeeContractInfoModel.joinDate, 'yyyy-MM-dd') ,
-      lastJoinDate:this.datePipe.transform(employeeContractInfoModel.lastJoinDate, 'yyyy-MM-dd') ,
+      startDate:this.datePipe.transform(employeeContractInfoModel.startDate, 'yyyy-MM-dd') ,
+      endDate:this.datePipe.transform(employeeContractInfoModel.endDate, 'yyyy-MM-dd') ,
       vacationPeriodDays:employeeContractInfoModel.vacationPeriodDays ,
       contractPeriodYears:employeeContractInfoModel.contractPeriodYears ,
       isGossi:employeeContractInfoModel.isGossi ,
@@ -186,10 +186,10 @@ export class HrEmployeeContractInfoComponent implements OnInit {
 
 
   public formErrors = {
-    employeeContractId: '',
+    contractId: '',
     employeeId: '',
-    joinDate: '',
-    lastJoinDate: '',
+    startDate: '',
+    endDate: '',
     vacationPeriodDays: '',
     contractPeriodYears: '',
     isGossi: '',

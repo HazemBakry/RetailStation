@@ -48,6 +48,7 @@ const routes: Routes = [
     children: [
 
       { path: 'home', component: GeneralAccountsHomeComponent },
+      { path: 'home/:tabName', component: GeneralAccountsHomeComponent },
       { path: 'currency', component: CurrencyComponent },
       { path: 'featured', component: FeaturedComponent },
       { path: 'fiscalYear', component: FiscalYearComponent },

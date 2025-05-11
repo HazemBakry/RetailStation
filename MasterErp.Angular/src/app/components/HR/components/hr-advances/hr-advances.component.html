@@ -41,15 +41,15 @@
             </div>
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
-        <div class="table-responsive shadow-sm radius-10">
+        <div class="table-responsive shadow-sm radius-10 table-vp-height">
             <table
-                class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0 table-vp-height">
+                class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0 ">
                 <thead class="table-light">
                     <tr>
                         <th>اسم الموظف</th>
                         <th> تاريخ البدء</th>
                         <th> تاريخ الانتهاء</th>
-                        <th>نوع الخصم</th>
+                        <th>نوع السلفة</th>
                         <th>القيمة </th>
                         <th>القسط </th>
                         <th>الحالة</th>
@@ -62,11 +62,12 @@
                         <td>{{item.employeeName}}</td>
                         <td>{{item.paymentFromDate | date}}</td>
                         <td>{{item.paymentToDate | date}}</td>
-                        <td>{{item.advanceTypeName}}</td>
+                        <td>{{item.advanceTypeNameAR ??item.advanceTypeNameEN}}</td>
                         <td>{{item.advanceAmount}}</td>
                         <td>{{item.paymentAmount}}</td>
                         <td>
-                            <div appColorWithStatus status="isApproved" [text]="item.isApproved"></div>
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
+                            </span>
                         </td>
                         <td class="word-break">{{item.notes}}</td>
                         <td>

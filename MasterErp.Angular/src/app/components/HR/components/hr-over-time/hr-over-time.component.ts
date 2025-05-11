@@ -91,7 +91,7 @@ export class HrOverTimeComponent implements OnInit {
   }
 
   getEmployeeContractSalary() {
-    this.hrService.GetEmployeeContract(this.selectedEmployeeId).subscribe(data => {
+    this.hrService.GetEmployeeContractDetails(this.selectedEmployeeId).subscribe(data => {
       this.employeeContract = data;
     });
   }

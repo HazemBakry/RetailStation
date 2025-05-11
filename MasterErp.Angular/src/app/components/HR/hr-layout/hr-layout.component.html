@@ -4,7 +4,173 @@
 
         <main class="main-design-wrapper pt-3">
             <div class="d-flex">
-                <erp-sidebar id="nw-sidebar" (sidebarEvent)="onToggleContent()" [isToggle]="isToggle"></erp-sidebar>
+                <!-- <erp-sidebar id="nw-sidebar" (sidebarEvent)="onToggleContent()" [isToggle]="isToggle"></erp-sidebar> -->
+
+                <aside class="nw-sidebar-wrapper" [class.is-toggle]="isToggle">
+                    <button class="sidebar-button-collapser" (click)="onToggleContent()">
+                        <i class="uil uil-angle-left"></i>
+                    </button>
+
+                    <div class="p-2">
+                        <div class="sidebar-scrolling small-scroll d-flex flex-column gap-4 nw-sidebar-height">
+                            <section class="d-flex flex-column gap-4">
+                                <h4 routerLink="./home" routerLinkActive="active"
+                                    class="nw-sidebar-title cursor-pointer mb-0">
+                                    الموارد البشرية
+                                </h4>
+                                <ul class="nw-sidebar-list list-unstyled p-0 m-0 d-flex flex-column gap-3">
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./employees" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-users-alt"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">بيانات الموظفين</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./vacations" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-user-check"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">الاجازات</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./over-time" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-presentation-plus"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">ساعات العمل الاضافية</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./penalty" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-user-minus "></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">الجزاءات</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./sick-leaves" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-user-nurse"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">الاجازات المرضية</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./careers" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-transaction "></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">الترقيات والتنقلات</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./deducts" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-pricetag-alt "></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">الخصم</div>
+                                        </a>
+                                    </li>
+
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./advances" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-money-insert "></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">السلف</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./advances-payments" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-money-insert"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">أقساط السلف</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./attendance" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-file-check-alt"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">الحضور والانصراف</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./salary" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-dollar-sign-alt"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">رواتب الموظفين</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </section>
+                            <section class="d-flex flex-column gap-4">
+                                <h4 routerLink="./home" routerLinkActive="active"
+                                    class="nw-sidebar-title cursor-pointer mb-0">
+                                    التقارير
+                                </h4>
+                                <ul class="nw-sidebar-list list-unstyled p-0 m-0 d-flex flex-column gap-3">
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./employees-report" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-chart-growth"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">تقرير بيانات الموظفين</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./iqama-report" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-chart-growth"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">تقرير انتهاء الإقامة</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./loans-report" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-chart-growth"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">تقرير السلف</div>
+                                        </a>
+                                    </li>
+                                    <li class="nw-sidebar-item">
+                                        <a routerLink="./payroll-report" routerLinkActive="active"
+                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i class="uil uil-chart-growth"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">Payroll Report</div>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                </aside>
+
+
                 <div class="main-general-account-content py-3">
                     <router-outlet></router-outlet>
                 </div>

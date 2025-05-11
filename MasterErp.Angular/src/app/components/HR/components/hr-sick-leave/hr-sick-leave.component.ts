@@ -196,6 +196,8 @@ export class HrSickLeaveComponent implements OnInit {
       sickLeaveId: sickLeaveModel.sickLeaveId,
       employeeId: this.selectedEmployeeId,
       executionDate: this.datePipe.transform(sickLeaveModel.executionDate, 'yyyy-MM-dd'),
+      fromDate: this.datePipe.transform(sickLeaveModel.fromDate, 'yyyy-MM-dd'),
+      toDate: this.datePipe.transform(sickLeaveModel.toDate, 'yyyy-MM-dd'),
       requestDate: this.datePipe.transform(sickLeaveModel.requestDate, 'yyyy-MM-dd'),
       noDays: sickLeaveModel.noDays,
       moneyAmount: sickLeaveModel.moneyAmount,

@@ -36,8 +36,8 @@
                     [totalCount]="employeeDeductResponse.totalCount"></app-erp-pagination>
             </div>
         </div>
-        <div class="table-responsive shadow-sm radius-10 ">
-            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0 table-vp-height">
+        <div class="table-responsive shadow-sm radius-10 table-vp-height">
+            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
                 <thead class="table-light">
                     <tr>
                         <th>اسم الموظف</th>
@@ -59,7 +59,7 @@
                             <div class="d-flex align-items-center justify-content-center text-center">
                                 <button
                                     class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2"
-                                    (click)="openNewSidePanel(addModal,item)">
+                                    (click)="openNewSidePanel(AddModal,item)">
                                     <i class="uil uil-pen"></i>
                                     <span>تعديل</span>
                                 </button>
@@ -73,13 +73,14 @@
                         </td>
                     </tr>
                     <tr *ngIf="!employeeDeductResponse.results.length || showLoader">
-                        <td colspan="7" class="text-right">
-                            <app-empty-data [showEmptyData]="!employeeDeductResponse.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+                        <td colspan="6" class="text-right">
+                            <app-empty-data [showEmptyData]="!employeeDeductResponse.results.length&&!showLoader"
+                                [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>
             </table>
-           
+
         </div>
     </div>
 </div>
@@ -151,7 +152,7 @@
                             </label>
                             <input type="text" class="form-control nw-form-input description-area"
                                 formControlName="moneyAmount" autocomplete="off" />
-                       
+
                             <div *ngIf="formErrors.moneyAmount" class="text-danger  font-small-3 m-03">
                                 {{formErrors.moneyAmount}}
                             </div>

@@ -168,10 +168,11 @@ namespace MasterErp.API.Controllers.HR
         }
 
         [HttpGet]
-        [Route("GetEmployeeContract")]
-        public ContractDetail GetEmployeeContract(int EmployeeId)
+        [Route("GetEmployeeContractDetails")]
+        public IActionResult GetEmployeeContract(int EmployeeId)
         {
-            return _employeeService.GetEmployeeContract(EmployeeId);
+            var result= _employeeService.GetEmployeeContractDetails(EmployeeId);
+            return Ok(result);
         }
 
         [HttpPost]

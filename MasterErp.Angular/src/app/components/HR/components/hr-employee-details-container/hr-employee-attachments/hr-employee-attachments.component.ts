@@ -33,7 +33,7 @@ export class HrEmployeeAttachmentsComponent implements OnInit {
   attachmentFiles: File[] = [];
   formData: FormData = new FormData();
   public formErrors = {
-    employeeContractId: '',
+    contractId: '',
     employeeId: '',
     files: ''
   };
@@ -168,7 +168,7 @@ export class HrEmployeeAttachmentsComponent implements OnInit {
 
     this.formGroup.patchValue({
       employeeId: this.employeeId,
-      employeeContractId: employeeAttachmentModel.employeeAttachmentId
+      employeeAttachmentId: employeeAttachmentModel.employeeAttachmentId
     });
   }
 
