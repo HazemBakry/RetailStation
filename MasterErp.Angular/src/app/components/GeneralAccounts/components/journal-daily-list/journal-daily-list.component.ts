@@ -106,17 +106,45 @@ export class JournalDailyListComponent implements OnInit {
 
   }
 
-  getSelectedEntries(): number[] {
-    var checkedItems = this.pagedResponseModel.results.filter(b => b.isChecked && b.journalEntryId).map(i => Number(i.journalEntryId));
-    if (checkedItems.length <= 0) {
-      this.toaster.warning('يجب الاختيار من القيود ');
+  // getSelectedEntries(): number[] {
+  //   var checkedItems = this.pagedResponseModel.results.filter(b => b.isChecked && b.journalEntryId).map(i => Number(i.journalEntryId));
+  //   if (checkedItems.length <= 0) {
+  //     this.toaster.warning('يجب الاختيار من القيود ');
 
+  //   }
+  //   return checkedItems;
+  // }
+  getSelectedEntries(action: '' | 'post' | 'cancel' | 'cancelPost' = ''): number[] {
+    const selectedItems = this.pagedResponseModel.results.filter(b => b.isChecked && b.journalEntryId);
+
+    const validItems = selectedItems.filter(b => {
+      switch (action) {
+        case 'post':
+          return !b.isPosted;
+        case 'cancel':
+          return !b.isCancelled && !b.isPosted;
+        case 'cancelPost':
+          return b.isPosted;
+        default:
+          return true;
+      }
+    });
+
+    const notValidItems = selectedItems.filter(b => !validItems.includes(b));
+    if (notValidItems.length > 0) {
+      const actionType = action === 'post' ? 'غير مرحله' : action === 'cancel' ? ' غير ملغية وغير مرحلة' : action === 'cancelPost' ? ' مرحل' : '';
+      this.toaster.warning(`يجب اختيار قيود ${actionType} فقط`);
     }
-    return checkedItems;
+    if (validItems.length === 0 && notValidItems.length === 0) {
+      this.toaster.warning('يجب الاختيار من القيود المناسبة للإجراء المطلوب');
+    }
+
+    return validItems.map(i => Number(i.journalEntryId));
   }
+
   cancelJournalEntry() {
 
-    let journalEntryIds = this.getSelectedEntries();
+    let journalEntryIds = this.getSelectedEntries('cancel');
     if (!journalEntryIds?.length)
       return;
 
@@ -139,7 +167,7 @@ export class JournalDailyListComponent implements OnInit {
   }
 
   postJournalEntry() {
-    let journalEntryIds = this.getSelectedEntries();
+    let journalEntryIds = this.getSelectedEntries('post');
     if (!journalEntryIds?.length)
       return;
 
@@ -161,13 +189,13 @@ export class JournalDailyListComponent implements OnInit {
     });
   }
 
-  reverseJournalEntry() {
-    let journalEntryIds = this.getSelectedEntries();
+  cancelPostJournalEntry() {
+    let journalEntryIds = this.getSelectedEntries('cancelPost');
     if (!journalEntryIds?.length)
       return;
 
     this.showLoader = true;
-    this.generalService.ReverseJournalEntry(journalEntryIds).subscribe(data => {
+    this.generalService.CancelPostJournalEntry(journalEntryIds).subscribe(data => {
       if (data.isSuccess) {
         this.selectAll = false;
         this.getDailyJournalEntriesSummary();

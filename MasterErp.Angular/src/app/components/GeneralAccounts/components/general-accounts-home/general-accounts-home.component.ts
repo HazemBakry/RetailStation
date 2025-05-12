@@ -24,7 +24,9 @@ export class GeneralAccountsHomeComponent implements OnInit {
   dashboardFilterList = ['الأكثر شهرة', 'الأعلى تقييماً', 'الأسرع في التوصيل'];
   showLoader: boolean = false;
   selectedTabName: string;
-  menuItem:MenuSidebarItem;
+  menuItem: MenuSidebarItem;
+  statisticsCardList: any[] = [];
+
   constructor(private modalService: NgbModal,
     private route: ActivatedRoute,
     private datePipe: DatePipe,
@@ -34,17 +36,23 @@ export class GeneralAccountsHomeComponent implements OnInit {
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
-   
+
     this.route.params.subscribe(params => {
-      this.menuItem=null;
+      this.menuItem = null;
       if (params['tabName']) {
         console.log(params['tabName']);
         this.selectedTabName = params['tabName'];
-        this.menuItem=this.menuService.getMenuById(MenuType.GeneralAccountsHome,this.selectedTabName);
+        this.menuItem = this.menuService.getMenuById(MenuType.GeneralAccountsHome, this.selectedTabName);
       }
     });
-
+    this.getGeneralAccountsStatistics();
   }
 
+  getGeneralAccountsStatistics() {
+    this.generalAccountService.GetGeneralAccounts_Statistics().subscribe(data => {
+      this.statisticsCardList = data;
+    },
+      (error) => { console.log("error", error); }, () => { });
+  }
 }
 

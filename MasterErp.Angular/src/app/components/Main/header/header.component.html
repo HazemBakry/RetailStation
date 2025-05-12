@@ -1,11 +1,12 @@
 <nav class="navbar navbar-expand-lg bg-nw-header new-rounded-header py-0">
   <div class="container-fluid">
-    <button *ngIf="showToggler" (click)="onToggler()" type="button"
+    <!-- <button *ngIf="showToggler" (click)="onToggler()" type="button"
       class="hamburger nw-hamburger hamburger--elastic rounded-1 main-bgcolor m-2">
       <span class="hamburger-box">
         <span class="hamburger-inner"></span>
       </span>
-    </button>
+    </button> -->
+
     <a class="navbar-brand logo-blue-clr fw-bold">شعار</a>
     <button class="navbar-toggler hamburger nw-hamburger hamburger--elastic rounded-1 main-bgcolor my-2"
       [class.is-active]="!collapsed" type="button" aria-controls="navbar-content" [attr.aria-expanded]="!collapsed"
@@ -14,25 +15,20 @@
         <span class="hamburger-inner"></span>
       </span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent" [class.collapse]="collapsed">
-      <form class="d-flex ms-auto justify-content-center justify-content-lg-start" role="search">
-        <div class="input-group">
-          <!-- <span class="input-group-text bg-white pe-0">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </span>
-          <input type="text" class="form-control me-4 nw-search-header border-start-0" placeholder="ابحث عن اى شى..." /> -->
-        </div>
-      </form>
-      <ul class="navbar-nav mb-2 mb-lg-0 gap-4">
-        <li class="nav-item">
-          <a class="nav-link justify-content-center justify-content-md-start" routerLink="/" routerLinkActive="router-link-active" >
-            <span class="nw-header-icon-link-img">
-              <i class="uil uil-home text-black-100"></i>
+      <div class="d-flex ms-auto justify-content-center justify-content-lg-start">
+        <!-- <form role="search">
+          <div class="input-group">
+            <span class="input-group-text bg-white pe-0">
+              <i class="fa-solid fa-magnifying-glass"></i>
             </span>
-          </a>
-        </li>
-        
+            <input type="text" class="form-control me-4 nw-search-header border-start-0"
+              placeholder="ابحث عن اى شى..." />
+          </div>
+        </form> -->
+      </div>
+
+      <ul class="navbar-nav mb-2 mb-lg-0 gap-4">
         <li class="nav-item">
           <a class="nav-link justify-content-center justify-content-md-start">
             <img src="{{systemUrl}}assets/alert.svg" class="nw-header-icon-link-img" alt="AlertImage" loading="lazy" />
@@ -52,7 +48,7 @@
           </a>
         </li>
         <li ngbDropdown class="nav-item nw-dropdown" display="dynamic">
-          <a class="nav-link justify-content-center d-flex align-items-center gap-2" ngbDropdownToggle>
+          <a class="nav-link justify-content-center d-inline-flex align-items-center gap-2" ngbDropdownToggle>
             <img src="{{systemUrl}}assets/user.svg" class="nw-header-icon-link-img" class="nw-user-img-header"
               alt="UserImage" loading="lazy" />
             <span>{{UserModel?.fullName}}</span>
@@ -74,12 +70,92 @@
           </ul>
 
         </li>
+        <li ngbDropdown class="nav-item nw-dropdown" display="dynamic">
+          <a class="nav-link justify-content-center d-inline-flex align-items-center gap-2 bg-white my-2 py-2 px-3 h-auto radius-15"
+            ngbDropdownToggle>
+            <div class="dropdown-header-icon">
+              <i class="fa-solid fa-building-columns"></i>
+            </div>
+            <span style="min-width: 100px;" class="dropdown-header-text text-nowrap">{{selectedModuleName}}</span>
+            <i class="fa-solid fa-chevron-down dropdown-arrow fs-13"></i>
+          </a>
+          <ul class="border shadow-lg min-width-300" ngbDropdownMenu aria-labelledby="user-settings">
+
+            <li *ngFor="let module of modulesMenu">
+              <a [routerLink]="module.route" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size" [class]="module.icon"></i>
+                {{module.displayName}}
+              </a>
+            </li>
+            <!-- <li>
+              <a routerLink="/inventory" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size fa-solid fa-pen-nib"></i>
+                المخازن
+              </a>
+            </li>
+            <li>
+              <a routerLink="/purchases" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size fa-solid fa-scale-balanced"></i>
+                المشتريات
+              </a>
+            </li>
+            <li>
+              <a  routerLink="/sales" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size fa-solid fa-building-columns"></i>
+                المبيعات
+              </a>
+            </li>
+            <li>
+              <a routerLink="/hr" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size fa-solid fa-chart-line"></i>
+                الموارد البشرية
+              </a>
+            </li>
+            <li>
+              <a routerLink="/system-settings" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size fa-solid fa-lock"></i>
+                إعدادات النظام
+              </a>
+            </li> -->
+            <!-- <li>
+              <a routerLink="/accounts/settings" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size fa-solid fa-gear"></i>
+                إعدادات الحسابات
+              </a>
+            </li>
+            <li>
+              <a routerLink="/reports/accounting" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size fa-solid fa-file-invoice-dollar"></i>
+                التقارير المحاسبية
+              </a>
+            </li>
+            <li>
+              <a routerLink="/auto-entries/setup" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size fa-solid fa-robot"></i>
+                إعداد القيود الآلية
+              </a>
+            </li> -->
+          </ul>
+
+        </li>
       </ul>
     </div>
+
   </div>
 </nav>
 
-<app-sidebar [toggler]="showMenu"></app-sidebar>
+
+
+<!-- <app-sidebar [toggler]="showMenu"></app-sidebar> -->
 
 
 

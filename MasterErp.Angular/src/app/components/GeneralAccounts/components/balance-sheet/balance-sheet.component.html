@@ -4,12 +4,12 @@
 <div class="inputs-wrapper border rounded bg-white mb-3">
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">المركز المالي</div>
     <div class="inputs-sec-content px-3 py-2">
-        <app-accounts-report-search (searchDataChanged)="searchDataChanged($event)" [showAccounts]="true">
+        <app-accounts-report-search (searchDataChanged)="searchDataChanged($event)" [isParent]="null" [showAccounts]="true">
         </app-accounts-report-search>
 
         <div class="row">
 
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <div class="mb-2">
                     <label class="form-label d-flex align-items-center gap-2">
                         التفرع
@@ -19,7 +19,7 @@
 
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <div class="mb-2">
                     <label class="form-label d-flex align-items-center gap-2">
                         نوع التفرع
@@ -28,18 +28,22 @@
                         [data]="levelTypesSelector" [placeholder]="'نوع التفرع'"></app-general-selector>
                 </div>
             </div>
-        </div>
+            <div class="col-lg-3">
+                <div class="mb-3 pt-5">
 
-        <div class="row">
-
-            <div class="col-lg-4  mb-3">
-                <label class="form-label d-flex align-items-center gap-2">
-                    اخفاء الحسابات بدون رصيد
-                </label>
-                <input class="big-checkbox" [(ngModel)]="balanceSheetResponse.hideEmptyAccounts" type="checkbox">
+                    <label class="form-label d-flex align-items-center gap-2">
+                        اخفاء الحسابات بدون رصيد
+                        <input class="big-checkbox" [(ngModel)]="balanceSheetResponse.hideEmptyAccounts" type="checkbox">
+                    </label>
+                </div>
 
             </div>
         </div>
+
+        <!-- <div class="row">
+
+            
+        </div> -->
     </div>
 
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-top mb-2">
@@ -80,6 +84,7 @@
             <thead>
                 <tr>
                     <th>الكـود</th>
+                    <th>نوع الحســاب</th>
                     <th>الحســاب</th>
                     <th>الرصيد الحالى (مدين)</th>
                     <th>الرصيد الحالى (دائن)</th>
@@ -88,12 +93,17 @@
             <tbody>
                 <tr *ngFor="let item of  balanceSheetResponse.results">
                     <td>{{item.accountNumber}}</td>
+                    <td>
+                        
+                        <span *ngIf="item.isParent" class="badge bg-primary">حساب رئيسى</span>
+                        <span *ngIf="!item.isParent" class="badge bg-secondary">حساب فرعى</span>
+                    </td>
                     <td>{{item.accountNameAR ?? item.accountNameEN}}</td>
                     <td>{{item.balanceDebit}}</td>
                     <td>{{item.balanceCredit}}</td>
                 </tr>
                 <tr *ngIf="!balanceSheetResponse.results.length">
-                    <td colspan="10" class="text-right">
+                    <td colspan="5" class="text-right">
                         <app-empty-data [showEmptyData]="!balanceSheetResponse.results.length"></app-empty-data>
                     </td>
                 </tr>

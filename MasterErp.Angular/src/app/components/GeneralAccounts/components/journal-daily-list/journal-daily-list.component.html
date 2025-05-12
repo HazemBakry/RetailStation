@@ -33,10 +33,10 @@
                                 ترحيل
                             </span>
                         </button>
-                        <button ngbDropdownItem (click)="reverseJournalEntry()">
+                        <button ngbDropdownItem (click)="cancelPostJournalEntry()">
                             <i class="fas fa-sync-alt"></i>
                             <span class="px-2">
-                                عكس
+                                الغاء ترحيل
                             </span>
                         </button>
                         <!-- <button ngbDropdownItem (click)="printJournalEntry()">طباعة</button> -->
@@ -159,7 +159,7 @@
                             <!-- <td>{{item.docNumber}}</td> -->
                             <td>{{item.journalTypeAR ||item.journalTypeEN }}</td>
                             <td>
-                                <div appColorWithStatus status="IsLocked" [text]="item.isLocked"></div>
+                                <div appColorWithStatus status="IsLocked" [text]="item.isPosted"></div>
                             </td>
                             <!-- <td>{{item.actionGroup}}</td> -->
                             <td>{{item.actionTypeAR || item.actionTypeEN}}</td>

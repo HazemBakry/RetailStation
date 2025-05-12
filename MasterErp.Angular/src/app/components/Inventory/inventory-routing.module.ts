@@ -26,6 +26,7 @@ const routes: Routes = [
     component: InventoryLayoutComponent,
     children: [
       { path: 'home', component: InventoryHomeComponent },
+      { path: 'home/:tabName', component: InventoryHomeComponent },
       { path: 'items-category', component: ItemsCategoryComponent },
       { path: 'items', component: ItemsComponent },
       { path: 'purchase-receipts', component: PurchaseReceiptsComponent },

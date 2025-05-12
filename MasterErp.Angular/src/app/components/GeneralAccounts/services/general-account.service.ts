@@ -115,10 +115,12 @@ export class GeneralAccountService {
     return this.http.post<ActionsResponseModel>(this.URL + 'JournalEntry/PostJournalEntry', JournalEntryIds);
   }
 
-  ReverseJournalEntry(JournalEntryIds: number[]) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'JournalEntry/ReverseJournalEntry', JournalEntryIds);
+  // ReverseJournalEntry(JournalEntryIds: number[]) {
+  //   return this.http.post<ActionsResponseModel>(this.URL + 'JournalEntry/ReverseJournalEntry', JournalEntryIds);
+  // }
+  CancelPostJournalEntry(JournalEntryIds: number[]) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'JournalEntry/CancelPostJournalEntry', JournalEntryIds);
   }
-
   PrintJournalEntry(JournalEntryIds: number[]) {
     return this.http.post<ActionsResponseModel>(this.URL + 'JournalEntry/PrintJournalEntry', JournalEntryIds);
   }

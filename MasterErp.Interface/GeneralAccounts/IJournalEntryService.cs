@@ -29,6 +29,7 @@ namespace MasterErp.Interface.GeneralAccounts
         List<FilterModel> GetDailyJournalEntriesFilters(SearchFilterModel model);
         ActionsResponseModel CancelJournalEntry(string UserId, List<int> JournalEntryIds);
         ActionsResponseModel PostJournalEntry(string UserId, List<int> JournalEntryIds);
+        ActionsResponseModel CancelPostJournalEntry(string UserId, List<int> JournalEntryIds);
         ActionsResponseModel ReverseJournalEntry(string UserId, List<int> JournalEntryIds);
         ActionsResponseModel PrintJournalEntry(string UserId, List<int> JournalEntryIds);
         //bool SavePaymentJournalEntry(PaymentReceipt Model);

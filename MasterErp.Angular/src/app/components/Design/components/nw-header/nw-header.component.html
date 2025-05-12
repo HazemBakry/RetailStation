@@ -38,7 +38,7 @@
           </a>
         </li>
         <li ngbDropdown class="nav-item nw-dropdown" display="dynamic">
-          <a class="nav-link justify-content-center d-flex align-items-center gap-2" ngbDropdownToggle>
+          <a class="nav-link justify-content-center d-inline-flex align-items-center gap-2" ngbDropdownToggle>
             <img src="../../../../../assets/user.svg" class="nw-header-icon-link-img" class="nw-user-img-header"
               alt="UserImage" loading="lazy" />
             <span>عبد الرحمن</span>
@@ -47,6 +47,43 @@
           <ul class="border shadow-lg" ngbDropdownMenu aria-labelledby="user-settings">
             <li><a class="dropdown-item cursor-pointer">Action</a></li>
             <li><a class="dropdown-item cursor-pointer">Another action</a></li>
+          </ul>
+        </li>
+        <li ngbDropdown class="nav-item nw-dropdown" display="dynamic">
+          <a class="nav-link justify-content-center d-inline-flex align-items-center gap-2 bg-white my-2 py-2 px-3 h-auto radius-15"
+            ngbDropdownToggle>
+            <div class="dropdown-header-icon">
+              <i class="fa-solid fa-building-columns"></i>
+            </div>
+            <span class="dropdown-header-text">الحسابات العامة</span>
+            <i class="fa-solid fa-chevron-down dropdown-arrow fs-13"></i>
+          </a>
+          <ul class="border shadow-lg" ngbDropdownMenu aria-labelledby="user-settings">
+            <li><a class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11"><i
+                  class="dropdown-header-icon sm-icon-size fa-solid fa-book"></i> دليل
+                الحسابات</a></li>
+            <li><a class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11"><i
+                  class="dropdown-header-icon sm-icon-size fa-solid fa-pen-nib"></i> قيود اليومية</a></li>
+            <li><a class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11"><i
+                  class="dropdown-header-icon sm-icon-size fa-solid fa-scale-balanced"></i> ميزان
+                المراجعة</a></li>
+            <li><a class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11"><i
+                  class="dropdown-header-icon sm-icon-size fa-solid fa-building-columns"></i> قائمة المركز
+                المالي</a></li>
+            <li><a class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11"><i
+                  class="dropdown-header-icon sm-icon-size fa-solid fa-chart-line"></i> قائمة الأرباح
+                والخسائر</a></li>
+            <li><a class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11"><i
+                  class="dropdown-header-icon sm-icon-size fa-solid fa-lock"></i> إقفال الفترة المالية</a>
+            </li>
+            <li><a class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11"><i
+                  class="dropdown-header-icon sm-icon-size fa-solid fa-gear"></i> إعدادات الحسابات</a></li>
+            <li><a class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11"><i
+                  class="dropdown-header-icon sm-icon-size fa-solid fa-file-invoice-dollar"></i> التقارير
+                المحاسبية</a></li>
+            <li><a class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11"><i
+                  class="dropdown-header-icon sm-icon-size fa-solid fa-robot"></i> إعداد القيود الآلية</a>
+            </li>
           </ul>
         </li>
       </ul>
