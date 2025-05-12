@@ -2,87 +2,38 @@
 
 <div class="inputs-wrapper border rounded bg-white mb-3">
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">
-        <!-- تقرير الموظفين -->
-        <!-- <button class="btn btn-primary me-2" (click)="getEmployeesSummary_Data()">
-            <i class="fas fa-search"></i>
-            <span class="ms-2">بحث</span>
-        </button>
-        <button [disabled]="showExportLoader" (click)="exportData()" class="btn btn-outline-success gap-2 border rounded px-3 me-2">
-            <i class="fas fa-file-download"></i>
-            <span>تصدير CSV</span>
-        </button> -->
-        <!-- <button class="btn btn-success me-2" (click)="getEmployeesSummary_Data()">
-            <i class="fas fa-file-download"></i>
-            <span class="ms-2">تصدير</span>
-        </button> -->
     </div>
     <div class="inputs-sec-content px-3 py-2">
         <div class="row gy-3">
-
-            <!-- <div class="col-lg-3">
-                <div class="mb-2">
-                    <label class="form-label d-flex align-items-center gap-2">
-                        الشركة
-                        <span class="text-danger">*</span>
-                    </label>
-                    <app-general-selector [placeholder]="'الشركة'" [showSearch]="true"></app-general-selector>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="mb-2">
-                    <label class="form-label d-flex align-items-center gap-2">
-                        من تاريخ
-                        <span class="text-danger">*</span>
-                    </label>
-                    <input type="date" [(ngModel)]="pagedResponseModel.fromDate" autocomplete="off" class="form-control nw-form-input" />
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="mb-2">
-                    <label class="form-label d-flex align-items-center gap-2">
-                        الي تاريخ
-                        <span class="text-danger">*</span></label>
-                    <input type="date" [(ngModel)]="pagedResponseModel.toDate" autocomplete="off" class="form-control nw-form-input" />
-                </div>
-            </div>-->
             <div class="col-lg-3">
                 <div class="mb-2">
                     <label class="form-label d-flex align-items-center gap-2">
                         نوع العملية
                         <span class="text-danger">*</span>
                     </label>
-                    <app-general-selector [data]="payrollProcessTypes" [placeholder]="'نوع العملية'" (valueChanged)="getEmplyeePayrollReport($event)"></app-general-selector>
+                    <app-general-selector [data]="payrollProcessTypes" [placeholder]="'نوع العملية'" [(ngModel)]="TypeId"></app-general-selector>
                 </div>
             </div>
-
-            <!-- <ng-container>
+            <ng-container *ngIf="pagedResponseModel.results.length > 0">
                 <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث بالاسم , الرقم الوظيفى ...'"></app-erp-filters>
-            </ng-container> -->
+            </ng-container>
         </div>
     </div>
 
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-top mb-2">
 
-        <button class="btn btn-secondary me-2" (click)="getEmployeesSummary_Data()">
+        <button class="btn btn-secondary me-2" (click)="getEmplyeePayrollReport(TypeId)">
             <i class="fas fa-search"></i>
             <span class="ms-2">بحث</span>
         </button>
-        <button class="btn btn-primary me-2" (click)="getEmployeesSummary_Data()">
+        <!-- <button class="btn btn-primary me-2">
             <i class="fas fa-check-circle"></i>
             <span class="ms-2">تأكيد</span>
-        </button>
-        <button class="btn btn-success me-2" (click)="getEmployeesSummary_Data()">
+        </button> -->
+        <button class="btn btn-success me-2" [disabled]="showExportLoader" (click)="exportData(TypeId)">
             <i class="fas fa-file-download"></i>
             <span class="ms-2">تصدير</span>
         </button>
-        <!-- <button (click)="printData()" class="btn btn-table-action  gap-2 border rounded px-3 me-2">
-            <i class="fas fa-print fs-7"></i>
-            <span>طباعة</span>
-        </button>
-        <button class="btn btn-secondary me-2" (click)="printData()">
-            <i class="fas fa-print"></i>
-            <span class="ms-2">طباعة</span>
-        </button> -->
     </div>
 </div>
 
@@ -114,7 +65,7 @@
                     <td>{{item.fullNameAR}}</td>
                     <td>{{item.requestDate | date}}</td>
                     <td>{{item.typeNameAR}}</td>
-                    <td>{{item.noDays}}</td>
+                    <td>{{item.period}}</td>
                     <td>{{item.moneyAmount}}</td>
                     <td>{{item.processType}}</td>
                     <td>
@@ -127,23 +78,8 @@
                                 <button class="btn-sm-action sm-action-dropdown" (click)="goToEmployeeDetails(item.employeeId)">
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
-                                <!-- <div ngbDropdownMenu class="border">
-                                    <button ngbDropdownItem (click)="cancelPaymentOrder(item.paymentOrderId)">اسقاط</button>
-                                    <button ngbDropdownItem routerLink="/general-accounts/create-payment-receipt" [queryParams]="{PaymentOrderId:item.paymentOrderId}">انشاء سند
-                                        الصرف</button>
-                                </div> -->
                             </div>
                         </div>
-                        <!-- <div class="w-100 d-flex align-items-center justify-content-center">
-                            <button (click)="CancelPaymentReceipt(item.paymentReceiptId)" class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2">
-                                <i class="uil uil-times"></i>
-                                <span>إلغاء</span>
-                            </button>
-                            <button class="btn btn-primary me-2">
-                                <i class="fas fa-edit"></i>
-                                <span class="ms-2">Edit</span>
-                            </button>
-                        </div> -->
                     </td>
                 </tr>
                 <tr *ngIf="!pagedResponseModel.results.length">

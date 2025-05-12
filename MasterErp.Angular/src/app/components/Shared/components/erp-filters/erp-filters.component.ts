@@ -13,7 +13,7 @@ export class ErpFiltersComponent implements OnInit {
   @Output() filterChanged = new EventEmitter<FilterItem[]>();
   SelectedFilter: FilterItem[] = [];
   SearchText: string = '';
-  
+
   filterSearch: string = '';
 
   constructor() { }
@@ -32,10 +32,8 @@ export class ErpFiltersComponent implements OnInit {
         });
       }
     });
-    if(this.SearchText)
-    {
-      const textFilter:FilterItem={
-        // categoryDisplayName: 'Search Text',
+    if (this.SearchText) {
+      const textFilter: FilterItem = {
         categoryDisplayName: 'بحث بالنص',
         categoryName: 'SearchText',
         itemKey: this.SearchText,
@@ -56,8 +54,8 @@ export class ErpFiltersComponent implements OnInit {
         checked.isChecked = false;
       }
     });
-    if (filter.categoryName =='SearchText')
-      this.SearchText='';
+    if (filter.categoryName == 'SearchText')
+      this.SearchText = '';
 
     this.filterChanged.emit(this.SelectedFilter);
   }
@@ -67,6 +65,7 @@ export class ErpFiltersComponent implements OnInit {
     this.FilterList.map(item => {
       item.filterItems.map(a => a.isChecked = false);
     });
+    this.SearchText = '';
     this.filterChanged.emit(this.SelectedFilter);
   }
 }

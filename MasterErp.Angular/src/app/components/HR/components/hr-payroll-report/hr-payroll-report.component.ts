@@ -18,8 +18,8 @@ export class HRPayrollReportComponent implements OnInit {
   filterList: FilterModel[] = [];
   TitleList = ['الموارد البشرية', 'Payroll'];
   payrollProcessTypes: any[] = [];
-
-  pagedResponseModel: PagedResponseDTO<SearchFilterModel[]> = {
+  TypeId: number;
+  pagedResponseModel: PagedResponseDTO<any> = {
     results: [],
     filterList: [],
     pageSize: 25,
@@ -29,26 +29,38 @@ export class HRPayrollReportComponent implements OnInit {
     toDate: ''
   };
 
+  pagedFilterModel: SearchFilterModel = {
+    currentPage: 1,
+    pageSize: 25,
+    searchText: '',
+    filterModel: {
+      filterItems: [],
+    }
+  }
+
 
   constructor(private hrService: HrService,
     private sharedService: SharedService,
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.getEmployeesSummary_Data();
-    this.GetEmployeesSummary_Filters();
     this.payrollProcessTypes = this.hrService.payrollProcessTypes;
 
   }
 
   getEmplyeePayrollReport(type: any) {
-    debugger;
+    if (!type) {
+      this.toaster.error('يرجى اختيار نوع التقرير');
+      return;
+    }
+    let typeName = this.payrollProcessTypes.find(x => x.id == type)?.name;
     this.showLoader = true;
-    this.hrService.getEmplyeePayrollReport(type, this.pagedResponseModel).subscribe(data => {
-      debugger;
-      this.pagedResponseModel.results = data.results;
-      this.pagedResponseModel.totalCount = data.totalCount;
-
+    this.hrService.GetPayrollReportData(type, this.pagedFilterModel).subscribe(data => {
+      this.pagedResponseModel.results = data;
+      this.pagedResponseModel.totalCount = data[0]?.totalCount ?? 0;
+      this.pagedResponseModel.results.forEach(element => {
+        element.processType = typeName;
+      });
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
@@ -57,85 +69,37 @@ export class HRPayrollReportComponent implements OnInit {
     });
   }
 
-  getEmployeesSummary_Data() {
-    // if (!this.validateSearchModel()) {
-    //   return;
-    // }
-
-    this.showLoader = true;
-    this.hrService.GetEmployeesSummary_Data(this.pagedResponseModel).subscribe((data: PagedResponseDTO<SearchFilterModel[]>) => {
-      this.pagedResponseModel.results = data.results;
-      this.pagedResponseModel.totalCount = data.totalCount;
-
-      this.showLoader = false;
+  exportData(type: any) {
+    if (!type) {
+      this.toaster.error('يرجى اختيار نوع التقرير');
+      return;
+    }
+    this.showExportLoader = true;
+    this.hrService.ExportPayrollReportData(type, this.pagedFilterModel).subscribe((data: ActionsResponseModel) => {
+      if (data.isSuccess) {
+        this.sharedService.urlDownloadOrOpen(data.url);
+        this.toaster.success(data.message);
+      } else {
+        this.toaster.error(data.message);
+      }
+      this.showExportLoader = false;
     }, err => {
-      this.showLoader = false;
+      this.showExportLoader = false;
     }, () => {
-      this.showLoader = false;
+      this.showExportLoader = false;
     });
-  }
-
-  GetEmployeesSummary_Filters() {
-    this.hrService.GetEmployeesSummary_Filters(this.pagedResponseModel).subscribe((data: FilterModel[]) => {
-      this.filterList = data;
-    }, (err) => {
-      // this.showLoader = false;
-    }, () => {
-      // this.showLoader = false;
-    });
-  }
-
-  exportData() {
-    // if (!this.validateSearchModel()) {
-    //   return;
-    // }
-    // this.showExportLoader = true;
-    // this.hrService.ExportCostGeneralLedger(this.ledgersResponse).subscribe((data: ActionsResponseModel) => {
-    //   if (data.isSuccess) {
-    //     this.sharedService.urlDownloadOrOpen(data.url);
-    //     this.toaster.success(data.message);
-    //   } else {
-    //     this.toaster.error(data.message);
-    //   }
-
-    //   this.showExportLoader = false;
-    // }, err => {
-    //   this.showExportLoader = false;
-    // }, () => {
-    //   this.showExportLoader = false;
-    // });
-  }
-
-  printData() {
-
   }
 
 
   filterChecked(filterItems: FilterItem[]) {
-    this.pagedResponseModel.filterList = filterItems;
-    this.getEmployeesSummary_Data();
-    //this.GetEmployeesSummary_Filters();
-  }
-
-  searchDataChanged(filter: SearchFilterModel) {
-    this.pagedResponseModel.fromDate = filter.fromDate;
-    this.pagedResponseModel.toDate = filter.toDate;
+    debugger;
+    this.pagedFilterModel.filterModel.filterItems = filterItems;
+    this.getEmplyeePayrollReport(this.TypeId);
   }
 
   pageChanged(obj: any) {
-    this.pagedResponseModel.currentPage = obj.page;
-    this.getEmployeesSummary_Data();
-  }
-
-  validateSearchModel(): boolean {
-    if (
-      !this.pagedResponseModel.fromDate ||
-      !this.pagedResponseModel.toDate
-    ) {
-      this.toaster.warning('يرجي ملئ جميع الخانات');
-      return false;
-    }
-    return true;
+    this.pagedFilterModel.currentPage = obj.page;
+    this.getEmplyeePayrollReport(this.TypeId);
   }
 
 }
