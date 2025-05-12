@@ -56,11 +56,11 @@ export class MenuService {
                   route: '/general-accounts/journal-daily-list'
                 },
                 {
-                  displayName: 'انشاء قيد جديد',
-                  menuItem: 'new-entry',
+                  displayName: 'أوامر الصرف',
+                  menuItem: 'payment-orders',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route: '/general-accounts/new-entry'
+                  route: '/general-accounts/payment-orders'
                 },
                 {
                   displayName: 'سندات الصرف',
@@ -68,13 +68,6 @@ export class MenuService {
                   description: 'description',
                   icon: 'uil uil-pound-circle',
                   route: '/general-accounts/payment-receipts'
-                },
-                {
-                  displayName: 'انشاء',
-                  menuItem: 'new-entry',
-                  description: 'description',
-                  icon: 'uil uil-pound-circle',
-                  route: '/general-accounts/new-entry'
                 },
                 {
                   displayName: 'سندات القبض',
@@ -421,11 +414,91 @@ export class MenuService {
           }
         ]
 
-    }
+    },
+    {
+      menuItemId: MenuType.InventoryHome,
+      displayName: 'Inventory',
+      menuItem: 'Inventory',
+      subMenus:
+        [
+
+          {
+            menuItemId: MenuType.InventoryHome,
+            displayName: 'المخازن',
+            menuItem: '1',
+            route: '/inventory/home/1',
+            icon: 'uil uil-chart-growth',
+            subMenus:
+              [
+                {
+                  displayName: 'مجموعات الأصناف',
+                  menuItem: 'items-category',
+                  description: 'تعريف وتصنيف مجموعات الأصناف داخل المخازن',
+                  icon: 'uil uil-pound-circle',
+                  route: '/inventory/items-category'
+                },
+                {
+                  displayName: 'الأصناف',
+                  menuItem: 'items',
+                  description: 'إدارة بيانات الأصناف المخزنية وتفاصيلها',
+                  icon: 'uil uil-pound-circle',
+                  route: '/inventory/items'
+                },
+                {
+                  displayName: 'طلب شراء',
+                  menuItem: 'material-requests',
+                  description: 'إنشاء وتتبع طلبات شراء المواد من المخازن',
+                  icon: 'uil uil-pound-circle',
+                  route: '/inventory/material-requests'
+                },
+                {
+                  displayName: 'أوامر الشراء',
+                  menuItem: 'purchase-orders',
+                  description: 'إدارة أوامر الشراء الصادرة للموردين',
+                  icon: 'uil uil-pound-circle',
+                  route: '/inventory/purchase-orders'
+                },
+                {
+                  displayName: 'إذن استلام',
+                  menuItem: 'material-receipt',
+                  description: 'تسجيل استلام المواد ودخولها إلى المخزن',
+                  icon: 'uil uil-pound-circle',
+                  route: '/inventory/material-receipt'
+                },
+                {
+                  displayName: 'إذن صرف مواد',
+                  menuItem: 'material-issue',
+                  description: 'تسجيل صرف المواد من المخازن إلى الجهات المختلفة',
+                  icon: 'uil uil-pound-circle',
+                  route: '/inventory/material-issue'
+                }
+              ]
+
+          },
+          {
+            menuItemId: MenuType.InventoryHome,
+            displayName: 'البيانات الاساسية',
+            menuItem: '2',
+            route: '/inventory/home/2',
+            icon: 'uil uil-chart-growth',
+            subMenus:
+              [
+                {
+                  displayName: 'وحدات الأصناف',
+                  menuItem: 'units',
+                  description: 'description',
+                  icon: 'uil uil-pound-circle',
+                  route: '/inventory/units'
+                }
+              ]
+          }
+        ]
+    },
   ];
 }
 export enum MenuType {
   GeneralAccountsHome = 1,
   MainModules,
+  InventoryHome,
 
 }

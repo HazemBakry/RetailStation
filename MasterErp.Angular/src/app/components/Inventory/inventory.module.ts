@@ -22,6 +22,7 @@ import { AddMaterialRequestComponent } from './components/add-material-request/a
 import { MaterialRequestsComponent } from './components/material-requests/material-requests.component';
 import { AddMaterialReceiptComponent } from './components/add-material-receipt/add-material-receipt.component';
 import { MaterialReceiptsComponent } from './components/material-receipts/material-receipts.component';
+import { InventoryDashboardComponent } from './components/inventory-dashboard/inventory-dashboard.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { MaterialReceiptsComponent } from './components/material-receipts/materi
     PurchasesRequestsComponent,
     AddItemComponent,
     UnitsComponent,
-    MaterialRequestsComponent
+    MaterialRequestsComponent,
+    InventoryDashboardComponent
   ],
   imports: [
     CommonModule,
