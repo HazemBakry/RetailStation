@@ -26,7 +26,7 @@
             <input type="date" (change)="emitSearchModel()" [(ngModel)]="searchModel.toDate" autocomplete="off" class="form-control nw-form-input" />
         </div>
     </div>
-    <div class="col-lg-3">
+    <div *ngIf="showCostCenter" class="col-lg-3">
         <div class="mb-2">
             <label class="form-label d-flex align-items-center gap-2">
                 مركز التكلفة
