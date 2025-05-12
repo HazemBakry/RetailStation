@@ -30,7 +30,7 @@ export class MenuService {
                   menuItem: 'AccountTree',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/account-tree'
+                  route: '/general-accounts/account-tree'
                 },
                 {
                   displayName: 'مراكز التكلفة',
@@ -53,7 +53,7 @@ export class MenuService {
                   menuItem: 'journal-daily-list',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/journal-daily-list'
+                  route: '/general-accounts/journal-daily-list'
                 },
                 {
                   displayName: 'انشاء قيد جديد',
@@ -118,35 +118,35 @@ export class MenuService {
                   menuItem: 'accounts-general-ledger',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/accounts-general-ledger'
+                  route: '/general-accounts/accounts-general-ledger'
                 },
                 {
-                  displayName: 'accounts-assistant-ledger',
+                  displayName: 'الأستاذ العام المساعد',
                   menuItem: 'accounts-assistant-ledger',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/accounts-assistant-ledger'
+                  route: '/general-accounts/accounts-assistant-ledger'
                 },
                 {
                   displayName: 'ميزان المراجعة',
                   menuItem: 'trial-balance',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/trial-balance'
+                  route: '/general-accounts/trial-balance'
                 },
                 {
                   displayName: 'الأستاذ المساعد الشهرى',
                   menuItem: 'monthly-assistant-ledger',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/monthly-assistant-ledger'
+                  route: '/general-accounts/monthly-assistant-ledger'
                 },
                 {
                   displayName: 'المركز المالى',
                   menuItem: 'balance-sheet',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/balance-sheet'
+                  route: '/general-accounts/balance-sheet'
                 },
 
               ]
@@ -184,28 +184,28 @@ export class MenuService {
                   menuItem: 'cost-general-ledger',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/cost-general-ledger'
+                  route: '/general-accounts/cost-general-ledger'
                 },
                 {
                   displayName: 'الأستاذ المساعد - مراكز التكلفة',
                   menuItem: 'cost-assistant-ledger',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/cost-assistant-ledger'
+                  route: '/general-accounts/cost-assistant-ledger'
                 },
                 {
                   displayName: 'ميزان مراجعة مراكز التكلفة',
                   menuItem: 'cost-trial-balance',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/cost-trial-balance'
+                  route: '/general-accounts/cost-trial-balance'
                 },
                 {
                   displayName: 'مصفوفة مراكز التكلفة',
                   menuItem: 'cost-center-matrix',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/cost-center-matrix'
+                  route: '/general-accounts/cost-center-matrix'
                 },
               ]
           },
@@ -220,14 +220,14 @@ export class MenuService {
                   menuItem: 'customers',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/customers'
+                  route: '/general-accounts/customers'
                 },
                 {
                   displayName: 'الدفعات',
                   menuItem: 'batches',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/batches'
+                  route: '/general-accounts/batches'
                 },
               ]
           },
@@ -242,56 +242,56 @@ export class MenuService {
                   menuItem: 'journal-entry-templates',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/journal-entry-templates'
+                  route: '/general-accounts/journal-entry-templates'
                 },
                 {
                   displayName: 'السنة المالية',
                   menuItem: 'financial-period',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/financial-period'
+                  route: '/general-accounts/financial-period'
                 },
                 {
                   displayName: 'دفاتر الايصال',
                   menuItem: 'receipt-ledgers',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/receipt-ledgers'
+                  route: '/general-accounts/receipt-ledgers'
                 },
                 {
                   displayName: 'شروط السداد',
                   menuItem: 'payment-terms',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/payment-terms'
+                  route: '/general-accounts/payment-terms'
                 },
                 {
                   displayName: 'حساب الضريبة',
                   menuItem: 'tax-calculation',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/tax-calculation'
+                  route: '/general-accounts/tax-calculation'
                 },
                 {
                   displayName: 'الدفاتر اليومية',
                   menuItem: 'daily-notebook',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/daily-notebook'
+                  route: '/general-accounts/daily-notebook'
                 },
                 {
                   displayName: 'نماذج الأصول',
                   menuItem: 'receipt-ledgers',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/receipt-ledgers'
+                  route: '/general-accounts/receipt-ledgers'
                 },
                 {
                   displayName: 'أنواع الدفاتر اليومية',
                   menuItem: 'ledger-journal-types',
                   description: 'description',
                   icon: 'uil uil-pound-circle',
-                  route:'/general-accounts/ledger-journal-types'
+                  route: '/general-accounts/ledger-journal-types'
                 },
               ]
           },
@@ -366,14 +366,66 @@ export class MenuService {
                   icon: 'uil uil-pound-circle',
                   // route:'/general-accounts/journal-entry-templates'
                 },
-                
+
               ]
           }
         ]
+    },
+    {
+      menuItemId: MenuType.MainModules,
+      displayName: 'الصفحة الرئيسية',
+      menuItem: 'MainModules',
+      subMenus:
+        [
+          {
+            displayName: 'الحسابات العامة',
+            menuItem: 'GeneralAccounts',
+            description: 'description',
+            icon: 'fa-solid fa-book',
+            route: '/general-accounts'
+          },
+          {
+            displayName: 'المخازن',
+            menuItem: 'Inventory',
+            description: 'description',
+            icon: 'fa-solid fa-pen-nib',
+            route: '/inventory'
+          },
+          {
+            displayName: 'المشتريات',
+            menuItem: 'Purchases',
+            description: 'description',
+            icon: 'fa-solid fa-scale-balanced',
+            route: '/purchases'
+          },
+          {
+            displayName: 'المبيعات',
+            menuItem: 'Sales',
+            description: 'description',
+            icon: 'fa-solid fa-building-columns',
+            route: '/sales'
+          },
+          {
+            displayName: 'الموارد البشرية',
+            menuItem: 'HR',
+            description: 'description',
+            icon: 'fa-solid fa-chart-line',
+            route: '/hr'
+          },
+          {
+            displayName: 'إعدادات النظام',
+            menuItem: 'SystemSettings',
+            description: 'description',
+            icon: 'fa-solid fa-lock',
+            route: '/system-settings'
+          }
+        ]
+
     }
   ];
 }
 export enum MenuType {
   GeneralAccountsHome = 1,
+  MainModules,
 
 }

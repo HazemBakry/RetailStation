@@ -1,11 +1,11 @@
 <nav class="navbar navbar-expand-lg bg-nw-header new-rounded-header py-0">
   <div class="container-fluid">
-    <button *ngIf="showToggler" (click)="onToggler()" type="button"
+    <!-- <button *ngIf="showToggler" (click)="onToggler()" type="button"
       class="hamburger nw-hamburger hamburger--elastic rounded-1 main-bgcolor m-2">
       <span class="hamburger-box">
         <span class="hamburger-inner"></span>
       </span>
-    </button>
+    </button> -->
 
     <a class="navbar-brand logo-blue-clr fw-bold">شعار</a>
     <button class="navbar-toggler hamburger nw-hamburger hamburger--elastic rounded-1 main-bgcolor my-2"
@@ -48,7 +48,7 @@
           </a>
         </li>
         <li ngbDropdown class="nav-item nw-dropdown" display="dynamic">
-          <a class="nav-link justify-content-center d-flex align-items-center gap-2" ngbDropdownToggle>
+          <a class="nav-link justify-content-center d-inline-flex align-items-center gap-2" ngbDropdownToggle>
             <img src="{{systemUrl}}assets/user.svg" class="nw-header-icon-link-img" class="nw-user-img-header"
               alt="UserImage" loading="lazy" />
             <span>{{UserModel?.fullName}}</span>
@@ -70,60 +70,60 @@
           </ul>
 
         </li>
-        <li ngbDropdown class="nav-item nw-dropdown" display="dynamic" routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: false }">
+        <li ngbDropdown class="nav-item nw-dropdown" display="dynamic">
           <a class="nav-link justify-content-center d-inline-flex align-items-center gap-2 bg-white my-2 py-2 px-3 h-auto radius-15"
             ngbDropdownToggle>
             <div class="dropdown-header-icon">
               <i class="fa-solid fa-building-columns"></i>
             </div>
-            <span class="dropdown-header-text text-nowrap">الحسابات العامة</span>
+            <span style="min-width: 100px;" class="dropdown-header-text text-nowrap">{{selectedModuleName}}</span>
             <i class="fa-solid fa-chevron-down dropdown-arrow fs-13"></i>
           </a>
-          <ul class="border shadow-lg" ngbDropdownMenu aria-labelledby="user-settings">
-            <li>
-              <a routerLink="/accounts/chart" routerLinkActive="active"
+          <ul class="border shadow-lg min-width-300" ngbDropdownMenu aria-labelledby="user-settings">
+
+            <li *ngFor="let module of modulesMenu">
+              <a [routerLink]="module.route" routerLinkActive="active"
                 class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
-                <i class="dropdown-header-icon sm-icon-size fa-solid fa-book"></i>
-                دليل الحسابات
+                <i class="dropdown-header-icon sm-icon-size" [class]="module.icon"></i>
+                {{module.displayName}}
               </a>
             </li>
-            <li>
-              <a routerLink="/journal-entries" routerLinkActive="active"
+            <!-- <li>
+              <a routerLink="/inventory" routerLinkActive="active"
                 class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
                 <i class="dropdown-header-icon sm-icon-size fa-solid fa-pen-nib"></i>
-                قيود اليومية
+                المخازن
               </a>
             </li>
             <li>
-              <a routerLink="/trial-balance" routerLinkActive="active"
+              <a routerLink="/purchases" routerLinkActive="active"
                 class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
                 <i class="dropdown-header-icon sm-icon-size fa-solid fa-scale-balanced"></i>
-                ميزان المراجعة
+                المشتريات
               </a>
             </li>
             <li>
-              <a routerLink="/financial-position" routerLinkActive="active"
+              <a  routerLink="/sales" routerLinkActive="active"
                 class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
                 <i class="dropdown-header-icon sm-icon-size fa-solid fa-building-columns"></i>
-                قائمة المركز المالي
+                المبيعات
               </a>
             </li>
             <li>
-              <a routerLink="/income-statement" routerLinkActive="active"
+              <a routerLink="/hr" routerLinkActive="active"
                 class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
                 <i class="dropdown-header-icon sm-icon-size fa-solid fa-chart-line"></i>
-                قائمة الأرباح والخسائر
+                الموارد البشرية
               </a>
             </li>
             <li>
-              <a routerLink="/financial-period/close" routerLinkActive="active"
+              <a routerLink="/system-settings" routerLinkActive="active"
                 class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
                 <i class="dropdown-header-icon sm-icon-size fa-solid fa-lock"></i>
-                إقفال الفترة المالية
+                إعدادات النظام
               </a>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
               <a routerLink="/accounts/settings" routerLinkActive="active"
                 class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
                 <i class="dropdown-header-icon sm-icon-size fa-solid fa-gear"></i>
@@ -143,18 +143,19 @@
                 <i class="dropdown-header-icon sm-icon-size fa-solid fa-robot"></i>
                 إعداد القيود الآلية
               </a>
-            </li>
+            </li> -->
           </ul>
 
         </li>
       </ul>
     </div>
+
   </div>
 </nav>
 
 
 
-<app-sidebar [toggler]="showMenu"></app-sidebar>
+<!-- <app-sidebar [toggler]="showMenu"></app-sidebar> -->
 
 
 
