@@ -4,7 +4,7 @@
 <div class="inputs-wrapper border rounded bg-white mb-3">
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">المركز المالي</div>
     <div class="inputs-sec-content px-3 py-2">
-        <app-accounts-report-search (searchDataChanged)="searchDataChanged($event)" [showAccounts]="true">
+        <app-accounts-report-search (searchDataChanged)="searchDataChanged($event)" [isParent]="null" [showAccounts]="true">
         </app-accounts-report-search>
 
         <div class="row">
