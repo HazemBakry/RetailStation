@@ -25,7 +25,7 @@ namespace MasterErp.Entities.Models.Finance
         public int? ActionId { get; set; }
         public string PostedBy { get; set; }
         public DateTime? PostDate { get; set; }
-        public bool? IsPosted { get; set; }
+        public bool IsPosted { get; set; }
 
     }
 }
