@@ -148,6 +148,7 @@ namespace MasterErp.Service.HR
 
                 advance.EmployeeId = EmployeeId;
                 advance.AdvanceName = string.Empty;
+                advance.AdvanceNumber = Context.EmployeeAdvances.Count() > 0 ? Context.EmployeeAdvances.Max(x => x.AdvanceNumber) + 1 : 1;
                 advance.AdvanceTypeId = model.AdvanceTypeId;
                 advance.PaymentFromDate = model.PaymentFromDate;
                 advance.PaymentToDate = CalcAdvancePaymentToDate(model.AdvanceAmount, model.PaymentAmount, model.PaymentFromDate);

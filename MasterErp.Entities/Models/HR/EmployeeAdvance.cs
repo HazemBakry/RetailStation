@@ -14,6 +14,7 @@ namespace MasterErp.Entities.Models.HR
     {
         public int EmployeeAdvanceId { get; set; }
         public int EmployeeId { get; set; }
+        public int AdvanceNumber { get; set; }
         public int AdvanceTypeId { get; set; }
         public string AdvanceName { get; set; }
         public double AdvanceAmount { get; set; }
