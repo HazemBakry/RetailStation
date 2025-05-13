@@ -23,6 +23,7 @@ const routes: Routes = [
     component: PurchasesLayoutComponent,
     children: [
       { path: 'home', component: PurchasesHomeComponent },
+      { path: 'home/:tabName', component: PurchasesHomeComponent },
       { path: 'purchase-invoices', component: PurchaseInvoicesComponent },
       { path: 'purchase-orders', component: PurchaseOrdersComponent },
       { path: 'purchase-returns', component: PurchaseReturnsComponent },

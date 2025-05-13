@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuService, MenuType } from '../../Shared/services/menu.service';
+import { MenuSidebarItem } from '../../Shared/models/MenuSidebarItem';
 
 @Component({
   selector: 'app-general-accounts-layout',
@@ -7,8 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GeneralAccountsLayoutComponent implements OnInit {
   isToggle = false;
+  menuItem: MenuSidebarItem;
+  constructor(private menuService: MenuService,) {
+    this.menuItem = this.menuService.getMenuById(MenuType.GeneralAccountsHome);
 
-  constructor() { }
+  }
+
 
   ngOnInit(): void {
   }
@@ -41,5 +47,5 @@ export class GeneralAccountsLayoutComponent implements OnInit {
   toggleMenu(menu: HTMLElement) {
     menu.classList.toggle('show');
   }
-  
+
 }
