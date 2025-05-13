@@ -95,8 +95,8 @@
                     <td>{{item.accountNumber}}</td>
                     <td>
                         
-                        <span *ngIf="item.isParent" class="badge bg-primary">حساب رئيسى</span>
-                        <span *ngIf="!item.isParent" class="badge bg-secondary">حساب فرعى</span>
+                        <span *ngIf="item.isGroup" class="badge bg-primary">حساب رئيسى</span>
+                        <span *ngIf="!item.isGroup" class="badge bg-secondary">حساب فرعى</span>
                     </td>
                     <td>{{item.accountNameAR ?? item.accountNameEN}}</td>
                     <td>{{item.balanceDebit}}</td>

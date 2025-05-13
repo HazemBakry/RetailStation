@@ -17,6 +17,7 @@ namespace MasterErp.Entities.DTOs.GeneralAccounts
         public string AccountNumber { get; set; }
         public double? BalanceDebit { get; set; }
         public double? BalanceCredit { get; set; }
+        public bool IsGroup { get; set; }
         public int? TotalCount { get; set; }
     }
     public class AccountsBalanceSheetExportModel

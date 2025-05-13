@@ -64,6 +64,7 @@ export interface AccountsBalanceSheetModel {
     accountNumber: string;
     balanceDebit?: number;
     balanceCredit?: number;
+    isGroup?: boolean;
     totalCount?: number;
 }
 
