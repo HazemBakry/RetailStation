@@ -624,18 +624,16 @@ namespace MasterErp.Service.GeneralAccounts
         {
             try
             {
-                var entries = Context.JournalEntries.Where(item => JournalEntryIds.Contains(item.JournalEntryId)).ToList();
+                var entries = Context.JournalEntryDetails.Where(item => JournalEntryIds.Contains(item.JournalEntryId)).ToList();
 
                 if (!entries.Any())
                     return new ActionsResponseModel { IsSuccess = false, Message = "لا يوجد قيود !" };
 
                 foreach (var Entry in entries)
                 {
-                    Entry.IsLocked = !Entry.IsLocked;
-                    Entry.IsPosted = !Entry.IsPosted;
-                    Entry.PostDate = Entry.IsPosted == true ? DateTime.Now:null;
-                    Entry.ModifiedDate = DateTime.Now;
-                    Entry.ModifiedBy = UserId;
+                    var temp = Entry.Debit;
+                    Entry.Debit = Entry.Credit;
+                    Entry.Credit = temp;
                 }
                 Context.SaveChanges();
                 return new ActionsResponseModel { Message = "تم عكس القيود بنجاح" };

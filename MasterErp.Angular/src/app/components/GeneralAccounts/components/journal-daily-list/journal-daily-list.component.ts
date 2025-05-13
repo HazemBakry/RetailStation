@@ -28,13 +28,13 @@ export class JournalDailyListComponent implements OnInit {
     searchText: ''
 
   };
-   @ViewChild('DetailsSidePanel', { static: true }) DetailsSidePanel: TemplateRef<any>;
-   selectedEntryModel: JournalEntryModel = {} as JournalEntryModel;
+  @ViewChild('DetailsSidePanel', { static: true }) DetailsSidePanel: TemplateRef<any>;
+  selectedEntryModel: JournalEntryModel = {} as JournalEntryModel;
 
   constructor(private generalService: GeneralAccountService,
     private router: Router,
-    private offcanvasService: NgbOffcanvas, 
-    private sharedService:SharedService,
+    private offcanvasService: NgbOffcanvas,
+    private sharedService: SharedService,
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
@@ -43,7 +43,7 @@ export class JournalDailyListComponent implements OnInit {
   }
 
   getDailyJournalEntriesSummary() {
-    this.showLoader=true;
+    this.showLoader = true;
     this.generalService.GetDailyJournalEntriesSummary(this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data?.results;
       this.pagedResponseModel.totalCount = data?.totalCount;
@@ -54,7 +54,7 @@ export class JournalDailyListComponent implements OnInit {
       this.showLoader = false;
     });
   }
-  
+
   exportData() {
     this.showExportLoader = true;
     this.generalService.ExportDailyJournalEntries(this.pagedResponseModel).subscribe((data: ActionsResponseModel) => {
@@ -165,7 +165,28 @@ export class JournalDailyListComponent implements OnInit {
       this.showLoader = false;
     });
   }
+  reverseJournalEntry() {
+    let journalEntryIds = this.getSelectedEntries();
+    if (!journalEntryIds?.length)
+      return;
 
+    this.showLoader = true;
+    this.generalService.ReverseJournalEntry(journalEntryIds).subscribe(data => {
+      if (data.isSuccess) {
+        this.selectAll = false;
+        this.getDailyJournalEntriesSummary();
+        this.toaster.success(data.message);
+      }
+      else {
+        this.toaster.error(data.message);
+      }
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
   postJournalEntry() {
     let journalEntryIds = this.getSelectedEntries('post');
     if (!journalEntryIds?.length)
@@ -237,7 +258,7 @@ export class JournalDailyListComponent implements OnInit {
   }
 
 
-  openSidePanel(journalEntryId:number,content: any = null) {
+  openSidePanel(journalEntryId: number, content: any = null) {
     this.getEntryDetailsById(journalEntryId);
     if (content == null)
       this.offcanvasService.open(this.DetailsSidePanel, { panelClass: 'details-panel', position: 'end' });
@@ -245,7 +266,7 @@ export class JournalDailyListComponent implements OnInit {
       this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
   }
 
-  getEntryDetailsById(journalEntryId:number) {
+  getEntryDetailsById(journalEntryId: number) {
     this.showLoader = true;
     this.generalService.GetJournalEntryDetailsById(journalEntryId).subscribe(data => {
       if (data) {

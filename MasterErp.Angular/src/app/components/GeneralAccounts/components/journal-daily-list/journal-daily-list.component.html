@@ -34,9 +34,15 @@
                             </span>
                         </button>
                         <button ngbDropdownItem (click)="cancelPostJournalEntry()">
-                            <i class="fas fa-sync-alt"></i>
+                            <i class="fas fa-unlock"></i>
                             <span class="px-2">
                                 الغاء ترحيل
+                            </span>
+                        </button>
+                        <button ngbDropdownItem (click)="reverseJournalEntry()">
+                            <i class="fas fa-sync-alt"></i>
+                            <span class="px-2">
+                                عكس
                             </span>
                         </button>
                         <!-- <button ngbDropdownItem (click)="printJournalEntry()">طباعة</button> -->
@@ -53,7 +59,7 @@
                                 </button> -->
                     </div>
                 </div>
-                <div ngbDropdown>
+                <!-- <div ngbDropdown>
                     <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3" ngbDropdownToggle>
                         <i class="fas fa-filter"></i>
                         <span>إضافة فلتر</span>
@@ -96,7 +102,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="col-md-4 mb-2">
