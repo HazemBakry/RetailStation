@@ -35,7 +35,7 @@ namespace MasterErp.API
 
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<ISQLHelper, SQLHelper>();
-            services.AddScoped<IEmployeeService, EmployeeService>(); 
+            services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IAttendanceService, AttendanceService>();
             services.AddScoped<IOverTimeService, OverTimeService>();
             services.AddScoped<IPenaltyService, PenaltyService>();
@@ -76,6 +76,7 @@ namespace MasterErp.API
             services.AddScoped<ICreateReportService, CreateReportService>();
             services.AddScoped<IHelper, Helper>();
             services.AddScoped<IEmployeeAdvancesService, EmployeeAdvancesService>();
+            services.AddScoped<IPayrollReportService, PayrollReportService>();
 
         }
     }

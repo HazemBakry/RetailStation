@@ -115,6 +115,7 @@ import { GoogleChartsModule } from 'angular-google-charts';
     PaginationModule.forRoot(),
     SwiperModule,
     ReactiveFormsModule,
+    GoogleChartsModule,
     NgxLoadingModule.forRoot({
       animationType: ngxLoadingAnimationTypes.threeBounce,
       backdropBackgroundColour: 'rgba(0, 18, 59, 0.6)',

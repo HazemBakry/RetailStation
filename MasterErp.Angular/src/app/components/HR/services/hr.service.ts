@@ -14,6 +14,7 @@ import { EmployeeCareerModel } from '../models/EmployeeCareerModel';
 import { EmployeeLoanModel } from '../models/EmployeeLoanModel';
 import { EmployeeSalaryModel } from '../models/Employee/EmployeeSalaryModel';
 import { EmployeeContractModel } from '../models/Employee/EmployeeContractModel';
+import { Observable } from 'rxjs';
 import { AdvancePaymentModel, EmployeeAdvanceModel } from '../models/EmployeeAdvanceModel';
 
 @Injectable({
@@ -31,16 +32,109 @@ export class HrService {
     {
       id: 2,
       value: 2,
-      name: "السلف",
+      name: "ساعات العمل الاضافية",
     },
     {
       id: 3,
       value: 3,
       name: "الجزاءات",
-    }
+    },
+    {
+      id: 4,
+      value: 4,
+      name: "الاجازات المرضية",
+    },
+    {
+      id: 5,
+      value: 5,
+      name: "الخصم",
+    },
+    {
+      id: 6,
+      value: 6,
+      name: "السلف",
+    },
   ];
 
+
+
   constructor(private http: HttpClient) { }
+
+  GetPayrollReportData(type: number, model: SearchFilterModel): Observable<any> {
+    const fetchFn = new Map<number, () => Observable<any>>([
+      [1, () => this.GetPayrollReportVacations(model)],
+      [2, () => this.GetPayrollReportOverTime(model)],
+      [3, () => this.GetPayrollReportPenalties(model)],
+      [4, () => this.GetPayrollReportSickLeaves(model)],
+      [5, () => this.GetPayrollReportDeducts(model)],
+      [6, () => this.GetPayrollReportAdvances(model)],
+    ]).get(type);
+
+    if (fetchFn) return fetchFn();
+  }
+
+  ExportPayrollReportData(type: number, model: SearchFilterModel): Observable<any> {
+    const fetchFn = new Map<number, () => Observable<any>>([
+      [1, () => this.ExportPayrollReportVacations(model)],
+      [2, () => this.ExportPayrollReportOverTime(model)],
+      [3, () => this.ExportPayrollReportPenalties(model)],
+      [4, () => this.ExportPayrollReportSickLeaves(model)],
+      [5, () => this.ExportPayrollReportDeducts(model)],
+      [6, () => this.ExportPayrollReportAdvances(model)],
+    ]).get(type);
+
+    if (fetchFn) return fetchFn();
+  }
+
+  //================================== PayrollReport ===============================
+
+  GetPayrollReportVacations(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'PayrollReport/GetPayrollReportVacations', model);
+  }
+
+  GetPayrollReportOverTime(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'PayrollReport/GetPayrollReportOverTime', model);
+  }
+
+  GetPayrollReportPenalties(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'PayrollReport/GetPayrollReportPenalties', model);
+  }
+
+  GetPayrollReportSickLeaves(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'PayrollReport/GetPayrollReportSickLeaves', model);
+  }
+
+  GetPayrollReportDeducts(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'PayrollReport/GetPayrollReportDeducts', model);
+  }
+
+  GetPayrollReportAdvances(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'PayrollReport/GetPayrollReportAdvances', model);
+  }
+
+  ExportPayrollReportVacations(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'PayrollReport/ExportPayrollReportVacations', model);
+  }
+
+  ExportPayrollReportOverTime(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'PayrollReport/ExportPayrollReportOverTime', model);
+  }
+
+  ExportPayrollReportPenalties(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'PayrollReport/ExportPayrollReportPenalties', model);
+  }
+
+  ExportPayrollReportSickLeaves(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'PayrollReport/ExportPayrollReportSickLeaves', model);
+  }
+
+  ExportPayrollReportDeducts(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'PayrollReport/ExportPayrollReportDeducts', model);
+  }
+
+  ExportPayrollReportAdvances(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'PayrollReport/ExportPayrollReportAdvances', model);
+  }
 
   //================================== Employees ===============================
 
@@ -48,9 +142,9 @@ export class HrService {
     return this.http.post<any>(this.URL + 'Employee/GetEmployeesSummary_Data', model);
   }
 
-  // GetEmployeesSummary() {
-  //   return this.http.get<any>(this.URL + 'Employee/GetEmployeesSummary');
-  // }
+  ExportEmployeesSummaryData(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'Employee/ExportEmployeesSummaryData', model);
+  }
 
   GetActiveEmployeesSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Employee/GetActiveEmployeesSelector');

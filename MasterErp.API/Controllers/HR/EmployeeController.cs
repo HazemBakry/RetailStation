@@ -159,12 +159,13 @@ namespace MasterErp.API.Controllers.HR
             return Ok(results);
         }
 
-        //[HttpGet]
-        //[Route("GetEmployeesSummary")]
-        //public List<StatisticsCardSummary> GetEmployeesSummary()
-        //{
-        //    return _employeeService.GetEmployeesSummary();
-        //}
+        [HttpPost]
+        [Route("ExportEmployeesSummaryData")]
+        public ActionsResponseModel ExportEmployeesSummaryData(SearchFilterModel model)
+        {
+            var result = _employeeService.ExportEmployeesSummaryData(model);
+            return result;
+        }
 
         [HttpGet]
         [Route("GetEmployeeContractDetails")]

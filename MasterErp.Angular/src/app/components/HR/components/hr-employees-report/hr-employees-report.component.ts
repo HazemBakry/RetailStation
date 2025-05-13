@@ -18,7 +18,7 @@ export class HREmployeesReportComponent implements OnInit {
   showExportLoader: boolean = false;
   filterList: FilterModel[] = [];
   TitleList = ['الموارد البشرية', 'تقرير بيانات الموظفين'];
-  
+
   pagedResponseModel: PagedResponseDTO<SearchFilterModel[]> = {
     results: [],
     filterList: [],
@@ -44,7 +44,7 @@ export class HREmployeesReportComponent implements OnInit {
     // if (!this.validateSearchModel()) {
     //   return;
     // }
-   
+
     this.showLoader = true;
     this.hrService.GetEmployeesSummary_Data(this.pagedResponseModel).subscribe((data: PagedResponseDTO<SearchFilterModel[]>) => {
       this.pagedResponseModel.results = data.results;
@@ -69,24 +69,21 @@ export class HREmployeesReportComponent implements OnInit {
   }
 
   exportData() {
-    // if (!this.validateSearchModel()) {
-    //   return;
-    // }
-    // this.showExportLoader = true;
-    // this.hrService.ExportCostGeneralLedger(this.ledgersResponse).subscribe((data: ActionsResponseModel) => {
-    //   if (data.isSuccess) {
-    //     this.sharedService.urlDownloadOrOpen(data.url);
-    //     this.toaster.success(data.message);
-    //   } else {
-    //     this.toaster.error(data.message);
-    //   }
+    this.showExportLoader = true;
+    this.hrService.ExportEmployeesSummaryData(this.pagedResponseModel).subscribe((data: ActionsResponseModel) => {
+      if (data.isSuccess) {
+        this.sharedService.urlDownloadOrOpen(data.url);
+        this.toaster.success(data.message);
+      } else {
+        this.toaster.error(data.message);
+      }
 
-    //   this.showExportLoader = false;
-    // }, err => {
-    //   this.showExportLoader = false;
-    // }, () => {
-    //   this.showExportLoader = false;
-    // });
+      this.showExportLoader = false;
+    }, err => {
+      this.showExportLoader = false;
+    }, () => {
+      this.showExportLoader = false;
+    });
   }
 
   printData() {
@@ -99,7 +96,7 @@ export class HREmployeesReportComponent implements OnInit {
     this.getEmployeesSummary_Data();
     //this.GetEmployeesSummary_Filters();
   }
-  
+
   searchDataChanged(filter: SearchFilterModel) {
     this.pagedResponseModel.fromDate = filter.fromDate;
     this.pagedResponseModel.toDate = filter.toDate;
@@ -113,7 +110,7 @@ export class HREmployeesReportComponent implements OnInit {
   validateSearchModel(): boolean {
     if (
       !this.pagedResponseModel.fromDate ||
-      !this.pagedResponseModel.toDate 
+      !this.pagedResponseModel.toDate
     ) {
       this.toaster.warning('يرجي ملئ جميع الخانات');
       return false;

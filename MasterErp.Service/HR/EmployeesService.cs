@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using MasterErp.Entities.DTOs.Shared;
 using MasterErp.Entities.Common.SQLTabeType;
+using MasterErp.Entities.Common.Enums;
+using MasterErp.Entities.Common.Export;
 
 namespace MasterErp.Service.HR
 {
@@ -27,19 +29,21 @@ namespace MasterErp.Service.HR
         private readonly ISharedFilterService SharedFilterService;
         private readonly IFileService FileService;
         public readonly string EmployeesFolderName;
-        //private readonly string ConnectionString;
+        private readonly IExportService _exportService;
+        private string ConnectionString;
 
         public EmployeeService(DBContext Context, ISQLHelper SQLHelper,
             IConfiguration Configuration, ISharedFilterService SharedFilterService,
-            IFileService FileService)
+            IFileService FileService, IExportService exportService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
             this.Configuration = Configuration;
             this.SharedFilterService = SharedFilterService;
-            //this.ConnectionString = Configuration.GetConnectionString("DBConnection");
             this.FileService = FileService;
             EmployeesFolderName = "Employees";
+            _exportService = exportService;
+            ConnectionString = Configuration.GetConnectionString("DBConnection");
         }
 
         #region EmployeeCreation
@@ -603,6 +607,58 @@ namespace MasterErp.Service.HR
 
             var result = SQLHelper.SQLQuery<EmployeeSalaryDto>("[HR].[SP_GetEmployeesSalaryByBranch]", null, Params);
             return result;
+        }
+
+        public ActionsResponseModel ExportEmployeesSummaryData(SearchFilterModel model)
+        {
+            string url = string.Empty;
+            try
+            {
+                model.PageSize = 50000;
+                DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
+                SqlParameter[] Params = new SqlParameter[3];
+                Params[0] = new SqlParameter("@CurrentPage", model.CurrentPage);
+                Params[1] = new SqlParameter("@PageSize", model.PageSize);
+                Params[2] = new SqlParameter("@FilterList", SqlDbType.Structured);
+                Params[2].Value = dt;
+
+                var dtExport = SQLHelper.ExecuteDataTable("[HR].[SP_ExportEmployeesSummaryData]", Params, ConnectionString);
+
+                url = GetExportUrl(dtExport, "Employee Data");
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = "Server error",
+                };
+            }
+        }
+        private string GetExportUrl(DataTable DT, string Name)
+        {
+            DT.TableName = Name;
+
+            ExportTemplateBase exportTemplateBase = new ExportTemplateBase
+            {
+                Name = Name,
+                Username = "",
+                TemplateName = Name,
+                ReportName = Name,
+                CustomerName = "",
+                ExcelStyle = ExcelExportStyle.reportStyle,
+                SheetName = "Data",
+            };
+            return _exportService.Export(exportTemplateBase, DT);
         }
 
         //public List<IqamaIssuePlace> GetIqamaIssuePlaces()
