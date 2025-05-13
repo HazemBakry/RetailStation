@@ -86,6 +86,13 @@ namespace MasterErp.API.Controllers.HR
         }
 
         [HttpGet]
+        [Route("ApproveEmployeeAdvance")]
+        public IActionResult ApproveEmployeeAdvance(int EmployeeAdvanceId, bool IsApproved)
+        {
+            var result = _advancesService.ApproveEmployeeAdvance(EmployeeAdvanceId, IsApproved);
+            return Ok(result);
+        }
+        [HttpGet]
         [Route("DeleteEmployeeAdvance")]
         public IActionResult DeleteEmployeeAdvance(int EmployeeAdvanceId)
         {

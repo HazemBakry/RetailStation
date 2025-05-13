@@ -457,6 +457,9 @@ export class HrService {
   EditEmployeeAdvance(employeeId: number, model: EmployeeAdvanceModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'EmployeeAdvances/EditEmployeeAdvance?EmployeeId=' + employeeId, model);
   }
+  ApproveEmployeeAdvance(employeeAdvanceId: number,isApproved:boolean=true) {
+    return this.http.get<ActionsResponseModel>(this.URL + `EmployeeAdvances/ApproveEmployeeAdvance?EmployeeAdvanceId=${employeeAdvanceId}&IsApproved=${isApproved}`);
+  }
   DeleteEmployeeAdvance(employeeAdvanceId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'EmployeeAdvances/DeleteEmployeeAdvance?EmployeeAdvanceId=' + employeeAdvanceId);
   }

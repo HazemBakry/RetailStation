@@ -40,6 +40,7 @@ import { BalanceSheetComponent } from './components/balance-sheet/balance-sheet.
 import { CreateJournalEntryTemplateComponent } from './components/create-journal-entry-template/create-journal-entry-template.component';
 import { JournalEntryTemplatesComponent } from './components/journal-entry-templates/journal-entry-templates.component';
 import { LoansRequestsComponent } from './components/loans-requests/loans-requests.component';
+import { AdvancesRequestsComponent } from './components/advances-requests/advances-requests.component';
 
 const routes: Routes = [
   {
@@ -87,6 +88,7 @@ const routes: Routes = [
       { path: 'customers', component: CustomersComponent },
       { path: 'batches', component: BatchesComponent },
       { path: 'loans-requests', component: LoansRequestsComponent },
+      { path: 'advances-requests', component: AdvancesRequestsComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
 
 

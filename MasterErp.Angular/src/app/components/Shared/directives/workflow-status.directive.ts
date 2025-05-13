@@ -27,7 +27,10 @@ export class WorkflowStatusDirective implements OnInit {
       11: { bg: '#FFF3CD', fg: '#856404' }, // Pending
       12: { bg: '#F8D7DA', fg: '#721C24' }, // Rejected
       13: { bg: '#D1ECF1', fg: '#0C5460' }, // Approved
-      14: { bg: '#D4EDDA', fg: '#155724' } // Completed
+      14: { bg: '#D4EDDA', fg: '#155724' }, // Completed
+      //payment
+      15: { bg: '#28a745', fg: '#ffffff'}, // Paid
+      16: { bg: '#dc3545',  fg: '#ffffff' } // UnPaid
     };
     const defaultColors = { bg: '#E2E3E5', fg: '#383D41' };
     const colors = this.id && statusColors[this.id] ? statusColors[this.id] : defaultColors;

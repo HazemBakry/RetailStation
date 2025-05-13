@@ -7,7 +7,7 @@ import { FilterItem, FilterModel } from '../../models/FilterModel';
   styleUrls: ['./erp-filters.component.css']
 })
 export class ErpFiltersComponent implements OnInit {
-  @Input() FilterList: FilterModel[];
+  @Input() FilterList: FilterModel[]=[];
   @Input() showSearchText: boolean = false;
   @Input() searchPlaceholder: string = '';
   @Output() filterChanged = new EventEmitter<FilterItem[]>();

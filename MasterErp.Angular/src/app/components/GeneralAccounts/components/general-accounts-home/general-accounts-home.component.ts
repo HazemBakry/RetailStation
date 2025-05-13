@@ -40,7 +40,6 @@ export class GeneralAccountsHomeComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.menuItem = null;
       if (params['tabName']) {
-        console.log(params['tabName']);
         this.selectedTabName = params['tabName'];
         this.menuItem = this.menuService.getMenuById(MenuType.GeneralAccountsHome, this.selectedTabName);
       }

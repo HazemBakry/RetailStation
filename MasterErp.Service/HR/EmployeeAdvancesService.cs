@@ -160,7 +160,7 @@ namespace MasterErp.Service.HR
 
                 Context.EmployeeAdvances.Add(advance);
                 var result = Context.SaveChanges();
-                CreateAdvancePayments(advance);
+                //CreateAdvancePayments(advance);
 
                 return new ActionsResponseModel { Message = "Advance Added Successfly !" };
             }
@@ -201,7 +201,7 @@ namespace MasterErp.Service.HR
                     EmployeeAdvanceId = advance.EmployeeAdvanceId,
                     MoneyAmount = monthlyPayment,
                     ExecutionDate = executionDate,
-                    WorkflowStatusId = (int)FinanceWorkflowStatus.Pending,
+                    WorkflowStatusId = (int)PaymentWorkflowStatus.UnPaid,
                     Notes = $"Installment {i + 1} of {totalMonths}",
                     CreatedBy = advance.CreatedBy,
                     CreatedDate = DateTime.Now
@@ -245,7 +245,33 @@ namespace MasterErp.Service.HR
 
         }
 
+        public ActionsResponseModel ApproveEmployeeAdvance(int EmployeeAdvanceId , bool IsApproved)
+        {
 
+            try
+            {
+                var advance = Context.EmployeeAdvances.FirstOrDefault(i => i.EmployeeAdvanceId == EmployeeAdvanceId);
+                if (advance != null)
+                {
+                    advance.WorkflowStatusId = IsApproved ? (int)HRWorkflowStatus.Approved: (int)HRWorkflowStatus.Rejected;
+                    advance.ModifiedBy = string.Empty;
+                    advance.ModifiedDate = DateTime.Now;
+                    Context.SaveChanges();
+                    if(IsApproved)
+                    {
+                        CreateAdvancePayments(advance);
+                    }
+                    return new ActionsResponseModel { Message = "Advance status changed successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Advance not found" }; ;
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+
+        }
         public ActionsResponseModel DeleteEmployeeAdvance(int EmployeeAdvanceId)
         {
 
@@ -257,30 +283,6 @@ namespace MasterErp.Service.HR
                     Context.Remove(advance);
                     Context.SaveChanges();
                     return new ActionsResponseModel { Message = "Advance deleted successfly !" };
-                }
-                else
-                    return new ActionsResponseModel { IsSuccess = false, Message = "Advance not found" }; ;
-            }
-            catch (Exception ex)
-            {
-                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
-            }
-
-        }
-        public ActionsResponseModel ApproveEmployeeAdvance(int EmployeeAdvanceId, int EmployeeId, bool ApproveStatus)
-        {
-
-            try
-            {
-                var advance = Context.EmployeeAdvances.FirstOrDefault(i => i.EmployeeAdvanceId == EmployeeAdvanceId && i.EmployeeId == EmployeeId);
-                if (advance != null)
-                {
-                    advance.WorkflowStatusId = (int)HRWorkflowStatus.Approved;
-                    advance.ModifiedBy = string.Empty;
-                    advance.ModifiedDate = DateTime.Now;
-
-                    Context.SaveChanges();
-                    return new ActionsResponseModel { Message = "Advance approved successfly !" };
                 }
                 else
                     return new ActionsResponseModel { IsSuccess = false, Message = "Advance not found" }; ;

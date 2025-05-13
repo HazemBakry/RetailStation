@@ -71,7 +71,39 @@
                         </td>
                         <td class="word-break">{{item.notes}}</td>
                         <td>
+
+                             <!-- <div class="d-flex align-items-center justify-content-center">
+                                <div ngbDropdown container="body">
+                                    <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle>
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <div ngbDropdownMenu class="border">
+                                        <button *ngIf="item.workflowStatusId != workflowStatus.Approved" ngbDropdownItem
+                                            (click)="openApproveModal(approveModal,item.employeeAdvanceId)">
+                                            <i class="uil uil-right"></i>
+                                            قبول
+                                        </button>
+                                        <button ngbDropdownItem (click)="openNewSidePanel(AddModal,item)">
+                                            <i class="uil uil-pen"></i>
+                                            تعديل
+                                        </button>
+                                        <button ngbDropdownItem
+                                            (click)="openDeleteModal(deleteModal,item.employeeAdvanceId)">
+                                            <i class="uil uil-trash-alt"></i>
+                                            الغاء
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div> -->
+
                             <div class="d-flex align-items-center justify-content-center text-center">
+                                <button *ngIf="item.workflowStatusId != workflowStatus.Approved"
+                                    class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2"
+                                    (click)="openApproveModal(approveModal,item.employeeAdvanceId)">
+                                    <i class="uil uil-pen"></i>
+                                    <span>قبول</span>
+                                </button>
                                 <button
                                     class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2"
                                     (click)="openNewSidePanel(AddModal,item)">
@@ -100,6 +132,24 @@
     </div>
 </div>
 
+<ng-template #approveModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">رسالة تأكيد</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل أنت متأكد من تغير الحالة ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click');approveEmployeeAdvance()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">عودة</span>
+        </button>
+    </div>
+</ng-template>
 
 <ng-template #deleteModal let-modal>
     <div class="modal-header">

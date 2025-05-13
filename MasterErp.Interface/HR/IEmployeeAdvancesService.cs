@@ -15,8 +15,8 @@ namespace MasterErp.Interface.HR
         List<EmployeeAdvanceModel> GetAdvancesByEmployeeId(int EmployeeId, SearchFilterModel SearchModel);
         ActionsResponseModel AddNewEmployeeAdvance(int EmployeeId, EmployeeAdvanceModel model);
         ActionsResponseModel EditEmployeeAdvance(int EmployeeId, EmployeeAdvanceModel model);
+        ActionsResponseModel ApproveEmployeeAdvance(int EmployeeAdvanceId, bool IsApproved);
         ActionsResponseModel DeleteEmployeeAdvance(int EmployeeAdvanceId);
-        ActionsResponseModel ApproveEmployeeAdvance(int EmployeeAdvanceId, int EmployeeId, bool ApproveStatus);
         List<SelectorDataModel> GetAdvanceTypesSelector();
     }
 }

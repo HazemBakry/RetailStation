@@ -94,10 +94,10 @@ export class MenuService {
             },
             {
               displayName: 'طلبات السلف',
-              menuItem: 'loans-requests',
+              menuItem: 'advances-requests',
               description: 'إرسال وتتبع طلبات السلف المالية',
               icon: 'fa fa-file-signature',
-              route: '/general-accounts/loans-requests'
+              route: '/general-accounts/advances-requests'
             },
           ]
         },

@@ -21,5 +21,9 @@ namespace MasterErp.Entities.Common.Enums
         Approved = 13,
         Completed = 14
     }
-
+    public enum PaymentWorkflowStatus
+    {
+        Paid = 15,
+        UnPaid = 16
+    }
 }

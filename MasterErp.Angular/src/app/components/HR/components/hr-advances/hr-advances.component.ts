@@ -11,6 +11,7 @@ import { FormService } from 'src/app/components/Shared/services/form.service';
 import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { EmployeeAdvanceModel } from '../../models/EmployeeAdvanceModel';
+import { HRWorkflowStatus, PaymentWorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
 
 @Component({
   selector: 'app-hr-advances',
@@ -28,7 +29,7 @@ export class HrAdvancesComponent implements OnInit {
   public formGroup: FormGroup;
   selectedEmployeeId:number=null;
   isUpdate: boolean=false;
-
+  public workflowStatus =HRWorkflowStatus;
   employeeAdvanceResponse:PagedResponseDTO<EmployeeAdvanceModel[]>={
     results:[],
     filterList:[],
@@ -229,6 +230,30 @@ export class HrAdvancesComponent implements OnInit {
   deleteEmployeeAdvance() {
     this.showAddLoader=true;
     this.hrService.DeleteEmployeeAdvance(this.selectedAdvanceId).subscribe(data => {
+
+      if(data?.isSuccess) {
+        this.modalService?.dismissAll();
+        this.getAdvanceByEmployeeId();
+        this.toaster.success(data?.message);
+      }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showAddLoader=false;
+    }, err=>{
+      this.showAddLoader=false;
+    },()=>{
+      this.showAddLoader=false;
+    });
+  }
+
+  openApproveModal(content: any, employeeAdvanceId: number) {
+    this.selectedAdvanceId = employeeAdvanceId;
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+  approveEmployeeAdvance() {
+    this.showAddLoader=true;
+    this.hrService.ApproveEmployeeAdvance(this.selectedAdvanceId).subscribe(data => {
 
       if(data?.isSuccess) {
         this.modalService?.dismissAll();

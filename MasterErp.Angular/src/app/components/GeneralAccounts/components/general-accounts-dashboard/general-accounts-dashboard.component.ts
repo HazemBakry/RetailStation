@@ -69,7 +69,6 @@ export class GeneralAccountsDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params['tabName']) {
-        console.log(params['tabName']);
         this.selectedTabName=params['tabName'];
       }
     });
