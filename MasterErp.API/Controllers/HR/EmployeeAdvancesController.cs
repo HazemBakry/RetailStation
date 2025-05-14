@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.DTOs.HR;
+using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.HR;
 using MasterErp.Service.HR;
 using Microsoft.AspNetCore.Http;
@@ -53,6 +54,13 @@ namespace MasterErp.API.Controllers.HR
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("GetAdvanceById")]
+        public IActionResult GetAdvanceById(int EmployeeAdvanceId)
+        {
+            var data = _advancesService.GetAdvanceById(EmployeeAdvanceId);
+            return Ok(data);
+        }
         [HttpPost]
         [Route("GetAdvancesByEmployeeId")]
         public IActionResult GetAdvancesByEmployeeId(int EmployeeId, SearchFilterModel SearchModel)

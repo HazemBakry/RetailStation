@@ -13,8 +13,10 @@ import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { PurchaseInvoiceModel } from 'src/app/components/Purchases/models/PurchaseInvoiceModel';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
-import { FinanceWorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
+import { FinanceWorkflowStatus, HRWorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HrService } from 'src/app/components/HR/services/hr.service';
+import { EmployeeAdvanceModel } from 'src/app/components/HR/models/EmployeeAdvanceModel';
 
 @Component({
   selector: 'app-create-payment-order',
@@ -25,6 +27,7 @@ export class CreatePaymentOrderComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'أمر صرف جديد'];
   agencyTypeList: GeneralSelectorModel[] = [];
   paymentTypeList: GeneralSelectorModel[] = [];
+  employeesSelectorData: GeneralSelectorModel[] = [];
   selectedAgencyType: number = 1;
   supplierList: GeneralSelectorModel[] = [];
   accountList: GeneralSelectorModel[] = [];
@@ -37,6 +40,7 @@ export class CreatePaymentOrderComponent implements OnInit {
   formData: FormData = new FormData();
   formGroup: FormGroup;
   purchaseInvoiceId: number;
+  employeeAdvanceId: number;
   purchaseInvoiceModel: PurchaseInvoiceModel = {} as PurchaseInvoiceModel;
   formErrors = {
     paymentOrderId: '',
@@ -51,7 +55,8 @@ export class CreatePaymentOrderComponent implements OnInit {
     currencyId: '',
     moneyAmount: '',
     supplierId: '',
-    fromAccounts: ''
+    fromAccounts: '',
+    employeeId:''
   };
 
   constructor(private sharedService: SharedService,
@@ -63,6 +68,7 @@ export class CreatePaymentOrderComponent implements OnInit {
     private acRoute: ActivatedRoute,
     private lookupService: LookupService,
     private purchaseService: PurchaseService,
+    private hrService: HrService,
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
@@ -75,6 +81,10 @@ export class CreatePaymentOrderComponent implements OnInit {
       }else if (params.InvoiceId) {
         this.purchaseInvoiceId = params.InvoiceId;
         this.getPurchaseInvoiceDetailsById();
+      }
+      else if (params.EmployeeAdvanceId) {
+        this.employeeAdvanceId = params.EmployeeAdvanceId;
+        this.getAdvancesDetailsById();
       }
     });
   }
@@ -91,7 +101,9 @@ export class CreatePaymentOrderComponent implements OnInit {
     this.lookupService.GetPaymentTypes().subscribe(data => {
       this.paymentTypeList = data;
     });
-
+    this.hrService.GetActiveEmployeesSelector().subscribe(data => {
+      this.employeesSelectorData = data;
+    });
     this.agencyTypeList = this.paymentService.agencyTypeList.filter(x => x.value != 3);
     //this.paymentTypeList = this.paymentService.paymentTypeList;
   }
@@ -112,6 +124,7 @@ export class CreatePaymentOrderComponent implements OnInit {
       paymentTypeId: [null, [Validators.required]],
       fromAccountId: [null, [Validators.required]],
       supplierId: [null],
+      employeeId: [null],// for advance payment
       accountId: [null],
       description: [null],
       contactName: [null],
@@ -151,7 +164,8 @@ export class CreatePaymentOrderComponent implements OnInit {
       description: receiptModel.description,
       contactName: receiptModel.contactName,
       currencyId: receiptModel.currencyId,
-      moneyAmount: receiptModel.moneyAmount
+      moneyAmount: receiptModel.moneyAmount,
+      employeeId:receiptModel.employeeId
     });
   }
 
@@ -186,6 +200,30 @@ export class CreatePaymentOrderComponent implements OnInit {
       }else {
         this.purchaseInvoiceId = null;
         this.toaster.error("لا يمكن انشاء أمر صرف على فاتورة تم دفعها أو ملغية");
+      }
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+  getAdvancesDetailsById() {
+    this.showLoader = true;
+    this.hrService.getAdvanceById(this.employeeAdvanceId).subscribe((data: EmployeeAdvanceModel) => {
+      if (data && [HRWorkflowStatus.Approved].includes(data.workflowStatusId)) {
+        this.formGroup?.patchValue({
+          moneyAmount: data.advanceAmount,
+          agencyTypeId: 4,
+          employeeId: data.employeeId,
+          contactName:data.employeeName
+        });
+        this.formGroup?.get('moneyAmount')?.disable();
+        console.log("this.formGroup",this.formGroup);
+        
+      }else {
+        this.employeeAdvanceId = null;
+        this.toaster.error("لا يمكن انشاء أمر صرف على سلفة غير مقبولة");
       }
       this.showLoader = false;
     }, err => {
@@ -282,7 +320,7 @@ export class CreatePaymentOrderComponent implements OnInit {
       this.router.navigate([], {
         relativeTo: this.acRoute,
         queryParams: { PaymentOrderId:id },
-        queryParamsHandling: 'merge'
+        // queryParamsHandling: 'merge'
       });
     }
   }

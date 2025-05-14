@@ -13,6 +13,7 @@ namespace MasterErp.Interface.HR
         List<EmployeeAdvanceModel> GetEmployeeAdvancesData(SearchFilterModel SearchModel, int? EmployeeId=null, int? ManagerId=null);
         List<AdvancePaymentModel> GetAdvancePaymentsData(SearchFilterModel SearchModel, int? EmployeeId = null, int? ManagerId = null);
         List<EmployeeAdvanceModel> GetAdvancesByEmployeeId(int EmployeeId, SearchFilterModel SearchModel);
+        EmployeeAdvanceModel GetAdvanceById(int EmployeeAdvanceId);
         ActionsResponseModel AddNewEmployeeAdvance(int EmployeeId, EmployeeAdvanceModel model);
         ActionsResponseModel EditEmployeeAdvance(int EmployeeId, EmployeeAdvanceModel model);
         ActionsResponseModel ApproveEmployeeAdvance(int EmployeeAdvanceId, bool IsApproved);

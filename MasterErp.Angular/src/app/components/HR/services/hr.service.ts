@@ -445,6 +445,9 @@ export class HrService {
   GetAdvancePaymentsData(employeeId, model: PagedResponseDTO) {
     return this.http.post<PagedResponseDTO<AdvancePaymentModel[]>>(this.URL + 'EmployeeAdvances/GetAdvancePaymentsData?EmployeeId=' + employeeId, model);
   }
+  getAdvanceById(employeeAdvanceId):Observable<EmployeeAdvanceModel> {
+    return this.http.get<EmployeeAdvanceModel>(this.URL + 'EmployeeAdvances/GetAdvanceById?EmployeeAdvanceId=' + employeeAdvanceId);
+  }
   GetAdvancesByEmployeeId(employeeId, model: PagedResponseDTO) {
     return this.http.post<PagedResponseDTO<EmployeeAdvanceModel[]>>(this.URL + 'EmployeeAdvances/GetAdvancesByEmployeeId?EmployeeId=' + employeeId, model);
   }

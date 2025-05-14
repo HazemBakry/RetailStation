@@ -32,14 +32,14 @@ namespace MasterErp.Service.HR
 
 
 
-        public List<EmployeeAdvanceModel> GetEmployeeAdvancesData(SearchFilterModel SearchModel, int? EmployeeId = null, int? ManagerId = null)
+        public List<EmployeeAdvanceModel> GetEmployeeAdvancesData(SearchFilterModel SearchModel, int? EmployeeId = null, int? EmployeeAdvanceId = null)
         {
 
             var FilterListTable = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
             SqlParameter[] param = new SqlParameter[5];
 
             param[0] = new SqlParameter("@EmployeeId", EmployeeId);
-            param[1] = new SqlParameter("@ManagerId", ManagerId);
+            param[1] = new SqlParameter("@EmployeeAdvanceId", EmployeeAdvanceId);
             param[2] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
             param[3] = new SqlParameter("@PageSize", SearchModel.PageSize);
             param[4] = new SqlParameter("@FilterList", SqlDbType.Structured);
@@ -83,14 +83,14 @@ namespace MasterErp.Service.HR
             //results.ForEach(x => x.TotalCount = totalCount);
             //return results;
         }
-        public List<AdvancePaymentModel> GetAdvancePaymentsData(SearchFilterModel SearchModel, int? EmployeeId = null, int? ManagerId = null)
+        public List<AdvancePaymentModel> GetAdvancePaymentsData(SearchFilterModel SearchModel, int? EmployeeId = null, int? EmployeeAdvanceId = null)
         {
 
             var FilterListTable = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
             SqlParameter[] param = new SqlParameter[5];
 
             param[0] = new SqlParameter("@EmployeeId", EmployeeId);
-            param[1] = new SqlParameter("@ManagerId", ManagerId);
+            param[1] = new SqlParameter("@ManagerId", EmployeeAdvanceId);
             param[2] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
             param[3] = new SqlParameter("@PageSize", SearchModel.PageSize);
             param[4] = new SqlParameter("@FilterList", SqlDbType.Structured);
@@ -99,7 +99,11 @@ namespace MasterErp.Service.HR
             var result = SQLHelper.SQLQuery<AdvancePaymentModel>("[HR].[SP_GetEmployeeAdvancePaymentsData]", null, param);
             return result;
         }
+        public EmployeeAdvanceModel GetAdvanceById(int EmployeeAdvanceId)
+        {
+            return GetEmployeeAdvancesData(new SearchFilterModel { PageSize = 25, CurrentPage = 1 },null , EmployeeAdvanceId)?.FirstOrDefault();
 
+        }
         public List<EmployeeAdvanceModel> GetAdvancesByEmployeeId(int EmployeeId, SearchFilterModel SearchModel)
         {
 
