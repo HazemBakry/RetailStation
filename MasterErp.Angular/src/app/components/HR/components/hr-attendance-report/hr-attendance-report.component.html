@@ -111,7 +111,7 @@
                         <td>{{item.employeeCode}}</td>
                         <td>{{item.employeeNameAR ??item.employeeNameEN}}</td>
                         <td>{{item.branchNameAR ?? item.branchNameEN}}</td>
-                        <td>{{item.punchDate | date}}</td>
+                        <td>{{item.punchDate | date:'d-M-y'}}</td>
                         <td>{{item.punchDate| date: 'EEEE'}}</td>
                         <td class="fw-bold">
                             <div>من  : {{item.period1_PunchIn | date: 'hh:mm:ss a'}} </div>
