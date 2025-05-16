@@ -1,4 +1,6 @@
-﻿using MasterErp.Entities.Models.HR;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.HR;
+using MasterErp.Entities.Models.HR;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +12,7 @@ namespace MasterErp.Interface.HR
 {
     public interface IAttendanceService
     {
-        DataTable GetAttendance_Data();
+        List<EmployeeAttendanceModel> GetAttendance_Data(SearchFilterModel SearchModel);
         bool AddNewAttendance(Attendance model);
         bool EditAttendance(Attendance model);
         bool DeleteAttendance(int AttendanceId);

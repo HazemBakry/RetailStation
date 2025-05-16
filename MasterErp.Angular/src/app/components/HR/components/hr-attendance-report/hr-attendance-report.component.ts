@@ -9,6 +9,7 @@ import { FilterItem, FilterModel, SearchFilterModel } from 'src/app/components/S
 import { EmployeeModel } from '../../models/Employee/EmployeeModel';
 import { Router } from '@angular/router';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
 
 @Component({
   selector: 'app-hr-attendance-report',
@@ -23,6 +24,11 @@ export class HrAttendanceReportComponent implements OnInit {
   employeeSelectorData: GeneralSelectorModel[] = [];
   filterList: FilterModel[] = [];
   showLoader: boolean = false;
+
+  fromDate: string;
+  toDate: string;
+  selectedEmployeeId: number;
+  selectedBranchId: number;
   pagedResponseModel: PagedResponseDTO<EmployeeModel[]> = {
     results: [],
     filterList: [],
@@ -31,23 +37,35 @@ export class HrAttendanceReportComponent implements OnInit {
     searchText: ''
   };
 
-  searchModel: SearchFilterModel = {
-    currentPage: 1,
-    pageSize: 25,
-    filterModel: { filterItems: [] }
-  };
-
   constructor(private modalService: NgbModal,
     private toaster: ToastrService,
     private hrService: HrService,
+    private sharedService: SharedService,
     private router: Router) { }
 
   ngOnInit(): void {
-    this.getAttendance_Data();
-    this.GetAttendance_Filters();
+    this.loadSelectors();
+    // this.getAttendance_Data();
+    // this.GetAttendance_Filters();
+
   }
 
+  loadSelectors() {
+    this.sharedService.GetBranchesSelector().subscribe((data: GeneralSelectorModel[]) => {
+      this.branchSelectorData = data;
+    });
+    this.hrService.GetActiveEmployeesSelector().subscribe((data: GeneralSelectorModel[]) => {
+      this.employeeSelectorData = data;
+    });
+  }
+  search() {
+    this.pagedResponseModel.results = [];
+    this.pagedResponseModel.currentPage = 1;
+    this.pagedResponseModel.totalCount = 0;
+    this.getAttendance_Data();
+  }
   getAttendance_Data() {
+    this.mapFilters();
     this.showLoader = true;
     this.hrService.GetAttendance_Data(this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data?.results;
@@ -61,15 +79,29 @@ export class HrAttendanceReportComponent implements OnInit {
   }
 
   GetAttendance_Filters() {
-    this.hrService.GetAttendance_Filters(this.pagedResponseModel).subscribe((data: FilterModel[]) => {
-      this.filterList = data;
-    }, (err) => {
-      // this.showLoader = false;
-    }, () => {
-      // this.showLoader = false;
-    });
+    // this.hrService.GetAttendance_Filters(this.pagedResponseModel).subscribe((data: FilterModel[]) => {
+    //   this.filterList = data;
+    // }, (err) => {
+    //   // this.showLoader = false;
+    // }, () => {
+    //   // this.showLoader = false;
+    // });
   }
-
+  mapFilters() {
+    this.pagedResponseModel.filterList = [];
+    if (this.fromDate) {
+      this.pagedResponseModel.filterList.push({ categoryName: 'FromDate', itemFlag: this.fromDate })
+    }
+    if (this.toDate) {
+      this.pagedResponseModel.filterList.push({ categoryName: 'ToDate', itemFlag: this.toDate })
+    }
+    if (this.selectedEmployeeId) {
+      this.pagedResponseModel.filterList.push({ categoryName: 'EmployeeId', itemFlag: this.selectedEmployeeId?.toString() })
+    }
+    if (this.selectedBranchId) {
+      this.pagedResponseModel.filterList.push({ categoryName: 'BranchId', itemFlag: this.selectedBranchId?.toString() })
+    }
+  }
   goToEmployeeDetails(employeeId: any) {
     this.router.navigateByUrl('/hr/employee-details?EmployeeId=' + employeeId);
   }
@@ -86,6 +118,60 @@ export class HrAttendanceReportComponent implements OnInit {
     this.GetAttendance_Filters();
   }
 
+  getTime(currentT?: any, upcomingT?: any, getColorClass: boolean = false) {
+    if (!currentT||!upcomingT) {
+      return '';
+    }
+    const currentTime = new Date(currentT);
+    const upcomingTime = new Date(upcomingT)
+
+    if (currentTime && upcomingTime) {
+      const timeDifference = upcomingTime.getTime() - currentTime.getTime();
+      // const differenceDate = new Date(timeDifference);
+
+      const hours = Math.floor(timeDifference / 3600000); // 1 hour = 3600000 milliseconds
+      const minutes = Math.floor((timeDifference % 3600000) / 60000); // 1 minute = 60000 milliseconds
+      const seconds = Math.floor((timeDifference % 60000) / 1000); // 1 second = 1000 milliseconds
+
+      if (getColorClass) {
+        if (minutes <= 30 && hours < 1)
+          return 'txt-success';
+        else if (minutes > 30 && hours < 1)
+          return 'txt-warning'
+        else if (hours >= 1)
+          return 'txt-danger';
+      }
+      return `${hours} ساعة: ${minutes} دقيقة`;
+      // return `${hours} h : ${minutes} m : ${seconds} s`;
+
+    }
+    return '';
+  }
+
+  getTimeFromSec(totalSeconds: number) {
+
+    if (totalSeconds && totalSeconds) {
+      const timeDifference = totalSeconds * 1000;
+      // const differenceDate = new Date(timeDifference);
+
+      const hours = Math.floor(timeDifference / 3600000); // 1 hour = 3600000 milliseconds
+      const minutes = Math.floor((timeDifference % 3600000) / 60000); // 1 minute = 60000 milliseconds
+      const seconds = Math.floor((timeDifference % 60000) / 1000); // 1 second = 1000 milliseconds
+
+      // if (minutes <= 30 && hours < 1)
+      //   return 'txt-success';
+      // else if (minutes > 30 && hours < 1)
+      //   return 'txt-warning'
+      // else if (hours >= 1)
+      //   return 'txt-danger';
+
+
+      return `${hours} ساعة: ${minutes} دقيقة`;
+      // return `${hours} h : ${minutes} m : ${seconds} s`;
+
+    }
+    return '';
+  }
   getSelectedBranch(branch) {
     //this.selectedAgencyType = accountType;
     //this.receiptModel.agencyTypeId = accountType;

@@ -1,26 +1,44 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.HR;
+using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.HR;
+using MasterErp.Interface.Common;
 using MasterErp.Interface.HR;
 using MasterErp.Service.Common;
 using System;
 using System.Collections.Generic;
+using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace MasterErp.Service.HR
 {
     public class AttendanceService : IAttendanceService
     {
         private readonly DBContext Context;
+        private readonly ISharedFilterService sharedFilterService;
+        private readonly ISQLHelper SQLHelper;
 
-        public AttendanceService(DBContext context)
+        public AttendanceService(DBContext context, ISharedFilterService sharedFilterService, ISQLHelper sQLHelper)
         {
             Context = context;
+            this.sharedFilterService = sharedFilterService;
+            SQLHelper = sQLHelper;
         }
+        public List<EmployeeAttendanceModel> GetAttendance_Data(SearchFilterModel SearchModel)
+        {
+            SqlParameter[] param = new SqlParameter[3];
+            param[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[0].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
+            
+            param[1] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            param[2] = new SqlParameter("@PageSize", SearchModel.PageSize);
 
-        public DataTable GetAttendance_Data()
+            var result = SQLHelper.SQLQuery<EmployeeAttendanceModel>("[HR].[SP_GetEmployeeAttendance]", null, param);
+            return result;
+        }
+        public DataTable GetAttendance_Dataaaa()
         {
             //protected void btn_Search_Click(object sender, EventArgs e)
             //{

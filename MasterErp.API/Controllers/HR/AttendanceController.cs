@@ -1,4 +1,6 @@
-﻿using MasterErp.Entities.Models.HR;
+﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.DTOs.HR;
+using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.HR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,13 +23,22 @@ namespace MasterErp.API.Controllers.HR
             _attendanceService = attendanceService;
         }
 
-
-        [HttpGet]
+        [HttpPost]
         [Route("GetAttendance_Data")]
-        public DataTable GetAttendance_Data()
+        public IActionResult GetAttendance_Data(SearchFilterModel SearchModel)
         {
-            return _attendanceService.GetAttendance_Data();
+            var data = _attendanceService.GetAttendance_Data(SearchModel);
+            var result = new PagedResponseModel<EmployeeAttendanceModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+
+            };
+            return Ok(result);
         }
+
 
         [HttpPost]
         [Route("AddNewAttendance")]
