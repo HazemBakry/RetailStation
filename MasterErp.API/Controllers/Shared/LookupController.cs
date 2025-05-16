@@ -132,9 +132,9 @@ namespace MasterErp.API.Controllers.Shared
 
         [HttpGet]
         [Route("GetWorkStatusSelector")]
-        public IActionResult GetWorkStatusSelector()
+        public IActionResult GetWorkStatusSelector(string Group)
         {
-            var results = lookupService.GetWorkStatusSelector();
+            var results = lookupService.GetWorkStatusSelector(Group);
             return Ok(results);
         }
 

@@ -178,6 +178,47 @@ namespace MasterErp.Service.HR
         public void CreateAdvancePayments(EmployeeAdvance advance)
         {
             var oldPayments = Context.AdvancePayments
+                .Where(p => p.EmployeeAdvanceId == advance.EmployeeAdvanceId)
+                .ToList();
+
+            if (oldPayments.Any())
+            {
+                Context.AdvancePayments.RemoveRange(oldPayments);
+                Context.SaveChanges();
+            }
+
+            double remainingAmount = advance.AdvanceAmount;
+            double monthlyPayment = advance.PaymentAmount;
+            DateTime paymentDate = advance.PaymentFromDate;
+
+            int totalMonths = (int)Math.Ceiling(advance.AdvanceAmount / monthlyPayment);
+            var payments = new List<AdvancePayment>();
+
+            for (int i = 0; i < totalMonths; i++)
+            {
+                double amountThisMonth = remainingAmount >= monthlyPayment ? monthlyPayment : remainingAmount;
+
+                payments.Add(new AdvancePayment
+                {
+                    EmployeeAdvanceId = advance.EmployeeAdvanceId,
+                    MoneyAmount = amountThisMonth,
+                    ExecutionDate = paymentDate,
+                    WorkflowStatusId = (int)PaymentWorkflowStatus.UnPaid,
+                    Notes = $"Installment {i + 1} of {totalMonths}",
+                    CreatedBy = advance.CreatedBy,
+                    CreatedDate = DateTime.Now
+                });
+
+                remainingAmount -= amountThisMonth;
+                paymentDate = paymentDate.AddMonths(1);
+            }
+
+            Context.AdvancePayments.AddRange(payments);
+            Context.SaveChanges();
+        }
+        public void CreateAdvancePayments_Old(EmployeeAdvance advance)
+        {
+            var oldPayments = Context.AdvancePayments
                                     .Where(p => p.EmployeeAdvanceId == advance.EmployeeAdvanceId)
                                     .ToList();
 

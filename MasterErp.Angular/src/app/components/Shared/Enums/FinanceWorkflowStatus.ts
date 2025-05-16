@@ -15,3 +15,10 @@ export enum PaymentWorkflowStatus {
     Paid = 15, //مدفوع
     UnPaid = 16 //مدفوع
 }
+
+export enum WorkflowStatusGroup {
+  Finance = 'Finance',
+  HR = 'HR',
+  Payment ='Payment',
+  All ='',
+}

@@ -35,7 +35,7 @@ namespace MasterErp.Interface.Shared
 
         #region HR Lookups
 
-        List<SelectorDataModel> GetWorkStatusSelector();
+        List<SelectorDataModel> GetWorkStatusSelector(string Group);
         List<SelectorDataModel> GetNationalitiesSelector();
         List<SelectorDataModel> GetReligionsSelector();
         List<SelectorDataModel> GetSocialStatusSelector();

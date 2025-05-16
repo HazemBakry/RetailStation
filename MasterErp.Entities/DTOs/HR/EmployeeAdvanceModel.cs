@@ -25,6 +25,8 @@ namespace MasterErp.Entities.DTOs.HR
         public string WorkflowStatusNameAR { get; set; }
         public int? WorkflowStatusId { get; set; } = (int)HRWorkflowStatus.Pending;
         public string Notes { get; set; }
+        public double? TotalPaid { get; set; }
+        public double? TotalRemaining { get; set; }
         public int? TotalCount { get; set; }
 
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { GeneralSelectorModel } from '../components/general-selector/general-selector.component';
+import { WorkflowStatusGroup } from '../Enums/FinanceWorkflowStatus';
 
 @Injectable({
   providedIn: 'root'
@@ -67,8 +68,9 @@ export class LookupService {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetNationalitiesSelector');
   }
 
-  GetWorkStatusSelector() {
-    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetWorkStatusSelector');
+  GetWorkStatusSelector(group:WorkflowStatusGroup=WorkflowStatusGroup.All) {
+    
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetWorkStatusSelector?Group='+group);
   }
 
   GetReligionsSelector() {

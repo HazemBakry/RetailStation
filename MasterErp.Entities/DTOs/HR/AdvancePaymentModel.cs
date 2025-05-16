@@ -13,6 +13,7 @@ namespace MasterErp.Entities.DTOs.HR
         public int? AdvancePaymentId { get; set; }
         public int EmployeeAdvanceId { get; set; }
         public int? EmployeeId { get; set; }
+        public int? AdvanceNumber { get; set; }
         public string EmployeeName { get; set; }
         public double MoneyAmount { get; set; }
         public DateTime ExecutionDate { get; set; }

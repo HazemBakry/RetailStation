@@ -17,6 +17,8 @@ export interface EmployeeAdvanceModel extends CreatorModel {
     workflowStatusNameAR: string;
     isApproved: boolean | null;
     notes: string;
+    totalPaid: number | null;
+    totalRemaining: number | null;
     totalCount: number | null;
 }
 

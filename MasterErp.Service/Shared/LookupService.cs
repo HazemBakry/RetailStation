@@ -152,9 +152,10 @@ namespace MasterErp.Service.Shared
 
         #region HR Lookups
 
-        public List<SelectorDataModel> GetWorkStatusSelector()
+        public List<SelectorDataModel> GetWorkStatusSelector(string Group)
         {
-            SqlParameter[] Params = new SqlParameter[0];
+            SqlParameter[] Params = new SqlParameter[1];
+            Params[0] = new SqlParameter("@Group", Group);
 
             var result = SQLHelper.SQLQuery<SelectorDataModel>("[HR].[SP_GetWorkStatus]", ConnectionString, Params);
             return result;
