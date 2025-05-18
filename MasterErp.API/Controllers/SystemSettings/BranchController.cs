@@ -43,8 +43,8 @@ namespace MasterErp.API.Controllers.Finance.Purchase
             {
                 NameAR = model.NameAR,
                 NameEN = model.NameEN,
-                Address = model.Address,
-                Email = model.Email,
+                //Address = model.Address,
+                //Email = model.Email,
                 IsActive = true,
                 //Image = model.Image,
                 //Lat = model.Lat,

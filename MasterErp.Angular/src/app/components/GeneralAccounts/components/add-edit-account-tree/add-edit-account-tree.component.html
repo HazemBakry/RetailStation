@@ -1,13 +1,13 @@
 <!-- <i *ngIf="!isUpdate" class="fas fa-plus cursor-pointer" (click)="openNewSidePanel(addAccountModal)"></i>
 <i *ngIf="isUpdate" class="fas fa-edit cursor-pointer" (click)="openNewSidePanel(addAccountModal)"></i> -->
 
-<button class="btn btn-secondary gap-2 border rounded px-3" *ngIf="!isUpdate" (click)="openNewSidePanel(addAccountModal)">
-    <i class="fas fa-plus"></i>
+<button class="btn btn-primary gap-2 border rounded px-3" *ngIf="!isUpdate" (click)="openNewSidePanel(addAccountModal)">
+    <!-- <i class="fas fa-plus"></i> -->
     <span>إضافة حساب </span>
 </button>
 
 <button class="btn btn-secondary gap-2 border rounded px-3" *ngIf="isUpdate" (click)="openNewSidePanel(addAccountModal)">
-    <i class="fas fa-edit"></i>
+    <!-- <i class="fas fa-edit"></i> -->
     <span>تعديل</span>
 </button>
 

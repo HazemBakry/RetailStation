@@ -41,7 +41,7 @@ namespace MasterErp.Service.HR
             Params[3] = new SqlParameter("@FromDate", SearchModel.FromDate ?? (object)DBNull.Value);
             Params[4] = new SqlParameter("@ToDate", SearchModel.ToDate ?? (object)DBNull.Value);
 
-            var result = _sQLHelper.ExecuteDataTable("[HR].[SP_GetPayrollReportVacations]", Params, ConnectionString);
+            var result = _sQLHelper.ExecuteDataTable("[HR].[SP_GetPayrollReportVacations]", Params, null);
             return result;
         }
 
@@ -56,7 +56,7 @@ namespace MasterErp.Service.HR
             Params[3] = new SqlParameter("@FromDate", SearchModel.FromDate ?? (object)DBNull.Value);
             Params[4] = new SqlParameter("@ToDate", SearchModel.ToDate ?? (object)DBNull.Value);
 
-            var result = _sQLHelper.ExecuteDataTable("[HR].[SP_GetPayrollReportOverTimes]", Params, ConnectionString);
+            var result = _sQLHelper.ExecuteDataTable("[HR].[SP_GetPayrollReportOverTimes]", Params, null);
             return result;
         }
 
@@ -71,7 +71,7 @@ namespace MasterErp.Service.HR
             Params[3] = new SqlParameter("@FromDate", SearchModel.FromDate ?? (object)DBNull.Value);
             Params[4] = new SqlParameter("@ToDate", SearchModel.ToDate ?? (object)DBNull.Value);
 
-            var result = _sQLHelper.ExecuteDataTable("[HR].[SP_GetPayrollReportPenalties]", Params, ConnectionString);
+            var result = _sQLHelper.ExecuteDataTable("[HR].[SP_GetPayrollReportPenalties]", Params, null);
             return result;
         }
 
@@ -86,7 +86,7 @@ namespace MasterErp.Service.HR
             Params[3] = new SqlParameter("@FromDate", SearchModel.FromDate ?? (object)DBNull.Value);
             Params[4] = new SqlParameter("@ToDate", SearchModel.ToDate ?? (object)DBNull.Value);
 
-            var result = _sQLHelper.ExecuteDataTable("[HR].[SP_GetPayrollReportSickLeaves]", Params, ConnectionString);
+            var result = _sQLHelper.ExecuteDataTable("[HR].[SP_GetPayrollReportSickLeaves]", Params, null);
             return result;
         }
 
@@ -101,7 +101,7 @@ namespace MasterErp.Service.HR
             Params[3] = new SqlParameter("@FromDate", SearchModel.FromDate ?? (object)DBNull.Value);
             Params[4] = new SqlParameter("@ToDate", SearchModel.ToDate ?? (object)DBNull.Value);
 
-            var result = _sQLHelper.ExecuteDataTable("[HR].[SP_GetPayrollReportDeducts]", Params, ConnectionString);
+            var result = _sQLHelper.ExecuteDataTable("[HR].[SP_GetPayrollReportDeducts]", Params, null);
             return result;
         }
 
@@ -116,7 +116,7 @@ namespace MasterErp.Service.HR
             Params[3] = new SqlParameter("@FromDate", SearchModel.FromDate ?? (object)DBNull.Value);
             Params[4] = new SqlParameter("@ToDate", SearchModel.ToDate ?? (object)DBNull.Value);
 
-            var result = _sQLHelper.ExecuteDataTable("[HR].[SP_GetPayrollReportAdvances]", Params, ConnectionString);
+            var result = _sQLHelper.ExecuteDataTable("[HR].[SP_GetPayrollReportAdvances]", Params, null);
             return result;
         }
 

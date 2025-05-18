@@ -16,8 +16,9 @@ namespace MasterErp.Entities.DTOs.HR
         public string JobName { get; set; }
         public int BranchId { get; set; }
         public string BranchName { get; set; }
-        public int WorkStatusId { get; set; }
-        public string WorkStatusName { get; set; }
+        public int? WorkFlowStatusId { get; set; }
+        public string WorkFlowStatusNameAR { get; set; }
+        public string WorkFlowStatusNameEN { get; set; }
         public string Notes { get; set; }
         public DateTime ExecutionDate { get; set; }
 

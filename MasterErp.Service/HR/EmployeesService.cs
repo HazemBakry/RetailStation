@@ -74,7 +74,7 @@ namespace MasterErp.Service.HR
                 employee.JobId = model.JobId;
                 employee.VisaJobId = model.VisaJobId;
                 employee.BranchId = model.BranchId;
-                employee.StatusId = model.StatusId;
+                employee.StatusId = 1; // model.StatusId;
 
 
                 employee.BirthDate = model.BirthDate;

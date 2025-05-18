@@ -12,6 +12,7 @@ import { FormService } from 'src/app/components/Shared/services/form.service';
 import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { LookupService } from 'src/app/components/Shared/services/lookup.service';
+import { JobWorkflowStatus, WorkflowStatusGroup } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
 
 @Component({
   selector: 'app-hr-careers',
@@ -256,7 +257,7 @@ export class HrCareersComponent implements OnInit {
   }
   workStatusSelectorData: FormDropdownModel[] = [];
   getWorkStatusSelector() {
-    this.lookupService.GetWorkStatusSelector().subscribe((data: FormDropdownModel[]) => {
+    this.lookupService.GetWorkStatusSelector(WorkflowStatusGroup.Job).subscribe((data: FormDropdownModel[]) => {
       this.workStatusSelectorData = data;
     });
   }

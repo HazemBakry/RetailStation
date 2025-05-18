@@ -100,7 +100,7 @@ export class HrDeductsComponent implements OnInit {
       deductTypeId: [null, [Validators.required]],
       moneyAmount: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
       isApproved: [null],
-      executionDate: [null, [Validators.required, CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
+      executionDate: [null, [Validators.required]],//[null, [Validators.required, CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
       notes: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {

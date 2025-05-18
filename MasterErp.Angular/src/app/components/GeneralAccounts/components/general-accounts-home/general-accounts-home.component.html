@@ -1,17 +1,20 @@
 <div class="d-flex flex-column gap-5">
-    <section *ngIf="!selectedTabName && statisticsCardList?.length"
+    <!-- <section *ngIf="!selectedTabName && statisticsCardList?.length"
         class="general-accounts-section d-flex flex-column gap-4">
         <div class="card radius-10 border-0 card-shadow mb-3">
             <div class="card-body">
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4"> -->
+    <section class="general-accounts-section d-flex flex-column gap-4">
 
-                    <div class="col" *ngFor="let data of statisticsCardList">
-                        <app-overview-card [data]="data"></app-overview-card>
-                    </div>
-                </div>
+        <div class="section-content d-flex">
+
+
+            <div class="col-md-3 p-2" *ngFor="let data of statisticsCardList">
+                <app-overview-card [data]="data"></app-overview-card>
             </div>
         </div>
     </section>
+
     <section *ngIf="selectedTabName && menuItem" class="general-accounts-section d-flex flex-column gap-4">
         <header class="section-header d-flex flex-column gap-2">
             <h2 class="section-title m-0">{{menuItem.displayName}}</h2>
@@ -20,8 +23,7 @@
         <div *ngIf="menuItem?.subMenus?.length >0 " class="section-content">
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-6 g-4">
                 <div *ngFor="let item of menuItem?.subMenus" class="col">
-                    <div [routerLink]="item.route" routerLinkActive="active"
-                        class="bg-white shadow-sm column-card d-flex flex-column align-items-center gap-3 text-center h-100  cursor-pointer hovered">
+                    <div [routerLink]="item.route" routerLinkActive="active" class="bg-white shadow-sm column-card d-flex flex-column align-items-center gap-3 text-center h-100  cursor-pointer hovered">
                         <div class="column-card-icon">
                             <i [class]="item.icon"></i>
                         </div>
@@ -38,11 +40,9 @@
 
     <section class="general-accounts-section d-flex flex-column gap-4">
         <header class="section-header d-flex align-items-center justify-content-between flex-wrap gap-2">
-            <h2 class="section-title m-0">آخر الحسابات العامة</h2>
+            <h2 class="section-title m-0">الحسابات العامة</h2>
             <div ngbDropdown class="nw-dropdown" display="dynamic">
-                <button type="button"
-                    class="btn bg-white-5 rounded d-flex align-items-center justify-content-between gap-2 px-3"
-                    ngbDropdownToggle>
+                <button type="button" class="btn bg-white-5 rounded d-flex align-items-center justify-content-between gap-2 px-3" ngbDropdownToggle>
                     <span>هذا الشهر</span>
                     <i class="fa-solid fa-chevron-down dropdown-arrow fs-13"></i>
                 </button>
@@ -58,8 +58,7 @@
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 <div class="col">
                     <div class="bg-white shadow-sm column-card d-flex flex-column align-items-center gap-3 h-100">
-                        <header
-                            class="d-flex align-items-center justify-content-between gap-2 w-100 light-purple-header">
+                        <header class="d-flex align-items-center justify-content-between gap-2 w-100 light-purple-header">
                             <div class="d-flex flex-column gap-2">
                                 <div class="column-card-title">العمليات المالية</div>
                                 <div class="column-card-description text-muted">إجمالي العمليات اليومية</div>
@@ -89,8 +88,7 @@
 
                 <div class="col">
                     <div class="bg-white shadow-sm column-card d-flex flex-column align-items-center gap-3 h-100">
-                        <header
-                            class="d-flex align-items-center justify-content-between gap-2 w-100 light-purple-header">
+                        <header class="d-flex align-items-center justify-content-between gap-2 w-100 light-purple-header">
                             <div class="d-flex flex-column gap-2">
                                 <div class="column-card-title">الإيرادات</div>
                                 <div class="column-card-description text-muted">إجمالي الإيرادات اليومية</div>
@@ -121,8 +119,7 @@
 
                 <div class="col">
                     <div class="bg-white shadow-sm column-card d-flex flex-column align-items-center gap-3 h-100">
-                        <header
-                            class="d-flex align-items-center justify-content-between gap-2 w-100 light-purple-header">
+                        <header class="d-flex align-items-center justify-content-between gap-2 w-100 light-purple-header">
                             <div class="d-flex flex-column gap-2">
                                 <div class="column-card-title">المصروفات</div>
                                 <div class="column-card-description text-muted">إجمالي المصروفات اليومية</div>

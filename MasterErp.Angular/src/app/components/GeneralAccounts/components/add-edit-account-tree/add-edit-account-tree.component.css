@@ -1,9 +1,9 @@
 .btn {
     padding-right: 1rem;
     padding-left: 1rem;
-    font-size: 9px;
+    font-size: 11px;
     max-height: 30px;
-    background-color: #9e9e9f;
+    /* background-color: #9e9e9f; */
     /* width: 60px !important; */
 }
 

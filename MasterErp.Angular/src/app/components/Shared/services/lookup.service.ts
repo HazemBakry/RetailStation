@@ -68,9 +68,9 @@ export class LookupService {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetNationalitiesSelector');
   }
 
-  GetWorkStatusSelector(group:WorkflowStatusGroup=WorkflowStatusGroup.All) {
-    
-    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetWorkStatusSelector?Group='+group);
+  GetWorkStatusSelector(group: WorkflowStatusGroup = WorkflowStatusGroup.All) {
+
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetWorkStatusSelector?Group=' + group);
   }
 
   GetReligionsSelector() {

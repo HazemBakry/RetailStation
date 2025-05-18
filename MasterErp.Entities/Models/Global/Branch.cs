@@ -17,14 +17,22 @@ namespace MasterErp.Entities.Models.Global
         public string Code { get; set; }
         public string NameAR { get; set; }
         public string NameEN { get; set; }
-        public int DisplayOrder { get; set; }
-        public bool IsActive { get; set; }
-        public bool IsAdmin { get; set; }
+        public int? DisplayOrder { get; set; }
+        public string Phone { get; set; }
+        public string TaxNumber { get; set; }
+        public double? TaxPercent { get; set; }
         public int? CityId { get; set; }
+        public bool IsActive { get; set; }
         public int? DrawingsCostCenterId { get; set; }
         public int? ExpensesCostCenterId { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
-        public string Address { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
+        public string Image { get; set; }
+        public int? DinningTables { get; set; }
+        public int? FamilyTables { get; set; }
+        public string ShowInReports { get; set; }
+        public bool IsAdmin { get; set; }
+        public string SubscriberId { get; set; }
+        public string AttendanceDbPath { get; set; }
     }
 }
