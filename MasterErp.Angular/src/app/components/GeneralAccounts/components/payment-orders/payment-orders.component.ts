@@ -3,6 +3,7 @@ import { PaymentService } from '../../services/payment.service';
 import { ToastrService } from 'ngx-toastr';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
+import { FinanceWorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
 
 @Component({
   selector: 'app-payment-orders',
@@ -12,7 +13,7 @@ import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
 export class PaymentOrdersComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'أوامر الصرف'];
   showLoader: boolean;
-
+  public wfStatus = FinanceWorkflowStatus;
 
   pagedResponseModel: PagedResponseDTO<ReceiptModel[]> = {
     results: [],

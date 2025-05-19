@@ -17,7 +17,7 @@ import { FilterItem } from 'src/app/components/Shared/models/FilterModel';
 export class AdvancesRequestsComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'طلبات السلف'];
   showLoader: boolean;
-
+  public wfStatus = HRWorkflowStatus;
   filterList: FilterItem[] = [];
   mainFilter: FilterItem = {
     categoryName: 'AdvanceStatus',

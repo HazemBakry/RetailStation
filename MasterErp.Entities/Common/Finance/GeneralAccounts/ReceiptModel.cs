@@ -46,6 +46,7 @@ namespace MasterErp.Entities.Common.Finance.GeneralAccounts
         public string WorkflowStatusNameAR { get; set; }
         public int? WorkflowStatusId { get; set; }
         public int? EntryId { get; set; }
+        public int? EmployeeAdvanceId { get; set; }
         public int? TotalCount { get; set; }
 
         public int? NextId { get; set; }

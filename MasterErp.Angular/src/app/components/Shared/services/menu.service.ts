@@ -78,13 +78,13 @@ export class MenuService {
               icon: 'fa fa-receipt',
               route: '/general-accounts/receive-receipts'
             },
-            {
-              displayName: 'الرصيد الافتتاحي',
-              menuItem: 'opening-balance',
-              description: 'تحديد الأرصدة الافتتاحية للفترة المحاسبية',
-              icon: 'fa fa-balance-scale-left',
-              route: '/general-accounts/opening-balance'
-            },
+            // {
+            //   displayName: 'الرصيد الافتتاحي',
+            //   menuItem: 'opening-balance',
+            //   description: 'تحديد الأرصدة الافتتاحية للفترة المحاسبية',
+            //   icon: 'fa fa-balance-scale-left',
+            //   route: '/general-accounts/opening-balance'
+            // },
             {
               displayName: 'القروض',
               menuItem: 'loans',
@@ -146,29 +146,29 @@ export class MenuService {
             },
           ]
         },
-        {
-          menuItemId: MenuType.GeneralAccountsHome,
-          displayName: 'الحسابات الختامية',
-          menuItem: '4',
-          description: 'متابعة وإنهاء الحسابات الختامية',
-          icon: 'fa-solid fa-clipboard-check',
-          route: '/general-accounts/home/4',
+        // {
+        //   menuItemId: MenuType.GeneralAccountsHome,
+        //   displayName: 'الحسابات الختامية',
+        //   menuItem: '4',
+        //   description: 'متابعة وإنهاء الحسابات الختامية',
+        //   icon: 'fa-solid fa-clipboard-check',
+        //   route: '/general-accounts/home/4',
 
-          subMenus: [
-            {
-              displayName: 'الحسابات الختامية',
-              menuItem: 'accounts-general-ledger',
-              description: 'عرض وتحليل الحسابات الختامية',
-              icon: 'fa fa-clipboard-check',
-            },
-            {
-              displayName: 'الحسابات الختامية',
-              menuItem: 'accounts-general-ledger',
-              description: 'تحليل تفصيلي للحسابات الختامية',
-              icon: 'fa fa-clipboard-check',
-            },
-          ]
-        },
+        //   subMenus: [
+        //     {
+        //       displayName: 'الحسابات الختامية',
+        //       menuItem: 'accounts-general-ledger',
+        //       description: 'عرض وتحليل الحسابات الختامية',
+        //       icon: 'fa fa-clipboard-check',
+        //     },
+        //     {
+        //       displayName: 'الحسابات الختامية',
+        //       menuItem: 'accounts-general-ledger',
+        //       description: 'تحليل تفصيلي للحسابات الختامية',
+        //       icon: 'fa fa-clipboard-check',
+        //     },
+        //   ]
+        // },
         {
           menuItemId: MenuType.GeneralAccountsHome,
           displayName: 'تقارير مراكز التكلفة',
@@ -367,6 +367,18 @@ export class MenuService {
               menuItem: 'journal-entry-templates',
               description: 'مراجعة وتدقيق كافة الحركات اليومية',
               icon: 'fa fa-search-dollar',
+            },
+            {
+              displayName: 'الحسابات الختامية',
+              menuItem: 'accounts-general-ledger',
+              description: 'عرض وتحليل الحسابات الختامية',
+              icon: 'fa fa-clipboard-check',
+            },
+            {
+              displayName: 'الحسابات الختامية',
+              menuItem: 'accounts-general-ledger',
+              description: 'تحليل تفصيلي للحسابات الختامية',
+              icon: 'fa fa-clipboard-check',
             },
           ]
         }

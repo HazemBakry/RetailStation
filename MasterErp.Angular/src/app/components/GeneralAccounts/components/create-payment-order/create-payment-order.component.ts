@@ -129,6 +129,7 @@ export class CreatePaymentOrderComponent implements OnInit {
       description: [null],
       contactName: [null],
       currencyId: [null],
+      employeeAdvanceId: [null],
       moneyAmount: [null, [Validators.required]]
     });
     this.formGroup.valueChanges.subscribe((data) => {
@@ -216,7 +217,8 @@ export class CreatePaymentOrderComponent implements OnInit {
           moneyAmount: data.advanceAmount,
           agencyTypeId: 4,
           employeeId: data.employeeId,
-          contactName:data.employeeName
+          contactName:data.employeeName,
+          employeeAdvanceId:this.employeeAdvanceId
         });
         this.formGroup?.get('moneyAmount')?.disable();
         console.log("this.formGroup",this.formGroup);
