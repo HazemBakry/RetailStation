@@ -109,6 +109,7 @@ export class AccountsGeneralLedgerComponent implements OnInit {
     reportParams.filterItems = filterItems;
     this.showLoader = true;
     this.ReportsService.CreateGeneralReport(reportParams, (timeTaken) => {
+      debugger;
       this.showLoader = false;
       console.log(`Generate Report Request Time: ${timeTaken} S`);
     });
