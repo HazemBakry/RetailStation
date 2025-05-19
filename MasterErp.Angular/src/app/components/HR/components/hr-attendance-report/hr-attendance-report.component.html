@@ -93,17 +93,26 @@
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
         <div class="table-responsive shadow-sm radius-10 table-vp-height">
             <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0 ">
+
                 <thead>
+
                     <tr>
-                        <th>الرقم الوظيفى</th>
-                        <th>اسم الموظف</th>
-                        <th>الفرع</th>
-                        <th>تاريخ الحضور</th>
-                        <th>اليوم</th>
-                        <th>الفترة الأولى</th>
-                        <th>الفترة الثانية</th>
-                        <th>إجمالى الوقت</th>
-                        <th class="text-center"></th>
+                        <th rowspan="2">الرقم الوظيفى</th>
+                        <th rowspan="2">اسم الموظف</th>
+                        <th rowspan="2">الفرع</th>
+                        <th rowspan="2">تاريخ الحضور</th>
+                        <th rowspan="2">اليوم</th>
+                        <th colspan="2">الفترة الأولى</th>
+                        <th colspan="2">الفترة الثانية</th>
+                        <th rowspan="2">إجمالى الوقت</th>
+                        <th rowspan="2" class="text-center"></th>
+                    </tr>
+                    <tr>
+                        <th>من</th>
+                        <th>الي</th>
+                        <th>من</th>
+                        <th>الي</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -114,23 +123,25 @@
                         <td>{{item.punchDate | date:'d-M-y'}}</td>
                         <td>{{item.punchDate| date: 'EEEE'}}</td>
                         <td class="fw-bold">
-                            <div>من  : {{item.period1_PunchIn | date: 'hh:mm:ss a'}} </div>
-                            <div>الي  : {{item.period1_PunchOut | date: 'hh:mm:ss a'}}</div>
-                            <div>اجمالي  : {{getTime(item.period1_PunchIn,item.period1_PunchOut)}}</div>
-
+                            {{item.period1_PunchIn | date: 'hh:mm:ss a'}}
 
                         </td>
                         <td class="fw-bold">
-                            <div>من  : {{item.period2_PunchIn| date: 'hh:mm:ss a'}}</div>
-                            <div>الي  : {{item.period2_PunchOut| date: 'hh:mm:ss a'}}</div>
-                            <div>اجمالي  : {{getTime(item.period2_PunchIn,item.period2_PunchOut)}}</div>
-
+                            {{item.period1_PunchOut | date: 'hh:mm:ss a'}}
+                            <!-- <div>اجمالي : {{getTime(item.period1_PunchIn,item.period1_PunchOut)}}</div> -->
+                        </td>
+                        <td class="fw-bold">
+                            {{item.period2_PunchIn| date: 'hh:mm:ss a'}}
+                        </td>
+                        <td class="fw-bold">
+                            {{item.period2_PunchOut| date: 'hh:mm:ss a'}}
+                            <!-- <div>اجمالي : {{getTime(item.period2_PunchIn,item.period2_PunchOut)}}</div> -->
                         </td>
                         <td class="fw-bold">
                             <span>{{getTimeFromSec(item.totalWorkSeconds)}}</span>
 
                         </td>
-                        <td >
+                        <td>
                             <div class="d-flex align-items-center justify-content-center">
                                 <div ngbDropdown container="body">
                                     <button class="btn-sm-action sm-action-dropdown"
@@ -142,7 +153,7 @@
                         </td>
                     </tr>
                     <tr *ngIf="!pagedResponseModel.results.length || showLoader">
-                        <td colspan="9" class="text-right">
+                        <td colspan="11" class="text-right">
                             <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader"
                                 [showLoader]="showLoader"></app-empty-data>
                         </td>
