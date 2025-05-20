@@ -106,6 +106,14 @@ namespace MasterErp.Service.GeneralAccounts
 
                 Context.PaymentOrders.Add(order);
                 Context.SaveChanges();
+
+                if(Model.EmployeeAdvanceId !=null)
+                {
+                    var advance = Context.EmployeeAdvances.FirstOrDefault(x => x.EmployeeAdvanceId == Model.EmployeeAdvanceId);
+                    advance.WorkflowStatusId = (int)HRWorkflowStatus.Completed;
+                    Context.SaveChanges();
+
+                }
                 
 
                 return new ActionsResponseModel
@@ -288,7 +296,7 @@ namespace MasterErp.Service.GeneralAccounts
                 
 
                 var payment_order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == Model.PaymentOrderId);
-                payment_order.WorkflowStatusId = (int)FinanceWorkflowStatus.Paid;
+                payment_order.WorkflowStatusId = (int)FinanceWorkflowStatus.WaitingPayment;
                 Context.SaveChanges();
 
                 var entry = PreparePaymentEntryModel(receipt);

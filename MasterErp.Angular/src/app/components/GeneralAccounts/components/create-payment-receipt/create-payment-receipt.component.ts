@@ -6,12 +6,13 @@ import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsRe
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { DatePipe } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
+import { FinanceWorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
 
 @Component({
   selector: 'app-create-payment-receipt',
@@ -55,7 +56,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
     receiptLedgerId: '',
     receiptTypeId: '',
     paymentOrderId: '',
-    fromAccountId:''
+    fromAccountId: ''
   };
 
   constructor(private sharedService: SharedService,
@@ -63,6 +64,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
     private form: FormBuilder,
     private _FormService: FormService,
     private datePipe: DatePipe,
+    private router: Router,
     private acRoute: ActivatedRoute,
     private lookupService: LookupService,
     private toaster: ToastrService) { }
@@ -189,9 +191,12 @@ export class CreatePaymentReceiptComponent implements OnInit {
   getPaymentOrderDetailsById(paymentOrderId) {
     this.showLoader = true;
     this.paymentService.GetPaymentOrderDetailsById(paymentOrderId).subscribe((data: ReceiptModel) => {
-      if (data) {
+      if (data && ![FinanceWorkflowStatus.Cancelled, FinanceWorkflowStatus.Paid].includes(data.workflowStatusId)) {
         this.paymentReceiptModel = data;
         this.fillEditForm(this.paymentReceiptModel)
+      } else {
+        this.paymentReceiptModel = null;
+        this.toaster.error("لا يمكن انشاء سند صرف على أمر صرف تم دفعه أو ملغي");
       }
       this.showLoader = false;
     }, err => {
@@ -202,8 +207,6 @@ export class CreatePaymentReceiptComponent implements OnInit {
   }
 
 
-
-
   getReceiptDetailsById(receiptId: number) {
 
   }
@@ -211,10 +214,13 @@ export class CreatePaymentReceiptComponent implements OnInit {
   getPaymentReceiptDetailsById() {
     this.showLoader = true;
     this.paymentService.GetPaymentReceiptDetailsById(this.paymentReceiptId).subscribe((data: ReceiptModel) => {
-      if (data) {
+      if (data && ![FinanceWorkflowStatus.Cancelled, FinanceWorkflowStatus.Paid].includes(data.workflowStatusId)) {
         this.paymentReceiptModel = data;
         this.initNewForm(this.paymentReceiptModel);
         // this.fillEditForm(this.receiptModel)
+      } else {
+        this.paymentReceiptId = null;
+        this.toaster.error("لا يمكن تعديل سند صرف على فاتورة تم تم دفعه أو ملغي");
       }
       this.showLoader = false;
     }, err => {
@@ -276,7 +282,10 @@ export class CreatePaymentReceiptComponent implements OnInit {
     this.paymentService.AddNewPaymentReceipt(this.paymentReceiptModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.paymentReceiptModel.orderNumber = data.number;
-        this.paymentReceiptId = data.id;
+        if (data.id) {
+          this.paymentReceiptId = data.id;
+          this.goToPage(this.paymentReceiptId);
+        }
         this.formGroup.patchValue({ receiptNumber: data.number });
         // this.formGroup?.reset();
         // this.initNewForm();
@@ -313,5 +322,13 @@ export class CreatePaymentReceiptComponent implements OnInit {
     });
 
   }
-
+  goToPage(id: number) {
+    if (id) {
+      this.router.navigate([], {
+        relativeTo: this.acRoute,
+        queryParams: { PaymentReceiptId: id },
+        // queryParamsHandling: 'merge'
+      });
+    }
+  }
 }

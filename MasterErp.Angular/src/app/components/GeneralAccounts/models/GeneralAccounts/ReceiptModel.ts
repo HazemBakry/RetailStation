@@ -18,6 +18,7 @@ export interface ReceiptModel {
     moneyAmount: number;
     docNumber: string;
     currencyId: number | null;
+    employeeAdvanceId: number | null;
     description: string;
     workflowStatusId: number | null;
     workflowStatusNameAR: string;

@@ -9,10 +9,10 @@
                 <i class="fas fa-plus-circle"></i>
                 <span>إضافة أمر صرف</span>
             </button>
-            <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+            <!-- <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
                 <i class="fas fa-file-download"></i>
                 <span>تصدير CSV</span>
-            </button>
+            </button> -->
             <!-- <div ngbDropdown class="d-inline-block">
                 <button type="button" class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3"
                     id="dropdownBasic1" ngbDropdownToggle>
@@ -30,10 +30,10 @@
                     </button>
                 </div>
             </div> -->
-            <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+            <!-- <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
                 <i class="fas fa-filter"></i>
                 <span>إضافة فلتر</span>
-            </button>
+            </button> -->
             <!--<button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
                 <i class="fas fa-save"></i>
                 <span>المرشحات المحفوظة</span>
@@ -105,7 +105,7 @@
                                     <div ngbDropdownMenu class="border">
                                         <button ngbDropdownItem
                                             (click)="cancelPaymentOrder(item.paymentOrderId)">اسقاط</button>
-                                        <button ngbDropdownItem routerLink="/general-accounts/create-payment-receipt"
+                                        <button *ngIf="![wfStatus.Cancelled , wfStatus.Paid].includes(item.workflowStatusId)" ngbDropdownItem routerLink="/general-accounts/create-payment-receipt"
                                             [queryParams]="{PaymentOrderId:item.paymentOrderId}">انشاء سند
                                             الصرف</button>
                                     </div>

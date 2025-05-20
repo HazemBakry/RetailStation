@@ -89,7 +89,7 @@
                                             <!-- <i class="uil uil-trash-alt"></i> -->
                                             اسقاط
                                         </button>
-                                        <button *ngIf="item.employeeAdvanceId" ngbDropdownItem
+                                        <button *ngIf="item.employeeAdvanceId && item.workflowStatusId ==wfStatus.Approved" ngbDropdownItem
                                             routerLink="/general-accounts/create-payment-order"
                                             [queryParams]="{EmployeeAdvanceId:item.employeeAdvanceId}">انشاء أمر
                                             صرف
