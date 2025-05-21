@@ -12,6 +12,8 @@ namespace MasterErp.Interface.HR
 {
     public interface IAttendanceService
     {
+        List<EmployeeAttendanceModel> GetAttendanceReport_Data(SearchFilterModel SearchModel);
+        List<EmployeeAdvancedAttendanceModel> GetAdvancedAttendanceReport_Data(SearchFilterModel SearchModel);
         List<EmployeeAttendanceModel> GetAttendance_Data(SearchFilterModel SearchModel);
         bool AddNewAttendance(Attendance model);
         bool EditAttendance(Attendance model);

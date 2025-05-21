@@ -24,6 +24,37 @@ namespace MasterErp.API.Controllers.HR
         }
 
         [HttpPost]
+        [Route("GetAttendanceReport_Data")]
+        public IActionResult GetAttendanceReport_Data(SearchFilterModel SearchModel)
+        {
+            var data = _attendanceService.GetAttendanceReport_Data(SearchModel);
+            var result = new PagedResponseModel<EmployeeAttendanceModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+
+            };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("GetAdvancedAttendanceReport_Data")]
+        public IActionResult GetAdvancedAttendanceReport_Data(SearchFilterModel SearchModel)
+        {
+            var data = _attendanceService.GetAdvancedAttendanceReport_Data(SearchModel);
+            var result = new PagedResponseModel<EmployeeAdvancedAttendanceModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+
+            };
+            return Ok(result);
+        }
+
+        [HttpPost]
         [Route("GetAttendance_Data")]
         public IActionResult GetAttendance_Data(SearchFilterModel SearchModel)
         {

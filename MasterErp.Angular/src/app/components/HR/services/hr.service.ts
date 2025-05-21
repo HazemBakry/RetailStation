@@ -16,6 +16,7 @@ import { EmployeeSalaryModel } from '../models/Employee/EmployeeSalaryModel';
 import { EmployeeContractModel } from '../models/Employee/EmployeeContractModel';
 import { Observable } from 'rxjs';
 import { AdvancePaymentModel, EmployeeAdvanceModel } from '../models/EmployeeAdvanceModel';
+import { EmployeeAdvancedAttendanceModel, EmployeeAttendanceModel } from '../models/EmployeeAttendanceModel';
 
 @Injectable({
   providedIn: 'root'
@@ -218,6 +219,12 @@ export class HrService {
 
   //================================== Attendance ===============================
 
+  GetAttendanceReport_Data(model: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<EmployeeAttendanceModel[]>>(this.URL + 'Attendance/GetAttendanceReport_Data', model);
+  }
+  GetAdvancedAttendanceReport_Data(model: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<EmployeeAdvancedAttendanceModel[]>>(this.URL + 'Attendance/GetAdvancedAttendanceReport_Data', model);
+  }
   GetAttendance_Data(model: SearchFilterModel) {
     return this.http.post<any>(this.URL + 'Attendance/GetAttendance_Data', model);
   }

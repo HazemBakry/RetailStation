@@ -26,6 +26,30 @@ namespace MasterErp.Service.HR
             this.sharedFilterService = sharedFilterService;
             SQLHelper = sQLHelper;
         }
+        public List<EmployeeAttendanceModel> GetAttendanceReport_Data(SearchFilterModel SearchModel)
+        {
+            SqlParameter[] param = new SqlParameter[3];
+            param[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[0].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
+            
+            param[1] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            param[2] = new SqlParameter("@PageSize", SearchModel.PageSize);
+
+            var result = SQLHelper.SQLQuery<EmployeeAttendanceModel>("[HR].[SP_GetEmployeeAttendance]", null, param);
+            return result;
+        }
+        public List<EmployeeAdvancedAttendanceModel> GetAdvancedAttendanceReport_Data(SearchFilterModel SearchModel)
+        {
+            SqlParameter[] param = new SqlParameter[3];
+            param[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[0].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
+            
+            param[1] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            param[2] = new SqlParameter("@PageSize", SearchModel.PageSize);
+
+            var result = SQLHelper.SQLQuery<EmployeeAdvancedAttendanceModel>("[HR].[SP_GetEmployeeAttendance]", null, param);
+            return result;
+        }
         public List<EmployeeAttendanceModel> GetAttendance_Data(SearchFilterModel SearchModel)
         {
             SqlParameter[] param = new SqlParameter[3];

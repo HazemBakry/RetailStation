@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { DatePipe } from '@angular/common';
 import { HrService } from '../../services/hr.service';
 import { ToastrService } from 'ngx-toastr';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
@@ -10,14 +8,14 @@ import { EmployeeModel } from '../../models/Employee/EmployeeModel';
 import { Router } from '@angular/router';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
-import { EmployeeAttendanceModel } from '../../models/EmployeeAttendanceModel';
+import { EmployeeAdvancedAttendanceModel } from '../../models/EmployeeAttendanceModel';
 
 @Component({
-  selector: 'app-hr-attendance-report',
-  templateUrl: './hr-attendance-report.component.html',
-  styleUrls: ['./hr-attendance-report.component.css']
+  selector: 'app-hr-attendance-advanced-report',
+  templateUrl: './hr-attendance-advanced-report.component.html',
+  styleUrls: ['./hr-attendance-advanced-report.component.css']
 })
-export class HrAttendanceReportComponent implements OnInit {
+export class HrAttendanceAdvancedReportComponent implements OnInit {
   TitleList = ['الموارد البشرية', 'الحضور والانصراف'];
   URLs: any[] = [];
   Branches: any[] = [];
@@ -30,7 +28,7 @@ export class HrAttendanceReportComponent implements OnInit {
   toDate: string;
   selectedEmployeeId: number;
   selectedBranchId: number;
-  pagedResponseModel: PagedResponseDTO<EmployeeAttendanceModel[]> = {
+  pagedResponseModel: PagedResponseDTO<EmployeeAdvancedAttendanceModel[]> = {
     results: [],
     filterList: [],
     pageSize: 25,
@@ -59,7 +57,17 @@ export class HrAttendanceReportComponent implements OnInit {
       this.employeeSelectorData = data;
     });
   }
+  headers: Date[] = [];
   search() {
+    this.headers = [];
+    var start = new Date(this.fromDate);
+    var end = new Date(this.toDate);
+
+    while (start <= end) {
+      this.headers.push(new Date(start));
+      start.setDate(start.getDate() + 1);
+    }
+    console.log("days", this.headers);
     this.pagedResponseModel.results = [];
     this.pagedResponseModel.currentPage = 1;
     this.pagedResponseModel.totalCount = 0;
@@ -68,7 +76,7 @@ export class HrAttendanceReportComponent implements OnInit {
   getAttendance_Data() {
     this.mapFilters();
     this.showLoader = true;
-    this.hrService.GetAttendanceReport_Data(this.pagedResponseModel).subscribe(data => {
+    this.hrService.GetAdvancedAttendanceReport_Data(this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data?.results;
       this.pagedResponseModel.totalCount = data?.totalCount;
       this.showLoader = false;
@@ -78,7 +86,18 @@ export class HrAttendanceReportComponent implements OnInit {
       this.showLoader = false;
     });
   }
+  getPunchInfo(employee: EmployeeAdvancedAttendanceModel, date: Date): string {
+    const dateKey = date.toISOString().split('T')[0];
+    const record = employee.attendance?.find(a =>
+      a.attendanceDate && new Date(a.attendanceDate).toISOString().split('T')[0] === dateKey
+    );
 
+    if (!record) return '-';
+    const inTime = record.punchIn ? new Date(record.punchIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--';
+    const outTime = record.punchOut ? new Date(record.punchOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--';
+
+    return `${inTime} - ${outTime}`;
+  }
   GetAttendance_Filters() {
     // this.hrService.GetAttendance_Filters(this.pagedResponseModel).subscribe((data: FilterModel[]) => {
     //   this.filterList = data;
@@ -120,7 +139,7 @@ export class HrAttendanceReportComponent implements OnInit {
   }
 
   getTime(currentT?: any, upcomingT?: any, getColorClass: boolean = false) {
-    if (!currentT||!upcomingT) {
+    if (!currentT || !upcomingT) {
       return '';
     }
     const currentTime = new Date(currentT);
@@ -179,3 +198,4 @@ export class HrAttendanceReportComponent implements OnInit {
   }
 
 }
+
