@@ -6,29 +6,33 @@ using iText.Kernel.Pdf;
 using System.Text.RegularExpressions;
 using iText.Kernel.Colors;
 using iText.Kernel.Pdf.Canvas;
-using iText.IO.Font.Constants;
 using iText.Kernel.Font;
 using iText.Layout.Font;
 using iText.Kernel.Geom;
 using MasterErp.Interface.Shared;
+using iText.Layout;
 
 namespace MasterErp.Service.Shared
 {
     public class Helper : IHelper
     {
         private readonly IWebHostEnvironment _environment;
+        private readonly PdfFont _pdfFont;
+
         public Helper(IWebHostEnvironment environment)
         {
             _environment = environment;
+            var fontPath =System.IO.Path.Combine(_environment.WebRootPath, "Fonts", "Cairo-Regular.ttf");
+            _pdfFont = PdfFontFactory.CreateFont(fontPath, iText.IO.Font.PdfEncodings.IDENTITY_H);
         }
+
         public string SaveHTMLResult(string HTMLContent, bool IsLandScape)
         {
             try
             {
                 HTMLContent = ClearAngularAttrFromHTML(HTMLContent);
-                HTMLContent = Regex.Unescape(HTMLContent);
-
                 var FolderPath = System.IO.Path.Combine(_environment.WebRootPath, "Reports");
+
                 if (!Directory.Exists(FolderPath))
                     Directory.CreateDirectory(FolderPath);
 
@@ -48,31 +52,44 @@ namespace MasterErp.Service.Shared
             try
             {
                 string tempFile = System.IO.Path.GetTempFileName();
-                var ARFont = System.IO.Path.Combine(_environment.WebRootPath, "Fonts", "Cairo-Regular.ttf");
+                WriterProperties writerProperties = new WriterProperties().SetFullCompressionMode(true);
                 using (FileStream pdfStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.None))
+                using (PdfWriter writer = new PdfWriter(pdfStream, writerProperties))
+                using (PdfDocument pdfDocument = new PdfDocument(writer))
                 {
-                    PdfWriter writer = new PdfWriter(pdfStream);
-                    PdfDocument pdfDocument = new PdfDocument(writer);
-                    FontProvider fontProvider = new FontProvider();
-                    ConverterProperties properties = new ConverterProperties();
                     if (!IsLandScape)
                         pdfDocument.SetDefaultPageSize(PageSize.A4.Rotate());
-                    fontProvider.AddFont(ARFont);
+
+                    FontProvider fontProvider = new FontProvider();
+                    fontProvider.AddFont(_pdfFont.GetFontProgram());
+                    ConverterProperties properties = new ConverterProperties();
                     properties.SetCharset("UTF-8");
                     properties.SetFontProvider(fontProvider);
-                    HtmlConverter.ConvertToPdf(HTMLContent, pdfDocument, properties);
+
+                    Document document = HtmlConverter.ConvertToDocument(HTMLContent, pdfDocument, properties);
+
+                    int pageCount = pdfDocument.GetNumberOfPages();
+                    for (int i = 1; i <= pageCount; i++)
+                    {
+                        if (i % 5000 == 0)
+                        {
+                            pdfDocument.GetPage(i).Flush();
+                        }
+                    }
+
+                    document.Close();
                 }
+
                 using (PdfReader reader = new PdfReader(tempFile))
-                using (PdfWriter writer = new PdfWriter(outputPath))
+                using (PdfWriter finalWriter = new PdfWriter(outputPath))
+                using (PdfDocument finalPdfDocument = new PdfDocument(reader, finalWriter))
                 {
-                    PdfDocument pdfDocument = new PdfDocument(reader, writer);
-                    AddFooter(pdfDocument);
-                    pdfDocument.Close();
+                    AddFooter(finalPdfDocument);
+                    finalPdfDocument.Close();
                 }
 
                 File.Delete(tempFile);
             }
-
             catch (Exception ex)
             {
                 throw;
@@ -84,8 +101,6 @@ namespace MasterErp.Service.Shared
             int numberOfPages = pdfDocument.GetNumberOfPages();
             string currentDate = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
 
-            PdfFont font = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
-
             for (int i = 1; i <= numberOfPages; i++)
             {
                 PdfPage page = pdfDocument.GetPage(i);
@@ -93,21 +108,21 @@ namespace MasterErp.Service.Shared
 
                 float pageWidth = page.GetPageSize().GetWidth();
                 float margin = 40;
-                float margin22 = 100;
+                float marginRight = 150;
                 float y = 20;
 
                 string pageNumberText = $"Page {i} of {numberOfPages}";
                 canvas.BeginText()
-                    .SetFontAndSize(font, 10)
+                    .SetFontAndSize(_pdfFont, 10)
                     .SetColor(ColorConstants.BLACK, true)
                     .MoveText(margin, y)
                     .ShowText(pageNumberText)
                     .EndText();
 
                 canvas.BeginText()
-                    .SetFontAndSize(font, 10)
+                    .SetFontAndSize(_pdfFont, 10)
                     .SetColor(ColorConstants.BLACK, true)
-                    .MoveText(pageWidth - margin22 - 50, y)
+                    .MoveText(pageWidth - marginRight, y)
                     .ShowText(currentDate)
                     .EndText();
 
@@ -121,15 +136,17 @@ namespace MasterErp.Service.Shared
             {
                 if (string.IsNullOrEmpty(HTML))
                     return HTML;
+
                 HTML = Regex.Replace(HTML, "( _nghost-ng-cli-universal-c| _ngcontent-ng-cli-universal-c)[1-9]*=\"\"", "");
                 HTML = Regex.Replace(HTML, "<!--([a-z]+)(?![^>]*\\/>)[^>]*-->", "");
                 HTML = Regex.Replace(HTML, @"\s_ngcontent-[a-zA-Z0-9\-]+?=""[^""]*""", "");
+
                 return HTML;
             }
             catch (Exception)
             {
+                return HTML;
             }
-            return HTML;
         }
     }
 }
