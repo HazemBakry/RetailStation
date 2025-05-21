@@ -60,12 +60,14 @@ namespace MasterErp.Service.HR
 
             var query = from overTime in Context.OverTime
                         join emp in Context.Employees on overTime.EmployeeId equals emp.EmployeeId
+                        join branch in Context.Branches on emp.BranchId equals branch.BranchId
                         where overTime.EmployeeId == EmployeeId
                         select new EmployeeOverTimeDto
                         {
                             EmployeeId = overTime.EmployeeId,
                             EmployeeName = emp.FullNameAR,
                             OverTimeId = overTime.OverTimeId,
+                            BranchName = branch.NameAR,
                             RequestDate = overTime.RequestDate,
                             ExecutionDate = overTime.ExecutionDate,
                             NoHours = overTime.NoHours,
@@ -105,8 +107,8 @@ namespace MasterErp.Service.HR
                 overTime.IsActive = model.IsActive;
                 overTime.CreatedBy = model.CreatedBy;
                 overTime.CreatedDate = DateTime.Now;
-                
-                
+
+
                 Context.OverTime.Add(overTime);
                 var result = Context.SaveChanges();
 
@@ -117,7 +119,7 @@ namespace MasterErp.Service.HR
             {
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
-            
+
         }
 
         public ActionsResponseModel EditEmployeeOverTime(int EmployeeId, EmployeeOverTimeDto model)
@@ -149,7 +151,7 @@ namespace MasterErp.Service.HR
             {
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
-          
+
         }
 
 
@@ -172,7 +174,7 @@ namespace MasterErp.Service.HR
             {
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
-            
+
         }
     }
 }

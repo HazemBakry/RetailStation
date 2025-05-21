@@ -5,8 +5,7 @@
     <div class="card-body">
         <div class="row  py-3">
             <div class="col-lg-4">
-                <app-drop-down-form-control [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData"
-                    [showSearch]="true" [placeholder]="'قائمة الموظفين'"></app-drop-down-form-control>
+                <app-drop-down-form-control [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData" [showSearch]="true" [placeholder]="'قائمة الموظفين'"></app-drop-down-form-control>
             </div>
             <div class="col-lg-2">
                 <button class="btn btn-secondary radius-50" (click)="getPenaltiesByEmployeeId()">
@@ -15,6 +14,7 @@
                 </button>
             </div>
         </div>
+        <h6 class="mb-0 fw-bold" *ngIf="employeePenaltyResponse.results.length > 0">فرع {{employeePenaltyResponse.results[0].branchName}}</h6>
     </div>
 </div>
 
@@ -35,9 +35,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)"
-                    [currentPage]="employeePenaltyResponse.currentPage" [pageSize]="employeePenaltyResponse.pageSize"
-                    [totalCount]="employeePenaltyResponse.totalCount"></app-erp-pagination>
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="employeePenaltyResponse.currentPage" [pageSize]="employeePenaltyResponse.pageSize" [totalCount]="employeePenaltyResponse.totalCount"></app-erp-pagination>
             </div>
         </div>
         <div class="table-responsive shadow-sm radius-10 table-vp-height">
@@ -71,9 +69,7 @@
                                     <i class="uil uil-pen"></i>
                                     <span>تعديل</span>
                                 </button> -->
-                                <button
-                                    class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
-                                    (click)="openDeleteModal(deleteModal,item.penaltyId)">
+                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteModal,item.penaltyId)">
                                     <i class="uil uil-trash-alt"></i>
                                     <span>الغاء</span>
                                 </button>
@@ -87,7 +83,7 @@
                     </tr>
                 </tbody>
             </table>
-            
+
         </div>
     </div>
 </div>
@@ -136,8 +132,7 @@
                                 نوع الجزاء
                                 <span class="text-danger">*</span>
                             </label>
-                            <app-general-selector formControlName="penaltyTypeId" [data]="penaltyTypeSelectorData"
-                                [showSearch]="true" [placeholder]="'نوع الجزاء'"></app-general-selector>
+                            <app-general-selector formControlName="penaltyTypeId" [data]="penaltyTypeSelectorData" [showSearch]="true" [placeholder]="'نوع الجزاء'"></app-general-selector>
 
                             <div *ngIf="formErrors.penaltyTypeId" class="text-danger  font-small-3 m-03">
                                 {{formErrors.penaltyTypeId}}
@@ -148,8 +143,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 تاريخ التنفيذ
                                 <span class="text-danger">*</span></label>
-                            <input type="date" formControlName="executionDate" autocomplete="off"
-                                class="form-control nw-form-input" />
+                            <input type="date" formControlName="executionDate" autocomplete="off" class="form-control nw-form-input" />
                             <div *ngIf="formErrors.executionDate" class="text-danger  font-small-3 m-03">
                                 {{formErrors.executionDate}}
                             </div>
@@ -158,8 +152,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 خصم أيام
                             </label>
-                            <input type="text" class="form-control nw-form-input description-area"
-                                formControlName="deductionByDays" autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input description-area" formControlName="deductionByDays" autocomplete="off" />
 
                             <div *ngIf="formErrors.deductionByDays" class="text-danger  font-small-3 m-03">
                                 {{formErrors.deductionByDays}}
@@ -170,8 +163,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 خصم مادى
                             </label>
-                            <input type="text" class="form-control nw-form-input description-area"
-                                formControlName="deductionAmount" autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input description-area" formControlName="deductionAmount" autocomplete="off" />
 
                             <div *ngIf="formErrors.deductionAmount" class="text-danger  font-small-3 m-03">
                                 {{formErrors.deductionAmount}}
@@ -181,9 +173,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 إجمالى الخصم
                             </label>
-                            <input type="text" [disabled]="true" [value]="formGroup?.value?.totalDeduction"
-                                class="form-control nw-form-input description-area"
-                                autocomplete="off" />
+                            <input type="text" [disabled]="true" [value]="formGroup?.value?.totalDeduction" class="form-control nw-form-input description-area" autocomplete="off" />
 
                             <div *ngIf="formErrors.totalDeduction" class="text-danger  font-small-3 m-03">
                                 {{formErrors.totalDeduction}}
@@ -193,8 +183,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 السبب
                             </label>
-                            <input type="text" class="form-control nw-form-input description-area"
-                                formControlName="reason" autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input description-area" formControlName="reason" autocomplete="off" />
 
                             <div *ngIf="formErrors.reason" class="text-danger  font-small-3 m-03">
                                 {{formErrors.reason}}
@@ -207,8 +196,7 @@
         </div>
 
         <div class="d-flex justify-content-center border-top pt-3 mt-3">
-            <button [disabled]="showAddLoader" (click)="saveEmployeePenalty()"
-                class="btn btn-primary w-50 justify-content-center py-3 fs-5 radius-10">
+            <button [disabled]="showAddLoader" (click)="saveEmployeePenalty()" class="btn btn-primary w-50 justify-content-center py-3 fs-5 radius-10">
                 <!-- <i class="fas fa-id-card"></i> -->
                 <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
                 <span *ngIf="isUpdate" class="ms-3">تعديل</span>

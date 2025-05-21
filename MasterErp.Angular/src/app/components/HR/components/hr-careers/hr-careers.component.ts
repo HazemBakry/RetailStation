@@ -46,7 +46,7 @@ export class HrCareersComponent implements OnInit {
     executionDate: '',
     jobId: '',
     branchId: '',
-    workStatusId: '',
+    WorkFlowStatusId: '',
     notes: '',
     timeFrom: '',
     timeTo: '',
@@ -55,13 +55,13 @@ export class HrCareersComponent implements OnInit {
 
   selectedEmployeeId: number = null;
   isUpdate: boolean = false;
-  constructor(private modalService: NgbModal, 
-    private hrService: HrService, 
-    private sharedService: SharedService, 
-    private form: FormBuilder, 
+  constructor(private modalService: NgbModal,
+    private hrService: HrService,
+    private sharedService: SharedService,
+    private form: FormBuilder,
     private _FormService: FormService,
-    private datePipe: DatePipe, 
-    private toaster: ToastrService, 
+    private datePipe: DatePipe,
+    private toaster: ToastrService,
     private lookupService: LookupService,
     private offcanvasService: NgbOffcanvas,) { }
 
@@ -118,7 +118,7 @@ export class HrCareersComponent implements OnInit {
       employeeId: [null],
       jobId: [null, [Validators.required]],
       branchId: [null, [Validators.required]],
-      workStatusId: [null, [Validators.required]],
+      WorkFlowStatusId: [null, [Validators.required]],
       executionDate: [null, [Validators.required, CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
       notes: [null],
 
@@ -142,7 +142,7 @@ export class HrCareersComponent implements OnInit {
   }
 
   addNewEmployeeCareer() {
-
+    debugger;
     this.showAddLoader = true;
     this.hrService.AddNewEmployeeCareer(this.selectedEmployeeId, this.employeeCareerModel).subscribe(data => {
       if (data?.isSuccess) {
@@ -206,7 +206,7 @@ export class HrCareersComponent implements OnInit {
       employeeCareerId: careerModel.employeeCareerId,
       jobId: careerModel.jobId,
       branchId: careerModel.branchId,
-      workStatusId: careerModel.workStatusId,
+      WorkFlowStatusId: careerModel.workStatusId,
       employeeId: this.selectedEmployeeId,
       executionDate: this.datePipe.transform(careerModel.executionDate, 'yyyy-MM-dd'),
       notes: careerModel.notes
