@@ -51,6 +51,35 @@ namespace MasterErp.Service.Shared
         {
             try
             {
+                var html = @"
+                                <!DOCTYPE html>
+                                <html>
+                                <head>
+                                    <meta charset='UTF-8'>
+                                    <style>
+                                        html, body {
+                                            margin: 0 !important;
+                                            padding: 0 !important;
+                                            width: 100%;
+                                            height: 100%;
+                                        }
+
+                                        @page {
+                                            margin: 30pt;
+                                        }
+
+                                        * {
+                                            box-sizing: border-box;
+                                            margin: 0;
+                                            padding: 0;
+                                        }
+                                    </style>
+                                </head>
+                                <body>
+                                    {HTMLContent}
+                                </body>
+                                </html>";
+                HTMLContent = html.Replace("{HTMLContent}", HTMLContent);
                 string tempFile = System.IO.Path.GetTempFileName();
                 WriterProperties writerProperties = new WriterProperties().SetFullCompressionMode(true);
                 using (FileStream pdfStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.None))
@@ -67,6 +96,7 @@ namespace MasterErp.Service.Shared
                     properties.SetFontProvider(fontProvider);
 
                     Document document = HtmlConverter.ConvertToDocument(HTMLContent, pdfDocument, properties);
+                    document.SetMargins(0, 0, 0, 0);
 
                     int pageCount = pdfDocument.GetNumberOfPages();
                     for (int i = 1; i <= pageCount; i++)
