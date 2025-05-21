@@ -26,7 +26,7 @@ namespace MasterErp.Service.Common
         public FileService(IHttpContextAccessor httpContextAccessor, IConfiguration Configuration)
         {
             _imageExtensions = new List<string> { ".jpg", ".jpeg", ".png" };
-            _attachmentExtensions = new List<string> { ".jpg", ".jpeg", ".png", ".pdf", ".docx", ".xls", ".doc" };
+            _attachmentExtensions = new List<string> { ".jpg", ".jpeg", ".png", ".pdf", ".docx", ".xls", ".xlsx", ".doc" };
             _importerExtensions = new List<string> { ".xls", ".xlsx", ".csv" };
             _httpContextAccessor = httpContextAccessor;
             this.Configuration = Configuration;
@@ -37,7 +37,7 @@ namespace MasterErp.Service.Common
         {
             allowedExtensions ??= new List<string>();
 
-            if (file == null || file.Length == 0)
+            if (file == null) //|| file.Length == 0)
             {
                 return new UploadFileResponse { IsUploaded = false, Message = "No files uploaded." };
             }
@@ -83,7 +83,7 @@ namespace MasterErp.Service.Common
                 return new UploadFileResponse { IsUploaded = false, Message = $"An error occurred while uploading the file. {ex.InnerException?.Message ?? ex.Message}" };
             }
         }
-        public async Task<List<UploadFileResponse>> UploadMultipleFilesAsync(IEnumerable<IFormFile> files, string uploadDirectory, FileType fileType, List<string> allowedExtensions=null)
+        public async Task<List<UploadFileResponse>> UploadMultipleFilesAsync(IEnumerable<IFormFile> files, string uploadDirectory, FileType fileType, List<string> allowedExtensions = null)
         {
             allowedExtensions ??= new List<string>();
             var responses = new List<UploadFileResponse>();
@@ -100,7 +100,7 @@ namespace MasterErp.Service.Common
         {
             if (string.IsNullOrEmpty(filePath))
             {
-                return  new UploadFileResponse { IsUploaded = false, Message = "File path cannot be null or empty." };
+                return new UploadFileResponse { IsUploaded = false, Message = "File path cannot be null or empty." };
             }
 
             try
