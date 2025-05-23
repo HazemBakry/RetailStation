@@ -1,18 +1,183 @@
-<div class="overview-card rounded h-100" [class]="data.statusBgClass">
+<!-- <div class="overview-card rounded h-100" [class]="data.statusBgClass">
     <div class="p-3">
         <h5 class="">{{ data.title }}</h5>
         <div class="d-flex justify-content-between">
             <div>
                 <div class="fw-bold fs-4">{{ data.number }}</div>
-                <!-- <div>{{ data.status }}</div> -->
             </div>
             <div class="d-flex align-items-center">
                 <i class="fas {{ data.statusIcon }}"></i>
-                <!-- <span class="ms-2">{{ data.subscribers }}</span> -->
             </div>
         </div>
     </div>
     <div class="card-graph-line">
         <img src="../../../../../assets/images/ov-card-graph-1.svg" class="w-100 h-30" alt="" loading="lazy" />
     </div>
+</div> -->
+
+
+
+<div class="col">
+    <div class="card card-shadow border-0 card-radius overflow-hidden static-card {{ data.color }}">
+        <div class="card-body p-4">
+            <div class="d-flex flex-column gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="card-icon">
+                        <i class="fas {{ data.statusIcon }}"></i>
+                    </div>
+                    <div class="card-text">{{ data.title }}</div>
+                </div>
+                <div class="card-number fs-1 fw-medium">{{ data.number }}</div>
+            </div>
+        </div>
+        <div class="card-footer border-0 py-3">
+            <div class="d-flex align-items-center justify-content-between fs-14">
+                <div class="footer-text">{{ data.details }}</div>
+                <div class="footer-icon">
+                    <i class="fa-solid {{ data.statusIcon }}"></i>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-5 gy-4 mb-4">
+    <div class="col">
+        <div class="card card-shadow border-0 card-radius overflow-hidden static-card red">
+            <div class="card-body p-4">
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="card-icon">
+                            <i class="ph ph-gift"></i>
+                        </div>
+                        <div class="card-text">Offers</div>
+                    </div>
+                    <div class="card-number fs-1 fw-medium">12</div>
+                </div>
+            </div>
+            <div class="card-footer border-0 py-3">
+                <div class="d-flex align-items-center justify-content-between fs-14">
+                    <div class="footer-text">10% Pending Offers</div>
+                    <div class="footer-icon">
+                        <i class="fa-solid fa-caret-up"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card card-shadow border-0 h-100 card-radius overflow-hidden static-card blue">
+            <div class="card-body p-4">
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="card-icon">
+                            <i class="ph ph-hand-withdraw"></i>
+                        </div>
+                        <div class="card-text">Bookings</div>
+                    </div>
+                    <div class="card-number fs-1 fw-medium">20</div>
+                </div>
+            </div>
+            <div class="card-footer border-0 py-3">
+                <div class="d-flex align-items-center justify-content-between fs-14">
+                    <div class="footer-text">83% Approved</div>
+                    <div class="footer-icon">
+                        <i class="fa-solid fa-caret-up"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card card-shadow border-0 card-radius overflow-hidden static-card purple">
+            <div class="card-body p-4">
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="card-icon">
+                            <i class="ph ph-buildings"></i>
+                        </div>
+                        <div class="card-text">Hotels</div>
+                    </div>
+                    <div class="card-number fs-1 fw-medium">86</div>
+                </div>
+            </div>
+            <div class="card-footer border-0 py-3">
+                <div class="d-flex align-items-center justify-content-between fs-14">
+                    <div class="footer-text">4 Stars & 5 Stars</div>
+                    <div class="footer-icon">
+                        <i class="fa-solid fa-caret-up"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card card-shadow border-0 card-radius overflow-hidden static-card green">
+            <div class="card-body p-4">
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="card-icon">
+                            <i class="ph ph-users-four"></i>
+                        </div>
+                        <div class="card-text">Visitors</div>
+                    </div>
+                    <div class="card-number fs-1 fw-medium">3,500</div>
+                </div>
+            </div>
+            <div class="card-footer border-0 py-3">
+                <div class="d-flex align-items-center justify-content-between fs-14">
+                    <div class="footer-text">5% decrease</div>
+                    <div class="footer-icon">
+                        <i class="fa-solid fa-caret-down"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card card-shadow border-0 card-radius overflow-hidden static-card gray">
+            <div class="card-body p-4">
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="card-icon">
+                            <i class="ph ph-island"></i>
+                        </div>
+                        <div class="card-text">Sight Seens</div>
+                    </div>
+                    <div class="card-number fs-1 fw-medium">800</div>
+                </div>
+            </div>
+            <div class="card-footer border-0 py-3">
+                <div class="d-flex align-items-center justify-content-between fs-14">
+                    <div class="footer-text">2% decrease</div>
+                    <div class="footer-icon">
+                        <i class="fa-solid fa-caret-down"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

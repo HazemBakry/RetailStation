@@ -13,7 +13,7 @@ namespace MasterErp.Entities.Models.HR
     public class Loan : CreatorModel
     {
         public int LoanId { get; set; }
-        public int EmployeeId { get; set; }
+        public int BankId { get; set; }
         public int LoanTypeId { get; set; }
         public string LoanName { get; set; }
         public double LoanAmount { get; set; }
