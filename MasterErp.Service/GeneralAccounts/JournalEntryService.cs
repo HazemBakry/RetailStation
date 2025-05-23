@@ -519,6 +519,7 @@ namespace MasterErp.Service.GeneralAccounts
                 };
             }
         }
+
         public List<FilterModel> GetDailyJournalEntriesFilters(SearchFilterModel model)
         {
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);

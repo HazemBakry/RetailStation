@@ -8,6 +8,7 @@ export interface UserModel {
     imageUrl: string;
     phoneNumber: string;
     employeeId?: number | null;
+    branchId?: number | null;
     roles: string[];
     status: number | null;
     createdDate: string;

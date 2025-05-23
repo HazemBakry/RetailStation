@@ -5,6 +5,8 @@ import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponse
 import { RoleModel } from 'src/app/components/Shared/models/RoleModel';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormService } from 'src/app/components/Shared/services/form.service';
 
 @Component({
   selector: 'app-roles',
@@ -12,71 +14,100 @@ import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsRe
   styleUrls: ['./roles.component.css']
 })
 export class RolesComponent implements OnInit {
-
+  TitleList = ['إعدادات النظام', 'صلاحيات المستتخدمين'];
   showLoader: boolean;
-  pagedResponse:PagedResponseDTO<RoleModel[]>={
-    currentPage:1,
-    pageSize:25,
-    results:[],
-    filterList:[],
-    searchText:''
+  pagedResponseModel: PagedResponseDTO<RoleModel[]> = {
+    currentPage: 1,
+    pageSize: 25,
+    results: [],
+    filterList: [],
+    searchText: ''
   }
-  roleName: string='';
+  roleName: string = '';
+  public formGroup: FormGroup;
+  formData: FormData = new FormData();
+  public formErrors = {
+    roleId: '',
+    roleName: ''
+  };
 
-  constructor(private systemSettingsService: SystemSettingsService, private toaster: ToastrService,private modalService:NgbModal) { }
+  constructor(private systemSettingsService: SystemSettingsService,
+    private toaster: ToastrService,
+    private fb: FormBuilder,
+    private formService: FormService,
+    private modalService: NgbModal) { }
 
   ngOnInit(): void {
-    this.GetRoles();
+    this.getRoles();
   }
 
-  GetRoles() {
-    this.showLoader=true;
-    this.systemSettingsService.getRoles(this.pagedResponse).subscribe((data:any)=> {
-      
-      this.pagedResponse.results=data.results;
-      this.pagedResponse.totalCount=data.totalCount;
-      this.pagedResponse.currentPage=data.currentPage;
-      this.pagedResponse.pageSize=data.pageSize;
-      this.pagedResponse.totalPages=data.totalPages;
-
-      this.showLoader=false;
-    },(err)=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+  getRoles() {
+    this.showLoader = true;
+    this.systemSettingsService.getRoles(this.pagedResponseModel).subscribe((data: any) => {
+      this.pagedResponseModel.results = data.results;
+      this.pagedResponseModel.totalCount = data.totalCount;
+      this.pagedResponseModel.currentPage = data.currentPage;
+      this.pagedResponseModel.pageSize = data.pageSize;
+      this.pagedResponseModel.totalPages = data.totalPages;
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     })
   }
-  openAddRoleModel(content: any) {
-    this.roleName='';
-    this.modalService.open(content, { size: 'md', centered: true });
+
+  // openAddRoleModel(content: any) {
+  //   this.roleName = '';
+  //   this.modalService.open(content, { size: 'md', centered: true });
+  // }
+
+  openRolePopup(content: any, roleId: number = null, roleName: string = null) {
+    this.buildForm();
+    if (roleId != null) {
+      this.formGroup.patchValue({
+        roleId: roleId,
+        roleName: roleName,
+      });
+    }
+    this.modalService.open(content, { size: 'lg', centered: true });
   }
-  addNewRole()
-  {
-    if (!this.roleName||this.roleName?.length<3) {
+
+  buildForm() {
+    this.formGroup = this.fb.group({
+      roleName: [null, [Validators.required]],
+    });
+    this.formGroup.valueChanges.subscribe((data) => {
+      this.formErrors = this.formService.validateForm(this.formGroup, this.formErrors, true);
+    });
+  }
+
+  addNewRole() {
+    if (!this.roleName || this.roleName?.length < 3) {
       this.toaster.warning('Please enter a role name and must be at least 3 characters');
       return
     }
-    this.showLoader=true;
-    this.systemSettingsService.addNewRole(this.roleName).subscribe((data:ActionsResponseModel)=> {
+    this.showLoader = true;
+    this.systemSettingsService.addNewRole(this.roleName).subscribe((data: ActionsResponseModel) => {
       if (data.isSuccess) {
         this.toaster.success(data.message);
         this.modalService?.dismissAll();
-        this.GetRoles();
+        this.getRoles();
       }
-      else
-      {
+      else {
         this.toaster.error(data.message);
       }
-      this.showLoader=false;
-    },(err)=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     })
   }
+
   pageChanged(obj: any) {
-    this.pagedResponse.currentPage = obj.page;
-    this.GetRoles();
+    this.pagedResponseModel.currentPage = obj.page;
+    this.getRoles();
   }
 
 }

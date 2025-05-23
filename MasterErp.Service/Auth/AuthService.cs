@@ -35,7 +35,7 @@ namespace MasterErp.Service.Auth
         //private readonly IJwtService _jwtService;
 
 
-        public AuthService(UserManager<ApplicationUser> userManager, JWT jwt, RoleManager<IdentityRole> roleManager, 
+        public AuthService(UserManager<ApplicationUser> userManager, JWT jwt, RoleManager<IdentityRole> roleManager,
             IHttpContextAccessor httpContextAccessor, IFileService fileService, ITenantService tenantService)
         {
             _userManager = userManager;
@@ -53,7 +53,7 @@ namespace MasterErp.Service.Auth
                 return new ActionsResponseModel { Message = "Email already registered" };
             if (await _userManager.FindByNameAsync(model.UserName) is not null)
                 return new ActionsResponseModel { Message = "UserName already registered" };
-            if (model.EmployeeId!=null&&await _userManager.Users.FirstOrDefaultAsync(x=>x.EmployeeId==model.EmployeeId) is not null)
+            if (model.EmployeeId != null && await _userManager.Users.FirstOrDefaultAsync(x => x.EmployeeId == model.EmployeeId) is not null)
                 return new ActionsResponseModel { Message = "employee already has account" };
             var User = new ApplicationUser
             {
@@ -70,7 +70,7 @@ namespace MasterErp.Service.Auth
                     User.ImageUrl = uploadResponse.FilePath;
                 else
                     return new ActionsResponseModel { Message = uploadResponse.Message, IsSuccess = false };
-                
+
 
             }
 
@@ -99,7 +99,7 @@ namespace MasterErp.Service.Auth
 
 
         }
-        
+
         public async Task<ActionsResponseModel> EditUserAsync(AddUserModel model)
         {
             var user = await _userManager.FindByIdAsync(model.UserId);
@@ -107,11 +107,11 @@ namespace MasterErp.Service.Auth
             {
                 return new ActionsResponseModel { Message = "user not found", IsSuccess = false };
             }
-            if (await _userManager.FindByEmailAsync(model.Email) is not null && user.Id!=model.UserId)
-                return new ActionsResponseModel { Message = "invalid email" ,IsSuccess=false };
+            if (await _userManager.FindByEmailAsync(model.Email) is not null && user.Id != model.UserId)
+                return new ActionsResponseModel { Message = "invalid email", IsSuccess = false };
             if (await _userManager.FindByNameAsync(model.UserName) is not null && user.Id != model.UserId)
                 return new ActionsResponseModel { Message = "invalid username", IsSuccess = false };
-            if (model.EmployeeId != null && await _userManager.Users.FirstOrDefaultAsync(x => x.EmployeeId == model.EmployeeId&&x.Id!=model.UserId) is not null)
+            if (model.EmployeeId != null && await _userManager.Users.FirstOrDefaultAsync(x => x.EmployeeId == model.EmployeeId && x.Id != model.UserId) is not null)
                 return new ActionsResponseModel { Message = "employee already has account", IsSuccess = false };
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
@@ -246,7 +246,7 @@ namespace MasterErp.Service.Auth
                 RoleName = r.Name,
                 RoleNormalizedName = r.NormalizedName
             }).ToList();
-            
+
         }
         public async Task<ActionsResponseModel> AssignUserRoleAsync(AddUserRoleModel model)
         {
@@ -312,11 +312,11 @@ namespace MasterErp.Service.Auth
                                             .Where(criteria)
                                             .Skip((model.CurrentPage - 1) * model.PageSize)
                                             .Take(model.PageSize).ToListAsync();
-            var results=new List<UserDto>();
+            var results = new List<UserDto>();
             foreach (var user in data)
             {
                 var roles = await _userManager.GetRolesAsync(user);
-                user.ImageUrl =_fileService.GetFileDownloadUrl(user.ImageUrl);
+                user.ImageUrl = _fileService.GetFileDownloadUrl(user.ImageUrl);
                 results.Add(new UserDto
                 {
                     FullName = $"{user.FirstName} {user.LastName}",
@@ -328,21 +328,23 @@ namespace MasterErp.Service.Auth
                     PhoneNumber = user.PhoneNumber,
                     ImageUrl = user.ImageUrl,
                     EmployeeId = user.EmployeeId,
-                    Roles =roles.ToList(),
+                    Roles = roles.ToList(),
+                    BranchId = user.BranchId,
                     TotalCount = totalCount
                 });
             }
 
-          
+
             return results;
 
-        }        
+        }
         public async Task<UserDto> GetUserByIdAsync(string userId)
         {
 
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                                            
-            if (user is not null) {
+
+            if (user is not null)
+            {
                 var roles = await _userManager.GetRolesAsync(user);
                 return new UserDto
                 {
@@ -353,7 +355,7 @@ namespace MasterErp.Service.Auth
                     UserName = user.UserName,
                     Email = user.Email,
                     PhoneNumber = user.PhoneNumber,
-                    EmployeeId=user.EmployeeId,
+                    EmployeeId = user.EmployeeId,
                     ImageUrl = _fileService.GetFileDownloadUrl(user.ImageUrl),
                     Roles = roles.ToList(),
 
@@ -376,12 +378,12 @@ namespace MasterErp.Service.Auth
             var result = await _userManager.DeleteAsync(user);
             if (!result.Succeeded)
             {
-                return new ActionsResponseModel { Message = "error" ,IsSuccess=false };
+                return new ActionsResponseModel { Message = "error", IsSuccess = false };
             }
-            return  new ActionsResponseModel { Message = "user deleted" };
+            return new ActionsResponseModel { Message = "user deleted" };
         }
-        
-       
+
+
 
     }
 }

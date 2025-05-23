@@ -125,7 +125,7 @@ namespace MasterErp.Service.HR
             {
                 var loan = new Loan();
 
-                loan.EmployeeId = EmployeeId;
+                //loan.EmployeeId = EmployeeId;
                 loan.LoanTypeId = model.LoanTypeId;
                 loan.PaymentFromDate = model.PaymentFromDate;
                 loan.PaymentToDate = CalcLoanPaymentToDate(model.LoanAmount, model.PaymentAmount, model.PaymentFromDate);
@@ -209,7 +209,7 @@ namespace MasterErp.Service.HR
 
             try
             {
-                var loan = Context.Loans.FirstOrDefault(i => i.LoanId == LoanId && i.EmployeeId == EmployeeId);
+                var loan = Context.Loans.FirstOrDefault(i => i.LoanId == LoanId);
                 if (loan != null)
                 {
                     loan.IsApproved = ApproveStatus;
