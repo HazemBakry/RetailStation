@@ -92,6 +92,16 @@ namespace MasterErp.Service.Shared
             }).ToList();
             return results;
         }
+
+        public List<SelectorDataModel> GetSponsorsSelector()
+        {
+            var results = Context.Sponsors.Select(b => new SelectorDataModel
+            {
+                Id = b.SponsorID,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
         public List<SelectorDataModel> GetOrderStatusSelector()
         {
             var results = Context.OrderStatus.Select(b => new SelectorDataModel

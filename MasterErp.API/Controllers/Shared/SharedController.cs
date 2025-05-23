@@ -105,6 +105,15 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetBranchesSelector();
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("GetSponsorsSelector")]
+        public IActionResult GetSponsorsSelector()
+        {
+            var result = _sharedService.GetSponsorsSelector();
+            return Ok(result);
+        }
+
         [HttpGet]
         [Route("GetOrderStatusSelector")]
         public IActionResult GetOrderStatusSelector()

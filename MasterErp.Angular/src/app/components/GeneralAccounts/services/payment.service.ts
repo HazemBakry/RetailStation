@@ -112,6 +112,10 @@ export class PaymentService {
     return this.http.get<ActionsResponseModel>(this.URL + 'Payment/CancelPaymentReceipt?OrderId=' + OrderId);
   }
 
+  CancelPaymentOrderById(OrderId: any) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Payment/CancelOrderOrder?OrderId=' + OrderId);
+  }
+
   GetPaymentOrdersSelector(OrderStatus: any) {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Payment/GetPaymentOrdersSelector?OrderStatus=' + OrderStatus);
   }

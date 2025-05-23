@@ -78,6 +78,21 @@ export class PaymentOrdersComponent implements OnInit {
     })
   }
 
+  cancelPaymentOrder(paymentOrderId: number) {
+    this.paymentService.CancelPaymentOrderById(paymentOrderId).subscribe(data => {
+      if (data) {
+        this.toaster.success('تم الغاء أمر الصرف بنجاح');
+        this.getPaymentOrdersSummary();
+      }
+      else {
+        this.toaster.error('حدث خطأ اثناء الإلغاء');
+      }
+    }, (error) => {
+      this.toaster.error('حدث خطأ اثناء الإلغاء');
+    })
+
+  }
+
   getStatusColor(status: boolean) {
     if (status == true)
       return "locked";

@@ -53,7 +53,7 @@ export class PaymentReceiptsComponent implements OnInit {
     this.GetPaymentReceiptsSummary();
   }
 
-  CancelPaymentReceipt(receiptId: number) {
+  cancelPaymentReceipt(receiptId: number) {
     this.paymentService.CancelPaymentReceipt(receiptId).subscribe(data => {
       if (data) {
         this.toaster.success('تم الغاء السند بنجاح');

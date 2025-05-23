@@ -23,6 +23,7 @@ namespace MasterErp.Interface.Shared
         List<FinancialPeriod> GetFinancialPeriods();
         FinancialPeriod GetCurrentFinancialPeriod();
         ActionsResponseModel DownloadImporterTemplate(ExcelExportStyle ImporterType);
+        List<SelectorDataModel> GetSponsorsSelector();
 
         #region Selectors
         List<SelectorDataModel> GetBranchesSelector();

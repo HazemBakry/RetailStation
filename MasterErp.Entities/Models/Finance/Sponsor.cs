@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models.Finance
 {
-    [Table("Sponsors", Schema = "Finance")]
+    [Table("Sponsors", Schema = "HR")]
 
     public class Sponsor
     {

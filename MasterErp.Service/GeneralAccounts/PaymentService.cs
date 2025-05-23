@@ -493,9 +493,9 @@ namespace MasterErp.Service.GeneralAccounts
             {
                 ReceiveReceipt receipt = new ReceiveReceipt();
 
-                if (Model.ReceiptId > 0)
+                if (Model.PaymentReceiptId > 0)
                 {
-                    receipt = Context.ReceiveReceipts.FirstOrDefault(x => x.ReceiveReceiptId == Model.ReceiptId);
+                    receipt = Context.ReceiveReceipts.FirstOrDefault(x => x.ReceiveReceiptId == Model.PaymentReceiptId);
                     if (receipt != null)
                     {
                         receipt.ReceiptLedgerId = Model.ReceiptLedgerId;

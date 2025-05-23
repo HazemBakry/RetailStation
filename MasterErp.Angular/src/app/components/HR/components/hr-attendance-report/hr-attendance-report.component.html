@@ -123,18 +123,19 @@
                         <td>{{item.punchDate | date:'d-M-y'}}</td>
                         <td>{{item.punchDate| date: 'EEEE'}}</td>
                         <td class="fw-bold">
-                            {{item.period1_PunchIn | date: 'hh:mm:ss a'}}
+                            <!-- {{item.period1_PunchIn | date: 'hh:mm:ss a'}} -->
+                            {{item.period1_PunchIn | date: 'HH:mm'}}
 
                         </td>
                         <td class="fw-bold">
-                            {{item.period1_PunchOut | date: 'hh:mm:ss a'}}
+                            {{item.period1_PunchOut | date: 'HH:mm'}}
                             <!-- <div>اجمالي : {{getTime(item.period1_PunchIn,item.period1_PunchOut)}}</div> -->
                         </td>
                         <td class="fw-bold">
-                            {{item.period2_PunchIn| date: 'hh:mm:ss a'}}
+                            {{item.period2_PunchIn| date: 'HH:mm'}}
                         </td>
                         <td class="fw-bold">
-                            {{item.period2_PunchOut| date: 'hh:mm:ss a'}}
+                            {{item.period2_PunchOut| date: 'HH:mm'}}
                             <!-- <div>اجمالي : {{getTime(item.period2_PunchIn,item.period2_PunchOut)}}</div> -->
                         </td>
                         <td class="fw-bold">
