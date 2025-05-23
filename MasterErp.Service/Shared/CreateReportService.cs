@@ -30,7 +30,7 @@ namespace MasterErp.Service.Shared
             string angularDomain = request.Headers["Origin"].ToString();
             if (string.IsNullOrEmpty(angularDomain)) return null;
 
-            UriBuilder urlBuilder = new UriBuilder($"{angularDomain}/create-report/{Model.CompanyName}/{Model.PageName}/{Model.ControllerName}/{Model.ApiName}/{Model.MethodType}/{Model.SectionName}");
+            UriBuilder urlBuilder = new UriBuilder($"{angularDomain}/create-report/{Model.PageName}/{Model.ControllerName}/{Model.ApiName}/{Model.MethodType}");
 
             if (Model.FilterItems != null && Model.FilterItems.Count > 0)
             {

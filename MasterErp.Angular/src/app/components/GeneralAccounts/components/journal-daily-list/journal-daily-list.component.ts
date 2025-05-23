@@ -8,6 +8,8 @@ import { JournalEntryModel } from '../../models/GeneralAccounts/JurnalEntryModel
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
+import { SearchReportModel } from 'src/app/components/Reports/Models/ReportParams';
+import { CreateReportsService } from 'src/app/components/Reports/Services/create-reports.service';
 
 @Component({
   selector: 'app-journal-daily-list',
@@ -20,6 +22,7 @@ export class JournalDailyListComponent implements OnInit {
   showLoader: boolean = false;
   showExportLoader: boolean = false;
   selectAll: boolean = false;
+  EntryId: any;
   pagedResponseModel: PagedResponseDTO<JournalEntryModel[]> = {
     results: [],
     filterList: [],
@@ -35,7 +38,8 @@ export class JournalDailyListComponent implements OnInit {
     private router: Router,
     private offcanvasService: NgbOffcanvas,
     private sharedService: SharedService,
-    private toaster: ToastrService) { }
+    private toaster: ToastrService,
+    private ReportsService: CreateReportsService) { }
 
   ngOnInit(): void {
     this.getDailyJournalEntriesSummary();
@@ -257,8 +261,8 @@ export class JournalDailyListComponent implements OnInit {
     });
   }
 
-
   openSidePanel(journalEntryId: number, content: any = null) {
+    this.EntryId = journalEntryId;
     this.getEntryDetailsById(journalEntryId);
     if (content == null)
       this.offcanvasService.open(this.DetailsSidePanel, { panelClass: 'details-panel', position: 'end' });
@@ -281,8 +285,24 @@ export class JournalDailyListComponent implements OnInit {
       this.showLoader = false;
     });
   }
-  // onEditClick(journalEntryId: any) {
-  //   this.router.navigate(['/general-accounts/new-entry'], { queryParams: { EntryId: journalEntryId } });
-  // }
+
+  PrintData() {
+    let reportParams: SearchReportModel = {} as SearchReportModel;
+    let filterItems: FilterItem[] = [
+      { categoryName: 'EntryId', itemFlag: this.EntryId }
+    ];
+    reportParams.ControllerName = 'JournalEntry';
+    reportParams.ApiName = 'GetJournalEntryDetailsById';
+    reportParams.MethodType = 'GET';
+    reportParams.pageName = 'journal-daily-report';
+    reportParams.isLandScape = false;
+    reportParams.filterItems = filterItems;
+    this.showLoader = true;
+    this.ReportsService.CreateGeneralReport(reportParams, (timeTaken) => {
+      this.showLoader = false;
+      console.log(`Generate Report Request Time: ${timeTaken} S`);
+    });
+  }
+
 
 }

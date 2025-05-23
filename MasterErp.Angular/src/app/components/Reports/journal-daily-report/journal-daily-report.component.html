@@ -1,0 +1,86 @@
+<div class="container" *ngIf="ContentData">
+    <div id="ReportData" dir="rtl">
+        <table style="width: 100%; margin-bottom: 1.5rem;">
+            <tr>
+                <td style="text-align: right;">
+                    <h1 style="font-size: 1.25rem; font-weight: bold; font-family: 'Arial';">
+                        شركة مطاعم مشوار
+                    </h1>
+                </td>
+                <td style="text-align: left;">
+                    <img src="" id="ReportImage" style="height: 4rem; width: 4rem; object-fit: contain;" />
+                </td>
+            </tr>
+        </table>
+        <div style="margin-bottom: 2rem;">
+            <h2 style="text-align: center; font-weight: bold; margin-bottom: 0.5rem; font-size: 1.125rem; font-family: 'Arial';">قيد اليومية</h2>
+            <h2 style="text-align: center; font-weight: bold; margin-bottom: 1rem; font-size: 1.25rem; text-decoration: underline; font-family: 'Arial';">Daily Voucher</h2>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-family: 'Arial';">
+                <tr>
+                    <td style="padding: 0.5rem; font-weight: bold; width: 20%;">رقم القيد:
+                        <span>{{ContentData?.entryNumber}}</span>
+                    </td>
+                    <td style="padding: 0.5rem; font-weight: bold; width: 20%;">تاريخ القيد:
+                        <span>{{ContentData?.entryDate | date:'yyyy/MM/dd'}}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.5rem; font-weight: bold;">البيان: {{ContentData?.description}}
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+            <!-- <table style="width: 100%; font-family: 'Arial';">
+                <tr>
+                    <td style="padding: 0.5rem; font-weight: bold; width: 20%;">ملاحظات: ghjghjgjhgj
+                    </td>
+                </tr>
+            </table> -->
+        </div>
+
+        <div style="overflow-x: auto; margin-bottom: 2rem;">
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 0.5rem; font-family: Arial, sans-serif; text-align: center;">
+                <thead>
+                    <tr style="text-align: center;">
+                        <th style="border: 1px solid black; padding: 0.5rem 0.75rem;background-color: #d3d3d3;">الحساب</th>
+                        <th style="border: 1px solid black; padding: 0.5rem 0.75rem;background-color: #d3d3d3;">مدين</th>
+                        <th style="border: 1px solid black; padding: 0.5rem 0.75rem;background-color: #d3d3d3;">دائن</th>
+                        <th style="border: 1px solid black; padding: 0.5rem 0.75rem;background-color: #d3d3d3;">مركز التكلفة</th>
+                        <th style="border: 1px solid black; padding: 0.5rem 0.75rem;background-color: #d3d3d3;">ملاحظات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="text-align: right;" *ngFor="let item of ContentData?.journalEntryAccounts">
+                        <td style="border: 1px solid black; padding: 0.5rem 0.75rem;">{{item.accountName}}</td>
+                        <td style="border: 1px solid black; padding: 0.5rem 0.75rem;">{{item.debit}}</td>
+                        <td style="border: 1px solid black; padding: 0.5rem 0.75rem;">{{item.credit}}</td>
+                        <td style="border: 1px solid black; padding: 0.5rem 0.75rem;">{{item.costValue ?? '-'}}</td>
+                        <td style="border: 1px solid black; padding: 0.5rem 0.75rem;">{{item.description ?? '-'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: Arial, sans-serif;">
+                <tr>
+                    <th style="border: 1px solid black; padding: 8px; background-color: #d3d3d3;font-size: 18px;">الإجمالي</th>
+                    <th style="border: 1px solid black; padding: 8px;background-color: #d3d3d3;font-size: 18px;">20,001.15</th>
+                    <th style="border: 1px solid black; padding: 8px;background-color: #d3d3d3;font-size: 18px;">20,001.15</th>
+                </tr>
+            </table>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 3rem;">
+            <div style="text-align: center;">
+                <h3 style="font-weight: bold; margin-bottom: 2rem;">اعتماد</h3>
+                <div style="border-top: 1px solid #9ca3af; padding-top: 0.5rem;"></div>
+            </div>
+            <div style="text-align: center;">
+                <h3 style="font-weight: bold; margin-bottom: 2rem;">المراجع</h3>
+                <div style="border-top: 1px solid #9ca3af; padding-top: 0.5rem;"></div>
+            </div>
+            <div style="text-align: center;">
+                <h3 style="font-weight: bold; margin-bottom: 2rem;">المحاسب</h3>
+                <div style="border-top: 1px solid #9ca3af; padding-top: 0.5rem;"></div>
+            </div>
+        </div>
+    </div>
+</div>
