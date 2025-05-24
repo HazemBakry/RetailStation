@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Enums;
+using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.Common;
@@ -66,7 +67,7 @@ namespace MasterErp.Service.Shared
         }
         public FinancialPeriod GetCurrentFinancialPeriod()
         {
-            var result = Context.FinancialPeriods.Where(x=>x.IsActive).OrderByDescending(x=>x.NameEN).FirstOrDefault();
+            var result = Context.FinancialPeriods.Where(x => x.IsActive).OrderByDescending(x => x.NameEN).FirstOrDefault();
 
             return result;
         }
@@ -287,6 +288,18 @@ namespace MasterErp.Service.Shared
                 Name = b.NameAR,
             }).ToList();
             return results;
+        }
+
+        public object GetArabicEnglishNumberText(int ReceiptId)
+        {
+            var receipt = Context.PaymentReceipts.FirstOrDefault(x => x.PaymentReceiptId == ReceiptId);
+            if (receipt.CurrencyId == null)
+                return new { DescAr = "", DescEn = "" };
+            CurrencyInfo currencies = new CurrencyInfo(receipt.CurrencyId.Value, Context);
+            ToWord toWord = new ToWord(decimal.Parse(receipt.MoneyAmount.ToString()), currencies);
+            var descAr = toWord.ConvertToArabic();
+            var descEn = toWord.ConvertToEnglish();
+            return new { DescAr = descAr, DescEn = descEn };
         }
 
         #endregion

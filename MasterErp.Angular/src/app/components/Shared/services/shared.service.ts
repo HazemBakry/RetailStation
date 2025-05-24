@@ -199,4 +199,8 @@ export class SharedService {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetCustomersSelector');
   }
 
+  GetArabicEnglishNumberText(ReceiptId: any) {
+    return this.http.get<any>(this.URL + 'Shared/GetArabicEnglishNumberText?ReceiptId=' + ReceiptId);
+  }
+
 }

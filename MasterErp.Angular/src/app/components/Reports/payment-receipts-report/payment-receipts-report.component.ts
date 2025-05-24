@@ -3,6 +3,7 @@ import { SearchReportModel } from '../Models/ReportParams';
 import { interval, Subject, takeUntil } from 'rxjs';
 import { CreateReportsService } from '../Services/create-reports.service';
 import { ActivatedRoute } from '@angular/router';
+import { SharedService } from '../../Shared/services/shared.service';
 
 @Component({
   selector: 'app-payment-receipts-report',
@@ -14,8 +15,9 @@ export class PaymentReceiptsReportComponent implements OnInit {
   StopPolling = new Subject<void>();
   ContentData: any;
   TodayDate: Date = new Date();
+  RenderPage = 0;
 
-  constructor(private reportService: CreateReportsService, private route: ActivatedRoute) { }
+  constructor(private reportService: CreateReportsService, private sharedService: SharedService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -36,6 +38,8 @@ export class PaymentReceiptsReportComponent implements OnInit {
   GetCreateReportData() {
     this.reportService.GetCreateReportData(this.ReportParams).subscribe(data => {
       this.ContentData = data;
+      this.GetArabicEnglishNumberText();
+      this.RenderPage++;
     });
   }
 
@@ -47,6 +51,14 @@ export class PaymentReceiptsReportComponent implements OnInit {
         this.StopPolling.next();
       }
     });
+  }
+
+  GetArabicEnglishNumberText() {
+    return this.sharedService.GetArabicEnglishNumberText(this.ReportParams.filterItems[0].itemFlag).subscribe(data => {
+      this.ContentData.descAr = data?.descAr;
+      this.ContentData.descEn = data?.descEn;
+      this.RenderPage++;
+    })
   }
 
   ngOnDestroy() {

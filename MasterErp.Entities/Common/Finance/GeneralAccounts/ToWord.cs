@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Common.Finance.GeneralAccounts
 {
-    class ToWord
+    public class ToWord
     {
         /// Group Levels: 987,654,321.234
         /// 234 : Group Level -1

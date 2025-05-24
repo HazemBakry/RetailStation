@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MasterErp.Entities.Models;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,30 +11,35 @@ namespace MasterErp.Entities.Common.Finance.GeneralAccounts
     public class CurrencyInfo
     {
         #region Constructors
-
-        public CurrencyInfo(int currencyID)
+        private readonly DBContext Context;
+        public CurrencyInfo(int currencyID, DBContext context)
         {
-            MishwarEntities Context = new MishwarEntities();
+            Context = context;
+            var CurrencyTemp = Context.Currency.Single(x => x.CurrencyId == currencyID);
 
-            var CurrencyTemp = Context.Currencies.Single(x => x.CurrencyID == currencyID);
-
-            CurrencyID = CurrencyTemp.CurrencyID;
+            CurrencyID = CurrencyTemp.CurrencyId;
             CurrencyCode = CurrencyTemp.Code;
-            IsCurrencyNameFeminine = CurrencyTemp.IsCurrencyNameFeminine;
-            EnglishCurrencyName = CurrencyTemp.EnglishCurrencyName;
-            EnglishPluralCurrencyName = CurrencyTemp.EnglishPluralCurrencyName;
-            EnglishCurrencyPartName = CurrencyTemp.EnglishCurrencyPartName;
-            EnglishPluralCurrencyPartName = CurrencyTemp.EnglishPluralCurrencyPartName;
-            Arabic1CurrencyName = CurrencyTemp.Arabic1CurrencyName;
-            Arabic2CurrencyName = CurrencyTemp.Arabic2CurrencyName;
-            Arabic310CurrencyName = CurrencyTemp.Arabic310CurrencyName;
-            Arabic1199CurrencyName = CurrencyTemp.Arabic1199CurrencyName;
-            Arabic1CurrencyPartName = CurrencyTemp.Arabic1CurrencyPartName;
-            Arabic2CurrencyPartName = CurrencyTemp.Arabic2CurrencyPartName;
-            Arabic310CurrencyPartName = CurrencyTemp.Arabic310CurrencyPartName;
-            Arabic1199CurrencyPartName = CurrencyTemp.Arabic1199CurrencyPartName;
-            PartPrecision = CurrencyTemp.PartPrecision;
-            IsCurrencyPartNameFeminine = CurrencyTemp.IsCurrencyPartNameFeminine;
+            EnglishCurrencyName = CurrencyTemp.NameEN;
+            Arabic1CurrencyName = CurrencyTemp.NameAR;
+
+
+            //CurrencyID = CurrencyTemp.CurrencyID;
+            //CurrencyCode = CurrencyTemp.Code;
+            //IsCurrencyNameFeminine = CurrencyTemp.IsCurrencyNameFeminine;
+            //EnglishCurrencyName = CurrencyTemp.EnglishCurrencyName;
+            //EnglishPluralCurrencyName = CurrencyTemp.EnglishPluralCurrencyName;
+            //EnglishCurrencyPartName = CurrencyTemp.EnglishCurrencyPartName;
+            //EnglishPluralCurrencyPartName = CurrencyTemp.EnglishPluralCurrencyPartName;
+            //Arabic1CurrencyName = CurrencyTemp.Arabic1CurrencyName;
+            //Arabic2CurrencyName = CurrencyTemp.Arabic2CurrencyName;
+            //Arabic310CurrencyName = CurrencyTemp.Arabic310CurrencyName;
+            //Arabic1199CurrencyName = CurrencyTemp.Arabic1199CurrencyName;
+            //Arabic1CurrencyPartName = CurrencyTemp.Arabic1CurrencyPartName;
+            //Arabic2CurrencyPartName = CurrencyTemp.Arabic2CurrencyPartName;
+            //Arabic310CurrencyPartName = CurrencyTemp.Arabic310CurrencyPartName;
+            //Arabic1199CurrencyPartName = CurrencyTemp.Arabic1199CurrencyPartName;
+            //PartPrecision = CurrencyTemp.PartPrecision;
+            //IsCurrencyPartNameFeminine = CurrencyTemp.IsCurrencyPartNameFeminine;
 
             //switch (currency)
             //{

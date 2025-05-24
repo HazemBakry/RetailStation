@@ -76,7 +76,7 @@ namespace MasterErp.API.Controllers.Shared
 
             return Ok(results);
         }
-        
+
         [HttpGet]
         [Route("GetCurrentFinancialPeriod")]
         public IActionResult GetCurrentFinancialPeriod()
@@ -129,7 +129,7 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetStoresSelector();
             return Ok(result);
         }
-         
+
         [HttpGet]
         [Route("GetIqamaIssuePlacesSelector")]
         public IActionResult GetIqamaIssuePlacesSelector()
@@ -137,7 +137,7 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetIqamaIssuePlacesSelector();
             return Ok(result);
         }
-        
+
         [HttpGet]
         [Route("GetVisaJobsSelector")]
         public IActionResult GetVisaJobsSelector()
@@ -145,7 +145,7 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetVisaJobsSelector();
             return Ok(result);
         }
-        
+
         [HttpGet]
         [Route("GetCountriesSelector")]
         public IActionResult GetCountriesSelector()
@@ -153,7 +153,7 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetCountriesSelector();
             return Ok(result);
         }
-        
+
         [HttpGet]
         [Route("GetCitiesSelector")]
         public IActionResult GetCitiesSelector()
@@ -161,7 +161,7 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetCitiesSelector();
             return Ok(result);
         }
-        
+
         [HttpGet]
         [Route("GetRegionsSelector")]
         public IActionResult GetRegionsSelector()
@@ -228,12 +228,20 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetChildAccountsSelector();
             return Ok(result);
         }
-      
+
         [HttpGet]
         [Route("GetItemLookupsSelector")]
         public IActionResult GetItemLookupsSelector()
         {
             var result = _sharedService.GetItemLookupsSelector();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("GetArabicEnglishNumberText")]
+        public IActionResult GetArabicEnglishNumberText(int ReceiptId)
+        {
+            var result = _sharedService.GetArabicEnglishNumberText(ReceiptId);
             return Ok(result);
         }
 

@@ -24,6 +24,7 @@ namespace MasterErp.Interface.Shared
         FinancialPeriod GetCurrentFinancialPeriod();
         ActionsResponseModel DownloadImporterTemplate(ExcelExportStyle ImporterType);
         List<SelectorDataModel> GetSponsorsSelector();
+        object GetArabicEnglishNumberText(int ReceiptId);
 
         #region Selectors
         List<SelectorDataModel> GetBranchesSelector();
