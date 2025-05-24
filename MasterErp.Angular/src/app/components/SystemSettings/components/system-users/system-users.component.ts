@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { FilterItem, FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { UserModel } from 'src/app/components/Shared/models/UserModel';
 import { environment } from 'src/environments/environment';
 import { SystemSettingsService } from '../../services/system-settings.service';
@@ -21,20 +21,21 @@ import { HrService } from 'src/app/components/HR/services/hr.service';
   styleUrls: ['./system-users.component.css']
 })
 export class SystemUsersComponent implements OnInit {
+  TitleList = ['إعدادات النظام', 'بيانات المستتخدمين'];
   usersData: UserModel[] = [];
   UsersRoles: any[] = [];
   URLs: any[] = [];
   ImagesName: any[] = [];
- 
-  systemUrl:string=environment.systemUrl
+
+  systemUrl: string = environment.systemUrl
   filterList: FilterModel[] = [];
-  lang :string= 'en';
-  
+  lang: string = 'en';
+
   defaultImage = `${this.systemUrl}assets/images/av-8.png`;
   pagingUsersData: any;
   searchText = '';
-  // form: FormGroup;
-  userModel: UserModel ={} as UserModel;
+  form: FormGroup;
+  userModel: UserModel = {} as UserModel;
   UserId: any;
   totalCount: any;
   totalPages: any;
@@ -44,68 +45,79 @@ export class SystemUsersComponent implements OnInit {
   manageRoles = false;
   BranchValidate = false;
   selectedUser: any;
-  rolesList:RoleModel[]=[];
+  rolesList: RoleModel[] = [];
   searchFilterModel: SearchFilterModel = {
     currentPage: 1,
     pageSize: 25,
     filterModel: { filterItems: [] }
   };
-  pagedResponse:PagedResponseDTO<UserModel[]>={
-    results:[],
-    filterList:[],
+
+  pagedResponseModel: PagedResponseDTO<UserModel[]> = {
+    results: [],
+    filterList: [],
     pageSize: 25,
-    currentPage:1,
-    searchText:''
+    currentPage: 1,
+    searchText: ''
 
   }
   employeesSelectorData: FormDropdownModel[] = [];
+  branchSelectorData: FormDropdownModel[] = [];
+
   public formGroup: FormGroup;
   formData: FormData = new FormData();
   selectedFile: File;
   public formErrors = {
     userId: '',
+    fullName: '',
     firstName: '',
     lastName: '',
     phoneNumber: '',
-    employeeId:'',
+    employeeId: '',
     userName: '',
     email: '',
     password: '',
-    
+
   };
-  showLoader: boolean=false;
+  showLoader: boolean = false;
   constructor(private modalService: NgbModal, private toaster: ToastrService,
-    private settingsService: SystemSettingsService, private form: FormBuilder, private _FormService: FormService,
-    private hrService: HrService ,
-    private sharedService: SharedService,private authService: AuthService) { }
+    private settingsService: SystemSettingsService,
+    private fb: FormBuilder, private _FormService: FormService,
+    private hrService: HrService,
+    private sharedService: SharedService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.GetUsersData();
     this.loadSelectors();
   }
 
-  openUserPopup(content: any,user:UserModel=null) {
-
+  openUserPopup(content: any, user: UserModel = null) {
     this.buildForm();
-    this.URLs=[];
-    if (user!=null)
+    this.URLs = [];
+    if (user != null)
       this.fillEditForm(user)
     this.modalService.open(content, { size: 'lg', centered: true });
   }
+
   loadSelectors() {
-    this.hrService.GetActiveEmployeesSelector().subscribe((data :FormDropdownModel[])=> {
+    this.hrService.GetActiveEmployeesSelector().subscribe((data: FormDropdownModel[]) => {
       this.employeesSelectorData = data;
     });
+
+    this.sharedService.GetBranchesSelector().subscribe((data: FormDropdownModel[]) => {
+      this.branchSelectorData = data;
+    });
   }
+
   buildForm() {
-    this.formGroup = this.form.group({
+    this.formGroup = this.fb.group({
       userId: [null],
-      firstName: [null, [Validators.required]],
-      lastName: [null, [Validators.required]],
+      fullName: [null, [Validators.required]],
+      // lastName: [null, [Validators.required]],
       userName: [null, [Validators.required]],
       phoneNumber: [null],
       employeeId: [null],
-      email: [null, [Validators.required,Validators.email]],
+      branchId: [null],
+      email: [null, [Validators.required, Validators.email]],
       password: [environment.defaultUserPassword],
       image: [null],
     });
@@ -121,10 +133,12 @@ export class SystemUsersComponent implements OnInit {
       userId: user.userId,
       firstName: user.firstName,
       lastName: user.lastName,
+      fullName: user.firstName + ' ' + user.lastName,
       userName: user.userName,
       email: user.email,
       phoneNumber: user.phoneNumber,
       employeeId: user.employeeId,
+      branchId: user.branchId,
       imageFile: null
     });
 
@@ -135,19 +149,19 @@ export class SystemUsersComponent implements OnInit {
       return;
     }
 
-    
+
 
     this.userModel = this.formGroup.value;
     this.formData = new FormData();
     if (this.selectedFile)
       this.formData.append('image', this.selectedFile);
     for (const key in this.formGroup.value) {
-      if (this.formGroup.value[key]&&key!='image') {
+      if (this.formGroup.value[key] && key != 'image') {
         this.formData.append(key, this.formGroup.value[key]);
       }
     }
 
-    if(this.userModel?.userId)
+    if (this.userModel?.userId)
       this.editUser();
     else
       this.addNewUser();
@@ -174,9 +188,9 @@ export class SystemUsersComponent implements OnInit {
         this.GetUsersData();
         this.formGroup?.reset();
         this.modalService.dismissAll();
-        this.selectedFile=null;
-        
-      
+        this.selectedFile = null;
+
+
       } else {
         if (this.lang == 'en') {
           this.toaster.error("! Error Failed To Save Data");
@@ -188,7 +202,7 @@ export class SystemUsersComponent implements OnInit {
     });
   }
   editUser() {
-    this.settingsService.editUser(this.formData).subscribe((data:ActionsResponseModel) => {
+    this.settingsService.editUser(this.formData).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         if (this.lang == 'en') {
           this.toaster.success("Data Saved Successfully");
@@ -198,8 +212,8 @@ export class SystemUsersComponent implements OnInit {
         this.GetUsersData();
         this.formGroup?.reset();
         this.modalService.dismissAll();
-        this.selectedFile=null;
-      
+        this.selectedFile = null;
+
       } else {
         this.toaster.error(data.message);
 
@@ -208,14 +222,14 @@ export class SystemUsersComponent implements OnInit {
     });
   }
 
- 
+
 
   openDeleteUserModal(content: any, userModel: UserModel) {
     this.userModel = userModel;
     this.modalService.open(content, { size: 'md', centered: true });
   }
   deleteUser() {
-    this.settingsService.deleteUser(this.userModel.userId).subscribe((data:ActionsResponseModel) => {
+    this.settingsService.deleteUser(this.userModel.userId).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         if (this.lang == 'en') {
           this.toaster.success("user deleted");
@@ -225,8 +239,8 @@ export class SystemUsersComponent implements OnInit {
         this.GetUsersData();
         this.formGroup?.reset();
         this.modalService.dismissAll();
-        this.selectedFile=null;
-      
+        this.selectedFile = null;
+
       } else {
         if (this.lang == 'en') {
           this.toaster.error("! Error Failed To delete");
@@ -259,25 +273,30 @@ export class SystemUsersComponent implements OnInit {
 
   GetUsersData() {
     // this.searchFilterModel.searchText = this.searchText;
-    this.settingsService.getUsers(this.pagedResponse).subscribe(response => {
-      this.pagedResponse.results=response.results;
-      this.pagedResponse.totalCount=response.totalCount;
+    this.settingsService.getUsers(this.pagedResponseModel).subscribe(response => {
+      this.pagedResponseModel.results = response.results;
+      this.pagedResponseModel.totalCount = response.totalCount;
       this.usersData = response.results;
-      this.selectedUser = this.usersData?.length ?this.usersData[0]:null;
+      this.selectedUser = this.usersData?.length ? this.usersData[0] : null;
       this.totalCount = response.toDate;
 
     });
   }
 
   pageChanged(obj: any) {
-    this.pagedResponse.currentPage = obj.page;
+    this.pagedResponseModel.currentPage = obj.page;
+    this.GetUsersData();
+  }
+
+  filterChecked(filterItems: FilterItem[]) {
+    this.pagedResponseModel.filterList = filterItems;
     this.GetUsersData();
   }
 
   onSelectedFile(event: any) {
     this.URLs = [];
     if (event.target.files.length > 0) {
-      this.selectedFile=event.target.files[0];
+      this.selectedFile = event.target.files[0];
       var reader = new FileReader();
       reader.readAsDataURL(this.selectedFile);
       reader.onload = (events: any) => {
@@ -297,30 +316,45 @@ export class SystemUsersComponent implements OnInit {
     // }
   }
 
+
+
+  open(content: any, user: any) {
+    this.form.reset();
+    this.BranchValidate = false;
+    //this.BranchName = 'Branches';
+    this.form.patchValue({ passwordHash: '0000' });
+    if (user) {
+      this.FillEditForm(user);
+    }
+    this.modalService.open(content, { size: 'lg', centered: true });
+  }
+
+
+
   openRolesModal(content: any, userModel: UserModel) {
     this.userModel = userModel;
     this.getRoles();
     this.modalService.open(content, { size: 'lg', centered: true });
-}
+  }
   getRoles() {
-    this.settingsService.getRoles(this.pagedResponse).subscribe(data => {
+    this.settingsService.getRoles(this.pagedResponseModel).subscribe(data => {
       this.rolesList = data.results;
-      this.rolesList.map(a => a.isChecked = this.userModel?.roles?.some(r=>a.roleName==r));
+      this.rolesList.map(a => a.isChecked = this.userModel?.roles?.some(r => a.roleName == r));
     });
   }
 
-   saveUserRole() {
+  saveUserRole() {
     let roles = this.rolesList.filter(a => a.isChecked);
-    if(roles.length==0){
+    if (roles.length == 0) {
       this.toaster.error('You must select at least one role');
       return;
     }
-    let model:AddUserRoleModel={} as AddUserRoleModel;
-    model.userId=this.userModel.userId;
-    model.roles=roles;
+    let model: AddUserRoleModel = {} as AddUserRoleModel;
+    model.userId = this.userModel.userId;
+    model.roles = roles;
 
 
-    this.showLoader=true;
+    this.showLoader = true;
     this.settingsService.assignUserRole(model).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success('Assign New Role Successfully');
@@ -329,23 +363,34 @@ export class SystemUsersComponent implements OnInit {
       } else {
         this.toaster.error(data.message);
       }
-      this.showLoader=false;
-    },(err)=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     })
   }
 
 
+  FillEditForm(user: any) {
+    //this.BranchName = this.Branches?.find(i => i.branchId == user.branchId)?.nameEn;
+    this.form.setValue({
+      userId: user.userId,
+      fullName: user.fullName,
+      userName: user.userName,
+      passwordHash: user.passwordHash,
+      normalizedEmail: user.email,
+      phoneNumber: user.phoneNumber,
+      branchId: user.branchId,
+      image: user.image,
+      imageFile: null
+    });
 
-  ShowUserCardData(item: any) {
-    this.selectedUser = item;
-    // this.UsersData.forEach(user => {
-    //   if (item.id == user.id)
-    //     user.isClicked = true;
-    //   else
-    //     user.isClicked = false;
-    // })
+    //this.UserImage = user.image;
   }
+
+  exportData() {
+
+  }
+
 }

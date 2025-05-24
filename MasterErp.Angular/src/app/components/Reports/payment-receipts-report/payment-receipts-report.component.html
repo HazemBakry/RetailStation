@@ -1,0 +1,102 @@
+<div class="container" dir="rtl" id="ReportData" *ngIf="RenderPage > 1">
+    <table style="width: 100%; margin-bottom: 1.5rem;">
+        <tr>
+            <td style="text-align: right;">
+                <h1 style="font-size: 1.25rem; font-weight: bold; font-family: 'Arial';">
+                    شركة مطاعم مشوار
+                </h1>
+            </td>
+            <td style="text-align: left;">
+                <img src="" id="ReportImage" style="height: 4rem; width: 4rem; object-fit: contain;" />
+            </td>
+        </tr>
+    </table>
+    <div style="margin-bottom: 2rem;">
+        <h2 style="text-align: center; font-weight: bold; margin-bottom: 0.5rem; font-size: 1.125rem; font-family: 'Arial';">إيصال دفع نقدي</h2>
+        <h2 style="text-align: center; font-weight: bold; margin-bottom: 1rem; font-size: 1.25rem; text-decoration: underline; font-family: 'Arial';">Cash Payment Receipt</h2>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-family: 'Arial';">
+            <tr>
+                <td>
+                    <div style="text-align: center;">
+                        <div style="font-weight: bold;">SR ريال</div>
+                        <div style="font-size: 1.25rem; font-weight: bold;border: 1px solid black; padding: 2px; text-align: center;background-color: #d3d3d3;margin-top: 2px;">{{ContentData?.moneyAmount}}</div>
+                    </div>
+                </td>
+                <td>
+                    <div style="text-align: center;">
+                        <span style="margin-left: 0.5rem;font-weight: bold;">التاريخ:</span>
+                        <span style="font-weight: bold;">Date: {{TodayDate | date:'yyyy/MM/dd'}}</span>
+                    </div>
+                </td>
+                <td>
+                    <div style="text-align: left;">
+                        <span style="font-weight: bold;">No: {{ContentData?.receiptNumber}}</span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.5rem;">
+            <span style="font-weight: bold;">صرف إلى السيد / السادة:</span>
+            <span style="text-align: center; flex: 1; margin: 0 1rem;border-bottom: 1px dotted #9CA3AF;font-weight: bold;">{{ContentData?.contactName}}</span>
+            <span style="font-weight: bold;">:Pay to Mr\s</span>
+        </div>
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.5rem;">
+            <span style="font-weight: bold;">مبلغ و قدره:</span>
+            <span style="flex: 1; margin: 0 1rem;border-bottom: 1px dotted #9CA3AF;font-weight: bold;">{{ContentData?.descAr}}</span>
+        </div>
+    </div>
+    <div style="margin-bottom: 1.5rem;text-align: left;">
+        <div style="display: flex; justify-content: space-between; padding-bottom: 0.5rem;">
+
+            <span style="flex: 1; margin: 0 1rem;border-bottom: 1px dotted #9CA3AF;font-weight: bold;">{{ContentData?.descEn}}</span>
+            <span style="font-weight: bold;">:The Sum Of</span>
+        </div>
+    </div>
+    <div style="margin-bottom: 2rem;">
+        <div style="display: flex; align-items: flex-start;">
+            <span style="font-weight: bold; margin-left: 0.5rem;">ذلك عن:</span>
+            <span style="flex: 1; border-bottom: 1px dotted #9CA3AF; padding-bottom: 0.5rem;font-weight: bold;">
+        {{ContentData?.description}}
+      </span>
+            <span style="font-weight: bold; margin-right: 0.5rem;">:For</span>
+        </div>
+    </div>
+    <div style="overflow-x: auto; margin-bottom: 2rem;">
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 0.5rem; font-family: Arial, sans-serif; text-align: center;">
+            <thead>
+                <tr style="text-align: center;">
+                    <th style="border: 1px solid black; padding: 0.5rem 0.75rem;background-color: #d3d3d3;"> المبلغ Amount (ريال SR)</th>
+                    <th style="border: 1px solid black; padding: 0.5rem 0.75rem;background-color: #d3d3d3;">ملاحظات Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="text-align: right;">
+                    <td style="border: 1px solid black; padding: 0.5rem 0.75rem;font-weight: bold;">{{ContentData?.moneyAmount}}</td>
+                    <td style="border: 1px solid black; padding: 0.5rem 0.75rem;font-weight: bold;">{{ContentData?.description}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;">
+        <div>
+            <div style="font-weight: bold; margin-bottom: 1rem;">المدير العام</div>
+            <div style="border-bottom: 1px dotted #9CA3AF; height: 2rem;"></div>
+        </div>
+        <div>
+            <div style="font-weight: bold; margin-bottom: 1rem;">المراجعة</div>
+            <div style="border-bottom: 1px dotted #9CA3AF; height: 2rem;"></div>
+        </div>
+        <div>
+            <div style="font-weight: bold; margin-bottom: 1rem;">مدير الحسابات</div>
+            <div style="border-bottom: 1px dotted #9CA3AF; height: 2rem;"></div>
+        </div>
+        <div>
+            <div style="font-weight: bold; margin-bottom: 1rem;">المحاسب</div>
+            <div style="border-bottom: 1px dotted #9CA3AF; height: 2rem;"></div>
+        </div>
+    </div>
+</div>

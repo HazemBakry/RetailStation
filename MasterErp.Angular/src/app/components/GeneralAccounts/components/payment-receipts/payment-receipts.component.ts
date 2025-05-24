@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PaymentService } from '../../services/payment.service';
 import { ToastrService } from 'ngx-toastr';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
+import { SearchReportModel } from 'src/app/components/Reports/Models/ReportParams';
+import { CreateReportsService } from 'src/app/components/Reports/Services/create-reports.service';
 
 @Component({
   selector: 'app-payment-receipts',
@@ -17,7 +19,7 @@ export class PaymentReceiptsComponent implements OnInit {
     currentPage: 1,
     pageSize: 25
   };
-
+  
   ReceiptList: PagedResponseDTO<ReceiptModel[]> = {
     results: [],
     filterList: [],
@@ -26,7 +28,7 @@ export class PaymentReceiptsComponent implements OnInit {
     searchText: ''
   };
 
-  constructor(private paymentService: PaymentService,
+  constructor(private paymentService: PaymentService, private ReportsService: CreateReportsService,
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
@@ -53,7 +55,7 @@ export class PaymentReceiptsComponent implements OnInit {
     this.GetPaymentReceiptsSummary();
   }
 
-  CancelPaymentReceipt(receiptId: number) {
+  cancelPaymentReceipt(receiptId: number) {
     this.paymentService.CancelPaymentReceipt(receiptId).subscribe(data => {
       if (data) {
         this.toaster.success('تم الغاء السند بنجاح');
@@ -86,6 +88,24 @@ export class PaymentReceiptsComponent implements OnInit {
       return "locked";
     else
       return "open";
+  }
+
+  PrintData(paymentReceiptId: any) {
+    let reportParams: SearchReportModel = {} as SearchReportModel;
+    let filterItems: FilterItem[] = [
+      { categoryName: 'PaymentReceiptId', itemFlag: paymentReceiptId }
+    ];
+    reportParams.ControllerName = 'Payment';
+    reportParams.ApiName = 'GetPaymentReceiptDetailsById';
+    reportParams.MethodType = 'GET';
+    reportParams.pageName = 'payment-receipts-report';
+    reportParams.isLandScape = true;
+    reportParams.filterItems = filterItems;
+    this.showLoader = true;
+    this.ReportsService.CreateGeneralReport(reportParams, (timeTaken) => {
+      this.showLoader = false;
+      console.log(`Generate Report Request Time: ${timeTaken} S`);
+    });
   }
 
 }

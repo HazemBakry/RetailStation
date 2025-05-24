@@ -58,7 +58,7 @@ namespace MasterErp.Service.HR
         {
             var query = from vacation in Context.Vacations
                         join emp in Context.Employees on vacation.EmployeeId equals emp.EmployeeId
-                        //join vacationType in Context.VacationTypes on vacation.VacationTypeId equals vacationType.VacationTypeId
+                        join branch in Context.Branches on emp.BranchId equals branch.BranchId
                         join alternativeEmp in Context.Employees on vacation.AlternativeEmployeeId equals alternativeEmp.EmployeeId into jT
                         from alternativeEmp in jT.DefaultIfEmpty()
                         where vacation.EmployeeId == employeeId
@@ -68,7 +68,7 @@ namespace MasterErp.Service.HR
                             EmployeeName = emp.FullNameAR,
                             VacationId = vacation.VacationId,
                             VacationTypeId = vacation.VacationTypeId,
-                            //VacationType = vacationType.NameEN,
+                            BranchName = branch.NameAR,
                             AlternativeEmployeeId = vacation.AlternativeEmployeeId,
                             AlternativeEmployeeName = alternativeEmp.FullNameAR,
                             IsAlternativeAvailable = vacation.IsAlternativeAvailable,

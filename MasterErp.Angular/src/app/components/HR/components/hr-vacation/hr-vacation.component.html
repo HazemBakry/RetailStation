@@ -33,8 +33,7 @@
                 </select>
             </div> -->
             <div class="col-lg-4">
-                <app-drop-down-form-control [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData"
-                    [showSearch]="true" [placeholder]="'قائمة الموظفين'"></app-drop-down-form-control>
+                <app-drop-down-form-control [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData" [showSearch]="true" [placeholder]="'قائمة الموظفين'"></app-drop-down-form-control>
                 <!-- <div *ngIf="formErrors.Id" class="text-danger  font-small-3 m-03">
                         {{formErrors.regionId}}
                     </div> -->
@@ -46,51 +45,7 @@
                 </button>
             </div>
         </div>
-        <!-- <form [formGroup]="form" autocomplete="off">
-            <div class="row">
-                <div class="col-lg-4">
-                    <select class="form-control mb-3 py-3" formControlName="employeeID">
-                        <option [defaultSelected]=true [value]="0" disabled>Employees</option>
-                        <option *ngFor="let emp of EmployeeData" [value]="emp.employeeId">{{emp.employeeName}}</option>
-                    </select>
-                </div>
-                <div class="col-lg-4">
-                    <div class="form-floating mb-3">
-                        <input type="date" class="form-control" formControlName="fromDate" id="floatingInput"
-                            >
-                        <label for="floatingInput">Start Date</label>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="form-floating mb-3">
-                        <input type="date" class="form-control" formControlName="toDate" id="floatingInput"
-                            >
-                        <label for="floatingInput">End Date</label>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="form-floating mb-3">
-                        <input type="date" class="form-control" formControlName="lastDayWork" id="floatingInput"
-                            >
-                        <label for="floatingInput">Last Day Work</label>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="form-floating mb-3">
-                        <input type="number" class="form-control" formControlName="period" id="floatingInput"
-                            >
-                        <label for="floatingInput">Period</label>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="form-floating mb-3">
-                        <input type="number" class="form-control" formControlName="alternativeEmployee"
-                            id="floatingInput"  autocomplete="off">
-                        <label for="floatingInput">Alternative Employee</label>
-                    </div>
-                </div>
-            </div>
-        </form> -->
+        <h6 class="mb-0 fw-bold" *ngIf="employeeVacationResponse.results.length > 0">فرع {{employeeVacationResponse.results[0].branchName}}</h6>
     </div>
 </div>
 
@@ -111,15 +66,12 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)"
-                    [currentPage]="employeeVacationResponse.currentPage" [pageSize]="employeeVacationResponse.pageSize"
-                    [totalCount]="employeeVacationResponse.totalCount"></app-erp-pagination>
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="employeeVacationResponse.currentPage" [pageSize]="employeeVacationResponse.pageSize" [totalCount]="employeeVacationResponse.totalCount"></app-erp-pagination>
             </div>
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
         <div class="table-responsive shadow-sm radius-10 table-vp-height">
-            <table
-                class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
                 <thead class="table-light">
                     <tr>
                         <th>اسم الموظف</th>
@@ -149,9 +101,7 @@
                                     <i class="uil uil-pen"></i>
                                     <span>تعديل</span>
                                 </button>
-                                <button
-                                    class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
-                                    (click)="openDeleteModal(deleteModal,item.vacationId)">
+                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteModal,item.vacationId)">
                                     <i class="uil uil-trash-alt"></i>
                                     <span>الغاء</span>
                                 </button>
@@ -165,7 +115,7 @@
                     </tr>
                 </tbody>
             </table>
-            
+
         </div>
     </div>
 </div>
@@ -214,8 +164,7 @@
                                 نوع الأجازه
                                 <span class="text-danger">*</span>
                             </label>
-                            <app-general-selector formControlName="vacationTypeId" [data]="vacationTypeSelectorData"
-                                [showSearch]="true" [placeholder]="'نوع الأجازه'"></app-general-selector>
+                            <app-general-selector formControlName="vacationTypeId" [data]="vacationTypeSelectorData" [showSearch]="true" [placeholder]="'نوع الأجازه'"></app-general-selector>
 
                             <div *ngIf="formErrors.vacationTypeId" class="text-danger  font-small-3 m-03">
                                 {{formErrors.vacationTypeId}}
@@ -226,8 +175,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 التاريخ من
                                 <span class="text-danger">*</span></label>
-                            <input type="date" formControlName="fromDate" autocomplete="off"
-                                class="form-control nw-form-input" />
+                            <input type="date" formControlName="fromDate" autocomplete="off" class="form-control nw-form-input" />
                             <div *ngIf="formErrors.fromDate" class="text-danger  font-small-3 m-03">
                                 {{formErrors.fromDate}}
                             </div>
@@ -236,8 +184,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 التاريخ الي
                                 <span class="text-danger">*</span></label>
-                            <input type="date" formControlName="toDate" autocomplete="off"
-                                class="form-control nw-form-input" />
+                            <input type="date" formControlName="toDate" autocomplete="off" class="form-control nw-form-input" />
                             <div *ngIf="formErrors.toDate" class="text-danger  font-small-3 m-03">
                                 {{formErrors.toDate}}
                             </div>
@@ -247,8 +194,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 أخر يوم عمل
                                 <span class="text-danger">*</span></label>
-                            <input type="date" formControlName="lastDayWork" autocomplete="off"
-                                class="form-control nw-form-input" />
+                            <input type="date" formControlName="lastDayWork" autocomplete="off" class="form-control nw-form-input" />
                             <div *ngIf="formErrors.lastDayWork" class="text-danger  font-small-3 m-03">
                                 {{formErrors.lastDayWork}}
                             </div>
@@ -266,15 +212,12 @@
                                     {{formErrors.isAlternativeAvailable}}
                                 </div>
                             </div>
-                            <div *ngIf="formGroup?.value?.isAlternativeAvailable "
-                                class="col-sm-10">
+                            <div *ngIf="formGroup?.value?.isAlternativeAvailable " class="col-sm-10">
                                 <label class="form-label d-flex align-items-center gap-2">
                                     قائمة الموظفين
                                     <!-- <span class="text-danger">*</span> -->
                                 </label>
-                                <app-general-selector formControlName="alternativeEmployeeId"
-                                    [data]="employeeSelectorData" [showSearch]="true"
-                                    [placeholder]="'قائمة الموظفين'"></app-general-selector>
+                                <app-general-selector formControlName="alternativeEmployeeId" [data]="employeeSelectorData" [showSearch]="true" [placeholder]="'قائمة الموظفين'"></app-general-selector>
 
                                 <div *ngIf="formErrors.alternativeEmployeeId" class="text-danger  font-small-3 m-03">
                                     {{formErrors.alternativeEmployeeId}}
@@ -287,8 +230,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 ملاحظات
                             </label>
-                            <input type="text" class="form-control nw-form-input description-area"
-                                formControlName="notes" autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input description-area" formControlName="notes" autocomplete="off" />
                             <!-- <textarea class="form-control" placeholder="Description *" formControlName="notes"
                                     autocomplete="off"></textarea> -->
                             <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
@@ -302,8 +244,7 @@
         </div>
 
         <div class="d-flex justify-content-center border-top pt-3 mt-3">
-            <button [disabled]="showAddLoader" (click)="saveEmployeeVacation()"
-                class="btn btn-primary w-50 justify-content-center py-3 fs-5 radius-10">
+            <button [disabled]="showAddLoader" (click)="saveEmployeeVacation()" class="btn btn-primary w-50 justify-content-center py-3 fs-5 radius-10">
                 <!-- <i class="fas fa-id-card"></i> -->
                 <i class="fas fa-plus-circle"></i>
                 <span *ngIf="!isUpdate" class="ms-3">إضافة</span>

@@ -7,7 +7,17 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class OverviewCardComponent implements OnInit {
 
-  @Input() data!: { title: string, number: number, status: string, statusIcon: string, subscribers: number, statusBgClass: string };
+  @Input() data!:
+    {
+      title: string,
+      number: number,
+      status: string,
+      statusIcon: string,
+      subscribers: number,
+      statusBgClass: string,
+      color: string,
+      details: string
+    };
 
   constructor() { }
 

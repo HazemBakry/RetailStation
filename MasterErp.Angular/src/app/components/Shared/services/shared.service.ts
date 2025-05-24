@@ -134,6 +134,9 @@ export class SharedService {
   GetBranchesSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetBranchesSelector');
   }
+  GetSponsorsSelector() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetSponsorsSelector');
+  }
   GetOrderStatusSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetOrderStatusSelector');
   }
@@ -194,6 +197,10 @@ export class SharedService {
 
   GetCustomersSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetCustomersSelector');
+  }
+
+  GetArabicEnglishNumberText(ReceiptId: any) {
+    return this.http.get<any>(this.URL + 'Shared/GetArabicEnglishNumberText?ReceiptId=' + ReceiptId);
   }
 
 }

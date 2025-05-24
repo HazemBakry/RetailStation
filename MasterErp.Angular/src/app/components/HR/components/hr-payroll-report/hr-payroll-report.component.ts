@@ -92,7 +92,6 @@ export class HRPayrollReportComponent implements OnInit {
 
 
   filterChecked(filterItems: FilterItem[]) {
-    debugger;
     this.pagedFilterModel.filterModel.filterItems = filterItems;
     this.getEmplyeePayrollReport(this.TypeId);
   }

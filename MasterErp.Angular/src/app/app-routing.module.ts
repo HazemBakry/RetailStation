@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: 'inventory', loadChildren: () => import('./components/Inventory/inventory.module').then(erp => erp.InventoryModule), canActivate: [AuthGuard] },
   { path: 'system-settings', loadChildren: () => import('./components/SystemSettings/system-settings.module').then(erp => erp.SystemSettingsModule), canActivate: [AuthGuard] },
   { path: 'design', loadChildren: () => import('./components/Design/design.module').then(erp => erp.DesignModule), canActivate: [AuthGuard] },
-  { path: 'create-report/:companyName/:pageName/:controllerName/:apiName/:methodType/:sectionName', loadChildren: () => import('./components/Reports/reports.module').then(erp => erp.ReportsModule) }
+  { path: 'create-report', loadChildren: () => import('./components/Reports/reports.module').then(erp => erp.ReportsModule) }
 ];
 
 @NgModule({

@@ -19,6 +19,7 @@ namespace MasterErp.Entities.DTOs.HR
         public bool? IsApproved { get; set; }
         public string Notes { get; set; }
         public int? TotalCount { get; set; }
+        public string BranchName { get; set; }
 
 
     }

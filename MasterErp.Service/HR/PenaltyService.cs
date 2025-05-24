@@ -65,6 +65,7 @@ namespace MasterErp.Service.HR
         {
             var query = from penalty in Context.Penalties
                         join emp in Context.Employees on penalty.EmployeeId equals emp.EmployeeId
+                        join branch in Context.Branches on emp.BranchId equals branch.BranchId
                         join penaltyType in Context.PenaltyTypes on penalty.PenaltyTypeId equals penaltyType.PenaltyTypeId
                         where penalty.EmployeeId == EmployeeId
                         select new EmployeePenaltyDto
@@ -74,6 +75,7 @@ namespace MasterErp.Service.HR
                             PenaltyId = penalty.PenaltyId,
                             PenaltyTypeId = penalty.PenaltyTypeId,
                             ExecutionDate = penalty.ExecutionDate,
+                            BranchName = branch.NameAR,
                             PenaltyDate = penalty.PenaltyDate,
                             TotalDeduction = penalty.TotalDeduction,
                             DeductionByDays = penalty.DeductionByDays,

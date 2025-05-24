@@ -59,6 +59,7 @@ namespace MasterErp.Service.HR
         {
             var query = from sickLeave in Context.SickLeaves
                         join emp in Context.Employees on sickLeave.EmployeeId equals emp.EmployeeId
+                        join branch in Context.Branches on emp.BranchId equals branch.BranchId
                         where sickLeave.EmployeeId == EmployeeId
                         select new EmployeeSickLeaveDto
                         {
@@ -67,6 +68,7 @@ namespace MasterErp.Service.HR
                             SickLeaveId = sickLeave.SickLeaveId,
                             RequestDate = sickLeave.RequestDate,
                             ExecutionDate = sickLeave.ExecutionDate,
+                            BranchName = branch.NameAR,
                             FromDate = sickLeave.FromDate,
                             ToDate = sickLeave.ToDate,
                             NoDays = sickLeave.NoDays,

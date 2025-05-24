@@ -12,14 +12,11 @@ export class GeneralAccountsLayoutComponent implements OnInit {
   menuItem: MenuSidebarItem;
   constructor(private menuService: MenuService,) {
     this.menuItem = this.menuService.getMenuById(MenuType.GeneralAccountsHome);
-
   }
-
 
   ngOnInit(): void {
+
   }
-
-
 
   onToggleContent() {
     this.isToggle = !this.isToggle;

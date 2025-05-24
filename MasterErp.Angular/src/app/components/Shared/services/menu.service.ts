@@ -20,6 +20,14 @@ export class MenuService {
       subMenus: [
         {
           menuItemId: MenuType.GeneralAccountsHome,
+          displayName: 'لوحة التحكم',
+          menuItem: '',
+          description: 'احصائيات عن القيود والسندات',
+          icon: 'fas fa-th-large',
+          route: '/general-accounts/home'
+        },
+        {
+          menuItemId: MenuType.GeneralAccountsHome,
           displayName: 'الادلة',
           menuItem: '1',
           description: 'الوصول إلى شجرة الحسابات ومراكز التكلفة',
@@ -302,35 +310,6 @@ export class MenuService {
         },
         {
           menuItemId: MenuType.GeneralAccountsHome,
-          displayName: 'اعدادات النظام',
-          menuItem: '8',
-          description: 'إدارة صلاحيات المستخدمين وإعدادات النظام العامة',
-          icon: 'fa-solid fa-cogs',
-          route: '/general-accounts/home/8',
-
-          subMenus: [
-            {
-              displayName: 'بيانات المستخدمين',
-              menuItem: 'journal-entry-templates',
-              description: 'إدارة صلاحيات وبيانات المستخدمين',
-              icon: 'fa fa-users-cog',
-            },
-            {
-              displayName: 'مجموعات الأصناف',
-              menuItem: 'journal-entry-templates',
-              description: 'تصنيف مجموعات الأصناف للنظام المحاسبي',
-              icon: 'fa fa-tags',
-            },
-            {
-              displayName: 'أذونات الإضافة',
-              menuItem: 'journal-entry-templates',
-              description: 'إدارة أذونات الإدخال للبيانات المالية',
-              icon: 'fa fa-user-lock',
-            },
-          ]
-        },
-        {
-          menuItemId: MenuType.GeneralAccountsHome,
           displayName: 'التقارير',
           menuItem: '9',
           description: 'عرض تقارير الميزانية والتدفقات النقدية',
@@ -593,6 +572,67 @@ export class MenuService {
 
 
     },
+    {
+      menuItemId: MenuType.AdminHome,
+      displayName: 'اعدادات النظام',
+      menuItem: 'Admin Settings',
+      subMenus: [
+        {
+          menuItemId: MenuType.AdminHome,
+          displayName: 'الاعدادات',
+          menuItem: '1',
+          route: '/system-settings/home/1',
+          icon: 'fa fa-warehouse',
+          subMenus: [
+
+            {
+              displayName: 'لوحة التحكم',
+              menuItem: 'dashboard',
+              description: 'إنشاء وتتبع طلبات شراء المواد من المخازن',
+              icon: 'fa fa-file-signature',
+              route: '/system-settings/dashboard'
+            },
+            {
+              displayName: 'بيانات الفروع',
+              menuItem: 'branches',
+              description: 'تعريف وتصنيف بيانات الفروع',
+              icon: 'fa fa-layer-group',
+              route: '/system-settings/branches'
+            },
+            {
+              displayName: 'بيانات المستخدمين',
+              menuItem: 'system-users',
+              description: 'تعريف وتصنيف بيانات المستخدمين',
+              icon: 'fa fa-layer-group',
+              route: '/system-settings/system-users'
+            },
+            {
+              displayName: 'صلاحيات المستخدمين',
+              menuItem: 'roles',
+              description: 'إدارة صلاحيات المستخدمين',
+              icon: 'fa fa-cogs',
+              route: '/system-settings/roles'
+            }
+          ]
+        },
+        // {
+        //   menuItemId: MenuType.AdminHome,
+        //   displayName: 'التقارير',
+        //   menuItem: '2',
+        //   route: '/inventory/home/2',
+        //   icon: 'fa fa-cogs',
+        //   subMenus: [
+        //     {
+        //       displayName: 'وحدات الأصناف',
+        //       menuItem: 'units',
+        //       description: 'description',
+        //       icon: 'fa fa-balance-scale',
+        //       route: '/inventory/units'
+        //     }
+        //   ]
+        // }
+      ]
+    }
   ];
 }
 export enum MenuType {
@@ -600,5 +640,6 @@ export enum MenuType {
   MainModules,
   InventoryHome,
   PurchasesHome,
+  AdminHome
 
 }

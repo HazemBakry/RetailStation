@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Service.HR
 {
-    public class DeductsService: IDeductsService
+    public class DeductsService : IDeductsService
     {
         private readonly DBContext Context;
 
@@ -31,7 +31,7 @@ namespace MasterErp.Service.HR
                             EmployeeName = emp.FullNameAR,
                             DeductId = deduct.DeductId,
                             DeductTypeId = deduct.DeductTypeId,
-                            DeductTypeName=deductType.NameAR,
+                            DeductTypeName = deductType.NameAR,
                             ExecutionDate = deduct.ExecutionDate,
                             MoneyAmount = deduct.MoneyAmount,
                             Notes = deduct.Notes,
@@ -58,6 +58,7 @@ namespace MasterErp.Service.HR
 
             var query = from deduct in Context.Deducts
                         join emp in Context.Employees on deduct.EmployeeId equals emp.EmployeeId
+                        join branch in Context.Branches on emp.BranchId equals branch.BranchId
                         join deductType in Context.DeductTypes on deduct.DeductTypeId equals deductType.DeductTypeId
                         where deduct.EmployeeId == EmployeeId
                         select new EmployeeDeductDto
@@ -67,6 +68,7 @@ namespace MasterErp.Service.HR
                             DeductId = deduct.DeductId,
                             DeductTypeId = deduct.DeductTypeId,
                             DeductTypeName = deductType.NameAR,
+                            BranchName = branch.NameAR,
                             ExecutionDate = deduct.ExecutionDate,
                             MoneyAmount = deduct.MoneyAmount,
                             Notes = deduct.Notes,

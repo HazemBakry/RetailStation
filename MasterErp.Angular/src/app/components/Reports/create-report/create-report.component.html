@@ -1,41 +1,111 @@
-<div class="a4-page" *ngIf="ContentData.length > 0 && ContentHeaderData.length > 0">
-    <div id="ReportData" dir="rtl">
-        <div style="display: flex;align-items: center;position: relative;">
-            <div style="margin-bottom: 80px;font-size: 16px;font-weight: bold;">{{ReportParams.companyName}}</div>
-            <div style="font-size: 16px;font-weight: bold;position: absolute;right: 460px;">{{ReportParams.pageName}}</div>
-            <img id="ReportImage" style="width: 80px;height: 80px;position: absolute;left: 0px;">
-        </div>
-        <div style="display: flex;align-items: center;margin-top: 5px;">
-            <div style="text-align: center;font-weight: bold;">Account :
-                <span style="font-weight: normal;text-decoration: underline;text-decoration-style: dashed;text-underline-offset: 5px;">دفتر الاستاذ العام</span>
-            </div>
-            <div style="flex: 1;"></div>
-            <div style="text-align: center;font-weight: bold;">From Date :
-                <span style="font-weight: normal;text-decoration: underline;text-decoration-style: dashed;text-underline-offset: 5px;">{{FromDate}}</span>
-            </div>
-            <div style="flex: 1;"></div>
-            <div style="text-align: center;font-weight: bold;">To Date :
-                <span style="font-weight: normal;text-decoration: underline;text-decoration-style: dashed;text-underline-offset: 5px;">{{ToDate}}</span>
-            </div>
-        </div>
-        <table style="width: 100%;border-collapse: collapse;margin-top: 10px;">
-            <thead>
-                <tr>
-                    <th style="padding: 8px;text-align: center;background-color: #eee;color: black;" *ngFor="let header of ContentHeaderData">{{header.propDisName}}</th>
-                </tr>
-            </thead>
-            <tbody style="padding: 8px;text-align: center;">
-                <tr *ngFor="let item of ContentData">
-                    <td style="padding: 8px;text-align: center" *ngFor="let header of ContentHeaderData">{{item[header.propKey]}}</td>
-                </tr>
-            </tbody>
-        </table>
-        <!-- <table style="border-collapse: collapse;float: left;width:210px" *ngIf="NewFooterArry.length > 0">
-            <tr style="height: 25px;" *ngFor="let part of NewFooterArry">
+<!-- <table style="border-collapse: collapse;float: left;width:210px" *ngIf="NewFooterArry.length > 0">
+            <tr style="height: unset" style="height: 25px;" *ngFor="let part of NewFooterArry">
                 <td *ngFor="let item of part">
                     <p style="margin: 0px;"><strong>{{item.featureName}}:</strong> {{item.featureValue}}</p>
                 </td>
             </tr>
         </table> -->
+<div *ngIf="ContentData.length > 0 && ContentHeaderData.length > 0">
+    <div id="ReportData" dir="rtl">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#ffffff">
+            <tbody>
+                <tr style="height: unset;">
+                    <td>
+                        <table width="1040" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="" style="max-width: 1040px; min-width: 400px;">
+                            <tbody>
+                                <tr style="height: unset;">
+                                    <td>
+                                        <table width="100%" style="margin-bottom: 10px;">
+                                            <tbody>
+                                                <tr style="height: unset;">
+                                                    <td width="80%">
+                                                        <table>
+                                                            <tbody>
+                                                                <tr style="height: unset;">
+                                                                    <td style="padding-bottom: 5px;">
+                                                                        <font size="3"><strong>{{ReportParams.pageName}}</strong></font>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style="height: unset;">
+                                                                    <td>
+                                                                        <table>
+                                                                            <tr style="height: unset;">
+                                                                                <td>
+                                                                                    <font size="2"><strong>شارع الملك خالد،تقاطع 10، حي الخبر الشمالية، الخبر</strong></font>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr style="height: unset;">
+                                                                                <td>
+                                                                                    <font size="2"><strong>الحساب:</strong> الأصول </font>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr style="height: unset;">
+                                                                                <td>
+                                                                                    <font size="2"><strong>من تاريخ:</strong> {{FromDate | date}} </font>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr style="height: unset;">
+                                                                                <td>
+                                                                                    <font size="2"><strong>الى تاريخ:</strong> {{ToDate | date}} </font>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                    <td width="20%" align="left">
+                                                        <table>
+                                                            <tbody>
+                                                                <tr style="height: unset;">
+                                                                    <td><img id="ReportImage" src="../../../../assets/images/av-1.png" style="height: 70%; max-width: 100%; width: 100px;"></td>
+                                                                </tr>
+                                                                <!-- <tr style="height: unset;">
+                                                                    <td style="padding-top: 10px;">
+                                                                        <font size="2"><strong>Current date</strong><span style="margin: 0 15px;">|</span> 30 June 2024 </font>
+                                                                    </td>
+                                                                </tr> -->
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table cellpadding="5" cellspacing="0" width="100%" style="border-collapse: collapse; text-align: center;">
+                                            <thead>
+                                                <tr style="background-color: #eee;">
+                                                    <th *ngFor="let header of ContentHeaderData">{{header.propDisName}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of ContentData">
+                                                    <td style="border: 1px solid #eee;" *ngFor="let header of ContentHeaderData">{{item[header.propKey]}}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot *ngIf="ContentHeaderData.length > 0">
+                                                <tr style="height: unset;">
+                                                    <td [attr.colspan]="ContentHeaderData.length" style="border: 1px solid #eee;">&nbsp;</td>
+                                                </tr>
+                                                <tr style="font-weight: bold;">
+                                                    <td style="border: 1px solid #eee;">أجمالي دائن</td>
+                                                    <td [attr.colspan]="ContentHeaderData.length - 1" align="right" style="border: 1px solid #eee; background-color: #eee;">5800 ر.س</td>
+
+                                                </tr>
+                                                <tr style="font-weight: bold;">
+                                                    <td style="border: 1px solid #eee;">أجمالي مدين</td>
+                                                    <td [attr.colspan]="ContentHeaderData.length - 1" align="right" style="border: 1px solid #eee; background-color: #eee;">4800 ر.س</td>
+
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>

@@ -28,6 +28,7 @@ namespace MasterErp.Entities.DTOs.HR
         public double? TotalPaid { get; set; }
         public double? TotalRemaining { get; set; }
         public int? TotalCount { get; set; }
+        public string BranchName { get; set; }
 
 
     }

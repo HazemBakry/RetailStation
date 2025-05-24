@@ -29,6 +29,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
   jobsSelectorData: FormDropdownModel[] = [];
   workStatusSelectorData: FormDropdownModel[] = [];
   branchSelectorData: FormDropdownModel[] = [];
+  sponsorSelectorData: FormDropdownModel[] = [];
   nationalitiesSelectorData: FormDropdownModel[] = [];
   iqamaIssuePlacesSelectorData: FormDropdownModel[] = [];
   visaJobsSelectorData: FormDropdownModel[] = [];
@@ -102,7 +103,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       employeeId: [null],
       managerId: [null],
       jobId: [null, [Validators.required]],
-      branchId: [null],
+      branchId: [null, [Validators.required]],
       statusId: [null],
       firstNameAR: [null, [Validators.required]],
       fatherNameAR: [null, [Validators.required]],
@@ -116,7 +117,6 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       sponsorId: [null],
       birthDate: [null, [Validators.required]],
       birthPlace: [null],
-
       religionId: [null, [Validators.required]],
       address: [null],
       imageFile: [null],
@@ -221,6 +221,9 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
     });
     this.sharedService.GetBranchesSelector().subscribe((data: FormDropdownModel[]) => {
       this.branchSelectorData = data;
+    });
+     this.sharedService.GetSponsorsSelector().subscribe((data: FormDropdownModel[]) => {
+      this.sponsorSelectorData = data;
     });
     this.lookupService.GetWorkStatusSelector().subscribe((data: FormDropdownModel[]) => {
       this.workStatusSelectorData = data;
