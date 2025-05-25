@@ -1,0 +1,19 @@
+.bg-present {
+    background-color: #d4edda;
+}
+
+.bg-off {
+    background-color: #f8f9fa;
+}
+
+.bg-absent {
+    background-color: #f8d7da;
+}
+
+.bg-sick {
+    background-color: #d1ecf1;
+}
+
+.bg-excused {
+    background-color: #fff3cd;
+}

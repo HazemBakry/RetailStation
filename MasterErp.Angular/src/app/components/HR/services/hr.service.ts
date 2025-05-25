@@ -219,11 +219,15 @@ export class HrService {
 
   //================================== Attendance ===============================
 
-  GetAttendanceReport_Data(model: SearchFilterModel) {
-    return this.http.post<PagedResponseDTO<EmployeeAttendanceModel[]>>(this.URL + 'Attendance/GetAttendanceReport_Data', model);
+  GetAttendanceReport_Data(fromDate: string, toDate: string, model: SearchFilterModel) {
+    fromDate = fromDate ?? '';
+    toDate = toDate ?? '';
+    return this.http.post<PagedResponseDTO<EmployeeAttendanceModel[]>>(this.URL + 'Attendance/GetAttendanceReport_Data?FromDate=' + fromDate + '&ToDate=' + toDate, model);
   }
-  GetAdvancedAttendanceReport_Data(model: SearchFilterModel) {
-    return this.http.post<PagedResponseDTO<EmployeeAdvancedAttendanceModel[]>>(this.URL + 'Attendance/GetAdvancedAttendanceReport_Data', model);
+  GetAdvancedAttendanceReport_Data(fromDate: string, toDate: string, model: SearchFilterModel) {
+    fromDate = fromDate ?? '';
+    toDate = toDate ?? '';
+    return this.http.post<PagedResponseDTO<EmployeeAdvancedAttendanceModel[]>>(this.URL + 'Attendance/GetAdvancedAttendanceReport_Data?FromDate=' + fromDate + '&ToDate=' + toDate, model);
   }
   GetAttendance_Data(model: SearchFilterModel) {
     return this.http.post<any>(this.URL + 'Attendance/GetAttendance_Data', model);

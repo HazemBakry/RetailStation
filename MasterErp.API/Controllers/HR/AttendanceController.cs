@@ -25,9 +25,9 @@ namespace MasterErp.API.Controllers.HR
 
         [HttpPost]
         [Route("GetAttendanceReport_Data")]
-        public IActionResult GetAttendanceReport_Data(SearchFilterModel SearchModel)
+        public IActionResult GetAttendanceReport_Data(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel)
         {
-            var data = _attendanceService.GetAttendanceReport_Data(SearchModel);
+            var data = _attendanceService.GetAttendanceReport_Data(FromDate, ToDate, SearchModel);
             var result = new PagedResponseModel<EmployeeAttendanceModel>
             {
                 Results = data,
@@ -40,9 +40,9 @@ namespace MasterErp.API.Controllers.HR
         }
         [HttpPost]
         [Route("GetAdvancedAttendanceReport_Data")]
-        public IActionResult GetAdvancedAttendanceReport_Data(SearchFilterModel SearchModel)
+        public IActionResult GetAdvancedAttendanceReport_Data(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel)
         {
-            var data = _attendanceService.GetAdvancedAttendanceReport_Data(SearchModel);
+            var data = _attendanceService.GetAdvancedAttendanceReport_Data(FromDate,ToDate,SearchModel);
             var result = new PagedResponseModel<EmployeeAdvancedAttendanceModel>
             {
                 Results = data,

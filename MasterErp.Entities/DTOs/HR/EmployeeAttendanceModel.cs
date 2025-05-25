@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MasterErp.Entities.Models.HR;
+using MasterErp.Entities.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,7 +29,20 @@ namespace MasterErp.Entities.DTOs.HR
         public string BranchNameEN { get; set; }
         public string BranchNameAR { get; set; }
         public List<AttendanceModel> Attendance { get; set; }
+        public int SickLeaveCount => GetStatusCount("S");
+        public int PresentCount => GetStatusCount("P");
+        public int AbsentCount => GetStatusCount("A");
+        public int ExcusedCount => GetStatusCount("E");
+        public int OffCount => GetStatusCount("O");
+
+        private int GetStatusCount(string code)
+        {
+            return Attendance?.Count(x => x.AttendanceStatusCode == code) ?? 0;
+        }
+
         public int? TotalCount { get; set; }
+
+
     }
     public class AttendanceModel
     {
@@ -40,6 +55,29 @@ namespace MasterErp.Entities.DTOs.HR
         public DateTime? Period2_PunchIn { get; set; }
         public DateTime? Period2_PunchOut { get; set; }
         public int? TotalWorkSeconds { get; set; }
+        public double TotalWorkHours =>  TotalWorkSeconds.HasValue  ? Math.Round(TotalWorkSeconds.Value / 3600.0, 2) : 0;
+        public bool? IsSickLeave { get; set; }
+        public bool? IsVacation { get; set; }
+        public string AttendanceStatusCode => SetAttendanceStatusCode();
+        private string SetAttendanceStatusCode()
+        {
+            if (AttendanceDate > DateTime.Now)
+                return "-";
+            if (IsSickLeave == true)
+                return "S"; // Sick Leave
+
+            if (IsVacation == true)
+                return "E"; // Excused
+
+            if (PunchIn.HasValue && PunchOut.HasValue && TotalWorkHours > 7)
+                return "P"; // Present
+
+            if (!PunchIn.HasValue && !PunchOut.HasValue && IsSickLeave == false && IsVacation == false)
+                return "A"; // Absent
+
+            return "O"; // Off (e.g. only one punch, partial or unclear attendance)
+        }
+
     }
 
 }

@@ -75,8 +75,16 @@ export class HrAttendanceAdvancedReportComponent implements OnInit {
   }
   getAttendance_Data() {
     this.mapFilters();
+    if (!this.fromDate || !this.toDate) {
+      this.toaster.error('يرجى تحديد تاريخ البداية والنهاية');
+      return;
+    }
+    if (this.fromDate > this.toDate) {
+      this.toaster.error('يرجى تحديد تاريخ البداية والنهاية بشكل صحيح');
+      return;
+    }
     this.showLoader = true;
-    this.hrService.GetAdvancedAttendanceReport_Data(this.pagedResponseModel).subscribe(data => {
+    this.hrService.GetAdvancedAttendanceReport_Data(this.fromDate, this.toDate, this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data?.results;
       this.pagedResponseModel.totalCount = data?.totalCount;
       this.showLoader = false;
@@ -93,10 +101,7 @@ export class HrAttendanceAdvancedReportComponent implements OnInit {
     );
 
     if (!record) return '-';
-    const inTime = record.punchIn ? new Date(record.punchIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--';
-    const outTime = record.punchOut ? new Date(record.punchOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--';
-
-    return `${inTime} - ${outTime}`;
+    return record.attendanceStatusCode;
   }
   GetAttendance_Filters() {
     // this.hrService.GetAttendance_Filters(this.pagedResponseModel).subscribe((data: FilterModel[]) => {
@@ -196,6 +201,15 @@ export class HrAttendanceAdvancedReportComponent implements OnInit {
     //this.selectedAgencyType = accountType;
     //this.receiptModel.agencyTypeId = accountType;
   }
-
+  getAttendanceBgClass(code: string): string {
+    switch (code) {
+      case 'P': return 'bg-present';
+      case 'O': return 'bg-off';
+      case 'A': return 'bg-absent';
+      case 'S': return 'bg-sick';
+      case 'E': return 'bg-excused';
+      default: return '';
+    }
+  }
 }
 

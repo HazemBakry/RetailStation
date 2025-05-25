@@ -92,7 +92,7 @@
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
         <div class="table-responsive shadow-sm radius-10 table-vp-height">
-            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0 ">
+            <table class="table table-card-table table-borderless table-middle  bg-transparent m-0 ">
 
                 <thead>
 
@@ -104,7 +104,11 @@
                             <div>{{ day | date: 'EEEE' }}</div>
                             <div>{{ day | date: 'MMM d' }}</div>
                         </th>
-                        <th class="text-center"></th>
+                        <th class="text-center">P</th>
+                        <th class="text-center">O</th>
+                        <th class="text-center">A</th>
+                        <th class="text-center">S</th>
+                        <th class="text-center">E</th>
                     </tr>
 
                 </thead>
@@ -113,9 +117,19 @@
                         <td>{{emp.employeeCode}}</td>
                         <td>{{emp.employeeNameAR ??emp.employeeNameEN}}</td>
                         <td>{{emp.branchNameAR ?? emp.branchNameEN}}</td>
-                        <td *ngFor="let day of headers">
-                            {{ getPunchInfo(emp, day) }}
-                        </td>
+                        <ng-container *ngFor="let day of headers">
+                            <ng-container *ngIf="getPunchInfo(emp, day) as attendanceStatusCode">
+
+                                <td [ngClass]="getAttendanceBgClass(attendanceStatusCode)">
+                                    {{ attendanceStatusCode }}
+                                </td>
+                            </ng-container>
+                        </ng-container>
+                        <td class="text-center">{{emp.presentCount}}</td>
+                        <td class="text-center">{{emp.offCount}}</td>
+                        <td class="text-center">{{emp.absentCount}}</td>
+                        <td class="text-center">{{emp.sickLeaveCount}}</td>
+                        <td class="text-center">{{emp.excusedCount}}</td>
                         <!-- <td>{{emp.punchDate | date:'d-M-y'}}</td>
                         <td>{{emp.punchDate| date: 'EEEE'}}</td>
                         <td class="fw-bold">
@@ -134,7 +148,7 @@
                         <td class="fw-bold">
                             <span>{{getTimeFromSec(emp.totalWorkSeconds)}}</span>
                         </td> -->
-                        <td>
+                        <!-- <td>
                             <div class="d-flex align-items-center justify-content-center">
                                 <div ngbDropdown container="body">
                                     <button class="btn-sm-action sm-action-dropdown"
@@ -143,10 +157,10 @@
                                     </button>
                                 </div>
                             </div>
-                        </td>
+                        </td> -->
                     </tr>
                     <tr *ngIf="!pagedResponseModel.results.length || showLoader">
-                        <td colspan="4" class="text-right">
+                        <td colspan="8" class="text-right">
                             <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader"
                                 [showLoader]="showLoader"></app-empty-data>
                         </td>

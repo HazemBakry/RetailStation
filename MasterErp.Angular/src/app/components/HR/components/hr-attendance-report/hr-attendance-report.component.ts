@@ -68,7 +68,7 @@ export class HrAttendanceReportComponent implements OnInit {
   getAttendance_Data() {
     this.mapFilters();
     this.showLoader = true;
-    this.hrService.GetAttendanceReport_Data(this.pagedResponseModel).subscribe(data => {
+    this.hrService.GetAttendanceReport_Data(this.fromDate,this.toDate,this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data?.results;
       this.pagedResponseModel.totalCount = data?.totalCount;
       this.showLoader = false;

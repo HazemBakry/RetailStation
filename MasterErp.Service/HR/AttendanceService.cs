@@ -26,29 +26,70 @@ namespace MasterErp.Service.HR
             this.sharedFilterService = sharedFilterService;
             SQLHelper = sQLHelper;
         }
-        public List<EmployeeAttendanceModel> GetAttendanceReport_Data(SearchFilterModel SearchModel)
+        public List<EmployeeAttendanceModel> GetAttendanceReport_Data(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel)
         {
-            SqlParameter[] param = new SqlParameter[3];
-            param[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            param[0].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
-            
-            param[1] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
-            param[2] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            SqlParameter[] param = new SqlParameter[5];
+            param[0] = new SqlParameter("@FromDate", FromDate);
+            param[1] = new SqlParameter("@ToDate", ToDate);
+            param[2] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            param[3] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            param[4] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[4].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
+
 
             var result = SQLHelper.SQLQuery<EmployeeAttendanceModel>("[HR].[SP_GetEmployeeAttendance]", null, param);
+
             return result;
         }
-        public List<EmployeeAdvancedAttendanceModel> GetAdvancedAttendanceReport_Data(SearchFilterModel SearchModel)
+        public List<EmployeeAdvancedAttendanceModel> GetAdvancedAttendanceReport_Data(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel)
         {
-            SqlParameter[] param = new SqlParameter[3];
-            param[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            param[0].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
-            
-            param[1] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
-            param[2] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            SqlParameter[] param = new SqlParameter[5];
+            param[0] = new SqlParameter("@FromDate", FromDate);
+            param[1] = new SqlParameter("@ToDate", ToDate);
+            param[2] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            param[3] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            param[4] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[4].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
 
-            var result = SQLHelper.SQLQuery<EmployeeAdvancedAttendanceModel>("[HR].[SP_GetEmployeeAttendance]", null, param);
-            return result;
+
+
+            var result = SQLHelper.SQLQuery<EmployeeAttendanceModel>("[HR].[SP_GetAdvancedAttendanceReport_Data]", null, param);
+
+            var grouped = result
+               .GroupBy(x => x.EmployeeId)
+               .Select(g =>
+               {
+                   var employee = g.First();
+                   var attendanceList = g.Select(x => new AttendanceModel
+                   {
+                       AttendanceDate = x.AttendanceDate,
+                       PunchDate = x.PunchDate,
+                       PunchIn = x.PunchIn,
+                       PunchOut = x.PunchOut,
+                       Period1_PunchIn = x.Period1_PunchIn,
+                       Period1_PunchOut = x.Period1_PunchOut,
+                       Period2_PunchIn = x.Period2_PunchIn,
+                       Period2_PunchOut = x.Period2_PunchOut,
+                       TotalWorkSeconds = x.TotalWorkSeconds,
+                       IsSickLeave = x.IsSickLeave,
+                       IsVacation = x.IsVacation,
+                   }).ToList();
+
+                   return new EmployeeAdvancedAttendanceModel
+                   {
+                       EmployeeId = employee.EmployeeId,
+                       EmployeeCode = employee.EmployeeCode,
+                       EmployeeNameEN = employee.EmployeeNameEN,
+                       EmployeeNameAR = employee.EmployeeNameAR,
+                       BranchId = employee.BranchId,
+                       BranchNameEN = employee.BranchNameEN,
+                       BranchNameAR = employee.BranchNameAR,
+                       Attendance = attendanceList,
+                       TotalCount = employee.TotalCount,
+                   };
+               }).ToList();
+
+            return grouped;
         }
         public List<EmployeeAttendanceModel> GetAttendance_Data(SearchFilterModel SearchModel)
         {

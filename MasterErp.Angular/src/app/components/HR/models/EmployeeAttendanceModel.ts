@@ -17,8 +17,15 @@ export interface EmployeeAdvancedAttendanceModel {
     branchId: number | null;
     branchNameEN: string;
     branchNameAR: string;
+    sickLeaveCount: number;
+    presentCount: number;
+    absentCount: number;
+    excusedCount: number;
+    offCount: number;
     attendance: AttendanceModel[];
 }
+
+
 export interface AttendanceModel {
     attendanceDate: string | null;
     attendanceStatus: string | null;
@@ -30,4 +37,7 @@ export interface AttendanceModel {
     period2_PunchIn: string | null;
     period2_PunchOut: string | null;
     totalWorkSeconds: number | null;
+    totalWorkHours: number | null;
+    attendanceStatusCode: string | null;
+
 }
