@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.HR;
@@ -35,7 +36,7 @@ namespace MasterErp.Service.HR
                             ExecutionDate = deduct.ExecutionDate,
                             MoneyAmount = deduct.MoneyAmount,
                             Notes = deduct.Notes,
-                            IsApproved = deduct.IsApproved,
+                            WorkflowStatusId = deduct.WorkflowStatusId,
                             CreatedBy = deduct.CreatedBy,
                             CreatedDate = deduct.CreatedDate,
                             ModifiedBy = deduct.ModifiedBy,
@@ -72,7 +73,7 @@ namespace MasterErp.Service.HR
                             ExecutionDate = deduct.ExecutionDate,
                             MoneyAmount = deduct.MoneyAmount,
                             Notes = deduct.Notes,
-                            IsApproved = deduct.IsApproved,
+                            WorkflowStatusId = deduct.WorkflowStatusId,
                             CreatedBy = deduct.CreatedBy,
                             CreatedDate = deduct.CreatedDate,
                             ModifiedBy = deduct.ModifiedBy,
@@ -102,7 +103,7 @@ namespace MasterErp.Service.HR
                 deduct.ExecutionDate = model.ExecutionDate;
                 deduct.MoneyAmount = model.MoneyAmount;
                 deduct.Notes = model.Notes;
-                deduct.IsApproved = model.IsApproved;
+                deduct.WorkflowStatusId = (int)HRWorkflowStatus.Approved;
                 deduct.CreatedBy = model.CreatedBy;
                 deduct.CreatedDate = DateTime.Now;
 
@@ -131,7 +132,7 @@ namespace MasterErp.Service.HR
                     deduct.ExecutionDate = model.ExecutionDate;
                     deduct.MoneyAmount = model.MoneyAmount;
                     deduct.Notes = model.Notes;
-                    deduct.IsApproved = model.IsApproved;
+                    deduct.WorkflowStatusId = model.WorkflowStatusId;
                     deduct.ModifiedBy = model.ModifiedBy;
                     deduct.ModifiedDate = DateTime.Now;
 

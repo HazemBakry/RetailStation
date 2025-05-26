@@ -19,7 +19,7 @@ namespace MasterErp.Entities.Models.HR
         public double? DeductionAmount { get; set; }
         public double TotalDeduction { get; set; }
         public string Reason { get; set; }
-        public bool IsApproved { get; set; }
+        public int? WorkflowStatusId { get; set; }
 
     }
 }

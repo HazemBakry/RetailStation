@@ -13,5 +13,8 @@ export interface EmployeePenaltyModel extends CreatorModel {
     deductionAmount: number;
     reason: string;
     isActive: boolean;
+    workflowStatusId: number | null;
+    workflowStatusNameEN: string;
+    workflowStatusNameAR: string;
     totalCount: number | null;
 }

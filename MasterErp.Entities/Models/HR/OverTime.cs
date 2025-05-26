@@ -18,6 +18,8 @@ namespace MasterErp.Entities.Models.HR
         public double MoneyAmount { get; set; }
         public string Notes { get; set; }
         public bool IsActive { get; set; }
+        public int? WorkflowStatusId { get; set; }
+
 
     }
 }

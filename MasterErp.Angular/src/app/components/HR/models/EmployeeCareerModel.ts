@@ -10,6 +10,9 @@ export interface EmployeeCareerModel extends CreatorModel {
     branchName: string;
     workStatusId: number;
     workStatusName: string;
+    workflowStatusId: number | null;
+    workflowStatusNameEN: string;
+    workflowStatusNameAR: string;
     notes: string;
     executionDate: string;
     totalCount: number | null;

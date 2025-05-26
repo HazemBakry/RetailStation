@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.SQLTabeType;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.DTOs.Purchases;
@@ -72,7 +73,7 @@ namespace MasterErp.Service.HR
                             AlternativeEmployeeId = vacation.AlternativeEmployeeId,
                             AlternativeEmployeeName = alternativeEmp.FullNameAR,
                             IsAlternativeAvailable = vacation.IsAlternativeAvailable,
-                            IsApproved = vacation.IsApproved,
+                            WorkflowStatusId = vacation.WorkflowStatusId,
                             FromDate = vacation.FromDate,
                             ToDate = vacation.ToDate,
                             LastDayWork = vacation.LastDayWork,
@@ -186,12 +187,12 @@ namespace MasterErp.Service.HR
 
                 if (vacation != null)
                 {
-                    vacation.IsApproved = ApproveStatus;
+                    vacation.WorkflowStatusId = ApproveStatus ? (int)HRWorkflowStatus.Approved : (int)HRWorkflowStatus.Rejected; ;
                     vacation.ModifiedBy = string.Empty;
                     vacation.ModifiedDate = DateTime.Now;
 
                     Context.SaveChanges();
-                    return new ActionsResponseModel { Message = "Vacation approved successfly !" };
+                    return new ActionsResponseModel { Message = "Vacation Status changed successfly !" };
                 }
                 else
                     return new ActionsResponseModel { IsSuccess = false, Message = "Vacation not found" }; ;

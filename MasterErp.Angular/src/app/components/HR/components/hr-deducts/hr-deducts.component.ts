@@ -42,7 +42,7 @@ export class HrDeductsComponent implements OnInit {
     executionDate: '',
     deductTypeId: '',
     moneyAmount: '',
-    isApproved: '',
+    workflowStatusId: '',
     notes: ''
   };
 
@@ -99,7 +99,7 @@ export class HrDeductsComponent implements OnInit {
       employeeId: [null],
       deductTypeId: [null, [Validators.required]],
       moneyAmount: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
-      isApproved: [null],
+      workflowStatusId: [null],
       executionDate: [null, [Validators.required]],//[null, [Validators.required, CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
       notes: [null],
     });
@@ -175,7 +175,7 @@ export class HrDeductsComponent implements OnInit {
       deductId: deductModel.deductId,
       deductTypeId: deductModel.deductTypeId,
       moneyAmount: deductModel.moneyAmount,
-      isApproved: deductModel.isApproved,
+      workflowStatusId: deductModel.workflowStatusId,
       employeeId: this.selectedEmployeeId,
       executionDate: this.datePipe.transform(deductModel.executionDate, 'yyyy-MM-dd'),
       notes: deductModel.notes

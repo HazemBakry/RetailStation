@@ -18,6 +18,7 @@ namespace MasterErp.Entities.Models.HR
         public int WorkStatusId { get; set; }
         public DateTime ExecutionDate { get; set; }
         public string Notes { get; set; }
+        public int? WorkflowStatusId { get; set; }
 
 
     }

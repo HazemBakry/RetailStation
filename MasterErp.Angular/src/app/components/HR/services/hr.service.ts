@@ -229,6 +229,11 @@ export class HrService {
     toDate = toDate ?? '';
     return this.http.post<PagedResponseDTO<EmployeeAdvancedAttendanceModel[]>>(this.URL + 'Attendance/GetAdvancedAttendanceReport_Data?FromDate=' + fromDate + '&ToDate=' + toDate, model);
   }
+  ApproveEmployeesAttendance(fromDate: string, toDate: string, model: SearchFilterModel) {
+    fromDate = fromDate ?? '';
+    toDate = toDate ?? '';
+    return this.http.post<ActionsResponseModel>(this.URL + 'Attendance/ApproveEmployeesAttendance?FromDate=' + fromDate + '&ToDate=' + toDate, model);
+  }
   GetAttendance_Data(model: SearchFilterModel) {
     return this.http.post<any>(this.URL + 'Attendance/GetAttendance_Data', model);
   }

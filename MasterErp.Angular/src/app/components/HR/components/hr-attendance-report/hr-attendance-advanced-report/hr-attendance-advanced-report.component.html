@@ -72,10 +72,11 @@
             <div class="col-md-8">
                 <div class="d-flex align-items-center flex-wrap">
                     <div class="search-box position-relative mb-2">
-                        <!-- <button class="btn btn-primary mb-2" (click)="(AddModal)">
-                            <span class="me-2">إضافة </span>
+                        <button *ngIf="pagedResponseModel?.results.length>0" class="btn btn-primary mb-2"
+                            (click)="openApproveAttendanceModal(saveDialog)">
+                            <span class="me-2">توثيق</span>
                             <i class="uil uil-plus-circle"></i>
-                        </button> -->
+                        </button>
                     </div>
                     <!-- <ng-container *ngIf="filterList.length > 0">
                         <app-pos-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-pos-filters>
@@ -169,3 +170,29 @@
         </div>
     </div>
 </div>
+
+
+<ng-template #saveDialog let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد العملية</h4>
+    </div>
+    <div class="modal-body">
+        <div class="mb-2">
+            <label class="form-label d-flex align-items-center gap-2">الرقم السري <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control nw-form-input" />
+
+        </div>
+        <p class="fs-5 m-0">هل انت متأكد من الحفظ ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click'); approveAttendance()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">الغاء</span>
+        </button>
+    </div>
+</ng-template>

@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.HR;
@@ -37,7 +38,7 @@ namespace MasterErp.Service.HR
                             ToDate = sickLeave.ToDate,
                             NoDays = sickLeave.NoDays,
                             Notes = sickLeave.Notes,
-                            IsApproved = sickLeave.IsApproved,
+                            WorkflowStatusId = sickLeave.WorkflowStatusId,
                             CreatedBy = sickLeave.CreatedBy,
                             CreatedDate = sickLeave.CreatedDate,
                             ModifiedBy = sickLeave.ModifiedBy,
@@ -73,7 +74,7 @@ namespace MasterErp.Service.HR
                             ToDate = sickLeave.ToDate,
                             NoDays = sickLeave.NoDays,
                             Notes = sickLeave.Notes,
-                            IsApproved = sickLeave.IsApproved,
+                            WorkflowStatusId = sickLeave.WorkflowStatusId,
                             CreatedBy = sickLeave.CreatedBy,
                             CreatedDate = sickLeave.CreatedDate,
                             ModifiedBy = sickLeave.ModifiedBy,
@@ -105,7 +106,7 @@ namespace MasterErp.Service.HR
                     Notes = model.Notes,
                     FromDate = model.FromDate,
                     ToDate = model.ToDate,
-                    IsApproved = model.IsApproved,
+                    WorkflowStatusId = (int)HRWorkflowStatus.Approved,
                     CreatedBy = model.CreatedBy,
                     CreatedDate = DateTime.Now
                 };
@@ -132,7 +133,7 @@ namespace MasterErp.Service.HR
                     sickLeave.ExecutionDate = model.ExecutionDate;
                     sickLeave.NoDays = model.NoDays;
                     sickLeave.Notes = model.Notes;
-                    sickLeave.IsApproved = model.IsApproved;
+                    sickLeave.WorkflowStatusId = model.WorkflowStatusId;
                     sickLeave.ModifiedBy = model.ModifiedBy;
                     sickLeave.ModifiedDate = DateTime.Now;
 

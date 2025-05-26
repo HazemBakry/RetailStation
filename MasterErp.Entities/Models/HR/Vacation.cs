@@ -22,7 +22,7 @@ namespace MasterErp.Entities.Models.HR
         public int? Period { get; set; }
 
         public int? VacationMonth { get; set; }
-        public bool? IsApproved { get; set; }
+        public int? WorkflowStatusId { get; set; }
         public DateTime? RequestDate { get; set; }
         public DateTime? LastJoinDate { get; set; }
         public string Notes { get; set; }

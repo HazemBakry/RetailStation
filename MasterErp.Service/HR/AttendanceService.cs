@@ -90,6 +90,11 @@ namespace MasterErp.Service.HR
                }).ToList();
 
             return grouped;
+        } 
+        
+        public ActionsResponseModel ApproveEmployeesAttendance(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel)
+        {
+           return new ActionsResponseModel {  IsSuccess = true , Message="Attendance Approved!"};
         }
         public List<EmployeeAttendanceModel> GetAttendance_Data(SearchFilterModel SearchModel)
         {

@@ -8,7 +8,8 @@ export interface EmployeeDeductModel extends CreatorModel {
     deductTypeName: string;
     moneyAmount: number;
     executionDate: string;
-    isApproved: boolean | null;
-    notes: string;
+    workflowStatusId: number | null;
+    workflowStatusNameEN: string;
+    workflowStatusNameAR: string; notes: string;
     totalCount: number | null;
 }

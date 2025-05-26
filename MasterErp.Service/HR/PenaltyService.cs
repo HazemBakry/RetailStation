@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.HR;
@@ -42,7 +43,7 @@ namespace MasterErp.Service.HR
                             DeductionByDays = penalty.DeductionByDays,
                             DeductionAmount = penalty.DeductionAmount,
                             Reason = penalty.Reason,
-                            IsApproved = penalty.IsApproved,
+                            WorkflowStatusId = penalty.WorkflowStatusId,
                             CreatedBy = penalty.CreatedBy,
                             CreatedDate = penalty.CreatedDate,
                             ModifiedBy = penalty.ModifiedBy,
@@ -81,7 +82,7 @@ namespace MasterErp.Service.HR
                             DeductionByDays = penalty.DeductionByDays,
                             DeductionAmount = penalty.DeductionAmount,
                             Reason = penalty.Reason,
-                            IsApproved = penalty.IsApproved,
+                            WorkflowStatusId = penalty.WorkflowStatusId,
                             CreatedBy = penalty.CreatedBy,
                             CreatedDate = penalty.CreatedDate,
                             ModifiedBy = penalty.ModifiedBy,
@@ -116,7 +117,7 @@ namespace MasterErp.Service.HR
                 penalty.DeductionByDays = model.DeductionByDays;
                 penalty.DeductionAmount = model.DeductionAmount ?? 0;
                 penalty.Reason = model.Reason;
-                penalty.IsApproved = model.IsApproved;
+                penalty.WorkflowStatusId = (int)HRWorkflowStatus.Approved;
                 penalty.CreatedBy = model.CreatedBy;
                 penalty.CreatedDate = DateTime.Now;
 
@@ -148,7 +149,7 @@ namespace MasterErp.Service.HR
                     penalty.DeductionByDays = model.DeductionByDays;
                     penalty.DeductionAmount = model.DeductionAmount;
                     penalty.Reason = model.Reason;
-                    penalty.IsApproved = model.IsApproved;
+                    penalty.WorkflowStatusId = model.WorkflowStatusId;
 
                     penalty.ModifiedBy = model.ModifiedBy;
                     penalty.ModifiedDate = DateTime.Now;

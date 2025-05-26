@@ -11,5 +11,8 @@ export interface EmployeeOverTimeModel extends CreatorModel {
     moneyAmount: number;
     notes: string;
     isActive: boolean;
+    workflowStatusId: number | null;
+    workflowStatusNameEN: string;
+    workflowStatusNameAR: string;
     totalCount: number | null;
 }

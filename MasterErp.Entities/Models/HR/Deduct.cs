@@ -16,7 +16,7 @@ namespace MasterErp.Entities.Models.HR
         public int DeductTypeId { get; set; }
         public double MoneyAmount { get; set; }
         public DateTime ExecutionDate { get; set; }
-        public bool? IsApproved { get; set; }
+        public int? WorkflowStatusId { get; set; }
         public string Notes { get; set; }
 
 

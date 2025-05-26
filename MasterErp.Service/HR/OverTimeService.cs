@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.HR;
@@ -37,6 +38,7 @@ namespace MasterErp.Service.HR
                             NoHours = overTime.NoHours,
                             MoneyAmount = overTime.MoneyAmount,
                             Notes = overTime.Notes,
+                            WorkflowStatusId = overTime.WorkflowStatusId,
                             IsActive = overTime.IsActive,
                             CreatedBy = overTime.CreatedBy,
                             CreatedDate = overTime.CreatedDate,
@@ -74,6 +76,7 @@ namespace MasterErp.Service.HR
                             MoneyAmount = overTime.MoneyAmount,
                             Notes = overTime.Notes,
                             IsActive = overTime.IsActive,
+                            WorkflowStatusId = overTime.WorkflowStatusId,
                             CreatedBy = overTime.CreatedBy,
                             CreatedDate = overTime.CreatedDate,
                             ModifiedBy = overTime.ModifiedBy,
@@ -105,6 +108,8 @@ namespace MasterErp.Service.HR
                 overTime.MoneyAmount = model.MoneyAmount;
                 overTime.Notes = model.Notes;
                 overTime.IsActive = model.IsActive;
+                overTime.WorkflowStatusId = (int)HRWorkflowStatus.Pending;
+
                 overTime.CreatedBy = model.CreatedBy;
                 overTime.CreatedDate = DateTime.Now;
 
@@ -136,6 +141,7 @@ namespace MasterErp.Service.HR
                     overTime.MoneyAmount = model.MoneyAmount;
                     overTime.Notes = model.Notes;
                     overTime.IsActive = model.IsActive;
+                    overTime.WorkflowStatusId = model.WorkflowStatusId;
                     overTime.ModifiedBy = model.ModifiedBy;
                     overTime.ModifiedDate = DateTime.Now;
 

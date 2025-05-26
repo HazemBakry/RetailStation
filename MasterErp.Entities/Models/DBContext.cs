@@ -120,6 +120,7 @@ namespace MasterErp.Entities.Models
         public DbSet<AssetsForm> AssetsForms { get; set; }
         public DbSet<Loan> LoansForms { get; set; }
         public DbSet<Batch> Batches { get; set; }
+        public DbSet<VerifiedAttendanceSummary> VerifiedAttendanceSummary { get; set; }
 
 
 

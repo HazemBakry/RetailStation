@@ -14,6 +14,7 @@ namespace MasterErp.Interface.HR
     {
         List<EmployeeAttendanceModel> GetAttendanceReport_Data(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel);
         List<EmployeeAdvancedAttendanceModel> GetAdvancedAttendanceReport_Data(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel);
+        ActionsResponseModel ApproveEmployeesAttendance(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel);
         List<EmployeeAttendanceModel> GetAttendance_Data(SearchFilterModel SearchModel);
         bool AddNewAttendance(Attendance model);
         bool EditAttendance(Attendance model);

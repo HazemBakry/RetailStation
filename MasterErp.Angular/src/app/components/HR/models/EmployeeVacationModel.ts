@@ -13,6 +13,8 @@ export interface EmployeeVacationModel {
     toDate: string | null;
     lastDayWork: string | null;
     period: number | null;
-    isApproved: boolean | null;
+    workflowStatusId: number | null;
+    workflowStatusNameEN: string;
+    workflowStatusNameAR: string;
     totalCount: number | null;
 }

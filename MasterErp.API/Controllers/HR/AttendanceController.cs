@@ -53,6 +53,13 @@ namespace MasterErp.API.Controllers.HR
             };
             return Ok(result);
         }
+        [HttpPost]
+        [Route("ApproveEmployeesAttendance")]
+        public IActionResult ApproveEmployeesAttendance(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel)
+        {
+            var result = _attendanceService.ApproveEmployeesAttendance(FromDate,ToDate,SearchModel);
+            return Ok(result);
+        }
 
         [HttpPost]
         [Route("GetAttendance_Data")]

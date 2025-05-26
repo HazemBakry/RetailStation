@@ -1,4 +1,5 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common.Enums;
+using MasterErp.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +23,9 @@ namespace MasterErp.Entities.DTOs.HR
         public DateTime ToDate { get; set; }
         public DateTime LastDayWork { get; set; }
         public int? Period { get; set; }
-        public bool? IsApproved { get; set; }
-        public bool IsAlternativeAvailable { get; set; }
+        public string WorkflowStatusNameEN { get; set; }
+        public string WorkflowStatusNameAR { get; set; }
+        public int? WorkflowStatusId { get; set; } = (int)HRWorkflowStatus.Pending; public bool IsAlternativeAvailable { get; set; }
         public int? TotalCount { get; set; }
         public string BranchName { get; set; }
     }

@@ -1,7 +1,6 @@
 import { CreatorModel } from "../../Shared/models/CreatorModel";
 
-export interface EmployeeSickLeaveModel extends CreatorModel 
-{
+export interface EmployeeSickLeaveModel extends CreatorModel {
     sickLeaveId: number | null;
     employeeId: number;
     employeeName: string;
@@ -13,5 +12,8 @@ export interface EmployeeSickLeaveModel extends CreatorModel
     moneyAmount: number;
     notes: string;
     isActive: boolean;
+    workflowStatusId: number | null;
+    workflowStatusNameEN: string;
+    workflowStatusNameAR: string;
     totalCount: number | null;
 }

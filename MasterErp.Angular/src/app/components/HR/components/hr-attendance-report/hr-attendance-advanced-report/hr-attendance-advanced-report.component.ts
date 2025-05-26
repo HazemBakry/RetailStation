@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { EmployeeAdvancedAttendanceModel } from '../../../models/EmployeeAttendanceModel';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 
 @Component({
   selector: 'app-hr-attendance-advanced-report',
@@ -211,5 +212,34 @@ export class HrAttendanceAdvancedReportComponent implements OnInit {
       default: return '';
     }
   }
+
+  openApproveAttendanceModal(content: any) {
+
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+  approveAttendance() {
+    this.showLoader = true;
+    this.mapFilters();
+    if (!this.fromDate || !this.toDate) {
+      this.toaster.error('يرجى تحديد تاريخ البداية والنهاية');
+      this.showLoader = false;
+      return;
+    }
+    this.hrService.ApproveEmployeesAttendance(this.fromDate, this.toDate, this.pagedResponseModel).subscribe((data: ActionsResponseModel) => {
+      if (data?.isSuccess) {
+        this.toaster.success(data?.message);
+
+      }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+
 }
 
