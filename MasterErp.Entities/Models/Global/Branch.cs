@@ -30,7 +30,7 @@ namespace MasterErp.Entities.Models.Global
         public string Image { get; set; }
         public int? DinningTables { get; set; }
         public int? FamilyTables { get; set; }
-        public string ShowInReports { get; set; }
+        public bool? ShowInReports { get; set; }
         public bool IsAdmin { get; set; }
         public string SubscriberId { get; set; }
         public string AttendanceDbPath { get; set; }
