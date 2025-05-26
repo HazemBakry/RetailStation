@@ -29,8 +29,9 @@ import { HrAttendanceReportComponent } from './components/hr-attendance-report/h
 import { HrAdvancesComponent } from './components/hr-advances/hr-advances.component';
 import { HrAdvancePaymentsComponent } from './components/hr-advance-payments/hr-advance-payments.component';
 import { HrAdvancesReportsComponent } from './components/hr-advances-reports/hr-advances-reports.component';
-import { HrAttendanceAdvancedReportComponent } from './components/hr-attendance-advanced-report/hr-attendance-advanced-report.component';
-
+import { HrAttendanceAdvancedReportComponent } from './components/hr-attendance-report/hr-attendance-advanced-report/hr-attendance-advanced-report.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HrDailyAttendanceReportComponent } from './components/hr-attendance-report/hr-daily-attendance-report/hr-daily-attendance-report.component';
 
 @NgModule({
   declarations: [
@@ -60,14 +61,16 @@ import { HrAttendanceAdvancedReportComponent } from './components/hr-attendance-
     HrAdvancesComponent,
     HrAdvancePaymentsComponent,
     HrAdvancesReportsComponent,
-    HrAttendanceAdvancedReportComponent
+    HrDailyAttendanceReportComponent,
+    HrAttendanceAdvancedReportComponent,
   ],
   imports: [
     HrRoutingModule,
+    NgbModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-    SharedModule
+    SharedModule,
 ],
   providers:[DatePipe]
 })

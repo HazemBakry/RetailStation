@@ -26,7 +26,7 @@ import { HrAttendanceReportComponent } from './components/hr-attendance-report/h
 import { HrAdvancesComponent } from './components/hr-advances/hr-advances.component';
 import { HrAdvancePaymentsComponent } from './components/hr-advance-payments/hr-advance-payments.component';
 import { HrAdvancesReportsComponent } from './components/hr-advances-reports/hr-advances-reports.component';
-import { HrAttendanceAdvancedReportComponent } from './components/hr-attendance-advanced-report/hr-attendance-advanced-report.component';
+import { HrAttendanceAdvancedReportComponent } from './components/hr-attendance-report/hr-attendance-advanced-report/hr-attendance-advanced-report.component';
 
 
 const routes: Routes = [
@@ -84,12 +84,8 @@ const routes: Routes = [
         component: HrDeductsComponent
       },
       {
-        path: 'attendance',
+        path: 'attendance-report',
         component: HrAttendanceReportComponent
-      },
-      {
-        path: 'advanced-attendance',
-        component: HrAttendanceAdvancedReportComponent
       },
       {
         path: 'sick-leaves',
