@@ -69,11 +69,11 @@ export class HrEmployeesSalariesComponent implements OnInit {
 
     const currentYear = new Date().getFullYear();
     this.selectedYear = currentYear;
-    for (let i = currentYear - 5; i <= currentYear + 5; i++) {
+    for (let i = currentYear - 5; i <= currentYear; i++) {
       this.yearsSelectorData.push({ value: i, name: i });
     }
+    this.yearsSelectorData.reverse();
   }
-  headers: Date[] = [];
   search() {
 
     this.pagedResponseModel.results = [];
