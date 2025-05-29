@@ -17,6 +17,7 @@ import { EmployeeContractModel } from '../models/Employee/EmployeeContractModel'
 import { Observable } from 'rxjs';
 import { AdvancePaymentModel, EmployeeAdvanceModel } from '../models/EmployeeAdvanceModel';
 import { EmployeeAdvancedAttendanceModel, EmployeeAttendanceModel } from '../models/EmployeeAttendanceModel';
+import { EmployeeSalarySummaryModel } from '../models/EmployeeSalarySummaryModel';
 
 @Injectable({
   providedIn: 'root'
@@ -177,6 +178,11 @@ export class HrService {
 
   GetEmployeesSalaryByBranch(branches: number[], ExecutionDate: any) {
     return this.http.post<EmployeeSalaryModel[]>(this.URL + 'Employee/GetEmployeesSalaryByBranch?ExecutionDate=' + ExecutionDate, branches);
+  }
+  GetEmployeeSalarySummary(year: number, month: number, model: PagedResponseDTO<EmployeeSalarySummaryModel[]>) {
+    year = year ?? new Date().getFullYear();
+    month = month ?? new Date().getMonth() + 1;
+    return this.http.post<PagedResponseDTO<EmployeeSalarySummaryModel[]>>(this.URL + 'Attendance/GetEmployeeSalarySummary?Year=' + year + '&Month=' + month, model);
   }
 
   GetIqamaIssuePlaces() {

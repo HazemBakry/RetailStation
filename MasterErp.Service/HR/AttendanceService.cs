@@ -77,11 +77,11 @@ namespace MasterErp.Service.HR
 
                    return new EmployeeAdvancedAttendanceModel
                    {
-                       EmployeeId = employee.EmployeeId,
+                       EmployeeId = employee.EmployeeId.GetValueOrDefault(),
                        EmployeeCode = employee.EmployeeCode,
                        EmployeeNameEN = employee.EmployeeNameEN,
                        EmployeeNameAR = employee.EmployeeNameAR,
-                       BranchId = employee.BranchId,
+                       BranchId = employee.BranchId.GetValueOrDefault(),
                        BranchNameEN = employee.BranchNameEN,
                        BranchNameAR = employee.BranchNameAR,
                        Attendance = attendanceList,
@@ -90,12 +90,76 @@ namespace MasterErp.Service.HR
                }).ToList();
 
             return grouped;
-        } 
-        
+        }
+
         public ActionsResponseModel ApproveEmployeesAttendance(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel)
         {
-           return new ActionsResponseModel {  IsSuccess = true , Message="Attendance Approved!"};
+            SearchModel.CurrentPage = 1;
+            SearchModel.PageSize = Context.Employees.Count();
+
+            var employeesAttendance = GetAdvancedAttendanceReport_Data(FromDate, ToDate, SearchModel);
+
+            var month = ToDate?.Month ?? DateTime.Now.Month;
+            var year = ToDate?.Year ?? DateTime.Now.Year;
+
+            var employeeIds = employeesAttendance.Select(e => e.EmployeeId).ToList();
+
+            var existingRecords = Context.VerifiedAttendanceSummary
+                .Where(x => x.Month == month && x.Year == year && employeeIds.Contains(x.EmployeeId))
+                .ToList();
+
+            var newRecords = new List<VerifiedAttendanceSummary>();
+
+            foreach (var x in employeesAttendance)
+            {
+                var existing = existingRecords.FirstOrDefault(r => r.EmployeeId == x.EmployeeId);
+
+                if (existing != null)
+                {
+                    // Update existing record
+                    existing.AbsentCount = x.AbsentCount;
+                    existing.SickLeaveCount = x.SickLeaveCount;
+                    existing.PresentCount = x.PresentCount;
+                    existing.ExcusedCount = x.ExcusedCount;
+                    existing.BranchId = x.BranchId;
+                }
+                else
+                {
+                    // Add new record
+                    newRecords.Add(new VerifiedAttendanceSummary
+                    {
+                        AbsentCount = x.AbsentCount,
+                        EmployeeId = x.EmployeeId,
+                        BranchId = x.BranchId,
+                        SickLeaveCount = x.SickLeaveCount,
+                        PresentCount = x.PresentCount,
+                        ExcusedCount = x.ExcusedCount,
+                        Month = month,
+                        Year = year
+                    });
+                }
+            }
+
+            var isSaved = false;
+
+            if (newRecords.Any())
+            {
+                Context.VerifiedAttendanceSummary.AddRange(newRecords);
+                isSaved = true;
+            }
+
+            if (employeesAttendance.Any())
+            {
+                Context.SaveChanges(); 
+                isSaved = true;
+            }
+
+            if (isSaved)
+                return new ActionsResponseModel { IsSuccess = true, Message = "Attendance Approved!" };
+
+            return new ActionsResponseModel { IsSuccess = false, Message = "Can't approve data" };
         }
+
         public List<EmployeeAttendanceModel> GetAttendance_Data(SearchFilterModel SearchModel)
         {
             SqlParameter[] param = new SqlParameter[3];
@@ -2335,6 +2399,26 @@ namespace MasterErp.Service.HR
                 return false;
             }
 
+        }
+
+
+
+
+
+        public List<EmployeeSalarySummaryModel> GetEmployeeSalarySummary(int Year, int Month, SearchFilterModel SearchModel)
+        {
+            SqlParameter[] param = new SqlParameter[5];
+            param[0] = new SqlParameter("@Year", Year);
+            param[1] = new SqlParameter("@Month", Month);
+            param[2] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            param[3] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            param[4] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[4].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
+
+
+            var result = SQLHelper.SQLQuery<EmployeeSalarySummaryModel>("[HR].[SP_GetEmployeeSalarySummary]", null, param);
+
+            return result;
         }
     }
 }

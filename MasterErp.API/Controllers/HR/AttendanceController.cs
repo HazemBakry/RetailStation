@@ -98,5 +98,25 @@ namespace MasterErp.API.Controllers.HR
         {
             return _attendanceService.DeleteAttendance(AttendanceId);
         }
+
+
+        #region Salaries based on attendance
+        [HttpPost]
+        [Route("GetEmployeeSalarySummary")]
+        public IActionResult GetEmployeeSalarySummary(int Year, int Month, SearchFilterModel SearchModel)
+        {
+            var data = _attendanceService.GetEmployeeSalarySummary(Year, Month, SearchModel);
+            var result = new PagedResponseModel<EmployeeSalarySummaryModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+
+            };
+            return Ok(result);
+        }
+        #endregion
+
     }
 }

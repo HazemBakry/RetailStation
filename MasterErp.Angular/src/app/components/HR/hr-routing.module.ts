@@ -27,6 +27,7 @@ import { HrAdvancesComponent } from './components/hr-advances/hr-advances.compon
 import { HrAdvancePaymentsComponent } from './components/hr-advance-payments/hr-advance-payments.component';
 import { HrAdvancesReportsComponent } from './components/hr-advances-reports/hr-advances-reports.component';
 import { HrAttendanceAdvancedReportComponent } from './components/hr-attendance-report/hr-attendance-advanced-report/hr-attendance-advanced-report.component';
+import { HrEmployeesSalariesComponent } from './components/hr-employees-salaries/hr-employees-salaries.component';
 
 
 const routes: Routes = [
@@ -101,7 +102,8 @@ const routes: Routes = [
       },
       {
         path: 'salary',
-        component: HrSalaryComponent
+        // component: HrSalaryComponent
+        component: HrEmployeesSalariesComponent
       },
       {
         path: 'loans',

@@ -68,7 +68,7 @@ export class HrAttendanceAdvancedReportComponent implements OnInit {
       this.headers.push(new Date(start));
       start.setDate(start.getDate() + 1);
     }
-    console.log("days", this.headers);
+
     this.pagedResponseModel.results = [];
     this.pagedResponseModel.currentPage = 1;
     this.pagedResponseModel.totalCount = 0;
@@ -96,9 +96,10 @@ export class HrAttendanceAdvancedReportComponent implements OnInit {
     });
   }
   getPunchInfo(employee: EmployeeAdvancedAttendanceModel, date: Date): string {
-    const dateKey = date.toISOString().split('T')[0];
+    // const dateKey = date.toISOString().split('T')[0];
+    const dateKey = date.toLocaleDateString().split('T')[0];
     const record = employee.attendance?.find(a =>
-      a.attendanceDate && new Date(a.attendanceDate).toISOString().split('T')[0] === dateKey
+      a.attendanceDate && new Date(a.attendanceDate).toLocaleDateString().split('T')[0] === dateKey
     );
 
     if (!record) return '-';

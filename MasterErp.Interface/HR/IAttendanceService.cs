@@ -19,5 +19,9 @@ namespace MasterErp.Interface.HR
         bool AddNewAttendance(Attendance model);
         bool EditAttendance(Attendance model);
         bool DeleteAttendance(int AttendanceId);
+
+
+        List<EmployeeSalarySummaryModel> GetEmployeeSalarySummary(int Year, int Month, SearchFilterModel SearchModel);
+
     }
 }

@@ -21,11 +21,11 @@ namespace MasterErp.Entities.DTOs.HR
     }
     public class EmployeeAdvancedAttendanceModel
     {
-        public int? EmployeeId { get; set; }
+        public int EmployeeId { get; set; }
         public string EmployeeCode { get; set; }
         public string EmployeeNameEN { get; set; }
         public string EmployeeNameAR { get; set; } 
-        public int? BranchId { get; set; }
+        public int BranchId { get; set; }
         public string BranchNameEN { get; set; }
         public string BranchNameAR { get; set; }
         public List<AttendanceModel> Attendance { get; set; }

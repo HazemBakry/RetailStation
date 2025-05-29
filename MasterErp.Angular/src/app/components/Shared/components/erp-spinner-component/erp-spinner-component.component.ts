@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-erp-spinner-component',
+  selector: 'spinner',
   templateUrl: './erp-spinner-component.component.html',
   styleUrls: ['./erp-spinner-component.component.css']
 })
