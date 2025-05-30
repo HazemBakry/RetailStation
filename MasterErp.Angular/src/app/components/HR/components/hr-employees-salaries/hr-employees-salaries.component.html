@@ -122,6 +122,7 @@
                         <th>أخري</th>
                         <th>أخري 2</th>
                         <th>الإجمالى</th>
+
                         <th>تأمين</th>
                         <th>غيابات</th>
                         <th>جزاءات</th>
@@ -139,8 +140,9 @@
                         <td>{{item.employeeCode}}</td>
                         <td>{{item.bankAccountNumber}}</td>
                         <td>{{item.employeeNameAR ??item.employeeNameEN}}</td>
-                        <td></td>
-                        <td></td>
+                        <td>{{item.bank}}</td>
+                        <td>{{item.jobNameEN ?? item.jobNameAR}}</td>
+
                         <td>{{item.basicSalary}}</td>
                         <td>{{item.extraSalary}}</td>
                         <td>{{item.transportation}}</td>
@@ -151,41 +153,43 @@
                         <td>{{item.mobileAllowance}}</td>
                         <td>{{item.other}}</td>
                         <td>{{item.other2}}</td>
-                        <td>{{item.totalGrossSalary}}</td>
-                        <td>
+                        <td>{{item.grossSalary}}</td>
 
+                        <td>
+                            {{item.totalWorkingDays}}
                         </td>
                         <td>
-
+                            {{item.dailySalary}}
                         </td>
                         <td>
-
+                            {{item.netSalary}}
                         </td>
                         <td>
-
+                            {{item.insurance}}
                         </td>
                         <td>
-
+                            {{item.absentDays * item.dailySalary}}
                         </td>
                         <td>
-
+                            {{item.penalties}}
                         </td>
                         <td>
-
+                            {{item.advances}}
                         </td>
                         <td>
-
+                            {{item.sickDays * item.dailySalary}}
                         </td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>{{item.deductions}}</td>
+                        <td>{{item.totalDeductions}}</td>
+
                         <td>{{item.netSalary}}</td>
                         <td>{{item.visaPayment}}</td>
                         <td>{{item.cashPayment}}</td>
 
                         <td>
-                            
+
                         </td>
                     </tr>
                     <tr *ngIf="!pagedResponseModel.results.length || showLoader">
