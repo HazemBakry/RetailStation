@@ -23,7 +23,7 @@ import { GeneralSelectorModel } from 'src/app/components/Shared/components/gener
 })
 
 export class AddPurchaseOrderComponent implements OnInit {
-  TitleList = ['المشترايات', 'إضافة امر شراء'];
+  TitleList = ['المشترايات', 'إنشاء امر شراء'];
 
   purchaseOrderId: number;
   purchaseOrderModel: PurchaseOrderModel = {} as PurchaseOrderModel;

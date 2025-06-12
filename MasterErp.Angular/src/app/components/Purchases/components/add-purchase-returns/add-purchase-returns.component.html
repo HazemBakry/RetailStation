@@ -11,8 +11,8 @@
                     <app-invoice-search-sidepanel *ngIf="!isUpdate" [selectedSupplierId]="selectedSupplierId" (selectedInvoice)="searchInvoiceSelected($event)">
 
                     </app-invoice-search-sidepanel>
-                    <div *ngIf="formErrors.secondaryOrderId" class="text-danger  font-small-3 m-03">
-                        {{formErrors.secondaryOrderId}}
+                    <div *ngIf="formErrors.purchaseInvoiceId" class="text-danger  font-small-3 m-03">
+                        {{formErrors.purchaseInvoiceId}}
                     </div>
                 </div>
 
@@ -66,8 +66,8 @@
                             <input type="text" [value]="selectedPurchaseInvoice?.orderNumber ?? ''" disabled class="form-control" id="floatingInput1" placeholder="any">
                             <label for="floatingInput1">رقم الفاتورة </label>
                         </div>
-                        <div *ngIf="formErrors.secondaryOrderId" class="text-danger  font-small-3 m-03">
-                            {{formErrors.secondaryOrderId}}
+                        <div *ngIf="formErrors.purchaseInvoiceId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.purchaseInvoiceId}}
                         </div>
                     </div>
                     <div class="col-xl-2">
@@ -79,11 +79,11 @@
 
                 <div class="col-xl-9">
                     <div class="form-floating mb-3">
-                        <textarea type="text" formControlName="description" class="form-control" id="floatingInput10" placeholder="ملاحظات"></textarea>
+                        <textarea type="text" formControlName="notes" class="form-control" id="floatingInput10" placeholder="ملاحظات"></textarea>
                         <label for="floatingInput10">ملاحظات</label>
 
-                        <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
-                            {{formErrors.description}}
+                        <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
+                            {{formErrors.notes}}
                         </div>
                     </div>
                 </div>

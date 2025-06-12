@@ -1,7 +1,7 @@
 <button *ngIf="!isUpdate" class="btn btn-outline-primary border m-2"
     (click)="openAddNewImporterSidePanel(AddNewImporterDialog)">
     <i class="uil uil-plus fs-5"></i>
-    <span class="ms-2">إضافة </span>
+    <span class="ms-2">إنشاء </span>
 </button>
 
 <button *ngIf="isUpdate" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2"
@@ -15,7 +15,7 @@
         <h2 class="d-flex align-items-center gap-2">
             <i class="uil uil-plus"></i>
             <span>املأ البيانات الأتية</span>
-            <span *ngIf="!isUpdate" class="ms-3">(إضافة)</span>
+            <span *ngIf="!isUpdate" class="ms-3">(إنشاء)</span>
             <span *ngIf="isUpdate" class="ms-3">(تعديل)</span>
         </h2>
         <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
@@ -82,7 +82,7 @@
                 <div class="d-flex align-items-center gap-3">
                     <button class="btn btn-outline-primary border m-2" (click)="addField()">
                         <i class="uil uil-plus fs-5"></i>
-                        <!-- <span class="ms-2">إضافة صنف</span> -->
+                        <!-- <span class="ms-2">إنشاء صنف</span> -->
                     </button>
                 </div>
                 
@@ -159,7 +159,7 @@
                 التالي
             </span>
             <span *ngIf="currentStep ==2">
-                <span *ngIf="!isUpdate">إضافة</span>
+                <span *ngIf="!isUpdate">إنشاء</span>
                 <span *ngIf="isUpdate">تعديل</span>
             </span>
         </button>

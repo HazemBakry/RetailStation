@@ -23,7 +23,7 @@ import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
 })
 
 export class AddPurchaseInvoiceComponent implements OnInit {
-  TitleList = ['المشتريات', 'إضافة فاتورة مشتريات'];
+  TitleList = ['المشتريات', 'إنشاء فاتورة مشتريات'];
   purchaseInvoiceId: number;
   purchaseInvoiceModel: PurchaseInvoiceModel = {} as PurchaseInvoiceModel;
   orderDetails: GeneralOrderDetailsModel[] = [];

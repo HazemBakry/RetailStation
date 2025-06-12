@@ -62,7 +62,7 @@
         <h4 class="d-flex align-items-center gap-2">
             <i class="uil uil-plus"></i>
             <span>املأ البيانات الأتية</span>
-            <!-- <span *ngIf="!isUpdate" class="ms-3">(إضافة)</span>
+            <!-- <span *ngIf="!isUpdate" class="ms-3">(إنشاء)</span>
             <span *ngIf="isUpdate" class="ms-3">(تعديل)</span> -->
         </h4>
         <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
@@ -93,7 +93,7 @@
     <div class="modal-footer flex-nowrap gap-2">
         <button [disabled]="showAddLoader" (click)="saveRole()" type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
             <i class="uil uil-save fs-3"></i>
-            <!-- <span *ngIf="!isUpdate">إضافة</span>
+            <!-- <span *ngIf="!isUpdate">إنشاء</span>
             <span *ngIf="isUpdate">تعديل</span>  -->
             <span>حفظ البيانات</span>
         </button>

@@ -20,7 +20,7 @@ import { GeneralOrderDetailsModel } from '../../models/GeneralOrderModel ';
 })
 
 export class AddPurchasesReceiptComponent implements OnInit {
-  TitleList = ['المخازن', 'إضافة إذن استلام'];
+  TitleList = ['المخازن', 'إنشاء إذن استلام'];
   purchaseRequestId: number;
   purchaseRequestModel: OrderModel = {} as OrderModel;
   orderProducts: GeneralOrderDetailsModel[] = [];

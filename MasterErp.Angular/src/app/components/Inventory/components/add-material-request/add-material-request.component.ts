@@ -20,7 +20,7 @@ import { LookupService } from 'src/app/components/Shared/services/lookup.service
 })
 
 export class AddMaterialRequestComponent implements OnInit {
-  TitleList = ['المخازن', 'إضافة طلب شراء'];
+  TitleList = ['المخازن', 'إنشاء طلب شراء'];
   materialRequestId: number;
   materialRequestModel: MaterialRequestModel = {} as MaterialRequestModel;
   orderDetails: GeneralOrderDetailsModel[] = [];

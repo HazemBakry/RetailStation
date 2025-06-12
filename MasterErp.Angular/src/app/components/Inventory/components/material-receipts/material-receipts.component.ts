@@ -22,7 +22,7 @@ import { DataField } from 'src/app/components/Shared/models/DataField';
 })
 
 export class MaterialReceiptsComponent implements OnInit {
-  TitleList = ['المخازن', 'أذونات الإضافة'];
+  TitleList = ['المخازن', 'أذونات الإنشاء'];
   showLoader: boolean;
   OrderId: number;
   pagedResponseModel: PagedResponseDTO<MaterialReceiptModel[]> = {

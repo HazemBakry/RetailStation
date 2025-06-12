@@ -11,9 +11,10 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { DatePipe } from '@angular/common';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
-import { OrderModel } from 'src/app/components/Inventory/models/inventory';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
 import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
+import { PurchaseReturnsModel } from '../../models/PurchaseReturns';
+import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
 
 @Component({
   selector: 'app-add-purchase-returns',
@@ -22,9 +23,9 @@ import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/Ge
 })
 
 export class AddPurchaseReturnsComponent implements OnInit {
-  purchaseReturnsId:number;
-  receiveOrderModel: OrderModel = {} as OrderModel;
-  orderProducts : GeneralOrderDetailsModel[]=[];
+  purchaseReturnsId: number;
+  purchaseReturnsModel: PurchaseReturnsModel = {} as PurchaseReturnsModel;
+  orderProducts: GeneralOrderDetailsModel[] = [];
   isUpdate: boolean = false;
   clearAllProducts: boolean = false;
 
@@ -37,8 +38,8 @@ export class AddPurchaseReturnsComponent implements OnInit {
   formData: FormData = new FormData();
   public formGroup: FormGroup;
 
-  selectedPurchaseInvoice: OrderModel = {} as OrderModel;
-  selectedSupplierId: number ;
+  selectedPurchaseInvoice: PurchaseInvoiceModel = {} as PurchaseInvoiceModel;
+  selectedSupplierId: number;
   constructor(private acRoute: ActivatedRoute, private router: Router, private modalService: NgbModal, private inventoryService: InventoryService,
     private purchaseService: PurchaseService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
     private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
@@ -55,21 +56,20 @@ export class AddPurchaseReturnsComponent implements OnInit {
 
 
     this.initNewForm();
-    
+
     this.loadSelectors();
   }
 
   getPurchaseReturnsDetailsById() {
     this.showLoader = true;
-    this.purchaseService.GetPurchaseReturnsDetailsById(this.purchaseReturnsId).subscribe((data: OrderModel) => {
+    this.purchaseService.GetPurchaseReturnsDetailsById(this.purchaseReturnsId).subscribe((data: PurchaseReturnsModel) => {
       if (data) {
-        this.receiveOrderModel = data;
+        this.purchaseReturnsModel = data;
         // this.getPurchaseReturnsProducts();
-        // this.initNewForm(this.receiveOrderModel);
-        this.fillEditForm(this.receiveOrderModel);
-        if(data.secondaryOrderId)
-        {
-          this.getPurchaseInvoiceDetailsById(data.secondaryOrderId);
+        // this.initNewForm(this.purchaseReturnsModel);
+        this.fillEditForm(this.purchaseReturnsModel);
+        if (data.purchaseInvoiceId) {
+          this.getPurchaseInvoiceDetailsById(data.purchaseInvoiceId);
         }
       }
       this.showLoader = false;
@@ -82,7 +82,7 @@ export class AddPurchaseReturnsComponent implements OnInit {
 
   getPurchaseInvoiceDetailsById(invoiceId: number) {
     this.showLoader = true;
-    this.purchaseService.GetPurchaseInvoiceDetailsById(invoiceId).subscribe((data: OrderModel) => {
+    this.purchaseService.GetPurchaseInvoiceDetailsById(invoiceId).subscribe((data: PurchaseInvoiceModel) => {
       if (data) {
         this.selectedPurchaseInvoice = data;
       }
@@ -97,11 +97,11 @@ export class AddPurchaseReturnsComponent implements OnInit {
     this.showLoader = true;
     this.purchaseService.GetPurchaseReturnsProducts_Data(this.purchaseReturnsId).subscribe((data: GeneralOrderDetailsModel[]) => {
       this.orderProducts = data;
-      if (this.orderProducts.length>0) {
+      if (this.orderProducts.length > 0) {
         // this.formGroup.patchValue({orderProducts:this.orderProducts});
       }
-      // this.initNewForm(this.receiveOrderModel);
-    
+      // this.initNewForm(this.purchaseReturnsModel);
+
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
@@ -109,12 +109,12 @@ export class AddPurchaseReturnsComponent implements OnInit {
       this.showLoader = false;
     });
   }
-  searchInvoiceSelected(inv:OrderModel) {
+  searchInvoiceSelected(inv: PurchaseInvoiceModel) {
     this.selectedPurchaseInvoice = inv;
     this.getPurchaseInvoiceProducts();
   }
-  getSelectedProductsList(products:GeneralOrderDetailsModel[]) {
-    this.formGroup.patchValue({orderProducts:products});
+  getSelectedProductsList(products: GeneralOrderDetailsModel[]) {
+    this.formGroup.patchValue({ orderProducts: products });
     this.orderProducts = products;
   }
   getPurchaseInvoiceProducts() {
@@ -123,7 +123,7 @@ export class AddPurchaseReturnsComponent implements OnInit {
       if (data) {
         this.orderProducts = data;
         // this.formGroup.patchValue({orderProducts:this.orderProducts});
-        this.formGroup.patchValue({secondaryOrderId:this.selectedPurchaseInvoice.orderId});
+        this.formGroup.patchValue({ purchaseInvoiceId: this.selectedPurchaseInvoice.orderId });
 
       }
       this.showLoader = false;
@@ -134,10 +134,10 @@ export class AddPurchaseReturnsComponent implements OnInit {
     });
   }
 
-  initNewForm(orderModel: OrderModel = null) {
-    this.selectedPurchaseInvoice = {} as OrderModel;
-    this.orderProducts=[];
-    this.clearAllProducts=!this.clearAllProducts;
+  initNewForm(orderModel: PurchaseReturnsModel = null) {
+    this.selectedPurchaseInvoice = {} as PurchaseInvoiceModel;
+    this.orderProducts = [];
+    this.clearAllProducts = !this.clearAllProducts;
     this.isUpdate = false;
     this.buildForm();
     if (orderModel)
@@ -146,13 +146,13 @@ export class AddPurchaseReturnsComponent implements OnInit {
 
   buildForm() {
     this.formGroup = this.form.group({
-      orderId: [null],
+      purchaseReturnsId: [null],
       // orderDate: [null, [Validators.required]],
       // supplierId: [null, [Validators.required]],
-      secondaryOrderId: [null, [Validators.required]],
+      purchaseInvoiceId: [null, [Validators.required]],
       // branchId: [null, [Validators.required]],
-      orderProducts: [[] as GeneralOrderDetailsModel[], [Validators.required,Validators.minLength(1)]],
-      description: [null],
+      orderProducts: [[] as GeneralOrderDetailsModel[], [Validators.required, Validators.minLength(1)]],
+      notes: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -162,13 +162,13 @@ export class AddPurchaseReturnsComponent implements OnInit {
 
 
   savePurchaseReturns() {
-    if(this.orderProducts.length === 0) 
+    if (this.orderProducts.length === 0)
       this.toaster.warning('لا يوجد اصناف');
-    
+
     if (!this.validateForm()) {
       return;
     }
-    this.receiveOrderModel = this.formGroup.value;
+    this.purchaseReturnsModel = this.formGroup.value;
 
     if (this.purchaseReturnsId)
       this.editPurchaseReturns();
@@ -178,7 +178,7 @@ export class AddPurchaseReturnsComponent implements OnInit {
 
   addNewPurchaseReturns() {
     this.showAddLoader = true;
-    this.purchaseService.AddNewPurchaseReturns(this.receiveOrderModel).subscribe((data: ActionsResponseModel) => {
+    this.purchaseService.AddNewPurchaseReturns(this.purchaseReturnsModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         // this.formGroup?.reset();
         this.initNewForm();
@@ -197,7 +197,7 @@ export class AddPurchaseReturnsComponent implements OnInit {
 
   editPurchaseReturns() {
     this.showAddLoader = true;
-    this.purchaseService.EditPurchaseReturns(this.purchaseReturnsId, this.receiveOrderModel).subscribe((data: ActionsResponseModel) => {
+    this.purchaseService.EditPurchaseReturns(this.purchaseReturnsId, this.purchaseReturnsModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.initNewForm();
@@ -225,7 +225,7 @@ export class AddPurchaseReturnsComponent implements OnInit {
     this.sharedService.GetBranchesSelector().subscribe((data: FormDropdownModel[]) => {
       this.branchesSelectorData = data;
     });
-    
+
   }
 
   validateForm(): boolean {
@@ -238,32 +238,31 @@ export class AddPurchaseReturnsComponent implements OnInit {
     }
   }
 
-  fillEditForm(orderModel: OrderModel) {
+  fillEditForm(orderModel: PurchaseReturnsModel) {
     this.isUpdate = true;
 
     this.formGroup.patchValue({
-      orderId: orderModel.orderId,
+      purchaseReturnsId: orderModel.purchaseReturnsId,
       // supplierId: orderModel.supplierId,
       // orderDate:this.datePipe.transform(orderModel.orderDate, 'yyyy-MM-dd'),
-      secondaryOrderId: orderModel.secondaryOrderId,
+      purchaseInvoiceId: orderModel.purchaseInvoiceId,
       // branchId: orderModel.branchId,
-      description:orderModel.description
-      
+      notes: orderModel.notes
+
     });
   }
-  getSelectedSupplier(supplierId)
-  {
-    this.selectedSupplierId=supplierId;
+  getSelectedSupplier(supplierId) {
+    this.selectedSupplierId = supplierId;
   }
   public formErrors = {
     supplierId: '',
     orderId: '',
-    secondaryOrderId: '',
+    purchaseInvoiceId: '',
     branchId: '',
-    orderDate:'',
+    orderDate: '',
     orderProducts: '',
-    description: ''
+    notes: ''
   };
-  
+
 
 }

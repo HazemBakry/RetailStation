@@ -109,7 +109,7 @@
                             <span class="text-danger">*</span>
                         </label>
                         <app-general-selector formControlName="supplierId" [data]="suppliersSelectorData"
-                            [placeholder]="'الموردين'"
+                            [placeholder]="'الموردين'" [showSearch]="true"
                             (valueChanged)="getSelectedSupplier($event)"></app-general-selector>
 
                         <div *ngIf="formErrors.supplierId" class="text-danger  font-small-3 m-03">

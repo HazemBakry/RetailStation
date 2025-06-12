@@ -502,11 +502,11 @@ export class MenuService {
             icon: 'fa fa-shopping-cart',
             subMenus: [
               {
-                displayName: 'فواتير الشراء',
-                menuItem: 'purchase-invoices',
-                description: 'عرض وإدارة فواتير الشراء للموردين',
-                icon: 'fa fa-file-invoice',
-                route: '/purchases/purchase-invoices'
+                displayName: 'أوامر الشراء',
+                menuItem: 'purchase-orders',
+                description: 'إدارة أوامر الشراء وإنشاؤها',
+                icon: 'fa fa-clipboard-list',
+                route: '/purchases/purchase-orders'
               },
               {
                 displayName: 'انشاء فاتورة شراء',
@@ -516,11 +516,11 @@ export class MenuService {
                 route: '/purchases/add-purchase-invoice'
               },
               {
-                displayName: 'أوامر الشراء',
-                menuItem: 'purchase-orders',
-                description: 'إدارة أوامر الشراء وإنشاؤها',
-                icon: 'fa fa-clipboard-list',
-                route: '/purchases/purchase-orders'
+                displayName: 'فواتير الشراء',
+                menuItem: 'purchase-invoices',
+                description: 'عرض وإدارة فواتير الشراء للموردين',
+                icon: 'fa fa-file-invoice',
+                route: '/purchases/purchase-invoices'
               },
               {
                 displayName: 'مرتجعات المشتريات',

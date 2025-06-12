@@ -1,41 +1,18 @@
-export interface PurchaseReturnsModel{
-    invoiceId:number;
-    invoiceNumber: string;
-    invoiceTypeId: string;
-    orderDate: string;
-    supplierId: number;
-    branchId: number;
-    totalValue: number;
-    notes: string | null;
-    userId: string | null;
-    items: PurchaseReturnsDetails[];
+import { GeneralOrderDetailsModel } from "../../Inventory/models/GeneralOrderModel ";
+import { CreatorModel } from "../../Shared/models/CreatorModel";
 
+export interface PurchaseReturnsModel extends CreatorModel {
+    purchaseReturnsId: number | null;
+    serialNumber: string;
+    docNumber: string;
+    purchaseInvoiceId: number | null;
+    supplierReturnsVoucherId: number | null;
+    totalValue: number | null;
+    returnsDate: string | null;
+    supplierId: number | null;
+    supplierNameEN: string;
+    supplierNameAR: string;
+    notes: string;
+    orderDetails: GeneralOrderDetailsModel[];
+    totalCount: number | null;
 }
-
-export interface PurchaseReturnsDetails {
-    purchaseReturnsDetailsID: number;
-    purchaseReturnsID: number;
-    itemID: number;
-    quantity: number;
-    price: number;
-    totalValue: number;
-    unitID: number;
-    notes: string | null;
-}
-
-// export interface PurchaseReturns {
-//     purchaseReturnsID: number;
-//     supplierVoucherReturnsID: number;
-//     invoiceTypeID: number;
-//     invoiceNumber: string;
-//     invoiceDate: string;
-//     returnsDate: string | null;
-//     supplierID: number;
-//     purchaseInvoiceTotal: number;
-//     returnsInvoiceTotal: number;
-//     notes: string | null;
-//     insertUser: string | null;
-//     insertDate: string | null;
-//     updateUser: string | null;
-//     updateDate: string | null;
-// }

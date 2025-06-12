@@ -63,7 +63,7 @@
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">
                             رقم الطلب
-                            <span class="text-danger">*</span>
+                            <!-- <span class="text-danger">*</span> -->
                         </label>
                         <input type="text" class="form-control nw-form-input" formControlName="orderNumber" disabled
                             autocomplete="off" />
@@ -102,7 +102,7 @@
                             <span class="text-danger">*</span>
                         </label>
                         <app-general-selector formControlName="supplierId" [data]="suppliersSelectorData"
-                            [placeholder]="'الموردين'">
+                            [placeholder]="'الموردين'" [showSearch]="true">
                         </app-general-selector>
 
                         <div *ngIf="formErrors.supplierId" class="text-danger  font-small-3 m-03">

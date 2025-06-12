@@ -7,7 +7,7 @@
             <button (click)="openAddModal(addNewModal)"
                 class="btn btn-success d-flex align-items-center gap-2 border rounded px-3">
                 <i class="fas fa-plus-circle"></i>
-                <span>إضافة</span>
+                <span>إنشاء</span>
             </button>
         </div>
         <div class="justify-content-end">
@@ -75,7 +75,7 @@
         <h4 class="d-flex align-items-center gap-2">
             <i class="uil uil-plus"></i>
             <span>املأ البيانات الأتية</span>
-            <span *ngIf="!isUpdate" class="ms-3">(إضافة)</span>
+            <span *ngIf="!isUpdate" class="ms-3">(إنشاء)</span>
             <span *ngIf="isUpdate" class="ms-3">(تعديل)</span>
         </h4>
         <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
@@ -87,7 +87,7 @@
         <div class="card ">
             <!-- <div class="card-header bg-white">
                 <h6 class="fw-bold m-0">
-                    <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
+                    <span *ngIf="!isUpdate" class="ms-3">إنشاء</span>
                     <span *ngIf="isUpdate" class="ms-3">تعديل</span>
                 </h6>
             </div> -->

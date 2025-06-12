@@ -20,7 +20,7 @@ import { GeneralOrderDetailsModel } from '../../models/GeneralOrderModel ';
 })
 
 export class AddDeliveryNoteComponent implements OnInit {
-  TitleList = ['المخازن', 'إضافة إذن صرف'];
+  TitleList = ['المخازن', 'إنشاء إذن صرف'];
   deliveryNoteId: number;
   OrderModel: OrderModel = {} as OrderModel;
   orderProducts: GeneralOrderDetailsModel[] = [];

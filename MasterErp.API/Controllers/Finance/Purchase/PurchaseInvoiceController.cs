@@ -143,7 +143,7 @@ namespace MasterErp.API.Controllers.Finance.Purchase
 
         [HttpPost]
         [Route("AddNewPurchaseReturns")]
-        public IActionResult AddNewPurchaseReturns(OrderModel model)
+        public IActionResult AddNewPurchaseReturns(PurchaseReturnsModel model)
         {
             var result = _purchaseInvoiceService.AddNewPurchaseReturns(model);
             return Ok(result);
@@ -151,7 +151,7 @@ namespace MasterErp.API.Controllers.Finance.Purchase
 
         [HttpPost]
         [Route("EditPurchaseReturns")]
-        public IActionResult EditPurchaseReturns(int OrderId, OrderModel model)
+        public IActionResult EditPurchaseReturns(int OrderId, PurchaseReturnsModel model)
         {
             var result = _purchaseInvoiceService.EditPurchaseReturns(OrderId, model);
             return Ok(result);

@@ -266,7 +266,7 @@
     </form>
     <div class="d-flex justify-content-left">
         <button [disabled]="showAddLoader" (click)="saveEmployeeBasicInfo()" class="btn btn-primary m-2">
-            <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
+            <span *ngIf="!isUpdate" class="ms-3">إنشاء</span>
             <span *ngIf="isUpdate" class="ms-3">تعديل</span>
         </button>
         <button (click)="initNewForm()" class="btn btn-danger m-2">

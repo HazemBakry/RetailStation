@@ -6,7 +6,7 @@
             <div class="d-flex align-items-center gap-2">
                 <button class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3" (click)="openUserPopup(addUserModal)">
                     <i class="fas fa-plus-circle"></i>
-                    <span>إضافة مستخدم</span>
+                    <span>إنشاء مستخدم</span>
                 </button>
                 <button [disabled]="showLoader" (click)="exportData()" class="btn  btn-outline-success d-flex align-items-center gap-2 border rounded px-3">
                     <i class="fas fa-file-download"></i>
@@ -135,7 +135,7 @@
         <h4 class="d-flex align-items-center gap-2">
             <i class="uil uil-plus"></i>
             <span>املأ البيانات الأتية</span>
-            <!-- <span *ngIf="!isUpdate" class="ms-3">(إضافة)</span>
+            <!-- <span *ngIf="!isUpdate" class="ms-3">(إنشاء)</span>
             <span *ngIf="isUpdate" class="ms-3">(تعديل)</span> -->
         </h4>
         <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
@@ -211,7 +211,7 @@
     <div class="modal-footer flex-nowrap gap-2">
         <button [disabled]="showAddLoader" (click)="saveCategory()" type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
             <i class="uil uil-save fs-3"></i>
-            <!-- <span *ngIf="!isUpdate">إضافة</span>
+            <!-- <span *ngIf="!isUpdate">إنشاء</span>
             <span *ngIf="isUpdate">تعديل</span>  -->
             <span>حفظ البيانات</span>
         </button>

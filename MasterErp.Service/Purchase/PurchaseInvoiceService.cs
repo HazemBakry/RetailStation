@@ -412,7 +412,7 @@ namespace MasterErp.Service.Purchase
         }
 
 
-        public List<OrderModel> GetPurchaseReturns_Data(SearchFilterModel PagingFilter, int? OrderId = null)
+        public List<PurchaseReturnsModel> GetPurchaseReturns_Data(SearchFilterModel PagingFilter, int? OrderId = null)
         {
             var FilterListDt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
 
@@ -428,19 +428,19 @@ namespace MasterErp.Service.Purchase
             return result;
         }
 
-        public OrderModel GetPurchaseReturnsDetailsById(int OrderId)
+        public PurchaseReturnsModel GetPurchaseReturnsDetailsById(int OrderId)
         {
             return GetPurchaseReturns_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, OrderId)?.FirstOrDefault();
         }
 
-        public List<OrderProductModel> GetPurchaseReturnsProducts_Data(int OrderId)
+        public List<GeneralOrderDetailsModel> GetPurchaseReturnsProducts_Data(int OrderId)
         {
             var result = (from orderProduct in Context.PurchaseReturnsDetails
                           join item in Context.Items on orderProduct.ItemId equals item.ItemId
                           join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
                           from unit in jT2.DefaultIfEmpty()
                           where (orderProduct.PurchaseReturnsId == OrderId)
-                          select new OrderProductModel
+                          select new GeneralOrderDetailsModel
                           {
                               ItemId = item.ItemId,
                               ItemNameEN = item.NameEN,
@@ -458,7 +458,7 @@ namespace MasterErp.Service.Purchase
             return result;
 
         }
-        public ActionsResponseModel AddNewPurchaseReturns(OrderModel model)
+        public ActionsResponseModel AddNewPurchaseReturns(PurchaseReturnsModel model)
         {
             try
             {
@@ -469,9 +469,9 @@ namespace MasterErp.Service.Purchase
                 order_tbl.ReturnsDate = DateTime.Now;//model.OrderDate;
                 order_tbl.CreatedBy = model.CreatedBy;
 
-                order_tbl.PurchaseInvoiceId = model.SecondaryOrderId ?? 0;
+                order_tbl.PurchaseInvoiceId = model.PurchaseInvoiceId ?? 0;
                 order_tbl.Notes = model.Notes;
-                order_tbl.TotalValue = model.OrderProducts != null ? model.OrderProducts.Sum(x => x.TotalValue) : 0;
+                order_tbl.TotalValue = model.OrderDetails != null ? model.OrderDetails.Sum(x => x.TotalValue) : 0;
                 //order_tbl.SupplierId = (int)model?.SupplierId;
                 //order_tbl.BranchId = (int)model?.BranchId;
                 //order_tbl.InvoiceNumber = "po_" + (Context.PurchaseReturns.Count() > 0 ? Context.PurchaseReturns.Max(x => x.PurchaseReturnsID) + 1 : 1);
@@ -479,11 +479,11 @@ namespace MasterErp.Service.Purchase
                 Context.PurchaseReturns.Add(order_tbl);
                 Context.SaveChanges();
 
-                foreach (OrderProductModel item in model.OrderProducts)
+                foreach (GeneralOrderDetailsModel item in model.OrderDetails)
                 {
                     var detail = new PurchaseReturnsDetails
                     {
-                        Price = item.Price,
+                        Price = item.Price.GetValueOrDefault(),
                         ItemId = item.ItemId,
                         Notes = model.Notes,
                         Quantity = item.Quantity,
@@ -509,7 +509,7 @@ namespace MasterErp.Service.Purchase
                 };
             }
         }
-        public ActionsResponseModel EditPurchaseReturns(int OrderId, OrderModel model)
+        public ActionsResponseModel EditPurchaseReturns(int OrderId, PurchaseReturnsModel model)
         {
             try
             {
@@ -521,9 +521,9 @@ namespace MasterErp.Service.Purchase
 
                     //order_tbl.ReturnsDate = model.OrderDate;
 
-                    order_tbl.PurchaseInvoiceId = model.SecondaryOrderId ?? 0;
+                    order_tbl.PurchaseInvoiceId = model.PurchaseInvoiceId ?? 0;
                     order_tbl.Notes = model.Notes;
-                    order_tbl.TotalValue = model.OrderProducts != null ? model.OrderProducts.Sum(x => x.TotalValue) : 0;
+                    order_tbl.TotalValue = model.OrderDetails != null ? model.OrderDetails.Sum(x => x.TotalValue) : 0;
                     //order_tbl.SupplierId = (int)model?.SupplierId;
                     //order_tbl.BranchId = (int)model?.BranchId;
 
@@ -533,11 +533,11 @@ namespace MasterErp.Service.Purchase
 
                     var PurchaseReturnDetails = Context.PurchaseReturnsDetails.Where(x => x.PurchaseReturnsId == OrderId).ToList();
                     Context.PurchaseReturnsDetails.RemoveRange(PurchaseReturnDetails);
-                    foreach (OrderProductModel item in model.OrderProducts)
+                    foreach (GeneralOrderDetailsModel item in model.OrderDetails)
                     {
                         var detail = new PurchaseReturnsDetails
                         {
-                            Price = item.Price,
+                            Price = item.Price.GetValueOrDefault(),
                             ItemId = item.ItemId,
                             Notes = model.Notes,
                             Quantity = item.Quantity,
@@ -566,17 +566,17 @@ namespace MasterErp.Service.Purchase
             }
         }
 
-        public bool CancelPurchaseReturns(int ReturnsId)
+        public ActionsResponseModel CancelPurchaseReturns(int ReturnsId)
         {
             var Invoice = Context.PurchaseReturns.FirstOrDefault(x => x.PurchaseReturnsId == ReturnsId);
             if (Invoice is null)
             {
-                return false;
+                return new ActionsResponseModel { IsSuccess=false,Message="order not found"};
             }
-            //Context.PurchaseInvoices.Remove(Invoice);
-            //Invoice.IsCancelled = true;
+            Context.PurchaseReturns.Remove(Invoice);
+
             Context.SaveChanges();
-            return true;
+            return new ActionsResponseModel { Message = "deleted successfully !" };
         }
         public List<SupplierStatementModel> GetSupplierStatementData(int SupplierId)
         {

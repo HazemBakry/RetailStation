@@ -50,6 +50,12 @@
                         <i class="fa-solid fa-chevron-down dropdown-arrow fs-13"></i>
                     </a>
                     <ul class="border shadow-lg" ngbDropdownMenu aria-labelledby="user-settings">
+                       <li *ngIf="productSystemUrl">
+                            <a [href]="productSystemUrl" target="_blank" class="dropdown-item cursor-pointer d-flex align-items-center">
+                                <i class="fab fa-product-hunt"></i>
+                                <span class="ms-2">Products</span>
+                            </a>
+                        </li>
                         <li>
                             <a (click)="logout()" class="dropdown-item cursor-pointer d-flex align-items-center">
                                 <i class="fas fa-power-off"></i>
@@ -62,6 +68,7 @@
                                 <span class="ms-2">Profile</span>
                             </a>
                         </li>
+                       
                     </ul>
 
                 </li>

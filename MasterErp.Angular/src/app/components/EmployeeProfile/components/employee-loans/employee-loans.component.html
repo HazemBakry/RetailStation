@@ -82,7 +82,7 @@
             <div class="d-flex justify-content-left">
                 <button [disabled]="showAddLoader" (click)="saveVacation()" class="btn btn-primary m-2">
                     <i class="fas fa-save"></i>
-                    <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
+                    <span *ngIf="!isUpdate" class="ms-3">إنشاء</span>
                     <span *ngIf="isUpdate" class="ms-3">تعديل</span>
                 </button>
                 <button (click)="initNewVacationForm()" class="btn btn-danger m-2">
@@ -105,7 +105,7 @@
                     <div class="d-flex align-items-center flex-wrap">
                         <div class="search-box position-relative mb-2">
                             <button class="btn btn-primary mb-2" (click)="toggleDetails()">
-                                <span class="me-2">إضافة سلفة</span>
+                                <span class="me-2">إنشاء سلفة</span>
                                 <i class="uil uil-plus-circle"></i>
                             </button>
                         </div>
@@ -335,7 +335,7 @@
             <div class="d-flex justify-content-center">
                 <button [disabled]="showAddLoader" (click)="saveEmployeeLoan()" class="btn btn-primary w-50 justify-content-center py-3 fs-5 radius-10">
                     <!-- <i class="fas fa-id-card"></i> -->
-                    <span *ngIf="!isUpdate" class="ms-3">إضافة</span>
+                    <span *ngIf="!isUpdate" class="ms-3">إنشاء</span>
                     <span *ngIf="isUpdate" class="ms-3">تعديل</span>
                 </button>
             </div>

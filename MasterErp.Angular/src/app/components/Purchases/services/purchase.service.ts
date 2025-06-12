@@ -75,23 +75,23 @@ export class PurchaseService {
 
 
   CancelPurchaseReturns(returnsId: number) {
-    return this.http.get<any[]>(this.URL + 'PurchaseInvoice/CancelPurchaseReturns?ReturnsId=' + returnsId);
+    return this.http.get<ActionsResponseModel>(this.URL + 'PurchaseInvoice/CancelPurchaseReturns?ReturnsId=' + returnsId);
   }
 
   GetPurchaseReturns_Data(model: PagedResponseDTO) {
-    return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'PurchaseInvoice/GetPurchaseReturns_Data', model);
+    return this.http.post<PagedResponseDTO<PurchaseReturnsModel[]>>(this.URL + 'PurchaseInvoice/GetPurchaseReturns_Data', model);
   }
   GetPurchaseReturnsDetailsById(orderId: number) {
-    return this.http.get<OrderModel>(this.URL + `PurchaseInvoice/GetPurchaseReturnsDetailsById?OrderId=${orderId}`);
+    return this.http.get<PurchaseReturnsModel>(this.URL + `PurchaseInvoice/GetPurchaseReturnsDetailsById?OrderId=${orderId}`);
   }
   GetPurchaseReturnsProducts_Data(orderId: number) {
     return this.http.get<GeneralOrderDetailsModel[]>(this.URL + `PurchaseInvoice/GetPurchaseReturnsProducts_Data?OrderId=${orderId}`);
   }
 
-  AddNewPurchaseReturns(model: OrderModel) {
+  AddNewPurchaseReturns(model: PurchaseReturnsModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'PurchaseInvoice/AddNewPurchaseReturns', model);
   }
-  EditPurchaseReturns(orderId:number,model: OrderModel) {
+  EditPurchaseReturns(orderId:number,model: PurchaseReturnsModel) {
     return this.http.post<ActionsResponseModel>(this.URL + `PurchaseInvoice/EditPurchaseReturns?OrderId=${orderId}`, model);
   }
 

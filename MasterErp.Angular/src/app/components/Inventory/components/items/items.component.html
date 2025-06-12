@@ -1,6 +1,6 @@
 <!-- <button class="btn btn-outline-primary border m-2" (click)="openNewItemSidePanel(AddNewItemDialog)">
     <i class="uil uil-plus fs-5"></i>
-    <span class="ms-2">إضافة صنف</span>
+    <span class="ms-2">إنشاء صنف</span>
 </button>
 <button [disabled]="showExportLoader" class="btn btn-success border m-2" (click)="exportData()">
     <i class="uil uil-export fs-5"></i>
@@ -15,7 +15,7 @@
         <div class="d-flex align-items-center gap-2">
             <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3" (click)="openNewItemSidePanel(AddNewItemDialog)">
                 <i class="fas fa-plus-circle"></i>
-                <span>إضافة مجموعة</span>
+                <span>إنشاء مجموعة</span>
             </button>
             <button [disabled]="showExportLoader" class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3" (click)="exportData()">
                 <i class="fas fa-file-download"></i>
@@ -24,7 +24,7 @@
 
             <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
                 <i class="fas fa-filter"></i>
-                <span>إضافة فلتر</span>
+                <span>إنشاء فلتر</span>
             </button>
         </div>
         <div class="justify-content-end">
@@ -131,7 +131,7 @@
             <h2 class="d-flex align-items-center gap-2">
                 <i class="uil uil-plus"></i>
                 <span>املأ البيانات الأتية</span>
-                <span *ngIf="!isUpdate" class="ms-3">(إضافة)</span>
+                <span *ngIf="!isUpdate" class="ms-3">(إنشاء)</span>
                 <span *ngIf="isUpdate" class="ms-3">(تعديل)</span>
             </h2>
             <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
@@ -240,7 +240,7 @@
         <div class="modal-footer flex-nowrap gap-2">
             <button [disabled]="showAddLoader" (click)="saveItem()" type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
                 <i class="uil uil-save fs-3"></i>
-                <span *ngIf="!isUpdate">إضافة</span>
+                <span *ngIf="!isUpdate">إنشاء</span>
                 <span *ngIf="isUpdate">تعديل</span> </button>
 
             <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="modal.close()">
