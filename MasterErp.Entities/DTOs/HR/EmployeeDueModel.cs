@@ -1,14 +1,15 @@
-﻿using System;
+﻿using MasterErp.Entities.Models;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-
-namespace MasterErp.Entities.Models.HR
+namespace MasterErp.Entities.DTOs.HR
 {
-    [Table("EmployeeDues", Schema = "HR")]
-    public class EmployeeDue : CreatorModel
+    public class EmployeeDueModel : CreatorModel
     {
-        public int EmployeeDueId { get; set; }
+        public int? EmployeeDueId { get; set; }
 
         public int EmployeeId { get; set; }
         public int DueTypeId { get; set; }
@@ -34,6 +35,7 @@ namespace MasterErp.Entities.Models.HR
 
         public double? TotalDues { get; set; }
         public double? TotalDeduction { get; set; }
+        public int? TotalCount { get; set; }
 
     }
 }

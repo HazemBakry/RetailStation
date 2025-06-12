@@ -19,5 +19,6 @@ export interface EmployeeContractModel extends CreatorModel {
     other: number | null;
     totalSalary: number | null;
     employeeId: number | null;
+    branchId: number | null;
     employee: EmployeeModel | null;
 }

@@ -98,4 +98,7 @@ export class LookupService {
   GetMaterialRequestPurposesSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetMaterialRequestPurposes');
   }
+  GetEmployeeDueTypesSelector() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetEmployeeDueTypesSelector');
+  }
 }

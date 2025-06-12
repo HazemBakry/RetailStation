@@ -12,6 +12,7 @@ namespace MasterErp.Entities.DTOs.HR
     {
         public int? ContractId { get; set; }
         public int? EmployeeId { get; set; }
+        public int? BranchId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int ContractPeriodYears { get; set; }

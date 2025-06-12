@@ -40,6 +40,7 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetReligionsSelector();
         List<SelectorDataModel> GetSocialStatusSelector();
         List<SelectorDataModel> GetVacationTypesSelector();
+        List<SelectorDataModel> GetEmployeeDueTypesSelector();
 
         #endregion
     }

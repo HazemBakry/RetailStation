@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common.Lookups;
+using MasterErp.Entities.Models.Lookups;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.CodeAnalysis.CodeActions;
@@ -47,6 +48,7 @@ namespace MasterErp.Entities.Models
         public DbSet<ReceiptType> ReceiptTypes { get; set; }
         public DbSet<TaxLookup> TaxLookups { get; set; }
         public DbSet<Bank> Banks { get; set; }
+        public DbSet<EmployeeDueType> EmployeeDueTypes { get; set; }
         public DbSet<IqamaIssuePlace> IqamaIssuePlaces { get; set; }
 
 

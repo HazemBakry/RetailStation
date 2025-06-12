@@ -118,5 +118,51 @@ namespace MasterErp.API.Controllers.HR
         }
         #endregion
 
+        #region Employee Dues
+
+        [HttpPost]
+        [Route("GetEmployeeDues")]
+        public IActionResult GetEmployeeDues(int EmployeeId, SearchFilterModel SearchModel)
+        {
+            var data = _attendanceService.GetEmployeeDues(EmployeeId, SearchModel);
+            var result = new PagedResponseModel<EmployeeDueModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+
+            };
+            return Ok(result);
+        }
+
+
+        [HttpGet]
+        [Route("GetEmployeeDueStartDate")]
+        public IActionResult GetEmployeeDueStartDate(int EmployeeId)
+        {
+            var result = _attendanceService.GetEmployeeDueStartDate(EmployeeId);
+            
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("CalculateEmployeeDue")]
+        public IActionResult CalculateEmployeeDue(int EmployeeId, EmployeeDueModel Model)
+        {
+            var result = _attendanceService.CalculateEmployeeDue(EmployeeId, Model);
+            
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("SaveEmployeeDue")]
+        public IActionResult SaveEmployeeDue(int EmployeeId, EmployeeDueModel Model)
+        {
+            var result = _attendanceService.SaveEmployeeDue(EmployeeId, Model);
+
+            return Ok(result);
+        }
+        #endregion
+
     }
 }

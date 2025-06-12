@@ -18,6 +18,7 @@ import { Observable } from 'rxjs';
 import { AdvancePaymentModel, EmployeeAdvanceModel } from '../models/EmployeeAdvanceModel';
 import { EmployeeAdvancedAttendanceModel, EmployeeAttendanceModel } from '../models/EmployeeAttendanceModel';
 import { EmployeeSalarySummaryModel } from '../models/EmployeeSalarySummaryModel';
+import { EmployeeDueModel } from '../models/EmployeeDueModel';
 
 @Injectable({
   providedIn: 'root'
@@ -184,6 +185,27 @@ export class HrService {
     month = month ?? new Date().getMonth() + 1;
     return this.http.post<PagedResponseDTO<EmployeeSalarySummaryModel[]>>(this.URL + 'Attendance/GetEmployeeSalarySummary?Year=' + year + '&Month=' + month, model);
   }
+
+  //////////// Employee Dues //
+
+  getEmployeeDues(employeeId: number, filter: SearchFilterModel): Observable<PagedResponseDTO<EmployeeDueModel[]>> {
+    return this.http.post<PagedResponseDTO<EmployeeDueModel[]>>(this.URL + `Attendance/GetEmployeeDues?EmployeeId=${employeeId}`, filter);
+  }
+
+  getEmployeeDueStartDate(employeeId: number): Observable<string> {
+    return this.http.get<string>(this.URL + `Attendance/GetEmployeeDueStartDate?EmployeeId=${employeeId}`);
+  }
+
+  calculateEmployeeDue(employeeId: number, model: EmployeeDueModel): Observable<EmployeeDueModel> {
+    return this.http.post<EmployeeDueModel>(this.URL + `Attendance/CalculateEmployeeDue?EmployeeId=${employeeId}`, model);
+  }
+
+  saveEmployeeDue(employeeId: number, model: EmployeeDueModel): Observable<ActionsResponseModel> {
+    return this.http.post<ActionsResponseModel>(this.URL + `Attendance/SaveEmployeeDue?EmployeeId=${employeeId}`, model);
+  }
+
+
+  ///////////////////////////
 
   GetIqamaIssuePlaces() {
     return this.http.get<any>(this.URL + 'Employee/GetIqamaIssuePlaces');

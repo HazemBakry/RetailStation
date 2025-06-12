@@ -53,6 +53,15 @@ namespace MasterErp.Service.Shared
                 Name = x.NameAR ?? x.NameEN
             }).ToList();
         }
+        public List<SelectorDataModel> GetEmployeeDueTypesSelector()
+        {
+         
+            return LookupsContext.EmployeeDueTypes.Select(x => new SelectorDataModel
+            {
+                Id = x.DueTypeId,
+                Name = x.NameAR ?? x.NameEN
+            }).ToList();
+        }
 
         public List<SelectorDataModel> GetCurrencySelector()
         {

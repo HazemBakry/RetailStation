@@ -23,5 +23,12 @@ namespace MasterErp.Interface.HR
 
         List<EmployeeSalarySummaryModel> GetEmployeeSalarySummary(int Year, int Month, SearchFilterModel SearchModel);
 
+        #region Employee Dues
+        List<EmployeeDueModel> GetEmployeeDues(int EmployeeId, SearchFilterModel SearchModel);
+        DateTime? GetEmployeeDueStartDate(int EmployeeId);
+        EmployeeDueModel CalculateEmployeeDue(int EmployeeId, EmployeeDueModel Model);
+        ActionsResponseModel SaveEmployeeDue(int EmployeeId, EmployeeDueModel Model);
+        #endregion
+
     }
 }
