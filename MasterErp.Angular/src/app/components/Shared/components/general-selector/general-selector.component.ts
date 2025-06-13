@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, Renderer2, SimpleChanges, forwardRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, Renderer2, SimpleChanges, ViewChild, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 @Component({
@@ -35,7 +35,7 @@ export class GeneralSelectorComponent implements OnInit {
 
   private onChange: any = () => { };
   private onTouched: any = () => { };
-  constructor(private dropdownConfig: NgbDropdownConfig, private renderer: Renderer2) {
+  constructor(private dropdownConfig: NgbDropdownConfig, private renderer: Renderer2, private cd: ChangeDetectorRef) {
     // this.dropdownConfig.container = 'body'
   }
   ngOnInit(): void {
@@ -46,7 +46,7 @@ export class GeneralSelectorComponent implements OnInit {
 
     this.checkCodeExists();
 
-  } 
+  }
   ngOnChanges(changes: any): void {
     if (changes.data) {
       if (this.selectMulti)
@@ -56,15 +56,15 @@ export class GeneralSelectorComponent implements OnInit {
       this.checkCodeExists();
     }
   }
-  checkCodeExists()
-  {
-    this.menuDesign= this.data?.some(x=>x.code) ? 'table':''
+  checkCodeExists() {
+    this.menuDesign = this.data?.some(x => x.code) ? 'table' : ''
   }
   writeValue(value: any): void {
     if (this.selectMulti) {
       if (value)
         this.selectedValues = value;
 
+      this.data.map(x => x.isSelected = false);
       var items = this.data?.filter(x => value?.includes(x.value));
       if (items && items.length > 0) {
         this.selectedItems = items.map(x => x.name);
@@ -162,6 +162,18 @@ export class GeneralSelectorComponent implements OnInit {
     this.selectedValues = [];
     this.onChange([]);
 
+  }
+
+
+  menuWidth: number;
+  @ViewChild('multiSelectMenu') multiSelectMenu: ElementRef;
+  ngAfterViewInit() {
+    if (this.selectMulti) {
+
+      this.menuWidth = this.multiSelectMenu?.nativeElement.offsetWidth;
+      this.cd.detectChanges();
+
+    }
   }
 
 }
