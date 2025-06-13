@@ -598,12 +598,17 @@ namespace MasterErp.Service.Purchase
             Context.SaveChanges();
             return new ActionsResponseModel { Message = "deleted successfully !" };
         }
-        public List<SupplierStatementModel> GetSupplierStatementData(int SupplierId)
+        public List<SupplierStatementModel> GetSupplierStatementData(int SupplierId, SearchFilterModel model)
         {
-            SqlParameter[] param = new SqlParameter[1];
-            param[0] = new SqlParameter("@SupplierId", SupplierId);
+            DataTable FilterList = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
-            var results = SQLHelper.SQLQuery<SupplierStatementModel>("[dbo].[SP_GetSupplierAccountStatement]", ConnectionString, param);
+            SqlParameter[] Params = new SqlParameter[4];
+            Params[0] = new SqlParameter("@SupplierId", SupplierId);
+            Params[1] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[2] = new SqlParameter("@PageSize", model.PageSize);
+            Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[3].Value = FilterList;
+            var results = SQLHelper.SQLQuery<SupplierStatementModel>("[dbo].[SP_GetSupplierAccountStatement]", ConnectionString, Params);
             return results;
 
         }

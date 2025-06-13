@@ -12,6 +12,7 @@ import { SupplierModel } from '../models/SupplierModel';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { PurchaseQuotationModel, PurchaseQuotationDetailsModel } from '../models/PurchaseQuotationModel';
 import { GeneralOrderDetailsModel } from '../../Inventory/models/GeneralOrderModel ';
+import { SupplierStatementModel } from '../models/SupplierStatementModel';
 
 @Injectable({
   providedIn: 'root'
@@ -98,8 +99,8 @@ export class PurchaseService {
   }
 
 
-  GetSupplierStatementData(supplierId) {
-    return this.http.get<any[]>(this.URL + 'PurchaseInvoice/GetSupplierStatementData?SupplierId=' + supplierId);
+  GetSupplierStatementData(supplierId,model:PagedResponseDTO<SupplierStatementModel[]>) {
+    return this.http.post<PagedResponseDTO<SupplierStatementModel[]>>(this.URL + 'PurchaseInvoice/GetSupplierStatementData?SupplierId=' + supplierId,model);
   }
 
   GetInvoicesSearchData(supplierId: number, invoiceNumber: string, invoiceDate: string) {

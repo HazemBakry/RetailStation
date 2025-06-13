@@ -98,14 +98,23 @@ namespace MasterErp.API.Controllers.Finance.Purchase
             return Ok(result);
         }
 
-        [HttpGet]
+      
+
+        [HttpPost]
         [Route("GetSupplierStatementData")]
-        public List<SupplierStatementModel> GetSupplierStatementData(int SupplierId)
+        public IActionResult GetSupplierStatementData(int SupplierId,SearchFilterModel model)
         {
-            return _purchaseInvoiceService.GetSupplierStatementData(SupplierId);
+            var data = _purchaseInvoiceService.GetSupplierStatementData(SupplierId,model);
+
+            var result = new PagedResponseModel<SupplierStatementModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
         }
-
-
 
 
         [HttpPost]
