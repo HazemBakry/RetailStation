@@ -3,6 +3,7 @@ using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Purchases;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,11 +26,12 @@ namespace MasterErp.Interface.Purchase
 
         #region PurchaseQuotation
         List<PurchaseQuotationModel> GetPurchaseQuotations_Data(SearchFilterModel model, int? OrderId = null);
-        PurchaseQuotationModel GetPurchaseQuotationDetailsById(int OrderId);
-        List<PurchaseQuotationDetailsModel> GetPurchaseQuotationProducts_Data(int OrderId);
+        PurchaseQuotationModel GetPurchaseQuotationDetailsById(int PurchaseQuotationId);
+        List<PurchaseQuotationDetailsModel> GetPurchaseQuotationProducts_Data(int PurchaseQuotationId);
 
         ActionsResponseModel AddNewPurchaseQuotation(PurchaseQuotationModel model);
-        ActionsResponseModel EditPurchaseQuotation(int OrderId, PurchaseQuotationModel model);
+        ActionsResponseModel EditPurchaseQuotation(int PurchaseQuotationId, PurchaseQuotationModel model);
+        ActionsResponseModel DeletePurchaseQuotation(int PurchaseQuotationId);
         #endregion
 
     }

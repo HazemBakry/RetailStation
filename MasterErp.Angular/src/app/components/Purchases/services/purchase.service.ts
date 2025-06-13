@@ -72,7 +72,9 @@ export class PurchaseService {
     return this.http.post<ActionsResponseModel>(this.URL + `PurchaseOrder/EditPurchaseQuotation?PurchaseQuotationId=${purchaseQuotationId}`, model);
   }
 
-
+  DeletePurchaseQuotation(purchaseQuotationId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'PurchaseOrder/DeletePurchaseQuotation?PurchaseQuotationId=' + purchaseQuotationId);
+  }
 
   CancelPurchaseReturns(returnsId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'PurchaseInvoice/CancelPurchaseReturns?ReturnsId=' + returnsId);

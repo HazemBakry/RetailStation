@@ -13,6 +13,7 @@ namespace MasterErp.Entities.DTOs.Purchases
         public int? QuotationNumber { get; set; }
         public DateTime? QuotationDate { get; set; }
         public string Notes { get; set; }
+        public string SerialNumber { get; set; }
         public bool? IsLocked { get; set; }
         public bool? IsCancelled { get; set; }
         public List<PurchaseQuotationDetailsModel> QuotationProducts { get; set; }
