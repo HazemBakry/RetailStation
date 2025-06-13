@@ -1,4 +1,5 @@
-﻿using MasterErp.Entities.Common;
+﻿using ICU4N.Util;
+using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.DTOs.Inventory;
@@ -424,13 +425,27 @@ namespace MasterErp.Service.Purchase
             Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[3].Value = FilterListDt;
 
-            var result = SQLHelper.SQLQuery<OrderModel>("[dbo].[SP_GetPurchasesReturns_Data]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<PurchaseReturnsModel>("[dbo].[SP_GetPurchasesReturns_Data]", ConnectionString, Params);
             return result;
         }
 
-        public PurchaseReturnsModel GetPurchaseReturnsDetailsById(int OrderId)
+        public PurchaseReturnsModel GetPurchaseReturnsDetailsById(int PurchaseReturnsId)
         {
-            return GetPurchaseReturns_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, OrderId)?.FirstOrDefault();
+            var result = GetPurchaseReturns_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, PurchaseReturnsId)?.FirstOrDefault();
+            if (result != null)
+            {
+                result.PreviousId = Context.PurchaseReturns
+                                    .Where(p => p.PurchaseReturnsId < PurchaseReturnsId)
+                                    .OrderByDescending(p => p.PurchaseReturnsId)
+                                    .Select(p => p.PurchaseReturnsId)
+                                    .FirstOrDefault();
+                result.NextId = Context.PurchaseReturns
+                                .Where(p => p.PurchaseReturnsId > PurchaseReturnsId)
+                                .OrderBy(p => p.PurchaseReturnsId)
+                                .Select(p => p.PurchaseReturnsId)
+                                .FirstOrDefault();
+            }
+            return result;
         }
 
         public List<GeneralOrderDetailsModel> GetPurchaseReturnsProducts_Data(int OrderId)
@@ -464,13 +479,16 @@ namespace MasterErp.Service.Purchase
             {
 
                 PurchaseReturns order_tbl = new PurchaseReturns();
-
+                int code = Context.PurchaseReturns.Count() > 0 ? Context.PurchaseReturns.Max(x => x.OrderNumber) + 1 : 1;
+                order_tbl.OrderNumber = code;
+                order_tbl.SerialNumber = DalHelper.GenerateSerialNumber(SerialType.PurchaseReturn, code);
                 order_tbl.CreatedDate = DateTime.Now;
                 order_tbl.ReturnsDate = DateTime.Now;//model.OrderDate;
                 order_tbl.CreatedBy = model.CreatedBy;
 
                 order_tbl.PurchaseInvoiceId = model.PurchaseInvoiceId ?? 0;
                 order_tbl.Notes = model.Notes;
+                order_tbl.DocNumber = model.DocNumber;
                 order_tbl.TotalValue = model.OrderDetails != null ? model.OrderDetails.Sum(x => x.TotalValue) : 0;
                 //order_tbl.SupplierId = (int)model?.SupplierId;
                 //order_tbl.BranchId = (int)model?.BranchId;
@@ -497,7 +515,8 @@ namespace MasterErp.Service.Purchase
                 }
                 return new ActionsResponseModel
                 {
-                    Message = "Purchase Returns Created"
+                    Message = "Purchase Returns Created",
+                    Id = order_tbl.PurchaseReturnsId
                 };
             }
             catch (Exception ex)
@@ -523,6 +542,7 @@ namespace MasterErp.Service.Purchase
 
                     order_tbl.PurchaseInvoiceId = model.PurchaseInvoiceId ?? 0;
                     order_tbl.Notes = model.Notes;
+                    order_tbl.DocNumber = model.DocNumber;
                     order_tbl.TotalValue = model.OrderDetails != null ? model.OrderDetails.Sum(x => x.TotalValue) : 0;
                     //order_tbl.SupplierId = (int)model?.SupplierId;
                     //order_tbl.BranchId = (int)model?.BranchId;

@@ -1,25 +1,12 @@
-<button class="btn btn-primary" (click)="openSidePanel(InvoiceSearchSidepanel)">
+<button class="btn btn-primary  m-2 d-flex align-items-center gap-2 border rounded px-3"
+    (click)="openSidePanel(InvoiceSearchSidepanel)">
     <i class="fas fa-search"></i>
     <span class="ms-2">بحث عن فاتورة</span>
 </button>
 
-<!-- <div>
-    <button (click)="openSidePanel(InvoiceSearchSidepanel)" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2">
-        <i class="fas fa-search"></i>
-        <span>بحث عن فاتورة</span>
-    </button>
-    <div class="input-group form-floating  m-3">
-        <input [(ngModel)]="invoiceNumber" type="text" class="form-control" id="floatingInput1"
-            placeholder="رقم الفاتورة">
-        <label for="floatingInput1">رقم الفاتورة</label>
-        <span class="input-group-text">
-            <i class="fas fa-search search-icon text-muted cursor-pointer" (click)="loadData()"></i>
-        </span>
-    </div>
 
-
-</div> -->
 <ng-template #InvoiceSearchSidepanel let-offcanvas>
+
     <div class="offcanvas-header justify-content-between gap-3 fs-4 border-bottom py-3">
         <div class="d-flex align-items-center gap-2">
             <i class="fas fa-store offcanvas-header-icon"></i>
@@ -32,16 +19,17 @@
     <div class="offcanvas-body pt-4 bg-light">
 
         <div class="employee-card-body row mb-3">
-            <div class="col-xl-4">
-                <app-drop-down-form-control [(ngModel)]="selectedSupplierId" [data]="suppliersSelectorData"
-                    [showSearch]="true" [placeholder]="'قائمة الموردين'"></app-drop-down-form-control>
+            <div class="col-xl-4 mb-2">
+                <app-general-selector [(ngModel)]="selectedSupplierId" [data]="suppliersSelectorData"
+                    [showSearch]="true" [placeholder]="'الموردين'"></app-general-selector>
             </div>
-            <div class="col-xl-4">
-                <input type="text" autocomplete="off" [(ngModel)]="invoiceNumber" class="form-control input-height"
-                    placeholder="رقم الأذن">
+            <div class="col-xl-4 mb-2">
+                <input type="text" autocomplete="off" [(ngModel)]="invoiceNumber" class="form-control nw-form-input"
+                    placeholder="رقم الفاتورة">
+
             </div>
-            <div class="col-xl-4">
-                <input type="date" [(ngModel)]="invoiceDate" class="form-control input-height"
+            <div class="col-xl-4 mb-2">
+                <input type="date" [(ngModel)]="invoiceDate" class="form-control nw-form-input"
                     placeholder="تاريخ الاصدار">
             </div>
             <div class="col-xl-12">
@@ -57,11 +45,12 @@
         <hr class="border-black" />
 
         <div class="card card-with-table border shadow-none">
-            <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-end">
-                <!-- pagination -->
-            </div>
-            <div class="card-body table-responsive p-0">
-                <table class="table table-borderless align-middle table-hover table-component text-center m-0">
+            <!-- <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-start">
+
+            </div> -->
+            
+            <div class="table-responsive shadow-sm radius-10">
+                <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
                     <thead>
                         <tr>
                             <th>رقم الفاتورة</th>
@@ -69,45 +58,48 @@
                             <th>تاريخ الفاتورة</th>
                             <th>اسم المورد</th>
                             <th>نوع الفاتورة</th>
-                            <!-- <th>Insert User</th>
-                            <th>Insert Date</th>
-                            <th>Is Locked</th> -->
-                            <th>القيمة الإجمالية</th>
                             <th>حالة الفاتورة</th>
+                            <th>القيمة الإجمالية</th>
                             <th class="text-center"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of pagedResponseModel.results">
-                            <td>{{item.orderNumber}}</td>
+                            <td>
+                                {{item.serialNumber}}
+                            </td>
                             <td>{{item.docNumber}}</td>
                             <td>{{item.orderDate | date}}</td>
                             <td>{{item.supplierNameAR}}</td>
                             <td>{{item.orderTypeName}}</td>
                             <!-- <td>{{item.insertUser}}</td>
-                            <td>{{item.insertDate | date}}</td>
-                            <td>{{item.isLocked}}</td> -->
-                            <td>{{item.totalValue}}</td>
+                            <td>{{item.insertDate | date}}</td>-->
                             <td>
-                                <span class="badge rounded-pill default p-2 text-uppercase px-3">
-                                    {{item.orderStatus}}
+                                <span appWorkflowStatus [id]="item.workflowStatusId"
+                                    [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
                                 </span>
                             </td>
+                            <td>{{item.totalValue}}</td>
                             <td>
                                 <div class="w-100 d-flex align-items-center justify-content-center">
-                                    <button (click)="SelectInvoice(item)" class="btn btn-secondary">
+                                    <button (click)="SelectInvoice(item)"
+                                        class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
                                         <i class="fas fa-upload"></i>
+                                        <span>تحميل</span>
                                     </button>
                                 </div>
                             </td>
                         </tr>
+                        <tr *ngIf="!pagedResponseModel?.results.length || showLoader">
+                            <td colspan="8" class="text-right">
+                                <app-empty-data [showEmptyData]="!pagedResponseModel?.results.length&&!showLoader"
+                                    [showLoader]="showLoader"></app-empty-data>
+                            </td>
+                        </tr>
                     </tbody>
-                    
                 </table>
-                <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length&&!showLoader"
-                    [showLoader]="showLoader"></app-empty-data>
             </div>
         </div>
-    </div>
 
+    </div>
 </ng-template>

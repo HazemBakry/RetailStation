@@ -23,9 +23,11 @@ import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
 })
 
 export class AddPurchaseReturnsComponent implements OnInit {
+    TitleList = ['المشتريات', 'إنشاء فاتورة مرتجعات'];
+
   purchaseReturnsId: number;
   purchaseReturnsModel: PurchaseReturnsModel = {} as PurchaseReturnsModel;
-  orderProducts: GeneralOrderDetailsModel[] = [];
+  orderDetails: GeneralOrderDetailsModel[] = [];
   isUpdate: boolean = false;
   clearAllProducts: boolean = false;
 
@@ -38,7 +40,7 @@ export class AddPurchaseReturnsComponent implements OnInit {
   formData: FormData = new FormData();
   public formGroup: FormGroup;
 
-  selectedPurchaseInvoice: PurchaseInvoiceModel = {} as PurchaseInvoiceModel;
+  selectedPurchaseInvoice: PurchaseInvoiceModel;
   selectedSupplierId: number;
   constructor(private acRoute: ActivatedRoute, private router: Router, private modalService: NgbModal, private inventoryService: InventoryService,
     private purchaseService: PurchaseService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
@@ -96,9 +98,9 @@ export class AddPurchaseReturnsComponent implements OnInit {
   getPurchaseReturnsProducts() {
     this.showLoader = true;
     this.purchaseService.GetPurchaseReturnsProducts_Data(this.purchaseReturnsId).subscribe((data: GeneralOrderDetailsModel[]) => {
-      this.orderProducts = data;
-      if (this.orderProducts.length > 0) {
-        // this.formGroup.patchValue({orderProducts:this.orderProducts});
+      this.orderDetails = data;
+      if (this.orderDetails.length > 0) {
+        // this.formGroup.patchValue({orderDetails:this.orderDetails});
       }
       // this.initNewForm(this.purchaseReturnsModel);
 
@@ -114,16 +116,16 @@ export class AddPurchaseReturnsComponent implements OnInit {
     this.getPurchaseInvoiceProducts();
   }
   getSelectedProductsList(products: GeneralOrderDetailsModel[]) {
-    this.formGroup.patchValue({ orderProducts: products });
-    this.orderProducts = products;
+    this.formGroup.patchValue({ orderDetails: products });
+    this.orderDetails = products;
   }
   getPurchaseInvoiceProducts() {
     this.showLoader = true;
-    this.purchaseService.GetPurchaseInvoiceProducts_Data(this.selectedPurchaseInvoice.orderId).subscribe((data: GeneralOrderDetailsModel[]) => {
+    this.purchaseService.GetPurchaseInvoiceProducts_Data(this.selectedPurchaseInvoice.purchaseInvoiceId).subscribe((data: GeneralOrderDetailsModel[]) => {
       if (data) {
-        this.orderProducts = data;
-        // this.formGroup.patchValue({orderProducts:this.orderProducts});
-        this.formGroup.patchValue({ purchaseInvoiceId: this.selectedPurchaseInvoice.orderId });
+        this.orderDetails = data;
+        // this.formGroup.patchValue({orderDetails:this.orderDetails});
+        this.formGroup.patchValue({ purchaseInvoiceId: this.selectedPurchaseInvoice.purchaseInvoiceId });
 
       }
       this.showLoader = false;
@@ -136,7 +138,7 @@ export class AddPurchaseReturnsComponent implements OnInit {
 
   initNewForm(orderModel: PurchaseReturnsModel = null) {
     this.selectedPurchaseInvoice = {} as PurchaseInvoiceModel;
-    this.orderProducts = [];
+    this.orderDetails = [];
     this.clearAllProducts = !this.clearAllProducts;
     this.isUpdate = false;
     this.buildForm();
@@ -147,11 +149,12 @@ export class AddPurchaseReturnsComponent implements OnInit {
   buildForm() {
     this.formGroup = this.form.group({
       purchaseReturnsId: [null],
-      // orderDate: [null, [Validators.required]],
+      serialNumber: [null],
+      docNumber: [null],
       // supplierId: [null, [Validators.required]],
       purchaseInvoiceId: [null, [Validators.required]],
       // branchId: [null, [Validators.required]],
-      orderProducts: [[] as GeneralOrderDetailsModel[], [Validators.required, Validators.minLength(1)]],
+      orderDetails: [[] as GeneralOrderDetailsModel[], [Validators.required, Validators.minLength(1)]],
       notes: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {
@@ -160,9 +163,17 @@ export class AddPurchaseReturnsComponent implements OnInit {
     });
   }
 
+  openSaveModal(content: any) {
+    if (this.orderDetails.length === 0)
+      this.toaster.warning('لا يوجد اصناف');
 
+    if (!this.validateForm()) {
+      return;
+    }
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
   savePurchaseReturns() {
-    if (this.orderProducts.length === 0)
+    if (this.orderDetails.length === 0)
       this.toaster.warning('لا يوجد اصناف');
 
     if (!this.validateForm()) {
@@ -183,6 +194,10 @@ export class AddPurchaseReturnsComponent implements OnInit {
         // this.formGroup?.reset();
         this.initNewForm();
         this.toaster.success(data?.message);
+        if (data.id) {
+          this.purchaseReturnsId = data.id;
+          this.goToPage(this.purchaseReturnsId);
+        }
       }
       else {
         this.toaster.error(data?.message);
@@ -243,6 +258,8 @@ export class AddPurchaseReturnsComponent implements OnInit {
 
     this.formGroup.patchValue({
       purchaseReturnsId: orderModel.purchaseReturnsId,
+      serialNumber: orderModel.serialNumber,
+      docNumber: orderModel.docNumber,
       // supplierId: orderModel.supplierId,
       // orderDate:this.datePipe.transform(orderModel.orderDate, 'yyyy-MM-dd'),
       purchaseInvoiceId: orderModel.purchaseInvoiceId,
@@ -251,16 +268,26 @@ export class AddPurchaseReturnsComponent implements OnInit {
 
     });
   }
+    goToPage(id: number) {
+    if (id) {
+      this.router.navigate([], {
+        relativeTo: this.acRoute,
+        queryParams: { PurchaseOrderId: id },
+        queryParamsHandling: 'merge'
+      });
+    }
+  }
   getSelectedSupplier(supplierId) {
     this.selectedSupplierId = supplierId;
   }
   public formErrors = {
-    supplierId: '',
-    orderId: '',
+    serialNumber: '',
+    purchaseReturnsId: '',
+    docNumber: '',
     purchaseInvoiceId: '',
     branchId: '',
     orderDate: '',
-    orderProducts: '',
+    orderDetails: '',
     notes: ''
   };
 

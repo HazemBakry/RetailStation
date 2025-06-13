@@ -114,7 +114,7 @@ namespace MasterErp.API.Controllers.Finance.Purchase
         {
             var data = _purchaseInvoiceService.GetPurchaseReturns_Data(model);
 
-            var result = new PagedResponseModel<OrderModel>
+            var result = new PagedResponseModel<PurchaseReturnsModel>
             {
                 Results = data,
                 TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
