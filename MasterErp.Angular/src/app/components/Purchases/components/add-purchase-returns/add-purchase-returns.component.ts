@@ -272,7 +272,7 @@ export class AddPurchaseReturnsComponent implements OnInit {
     if (id) {
       this.router.navigate([], {
         relativeTo: this.acRoute,
-        queryParams: { PurchaseOrderId: id },
+        queryParams: { PurchaseReturnsId: id },
         queryParamsHandling: 'merge'
       });
     }

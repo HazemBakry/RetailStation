@@ -155,8 +155,8 @@
     </div>
 </div>
 
-<app-order-items [selectedProducts]="orderDetails" [clearAllProducts]="clearAllProducts"
-    [showRequestedQuantity]="formGroup?.value?.purchaseOrderId &&!isUpdate" [disabled]="formGroup?.value?.purchaseOrderId"
+<app-order-items [selectedProducts]="orderDetails" [clearAllProducts]="clearAllProducts" [selectedSupplierId]="formGroup?.value?.supplierId"
+    [showRequestedQuantity]="formGroup?.value?.purchaseOrderId &&!isUpdate" [disabled]="formGroup?.value?.purchaseOrderId" [disableSupplierSelector]="true" [disablePrice]="false" [showActions]="false" [showExpireDate]="true"
     (selectedProductsList)="getSelectedProductsList($event)"></app-order-items>
 
 

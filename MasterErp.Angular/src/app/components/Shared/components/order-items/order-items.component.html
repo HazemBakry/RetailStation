@@ -9,13 +9,14 @@
         <span class="ms-2">تعديل الكمية</span>
       </button> -->
 
-            <div *ngIf="!disabled" ngbDropdown class="d-inline-block">
-                <button type="button" class="btn btn-table-action m-2 d-flex align-items-center gap-2 border rounded px-3"
+            <div *ngIf="!disabled && showActions" ngbDropdown class="d-inline-block">
+                <button type="button"
+                    class="btn btn-table-action m-2 d-flex align-items-center gap-2 border rounded px-3"
                     id="dropdownBasic1" ngbDropdownToggle>
                     <i class="fas fa-cogs"></i>
-                    <span>الإجراءات</span>
+                    <span>Actions</span>
                 </button>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="border rounded">
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="border rounded" style="min-width: 150px;">
 
                     <button ngbDropdownItem (click)="openItemsModal(ItemModal)">
                         <i class="fas fa-download"></i>
@@ -26,7 +27,7 @@
                     <button ngbDropdownItem (click)="openItemsModal(SuppliersModal)">
                         <i class="fas fa-download"></i>
                         <span class="px-2">
-                            عناصر الموردين
+                            أصناف الموردين
                         </span>
                     </button>
 
@@ -58,6 +59,7 @@
                     <th>الكمية</th>
                     <th *ngIf="showPrice">إجمالى القيمة</th>
                     <th *ngIf="showDueDate">تاريخ الاستحقاق</th>
+                    <th *ngIf="showExpireDate">تاريخ الصلاحية</th>
                     <th></th>
                 </tr>
 
@@ -65,33 +67,44 @@
             <tbody>
                 <tr class="row-hover" *ngFor="let item of orderItems;let i = index">
                     <td style="width: 300px;">
-                        <app-general-selector [disabled]="disabled" [showSearch]="true" [data]="itemsSelector" [(ngModel)]="item.itemId"
-                            (valueChanged)="getItemDetailsById($event,i)"
+                        <app-general-selector [disabled]="disabled" [showSearch]="true" [data]="itemsSelector"
+                            [(ngModel)]="item.itemId" (valueChanged)="getItemDetailsById($event,i)"
                             [placeholder]="'الحسابات'"></app-general-selector>
                     </td>
                     <td>
                         <input type="text" #inputs class="form-control text-center" disabled
                             [(ngModel)]="item.unitNameAR" focus>
                     </td>
-                    <td *ngIf="showPrice">
+                    <td *ngIf="showPrice" class="d-flex gap-1">
                         <input type="number" min="0" #inputs class="form-control text-center" [(ngModel)]="item.price"
-                            autocomplete="off" (input)="calcTotalValue()" disabled>
+                            autocomplete="off" (input)="calcTotalValue()" [disabled]="disablePrice">
+                        <div *ngIf="item.itemId&&!disablePrice">
+                            <button (click)="itemQuickUpdate(item.itemId,item.price,item.unitId)"
+                                class="button-table-action btn-edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
                     </td>
                     <td *ngIf="showRequestedQuantity">
-                        <input type="number"  disabled #inputs class="form-control text-center" [value]="item.requestedQuantity"
-                            autocomplete="off" >
+                        <input type="number" disabled #inputs class="form-control text-center"
+                            [value]="item.requestedQuantity" autocomplete="off">
                     </td>
                     <td>
-                        <input type="number" min="0" [max]="showRequestedQuantity ? item.requestedQuantity:null" class="form-control text-center" [(ngModel)]="item.quantity"
-                            autocomplete="off" (input)="checkQuantityValue($event,item)" >
+                        <input type="number" min="0" [max]="showRequestedQuantity ? item.requestedQuantity:null"
+                            class="form-control text-center" [(ngModel)]="item.quantity" autocomplete="off"
+                            (input)="checkQuantityValue($event,item)">
                     </td>
                     <td *ngIf="showPrice">
                         <input type="number" #inputs class="form-control text-center" disabled
                             [(ngModel)]="item.totalValue" autocomplete="off">
                     </td>
                     <td *ngIf="showDueDate">
-                        <input type="date" #inputs class="form-control text-center"
-                            [(ngModel)]="item.dueDate" autocomplete="off">
+                        <input type="date" #inputs class="form-control text-center" [(ngModel)]="item.dueDate"
+                            autocomplete="off">
+                    </td>
+                    <td *ngIf="showExpireDate">
+                        <input type="date" #inputs class="form-control text-center" [(ngModel)]="item.expireDate" [min]="today"
+                            autocomplete="off">
                     </td>
                     <td class="justify-content-center d-flex">
                         <button
@@ -112,7 +125,8 @@
     <div *ngIf="!disabled" class="p-2">
         <div class="d-flex">
             <div class="me-1 ms-2">
-                <button class="button-table-action mt-3 btn-edit d-flex align-items-center justify-content-center gap-2"
+                <button *ngIf="showActions"
+                    class="button-table-action mt-3 btn-edit d-flex align-items-center justify-content-center gap-2"
                     (click)="addField()">
                     <i class="uil uil-plus fs-5"></i>
                     <span>اضافة صنف</span>
@@ -163,8 +177,9 @@
     </div>
     <div class="modal-body">
         <div style="margin-bottom: 150px;">
-            <app-general-selector [(ngModel)]="selectedSupplierId"  [showSearch]="true" [data]="supplierSelector"
-                (valueChanged)="selectedSupplierChanged($event)" [placeholder]="'الموردين'"></app-general-selector>
+            <app-general-selector [(ngModel)]="selectedSupplierId" [disabled]="disableSupplierSelector"
+                [showSearch]="true" [data]="supplierSelector" (valueChanged)="selectedSupplierChanged($event)"
+                [placeholder]="'الموردين'"></app-general-selector>
         </div>
     </div>
     <div class="modal-footer justify-content-start">

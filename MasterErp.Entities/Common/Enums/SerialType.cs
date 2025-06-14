@@ -18,6 +18,8 @@ namespace MasterErp.Entities.Common.Enums
 
         [Description("MR")]
         MaterialRequest,
+        [Description("MI")]
+        MaterialIssue,
         [Description("RC")]
         MaterialReceipt,
 

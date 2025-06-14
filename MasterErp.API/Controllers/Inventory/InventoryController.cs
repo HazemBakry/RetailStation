@@ -197,7 +197,7 @@ namespace MasterErp.API.Controllers.Inventory
         public IActionResult GetMaterialIssues_Data(SearchFilterModel model)
         {
             var data = _inventoryService.GetMaterialIssue_Data(model);
-            var result = new PagedResponseModel<OrderModel>
+            var result = new PagedResponseModel<MaterialIssueModel>
             {
                 Results = data,
                 TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
@@ -218,18 +218,18 @@ namespace MasterErp.API.Controllers.Inventory
 
         [HttpGet]
         [Route("GetMaterialIssueDetailsById")]
-        public IActionResult GetMaterialIssueDetailsById(int OrderId)
+        public IActionResult GetMaterialIssueDetailsById(int MaterialIssueId)
         {
-            var result = _inventoryService.GetMaterialIssueDetailsById(OrderId);
+            var result = _inventoryService.GetMaterialIssueDetailsById(MaterialIssueId);
 
             return Ok(result);
         }
 
         [HttpGet]
         [Route("GetMaterialIssueProducts_Data")]
-        public IActionResult GetMaterialIssueProducts_Data(int OrderId)
+        public IActionResult GetMaterialIssueProducts_Data(int MaterialIssueId)
         {
-            var result = _inventoryService.GetMaterialIssueProducts_Data(OrderId);
+            var result = _inventoryService.GetMaterialIssueProducts_Data(MaterialIssueId);
 
             return Ok(result);
 
@@ -237,7 +237,7 @@ namespace MasterErp.API.Controllers.Inventory
 
         [HttpPost]
         [Route("AddNewMaterialIssue")]
-        public IActionResult AddNewMaterialIssue(OrderModel model)
+        public IActionResult AddNewMaterialIssue(MaterialIssueModel model)
         {
             model.CreatedBy = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
             var result = _inventoryService.AddNewMaterialIssue(model);
@@ -246,19 +246,19 @@ namespace MasterErp.API.Controllers.Inventory
 
         [HttpPost]
         [Route("EditMaterialIssue")]
-        public IActionResult EditMaterialIssue(int OrderId, OrderModel model)
+        public IActionResult EditMaterialIssue(int MaterialIssueId, MaterialIssueModel model)
         {
             model.ModifiedBy = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
 
-            var result = _inventoryService.EditMaterialIssue(OrderId, model);
+            var result = _inventoryService.EditMaterialIssue(MaterialIssueId, model);
             return Ok(result);
         }
 
         [HttpGet]
         [Route("CancelMaterialIssue")]
-        public IActionResult CancelMaterialIssue(int OrderId)
+        public IActionResult CancelMaterialIssue(int MaterialIssueId)
         {
-            var results = _inventoryService.CancelMaterialIssue(OrderId);
+            var results = _inventoryService.CancelMaterialIssue(MaterialIssueId);
             return Ok(results);
         }
 

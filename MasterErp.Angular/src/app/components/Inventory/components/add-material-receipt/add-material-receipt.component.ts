@@ -37,14 +37,17 @@ export class AddMaterialReceiptComponent implements OnInit {
   supplierImageFile: File;
   formData: FormData = new FormData();
   public formGroup: FormGroup;
+  today: string;
 
   constructor(private acRoute: ActivatedRoute, private router: Router, private modalService: NgbModal, private inventoryService: InventoryService,
     private purchaseService: PurchaseService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
-    private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
+    private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) {
+    this.today = this.datePipe.transform(new Date, 'yyyy-MM-dd');
+  }
 
 
   ngOnInit(): void {
-    
+
     this.loadSelectors();
     this.acRoute.queryParams.subscribe((params: any) => {
       if (params.MaterialReceiptId) {
@@ -78,7 +81,8 @@ export class AddMaterialReceiptComponent implements OnInit {
   getMaterialReceiptProducts() {
     this.showLoader = true;
     this.inventoryService.GetMaterialReceiptProducts_Data([this.materialReceiptId]).subscribe((data: GeneralOrderDetailsModel[]) => {
-      this.orderDetails = data;
+      this.orderDetails = data.map(product => ({ ...product, expireDate: this.datePipe.transform(product.expireDate, 'yyyy-MM-dd') }));
+
       if (this.orderDetails.length > 0) {
         // this.formGroup.patchValue({orderDetails:this.orderDetails});
       }
@@ -107,7 +111,7 @@ export class AddMaterialReceiptComponent implements OnInit {
     this.showLoader = true;
     this.purchaseService.GetPurchaseOrderProducts_Data(purchaseOrderId).subscribe((data: GeneralOrderDetailsModel[]) => {
       if (data) {
-        this.orderDetails =[];
+        this.orderDetails = [];
         this.clearAllProducts = !this.clearAllProducts;
         this.orderDetails = data.map(product => ({
           ...product,
@@ -138,7 +142,7 @@ export class AddMaterialReceiptComponent implements OnInit {
       materialReceiptId: [null],
       orderNumber: [null],
       docNumber: [null],
-      orderDate: [null, [Validators.required]],
+      orderDate: [{ value: this.today, disabled: true }, [Validators.required]],
       supplierId: [null, [Validators.required]],
       purchaseOrderId: [null, [Validators.required]],
       storeId: [null, [Validators.required]],

@@ -11,6 +11,12 @@ export enum HRWorkflowStatus {
     Approved = 13,//مقبول
     Completed = 14,//منتهي
 }
+export enum InventoryWorkflowStatus {
+    Pending = 24, //معلق
+    Rejected = 25,//ملغى
+    Approved = 26,//مقبول
+    Completed = 27,//منتهي
+}
 
 export enum PaymentWorkflowStatus {
     Paid = 15, //مدفوع

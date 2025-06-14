@@ -152,7 +152,7 @@
     </div> -->
 </div>
 
-<app-order-items [selectedProducts]="orderDetails" [clearAllProducts]="clearAllProducts"
+<app-order-items [selectedProducts]="orderDetails" [clearAllProducts]="clearAllProducts" [disableSupplierSelector]="true" [selectedSupplierId]="formGroup?.value?.supplierId"
     [selectedSupplierId]="selectedSupplierId" [showRequestedQuantity]="!isUpdate"
     (selectedProductsList)="getSelectedProductsList($event)"></app-order-items>
 

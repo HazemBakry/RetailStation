@@ -1,13 +1,15 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="d-flex align-items-center gap-2">
             <!-- <button class="btn btn-success d-flex align-items-center gap-2 border rounded px-3" routerLink="/general-accounts/create-payment-order">
                 <i class="fas fa-plus-circle"></i>
                 <span>إنشاء إذن صرف مواد</span>
             </button> -->
-            <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2" routerLink="./../add-material-issue">
+            <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2"
+                routerLink="./../add-material-issue">
                 <i class="uil uil-plus fs-5"></i>
                 <span>إنشاء إذن جديد</span>
             </button>
@@ -57,7 +59,9 @@
                     </li>
                 </ul>
             </nav> -->
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
+                [pageSize]="pagedResponseModel.pageSize"
+                [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
         </div>
     </div>
     <div class="p-3 bg-white">
@@ -65,31 +69,31 @@
             <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
                 <thead>
                     <tr>
-                        <th>رقم الأمر</th>
-                        <th>اسم المستفيد</th>
-                        <!-- <th>دفتر إيصال</th> -->
-                        <th>تاريخ الاصدار</th>
-                        <th>طريقة الدفع</th>
-                        <!-- <th>نوع جهة التعامل</th>
-                    <th>جهة التعامل</th> -->
-                        <th>المبلغ</th>
-                        <!-- <th>نوع السند</th> -->
-                        <th>حالة السند</th>
+                        <th># الطلب</th>
+                        <th>الرقم الدفترى</th>
+                        <th>تاريخ الطلب</th>
+                        <th>اسم الفرع</th>
+                        <th>المخزن</th>
+                        <th>القيمة الإجمالية</th>
+                        <th>حالة الطلب</th>
                         <th class="text-center"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of pagedResponseModel.results">
-                        <td>{{item.orderNumber}}</td>
-                        <td>{{item.contactName}}</td>
-                        <!-- <td>{{item.receiptLedgerName}}</td> -->
-                        <td>{{item.releaseDate | date}}</td>
-                        <td>{{item.paymentTypeName }}</td>
-                        <td>{{item.moneyAmount}}</td>
-                        <!-- <td>{{item.receiptTypeName}}</td> -->
+                        <td class="fs-5 fw-bold text-center">
+                            <!-- {{item.orderNumber}} -->
+                            {{item.serialNumber}}
+
+                        </td>
+                        <td>{{item.docNumber}}</td>
+                        <td>{{item.orderDate | date}}</td>
+                        <td>{{item.branchNameAR ?? item.branchNameEN}}</td>
+                        <td>{{item.storeNameAR ?? item.storeNameEN}}</td>
+                        <td>{{item.totalValue}}</td>
                         <td>
-                            <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
-                                {{item.isLocked}}
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
+                                [nameAR]="item?.workflowStatusNameAR">
                             </span>
                         </td>
                         <td>
@@ -99,22 +103,15 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <div ngbDropdownMenu class="border">
-                                        <button ngbDropdownItem (click)="cancelPaymentOrder(item.paymentOrderId)">اسقاط</button>
-                                        <button ngbDropdownItem routerLink="/general-accounts/create-payment-receipt" [queryParams]="{PaymentOrderId:item.paymentOrderId}">انشاء سند
-                                            الصرف</button>
+                                        <button ngbDropdownItem routerLink="/inventory/add-material-issue"
+                                            [queryParams]="{MaterialIssueId:item.materialIssueId}">
+                                            تعديل
+                                        </button>
+                                        <button ngbDropdownItem
+                                            (click)="openDeleteModal(deleteModal,item.materialIssueId)">الغاء</button>
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="w-100 d-flex align-items-center justify-content-center">
-                                <button (click)="cancelOrder(item.paymentReceiptId)" class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2">
-                                    <i class="uil uil-times"></i>
-                                    <span>إلغاء</span>
-                                </button>
-                                <button class="btn btn-primary me-2">
-                                    <i class="fas fa-edit"></i>
-                                    <span class="ms-2">Edit</span>
-                                </button>
-                            </div> -->
                         </td>
                     </tr>
                     <tr *ngIf="!pagedResponseModel.results.length">
@@ -129,3 +126,23 @@
 </div>
 
 <ngx-loading [show]="showLoader"></ngx-loading>
+
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد العملية</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد من الحذف ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" [disabled]="showAddLoader" class="btn btn-success"
+            (click)="modal.close('Save click');cancelMaterialIssueOrder(materialIssueId)">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" [disabled]="showAddLoader" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">الغاء</span>
+        </button>
+    </div>
+</ng-template>

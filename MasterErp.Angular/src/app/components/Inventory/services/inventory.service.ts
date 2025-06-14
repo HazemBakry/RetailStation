@@ -15,6 +15,7 @@ import { OrderDetailModel } from '../../Shared/models/ItemModel';
 import { MaterialRequestModel } from '../models/MaterialRequestModel ';
 import { GeneralOrderDetailsModel } from '../models/GeneralOrderModel ';
 import { MaterialReceiptModel } from '../models/MaterialReceiptModel';
+import { MaterialIssueModel } from '../models/MaterialIssueModel';
 
 @Injectable({
   providedIn: 'root'
@@ -272,31 +273,31 @@ export class InventoryService {
    // ------------------------------------------- Material Issue ------------------------------------------- //
 
    GetMaterialIssue_Data(model: PagedResponseDTO) {
-    return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'Inventory/GetMaterialIssue_Data', model);
+    return this.http.post<PagedResponseDTO<MaterialIssueModel[]>>(this.URL + 'Inventory/GetMaterialIssue_Data', model);
   }
 
   GetMaterialIssue_Filters(model: SearchFilterModel) {
     return this.http.post<FilterModel[]>(this.URL + 'Inventory/GetMaterialIssue_Filters', model);
   }
   
-  GetMaterialIssueDetailsById(orderId: number) {
-    return this.http.get<OrderModel>(this.URL + `Inventory/GetMaterialIssueDetailsById?OrderId=${orderId}`);
+  GetMaterialIssueDetailsById(materialIssueId: number) {
+    return this.http.get<MaterialIssueModel>(this.URL + `Inventory/GetMaterialIssueDetailsById?MaterialIssueId=${materialIssueId}`);
   }
 
-  GetMaterialIssueProducts_Data(orderId: number) {
-    return this.http.get<GeneralOrderDetailsModel[]>(this.URL + `Inventory/GetMaterialIssueProducts_Data?OrderId=${orderId}`);
+  GetMaterialIssueProducts_Data(materialIssueId: number) {
+    return this.http.get<GeneralOrderDetailsModel[]>(this.URL + `Inventory/GetMaterialIssueProducts_Data?MaterialIssueId=${materialIssueId}`);
   }
 
-  AddNewMaterialIssue(model: OrderModel) {
+  AddNewMaterialIssue(model: MaterialIssueModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Inventory/AddNewMaterialIssue', model);
   }
 
-  EditMaterialIssue(orderId: number, model: OrderModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + `Inventory/EditMaterialIssue?OrderId=${orderId}`, model);
+  EditMaterialIssue(materialIssueId: number, model: MaterialIssueModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Inventory/EditMaterialIssue?MaterialIssueId=${materialIssueId}`, model);
   }
 
-  CancelMaterialIssue(OrderId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelMaterialIssue?OrderId' + OrderId);
+  CancelMaterialIssue(materialIssueId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelMaterialIssue?MaterialIssueId=' + materialIssueId);
   }
   //----------------------------------------- Supplier Vouchers ------------------------------------//
 
