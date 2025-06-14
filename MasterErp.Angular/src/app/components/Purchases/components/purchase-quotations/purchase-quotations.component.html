@@ -1,55 +1,98 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
-<div class="card card-with-table border shadow-none">
-    <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center gap-3">
-            <button class="btn btn-outline-primary border d-flex align-items-center gap-2 py-2" routerLink="/purchases/add-purchase-quotation">
-                <i class="uil uil-plus fs-5"></i>
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3"
+                routerLink="/purchases/add-purchase-quotation">
+                <i class="fas fa-plus-circle"></i>
                 <span>انشاء عرض مشترايات</span>
             </button>
         </div>
-        <div class="col-md-4">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+        <div class="justify-content-end">
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
+                [pageSize]="pagedResponseModel.pageSize"
+                [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
         </div>
     </div>
-    <div class="card-body table-responsive p-0">
-        <table class="table table-borderless align-middle table-hover table-component text-center m-0 p-0">
-            <thead>
-                <tr>
-                    <th>رقم العرض</th>
-                    <th>تاريخ العرض</th>
-                    <th>تفاصيل</th>
-                    <th class="text-center"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of pagedResponseModel.results">
-                    <td>{{item.quotationNumber}}</td>
-                    <td>{{item.quotationDate | date}}</td>
-                    <td>{{item.notes}}</td>
+    <div class="p-3 bg-white">
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>رقم العرض</th>
+                        <th>تاريخ العرض</th>
+                        <th>تفاصيل</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of pagedResponseModel.results">
+                        <td>{{item.quotationNumber}}</td>
+                        <td>{{item.serialNumber}}</td>
+                        <td>{{item.quotationDate | date}}</td>
+                        <td>{{item.notes}}</td>
 
-                    <td>
-                        <div class="w-100 d-flex align-items-center justify-content-center">
-                            <button routerLink="/purchases/add-purchase-quotation" [queryParams]="{PurchaseQuotationId:item.purchaseQuotationId}"
-                                class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
-                                <i class="uil uil-pen"></i>
-                                <span>تعديل</span>
-                            </button>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div ngbDropdown container="body">
+                                    <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle>
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <div ngbDropdownMenu class="border">
+                                        <button ngbDropdownItem (click)="openQuotationDetailsSidePanel(item)">تفاصيل</button>
+                                        <button ngbDropdownItem routerLink="/purchases/add-purchase-quotation"
+                                    [queryParams]="{PurchaseQuotationId:item.purchaseQuotationId}">
+                                            تعديل
+                                        </button>
+                                        <button ngbDropdownItem
+                                            (click)="openDeleteModal(deleteDialog,item.purchaseQuotationId)">حذف</button>
+
+                                    </div>
+                                </div>
+                            </div>
                            
-                            <button (click)="openQuotationDetailsSidePanel(item)"
-                                class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
-                                <i class="uil uil-pen"></i>
-                                <span>تفاصيل</span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
+                        </td>
+                    </tr>
 
-        </table>
-        <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+                    <tr *ngIf="!pagedResponseModel?.results.length || showLoader">
+                        <td colspan="8" class="text-right">
+                            <app-empty-data [showEmptyData]="!pagedResponseModel?.results.length&&!showLoader"
+                                [showLoader]="showLoader"></app-empty-data>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </div>
     </div>
 </div>
+<ng-template #deleteDialog let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد العملية</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد من الحذف ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click'); deletePurchaseQuotation()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">الغاء</span>
+        </button>
+    </div>
+</ng-template>
+
+
+
+
+<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->
 
 <ng-template appComponentHost></ng-template>
 
@@ -69,16 +112,17 @@
             <div class="row mb-3">
                 <div *ngIf="quotationDetailsModel?.quotationNumber" class="col-xl-6">
                     <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
-                        <i class="fas fa-info-circle fa-1x me-2"></i> رقم العرض : {{quotationDetailsModel?.quotationNumber}}
+                        <i class="fas fa-info-circle fa-1x me-2"></i> رقم العرض :
+                        {{quotationDetailsModel?.quotationNumber}}
                     </h4>
                 </div>
-               
+
             </div>
             <div class="row mb-3">
                 <div *ngIf="quotationDetailsModel?.quotationDate" class="col-xl-6">
                     <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
                         <i class="fas fa-info-circle fa-1x me-2"></i>
-                         تاريخ العرض : {{quotationDetailsModel?.quotationDate | date:'shortDate'}}
+                        تاريخ العرض : {{quotationDetailsModel?.quotationDate | date:'shortDate'}}
                     </h4>
                 </div>
             </div>
@@ -88,9 +132,9 @@
                         <i class="fas fa-info-circle fa-1x me-2"></i> ملاحظات : {{quotationDetailsModel?.notes}}
                     </h4>
                 </div>
-                
+
             </div>
-            
+
             <!-- <div class="col-xl-12">
                 <div class="d-flex justify-content-center mt-3">
 
@@ -107,13 +151,14 @@
             <div class="card-body table-responsive p-0">
                 <table *ngIf="distinctSuppliers?.length >0"
                     class="table table-responsive table-borderless table-feature-value align-middle border m-0">
-                    
+
                     <thead>
-                        
+
                         <tr>
                             <th class="table-feature text-start">الصنف</th>
 
-                            <th class="table-feature text-start" *ngFor="let field of distinctSuppliers">{{field.supplierNameAR ?? field.supplierNameEN}}</th>
+                            <th class="table-feature text-start" *ngFor="let field of distinctSuppliers">
+                                {{field.supplierNameAR ?? field.supplierNameEN}}</th>
 
                         </tr>
                     </thead>
@@ -122,8 +167,8 @@
                             <td class="table-feature item-td-size">{{item.itemNameAR ?? item.itemNameEN}}</td>
 
                             <td *ngFor="let supplier of distinctSuppliers" class="table-value supplier-td-size fw-bold">
-                                <app-render *ngIf="getFieldValue(item.supplierPrices,supplier.supplierId) as itemPrice" [value]="itemPrice"
-                                    [fieldType]="FieldType.Text">
+                                <app-render *ngIf="getFieldValue(item.supplierPrices,supplier.supplierId) as itemPrice"
+                                    [value]="itemPrice" [fieldType]="FieldType.Text">
                                 </app-render>
                             </td>
 
@@ -137,4 +182,4 @@
     </div>
 
 </ng-template>
-<ngx-loading [show]="showLoader"></ngx-loading>
+<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->

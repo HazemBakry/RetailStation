@@ -133,7 +133,14 @@ namespace MasterErp.API.Controllers.Finance.Purchase
             var result = PurchaseOrderService.EditPurchaseQuotation(PurchaseQuotationId, model);
             return Ok(result);
         }
+        [HttpGet]
+        [Route("DeletePurchaseQuotation")]
+        public IActionResult DeletePurchaseQuotation(int PurchaseQuotationId)
+        {
 
+            var result = PurchaseOrderService.DeletePurchaseQuotation(PurchaseQuotationId);
+            return Ok(result);
+        }
 
         #endregion
     }

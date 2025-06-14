@@ -50,30 +50,10 @@ export class InvoiceSearchSidepanelComponent implements OnInit {
     });
   }
 
-  // loadData() {
-  //   if (!this.invoiceDate && !this.selectedSupplierId && !this.invoiceNumber) {
-  //     this.toaster.warning('لا يمكن البحث ');
-  //     return;
-  //   }
-
-  //   this.showLoader = true;
-
-  //   this.purchaseService.GetInvoicesSearchData(this.selectedSupplierId, this.invoiceNumber, this.invoiceDate).subscribe(data => {
-  //     // console.log("data",data);
-  //     this.PurchaseList = data;
-  //     this.showLoader = false;
-  //   }, (err) => {
-  //     this.showLoader = false;
-  //   }, () => {
-  //     this.showLoader = false;
-  //   });
-
-
-  // }
 
   loadData() {
     if (!this.invoiceDate && !this.selectedSupplierId && !this.invoiceNumber) {
-      this.toaster.warning('لا يمكن البحث ');
+      this.toaster.warning('يجب الاختيار من عناصر البحث .');
       return;
     }
     this.mapFilters();
@@ -113,9 +93,7 @@ export class InvoiceSearchSidepanelComponent implements OnInit {
   }
 
   SelectInvoice(inv) {
-
     this.offcanvasService.dismiss();
-
     this.selectedInvoice.emit(inv);
   }
 }

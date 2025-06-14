@@ -246,7 +246,7 @@ namespace MasterErp.Service.Shared
             var results = Context.Items.Select(b => new SelectorDataModel
             {
                 Id = b.ItemId,
-                Name = b.NameAR,
+                Name = b.NameAR ?? b.NameEN,
                 Code = b.Code
             }).ToList();
             return results;

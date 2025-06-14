@@ -21,10 +21,11 @@
             <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
                 <thead>
                     <tr>
-                       <th>رقم الفاتورة</th>
+                        <th>رقم الفاتورة</th>
                         <th>الرقم الدفتري</th>
                         <th>تاريخ الارتجاع</th>
                         <th>إجمالى القيمة</th>
+                        <th>فاتورة المشترايات </th>
                         <th>الموظف المسؤول</th>
                         <th>تاريخ الارتجاع</th>
 
@@ -40,6 +41,7 @@
                         <td>{{item.docNumber}}</td>
                         <td>{{item.returnsDate | date}}</td>
                         <td>{{item.totalValue}}</td>
+                        <td>{{item.purchaseInvoiceSerialNumber}}</td>
                         <td>{{item.createdByName}}</td>
                         <td>{{item.createdDate | date}}</td>
 
@@ -66,9 +68,9 @@
                         </td>
                     </tr>
                     <tr *ngIf="!pagedResponseModel?.results.length || showLoader">
-                        <td colspan="7" class="text-right">
-                            <app-empty-data
-                                [showEmptyData]="!pagedResponseModel?.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+                        <td colspan="8" class="text-right">
+                            <app-empty-data [showEmptyData]="!pagedResponseModel?.results.length&&!showLoader"
+                                [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>

@@ -3,12 +3,12 @@ import { CreatorModel } from "../../Shared/models/CreatorModel";
 export interface PurchaseQuotationModel extends CreatorModel {
     purchaseQuotationId: number;
     quotationNumber: number;
+    serialNumber: number;
     quotationDate: string;
     notes: string;
     isLocked: boolean | null;
     isCancelled: boolean | null;
     quotationProducts: PurchaseQuotationDetailsModel[];
-    totalCount: number | null;
 }
 
 export interface PurchaseQuotationDetailsModel {

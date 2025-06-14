@@ -13,6 +13,8 @@ namespace MasterErp.Entities.Common.Enums
         PurchaseOrder,
         [Description("PR")]
         PurchaseReturn,
+        [Description("PQ")]
+        PurchaseQuotation,
 
         [Description("MR")]
         MaterialRequest,

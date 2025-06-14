@@ -12,7 +12,10 @@ namespace MasterErp.Entities.Models.Purchases
     public class PurchaseReturns : CreatorModel
     {
         public int PurchaseReturnsId { get; set; }
+        public int OrderNumber { get; set; }
         public string SerialNumber { get; set; }
+        public string DocNumber { get; set; }
+
         public int? SupplierReturnsVoucherId { get; set; }
         public int PurchaseInvoiceId { get; set; }
         public double? TotalValue { get; set; }

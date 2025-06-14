@@ -30,7 +30,7 @@ namespace MasterErp.Interface.Purchase
         ActionsResponseModel AddNewPurchaseReturns(PurchaseReturnsModel model);
         ActionsResponseModel EditPurchaseReturns(int OrderId, PurchaseReturnsModel model);
         ActionsResponseModel CancelPurchaseReturns(int ReturnsId);
-        List<SupplierStatementModel> GetSupplierStatementData(int SupplierId);
+        List<SupplierStatementModel> GetSupplierStatementData(int SupplierId, SearchFilterModel model);
         List<PurchaseInvoiceType> GetInvoiceTypesData();
     }
 }

@@ -11,7 +11,9 @@ namespace MasterErp.Entities.DTOs.Purchases
     public class PurchaseReturnsModel : CreatorModel
     {
         public int? PurchaseReturnsId { get; set; }
+        public int? OrderNumber { get; set; }
         public string SerialNumber { get; set; }
+        public string DocNumber { get; set; }
         public int? PurchaseInvoiceId { get; set; }
         public int? SupplierReturnsVoucherId { get; set; }
         public double? TotalValue { get; set; }
@@ -19,9 +21,12 @@ namespace MasterErp.Entities.DTOs.Purchases
         public int? SupplierId { get; set; }
         public string SupplierNameEN { get; set; }
         public string SupplierNameAR { get; set; }
+        public string PurchaseInvoiceSerialNumber { get; set; }
         public string Notes { get; set; }
         public List<GeneralOrderDetailsModel> OrderDetails { get; set; }
 
+        public int? PreviousId { get; set; }
+        public int? NextId { get; set; }
         public int? TotalCount { get; set; }
 
 

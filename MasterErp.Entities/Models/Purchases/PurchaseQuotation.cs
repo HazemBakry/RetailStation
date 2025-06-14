@@ -13,6 +13,7 @@ namespace MasterErp.Entities.Models.Purchases
     {
         public int PurchaseQuotationId { get; set; }
         public int QuotationNumber { get; set; }
+        public string SerialNumber { get; set; }
         public DateTime QuotationDate { get; set; }
         public string Notes { get; set; }
         public bool? IsLocked { get; set; }

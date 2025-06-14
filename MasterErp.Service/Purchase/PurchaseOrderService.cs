@@ -267,6 +267,7 @@ namespace MasterErp.Service.Purchase
                 ord.PurchaseQuotationId,
                 ord.QuotationDate,
                 ord.QuotationNumber,
+                ord.SerialNumber,
                 ord.CreatedDate,
                 ord.CreatedBy,
                 ord.ModifiedBy,
@@ -278,6 +279,7 @@ namespace MasterErp.Service.Purchase
                 PurchaseQuotationId=ord.Key.PurchaseQuotationId,
                 QuotationDate=ord.Key.QuotationDate,
                 QuotationNumber=ord.Key.QuotationNumber,
+                SerialNumber = ord.Key.SerialNumber,
                 CreatedDate=ord.Key.CreatedDate,
                 CreatedBy=ord.Key.CreatedBy,
                 ModifiedBy=ord.Key.ModifiedBy,
@@ -342,10 +344,14 @@ namespace MasterErp.Service.Purchase
 
                 PurchaseQuotation tbl = new PurchaseQuotation();
 
+                int code = Context.PurchaseQuotations.Count() > 0 ? Context.PurchaseQuotations.Max(x => x.PurchaseQuotationId) + 1 : 1;
+                tbl.QuotationNumber = code;
+                tbl.SerialNumber = DalHelper.GenerateSerialNumber(SerialType.PurchaseQuotation, code);
+
+
                 tbl.CreatedDate = DateTime.Now;
                 tbl.CreatedBy = model.CreatedBy;
                 tbl.QuotationDate = DateTime.Now;
-                tbl.QuotationNumber = Context.PurchaseQuotations.Count() > 0 ? Context.PurchaseQuotations.Max(x => x.PurchaseQuotationId) + 1 : 1;
                 tbl.Notes = model.Notes;
 
                 Context.PurchaseQuotations.Add(tbl);
@@ -411,6 +417,37 @@ namespace MasterErp.Service.Purchase
                     }
 
                     return new ActionsResponseModel { Message = "Purchase Quotation Updated Successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this purchase quotation" };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+        public ActionsResponseModel DeletePurchaseQuotation(int PurchaseQuotationId)
+        {
+            try
+            {
+                var tbl = Context.PurchaseQuotations.Where(i => i.PurchaseQuotationId == PurchaseQuotationId).FirstOrDefault();
+                if (tbl != null)
+                {
+                    Context.PurchaseQuotations.Remove(tbl);
+                    
+
+                    var PurchaseReturnDetails = Context.PurchaseQuotationDetails.Where(x => x.PurchaseQuotationId == PurchaseQuotationId).ToList();
+
+                    if(PurchaseReturnDetails.Count > 0)
+                        Context.PurchaseQuotationDetails.RemoveRange(PurchaseReturnDetails);
+                    Context.SaveChanges();
+
+                    return new ActionsResponseModel { Message = "Purchase Quotation Removed Successfly !" };
                 }
                 else
                     return new ActionsResponseModel { IsSuccess = false, Message = "can't find this purchase quotation" };

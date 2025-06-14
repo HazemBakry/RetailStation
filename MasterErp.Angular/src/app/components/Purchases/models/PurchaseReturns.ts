@@ -12,7 +12,12 @@ export interface PurchaseReturnsModel extends CreatorModel {
     supplierId: number | null;
     supplierNameEN: string;
     supplierNameAR: string;
+    purchaseInvoiceSerialNumber: string;
     notes: string;
     orderDetails: GeneralOrderDetailsModel[];
+
+    nextId?: number | null;
+    previousId?: number | null;
+
     totalCount: number | null;
 }
