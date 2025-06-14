@@ -25,7 +25,7 @@ export class LedgerJournalTypeComponent implements OnInit {
   };
   FilterModel: FilterModel = {
     currentPage: 1,
-    pageSize: 25,
+    pageSize: 10,
     filterItems: []
   };
 

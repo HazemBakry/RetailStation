@@ -39,7 +39,7 @@ export class ItemsCategoryComponent implements OnInit {
   responseModel: PagedResponseDTO<ItemCategoryModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
 

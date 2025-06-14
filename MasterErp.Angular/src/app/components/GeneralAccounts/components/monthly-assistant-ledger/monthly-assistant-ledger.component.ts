@@ -15,7 +15,7 @@ export class MonthlyAssistantLedgerComponent implements OnInit {
   TotalPages: any;
   SearchFilterModel: SearchFilterModel = {
     currentPage: 1,
-    pageSize: 25,
+    pageSize: 10,
     isExport: false,
     filterModel: { filterItems: [] }
   };

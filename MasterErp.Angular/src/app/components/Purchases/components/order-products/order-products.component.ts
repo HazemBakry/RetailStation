@@ -34,7 +34,7 @@ export class OrderProductsComponent implements OnInit, OnChanges {
   LookupId: any;
   FilterModel: SearchFilterModel = {
     currentPage: 1,
-    pageSize: 25
+    pageSize: 10
   };
 
 

@@ -35,7 +35,7 @@ export class GeneralAccountsDashboardComponent implements OnInit {
 
   FilterModel: FilterModel = {
     currentPage: 1,
-    pageSize: 25
+    pageSize: 10
   };
   pagedResponse: PagedResponseDTO<OrderModel[]> = {
     currentPage: 1,
@@ -46,14 +46,14 @@ export class GeneralAccountsDashboardComponent implements OnInit {
   PaymentReceipts: PagedResponseDTO<ReceiptModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
   };
   ReceiveReceipts: PagedResponseDTO<ReceiveReceipt[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
   };

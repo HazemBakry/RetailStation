@@ -18,7 +18,7 @@ export class RolesComponent implements OnInit {
   showLoader: boolean;
   pagedResponseModel: PagedResponseDTO<RoleModel[]> = {
     currentPage: 1,
-    pageSize: 25,
+    pageSize: 10,
     results: [],
     filterList: [],
     searchText: ''

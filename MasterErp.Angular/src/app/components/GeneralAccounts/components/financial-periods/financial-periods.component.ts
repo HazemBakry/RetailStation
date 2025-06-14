@@ -25,7 +25,7 @@ export class FinancialPeriodsComponent implements OnInit {
   showAddLoader: boolean = false;
   pagedResponse: PagedResponseDTO<any[]> = {
     currentPage: 1,
-    pageSize: 25,
+    pageSize: 10,
     results: [],
     filterList: [],
     searchText: ''

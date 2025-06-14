@@ -27,7 +27,7 @@ export class PaymentTermComponent implements OnInit {
   paymentTermDetails: PaymentTermDetailsModel[] = [];
   pagedResponse: PagedResponseDTO<PaymentTermModel[]> = {
     currentPage: 1,
-    pageSize: 25,
+    pageSize: 10,
     results: [],
     filterList: [],
     searchText: ''

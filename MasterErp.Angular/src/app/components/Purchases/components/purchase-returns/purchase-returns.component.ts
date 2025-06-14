@@ -17,7 +17,7 @@ export class PurchaseReturnsComponent implements OnInit {
   pagedResponseModel: PagedResponseDTO<PurchaseReturnsModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
 

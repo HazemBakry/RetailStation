@@ -17,7 +17,7 @@ export class SupplierVoucherComponent implements OnInit {
   pagedResponseModel: PagedResponseDTO<OrderModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
   };

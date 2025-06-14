@@ -47,7 +47,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   itemsSelector: GeneralSelectorModel[] = [];
   SearchFilterModel: SearchFilterModel = {
     currentPage: 1,
-    pageSize: 25
+    pageSize: 10
   };
 
   constructor(private purchaseService: PurchaseService,

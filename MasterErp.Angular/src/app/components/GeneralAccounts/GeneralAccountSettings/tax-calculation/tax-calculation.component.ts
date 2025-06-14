@@ -23,7 +23,7 @@ export class TaxCalculationComponent implements OnInit {
   showAddLoader: boolean = false;
   pagedResponse: PagedResponseDTO<TaxCalculationModel[]> = {
     currentPage: 1,
-    pageSize: 25,
+    pageSize: 10,
     results: [],
     filterList: [],
     searchText: ''

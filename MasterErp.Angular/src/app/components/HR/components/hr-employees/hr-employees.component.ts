@@ -39,7 +39,7 @@ export class HrEmployeesComponent implements OnInit {
   pagedResponseModel:PagedResponseDTO<EmployeeModel[]>={
     results:[],
     filterList:[],
-    pageSize: 25,
+    pageSize: 10,
     currentPage:1,
     searchText:''
   };

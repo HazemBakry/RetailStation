@@ -31,7 +31,7 @@ export class HrCareersComponent implements OnInit {
   employeeCareerResponse: PagedResponseDTO<EmployeeCareerModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
 

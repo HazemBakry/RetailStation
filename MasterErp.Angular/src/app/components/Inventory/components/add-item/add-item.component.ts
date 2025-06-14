@@ -31,7 +31,7 @@ export class AddItemComponent implements OnInit {
   responseModel:PagedResponseDTO<ItemModel[]>={
     results:[],
     filterList:[],
-    pageSize: 25,
+    pageSize: 10,
     currentPage:1,
     searchText:''
 

@@ -31,7 +31,7 @@ export class HrDailyAttendanceReportComponent implements OnInit {
   pagedResponseModel: PagedResponseDTO<EmployeeAttendanceModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
   };

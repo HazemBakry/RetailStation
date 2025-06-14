@@ -48,14 +48,14 @@ export class SystemUsersComponent implements OnInit {
   rolesList: RoleModel[] = [];
   searchFilterModel: SearchFilterModel = {
     currentPage: 1,
-    pageSize: 25,
+    pageSize: 10,
     filterModel: { filterItems: [] }
   };
 
   pagedResponseModel: PagedResponseDTO<UserModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
 

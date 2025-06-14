@@ -26,14 +26,14 @@ export class TeamWorkLoansComponent implements OnInit {
   CategoryName = 'قائمة الموظفين';
   SearchFilterModel: SearchFilterModel = {
     currentPage: 1,
-    pageSize: 25,
+    pageSize: 10,
     filterModel: { filterItems: [] }
   };
   employeeLoanModel: EmployeeLoanModel = {} as EmployeeLoanModel;
   loanResponse: PagedResponseDTO<EmployeeLoanModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
 

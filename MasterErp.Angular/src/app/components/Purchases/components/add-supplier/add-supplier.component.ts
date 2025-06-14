@@ -38,7 +38,7 @@ export class AddSupplierComponent implements OnInit {
   public formGroup: FormGroup;
   FilterModel: FilterModel = {
     currentPage: 1,
-    pageSize: 25
+    pageSize: 10
   };
 
   balanceTypesSelectorData: FormDropdownModel[] = [

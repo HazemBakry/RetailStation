@@ -16,13 +16,13 @@ export class LoansRequestsComponent implements OnInit {
   showLoader: boolean;
   FilterModel: FilterModel = {
     currentPage: 1,
-    pageSize: 25
+    pageSize: 10
   };
 
   LoanList: PagedResponseDTO<any[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
   };

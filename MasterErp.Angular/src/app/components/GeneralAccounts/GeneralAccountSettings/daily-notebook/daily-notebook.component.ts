@@ -26,7 +26,7 @@ export class DailyNotebookComponent implements OnInit {
   showAddLoader: boolean = false;
   pagedResponse: PagedResponseDTO<DailyNotebookModel[]> = {
     currentPage: 1,
-    pageSize: 25,
+    pageSize: 10,
     results: [],
     filterList: [],
     searchText: ''

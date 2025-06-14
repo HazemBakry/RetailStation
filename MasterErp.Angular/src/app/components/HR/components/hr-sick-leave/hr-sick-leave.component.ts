@@ -28,7 +28,7 @@ export class HrSickLeaveComponent implements OnInit {
   employeeSickLeaveResponse: PagedResponseDTO<EmployeeSickLeaveModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
 

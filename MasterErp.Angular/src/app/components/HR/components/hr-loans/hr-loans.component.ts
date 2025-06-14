@@ -32,7 +32,7 @@ export class HrLoansComponent implements OnInit {
   employeeLoanResponse:PagedResponseDTO<EmployeeLoanModel[]>={
     results:[],
     filterList:[],
-    pageSize: 25,
+    pageSize: 10,
     currentPage:1,
     searchText:''
   };

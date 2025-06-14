@@ -114,7 +114,7 @@ export class DashboardComponent implements OnInit {
   pagedResponseModel: PagedResponseDTO<OrderModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
 
@@ -122,14 +122,14 @@ export class DashboardComponent implements OnInit {
   PaymentReceipts: PagedResponseDTO<ReceiptModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
   };
   ReceiveReceipts: PagedResponseDTO<ReceiptModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
   };

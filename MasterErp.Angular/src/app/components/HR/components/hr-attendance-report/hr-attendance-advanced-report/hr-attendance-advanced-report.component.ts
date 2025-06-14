@@ -32,7 +32,7 @@ export class HrAttendanceAdvancedReportComponent implements OnInit {
   pagedResponseModel: PagedResponseDTO<EmployeeAdvancedAttendanceModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
   };

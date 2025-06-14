@@ -22,7 +22,7 @@ export class AccountsAssistantLedgerComponent implements OnInit {
   assistantLedgerResponse: AccountsReportSearchFilterModel = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: '',
     hideEmptyAccounts: false,
