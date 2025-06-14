@@ -1,19 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { OrderModel } from 'src/app/components/Inventory/models/inventory';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseReturnsModel } from '../../models/PurchaseReturns';
+import { FieldType } from 'src/app/components/Shared/Enums/FieldType';
+import { DataField } from 'src/app/components/Shared/models/DataField';
+import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
+import { ComponentHostDirective } from 'src/app/components/Shared/directives/component-host.directive';
+import { DynamicComponentLoaderService } from 'src/app/components/Shared/services/dynamic-component-loader.service';
 @Component({
   selector: 'app-purchase-returns',
   templateUrl: './purchase-returns.component.html',
   styleUrls: ['./purchase-returns.component.css']
 })
 export class PurchaseReturnsComponent implements OnInit {
-    TitleList = ['المشتريات', 'مرتجعات المشتريات'];
+  TitleList = ['المشتريات', 'مرتجعات المشتريات'];
 
-  showLoader: boolean;
+  showLoader: boolean =false;
+  showDetailsLoader: boolean =false;
   pagedResponseModel: PagedResponseDTO<PurchaseReturnsModel[]> = {
     results: [],
     filterList: [],
@@ -22,9 +28,11 @@ export class PurchaseReturnsComponent implements OnInit {
     searchText: ''
 
   };
+  @ViewChild(ComponentHostDirective, { static: true }) detailsComponentHost!: ComponentHostDirective;
+
   selectedPurchaseReturnsId: number;
   constructor(private purchaseService: PurchaseService,
-    private modalService: NgbModal, private toaster: ToastrService) { }
+    private modalService: NgbModal, private toaster: ToastrService, private dynamicComponentService: DynamicComponentLoaderService) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -68,4 +76,58 @@ export class PurchaseReturnsComponent implements OnInit {
     })
   }
 
+
+  showOrderDetails(detailsModel: PurchaseReturnsModel) {
+
+    this.showDetailsLoader = true;
+    this.purchaseService.GetPurchaseReturnsProducts_Data(detailsModel.purchaseReturnsId).subscribe((data: GeneralOrderDetailsModel[]) => {
+      this.dynamicComponentService.loadProductDetailsSidePanel(
+        this.detailsComponentHost.viewContainerRef,
+        detailsModel,
+        data,
+        this.orderDetailsDataFields,
+        `تفاصيل الطلب #${detailsModel.serialNumber}`
+      );
+
+      this.showDetailsLoader = false;
+    }, err => {
+      this.showDetailsLoader = false;
+    }, () => {
+      this.showDetailsLoader = false;
+    });
+
+
+  }
+  orderDetailsDataFields: DataField[] = [
+    {
+      fieldName: 'itemNameAR',
+      fieldType: FieldType.Text,
+      displayName: 'الاسم (AR)',
+    },
+    {
+      fieldName: 'itemNameEN',
+      fieldType: FieldType.Text,
+      displayName: 'الاسم (EN)',
+    },
+    {
+      fieldName: 'unitNameAR',
+      fieldType: FieldType.Text,
+      displayName: 'الوحدة',
+    },
+    {
+      fieldName: 'price',
+      fieldType: FieldType.Text,
+      displayName: 'السعر',
+    },
+    {
+      fieldName: 'quantity',
+      fieldType: FieldType.Text,
+      displayName: 'الكمية',
+    },
+    {
+      fieldName: 'totalValue',
+      fieldType: FieldType.Text,
+      displayName: 'الاجمالي',
+    },
+  ];
 }

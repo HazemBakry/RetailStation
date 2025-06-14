@@ -52,7 +52,7 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <div ngbDropdownMenu class="border">
-                                        <!-- <button ngbDropdownItem (click)="showOrderDetails(item)">تفاصيل</button> -->
+                                        <button ngbDropdownItem (click)="showOrderDetails(item)">تفاصيل</button>
                                         <button ngbDropdownItem routerLink="/purchases/add-purchase-returns"
                                             [queryParams]="{PurchaseReturnsId:item.purchaseReturnsId}">
                                             تعديل
@@ -103,4 +103,4 @@
 
 
 
-<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->
+<ngx-loading [show]="showDetailsLoader"></ngx-loading>

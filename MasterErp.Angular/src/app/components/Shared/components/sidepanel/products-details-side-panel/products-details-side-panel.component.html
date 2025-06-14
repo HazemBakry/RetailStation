@@ -24,7 +24,7 @@
                             <div class="mb-2">
                                 <label class="form-label d-flex align-items-center gap-2">رقم الطلب</label>
                                 <input type="text" disabled class="form-control nw-form-input"
-                                    [value]="detailsModel?.orderNumber" />
+                                    [value]="detailsModel?.serialNumber??detailsModel?.orderNumber" />
                             </div>
                         </div>
                         <div *ngIf="detailsModel?.orderDate" class="col-lg-6">

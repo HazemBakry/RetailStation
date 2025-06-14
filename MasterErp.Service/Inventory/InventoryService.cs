@@ -1,4 +1,5 @@
-﻿using iText.Layout.Borders;
+﻿using ICU4N.Util;
+using iText.Layout.Borders;
 using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Finance.Purchases;
@@ -577,7 +578,25 @@ namespace MasterErp.Service.Inventory
 
         public MaterialIssueModel GetMaterialIssueDetailsById(int MaterialIssueId)
         {
-            return GetMaterialIssue_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, MaterialIssueId)?.FirstOrDefault();
+            var result= GetMaterialIssue_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, MaterialIssueId)?.FirstOrDefault();
+
+
+            if (result != null)
+            {
+                result.PreviousId = Context.MaterialIssues
+                                    .Where(p => p.MaterialIssueId < MaterialIssueId)
+                                    .OrderByDescending(p => p.MaterialIssueId)
+                                    .Select(p => p.MaterialIssueId)
+                                    .FirstOrDefault();
+
+                result.NextId = Context.MaterialIssues
+                                .Where(p => p.MaterialIssueId > MaterialIssueId)
+                                .OrderBy(p => p.MaterialIssueId)
+                                .Select(p => p.MaterialIssueId)
+                                .FirstOrDefault();
+            }
+            return result;
+            
         }
 
         public List<GeneralOrderDetailsModel> GetMaterialIssueProducts_Data(int MaterialIssueId)
