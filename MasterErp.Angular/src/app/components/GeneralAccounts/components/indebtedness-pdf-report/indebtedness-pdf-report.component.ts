@@ -45,14 +45,18 @@ export class IndebtednessPdfReportComponent implements OnInit {
   }
 
   printData() {
+    if (!this.header1 && !this.header2) {
+      this.toaster.warning('يرجى إدخال التاريخ', 'خطأ');
+      return;
+    }
     this.isPrinting = true;
     this.cdr.detectChanges();
-
     setTimeout(() => {
       const element = this.printSectionRef.nativeElement;
       const options = {
         overrideWidth: 800,
         overrideHeight: 1120,
+        filename: 'PrintViewer.pdf',
         jsPDF: {
           orientation: 'portrait',
           unit: 'px',
@@ -63,9 +67,9 @@ export class IndebtednessPdfReportComponent implements OnInit {
       (domToPdf as any)(element, options, (pdf: any) => {
         this.isPrinting = false;
         this.cdr.detectChanges();
-        const blob = pdf.output('blob');
-        const url = URL.createObjectURL(blob);
-        window.open(url, '_blank');
+        // const blob = pdf.output('blob');
+        // const url = URL.createObjectURL(blob);
+        // window.open(url, '_blank');
       });
     }, 100);
   }
