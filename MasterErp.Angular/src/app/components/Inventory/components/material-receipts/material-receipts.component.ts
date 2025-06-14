@@ -170,5 +170,10 @@ export class MaterialReceiptsComponent implements OnInit {
       fieldType: FieldType.Text, 
       displayName: 'الاجمالي', 
     },
+    {
+      fieldName: 'expireDate', 
+      fieldType: FieldType.Date, 
+      displayName: 'تاريخ الصلاحية', 
+    },
   ];
 }

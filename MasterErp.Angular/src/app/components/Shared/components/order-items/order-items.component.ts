@@ -216,6 +216,9 @@ export class OrderItemsComponent implements OnInit, OnChanges {
 
       // }
     });
+    if (this.showExpireDate) {
+      // this.orderItems = this.orderItems.map(item=>({...item,expireDate:this.today}));
+    }
     if (this.orderItems)
       this.emitSelectedProductsList();
   }
