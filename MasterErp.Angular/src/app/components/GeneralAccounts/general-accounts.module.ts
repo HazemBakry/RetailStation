@@ -46,6 +46,7 @@ import { JournalEntryTemplatesComponent } from './components/journal-entry-templ
 import { LoansRequestsComponent } from './components/loans-requests/loans-requests.component';
 import { GeneralAccountsDashboardComponent } from './components/general-accounts-dashboard/general-accounts-dashboard.component';
 import { AdvancesRequestsComponent } from './components/advances-requests/advances-requests.component';
+import { IndebtednessPdfReportComponent } from './components/indebtedness-pdf-report/indebtedness-pdf-report.component';
 
 
 @NgModule({
@@ -90,7 +91,8 @@ import { AdvancesRequestsComponent } from './components/advances-requests/advanc
     JournalEntryTemplatesComponent,
     LoansRequestsComponent,
     GeneralAccountsDashboardComponent,
-    AdvancesRequestsComponent
+    AdvancesRequestsComponent,
+    IndebtednessPdfReportComponent
   ],
   imports: [
     CommonModule,

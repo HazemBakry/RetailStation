@@ -359,6 +359,13 @@ export class MenuService {
               description: 'تحليل تفصيلي للحسابات الختامية',
               icon: 'fa fa-clipboard-check',
             },
+             {
+              displayName: 'مديونية الشركة',
+              menuItem: 'indebtedness-report',
+              description: 'تحليل تفصيلي لمديونية الشركة',
+              icon: 'fa fa-clipboard-check',
+              route: '/general-accounts/indebtedness-report'
+            },
           ]
         }
       ]
