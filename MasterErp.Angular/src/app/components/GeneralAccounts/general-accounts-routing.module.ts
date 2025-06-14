@@ -41,6 +41,7 @@ import { CreateJournalEntryTemplateComponent } from './components/create-journal
 import { JournalEntryTemplatesComponent } from './components/journal-entry-templates/journal-entry-templates.component';
 import { LoansRequestsComponent } from './components/loans-requests/loans-requests.component';
 import { AdvancesRequestsComponent } from './components/advances-requests/advances-requests.component';
+import { IndebtednessPdfReportComponent } from './components/indebtedness-pdf-report/indebtedness-pdf-report.component';
 
 const routes: Routes = [
   {
@@ -62,7 +63,7 @@ const routes: Routes = [
       { path: 'journal-daily-list', component: JournalDailyListComponent },
       { path: 'create-payment-order', component: CreatePaymentOrderComponent },
       { path: 'create-payment-receipt', component: CreatePaymentReceiptComponent },
-      { path: 'create-receive-receipt', component:  CreateReceiveReceiptComponent},
+      { path: 'create-receive-receipt', component: CreateReceiveReceiptComponent },
       { path: 'payment-receipts', component: PaymentReceiptsComponent },
       { path: 'payment-orders', component: PaymentOrdersComponent },
       { path: 'receive-receipts', component: ReceiveReceiptsComponent },
@@ -89,6 +90,7 @@ const routes: Routes = [
       { path: 'batches', component: BatchesComponent },
       { path: 'loans-requests', component: LoansRequestsComponent },
       { path: 'advances-requests', component: AdvancesRequestsComponent },
+      { path: 'indebtedness-report', component: IndebtednessPdfReportComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
 
 

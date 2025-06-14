@@ -423,9 +423,9 @@ namespace MasterErp.Service.Purchase
             Params[2] = new SqlParameter("@PageSize", PagingFilter.PageSize);
             Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[3].Value = FilterListDt;
-
-            var result = SQLHelper.SQLQuery<OrderModel>("[dbo].[SP_GetPurchasesReturns_Data]", ConnectionString, Params);
-            return result;
+            return new List<PurchaseReturnsModel>();
+            //var result = SQLHelper.SQLQuery<OrderModel>("[dbo].[SP_GetPurchasesReturns_Data]", ConnectionString, Params);
+            //return result;
         }
 
         public PurchaseReturnsModel GetPurchaseReturnsDetailsById(int OrderId)

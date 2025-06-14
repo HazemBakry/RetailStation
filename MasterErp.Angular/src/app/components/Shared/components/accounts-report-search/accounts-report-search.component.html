@@ -1,12 +1,12 @@
 <div class="row gy-3">
 
-    <div class="col-lg-3">
+    <div class="col-lg-3" *ngIf="showAccounts">
         <div class="mb-2">
             <label class="form-label d-flex align-items-center gap-2">
                 الحساب
                 <span class="text-danger">*</span>
             </label>
-            <app-general-selector (valueChanged)="getSelectedAccount($event)" [(ngModel)]="searchModel.accountId"  [data]="accountsSelectorData" [placeholder]="'الحساب'" [showSearch]="true"></app-general-selector>
+            <app-general-selector (valueChanged)="getSelectedAccount($event)" [(ngModel)]="searchModel.accountId" [data]="accountsSelectorData" [placeholder]="'الحساب'" [showSearch]="true"></app-general-selector>
         </div>
     </div>
     <div class="col-lg-3">
