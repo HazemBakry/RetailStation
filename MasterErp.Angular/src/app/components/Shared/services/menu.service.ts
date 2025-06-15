@@ -447,6 +447,13 @@ export class MenuService {
               route: '/inventory/items'
             },
             {
+              displayName: 'قوالب الأصناف',
+              menuItem: 'item-lookups',
+              description: 'إدارة قوالب الأصناف المخزنية وتفاصيلها',
+              icon: 'fa fa-boxes',
+              route: '/inventory/item-lookups'
+            },
+            {
               displayName: 'طلب شراء',
               menuItem: 'material-requests',
               description: 'إنشاء وتتبع طلبات شراء المواد من المخازن',

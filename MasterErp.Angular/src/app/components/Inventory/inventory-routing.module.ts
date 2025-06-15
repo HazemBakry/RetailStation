@@ -19,6 +19,7 @@ import { AddPurchaseOrderComponent } from '../Purchases/components/add-purchase-
 import { MaterialRequestsComponent } from './components/material-requests/material-requests.component';
 import { AddMaterialReceiptComponent } from './components/add-material-receipt/add-material-receipt.component';
 import { MaterialReceiptsComponent } from './components/material-receipts/material-receipts.component';
+import { ItemLookupsComponent } from './components/item-lookups/item-lookups.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,7 @@ const routes: Routes = [
       { path: 'units', component: UnitsComponent },      
       { path: 'purchase-orders', component: PurchaseOrdersComponent },
       { path: 'add-purchase-order', component: AddPurchaseOrderComponent },
+      { path: 'item-lookups', component: ItemLookupsComponent },
       
       
       { path: '', redirectTo: 'home', pathMatch: 'full' },

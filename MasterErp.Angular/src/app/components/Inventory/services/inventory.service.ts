@@ -16,6 +16,7 @@ import { MaterialRequestModel } from '../models/MaterialRequestModel ';
 import { GeneralOrderDetailsModel } from '../models/GeneralOrderModel ';
 import { MaterialReceiptModel } from '../models/MaterialReceiptModel';
 import { MaterialIssueModel } from '../models/MaterialIssueModel';
+import { ItemLookupDetailsModel, ItemLookupModel } from '../models/ItemLookupModel';
 
 @Injectable({
   providedIn: 'root'
@@ -28,17 +29,12 @@ export class InventoryService {
   // -------------------------------------- Items -------------------------------------- //
 
 
-  GetItemsLookups() {
-    return this.http.get<any[]>(this.URL + 'Items/GetItemsLookups');
-  }
 
   // GetItemsData() {
   //   return this.http.get<OrderDetailModel[]>(this.URL + 'Items/GetItemsData');
   // }
 
-  GetItemsByLookupId(LookupId: number) {
-    return this.http.get<GeneralOrderDetailsModel[]>(this.URL + 'Items/GetItemsByLookupId?LookupId=' + LookupId);
-  }
+
 
 
 
@@ -65,7 +61,7 @@ export class InventoryService {
   ChangeItemActiveStatus(ItemId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'Items/ChangeItemActiveStatus?ItemId=' + ItemId);
   }
-  ItemQuickUpdate(ItemId: number,Price : number,UnitId: number) {
+  ItemQuickUpdate(ItemId: number, Price: number, UnitId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + `Items/ItemQuickUpdate?ItemId=${ItemId}&Price=${Price}&UnitId=${UnitId}`);
   }
   ExportItems(searchModel: PagedResponseDTO, categoryId: number) {
@@ -175,13 +171,13 @@ export class InventoryService {
   //-------------------------------------------- Purchase Receipt --------------------------------------------//
 
   GetPurchaseReceipts_Data(model: PagedResponseDTO) {
-    return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'Inventory/GetPurchaseReceipts_Data', model);    
+    return this.http.post<PagedResponseDTO<OrderModel[]>>(this.URL + 'Inventory/GetPurchaseReceipts_Data', model);
   }
 
   GetPurchaseReceipts_Filters(model: SearchFilterModel) {
     return this.http.post<FilterModel[]>(this.URL + 'Inventory/GetPurchaseReceipts_Filters', model);
   }
-  
+
   GetPurchaseReceiptDetailsById(orderId: number) {
     return this.http.get<OrderModel>(this.URL + `Inventory/GetPurchaseReceiptDetailsById?OrderId=${orderId}`);
   }
@@ -211,7 +207,7 @@ export class InventoryService {
   GetMaterialIssueReceipts_Filters(model: FilterModel) {
     return this.http.post<FilterModel[]>(this.URL + 'Inventory/GetMaterialIssueReceipts_Filters', model);
   }
-  
+
   GetMaterialIssueReceiptDetailsById(receiptId: number) {
     return this.http.get<OrderModel>(this.URL + `Inventory/GetMaterialIssueReceiptDetailsById?ReceiptId=${receiptId}`);
   }
@@ -231,7 +227,7 @@ export class InventoryService {
   CancelMaterialIssueReceipt(receiptId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'Inventory/CancelMaterialIssueReceipt?ReceiptId' + receiptId);
   }
-  
+
   // ------------------------------------------- Delivery Orders ------------------------------------------- //
 
   GetDeliveryNotes_Data(model: PagedResponseDTO) {
@@ -241,7 +237,7 @@ export class InventoryService {
   GetDeliveryNotes_Filters(model: SearchFilterModel) {
     return this.http.post<FilterModel[]>(this.URL + 'Inventory/GetDeliveryNotes_Filters', model);
   }
-  
+
   GetDeliveryNoteDetailsById(orderId: number) {
     return this.http.get<OrderModel>(this.URL + `Inventory/GetDeliveryNoteDetailsById?OrderId=${orderId}`);
   }
@@ -270,16 +266,16 @@ export class InventoryService {
   }
 
 
-   // ------------------------------------------- Material Issue ------------------------------------------- //
+  // ------------------------------------------- Material Issue ------------------------------------------- //
 
-   GetMaterialIssue_Data(model: PagedResponseDTO) {
+  GetMaterialIssue_Data(model: PagedResponseDTO) {
     return this.http.post<PagedResponseDTO<MaterialIssueModel[]>>(this.URL + 'Inventory/GetMaterialIssue_Data', model);
   }
 
   GetMaterialIssue_Filters(model: SearchFilterModel) {
     return this.http.post<FilterModel[]>(this.URL + 'Inventory/GetMaterialIssue_Filters', model);
   }
-  
+
   GetMaterialIssueDetailsById(materialIssueId: number) {
     return this.http.get<MaterialIssueModel>(this.URL + `Inventory/GetMaterialIssueDetailsById?MaterialIssueId=${materialIssueId}`);
   }
@@ -332,7 +328,43 @@ export class InventoryService {
   }
 
   GetMaterialRequestProducts_Data(materialRequestIds: number[]) {
-    return this.http.post<GeneralOrderDetailsModel[]>(this.URL + `Inventory/GetMaterialRequestProducts_Data`,materialRequestIds);
+    return this.http.post<GeneralOrderDetailsModel[]>(this.URL + `Inventory/GetMaterialRequestProducts_Data`, materialRequestIds);
   }
+
+
+
+  ///////////////////// Item Lookups
+
+  GetItemLookups_Data(model: FilterModel) {
+    return this.http.post<PagedResponseDTO<ItemLookupModel[]>>(this.URL + 'Items/GetItemLookups_Data', model);
+  }
+  GetItemLookupDetailsById(itemLookupId: number) {
+    return this.http.get<MaterialRequestModel>(this.URL + 'Items/GetMaterialRequestDetailsById?ItemLookupId=' + itemLookupId);
+  }
+
+
+  GetItemsByLookupId(LookupId: number) {
+    return this.http.get<GeneralOrderDetailsModel[]>(this.URL + 'Items/GetItemsByLookupId?LookupId=' + LookupId);
+  }
+
+  CreateNewItemLookup(model: ItemLookupModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Items/CreateNewItemLookup', model);
+  }
+
+  EditItemLookup(itemLookupId: number, model: ItemLookupModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Items/EditItemLookup?ItemLookupId=${itemLookupId}`, model);
+  }
+
+  DeleteItemLookup(ItemLookupId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Items/DeleteItemLookup?ItemLookupId=' + ItemLookupId);
+  }
+
+  AddItemsToLookup(itemLookupId: number, model: ItemLookupDetailsModel[]) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Items/AddItemsToLookup?ItemLookupId=${itemLookupId}`, model);
+  }
+  GetItemsLookups() {
+    return this.http.get<any[]>(this.URL + 'Items/GetItemsLookups');
+  }
+
 
 }

@@ -25,10 +25,8 @@ namespace MasterErp.Interface.Inventory
         ActionsResponseModel ExportItems(int categoryId, string UserName, SearchFilterModel Model);
         List<ItemDto> GetItemsBySupplierId(int SupplierId);
         DataTable GetItemsBySupplierIdV2(int SupplierId);
-        List<OrderProductModel> GetItemsByLookupId(int LookupId);
         ActionsResponseModel ChangeItemActiveStatus(int ItemId);
         ActionsResponseModel ItemQuickUpdate(int ItemId, double Price, int UnitId);
-        List<ItemLookups> GetItemsLookups();
         List<ItemDto> GetItemsDeleted(int ItemCategoryId, string SearchText);
         string ExportItemsDeleted(int categoryId, string SearchText, string UserName);
         #endregion
@@ -49,6 +47,20 @@ namespace MasterErp.Interface.Inventory
         ActionsResponseModel EditUnit(Unit model);
         ActionsResponseModel DeleteUnit(int UnitId);
         List<Unit> GetUnits();
+        #endregion
+
+        #region ItemLookups
+        List<ItemLookupModel> GetItemLookups_Data(SearchFilterModel model, int? ItemLookupId = null);
+        ItemLookupModel GetItemLookupDetailsById(int ItemLookupId);
+        ActionsResponseModel CreateNewItemLookup(ItemLookupModel model);
+        ActionsResponseModel EditItemLookup(int ItemLookupId, ItemLookupModel model);
+
+        ActionsResponseModel DeleteItemLookup(int ItemLookupId);
+        ActionsResponseModel AddItemsToLookup(int ItemLookupId, List<ItemLookupDetailsModel> model);
+
+
+        List<GeneralOrderDetailsModel> GetItemsByLookupId(int ItemLookupId);
+        List<ItemLookups> GetItemsLookups();
         #endregion
     }
 }

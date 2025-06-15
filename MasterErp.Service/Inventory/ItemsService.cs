@@ -323,14 +323,7 @@ namespace MasterErp.Service.Inventory
             var result = SQLHelper.ExecuteDataTable("[dbo].[SP_GetItemsBySupplierId]", param, ConnectionString);
             return result;
         }
-        public List<OrderProductModel> GetItemsByLookupId(int LookupId)
-        {
-            SqlParameter[] param = new SqlParameter[1];
-            param[0] = new SqlParameter("@LookupId", LookupId);
 
-            var result = SQLHelper.SQLQuery<OrderProductModel>("[dbo].[SP_GetItemsByLookupId]", ConnectionString, param);
-            return result;
-        }
         public ActionsResponseModel ChangeItemActiveStatus(int ItemId)
         {
             try
@@ -378,10 +371,7 @@ namespace MasterErp.Service.Inventory
                 };
             }
         }
-        public List<ItemLookups> GetItemsLookups()
-        {
-            return Context.ItemLookups.ToList();
-        }
+
         public List<ItemDto> GetItemsDeleted(int RawCategoryId, string SearchText)
         {
             SqlParameter[] Params = new SqlParameter[2];
@@ -703,6 +693,165 @@ namespace MasterErp.Service.Inventory
         {
             var results = Context.Units.ToList();
             return results;
+        }
+
+        #endregion
+
+        #region ItemLookups
+        public List<ItemLookupModel> GetItemLookups_Data(SearchFilterModel model, int? ItemLookupId = null)
+        {
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
+
+            SqlParameter[] Params = new SqlParameter[4];
+            Params[0] = new SqlParameter("@ItemLookupId", ItemLookupId);
+            Params[1] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[2] = new SqlParameter("@PageSize", model.PageSize);
+            Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt };
+
+            var results = SQLHelper.SQLQuery<ItemLookupDetailsModel>("[Inventory].[SP_GetItemLookups_Data]", ConnectionString, Params);
+
+            var groupedData = results.GroupBy(x => x.ItemLookupId).Select(x =>
+            {
+                var item = x.FirstOrDefault();
+                return new ItemLookupModel
+                {
+                    ItemLookupId = x.Key,
+                    NameAR = item?.NameAR,
+                    NameEN = item?.NameEN,
+                    BranchId = item?.BranchId,
+                    Notes = item?.Notes,
+                    TotalCount = item?.TotalCount,
+                    Items = x.Where(x=>x.ItemLookupDetailsId != null && x.ItemId!=null).ToList(),
+                };
+            }).ToList();
+            return groupedData;
+        }
+        public ItemLookupModel GetItemLookupDetailsById(int ItemLookupId)
+        {
+           return GetItemLookups_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, ItemLookupId)?.FirstOrDefault();
+            
+        }
+        public ActionsResponseModel CreateNewItemLookup(ItemLookupModel model)
+        {
+            try
+            {
+                var lookup = new ItemLookups
+                {
+                    NameAR = model.NameAR,
+                    NameEN = model.NameEN,
+                    BranchId = model.BranchId,
+                    Notes = model.Notes,
+                    CreatedBy = model.CreatedBy,
+                    CreatedDate = DateTime.Now
+                };
+
+                Context.ItemLookups.Add(lookup);
+                Context.SaveChanges();
+
+                return new ActionsResponseModel
+                {
+                    Id = lookup.ItemLookupId,
+                    Message = "تم إنشاء القالب بنجاح"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+
+        public ActionsResponseModel EditItemLookup(int ItemLookupId, ItemLookupModel model)
+        {
+            try
+            {
+                var existing = Context.ItemLookups.FirstOrDefault(x => x.ItemLookupId == ItemLookupId);
+                if (existing != null)
+                {
+                    existing.NameAR = model.NameAR;
+                    existing.NameEN = model.NameEN;
+                    existing.Notes = model.Notes;
+                    existing.BranchId = model.BranchId;
+                    existing.ModifiedBy = model.ModifiedBy;
+                    existing.ModifiedDate = DateTime.Now;
+
+                    Context.SaveChanges();
+
+                    return new ActionsResponseModel { Message = "تم تعديل القالب بنجاح" };
+                }
+
+                return new ActionsResponseModel { IsSuccess = false, Message = "القالب غير موجودة" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.Message };
+            }
+        }
+
+
+        public ActionsResponseModel DeleteItemLookup(int ItemLookupId)
+        {
+            try
+            {
+                var item = Context.ItemLookups.FirstOrDefault(x => x.ItemLookupId == ItemLookupId);
+                if (item != null)
+                {
+                    Context.ItemLookups.Remove(item);
+                    var details = Context.ItemLookupDetails.Where(x => x.ItemLookupId == ItemLookupId);
+                    if(details.Any())
+                        Context.ItemLookupDetails.RemoveRange(details);
+
+                    Context.SaveChanges();
+                    return new ActionsResponseModel { Message = "تم حذف القالب بنجاح" };
+                }
+
+                return new ActionsResponseModel { IsSuccess = false, Message = "القالب غير موجودة" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel AddItemsToLookup(int ItemLookupId, List<ItemLookupDetailsModel> model)
+        {
+            try
+            {
+                var existing = Context.ItemLookupDetails.Where(x => x.ItemLookupId == ItemLookupId).ToList();
+                Context.ItemLookupDetails.RemoveRange(existing);
+                Context.SaveChanges();
+
+                foreach (var item in model)
+                {
+                    Context.ItemLookupDetails.Add(new ItemLookupDetails
+                    {
+                        ItemLookupId = ItemLookupId,
+                        ItemId = item.ItemId,
+                        DisplayOrder = item.DisplayOrder ?? 0,
+                        Quantity = item.Quantity ?? 0
+                    });
+                }
+
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "تم حفظ القالب" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.Message };
+            }
+        }
+
+        public List<GeneralOrderDetailsModel> GetItemsByLookupId(int ItemLookupId)
+        {
+            SqlParameter[] param = new SqlParameter[1];
+            param[0] = new SqlParameter("@ItemLookupId", ItemLookupId);
+
+            var result = SQLHelper.SQLQuery<GeneralOrderDetailsModel>("[dbo].[SP_GetItemsByLookupId]", null, param);
+            return result;
+        }
+        public List<ItemLookups> GetItemsLookups()
+        {
+            return Context.ItemLookups.ToList();
         }
 
         #endregion

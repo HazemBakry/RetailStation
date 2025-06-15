@@ -81,6 +81,7 @@ namespace MasterErp.Entities.Models
         public DbSet<SocialStatus> SocialStatus { get; set; }
 
         public DbSet<ItemLookups> ItemLookups { get; set; }
+        public DbSet<ItemLookupDetails> ItemLookupDetails { get; set; }
         public DbSet<Job> Jobs { get; set; }
 
         public DbSet<Nationality> Nationalities { get; set; }

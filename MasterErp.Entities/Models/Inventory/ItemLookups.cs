@@ -10,12 +10,13 @@ namespace MasterErp.Entities.Models.Inventory
 {
     [Table("ItemLookups", Schema = "Inventory")]
 
-    public class ItemLookups
+    public class ItemLookups : CreatorModel
     {
         [Key]
         public int ItemLookupId { get; set; }
         public string NameAR { get; set; }
         public string NameEN { get; set; }
-        public int BranchId { get; set; }
+        public string Notes { get; set; }
+        public int? BranchId { get; set; }
     }
 }

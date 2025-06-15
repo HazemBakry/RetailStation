@@ -5,6 +5,7 @@ using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Entities.Models.Inventory;
 using MasterErp.Interface.Inventory;
 using MasterErp.Service.Common;
+using MasterErp.Service.Inventory;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -193,23 +194,6 @@ namespace MasterErp.API.Controllers.Inventory
         }
         #endregion
 
-        [HttpGet]
-        [Route("GetItemsLookups")]
-        public List<ItemLookups> GetItemsLookups()
-        {
-            return _itemService.GetItemsLookups();
-        }
-
-
-
-
-        [HttpGet]
-        [Route("GetItemsByLookupId")]
-        public IActionResult GetItemsByLookupId(int LookupId)
-        {
-            var result = _itemService.GetItemsByLookupId(LookupId);
-            return Ok(result);
-        }
 
 
 
@@ -279,6 +263,85 @@ namespace MasterErp.API.Controllers.Inventory
             var Url = _itemService.ExportItemsDeleted(categoryId, SearchText, UserName);
             return Ok(new { Url = Url });
         }
+
+
+        #region ItemLookups
+
+
+
+        [HttpPost]
+        [Route("GetItemLookups_Data")]
+        public IActionResult GetItemLookups_Data(SearchFilterModel model)
+        {
+            var data = _itemService.GetItemLookups_Data(model);
+
+            var result = new PagedResponseModel<ItemLookupModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("GetItemLookupDetailsById")]
+        public IActionResult GetItemLookupDetailsById(int ItemLookupId)
+        {
+            var results = _itemService.GetItemLookupDetailsById(ItemLookupId);
+            return Ok(results);
+
+        }
+        [HttpPost]
+        [Route("CreateNewItemLookup")]
+        public IActionResult CreateNewItemLookup(ItemLookupModel model)
+        {
+            var results = _itemService.CreateNewItemLookup(model);
+            return Ok(results);
+        }
+        [HttpPost]
+        [Route("EditItemLookup")]
+        public IActionResult EditItemLookup(int ItemLookupId, ItemLookupModel model)
+        {
+            var results = _itemService.EditItemLookup(ItemLookupId,model);
+            return Ok(results);
+        }
+        [HttpGet]
+        [Route("DeleteItemLookup")]
+        public IActionResult DeleteItemLookup(int ItemLookupId)
+        {
+            var results = _itemService.DeleteItemLookup(ItemLookupId);
+            return Ok(results);
+        }
+        [HttpPost]
+        [Route("AddItemsToLookup")]
+        public IActionResult AddItemsToLookup(int ItemLookupId, List<ItemLookupDetailsModel> model)
+        {
+            var results = _itemService.AddItemsToLookup(ItemLookupId, model);
+            return Ok(results);
+        }
+
+
+
+        [HttpGet]
+        [Route("GetItemsLookups")]
+        public List<ItemLookups> GetItemsLookups()
+        {
+            return _itemService.GetItemsLookups();
+        }
+
+
+
+
+        [HttpGet]
+        [Route("GetItemsByLookupId")]
+        public IActionResult GetItemsByLookupId(int ItemLookupId)
+        {
+            var result = _itemService.GetItemsByLookupId(ItemLookupId);
+            return Ok(result);
+        }
+
+        #endregion
 
     }
 }
