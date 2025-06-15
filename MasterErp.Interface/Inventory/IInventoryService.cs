@@ -47,13 +47,13 @@ namespace MasterErp.Interface.Inventory
 
         #region Material Issue
 
-        List<OrderModel> GetMaterialIssue_Data(SearchFilterModel model, int? MaterialReceiptId = null);
+        List<MaterialIssueModel> GetMaterialIssue_Data(SearchFilterModel model, int? MaterialIssueId = null);
         List<FilterModel> GetMaterialIssue_Filters(SearchFilterModel PagingFilter);
-        OrderModel GetMaterialIssueDetailsById(int MaterialReceiptId);
-        List<OrderProductModel> GetMaterialIssueProducts_Data(int MaterialReceiptId);
-        ActionsResponseModel AddNewMaterialIssue(OrderModel model);
-        ActionsResponseModel EditMaterialIssue(int MaterialReceiptId, OrderModel model);
-        ActionsResponseModel CancelMaterialIssue(int MaterialReceiptId);
+        MaterialIssueModel GetMaterialIssueDetailsById(int MaterialIssueId);
+        List<GeneralOrderDetailsModel> GetMaterialIssueProducts_Data(int MaterialIssueId);
+        ActionsResponseModel AddNewMaterialIssue(MaterialIssueModel model);
+        ActionsResponseModel EditMaterialIssue(int MaterialIssueId, MaterialIssueModel model);
+        ActionsResponseModel CancelMaterialIssue(int MaterialIssueId);
 
         #endregion
 

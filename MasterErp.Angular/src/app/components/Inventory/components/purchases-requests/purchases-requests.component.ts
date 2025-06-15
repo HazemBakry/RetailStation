@@ -19,7 +19,7 @@ export class PurchasesRequestsComponent implements OnInit {
   pagedResponseModel:PagedResponseDTO<MaterialRequestModel[]>={
     results:[],
     filterList:[],
-    pageSize: 25,
+    pageSize: 10,
     currentPage:1,
     searchText:''
   };

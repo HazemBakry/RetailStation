@@ -46,7 +46,7 @@ export class GeneralOrderProductsComponent implements OnInit, OnChanges {
   LookupId: any;
   SearchFilterModel: SearchFilterModel = {
     currentPage: 1,
-    pageSize: 25
+    pageSize: 10
   };
 
   constructor(private purchaseService: PurchaseService,

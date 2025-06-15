@@ -28,7 +28,7 @@ export class ReceiptLedgersComponent implements OnInit {
   showAddLoader: boolean = false;
   pagedResponse: PagedResponseDTO<ReceiptLedgerModel[]> = {
     currentPage: 1,
-    pageSize: 25,
+    pageSize: 10,
     results: [],
     filterList: [],
     searchText: ''

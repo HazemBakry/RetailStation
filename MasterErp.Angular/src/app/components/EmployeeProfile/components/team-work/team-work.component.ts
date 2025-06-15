@@ -20,14 +20,14 @@ export class TeamWorkComponent implements OnInit {
   
   SearchFilterModel: SearchFilterModel = {
     currentPage: 1,
-    pageSize: 25,
+    pageSize: 10,
     filterModel: { filterItems: [] }
   };
   employeeBasicInfoModel: EmployeeBasicInfoModel = {} as EmployeeBasicInfoModel;
   employeeBasicInfoResponse: PagedResponseDTO<EmployeeBasicInfoModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
 

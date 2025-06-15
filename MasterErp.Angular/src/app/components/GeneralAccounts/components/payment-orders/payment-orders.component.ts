@@ -18,7 +18,7 @@ export class PaymentOrdersComponent implements OnInit {
   pagedResponseModel: PagedResponseDTO<ReceiptModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
   };

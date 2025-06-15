@@ -26,4 +26,11 @@ namespace MasterErp.Entities.Common.Enums
         Paid = 15,
         UnPaid = 16
     }
+    public enum InventoryWorkflowStatus
+    {
+        Pending = 24,
+        Rejected = 25,
+        Approved = 26,
+        Completed = 27
+    }
 }

@@ -22,7 +22,7 @@ export class HRPayrollReportComponent implements OnInit {
   pagedResponseModel: PagedResponseDTO<any> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: '',
     fromDate: '',
@@ -31,7 +31,7 @@ export class HRPayrollReportComponent implements OnInit {
 
   pagedFilterModel: SearchFilterModel = {
     currentPage: 1,
-    pageSize: 25,
+    pageSize: 10,
     searchText: '',
     filterModel: {
       filterItems: [],

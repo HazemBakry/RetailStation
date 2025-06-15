@@ -15,16 +15,16 @@ import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 export class MaterialIssueReceiptsComponent implements OnInit {
   TitleList = ['المخازن', 'إذن صرف مواد لفرع'];
   showLoader: boolean;
-  ReceiptId: number;
+  materialIssueId: number;
   // FilterModel: FilterModel = {
   //   currentPage: 1,
-  //   pageSize: 25
+  //   pageSize: 10
   // };
 
   pagedResponseModel: PagedResponseDTO<OrderModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
   };
@@ -59,13 +59,13 @@ export class MaterialIssueReceiptsComponent implements OnInit {
 
 
 
-  openDeleteModal(content: any, itemId: number) {
-    this.ReceiptId = itemId;
+  openDeleteModal(content: any, materialIssueId: number) {
+    this.materialIssueId = materialIssueId;
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
-  cancelOrder(receiptId: number) {
-    this.inventoryService.CancelMaterialIssueReceipt(receiptId).subscribe(data => {
+  cancelMaterialIssueOrder(materialIssueId: number) {
+    this.inventoryService.CancelMaterialIssue(materialIssueId).subscribe(data => {
       if (data?.isSuccess) {
         this.modalService?.dismissAll();
         this.getMaterialIssueSummary();

@@ -23,7 +23,7 @@ export class JournalEntryTemplatesComponent implements OnInit {
   pagedResponseModel: PagedResponseDTO<JournalTemplateModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
 

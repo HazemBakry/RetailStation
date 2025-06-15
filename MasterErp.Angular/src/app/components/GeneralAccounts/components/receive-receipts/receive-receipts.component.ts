@@ -15,13 +15,13 @@ export class ReceiveReceiptsComponent implements OnInit {
   showLoader: boolean;
   FilterModel: FilterModel = {
     currentPage: 1,
-    pageSize: 25
+    pageSize: 10
   };
 
   ReceiveReceipts: PagedResponseDTO<ReceiveReceipt[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
   };

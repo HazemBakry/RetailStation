@@ -28,7 +28,7 @@ export class MaterialReceiptsComponent implements OnInit {
   pagedResponseModel: PagedResponseDTO<MaterialReceiptModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
   };
@@ -169,6 +169,11 @@ export class MaterialReceiptsComponent implements OnInit {
       fieldName: 'totalValue', 
       fieldType: FieldType.Text, 
       displayName: 'الاجمالي', 
+    },
+    {
+      fieldName: 'expireDate', 
+      fieldType: FieldType.Date, 
+      displayName: 'تاريخ الصلاحية', 
     },
   ];
 }

@@ -19,7 +19,7 @@ export class AccountsReportHeaderComponent implements OnInit {
 
   SearchModel: SearchFilterModel = {
     currentPage: 1,
-    pageSize: 25,
+    pageSize: 10,
     isExport: false,
     filterItems: []
   };

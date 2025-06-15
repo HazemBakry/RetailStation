@@ -40,7 +40,7 @@ export class HrEmployeesSalariesComponent implements OnInit {
   pagedResponseModel: PagedResponseDTO<EmployeeSalarySummaryModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
   };

@@ -21,7 +21,7 @@ export class SuppliersListComponent implements OnInit {
   TotalPages: any;
   FilterModel: FilterModel = {
     currentPage: 1,
-    pageSize: 25
+    pageSize: 10
   };
 
   constructor(private purchaseService: PurchaseService, private inventoryService: InventoryService, private modalService: NgbModal, private toaster: ToastrService, private offcanvasService: NgbOffcanvas) { }

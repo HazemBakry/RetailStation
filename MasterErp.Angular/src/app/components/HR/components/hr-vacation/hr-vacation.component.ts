@@ -29,14 +29,14 @@ export class HrVacationComponent implements OnInit {
   CategoryName = 'قائمة الموظفين';
   SearchFilterModel: SearchFilterModel = {
     currentPage: 1,
-    pageSize: 25,
+    pageSize: 10,
     filterModel: { filterItems: [] }
   };
   employeeVacationModel: EmployeeVacationModel = {} as EmployeeVacationModel;
   employeeVacationResponse: PagedResponseDTO<EmployeeVacationModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
   };

@@ -1,4 +1,5 @@
-﻿using iText.Layout.Borders;
+﻿using ICU4N.Util;
+using iText.Layout.Borders;
 using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Finance.Purchases;
@@ -161,6 +162,7 @@ namespace MasterErp.Service.Inventory
                               ItemNameEN = item.NameEN,
                               ItemNameAR = item.NameAR,
                               Price = orderProduct.Price,
+                              ExpireDate = orderProduct.ExpireDate,
                               Quantity = orderProduct.Quantity,
                               TotalValue = orderProduct.TotalValue,
                               UnitId = item.UnitId,
@@ -204,6 +206,7 @@ namespace MasterErp.Service.Inventory
                         TotalValue = item.TotalValue,
                         MaterialReceiptId = order_tbl.MaterialReceiptId,
                         UnitId = item.UnitId,
+                        ExpireDate = item.ExpireDate,
                         //RemainQuantity = 0,
                         //ItemBalance = 0,
                         //IsLocked = false,
@@ -264,6 +267,7 @@ namespace MasterErp.Service.Inventory
                             TotalValue = item.TotalValue,
                             MaterialReceiptId = order_tbl.MaterialReceiptId,
                             UnitId = item.UnitId,
+                            ExpireDate = item.ExpireDate,
                             //RemainQuantity = 0,
                             //ItemBalance = 0,
                             //IsLocked = false,
@@ -542,19 +546,19 @@ namespace MasterErp.Service.Inventory
 
         #region Material Issue
 
-        public List<OrderModel> GetMaterialIssue_Data(SearchFilterModel model, int? OrderId = null)
+        public List<MaterialIssueModel> GetMaterialIssue_Data(SearchFilterModel model, int? MaterialIssueId = null)
         {
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
             SqlParameter[] Params = new SqlParameter[4];
 
-            Params[0] = new SqlParameter("@OrderId", OrderId);
+            Params[0] = new SqlParameter("@MaterialIssueId", MaterialIssueId);
             Params[1] = new SqlParameter("@CurrentPage", model.CurrentPage);
             Params[2] = new SqlParameter("@PageSize", model.PageSize);
             Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[3].Value = dt;
 
-            var result = SQLHelper.SQLQuery<OrderModel>("[Inventory].[SP_GetMaterialIssue_Data]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<MaterialIssueModel>("[Inventory].[SP_GetMaterialIssue_Data]", ConnectionString, Params);
             return result;
         }
 
@@ -572,19 +576,37 @@ namespace MasterErp.Service.Inventory
             return SharedFilterService.GroupedFilterItems(results);
         }
 
-        public OrderModel GetMaterialIssueDetailsById(int OrderId)
+        public MaterialIssueModel GetMaterialIssueDetailsById(int MaterialIssueId)
         {
-            return GetMaterialIssue_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, OrderId)?.FirstOrDefault();
+            var result= GetMaterialIssue_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, MaterialIssueId)?.FirstOrDefault();
+
+
+            if (result != null)
+            {
+                result.PreviousId = Context.MaterialIssues
+                                    .Where(p => p.MaterialIssueId < MaterialIssueId)
+                                    .OrderByDescending(p => p.MaterialIssueId)
+                                    .Select(p => p.MaterialIssueId)
+                                    .FirstOrDefault();
+
+                result.NextId = Context.MaterialIssues
+                                .Where(p => p.MaterialIssueId > MaterialIssueId)
+                                .OrderBy(p => p.MaterialIssueId)
+                                .Select(p => p.MaterialIssueId)
+                                .FirstOrDefault();
+            }
+            return result;
+            
         }
 
-        public List<OrderProductModel> GetMaterialIssueProducts_Data(int OrderId)
+        public List<GeneralOrderDetailsModel> GetMaterialIssueProducts_Data(int MaterialIssueId)
         {
             var result = (from orderProduct in Context.MaterialIssueDetails
                           join item in Context.Items on orderProduct.ItemId equals item.ItemId
                           join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
                           from unit in jT2.DefaultIfEmpty()
-                          where (orderProduct.MaterialIssueId == OrderId)
-                          select new OrderProductModel
+                          where (orderProduct.MaterialIssueId == MaterialIssueId)
+                          select new GeneralOrderDetailsModel
                           {
                               ItemId = item.ItemId,
                               ItemNameEN = item.NameEN,
@@ -602,7 +624,7 @@ namespace MasterErp.Service.Inventory
             return result;
 
         }
-        public ActionsResponseModel AddNewMaterialIssue(OrderModel model)
+        public ActionsResponseModel AddNewMaterialIssue(MaterialIssueModel model)
         {
             try
             {
@@ -611,23 +633,27 @@ namespace MasterErp.Service.Inventory
                 order_tbl.OrderDate = model.OrderDate ?? DateTime.Now;
                 order_tbl.CreatedDate = DateTime.Now;
                 order_tbl.CreatedBy = model.CreatedBy;
-                order_tbl.OrderNumber = (Context.MaterialIssues.Count() > 0 ? Context.MaterialIssues.Max(x => x.OrderNumber) + 1 : 1);
+
+                int code = (Context.MaterialIssues.Count() > 0 ? Context.MaterialIssues.Max(x => x.OrderNumber) + 1 : 1);
+                order_tbl.OrderNumber = code;
+                order_tbl.SerialNumber = DalHelper.GenerateSerialNumber(SerialType.MaterialIssue, code);
+
                 order_tbl.DocNumber = model.DocNumber;
-                order_tbl.TotalValue = model.OrderProducts.Sum(x => x.TotalValue);
+                order_tbl.TotalValue = model.OrderDetails.Sum(x => x.TotalValue);
                 order_tbl.IsCancelled = false;
                 order_tbl.IsLocked = false;
                 order_tbl.Notes = model.Notes;
                 order_tbl.BranchId = (int)model.BranchId;
                 order_tbl.StoreId = (int)model.StoreId;
-
+                order_tbl.WorkflowStatusId = (int)InventoryWorkflowStatus.Pending;
                 Context.MaterialIssues.Add(order_tbl);
                 Context.SaveChanges();
 
-                foreach (OrderProductModel item in model.OrderProducts)
+                foreach (var item in model.OrderDetails)
                 {
                     var detail = new MaterialIssueDetails
                     {
-                        Price = item.Price,
+                        Price = item.Price.GetValueOrDefault(),
                         ItemId = item.ItemId,
                         Quantity = item.Quantity,
                         TotalValue = item.TotalValue,
@@ -641,9 +667,9 @@ namespace MasterErp.Service.Inventory
                 }
                 return new ActionsResponseModel
                 {
-                    Message = "Delivery Order Created",
+                    Message = "Material Issue Order Created !",
                     Id = order_tbl.MaterialIssueId,
-                    Number = order_tbl.OrderNumber.ToString(),
+                    Number = order_tbl.SerialNumber,
                 };
             }
             catch (Exception ex)
@@ -655,16 +681,16 @@ namespace MasterErp.Service.Inventory
                 };
             }
         }
-        public ActionsResponseModel EditMaterialIssue(int OrderId, OrderModel model)
+        public ActionsResponseModel EditMaterialIssue(int MaterialIssueId, MaterialIssueModel model)
         {
             try
             {
-                var order_tbl = Context.MaterialIssues.Where(i => i.MaterialIssueId == OrderId).FirstOrDefault();
+                var order_tbl = Context.MaterialIssues.Where(i => i.MaterialIssueId == MaterialIssueId).FirstOrDefault();
                 if (order_tbl != null)
                 {
                     order_tbl.OrderDate = model.OrderDate ?? DateTime.Now;
                     order_tbl.DocNumber = model.DocNumber;
-                    order_tbl.TotalValue = model.OrderProducts.Sum(x => x.TotalValue);
+                    order_tbl.TotalValue = model.OrderDetails.Sum(x => x.TotalValue);
                     order_tbl.IsCancelled = model.IsCancelled;
                     order_tbl.IsLocked = model.IsLocked;
                     order_tbl.Notes = model.Notes;
@@ -675,15 +701,15 @@ namespace MasterErp.Service.Inventory
 
                     Context.SaveChanges();
 
-                    var MaterialIssueDetails = Context.MaterialIssueDetails.Where(x => x.MaterialIssueId == OrderId).ToList();
+                    var MaterialIssueDetails = Context.MaterialIssueDetails.Where(x => x.MaterialIssueId == MaterialIssueId).ToList();
                     Context.MaterialIssueDetails.RemoveRange(MaterialIssueDetails);
                     Context.SaveChanges();
 
-                    foreach (OrderProductModel item in model.OrderProducts)
+                    foreach (var item in model.OrderDetails)
                     {
                         var detail = new MaterialIssueDetails
                         {
-                            Price = item.Price,
+                            Price = item.Price.GetValueOrDefault(),
                             ItemId = item.ItemId,
                             Quantity = item.Quantity,
                             TotalValue = item.TotalValue,
@@ -711,14 +737,15 @@ namespace MasterErp.Service.Inventory
                 };
             }
         }
-        public ActionsResponseModel CancelMaterialIssue(int OrderId)
+        public ActionsResponseModel CancelMaterialIssue(int MaterialIssueId)
         {
             try
             {
-                var order = Context.MaterialIssues.FirstOrDefault(m => m.MaterialIssueId == OrderId);
+                var order = Context.MaterialIssues.FirstOrDefault(m => m.MaterialIssueId == MaterialIssueId);
                 if (order != null)
                 {
                     order.IsCancelled = true;
+                    order.WorkflowStatusId = (int)InventoryWorkflowStatus.Rejected;
                     order.ModifiedDate = DateTime.Now;
                     order.ModifiedBy = "";
 

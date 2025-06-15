@@ -33,7 +33,7 @@ export class HrAdvancesComponent implements OnInit {
   employeeAdvanceResponse:PagedResponseDTO<EmployeeAdvanceModel[]>={
     results:[],
     filterList:[],
-    pageSize: 25,
+    pageSize: 10,
     currentPage:1,
     searchText:''
   };

@@ -8,6 +8,7 @@ import { SharedService } from '../../services/shared.service';
 import { ItemModel } from 'src/app/components/Inventory/models/Item';
 import { GeneralSelectorModel } from '../general-selector/general-selector.component';
 import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-order-items',
@@ -23,6 +24,11 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   @Input() showRequestedQuantity: boolean = false;
   @Input() showPrice: boolean = true;
   @Input() showDueDate: boolean = false;
+  @Input() dueDate: string = null;
+  @Input() showExpireDate: boolean = false;
+  @Input() showActions: boolean = true;
+  @Input() disableSupplierSelector: boolean = false;
+  @Input() disablePrice: boolean = true;
   @Input() selectedSupplierId: number;
   @Output() selectedProductsList = new EventEmitter<GeneralOrderDetailsModel[]>();
   showLoader: boolean = false;
@@ -47,14 +53,17 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   itemsSelector: GeneralSelectorModel[] = [];
   SearchFilterModel: SearchFilterModel = {
     currentPage: 1,
-    pageSize: 25
+    pageSize: 10
   };
-
+  today: string;
   constructor(private purchaseService: PurchaseService,
     private inventoryService: InventoryService,
     private sharedService: SharedService,
     private modalService: NgbModal,
-    private toaster: ToastrService) { }
+    private datePipe: DatePipe,
+    private toaster: ToastrService) { 
+      this.today = this.datePipe.transform(new Date, 'yyyy-MM-dd');
+    }
 
   ngOnInit(): void {
     this.addProducts();
@@ -111,7 +120,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     let result = patt.test(key);
     return result;
   }
-  checkQuantityValue(event:Event, item: GeneralOrderDetailsModel) {
+  checkQuantityValue(event: Event, item: GeneralOrderDetailsModel) {
     var value = +(event.target as HTMLInputElement).value;
     if (this.showRequestedQuantity && value && value > item.requestedQuantity) {
       this.toaster.warning('الكمية المطلوبة اكبر من الكمية المدخلة');
@@ -130,14 +139,15 @@ export class OrderItemsComponent implements OnInit, OnChanges {
       price: 0,
       quantity: null,
       totalValue: null,
-      dueDate: null,
+      dueDate: this.datePipe.transform(this.dueDate, 'yyyy-MM-dd'),
+      expireDate: this.today,
       // isActive: true
     }
 
     this.orderItems.push(item);
     this.emitSelectedProductsList();
   }
-  removeItem(index: number=null) {
+  removeItem(index: number = null) {
     if (index) {
       this.orderItems.splice(index, 1);
     } else {
@@ -165,6 +175,9 @@ export class OrderItemsComponent implements OnInit, OnChanges {
         item.unitId = data.unitId;
         item.unitNameAR = data.unitName;
         item.unitNameEN = data.unitName;
+        item.price = data.cost;
+        item.quantity = 0;
+        item.totalValue = 0;
       }
 
       this.showLoader = false;
@@ -203,6 +216,9 @@ export class OrderItemsComponent implements OnInit, OnChanges {
 
       // }
     });
+    if (this.showExpireDate) {
+      // this.orderItems = this.orderItems.map(item=>({...item,expireDate:this.today}));
+    }
     if (this.orderItems)
       this.emitSelectedProductsList();
   }
@@ -261,9 +277,11 @@ export class OrderItemsComponent implements OnInit, OnChanges {
 
     this.orderItems = [];
 
-    if (!this.selectedSupplierId)
+    if (!this.selectedSupplierId) {
+      this.toaster.warning('يجب الاختيار من الموردين')
       return;
-    
+    }
+
     this.inventoryService.GetItemsBySupplierId(this.selectedSupplierId).subscribe(data => {
       if (data && data.length > 0) {
         this.orderItems = data.map<GeneralOrderDetailsModel>(item => {
@@ -293,7 +311,23 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     this.emitSelectedProductsList();
   }
 
-
+  itemQuickUpdate(ItemId: number, Price: number, unitId: number) {
+    if (!Price || !unitId || !ItemId) {
+      this.toaster.warning('يجب اختيار سع و وحدة صالحين');
+    }
+    this.inventoryService.ItemQuickUpdate(ItemId, Price, unitId).subscribe(data => {
+      if (data.isSuccess) {
+        this.toaster.success(data.message);
+      } else {
+        this.toaster.error(data.message);
+      }
+      //this.showAddLoader = false;
+    }, err => {
+      //this.showAddLoader = false;
+    }, () => {
+      //this.showAddLoader = false;
+    });
+  }
   emitSelectedProductsList() {
     var list = this.orderItems.filter(x => x.itemId && x.quantity && x.quantity > 0);
     this.selectedProductsList.emit(list);

@@ -57,7 +57,7 @@ export class HrEmployeeDuesComponent implements OnInit {
   pagedResponseModel: PagedResponseDTO<EmployeeDueModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
   };

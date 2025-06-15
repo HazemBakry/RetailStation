@@ -46,6 +46,7 @@ namespace MasterErp.Entities.DTOs.Inventory
         public double Quantity { get; set; }
         public double TotalValue { get; set; }
         public DateTime? DueDate { get; set; }
+        public DateTime? ExpireDate { get; set; }
         public int? OrderId { get; set; }
     }
 

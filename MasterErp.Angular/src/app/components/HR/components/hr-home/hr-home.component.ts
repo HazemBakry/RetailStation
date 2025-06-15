@@ -103,7 +103,7 @@ export class HrHomeComponent implements OnInit {
   LoansList: any[] = [];
   SearchFilterModel: SearchFilterModel = {
     currentPage: 1,
-    pageSize: 25,
+    pageSize: 10,
     filterModel: { filterItems: [] }
   };
 

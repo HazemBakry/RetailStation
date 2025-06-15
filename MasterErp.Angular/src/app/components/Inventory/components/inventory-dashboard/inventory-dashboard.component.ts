@@ -30,12 +30,12 @@ export class InventoryDashboardComponent implements OnInit {
   suppliersList: any[] = [];
   FilterModel: FilterModel = {
     currentPage: 1,
-    pageSize: 25
+    pageSize: 10
   };
   pagedResponseModel:PagedResponseDTO<OrderModel[]>={
     results:[],
     filterList:[],
-    pageSize: 25,
+    pageSize: 10,
     currentPage:1,
     searchText:''
 

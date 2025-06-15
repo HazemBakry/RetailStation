@@ -28,7 +28,7 @@ export class CostTrialBalanceComponent implements OnInit {
   trialBalanceResponse: AccountsReportSearchFilterModel = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: '',
     hideEmptyAccounts: false,

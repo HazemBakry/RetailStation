@@ -27,7 +27,7 @@ export class JournalEntryTypesComponent implements OnInit {
 
   pagedResponse: PagedResponseDTO<JournalEntryTypeModel[]> = {
     currentPage: 1,
-    pageSize: 25,
+    pageSize: 10,
     results: [],
     filterList: [],
     searchText: ''

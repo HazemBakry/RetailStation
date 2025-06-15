@@ -17,13 +17,13 @@ export class PaymentReceiptsComponent implements OnInit {
   showLoader: boolean;
   FilterModel: FilterModel = {
     currentPage: 1,
-    pageSize: 25
+    pageSize: 10
   };
   
   ReceiptList: PagedResponseDTO<ReceiptModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
   };

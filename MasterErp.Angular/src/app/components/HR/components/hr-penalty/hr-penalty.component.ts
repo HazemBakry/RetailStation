@@ -33,7 +33,7 @@ export class HrPenaltyComponent implements OnInit {
   employeePenaltyResponse: PagedResponseDTO<EmployeePenaltyModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
   };

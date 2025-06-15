@@ -37,5 +37,6 @@ export interface GeneralOrderDetailsModel {
     totalValue: number;
     orderId?: number;
     dueDate?: string;
+    expireDate?: string;
 }
 

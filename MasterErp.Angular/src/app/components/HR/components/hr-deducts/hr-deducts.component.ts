@@ -31,7 +31,7 @@ export class HrDeductsComponent implements OnInit {
   employeeDeductResponse: PagedResponseDTO<EmployeeDeductModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 25,
+    pageSize: 10,
     currentPage: 1,
     searchText: ''
   };

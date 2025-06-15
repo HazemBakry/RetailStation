@@ -18,7 +18,7 @@ export class SalesInvoicesComponent implements OnInit {
   TotalPages: any;
   FilterModel: FilterModel = {
     currentPage: 1,
-    pageSize: 25
+    pageSize: 10
   };
   pagedResponse:PagedResponseDTO<any[]>={
     currentPage:1,

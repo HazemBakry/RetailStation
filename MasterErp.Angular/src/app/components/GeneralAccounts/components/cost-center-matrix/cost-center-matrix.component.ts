@@ -21,7 +21,7 @@ export class CostCenterMatrixComponent implements OnInit {
 
   SearchFilterModel: SearchFilterModel = {
     currentPage: 1,
-    pageSize: 25,
+    pageSize: 10,
     isExport: false,
     filterItems: [],
     filterModel: { filterItems: [] }
