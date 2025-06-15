@@ -12,6 +12,17 @@
     <div class="mb-3">
         <div class="card radius-10 border-0 card-shadow" #printSection>
             <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between mb-4" *ngIf="isPrinting">
+                    <div style="font-size: 20px;font-weight: 800;">
+                        مطاعم مشوار
+                    </div>
+                    <div style="font-size: 20px;font-weight: 800;margin-top: 75px;">
+                        مقارنه المديونيات
+                    </div>
+                    <div>
+                        <img src="../../../../../assets/images/logo2.png" style="width: 100px;height: 100px;">
+                    </div>
+                </div>
                 <div class="table-responsive large-scroll">
                     <table class="table table-bordered table-middle table-hover bg-white mb-3 table-fixed-width">
                         <thead>
