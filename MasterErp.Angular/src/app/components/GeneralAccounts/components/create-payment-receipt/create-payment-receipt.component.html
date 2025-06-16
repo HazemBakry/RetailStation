@@ -20,7 +20,7 @@
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">أمر صرف</label>
 
-                        <app-general-selector [disabled]="paymentOrderId != null" formControlName="paymentOrderId" [data]="paymentOrdersList" (valueChanged)="getPaymentOrderDetailsById($event)" [placeholder]="'أوامر الصرف'"></app-general-selector>
+                        <app-general-selector [showSearch]="true" [disabled]="paymentOrderId != null" formControlName="paymentOrderId" [data]="paymentOrdersList" (valueChanged)="getPaymentOrderDetailsById($event)" [placeholder]="'أوامر الصرف'"></app-general-selector>
                         <div *ngIf="formErrors.paymentOrderId" class="text-danger  font-small-3 m-03">
                             {{formErrors.paymentOrderId}}
                         </div>
@@ -31,7 +31,7 @@
                         <label class="form-label d-flex align-items-center gap-2"> دفتر الايصال <span
                                 class="text-danger">*</span></label>
 
-                        <app-general-selector formControlName="receiptLedgerId" [data]="receiptLedgerList" [placeholder]="'دفتر الإيصال'"></app-general-selector>
+                        <app-general-selector formControlName="receiptLedgerId" [showSearch]="true" [data]="receiptLedgerList" [placeholder]="'دفتر الإيصال'"></app-general-selector>
                         <div *ngIf="formErrors.receiptLedgerId" class="text-danger  font-small-3 m-03">
                             {{formErrors.receiptLedgerId}}
                         </div>
@@ -63,7 +63,7 @@
                         <label class="form-label d-flex align-items-center gap-2"> نوع السند <span
                                 class="text-danger">*</span></label>
 
-                        <app-general-selector formControlName="receiptTypeId" [data]="receiptTypeList" [placeholder]="'نوع السند'"></app-general-selector>
+                        <app-general-selector formControlName="receiptTypeId" [showSearch]="true" [data]="receiptTypeList" [placeholder]="'نوع السند'"></app-general-selector>
                         <div *ngIf="formErrors.receiptTypeId" class="text-danger  font-small-3 m-03">
                             {{formErrors.receiptTypeId}}
                         </div>
@@ -74,7 +74,7 @@
                         <label class="form-label d-flex align-items-center gap-2">طريقة الدفع <span
                                 class="text-danger">*</span></label>
 
-                        <app-general-selector [disabled]="true" formControlName="paymentTypeId" [data]="paymentTypeList" 
+                        <app-general-selector [disabled]="true" formControlName="paymentTypeId" [showSearch]="true" [data]="paymentTypeList" 
                          [placeholder]="'طريقة الدفع'"></app-general-selector>
                          <div *ngIf="formErrors.paymentTypeId" class="text-danger  font-small-3 m-03">
                             {{formErrors.paymentTypeId}}
@@ -86,7 +86,7 @@
                         <label class="form-label d-flex align-items-center gap-2">نوع جهة التعامل <span
                                 class="text-danger">*</span></label>
 
-                        <app-general-selector [disabled]="true" formControlName="agencyTypeId" [data]="agencyTypeList" (valueChanged)="getSelectedAgencyType($event)" [placeholder]="'نوع جهة التعامل '"></app-general-selector>
+                        <app-general-selector [disabled]="true" formControlName="agencyTypeId" [showSearch]="true" [data]="agencyTypeList" (valueChanged)="getSelectedAgencyType($event)" [placeholder]="'نوع جهة التعامل '"></app-general-selector>
                         <div *ngIf="formErrors.agencyTypeId" class="text-danger  font-small-3 m-03">
                             {{formErrors.agencyTypeId}}
                         </div>
@@ -96,13 +96,13 @@
                     <div *ngIf="formGroup?.value?.agencyTypeId" class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">الحساب / جهة التعامل <span
                                 class="text-danger">*</span></label>
-                        <app-general-selector [disabled]="true" *ngIf="formGroup?.value?.agencyTypeId == 1" formControlName="accountId" [data]="accountList" [placeholder]="'الحسابات'">
+                        <app-general-selector [showSearch]="true" [disabled]="true" *ngIf="formGroup?.value?.agencyTypeId == 1" formControlName="accountId" [data]="accountList" [placeholder]="'الحسابات'">
                         </app-general-selector>
                         <div *ngIf="formErrors.accountId" class="text-danger  font-small-3 m-03">
                             {{formErrors.accountId}}
                         </div>
 
-                        <app-general-selector [disabled]="true" *ngIf="formGroup?.value?.agencyTypeId == 2" formControlName="supplierId" [data]="supplierList" [placeholder]="'جهة التعامل'">
+                        <app-general-selector [showSearch]="true" [disabled]="true" *ngIf="formGroup?.value?.agencyTypeId == 2" formControlName="supplierId" [data]="supplierList" [placeholder]="'جهة التعامل'">
                         </app-general-selector>
                         <div *ngIf="formErrors.supplierId" class="text-danger  font-small-3 m-03">
                             {{formErrors.supplierId}}
@@ -113,7 +113,7 @@
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">من حساب<span
                                 class="text-danger">*</span></label>
-                        <app-general-selector [disabled]="true" formControlName="fromAccountId" [data]="fromAccounts" [placeholder]="'الحسابات'">
+                        <app-general-selector [showSearch]="true" [disabled]="true" formControlName="fromAccountId" [data]="fromAccounts" [placeholder]="'الحسابات'">
                         </app-general-selector>
                         <div *ngIf="formErrors.fromAccountId" class="text-danger  font-small-3 m-03">
                             {{formErrors.fromAccountId}}

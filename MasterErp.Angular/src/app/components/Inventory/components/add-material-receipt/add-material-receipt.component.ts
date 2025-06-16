@@ -22,7 +22,7 @@ import { PurchaseOrderModel } from 'src/app/components/Purchases/models/Purchase
 })
 
 export class AddMaterialReceiptComponent implements OnInit {
-  TitleList = ['المخازن', 'انشاء أذن أضافة جديد'];
+  TitleList = ['المخازن', 'انشاء أذن استلام'];
   materialReceiptId: number;
   materialReceiptModel: MaterialReceiptModel = {} as MaterialReceiptModel;
   orderDetails: GeneralOrderDetailsModel[] = [];
