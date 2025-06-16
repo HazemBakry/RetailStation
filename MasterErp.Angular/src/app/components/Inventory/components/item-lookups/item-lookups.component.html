@@ -41,7 +41,7 @@
 <div class="row">
     <div class="col-6">
         <div class="card radius-10 border-0 card-shadow mb-4">
-             <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
+            <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
                 <h5 class="mb-0 fw-bold">الأصناف</h5>
             </div>
             <div class="card-body">
@@ -86,7 +86,7 @@
                                 <td>{{item.purchaseUnitName}}</td>
                                 <td>{{item.cost}}</td>
                                 <td>
-                                    <button *ngIf="!disabled"
+                                    <button *ngIf="!item.disabled"
                                         class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2"
                                         (click)="moveItemToLookup(item)">
                                         <i class="uil uil-pen"></i>
@@ -112,18 +112,18 @@
             <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
                 <h5 class="mb-0 fw-bold">أصناف القالب</h5>
                 <button class="btn btn-primary mb-2"
-                                    [disabled]="!itemLookupModel?.itemLookupId || !itemLookupModel?.items.length ||showAddLoader"
-                                    (click)="addItemsToLookup()">
-                                    <span class="me-2">حفظ</span>
-                                    <i class="uil uil-plus-circle"></i>
-                                </button>
+                    [disabled]="!itemLookupModel?.itemLookupId || !itemLookupModel?.items.length ||showAddLoader"
+                    (click)="addItemsToLookup()">
+                    <span class="me-2">حفظ</span>
+                    <i class="uil uil-plus-circle"></i>
+                </button>
             </div>
             <div class="card-body">
                 <div class="row p-2">
                     <div class="col-md-8">
                         <div class="d-flex align-items-center flex-wrap">
                             <div class="search-box position-relative mb-2">
-                                
+
                             </div>
                             <!-- <ng-container *ngIf="filterList.length > 0">
                         <app-pos-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-pos-filters>
@@ -144,6 +144,7 @@
                                 <th>الصنف</th>
                                 <th>الوحدة</th>
                                 <th>سعر الوحدة</th>
+                                <th>الكمية</th>
                                 <th>العمليات</th>
                             </tr>
                         </thead>
@@ -155,6 +156,10 @@
                                     </td>
                                     <td>{{item.unitNameAR ?? item.unitNameEN}}</td>
                                     <td>{{item.price}}</td>
+                                    <td>
+                                        <input type="number" min="0" class="form-control text-center"
+                                            [(ngModel)]="item.quantity" autocomplete="off">
+                                    </td>
                                     <td>
                                         <button
                                             class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"

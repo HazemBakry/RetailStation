@@ -118,15 +118,16 @@ export class ItemLookupsComponent implements OnInit {
     this.selectedItemLookupId = itemLookupId;
     if (this.selectedItemLookupId) {
       this.itemLookupModel = this.pagedResponse.results.find(x => x.itemLookupId == itemLookupId);
-    }else
-    {
+    } else {
       this.itemLookupModel = null;
     }
     this.disableAddedItems();
   }
   disableAddedItems() {
-    if (this.itemLookupModel?.items?.length > 0) {
-      this.itemResponseModel.results.forEach(x => { x.disabled = this.itemLookupModel?.items.find(i => x.itemId == x.itemId) ? true : false })
+    if (this.itemLookupModel?.items?.length >= 0) {
+      this.itemResponseModel.results.forEach(x => {
+        x.disabled = this.itemLookupModel?.items.find(i => x.itemId == i.itemId) ? true : false;
+      })
     }
   }
   moveItemToLookup(item: ItemModel) {

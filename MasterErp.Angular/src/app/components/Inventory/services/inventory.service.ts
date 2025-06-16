@@ -344,7 +344,7 @@ export class InventoryService {
 
 
   GetItemsByLookupId(LookupId: number) {
-    return this.http.get<GeneralOrderDetailsModel[]>(this.URL + 'Items/GetItemsByLookupId?LookupId=' + LookupId);
+    return this.http.get<GeneralOrderDetailsModel[]>(this.URL + 'Items/GetItemsByLookupId?ItemLookupId=' + LookupId);
   }
 
   CreateNewItemLookup(model: ItemLookupModel) {

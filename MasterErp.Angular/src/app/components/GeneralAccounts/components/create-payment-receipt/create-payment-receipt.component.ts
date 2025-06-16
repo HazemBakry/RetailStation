@@ -20,7 +20,7 @@ import { FinanceWorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWo
   styleUrls: ['./create-payment-receipt.component.css']
 })
 export class CreatePaymentReceiptComponent implements OnInit {
-  TitleList = ['الحسابات العامة', 'سند صرف جديد'];
+  TitleList = ['الحسابات العامة', 'سند صرف'];
   agencyTypeList: GeneralSelectorModel[] = [];
   paymentTypeList: GeneralSelectorModel[] = [];
   selectedAgencyType: number = 1;

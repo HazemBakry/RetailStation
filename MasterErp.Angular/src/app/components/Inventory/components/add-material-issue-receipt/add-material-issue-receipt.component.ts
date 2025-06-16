@@ -21,7 +21,7 @@ import { GeneralOrderDetailsModel } from '../../models/GeneralOrderModel ';
 })
 
 export class AddMaterialIssueReceiptComponent implements OnInit {
-  TitleList = ['المخازن', 'إنشاء إذن صرف مواد'];
+  TitleList = ['المخازن', 'إنشاء إذن صرف'];
   materialIssueId: number;
   materialIssueModel: MaterialIssueModel = {} as MaterialIssueModel;
   orderDetails: GeneralOrderDetailsModel[] = [];
