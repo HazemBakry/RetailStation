@@ -49,7 +49,12 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of valueKeys">
-                                <th style="background-color: #f7f7f7;">{{ item.key }}</th>
+                                <th style="background-color: #f7f7f7;">
+                                    <div class="d-flex justify-content-between">
+                                        {{ item.displayText }}
+                                        <input style="width: 200px;" *ngIf="item.key=='MonthlySalary'" type="text" class="form-control form-control-sm text-center" [(ngModel)]="item.notes" />
+                                    </div>
+                                </th>
                                 <td>
                                     <ng-container *ngIf="isPrinting; else editableInput1">
                                         <div class="text-center">{{ item.value1 }}</div>
