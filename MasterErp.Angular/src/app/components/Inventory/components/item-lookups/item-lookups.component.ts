@@ -118,6 +118,9 @@ export class ItemLookupsComponent implements OnInit {
     this.selectedItemLookupId = itemLookupId;
     if (this.selectedItemLookupId) {
       this.itemLookupModel = this.pagedResponse.results.find(x => x.itemLookupId == itemLookupId);
+    }else
+    {
+      this.itemLookupModel = null;
     }
     this.disableAddedItems();
   }
