@@ -1,3 +1,7 @@
 .w-10 {
     width: 10%;
 }
+
+.float-right {
+    float: right;
+}
