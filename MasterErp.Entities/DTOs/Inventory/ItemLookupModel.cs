@@ -25,7 +25,10 @@ namespace MasterErp.Entities.DTOs.Inventory
         public int ItemId { get; set; }
         public string ItemNameEN { get; set; }
         public string ItemNameAR { get; set; }
+        public string UnitNameEN { get; set; }
+        public string UnitNameAR { get; set; }
         public int? DisplayOrder { get; set; }
         public double? Quantity { get; set; }
+        public double? Price { get; set; }
     }
 }

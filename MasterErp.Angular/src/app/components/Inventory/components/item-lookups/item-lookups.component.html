@@ -41,6 +41,9 @@
 <div class="row">
     <div class="col-6">
         <div class="card radius-10 border-0 card-shadow mb-4">
+             <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
+                <h5 class="mb-0 fw-bold">الأصناف</h5>
+            </div>
             <div class="card-body">
                 <div class="row p-2">
                     <div class="col-md-8">
@@ -83,7 +86,7 @@
                                 <td>{{item.purchaseUnitName}}</td>
                                 <td>{{item.cost}}</td>
                                 <td>
-                                    <button
+                                    <button *ngIf="!disabled"
                                         class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2"
                                         (click)="moveItemToLookup(item)">
                                         <i class="uil uil-pen"></i>
@@ -106,12 +109,17 @@
     </div>
     <div class="col-6">
         <div class="card radius-10 border-0 card-shadow mb-4">
+            <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
+                <h5 class="mb-0 fw-bold">أصناف القالب</h5>
+            </div>
             <div class="card-body">
                 <div class="row p-2">
                     <div class="col-md-8">
                         <div class="d-flex align-items-center flex-wrap">
                             <div class="search-box position-relative mb-2">
-                                <button class="btn btn-primary mb-2" (click)="true">
+                                <button class="btn btn-primary mb-2"
+                                    [disabled]="!itemLookupModel?.itemLookupId || !itemLookupModel?.items.length ||showAddLoader"
+                                    (click)="addItemsToLookup()">
                                     <span class="me-2">حفظ</span>
                                     <i class="uil uil-plus-circle"></i>
                                 </button>
@@ -140,7 +148,7 @@
                         </thead>
                         <tbody>
                             <ng-container *ngIf="itemLookupModel?.items?.length>0">
-                                <tr *ngFor="let item of itemLookupModel?.items">
+                                <tr *ngFor="let item of itemLookupModel?.items;let i=index">
                                     <td>
                                         {{item.itemNameAR??item.itemNameEN}}
                                     </td>
@@ -149,7 +157,7 @@
                                     <td>
                                         <button
                                             class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
-                                            (click)="openDeleteModal(deleteModal,item.employeeAdvanceId)">
+                                            (click)="removeItemDetails(i,itemLookupModel?.items)">
                                             <i class="uil uil-trash-alt"></i>
                                             <span></span>
                                         </button>

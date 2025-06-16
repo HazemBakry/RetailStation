@@ -10,7 +10,7 @@ import { CustomValidators, RegexType } from 'src/app/components/Shared/services/
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
-import { ItemLookupModel } from '../../models/ItemLookupModel';
+import { ItemLookupDetailsModel, ItemLookupModel } from '../../models/ItemLookupModel';
 import { InventoryService } from '../../services/inventory.service';
 import { ItemModel } from '../../models/Item';
 
@@ -64,7 +64,7 @@ export class ItemLookupsComponent implements OnInit {
     this.inventoryService.GetItemsData(this.itemResponseModel).subscribe(data => {
       this.itemResponseModel.results = data.results;
       this.itemResponseModel.totalCount = data.totalCount;
-
+      this.disableAddedItems();
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
@@ -87,8 +87,8 @@ export class ItemLookupsComponent implements OnInit {
         return { name: x.nameAR ?? x.nameEN, value: x.itemLookupId }
       });
 
-      this.selectedItemLookupId =null;
-      this.itemLookupModel =null;
+      this.selectedItemLookupId = null;
+      this.itemLookupModel = null;
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
@@ -119,10 +119,35 @@ export class ItemLookupsComponent implements OnInit {
     if (this.selectedItemLookupId) {
       this.itemLookupModel = this.pagedResponse.results.find(x => x.itemLookupId == itemLookupId);
     }
+    this.disableAddedItems();
   }
-  moveItemToLookup(item:ItemModel)
-  {
+  disableAddedItems() {
+    if (this.itemLookupModel?.items?.length > 0) {
+      this.itemResponseModel.results.forEach(x => { x.disabled = this.itemLookupModel?.items.find(i => x.itemId == x.itemId) ? true : false })
+    }
+  }
+  moveItemToLookup(item: ItemModel) {
+    if (this.itemLookupModel?.items.length >= 0) {
+      if (!this.itemLookupModel?.items.some(x => x.itemId == item.itemId)) {
+        var obj: ItemLookupDetailsModel = {
+          itemId: item.itemId,
+          itemNameEN: item.nameEN,
+          itemNameAR: item.nameAR,
+          displayOrder: 0,
+          quantity: 0,
+          unitNameEN: item.unitName,
+          unitNameAR: item.unitName,
+          price: item.cost,
+        }
+        this.itemLookupModel?.items.push(obj);
+      } else {
+        this.toaster.warning('هذا الصنف موجود');
+      }
+    } else {
+      this.toaster.warning('برجاء اختيار القالب');
 
+    }
+    this.disableAddedItems();
   }
   openAddModal(content: any, itemLookupModel: ItemLookupModel = null) {
     this.loadSelectors();
@@ -267,6 +292,10 @@ export class ItemLookupsComponent implements OnInit {
 
 
   addItemsToLookup() {
+    if (!this.itemLookupModel?.itemLookupId || !this.itemLookupModel?.items.length) {
+      this.toaster.warning('من فضلك اختر من قائمة القوالب', 'تحذير');
+      return false;
+    }
     this.showAddLoader = true;
     this.inventoryService.AddItemsToLookup(this.itemLookupModel.itemLookupId, this.itemLookupModel.items).subscribe(data => {
 
@@ -284,6 +313,12 @@ export class ItemLookupsComponent implements OnInit {
     }, () => {
       this.showAddLoader = false;
     });
+  }
+  removeItemDetails(index: number, list: any[]) {
+    if (list?.length) {
+      list.splice(index, 1);
+    }
+    this.disableAddedItems();
   }
 
 }

@@ -6,14 +6,18 @@ export interface ItemLookupModel extends CreatorModel {
     nameEN: string;
     notes: string;
     branchId: number | null;
-    items:ItemLookupDetailsModel[]
+    items: ItemLookupDetailsModel[]
 }
 
 export interface ItemLookupDetailsModel {
-    itemLookupDetailsId: number | null;
+    itemLookupDetailsId?: number | null;
     itemId: number;
     itemNameEN: string;
     itemNameAR: string;
     displayOrder: number | null;
     quantity: number | null;
+    unitNameEN?: string;
+    unitNameAR?: string;
+    price?: number | null;
+
 }

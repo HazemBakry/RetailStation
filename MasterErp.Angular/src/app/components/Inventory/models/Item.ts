@@ -21,4 +21,6 @@ export interface ItemModel extends CreatorModel {
     supplierName: string;
     supplierIds: number[];
     itemSuppliers: SupplierModel[];
+    disabled: boolean | null;
+
 }
