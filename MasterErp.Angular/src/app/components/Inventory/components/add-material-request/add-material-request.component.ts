@@ -37,7 +37,7 @@ export class AddMaterialRequestComponent implements OnInit {
   formData: FormData = new FormData();
   public formGroup: FormGroup;
 
-
+  today: string;
   constructor(private acRoute: ActivatedRoute, private router: Router,
     private modalService: NgbModal,
     private inventoryService: InventoryService,
@@ -46,7 +46,9 @@ export class AddMaterialRequestComponent implements OnInit {
     private form: FormBuilder, private _FormService: FormService,
     private datePipe: DatePipe,
     private toaster: ToastrService,
-    private offcanvasService: NgbOffcanvas,) { }
+    private offcanvasService: NgbOffcanvas,) {
+    this.today = this.datePipe.transform(new Date, 'yyyy-MM-dd');
+  }
 
   ngOnInit(): void {
     this.loadSelectors();
@@ -59,13 +61,13 @@ export class AddMaterialRequestComponent implements OnInit {
       }
     });
     this.initNewForm();
-    
+
   }
   goToMaterialRequest(id: number) {
     if (id) {
       this.router.navigate([], {
         relativeTo: this.acRoute,
-        queryParams: { MaterialRequestId:id },
+        queryParams: { MaterialRequestId: id },
         queryParamsHandling: 'merge'
       });
     }
@@ -91,7 +93,7 @@ export class AddMaterialRequestComponent implements OnInit {
       data.forEach((item: GeneralOrderDetailsModel) => {
         item.dueDate = this.datePipe.transform(item.dueDate, 'yyyy-MM-dd');
       });
-      
+
       this.orderDetails = data;
       console.log(this.orderDetails);
       if (this.orderDetails.length > 0) {
@@ -125,7 +127,7 @@ export class AddMaterialRequestComponent implements OnInit {
       orderNumber: [null],
       docNumber: [null],
       storeId: [null, [Validators.required]],
-      orderDate: [null, [Validators.required]],
+      orderDate: [{ value: this.today, disabled: true }, , [Validators.required]],
       dueDate: [null, [Validators.required]],
       purposeId: [null, [Validators.required]],
       statusId: [null],
@@ -250,9 +252,9 @@ export class AddMaterialRequestComponent implements OnInit {
   }
 
   public formErrors = {
-    orderNumber :'',
+    orderNumber: '',
     storeId: '',
-    docNumber:'',
+    docNumber: '',
     orderId: '',
     orderDate: '',
     dueDate: '',
