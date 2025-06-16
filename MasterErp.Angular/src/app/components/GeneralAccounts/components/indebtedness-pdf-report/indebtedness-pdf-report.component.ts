@@ -13,13 +13,19 @@ export class IndebtednessPdfReportComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'مديونية الشركة'];
   IndebtednessData: any[] = [];
   valueKeys: any[] = [
-    { key: 'مديونية الموردين', value1: 0, value2: 0, diff: 0 },
-    { key: 'ايجارات الشركة', value1: 0, value2: 0, diff: 0 },
-    { key: 'ايجارات مشوار', value1: 0, value2: 0, diff: 0 },
-    { key: 'التامينات الاجتماعية', value1: 0, value2: 0, diff: 0 },
-    { key: 'رواتب شهر 12/24', value1: 0, value2: 0, diff: 0 },
-    { key: 'رواتب شهر 1/25', value1: 0, value2: 0, diff: 0 },
-    { key: 'مديونية مشوار للعقارات', value1: 0, value2: 0, diff: 0 }
+    { key: 'SuppliersDebts', displayText: 'مديونية الموردين', value1: 0, value2: 0, diff: 0 },
+    { key: 'CompanyRentals', displayText: 'ايجارات الشركة', value1: 0, value2: 0, diff: 0 },
+    { key: 'MishwarRentals', displayText: 'ايجارات مشوار', value1: 0, value2: 0, diff: 0 },
+    { key: 'SocialInsurance', displayText: 'التامينات الاجتماعية', value1: 0, value2: 0, diff: 0 },
+    { key: 'MonthlySalary', displayText: 'رواتب شهر ', value1: 0, value2: 0, diff: 0, notes: '' },
+    // { key: 'رواتب شهر 1/25', value1: 0, value2: 0, diff: 0 },
+    { key: 'MishwarRealStatesDebts', displayText: 'مديونية مشوار للعقارات', value1: 0, value2: 0, diff: 0 },
+    { key: 'TotalDebts', displayText: 'إجمالى المديونية', value1: 0, value2: 0, diff: 0 },
+    { key: 'Revenues', displayText: 'إيرادات مستحقة', value1: 0, value2: 0, diff: 0 },
+    { key: 'Stock', displayText: 'رصيد المخزون', value1: 0, value2: 0, diff: 0 },
+    { key: 'TotalValue', displayText: 'الإجمالى', value1: 0, value2: 0, diff: 0 },
+    { key: 'NetValue', displayText: 'صافى المديونية', value1: 0, value2: 0, diff: 0 },
+
   ];
   header1: any;
   header2: any;
