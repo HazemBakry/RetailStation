@@ -27,7 +27,7 @@ export class AddMaterialRequestComponent implements OnInit {
   isUpdate: boolean = false;
   clearAllProducts: boolean = false;
 
-  branchesSelectorData: GeneralSelectorModel[] = [];
+  storesSelectorData: GeneralSelectorModel[] = [];
   orderStatusSelectorData: GeneralSelectorModel[] = [];
   materialRequestPurposesSelectorData: GeneralSelectorModel[] = [];
 
@@ -124,7 +124,7 @@ export class AddMaterialRequestComponent implements OnInit {
       orderId: [null],
       orderNumber: [null],
       docNumber: [null],
-      branchId: [null, [Validators.required]],
+      storeId: [null, [Validators.required]],
       orderDate: [null, [Validators.required]],
       dueDate: [null, [Validators.required]],
       purposeId: [null, [Validators.required]],
@@ -203,8 +203,8 @@ export class AddMaterialRequestComponent implements OnInit {
   }
 
   loadSelectors() {
-    this.sharedService.GetBranchesSelector().subscribe((data: GeneralSelectorModel[]) => {
-      this.branchesSelectorData = data;
+    this.sharedService.GetStoresSelector().subscribe((data: GeneralSelectorModel[]) => {
+      this.storesSelectorData = data;
     });
     this.sharedService.GetOrderStatusSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.orderStatusSelectorData = data;
@@ -230,7 +230,7 @@ export class AddMaterialRequestComponent implements OnInit {
     this.formGroup.patchValue({
       orderId: orderModel.orderId,
       orderNumber: orderModel.orderNumber,
-      branchId: orderModel.branchId,
+      storeId: orderModel.storeId,
       docNumber: orderModel.docNumber,
       dueDate: this.datePipe.transform(orderModel.dueDate, 'yyyy-MM-dd'),
       purposeId: orderModel.purposeId,
@@ -251,7 +251,7 @@ export class AddMaterialRequestComponent implements OnInit {
 
   public formErrors = {
     orderNumber :'',
-    branchId: '',
+    storeId: '',
     docNumber:'',
     orderId: '',
     orderDate: '',

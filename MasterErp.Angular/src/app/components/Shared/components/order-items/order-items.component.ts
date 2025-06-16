@@ -75,6 +75,9 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     if (changes && changes.selectedProducts && changes.selectedProducts?.currentValue?.length > 0) {
       this.addProducts();
     }
+    if (changes && changes.dueDate) {
+      this.addProducts();
+    }
     if (changes && changes.selectedSupplierProducts) {
       this.addSupplierProducts();
     }
@@ -139,7 +142,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
       price: 0,
       quantity: null,
       totalValue: null,
-      dueDate: this.datePipe.transform(this.dueDate, 'yyyy-MM-dd'),
+      dueDate: this.getDueDate(),
       expireDate: this.today,
       // isActive: true
     }
@@ -219,6 +222,10 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     if (this.showExpireDate) {
       // this.orderItems = this.orderItems.map(item=>({...item,expireDate:this.today}));
     }
+    debugger
+    if (this.showDueDate&&this.dueDate) {
+      this.orderItems = this.orderItems.map(item=>({...item,dueDate:this.getDueDate()}));
+    }
     if (this.orderItems)
       this.emitSelectedProductsList();
   }
@@ -259,7 +266,8 @@ export class OrderItemsComponent implements OnInit, OnChanges {
           price: item.price,
           quantity: item.quantity,
           totalValue: item.price * item.quantity,
-          isActive: true
+          isActive: true,
+          dueDate:this.getDueDate()
         }
       });
 
@@ -295,7 +303,8 @@ export class OrderItemsComponent implements OnInit, OnChanges {
             price: item.cost,
             quantity: 0,
             totalValue: 0,
-            isActive: true
+            isActive: true,
+            dueDate :this.getDueDate()
           }
         });
       }
@@ -333,5 +342,8 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     this.selectedProductsList.emit(list);
   }
 
-
+  getDueDate()
+  {
+    return this.datePipe.transform(this.dueDate, 'yyyy-MM-dd')
+  }
 }

@@ -22,7 +22,7 @@ namespace MasterErp.Entities.Models.Inventory
         public DateTime OrderDate { get; set; }
         public DateTime? DueDate { get; set; }
         public int? PurposeId { get; set; }
-        public int BranchId { get; set; }
+        public int StoreId { get; set; }
         public int? StatusId { get; set; }
         public double? TotalValue { get; set; }
         public string Notes { get; set; }

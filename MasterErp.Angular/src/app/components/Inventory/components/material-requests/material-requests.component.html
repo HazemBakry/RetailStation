@@ -30,7 +30,7 @@
                         <th>تاريخ الطلب</th>
                         <th>تاريخ الاستحقاق</th>
                         <th>الغرض من الطلب</th>
-                        <th>اسم الفرع</th>
+                        <th>اسم المخزن</th>
                         <th>حالة الطلب</th>
                         <!-- <th>ملاحظات</th> -->
                         <th>العمليات</th>
@@ -43,7 +43,7 @@
                         <td>{{item.orderDate | date}}</td>
                         <td>{{item.dueDate | date}}</td>
                         <td>{{item.purposeNameAR ?? item.purposeNameEN}}</td>
-                        <td>{{item.branchNameAR ?? item.branchNameEN}}</td>
+                        <td>{{item.storeNameAR ?? item.storeNameEN}}</td>
                         <td>
                             <div appColorWithStatus [text]="item.isCancelled" status='isCancelled'></div>
                             <!-- <span *ngIf="item.orderStatus" class="badge rounded-pill default p-2 text-uppercase px-3"

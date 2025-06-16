@@ -34,7 +34,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 الفرع
                             </label>
-                            <app-general-selector [(ngModel)]="selectedBranchId" [data]="branchesSelectorData" [showSearch]="true" [placeholder]="'الفرع'"></app-general-selector>
+                            <app-general-selector [(ngModel)]="selectedStoreId" [data]="storesSelectorData" [showSearch]="true" [placeholder]="'الفرع'"></app-general-selector>
                         </div>
                     </div>
                     <!-- <div class="col-xl-4 mb-2">
@@ -95,7 +95,7 @@
                             </td>
                             <!-- <td>{{item.docNumber}}</td> -->
                             <td>{{item.orderDate | date}}</td>
-                            <td>{{item.branchNameAR}}</td>
+                            <td>{{item.storeNameAR ?? item.storeNameEN}}</td>
                             <td>
                                 <span class="badge rounded-pill default p-2 text-uppercase px-3">
                                     {{item.orderStatus}}

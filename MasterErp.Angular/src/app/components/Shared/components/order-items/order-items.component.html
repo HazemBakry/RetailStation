@@ -99,7 +99,7 @@
                             [(ngModel)]="item.totalValue" autocomplete="off">
                     </td>
                     <td *ngIf="showDueDate">
-                        <input type="date" #inputs class="form-control text-center" [(ngModel)]="item.dueDate"
+                        <input type="date" #inputs class="form-control text-center" [(ngModel)]="item.dueDate" [min]="dueDate"
                             autocomplete="off">
                     </td>
                     <td *ngIf="showExpireDate">

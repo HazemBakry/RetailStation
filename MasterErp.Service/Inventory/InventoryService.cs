@@ -813,7 +813,7 @@ namespace MasterErp.Service.Inventory
 
                 tbl.CreatedDate = DateTime.Now;
                 tbl.CreatedBy = model.CreatedBy;
-                tbl.BranchId = model.BranchId;
+                tbl.StoreId = model.StoreId;
                 tbl.Notes = model.Notes;
                 tbl.DocNumber = model.DocNumber;
                 tbl.StatusId = model.StatusId;
@@ -872,7 +872,7 @@ namespace MasterErp.Service.Inventory
                     order_tbl.IsLocked = model.IsLocked;
                     order_tbl.Notes = model.Notes;
                     order_tbl.PurposeId = model.PurposeId;
-                    order_tbl.BranchId = model.BranchId;
+                    order_tbl.StoreId = model.StoreId;
                     order_tbl.ModifiedBy = model.ModifiedBy;
                     order_tbl.ModifiedDate = DateTime.Now;
 

@@ -82,7 +82,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <!-- <div class="col-lg-6">
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">
                             الغرض من الطلب
@@ -95,18 +95,18 @@
                             {{formErrors.purposeId}}
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="col-lg-6">
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">
                             الفرع
                             <span class="text-danger">*</span>
                         </label>
-                        <app-general-selector formControlName="branchId" [showSearch]="true"
-                            [data]="branchesSelectorData" [placeholder]="'الفرع'"></app-general-selector>
+                        <app-general-selector formControlName="storeId" [showSearch]="true"
+                            [data]="storesSelectorData" [placeholder]="'الفرع'"></app-general-selector>
 
-                        <div *ngIf="formErrors.branchId" class="text-danger  font-small-3 m-03">
-                            {{formErrors.branchId}}
+                        <div *ngIf="formErrors.storeId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.storeId}}
                         </div>
                     </div>
                 </div>
@@ -171,7 +171,7 @@
 </div>
 
 <app-order-items [selectedProducts]="orderDetails" [clearAllProducts]="clearAllProducts" [showPrice]="false"
-    [showDueDate]="true" (selectedProductsList)="getSelectedProductsList($event)"></app-order-items>
+    [showDueDate]="true" [dueDate]="formGroup?.value?.dueDate" (selectedProductsList)="getSelectedProductsList($event)"></app-order-items>
 
 
 

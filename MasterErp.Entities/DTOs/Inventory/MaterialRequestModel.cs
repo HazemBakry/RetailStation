@@ -11,9 +11,9 @@ namespace MasterErp.Entities.DTOs.Inventory
     {
         public int? MaterialRequestId { get; set; }
         public int? PurchaseOrderId { get; set; }
-        public int BranchId { get; set; }
-        public string BranchNameAR { get; set; }
-        public string BranchNameEN { get; set; }
+        public int StoreId { get; set; }
+        public string StoreNameAR { get; set; }
+        public string StoreNameEN { get; set; }
         public int? PurposeId { get; set; }
         public string PurposeNameAR { get; set; }
         public string PurposeNameEN { get; set; }

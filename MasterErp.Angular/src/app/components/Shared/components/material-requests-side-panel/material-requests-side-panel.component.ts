@@ -21,7 +21,7 @@ import { MaterialRequestModel } from 'src/app/components/Inventory/models/Materi
 
 
 export class MaterialRequestsSidePanelComponent implements OnInit {
-  @Input() selectedBranchId: any;
+  @Input() selectedStoreId: any;
 
   @Output() selectedMaterialRequest=new EventEmitter<MaterialRequestModel[]>()
   OrdersList: any[] = [];
@@ -39,7 +39,7 @@ export class MaterialRequestsSidePanelComponent implements OnInit {
     searchText:''
 
   };
-  branchesSelectorData: GeneralSelectorModel[] = [];
+  storesSelectorData: GeneralSelectorModel[] = [];
   constructor(private offcanvasService: NgbOffcanvas,
               private purchaseService: PurchaseService,
               private inventoryService: InventoryService,
@@ -48,18 +48,18 @@ export class MaterialRequestsSidePanelComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.GetBranchesData();
+    this.GetStoresData();
   }
-  GetBranchesData() {
-    this.sharedService.GetBranchesSelector().subscribe(data => {
-      this.branchesSelectorData = data;
+  GetStoresData() {
+    this.sharedService.GetStoresSelector().subscribe(data => {
+      this.storesSelectorData = data;
     });
   }
 
 
   loadData()
   {
-    if (!this.selectedBranchId &&!this.orderDate&&!this.orderNumber) {
+    if (!this.selectedStoreId &&!this.orderDate&&!this.orderNumber) {
       this.toaster.warning('لا يمكن البحث ');
       return;
     }
@@ -83,11 +83,11 @@ export class MaterialRequestsSidePanelComponent implements OnInit {
     if (this.orderDate) {
       this.pagedResponseModel.filterList.push({categoryName:'OrderDate',itemFlag:this.orderDate})
     }
-    if (this.selectedBranchId) {
-      this.pagedResponseModel.filterList.push({categoryName:'BranchId',itemFlag:this.selectedBranchId})
+    if (this.selectedStoreId) {
+      this.pagedResponseModel.filterList.push({categoryName:'StoreId',itemFlag:this.selectedStoreId})
     }
     if (this.orderNumber) {
-      this.pagedResponseModel.filterList.push({categoryName:'searchText',itemFlag:this.orderNumber})
+      this.pagedResponseModel.filterList.push({categoryName:'SearchText',itemFlag:this.orderNumber})
     }
     // this.pagedResponseModel.filterList.push({categoryName:'IsLocked',itemFlag:'0'})
 
