@@ -44,7 +44,8 @@
     <div
         class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="d-flex align-items-center gap-2">
-            <button *ngIf="pagedResponseModel.results.length" (click)="approve()" class="btn btn-success d-flex align-items-center gap-2 border rounded px-3">
+            <button *ngIf="pagedResponseModel.results.length" (click)="openSaveModal(saveDialog)"
+                class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3">
                 <i class="fas fa-plus-circle"></i>
                 <span>Approve</span>
             </button>
@@ -72,7 +73,6 @@
                     <th>إجمالى القيمة</th>
                     <th>نوع العملية</th>
                     <th>حالة الطلب</th>
-                    <th class="text-center"></th>
                 </tr>
             </thead>
             <tbody>
@@ -88,20 +88,11 @@
                     <td>{{item.moneyAmount}}</td>
                     <td>{{item.processType}}</td>
                     <td>
-                        <span appWorkflowStatus [id]="item.statusId" [nameEN]="item?.jobStatusEN"
-                            [nameAR]="item?.jobStatusAR">
+                        <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusEN"
+                            [nameAR]="item?.workflowStatusAR">
                         </span>
                     </td>
-                    <td>
-                        <div class="d-flex align-items-center justify-content-center">
-                            <div ngbDropdown container="body">
-                                <button class="btn-sm-action sm-action-dropdown"
-                                    (click)="goToEmployeeDetails(item.employeeId)">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </td>
+
                 </tr>
                 <tr *ngIf="!pagedResponseModel.results.length">
                     <td colspan="9" class="text-right">
@@ -112,3 +103,30 @@
         </table>
     </div>
 </div>
+
+
+<ng-template #saveDialog let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد العملية</h4>
+    </div>
+    <div class="modal-body">
+        <div class="d-flex gap-3">
+            <div class="mt-2">رفض</div>
+            <div class="form-check form-switch my-2">
+                <input [(ngModel)]="isApprove" class="form-check-input" type="checkbox" role="switch">
+            </div>
+            <div class="mt-2">قبول</div>
+        </div>
+        <p class="fs-5 m-0">هل انت متأكد من الحفظ ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click'); approve()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">الغاء</span>
+        </button>
+    </div>
+</ng-template>

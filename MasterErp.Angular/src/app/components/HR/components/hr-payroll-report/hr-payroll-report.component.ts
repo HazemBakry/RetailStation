@@ -5,6 +5,7 @@ import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponse
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { HrService } from '../../services/hr.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-hr-payroll-report',
@@ -20,6 +21,7 @@ export class HRPayrollReportComponent implements OnInit {
   payrollProcessTypes: any[] = [];
   TypeId: number;
   selectAll: boolean = false;
+  isApprove:boolean=true;
   pagedResponseModel: PagedResponseDTO<any> = {
     results: [],
     filterList: [],
@@ -42,6 +44,7 @@ export class HRPayrollReportComponent implements OnInit {
 
   constructor(private hrService: HrService,
     private sharedService: SharedService,
+    private modalService: NgbModal,
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
@@ -115,13 +118,18 @@ export class HRPayrollReportComponent implements OnInit {
 
   }
   getSelectedRows(): number[] {
-    const selectedItems = this.pagedResponseModel.results.filter(b => b.isChecked);
+    const selectedItems = this.pagedResponseModel.results.filter(b => b.isChecked && b.actionId);
     if (selectedItems.length === 0) {
       this.toaster.warning('يجب الاختيار من الصفوف المناسبة للإجراء المطلوب');
     }
     return selectedItems.map(i => Number(i.actionId));
   }
-
+  openSaveModal(content: any) {
+    let rowsId = this.getSelectedRows();
+    if (!rowsId?.length)
+      return;
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
   approve() {
 
     let rowsId = this.getSelectedRows();
@@ -129,7 +137,7 @@ export class HRPayrollReportComponent implements OnInit {
       return;
 
     this.showLoader = true;
-    this.hrService.ApprovePayrollReportData(this.TypeId, rowsId).subscribe((data: ActionsResponseModel) => {
+    this.hrService.ApprovePayrollReportData(this.TypeId, rowsId,this.isApprove).subscribe((data: ActionsResponseModel) => {
       if (data.isSuccess) {
         this.selectAll = false;
         this.getEmployeePayrollReport(this.TypeId);
