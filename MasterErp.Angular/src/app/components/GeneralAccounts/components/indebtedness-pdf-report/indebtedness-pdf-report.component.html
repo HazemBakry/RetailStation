@@ -27,10 +27,12 @@
                     <table class="table table-bordered table-middle table-hover bg-white mb-3 table-fixed-width">
                         <thead>
                             <tr>
-                                <th>المديونيات</th>
+                                <th>
+                                    <div style="float: right;">المديونيات</div>
+                                </th>
                                 <th>
                                     <ng-container *ngIf="isPrinting; else editableheader1">
-                                        <div class="text-center">{{ header1 }}</div>
+                                        <div style="float: right;">{{ header1 }}</div>
                                     </ng-container>
                                     <ng-template #editableheader1>
                                         <input type="date" autocomplete="off" class="form-control nw-form-input" [(ngModel)]="header1" />
@@ -38,55 +40,103 @@
                                 </th>
                                 <th>
                                     <ng-container *ngIf="isPrinting; else editableheader2">
-                                        <div class="text-center">{{ header2 }}</div>
+                                        <div style="float: right;">{{ header2 }}</div>
                                     </ng-container>
                                     <ng-template #editableheader2>
                                         <input type="date" autocomplete="off" class="form-control nw-form-input" [(ngModel)]="header2" />
                                     </ng-template>
                                 </th>
-                                <th>الفروقات</th>
+                                <th>
+                                    <div style="float: right;">الفروقات</div>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of valueKeys">
                                 <th style="background-color: #f7f7f7;">
-                                    <div class="d-flex justify-content-between">
-                                        {{ item.displayText }}
-                                        <input style="width: 200px;" *ngIf="item.key=='MonthlySalary'" type="text" class="form-control form-control-sm text-center" [(ngModel)]="item.notes" />
-                                    </div>
-                                </th>
-                                <td>
                                     <ng-container *ngIf="isPrinting; else editableInput1">
-                                        <div class="text-center">{{ item.value1 }}</div>
+                                        <div *ngIf="item.key != 'MonthlySalary' && item.key != 'MonthlySalary2'" style="float: right;">{{ item.displayText}}</div>
+                                        <div *ngIf="item.key == 'MonthlySalary'" style="float: right;">{{ item.displayText + ' ' + (item.notes | date:'MM-yyyy')}}</div>
+                                        <div *ngIf="item.key == 'MonthlySalary2'" style="float: right;">{{ item.displayText + ' ' + (item.notes | date:'MM-yyyy')}}</div>
                                     </ng-container>
                                     <ng-template #editableInput1>
-                                        <input type="number" class="form-control form-control-sm text-center" [(ngModel)]="item.value1" (input)="calculateTotal(item)" />
+                                        <div class="d-flex justify-content-between">
+                                            {{ item.displayText }}
+                                            <input *ngIf="item.key == 'MonthlySalary'" style="width: 200px;background: white !important;" type="month" class="form-control nw-form-input" [(ngModel)]="item.notes" />
+                                            <input *ngIf="item.key == 'MonthlySalary2'" style="width: 200px;background: white !important;" type="month" class="form-control nw-form-input" [(ngModel)]="item.notes" />
+                                        </div>
                                     </ng-template>
-                                </td>
+                                </th>
                                 <td>
                                     <ng-container *ngIf="isPrinting; else editableInput2">
-                                        <div class="text-center">{{ item.value2 }}</div>
+                                        <div [ngClass]="{'float-right': isPrinting}">{{ item.value1 }}</div>
                                     </ng-container>
                                     <ng-template #editableInput2>
-                                        <input type="number" class="form-control form-control-sm text-center" [(ngModel)]="item.value2" (input)="calculateTotal(item)" />
+                                        <div class="form-control nw-form-input w-100" [ngClass]="{'float-right': isPrinting,'text-center':!isPrinting}" *ngIf="item.key == 'TotalDebts'">{{ item.value1 }}</div>
+                                        <input type="number" class="form-control form-control-sm" [ngClass]="{'float-right': isPrinting,'text-center':!isPrinting}" *ngIf="item.key != 'TotalDebts'" [(ngModel)]="item.value1" (input)="calculateTotalDebts()" />
                                     </ng-template>
                                 </td>
                                 <td>
-                                    <div class="text-center">{{ item.diff }}</div>
+                                    <ng-container *ngIf="isPrinting; else editableInput3">
+                                        <div [ngClass]="{'float-right': isPrinting}">{{ item.value2 }}</div>
+                                    </ng-container>
+                                    <ng-template #editableInput3>
+                                        <div class="form-control nw-form-input w-100" [ngClass]="{'float-right': isPrinting,'text-center':!isPrinting}" *ngIf="item.key == 'TotalDebts'">{{ item.value2 }}</div>
+                                        <input type="number" class="form-control form-control-sm" [ngClass]="{'float-right': isPrinting,'text-center':!isPrinting}" *ngIf="item.key != 'TotalDebts'" [(ngModel)]="item.value2" (input)="calculateTotalDebts()" />
+                                    </ng-template>
+                                </td>
+                                <td>
+                                    <div [ngClass]="{'float-right': isPrinting}">{{ item.diff }}</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="height: 10px;"></td>
+                            </tr>
+                            <tr *ngFor="let item of valueKeys2">
+                                <th style="background-color: #f7f7f7;">
+                                    <div style="float: right;">{{ item.displayText }}</div>
+                                </th>
+                                <td>
+                                    <ng-container *ngIf="isPrinting; else editableInput2">
+                                        <div [ngClass]="{'float-right': isPrinting}">{{ item.value1 }}</div>
+                                    </ng-container>
+                                    <ng-template #editableInput2>
+                                        <div class="form-control nw-form-input w-100" [ngClass]="{'float-right': isPrinting,'text-center':!isPrinting}" *ngIf="item.key == 'TotalValue'">{{ item.value1 }}</div>
+                                        <input type="number" class="form-control form-control-sm" [ngClass]="{'float-right': isPrinting,'text-center':!isPrinting}" *ngIf="item.key != 'TotalValue'" [(ngModel)]="item.value1" (input)="calculateTotalValue()" />
+                                    </ng-template>
+                                </td>
+                                <td>
+                                    <ng-container *ngIf="isPrinting; else editableInput3">
+                                        <div [ngClass]="{'float-right': isPrinting}">{{ item.value2 }}</div>
+                                    </ng-container>
+                                    <ng-template #editableInput3>
+                                        <div class="form-control nw-form-input w-100" [ngClass]="{'float-right': isPrinting,'text-center':!isPrinting}" *ngIf="item.key == 'TotalValue'">{{ item.value2 }}</div>
+                                        <input type="number" class="form-control form-control-sm" [ngClass]="{'float-right': isPrinting,'text-center':!isPrinting}" *ngIf="item.key != 'TotalValue'" [(ngModel)]="item.value2" (input)="calculateTotalValue()" />
+                                    </ng-template>
+                                </td>
+                                <td>
+                                    <div [ngClass]="{'float-right': isPrinting}">{{ item.diff }}</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="height: 10px;"></td>
+                            </tr>
+                            <tr>
+                                <th style="background-color: #f7f7f7;">
+                                    <div style="float: right;">{{ totalValueObj.displayText }}</div>
+                                </th>
+                                <td>
+                                    <div [ngClass]="{'form-control nw-form-input w-100 float-right': !isPrinting,'float-right': isPrinting}">{{ totalValueObj.value1 }}</div>
+                                </td>
+                                <td>
+                                    <div [ngClass]="{'form-control nw-form-input w-100 float-right': !isPrinting,'float-right': isPrinting}">{{ totalValueObj.value2 }}</div>
+                                </td>
+                                <td>
+                                    <div [ngClass]="{'float-right': isPrinting}">{{ totalValueObj.diff }}</div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
-                <div class="d-flex align-items-center mb-4">
-                    <div class="w-100 me-2">
-                        <label class="form-label d-flex align-items-center gap-2">أجمالي المديونية</label>
-                        <div class="form-control nw-form-input w-100 text-center">{{ TotalValue }}</div>
-                    </div>
-                    <div class="w-100">
-                        <label class="form-label d-flex align-items-center gap-2">أجمالي الفروقات</label>
-                        <div class="form-control nw-form-input w-100 text-center">{{ TotalDiffValue }}</div>
-                    </div>
                 </div>
             </div>
         </div>
