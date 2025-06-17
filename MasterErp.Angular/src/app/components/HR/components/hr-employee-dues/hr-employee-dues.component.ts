@@ -47,6 +47,13 @@ export class HrEmployeeDuesComponent implements OnInit {
   lastWorkingDate: string = '';
   employeeContractInfoModel: EmployeeContractModel;
   employeeDueModel: EmployeeDueModel = {
+    dueTypeId: null,
+    startWorkingDate: null,
+    lastWorkingDate: null,
+    executionDate: null,
+    addSalaryToDue: null,
+    salaryYear: null,
+    salaryMonth: null,
     vacationDues: 0,
     endOfServiceDues: 0,
     currentMonthSalary: 0,
@@ -95,7 +102,7 @@ export class HrEmployeeDuesComponent implements OnInit {
     });
 
     const currentYear = new Date().getFullYear();
-    this.selectedYear = currentYear;
+    this.selectedYear = this.employeeDueModel.salaryYear = currentYear;
     for (let i = currentYear - 5; i <= currentYear; i++) {
       this.yearsSelectorData.push({ value: i, name: i });
     }
@@ -110,6 +117,34 @@ export class HrEmployeeDuesComponent implements OnInit {
     this.getEmployeeDues();
   }
   calculateDues() {
+    if (!this.checkEmployee())
+      return;
+    this.showLoader = true;
+    this.hrService.calculateEmployeeDue(this.selectedEmployeeId, this.employeeDueModel).subscribe(data => {
+      this.employeeDueModel = data;
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+  saveEmployeeDue() {
+    if (!this.checkEmployee())
+      return;
+    this.showLoader = true;
+    this.hrService.saveEmployeeDue(this.selectedEmployeeId, this.employeeDueModel).subscribe(data => {
+      if (data.isSuccess)
+        this.toaster.success(data.message);
+      else
+        this.toaster.error(data.message);
+
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
   }
   checkEmployee() {
     if (!this.selectedEmployeeId) {
@@ -125,16 +160,15 @@ export class HrEmployeeDuesComponent implements OnInit {
     }
     this.hrService.getEmployeeDueStartDate(this.selectedEmployeeId).subscribe(data => {
       if (data)
-        this.startWorkingDate = this.datePipe.transform(data, 'yyyy-MM-dd')
+        this.startWorkingDate = this.employeeDueModel.startWorkingDate = this.datePipe.transform(data, 'yyyy-MM-dd')
     }, err => {
     }, () => {
     });
   }
-contractDetailsChanged(model:EmployeeContractModel)
-{
-  this.selectedBranchId = model?.branchId ?? null;
+  contractDetailsChanged(model: EmployeeContractModel) {
+    this.selectedBranchId = model?.branchId ?? null;
 
-}
+  }
   getEmployeeDues() {
     if (!this.checkEmployee())
       return;
@@ -162,6 +196,9 @@ contractDetailsChanged(model:EmployeeContractModel)
   pageChanged(obj: any) {
     this.pagedResponseModel.currentPage = obj.page;
     this.getEmployeeDues();
+  }
+  openSaveModal(content: any) {
+    this.modalService.open(content, { centered: true, size: 'md' });
   }
 
 }

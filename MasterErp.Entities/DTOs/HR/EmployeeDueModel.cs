@@ -15,13 +15,18 @@ namespace MasterErp.Entities.DTOs.HR
         public int DueTypeId { get; set; }
         public int NoMonths { get; set; }
         public int NoDays { get; set; }
-
+        public string EmployeeNameEN { get; set; }
+        public string EmployeeNameAR { get; set; }
+        public string BranchNameAR { get; set; }
+        public string BranchNameEN { get; set; }
+        public string JobNameEN { get; set; }
+        public string JobNameAR { get; set; }
         public DateTime? StartWorkingDate { get; set; }
         public DateTime? LastWorkingDate { get; set; }
         public DateTime? ExecutionDate { get; set; }
         public int? SalaryMonth { get; set; }
         public int? SalaryYear { get; set; }
-        public bool? AddSalaryToDue { get; set; }
+        public bool AddSalaryToDue { get; set; }
         public string? Notes { get; set; }
 
         public double? VacationDues { get; set; }

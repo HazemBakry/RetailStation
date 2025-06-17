@@ -1,12 +1,11 @@
 <div class="inputs-wrapper border rounded bg-white mb-3">
-        <div class="d-flex justify-content-between align-items-center px-3 border-bottom mb-2">
+    <div class="d-flex justify-content-between align-items-center px-3 border-bottom mb-2">
         <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2">
             المستحقات
         </div>
         <div class="d-flex">
 
-            <button 
-                class="btn btn-success  m-2 d-flex align-items-center gap-2 border rounded px-3"
+            <button class="btn btn-success  m-2 d-flex align-items-center gap-2 border rounded px-3"
                 (click)="calculateDues()">
                 <i class="fas fa-check-circle"></i>
                 <span class="ms-2">احتساب</span>
@@ -46,8 +45,8 @@
                                 نوع المستحقات
                                 <span class="text-danger">*</span>
                             </label>
-                            <app-general-selector  [data]="employeeDueTypesSelectorData"
-                                [placeholder]="'نوع المستحقات'" [showSearch]="true"></app-general-selector>
+                            <app-general-selector [data]="employeeDueTypesSelectorData" [placeholder]="'نوع المستحقات'"
+                                [(ngModel)]="employeeDueModel.dueTypeId" [showSearch]="true"></app-general-selector>
                         </div>
                     </div>
 
@@ -57,8 +56,8 @@
                                 من تاريخ
                                 <span class="text-danger">*</span>
                             </label>
-                            <input type="date" [(ngModel)]="startWorkingDate" disabled autocomplete="off"
-                                class="form-control nw-form-input" />
+                            <input type="date" [(ngModel)]="employeeDueModel.startWorkingDate" disabled
+                                autocomplete="off" class="form-control nw-form-input" />
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -66,8 +65,8 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 الي تاريخ
                                 <span class="text-danger">*</span></label>
-                            <input type="date" [(ngModel)]="lastWorkingDate" autocomplete="off"
-                                class="form-control nw-form-input" />
+                            <input type="date" [(ngModel)]="employeeDueModel.lastWorkingDate" [min]="startWorkingDate"
+                                autocomplete="off" class="form-control nw-form-input" />
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -75,14 +74,15 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 تاريخ التنفيذ
                                 <span class="text-danger">*</span></label>
-                            <input type="date" autocomplete="off" class="form-control nw-form-input" />
+                            <input type="date" [(ngModel)]="employeeDueModel.executionDate" autocomplete="off"
+                                class="form-control nw-form-input" />
                         </div>
                     </div>
                     <div class="col-lg-4  mb-3">
                         <label class="form-label d-flex align-items-center gap-2">
                             أضافه الراتب للمستحقات
                         </label>
-                        <input class="big-checkbox" type="checkbox">
+                        <input class="big-checkbox" [(ngModel)]="employeeDueModel.addSalaryToDue" type="checkbox">
 
                     </div>
                     <div class="col-lg-4">
@@ -91,7 +91,7 @@
                                 السنه
                                 <span class="text-danger">*</span>
                             </label>
-                            <app-general-selector [(ngModel)]="selectedYear" [data]="yearsSelectorData"
+                            <app-general-selector [(ngModel)]="employeeDueModel.salaryYear" [data]="yearsSelectorData"
                                 [placeholder]="'السنه'" [showSearch]="true"></app-general-selector>
                         </div>
                     </div>
@@ -101,7 +101,7 @@
                                 الشهر
                                 <span class="text-danger">*</span>
                             </label>
-                            <app-general-selector [(ngModel)]="selectedMonth" [data]="monthsSelectorData"
+                            <app-general-selector [(ngModel)]="employeeDueModel.salaryMonth" [data]="monthsSelectorData"
                                 [placeholder]="'الشهر'" [showSearch]="true"></app-general-selector>
                         </div>
                     </div>
@@ -123,8 +123,8 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 مستحقات انهاء تعاقد
                             </label>
-                            <input type="number" [value]="employeeDueModel?.endOfServiceDues" disabled autocomplete="off"
-                                class="form-control nw-form-input text-center text-danger" />
+                            <input type="number" [value]="employeeDueModel?.endOfServiceDues" disabled
+                                autocomplete="off" class="form-control nw-form-input text-center text-danger" />
                         </div>
                     </div>
                     <div class="col-lg-12">
@@ -132,8 +132,8 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 الراتب
                             </label>
-                            <input type="number" [value]="employeeDueModel?.currentMonthSalary"  disabled autocomplete="off"
-                                class="form-control nw-form-input text-center text-danger" />
+                            <input type="number" [value]="employeeDueModel?.currentMonthSalary" disabled
+                                autocomplete="off" class="form-control nw-form-input text-center text-danger" />
                         </div>
                     </div>
                     <div class="col-lg-12">
@@ -141,7 +141,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 مستحقات المعيشه
                             </label>
-                            <input type="number" [value]="employeeDueModel?.homeAllowance"  disabled autocomplete="off"
+                            <input type="number" [value]="employeeDueModel?.homeAllowance" disabled autocomplete="off"
                                 class="form-control nw-form-input text-center text-danger" />
                         </div>
                     </div>
@@ -150,7 +150,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 السلف
                             </label>
-                            <input type="number" [value]="employeeDueModel?.advances"  disabled autocomplete="off"
+                            <input type="number" [value]="employeeDueModel?.advances" disabled autocomplete="off"
                                 class="form-control nw-form-input text-center text-danger" />
                         </div>
                     </div>
@@ -159,7 +159,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 اجمالي المستحقات
                             </label>
-                            <input type="number" [value]="employeeDueModel?.netAmount"  disabled autocomplete="off"
+                            <input type="number" [value]="employeeDueModel?.netAmount" disabled autocomplete="off"
                                 class="form-control nw-form-input text-center text-danger" />
                         </div>
                     </div>
@@ -168,7 +168,8 @@
             </div>
 
         </div>
-        <app-hr-mini-employee-contract-info [employeeId]="selectedEmployeeId" (contractDetails)="contractDetailsChanged($event)"></app-hr-mini-employee-contract-info>
+        <app-hr-mini-employee-contract-info [employeeId]="selectedEmployeeId"
+            (contractDetails)="contractDetailsChanged($event)"></app-hr-mini-employee-contract-info>
 
         <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-top">
             <button class="btn btn-primary me-2" [disabled]="showLoader" (click)="search()">
@@ -196,14 +197,14 @@
     <div class="card-body">
         <div class="row p-2">
             <div class="col-md-8">
-                <!-- <div class="d-flex align-items-center flex-wrap">
+                <div class="d-flex align-items-center flex-wrap">
                     <div class="search-box position-relative mb-2">
-                        <button class="btn btn-primary mb-2" (click)="openNewSidePanel(AddModal)">
-                            <span class="me-2">إنشاء سلفة</span>
+                        <button class="btn btn-primary mb-2" (click)="openSaveModal(saveDialog)">
+                            <span class="me-2">حفظ</span>
                             <i class="uil uil-plus-circle"></i>
                         </button>
                     </div>
-                </div> -->
+                </div>
             </div>
             <div class="col-md-4">
                 <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
@@ -212,9 +213,9 @@
             </div>
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
-        <div class="table-responsive shadow-sm radius-10">
+        <div class="table-responsive shadow-sm radius-10 table-vp-height">
             <table
-                class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0 table-vp-height">
+                class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0 ">
                 <thead class="table-light">
                     <tr>
                         <th>اسم الموظف</th>
@@ -260,3 +261,22 @@
         </div>
     </div>
 </div>
+
+<ng-template #saveDialog let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد العملية</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد من الحفظ ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click'); saveEmployeeDue()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">الغاء</span>
+        </button>
+    </div>
+</ng-template>
