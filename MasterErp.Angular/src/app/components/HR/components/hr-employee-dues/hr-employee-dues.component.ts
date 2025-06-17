@@ -130,7 +130,11 @@ export class HrEmployeeDuesComponent implements OnInit {
     }, () => {
     });
   }
+contractDetailsChanged(model:EmployeeContractModel)
+{
+  this.selectedBranchId = model?.branchId ?? null;
 
+}
   getEmployeeDues() {
     if (!this.checkEmployee())
       return;

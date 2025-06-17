@@ -79,5 +79,12 @@ namespace MasterErp.API.Controllers.HR
             return Ok(result);
         }
 
+        [HttpPost]
+        [Route("ApproveEmployeePenalties")]
+        public IActionResult ApproveEmployeePenalties(bool IsApproved, List<int> RowsId)
+        {
+            var result = _penaltyService.ApproveEmployeePenalties(IsApproved, RowsId);
+            return Ok(result);
+        }
     }
 }

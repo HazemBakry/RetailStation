@@ -202,5 +202,46 @@ namespace MasterErp.Service.HR
 
             return result;
         }
+
+        public ActionsResponseModel ApproveEmployeePenalties(bool isApproved, List<int> penaltieIds)
+        {
+            try
+            {
+                if (penaltieIds == null || !penaltieIds.Any())
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "No penaltie IDs provided." };
+                }
+
+                var penalties = Context.Penalties.Where(i => penaltieIds.Contains(i.PenaltyId)).ToList();
+
+                if (!penalties.Any())
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "No matching penalties found." };
+                }
+
+                int newStatus = isApproved ? (int)HRWorkflowStatus.Approved : (int)HRWorkflowStatus.Rejected;
+
+                foreach (var penaltie in penalties)
+                {
+                    penaltie.WorkflowStatusId = newStatus;
+                }
+
+                Context.SaveChanges();
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    Message = isApproved ? "Penalties approved successfully!" : "Penalties rejected successfully!"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.InnerException?.Message ?? ex.Message
+                };
+            }
+        }
     }
 }

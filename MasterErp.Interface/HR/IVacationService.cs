@@ -19,5 +19,7 @@ namespace MasterErp.Interface.HR
         ActionsResponseModel EditVacation(int EmployeeId, EmployeeVacationDto model);
         ActionsResponseModel DeleteVacation(int VacationId);
         ActionsResponseModel ApproveEmployeeVacation(int LoanId, int EmployeeId, bool ApproveStatus);
+        ActionsResponseModel ApproveEmployeeVacations(bool IsApproved, List<int> RowsId);
+
     }
 }

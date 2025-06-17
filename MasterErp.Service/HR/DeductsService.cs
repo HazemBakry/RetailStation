@@ -174,6 +174,47 @@ namespace MasterErp.Service.HR
 
         }
 
+        public ActionsResponseModel ApproveEmployeeDeducts(bool isApproved, List<int> deductIds)
+        {
+            try
+            {
+                if (deductIds == null || !deductIds.Any())
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "No deduct IDs provided." };
+                }
+
+                var deducts = Context.Deducts.Where(i => deductIds.Contains(i.DeductId)).ToList();
+
+                if (!deducts.Any())
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "No matching deducts found." };
+                }
+
+                int newStatus = isApproved ? (int)HRWorkflowStatus.Approved : (int)HRWorkflowStatus.Rejected;
+
+                foreach (var deduct in deducts)
+                {
+                    deduct.WorkflowStatusId = newStatus;
+                }
+
+                Context.SaveChanges();
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    Message = isApproved ? "Deducts approved successfully!" : "Deducts rejected successfully!"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.InnerException?.Message ?? ex.Message
+                };
+            }
+        }
+
         public List<SelectorDataModel> GetDeductTypesSelector()
         {
             var results = Context.DeductTypes.Select(b => new SelectorDataModel

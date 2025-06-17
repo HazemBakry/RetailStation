@@ -182,5 +182,46 @@ namespace MasterErp.Service.HR
             }
 
         }
+
+        public ActionsResponseModel ApproveEmployeeOverTime(bool isApproved, List<int> overTimeIds)
+        {
+            try
+            {
+                if (overTimeIds == null || !overTimeIds.Any())
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "No overTime IDs provided." };
+                }
+
+                var overTimes = Context.OverTime.Where(i => overTimeIds.Contains(i.OverTimeId)).ToList();
+
+                if (!overTimes.Any())
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "No matching overTimes found." };
+                }
+
+                int newStatus = isApproved ? (int)HRWorkflowStatus.Approved : (int)HRWorkflowStatus.Rejected;
+
+                foreach (var overTime in overTimes)
+                {
+                    overTime.WorkflowStatusId = newStatus;
+                }
+
+                Context.SaveChanges();
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    Message = isApproved ? "OverTime approved successfully!" : "OverTime rejected successfully!"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.InnerException?.Message ?? ex.Message
+                };
+            }
+        }
     }
 }

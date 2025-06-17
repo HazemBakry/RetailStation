@@ -5,6 +5,7 @@ using MasterErp.Interface.HR;
 using MasterErp.Service.HR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MasterErp.API.Controllers.HR
@@ -116,7 +117,13 @@ namespace MasterErp.API.Controllers.HR
             var result = _advancesService.GetAdvanceTypesSelector();
             return Ok(result);
         }
-
+        [HttpPost]
+        [Route("ApproveEmployeeAdvances")]
+        public IActionResult ApproveEmployeeAdvances(bool IsApproved, List<int> RowsId)
+        {
+            var result = _advancesService.ApproveEmployeeAdvances(IsApproved, RowsId);
+            return Ok(result);
+        }
 
     }
 }

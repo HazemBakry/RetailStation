@@ -170,5 +170,46 @@ namespace MasterErp.Service.HR
             }
 
         }
+
+        public ActionsResponseModel ApproveEmployeeSickLeaves(bool isApproved, List<int> sickLeaveIds)
+        {
+            try
+            {
+                if (sickLeaveIds == null || !sickLeaveIds.Any())
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "No sickLeave IDs provided." };
+                }
+
+                var sickLeaves = Context.SickLeaves.Where(i => sickLeaveIds.Contains(i.SickLeaveId)).ToList();
+
+                if (!sickLeaves.Any())
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "No matching sickLeaves found." };
+                }
+
+                int newStatus = isApproved ? (int)HRWorkflowStatus.Approved : (int)HRWorkflowStatus.Rejected;
+
+                foreach (var sickLeave in sickLeaves)
+                {
+                    sickLeave.WorkflowStatusId = newStatus;
+                }
+
+                Context.SaveChanges();
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    Message = isApproved ? "SickLeaves approved successfully!" : "SickLeaves rejected successfully!"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.InnerException?.Message ?? ex.Message
+                };
+            }
+        }
     }
 }

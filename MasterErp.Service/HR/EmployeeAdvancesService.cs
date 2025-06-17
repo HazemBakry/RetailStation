@@ -366,6 +366,46 @@ namespace MasterErp.Service.HR
 
             return paymentDate;
         }
+        public ActionsResponseModel ApproveEmployeeAdvances(bool isApproved, List<int> advanceIds)
+        {
+            try
+            {
+                if (advanceIds == null || !advanceIds.Any())
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "No advance IDs provided." };
+                }
+
+                var advances = Context.EmployeeAdvances.Where(i => advanceIds.Contains(i.EmployeeAdvanceId)).ToList();
+
+                if (!advances.Any())
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "No matching advances found." };
+                }
+
+                int newStatus = isApproved ? (int)HRWorkflowStatus.Approved : (int)HRWorkflowStatus.Rejected;
+
+                foreach (var advance in advances)
+                {
+                    advance.WorkflowStatusId = newStatus;
+                }
+
+                Context.SaveChanges();
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    Message = isApproved ? "Advances approved successfully!" : "Advances rejected successfully!"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.InnerException?.Message ?? ex.Message
+                };
+            }
+        }
         private List<(DateTime PaymentDate, double PaymentAmount)> GetAdvancePaymentSchedule(double AdvanceAmount, double PaymentAmount, DateTime PaymentFromDate)
         {
             List<(DateTime PaymentDate, double PaymentAmount)> paymentSchedule = new List<(DateTime PaymentDate, double PaymentAmount)>();

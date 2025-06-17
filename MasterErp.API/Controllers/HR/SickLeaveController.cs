@@ -79,5 +79,12 @@ namespace MasterErp.API.Controllers.HR
             var result = _sickLeaveService.DeleteEmployeeSickLeave(SickLeaveId);
             return Ok(result);
         }
+        [HttpPost]
+        [Route("ApproveEmployeeSickLeaves")]
+        public IActionResult ApproveEmployeeSickLeaves(bool IsApproved, List<int> RowsId)
+        {
+            var result = _sickLeaveService.ApproveEmployeeSickLeaves(IsApproved, RowsId);
+            return Ok(result);
+        }
     }
 }

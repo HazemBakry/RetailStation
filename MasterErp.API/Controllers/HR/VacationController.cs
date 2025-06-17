@@ -4,6 +4,7 @@ using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.HR;
+using MasterErp.Service.HR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -80,9 +81,16 @@ namespace MasterErp.API.Controllers.HR
             var result= _vacationService.DeleteVacation(VacationId);
             return Ok(result);
         }
-        
 
 
-        
+        [HttpPost]
+        [Route("ApproveEmployeeVacations")]
+        public IActionResult ApproveEmployeeVacations(bool IsApproved, List<int> RowsId)
+        {
+            var result = _vacationService.ApproveEmployeeVacations(IsApproved, RowsId);
+            return Ok(result);
+        }
+
+
     }
 }
