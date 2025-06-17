@@ -201,7 +201,8 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
         this.formGroup?.reset();
         // this.initNewForm();
         this.toaster.success(data?.message);
-        this.getEmployeeBasicInfo();
+        this.navigateToAddedEmployee(this.employeeId);
+        // this.getEmployeeBasicInfo();
       }
       else {
         this.toaster.error(data?.message);
@@ -308,7 +309,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
 
   navigateToAddedEmployee(employeeId: number) {
     if (employeeId)
-      this.router.navigate(['.'], { relativeTo: this.acRoute, queryParams: { EmployeeId: employeeId } });
+      this.router.navigate(['.'], { relativeTo: this.acRoute, queryParams: { EmployeeId: employeeId,timestamp: new Date().getTime() } });
 
   }
   onFileChange(event: any) {

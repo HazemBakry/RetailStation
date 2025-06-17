@@ -52,7 +52,7 @@ export class HrEmployeeDuesComponent implements OnInit {
     currentMonthSalary: 0,
     homeAllowance: 0,
     advances: 0,
-    netAmount : 0,
+    netAmount: 0,
   } as EmployeeDueModel;
   pagedResponseModel: PagedResponseDTO<EmployeeDueModel[]> = {
     results: [],
@@ -80,27 +80,7 @@ export class HrEmployeeDuesComponent implements OnInit {
   }
   employeeChanged(employeeId: any) {
     this.selectedEmployeeId = employeeId;
-    this.getEmployeeContractInfo();
     this.getEmployeeDueStartDate();
-  }
-
-
-  getEmployeeContractInfo() {
-    this.showLoader = true;
-    this.employeeService.GetEmployeeContractInfoById(this.selectedEmployeeId).subscribe((data: EmployeeContractModel) => {
-      this.employeeContractInfoModel = data;
-      this.selectedBranchId = data?.branchId;
-      if (data) {
-      }
-
-      this.showLoader = false;
-    }, err => {
-      this.showLoader = false;
-    }, () => {
-      this.showLoader = false;
-    });
-
-
   }
 
   loadSelectors() {
@@ -139,19 +119,23 @@ export class HrEmployeeDuesComponent implements OnInit {
     return true;
   }
   getEmployeeDueStartDate() {
+    this.startWorkingDate = null;
+    if (!this.selectedEmployeeId) {
+      return;
+    }
     this.hrService.getEmployeeDueStartDate(this.selectedEmployeeId).subscribe(data => {
-      if(data)
-        this.startWorkingDate =this.datePipe.transform(data, 'yyyy-MM-dd')
+      if (data)
+        this.startWorkingDate = this.datePipe.transform(data, 'yyyy-MM-dd')
     }, err => {
     }, () => {
     });
   }
-  
+
   getEmployeeDues() {
-    if(!this.checkEmployee())
+    if (!this.checkEmployee())
       return;
     this.showLoader = true;
-    this.hrService.getEmployeeDues(this.selectedEmployeeId,this.pagedResponseModel).subscribe(data => {
+    this.hrService.getEmployeeDues(this.selectedEmployeeId, this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data?.results;
       this.pagedResponseModel.totalCount = data?.totalCount;
       this.showLoader = false;
