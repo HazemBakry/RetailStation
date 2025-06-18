@@ -71,14 +71,22 @@ namespace MasterErp.Service.Shared
             return result;
         }
 
-        public List<SelectorDataModel> GetCitiesSelector()
+        public List<SelectorDataModel> GetCitiesSelector(int? CountryId =null)
         {
-            SqlParameter[] Params = new SqlParameter[0];
-
+            SqlParameter[] Params = new SqlParameter[1];
+            Params[0] = new SqlParameter("@CountryId", CountryId);
             var result = SQLHelper.SQLQuery<SelectorDataModel>("[Global].[SP_GetCities]", ConnectionString, Params);
             return result;
         }
-
+        public List<SelectorDataModel> GetCountriesSelector()
+        {
+            var results = LookupsContext.Countries.Select(b => new SelectorDataModel
+            {
+                Id = b.CountryId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
         #endregion
 
         #region Finance Lookups
@@ -201,6 +209,8 @@ namespace MasterErp.Service.Shared
             var result = SQLHelper.SQLQuery<SelectorDataModel>("[HR].[SP_GetVacationTypes]", ConnectionString, Params);
             return result;
         }
+
+
 
         #endregion
     }

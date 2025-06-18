@@ -159,12 +159,13 @@ namespace MasterErp.Service.Shared
 
         public List<SelectorDataModel> GetIqamaIssuePlacesSelector()
         {
-            var results = Context.Countries.Select(b => new SelectorDataModel
-            {
-                Id = b.CountryId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
+            //var results = Context.Countries.Select(b => new SelectorDataModel
+            //{
+            //    Id = b.CountryId,
+            //    Name = b.NameAR,
+            //}).ToList();
+            //return results;
+            return new List<SelectorDataModel>();
         }
         public List<SelectorDataModel> GetVisaJobsSelector()
         {
@@ -175,24 +176,7 @@ namespace MasterErp.Service.Shared
             }).ToList();
             return results;
         }
-        public List<SelectorDataModel> GetCountriesSelector()
-        {
-            var results = Context.Countries.Select(b => new SelectorDataModel
-            {
-                Id = b.CountryId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
-        }
-        public List<SelectorDataModel> GetCitiesSelector()
-        {
-            var results = Context.Cities.Select(b => new SelectorDataModel
-            {
-                Id = b.CityId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
-        }
+       
         public List<SelectorDataModel> GetRegionsSelector()
         {
             var results = Context.Regions.Select(b => new SelectorDataModel

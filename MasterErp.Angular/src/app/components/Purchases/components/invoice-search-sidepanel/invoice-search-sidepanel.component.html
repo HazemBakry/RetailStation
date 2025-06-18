@@ -18,7 +18,44 @@
     </div>
     <div class="offcanvas-body pt-4 bg-light">
 
-        <div class="employee-card-body row mb-3">
+        <div class="employee-card-body mb-3">
+            <div class="inputs-wrapper border rounded bg-white mb-3">
+                <div class="inputs-sec-content px-3 py-3">
+                    <div class="row gy-3">
+                        <div class="col-lg-4">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">الموردين</label>
+                                <app-general-selector [(ngModel)]="selectedSupplierId" [data]="suppliersSelectorData"
+                                    [showSearch]="true" [placeholder]="'الموردين'"></app-general-selector>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">رقم الفاتورة</label>
+                                <input type="text" autocomplete="off" [(ngModel)]="invoiceNumber"
+                                    class="form-control nw-form-input" placeholder="رقم الفاتورة">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">تاريخ الاصدار</label>
+                                <input type="date" [(ngModel)]="invoiceDate" class="form-control nw-form-input"
+                                    placeholder="تاريخ الاصدار">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start m-3">
+                    <button (click)="loadData()"
+                        class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
+                        <i class="uil uil-pen"></i>
+                        <span>بحث</span>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+        <!-- <div class="employee-card-body row mb-3">
             <div class="col-xl-4 mb-2">
                 <app-general-selector [(ngModel)]="selectedSupplierId" [data]="suppliersSelectorData"
                     [showSearch]="true" [placeholder]="'الموردين'"></app-general-selector>
@@ -40,7 +77,7 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <hr class="border-black" />
 
@@ -48,9 +85,9 @@
             <!-- <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-start">
 
             </div> -->
-            
+
             <div class="table-responsive shadow-sm radius-10">
-                <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+                <table class="table table-card-table table-borderless table-middle table-hover bg-transparent small-scroll m-0">
                     <thead>
                         <tr>
                             <th>رقم الفاتورة</th>

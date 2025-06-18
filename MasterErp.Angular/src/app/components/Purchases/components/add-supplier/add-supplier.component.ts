@@ -112,6 +112,10 @@ export class AddSupplierComponent implements OnInit {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
 
     });
+    this.formGroup.get('countryId').valueChanges.subscribe((countryId) => {
+      this.loadCities(countryId);
+    });
+
   }
 
   // toggleDetails(Model: SupplierModel = null) {
@@ -179,9 +183,7 @@ export class AddSupplierComponent implements OnInit {
     this.lookupService.GetCountriesSelector().subscribe((data: FormDropdownModel[]) => {
       this.countriesSelectorData = data;
     });
-    this.lookupService.GetCitiesSelector().subscribe((data: FormDropdownModel[]) => {
-      this.citiesSelectorData = data;
-    });
+    this.loadCities();
     this.sharedService.GetRegionsSelector().subscribe((data: FormDropdownModel[]) => {
       this.regionsSelectorData = data;
     });
@@ -189,7 +191,11 @@ export class AddSupplierComponent implements OnInit {
       this.supplierGroupsSelectorData = data;
     });
   }
-
+  loadCities(countryId: number = null) {
+    this.lookupService.GetCitiesSelector(countryId).subscribe((data: FormDropdownModel[]) => {
+      this.citiesSelectorData = data;
+    });
+  }
   validateForm(): boolean {
     this._FormService.markFormGroupTouched(this.formGroup);
     if (this.formGroup.valid) {

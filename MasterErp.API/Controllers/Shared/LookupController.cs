@@ -44,12 +44,18 @@ namespace MasterErp.API.Controllers.Shared
 
         [HttpGet]
         [Route("GetCitiesSelector")]
-        public IActionResult GetCitiesSelector()
+        public IActionResult GetCitiesSelector(int? CountryId = null)
         {
-            var results = lookupService.GetCitiesSelector();
+            var results = lookupService.GetCitiesSelector(CountryId);
             return Ok(results);
         }
-
+        [HttpGet]
+        [Route("GetCountriesSelector")]
+        public IActionResult GetCountriesSelector()
+        {
+            var result = lookupService.GetCountriesSelector();
+            return Ok(result);
+        }
         #endregion
 
         #region Finance Lookups
@@ -176,6 +182,7 @@ namespace MasterErp.API.Controllers.Shared
             var results = lookupService.GetEmployeeDueTypesSelector();
             return Ok(results);
         }
+
 
         #endregion
     }
