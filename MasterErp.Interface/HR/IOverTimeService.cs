@@ -17,5 +17,7 @@ namespace MasterErp.Interface.HR
         ActionsResponseModel AddNewEmployeeOverTime(int EmployeeId, EmployeeOverTimeDto model);
         ActionsResponseModel EditEmployeeOverTime(int EmployeeId, EmployeeOverTimeDto model);
         ActionsResponseModel DeleteEmployeeOverTime(int OverTimeId);
+        ActionsResponseModel ApproveEmployeeOverTime(bool IsApproved, List<int> RowsId);
+
     }
 }

@@ -50,7 +50,8 @@ namespace MasterErp.Entities.Models
         public DbSet<Bank> Banks { get; set; }
         public DbSet<EmployeeDueType> EmployeeDueTypes { get; set; }
         public DbSet<IqamaIssuePlace> IqamaIssuePlaces { get; set; }
-
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<City> Cities { get; set; }
 
     }
 }

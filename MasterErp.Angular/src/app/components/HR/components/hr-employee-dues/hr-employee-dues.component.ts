@@ -47,12 +47,19 @@ export class HrEmployeeDuesComponent implements OnInit {
   lastWorkingDate: string = '';
   employeeContractInfoModel: EmployeeContractModel;
   employeeDueModel: EmployeeDueModel = {
+    dueTypeId: null,
+    startWorkingDate: null,
+    lastWorkingDate: null,
+    executionDate: null,
+    addSalaryToDue: null,
+    salaryYear: null,
+    salaryMonth: null,
     vacationDues: 0,
     endOfServiceDues: 0,
     currentMonthSalary: 0,
     homeAllowance: 0,
     advances: 0,
-    netAmount : 0,
+    netAmount: 0,
   } as EmployeeDueModel;
   pagedResponseModel: PagedResponseDTO<EmployeeDueModel[]> = {
     results: [],
@@ -80,27 +87,7 @@ export class HrEmployeeDuesComponent implements OnInit {
   }
   employeeChanged(employeeId: any) {
     this.selectedEmployeeId = employeeId;
-    this.getEmployeeContractInfo();
     this.getEmployeeDueStartDate();
-  }
-
-
-  getEmployeeContractInfo() {
-    this.showLoader = true;
-    this.employeeService.GetEmployeeContractInfoById(this.selectedEmployeeId).subscribe((data: EmployeeContractModel) => {
-      this.employeeContractInfoModel = data;
-      this.selectedBranchId = data?.branchId;
-      if (data) {
-      }
-
-      this.showLoader = false;
-    }, err => {
-      this.showLoader = false;
-    }, () => {
-      this.showLoader = false;
-    });
-
-
   }
 
   loadSelectors() {
@@ -115,7 +102,7 @@ export class HrEmployeeDuesComponent implements OnInit {
     });
 
     const currentYear = new Date().getFullYear();
-    this.selectedYear = currentYear;
+    this.selectedYear = this.employeeDueModel.salaryYear = currentYear;
     for (let i = currentYear - 5; i <= currentYear; i++) {
       this.yearsSelectorData.push({ value: i, name: i });
     }
@@ -130,6 +117,34 @@ export class HrEmployeeDuesComponent implements OnInit {
     this.getEmployeeDues();
   }
   calculateDues() {
+    if (!this.checkEmployee())
+      return;
+    this.showLoader = true;
+    this.hrService.calculateEmployeeDue(this.selectedEmployeeId, this.employeeDueModel).subscribe(data => {
+      this.employeeDueModel = data;
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+  saveEmployeeDue() {
+    if (!this.checkEmployee())
+      return;
+    this.showLoader = true;
+    this.hrService.saveEmployeeDue(this.selectedEmployeeId, this.employeeDueModel).subscribe(data => {
+      if (data.isSuccess)
+        this.toaster.success(data.message);
+      else
+        this.toaster.error(data.message);
+
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
   }
   checkEmployee() {
     if (!this.selectedEmployeeId) {
@@ -139,19 +154,26 @@ export class HrEmployeeDuesComponent implements OnInit {
     return true;
   }
   getEmployeeDueStartDate() {
+    this.startWorkingDate = null;
+    if (!this.selectedEmployeeId) {
+      return;
+    }
     this.hrService.getEmployeeDueStartDate(this.selectedEmployeeId).subscribe(data => {
-      if(data)
-        this.startWorkingDate =this.datePipe.transform(data, 'yyyy-MM-dd')
+      if (data)
+        this.startWorkingDate = this.employeeDueModel.startWorkingDate = this.datePipe.transform(data, 'yyyy-MM-dd')
     }, err => {
     }, () => {
     });
   }
-  
+  contractDetailsChanged(model: EmployeeContractModel) {
+    this.selectedBranchId = model?.branchId ?? null;
+
+  }
   getEmployeeDues() {
-    if(!this.checkEmployee())
+    if (!this.checkEmployee())
       return;
     this.showLoader = true;
-    this.hrService.getEmployeeDues(this.selectedEmployeeId,this.pagedResponseModel).subscribe(data => {
+    this.hrService.getEmployeeDues(this.selectedEmployeeId, this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data?.results;
       this.pagedResponseModel.totalCount = data?.totalCount;
       this.showLoader = false;
@@ -174,6 +196,9 @@ export class HrEmployeeDuesComponent implements OnInit {
   pageChanged(obj: any) {
     this.pagedResponseModel.currentPage = obj.page;
     this.getEmployeeDues();
+  }
+  openSaveModal(content: any) {
+    this.modalService.open(content, { centered: true, size: 'md' });
   }
 
 }

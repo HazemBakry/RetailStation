@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Models.Lookups
 {
+    [Table("Countries", Schema = "Global")]
+
     public class Country : CreatorModel
     {
         public int CountryId { get; set; }

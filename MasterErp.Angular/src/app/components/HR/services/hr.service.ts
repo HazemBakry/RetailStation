@@ -88,6 +88,38 @@ export class HrService {
 
     if (fetchFn) return fetchFn();
   }
+  ApprovePayrollReportData(type: number, rowsId: number[], isApproved: boolean = true): Observable<any> {
+    const fetchFn = new Map<number, () => Observable<any>>([
+      [1, () => this.ApproveEmployeeVacations(rowsId, isApproved)],
+      [2, () => this.ApproveEmployeeOverTime(rowsId, isApproved)],
+      [3, () => this.ApproveEmployeePenalties(rowsId, isApproved)],
+      [4, () => this.ApproveEmployeeSickLeaves(rowsId, isApproved)],
+      [5, () => this.ApproveEmployeeDeducts(rowsId, isApproved)],
+      [6, () => this.ApproveEmployeeAdvances(rowsId, isApproved)],
+    ]).get(type);
+
+    if (fetchFn) return fetchFn();
+  }
+  ApproveEmployeeVacations(employeeVacationsId: number[], isApproved: boolean = true) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Vacation/ApproveEmployeeVacations?IsApproved=${isApproved}`, employeeVacationsId);
+  }
+  ApproveEmployeeOverTime(employeeOverTimeId: number[], isApproved: boolean = true) {
+    return this.http.post<ActionsResponseModel>(this.URL + `OverTime/ApproveEmployeeOverTime?IsApproved=${isApproved}`, employeeOverTimeId);
+  }
+
+
+  ApproveEmployeePenalties(employeePenaltiesId: number[], isApproved: boolean = true) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Penalty/ApproveEmployeePenalties?IsApproved=${isApproved}`, employeePenaltiesId);
+  }
+  ApproveEmployeeSickLeaves(employeeSickLeavesId: number[], isApproved: boolean = true) {
+    return this.http.post<ActionsResponseModel>(this.URL + `SickLeave/ApproveEmployeeSickLeaves?IsApproved=${isApproved}`, employeeSickLeavesId);
+  }
+  ApproveEmployeeDeducts(employeeDeductsId: number[], isApproved: boolean = true) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Deducts/ApproveEmployeeDeducts?IsApproved=${isApproved}`, employeeDeductsId);
+  }
+  ApproveEmployeeAdvances(employeeAdvancesId: number[], isApproved: boolean = true) {
+    return this.http.post<ActionsResponseModel>(this.URL + `EmployeeAdvances/ApproveEmployeeAdvances?IsApproved=${isApproved}`, employeeAdvancesId);
+  }
 
   //================================== PayrollReport ===============================
 

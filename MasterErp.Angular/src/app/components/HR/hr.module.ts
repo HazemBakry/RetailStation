@@ -34,6 +34,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HrDailyAttendanceReportComponent } from './components/hr-attendance-report/hr-daily-attendance-report/hr-daily-attendance-report.component';
 import { HrEmployeesSalariesComponent } from './components/hr-employees-salaries/hr-employees-salaries.component';
 import { HrEmployeeDuesComponent } from './components/hr-employee-dues/hr-employee-dues.component';
+import { HrMiniEmployeeContractInfoComponent } from './components/hr-mini-employee-contract-info/hr-mini-employee-contract-info.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { HrEmployeeDuesComponent } from './components/hr-employee-dues/hr-employ
     HrAttendanceAdvancedReportComponent,
     HrEmployeesSalariesComponent,
     HrEmployeeDuesComponent,
+    HrMiniEmployeeContractInfoComponent,
   ],
   imports: [
     HrRoutingModule,

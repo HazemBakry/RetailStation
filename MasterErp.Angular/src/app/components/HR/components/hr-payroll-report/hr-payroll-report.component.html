@@ -11,18 +11,20 @@
                         نوع العملية
                         <span class="text-danger">*</span>
                     </label>
-                    <app-general-selector [data]="payrollProcessTypes" [placeholder]="'نوع العملية'" [(ngModel)]="TypeId"></app-general-selector>
+                    <app-general-selector [data]="payrollProcessTypes" [placeholder]="'نوع العملية'"
+                        [(ngModel)]="TypeId" (valueChanged)="actionTypeChanged($event)"></app-general-selector>
                 </div>
             </div>
             <ng-container *ngIf="pagedResponseModel.results.length > 0">
-                <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث بالاسم , الرقم الوظيفى ...'"></app-erp-filters>
+                <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"
+                    [searchPlaceholder]="'البحث بالاسم , الرقم الوظيفى ...'"></app-erp-filters>
             </ng-container>
         </div>
     </div>
 
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-top mb-2">
 
-        <button class="btn btn-secondary me-2" (click)="getEmplyeePayrollReport(TypeId)">
+        <button class="btn btn-secondary me-2" (click)="getEmployeePayrollReport(TypeId)">
             <i class="fas fa-search"></i>
             <span class="ms-2">بحث</span>
         </button>
@@ -39,15 +41,30 @@
 
 <div class="inputs-wrapper border rounded bg-white mb-3">
 
-    <div class="px-3 py-2 mb-2">
-
-        <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2">
+            <button *ngIf="pagedResponseModel.results.length" (click)="openSaveModal(saveDialog)"
+                class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3">
+                <i class="fas fa-plus-circle"></i>
+                <span>Approve</span>
+            </button>
+        </div>
+        <div class="justify-content-end">
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
+                [pageSize]="pagedResponseModel.pageSize"
+                [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+        </div>
     </div>
 
     <div class="table-responsive shadow-sm radius-10  small-scroll">
         <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
             <thead>
                 <tr>
+                    <th class="min-width-50 width-50 max-width-50">
+                        <input type="checkbox" [(ngModel)]="selectAll" (change)="selectAllData()"
+                            class="big-checkbox cursor-pointer" />
+                    </th>
                     <th>الرقم الوظيفى</th>
                     <th>اسم الموظف</th>
                     <th>تاريخ العملية</th>
@@ -56,11 +73,13 @@
                     <th>إجمالى القيمة</th>
                     <th>نوع العملية</th>
                     <th>حالة الطلب</th>
-                    <th class="text-center"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of pagedResponseModel.results">
+                    <td>
+                        <input type="checkbox" class="big-checkbox" [(ngModel)]="item.isChecked">
+                    </td>
                     <td>{{item.code}}</td>
                     <td>{{item.fullNameAR}}</td>
                     <td>{{item.requestDate | date}}</td>
@@ -69,18 +88,11 @@
                     <td>{{item.moneyAmount}}</td>
                     <td>{{item.processType}}</td>
                     <td>
-                        <span appWorkflowStatus [id]="item.statusId" [nameEN]="item?.jobStatusEN" [nameAR]="item?.jobStatusAR">
+                        <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusEN"
+                            [nameAR]="item?.workflowStatusAR">
                         </span>
                     </td>
-                    <td>
-                        <div class="d-flex align-items-center justify-content-center">
-                            <div ngbDropdown container="body">
-                                <button class="btn-sm-action sm-action-dropdown" (click)="goToEmployeeDetails(item.employeeId)">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </td>
+
                 </tr>
                 <tr *ngIf="!pagedResponseModel.results.length">
                     <td colspan="9" class="text-right">
@@ -91,3 +103,30 @@
         </table>
     </div>
 </div>
+
+
+<ng-template #saveDialog let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد العملية</h4>
+    </div>
+    <div class="modal-body">
+        <div class="d-flex gap-3">
+            <div class="mt-2">رفض</div>
+            <div class="form-check form-switch my-2">
+                <input [(ngModel)]="isApprove" class="form-check-input" type="checkbox" role="switch">
+            </div>
+            <div class="mt-2">قبول</div>
+        </div>
+        <p class="fs-5 m-0">هل انت متأكد من الحفظ ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click'); approve()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">الغاء</span>
+        </button>
+    </div>
+</ng-template>

@@ -4,6 +4,7 @@ using MasterErp.Interface.HR;
 using MasterErp.Service.HR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MasterErp.API.Controllers.HR
@@ -83,6 +84,13 @@ namespace MasterErp.API.Controllers.HR
             return Ok(result);
         }
 
+        [HttpPost]
+        [Route("ApproveEmployeeDeducts")]
+        public IActionResult ApproveEmployeeDeducts(bool IsApproved,List<int> RowsId)
+        {
+            var result = _deductssService.ApproveEmployeeDeducts(IsApproved,RowsId);
+            return Ok(result);
+        }
 
     }
 }

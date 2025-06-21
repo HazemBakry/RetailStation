@@ -5,6 +5,7 @@ import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponse
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { HrService } from '../../services/hr.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-hr-payroll-report',
@@ -13,12 +14,14 @@ import { HrService } from '../../services/hr.service';
 })
 
 export class HRPayrollReportComponent implements OnInit {
+  TitleList = ['الموارد البشرية', 'Payroll'];
   showLoader: boolean = false;
   showExportLoader: boolean = false;
   filterList: FilterModel[] = [];
-  TitleList = ['الموارد البشرية', 'Payroll'];
   payrollProcessTypes: any[] = [];
   TypeId: number;
+  selectAll: boolean = false;
+  isApprove:boolean=true;
   pagedResponseModel: PagedResponseDTO<any> = {
     results: [],
     filterList: [],
@@ -41,14 +44,19 @@ export class HRPayrollReportComponent implements OnInit {
 
   constructor(private hrService: HrService,
     private sharedService: SharedService,
+    private modalService: NgbModal,
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
     this.payrollProcessTypes = this.hrService.payrollProcessTypes;
 
   }
-
-  getEmplyeePayrollReport(type: any) {
+  actionTypeChanged(typeId) {
+    this.pagedResponseModel.results = [];
+    this.pagedResponseModel.totalCount = 0;
+    this.pagedResponseModel.currentPage = 1;
+  }
+  getEmployeePayrollReport(type: any) {
     if (!type) {
       this.toaster.error('يرجى اختيار نوع التقرير');
       return;
@@ -93,12 +101,56 @@ export class HRPayrollReportComponent implements OnInit {
 
   filterChecked(filterItems: FilterItem[]) {
     this.pagedFilterModel.filterModel.filterItems = filterItems;
-    this.getEmplyeePayrollReport(this.TypeId);
+    this.getEmployeePayrollReport(this.TypeId);
   }
 
   pageChanged(obj: any) {
     this.pagedFilterModel.currentPage = obj.page;
-    this.getEmplyeePayrollReport(this.TypeId);
+    this.getEmployeePayrollReport(this.TypeId);
   }
 
+  selectAllData() {
+    if (this.pagedResponseModel.results && this.pagedResponseModel.results.length > 0) {
+      this.pagedResponseModel.results.map(c => {
+        c.isChecked = this.selectAll;
+      });
+    }
+
+  }
+  getSelectedRows(): number[] {
+    const selectedItems = this.pagedResponseModel.results.filter(b => b.isChecked && b.actionId);
+    if (selectedItems.length === 0) {
+      this.toaster.warning('يجب الاختيار من الصفوف المناسبة للإجراء المطلوب');
+    }
+    return selectedItems.map(i => Number(i.actionId));
+  }
+  openSaveModal(content: any) {
+    let rowsId = this.getSelectedRows();
+    if (!rowsId?.length)
+      return;
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+  approve() {
+
+    let rowsId = this.getSelectedRows();
+    if (!rowsId?.length)
+      return;
+
+    this.showLoader = true;
+    this.hrService.ApprovePayrollReportData(this.TypeId, rowsId,this.isApprove).subscribe((data: ActionsResponseModel) => {
+      if (data.isSuccess) {
+        this.selectAll = false;
+        this.getEmployeePayrollReport(this.TypeId);
+        this.toaster.success(data.message);
+      }
+      else {
+        this.toaster.error(data.message);
+      }
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
 }

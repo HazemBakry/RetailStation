@@ -203,5 +203,46 @@ namespace MasterErp.Service.HR
             }
 
         }
+
+        public ActionsResponseModel ApproveEmployeeVacations(bool isApproved, List<int> vacationIds)
+        {
+            try
+            {
+                if (vacationIds == null || !vacationIds.Any())
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "No vacation IDs provided." };
+                }
+
+                var deducts = Context.Vacations.Where(i => vacationIds.Contains(i.VacationId)).ToList();
+
+                if (!deducts.Any())
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "No vacation deducts found." };
+                }
+
+                int newStatus = isApproved ? (int)HRWorkflowStatus.Approved : (int)HRWorkflowStatus.Rejected;
+
+                foreach (var deduct in deducts)
+                {
+                    deduct.WorkflowStatusId = newStatus;
+                }
+
+                Context.SaveChanges();
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    Message = isApproved ? "Vacations approved successfully!" : "Vacations rejected successfully!"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.InnerException?.Message ?? ex.Message
+                };
+            }
+        }
     }
 }

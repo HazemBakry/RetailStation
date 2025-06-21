@@ -202,5 +202,6 @@ export class SharedService {
   GetArabicEnglishNumberText(ReceiptId: any) {
     return this.http.get<any>(this.URL + 'Shared/GetArabicEnglishNumberText?ReceiptId=' + ReceiptId);
   }
+  
 
 }

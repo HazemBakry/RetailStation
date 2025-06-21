@@ -88,8 +88,9 @@ export class LookupService {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetCountriesSelector');
   }
 
-  GetCitiesSelector() {
-    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetCitiesSelector');
+  GetCitiesSelector(countryId:number=null) {
+    const param = countryId !== null ? `?CountryId=${countryId}` : '';
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetCitiesSelector?'+param);
   }
 
   GetTaxLookupsSelector() {

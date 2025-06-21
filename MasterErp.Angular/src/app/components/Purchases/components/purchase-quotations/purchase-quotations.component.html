@@ -42,9 +42,10 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <div ngbDropdownMenu class="border">
-                                        <button ngbDropdownItem (click)="openQuotationDetailsSidePanel(item)">تفاصيل</button>
+                                        <button ngbDropdownItem
+                                            (click)="openQuotationDetailsSidePanel(item)">تفاصيل</button>
                                         <button ngbDropdownItem routerLink="/purchases/add-purchase-quotation"
-                                    [queryParams]="{PurchaseQuotationId:item.purchaseQuotationId}">
+                                            [queryParams]="{PurchaseQuotationId:item.purchaseQuotationId}">
                                             تعديل
                                         </button>
                                         <button ngbDropdownItem
@@ -53,7 +54,7 @@
                                     </div>
                                 </div>
                             </div>
-                           
+
                         </td>
                     </tr>
 
@@ -97,60 +98,72 @@
 <ng-template appComponentHost></ng-template>
 
 
+
 <ng-template #QuotationsDetailsSidePanel let-offcanvas>
     <div class="offcanvas-header justify-content-between gap-3 fs-4 border-bottom py-3">
         <div class="d-flex align-items-center gap-2">
-            <i class="fas fa-store offcanvas-header-icon"></i>
-            <span>تفاصيل العرض </span>
+            <i class="fas fa-info-circle offcanvas-header-icon"></i>
+            <span>
+                تفاصيل العرض رقم {{quotationDetailsModel?.serialNumber}}
+            </span>
         </div>
         <div class="cursor-pointer text-danger fs-2" (click)="offcanvas.dismiss()">
             <i class="uil uil-times-circle"></i>
         </div>
     </div>
     <div class="offcanvas-body pt-4 bg-light">
+
         <div *ngIf="quotationDetailsModel" class="employee-card-body mb-3">
-            <div class="row mb-3">
-                <div *ngIf="quotationDetailsModel?.quotationNumber" class="col-xl-6">
-                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
-                        <i class="fas fa-info-circle fa-1x me-2"></i> رقم العرض :
-                        {{quotationDetailsModel?.quotationNumber}}
-                    </h4>
+            <div class="inputs-wrapper border rounded bg-white mb-3">
+                <div class="inputs-sec-content px-3 py-3">
+                    <div *ngIf="quotationDetailsModel" class="row gy-3">
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">رقم العرض</label>
+                                <input type="text" disabled class="form-control nw-form-input"
+                                    [value]="quotationDetailsModel?.serialNumber" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">تاريخ العرض</label>
+                                <input type="text" disabled class="form-control nw-form-input"
+                                    [value]="quotationDetailsModel?.quotationDate | date" />
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    البيان
+                                </label>
+                                <input type="text" disabled class="form-control nw-form-input description-area"
+                                    [value]="quotationDetailsModel?.notes" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
+                <!-- <div *ngIf="quotationDetailsModel?.purchaseQuotationId" class="d-flex justify-content-start m-3">
+                    <button (click)="offcanvas.dismiss()" routerLink="/purchases/add-purchase-quotation"
+                        [queryParams]="{PurchaseQuotationId:quotationDetailsModel?.purchaseQuotationId}"
+                        class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
+                        <i class="uil uil-pen"></i>
+                        <span>تعديل</span>
+                    </button>
+                    <button (click)="PrintData()" class="btn btn-table-action  gap-2 border rounded px-3 me-2">
+                        <i class="fas fa-print fs-7"></i>
+                        <span>طباعة</span>
+                    </button>
+                </div> -->
             </div>
-            <div class="row mb-3">
-                <div *ngIf="quotationDetailsModel?.quotationDate" class="col-xl-6">
-                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
-                        <i class="fas fa-info-circle fa-1x me-2"></i>
-                        تاريخ العرض : {{quotationDetailsModel?.quotationDate | date:'shortDate'}}
-                    </h4>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div *ngIf="quotationDetailsModel?.notes" class="col-xl-6">
-                    <h4 class="offcanvas-title m-0 d-flex align-items-center w-100">
-                        <i class="fas fa-info-circle fa-1x me-2"></i> ملاحظات : {{quotationDetailsModel?.notes}}
-                    </h4>
-                </div>
-
-            </div>
-
-            <!-- <div class="col-xl-12">
-                <div class="d-flex justify-content-center mt-3">
-
-                </div>
-            </div> -->
         </div>
 
         <hr class="border-black" />
 
-        <div class="card card-with-table border shadow-none">
-            <!-- <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-end">
-                pagination
-            </div> -->
-            <div class="card-body table-responsive p-0">
+        <div class="inputs-wrapper border rounded bg-white mb-3">
+            <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">الموردين و الاسعار</div>
+            <div class="inputs-sec-content px-3 py-2 table-responsive table-vp-height small-scroll">
                 <table *ngIf="distinctSuppliers?.length >0"
-                    class="table table-responsive table-borderless table-feature-value align-middle border m-0">
+                    class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
 
                     <thead>
 
@@ -177,9 +190,60 @@
 
                 </table>
                 <app-empty-data [showEmptyData]="!distinctSuppliers?.length && !showLoader "></app-empty-data>
+                <!-- <table class="table table-bordered table-middle text-center table-actions m-0">
+                    <thead>
+                        <tr>
+                            <th>
+                                الحساب
+                            </th>
+                            <th>
+                                مدين
+                            </th>
+                            <th>
+                                دائن
+                            </th>
+                            <th>مركز التكلفة</th>
+                            <th style="width: 290px;">ملاحظات</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr class="row-hover"
+                            *ngFor="let item of selectedEntryModel?.journalEntryAccounts;let i = index">
+                            <td style="width: 300px;">
+                                <span appGoToAccountReport [accountId]="item.accountId">{{item.accountName}}</span>
+                            </td>
+
+                            <td>
+                                {{item.debit}}
+                            </td>
+                            <td>
+                                {{item.credit}}
+
+                            </td>
+                            <td>
+                                {{item.costCenterName}}
+                            </td>
+                            <td>
+                                {{item.description}}
+                            </td>
+                        </tr>
+                        <tr *ngIf="!selectedEntryModel?.journalEntryAccounts?.length">
+                            <td colspan="5" class="text-right">
+                                <app-empty-data
+                                    [showEmptyData]="!selectedEntryModel?.journalEntryAccounts?.length"></app-empty-data>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table> -->
+
+
+
             </div>
         </div>
     </div>
 
 </ng-template>
+
 <!-- <ngx-loading [show]="showLoader"></ngx-loading> -->

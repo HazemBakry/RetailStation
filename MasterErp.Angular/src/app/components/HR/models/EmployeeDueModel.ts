@@ -10,12 +10,12 @@ export interface EmployeeDueModel {
     jobNameEN: string;
     jobNameAR: string;
     totalDueAmount: number | null;
-    dueDate: Date | null;
+    dueDate: string| null;
     dueDescription: string;
 
-    startWorkingDate: Date | null;
-    lastWorkingDate: Date | null;
-    executionDate: Date | null;
+    startWorkingDate: string| null;
+    lastWorkingDate: string| null;
+    executionDate: string| null;
     salaryMonth: number | null;
     salaryYear: number | null;
     addSalaryToDue: boolean | null;

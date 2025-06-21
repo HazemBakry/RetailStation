@@ -19,5 +19,7 @@ namespace MasterErp.Interface.HR
         ActionsResponseModel ApproveEmployeeAdvance(int EmployeeAdvanceId, bool IsApproved);
         ActionsResponseModel DeleteEmployeeAdvance(int EmployeeAdvanceId);
         List<SelectorDataModel> GetAdvanceTypesSelector();
+        ActionsResponseModel ApproveEmployeeAdvances(bool IsApproved, List<int> RowsId);
+
     }
 }

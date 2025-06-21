@@ -80,5 +80,14 @@ namespace MasterErp.API.Controllers.HR
             return Ok(result);
         }
 
+
+        [HttpPost]
+        [Route("ApproveEmployeeOverTime")]
+        public IActionResult ApproveEmployeeOverTime(bool IsApproved, List<int> RowsId)
+        {
+            var result = _overTimeService.ApproveEmployeeOverTime(IsApproved, RowsId);
+            return Ok(result);
+        }
+
     }
 }

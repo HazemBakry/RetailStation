@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Linq;
+using MasterErp.Entities.Common.Enums;
 
 
 namespace MasterErp.Service.HR
@@ -19,12 +20,16 @@ namespace MasterErp.Service.HR
         private readonly DBContext Context;
         private readonly ISharedFilterService sharedFilterService;
         private readonly ISQLHelper SQLHelper;
+        private readonly IEmployeeService _employeeService;
+        private readonly IEmployeeAdvancesService _employeeAdvancesService;
 
-        public AttendanceService(DBContext context, ISharedFilterService sharedFilterService, ISQLHelper sQLHelper)
+        public AttendanceService(DBContext context, ISharedFilterService sharedFilterService, ISQLHelper sQLHelper, IEmployeeService employeeService, IEmployeeAdvancesService employeeAdvancesService)
         {
             Context = context;
             this.sharedFilterService = sharedFilterService;
             SQLHelper = sQLHelper;
+            _employeeService = employeeService;
+            _employeeAdvancesService = employeeAdvancesService;
         }
         public List<EmployeeAttendanceModel> GetAttendanceReport_Data(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel)
         {
@@ -2439,28 +2444,60 @@ namespace MasterErp.Service.HR
 
         public EmployeeDueModel CalculateEmployeeDue(int EmployeeId, EmployeeDueModel Model)
         {
-            //    var contract = Context.ContractDetails
-            //                        .Where(c => c.Contract.Contract.EmployeeId == employeeId)
-            //                        .OrderByDescending(c => c.ContractDetailId)
-            //                        .FirstOrDefault();
 
-            //                            if (contract == null)
-            //                                return null;
+            var contract = _employeeService.GetEmployeeContractInfoById(EmployeeId);
+            if (contract == null)
+                return null;
 
-            //                            decimal dailySalary = (decimal)(contract.TotalSalary / 30.0);
-            //                            int workingDays = 30; // business logic to compute real working days
+            var endDate = Model.LastWorkingDate ?? DateTime.Now;
+            var startDate = Model.StartWorkingDate ?? DateTime.Now;
+            // Total days
+            int totalDays = (endDate - startDate).Days;
+            int totalMonths = ((endDate.Year - startDate.Year) * 12) + endDate.Month - startDate.Month;
+            if (endDate.Day < startDate.Day)
+            {
+                totalMonths--;
+            }
 
-            //                            decimal calculatedSalary = dailySalary * workingDays;
-            //                            decimal advances = (decimal)(model.advances ?? 0);
-            //                            decimal vacationDues = (decimal)(model.vacationDues ?? 0);
-            //                            decimal endOfService = (decimal)(model.endOfServiceDues ?? 0);
+            double totalYears = totalDays / 365.25;
 
-            //                            model.currentMonthSalary = calculatedSalary;
-            //                            model.netAmount = calculatedSalary + vacationDues + endOfService - advances;
+            Model.NoMonths = totalMonths;
+            Model.NoDays = totalDays;
 
-            //    return model;
 
-            throw new NotImplementedException();
+            decimal dailySalary = (decimal)(contract.TotalSalary / 30.0);
+            int workingDays = 30;
+            decimal calculatedSalary = dailySalary * workingDays;
+
+
+            var advances = _employeeAdvancesService.GetAdvancePaymentsData(new SearchFilterModel { CurrentPage = 1, PageSize = 100  },EmployeeId).Where(x=>x.WorkflowStatusId  != (int)PaymentWorkflowStatus.Paid).ToList();
+            if(advances.Any())
+            {
+                Model.Advances = advances.Sum(x => x.MoneyAmount);
+            }
+
+
+            if(Model.DueTypeId == ((int)DueType.Vacation))
+            {
+                // 1 month for each year
+                 Model.VacationDues = totalYears * (double)calculatedSalary;
+            }
+            if (Model.DueTypeId == ((int)DueType.EndOfContract))
+            {
+                // 2 moth for each year
+                Model.EndOfServiceDues = totalYears * 2 * (double)calculatedSalary;
+            }
+            if(Model.AddSalaryToDue)
+            {
+                Model.CurrentMonthSalary = (double)calculatedSalary;
+            }
+            Model.HomeAllowance = contract.HousingAllowance;
+            Model.TotalDues = Model.VacationDues.GetValueOrDefault() + Model.EndOfServiceDues.GetValueOrDefault() + Model.CurrentMonthSalary.GetValueOrDefault() + Model.HomeAllowance.GetValueOrDefault();
+            Model.NetAmount = Model.TotalDues - Model.Advances.GetValueOrDefault();
+
+
+            return Model;
+
         }
         public DateTime? GetEmployeeDueStartDate(int employeeId)
         {

@@ -5,19 +5,29 @@
     <div class="card-body">
         <div class="row  py-3">
             <div class="col-lg-4">
-                <app-drop-down-form-control [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData" [showSearch]="true" [placeholder]="'قائمة الموظفين'"></app-drop-down-form-control>
+                <app-drop-down-form-control [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData"
+                    [showSearch]="true" [placeholder]="'قائمة الموظفين'"></app-drop-down-form-control>
                 <!-- <div *ngIf="formErrors.Id" class="text-danger  font-small-3 m-03">
                         {{formErrors.regionId}}
                     </div> -->
             </div>
+
             <div class="col-lg-2">
                 <button class="btn btn-secondary radius-50" (click)="getOverTimeByEmployeeId()">
                     <i class="fas fa-search"></i>
                     <span class="ms-4">بحث</span>
                 </button>
             </div>
+
         </div>
-        <h6 class="mb-0 fw-bold" *ngIf="employeeOverTimeResponse.results.length > 0">فرع {{employeeOverTimeResponse.results[0].branchName}}</h6>
+        <div class="row  py-3">
+            <div class="col-lg-12">
+                <app-hr-mini-employee-contract-info
+                    [employeeId]="selectedEmployeeId"></app-hr-mini-employee-contract-info>
+            </div>
+        </div>
+        <h6 class="mb-0 fw-bold" *ngIf="employeeOverTimeResponse.results.length > 0">فرع
+            {{employeeOverTimeResponse.results[0].branchName}}</h6>
     </div>
 </div>
 
@@ -38,7 +48,9 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="employeeOverTimeResponse.currentPage" [pageSize]="employeeOverTimeResponse.pageSize" [totalCount]="employeeOverTimeResponse.totalCount"></app-erp-pagination>
+                <app-erp-pagination (pageChanged)="pageChanged($event)"
+                    [currentPage]="employeeOverTimeResponse.currentPage" [pageSize]="employeeOverTimeResponse.pageSize"
+                    [totalCount]="employeeOverTimeResponse.totalCount"></app-erp-pagination>
             </div>
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
@@ -69,7 +81,9 @@
                                     <i class="uil uil-pen"></i>
                                     <span>تعديل</span>
                                 </button> -->
-                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteModal,item.overTimeId)">
+                                <button
+                                    class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
+                                    (click)="openDeleteModal(deleteModal,item.overTimeId)">
                                     <i class="uil uil-trash-alt"></i>
                                     <span>الغاء</span>
                                 </button>
@@ -78,7 +92,8 @@
                     </tr>
                     <tr *ngIf="!employeeOverTimeResponse.results.length || showLoader">
                         <td colspan="7" class="text-right">
-                            <app-empty-data [showEmptyData]="!employeeOverTimeResponse.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+                            <app-empty-data [showEmptyData]="!employeeOverTimeResponse.results.length&&!showLoader"
+                                [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>
@@ -130,7 +145,8 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 يوم العمل
                                 <span class="text-danger">*</span></label>
-                            <input type="date" formControlName="executionDate" autocomplete="off" class="form-control nw-form-input" />
+                            <input type="date" formControlName="executionDate" autocomplete="off"
+                                class="form-control nw-form-input" />
                             <div *ngIf="formErrors.executionDate" class="text-danger  font-small-3 m-03">
                                 {{formErrors.executionDate}}
                             </div>
@@ -139,7 +155,8 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 من :
                                 <span class="text-danger">*</span></label>
-                            <input type="time" formControlName="timeFrom" autocomplete="off" class="form-control nw-form-input" />
+                            <input type="time" formControlName="timeFrom" autocomplete="off"
+                                class="form-control nw-form-input" />
                             <div *ngIf="formErrors.timeFrom" class="text-danger  font-small-3 m-03">
                                 {{formErrors.timeFrom}}
                             </div>
@@ -148,7 +165,8 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 إلى :
                                 <span class="text-danger">*</span></label>
-                            <input type="time" formControlName="timeTo" autocomplete="off" class="form-control nw-form-input" />
+                            <input type="time" formControlName="timeTo" autocomplete="off"
+                                class="form-control nw-form-input" />
                             <div *ngIf="formErrors.timeTo" class="text-danger  font-small-3 m-03">
                                 {{formErrors.timeTo}}
                             </div>
@@ -159,7 +177,8 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 عدد الساعات
                             </label>
-                            <input type="text" [disabled]="true" [value]="formGroup?.value?.noHours" class="form-control nw-form-input description-area" autocomplete="off" />
+                            <input type="text" [disabled]="true" [value]="formGroup?.value?.noHours"
+                                class="form-control nw-form-input description-area" autocomplete="off" />
                             <div *ngIf="formErrors.noHours" class="text-danger  font-small-3 m-03">
                                 {{formErrors.noHours}}
                             </div>
@@ -168,7 +187,8 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 القيمة
                             </label>
-                            <input type="text" [disabled]="true" [value]="formGroup?.value?.moneyAmount" class="form-control nw-form-input description-area" autocomplete="off" />
+                            <input type="text" [disabled]="true" [value]="formGroup?.value?.moneyAmount"
+                                class="form-control nw-form-input description-area" autocomplete="off" />
                             <div *ngIf="formErrors.moneyAmount" class="text-danger  font-small-3 m-03">
                                 {{formErrors.moneyAmount}}
                             </div>
@@ -177,7 +197,8 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 ملاحظات
                             </label>
-                            <input type="text" class="form-control nw-form-input description-area" formControlName="notes" autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input description-area"
+                                formControlName="notes" autocomplete="off" />
                             <!-- <textarea class="form-control" placeholder="Description *" formControlName="notes"
                                     autocomplete="off"></textarea> -->
                             <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
@@ -191,7 +212,8 @@
         </div>
 
         <div class="d-flex justify-content-center border-top pt-3 mt-3">
-            <button [disabled]="showAddLoader" (click)="saveEmployeeOverTime()" class="btn btn-primary w-50 justify-content-center py-3 fs-5 radius-10">
+            <button [disabled]="showAddLoader" (click)="saveEmployeeOverTime()"
+                class="btn btn-primary w-50 justify-content-center py-3 fs-5 radius-10">
                 <!-- <i class="fas fa-id-card"></i> -->
                 <span *ngIf="!isUpdate" class="ms-3">إنشاء</span>
                 <span *ngIf="isUpdate" class="ms-3">تعديل</span>

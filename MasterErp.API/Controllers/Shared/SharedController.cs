@@ -146,21 +146,7 @@ namespace MasterErp.API.Controllers.Shared
             return Ok(result);
         }
 
-        [HttpGet]
-        [Route("GetCountriesSelector")]
-        public IActionResult GetCountriesSelector()
-        {
-            var result = _sharedService.GetCountriesSelector();
-            return Ok(result);
-        }
 
-        [HttpGet]
-        [Route("GetCitiesSelector")]
-        public IActionResult GetCitiesSelector()
-        {
-            var result = _sharedService.GetCitiesSelector();
-            return Ok(result);
-        }
 
         [HttpGet]
         [Route("GetRegionsSelector")]

@@ -186,11 +186,6 @@ namespace MasterErp.Entities.Models
         public DbSet<ImporterColumnModel> ImporterColumns { get; set; }
         #endregion
 
-        #region Lookups
-        public DbSet<Country> Countries { get; set; }
-        public DbSet<City> Cities { get; set; }
-
-        #endregion
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

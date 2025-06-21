@@ -18,5 +18,7 @@ namespace MasterErp.Interface.HR
         ActionsResponseModel EditEmployeePenalty(int EmployeeId,  EmployeePenaltyDto Model);
         ActionsResponseModel DeleteEmployeePenalty(int PenaltyId);
         List<SelectorDataModel> GetPenaltyTypesSelector();
+        ActionsResponseModel ApproveEmployeePenalties(bool IsApproved, List<int> RowsId);
+
     }
 }

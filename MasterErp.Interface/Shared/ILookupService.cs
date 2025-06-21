@@ -15,7 +15,8 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetBanksSelector();
         List<SelectorDataModel> GetIqamaIssuePlacesSelector();
         List<SelectorDataModel> GetCurrencySelector();
-        List<SelectorDataModel> GetCitiesSelector();
+        List<SelectorDataModel> GetCitiesSelector(int? CountryId = null);
+        List<SelectorDataModel> GetCountriesSelector();
 
         #endregion
 

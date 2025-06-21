@@ -16,5 +16,7 @@ namespace MasterErp.Interface.HR
         ActionsResponseModel EditEmployeeDeduct(int EmployeeId, EmployeeDeductDto model);
         ActionsResponseModel DeleteEmployeeDeduct(int DeductId);
         List<SelectorDataModel> GetDeductTypesSelector();
+        ActionsResponseModel ApproveEmployeeDeducts(bool IsApproved,List<int>RowsId);
+
     }
 }

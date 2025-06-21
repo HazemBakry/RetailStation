@@ -1,0 +1,76 @@
+<div *ngIf="employeeContractInfoModel" class="table-responsive">
+    <table class="table table-borderless table-middle  m-0">
+        <thead>
+
+            <tr class="table-primary">
+                <td>
+                    <div class="form-label">
+                        الراتب الاساسي
+                    </div>
+                    <input disabled [value]="employeeContractInfoModel?.basicSalary" type="text"
+                        class="form-control nw-form-input" />
+
+                </td>
+                <td>
+                    <div class="form-label">
+                        الراتب الاضافي
+                    </div>
+                    <input disabled [value]="employeeContractInfoModel?.extraSalary" type="text"
+                        class="form-control nw-form-input" />
+                </td>
+                <td>
+                    <div class="form-label">
+                        التنقلات
+                    </div>
+                    <input disabled [value]="employeeContractInfoModel?.transportation" type="text"
+                        class="form-control nw-form-input" />
+                </td>
+                <td>
+                    <div class="form-label">
+                        بدل السكن
+                    </div>
+                    <input disabled [value]="employeeContractInfoModel?.housingAllowance" type="text"
+                        class="form-control nw-form-input" />
+                </td>
+                <td>
+                    <div class="form-label">
+                        الهاتف
+                    </div>
+                    <input disabled [value]="employeeContractInfoModel?.mobileAllowance" type="text"
+                        class="form-control nw-form-input" />
+                </td>
+                <td>
+                    <div class="form-label">
+                        بدل طبيعة العمل
+                    </div>
+                    <input disabled [value]="employeeContractInfoModel?.workNature" type="text"
+                        class="form-control nw-form-input" />
+                </td>
+                <td>
+                    <div class="form-label">
+                        الوجبة
+                    </div>
+                    <input disabled [value]="employeeContractInfoModel?.mealAllowance" type="text"
+                        class="form-control nw-form-input" />
+                </td>
+                <td>
+                    <div class="form-label">
+                        أخري
+                    </div>
+                    <input disabled [value]="employeeContractInfoModel?.other" type="text"
+                        class="form-control nw-form-input" />
+                </td>
+                <td>
+                    <div class="form-label">
+                        الاجمالي
+                    </div>
+                    <input disabled [value]="employeeContractInfoModel?.totalSalary" type="text"
+                        class="form-control nw-form-input" />
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>

@@ -17,5 +17,7 @@ namespace MasterErp.Interface.HR
         ActionsResponseModel AddNewEmployeeSickLeave(int EmployeeId, EmployeeSickLeaveDto model);
         ActionsResponseModel EditEmployeeSickLeave(int EmployeeId, EmployeeSickLeaveDto model);
         ActionsResponseModel DeleteEmployeeSickLeave(int SickLeaveId);
+        ActionsResponseModel ApproveEmployeeSickLeaves(bool IsApproved, List<int> RowsId);
+
     }
 }
