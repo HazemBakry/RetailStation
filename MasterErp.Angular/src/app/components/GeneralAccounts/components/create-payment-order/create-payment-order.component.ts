@@ -56,7 +56,7 @@ export class CreatePaymentOrderComponent implements OnInit {
     moneyAmount: '',
     supplierId: '',
     fromAccounts: '',
-    employeeId:''
+    employeeId: ''
   };
 
   constructor(private sharedService: SharedService,
@@ -78,7 +78,7 @@ export class CreatePaymentOrderComponent implements OnInit {
       if (params.PaymentOrderId) {
         this.paymentOrderId = params.PaymentOrderId;
         this.getPaymentOrderDetailsById();
-      }else if (params.InvoiceId) {
+      } else if (params.InvoiceId) {
         this.purchaseInvoiceId = params.InvoiceId;
         this.getPurchaseInvoiceDetailsById();
       }
@@ -166,7 +166,7 @@ export class CreatePaymentOrderComponent implements OnInit {
       contactName: receiptModel.contactName,
       currencyId: receiptModel.currencyId,
       moneyAmount: receiptModel.moneyAmount,
-      employeeId:receiptModel.employeeId
+      employeeId: receiptModel.employeeId
     });
   }
 
@@ -176,9 +176,15 @@ export class CreatePaymentOrderComponent implements OnInit {
     this.showLoader = true;
     this.paymentService.GetPaymentOrderDetailsById(this.paymentOrderId).subscribe((data: ReceiptModel) => {
       if (data) {
-        this.receiptModel = data;
-        this.initNewForm(this.receiptModel);
-        // this.fillEditForm(this.receiptModel)
+        if (data && ![FinanceWorkflowStatus.Cancelled, FinanceWorkflowStatus.Paid].includes(data.workflowStatusId)) {
+          this.receiptModel = data;
+          this.initNewForm(this.receiptModel);
+        } else {
+          this.receiptModel = null;
+          this.toaster.error("لا يمكن تعديل أمر صرف تم دفعه أو ملغي");
+        }
+        // this.receiptModel = data;
+        // this.initNewForm(this.receiptModel);
       }
       this.showLoader = false;
     }, err => {
@@ -190,7 +196,7 @@ export class CreatePaymentOrderComponent implements OnInit {
   getPurchaseInvoiceDetailsById() {
     this.showLoader = true;
     this.purchaseService.GetPurchaseInvoiceDetailsById(this.purchaseInvoiceId).subscribe((data: PurchaseInvoiceModel) => {
-      if (data && ![FinanceWorkflowStatus.Cancelled , FinanceWorkflowStatus.Paid].includes(data.workflowStatusId)) {
+      if (data && ![FinanceWorkflowStatus.Cancelled, FinanceWorkflowStatus.Paid].includes(data.workflowStatusId)) {
         this.purchaseInvoiceModel = data;
         this.formGroup?.patchValue({
           moneyAmount: this.purchaseInvoiceModel.totalValue,
@@ -198,7 +204,7 @@ export class CreatePaymentOrderComponent implements OnInit {
           supplierId: this.purchaseInvoiceModel.supplierId,
         });
         this.formGroup?.get('moneyAmount')?.disable();
-      }else {
+      } else {
         this.purchaseInvoiceId = null;
         this.toaster.error("لا يمكن انشاء أمر صرف على فاتورة تم دفعها أو ملغية");
       }
@@ -217,13 +223,13 @@ export class CreatePaymentOrderComponent implements OnInit {
           moneyAmount: data.advanceAmount,
           agencyTypeId: 4,
           employeeId: data.employeeId,
-          contactName:data.employeeName,
-          employeeAdvanceId:this.employeeAdvanceId
+          contactName: data.employeeName,
+          employeeAdvanceId: this.employeeAdvanceId
         });
         this.formGroup?.get('moneyAmount')?.disable();
-        console.log("this.formGroup",this.formGroup);
-        
-      }else {
+        console.log("this.formGroup", this.formGroup);
+
+      } else {
         this.employeeAdvanceId = null;
         this.toaster.error("لا يمكن انشاء أمر صرف على سلفة غير مقبولة");
       }
@@ -271,7 +277,7 @@ export class CreatePaymentOrderComponent implements OnInit {
 
     this.paymentService.AddNewPaymentOrder(this.receiptModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
-        
+
         this.initNewForm();
         this.toaster.success(data?.message);
         if (data.id) {
@@ -321,7 +327,7 @@ export class CreatePaymentOrderComponent implements OnInit {
     if (id) {
       this.router.navigate([], {
         relativeTo: this.acRoute,
-        queryParams: { PaymentOrderId:id },
+        queryParams: { PaymentOrderId: id },
         // queryParamsHandling: 'merge'
       });
     }

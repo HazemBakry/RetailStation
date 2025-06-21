@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { PaymentService } from '../../services/payment.service';
 import { ToastrService } from 'ngx-toastr';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
 import { FinanceWorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
+import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-payment-orders',
@@ -12,7 +13,8 @@ import { FinanceWorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWo
 })
 export class PaymentOrdersComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'أوامر الصرف'];
-  showLoader: boolean;
+  showLoader: boolean=false;
+  showDetailsLoader: boolean=false;
   public wfStatus = FinanceWorkflowStatus;
 
   pagedResponseModel: PagedResponseDTO<ReceiptModel[]> = {
@@ -22,8 +24,9 @@ export class PaymentOrdersComponent implements OnInit {
     currentPage: 1,
     searchText: ''
   };
-
+  paymentOrderDetailsModel: ReceiptModel;
   constructor(private paymentService: PaymentService,
+    private offcanvasService: NgbOffcanvas,
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
@@ -99,5 +102,27 @@ export class PaymentOrdersComponent implements OnInit {
     else
       return "open";
   }
+  @ViewChild('DetailsSidePanel', { static: true }) DetailsSidePanel: TemplateRef<any>;
 
+  openSidePanel(paymentOrderId: number, content: any = null) {
+    this.paymentOrderDetailsModel = null;
+    this.getPaymentOrderDetailsById(paymentOrderId);
+    if (content == null)
+      this.offcanvasService.open(this.DetailsSidePanel, { panelClass: 'details-panel', position: 'end' });
+    else
+      this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
+  }
+  getPaymentOrderDetailsById(paymentOrderId) {
+    this.showDetailsLoader = true;
+    this.paymentService.GetPaymentOrderDetailsById(paymentOrderId).subscribe((data: ReceiptModel) => {
+      this.paymentOrderDetailsModel = data;
+      console.log('Payment Order Details:', this.paymentOrderDetailsModel);
+      
+      this.showDetailsLoader = false;
+    }, err => {
+      this.showDetailsLoader = false;
+    }, () => {
+      this.showDetailsLoader = false;
+    });
+  }
 }

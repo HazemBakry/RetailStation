@@ -6,6 +6,7 @@ import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponse
 import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
 import { SearchReportModel } from 'src/app/components/Reports/Models/ReportParams';
 import { CreateReportsService } from 'src/app/components/Reports/Services/create-reports.service';
+import { FinanceWorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
 
 @Component({
   selector: 'app-payment-receipts',
@@ -27,6 +28,7 @@ export class PaymentReceiptsComponent implements OnInit {
     currentPage: 1,
     searchText: ''
   };
+  public wfStatus = FinanceWorkflowStatus;
 
   constructor(private paymentService: PaymentService, private ReportsService: CreateReportsService,
     private toaster: ToastrService) { }

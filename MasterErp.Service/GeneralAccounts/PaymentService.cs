@@ -100,6 +100,7 @@ namespace MasterErp.Service.GeneralAccounts
                     AccountId = Model.AccountId,
                     SupplierId = Model.SupplierId,
                     FromAccountId = Model.FromAccountId,
+                    WorkflowStatusId = (int)FinanceWorkflowStatus.Pending,
                     CreatedDate = DateTime.Now,
                     CreatedBy = ""
                 };
@@ -136,7 +137,8 @@ namespace MasterErp.Service.GeneralAccounts
         {
             try
             {
-                PaymentOrder order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == PaymentOrderId);
+                PaymentOrder order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == PaymentOrderId && 
+                                                                                x.WorkflowStatusId != (int)FinanceWorkflowStatus.Cancelled && x.WorkflowStatusId != (int)FinanceWorkflowStatus.Paid);
 
                 if (order != null)
                 {
@@ -288,6 +290,7 @@ namespace MasterErp.Service.GeneralAccounts
                     AccountId = Model.AccountId,
                     SupplierId = Model.SupplierId,
                     CreatedDate = DateTime.Now,
+                    WorkflowStatusId = (int)FinanceWorkflowStatus.Pending,
                     CreatedBy = ""
                 };
 
@@ -337,7 +340,8 @@ namespace MasterErp.Service.GeneralAccounts
                     };
                 }
 
-                receipt = Context.PaymentReceipts.FirstOrDefault(x => x.PaymentReceiptId == PaymentReceiptId);
+                receipt = Context.PaymentReceipts.FirstOrDefault(x => x.PaymentReceiptId == PaymentReceiptId &&
+                                                                                x.WorkflowStatusId != (int)FinanceWorkflowStatus.Cancelled && x.WorkflowStatusId != (int)FinanceWorkflowStatus.Paid);
                 if (receipt != null)
                 {
                     receipt.ReceiptLedgerId = Model.ReceiptLedgerId;

@@ -1,9 +1,11 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-success d-flex align-items-center gap-2 border rounded px-3" routerLink="/general-accounts/create-payment-order">
+            <button class="btn btn-success d-flex align-items-center gap-2 border rounded px-3"
+                routerLink="/general-accounts/create-payment-order">
                 <i class="fas fa-plus-circle"></i>
                 <span>إنشاء أمر صرف</span>
             </button>
@@ -53,7 +55,9 @@
                     </li>
                 </ul>
             </nav> -->
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
+                [pageSize]="pagedResponseModel.pageSize"
+                [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
         </div>
     </div>
     <div class="p-3 bg-white">
@@ -84,7 +88,8 @@
                         <td>{{item.moneyAmount}}</td>
                         <!-- <td>{{item.receiptTypeName}}</td> -->
                         <td>
-                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
+                                [nameAR]="item?.workflowStatusNameAR">
                             </span>
                             <!-- <span class="badge rounded-pill default p-2 text-uppercase px-3"
                                 [ngClass]="getStatusColor(item.isLocked)">
@@ -98,9 +103,17 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <div ngbDropdownMenu class="border">
-                                        <button ngbDropdownItem (click)="cancelPaymentOrder(item.paymentOrderId)">اسقاط</button>
-                                        <button *ngIf="![wfStatus.Cancelled , wfStatus.Paid].includes(item.workflowStatusId)" ngbDropdownItem routerLink="/general-accounts/create-payment-receipt" [queryParams]="{PaymentOrderId:item.paymentOrderId}">انشاء سند
+                                        <button
+                                            *ngIf="![wfStatus.Cancelled , wfStatus.Paid].includes(item.workflowStatusId)"
+                                            ngbDropdownItem
+                                            (click)="cancelPaymentOrder(item.paymentOrderId)">اسقاط</button>
+                                        <button
+                                            *ngIf="![wfStatus.Cancelled , wfStatus.Paid].includes(item.workflowStatusId)"
+                                            ngbDropdownItem routerLink="/general-accounts/create-payment-receipt"
+                                            [queryParams]="{PaymentOrderId:item.paymentOrderId}">انشاء سند
                                             الصرف</button>
+                                        <button ngbDropdownItem (click)="openSidePanel(item.paymentOrderId)">
+                                            تفاصيل</button>
                                     </div>
                                 </div>
                             </div>
@@ -128,3 +141,82 @@
 </div>
 
 <ngx-loading [show]="showLoader"></ngx-loading>
+
+<ng-template #DetailsSidePanel let-offcanvas>
+    <div class="offcanvas-header justify-content-between gap-3 fs-4 border-bottom py-3">
+        <div class="d-flex align-items-center gap-2">
+            <i class="fas fa-info-circle offcanvas-header-icon"></i>
+            <span>
+                تفاصيل القيد رقم {{paymentOrderDetailsModel?.orderNumber}}
+            </span>
+        </div>
+        <div class="cursor-pointer text-danger fs-2" (click)="offcanvas.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="offcanvas-body pt-4 bg-light">
+
+        <div *ngIf="paymentOrderDetailsModel" class="employee-card-body mb-3">
+            <div class="inputs-wrapper border rounded bg-white mb-3">
+                <div class="inputs-sec-content px-3 py-3">
+                    <div class="row gy-3">
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">رقم الطلب</label>
+                                <input type="text" disabled class="form-control nw-form-input"
+                                    ngModel={{paymentOrderDetailsModel?.orderNumber}} />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">تاريخ الطلب</label>
+                                <input type="text" disabled class="form-control nw-form-input"
+                                    ngModel={{paymentOrderDetailsModel?.releaseDate|date}} />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">الدفع</label>
+                                <input type="text" disabled class="form-control nw-form-input"
+                                    ngModel={{paymentOrderDetailsModel?.paymentTypeName}} />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">الحالة</label>
+                                <span appWorkflowStatus [id]="paymentOrderDetailsModel.workflowStatusId"
+                                    [nameEN]="paymentOrderDetailsModel?.workflowStatusNameEN" [nameAR]="paymentOrderDetailsModel?.workflowStatusNameAR">
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-12">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    البيان
+                                </label>
+                                <input type="text" disabled class="form-control nw-form-input description-area"
+                                    ngModel={{paymentOrderDetailsModel?.description}} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="d-flex justify-content-start m-3">
+                    <button (click)="offcanvas.dismiss()"  class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
+                        <i class="uil uil-pen"></i>
+                        <span>تعديل</span>
+                    </button>
+                    <button class="btn btn-table-action  gap-2 border rounded px-3 me-2">
+                        <i class="fas fa-print fs-7"></i>
+                        <span>طباعة</span>
+                    </button>
+                </div> -->
+            </div>
+        </div>
+
+        <!-- <hr class="border-black" /> -->
+
+
+    </div>
+
+</ng-template>
