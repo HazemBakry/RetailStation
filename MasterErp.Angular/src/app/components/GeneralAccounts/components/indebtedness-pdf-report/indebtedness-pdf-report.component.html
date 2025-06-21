@@ -16,8 +16,8 @@
                     <div style="font-size: 20px;font-weight: 800;">
                         مطاعم مشوار
                     </div>
-                    <div style="font-size: 20px;font-weight: 800;margin-top: 75px;">
-                        مقارنه المديونيات
+                    <div style="font-size: 20px;font-weight: 800;margin-top: 75px; font-family: Arial, Helvetica, sans-serif">
+                        مقارنة المديونيات
                     </div>
                     <div>
                         <img src="../../../../../assets/images/logo2.png" style="width: 100px;height: 100px;">
@@ -126,10 +126,12 @@
                                     <div style="float: right;">{{ totalValueObj.displayText }}</div>
                                 </th>
                                 <td>
-                                    <div [ngClass]="{'form-control nw-form-input w-100 float-right': !isPrinting,'float-right': isPrinting}">{{ totalValueObj.value1 }}</div>
+                                    <div [ngClass]="{'form-control nw-form-input w-100 float-right': !isPrinting,'float-right': isPrinting}">
+                                        {{ totalValueObj.value1 }}</div>
                                 </td>
                                 <td>
-                                    <div [ngClass]="{'form-control nw-form-input w-100 float-right': !isPrinting,'float-right': isPrinting}">{{ totalValueObj.value2 }}</div>
+                                    <div [ngClass]="{'form-control nw-form-input w-100 float-right': !isPrinting,'float-right': isPrinting}">
+                                        {{ totalValueObj.value2 }}</div>
                                 </td>
                                 <td>
                                     <div [ngClass]="{'float-right': isPrinting}">{{ totalValueObj.diff }}</div>

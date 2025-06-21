@@ -74,9 +74,8 @@
                         <label class="form-label d-flex align-items-center gap-2">طريقة الدفع <span
                                 class="text-danger">*</span></label>
 
-                        <app-general-selector [disabled]="true" formControlName="paymentTypeId" [showSearch]="true" [data]="paymentTypeList" 
-                         [placeholder]="'طريقة الدفع'"></app-general-selector>
-                         <div *ngIf="formErrors.paymentTypeId" class="text-danger  font-small-3 m-03">
+                        <app-general-selector [disabled]="true" formControlName="paymentTypeId" [showSearch]="true" [data]="paymentTypeList" [placeholder]="'طريقة الدفع'"></app-general-selector>
+                        <div *ngIf="formErrors.paymentTypeId" class="text-danger  font-small-3 m-03">
                             {{formErrors.paymentTypeId}}
                         </div>
                     </div>
@@ -106,6 +105,12 @@
                         </app-general-selector>
                         <div *ngIf="formErrors.supplierId" class="text-danger  font-small-3 m-03">
                             {{formErrors.supplierId}}
+                        </div>
+
+                        <app-general-selector [showSearch]="true" [disabled]="true" *ngIf="formGroup?.value?.agencyTypeId == 4" formControlName="employeeId" [data]="employeesSelectorData" [placeholder]="'بيانات الموظفين'">
+                        </app-general-selector>
+                        <div *ngIf="formErrors.employeeId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.employeeId}}
                         </div>
                     </div>
                 </div>
@@ -154,7 +159,7 @@
             <span class="ms-2">مسح</span>
         </button>
 
-        <button class="btn btn-secondary btn-lg fs-6 me-2 mt-2" >
+        <button class="btn btn-secondary btn-lg fs-6 me-2 mt-2">
             <i class="fas fa-print"></i>
             <span class="ms-2">طباعة</span>
         </button>

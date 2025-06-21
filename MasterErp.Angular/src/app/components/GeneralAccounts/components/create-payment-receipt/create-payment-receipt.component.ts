@@ -13,6 +13,7 @@ import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { FinanceWorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
+import { HrService } from 'src/app/components/HR/services/hr.service';
 
 @Component({
   selector: 'app-create-payment-receipt',
@@ -26,6 +27,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
   selectedAgencyType: number = 1;
   supplierList: GeneralSelectorModel[] = [];
   accountList: GeneralSelectorModel[] = [];
+  employeesSelectorData: GeneralSelectorModel [] = [];
   fromAccounts: GeneralSelectorModel[] = [];
   receiptLedgerList: GeneralSelectorModel[] = [];
   receiptTypeList: GeneralSelectorModel[] = [];
@@ -66,6 +68,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
     private datePipe: DatePipe,
     private router: Router,
     private acRoute: ActivatedRoute,
+    private hrService : HrService,
     private lookupService: LookupService,
     private toaster: ToastrService) { }
 
@@ -111,6 +114,10 @@ export class CreatePaymentReceiptComponent implements OnInit {
       this.paymentOrdersList = data;
     });
 
+    this.hrService.GetActiveEmployeesSelector().subscribe(data => {
+      this.employeesSelectorData = data;
+    });
+
 
     this.agencyTypeList = this.paymentService.agencyTypeList.filter(x => x.value != 3);
 
@@ -143,6 +150,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
       paymentOrderId: [null],
       fromAccountId: [null],
       supplierId: [null],
+      employeeId: [null]
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -185,6 +193,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
       paymentOrderId: receiptModel.paymentOrderId,
       fromAccountId: receiptModel.fromAccountId,
       supplierId: receiptModel.supplierId,
+      employeeId: receiptModel.employeeId,
     });
   }
 
@@ -193,6 +202,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
     this.paymentService.GetPaymentOrderDetailsById(paymentOrderId).subscribe((data: ReceiptModel) => {
       if (data && ![FinanceWorkflowStatus.Cancelled, FinanceWorkflowStatus.Paid].includes(data.workflowStatusId)) {
         this.paymentReceiptModel = data;
+        debugger
         this.fillEditForm(this.paymentReceiptModel)
       } else {
         this.paymentReceiptModel = null;

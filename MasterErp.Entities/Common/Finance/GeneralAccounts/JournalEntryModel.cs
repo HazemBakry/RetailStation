@@ -12,10 +12,10 @@ namespace MasterErp.Entities.Common
     {
         public int? JournalEntryId { get; set; }
 
-        public string DocNumber { get; set; }
+        public string? DocNumber { get; set; }
         public string EntryNumber { get; set; }
         public DateTime? EntryDate { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public int Month { get; set; }
         public int Year { get; set; }
         public int JournalTypeId { get; set; }

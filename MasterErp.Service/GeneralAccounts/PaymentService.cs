@@ -39,7 +39,7 @@ namespace MasterErp.Service.GeneralAccounts
 
         //----------------------------------- Payment Order ------------------------------------------//
 
-        public List<ReceiptModel> GetPaymentOrders_Summary(SearchFilterModel model,int? PaymentOrderId =null)
+        public List<ReceiptModel> GetPaymentOrders_Summary(SearchFilterModel model, int? PaymentOrderId = null)
         {
 
             DataTable FilterList = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
@@ -83,6 +83,14 @@ namespace MasterErp.Service.GeneralAccounts
         {
             try
             {
+                int? accountId = Model.AccountId;
+
+                if (Model.EmployeeId != null)
+                    accountId = Context.AccountTrees.Where(x => x.AccountTypeId == 6).FirstOrDefault().AccountId;
+
+                if (Model.SupplierId != null)
+                    accountId = Context.AccountTrees.Where(x => x.AccountTypeId == 5).FirstOrDefault().AccountId;
+
                 PaymentOrder order = new PaymentOrder();
 
                 order = new PaymentOrder()
@@ -97,7 +105,7 @@ namespace MasterErp.Service.GeneralAccounts
                     Description = Model.Description,
                     MoneyAmount = Model.MoneyAmount,
                     AgencyTypeId = Model.AgencyTypeId,
-                    AccountId = Model.AccountId,
+                    AccountId = accountId, //Model.AccountId,
                     SupplierId = Model.SupplierId,
                     FromAccountId = Model.FromAccountId,
                     WorkflowStatusId = (int)FinanceWorkflowStatus.Pending,
@@ -108,14 +116,12 @@ namespace MasterErp.Service.GeneralAccounts
                 Context.PaymentOrders.Add(order);
                 Context.SaveChanges();
 
-                if(Model.EmployeeAdvanceId !=null)
+                if (Model.EmployeeAdvanceId != null)
                 {
                     var advance = Context.EmployeeAdvances.FirstOrDefault(x => x.EmployeeAdvanceId == Model.EmployeeAdvanceId);
                     advance.WorkflowStatusId = (int)HRWorkflowStatus.Completed;
                     Context.SaveChanges();
-
                 }
-                
 
                 return new ActionsResponseModel
                 {
@@ -133,7 +139,8 @@ namespace MasterErp.Service.GeneralAccounts
                 };
             }
         }
-        public ActionsResponseModel EditPaymentOrder(int PaymentOrderId , ReceiptModel Model)
+
+        public ActionsResponseModel EditPaymentOrder(int PaymentOrderId, ReceiptModel Model)
         {
             try
             {
@@ -217,7 +224,7 @@ namespace MasterErp.Service.GeneralAccounts
 
         public List<SelectorDataModel> GetPaymentOrdersSelector(bool OrderStatus)
         {
-            var results = Context.PaymentOrders.Where(x => x.WorkflowStatusId != (int) FinanceWorkflowStatus.Paid).Select(b => new SelectorDataModel
+            var results = Context.PaymentOrders.Where(x => x.WorkflowStatusId != (int)FinanceWorkflowStatus.Paid).Select(b => new SelectorDataModel
             {
                 Id = b.PaymentOrderId,
                 Name = b.OrderNumber.ToString(),
@@ -296,7 +303,7 @@ namespace MasterErp.Service.GeneralAccounts
 
                 Context.PaymentReceipts.Add(receipt);
                 Context.SaveChanges();
-                
+
 
                 var payment_order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == Model.PaymentOrderId);
                 payment_order.WorkflowStatusId = (int)FinanceWorkflowStatus.WaitingPayment;
@@ -304,7 +311,7 @@ namespace MasterErp.Service.GeneralAccounts
 
                 var entry = PreparePaymentEntryModel(receipt);
                 var result = entryService.SaveNewJournalEntry(entry);
-                
+
                 return new ActionsResponseModel
                 {
                     Message = result.IsSuccess ? "تم حفظ البيانات بنجاح" : "فشل فى تسجيل القيد المحاسبى",
@@ -322,8 +329,8 @@ namespace MasterErp.Service.GeneralAccounts
                 };
             }
         }
-        
-        public ActionsResponseModel EditPaymentReceipt(int PaymentReceiptId,ReceiptModel Model)
+
+        public ActionsResponseModel EditPaymentReceipt(int PaymentReceiptId, ReceiptModel Model)
         {
             try
             {
@@ -438,9 +445,9 @@ namespace MasterErp.Service.GeneralAccounts
 
                 return entry;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception();
+                throw new Exception(ex.InnerException?.Message ?? ex.Message);
             }
         }
 
@@ -449,7 +456,7 @@ namespace MasterErp.Service.GeneralAccounts
             var receipt = Context.PaymentReceipts.FirstOrDefault(x => x.PaymentReceiptId == ReceiptId);
             if (receipt != null)
             {
-                receipt.WorkflowStatusId = (int) FinanceWorkflowStatus.Cancelled;
+                receipt.WorkflowStatusId = (int)FinanceWorkflowStatus.Cancelled;
                 receipt.ModifiedDate = DateTime.Now;
 
                 Context.SaveChanges();

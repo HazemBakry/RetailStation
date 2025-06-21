@@ -26,9 +26,7 @@
                                 طباعة
                             </span>
                         </button>
-                        <button *ngIf="paymentOrderId" ngbDropdownItem
-                            routerLink="/general-accounts/create-payment-receipt"
-                            [queryParams]="{PaymentOrderId:paymentOrderId}">
+                        <button *ngIf="paymentOrderId" ngbDropdownItem routerLink="/general-accounts/create-payment-receipt" [queryParams]="{PaymentOrderId:paymentOrderId}">
                             <i class="fas fa-upload"></i>
                             <span class="px-2">
                                 انشاء سند صرف
@@ -39,14 +37,11 @@
             </div>
 
             <ng-container *ngIf="paymentOrderId">
-                <app-next-previous [nextId]="receiptModel?.nextId" [previousId]="receiptModel?.previousId"
-                    (valueChanged)="goToPage($event)">
+                <app-next-previous [nextId]="receiptModel?.nextId" [previousId]="receiptModel?.previousId" (valueChanged)="goToPage($event)">
                 </app-next-previous>
             </ng-container>
 
-            <button [disabled]="showAddLoader"
-                class="btn btn-secondary  m-2 d-flex align-items-center gap-2 border rounded px-3"
-                (click)="openSaveModal(saveDialog)">
+            <button [disabled]="showAddLoader" class="btn btn-secondary  m-2 d-flex align-items-center gap-2 border rounded px-3" (click)="openSaveModal(saveDialog)">
                 <i class="fas fa-check-circle"></i>
                 <span class="ms-2">حفـظ</span>
             </button>
@@ -82,8 +77,7 @@
                         <label class="form-label d-flex align-items-center gap-2">طريقة الدفع <span
                                 class="text-danger">*</span></label>
 
-                        <app-general-selector formControlName="paymentTypeId" [showSearch]="true" [data]="paymentTypeList"
-                            [placeholder]="'طريقة الدفع'"></app-general-selector>
+                        <app-general-selector formControlName="paymentTypeId" [showSearch]="true" [data]="paymentTypeList" [placeholder]="'طريقة الدفع'"></app-general-selector>
                         <div *ngIf="formErrors.paymentTypeId" class="text-danger  font-small-3 m-03">
                             {{formErrors.paymentTypeId}}
                         </div>
@@ -93,8 +87,7 @@
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">من حساب<span
                                 class="text-danger">*</span></label>
-                        <app-general-selector formControlName="fromAccountId" [showSearch]="true" [data]="fromAccounts"
-                            [placeholder]="'الحسابات'">
+                        <app-general-selector formControlName="fromAccountId" [showSearch]="true" [data]="fromAccounts" [placeholder]="'الحسابات'">
                         </app-general-selector>
                         <div *ngIf="formErrors.fromAccountId" class="text-danger  font-small-3 m-03">
                             {{formErrors.fromAccountId}}
@@ -108,9 +101,7 @@
                         <!-- <app-general-selector [showSearch]="true" [data]="agencyTypeList" (ItemObj)="GetSelectedAgencyType($event)">
                         </app-general-selector> -->
 
-                        <app-general-selector formControlName="agencyTypeId" [showSearch]="true" [data]="agencyTypeList"
-                            (valueChanged)="getSelectedAgencyType($event)" [disabled]="purchaseInvoiceId"
-                            [placeholder]="'نوع جهة التعامل '"></app-general-selector>
+                        <app-general-selector formControlName="agencyTypeId" [showSearch]="true" [data]="agencyTypeList" (valueChanged)="getSelectedAgencyType($event)" [disabled]="purchaseInvoiceId" [placeholder]="'نوع جهة التعامل '"></app-general-selector>
                         <div *ngIf="formErrors.agencyTypeId" class="text-danger  font-small-3 m-03">
                             {{formErrors.agencyTypeId}}
                         </div>
@@ -120,22 +111,19 @@
                     <div class="mb-2" *ngIf="formGroup?.value?.agencyTypeId">
                         <label class="form-label d-flex align-items-center gap-2">الحساب / جهة التعامل <span
                                 class="text-danger">*</span></label>
-                        <app-general-selector [showSearch]="true" *ngIf="formGroup?.value?.agencyTypeId == 1" formControlName="accountId"
-                            [data]="accountList" [placeholder]="'الحسابات'">
+                        <app-general-selector [showSearch]="true" *ngIf="formGroup?.value?.agencyTypeId == 1" formControlName="accountId" [data]="accountList" [placeholder]="'الحسابات'">
                         </app-general-selector>
-                        <div *ngIf="formErrors.accountId" class="text-danger  font-small-3 m-03">
+                        <div *ngIf="formErrors.accountId" class="text-danger font-small-3 m-03">
                             {{formErrors.accountId}}
                         </div>
-                        <app-general-selector [showSearch]="true" *ngIf="formGroup?.value?.agencyTypeId == 2" [disabled]="purchaseInvoiceId"
-                            formControlName="supplierId" [data]="supplierList" [placeholder]="'جهة التعامل'">
+                        <app-general-selector [showSearch]="true" *ngIf="formGroup?.value?.agencyTypeId == 2" [disabled]="purchaseInvoiceId" formControlName="supplierId" [data]="supplierList" [placeholder]="'جهة التعامل'">
                         </app-general-selector>
-                        <div *ngIf="formErrors.supplierId" class="text-danger  font-small-3 m-03">
+                        <div *ngIf="formErrors.supplierId" class="text-danger font-small-3 m-03">
                             {{formErrors.supplierId}}
                         </div>
-                        <app-general-selector [showSearch]="true" *ngIf="formGroup?.value?.agencyTypeId == 4" [disabled]="purchaseInvoiceId"
-                            formControlName="employeeId" [data]="employeesSelectorData" [placeholder]="'اسم الموظف'">
+                        <app-general-selector [showSearch]="true" *ngIf="formGroup?.value?.agencyTypeId == 4" [disabled]="purchaseInvoiceId" formControlName="employeeId" [data]="employeesSelectorData" [placeholder]="'اسم الموظف'">
                         </app-general-selector>
-                        <div *ngIf="formErrors.employeeId" class="text-danger  font-small-3 m-03">
+                        <div *ngIf="formErrors.employeeId" class="text-danger font-small-3 m-03">
                             {{formErrors.employeeId}}
                         </div>
 
@@ -145,8 +133,7 @@
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">تاريخ الأمر <span
                                 class="text-danger">*</span></label>
-                        <input type="date" class="form-control nw-form-input" formControlName="releaseDate"
-                            placeholder="any" autocomplete="off">
+                        <input type="date" class="form-control nw-form-input" formControlName="releaseDate" placeholder="any" autocomplete="off">
                         <div *ngIf="formErrors.releaseDate" class="text-danger  font-small-3 m-03">
                             {{formErrors.releaseDate}}
                         </div>
@@ -158,8 +145,7 @@
                                 class="text-danger">*</span></label>
 
 
-                        <input type="number" class="form-control nw-form-input text-center"
-                            formControlName="moneyAmount" />
+                        <input type="number" class="form-control nw-form-input text-center" formControlName="moneyAmount" />
                         <div *ngIf="formErrors.moneyAmount" class="text-danger  font-small-3 m-03">
                             {{formErrors.moneyAmount}}
                         </div>
@@ -169,8 +155,7 @@
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">البيان</label>
 
-                        <input type="text" class="form-control nw-form-input description-area"
-                            formControlName="description" />
+                        <input type="text" class="form-control nw-form-input description-area" formControlName="description" />
                         <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
                             {{formErrors.description}}
                         </div>
