@@ -91,7 +91,7 @@ namespace MasterErp.Service.GeneralAccounts
 
             if (parentAccountId == null)
             {
-               
+
                 var maxParentNumber = Context.AccountTrees
                     .Where(a => a.ParentAccountId == null || a.ParentAccountId == 0)
                     .Max(a => (int?)Convert.ToInt32(a.AccountNumber)) ?? 0;
@@ -100,15 +100,15 @@ namespace MasterErp.Service.GeneralAccounts
             }
             else
             {
-                
+
                 var parent = Context.AccountTrees.FirstOrDefault(acc => acc.AccountId == parentAccountId);
                 if (parent == null) throw new Exception($"Parent account (ID: {parentAccountId}) not found");
-                 
+
                 var maxChildNumber = Context.AccountTrees
                     .Where(a => a.ParentAccountId == parentAccountId)
                     .Max(a => (int?)Convert.ToInt32(a.AccountNumber.Substring(parent.AccountNumber.Length))) ?? 0;
 
-                 
+
                 newAccountNumber = $"{parent.AccountNumber}{(maxChildNumber + 1):D2}";
             }
 
@@ -139,8 +139,8 @@ namespace MasterErp.Service.GeneralAccounts
                     entity.AccountNature = string.Empty;
                     entity.IsActive = Model.IsActive;
                     entity.IsGroup = Model.IsGroup;
-                    entity.NameAR = Model.NameAR;
-                    entity.NameEN = Model.NameEN;
+                    entity.NameAR = Model.NameAR ?? "";
+                    entity.NameEN = Model.NameEN ?? "";
                     entity.IsDisToCostCenter = Model.IsDisToCostCenter;
                     entity.CostCenterId = Model.CostCenterId;
                     entity.ModifiedDate = DateTime.Now;

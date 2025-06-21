@@ -248,6 +248,7 @@ export class CreatePaymentOrderComponent implements OnInit {
   }
 
   getSelectedAgencyType(accountType) {
+    debugger
     this.selectedAgencyType = accountType;
     this.receiptModel.agencyTypeId = accountType;
   }

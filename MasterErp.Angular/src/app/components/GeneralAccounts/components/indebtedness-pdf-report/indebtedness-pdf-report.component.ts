@@ -39,11 +39,12 @@ export class IndebtednessPdfReportComponent implements OnInit {
 
   calculateTotalDebts() {
     this.valueKeys.forEach(i => {
-      if (+i.value1 < 0 && +i.value2 < 0) {
-        i.diff = -(Math.abs(+i.value1) + Math.abs(+i.value2));
-      } else {
-        i.diff = (+i.value1 || 0) - (+i.value2 || 0);
-      }
+      // if (+i.value1 < 0 && +i.value2 < 0) {
+      //   i.diff = -(Math.abs(+i.value1) + Math.abs(+i.value2));
+      // } else {
+      //   i.diff = (+i.value1 || 0) - (+i.value2 || 0);
+      // }
+      i.diff = (i.value2 || 0) - (i.value1 || 0);
     });
 
     const debts = this.valueKeys.filter(i => i.key !== 'TotalDebts');
@@ -53,17 +54,18 @@ export class IndebtednessPdfReportComponent implements OnInit {
     if (totalDebts) {
       totalDebts.value1 = totalDebtsValue1;
       totalDebts.value2 = totalDebtsValue2;
-      totalDebts.diff = totalDebtsValue1 - totalDebtsValue2;
+      totalDebts.diff = totalDebtsValue2 - totalDebtsValue1;
     }
   }
 
   calculateTotalValue() {
     this.valueKeys2.forEach(i => {
-      if (+i.value1 < 0 && +i.value2 < 0) {
-        i.diff = -(Math.abs(+i.value1) + Math.abs(+i.value2));
-      } else {
-        i.diff = (+i.value1 || 0) - (+i.value2 || 0);
-      }
+      // if (+i.value1 < 0 && +i.value2 < 0) {
+      //   i.diff = -(Math.abs(+i.value1) + Math.abs(+i.value2));
+      // } else {
+      //   i.diff = (+i.value1 || 0) - (+i.value2 || 0);
+      // }
+      i.diff = (i.value2 || 0); - (i.value1 || 0) 
     });
 
     const values = this.valueKeys2.filter(i => i.key !== 'TotalValue');
@@ -73,13 +75,14 @@ export class IndebtednessPdfReportComponent implements OnInit {
     if (totalValue) {
       totalValue.value1 = totalValue1;
       totalValue.value2 = totalValue2;
-      totalValue.diff = totalValue1 - totalValue2;
+      totalValue.diff = totalValue2 - totalValue1;
     }
 
     this.calculateNetDebt();
   }
 
   calculateNetDebt() {
+    debugger;
     const revenues = this.valueKeys2.find(i => i.key === 'Revenues');
     const totalDebts = this.valueKeys.find(i => i.key === 'TotalDebts');
     const revenuesValue1 = revenues?.value1 || 0;
@@ -88,11 +91,12 @@ export class IndebtednessPdfReportComponent implements OnInit {
     const debtsValue2 = totalDebts?.value2 || 0;
     this.totalValueObj.value1 = revenuesValue1 - debtsValue1;
     this.totalValueObj.value2 = revenuesValue2 - debtsValue2;
-    if (this.totalValueObj.value1 < 0 && this.totalValueObj.value2 < 0) {
-      this.totalValueObj.diff = -(Math.abs(this.totalValueObj.value1) + Math.abs(this.totalValueObj.value2));
-    } else {
-      this.totalValueObj.diff = this.totalValueObj.value1 - this.totalValueObj.value2;
-    }
+    // if (this.totalValueObj.value1 < 0 && this.totalValueObj.value2 < 0) {
+    //   this.totalValueObj.diff = -(Math.abs(this.totalValueObj.value1) + Math.abs(this.totalValueObj.value2));
+    // } else {
+    //   this.totalValueObj.diff = this.totalValueObj.value1 - this.totalValueObj.value2;
+    // }
+    this.totalValueObj.diff = this.totalValueObj.value2 - this.totalValueObj.value1;
   }
 
   printData() {
@@ -136,12 +140,12 @@ export class IndebtednessPdfReportComponent implements OnInit {
     this.valueKeys.forEach(item => {
       item.value1 = parseFloat((item.value1 || 0).toFixed(2));
       item.value2 = parseFloat((item.value2 || 0).toFixed(2));
-      item.diff = parseFloat(((item.value1 || 0) - (item.value2 || 0)).toFixed(2));
+      item.diff = parseFloat(((item.value2 || 0) - (item.value1 || 0)).toFixed(2));
     });
     this.valueKeys2.forEach(item => {
       item.value1 = parseFloat((item.value1 || 0).toFixed(2));
       item.value2 = parseFloat((item.value2 || 0).toFixed(2));
-      item.diff = parseFloat(((item.value1 || 0) - (item.value2 || 0)).toFixed(2));
+      item.diff = parseFloat(((item.value2 || 0) - (item.value1 || 0)).toFixed(2));
     });
 
     this.totalValueObj.value1 = parseFloat((this.totalValueObj.value1 || 0).toFixed(2));
