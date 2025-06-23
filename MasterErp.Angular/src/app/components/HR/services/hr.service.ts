@@ -19,6 +19,8 @@ import { AdvancePaymentModel, EmployeeAdvanceModel } from '../models/EmployeeAdv
 import { EmployeeAdvancedAttendanceModel, EmployeeAttendanceModel } from '../models/EmployeeAttendanceModel';
 import { EmployeeSalarySummaryModel } from '../models/EmployeeSalarySummaryModel';
 import { EmployeeDueModel } from '../models/EmployeeDueModel';
+import { SponsorModel } from '../models/SponsoModel';
+import { DepartmentModel } from '../models/DepartmentModel';
 
 @Injectable({
   providedIn: 'root'
@@ -558,4 +560,44 @@ export class HrService {
   }
 
 
+
+
+
+  ////////////////////////// sponsor ///////////////////
+
+    GetSponsorsData(model: PagedResponseDTO<SponsorModel[]>) {
+      return this.http.post<PagedResponseDTO<SponsorModel[]>>(this.URL + 'HR/GetSponsorsData', model);
+    }
+      GetSponsorById(sponsorId:number) {
+      return this.http.get<ActionsResponseModel>(this.URL + `HR/GetSponsorById?SponsorId=${sponsorId}`);
+    }
+    CreateNewSponsor(model: SponsorModel) {
+      return this.http.post<ActionsResponseModel>(this.URL + 'HR/CreateNewSponsor', model);
+    }
+  
+    EditSponsor(sponsorId:number,model: SponsorModel) {
+      return this.http.post<ActionsResponseModel>(this.URL + `HR/EditSponsor?SponsorId=${sponsorId}`, model);
+    }
+    DeleteSponsor(sponsorId:number) {
+      return this.http.get<ActionsResponseModel>(this.URL + `HR/DeleteSponsor?SponsorId=${sponsorId}`);
+    }
+
+      ////////////////////////// departments ///////////////////
+
+    GetDepartmentsData(model: PagedResponseDTO<DepartmentModel[]>) {
+      return this.http.post<PagedResponseDTO<DepartmentModel[]>>(this.URL + 'HR/GetDepartmentsData', model);
+    }
+      GetDepartmentById(departmentId:number) {
+      return this.http.get<ActionsResponseModel>(this.URL + `HR/GetDepartmentById?DepartmentId=${departmentId}`);
+    }
+    CreateNewDepartment(model: DepartmentModel) {
+      return this.http.post<ActionsResponseModel>(this.URL + 'HR/CreateNewDepartment', model);
+    }
+  
+    EditDepartment(departmentId:number,model: DepartmentModel) {
+      return this.http.post<ActionsResponseModel>(this.URL + `HR/EditDepartment?DepartmentId=${departmentId}`, model);
+    }
+    DeleteDepartment(departmentId:number) {
+      return this.http.get<ActionsResponseModel>(this.URL + `HR/DeleteDepartment?DepartmentId=${departmentId}`);
+    }
 }

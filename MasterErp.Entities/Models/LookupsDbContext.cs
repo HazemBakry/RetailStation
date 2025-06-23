@@ -52,6 +52,7 @@ namespace MasterErp.Entities.Models
         public DbSet<IqamaIssuePlace> IqamaIssuePlaces { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<SponsorType> SponsorTypes { get; set; }
 
     }
 }

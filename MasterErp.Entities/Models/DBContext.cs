@@ -97,6 +97,7 @@ namespace MasterErp.Entities.Models
         public DbSet<SalesInvoice> SalesInvoices { get; set; }
         public DbSet<SalesInvoiceDetails> SalesInvoiceDetails { get; set; }
         public DbSet<Sponsor> Sponsors { get; set; }
+        public DbSet<Department> Departments { get; set; }
         public DbSet<SickLeave> SickLeaves { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<SupplierGroup> SupplierGroups { get; set; }

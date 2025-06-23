@@ -62,6 +62,15 @@ namespace MasterErp.Service.Shared
                 Name = x.NameAR ?? x.NameEN
             }).ToList();
         }
+        public List<SelectorDataModel> GetSponsorTypesSelector()
+        {
+         
+            return LookupsContext.SponsorTypes.Select(x => new SelectorDataModel
+            {
+                Id = x.SponsorTypeId,
+                Name = x.NameAR ?? x.NameEN
+            }).ToList();
+        }
 
         public List<SelectorDataModel> GetCurrencySelector()
         {

@@ -1,18 +1,18 @@
-﻿using System;
+﻿using MasterErp.Entities.Models;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models.HR
+namespace MasterErp.Entities.DTOs.HR
 {
-    [Table("Departments", Schema = "HR")]
-
-    public class Department : CreatorModel
+    public class DepartmentModel : CreatorModel
     {
         public int? DepartmentId { get; set; }
         public int? BranchId { get; set; }
+        public string BranchNameAR { get; set; }
+        public string BranchNameEN { get; set; }
         public string Code { get; set; }
         public string NameAR { get; set; }
         public string NameEN { get; set; }
@@ -21,6 +21,9 @@ namespace MasterErp.Entities.Models.HR
         public string Description { get; set; }
         public int? ManagerId { get; set; }
 
+        public string ManagerNameAR { get; set; }
+        public string ManagerNameEN { get; set; }
+        public int? TotalCount { get; set; }
 
     }
 }

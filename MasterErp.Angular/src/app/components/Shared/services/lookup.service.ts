@@ -102,4 +102,7 @@ export class LookupService {
   GetEmployeeDueTypesSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetEmployeeDueTypesSelector');
   }
+  GetSponsorTypesSelector() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetSponsorTypesSelector');
+  }
 }

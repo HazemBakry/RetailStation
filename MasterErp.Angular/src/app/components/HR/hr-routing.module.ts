@@ -29,6 +29,8 @@ import { HrAdvancesReportsComponent } from './components/hr-advances-reports/hr-
 import { HrAttendanceAdvancedReportComponent } from './components/hr-attendance-report/hr-attendance-advanced-report/hr-attendance-advanced-report.component';
 import { HrEmployeesSalariesComponent } from './components/hr-employees-salaries/hr-employees-salaries.component';
 import { HrEmployeeDuesComponent } from './components/hr-employee-dues/hr-employee-dues.component';
+import { HrSponsorsComponent } from './components/hr-sponsors/hr-sponsors.component';
+import { HrDepartmentsComponent } from './components/hr-departments/hr-departments.component';
 
 
 const routes: Routes = [
@@ -141,6 +143,14 @@ const routes: Routes = [
       {
         path: 'employee-dues',
         component: HrEmployeeDuesComponent
+      },
+      {
+        path: 'sponsors',
+        component: HrSponsorsComponent
+      },
+      {
+        path: 'departments',
+        component: HrDepartmentsComponent
       },
       
       { path: '', redirectTo: 'home', pathMatch: 'full' },

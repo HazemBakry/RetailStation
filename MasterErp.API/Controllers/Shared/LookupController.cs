@@ -182,6 +182,14 @@ namespace MasterErp.API.Controllers.Shared
             var results = lookupService.GetEmployeeDueTypesSelector();
             return Ok(results);
         }
+                
+        [HttpGet]
+        [Route("GetSponsorTypesSelector")]
+        public IActionResult GetSponsorTypesSelector()
+        {
+            var results = lookupService.GetSponsorTypesSelector();
+            return Ok(results);
+        }
 
 
         #endregion

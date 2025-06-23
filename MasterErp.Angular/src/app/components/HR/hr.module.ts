@@ -35,6 +35,8 @@ import { HrDailyAttendanceReportComponent } from './components/hr-attendance-rep
 import { HrEmployeesSalariesComponent } from './components/hr-employees-salaries/hr-employees-salaries.component';
 import { HrEmployeeDuesComponent } from './components/hr-employee-dues/hr-employee-dues.component';
 import { HrMiniEmployeeContractInfoComponent } from './components/hr-mini-employee-contract-info/hr-mini-employee-contract-info.component';
+import { HrSponsorsComponent } from './components/hr-sponsors/hr-sponsors.component';
+import { HrDepartmentsComponent } from './components/hr-departments/hr-departments.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +71,8 @@ import { HrMiniEmployeeContractInfoComponent } from './components/hr-mini-employ
     HrEmployeesSalariesComponent,
     HrEmployeeDuesComponent,
     HrMiniEmployeeContractInfoComponent,
+    HrSponsorsComponent,
+    HrDepartmentsComponent,
   ],
   imports: [
     HrRoutingModule,

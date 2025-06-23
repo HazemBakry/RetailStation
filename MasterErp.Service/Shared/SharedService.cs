@@ -98,8 +98,8 @@ namespace MasterErp.Service.Shared
         {
             var results = Context.Sponsors.Select(b => new SelectorDataModel
             {
-                Id = b.SponsorID,
-                Name = b.NameAR,
+                Id = b.SponsorId,
+                Name = b.NameAR ?? b.NameEN,
             }).ToList();
             return results;
         }

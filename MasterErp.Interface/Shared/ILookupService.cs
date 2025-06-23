@@ -42,6 +42,7 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetSocialStatusSelector();
         List<SelectorDataModel> GetVacationTypesSelector();
         List<SelectorDataModel> GetEmployeeDueTypesSelector();
+        List<SelectorDataModel> GetSponsorTypesSelector();
 
         #endregion
     }
