@@ -347,6 +347,7 @@ namespace MasterErp.Service.HR
                     JoinDate = x.JoinDate?.ToString("MM/dd/yyyy"),
                     ContractPeriod = x.ContractPeriod,
                     SocialStatus = x.SocialStatusNameAR ?? x.SocialStatusNameEN,
+                    WorkStatus = x.EmployeeStatusNameAR ?? x.EmployeeStatusNameEN,
                     Address = x.Address,
                     Phone = x.Phone,
                     ExpiryDate = x.ExpiryDate?.ToString("MM/dd/yyyy"),

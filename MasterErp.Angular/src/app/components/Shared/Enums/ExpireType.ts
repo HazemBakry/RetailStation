@@ -5,5 +5,5 @@ export enum ExpireType {
     Contract = 4,     //عقد عمل
     Insurance = 5,    //تأمين
     WorkPermit = 6,   //تصريح عمل
-    Other = 7 ,        //أخرى
+    WorkStatus = 7 ,        //حالة العمل
 }

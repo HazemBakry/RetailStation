@@ -94,6 +94,8 @@ namespace MasterErp.Entities.DTOs.HR
 
         [JsonProperty("Phone")]
         public string Phone { get; set; }
+        [JsonProperty("Work Status")]
+        public string WorkStatus { get; set; }
 
         [JsonProperty("Join Date")]
         public string JoinDate { get; set; }

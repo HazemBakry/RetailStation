@@ -28,8 +28,7 @@ export class HrEmployeeExpireReportComponent implements OnInit {
     { value: ExpireType.Passport, name: 'تقرير الموظفين المنتهية جوازات سفرهم' },
     { value: ExpireType.DrivingLicense, name: 'تقرير الموظفين المنتهية رخصة قيادتهم' },
     { value: ExpireType.Contract, name: 'تقرير الموظفين المنتهية عقودهم' },
-
-
+    { value: ExpireType.WorkStatus, name: 'تقرير الموظفين المنتهية وضعهم الوظيفي' },
 
   ];
 

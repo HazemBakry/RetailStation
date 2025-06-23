@@ -63,6 +63,8 @@
                         <th>الوظيفة</th>
                         <th>الفرع</th>
                         <th>الكفيل</th>
+                                                <th>حالة العمل</th>
+
                         <th>تاريخ التعيين</th>
                         <th>تاريخ الانتهاء</th>
                         <th>ملاحظات</th>
@@ -79,6 +81,10 @@
                         <td>{{ emp.jobNameAR ??emp.jobNameEN }}</td>
                         <td>{{ emp.branchNameAR ?? emp.branchNameEN }}</td>
                         <td>{{ emp.sponsorNameAR??emp.sponsorNameEN }}</td>
+                        <td>
+                            <span appWorkflowStatus [id]="emp.workFlowStatusId" [nameAR]="emp?.employeeStatusNameAR">
+                            </span>
+                        </td>
                         <td>{{ emp.joinDate | date: 'yyyy-MM-dd' }}</td>
                         <td>{{ emp.expiryDate | date: 'yyyy-MM-dd' }}</td>
                         <td class="word-break">{{emp.notes}}</td>
