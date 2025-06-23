@@ -13,6 +13,8 @@ namespace MasterErp.Entities.Models.HR
     {
         public int EmployeeId { get; set; }//
         public int? ManagerId { get; set; }//1
+        public int? DepartmentId { get; set; }//1
+
         public int Code { get; set; }//1 NOT NULL
         public int JobId { get; set; }//1 NOT NULL
         public int? BranchId { get; set; }//1  NOT NULL

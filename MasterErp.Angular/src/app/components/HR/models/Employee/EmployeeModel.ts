@@ -8,6 +8,7 @@ export interface EmployeeModel extends CreatorModel {
     employeeId: number | null;
     code: number;
     managerId: number | null;
+    departmentId: number | null;
     jobId: number;
     visaJobId: number | null;
     branchId: number;

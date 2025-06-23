@@ -26,6 +26,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
   isUpdate: boolean = false;
 
   employeesSelectorData: FormDropdownModel[] = [];
+  departmentsSelectorData: FormDropdownModel[] = [];
   jobsSelectorData: FormDropdownModel[] = [];
   workStatusSelectorData: FormDropdownModel[] = [];
   branchSelectorData: FormDropdownModel[] = [];
@@ -103,6 +104,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       employeeId: [null],
       managerId: [null],
       jobId: [null, [Validators.required]],
+      departmentId: [null],
       branchId: [null, [Validators.required]],
       statusId: [null],
       firstNameAR: [null, [Validators.required]],
@@ -226,6 +228,9 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
      this.sharedService.GetSponsorsSelector().subscribe((data: FormDropdownModel[]) => {
       this.sponsorSelectorData = data;
     });
+     this.sharedService.GetDepartmentsSelector().subscribe((data: FormDropdownModel[]) => {
+      this.departmentsSelectorData = data;
+    });
     this.lookupService.GetWorkStatusSelector().subscribe((data: FormDropdownModel[]) => {
       this.workStatusSelectorData = data;
     });
@@ -269,6 +274,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       employeeId: employeeBasicInfoModel.employeeId,
       managerId: employeeBasicInfoModel.managerId,
       jobId: employeeBasicInfoModel.jobId,
+      departmentId: employeeBasicInfoModel.departmentId,
       branchId: employeeBasicInfoModel.branchId,
       statusId: employeeBasicInfoModel.statusId,
       firstNameAR: employeeBasicInfoModel.firstNameAR,
@@ -321,6 +327,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
     employeeId: '',
     managerId: '',
     jobId: '',
+    departmentId: '',
     branchId: '',
     statusId: '',
     firstNameAR: '',

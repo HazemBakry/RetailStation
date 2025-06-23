@@ -230,6 +230,13 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetArabicEnglishNumberText(ReceiptId);
             return Ok(result);
         }
+        [HttpGet]
+        [Route("GetDepartmentsSelector")]
+        public IActionResult GetDepartmentsSelector()
+        {
+            var result = _sharedService.GetDepartmentsSelector();
+            return Ok(result);
+        }
 
         #endregion
     }

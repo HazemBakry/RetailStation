@@ -15,6 +15,7 @@ namespace MasterErp.Entities.DTOs.HR
         public int? EmployeeId { get; set; }//
         public int Code { get; set; }//1
         public int? ManagerId { get; set; }//1
+        public int? DepartmentId { get; set; }//1
         public int JobId { get; set; }//1
         public int? SocialStatusId { get; set; }//1
         public int? VisaJobId { get; set; }//1

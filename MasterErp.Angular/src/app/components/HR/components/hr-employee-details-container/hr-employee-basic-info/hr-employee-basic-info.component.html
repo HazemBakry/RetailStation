@@ -211,7 +211,13 @@
                     {{formErrors.socialStatusId}}
                 </div>
             </div>
-            <div class="col-xl-6 mb-3">
+            <div class="col-xl-3 mb-3">
+                <app-drop-down-form-control formControlName="departmentId" [placeholder]="'القسم'" [showSearch]="true" [data]="departmentsSelectorData"></app-drop-down-form-control>
+                <div *ngIf="formErrors.departmentId" class="text-danger  font-small-3 m-03">
+                    {{formErrors.departmentId}}
+                </div>
+            </div>
+            <div class="col-xl-3 mb-3">
                 <app-drop-down-form-control formControlName="jobId" [placeholder]="'الوظيفة'" [showSearch]="true" [data]="jobsSelectorData"></app-drop-down-form-control>
                 <div *ngIf="formErrors.jobId" class="text-danger  font-small-3 m-03">
                     {{formErrors.jobId}}

@@ -71,6 +71,7 @@ namespace MasterErp.Service.HR
 
 
                 employee.ManagerId = model.ManagerId;
+                employee.DepartmentId = model.DepartmentId;
                 employee.JobId = model.JobId;
                 employee.VisaJobId = model.VisaJobId;
                 employee.BranchId = model.BranchId;
@@ -143,6 +144,7 @@ namespace MasterErp.Service.HR
                     employee.FullNameEN = string.Concat(new List<string> { model.FirstNameEN, " ", model.FatherNameEN, " ", model.GrandNameEN, " ", model.LastNameEN }); ;
 
 
+                    employee.DepartmentId = model.DepartmentId;
                     employee.ManagerId = model.ManagerId;
                     employee.JobId = model.JobId;
                     employee.VisaJobId = model.VisaJobId;
@@ -426,6 +428,7 @@ namespace MasterErp.Service.HR
                     Code = employee.Code,
                     ManagerId = employee.ManagerId,
                     JobId = employee.JobId,
+                    DepartmentId = employee.DepartmentId,
                     BranchId = employee.BranchId,
                     StatusId = employee.StatusId,
                     FirstNameAR = employee.FirstNameAR,

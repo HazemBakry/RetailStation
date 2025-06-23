@@ -286,6 +286,16 @@ namespace MasterErp.Service.Shared
             return new { DescAr = descAr, DescEn = descEn };
         }
 
+        public List<SelectorDataModel> GetDepartmentsSelector()
+        {
+            var results = Context.Departments.Select(b => new SelectorDataModel
+            {
+                Id = b.DepartmentId.GetValueOrDefault(),
+                Name = b.NameAR ?? b.NameEN,
+            }).ToList();
+            return results;
+        }
+
         #endregion
 
     }

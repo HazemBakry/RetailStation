@@ -137,6 +137,9 @@ export class SharedService {
   GetSponsorsSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetSponsorsSelector');
   }
+  GetDepartmentsSelector() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetDepartmentsSelector');
+  }
   GetOrderStatusSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetOrderStatusSelector');
   }
