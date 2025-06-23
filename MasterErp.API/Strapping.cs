@@ -76,7 +76,7 @@ namespace MasterErp.API
             services.AddScoped<ICreateReportService, CreateReportService>();
             services.AddScoped<IHelper, Helper>();
             services.AddScoped<IEmployeeAdvancesService, EmployeeAdvancesService>();
-            services.AddScoped<IPayrollReportService, PayrollReportService>();
+            services.AddScoped<IHRReportsService, HRReportsService>();
             services.AddScoped<IHRService, HRService>();
 
         }

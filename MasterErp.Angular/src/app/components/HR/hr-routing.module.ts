@@ -31,6 +31,7 @@ import { HrEmployeesSalariesComponent } from './components/hr-employees-salaries
 import { HrEmployeeDuesComponent } from './components/hr-employee-dues/hr-employee-dues.component';
 import { HrSponsorsComponent } from './components/hr-sponsors/hr-sponsors.component';
 import { HrDepartmentsComponent } from './components/hr-departments/hr-departments.component';
+import { HrEmployeeExpireReportComponent } from './components/hr-employee-expire-report/hr-employee-expire-report.component';
 
 
 const routes: Routes = [
@@ -135,6 +136,10 @@ const routes: Routes = [
       {
         path: 'payroll-report',
         component: HRPayrollReportComponent
+      },
+      {
+        path: 'expire-report',
+        component: HrEmployeeExpireReportComponent
       },
       {
         path: 'advances-report',

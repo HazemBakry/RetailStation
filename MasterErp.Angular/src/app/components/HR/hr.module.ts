@@ -37,6 +37,7 @@ import { HrEmployeeDuesComponent } from './components/hr-employee-dues/hr-employ
 import { HrMiniEmployeeContractInfoComponent } from './components/hr-mini-employee-contract-info/hr-mini-employee-contract-info.component';
 import { HrSponsorsComponent } from './components/hr-sponsors/hr-sponsors.component';
 import { HrDepartmentsComponent } from './components/hr-departments/hr-departments.component';
+import { HrEmployeeExpireReportComponent } from './components/hr-employee-expire-report/hr-employee-expire-report.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { HrDepartmentsComponent } from './components/hr-departments/hr-departmen
     HrMiniEmployeeContractInfoComponent,
     HrSponsorsComponent,
     HrDepartmentsComponent,
+    HrEmployeeExpireReportComponent,
   ],
   imports: [
     HrRoutingModule,

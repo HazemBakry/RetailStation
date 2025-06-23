@@ -1,6 +1,8 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Export;
+using MasterErp.Entities.DTOs.GeneralAccounts;
+using MasterErp.Entities.DTOs.HR;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.HR;
 using MasterErp.Service.Common;
@@ -15,19 +17,22 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Service.HR
 {
-    public class PayrollReportService : IPayrollReportService
+    public class HRReportsService : IHRReportsService
     {
         private readonly IConfiguration _configuration;
         private readonly IExportService _exportService;
         private readonly ISQLHelper _sQLHelper;
+        private readonly ISharedFilterService sharedFilterService;
+
         private string ConnectionString;
 
-        public PayrollReportService(ISQLHelper SQLHelper, IConfiguration Configuration, IExportService exportService)
+        public HRReportsService(ISQLHelper SQLHelper, IConfiguration Configuration, IExportService exportService, ISharedFilterService sharedFilterService)
         {
             _sQLHelper = SQLHelper;
             _configuration = Configuration;
             ConnectionString = Configuration.GetConnectionString("DBConnection");
             _exportService = exportService;
+            this.sharedFilterService = sharedFilterService;
         }
 
         public DataTable GetPayrollReportVacations(SearchFilterModel SearchModel)
@@ -300,6 +305,101 @@ namespace MasterErp.Service.HR
             }
         }
 
+
+
+
+
+        #region ExpireReport
+        public List<EmployeeExpireReportModel> GetEmployeesExpireReport_Data(int ReportType, SearchFilterModel SearchModel)
+        {
+            SqlParameter[] param = new SqlParameter[4];
+            param[0] = new SqlParameter("@ReportType", ReportType);
+            param[1] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            param[2] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            param[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[3].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
+
+
+            var result = _sQLHelper.SQLQuery<EmployeeExpireReportModel>("[HR].[SP_GetEmployeesExpireReport_Data]", null, param);
+
+            return result;
+        }        
+        public ActionsResponseModel GetEmployeesExpireReport_Export(int ReportType, SearchFilterModel SearchModel)
+        {
+            string url = string.Empty;
+            try
+            {
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var Data = GetEmployeesExpireReport_Data(ReportType, SearchModel);
+
+                var result = Data.Select(x => new EmployeeExpireReportExportModel
+                {
+                    EmployeeCode = x.EmployeeCode,
+                    EmployeeName = x.EmployeeNameAR ?? x.EmployeeNameEN,
+                    IqamaNumber = x.IqamaNumber,
+                    Email = x.Email,
+                    NationalityName = x.NationalityNameAR ?? x.NationalityNameEN,
+                    SponsorName = x.SponsorNameAR ?? x.SponsorNameEN,
+                    BirthDate = x.BirthDate?.ToString("MM/dd/yyyy"),
+                    JobName = x.JobNameAR ?? x.JobNameEN,
+                    BranchName = x.BranchNameAR ?? x.BranchNameEN,
+                    JoinDate = x.JoinDate?.ToString("MM/dd/yyyy"),
+                    ContractPeriod = x.ContractPeriod,
+                    SocialStatus = x.SocialStatusNameAR ?? x.SocialStatusNameEN,
+                    Address = x.Address,
+                    Phone = x.Phone,
+                    ExpiryDate = x.ExpiryDate?.ToString("MM/dd/yyyy"),
+                    Notes = x.Notes
+                }).ToList();
+                
+                if (!result.Any())
+                {
+                    result.Add(new EmployeeExpireReportExportModel());
+
+                }
+
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "Employee Expire");
+
+
+                url = GetExportUrl(dtExport, "Employee Expire");
+
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+
+        }
+
+        public List<FilterModel> GetEmployeesExpireReport_Filters(int ReportType, SearchFilterModel SearchModel)
+        {
+            SqlParameter[] param = new SqlParameter[2];
+            param[0] = new SqlParameter("@ReportType", ReportType);
+            param[1] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[1].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
+
+            var result = _sQLHelper.SQLQuery<FilterItem>("[HR].[SP_GetEmployeesExpireReport_Filters]", null, param);
+             var grouped = sharedFilterService.GroupedFilterItems(result);
+
+            return grouped;
+        }
+        #endregion
         private string GetExportUrl(DataTable DT, string Name)
         {
             DT.TableName = Name;

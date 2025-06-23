@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { SearchFilterModel } from '../../Shared/models/FilterModel';
+import { FilterItem, FilterModel, SearchFilterModel } from '../../Shared/models/FilterModel';
 import { FormDropdownModel } from '../../Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { EmployeeVacationModel } from '../models/EmployeeVacationModel';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
@@ -21,6 +21,7 @@ import { EmployeeSalarySummaryModel } from '../models/EmployeeSalarySummaryModel
 import { EmployeeDueModel } from '../models/EmployeeDueModel';
 import { SponsorModel } from '../models/SponsoModel';
 import { DepartmentModel } from '../models/DepartmentModel';
+import { EmployeeExpireReportModel } from '../models/EmployeeExpireReportModel';
 
 @Injectable({
   providedIn: 'root'
@@ -126,51 +127,51 @@ export class HrService {
   //================================== PayrollReport ===============================
 
   GetPayrollReportVacations(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'PayrollReport/GetPayrollReportVacations', model);
+    return this.http.post<any>(this.URL + 'HRReports/GetPayrollReportVacations', model);
   }
 
   GetPayrollReportOverTime(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'PayrollReport/GetPayrollReportOverTime', model);
+    return this.http.post<any>(this.URL + 'HRReports/GetPayrollReportOverTime', model);
   }
 
   GetPayrollReportPenalties(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'PayrollReport/GetPayrollReportPenalties', model);
+    return this.http.post<any>(this.URL + 'HRReports/GetPayrollReportPenalties', model);
   }
 
   GetPayrollReportSickLeaves(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'PayrollReport/GetPayrollReportSickLeaves', model);
+    return this.http.post<any>(this.URL + 'HRReports/GetPayrollReportSickLeaves', model);
   }
 
   GetPayrollReportDeducts(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'PayrollReport/GetPayrollReportDeducts', model);
+    return this.http.post<any>(this.URL + 'HRReports/GetPayrollReportDeducts', model);
   }
 
   GetPayrollReportAdvances(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'PayrollReport/GetPayrollReportAdvances', model);
+    return this.http.post<any>(this.URL + 'HRReports/GetPayrollReportAdvances', model);
   }
 
   ExportPayrollReportVacations(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'PayrollReport/ExportPayrollReportVacations', model);
+    return this.http.post<any>(this.URL + 'HRReports/ExportPayrollReportVacations', model);
   }
 
   ExportPayrollReportOverTime(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'PayrollReport/ExportPayrollReportOverTime', model);
+    return this.http.post<any>(this.URL + 'HRReports/ExportPayrollReportOverTime', model);
   }
 
   ExportPayrollReportPenalties(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'PayrollReport/ExportPayrollReportPenalties', model);
+    return this.http.post<any>(this.URL + 'HRReports/ExportPayrollReportPenalties', model);
   }
 
   ExportPayrollReportSickLeaves(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'PayrollReport/ExportPayrollReportSickLeaves', model);
+    return this.http.post<any>(this.URL + 'HRReports/ExportPayrollReportSickLeaves', model);
   }
 
   ExportPayrollReportDeducts(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'PayrollReport/ExportPayrollReportDeducts', model);
+    return this.http.post<any>(this.URL + 'HRReports/ExportPayrollReportDeducts', model);
   }
 
   ExportPayrollReportAdvances(model: SearchFilterModel) {
-    return this.http.post<any>(this.URL + 'PayrollReport/ExportPayrollReportAdvances', model);
+    return this.http.post<any>(this.URL + 'HRReports/ExportPayrollReportAdvances', model);
   }
 
   //================================== Employees ===============================
@@ -600,4 +601,20 @@ export class HrService {
     DeleteDepartment(departmentId:number) {
       return this.http.get<ActionsResponseModel>(this.URL + `HR/DeleteDepartment?DepartmentId=${departmentId}`);
     }
+
+
+
+  /////////////////////////// expired report 
+  GetEmployeesExpireReport_Data(reportType:number, model: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<EmployeeExpireReportModel[]>>(this.URL + `HRReports/GetEmployeesExpireReport_Data?ReportType=${reportType}`, model);
+  }
+  GetEmployeesExpireReport_Export(reportType:number, model: SearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `HRReports/GetEmployeesExpireReport_Export?ReportType=${reportType}`, model);
+  }
+  GetEmployeesExpireReport_Filters(reportType:number,model: SearchFilterModel) {
+    return this.http.post<FilterModel[]>(this.URL + `HRReports/GetEmployeesExpireReport_Filters?ReportType=${reportType}`, model);
+  }
+
+
+
 }
