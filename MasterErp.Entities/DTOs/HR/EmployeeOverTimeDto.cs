@@ -17,6 +17,7 @@ namespace MasterErp.Entities.DTOs.HR
         public DateTime ExecutionDate { get; set; }
         public double NoHours { get; set; }
         public double MoneyAmount { get; set; }
+        public double OvertimeRatio { get; set; }
         public string Notes { get; set; }
         public bool IsActive { get; set; }
         public string WorkflowStatusNameEN { get; set; }

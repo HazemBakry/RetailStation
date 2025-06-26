@@ -84,10 +84,10 @@ const routes: Routes = [
         path: 'careers',
         component: HrCareersComponent
       },
-      {
-        path: 'deducts',
-        component: HrDeductsComponent
-      },
+      // {
+      //   path: 'deducts',
+      //   component: HrDeductsComponent
+      // },
       {
         path: 'attendance-report',
         component: HrAttendanceReportComponent

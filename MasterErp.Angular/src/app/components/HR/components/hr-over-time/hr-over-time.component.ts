@@ -11,6 +11,7 @@ import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponse
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 import { EmployeeContractModel } from '../../models/Employee/EmployeeContractModel';
+import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 
 @Component({
   selector: 'app-hr-over-time',
@@ -20,8 +21,14 @@ import { EmployeeContractModel } from '../../models/Employee/EmployeeContractMod
 export class HrOverTimeComponent implements OnInit {
   VacationData: any[] = [];
 
-  employeeSelectorData: FormDropdownModel[] = [];
-  penaltyTypeSelectorData: FormDropdownModel[] = [];
+  employeeSelectorData: GeneralSelectorModel[] = [];
+  overtimeRatioSelectorData: GeneralSelectorModel[] = [
+    { value: 1, name: '1' },
+    { value: 1.25, name: '1.25' },
+    { value: 1.5, name: '1.5' },
+    { value: 1.75, name: '1.75' },
+    { value: 2, name: '2' }
+  ];
 
   selectedOverTimeId: number;
   noHours: number;
@@ -33,7 +40,7 @@ export class HrOverTimeComponent implements OnInit {
     currentPage: 1,
     searchText: ''
   };
-  
+
   showLoader: boolean = false;
   showAddLoader: boolean = false;
 
@@ -44,6 +51,7 @@ export class HrOverTimeComponent implements OnInit {
     executionDate: '',
     noHours: '',
     requestDate: '',
+    overtimeRatio: '',
     moneyAmount: '',
     notes: '',
     timeFrom: '',
@@ -59,9 +67,11 @@ export class HrOverTimeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getActiveEmployeesSelector();
-    //this.getEmployeeContractSalary();
   }
-
+  employeeChanged(employeeId: number) {
+    if (employeeId)
+      this.getEmployeeContractSalary();
+  }
   getOverTimeByEmployeeId() {
     if (!this.checkEmployee())
       return;
@@ -78,7 +88,7 @@ export class HrOverTimeComponent implements OnInit {
       this.showLoader = false;
     });
 
-    this.getEmployeeContractSalary();
+
   }
 
   checkEmployee() {
@@ -118,7 +128,8 @@ export class HrOverTimeComponent implements OnInit {
       noHours: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
       requestDate: [null],
       // moneyAmount: [{ value: null, disabled: true }, [Validators.required, CustomValidators.regexPattern(RegexType.number),]],
-      moneyAmount: [ null, [Validators.required, CustomValidators.regexPattern(RegexType.number),]],
+      overtimeRatio: [1, [Validators.required]],
+      moneyAmount: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number),]],
       notes: [null],
       timeFrom: [null],
       timeTo: [null],
@@ -135,6 +146,9 @@ export class HrOverTimeComponent implements OnInit {
     });
 
     this.formGroup.get('timeTo').valueChanges.subscribe(() => {
+      this.calculateNoHours();
+    });
+    this.formGroup.get('overtimeRatio').valueChanges.subscribe(() => {
       this.calculateNoHours();
     });
 
@@ -215,6 +229,7 @@ export class HrOverTimeComponent implements OnInit {
       executionDate: this.datePipe.transform(overTimeModel.executionDate, 'yyyy-MM-dd'),
       requestDate: this.datePipe.transform(overTimeModel.requestDate, 'yyyy-MM-dd'),
       noHours: overTimeModel.noHours,
+      overtimeRatio: overTimeModel.overtimeRatio,
       moneyAmount: overTimeModel.moneyAmount,
       notes: overTimeModel.notes
     });
@@ -296,6 +311,7 @@ export class HrOverTimeComponent implements OnInit {
   calculateNoHours() {
     const start = this.formGroup.get('timeFrom').value;
     const end = this.formGroup.get('timeTo').value;
+    const transferRation = this.formGroup.get('overtimeRatio').value ?? 1;
 
     if (start && end) {
 
@@ -324,7 +340,7 @@ export class HrOverTimeComponent implements OnInit {
       if (this.employeeContract && this.employeeContract?.basicSalary)
         salaryPerHour = parseFloat((this.employeeContract?.basicSalary / 30).toFixed(2));
 
-      const val = (diffHours * salaryPerHour).toFixed(2);
+      const val = (diffHours * salaryPerHour * transferRation).toFixed(2);
       this.formGroup.get('moneyAmount').setValue(val);
     }
 

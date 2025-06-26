@@ -5,7 +5,7 @@
     <div class="card-body">
         <div class="row  py-3">
             <div class="col-lg-4">
-                <app-drop-down-form-control [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData"
+                <app-drop-down-form-control [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData" (valueChanged)="employeeChanged($event)"
                     [showSearch]="true" [placeholder]="'قائمة الموظفين'"></app-drop-down-form-control>
                 <!-- <div *ngIf="formErrors.Id" class="text-danger  font-small-3 m-03">
                         {{formErrors.regionId}}
@@ -62,6 +62,7 @@
                         <th> تاريخ التنفيذ</th>
                         <th> تاريخ الطلب</th>
                         <th>عدد الساعات </th>
+                        <th>معامل التحويل </th>
                         <th>القيمة</th>
                         <th>السبب</th>
                         <th>العمليات</th>
@@ -73,6 +74,7 @@
                         <td>{{item.executionDate | date}}</td>
                         <td>{{item.requestDate | date}}</td>
                         <td>{{item.noHours}}</td>
+                        <td>{{item.overtimeRatio}}</td>
                         <td>{{item.moneyAmount}}</td>
                         <td class="word-break">{{item.notes}}</td>
                         <td>
@@ -91,7 +93,7 @@
                         </td>
                     </tr>
                     <tr *ngIf="!employeeOverTimeResponse.results.length || showLoader">
-                        <td colspan="7" class="text-right">
+                        <td colspan="8" class="text-right">
                             <app-empty-data [showEmptyData]="!employeeOverTimeResponse.results.length&&!showLoader"
                                 [showLoader]="showLoader"></app-empty-data>
                         </td>
@@ -182,6 +184,18 @@
                             <div *ngIf="formErrors.noHours" class="text-danger  font-small-3 m-03">
                                 {{formErrors.noHours}}
                             </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                معامل التحويل
+                                <span class="text-danger">*</span>
+                            </label>
+                            <app-general-selector formControlName="overtimeRatio" [data]="overtimeRatioSelectorData" [showSearch]="true" [placeholder]="'نوع الجزاء'"></app-general-selector>
+
+                            <div *ngIf="formErrors.overtimeRatio" class="text-danger  font-small-3 m-03">
+                                {{formErrors.overtimeRatio}}
+                            </div>
+
                         </div>
                         <div class="row mb-3">
                             <label class="form-label d-flex align-items-center gap-2">

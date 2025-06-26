@@ -8,6 +8,7 @@ export interface EmployeeOverTimeModel extends CreatorModel {
     requestDate: string;
     executionDate: string;
     noHours: number;
+    overtimeRatio: number;
     moneyAmount: number;
     notes: string;
     isActive: boolean;

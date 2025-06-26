@@ -6,12 +6,12 @@ import { HrService } from '../../services/hr.service';
 import { DatePipe } from '@angular/common';
 import { FilterItem } from 'src/app/components/Shared/models/FilterModel';
 import { ToastrService } from 'ngx-toastr';
-import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { EmployeePenaltyModel } from '../../models/EmployeePenaltyModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
 import { EmployeeContractModel } from '../../models/Employee/EmployeeContractModel';
+import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 
 @Component({
   selector: 'app-hr-penalty',
@@ -20,8 +20,8 @@ import { EmployeeContractModel } from '../../models/Employee/EmployeeContractMod
 })
 export class HrPenaltyComponent implements OnInit {
   VacationData: any[] = [];
-  employeeSelectorData: FormDropdownModel[] = [];
-  penaltyTypeSelectorData: FormDropdownModel[] = [];
+  employeeSelectorData: GeneralSelectorModel[] = [];
+  penaltyTypeSelectorData: GeneralSelectorModel[] = [];
   selectedPenaltyId: number;
   showLoader: boolean = false;
   showAddLoader: boolean = false;
@@ -56,7 +56,10 @@ export class HrPenaltyComponent implements OnInit {
   ngOnInit(): void {
     this.getActiveEmployeesSelector();
   }
-
+  employeeChanged(employeeId: number) {
+    if (employeeId)
+      this.getEmployeeContractSalary();
+  }
   getPenaltiesByEmployeeId() {
     if (!this.checkEmployee())
       return;
@@ -71,8 +74,6 @@ export class HrPenaltyComponent implements OnInit {
     }, () => {
       this.showLoader = false;
     });
-
-    this.getEmployeeContractSalary();
   }
 
   getEmployeeContractSalary() {
@@ -109,7 +110,7 @@ export class HrPenaltyComponent implements OnInit {
       penaltyTypeId: [null, [Validators.required]],
       executionDate: [null, [Validators.required]],
       deductionByDays: [null, [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9])?$/)]],
-      deductionAmount: [null],//[null, [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9])?$/)]],
+      deductionAmount: [null, [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9])?$/)]],
       totalDeduction: [null, [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9])?$/)]],
       reason: [null, [Validators.required]],
     }, {
@@ -121,15 +122,33 @@ export class HrPenaltyComponent implements OnInit {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
 
     });
-    this.formGroup.get('deductionByDays').valueChanges.subscribe(() => {
+    this.formGroup.get('deductionByDays').valueChanges.subscribe((value) => {
+      if (value)
+        this.updateFieldsRequiredValidation('deductionAmount', false);
+      else
+        this.updateFieldsRequiredValidation('deductionAmount', true);
       this.calculateTotalDeduction();
+
     });
 
-    this.formGroup.get('deductionAmount').valueChanges.subscribe(() => {
+    this.formGroup.get('deductionAmount').valueChanges.subscribe((value) => {
+      if (value)
+        this.updateFieldsRequiredValidation('deductionByDays', false);
+      else
+        this.updateFieldsRequiredValidation('deductionByDays', true);
       this.calculateTotalDeduction();
     });
   }
 
+  updateFieldsRequiredValidation(field: string, isRequired: boolean) {
+    const control = this.formGroup.get(field);
+    if (isRequired) {
+      control.setValidators([Validators.required]);
+    } else {
+      control.clearValidators();
+    }
+    control.updateValueAndValidity();
+  }
   saveEmployeePenalty() {
     if (!this.validateForm()) {
       return;
@@ -184,7 +203,7 @@ export class HrPenaltyComponent implements OnInit {
   }
 
   getPenaltyTypesSelector() {
-    this.hrService.GetPenaltyTypesSelector().subscribe((data: FormDropdownModel[]) => {
+    this.hrService.GetPenaltyTypesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.penaltyTypeSelectorData = data;
     });
   }
@@ -219,7 +238,7 @@ export class HrPenaltyComponent implements OnInit {
   }
 
   getActiveEmployeesSelector() {
-    this.hrService.GetActiveEmployeesSelector().subscribe((data: FormDropdownModel[]) => {
+    this.hrService.GetActiveEmployeesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.employeeSelectorData = data;
     });
   }

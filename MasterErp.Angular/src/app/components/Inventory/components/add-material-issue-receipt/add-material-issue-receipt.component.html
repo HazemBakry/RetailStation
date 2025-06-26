@@ -28,7 +28,7 @@
                             </span>
                         </button>
 
-                        <button ngbDropdownItem routerLink="./../purchase-returns">
+                        <button ngbDropdownItem routerLink="/inventory/material-issue">
                             <i class="fa fa-arrow-left"></i>
                             <span class="px-2">
                                 عودة للقائمة
@@ -91,7 +91,7 @@
 
                         </label>
                         <app-general-selector formControlName="storeId" [data]="storesSelector"
-                            [placeholder]="'المخزن'"></app-general-selector>
+                            [placeholder]="'المخزن'" [showSearch]="true"></app-general-selector>
                         <div *ngIf="formErrors.storeId" class="text-danger  font-small-3 m-03">
                             {{formErrors.storeId}}
                         </div>
@@ -104,7 +104,7 @@
                             <span class="text-danger">*</span>
                         </label>
                         <app-general-selector formControlName="branchId" [data]="branchesSelector"
-                            [placeholder]="'الفرع'"></app-general-selector>
+                            [placeholder]="'الفرع'" [showSearch]="true"></app-general-selector>
 
                         <div *ngIf="formErrors.branchId" class="text-danger  font-small-3 m-03">
                             {{formErrors.branchId}}

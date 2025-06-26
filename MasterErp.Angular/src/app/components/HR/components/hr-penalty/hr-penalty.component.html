@@ -5,13 +5,19 @@
     <div class="card-body">
         <div class="row  py-3">
             <div class="col-lg-4">
-                <app-drop-down-form-control [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData" [showSearch]="true" [placeholder]="'قائمة الموظفين'"></app-drop-down-form-control>
+                <app-drop-down-form-control (valueChanged)="employeeChanged($event)" [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData" [showSearch]="true" [placeholder]="'قائمة الموظفين'"></app-drop-down-form-control>
             </div>
             <div class="col-lg-2">
                 <button class="btn btn-secondary radius-50" (click)="getPenaltiesByEmployeeId()">
                     <i class="fas fa-search"></i>
                     <span class="ms-4">بحث</span>
                 </button>
+            </div>
+        </div>
+                <div class="row  py-3">
+            <div class="col-lg-12">
+                <app-hr-mini-employee-contract-info
+                    [employeeId]="selectedEmployeeId"></app-hr-mini-employee-contract-info>
             </div>
         </div>
         <h6 class="mb-0 fw-bold" *ngIf="employeePenaltyResponse.results.length > 0">فرع {{employeePenaltyResponse.results[0].branchName}}</h6>

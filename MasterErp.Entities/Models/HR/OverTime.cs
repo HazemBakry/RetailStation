@@ -15,6 +15,7 @@ namespace MasterErp.Entities.Models.HR
         public DateTime RequestDate { get; set; }
         public DateTime ExecutionDate { get; set; }
         public double NoHours { get; set; }
+        public double OvertimeRatio { get; set; }
         public double MoneyAmount { get; set; }
         public string Notes { get; set; }
         public bool IsActive { get; set; }

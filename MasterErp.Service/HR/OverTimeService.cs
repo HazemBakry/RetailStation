@@ -36,6 +36,7 @@ namespace MasterErp.Service.HR
                             RequestDate = overTime.RequestDate,
                             ExecutionDate = overTime.ExecutionDate,
                             NoHours = overTime.NoHours,
+                            OvertimeRatio = overTime.OvertimeRatio,
                             MoneyAmount = overTime.MoneyAmount,
                             Notes = overTime.Notes,
                             WorkflowStatusId = overTime.WorkflowStatusId,
@@ -73,6 +74,7 @@ namespace MasterErp.Service.HR
                             RequestDate = overTime.RequestDate,
                             ExecutionDate = overTime.ExecutionDate,
                             NoHours = overTime.NoHours,
+                            OvertimeRatio = overTime.OvertimeRatio,
                             MoneyAmount = overTime.MoneyAmount,
                             Notes = overTime.Notes,
                             IsActive = overTime.IsActive,
@@ -105,6 +107,7 @@ namespace MasterErp.Service.HR
                 overTime.RequestDate = DateTime.Now;
                 overTime.ExecutionDate = model.ExecutionDate;
                 overTime.NoHours = model.NoHours;
+                overTime.OvertimeRatio = model.OvertimeRatio;
                 overTime.MoneyAmount = model.MoneyAmount;
                 overTime.Notes = model.Notes;
                 overTime.IsActive = model.IsActive;
@@ -138,6 +141,7 @@ namespace MasterErp.Service.HR
                     overTime.RequestDate = DateTime.Now;
                     overTime.ExecutionDate = model.ExecutionDate;
                     overTime.NoHours = model.NoHours;
+                    overTime.OvertimeRatio = model.OvertimeRatio;
                     overTime.MoneyAmount = model.MoneyAmount;
                     overTime.Notes = model.Notes;
                     overTime.IsActive = model.IsActive;
