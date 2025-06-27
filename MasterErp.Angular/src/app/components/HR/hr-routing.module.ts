@@ -32,6 +32,7 @@ import { HrEmployeeDuesComponent } from './components/hr-employee-dues/hr-employ
 import { HrSponsorsComponent } from './components/hr-sponsors/hr-sponsors.component';
 import { HrDepartmentsComponent } from './components/hr-departments/hr-departments.component';
 import { HrEmployeeExpireReportComponent } from './components/hr-employee-expire-report/hr-employee-expire-report.component';
+import { HrEmployeeContractSalaryComponent } from './components/hr-employee-details-container/hr-employee-contract-salary/hr-employee-contract-salary.component';
 
 
 const routes: Routes = [
@@ -63,6 +64,10 @@ const routes: Routes = [
           {
             path: 'contract-info',
             component: HrEmployeeContractInfoComponent
+          },
+          {
+            path: 'contract-salary',
+            component: HrEmployeeContractSalaryComponent
           },
           {
             path: 'verification-info',

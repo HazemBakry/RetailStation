@@ -8,10 +8,8 @@ using MasterErp.Entities.Models.HR;
 
 namespace MasterErp.Entities.DTOs.HR
 {
-    public class EmployeeContractDto : CreatorModel
+    public class EmployeeContractDto : EmployeeContractDetailsDto
     {
-        public int? ContractId { get; set; }
-        public int? EmployeeId { get; set; }
         public int? BranchId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -21,6 +19,12 @@ namespace MasterErp.Entities.DTOs.HR
         public int? VacationDays { get; set; }
         public bool IsGossi { get; set; }
 
+    } 
+    public class EmployeeContractDetailsDto : CreatorModel
+    {
+        public int? ContractDetailId { get; set; }
+        public int? ContractId { get; set; }
+        public int? EmployeeId { get; set; }
 
         //salary
         public double BasicSalary { get; set; }
@@ -32,7 +36,6 @@ namespace MasterErp.Entities.DTOs.HR
         public double? MealAllowance { get; set; }
         public double? Other { get; set; }
         public double? TotalSalary { get; set; }
-        public Employee Employee { get; set; }
 
 
         public double CalcTotalSalary()

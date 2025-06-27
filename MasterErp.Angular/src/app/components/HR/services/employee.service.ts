@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { SearchFilterModel } from '../../Shared/models/FilterModel';
 import { EmployeeModel } from '../models/Employee/EmployeeModel';
-import { EmployeeContractModel } from '../models/Employee/EmployeeContractModel';
+import { EmployeeContractDetailsModel, EmployeeContractModel } from '../models/Employee/EmployeeContractModel';
 import { EmployeeVerificationModel } from '../models/Employee/EmployeeVerificationModel';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { EmployeeAttachmentModel } from '../models/Employee/EmployeeAttachmentModel';
@@ -29,6 +29,9 @@ export class EmployeeService {
 
   SaveEmployeeContractData(employeeId:number,model: EmployeeContractModel) {
     return this.http.post<ActionsResponseModel>(this.URL + `Employee/SaveEmployeeContractData?EmployeeId=${employeeId}`, model);
+  }
+  SaveEmployeeContractDetailsData(employeeId:number,contractId:number,model: EmployeeContractDetailsModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Employee/SaveEmployeeContractDetailsData?EmployeeId=${employeeId}&ContractId=${contractId}`, model);
   }
 
   SaveEmployeeVerificationData(employeeId:number,model: EmployeeVerificationModel) {

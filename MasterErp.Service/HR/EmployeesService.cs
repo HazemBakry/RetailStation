@@ -221,24 +221,24 @@ namespace MasterErp.Service.HR
                     employeeContract.ModifiedBy = model.ModifiedBy;
                     employeeContract.ModifiedDate = DateTime.Now;
 
-                    var salary = Context.ContractDetails.FirstOrDefault(s => s.ContractId == employeeContract.ContractId);
-                    bool IsNew = false;
+                    //var salary = Context.ContractDetails.FirstOrDefault(s => s.ContractId == employeeContract.ContractId);
+                    //bool IsNew = false;
 
-                    salary.ContractId = employeeContract.ContractId;
-                    salary.EmployeeId = employeeContract.EmployeeId;
-                    salary.BasicSalary = model.BasicSalary;
-                    salary.ExtraSalary = model.ExtraSalary;
-                    salary.Transportation = model.Transportation;
-                    salary.HousingAllowance = model.HousingAllowance;
-                    salary.MobileAllowance = model.MobileAllowance;
-                    salary.WorkNature = model.WorkNature;
-                    salary.MealAllowance = model.MealAllowance;
-                    salary.Other = model.Other ?? 0;
-                    salary.GrossSalary = model.CalcTotalSalary();
-                    salary.TotalSalary = model.CalcTotalSalary();
+                    //salary.ContractId = employeeContract.ContractId;
+                    //salary.EmployeeId = employeeContract.EmployeeId;
+                    //salary.BasicSalary = model.BasicSalary;
+                    //salary.ExtraSalary = model.ExtraSalary;
+                    //salary.Transportation = model.Transportation;
+                    //salary.HousingAllowance = model.HousingAllowance;
+                    //salary.MobileAllowance = model.MobileAllowance;
+                    //salary.WorkNature = model.WorkNature;
+                    //salary.MealAllowance = model.MealAllowance;
+                    //salary.Other = model.Other ?? 0;
+                    //salary.GrossSalary = model.CalcTotalSalary();
+                    //salary.TotalSalary = model.CalcTotalSalary();
 
-                    if (IsNew)
-                        Context.ContractDetails.Add(salary);
+                    //if (IsNew)
+                    //    Context.ContractDetails.Add(salary);
 
                     Context.SaveChanges();
 
@@ -262,7 +262,68 @@ namespace MasterErp.Service.HR
                     Context.Contracts.Add(employeeContract);
                     Context.SaveChanges();
 
-                    var salary = new ContractDetail();
+                    //var salary = new ContractDetail();
+
+                    //salary.ContractId = employeeContract.ContractId;
+                    //salary.EmployeeId = employeeContract.EmployeeId;
+                    //salary.BasicSalary = model.BasicSalary;
+                    //salary.ExtraSalary = model.ExtraSalary;
+                    //salary.Transportation = model.Transportation;
+                    //salary.HousingAllowance = model.HousingAllowance;
+                    //salary.MobileAllowance = model.MobileAllowance;
+                    //salary.WorkNature = model.WorkNature;
+                    //salary.MealAllowance = model.MealAllowance;
+                    //salary.Other = model.Other ?? 0;
+                    //salary.GrossSalary = model.CalcTotalSalary();
+                    //salary.TotalSalary = model.CalcTotalSalary();
+
+                    //Context.ContractDetails.Add(salary);
+                    //Context.SaveChanges();
+
+                    return Task.FromResult(new ActionsResponseModel { Message = "Employee Contract Created Successfly !" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Task.FromResult(new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message });
+            }
+        }
+        public Task<ActionsResponseModel> SaveEmployeeContractDetailsData(int EmployeeId,int ContractId , EmployeeContractDetailsDto model)
+        {
+            try
+            {
+                var employeeContract = Context.Contracts.FirstOrDefault(i => i.EmployeeId == EmployeeId && i.ContractId == ContractId);
+                if (employeeContract == null)
+                    return Task.FromResult(new ActionsResponseModel { IsSuccess = false, Message = "Employee Contract not found." });
+                var salary = Context.ContractDetails.FirstOrDefault(i => i.EmployeeId == EmployeeId && i.ContractId == ContractId && i.ContractDetailId == model.ContractDetailId);
+
+                if (salary != null)
+                {
+                    bool IsNew = false;
+
+                    salary.ContractId = employeeContract.ContractId;
+                    salary.EmployeeId = employeeContract.EmployeeId;
+                    salary.BasicSalary = model.BasicSalary;
+                    salary.ExtraSalary = model.ExtraSalary;
+                    salary.Transportation = model.Transportation;
+                    salary.HousingAllowance = model.HousingAllowance;
+                    salary.MobileAllowance = model.MobileAllowance;
+                    salary.WorkNature = model.WorkNature;
+                    salary.MealAllowance = model.MealAllowance;
+                    salary.Other = model.Other ?? 0;
+                    salary.GrossSalary = model.CalcTotalSalary();
+                    salary.TotalSalary = model.CalcTotalSalary();
+
+                    if (IsNew)
+                        Context.ContractDetails.Add(salary);
+
+                    Context.SaveChanges();
+
+                    return Task.FromResult(new ActionsResponseModel { Message = "Contract Details Updated Successfly !" });
+                }
+                else
+                {
+                    salary = new ContractDetail();
 
                     salary.ContractId = employeeContract.ContractId;
                     salary.EmployeeId = employeeContract.EmployeeId;
@@ -280,7 +341,7 @@ namespace MasterErp.Service.HR
                     Context.ContractDetails.Add(salary);
                     Context.SaveChanges();
 
-                    return Task.FromResult(new ActionsResponseModel { Message = "Employee Contract Created Successfly !" });
+                    return Task.FromResult(new ActionsResponseModel { Message = "Contract Details Created Successfly !" });
                 }
             }
             catch (Exception ex)
@@ -421,10 +482,13 @@ namespace MasterErp.Service.HR
             if (employee is not null)
             {
 
+               
+                 int? ContractId = Context.Contracts.Where(x => x.EmployeeId == employeeId)?.OrderByDescending(x => x.StartDate).FirstOrDefault()?.ContractId;
                 return new EmployeeDto
                 {
 
                     EmployeeId = employee.EmployeeId,
+                    ContractId = ContractId,
                     Code = employee.Code,
                     ManagerId = employee.ManagerId,
                     JobId = employee.JobId,

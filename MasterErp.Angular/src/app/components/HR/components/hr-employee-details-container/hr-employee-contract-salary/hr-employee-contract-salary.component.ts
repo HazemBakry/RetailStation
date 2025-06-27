@@ -8,20 +8,20 @@ import { FormService } from 'src/app/components/Shared/services/form.service';
 import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { ActivatedRoute } from '@angular/router';
-import { EmployeeService } from '../../../services/employee.service';
-import { EmployeeContractModel } from '../../../models/Employee/EmployeeContractModel';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
+import { EmployeeContractDetailsModel, EmployeeContractModel } from '../../../models/Employee/EmployeeContractModel';
+import { EmployeeService } from '../../../services/employee.service';
 import { HrService } from '../../../services/hr.service';
 
-
 @Component({
-  selector: 'app-hr-employee-contract-info',
-  templateUrl: './hr-employee-contract-info.component.html',
-  styleUrls: ['./hr-employee-contract-info.component.css']
+  selector: 'app-hr-employee-contract-salary',
+  templateUrl: './hr-employee-contract-salary.component.html',
+  styleUrls: ['./hr-employee-contract-salary.component.css']
 })
-export class HrEmployeeContractInfoComponent implements OnInit {
+export class HrEmployeeContractSalaryComponent implements OnInit {
   @Input() employeeId: number;
-  employeeContractInfoModel: EmployeeContractModel = {} as EmployeeContractModel;
+  contractId: number;
+  employeeContractInfoModel: EmployeeContractDetailsModel = {} as EmployeeContractDetailsModel;
   isUpdate: boolean = false;
 
   showLoader: boolean = false;
@@ -53,7 +53,9 @@ export class HrEmployeeContractInfoComponent implements OnInit {
     this.employeeService.GetEmployeeContractInfoById(this.employeeId).subscribe((data: EmployeeContractModel) => {
       if (data) {
         this.employeeContractInfoModel = data;
-        this.initNewForm(this.employeeContractInfoModel);
+        this.contractId = this.employeeContractInfoModel?.contractId;
+        if(this.employeeContractInfoModel?.contractDetailId)
+           this.initNewForm(this.employeeContractInfoModel);
       }
 
       this.showLoader = false;
@@ -66,7 +68,7 @@ export class HrEmployeeContractInfoComponent implements OnInit {
 
   }
 
-  initNewForm(employeeContractInfoModel: EmployeeContractModel = null) {
+  initNewForm(employeeContractInfoModel: EmployeeContractDetailsModel = null) {
 
     this.isUpdate = false;
     this.buildForm();
@@ -78,22 +80,25 @@ export class HrEmployeeContractInfoComponent implements OnInit {
   }
   buildForm() {
     this.formGroup = this.form.group({
-      contractId: [null],
-      employeeId: [null],
-      startDate: [null, [Validators.required]],
-      endDate: [null, [Validators.required]],
-      vacationPeriodDays: [null,[CustomValidators.regexPattern(RegexType.number)]],
-      contractPeriodYears: [null,[CustomValidators.regexPattern(RegexType.number)]],
-      isGossi: [null],
-      vacationDate: [null],
+      contractId: [this.contractId],
+      employeeId: [this.employeeId],
+      contractDetailId: [null],
+      basicSalary: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
+      extraSalary: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
+      transportation: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
+      housingAllowance: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
+      mobileAllowance: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
+      workNature: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
+      mealAllowance: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
+      other: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]]
     },
-    {
-      
-      validators: [
-        CustomValidators.endDateGreaterThanStartDate('startDate', 'endDate','يجب ان يكون تاريخ اصدار العقد قبل الانتهاء '),
+      {
 
-       ],
-    });
+        validators: [
+          CustomValidators.endDateGreaterThanStartDate('startDate', 'endDate', 'يجب ان يكون تاريخ اصدار العقد قبل الانتهاء '),
+
+        ],
+      });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
 
@@ -106,17 +111,16 @@ export class HrEmployeeContractInfoComponent implements OnInit {
     }
     this.employeeContractInfoModel = this.formGroup.value;
 
-    if (this.employeeId)
+    if (this.employeeId&&this.contractId)
       this.saveData();
     else
-      this.toaster.warning('please add basic info first','Warning');
+      this.toaster.warning('please add basic info and contract first', 'Warning');
   }
 
 
   saveData() {
-
     this.showAddLoader = true;
-    this.employeeService.SaveEmployeeContractData(this.employeeId, this.employeeContractInfoModel).subscribe((data: ActionsResponseModel) => {
+    this.employeeService.SaveEmployeeContractDetailsData(this.employeeId, this.contractId, this.employeeContractInfoModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.initNewForm();
@@ -150,19 +154,21 @@ export class HrEmployeeContractInfoComponent implements OnInit {
   }
 
 
-  fillEditForm(employeeContractInfoModel: EmployeeContractModel) {
+  fillEditForm(employeeContractInfoModel: EmployeeContractDetailsModel) {
     this.isUpdate = true;
 
     this.formGroup.patchValue({
-
-      contractId:employeeContractInfoModel.contractId ,
-      employeeId:employeeContractInfoModel.employeeId ,
-      startDate:this.datePipe.transform(employeeContractInfoModel.startDate, 'yyyy-MM-dd') ,
-      endDate:this.datePipe.transform(employeeContractInfoModel.endDate, 'yyyy-MM-dd') ,
-      vacationPeriodDays:employeeContractInfoModel.vacationPeriodDays ,
-      contractPeriodYears:employeeContractInfoModel.contractPeriodYears ,
-      isGossi:employeeContractInfoModel.isGossi ,
-      vacationDate:this.datePipe.transform(employeeContractInfoModel.vacationDate, 'yyyy-MM-dd') ,
+      contractId: employeeContractInfoModel.contractId,
+      contractDetailId: employeeContractInfoModel.contractDetailId,
+      employeeId: employeeContractInfoModel.employeeId,
+      basicSalary: employeeContractInfoModel.basicSalary,
+      extraSalary: employeeContractInfoModel.extraSalary,
+      transportation: employeeContractInfoModel.transportation,
+      housingAllowance: employeeContractInfoModel.housingAllowance,
+      mobileAllowance: employeeContractInfoModel.mobileAllowance,
+      workNature: employeeContractInfoModel.workNature,
+      mealAllowance: employeeContractInfoModel.mealAllowance,
+      other: employeeContractInfoModel.other
     });
   }
 
@@ -171,13 +177,16 @@ export class HrEmployeeContractInfoComponent implements OnInit {
 
   public formErrors = {
     contractId: '',
+    contractDetailId: '',
     employeeId: '',
-    startDate: '',
-    endDate: '',
-    vacationPeriodDays: '',
-    contractPeriodYears: '',
-    isGossi: '',
-    vacationDate: '',
+    basicSalary: '',
+    extraSalary: '',
+    transportation: '',
+    housingAllowance: '',
+    mobileAllowance: '',
+    workNature: '',
+    mealAllowance: '',
+    other: ''
   };
 
 

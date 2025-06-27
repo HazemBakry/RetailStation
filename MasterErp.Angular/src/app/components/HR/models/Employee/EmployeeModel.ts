@@ -6,6 +6,7 @@ import { EmployeeAttachmentModel } from "./EmployeeAttachmentModel";
 
 export interface EmployeeModel extends CreatorModel {
     employeeId: number | null;
+    contractId: number | null;
     code: number;
     managerId: number | null;
     departmentId: number | null;

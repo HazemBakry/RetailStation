@@ -58,6 +58,15 @@ namespace MasterErp.API.Controllers.HR
 
             var result = await _employeeService.SaveEmployeeContractData(EmployeeId, model);
             return Ok(result);
+        }        [HttpPost]
+        [Route("SaveEmployeeContractDetailsData")]
+        public async Task<IActionResult> SaveEmployeeContractDetailsData(int EmployeeId, int ContractId, EmployeeContractDetailsDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _employeeService.SaveEmployeeContractDetailsData(EmployeeId,ContractId, model);
+            return Ok(result);
         }
         [HttpPost]
         [Route("SaveEmployeeVerificationData")]

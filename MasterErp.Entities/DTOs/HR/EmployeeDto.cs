@@ -13,6 +13,7 @@ namespace MasterErp.Entities.DTOs.HR
     public class EmployeeDto : CreatorModel
     {
         public int? EmployeeId { get; set; }//
+        public int? ContractId { get; set; }//
         public int Code { get; set; }//1
         public int? ManagerId { get; set; }//1
         public int? DepartmentId { get; set; }//1

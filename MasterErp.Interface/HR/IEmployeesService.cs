@@ -17,6 +17,7 @@ namespace MasterErp.Interface.HR
         Task<ActionsResponseModel> CreateNewEmployee(EmployeeDto model);
         Task<ActionsResponseModel> EditEmployee(int EmployeeId, EmployeeDto model);
         Task<ActionsResponseModel> SaveEmployeeContractData(int EmployeeId, EmployeeContractDto model);
+        Task<ActionsResponseModel> SaveEmployeeContractDetailsData(int EmployeeId, int ContractId, EmployeeContractDetailsDto model);
         Task<ActionsResponseModel> SaveEmployeeVerificationData(int EmployeeId, EmployeeVerificationDto model);
         Task<ActionsResponseModel> SaveEmployeeAttachments(int EmployeeId, EmployeeAttachmentDto model);
         #endregion
