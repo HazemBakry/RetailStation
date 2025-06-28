@@ -84,7 +84,7 @@ const routes: Routes = [
       { path: 'tax-calculation', component: TaxCalculationComponent },
       { path: 'daily-notebook', component: DailyNotebookComponent },
       { path: 'assets-form', component: AssetsFormComponent },
-      { path: 'loans', component: LoansComponent },
+      // { path: 'loans', component: LoansComponent },
       { path: 'ledger-journal-types', component: LedgerJournalTypeComponent },
       { path: 'customers', component: CustomersComponent },
       { path: 'batches', component: BatchesComponent },
