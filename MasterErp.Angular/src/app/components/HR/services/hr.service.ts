@@ -21,7 +21,7 @@ import { EmployeeSalarySummaryModel } from '../models/EmployeeSalarySummaryModel
 import { EmployeeDueModel } from '../models/EmployeeDueModel';
 import { SponsorModel } from '../models/SponsoModel';
 import { DepartmentModel } from '../models/DepartmentModel';
-import { EmployeeReportModel } from '../models/EmployeeReportModel';
+import { EmployeeReportModel, SalaryAnnualIncreaseModel } from '../models/EmployeeReportModel';
 
 @Injectable({
   providedIn: 'root'
@@ -627,6 +627,17 @@ export class HrService {
   }
   GetNewComerEmployeesReport_Filters(fromDate:string,toDate:string,model: SearchFilterModel) {
     return this.http.post<FilterModel[]>(this.URL + `HRReports/GetNewComerEmployeesReport_Filters?FromDate=${fromDate}&ToDate=${toDate}`, model);
+  }
+
+  /////////////////////////// salary increase
+  GetEmployeeSalaryAnnualIncreaseReport_Data( model: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<SalaryAnnualIncreaseModel[]>>(this.URL + `HRReports/GetEmployeeSalaryAnnualIncreaseReport_Data`, model);
+  }
+  GetEmployeeSalaryAnnualIncreaseReport_Export( model: SearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `HRReports/GetEmployeeSalaryAnnualIncreaseReport_Export`, model);
+  }
+  GetEmployeeSalaryAnnualIncreaseReport_Filters(model: SearchFilterModel) {
+    return this.http.post<FilterModel[]>(this.URL + `HRReports/GetEmployeeSalaryAnnualIncreaseReport_Filters`, model);
   }
 
 

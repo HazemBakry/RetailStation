@@ -30,10 +30,15 @@ namespace MasterErp.Interface.HR
         ActionsResponseModel GetEmployeesExpireReport_Export(int ReportType, SearchFilterModel model);
         List<FilterModel> GetEmployeesExpireReport_Filters(int ReportType, SearchFilterModel model);
         #endregion
-        #region ExpireReports
+        #region NewComerEmployeesRepor
         List<EmployeeReportModel> GetNewComerEmployeesReport_Data(DateTime? FromDate, DateTime? ToDate, SearchFilterModel model);
         ActionsResponseModel GetNewComerEmployeesReport_Export(DateTime? FromDate, DateTime? ToDate, SearchFilterModel model);
         List<FilterModel> GetNewComerEmployeesReport_Filters(DateTime? FromDate, DateTime? ToDate, SearchFilterModel model);
+        #endregion
+        #region EmployeeSalaryAnnualIncreaseReport
+        List<SalaryAnnualIncreaseModel> GetEmployeeSalaryAnnualIncreaseReport_Data( SearchFilterModel model);
+        ActionsResponseModel GetEmployeeSalaryAnnualIncreaseReport_Export( SearchFilterModel model);
+        List<FilterModel> GetEmployeeSalaryAnnualIncreaseReport_Filters( SearchFilterModel model);
         #endregion
     }
 }

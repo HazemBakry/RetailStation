@@ -138,7 +138,7 @@ namespace MasterErp.API.Controllers.HR
         }
         #endregion
 
-        #region ExpireReport
+        #region NewComerEmployeesRepor
         [HttpPost]
         [Route("GetNewComerEmployeesReport_Data")]
         public IActionResult GetNewComerEmployeesReport_Data(DateTime? FromDate, DateTime? ToDate, SearchFilterModel model)
@@ -166,6 +166,38 @@ namespace MasterErp.API.Controllers.HR
         public IActionResult GetNewComerEmployeesReport_Filters(DateTime? FromDate, DateTime? ToDate, SearchFilterModel model)
         {
             var result = _hrReportService.GetNewComerEmployeesReport_Filters(FromDate,ToDate, model);
+
+            return Ok(result);
+        }
+        #endregion
+        #region EmployeeSalaryAnnualIncreaseReport
+        [HttpPost]
+        [Route("GetEmployeeSalaryAnnualIncreaseReport_Data")]
+        public IActionResult GetEmployeeSalaryAnnualIncreaseReport_Data( SearchFilterModel model)
+        {
+            var data = _hrReportService.GetEmployeeSalaryAnnualIncreaseReport_Data(model);
+            var result = new PagedResponseModel<SalaryAnnualIncreaseModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("GetEmployeeSalaryAnnualIncreaseReport_Export")]
+        public IActionResult GetEmployeeSalaryAnnualIncreaseReport_Export( SearchFilterModel model)
+        {
+            var result = _hrReportService.GetEmployeeSalaryAnnualIncreaseReport_Export(model);
+
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("GetEmployeeSalaryAnnualIncreaseReport_Filters")]
+        public IActionResult GetEmployeeSalaryAnnualIncreaseReport_Filters( SearchFilterModel model)
+        {
+            var result = _hrReportService.GetEmployeeSalaryAnnualIncreaseReport_Filters(model);
 
             return Ok(result);
         }

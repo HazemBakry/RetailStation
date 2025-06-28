@@ -34,6 +34,7 @@ import { HrDepartmentsComponent } from './components/hr-departments/hr-departmen
 import { HrEmployeeExpireReportComponent } from './components/hr-employee-expire-report/hr-employee-expire-report.component';
 import { HrEmployeeContractSalaryComponent } from './components/hr-employee-details-container/hr-employee-contract-salary/hr-employee-contract-salary.component';
 import { HrNewComerEmployeesReportComponent } from './components/hr-new-comer-employees-report/hr-new-comer-employees-report.component';
+import { HrEmployeesSalaryAnnualIncreaseReportComponent } from './components/hr-employees-salary-annual-increase-report/hr-employees-salary-annual-increase-report.component';
 
 
 const routes: Routes = [
@@ -150,6 +151,10 @@ const routes: Routes = [
       {
         path: 'new-comer-report',
         component: HrNewComerEmployeesReportComponent
+      },
+      {
+        path: 'annual-increase-report',
+        component: HrEmployeesSalaryAnnualIncreaseReportComponent
       },
       {
         path: 'advances-report',
