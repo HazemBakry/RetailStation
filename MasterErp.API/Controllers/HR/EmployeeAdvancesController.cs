@@ -41,9 +41,9 @@ namespace MasterErp.API.Controllers.HR
 
         [HttpPost]
         [Route("GetAdvancePaymentsData")]
-        public IActionResult GetAdvancePaymentsData(int EmployeeId, SearchFilterModel SearchModel)
+        public IActionResult GetAdvancePaymentsData(int EmployeeId,int? EmployeeAdvanceId, SearchFilterModel SearchModel)
         {
-            var data = _advancesService.GetAdvancePaymentsData(SearchModel, EmployeeId);
+            var data = _advancesService.GetAdvancePaymentsData(SearchModel, EmployeeId, EmployeeAdvanceId);
             var result = new PagedResponseModel<AdvancePaymentModel>
             {
                 Results = data,

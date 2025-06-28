@@ -521,8 +521,9 @@ export class HrService {
   GetAllEmployeeAdvancesData(model: SearchFilterModel) {
     return this.http.post<PagedResponseDTO<EmployeeAdvanceModel[]>>(this.URL + 'EmployeeAdvances/GetAllEmployeeAdvancesData', model);
   }
-  GetAdvancePaymentsData(employeeId, model: PagedResponseDTO) {
-    return this.http.post<PagedResponseDTO<AdvancePaymentModel[]>>(this.URL + 'EmployeeAdvances/GetAdvancePaymentsData?EmployeeId=' + employeeId, model);
+  GetAdvancePaymentsData(employeeId, model: PagedResponseDTO,employeeAdvanceId: number=null) {
+    var params = employeeAdvanceId ? `?EmployeeId=${employeeId}&EmployeeAdvanceId=${employeeAdvanceId}` : `?EmployeeId=${employeeId}`;
+    return this.http.post<PagedResponseDTO<AdvancePaymentModel[]>>(this.URL + `EmployeeAdvances/GetAdvancePaymentsData${params}`, model);
   }
   getAdvanceById(employeeAdvanceId):Observable<EmployeeAdvanceModel> {
     return this.http.get<EmployeeAdvanceModel>(this.URL + 'EmployeeAdvances/GetAdvanceById?EmployeeAdvanceId=' + employeeAdvanceId);
