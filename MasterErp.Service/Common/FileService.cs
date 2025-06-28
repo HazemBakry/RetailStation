@@ -127,7 +127,9 @@ namespace MasterErp.Service.Common
                 return string.Empty;
 
             var request = _httpContextAccessor.HttpContext.Request;
-            return $"{request.Scheme}://{request.Host}/{serverPath.Replace("wwwroot/", string.Empty)}";
+            //return $"{request.Scheme}://{request.Host}/{serverPath.Replace("wwwroot/", string.Empty)}";
+            return $"{request.Scheme}://{request.Host}{request.PathBase}/{serverPath.Replace("wwwroot/", "").Replace("\\", "/")}";
+
         }
 
         private List<string> GetAllowedExtensionsByFileType(FileType fileType) =>
