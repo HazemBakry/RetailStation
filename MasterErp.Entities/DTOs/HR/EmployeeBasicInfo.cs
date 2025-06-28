@@ -37,6 +37,8 @@ namespace MasterErp.Entities.DTOs.HR
         public string JobNameAR { get; set; }//
         public string JobNameEN { get; set; }//
         public string StatusName { get; set; }//
+        public string EmployeeStatusNameEN { get; set; }//
+        public string EmployeeStatusNameAR { get; set; }//
         public DateTime? BirthDate { get; set; }//
         public DateTime? JoinDate { get; set; }//
         public string BirthPlace { get; set; }//

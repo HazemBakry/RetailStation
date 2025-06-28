@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { HrService } from '../../services/hr.service';
 import { DatePipe } from '@angular/common';
@@ -17,20 +16,14 @@ import { ExpireType } from 'src/app/components/Shared/Enums/ExpireType';
 import { EmployeeReportModel } from '../../models/EmployeeReportModel';
 
 @Component({
-  selector: 'app-hr-employee-expire-report',
-  templateUrl: './hr-employee-expire-report.component.html',
-  styleUrls: ['./hr-employee-expire-report.component.css']
+  selector: 'app-hr-new-comer-employees-report',
+  templateUrl: './hr-new-comer-employees-report.component.html',
+  styleUrls: ['./hr-new-comer-employees-report.component.css']
 })
-export class HrEmployeeExpireReportComponent implements OnInit {
+export class HrNewComerEmployeesReportComponent implements OnInit {
 
-  reportTypes: GeneralSelectorModel[] = [
-    { value: ExpireType.Iqama, name: 'تقرير الموظفين المنتهية أقاممتهم' },
-    { value: ExpireType.Passport, name: 'تقرير الموظفين المنتهية جوازات سفرهم' },
-    { value: ExpireType.DrivingLicense, name: 'تقرير الموظفين المنتهية رخصة قيادتهم' },
-    { value: ExpireType.Contract, name: 'تقرير الموظفين المنتهية عقودهم' },
-    { value: ExpireType.WorkStatus, name: 'تقرير الموظفين المنتهية وضعهم الوظيفي' },
-
-  ];
+  fromDate: string;
+  toDate: string;
 
   showLoader: boolean = false;
   showExportLoader: boolean = false;
@@ -67,7 +60,7 @@ export class HrEmployeeExpireReportComponent implements OnInit {
     this.pagedResponse.totalCount = 0;
     if (!this.checkReport())
       return;
-    this.reportName = this.reportTypes.find(x => x.value === this.selectedReportType)?.name;
+
     this.loadData();
     this.loadFilters();
   }
@@ -76,7 +69,7 @@ export class HrEmployeeExpireReportComponent implements OnInit {
       return;
 
     this.showExportLoader = true;
-    this.hrService.GetEmployeesExpireReport_Export(this.selectedReportType, this.pagedResponse).subscribe(data => {
+    this.hrService.GetNewComerEmployeesReport_Export(this.fromDate, this.toDate, this.pagedResponse).subscribe(data => {
       if (data.isSuccess) {
         this.sharedService.urlDownloadOrOpen(data.url);
         this.toaster.success(data.message);
@@ -94,7 +87,7 @@ export class HrEmployeeExpireReportComponent implements OnInit {
       return;
 
     this.showLoader = true;
-    this.hrService.GetEmployeesExpireReport_Data(this.selectedReportType, this.pagedResponse).subscribe(data => {
+    this.hrService.GetNewComerEmployeesReport_Data(this.fromDate, this.toDate, this.pagedResponse).subscribe(data => {
       this.pagedResponse.results = data.results;
       this.pagedResponse.totalCount = data.totalCount;
 
@@ -111,7 +104,7 @@ export class HrEmployeeExpireReportComponent implements OnInit {
       return;
 
     // this.showLoader = true;
-    this.hrService.GetEmployeesExpireReport_Filters(this.selectedReportType, this.pagedResponse).subscribe(data => {
+    this.hrService.GetNewComerEmployeesReport_Filters(this.fromDate, this.toDate, this.pagedResponse).subscribe(data => {
       this.filterList = data;
 
       // this.showLoader = false;
@@ -123,8 +116,9 @@ export class HrEmployeeExpireReportComponent implements OnInit {
   }
 
   checkReport() {
-    if (!this.selectedReportType) {
-      this.toaster.warning('من فضلك اختر نوع التقرير', 'تحذير');
+    if (!this.fromDate|| !this.toDate) {
+
+      this.toaster.warning('من فضلك اختر الفترة', 'تحذير');
       return false;
     }
     return true;

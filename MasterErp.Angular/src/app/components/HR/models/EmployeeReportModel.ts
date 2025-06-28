@@ -1,4 +1,4 @@
-export interface EmployeeExpireReportModel {
+export interface EmployeeReportModel {
     employeeId: number;
     employeeCode: number;
     iqamaNumber: string;

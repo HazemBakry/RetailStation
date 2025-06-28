@@ -21,7 +21,7 @@ import { EmployeeSalarySummaryModel } from '../models/EmployeeSalarySummaryModel
 import { EmployeeDueModel } from '../models/EmployeeDueModel';
 import { SponsorModel } from '../models/SponsoModel';
 import { DepartmentModel } from '../models/DepartmentModel';
-import { EmployeeExpireReportModel } from '../models/EmployeeExpireReportModel';
+import { EmployeeReportModel } from '../models/EmployeeReportModel';
 
 @Injectable({
   providedIn: 'root'
@@ -607,13 +607,26 @@ export class HrService {
 
   /////////////////////////// expired report 
   GetEmployeesExpireReport_Data(reportType:number, model: SearchFilterModel) {
-    return this.http.post<PagedResponseDTO<EmployeeExpireReportModel[]>>(this.URL + `HRReports/GetEmployeesExpireReport_Data?ReportType=${reportType}`, model);
+    return this.http.post<PagedResponseDTO<EmployeeReportModel[]>>(this.URL + `HRReports/GetEmployeesExpireReport_Data?ReportType=${reportType}`, model);
   }
   GetEmployeesExpireReport_Export(reportType:number, model: SearchFilterModel) {
     return this.http.post<ActionsResponseModel>(this.URL + `HRReports/GetEmployeesExpireReport_Export?ReportType=${reportType}`, model);
   }
   GetEmployeesExpireReport_Filters(reportType:number,model: SearchFilterModel) {
     return this.http.post<FilterModel[]>(this.URL + `HRReports/GetEmployeesExpireReport_Filters?ReportType=${reportType}`, model);
+  }
+
+
+
+  /////////////////////////// new comer report 
+  GetNewComerEmployeesReport_Data(fromDate:string,toDate:string, model: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<EmployeeReportModel[]>>(this.URL + `HRReports/GetNewComerEmployeesReport_Data?FromDate=${fromDate}&ToDate=${toDate}`, model);
+  }
+  GetNewComerEmployeesReport_Export(fromDate:string,toDate:string, model: SearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `HRReports/GetNewComerEmployeesReport_Export?FromDate=${fromDate}&ToDate=${toDate}`, model);
+  }
+  GetNewComerEmployeesReport_Filters(fromDate:string,toDate:string,model: SearchFilterModel) {
+    return this.http.post<FilterModel[]>(this.URL + `HRReports/GetNewComerEmployeesReport_Filters?FromDate=${fromDate}&ToDate=${toDate}`, model);
   }
 
 

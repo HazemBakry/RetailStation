@@ -310,7 +310,7 @@ namespace MasterErp.Service.HR
 
 
         #region ExpireReport
-        public List<EmployeeExpireReportModel> GetEmployeesExpireReport_Data(int ReportType, SearchFilterModel SearchModel)
+        public List<EmployeeReportModel> GetEmployeesExpireReport_Data(int ReportType, SearchFilterModel SearchModel)
         {
             SqlParameter[] param = new SqlParameter[4];
             param[0] = new SqlParameter("@ReportType", ReportType);
@@ -320,7 +320,7 @@ namespace MasterErp.Service.HR
             param[3].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
 
 
-            var result = _sQLHelper.SQLQuery<EmployeeExpireReportModel>("[HR].[SP_GetEmployeesExpireReport_Data]", null, param);
+            var result = _sQLHelper.SQLQuery<EmployeeReportModel>("[HR].[SP_GetEmployeesExpireReport_Data]", null, param);
 
             return result;
         }        
@@ -396,6 +396,101 @@ namespace MasterErp.Service.HR
             param[1].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
 
             var result = _sQLHelper.SQLQuery<FilterItem>("[HR].[SP_GetEmployeesExpireReport_Filters]", null, param);
+             var grouped = sharedFilterService.GroupedFilterItems(result);
+
+            return grouped;
+        }
+        #endregion
+
+        #region ExpireReport
+        public List<EmployeeReportModel> GetNewComerEmployeesReport_Data(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel)
+        {
+            SqlParameter[] param = new SqlParameter[5];
+            param[0] = new SqlParameter("@FromDate", FromDate);
+            param[1] = new SqlParameter("@ToDate", ToDate);
+            param[2] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            param[3] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            param[4] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[4].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
+
+
+            var result = _sQLHelper.SQLQuery<EmployeeReportModel>("[HR].[SP_GetNewComerEmployeesReport_Data]", null, param);
+
+            return result;
+        }        
+        public ActionsResponseModel GetNewComerEmployeesReport_Export(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel)
+        {
+            string url = string.Empty;
+            try
+            {
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var Data = GetNewComerEmployeesReport_Data(FromDate, ToDate, SearchModel);
+
+                var result = Data.Select(x => new EmployeeExpireReportExportModel
+                {
+                    EmployeeCode = x.EmployeeCode,
+                    EmployeeName = x.EmployeeNameAR ?? x.EmployeeNameEN,
+                    IqamaNumber = x.IqamaNumber,
+                    Email = x.Email,
+                    NationalityName = x.NationalityNameAR ?? x.NationalityNameEN,
+                    SponsorName = x.SponsorNameAR ?? x.SponsorNameEN,
+                    BirthDate = x.BirthDate?.ToString("MM/dd/yyyy"),
+                    JobName = x.JobNameAR ?? x.JobNameEN,
+                    BranchName = x.BranchNameAR ?? x.BranchNameEN,
+                    JoinDate = x.JoinDate?.ToString("MM/dd/yyyy"),
+                    ContractPeriod = x.ContractPeriod,
+                    SocialStatus = x.SocialStatusNameAR ?? x.SocialStatusNameEN,
+                    WorkStatus = x.EmployeeStatusNameAR ?? x.EmployeeStatusNameEN,
+                    Address = x.Address,
+                    Phone = x.Phone,
+                    ExpiryDate = x.ExpiryDate?.ToString("MM/dd/yyyy"),
+                    Notes = x.Notes
+                }).ToList();
+                
+                if (!result.Any())
+                {
+                    result.Add(new EmployeeExpireReportExportModel());
+
+                }
+
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "Employee Expire");
+
+
+                url = GetExportUrl(dtExport, "Employee Expire");
+
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+
+        }
+
+        public List<FilterModel> GetNewComerEmployeesReport_Filters(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel)
+        {
+            SqlParameter[] param = new SqlParameter[3];
+            param[0] = new SqlParameter("@FromDate", FromDate);
+            param[1] = new SqlParameter("@ToDate", ToDate);
+            param[2] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[2].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
+
+            var result = _sQLHelper.SQLQuery<FilterItem>("[HR].[SP_GetNewComerEmployeesReport_Filters]", null, param);
              var grouped = sharedFilterService.GroupedFilterItems(result);
 
             return grouped;

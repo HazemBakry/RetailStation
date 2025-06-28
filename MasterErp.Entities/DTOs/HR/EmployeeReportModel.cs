@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.DTOs.HR
 {
-    public class EmployeeExpireReportModel
+    public class EmployeeReportModel
     {
 
         public int EmployeeId { get; set; }
