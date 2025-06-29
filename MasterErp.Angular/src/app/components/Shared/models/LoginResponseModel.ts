@@ -57,3 +57,8 @@ export interface PageActionModel {
     isChecked: boolean;
     actionName: string;
 }
+export interface ApplicationPageModel {
+    applicationId: string;
+    applicationName: string;
+    pages:PagePermissionModel[];
+}

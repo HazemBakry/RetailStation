@@ -6,9 +6,10 @@ import { NotAuthorizedComponent } from './components/Shared/components/not-autho
 import { AuthGuard } from './Auth/auth.guard';
 import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 import { ErpHomeComponent } from './components/Shared/components/erp-home/erp-home.component';
+import { AuthPageGuard } from './Auth/authPage.guard';
 
 const routes: Routes = [
-  { path: '', component: ErpHomeComponent , canActivate: [AuthGuard]},
+  { path: '', component: ErpHomeComponent , canActivate: [AuthPageGuard],data:{pageName:'PosManager'}},
   { path: 'profile', loadChildren: () => import('./components/EmployeeProfile/employee-profile.module').then(erp => erp.EmployeeProfileModule), canActivate: [AuthGuard] },
   //{ path: 'login', component: ErpLoginComponent, canActivate: [AuthGuard] },
   { path: 'auth-callback', component: AuthCallbackComponent },
