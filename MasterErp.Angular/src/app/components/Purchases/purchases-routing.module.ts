@@ -15,33 +15,33 @@ import { AddSupplierReturnsVoucherComponent } from './components/add-supplier-re
 import { PurchaseQuotationsComponent } from './components/purchase-quotations/purchase-quotations.component';
 import { AddPurchaseQuotationComponent } from './components/add-purchase-quotation/add-purchase-quotation.component';
 import { PurchasesLayoutComponent } from './purchases-layout/purchases-layout.component';
+import { AuthPageGuard } from 'src/app/Auth/authPage.guard';
 
 const routes: Routes = [
   {
-
     path: '',
     component: PurchasesLayoutComponent,
     children: [
-      { path: 'home', component: PurchasesHomeComponent },
+      { path: 'home', component: PurchasesHomeComponent, canActivate: [AuthPageGuard], data: { pageName: 'PurchasesDashboard' } },
       { path: 'home/:tabName', component: PurchasesHomeComponent },
-      { path: 'purchase-invoices', component: PurchaseInvoicesComponent },
-      { path: 'purchase-orders', component: PurchaseOrdersComponent },
-      { path: 'purchase-returns', component: PurchaseReturnsComponent },
-      { path: 'add-purchase-invoice', component: AddPurchaseInvoiceComponent },
+      { path: 'purchase-orders', component: PurchaseOrdersComponent, canActivate: [AuthPageGuard], data: { pageName: 'PurchaseOrders' } },
       { path: 'add-purchase-order', component: AddPurchaseOrderComponent },
+      { path: 'purchase-invoices', component: PurchaseInvoicesComponent, canActivate: [AuthPageGuard], data: { pageName: 'PurchaseInvoices' } },
+      { path: 'add-purchase-invoice', component: AddPurchaseInvoiceComponent },
+      { path: 'purchase-returns', component: PurchaseReturnsComponent, canActivate: [AuthPageGuard], data: { pageName: 'PurchaseReturns' } },
       { path: 'add-purchase-returns', component: AddPurchaseReturnsComponent },
-      { path: 'suppliers-account-statement', component: SuppliersAccountStatementComponent },
-      { path: 'supplier-returns-voucher', component: SupplierReturnsVouchersComponent },
+      { path: 'suppliers-account-statement', component: SuppliersAccountStatementComponent, canActivate: [AuthPageGuard], data: { pageName: 'SuppliersAccountStatement' } },
+      { path: 'supplier-returns-voucher', component: SupplierReturnsVouchersComponent, canActivate: [AuthPageGuard], data: { pageName: 'SupplierReturnsVoucher' } },
       { path: 'add-supplier-returns-voucher', component: AddSupplierReturnsVoucherComponent },
-      { path: 'suppliers-list', component: SuppliersListComponent },
-      { path: 'add-supplier', component: AddSupplierComponent },
-      { path: 'purchase-quotations', component: PurchaseQuotationsComponent },
+      { path: 'purchase-quotations', component: PurchaseQuotationsComponent, canActivate: [AuthPageGuard], data: { pageName: 'PurchaseQuotations' } },
       { path: 'add-purchase-quotation', component: AddPurchaseQuotationComponent },
-      { path: '', redirectTo: 'home' ,pathMatch: 'full' },
-
-    ]
-  }
+      { path: 'suppliers-list', component: SuppliersListComponent, canActivate: [AuthPageGuard], data: { pageName: 'SuppliersList' } },
+      { path: 'add-supplier', component: AddSupplierComponent },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+    ],
+  },
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

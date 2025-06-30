@@ -20,39 +20,38 @@ import { MaterialRequestsComponent } from './components/material-requests/materi
 import { AddMaterialReceiptComponent } from './components/add-material-receipt/add-material-receipt.component';
 import { MaterialReceiptsComponent } from './components/material-receipts/material-receipts.component';
 import { ItemLookupsComponent } from './components/item-lookups/item-lookups.component';
+import { AuthPageGuard } from 'src/app/Auth/authPage.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: InventoryLayoutComponent,
     children: [
-      { path: 'home', component: InventoryHomeComponent },
+      { path: 'home', component: InventoryHomeComponent, canActivate: [AuthPageGuard], data: { pageName: 'InventoryDashboard' } },
       { path: 'home/:tabName', component: InventoryHomeComponent },
-      { path: 'items-category', component: ItemsCategoryComponent },
-      { path: 'items', component: ItemsComponent },
+      { path: 'items-category', component: ItemsCategoryComponent, canActivate: [AuthPageGuard], data: { pageName: 'ItemsCategory' } },
+      { path: 'items', component: ItemsComponent, canActivate: [AuthPageGuard], data: { pageName: 'Items' } },
+      { path: 'item-lookups', component: ItemLookupsComponent, canActivate: [AuthPageGuard], data: { pageName: 'ItemLookups' } },
+      { path: 'material-requests', component: MaterialRequestsComponent, canActivate: [AuthPageGuard], data: { pageName: 'MaterialRequests' } },
+      { path: 'add-material-request', component: AddMaterialRequestComponent },
+      { path: 'purchase-orders', component: PurchaseOrdersComponent, canActivate: [AuthPageGuard], data: { pageName: 'PurchaseOrders' } },
+      { path: 'add-purchase-order', component: AddPurchaseOrderComponent },
+      { path: 'material-receipt', component: MaterialReceiptsComponent, canActivate: [AuthPageGuard], data: { pageName: 'MaterialReceipt' } },
+      { path: 'add-material-receipt', component: AddMaterialReceiptComponent },
+      { path: 'material-issue', component: MaterialIssueReceiptsComponent, canActivate: [AuthPageGuard], data: { pageName: 'MaterialIssue' } },
+      { path: 'add-material-issue', component: AddMaterialIssueReceiptComponent },
       { path: 'purchase-receipts', component: PurchaseReceiptsComponent },
       { path: 'add-purchase-receipt', component: AddPurchasesReceiptComponent },
-      { path: 'material-issue', component: MaterialIssueReceiptsComponent },
-      { path: 'add-material-issue', component: AddMaterialIssueReceiptComponent },
-      { path: 'material-receipt', component: MaterialReceiptsComponent },
       { path: 'delivery-notes', component: DeliveryNotesComponent },
       { path: 'add-delivery-note', component: AddDeliveryNoteComponent },
-      { path: 'add-material-receipt', component: AddMaterialReceiptComponent },
       { path: 'add-item', component: AddItemComponent },
       { path: 'purchases-requests', component: PurchasesRequestsComponent },
-      { path: 'material-requests', component: MaterialRequestsComponent },
-      { path: 'add-material-request', component: AddMaterialRequestComponent },
-      { path: 'units', component: UnitsComponent },      
-      { path: 'purchase-orders', component: PurchaseOrdersComponent },
-      { path: 'add-purchase-order', component: AddPurchaseOrderComponent },
-      { path: 'item-lookups', component: ItemLookupsComponent },
-      
-      
+      { path: 'units', component: UnitsComponent, canActivate: [AuthPageGuard], data: { pageName: 'Units' } },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
-
     ],
   },
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
