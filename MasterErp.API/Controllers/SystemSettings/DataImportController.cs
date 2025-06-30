@@ -3,6 +3,7 @@ using MasterErp.Entities.DTOs.DataImport;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Purchase;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace MasterErp.API.Controllers.SystemSettings
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class DataImportController : ControllerBase
     {
         private readonly IDataImportService _dataImportService;

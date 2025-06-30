@@ -1,11 +1,14 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Interface.Sales;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MasterErp.API.Controllers.Finance.Sales
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class SalesInvoiceController : ControllerBase
     {
         private readonly ISalesInvoiceService _salesInvoiceService;

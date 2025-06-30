@@ -5,6 +5,7 @@ using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.HR;
 using MasterErp.Service.HR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -17,6 +18,8 @@ namespace MasterErp.API.Controllers.HR
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class VacationController : ControllerBase
     {
         private readonly IVacationService _vacationService;

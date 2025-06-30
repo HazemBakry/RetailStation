@@ -4,6 +4,7 @@ using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.GeneralAccounts.GeneralAccountSettings;
 using MasterErp.Service.GeneralAccounts.GeneralAccountSettings;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class TaxCalculationController : ControllerBase
     {
         private readonly ITaxCalculationService _taxCalculationService;

@@ -2,6 +2,7 @@
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Interface.HR;
 using MasterErp.Service.HR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,6 +13,8 @@ namespace MasterErp.API.Controllers.HR
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class HRReportsController : ControllerBase
     {
         private readonly IHRReportsService _hrReportService;

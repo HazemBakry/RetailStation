@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Global;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace MasterErp.API.Controllers.Finance.Purchase
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class BranchController : Controller
     {
         private readonly DBContext Context;

@@ -2,6 +2,7 @@
 using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace MasterErp.API.Controllers.Shared
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class SharedController : ControllerBase
     {
         private readonly ISharedService _sharedService;

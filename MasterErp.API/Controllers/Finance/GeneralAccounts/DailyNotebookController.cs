@@ -2,6 +2,7 @@
 using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.GeneralAccounts.GeneralAccountSettings;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class DailyNotebookController : ControllerBase
     {
         private readonly IDailyNotebookService _dailyNotebookService;

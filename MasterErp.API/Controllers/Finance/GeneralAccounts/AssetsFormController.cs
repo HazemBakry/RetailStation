@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.GeneralAccounts.GeneralAccountSettings;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
@@ -8,6 +9,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AssetsFormController : ControllerBase
     {
         private readonly IAssetsFormService _assetsFormService;

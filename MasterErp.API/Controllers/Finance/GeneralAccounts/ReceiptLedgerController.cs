@@ -7,11 +7,14 @@ using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Interface.GeneralAccounts;
 using MasterErp.Service.GeneralAccounts;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class ReceiptLedgerController : ControllerBase
     {
 

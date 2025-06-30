@@ -2,6 +2,7 @@
 using MasterErp.Entities.Models;
 using MasterErp.Interface.GeneralAccounts.Customers;
 using MasterErp.Interface.GeneralAccounts.GeneralAccountSettings;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -10,6 +11,8 @@ namespace MasterErp.API.Controllers.Finance.Sales
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;

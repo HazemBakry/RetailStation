@@ -27,7 +27,7 @@ const routes: Routes = [
     path: '',
     component: InventoryLayoutComponent,
     children: [
-      { path: 'home', component: InventoryHomeComponent, canActivate: [AuthPageGuard], data: { pageName: 'InventoryDashboard' } },
+      { path: 'home', component: InventoryHomeComponent },
       { path: 'home/:tabName', component: InventoryHomeComponent },
       { path: 'items-category', component: ItemsCategoryComponent, canActivate: [AuthPageGuard], data: { pageName: 'ItemsCategory' } },
       { path: 'items', component: ItemsComponent, canActivate: [AuthPageGuard], data: { pageName: 'Items' } },

@@ -5,6 +5,7 @@ using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Purchase;
 using MasterErp.Service.Purchase;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -17,6 +18,8 @@ namespace MasterErp.API.Controllers.Finance.Purchase
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class PurchaseOrderController : ControllerBase
     {
         private readonly IPurchaseOrderService PurchaseOrderService;
