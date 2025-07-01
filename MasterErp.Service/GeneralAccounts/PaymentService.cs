@@ -409,8 +409,8 @@ namespace MasterErp.Service.GeneralAccounts
                 accounts.Add(new JournalEntryAccount
                 {
                     AccountId = (int)Model.FromAccountId,//Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId,
-                    Credit = 0,
-                    Debit = Model.MoneyAmount,
+                    Credit = Model.MoneyAmount,
+                    Debit = 0,
                     CurrencyId = 1,
                     SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
                     Description = Model.Description,
@@ -420,8 +420,8 @@ namespace MasterErp.Service.GeneralAccounts
                 accounts.Add(new JournalEntryAccount
                 {
                     AccountId = (int)Model.AccountId,//Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId,
-                    Credit = Model.MoneyAmount,
-                    Debit = 0,
+                    Credit = 0,
+                    Debit = Model.MoneyAmount,
                     CurrencyId = 1,
                     SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
                     Description = Model.Description,
