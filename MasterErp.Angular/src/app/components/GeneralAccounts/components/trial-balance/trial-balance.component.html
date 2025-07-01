@@ -14,8 +14,9 @@
                     <label class="form-label d-flex align-items-center gap-2">
                         التفرع
                     </label>
-                    <input type="number" class="form-control nw-form-input"
-                        [(ngModel)]="trialBalanceResponse.searchLevel" autocomplete="off" />
+                    <input type="number" [min]="0" class="form-control nw-form-input"
+                        [(ngModel)]="trialBalanceResponse.searchLevel" autocomplete="off"
+                        (input)="preventNegative($event)" />
 
                 </div>
             </div>

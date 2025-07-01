@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.GeneralAccounts.Customers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -9,6 +10,8 @@ namespace MasterErp.API.Controllers.Finance.Sales
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class BatchController : ControllerBase
     {
         private readonly IBatchService _batchService;

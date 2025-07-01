@@ -2,8 +2,10 @@
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Interface.HR;
 using MasterErp.Service.HR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Data;
 using System.Linq;
 
@@ -11,6 +13,8 @@ namespace MasterErp.API.Controllers.HR
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class HRReportsController : ControllerBase
     {
         private readonly IHRReportsService _hrReportService;
@@ -110,7 +114,7 @@ namespace MasterErp.API.Controllers.HR
         public IActionResult GetEmployeesExpireReport_Data(int ReportType,SearchFilterModel model)
         {
             var data = _hrReportService.GetEmployeesExpireReport_Data(ReportType, model);
-            var result = new PagedResponseModel<EmployeeExpireReportModel>
+            var result = new PagedResponseModel<EmployeeReportModel>
             {
                 Results = data,
                 TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
@@ -136,5 +140,71 @@ namespace MasterErp.API.Controllers.HR
             return Ok(result);
         }
         #endregion
+
+        #region NewComerEmployeesRepor
+        [HttpPost]
+        [Route("GetNewComerEmployeesReport_Data")]
+        public IActionResult GetNewComerEmployeesReport_Data(DateTime? FromDate, DateTime? ToDate, SearchFilterModel model)
+        {
+            var data = _hrReportService.GetNewComerEmployeesReport_Data(FromDate, ToDate, model);
+            var result = new PagedResponseModel<EmployeeReportModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("GetNewComerEmployeesReport_Export")]
+        public IActionResult GetNewComerEmployeesReport_Export(DateTime? FromDate, DateTime? ToDate, SearchFilterModel model)
+        {
+            var result = _hrReportService.GetNewComerEmployeesReport_Export(FromDate, ToDate, model);
+
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("GetNewComerEmployeesReport_Filters")]
+        public IActionResult GetNewComerEmployeesReport_Filters(DateTime? FromDate, DateTime? ToDate, SearchFilterModel model)
+        {
+            var result = _hrReportService.GetNewComerEmployeesReport_Filters(FromDate,ToDate, model);
+
+            return Ok(result);
+        }
+        #endregion
+        #region EmployeeSalaryAnnualIncreaseReport
+        [HttpPost]
+        [Route("GetEmployeeSalaryAnnualIncreaseReport_Data")]
+        public IActionResult GetEmployeeSalaryAnnualIncreaseReport_Data( SearchFilterModel model)
+        {
+            var data = _hrReportService.GetEmployeeSalaryAnnualIncreaseReport_Data(model);
+            var result = new PagedResponseModel<SalaryAnnualIncreaseModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("GetEmployeeSalaryAnnualIncreaseReport_Export")]
+        public IActionResult GetEmployeeSalaryAnnualIncreaseReport_Export( SearchFilterModel model)
+        {
+            var result = _hrReportService.GetEmployeeSalaryAnnualIncreaseReport_Export(model);
+
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("GetEmployeeSalaryAnnualIncreaseReport_Filters")]
+        public IActionResult GetEmployeeSalaryAnnualIncreaseReport_Filters( SearchFilterModel model)
+        {
+            var result = _hrReportService.GetEmployeeSalaryAnnualIncreaseReport_Filters(model);
+
+            return Ok(result);
+        }
+        #endregion
+
     }
 }

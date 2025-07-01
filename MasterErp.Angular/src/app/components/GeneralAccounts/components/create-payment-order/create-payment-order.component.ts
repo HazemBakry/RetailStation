@@ -263,7 +263,8 @@ export class CreatePaymentOrderComponent implements OnInit {
     if (!this.validateForm()) {
       return;
     }
-    this.receiptModel = this.formGroup.value;
+    // this.receiptModel = this.formGroup.value;
+    this.receiptModel = this.formGroup.getRawValue();
     // if (!this.receiptModel.paymentOrderId)
     //   this.receiptModel.paymentOrderId = 0;
 

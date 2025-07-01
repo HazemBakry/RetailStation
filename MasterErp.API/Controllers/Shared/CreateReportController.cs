@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common.Reports;
 using MasterErp.Interface.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,8 @@ namespace MasterErp.API.Controllers.Shared
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class CreateReportController : ControllerBase
     {
         private readonly ICreateReportService _testReportService;

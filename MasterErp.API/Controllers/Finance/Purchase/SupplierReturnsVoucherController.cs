@@ -2,6 +2,7 @@
 using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Purchase;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -10,6 +11,8 @@ namespace MasterErp.API.Controllers.Finance.Purchase
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class SupplierReturnsVoucherController : ControllerBase
     {
         private readonly ISupplierReturnsVoucherService _SupplierReturnsVoucherService;

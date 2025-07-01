@@ -90,7 +90,7 @@ namespace MasterErp.Service.HR
             SqlParameter[] param = new SqlParameter[5];
 
             param[0] = new SqlParameter("@EmployeeId", EmployeeId);
-            param[1] = new SqlParameter("@ManagerId", EmployeeAdvanceId);
+            param[1] = new SqlParameter("@EmployeeAdvanceId", EmployeeAdvanceId);
             param[2] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
             param[3] = new SqlParameter("@PageSize", SearchModel.PageSize);
             param[4] = new SqlParameter("@FilterList", SqlDbType.Structured);

@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.GeneralAccounts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -8,6 +9,8 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class LoansFormController : ControllerBase
     {
         private readonly ILoansFormService _loansFormService;

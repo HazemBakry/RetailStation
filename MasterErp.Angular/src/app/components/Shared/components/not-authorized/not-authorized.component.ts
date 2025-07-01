@@ -15,6 +15,7 @@ export class NotAuthorizedComponent implements OnInit {
     this.returnUrl=sessionStorage.getItem('returnUrl');
   }
   login() {
-    this.authService.loginRedirect();
+    // this.authService.loginRedirect();
+    this.authService.logout();
   }
 }

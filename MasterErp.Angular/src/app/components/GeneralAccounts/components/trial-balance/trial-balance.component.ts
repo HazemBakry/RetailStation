@@ -129,5 +129,12 @@ export class TrialBalanceComponent implements OnInit {
     return true;
   }
 
+  preventNegative(event: any): void {
+  if (event.target.value < 0) {
+    event.target.value = 0;
+    this.trialBalanceResponse.searchLevel = 0;
+  }
+}
+
 }
 

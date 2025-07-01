@@ -1,4 +1,4 @@
-export interface EmployeeExpireReportModel {
+export interface EmployeeReportModel {
     employeeId: number;
     employeeCode: number;
     iqamaNumber: string;
@@ -26,5 +26,12 @@ export interface EmployeeExpireReportModel {
     phone: string;
     expiryDate: string | null;
     notes: string | null;
+
+}
+export interface SalaryAnnualIncreaseModel extends EmployeeReportModel {
+    oldSalary: number;
+    oldSalaryDate: string | null;
+    newSalary: number;
+    newSalaryDate: string | null;
 
 }

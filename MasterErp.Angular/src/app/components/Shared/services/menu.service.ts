@@ -93,13 +93,13 @@ export class MenuService {
             //   icon: 'fa fa-balance-scale-left',
             //   route: '/general-accounts/opening-balance'
             // },
-            {
-              displayName: 'القروض',
-              menuItem: 'loans',
-              description: 'إدارة القروض والمبالغ الممولة',
-              icon: 'fa fa-hand-holding-usd',
-              route: '/general-accounts/loans'
-            },
+            // {
+            //   displayName: 'القروض',
+            //   menuItem: 'loans',
+            //   description: 'إدارة القروض والمبالغ الممولة',
+            //   icon: 'fa fa-hand-holding-usd',
+            //   route: '/general-accounts/loans'
+            // },
             {
               displayName: 'طلبات السلف',
               menuItem: 'advances-requests',
@@ -308,66 +308,66 @@ export class MenuService {
             },
           ]
         },
-        {
-          menuItemId: MenuType.GeneralAccountsHome,
-          displayName: 'التقارير',
-          menuItem: '9',
-          description: 'عرض تقارير الميزانية والتدفقات النقدية',
-          icon: 'fa-solid fa-chart-pie',
-          route: '/general-accounts/home/9',
+        // {
+        //   menuItemId: MenuType.GeneralAccountsHome,
+        //   displayName: 'التقارير',
+        //   menuItem: '9',
+        //   description: 'عرض تقارير الميزانية والتدفقات النقدية',
+        //   icon: 'fa-solid fa-chart-pie',
+        //   route: '/general-accounts/home/9',
 
-          subMenus: [
-            {
-              displayName: 'الميزانية العمومية',
-              menuItem: 'journal-entry-templates',
-              description: 'عرض وتحليل المركز المالي العام',
-              icon: 'fa fa-file-invoice',
-            },
-            {
-              displayName: 'كشف التدفقات النقدية',
-              menuItem: 'journal-entry-templates',
-              description: 'تحليل حركة التدفقات النقدية',
-              icon: 'fa fa-water',
-            },
-            {
-              displayName: 'الإقرار الضريبي',
-              menuItem: 'journal-entry-templates',
-              description: 'إعداد وتقديم الإقرار الضريبي',
-              icon: 'fa fa-file-contract',
-            },
-            {
-              displayName: 'دفتر الأستاذ العام للشركاء',
-              menuItem: 'journal-entry-templates',
-              description: 'عرض الحركات المالية لشركاء النظام',
-              icon: 'fa fa-users',
-            },
-            {
-              displayName: 'تدقيق دفتر اليومية',
-              menuItem: 'journal-entry-templates',
-              description: 'مراجعة وتدقيق كافة الحركات اليومية',
-              icon: 'fa fa-search-dollar',
-            },
-            {
-              displayName: 'الحسابات الختامية',
-              menuItem: 'accounts-general-ledger',
-              description: 'عرض وتحليل الحسابات الختامية',
-              icon: 'fa fa-clipboard-check',
-            },
-            {
-              displayName: 'الحسابات الختامية',
-              menuItem: 'accounts-general-ledger',
-              description: 'تحليل تفصيلي للحسابات الختامية',
-              icon: 'fa fa-clipboard-check',
-            },
-             {
-              displayName: 'مديونية الشركة',
-              menuItem: 'indebtedness-report',
-              description: 'تحليل تفصيلي لمديونية الشركة',
-              icon: 'fa fa-clipboard-check',
-              route: '/general-accounts/indebtedness-report'
-            },
-          ]
-        }
+        //   subMenus: [
+        //     {
+        //       displayName: 'الميزانية العمومية',
+        //       menuItem: 'journal-entry-templates',
+        //       description: 'عرض وتحليل المركز المالي العام',
+        //       icon: 'fa fa-file-invoice',
+        //     },
+        //     {
+        //       displayName: 'كشف التدفقات النقدية',
+        //       menuItem: 'journal-entry-templates',
+        //       description: 'تحليل حركة التدفقات النقدية',
+        //       icon: 'fa fa-water',
+        //     },
+        //     {
+        //       displayName: 'الإقرار الضريبي',
+        //       menuItem: 'journal-entry-templates',
+        //       description: 'إعداد وتقديم الإقرار الضريبي',
+        //       icon: 'fa fa-file-contract',
+        //     },
+        //     {
+        //       displayName: 'دفتر الأستاذ العام للشركاء',
+        //       menuItem: 'journal-entry-templates',
+        //       description: 'عرض الحركات المالية لشركاء النظام',
+        //       icon: 'fa fa-users',
+        //     },
+        //     {
+        //       displayName: 'تدقيق دفتر اليومية',
+        //       menuItem: 'journal-entry-templates',
+        //       description: 'مراجعة وتدقيق كافة الحركات اليومية',
+        //       icon: 'fa fa-search-dollar',
+        //     },
+        //     {
+        //       displayName: 'الحسابات الختامية',
+        //       menuItem: 'accounts-general-ledger',
+        //       description: 'عرض وتحليل الحسابات الختامية',
+        //       icon: 'fa fa-clipboard-check',
+        //     },
+        //     {
+        //       displayName: 'الحسابات الختامية',
+        //       menuItem: 'accounts-general-ledger',
+        //       description: 'تحليل تفصيلي للحسابات الختامية',
+        //       icon: 'fa fa-clipboard-check',
+        //     },
+        //      {
+        //       displayName: 'مديونية الشركة',
+        //       menuItem: 'indebtedness-report',
+        //       description: 'تحليل تفصيلي لمديونية الشركة',
+        //       icon: 'fa fa-clipboard-check',
+        //       route: '/general-accounts/indebtedness-report'
+        //     },
+        //   ]
+        // }
       ]
     },
     {

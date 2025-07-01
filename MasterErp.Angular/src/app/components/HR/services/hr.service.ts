@@ -21,7 +21,7 @@ import { EmployeeSalarySummaryModel } from '../models/EmployeeSalarySummaryModel
 import { EmployeeDueModel } from '../models/EmployeeDueModel';
 import { SponsorModel } from '../models/SponsoModel';
 import { DepartmentModel } from '../models/DepartmentModel';
-import { EmployeeExpireReportModel } from '../models/EmployeeExpireReportModel';
+import { EmployeeReportModel, SalaryAnnualIncreaseModel } from '../models/EmployeeReportModel';
 
 @Injectable({
   providedIn: 'root'
@@ -521,8 +521,9 @@ export class HrService {
   GetAllEmployeeAdvancesData(model: SearchFilterModel) {
     return this.http.post<PagedResponseDTO<EmployeeAdvanceModel[]>>(this.URL + 'EmployeeAdvances/GetAllEmployeeAdvancesData', model);
   }
-  GetAdvancePaymentsData(employeeId, model: PagedResponseDTO) {
-    return this.http.post<PagedResponseDTO<AdvancePaymentModel[]>>(this.URL + 'EmployeeAdvances/GetAdvancePaymentsData?EmployeeId=' + employeeId, model);
+  GetAdvancePaymentsData(employeeId, model: PagedResponseDTO,employeeAdvanceId: number=null) {
+    var params = employeeAdvanceId ? `?EmployeeId=${employeeId}&EmployeeAdvanceId=${employeeAdvanceId}` : `?EmployeeId=${employeeId}`;
+    return this.http.post<PagedResponseDTO<AdvancePaymentModel[]>>(this.URL + `EmployeeAdvances/GetAdvancePaymentsData${params}`, model);
   }
   getAdvanceById(employeeAdvanceId):Observable<EmployeeAdvanceModel> {
     return this.http.get<EmployeeAdvanceModel>(this.URL + 'EmployeeAdvances/GetAdvanceById?EmployeeAdvanceId=' + employeeAdvanceId);
@@ -606,13 +607,37 @@ export class HrService {
 
   /////////////////////////// expired report 
   GetEmployeesExpireReport_Data(reportType:number, model: SearchFilterModel) {
-    return this.http.post<PagedResponseDTO<EmployeeExpireReportModel[]>>(this.URL + `HRReports/GetEmployeesExpireReport_Data?ReportType=${reportType}`, model);
+    return this.http.post<PagedResponseDTO<EmployeeReportModel[]>>(this.URL + `HRReports/GetEmployeesExpireReport_Data?ReportType=${reportType}`, model);
   }
   GetEmployeesExpireReport_Export(reportType:number, model: SearchFilterModel) {
     return this.http.post<ActionsResponseModel>(this.URL + `HRReports/GetEmployeesExpireReport_Export?ReportType=${reportType}`, model);
   }
   GetEmployeesExpireReport_Filters(reportType:number,model: SearchFilterModel) {
     return this.http.post<FilterModel[]>(this.URL + `HRReports/GetEmployeesExpireReport_Filters?ReportType=${reportType}`, model);
+  }
+
+
+
+  /////////////////////////// new comer report 
+  GetNewComerEmployeesReport_Data(fromDate:string,toDate:string, model: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<EmployeeReportModel[]>>(this.URL + `HRReports/GetNewComerEmployeesReport_Data?FromDate=${fromDate}&ToDate=${toDate}`, model);
+  }
+  GetNewComerEmployeesReport_Export(fromDate:string,toDate:string, model: SearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `HRReports/GetNewComerEmployeesReport_Export?FromDate=${fromDate}&ToDate=${toDate}`, model);
+  }
+  GetNewComerEmployeesReport_Filters(fromDate:string,toDate:string,model: SearchFilterModel) {
+    return this.http.post<FilterModel[]>(this.URL + `HRReports/GetNewComerEmployeesReport_Filters?FromDate=${fromDate}&ToDate=${toDate}`, model);
+  }
+
+  /////////////////////////// salary increase
+  GetEmployeeSalaryAnnualIncreaseReport_Data( model: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<SalaryAnnualIncreaseModel[]>>(this.URL + `HRReports/GetEmployeeSalaryAnnualIncreaseReport_Data`, model);
+  }
+  GetEmployeeSalaryAnnualIncreaseReport_Export( model: SearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `HRReports/GetEmployeeSalaryAnnualIncreaseReport_Export`, model);
+  }
+  GetEmployeeSalaryAnnualIncreaseReport_Filters(model: SearchFilterModel) {
+    return this.http.post<FilterModel[]>(this.URL + `HRReports/GetEmployeeSalaryAnnualIncreaseReport_Filters`, model);
   }
 
 

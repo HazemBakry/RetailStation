@@ -8,6 +8,7 @@ import { CustomersService } from '../../services/customers.service';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { GeneralAccountSettingsService } from '../../services/general-account-settings.service';
 import { DatePipe } from '@angular/common';
+import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 
 @Component({
   selector: 'app-batches',
@@ -19,6 +20,7 @@ export class BatchesComponent implements OnInit {
   Batches: any[] = [];
   Customers: any[] = [];
   leadgerJournals: any[] = [];
+  leadgerJournalsSelector:GeneralSelectorModel[]=[];
   PaymentMethods = [{ name: 'نقدي', value: 'نقدي' }, { name: 'حساب بنكي', value: 'حساب بنكي' }];
   formGroup: FormGroup;
   TotalCount = 0;
@@ -100,7 +102,7 @@ export class BatchesComponent implements OnInit {
   GetLeadgerJournalsData() {
     this.sharedService.GetLeadgerJournalsData().subscribe(data => {
       this.leadgerJournals = data;
-      this.leadgerJournals = this.leadgerJournals.map(i => { return { name: i.dailyNotebookName, value: i.dailyNotebookId } });
+      this.leadgerJournalsSelector = this.leadgerJournals.map(i => { return { name: i.nameAR ?? i.nameEN, value: i.dailyNotebookId } });
     });
   }
 

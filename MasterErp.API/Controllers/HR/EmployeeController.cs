@@ -2,6 +2,7 @@
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.HR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,7 @@ namespace MasterErp.API.Controllers.HR
 {
     [Route("api/[controller]")]
     [ApiController]
-
-
+    [Authorize]
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;

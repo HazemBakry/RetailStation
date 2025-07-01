@@ -6,6 +6,7 @@ using MasterErp.Entities.Models.Inventory;
 using MasterErp.Interface.Inventory;
 using MasterErp.Service.Common;
 using MasterErp.Service.Inventory;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,8 @@ namespace MasterErp.API.Controllers.Inventory
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class ItemsController : ControllerBase
     {
         private readonly IItemsService _itemService;

@@ -2,6 +2,7 @@
 using MasterErp.Entities.Common.Finance.GeneralAccounts;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.GeneralAccounts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -11,6 +12,8 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class PaymentController : ControllerBase
     {
         private readonly IPaymentService _paymentService;

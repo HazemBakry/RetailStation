@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.DTOs.HR
 {
-    public class EmployeeExpireReportModel
+    public class EmployeeReportModel
     {
 
         public int EmployeeId { get; set; }
@@ -52,7 +52,16 @@ namespace MasterErp.Entities.DTOs.HR
         public DateTime? ExpiryDate { get; set; }
         public int? TotalCount { get; set; }
     }
+    public class SalaryAnnualIncreaseModel:EmployeeReportModel
+    {
 
+     
+        public DateTime? OldSalaryDate { get; set; }
+        public DateTime? NewSalaryDate { get; set; }
+        public double? OldSalary { get; set; }
+        public double? NewSalary { get; set; }
+
+    }
     public class EmployeeExpireReportExportModel
     {
         [JsonProperty("Employee Code")]

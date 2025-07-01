@@ -5,9 +5,10 @@ import { jwtDecode } from 'jwt-decode';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, map, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { LoginUserModel } from '../components/Shared/models/LoginResponseModel';
+import { LoginUserModel, PagePermissionModel } from '../components/Shared/models/LoginResponseModel';
 import { UserModel } from '../components/Shared/models/UserModel';
 import { ActionsResponseModel } from '../components/Shared/models/ActionsResponseModel';
+import { RolesService } from './roles.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -23,7 +24,7 @@ export class AuthService {
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
   private readonly USER_MODEL = 'USER_MODEL';
   public readonly VIEW_ACTION_NAME: string = 'View';
-  constructor(private http: HttpClient, private toaster: ToastrService, private router: Router) 
+  constructor(private http: HttpClient, private toaster: ToastrService, private router: Router,private rolesService:RolesService) 
   {
   }
   loginRedirect(logout:boolean=false):void
@@ -141,7 +142,7 @@ export class AuthService {
     return userModel?.roles?.some(role => allowedRoles.includes(role.toLowerCase()));
   }
 
-  haveActionPermission(action: string|string[], pageName: string): boolean {
+  haveActionPermission_LocalStorage(action: string|string[], pageName: string): boolean {
     const fixedRoles = ['SuperAdmin'].map(x => x.toLowerCase());
 
     const allowedActions = Array.isArray(action) ? action.map(x => x.toLowerCase()) : [action.toLowerCase()];
@@ -157,6 +158,25 @@ export class AuthService {
     return userModel.authorizedPages.some(page => {
       if (page.pageName.toLowerCase() === pageName.toLowerCase()) {
         return page.actions.some(act => allowedActions.includes(act.actionName.toLowerCase()));
+      }
+      return false;
+    });
+  }
+  haveActionPermission(action: string|string[], pageName: string): boolean {
+    const fixedRoles = ['SuperAdmin'].map(x => x.toLowerCase());
+    const allowedActions = Array.isArray(action) ? action.map(x => x.toLowerCase()) : [action.toLowerCase()];
+    const userModel = this.getCurrentUser();
+    const isSuperRole=userModel?.roles?.some(role => fixedRoles.includes(role.toLowerCase()));
+    // const superRole=false;
+    if (isSuperRole) 
+      return true;
+    let authorizedPages:PagePermissionModel[]=this.rolesService.getUserAuthorizedPages();
+    if (!userModel || !authorizedPages) {
+      return false;
+    }
+      return authorizedPages.some(page => {
+      if (page.pageName.toLowerCase() === pageName.toLowerCase()) {
+        return page.actions.some(act => allowedActions.includes(act.actionName.toLowerCase())&&act.isChecked);
       }
       return false;
     });

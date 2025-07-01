@@ -5,6 +5,7 @@ using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Interface.Inventory;
 using MasterErp.Service.Inventory;
 using MasterErp.Service.Purchase;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace MasterErp.API.Controllers.Inventory
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class InventoryController : ControllerBase
     {
         private readonly IInventoryService _inventoryService;

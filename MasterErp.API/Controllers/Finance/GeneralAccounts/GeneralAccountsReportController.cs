@@ -2,6 +2,7 @@
 using MasterErp.Entities.DTOs.GeneralAccounts;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.GeneralAccounts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,6 +16,8 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class GeneralAccountsReportController : ControllerBase
     {
         private readonly IGeneralAccountsReportService ReportService;

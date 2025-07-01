@@ -272,7 +272,7 @@ namespace MasterErp.Service.GeneralAccounts
                 {
                     return new ActionsResponseModel
                     {
-                        Message = "يجب اختيار أمر الشراء أولا لاتمام حفظ السند",
+                        Message = "يجب اختيار أمر صرف أولا لاتمام حفظ السند",
                         IsSuccess = false
                     };
                 }
@@ -281,6 +281,7 @@ namespace MasterErp.Service.GeneralAccounts
                 {
                     ReceiptNumber = Context.PaymentReceipts.Count() > 0 ? Context.PaymentReceipts.Max(x => x.ReceiptNumber) + 1 : 1,
                     ReceiptLedgerId = Model.ReceiptLedgerId,
+                    PaymentOrderId = Model.PaymentOrderId,
                     PaymentTypeId = Model.PaymentTypeId,
                     ReleaseDate = Model.ReleaseDate,
                     ContactName = Model.ContactName,
@@ -341,7 +342,7 @@ namespace MasterErp.Service.GeneralAccounts
                     return new ActionsResponseModel
                     {
                         Status = 100,
-                        Message = "يجب اختيار أمر الشراء أولا لاتمام حفظ السند",
+                        Message = "يجب اختيار أمر صرف أولا لاتمام حفظ السند",
                         Id = 0,
                         IsSuccess = false
                     };
@@ -352,6 +353,7 @@ namespace MasterErp.Service.GeneralAccounts
                 if (receipt != null)
                 {
                     receipt.ReceiptLedgerId = Model.ReceiptLedgerId;
+                    receipt.PaymentOrderId = Model.PaymentOrderId;
                     receipt.PaymentTypeId = Model.PaymentTypeId;
                     receipt.ContactName = Model.ContactName;
                     receipt.CurrencyId = Model.CurrencyId;

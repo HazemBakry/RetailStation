@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -15,6 +15,7 @@ import { ReviewsComponent } from './components/Main/reviews/reviews.component';
 import { ErpLoginComponent } from './components/Shared/components/erp-login/erp-login.component';
 import { SigninComponent } from './components/Shared/components/signin/signin.component';
 import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
+import { RolesService } from './Auth/roles.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,15 @@ import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
     SigninComponent,
     AuthCallbackComponent,
   ],
-  providers: [DatePipe],
+  providers: [
+    DatePipe,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: fetchPermissionsOnStart,
+      deps: [RolesService],
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent],
   imports: [
     CommonModule,
@@ -42,4 +51,25 @@ import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
     SharedModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }
+
+export function fetchPermissionsOnStart(rolesService: RolesService) {
+  // if (authService.isAuthenticated()) {
+  return () => {
+    return rolesService
+      .fetchUserAuthorizedPages()
+      .toPromise()
+      .then((permissions) => {
+        rolesService.setPermissions(permissions);
+      })
+      .catch((error) => {
+        console.error('Unhandled error during permission fetching:', error);
+        rolesService.setPermissions([]);
+      });
+  };
+  // }
+  console.warn(
+    'User is not authenticated. Authorized Pages will not be fetched.'
+  );
+  rolesService.setPermissions([]);
+}

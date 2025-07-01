@@ -3,6 +3,7 @@ using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.HR;
 using MasterErp.Service.HR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace MasterErp.API.Controllers.HR
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class EmployeeAdvancesController : ControllerBase
     {
         private readonly IEmployeeAdvancesService _advancesService;
@@ -41,9 +44,9 @@ namespace MasterErp.API.Controllers.HR
 
         [HttpPost]
         [Route("GetAdvancePaymentsData")]
-        public IActionResult GetAdvancePaymentsData(int EmployeeId, SearchFilterModel SearchModel)
+        public IActionResult GetAdvancePaymentsData(int EmployeeId,int? EmployeeAdvanceId, SearchFilterModel SearchModel)
         {
-            var data = _advancesService.GetAdvancePaymentsData(SearchModel, EmployeeId);
+            var data = _advancesService.GetAdvancePaymentsData(SearchModel, EmployeeId, EmployeeAdvanceId);
             var result = new PagedResponseModel<AdvancePaymentModel>
             {
                 Results = data,
