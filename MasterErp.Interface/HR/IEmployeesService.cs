@@ -35,7 +35,7 @@ namespace MasterErp.Interface.HR
         List<SelectorDataModel> GetActiveEmployeesSelector();
         ContractDetail GetEmployeeContractDetails(int EmployeeId);
         List<EmployeeSalaryDto> GetEmployeesSalaryByBranch(List<int> BranchId, DateTime ExecutionDate);
-
+        DataTable GetHRDashboardStatistics();
         #endregion
 
         //List<EmployeeRequest> GetEmployeeRequests_Data(SearchFilterModel model);

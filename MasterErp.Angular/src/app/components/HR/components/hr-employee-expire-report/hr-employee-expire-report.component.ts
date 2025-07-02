@@ -45,21 +45,22 @@ export class HrEmployeeExpireReportComponent implements OnInit {
   pagedResponse: PagedResponseDTO<EmployeeReportModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 10,
+    pageSize: 25,
     currentPage: 1,
     searchText: ''
   };
 
   constructor(private modalService: NgbModal, private hrService: HrService,
     private sharedService: SharedService,
-    private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
+    private datePipe: DatePipe, 
+    private toaster: ToastrService, 
+    private offcanvasService: NgbOffcanvas) { }
 
   ngOnInit(): void {
 
   }
 
   search() {
-
     this.pagedResponse.currentPage = 1;
     this.pagedResponse.searchText = '';
     this.pagedResponse.filterList = [];

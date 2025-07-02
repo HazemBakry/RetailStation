@@ -20,7 +20,7 @@ export class PaymentOrdersComponent implements OnInit {
   pagedResponseModel: PagedResponseDTO<ReceiptModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 10,
+    pageSize: 15,
     currentPage: 1,
     searchText: ''
   };

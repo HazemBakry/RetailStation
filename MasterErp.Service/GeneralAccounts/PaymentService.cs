@@ -224,7 +224,7 @@ namespace MasterErp.Service.GeneralAccounts
 
         public List<SelectorDataModel> GetPaymentOrdersSelector(bool OrderStatus)
         {
-            var results = Context.PaymentOrders.Where(x => x.WorkflowStatusId != (int)FinanceWorkflowStatus.Paid).Select(b => new SelectorDataModel
+            var results = Context.PaymentOrders.Where(x => x.WorkflowStatusId == (int)FinanceWorkflowStatus.Pending).Select(b => new SelectorDataModel
             {
                 Id = b.PaymentOrderId,
                 Name = b.OrderNumber.ToString(),
@@ -298,7 +298,7 @@ namespace MasterErp.Service.GeneralAccounts
                     AccountId = Model.AccountId,
                     SupplierId = Model.SupplierId,
                     CreatedDate = DateTime.Now,
-                    WorkflowStatusId = (int)FinanceWorkflowStatus.Pending,
+                    WorkflowStatusId = (int)FinanceWorkflowStatus.Paid,
                     CreatedBy = ""
                 };
 
@@ -307,7 +307,7 @@ namespace MasterErp.Service.GeneralAccounts
 
 
                 var payment_order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == Model.PaymentOrderId);
-                payment_order.WorkflowStatusId = (int)FinanceWorkflowStatus.WaitingPayment;
+                payment_order.WorkflowStatusId = (int)FinanceWorkflowStatus.Paid;
                 Context.SaveChanges();
 
                 var entry = PreparePaymentEntryModel(receipt);
@@ -369,12 +369,10 @@ namespace MasterErp.Service.GeneralAccounts
                     receipt.AccountId = Model.AccountId;
                     receipt.SupplierId = Model.SupplierId;
 
-
                     Context.SaveChanges();
                 }
                 else
                     return new ActionsResponseModel { IsSuccess = false, Message = "can't find this payment order" };
-
 
                 var payment_order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == Model.PaymentOrderId);
                 payment_order.WorkflowStatusId = (int)FinanceWorkflowStatus.Paid;

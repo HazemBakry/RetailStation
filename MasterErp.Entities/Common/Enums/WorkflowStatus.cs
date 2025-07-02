@@ -10,7 +10,7 @@ namespace MasterErp.Entities.Common.Enums
     {
         Pending = 7,
         Cancelled = 8,
-        WaitingPayment = 9,
+        //WaitingPayment = 9,
         Paid = 10
     }
 

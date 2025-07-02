@@ -59,17 +59,15 @@ namespace MasterErp.Service.GeneralAccounts
                 tbl.AccountNature = string.Empty;
                 tbl.IsActive = Model.IsActive;
                 tbl.IsGroup = Model.IsGroup;
-                tbl.NameAR = Model.NameAR;
-                tbl.NameEN = Model.NameEN;
+                tbl.NameAR = Model.NameAR ?? "";
+                tbl.NameEN = Model.NameEN ?? "";
                 tbl.IsDisToCostCenter = Model.IsDisToCostCenter;
                 tbl.CostCenterId = Model.CostCenterId;
-
                 tbl.CreatedDate = DateTime.Now;
                 tbl.CreatedBy = Model.CreatedBy;
 
                 Context.AccountTrees.Add(tbl);
                 Context.SaveChanges();
-
 
                 return new ActionsResponseModel
                 {
@@ -85,6 +83,7 @@ namespace MasterErp.Service.GeneralAccounts
                 };
             }
         }
+
         public string GenerateAccountNumber(int? parentAccountId)
         {
             string newAccountNumber;
