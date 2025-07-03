@@ -31,6 +31,8 @@ namespace MasterErp.Service.HR
             _employeeService = employeeService;
             _employeeAdvancesService = employeeAdvancesService;
         }
+        
+        
         public List<EmployeeAttendanceModel> GetAttendanceReport_Data(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel)
         {
             SqlParameter[] param = new SqlParameter[5];
@@ -155,7 +157,7 @@ namespace MasterErp.Service.HR
 
             if (employeesAttendance.Any())
             {
-                Context.SaveChanges(); 
+                Context.SaveChanges();
                 isSaved = true;
             }
 
@@ -170,7 +172,7 @@ namespace MasterErp.Service.HR
             SqlParameter[] param = new SqlParameter[3];
             param[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
             param[0].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
-            
+
             param[1] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
             param[2] = new SqlParameter("@PageSize", SearchModel.PageSize);
 
@@ -2408,160 +2410,5 @@ namespace MasterErp.Service.HR
 
 
 
-
-
-        public List<EmployeeSalarySummaryModel> GetEmployeeSalarySummary(int Year, int Month, SearchFilterModel SearchModel)
-        {
-            SqlParameter[] param = new SqlParameter[5];
-            param[0] = new SqlParameter("@Year", Year);
-            param[1] = new SqlParameter("@Month", Month);
-            param[2] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
-            param[3] = new SqlParameter("@PageSize", SearchModel.PageSize);
-            param[4] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            param[4].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
-
-
-            var result = SQLHelper.SQLQuery<EmployeeSalarySummaryModel>("[HR].[SP_GetEmployeeSalarySummary]", null, param);
-
-            return result;
-        }
-
-        #region Employee Dues
-        public List<EmployeeDueModel> GetEmployeeDues(int EmployeeId, SearchFilterModel SearchModel)
-        {
-            SqlParameter[] param = new SqlParameter[4];
-            param[0] = new SqlParameter("@EmployeeId", EmployeeId);
-            param[1] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
-            param[2] = new SqlParameter("@PageSize", SearchModel.PageSize);
-            param[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            param[3].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
-
-
-            var result = SQLHelper.SQLQuery<EmployeeDueModel>("[HR].[SP_GetEmployeeDues]", null, param);
-
-            return result;
-        }
-
-        public EmployeeDueModel CalculateEmployeeDue(int EmployeeId, EmployeeDueModel Model)
-        {
-
-            var contract = _employeeService.GetEmployeeContractInfoById(EmployeeId);
-            if (contract == null)
-                return null;
-
-            var endDate = Model.LastWorkingDate ?? DateTime.Now;
-            var startDate = Model.StartWorkingDate ?? DateTime.Now;
-            // Total days
-            int totalDays = (endDate - startDate).Days;
-            int totalMonths = ((endDate.Year - startDate.Year) * 12) + endDate.Month - startDate.Month;
-            if (endDate.Day < startDate.Day)
-            {
-                totalMonths--;
-            }
-
-            double totalYears = totalDays / 365.25;
-
-            Model.NoMonths = totalMonths;
-            Model.NoDays = totalDays;
-
-
-            decimal dailySalary = (decimal)(contract.TotalSalary / 30.0);
-            int workingDays = 30;
-            decimal calculatedSalary = dailySalary * workingDays;
-
-
-            var advances = _employeeAdvancesService.GetAdvancePaymentsData(new SearchFilterModel { CurrentPage = 1, PageSize = 100  },EmployeeId).Where(x=>x.WorkflowStatusId  != (int)PaymentWorkflowStatus.Paid).ToList();
-            if(advances.Any())
-            {
-                Model.Advances = advances.Sum(x => x.MoneyAmount);
-            }
-
-
-            if(Model.DueTypeId == ((int)DueType.Vacation))
-            {
-                // 1 month for each year
-                 Model.VacationDues = totalYears * (double)calculatedSalary;
-            }
-            if (Model.DueTypeId == ((int)DueType.EndOfContract))
-            {
-                // 2 moth for each year
-                Model.EndOfServiceDues = totalYears * 2 * (double)calculatedSalary;
-            }
-            if(Model.AddSalaryToDue)
-            {
-                Model.CurrentMonthSalary = (double)calculatedSalary;
-            }
-            Model.HomeAllowance = contract.HousingAllowance;
-            Model.TotalDues = Model.VacationDues.GetValueOrDefault() + Model.EndOfServiceDues.GetValueOrDefault() + Model.CurrentMonthSalary.GetValueOrDefault() + Model.HomeAllowance.GetValueOrDefault();
-            Model.NetAmount = Model.TotalDues - Model.Advances.GetValueOrDefault();
-
-
-            return Model;
-
-        }
-        public DateTime? GetEmployeeDueStartDate(int employeeId)
-        {
-            var date = Context.EmployeeDues
-               .Where(x => x.EmployeeId == employeeId).Max(x=>x.LastWorkingDate);
-            if (date == null)
-                date = Context.Contracts.Where(x => x.EmployeeId == employeeId)?.OrderByDescending(x=>x.StartDate).FirstOrDefault()?.StartDate;
-
-            return date ?? DateTime.Now;
-        }
-        public ActionsResponseModel SaveEmployeeDue(int employeeId, EmployeeDueModel model)
-        {
-            // Check for overlapping due record
-            var conflictingDue = Context.EmployeeDues
-                .Where(x => x.EmployeeId == employeeId && x.LastWorkingDate > model.StartWorkingDate)
-                .FirstOrDefault();
-
-            if (conflictingDue != null)
-            {
-                return new ActionsResponseModel
-                {
-                    IsSuccess = false,
-                    Message = $"Cannot save due. There is already a record with a LastWorkingDate later than the provided StartWorkingDate: {conflictingDue.LastWorkingDate:yyyy-MM-dd}"
-                };
-            }
-
-
-            var entity = new EmployeeDue
-            {
-                EmployeeId = employeeId,
-                DueTypeId = model.DueTypeId,
-                NoMonths = 0,
-                NoDays = 0,
-                StartWorkingDate = model.StartWorkingDate,
-                LastWorkingDate = model.LastWorkingDate,
-                ExecutionDate = model.ExecutionDate,
-
-                Notes = model.Notes,
-                VacationDues = (float?)model.VacationDues,
-                EndOfServiceDues = (float?)model.EndOfServiceDues,
-                CurrentMonthSalary = (float?)model.CurrentMonthSalary,
-                HomeAllowance = (float?)model.HomeAllowance,
-                Advances = (float?)model.Advances,
-                NetAmount = (float?)model.NetAmount,
-                CreatedBy = model.CreatedBy,
-                CreatedDate = DateTime.Now
-            };
-            if(model.AddSalaryToDue == true)
-            {
-                entity.SalaryMonth = model.SalaryMonth;
-                entity.SalaryYear = model.SalaryYear;
-                entity.AddSalaryToDue = model.AddSalaryToDue;
-
-            }
-            Context.EmployeeDues.Add(entity);
-            var isSaved = Context.SaveChanges() > 0;
-
-            return new ActionsResponseModel
-            {
-                IsSuccess = isSaved,
-                Message = isSaved ? "Employee due saved successfully." : "Failed to save employee due."
-            };
-        }
-
-        #endregion
     }
 }

@@ -8,6 +8,7 @@ import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { HrService } from '../../services/hr.service';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 
 @Component({
   selector: 'app-hr-employees-salaries',
@@ -32,6 +33,7 @@ export class HrEmployeesSalariesComponent implements OnInit {
   }));
   filterList: FilterModel[] = [];
   showLoader: boolean = false;
+  showAddLoader: boolean = false;
 
   selectedYear: number;
   selectedMonth: number;
@@ -113,4 +115,31 @@ export class HrEmployeesSalariesComponent implements OnInit {
     this.getSalaries_Data();
   }
 
+
+  openSaveModal(content: any, isApprove: boolean = true) {
+    this.mapFilters();
+    if (!this.selectedYear || !this.selectedMonth) {
+      this.toaster.error('يرجى تحديد السنة والشهر');
+      return;
+    }
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+  approve() {
+
+    this.showAddLoader = true;
+    this.hrService.ApproveMonthlySalary(this.selectedYear, this.selectedMonth, this.pagedResponseModel).subscribe((data: ActionsResponseModel) => {
+      if (data.isSuccess) {
+        this.search();
+        this.toaster.success(data.message);
+      }
+      else {
+        this.toaster.error(data.message);
+      }
+      this.showAddLoader = false;
+    }, (err) => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
+    });
+  }
 }

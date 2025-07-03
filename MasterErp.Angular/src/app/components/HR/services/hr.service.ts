@@ -218,25 +218,30 @@ export class HrService {
   GetEmployeeSalarySummary(year: number, month: number, model: PagedResponseDTO<EmployeeSalarySummaryModel[]>) {
     year = year ?? new Date().getFullYear();
     month = month ?? new Date().getMonth() + 1;
-    return this.http.post<PagedResponseDTO<EmployeeSalarySummaryModel[]>>(this.URL + 'Attendance/GetEmployeeSalarySummary?Year=' + year + '&Month=' + month, model);
+    return this.http.post<PagedResponseDTO<EmployeeSalarySummaryModel[]>>(this.URL + 'Salaries/GetEmployeeSalarySummary?Year=' + year + '&Month=' + month, model);
+  }
+  ApproveMonthlySalary(year: number, month: number, model: PagedResponseDTO<EmployeeSalarySummaryModel[]>) {
+    year = year ?? new Date().getFullYear();
+    month = month ?? new Date().getMonth() + 1;
+    return this.http.post<ActionsResponseModel>(this.URL + 'Salaries/ApproveMonthlySalary?Year=' + year + '&Month=' + month, model);
   }
 
   //////////// Employee Dues //
 
   getEmployeeDues(employeeId: number, filter: SearchFilterModel): Observable<PagedResponseDTO<EmployeeDueModel[]>> {
-    return this.http.post<PagedResponseDTO<EmployeeDueModel[]>>(this.URL + `Attendance/GetEmployeeDues?EmployeeId=${employeeId}`, filter);
+    return this.http.post<PagedResponseDTO<EmployeeDueModel[]>>(this.URL + `Salaries/GetEmployeeDues?EmployeeId=${employeeId}`, filter);
   }
 
   getEmployeeDueStartDate(employeeId: number): Observable<string> {
-    return this.http.get<string>(this.URL + `Attendance/GetEmployeeDueStartDate?EmployeeId=${employeeId}`);
+    return this.http.get<string>(this.URL + `Salaries/GetEmployeeDueStartDate?EmployeeId=${employeeId}`);
   }
 
   calculateEmployeeDue(employeeId: number, model: EmployeeDueModel): Observable<EmployeeDueModel> {
-    return this.http.post<EmployeeDueModel>(this.URL + `Attendance/CalculateEmployeeDue?EmployeeId=${employeeId}`, model);
+    return this.http.post<EmployeeDueModel>(this.URL + `Salaries/CalculateEmployeeDue?EmployeeId=${employeeId}`, model);
   }
 
   saveEmployeeDue(employeeId: number, model: EmployeeDueModel): Observable<ActionsResponseModel> {
-    return this.http.post<ActionsResponseModel>(this.URL + `Attendance/SaveEmployeeDue?EmployeeId=${employeeId}`, model);
+    return this.http.post<ActionsResponseModel>(this.URL + `Salaries/SaveEmployeeDue?EmployeeId=${employeeId}`, model);
   }
 
 

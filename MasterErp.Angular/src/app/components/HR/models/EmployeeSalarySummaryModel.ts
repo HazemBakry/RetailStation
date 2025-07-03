@@ -1,11 +1,6 @@
 
 export interface EmployeeSalarySummaryModel {
     totalCount: number | null;
-
-}
-
-export interface EmployeeSalarySummaryModel {
-    totalCount: number | null;
     employeeId: number | null;
     employeeCode: string;
     bankAccountNumber: string;
