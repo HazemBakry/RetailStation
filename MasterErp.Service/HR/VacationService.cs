@@ -30,13 +30,15 @@ namespace MasterErp.Service.HR
         private readonly IConfiguration Configuration;
         private readonly ISQLHelper SQLHelper;
         private readonly ISharedService SharedService;
+        private readonly LookupsDbContext LookupsDbContext;
 
-        public VacationService(DBContext Context, ISQLHelper SQLHelper, ISharedService SharedService, IConfiguration Configuration)
+        public VacationService(DBContext Context, ISQLHelper SQLHelper, ISharedService SharedService, IConfiguration Configuration,LookupsDbContext lookupsDbContext)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
             this.SharedService = SharedService;
             this.Configuration = Configuration;
+            LookupsDbContext = lookupsDbContext;
             //ConnectionString = Configuration.GetConnectionString("DBConnection");
         }
 
@@ -57,6 +59,8 @@ namespace MasterErp.Service.HR
 
         public List<EmployeeVacationDto> GetVacationsByEmployeeId(int employeeId, SearchFilterModel SearchModel)
         {
+
+            var vacationTypes = LookupsDbContext.VacationTypes.ToList();
             var query = from vacation in Context.Vacations
                         join emp in Context.Employees on vacation.EmployeeId equals emp.EmployeeId
                         join branch in Context.Branches on emp.BranchId equals branch.BranchId
@@ -87,7 +91,14 @@ namespace MasterErp.Service.HR
             }
 
             var results = query.ToList();
-            results.ForEach(x => x.TotalCount = totalCount);
+            results.ForEach(x => {
+                x.TotalCount = totalCount;
+                var vType = vacationTypes.FirstOrDefault(y => y.VacationTypeId == x.VacationTypeId);
+                if (vType != null)
+                {
+                    x.VacationType = vType.NameAR ?? vType.NameEN;
+                }
+            });
             return results;
         }
         public ActionsResponseModel AddNewEmployeeVacation(int EmployeeId,EmployeeVacationDto model)

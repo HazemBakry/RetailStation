@@ -103,7 +103,7 @@ namespace MasterErp.Entities.Models
         public DbSet<SupplierGroup> SupplierGroups { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<Vacation> Vacations { get; set; }
-        public DbSet<VacationType> VacationTypes { get; set; }
+        
         public DbSet<Deduct> Deducts { get; set; }
         public DbSet<DeductType> DeductTypes { get; set; }
         public DbSet<EmployeeCareer> EmployeeCareers { get; set; }

@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common.Lookups;
+using MasterErp.Entities.Models.HR;
 using MasterErp.Entities.Models.Lookups;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -53,6 +54,7 @@ namespace MasterErp.Entities.Models
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<SponsorType> SponsorTypes { get; set; }
+        public DbSet<VacationType> VacationTypes { get; set; }
         public DbSet<EmployeeStatus> EmployeeStatus { get; set; }
 
     }

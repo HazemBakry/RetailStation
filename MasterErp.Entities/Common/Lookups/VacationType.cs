@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models.HR
+namespace MasterErp.Entities.Common.Lookups
 {
     [Table("VacationTypes", Schema = "HR")]
 
@@ -14,12 +14,6 @@ namespace MasterErp.Entities.Models.HR
         public int VacationTypeId { get; set; }
         public string NameEN { get; set; }
         public string NameAR { get; set; }
-        public bool IsActive { get; set; }
-        public string Code { get; set; }
-        public string Notes { get; set; }
-        public string InsertUser { get; set; }
-        public DateTime? InsertDate { get; set; }
-        public string UpdateUser { get; set; }
-        public DateTime? UpdateDate { get; set; }
+        public bool? IsActive  { get; set; }
     }
 }
