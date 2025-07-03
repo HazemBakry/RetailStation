@@ -1,4 +1,5 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { HrService } from '../../services/hr.service';
 
 @Component({
   selector: 'app-hr-dashboard',
@@ -8,9 +9,12 @@ import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular
 export class HrDashboardComponent implements OnInit {
   @ViewChild('chartBox') chartBox!: ElementRef<HTMLElement>;
   parentChartWidth!: number;
-  constructor() { }
+  HRStatistics: any;
+
+  constructor(private hrService: HrService) { }
 
   ngOnInit(): void {
+    this.getHRDashboardStatistics();
   }
   columnChartType = 'ColumnChart';
   columnChartData = [
@@ -59,5 +63,10 @@ export class HrDashboardComponent implements OnInit {
   ngAfterViewInit(): void {
     this.parentChartWidth =
       this.chartBox.nativeElement.getBoundingClientRect().width;
+  }
+  getHRDashboardStatistics() {
+    this.hrService.GetHRDashboardStatistics().subscribe(data => {
+      this.HRStatistics = data[0];
+    });
   }
 }

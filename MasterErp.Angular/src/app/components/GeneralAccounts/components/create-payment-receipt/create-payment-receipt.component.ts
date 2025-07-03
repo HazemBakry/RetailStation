@@ -194,6 +194,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
       fromAccountId: receiptModel.fromAccountId,
       supplierId: receiptModel.supplierId,
       employeeId: receiptModel.employeeId,
+      description: receiptModel.description
     });
   }
 
@@ -214,11 +215,6 @@ export class CreatePaymentReceiptComponent implements OnInit {
     }, () => {
       this.showLoader = false;
     });
-  }
-
-
-  getReceiptDetailsById(receiptId: number) {
-
   }
 
   getPaymentReceiptDetailsById() {
@@ -286,15 +282,15 @@ export class CreatePaymentReceiptComponent implements OnInit {
     else
       this.addNewPaymentReceipt();
   }
+
   addNewPaymentReceipt() {
-
-
     this.paymentService.AddNewPaymentReceipt(this.paymentReceiptModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.paymentReceiptModel.orderNumber = data.number;
         if (data.id) {
           this.paymentReceiptId = data.id;
-          this.goToPage(this.paymentReceiptId);
+          //this.goToPage(this.paymentReceiptId);
+          this.router.navigateByUrl('/general-accounts/payment-receipts')
         }
         this.formGroup.patchValue({ receiptNumber: data.number });
         // this.formGroup?.reset();
@@ -319,7 +315,9 @@ export class CreatePaymentReceiptComponent implements OnInit {
         this.formGroup?.reset();
         this.initNewForm();
         this.toaster.success(data?.message);
-        this.getPaymentReceiptDetailsById();
+        this.router.navigateByUrl('/general-accounts/payment-receipts')
+
+        //this.getPaymentReceiptDetailsById();
       }
       else {
         this.toaster.error(data?.message);

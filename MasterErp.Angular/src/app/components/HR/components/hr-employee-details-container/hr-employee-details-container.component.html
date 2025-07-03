@@ -33,7 +33,7 @@
                 </div>
             </div>
         </ng-container>
-        <div class="employee-card-content card-shadow bg-light border mb-3">
+        <div style="background-color: var(--nw_background_color);" class="employee-card-content card-shadow border mb-3">
             <div class="employee-card-tabs d-flex mb-5">
                 <div class="employee-tab-item" routerLink="./basic-info" routerLinkActive="active" [queryParams]="queryParams">
                     <i class="uil uil-user"></i>
@@ -48,7 +48,7 @@
                         <i class="uil uil-user"></i>
                         <span>بيانات العقد</span>
                     </div>
-                    <div *ngIf="employeeBasicInfoModel?.contractId" class="employee-tab-item" routerLink="./contract-salary" routerLinkActive="active" [queryParams]="queryParams">
+                    <div class="employee-tab-item" routerLink="./contract-salary" routerLinkActive="active" [queryParams]="queryParams">
                         <i class="uil uil-user"></i>
                         <span>بيانات الراتب</span>
                     </div>

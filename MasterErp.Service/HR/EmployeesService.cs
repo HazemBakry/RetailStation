@@ -288,7 +288,7 @@ namespace MasterErp.Service.HR
                 return Task.FromResult(new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message });
             }
         }
-        public Task<ActionsResponseModel> SaveEmployeeContractDetailsData(int EmployeeId,int ContractId , EmployeeContractDetailsDto model)
+        public Task<ActionsResponseModel> SaveEmployeeContractDetailsData(int EmployeeId, int ContractId, EmployeeContractDetailsDto model)
         {
             try
             {
@@ -505,8 +505,8 @@ namespace MasterErp.Service.HR
             if (employee is not null)
             {
 
-               
-                 int? ContractId = Context.Contracts.Where(x => x.EmployeeId == employeeId)?.OrderByDescending(x => x.StartDate).FirstOrDefault()?.ContractId;
+
+                int? ContractId = Context.Contracts.Where(x => x.EmployeeId == employeeId)?.OrderByDescending(x => x.StartDate).FirstOrDefault()?.ContractId;
                 return new EmployeeDto
                 {
 
@@ -696,6 +696,16 @@ namespace MasterErp.Service.HR
             Params[1].Value = BranchId.Select(x => new LstInt_TableType { ID = x }).ToList().ToDataTable(); ;
 
             var result = SQLHelper.SQLQuery<EmployeeSalaryDto>("[HR].[SP_GetEmployeesSalaryByBranch]", null, Params);
+            return result;
+        }
+
+
+        public DataTable GetHRDashboardStatistics()
+        {
+            SqlParameter[] Params = new SqlParameter[0];
+            //Params[0] = new SqlParameter("@ExecutionDate", ExecutionDate);
+
+            var result = SQLHelper.ExecuteDataTable("[HR].[SP_GetHRDashboardStatistics]", Params, null);
             return result;
         }
 

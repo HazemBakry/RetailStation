@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -195,6 +196,14 @@ namespace MasterErp.API.Controllers.HR
         public List<EmployeeSalaryDto> GetEmployeesSalaryByBranch(List<int> BranchId, DateTime ExecutionDate)
         {
             return _employeeService.GetEmployeesSalaryByBranch(BranchId, ExecutionDate);
+        }
+
+        [HttpGet]
+        [Route("GetHRDashboardStatistics")]
+        public IActionResult GetHRDashboardStatistics()
+        {
+            var result = _employeeService.GetHRDashboardStatistics();
+            return Ok(result);
         }
 
         //[HttpPost]
