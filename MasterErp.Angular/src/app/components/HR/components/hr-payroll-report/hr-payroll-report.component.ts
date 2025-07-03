@@ -124,14 +124,15 @@ export class HRPayrollReportComponent implements OnInit {
     }
     return selectedItems.map(i => Number(i.actionId));
   }
-  openSaveModal(content: any) {
+  openSaveModal(content: any,isApprove:boolean=true) {
     let rowsId = this.getSelectedRows();
     if (!rowsId?.length)
       return;
+     this.isApprove=isApprove;
     this.modalService.open(content, { centered: true, size: 'md' });
   }
   approve() {
-
+   
     let rowsId = this.getSelectedRows();
     if (!rowsId?.length)
       return;

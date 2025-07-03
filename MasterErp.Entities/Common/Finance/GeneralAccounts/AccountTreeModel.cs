@@ -27,6 +27,7 @@ namespace MasterErp.Entities.Common.Finance.GeneralAccounts
         public double? PreDebit { get; set; }
 
         public bool IsSelected { get; set; }
+        public bool IsSearchResult { get; set; }
         public bool IsActive { get; set; }
         public bool IsGroup { get; set; }
         public bool IsReadOnly { get; set; }

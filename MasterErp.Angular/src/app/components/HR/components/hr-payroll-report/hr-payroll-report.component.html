@@ -49,6 +49,11 @@
                 <i class="fas fa-plus-circle"></i>
                 <span>Approve</span>
             </button>
+            <button *ngIf="pagedResponseModel.results.length" (click)="openSaveModal(saveDialog,false)"
+                class="btn btn-danger d-flex align-items-center gap-2 border rounded px-3">
+                <i class="fas fa-plus-circle"></i>
+                <span>Reject</span>
+            </button>
         </div>
         <div class="justify-content-end">
             <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
@@ -113,7 +118,7 @@
         <div class="d-flex gap-3">
             <div class="mt-2">رفض</div>
             <div class="form-check form-switch my-2">
-                <input [(ngModel)]="isApprove" class="form-check-input" type="checkbox" role="switch">
+                <input [(ngModel)]="isApprove" disabled class="form-check-input" type="checkbox" role="switch">
             </div>
             <div class="mt-2">قبول</div>
         </div>

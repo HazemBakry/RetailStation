@@ -56,6 +56,8 @@ export class EmployeeService {
   GetEmployeeAttachmentsById(employeeId:number) {
     return this.http.get<EmployeeAttachmentModel>(this.URL + `Employee/GetEmployeeAttachmentsById?EmployeeId=${employeeId}`);
   }
-
+  ChangeEmployeeStatus(employeeId: number, statusId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `Employee/ChangeEmployeeStatus?EmployeeId=${employeeId}&StatusId=${statusId}`);
+  }
 
 }

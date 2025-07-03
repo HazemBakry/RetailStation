@@ -179,6 +179,13 @@ namespace MasterErp.API.Controllers.Shared
             return Ok(results);
         }
         [HttpGet]
+        [Route("GetEmployeeStatusSelector")]
+        public IActionResult GetEmployeeStatusSelector()
+        {
+            var results = lookupService.GetEmployeeStatusSelector();
+            return Ok(results);
+        }
+        [HttpGet]
         [Route("GetEmployeeDueTypesSelector")]
         public IActionResult GetEmployeeDueTypesSelector()
         {

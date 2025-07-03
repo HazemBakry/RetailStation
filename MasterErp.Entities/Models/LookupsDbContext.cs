@@ -53,6 +53,7 @@ namespace MasterErp.Entities.Models
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<SponsorType> SponsorTypes { get; set; }
+        public DbSet<EmployeeStatus> EmployeeStatus { get; set; }
 
     }
 }

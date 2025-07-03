@@ -20,6 +20,7 @@ namespace MasterErp.Interface.HR
         Task<ActionsResponseModel> SaveEmployeeContractDetailsData(int EmployeeId, int ContractId, EmployeeContractDetailsDto model);
         Task<ActionsResponseModel> SaveEmployeeVerificationData(int EmployeeId, EmployeeVerificationDto model);
         Task<ActionsResponseModel> SaveEmployeeAttachments(int EmployeeId, EmployeeAttachmentDto model);
+        Task<ActionsResponseModel> ChangeEmployeeStatus(int EmployeeId, int StatusId);
         #endregion
 
         #region GetEmployee

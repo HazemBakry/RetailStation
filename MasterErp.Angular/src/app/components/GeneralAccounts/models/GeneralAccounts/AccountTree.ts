@@ -5,6 +5,7 @@ export interface AccountTreeModel {
     isReadOnly: boolean;
     isGroup: boolean;
     isSelected: boolean;
+    isSearchResult: boolean;
     accountLevel: number | null;
     accountTypeId: number | null;
     currencyTypeId: number | null;

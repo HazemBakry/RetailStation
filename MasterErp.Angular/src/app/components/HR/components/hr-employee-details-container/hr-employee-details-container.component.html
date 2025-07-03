@@ -8,10 +8,17 @@
                     <img [src]="employeeBasicInfoModel.image" (error)="$event.target.src = defaultImage" class="emp-img" alt="default-image" loading="lazy" />
                 </div>
                 <div class="employee-info">
-                    <h3 class="mb-2 d-flex align-items-center">
-                        <span class="fw-bold me-2">{{employeeBasicInfoModel.fullNameAR}}</span>
-                        <span class="tag active fs-6 rounded shadow-sm px-2 py-1">نشط</span>
-                    </h3>
+                    <div class="d-flex gap-2">
+                        <h3 class="mb-2 d-flex align-items-center">
+                            <span class="fw-bold me-2">{{employeeBasicInfoModel.fullNameAR}}</span>
+                    
+                            <!-- <span class="tag active fs-6 rounded shadow-sm px-2 py-1">نشط</span> -->
+                        </h3>
+                        <app-status-selector *ngIf="employeeBasicInfoModel?.employeeId" [selectedStatusId]="employeeBasicInfoModel?.statusId"
+                            (statusSelected)="onStatusChanged($event)" [statusList]="employeeStatusSelector">
+                        </app-status-selector>
+                    </div>
+                    
                     <!-- <div class="d-flex align-items-center fs-5 mb-1">
                         <i class="uil uil-postcard main-color"></i>
                         <span class="ms-2">المدير العام</span>

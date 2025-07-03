@@ -239,7 +239,7 @@ namespace MasterErp.Service.GeneralAccounts
                     acc.AccountLevel = parentAcc.AccountLevel + 1;
                     if (acc.IsSelected)
                     {
-
+                        acc.IsSearchResult = true;
                         UpdateParentSelection(parentAcc, accsById);
                         //parentAcc.IsSelected = true;
                     }

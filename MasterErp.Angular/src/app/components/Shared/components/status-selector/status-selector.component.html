@@ -1,0 +1,20 @@
+<span ngbPopover #statusPop="ngbPopover" [popoverTitle]="'تغير الحالة'" [autoClose]="'outside'"
+    [popoverClass]="'popover-wide  p-0 m-0'" [ngbPopover]="statusListTemplate" triggers="click">
+
+    <span class="cursor-pointer" appWorkflowStatus [id]="selectedStatusId" [nameEN]="selectedStatus?.name"
+         [type]="type">
+    </span>
+
+</span>
+
+<ng-template #statusListTemplate>
+    <ul class="list-group list-group-flush">
+        <li *ngFor="let status of statusList" class="list-group-item list-group-item-action"
+            [ngClass]="{'active': status.value == selectedStatusId}" (click)="selectStatus(status); statusPop.close()">
+
+            <span class="cursor-pointer" appWorkflowStatus [id]="status.value" [nameEN]="status.name"
+                [nameAR]="status.name" [type]="type">
+            </span>
+        </li>
+    </ul>
+</ng-template>

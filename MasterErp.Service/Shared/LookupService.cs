@@ -219,7 +219,14 @@ namespace MasterErp.Service.Shared
             return result;
         }
 
-
+        public List<SelectorDataModel> GetEmployeeStatusSelector()
+        {
+            return LookupsContext.EmployeeStatus.Select(x => new SelectorDataModel
+            {
+                Id = x.EmployeeStatusId,
+                Name = x.StatusNameAR ?? x.StatusNameEN
+            }).ToList();
+        }
 
         #endregion
     }

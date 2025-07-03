@@ -87,7 +87,13 @@ namespace MasterErp.API.Controllers.HR
             var result = await _employeeService.SaveEmployeeAttachments(EmployeeId, model);
             return Ok(result);
         }
-
+        [HttpGet]
+        [Route("ChangeEmployeeStatus")]
+        public async Task<IActionResult> ChangeEmployeeStatus(int EmployeeId, int StatusId)
+        {
+            var result = await _employeeService.ChangeEmployeeStatus(EmployeeId, StatusId);
+            return Ok(result);
+        }
         #endregion
 
         #region GetEmployee

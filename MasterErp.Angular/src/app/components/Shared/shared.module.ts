@@ -55,6 +55,7 @@ import { GoToAccountReportDirective } from './directives/go-to-account-report.di
 import { NextPreviousComponent } from './components/tools/next-previous/next-previous.component';
 import { ERPSidebarComponent } from './components/erp-sidebar/erp-sidebar.component';
 import { GoogleChartsModule } from 'angular-google-charts';
+import { StatusSelectorComponent } from './components/status-selector/status-selector.component';
 
 @NgModule({
   declarations: [
@@ -104,7 +105,8 @@ import { GoogleChartsModule } from 'angular-google-charts';
     MaterialRequestsSidePanelComponent,
     GoToAccountReportDirective,
     NextPreviousComponent,
-    ERPSidebarComponent
+    ERPSidebarComponent,
+    StatusSelectorComponent
   ],
 
   imports: [
@@ -135,6 +137,7 @@ import { GoogleChartsModule } from 'angular-google-charts';
     AccountsTreeComponent,
     CostCentersTreeComponent,
     NgxLoadingModule,
+    NgbModule,
     SearchArryPipe,
     ErpSpinnerComponentComponent,
     ErpSelectorComponent,
@@ -172,7 +175,8 @@ import { GoogleChartsModule } from 'angular-google-charts';
     GoToAccountReportDirective,
     NextPreviousComponent,
     ERPSidebarComponent,
-    GoogleChartsModule
+    GoogleChartsModule,
+    StatusSelectorComponent
 
   ],
   providers: [

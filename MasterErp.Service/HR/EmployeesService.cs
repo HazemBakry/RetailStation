@@ -471,6 +471,29 @@ namespace MasterErp.Service.HR
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
         }
+        
+        public async Task<ActionsResponseModel> ChangeEmployeeStatus(int employeeId, int StatusId)
+        {
+            try
+            {
+                // Validate Employee Existence
+                var employee = Context.Employees.FirstOrDefault(e => e.EmployeeId == employeeId);
+                if (employee == null)
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Invalid Employee." };
+                }
+                employee.StatusId = StatusId;
+
+                // Save changes to the database
+                await Context.SaveChangesAsync();
+
+                return new ActionsResponseModel { IsSuccess = true, Message = "Employee status changed successfully." };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
 
         #endregion
 
