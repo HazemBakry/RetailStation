@@ -61,8 +61,8 @@ export class GeneralSelectorComponent implements OnInit {
   }
   writeValue(value: any): void {
     if (this.selectMulti) {
-      if (value)
-        this.selectedValues = value;
+      //if (value)
+        this.selectedValues = value ?? [];
 
       this.data.map(x => x.isSelected = false);
       var items = this.data?.filter(x => value?.includes(x.value));
@@ -77,8 +77,8 @@ export class GeneralSelectorComponent implements OnInit {
     else {
       var sName = this.data?.find(x => x.value === value)?.name;
 
-      if (value)
-        this.selectedValue = value;
+      //if (value)
+        this.selectedValue = value ?? null;
       if (sName)
         this.selectedName = sName;
       else
