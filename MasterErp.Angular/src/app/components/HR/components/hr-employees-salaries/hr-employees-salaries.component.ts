@@ -33,6 +33,7 @@ export class HrEmployeesSalariesComponent implements OnInit {
   }));
   filterList: FilterModel[] = [];
   showLoader: boolean = false;
+  showExportLoader: boolean = false;
   showAddLoader: boolean = false;
 
   selectedYear: number;
@@ -100,7 +101,26 @@ export class HrEmployeesSalariesComponent implements OnInit {
       this.showLoader = false;
     });
   }
-
+  exportData() {
+    this.mapFilters();
+    if (!this.selectedYear || !this.selectedMonth) {
+      this.toaster.error('يرجى تحديد السنة والشهر');
+      return;
+    }
+    this.showExportLoader = true;
+    this.hrService.GetEmployeeSalarySummary_Export(this.selectedYear, this.selectedMonth, this.pagedResponseModel).subscribe(data => {
+      if (data.isSuccess) {
+        this.sharedService.urlDownloadOrOpen(data.url);
+        this.toaster.success(data.message);
+      } else {
+        this.toaster.error(data.message);
+      }
+    }, err => {
+      this.showExportLoader = false;
+    }, () => {
+      this.showExportLoader = false;
+    });
+  }
   mapFilters() {
     this.pagedResponseModel.filterList = [];
     if (this.selectedEmployeeId) {

@@ -42,6 +42,14 @@ namespace MasterErp.API.Controllers.HR
 
             };
             return Ok(result);
+        }         
+        [HttpPost]
+        [Route("GetEmployeeSalarySummary_Export")]
+        public IActionResult GetEmployeeSalarySummary_Export(int Year, int Month, SearchFilterModel SearchModel)
+        {
+            var result = _salariesService.GetEmployeeSalarySummary_Export(Year, Month, SearchModel);
+            
+            return Ok(result);
         } 
         [HttpPost]
         [Route("ApproveMonthlySalary")]

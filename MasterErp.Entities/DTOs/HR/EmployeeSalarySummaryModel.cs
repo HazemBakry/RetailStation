@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,6 +56,83 @@ namespace MasterErp.Entities.DTOs.HR
 
         public int? TotalWorkingDays { get; set; } = 0;
 
+    }
+    public class EmployeeSalarySummaryExportModel
+    {
+        [JsonProperty("Employee Code")]
+        public string EmployeeCode { get; set; }
+
+        [JsonProperty("Employee Name")]
+        public string EmployeeName { get; set; }
+
+        [JsonProperty("Branch")]
+        public string BranchName { get; set; }
+
+        [JsonProperty("Job Title")]
+        public string JobTitle { get; set; }
+
+        [JsonProperty("Bank Account")]
+        public string BankAccountNumber { get; set; }
+
+        [JsonProperty("Bank Name")]
+        public string Bank { get; set; }
+
+        [JsonProperty("Basic Salary")]
+        public double? BasicSalary { get; set; }
+
+        [JsonProperty("Extra Salary")]
+        public double? ExtraSalary { get; set; }
+
+        [JsonProperty("Transportation")]
+        public double? Transportation { get; set; }
+
+        [JsonProperty("Housing Allowance")]
+        public double? HousingAllowance { get; set; }
+
+        [JsonProperty("Mobile Allowance")]
+        public double? MobileAllowance { get; set; }
+
+        [JsonProperty("Work Nature")]
+        public double? WorkNature { get; set; }
+
+        [JsonProperty("Meal Allowance")]
+        public double? MealAllowance { get; set; }
+
+        [JsonProperty("Other Allowance")]
+        public double? Other { get; set; }
+
+        [JsonProperty("Gross Salary")]
+        public double? GrossSalary { get; set; }
+
+        [JsonProperty("Deductions")]
+        public double? Deductions { get; set; }
+
+        [JsonProperty("Advances")]
+        public double? Advances { get; set; }
+
+        [JsonProperty("Penalties")]
+        public double? Penalties { get; set; }
+
+        [JsonProperty("Overtime")]
+        public double? Overtime { get; set; }
+
+        [JsonProperty("Net Salary")]
+        public decimal? NetSalary { get; set; }
+
+        [JsonProperty("Present Days")]
+        public int? PresentDays { get; set; }
+
+        [JsonProperty("Off Days")]
+        public int? OffDays { get; set; }
+
+        [JsonProperty("Sick Days")]
+        public int? SickDays { get; set; }
+
+        [JsonProperty("Absent Days")]
+        public int? AbsentDays { get; set; }
+
+        [JsonProperty("Total Working Days")]
+        public int? TotalWorkingDays { get; set; }
     }
 
 

@@ -220,6 +220,11 @@ export class HrService {
     month = month ?? new Date().getMonth() + 1;
     return this.http.post<PagedResponseDTO<EmployeeSalarySummaryModel[]>>(this.URL + 'Salaries/GetEmployeeSalarySummary?Year=' + year + '&Month=' + month, model);
   }
+  GetEmployeeSalarySummary_Export(year: number, month: number, model: PagedResponseDTO<EmployeeSalarySummaryModel[]>) {
+    year = year ?? new Date().getFullYear();
+    month = month ?? new Date().getMonth() + 1;
+    return this.http.post<ActionsResponseModel>(this.URL + 'Salaries/GetEmployeeSalarySummary_Export?Year=' + year + '&Month=' + month, model);
+  }
   ApproveMonthlySalary(year: number, month: number, model: PagedResponseDTO<EmployeeSalarySummaryModel[]>) {
     year = year ?? new Date().getFullYear();
     month = month ?? new Date().getMonth() + 1;

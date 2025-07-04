@@ -12,6 +12,7 @@ using System.Data;
 using System.Linq;
 using MasterErp.Entities.Common.Enums;
 using Microsoft.AspNetCore.Http.HttpResults;
+using MasterErp.Entities.Common.Export;
 
 
 namespace MasterErp.Service.HR
@@ -23,14 +24,16 @@ namespace MasterErp.Service.HR
         private readonly ISQLHelper SQLHelper;
         private readonly IEmployeeService _employeeService;
         private readonly IEmployeeAdvancesService _employeeAdvancesService;
+        private readonly IExportService _exportService;
 
-        public SalariesService(DBContext context, ISharedFilterService sharedFilterService, ISQLHelper sQLHelper, IEmployeeService employeeService, IEmployeeAdvancesService employeeAdvancesService)
+        public SalariesService(DBContext context, ISharedFilterService sharedFilterService, ISQLHelper sQLHelper, IEmployeeService employeeService, IEmployeeAdvancesService employeeAdvancesService, IExportService exportService)
         {
             Context = context;
             this.sharedFilterService = sharedFilterService;
             SQLHelper = sQLHelper;
             _employeeService = employeeService;
             _employeeAdvancesService = employeeAdvancesService;
+            _exportService = exportService;
         }
 
 
@@ -50,6 +53,79 @@ namespace MasterErp.Service.HR
 
             return result;
         }
+        public ActionsResponseModel GetEmployeeSalarySummary_Export(int Year, int Month, SearchFilterModel SearchModel)
+        {
+            string url = string.Empty;
+            try
+            {
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var Data = GetEmployeeSalarySummary(Year, Month, SearchModel);
+
+                var result = Data.Select(x => new EmployeeSalarySummaryExportModel
+                {
+                    EmployeeCode = x.EmployeeCode,
+                    EmployeeName = x.EmployeeNameAR ?? x.EmployeeNameEN,
+                    BranchName = x.BranchNameAR ?? x.BranchNameEN,
+                    JobTitle = x.JobNameAR ?? x.JobNameEN,
+                    BankAccountNumber = x.BankAccountNumber,
+                    Bank = x.Bank,
+                    BasicSalary = x.BasicSalary,
+                    ExtraSalary = x.ExtraSalary,
+                    Transportation = x.Transportation,
+                    HousingAllowance = x.HousingAllowance,
+                    MobileAllowance = x.MobileAllowance,
+                    WorkNature = x.WorkNature,
+                    MealAllowance = x.MealAllowance,
+                    Other = x.Other,
+                    GrossSalary = x.GrossSalary,
+                    Deductions = x.Deductions,
+                    Advances = x.Advances,
+                    Penalties = x.Penalties,
+                    Overtime = x.Overtime,
+                    NetSalary = x.NetSalary,
+                    PresentDays = x.PresentDays,
+                    OffDays = x.OffDays,
+                    SickDays = x.SickDays,
+                    AbsentDays = x.AbsentDays,
+                    TotalWorkingDays = x.TotalWorkingDays
+                }).ToList();
+
+
+                if (!result.Any())
+                {
+                    result.Add(new EmployeeSalarySummaryExportModel());
+
+                }
+
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "Employee Salary");
+
+
+                url = GetExportUrl(dtExport, "Employee Salary");
+
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+
+        }
+
 
         #region Employee Dues
         public List<EmployeeDueModel> GetEmployeeDues(int EmployeeId, SearchFilterModel SearchModel)
@@ -360,6 +436,23 @@ namespace MasterErp.Service.HR
                 CreatedBy = createdBy,
                 CreatedDate = DateTime.Now
             };
+        }
+
+        private string GetExportUrl(DataTable DT, string Name)
+        {
+            DT.TableName = Name;
+
+            ExportTemplateBase exportTemplateBase = new ExportTemplateBase
+            {
+                Name = Name,
+                Username = "",
+                TemplateName = Name,
+                ReportName = Name,
+                CustomerName = "",
+                ExcelStyle = ExcelExportStyle.reportStyle,
+                SheetName = "Data",
+            };
+            return _exportService.Export(exportTemplateBase, DT);
         }
 
     }

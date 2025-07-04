@@ -14,6 +14,7 @@ namespace MasterErp.Interface.HR
     {
 
         List<EmployeeSalarySummaryModel> GetEmployeeSalarySummary(int Year, int Month, SearchFilterModel SearchModel);
+        ActionsResponseModel GetEmployeeSalarySummary_Export(int Year, int Month, SearchFilterModel SearchModel);
         ActionsResponseModel ApproveMonthlySalary(int year, int month, SearchFilterModel searchModel);
 
         #region Employee Dues
