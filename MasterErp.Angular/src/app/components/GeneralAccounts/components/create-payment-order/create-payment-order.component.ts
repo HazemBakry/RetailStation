@@ -17,6 +17,7 @@ import { FinanceWorkflowStatus, HRWorkflowStatus } from 'src/app/components/Shar
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HrService } from 'src/app/components/HR/services/hr.service';
 import { EmployeeAdvanceModel } from 'src/app/components/HR/models/EmployeeAdvanceModel';
+import { AccountTypeEnum } from 'src/app/components/Shared/Enums/AccountTypeEnum';
 
 @Component({
   selector: 'app-create-payment-order',
@@ -94,9 +95,7 @@ export class CreatePaymentOrderComponent implements OnInit {
       this.supplierList = data;
     });
 
-    this.sharedService.GetAccountsSelector(false).subscribe(data => {
-      this.accountList = data;
-    });
+    this.getAccountsByType();
 
     this.lookupService.GetPaymentTypes().subscribe(data => {
       this.paymentTypeList = data;
@@ -107,7 +106,11 @@ export class CreatePaymentOrderComponent implements OnInit {
     this.agencyTypeList = this.paymentService.agencyTypeList.filter(x => x.value != 3);
     //this.paymentTypeList = this.paymentService.paymentTypeList;
   }
-
+  getAccountsByType(accountTypeId: AccountTypeEnum = null) {
+    this.sharedService.GetAccountsSelector(false,accountTypeId).subscribe(data => {
+      this.accountList = data;
+    });
+  }
   initNewForm(receiptModel: ReceiptModel = null) {
     this.isUpdate = false;
     this.buildForm();
@@ -204,6 +207,7 @@ export class CreatePaymentOrderComponent implements OnInit {
           supplierId: this.purchaseInvoiceModel.supplierId,
         });
         this.formGroup?.get('moneyAmount')?.disable();
+        this.getSelectedAgencyType(2);
       } else {
         this.purchaseInvoiceId = null;
         this.toaster.error("لا يمكن انشاء أمر صرف على فاتورة تم دفعها أو ملغية");
@@ -227,8 +231,7 @@ export class CreatePaymentOrderComponent implements OnInit {
           employeeAdvanceId: this.employeeAdvanceId
         });
         this.formGroup?.get('moneyAmount')?.disable();
-        console.log("this.formGroup", this.formGroup);
-
+        this.getSelectedAgencyType(4);
       } else {
         this.employeeAdvanceId = null;
         this.toaster.error("لا يمكن انشاء أمر صرف على سلفة غير مقبولة");
@@ -253,10 +256,20 @@ export class CreatePaymentOrderComponent implements OnInit {
     }
   }
 
-  getSelectedAgencyType(accountType) {
-    debugger
-    this.selectedAgencyType = accountType;
-    this.receiptModel.agencyTypeId = accountType;
+  getSelectedAgencyType(agencyTypeId) {
+    if (agencyTypeId == 2)
+      this.getAccountsByType(AccountTypeEnum.GeneralSuppliers);
+    else if (agencyTypeId == 4)
+      this.getAccountsByType(AccountTypeEnum.EmployeeWages);
+    else
+      this.getAccountsByType();
+    this.selectedAgencyType = agencyTypeId;
+    this.receiptModel.agencyTypeId = agencyTypeId;
+    this.formGroup?.patchValue({
+      employeeId: null,
+      accountId: null,
+      supplierId: null,
+    });
   }
 
   savePaymentOrder() {

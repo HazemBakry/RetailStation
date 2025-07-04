@@ -8,6 +8,7 @@ import { ActionsResponseModel } from '../models/ActionsResponseModel';
 import { FormControl, FormGroup } from '@angular/forms';
 import { GeneralSelectorModel } from '../components/general-selector/general-selector.component';
 import { FinancialPeriodModel } from '../../GeneralAccounts/models/FinancialPeriodModel';
+import { AccountTypeEnum } from '../Enums/AccountTypeEnum';
 
 @Injectable({
   providedIn: 'root'
@@ -120,9 +121,23 @@ export class SharedService {
   // GetAccountsSelector(IsGroup: boolean = false) {
   //   return this.http.get<any[]>(this.URL + 'Shared/GetAccountsSelector?IsGroup=' + IsGroup);
   // }
-  GetAccountsSelector(IsGroup: boolean = null) {
-    const param = IsGroup !== null ? `?IsGroup=${IsGroup}` : '';
-    return this.http.get<any[]>(this.URL + 'Shared/GetAccountsSelector' + param);
+  // GetAccountsSelector(IsGroup: boolean = null,accountTypeId:number=null) {
+  //   const param = IsGroup !== null ? `?IsGroup=${IsGroup}` : '';
+
+  //   return this.http.get<any[]>(this.URL + 'Shared/GetAccountsSelector' + param);
+  // }
+  GetAccountsSelector(IsGroup: boolean = null, accountTypeId: AccountTypeEnum = null) {
+    const params = new URLSearchParams();
+
+    if (IsGroup !== null) {
+      params.append('IsGroup', IsGroup.toString());
+    }
+    if (accountTypeId !== null) {
+      params.append('AccountTypeId', accountTypeId.toString());
+    }
+
+    const queryString = params.toString();
+    return this.http.get<any[]>(this.URL + 'Shared/GetAccountsSelector' + (queryString ? `?${queryString}` : ''));
   }
   GetCostCenterSelector(IsParent: boolean = false) {
     return this.http.get<any[]>(this.URL + 'Shared/GetCostCenterSelector?IsParent=' + IsParent);

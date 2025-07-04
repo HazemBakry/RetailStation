@@ -47,9 +47,9 @@ namespace MasterErp.API.Controllers.Shared
 
         [HttpGet]
         [Route("GetAccountsSelector")]
-        public List<SelectorDataModel> GetAccountsSelector(bool? IsGroup)
+        public List<SelectorDataModel> GetAccountsSelector(bool? IsGroup,int? AccountTypeId)
         {
-            return _sharedService.GetAccountsSelector(IsGroup);
+            return _sharedService.GetAccountsSelector(IsGroup,AccountTypeId);
         }
         [HttpGet]
         [Route("GetAccountsByTypeId")]

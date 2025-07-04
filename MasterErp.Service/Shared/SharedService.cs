@@ -5,6 +5,7 @@ using MasterErp.Entities.Models;
 using MasterErp.Entities.Models.Finance;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Shared;
+using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -123,9 +124,9 @@ namespace MasterErp.Service.Shared
             return results;
         }
 
-        public List<SelectorDataModel> GetAccountsSelector(bool? IsGroup)
+        public List<SelectorDataModel> GetAccountsSelector(bool? IsGroup, int? AccountTypeId)
         {
-            var result = Context.AccountTrees.Where(x => IsGroup == null || x.IsGroup == IsGroup).Select(a => new SelectorDataModel
+            var result = Context.AccountTrees.Where(x => (IsGroup == null || x.IsGroup == IsGroup) && (AccountTypeId ==null || x.AccountTypeId == AccountTypeId)).Select(a => new SelectorDataModel
             {
                 Id = a.AccountId,
                 Name = a.NameAR,
