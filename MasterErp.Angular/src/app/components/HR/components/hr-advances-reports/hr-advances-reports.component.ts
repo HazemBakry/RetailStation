@@ -45,6 +45,7 @@ export class HrAdvancesReportsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadSelectors();
+    this.onSearch();
   }
 
 
