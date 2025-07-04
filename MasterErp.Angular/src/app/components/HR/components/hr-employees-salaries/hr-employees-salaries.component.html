@@ -147,50 +147,50 @@
                         <td>{{item.bank}}</td>
                         <td>{{item.jobNameEN ?? item.jobNameAR}}</td>
 
-                        <td>{{item.basicSalary}}</td>
-                        <td>{{item.extraSalary}}</td>
-                        <td>{{item.transportation}}</td>
-                        <td>{{item.workNature}}</td>
-                        <td>{{item.mealAllowance}}</td>
-                        <td>{{item.housingAllowance}}</td>
-                        <td>{{item.overtime}}</td>
-                        <td>{{item.mobileAllowance}}</td>
-                        <td>{{item.other}}</td>
-                        <td>{{item.other2}}</td>
-                        <td>{{item.grossSalary}}</td>
+                        <td>{{item.basicSalary ?? 0}}</td>
+                        <td>{{item.extraSalary ?? 0 }}</td>
+                        <td>{{item.transportation ?? 0 }}</td>
+                        <td>{{item.workNature ?? 0 }}</td>
+                        <td>{{item.mealAllowance ?? 0 }}</td>
+                        <td>{{item.housingAllowance ?? 0 }}</td>
+                        <td>{{item.overtime ?? 0 }}</td>
+                        <td>{{item.mobileAllowance ?? 0 }}</td>
+                        <td>{{item.other ?? 0 }}</td>
+                        <td>{{item.other2 ?? 0 }}</td>
+                        <td>{{item.grossSalary ?? 0 }}</td>
 
                         <td>
-                            {{item.totalWorkingDays}}
+                            {{item.totalWorkingDays ?? 0 }}
                         </td>
                         <td>
-                            {{item.dailySalary}}
+                            {{item.dailySalary ?? 0 }}
                         </td>
                         <td>
-                            {{item.netSalary}}
+                            {{item.netSalary ?? 0 }}
                         </td>
                         <td>
-                            {{item.insurance}}
+                            {{item.insurance ?? 0 }}
                         </td>
                         <td>
-                            {{item.absentDays * item.dailySalary}}
+                            {{item.absentDays * item.dailySalary ?? 0 }}
                         </td>
                         <td>
-                            {{item.penalties}}
+                            {{item.penalties ?? 0 }}
                         </td>
                         <td>
-                            {{item.advances}}
+                            {{item.advances ?? 0 }}
                         </td>
                         <td>
-                            {{item.sickDays * item.dailySalary}}
+                            {{item.sickDays * item.dailySalary ?? 0 }}
                         </td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>{{item.totalDeductions}}</td>
+                        <td>{{item.totalDeductions ?? 0 }}</td>
 
-                        <td>{{item.netSalary}}</td>
-                        <td>{{item.visaPayment}}</td>
-                        <td>{{item.cashPayment}}</td>
+                        <td>{{item.netSalary ?? 0 }}</td>
+                        <td>{{item.visaPayment ?? 0 }}</td>
+                        <td>{{item.cashPayment ?? 0 }}</td>
 
                         <td>
 
