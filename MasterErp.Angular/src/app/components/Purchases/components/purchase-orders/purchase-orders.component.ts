@@ -20,7 +20,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 
 export class PurchaseOrdersComponent implements OnInit {
-  TitleList = ['المشتريات', 'أوامر المشتريات'];
+  TitleList = ['المشتريات', 'أوامر الشراء'];
   showLoader: boolean;
   TotalCount: any;
   TotalPages: any;

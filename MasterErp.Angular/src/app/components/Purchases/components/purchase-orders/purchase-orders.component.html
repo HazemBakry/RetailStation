@@ -1,13 +1,11 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div
-        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3"
-                routerLink="/purchases/add-purchase-order">
+            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3" routerLink="/purchases/add-purchase-order">
                 <i class="fas fa-plus-circle"></i>
-                <span>إنشاء طلب شراء</span>
+                <span>إنشاء أمر شراء</span>
             </button>
             <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
                 <i class="fas fa-filter"></i>
@@ -15,9 +13,7 @@
             </button>
         </div>
         <div class="justify-content-end">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
-                [pageSize]="pagedResponseModel.pageSize"
-                [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
         </div>
     </div>
     <div class="p-3 bg-white">
@@ -48,8 +44,7 @@
                         <td>{{item.orderTypeName}}</td>
                         <td>{{item.totalValue}}</td>
                         <td>
-                            <span class="badge rounded-pill default p-2 text-uppercase px-3"
-                                [ngClass]="getStatusColor(item.isLocked)">
+                            <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
                                 {{item.orderStatus}}
                             </span>
                         </td>
@@ -61,17 +56,13 @@
                                     </button>
                                     <div ngbDropdownMenu class="border">
                                         <button ngbDropdownItem (click)="showOrderDetails(item)">تفاصيل</button>
-                                        <button ngbDropdownItem routerLink="/purchases/add-purchase-order"
-                                            [queryParams]="{PurchaseOrderId:item.purchaseOrderId}">
+                                        <button ngbDropdownItem routerLink="/purchases/add-purchase-order" [queryParams]="{PurchaseOrderId:item.purchaseOrderId}">
                                             تعديل
                                         </button>
-                                        <button *ngIf="item.purchaseOrderId" ngbDropdownItem
-                                            routerLink="/inventory/add-material-receipt"
-                                            [queryParams]="{PurchaseOrderId:item.purchaseOrderId}">
+                                        <button *ngIf="item.purchaseOrderId" ngbDropdownItem routerLink="/inventory/add-material-receipt" [queryParams]="{PurchaseOrderId:item.purchaseOrderId}">
                                             انشاء أذن أضافة
                                         </button>
-                                        <button ngbDropdownItem
-                                            (click)="openDeleteModal(deleteDialog,item.purchaseOrderId)">الغاء</button>
+                                        <button ngbDropdownItem (click)="openDeleteModal(deleteDialog,item.purchaseOrderId)">الغاء</button>
 
                                     </div>
                                 </div>
