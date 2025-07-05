@@ -285,7 +285,14 @@ namespace MasterErp.API.Controllers.Inventory
             };
             return Ok(result);
         }
+        [HttpPost]
+        [Route("GetMaterialRequests_Filters")]
+        public IActionResult GetMaterialRequests_Filters(SearchFilterModel PagingFilter)
+        {
+            var result = _inventoryService.GetMaterialRequests_Filters(PagingFilter);
 
+            return Ok(result);
+        }
         [HttpGet]
         [Route("GetMaterialRequestDetailsById")]
         public IActionResult GetMaterialRequestDetailsById(int MaterialRequestId)

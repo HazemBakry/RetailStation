@@ -10,6 +10,7 @@ import { FieldType } from 'src/app/components/Shared/Enums/FieldType';
 import { DataField } from 'src/app/components/Shared/models/DataField';
 import { OrderModel } from '../../models/inventory';
 import { GeneralOrderDetailsModel } from '../../models/GeneralOrderModel ';
+import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 @Component({
   selector: 'app-material-requests',
@@ -21,6 +22,7 @@ export class MaterialRequestsComponent implements OnInit {
   TitleList = ['المخازن', 'طلبات الشراء'];
   showLoader: boolean;
   materialRequestId: number;
+  filterList: FilterModel[] = [];
   pagedResponseModel:PagedResponseDTO<MaterialRequestModel[]>={
     results:[],
     filterList:[],
@@ -36,6 +38,7 @@ export class MaterialRequestsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPurchasesRequestsData();
+    this.loadFilters();
   }
 
   getPurchasesRequestsData() {
@@ -50,7 +53,22 @@ export class MaterialRequestsComponent implements OnInit {
       this.showLoader = false;
     })
   }
+loadFilters() {
+    // this.showLoader = true;
+    this.inventoryService.GetMaterialRequests_Filters(this.pagedResponseModel).subscribe(data => {
+      this.filterList = data;
 
+      // this.showLoader = false;
+    }, err => {
+      // this.showLoader = false;
+    }, () => {
+      // this.showLoader = false;
+    });
+  }
+    filterChecked(filterItems: FilterItem[]) {
+      this.pagedResponseModel.filterList = filterItems;
+      this.getPurchasesRequestsData();
+    }
   pageChanged(obj: any) {
     this.pagedResponseModel.currentPage = obj.page;
     this.getPurchasesRequestsData();

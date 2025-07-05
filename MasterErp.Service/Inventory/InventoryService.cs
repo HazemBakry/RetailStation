@@ -781,6 +781,20 @@ namespace MasterErp.Service.Inventory
             var result = SQLHelper.SQLQuery<MaterialRequestModel>("[Inventory].[SP_GetMaterialRequests_Data]", ConnectionString, Params);
             return result;
         }
+        public List<FilterModel> GetMaterialRequests_Filters(SearchFilterModel PagingFilter)
+        {
+            var FilterListDt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
+
+            SqlParameter[] Params = new SqlParameter[1];
+
+
+            Params[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[0].Value = FilterListDt;
+
+            var results = SQLHelper.SQLQuery<FilterItem>("[Inventory].[SP_GetMaterialRequests_Filters]", ConnectionString, Params);
+            return SharedFilterService.GroupedFilterItems(results);
+        }
+
         public MaterialRequestModel GetMaterialRequestDetailsById(int MaterialRequestId)
         {
             var result = GetMaterialRequests_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, MaterialRequestId)?.FirstOrDefault();

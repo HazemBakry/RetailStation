@@ -66,7 +66,19 @@ namespace MasterErp.Service.Purchase
             var result = SQLHelper.SQLQuery<PurchaseOrderModel>("[dbo].[SP_GetPurchaseOrders_Data]", ConnectionString, param);
             return result;
         }
+        public List<FilterModel> GetPurchaseOrders_Filters(SearchFilterModel PagingFilter)
+        {
+            var FilterListDt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
 
+            SqlParameter[] Params = new SqlParameter[1];
+
+
+            Params[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[0].Value = FilterListDt;
+
+            var results = SQLHelper.SQLQuery<FilterItem>("[dbo].[SP_GetPurchaseOrders_Filters]", ConnectionString, Params);
+            return SharedFilterService.GroupedFilterItems(results);
+        }
         public List<GeneralOrderDetailsModel> GetPurchaseOrderProducts_Data(int PurchaseOrderId)
         {
             var result = (from orderProduct in Context.PurchaseOrderDetails

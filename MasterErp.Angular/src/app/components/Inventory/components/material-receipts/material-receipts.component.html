@@ -23,6 +23,14 @@
             <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث برقم الفاتوره واسم المورد ...'"></app-erp-filters>
 
         </div> -->
+        <div class="col-md-12 mt-3">
+            <div class="d-flex align-items-center">
+                <ng-container>
+                    <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"
+                        [searchPlaceholder]="'بحث  ...'"></app-erp-filters>
+                </ng-container>
+            </div>
+        </div>
     </div>
     <div class="p-3 bg-white">
         <div class="table-responsive shadow-sm radius-10">
@@ -52,9 +60,8 @@
                         <td>{{item.storeNameAR}}</td>
                         <td>{{item.totalValue}}</td>
                         <td>
-                            <span class="badge rounded-pill default p-2 text-uppercase px-3"
-                                [ngClass]="getStatusColor(item.isCancelled)">
-                                {{item.orderStatus}}
+                             <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
+                                [nameAR]="item?.workflowStatusNameAR">
                             </span>
                         </td>
                         <td>

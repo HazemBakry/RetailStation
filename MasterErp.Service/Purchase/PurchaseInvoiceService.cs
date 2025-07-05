@@ -5,6 +5,7 @@ using MasterErp.Entities.Common.Finance.Purchases;
 using MasterErp.Entities.DTOs.Inventory;
 using MasterErp.Entities.DTOs.Purchases;
 using MasterErp.Entities.Models;
+using MasterErp.Entities.Models.Finance;
 using MasterErp.Entities.Models.Purchases;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.GeneralAccounts;
@@ -65,6 +66,19 @@ namespace MasterErp.Service.Purchase
 
             var result = SQLHelper.SQLQuery<PurchaseInvoiceModel>("[dbo].[SP_GetPurchaseInvoicesData]", ConnectionString, Params);
             return result;
+        }
+        public List<FilterModel> GetPurchaseInvoices_Filters(SearchFilterModel PagingFilter)
+        {
+            var FilterListDt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
+
+            SqlParameter[] Params = new SqlParameter[1];
+
+
+            Params[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[0].Value = FilterListDt;
+
+            var results = SQLHelper.SQLQuery<FilterItem>("[dbo].[SP_GetPurchaseInvoices_Filters]", ConnectionString, Params);
+            return SharedFilterService.GroupedFilterItems(results);
         }
 
         public PurchaseInvoiceModel GetPurchaseInvoiceDetailsById(int InvoiceId)
@@ -616,6 +630,61 @@ namespace MasterErp.Service.Purchase
         public List<PurchaseInvoiceType> GetInvoiceTypesData()
         {
             return Context.PurchaseInvoiceTypes.ToList();
+        }
+
+
+        private JournalEntryModel PrepareInvoiceEntryModel(PurchaseInvoiceModel Model)
+        {
+            try
+            {
+                var invoiceType = Context.PurchaseInvoiceTypes.FirstOrDefault(x => x.PurchaseInvoiceTypeId == Model.OrderTypeId);
+                //int generalSupplierId = Context.AccountTrees.Single(x => x.AccountTypeId == 5).AccountId;
+                //int accountId = Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId;
+                List<JournalEntryAccount> accounts = new List<JournalEntryAccount>();
+
+                accounts.Add(new JournalEntryAccount
+                {
+                    AccountId = (int)invoiceType.AccountCreditId,
+                    Credit = Model.NetValue,
+                    Debit = 0,
+                    CurrencyId = 1,
+                    SupplierId = Model.SupplierId,
+                    Description = Model.Notes,
+                    CostCenterId = Context.AccountTrees.FirstOrDefault(x => x.AccountId == (int)invoiceType.AccountCreditId)?.CostCenterId
+                });
+
+                accounts.Add(new JournalEntryAccount
+                {
+                    AccountId = (int)invoiceType.AccountDebitId,//Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId,
+                    Credit = 0,
+                    Debit = Model.NetValue,
+                    CurrencyId = 1,
+                    SupplierId = Model.SupplierId,
+                    Description = Model.Notes,
+                    CostCenterId = Context.AccountTrees.FirstOrDefault(x => x.AccountId == (int)invoiceType.AccountDebitId)?.CostCenterId
+                });
+                var invoiceDate = Model.OrderDate ?? DateTime.Now;
+                JournalEntryModel entry = new JournalEntryModel
+                {
+                    //EntryNumber = GenerateNewEntryNumber(Model.ReleaseDate.Month, Model.ReleaseDate.Year);
+                    DocNumber = Model.DocNumber,
+                    EntryDate = invoiceDate,
+                    Description = Model.Notes,
+                    JournalTypeId = (int)EntryType.Cashing,
+                    //PeriodId = Context.ReceiptLedgers.Single(x => x.ReceiptLedgerId == Model.ReceiptLedgerId).FinancialPeriodId,
+                    ActionTypeId = (int)JournalActionType.CashPayment,
+                    ActionId = Model.PurchaseInvoiceId,
+                    Month = invoiceDate.Month,
+                    Year = invoiceDate.Year,
+                    JournalEntryAccounts = accounts
+                };
+
+                return entry;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.InnerException?.Message ?? ex.Message);
+            }
         }
 
     }

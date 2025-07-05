@@ -42,6 +42,14 @@ namespace MasterErp.API.Controllers.Finance.Purchase
             };
             return Ok(result);
         }
+        [HttpPost]
+        [Route("GetPurchaseInvoices_Filters")]
+        public IActionResult GetPurchaseInvoices_Filters(SearchFilterModel PagingFilter)
+        {
+            var result = _purchaseInvoiceService.GetPurchaseInvoices_Filters(PagingFilter);
+
+            return Ok(result);
+        }
         [HttpGet]
         [Route("GetPurchaseInvoiceDetailsById")]
         public IActionResult GetPurchaseInvoiceDetailsById(int InvoiceId)

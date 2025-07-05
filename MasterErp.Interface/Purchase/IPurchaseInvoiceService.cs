@@ -15,6 +15,8 @@ namespace MasterErp.Interface.Purchase
     public interface IPurchaseInvoiceService
     {
         List<PurchaseInvoiceModel> GetPurchaseInvoices_Data(SearchFilterModel model,int? InvoiceId=null);
+        List<FilterModel> GetPurchaseInvoices_Filters(SearchFilterModel PagingFilter);
+
         PurchaseInvoiceModel GetPurchaseInvoiceDetailsById(int InvoiceId);
         ActionsResponseModel AddNewPurchaseInvoice(PurchaseInvoiceModel model);
         ActionsResponseModel EditPurchaseInvoice(int InvoiceId,PurchaseInvoiceModel model);

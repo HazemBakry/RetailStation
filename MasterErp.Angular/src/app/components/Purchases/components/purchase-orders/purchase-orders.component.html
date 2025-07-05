@@ -9,15 +9,24 @@
                 <i class="fas fa-plus-circle"></i>
                 <span>إنشاء طلب شراء</span>
             </button>
-            <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+            <!-- <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
                 <i class="fas fa-filter"></i>
                 <span>إنشاء فلتر</span>
-            </button>
+            </button> -->
+
         </div>
         <div class="justify-content-end">
             <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
                 [pageSize]="pagedResponseModel.pageSize"
                 [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+        </div>
+        <div class="col-md-12 mt-3">
+            <div class="d-flex align-items-center">
+                <ng-container>
+                    <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"
+                        [searchPlaceholder]="'بحث  ...'"></app-erp-filters>
+                </ng-container>
+            </div>
         </div>
     </div>
     <div class="p-3 bg-white">
@@ -48,9 +57,8 @@
                         <td>{{item.orderTypeName}}</td>
                         <td>{{item.totalValue}}</td>
                         <td>
-                            <span class="badge rounded-pill default p-2 text-uppercase px-3"
-                                [ngClass]="getStatusColor(item.isLocked)">
-                                {{item.orderStatus}}
+                              <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
+                                [nameAR]="item?.workflowStatusNameAR">
                             </span>
                         </td>
                         <td>

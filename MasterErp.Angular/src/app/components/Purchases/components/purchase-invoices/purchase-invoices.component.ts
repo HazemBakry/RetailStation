@@ -1,7 +1,7 @@
 import { Component, ComponentFactoryResolver, OnInit, ViewChild } from '@angular/core';
 import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
-import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { FilterItem, FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { OrderModel } from 'src/app/components/Inventory/models/inventory';
 import { ComponentHostDirective } from 'src/app/components/Shared/directives/component-host.directive';
@@ -24,37 +24,56 @@ export class PurchaseInvoicesComponent implements OnInit {
   TitleList = ['المشتريات', 'فواتير المشتريات'];
   showLoader: boolean;
   selectedInvoiceId: number;
-  public wfStatus=FinanceWorkflowStatus;
-  pagedResponseModel:PagedResponseDTO<OrderModel[]>={
-    results:[],
-    filterList:[],
+  public wfStatus = FinanceWorkflowStatus;
+  filterList: FilterModel[] = [];
+
+  pagedResponseModel: PagedResponseDTO<OrderModel[]> = {
+    results: [],
+    filterList: [],
     pageSize: 10,
-    currentPage:1,
-    searchText:''
+    currentPage: 1,
+    searchText: ''
 
   };
   @ViewChild(ComponentHostDirective, { static: true }) detailsComponentHost!: ComponentHostDirective;
 
-  constructor(private purchaseService: PurchaseService,  private modalService: NgbModal, private toaster: ToastrService,private dynamicComponentService:DynamicComponentLoaderService ) { }
+  constructor(private purchaseService: PurchaseService, private modalService: NgbModal, private toaster: ToastrService, private dynamicComponentService: DynamicComponentLoaderService) { }
 
   ngOnInit(): void {
     this.getPurchaseInvoicesData();
+    this.loadFilters();
   }
 
   getPurchaseInvoicesData() {
-    this.showLoader=true;
-    this.purchaseService.GetPurchaseInvoices_Data(this.pagedResponseModel).subscribe((data:PagedResponseDTO<OrderModel[]>) => {
-      this.pagedResponseModel.results=data.results;
-      this.pagedResponseModel.totalCount=data.totalCount;
+    this.showLoader = true;
+    this.purchaseService.GetPurchaseInvoices_Data(this.pagedResponseModel).subscribe((data: PagedResponseDTO<OrderModel[]>) => {
+      this.pagedResponseModel.results = data.results;
+      this.pagedResponseModel.totalCount = data.totalCount;
       // this.TotalCount = data && data.length > 0 && (data[0].matchCount != null || data[0].matchCount != undefined) ? data[0].matchCount : 0;
-      this.showLoader=false;
-    },(err)=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     })
   }
+  loadFilters() {
 
+    // this.showLoader = true;
+    this.purchaseService.GetPurchaseInvoices_Filters(this.pagedResponseModel).subscribe(data => {
+      this.filterList = data;
+
+      // this.showLoader = false;
+    }, err => {
+      // this.showLoader = false;
+    }, () => {
+      // this.showLoader = false;
+    });
+  }
+  filterChecked(filterItems: FilterItem[]) {
+    this.pagedResponseModel.filterList = filterItems;
+    this.getPurchaseInvoicesData();
+  }
   pageChanged(obj: any) {
     this.pagedResponseModel.currentPage = obj.page;
     this.getPurchaseInvoicesData();
@@ -63,18 +82,17 @@ export class PurchaseInvoicesComponent implements OnInit {
     this.selectedInvoiceId = itemId;
     this.modalService.open(content, { centered: true, size: 'md' });
   }
-  cancelPurchaseInvoice()
-  {
+  cancelPurchaseInvoice() {
     this.purchaseService.CancelPurchaseInvoice(this.selectedInvoiceId).subscribe(data => {
       if (data?.isSuccess) {
         this.toaster.success(data.message);
         this.getPurchaseInvoicesData();
       }
-      else{
+      else {
         this.toaster.error(data.message);
 
       }
-    },(error)=>{
+    }, (error) => {
       this.toaster.error('error');
 
     })
@@ -97,7 +115,7 @@ export class PurchaseInvoicesComponent implements OnInit {
         this.invoiceDetailsDataFields,
         `تفاصيل الفاتورة #${detailsModel.serialNumber}`
       );
-      
+
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
@@ -107,36 +125,36 @@ export class PurchaseInvoicesComponent implements OnInit {
 
 
   }
-  invoiceDetailsDataFields :DataField[] = [
+  invoiceDetailsDataFields: DataField[] = [
     {
-      fieldName: 'itemNameAR', 
-      fieldType: FieldType.Text, 
-      displayName: 'الاسم (AR)', 
+      fieldName: 'itemNameAR',
+      fieldType: FieldType.Text,
+      displayName: 'الاسم (AR)',
     },
     {
-      fieldName: 'itemNameEN', 
-      fieldType: FieldType.Text, 
-      displayName: 'الاسم (EN)', 
+      fieldName: 'itemNameEN',
+      fieldType: FieldType.Text,
+      displayName: 'الاسم (EN)',
     },
     {
-      fieldName: 'unitNameAR', 
-      fieldType: FieldType.Text, 
-      displayName: 'الوحدة', 
+      fieldName: 'unitNameAR',
+      fieldType: FieldType.Text,
+      displayName: 'الوحدة',
     },
     {
-      fieldName: 'price', 
-      fieldType: FieldType.Text, 
-      displayName: 'السعر', 
+      fieldName: 'price',
+      fieldType: FieldType.Text,
+      displayName: 'السعر',
     },
     {
-      fieldName: 'quantity', 
-      fieldType: FieldType.Text, 
-      displayName: 'الكمية', 
+      fieldName: 'quantity',
+      fieldType: FieldType.Text,
+      displayName: 'الكمية',
     },
     {
-      fieldName: 'totalValue', 
-      fieldType: FieldType.Text, 
-      displayName: 'الاجمالي', 
+      fieldName: 'totalValue',
+      fieldType: FieldType.Text,
+      displayName: 'الاجمالي',
     },
   ];
 

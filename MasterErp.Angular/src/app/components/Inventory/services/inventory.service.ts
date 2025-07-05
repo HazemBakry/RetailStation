@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { OrderModel } from '../models/inventory';
-import { FilterModel, SearchFilterModel } from '../../Shared/models/FilterModel';
+import { FilterItem, FilterModel, SearchFilterModel } from '../../Shared/models/FilterModel';
 import { ItemModel } from '../models/Item';
 import { PurchaseRequestModel } from '../models/PurchasesRequestModel';
 import { Unit } from '../models/unit';
@@ -309,6 +309,9 @@ export class InventoryService {
 
   GetMaterialRequests_Data(model: FilterModel) {
     return this.http.post<PagedResponseDTO<MaterialRequestModel[]>>(this.URL + 'Inventory/GetMaterialRequests_Data', model);
+  }
+  GetMaterialRequests_Filters(model: PagedResponseDTO<any[]>) {
+    return this.http.post<FilterItem[]>(this.URL + 'Inventory/GetMaterialRequests_Filters', model);
   }
 
   GetMaterialRequestDetailsById(materialRequestId: number) {

@@ -26,5 +26,7 @@ namespace MasterErp.Entities.Models.Inventory
         public bool? IsLocked { get; set; }
         public bool? IsCancelled { get; set; }
         public string Notes { get; set; }
+        public int? WorkflowStatusId { get; set; }
+
     }
 }

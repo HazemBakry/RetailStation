@@ -16,6 +16,8 @@ namespace MasterErp.Interface.Purchase
     public interface IPurchaseOrderService
     {
         List<PurchaseOrderModel> GetPurchaseOrders_Data(SearchFilterModel PagingFilter, int? OrderId=null);
+        List<FilterModel> GetPurchaseOrders_Filters(SearchFilterModel PagingFilter);
+
         List<GeneralOrderDetailsModel> GetPurchaseOrderProducts_Data(int OrderId);
         ActionsResponseModel AddNewPurchaseOrder(PurchaseOrderModel model);
         PurchaseOrderModel GetPurchaseOrderDetailsById(int OrderId);

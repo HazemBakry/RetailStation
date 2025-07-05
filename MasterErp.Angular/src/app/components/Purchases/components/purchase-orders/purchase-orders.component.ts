@@ -11,6 +11,7 @@ import { ComponentHostDirective } from 'src/app/components/Shared/directives/com
 import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
 import { PurchaseOrderModel } from '../../models/PurchaseOrder';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 
 @Component({
@@ -24,6 +25,8 @@ export class PurchaseOrdersComponent implements OnInit {
   showLoader: boolean;
   TotalCount: any;
   TotalPages: any;
+  filterList: FilterModel[] = [];
+
   pagedResponseModel: PagedResponseDTO<PurchaseOrderModel[]> = {
     results: [],
     filterList: [],
@@ -39,6 +42,7 @@ export class PurchaseOrdersComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPurchasesOrdersData();
+    this.loadFilters();
   }
 
   getPurchasesOrdersData() {
@@ -53,7 +57,22 @@ export class PurchaseOrdersComponent implements OnInit {
       this.showLoader = false;
     });
   }
+  loadFilters() {
+    // this.showLoader = true;
+    this.purchaseService.GetPurchaseOrders_Filters(this.pagedResponseModel).subscribe(data => {
+      this.filterList = data;
 
+      // this.showLoader = false;
+    }, err => {
+      // this.showLoader = false;
+    }, () => {
+      // this.showLoader = false;
+    });
+  }
+  filterChecked(filterItems: FilterItem[]) {
+    this.pagedResponseModel.filterList = filterItems;
+    this.getPurchasesOrdersData();
+  }
   pageChanged(obj: any) {
     this.pagedResponseModel.currentPage = obj.page;
     this.getPurchasesOrdersData();

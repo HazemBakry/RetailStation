@@ -20,6 +20,14 @@
                 [pageSize]="pagedResponseModel.pageSize"
                 [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
         </div>
+        <div class="col-md-12 mt-3">
+            <div class="d-flex align-items-center">
+                <ng-container>
+                    <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"
+                        [searchPlaceholder]="'بحث  ...'"></app-erp-filters>
+                </ng-container>
+            </div>
+        </div>
     </div>
     <div class="p-3 bg-white">
         <div class="table-responsive shadow-sm radius-10">

@@ -45,7 +45,15 @@ namespace MasterErp.API.Controllers.Finance.Purchase
             return Ok(result);
 
         }
-        
+        [HttpPost]
+        [Route("GetPurchaseOrders_Filters")]
+        public IActionResult GetPurchaseOrders_Filters(SearchFilterModel PagingFilter)
+        {
+            var result = PurchaseOrderService.GetPurchaseOrders_Filters(PagingFilter);
+
+            return Ok(result);
+        }
+
         [HttpGet]
         [Route("GetPurchaseOrderProducts_Data")]
         public IActionResult GetPurchaseOrderProducts_Data(int PurchaseOrderId)

@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { PurchaseInvoiceModel } from '../models/PurchaseInvoiceModel';
 import { PurchaseOrderModel } from '../models/PurchaseOrder';
 import { PurchaseReturnsModel } from '../models/PurchaseReturns';
-import { FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { FilterItem, FilterModel, SearchFilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { SupplierReturnsVoucherModel } from '../models/SupplierReturnsVoucherModel';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 import { OrderModel } from '../../Inventory/models/inventory';
@@ -24,6 +24,9 @@ export class PurchaseService {
 
   GetPurchaseInvoices_Data(model: PagedResponseDTO) {
     return this.http.post<PagedResponseDTO<PurchaseInvoiceModel[]>>(this.URL + 'PurchaseInvoice/GetPurchaseInvoices_Data', model);
+  }
+  GetPurchaseInvoices_Filters(model: PagedResponseDTO<any[]>) {
+    return this.http.post<FilterItem[]>(this.URL + 'PurchaseInvoice/GetPurchaseInvoices_Filters', model);
   }
   GetPurchaseInvoiceDetailsById(invoiceId: number) {
     return this.http.get<PurchaseInvoiceModel>(this.URL + `PurchaseInvoice/GetPurchaseInvoiceDetailsById?InvoiceId=${invoiceId}`);
@@ -118,7 +121,9 @@ export class PurchaseService {
   GetPurchaseOrders_Data(model: PagedResponseDTO) {
     return this.http.post<PagedResponseDTO<PurchaseOrderModel[]>>(this.URL + 'PurchaseOrder/GetPurchaseOrders_Data', model);
   }
-
+  GetPurchaseOrders_Filters(model: PagedResponseDTO<any[]>) {
+    return this.http.post<FilterItem[]>(this.URL + 'PurchaseOrder/GetPurchaseOrders_Filters', model);
+  }
   GetPurchaseOrderDetailsById(PurchaseOrderId: number) {
     return this.http.get<PurchaseOrderModel>(this.URL + 'PurchaseOrder/GetPurchaseOrderDetailsById?PurchaseOrderId=' + PurchaseOrderId);
   }

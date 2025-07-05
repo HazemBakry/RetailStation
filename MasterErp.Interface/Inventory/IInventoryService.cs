@@ -60,6 +60,8 @@ namespace MasterErp.Interface.Inventory
         #region Material Requests
 
         List<MaterialRequestModel> GetMaterialRequests_Data(SearchFilterModel model,int? MaterialRequestId = null);
+        List<FilterModel> GetMaterialRequests_Filters(SearchFilterModel PagingFilter);
+
         MaterialRequestModel GetMaterialRequestDetailsById(int MaterialRequestId);
 
         ActionsResponseModel CreateNewMaterialRequest(MaterialRequestModel model);

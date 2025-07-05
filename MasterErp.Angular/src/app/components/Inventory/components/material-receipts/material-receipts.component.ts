@@ -37,7 +37,7 @@ export class MaterialReceiptsComponent implements OnInit {
 
   constructor(private inventoryService: InventoryService,
     private modalService: NgbModal,
-    private dynamicComponentService:DynamicComponentLoaderService,
+    private dynamicComponentService: DynamicComponentLoaderService,
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
@@ -139,41 +139,41 @@ export class MaterialReceiptsComponent implements OnInit {
     else
       return "open";
   }
-  materialReceiptDetailsDataFields :DataField[] = [
+  materialReceiptDetailsDataFields: DataField[] = [
     {
-      fieldName: 'itemNameAR', 
-      fieldType: FieldType.Text, 
-      displayName: 'الاسم (AR)', 
+      fieldName: 'itemNameAR',
+      fieldType: FieldType.Text,
+      displayName: 'الاسم (AR)',
     },
     {
-      fieldName: 'itemNameEN', 
-      fieldType: FieldType.Text, 
-      displayName: 'الاسم (EN)', 
+      fieldName: 'itemNameEN',
+      fieldType: FieldType.Text,
+      displayName: 'الاسم (EN)',
     },
     {
-      fieldName: 'unitNameAR', 
-      fieldType: FieldType.Text, 
-      displayName: 'الوحدة', 
+      fieldName: 'unitNameAR',
+      fieldType: FieldType.Text,
+      displayName: 'الوحدة',
     },
     {
-      fieldName: 'price', 
-      fieldType: FieldType.Text, 
-      displayName: 'السعر', 
+      fieldName: 'price',
+      fieldType: FieldType.Text,
+      displayName: 'السعر',
     },
     {
-      fieldName: 'quantity', 
-      fieldType: FieldType.Text, 
-      displayName: 'الكمية', 
+      fieldName: 'quantity',
+      fieldType: FieldType.Text,
+      displayName: 'الكمية',
     },
     {
-      fieldName: 'totalValue', 
-      fieldType: FieldType.Text, 
-      displayName: 'الاجمالي', 
+      fieldName: 'totalValue',
+      fieldType: FieldType.Text,
+      displayName: 'الاجمالي',
     },
     {
-      fieldName: 'expireDate', 
-      fieldType: FieldType.Date, 
-      displayName: 'تاريخ الصلاحية', 
+      fieldName: 'expireDate',
+      fieldType: FieldType.Date,
+      displayName: 'تاريخ الصلاحية',
     },
   ];
 }

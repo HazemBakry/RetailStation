@@ -145,7 +145,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
       dueDate: [null, [Validators.required]],
       orderTypeId: [null, [Validators.required]],
       supplierId: [null, [Validators.required]],
-      materialReceiptId: [null, [Validators.required]],
+      materialReceiptIds: [[], [Validators.required]],
       orderDetails: [[] as GeneralOrderDetailsModel[], [Validators.required, Validators.minLength(1)]],
       notes: [null],
 
@@ -255,6 +255,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
       return true;
     } else {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, false)
+      console.log("🚀 ~ AddPurchaseInvoiceComponent ~ validateForm ~ this.formErrors:", this.formErrors)
       return false;
     }
   }
@@ -275,6 +276,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
     });
   }
   openSaveModal(content: any) {
+    debugger
     if (this.orderDetails.length === 0)
       this.toaster.warning('لا يوجد اصناف');
 

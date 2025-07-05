@@ -9,15 +9,23 @@
                 <i class="fas fa-plus-circle"></i>
                 <span>إنشاء طلب جديد</span>
             </button>
-            <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+            <!-- <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
                 <i class="fas fa-filter"></i>
                 <span>إنشاء فلتر</span>
-            </button>
+            </button> -->
         </div>
         <div class="justify-content-end">
             <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
                 [pageSize]="pagedResponseModel.pageSize"
                 [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+        </div>
+        <div class="col-md-12 mt-3">
+            <div class="d-flex align-items-center">
+                <ng-container>
+                    <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"
+                        [searchPlaceholder]="'بحث  ...'"></app-erp-filters>
+                </ng-container>
+            </div>
         </div>
     </div>
     <div class="p-3 bg-white">
@@ -45,11 +53,9 @@
                         <td>{{item.purposeNameAR ?? item.purposeNameEN}}</td>
                         <td>{{item.storeNameAR ?? item.storeNameEN}}</td>
                         <td>
-                            <div appColorWithStatus [text]="item.isCancelled" status='isCancelled'></div>
-                            <!-- <span *ngIf="item.orderStatus" class="badge rounded-pill default p-2 text-uppercase px-3"
-                                [ngClass]="getStatusColor(item.isCancelled)">
-                                {{item.orderStatus}}
-                            </span> -->
+                              <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
+                                [nameAR]="item?.workflowStatusNameAR">
+                            </span>
                         </td>
                         <!-- <td>{{item.notes}}</td> -->
                         <td>
@@ -61,11 +67,13 @@
                                     <div ngbDropdownMenu class="border">
                                         <button ngbDropdownItem
                                             (click)="showMaterialRequestDetails(item)">تفاصيل</button>
-                                        <button *ngIf="!item.isCancelled" ngbDropdownItem routerLink="../add-material-request"
+                                        <button *ngIf="!item.isCancelled" ngbDropdownItem
+                                            routerLink="../add-material-request"
                                             [queryParams]="{MaterialRequestId:item.materialRequestId}">
                                             تعديل
                                         </button>
-                                        <button *ngIf="!item.isCancelled" ngbDropdownItem routerLink="/purchases/add-purchase-order"
+                                        <button *ngIf="!item.isCancelled" ngbDropdownItem
+                                            routerLink="/purchases/add-purchase-order"
                                             [queryParams]="{MaterialRequestId:item.materialRequestId}">
                                             انشاء امر شراء
                                         </button>

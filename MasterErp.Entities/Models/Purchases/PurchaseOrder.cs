@@ -22,6 +22,8 @@ namespace MasterErp.Entities.Models.Purchases
         public string Notes { get; set; }
         public bool? IsLocked { get; set; }
         public bool? IsCancelled { get; set; }
+        public int? WorkflowStatusId { get; set; }
+
 
     }
 }
