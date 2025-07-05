@@ -21,7 +21,7 @@ import { FilterItem, FilterModel } from 'src/app/components/Shared/models/Filter
 })
 
 export class PurchaseOrdersComponent implements OnInit {
-  TitleList = ['المشتريات', 'أوامر المشتريات'];
+  TitleList = ['المشتريات', 'أوامر الشراء'];
   showLoader: boolean;
   TotalCount: any;
   TotalPages: any;
