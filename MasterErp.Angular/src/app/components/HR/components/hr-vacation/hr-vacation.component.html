@@ -121,7 +121,7 @@
                         </td>
                     </tr>
                     <tr *ngIf="!employeeVacationResponse.results.length || showLoader">
-                        <td colspan="8" class="text-right">
+                        <td colspan="9" class="text-right">
                             <app-empty-data [showEmptyData]="!employeeVacationResponse.results.length&&!showLoader"
                                 [showLoader]="showLoader"></app-empty-data>
                         </td>

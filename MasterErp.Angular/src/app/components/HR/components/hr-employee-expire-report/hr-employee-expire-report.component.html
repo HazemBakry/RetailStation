@@ -82,7 +82,7 @@
                         <td>{{ emp.branchNameAR ?? emp.branchNameEN }}</td>
                         <td>{{ emp.sponsorNameAR??emp.sponsorNameEN }}</td>
                         <td>
-                            <span appWorkflowStatus [id]="emp.statusId" [nameAR]="emp?.employeeStatusNameAR">
+                            <span appWorkflowStatus [id]="emp.statusId" [nameAR]="emp?.employeeStatusNameAR" [type]="'employeeStatus'">
                             </span>
                         </td>
                         <td>{{ emp.joinDate | date: 'yyyy-MM-dd' }}</td>
