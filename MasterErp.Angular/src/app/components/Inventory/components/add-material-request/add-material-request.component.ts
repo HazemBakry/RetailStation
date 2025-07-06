@@ -129,7 +129,7 @@ export class AddMaterialRequestComponent implements OnInit {
       storeId: [null, [Validators.required]],
       orderDate: [{ value: this.today, disabled: true }, , [Validators.required]],
       dueDate: [null, [Validators.required]],
-      purposeId: [null, [Validators.required]],
+      purposeId: [null],
       statusId: [null],
       orderDetails: [[] as GeneralOrderDetailsModel[], [Validators.required, Validators.minLength(1)]],
       notes: [null],

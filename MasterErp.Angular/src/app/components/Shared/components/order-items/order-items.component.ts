@@ -226,7 +226,9 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     }
     
     if (this.showDueDate&&this.dueDate) {
-      this.orderItems = this.orderItems.map(item=>({...item,dueDate:this.getDueDate()}));
+            this.orderItems.forEach(item=>{item.dueDate=this.getDueDate()});
+
+      //this.orderItems = this.orderItems.map(item=>({...item,dueDate:this.getDueDate()}));
     }
     if (this.orderItems)
       this.emitSelectedProductsList();

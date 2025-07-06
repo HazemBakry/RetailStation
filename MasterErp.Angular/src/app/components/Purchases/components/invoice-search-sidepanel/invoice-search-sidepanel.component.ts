@@ -84,7 +84,7 @@ export class InvoiceSearchSidepanelComponent implements OnInit {
       this.pagedResponseModel.filterList.push({ categoryName: 'InvoiceDate', itemFlag: this.invoiceDate })
     }
     if (this.invoiceNumber) {
-      this.pagedResponseModel.filterList.push({ categoryName: 'InvoiceNumber', itemFlag: this.invoiceNumber })
+      this.pagedResponseModel.filterList.push({ categoryName: 'SearchText', itemFlag: this.invoiceNumber })
     }
     if (this.selectedSupplierId) {
       this.pagedResponseModel.filterList.push({ categoryName: 'SupplierId', itemFlag: this.selectedSupplierId })

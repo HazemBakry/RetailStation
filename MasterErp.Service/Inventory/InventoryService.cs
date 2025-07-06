@@ -192,8 +192,17 @@ namespace MasterErp.Service.Inventory
                 order_tbl.Notes = model.Notes;
                 order_tbl.SupplierId = (int)model.SupplierId;
                 order_tbl.StoreId = model.StoreId;
+                order_tbl.WorkflowStatusId = (int)InventoryWorkflowStatus.Pending;
 
                 Context.MaterialReceipts.Add(order_tbl);
+                if(model.PurchaseOrderId != null)
+                {
+                    var p_Order =Context.PurchaseOrders.FirstOrDefault(x => x.PurchaseOrderId == model.PurchaseOrderId);
+                    if(p_Order != null)
+                    {
+                        p_Order.WorkflowStatusId = (int) InventoryWorkflowStatus.Completed;
+                    }
+                }
                 Context.SaveChanges();
 
                 foreach (var item in model.OrderDetails)
@@ -248,6 +257,7 @@ namespace MasterErp.Service.Inventory
                     order_tbl.Notes = model.Notes;
                     order_tbl.SupplierId = (int)model.SupplierId;
                     order_tbl.StoreId = model.StoreId;
+                    //order_tbl.WorkflowStatusId = model.WorkflowStatusId;
                     order_tbl.ModifiedBy = model.ModifiedBy;
                     order_tbl.ModifiedDate = DateTime.Now;
 
@@ -304,6 +314,7 @@ namespace MasterErp.Service.Inventory
                     foreach (var order in order_tbl)
                     {
                         order.PurchaseInvoiceId = InvoiceId;
+                        order.WorkflowStatusId = (int)InventoryWorkflowStatus.Completed;
                         order.IsLocked = true;
                     }
                     Context.SaveChanges();
@@ -834,6 +845,7 @@ namespace MasterErp.Service.Inventory
                 tbl.OrderDate = model?.OrderDate ?? DateTime.Now;
                 tbl.DueDate = model.DueDate;
                 tbl.PurposeId = model.PurposeId;
+                tbl.WorkflowStatusId = (int)InventoryWorkflowStatus.Pending;
                 Context.MaterialRequests.Add(tbl);
                 Context.SaveChanges();
 
@@ -887,6 +899,7 @@ namespace MasterErp.Service.Inventory
                     order_tbl.Notes = model.Notes;
                     order_tbl.PurposeId = model.PurposeId;
                     order_tbl.StoreId = model.StoreId;
+                    //order_tbl.WorkflowStatusId = model.WorkflowStatusId;
                     order_tbl.ModifiedBy = model.ModifiedBy;
                     order_tbl.ModifiedDate = DateTime.Now;
 
@@ -1021,6 +1034,7 @@ namespace MasterErp.Service.Inventory
                 {
                     order.IsLocked = true;
                     order.PurchaseOrderId = purchaseOrderId;
+                    order.WorkflowStatusId = (int) InventoryWorkflowStatus.Completed;
                     order.ModifiedDate = DateTime.Now;
                     order.ModifiedBy = "";
                 }

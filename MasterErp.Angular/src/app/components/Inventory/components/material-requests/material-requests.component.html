@@ -53,7 +53,7 @@
                         <td>{{item.purposeNameAR ?? item.purposeNameEN}}</td>
                         <td>{{item.storeNameAR ?? item.storeNameEN}}</td>
                         <td>
-                              <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
                                 [nameAR]="item?.workflowStatusNameAR">
                             </span>
                         </td>
@@ -104,9 +104,10 @@
                             </div> -->
                         </td>
                     </tr>
-                    <tr *ngIf="!pagedResponseModel.results.length">
+                    <tr *ngIf="!pagedResponseModel.results.length || showLoader">
                         <td colspan="8" class="text-right">
-                            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length"></app-empty-data>
+                            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader"
+                                [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>
@@ -138,4 +139,4 @@
 <ng-template appComponentHost></ng-template>
 
 
-<ngx-loading [show]="showLoader"></ngx-loading>
+<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->

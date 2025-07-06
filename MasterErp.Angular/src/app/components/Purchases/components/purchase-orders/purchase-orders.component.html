@@ -30,13 +30,13 @@
             <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
                 <thead>
                     <tr>
-                        <th>رقم الفاتورة</th>
+                        <th>رقم الطلب</th>
                         <th>الرقم الدفترى</th>
-                        <th>تاريخ الفاتورة</th>
+                        <th>تاريخ الطلب</th>
                         <th>اسم المورد</th>
-                        <th>نوع الفاتورة</th>
+                        <th>تفاصيل</th>
                         <th>القيمة الإجمالية</th>
-                        <th>حالة الفاتورة</th>
+                        <th>حالة الطلب</th>
                         <th class="text-center"></th>
                     </tr>
                 </thead>
@@ -50,7 +50,7 @@
                         <td>{{item.docNumber}}</td>
                         <td>{{item.orderDate | date}}</td>
                         <td>{{item.supplierNameAR}}</td>
-                        <td>{{item.orderTypeName}}</td>
+                        <td>{{item.notes}}</td>
                         <td>{{item.totalValue}}</td>
                         <td>
                               <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
@@ -98,6 +98,12 @@
                                     <span>تفاصيل</span>
                                 </button>
                             </div> -->
+                        </td>
+                    </tr>
+                    <tr *ngIf="!pagedResponseModel.results.length || showLoader">
+                        <td colspan="8" class="text-right">
+                            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader"
+                                [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>

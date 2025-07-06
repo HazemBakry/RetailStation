@@ -111,6 +111,7 @@ namespace MasterErp.Service.Purchase
                 order_tbl.DiscountPercent = model.DiscountPercent;
                 order_tbl.Tax = model.Tax;
                 order_tbl.TaxPercent = model.TaxPercent;
+                order_tbl.WorkflowStatusId = (int)InventoryWorkflowStatus.Pending;
                 order_tbl.NetValue = model.OrderDetails?.Sum(x => x.TotalValue) ?? 0;
                 Context.PurchaseInvoices.Add(order_tbl);
                 Context.SaveChanges();
@@ -186,6 +187,7 @@ namespace MasterErp.Service.Purchase
                     order_tbl.DiscountPercent = model.DiscountPercent;
                     order_tbl.Tax = model.Tax;
                     order_tbl.TaxPercent = model.TaxPercent;
+                    //order_tbl.WorkflowStatusId = model.WorkflowStatusId;
                     order_tbl.NetValue = model.OrderDetails?.Sum(x => x.TotalValue) ?? 0;
 
                     

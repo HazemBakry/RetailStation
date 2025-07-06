@@ -98,7 +98,7 @@ export class MaterialReceiptSidePanelComponent implements OnInit {
       this.pagedResponseModel.filterList.push({ categoryName: 'SupplierId', itemFlag: this.selectedSupplierId })
     }
     if (this.orderNumber) {
-      this.pagedResponseModel.filterList.push({ categoryName: 'searchText', itemFlag: this.orderNumber })
+      this.pagedResponseModel.filterList.push({ categoryName: 'SearchText', itemFlag: this.orderNumber })
     }
     this.pagedResponseModel.filterList.push({ categoryName: 'FinalStatus', itemFlag: '0' })
 

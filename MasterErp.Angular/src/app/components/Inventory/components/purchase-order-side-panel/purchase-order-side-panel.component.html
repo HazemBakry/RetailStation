@@ -40,7 +40,7 @@
     <div class="card card-with-table border shadow-none">
       <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
                 <div>
-                  
+
                 </div>
                 <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
                     [pageSize]="pagedResponseModel.pageSize"
@@ -51,12 +51,12 @@
         <table class="table table-card-table table-borderless table-middle table-hover bg-transparent small-scroll m-0">
           <thead>
             <tr>
-              <th>رقم الأمر</th>
+              <th>رقم الطلب</th>
               <th>تاريخ الاصدار</th>
               <th>اسم المورد</th>
-              <th>نوع الفاتورة</th>
+              <th>تفاصيل</th>
               <th>القيمة الإجمالية</th>
-              <th>حالة الفاتورة</th>
+              <th>حالة الطلب</th>
               <th class="text-center"></th>
             </tr>
           </thead>
@@ -65,7 +65,7 @@
               <td>{{item.serialNumber}}</td>
               <td>{{item.orderDate | date}}</td>
               <td>{{item.supplierNameAR ?? item.supplierNameEN}}</td>
-              <td>{{item.orderTypeName}}</td>
+              <td>{{item.notes}}</td>
 
               <td>{{item.totalValue}}</td>
               <td>

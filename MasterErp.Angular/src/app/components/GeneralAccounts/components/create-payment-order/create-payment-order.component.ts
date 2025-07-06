@@ -265,11 +265,11 @@ export class CreatePaymentOrderComponent implements OnInit {
       this.getAccountsByType();
     this.selectedAgencyType = agencyTypeId;
     this.receiptModel.agencyTypeId = agencyTypeId;
-    this.formGroup?.patchValue({
-      employeeId: null,
-      accountId: null,
-      supplierId: null,
-    });
+    // this.formGroup?.patchValue({
+    //   employeeId: null,
+    //   accountId: null,
+    //   supplierId: null,
+    // });
   }
 
   savePaymentOrder() {
