@@ -87,7 +87,8 @@
             </div> -->
 
             <div class="table-responsive shadow-sm radius-10">
-                <table class="table table-card-table table-borderless table-middle table-hover bg-transparent small-scroll m-0">
+                <table
+                    class="table table-card-table table-borderless table-middle table-hover bg-transparent small-scroll m-0">
                     <thead>
                         <tr>
                             <th>رقم الفاتورة</th>
@@ -107,8 +108,8 @@
                             </td>
                             <td>{{item.docNumber}}</td>
                             <td>{{item.orderDate | date}}</td>
-                            <td>{{item.supplierNameAR}}</td>
-                            <td>{{item.orderTypeName}}</td>
+                            <td>{{item.supplierNameAR ?? item.supplierNameEN}}</td>
+                            <td>{{item.orderTypeNameAR ?? item.orderTypeNameEN}}</td>
                             <!-- <td>{{item.insertUser}}</td>
                             <td>{{item.insertDate | date}}</td>-->
                             <td>

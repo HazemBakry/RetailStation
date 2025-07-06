@@ -19,7 +19,7 @@ import { PurchaseOrderModel } from 'src/app/components/Purchases/models/Purchase
 export class PurchaseOrderSidePanelComponent implements OnInit {
   @Input() selectedSupplierId: number;
 
-  @Output() selectedOrder=new EventEmitter<any>()
+  @Output() selectedOrder = new EventEmitter<any>()
   OrdersList: any[] = [];
   showLoader: boolean;
 
@@ -27,22 +27,22 @@ export class PurchaseOrderSidePanelComponent implements OnInit {
   SuppliersList: any[] = [];
   SupplierId: any;
   SupplierName = 'الموردين';
-  orderNumber:string = '';
-  orderDate:string ;
-  pagedResponseModel:PagedResponseDTO<OrderModel[]>={
-    results:[],
-    filterList:[],
+  orderNumber: string = '';
+  orderDate: string;
+  pagedResponseModel: PagedResponseDTO<OrderModel[]> = {
+    results: [],
+    filterList: [],
     pageSize: 10,
-    currentPage:1,
-    searchText:''
+    currentPage: 1,
+    searchText: ''
 
   };
   suppliersSelectorData: FormDropdownModel[] = [];
   constructor(private offcanvasService: NgbOffcanvas,
-              private purchaseService: PurchaseService,
-              private inventoryService: InventoryService,
-              private sharedService: SharedService,
-              private toaster: ToastrService) { }
+    private purchaseService: PurchaseService,
+    private inventoryService: InventoryService,
+    private sharedService: SharedService,
+    private toaster: ToastrService) { }
 
 
   ngOnInit(): void {
@@ -57,24 +57,23 @@ export class PurchaseOrderSidePanelComponent implements OnInit {
     this.SupplierId = item.supplierId;
   }
 
-  loadData()
-  {
-    if (!this.orderDate&&!this.selectedSupplierId&&!this.orderNumber) {
+  loadData() {
+    if (!this.orderDate && !this.selectedSupplierId && !this.orderNumber) {
       this.toaster.warning('لا يمكن البحث ');
       return;
     }
 
     this.mapFilters();
-    this.showLoader=true;
-    this.purchaseService.GetPurchaseOrders_Data(this.pagedResponseModel).subscribe((data:PagedResponseDTO<PurchaseOrderModel[]>) => {
+    this.showLoader = true;
+    this.purchaseService.GetPurchaseOrders_Data(this.pagedResponseModel).subscribe((data: PagedResponseDTO<PurchaseOrderModel[]>) => {
       // console.log("data",data);
-      this.pagedResponseModel.results=data.results;
-      this.pagedResponseModel.totalCount=data.totalCount;
-      this.showLoader=false;
-    },(err)=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.pagedResponseModel.results = data.results;
+      this.pagedResponseModel.totalCount = data.totalCount;
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
 
 
@@ -87,35 +86,38 @@ export class PurchaseOrderSidePanelComponent implements OnInit {
     // },()=>{
     //   this.showLoader=false;
     // });
-    
-    
+
+
+  }
+  pageChanged(obj: any) {
+    this.pagedResponseModel.currentPage = obj.page;
+    this.loadData();
   }
   mapFilters() {
-    this.pagedResponseModel.filterList=[];
+    this.pagedResponseModel.filterList = [];
     if (this.orderDate) {
-      this.pagedResponseModel.filterList.push({categoryName:'OrderDate',itemFlag:this.orderDate})
+      this.pagedResponseModel.filterList.push({ categoryName: 'OrderDate', itemFlag: this.orderDate })
     }
     if (this.selectedSupplierId) {
-      this.pagedResponseModel.filterList.push({categoryName:'SupplierId',itemFlag:this.selectedSupplierId?.toString()})
+      this.pagedResponseModel.filterList.push({ categoryName: 'SupplierId', itemFlag: this.selectedSupplierId?.toString() })
     }
     if (this.orderNumber) {
-      this.pagedResponseModel.filterList.push({categoryName:'SearchText',itemFlag:this.orderNumber})
+      this.pagedResponseModel.filterList.push({ categoryName: 'SearchText', itemFlag: this.orderNumber })
     }
+    this.pagedResponseModel.filterList.push({ categoryName: 'FinalStatus', itemFlag: '0' })
 
   }
   OpenSidePanel(content: any) {
-    if(!this.selectedSupplierId)
-    {
+    if (!this.selectedSupplierId) {
       this.toaster.warning('يجب تحديد المورد');
       return;
     }
-    this.pagedResponseModel.results=[];
-    this.offcanvasService.open(content, {panelClass: 'details-panel', position: 'end' });
+    this.pagedResponseModel.results = [];
+    this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
   }
 
 
-  SelectOrder(ord)
-  {
+  SelectOrder(ord) {
 
     this.offcanvasService.dismiss();
 

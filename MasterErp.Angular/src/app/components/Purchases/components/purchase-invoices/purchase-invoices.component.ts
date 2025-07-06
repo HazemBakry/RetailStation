@@ -45,6 +45,7 @@ export class PurchaseInvoicesComponent implements OnInit {
   }
 
   getPurchaseInvoicesData() {
+    
     this.showLoader = true;
     this.purchaseService.GetPurchaseInvoices_Data(this.pagedResponseModel).subscribe((data: PagedResponseDTO<OrderModel[]>) => {
       this.pagedResponseModel.results = data.results;

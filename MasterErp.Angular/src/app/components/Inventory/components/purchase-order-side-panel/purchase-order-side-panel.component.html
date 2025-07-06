@@ -38,28 +38,41 @@
     </div>
     <hr class="border-black" />
     <div class="card card-with-table border shadow-none">
-      <!-- <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-end">
-        header
-      </div> -->
-      <div class="table-responsive shadow-sm radius-10">
+      <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
+                <div>
+                  
+                </div>
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
+                    [pageSize]="pagedResponseModel.pageSize"
+                    [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+
+            </div>
+      <div class="card-body table-responsive p-0 shadow-sm radius-10">
         <table class="table table-card-table table-borderless table-middle table-hover bg-transparent small-scroll m-0">
           <thead>
             <tr>
               <th>رقم الأمر</th>
               <th>تاريخ الاصدار</th>
-              <th>إجمالى القيمة</th>
-              <th>اسم المورد (AR)</th>
-              <th>اسم المورد (EN)</th>
-              <th>Action</th>
+              <th>اسم المورد</th>
+              <th>نوع الفاتورة</th>
+              <th>القيمة الإجمالية</th>
+              <th>حالة الفاتورة</th>
+              <th class="text-center"></th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of pagedResponseModel.results">
-              <td>{{item.orderNumber}}</td>
+              <td>{{item.serialNumber}}</td>
               <td>{{item.orderDate | date}}</td>
+              <td>{{item.supplierNameAR ?? item.supplierNameEN}}</td>
+              <td>{{item.orderTypeName}}</td>
+
               <td>{{item.totalValue}}</td>
-              <td>{{item.supplierNameAR}}</td>
-              <td>{{item.supplierNameEN }}</td>
+              <td>
+                <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
+                  [nameAR]="item?.workflowStatusNameAR">
+                </span>
+              </td>
               <td>
                 <!-- <div class="d-flex align-items-center justify-content-center">
                   <button (click)="SelectOrder(item)" class="btn btn-secondary">
@@ -77,7 +90,7 @@
 
             </tr>
             <tr *ngIf="!pagedResponseModel?.results.length || showLoader">
-              <td colspan="6" class="text-right">
+              <td colspan="7" class="text-right">
                 <app-empty-data [showEmptyData]="!pagedResponseModel?.results.length&&!showLoader"
                   [showLoader]="showLoader"></app-empty-data>
               </td>

@@ -69,11 +69,10 @@ export class InvoiceSearchSidepanelComponent implements OnInit {
       this.showLoader = false;
     })
   }
-  checkResult()
-  {
+  checkResult() {
     if (this.pagedResponseModel.results.length == 1) {
       this.selectedInvoice.emit(this.pagedResponseModel.results[0])
-    } 
+    }
     else {
       this.openSidePanel(this.InvoiceSearchSidepanel);
     }
@@ -88,8 +87,10 @@ export class InvoiceSearchSidepanelComponent implements OnInit {
       this.pagedResponseModel.filterList.push({ categoryName: 'InvoiceNumber', itemFlag: this.invoiceNumber })
     }
     if (this.selectedSupplierId) {
-      this.pagedResponseModel.filterList.push({categoryName:'SupplierId',itemFlag:this.selectedSupplierId})
+      this.pagedResponseModel.filterList.push({ categoryName: 'SupplierId', itemFlag: this.selectedSupplierId })
     }
+    this.pagedResponseModel.filterList.push({ categoryName: 'FinalStatus', itemFlag: '0' })
+
   }
 
   SelectInvoice(inv) {

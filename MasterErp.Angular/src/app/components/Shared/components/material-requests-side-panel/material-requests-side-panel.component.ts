@@ -23,28 +23,28 @@ import { MaterialRequestModel } from 'src/app/components/Inventory/models/Materi
 export class MaterialRequestsSidePanelComponent implements OnInit {
   @Input() selectedStoreId: any;
 
-  @Output() selectedMaterialRequest=new EventEmitter<MaterialRequestModel[]>()
+  @Output() selectedMaterialRequest = new EventEmitter<MaterialRequestModel[]>()
   OrdersList: any[] = [];
   showLoader: boolean;
 
-  selectAll:boolean=false;
+  selectAll: boolean = false;
 
-  orderNumber:string = '';
-  orderDate:string ;
-  pagedResponseModel:PagedResponseDTO<MaterialRequestModel[]>={
-    results:[],
-    filterList:[],
+  orderNumber: string = '';
+  orderDate: string;
+  pagedResponseModel: PagedResponseDTO<MaterialRequestModel[]> = {
+    results: [],
+    filterList: [],
     pageSize: 10,
-    currentPage:1,
-    searchText:''
+    currentPage: 1,
+    searchText: ''
 
   };
   storesSelectorData: GeneralSelectorModel[] = [];
   constructor(private offcanvasService: NgbOffcanvas,
-              private purchaseService: PurchaseService,
-              private inventoryService: InventoryService,
-              private sharedService: SharedService,
-              private toaster: ToastrService) { }
+    private purchaseService: PurchaseService,
+    private inventoryService: InventoryService,
+    private sharedService: SharedService,
+    private toaster: ToastrService) { }
 
 
   ngOnInit(): void {
@@ -57,56 +57,56 @@ export class MaterialRequestsSidePanelComponent implements OnInit {
   }
 
 
-  loadData()
-  {
-    if (!this.selectedStoreId &&!this.orderDate&&!this.orderNumber) {
+  loadData() {
+    if (!this.selectedStoreId && !this.orderDate && !this.orderNumber) {
       this.toaster.warning('لا يمكن البحث ');
       return;
     }
 
     this.mapFilters();
-    this.showLoader=true;
-    this.inventoryService.GetMaterialRequests_Data(this.pagedResponseModel).subscribe((data:PagedResponseDTO<MaterialRequestModel[]>) => {
+    this.showLoader = true;
+    this.inventoryService.GetMaterialRequests_Data(this.pagedResponseModel).subscribe((data: PagedResponseDTO<MaterialRequestModel[]>) => {
       // console.log("data",data);
-      this.pagedResponseModel.results=data.results;
-      this.pagedResponseModel.totalCount=data.totalCount;
-      this.showLoader=false;
-    },(err)=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.pagedResponseModel.results = data.results;
+      this.pagedResponseModel.totalCount = data.totalCount;
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
-    
+
+  }
+  pageChanged(obj: any) {
+    this.pagedResponseModel.currentPage = obj.page;
+    this.loadData();
   }
   mapFilters() {
-    this.pagedResponseModel.filterList=[];
+    this.pagedResponseModel.filterList = [];
     if (this.orderDate) {
-      this.pagedResponseModel.filterList.push({categoryName:'OrderDate',itemFlag:this.orderDate})
+      this.pagedResponseModel.filterList.push({ categoryName: 'OrderDate', itemFlag: this.orderDate })
     }
     if (this.selectedStoreId) {
-      this.pagedResponseModel.filterList.push({categoryName:'StoreId',itemFlag:this.selectedStoreId})
+      this.pagedResponseModel.filterList.push({ categoryName: 'StoreId', itemFlag: this.selectedStoreId })
     }
     if (this.orderNumber) {
-      this.pagedResponseModel.filterList.push({categoryName:'SearchText',itemFlag:this.orderNumber})
+      this.pagedResponseModel.filterList.push({ categoryName: 'SearchText', itemFlag: this.orderNumber })
     }
-    // this.pagedResponseModel.filterList.push({categoryName:'IsLocked',itemFlag:'0'})
-
+    this.pagedResponseModel.filterList.push({ categoryName: 'FinalStatus', itemFlag: '0' });
   }
   OpenSidePanel(content: any) {
-    this.pagedResponseModel.results=[];
-    this.offcanvasService.open(content, {panelClass: 'details-panel', position: 'end' });
+    this.pagedResponseModel.results = [];
+    this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
   }
 
 
-  SelectOrder(ord)
-  {
+  SelectOrder(ord) {
     this.offcanvasService.dismiss();
     this.selectedMaterialRequest.emit([ord]);
     // this.selectedMaterialRequest.emit(ord);
   }
-  SelectOrders()
-  {
-    var checkedItems = this.pagedResponseModel.results.filter(b => b.isChecked &&b.materialRequestId);
+  SelectOrders() {
+    var checkedItems = this.pagedResponseModel.results.filter(b => b.isChecked && b.materialRequestId);
     if (checkedItems.length <= 0) {
       this.toaster.warning('يجب الاختبار من طلبات الشراء');
       return;

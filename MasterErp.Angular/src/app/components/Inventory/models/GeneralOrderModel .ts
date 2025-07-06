@@ -14,6 +14,8 @@ export interface GeneralOrderModel extends CreatorModel {
     orderTypeId?: number;
     orderTypeAR?: string;
     orderTypeEN?: string;
+    orderTypeNameAR?: string;
+    orderTypeNameEN?: string;
     notes?: string;
     isLocked?: boolean;
     isCancelled?: boolean;

@@ -85,6 +85,10 @@ export class MaterialReceiptSidePanelComponent implements OnInit {
 
 
   }
+  pageChanged(obj: any) {
+    this.pagedResponseModel.currentPage = obj.page;
+    this.loadData();
+  }
   mapFilters() {
     this.pagedResponseModel.filterList = [];
     if (this.orderDate) {
@@ -96,7 +100,7 @@ export class MaterialReceiptSidePanelComponent implements OnInit {
     if (this.orderNumber) {
       this.pagedResponseModel.filterList.push({ categoryName: 'searchText', itemFlag: this.orderNumber })
     }
-    //this.pagedResponseModel.filterList.push({ categoryName: 'IsLocked', itemFlag: '0' })
+    this.pagedResponseModel.filterList.push({ categoryName: 'FinalStatus', itemFlag: '0' })
 
   }
   OpenSidePanel(content: any) {

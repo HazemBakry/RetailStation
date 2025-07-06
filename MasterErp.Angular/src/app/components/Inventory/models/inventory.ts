@@ -19,6 +19,8 @@ export interface OrderModel extends CreatorModel {
     orderTypeId?: number | null;
     orderTypeAR?: string;
     orderTypeEN?: string;
+    orderTypeNameAR?: string;
+    orderTypeNameEN?: string;
     supplierId?: number | null;
     supplierNameAR?: string;
     supplierNameEN?: string;

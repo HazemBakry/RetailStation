@@ -21,8 +21,8 @@ namespace MasterErp.Entities.DTOs.Inventory
         public string StatusNameEN { get; set; }
         public int? StatusId { get; set; }
         public int? OrderTypeId { get; set; }
-        public string OrderTypeAR { get; set; }
-        public string OrderTypeEN { get; set; }
+        public string OrderTypeNameAR { get; set; }
+        public string OrderTypeNameEN { get; set; }
         public string Notes { get; set; }
         public bool? IsLocked { get; set; }
         public bool? IsCancelled { get; set; }

@@ -44,15 +44,19 @@
         <hr class="border-black" />
 
         <div class="card card-with-table border shadow-none">
-            <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-start">
+            <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
                 <button (click)="selectOrders()"
                     class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
                     <i class="fas fa-upload"></i>
                     <span>تحميل</span>
                 </button>
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
+                    [pageSize]="pagedResponseModel.pageSize"
+                    [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
             </div>
-            <div class="card-body table-responsive p-0">
-                <table class="table table-borderless align-middle table-hover table-component text-center m-0">
+            <div class="card-body table-responsive p-0 shadow-sm radius-10">
+                <table
+                    class="table table-card-table table-borderless table-middle table-hover bg-transparent small-scroll m-0">
                     <thead>
                         <tr>
                             <th>
@@ -60,7 +64,8 @@
                                     type="checkbox">
 
                             </th>
-                            <th>رقم الطلب</th>
+
+                            <th># الطلب</th>
                             <th>الرقم الدفترى</th>
                             <th>تاريخ الطلب</th>
                             <th>اسم المورد</th>
@@ -76,10 +81,10 @@
                                 <input class="cursor-pointer" type="checkbox" [(ngModel)]="item.isChecked">
 
                             </td>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <div class="fs-5 fw-bold text-center">{{item.orderNumber}}</div>
-                                </div>
+                            <td class="fs-5 fw-bold text-center">
+                                <!-- {{item.orderNumber}} -->
+                                {{item.serialNumber}}
+
                             </td>
                             <td>{{item.docNumber}}</td>
                             <td>{{item.orderDate | date}}</td>
@@ -87,8 +92,8 @@
                             <td>{{item.storeNameAR}}</td>
                             <td>{{item.totalValue}}</td>
                             <td>
-                                <span class="badge rounded-pill default p-2 text-uppercase px-3">
-                                    {{item.orderStatus}}
+                                <span appWorkflowStatus [id]="item.workflowStatusId"
+                                    [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
                                 </span>
                             </td>
                             <td>

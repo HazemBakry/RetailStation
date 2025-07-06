@@ -54,14 +54,15 @@ namespace MasterErp.Service.Purchase
 
         public List<PurchaseOrderModel> GetPurchaseOrders_Data(SearchFilterModel PagingFilter, int? PurchaseOrderId = null)
         {
-            var FilterList = PagingFilter?.FilterList?.Select(f => new FilterList_TableType { ItemKey = string.Empty, CategoryName = f.CategoryName, ItemValue = f.ItemFlag }).ToList();
+            DataTable FilterList = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
+
             SqlParameter[] param = new SqlParameter[4];
 
             param[0] = new SqlParameter("@PurchaseOrderId", PurchaseOrderId);
             param[1] = new SqlParameter("@CurrentPage", PagingFilter.CurrentPage);
             param[2] = new SqlParameter("@PageSize", PagingFilter.PageSize);
             param[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            param[3].Value = FilterList.ToDataTable();
+            param[3].Value = FilterList;
 
             var result = SQLHelper.SQLQuery<PurchaseOrderModel>("[dbo].[SP_GetPurchaseOrders_Data]", ConnectionString, param);
             return result;
