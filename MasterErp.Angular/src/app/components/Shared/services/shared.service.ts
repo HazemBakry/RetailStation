@@ -139,8 +139,18 @@ export class SharedService {
     const queryString = params.toString();
     return this.http.get<any[]>(this.URL + 'Shared/GetAccountsSelector' + (queryString ? `?${queryString}` : ''));
   }
-  GetCostCenterSelector(IsParent: boolean = false) {
-    return this.http.get<any[]>(this.URL + 'Shared/GetCostCenterSelector?IsParent=' + IsParent);
+  GetCostCenterSelector(IsParent: boolean = false,accountId:number=null) {
+    const params = new URLSearchParams();
+
+    if (IsParent !== null) {
+      params.append('IsParent', IsParent.toString());
+    }
+    if (accountId !== null) {
+      params.append('AccountId', accountId.toString());
+    }
+
+    const queryString = params.toString();
+    return this.http.get<any[]>(this.URL + 'Shared/GetCostCenterSelector' + (queryString ? `?${queryString}`:''));
   }
   GetJournalTemplatesSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetJournalTemplatesSelector');

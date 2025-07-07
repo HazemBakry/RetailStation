@@ -60,9 +60,9 @@ namespace MasterErp.API.Controllers.Shared
 
         [HttpGet]
         [Route("GetCostCenterSelector")]
-        public List<SelectorDataModel> GetCostCenterSelector(bool IsParent)
+        public List<SelectorDataModel> GetCostCenterSelector(bool IsParent, int? AccountId)
         {
-            return _sharedService.GetCostCenterSelector(IsParent);
+            return _sharedService.GetCostCenterSelector(IsParent, AccountId);
         }
         [HttpGet]
         [Route("GetJournalTemplatesSelector")]

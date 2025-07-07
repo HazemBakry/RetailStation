@@ -55,7 +55,7 @@ export class AccountsReportSearchComponent implements OnInit {
       this.loadAccountsTreeData();
     } 
     if (this.showCostCenter) {
-      this.loadLoadCostCenterTreeData();
+      this.loadCostCenterTreeData();
     }
 
     this.loadCurrentFinancialPeriod()
@@ -71,8 +71,8 @@ export class AccountsReportSearchComponent implements OnInit {
     })
   }
 
-  loadLoadCostCenterTreeData() {
-    this.sharedService.GetCostCenterSelector(this.isParent).subscribe(data => {
+  loadCostCenterTreeData(accountId:number = null) {
+    this.sharedService.GetCostCenterSelector(this.isParent,accountId).subscribe(data => {
       this.costCenterSelectorData = data;
     });
   }
@@ -90,7 +90,7 @@ export class AccountsReportSearchComponent implements OnInit {
   getSelectedAccount(accountId) {
 
     this.searchModel.accountId = accountId;
-
+    this.loadCostCenterTreeData(accountId);
     // this.searchModel.filterList = this.searchModel.filterList .filter(x => x.categoryName != 'accountId');
     // this.searchModel.filterList .push({
     //   categoryName: 'accountId',

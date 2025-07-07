@@ -136,8 +136,12 @@ namespace MasterErp.Service.Shared
             return result;
         }
 
-        public List<SelectorDataModel> GetCostCenterSelector(bool IsParent)
+        public List<SelectorDataModel> GetCostCenterSelector(bool IsParent, int? AccountId)
         {
+            if(AccountId != null)
+            {
+
+            }
             var result = Context.CostCenterTree.Where(x => x.IsParent == IsParent).Select(a => new SelectorDataModel
             {
                 Id = a.CostCenterId,

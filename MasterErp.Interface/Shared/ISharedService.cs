@@ -17,7 +17,7 @@ namespace MasterErp.Interface.Shared
         List<DailyNotebook> GetLeadgerJournalsData();
         List<SelectorDataModel> GetReceiptLedgersSelector();
         List<SelectorDataModel> GetAccountsSelector(bool? IsGroup, int? AccountTypeId);
-        List<SelectorDataModel> GetCostCenterSelector(bool IsParent);
+        List<SelectorDataModel> GetCostCenterSelector(bool IsParent, int? AccountId);
         List<SelectorDataModel> GetJournalTemplatesSelector();
         List<SelectorDataModel> GetAccountsByTypeId(int TypeId);
         List<FinancialPeriod> GetFinancialPeriods();
