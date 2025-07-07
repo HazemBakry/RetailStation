@@ -152,7 +152,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpPost]
         [Route("GetReceiveReceipts_Summary")]
-        public IActionResult GetReceiveReceiptsSummary(FilterModel model)
+        public IActionResult GetReceiveReceiptsSummary(SearchFilterModel model)
         {
             var data = _paymentService.GetReceiveReceipts_Summary(model);
             var result = new PagedResponseModel<ReceiptModel>

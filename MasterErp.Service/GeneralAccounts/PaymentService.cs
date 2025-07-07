@@ -482,12 +482,17 @@ namespace MasterErp.Service.GeneralAccounts
             }
         }
 
-        public List<ReceiptModel> GetReceiveReceipts_Summary(FilterModel model)
+        public List<ReceiptModel> GetReceiveReceipts_Summary(SearchFilterModel model)
         {
             //return Context.ReceiveReceipts.ToList().ToDataTable();
-            SqlParameter[] Params = new SqlParameter[2];
+
+            DataTable FilterList = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
+
+            SqlParameter[] Params = new SqlParameter[3];
             Params[0] = new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value);
             Params[1] = new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value);
+            Params[2] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[2].Value = FilterList;
 
             var result = SQLHelper.SQLQuery<ReceiptModel>("[Finance].[SP_GetReceiveReceipts_Summary]", null, Params).ToList();
             return result;
@@ -524,6 +529,7 @@ namespace MasterErp.Service.GeneralAccounts
                         receipt.AgencyTypeId = Model.AgencyTypeId;
                         receipt.AccountId = Model.AccountId;
                         receipt.SupplierId = Model.SupplierId;
+                        receipt.WorkflowStatusId = (int)FinanceWorkflowStatus.Pending;
 
                         Context.SaveChanges();
                     }
@@ -585,7 +591,7 @@ namespace MasterErp.Service.GeneralAccounts
         {
             try
             {
-                int generalSupplierId = Context.AccountTrees.Single(x => x.AccountTypeId == 5).AccountId;
+                int generalSupplierId = Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 5).AccountId;
                 List<JournalEntryAccount> accounts = new List<JournalEntryAccount>();
                 int debitAccountId = Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId;
                 int creditAccountId = Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId;

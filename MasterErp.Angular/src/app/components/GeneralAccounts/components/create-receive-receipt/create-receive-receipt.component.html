@@ -11,6 +11,9 @@
                         <label class="form-label d-flex align-items-center gap-2">رقم الايصال <span
                                 class="text-danger">*</span></label>
                         <input type="text" disabled class="form-control nw-form-input" formControlName="receiptNumber" />
+                        <div *ngIf="formErrors.receiptNumber" class="text-danger font-small-3 m-03">
+                            {{formErrors.receiptNumber}}
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -19,6 +22,9 @@
                                 class="text-danger">*</span></label>
 
                         <input type="text" class="form-control nw-form-input" formControlName="contactName" />
+                        <div *ngIf="formErrors.contactName" class="text-danger font-small-3 m-03">
+                            {{formErrors.contactName}}
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -26,6 +32,9 @@
                         <label class="form-label d-flex align-items-center gap-2">تاريخ السند <span
                                 class="text-danger">*</span></label>
                         <input type="date" class="form-control nw-form-input" formControlName="releaseDate" placeholder="any" autocomplete="off">
+                        <div *ngIf="formErrors.releaseDate" class="text-danger font-small-3 m-03">
+                            {{formErrors.releaseDate}}
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -34,6 +43,10 @@
                                 class="text-danger">*</span></label>
 
                         <app-general-selector formControlName="paymentTypeId" [data]="paymentTypeList" [placeholder]="'طريقة الدفع'"></app-general-selector>
+                    
+                    <div *ngIf="formErrors.paymentTypeId" class="text-danger font-small-3 m-03">
+                            {{formErrors.paymentTypeId}}
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -44,6 +57,9 @@
                         </app-general-selector> -->
 
                         <app-general-selector formControlName="agencyTypeId" [data]="agencyTypeList" (valueChanged)="getSelectedAgencyType($event)" [placeholder]="'نوع جهة التعامل '"></app-general-selector>
+                    <div *ngIf="formErrors.agencyTypeId" class="text-danger font-small-3 m-03">
+                            {{formErrors.agencyTypeId}}
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -52,9 +68,15 @@
                                 class="text-danger">*</span></label>
                         <app-general-selector *ngIf="selectedAgencyType == 1" formControlName="accountId" [data]="accountList" [placeholder]="'الحساب'">
                         </app-general-selector>
+                        <div *ngIf="formErrors.accountId" class="text-danger font-small-3 m-03">
+                            {{formErrors.accountId}}
+                        </div>
 
                         <app-general-selector *ngIf="selectedAgencyType == 3" formControlName="customerId" [data]="customerList" [placeholder]="'العميل'">
                         </app-general-selector>
+                        <div *ngIf="formErrors.customerId" class="text-danger font-small-3 m-03">
+                            {{formErrors.customerId}}
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -64,6 +86,9 @@
 
                         <app-general-selector formControlName="receiptLedgerId" [data]="receiptLedgerList" [placeholder]="'دفتر الإيصال'"></app-general-selector>
 
+                        <div *ngIf="formErrors.receiptLedgerId" class="text-danger font-small-3 m-03">
+                            {{formErrors.receiptLedgerId}}
+                        </div>
                         <!-- <app-erp-selector-with-search #Selector [ItemsList]="receiptLedgerList" [Height]="'35px'" [SearchKey]="'nameAR'" [innerTextKey]="'nameAR'" (ItemObj)="GetSelectedReceiptLedger($event)">
                     </app-erp-selector-with-search> -->
                     </div>
@@ -74,6 +99,9 @@
                                 class="text-danger">*</span></label>
 
                         <app-general-selector formControlName="receiptTypeId" [data]="receiptTypeList" [placeholder]="'نوع السند'"></app-general-selector>
+                        <div *ngIf="formErrors.receiptTypeId" class="text-danger font-small-3 m-03">
+                            {{formErrors.receiptTypeId}}
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -81,6 +109,9 @@
                         <label class="form-label d-flex align-items-center gap-2">المبلغ</label>
 
                         <input type="number" class="form-control nw-form-input text-center" formControlName="moneyAmount" />
+                        <div *ngIf="formErrors.moneyAmount" class="text-danger font-small-3 m-03">
+                            {{formErrors.moneyAmount}}
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-12">
@@ -88,6 +119,9 @@
                         <label class="form-label d-flex align-items-center gap-2">البيان</label>
 
                         <input type="text" class="form-control nw-form-input description-area" formControlName="description" />
+                        <div *ngIf="formErrors.description" class="text-danger font-small-3 m-03">
+                            {{formErrors.description}}
+                        </div>
                     </div>
                 </div>
             </div>

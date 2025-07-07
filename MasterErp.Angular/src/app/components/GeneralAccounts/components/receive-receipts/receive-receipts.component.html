@@ -1,9 +1,11 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-success d-flex align-items-center gap-2 border rounded px-3" routerLink="/general-accounts/create-receive-receipt">
+            <button class="btn btn-success d-flex align-items-center gap-2 border rounded px-3"
+                routerLink="/general-accounts/create-receive-receipt">
                 <i class="fas fa-plus-circle"></i>
                 <span>إنشاء سند قبض</span>
             </button>
@@ -17,7 +19,8 @@
             </button>
         </div>
         <div class="justify-content-end">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="ReceiveReceipts.currentPage" [pageSize]="ReceiveReceipts.pageSize" [totalCount]="ReceiveReceipts.totalCount">
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="ReceiveReceipts.currentPage"
+                [pageSize]="ReceiveReceipts.pageSize" [totalCount]="ReceiveReceipts.totalCount">
             </app-erp-pagination>
         </div>
     </div>
@@ -49,8 +52,8 @@
                         <td>{{item.moneyAmount}}</td>
                         <td>{{item.receiptTypeName}}</td>
                         <td>
-                            <span class="badge rounded-pill default p-2 text-uppercase px-3" [ngClass]="getStatusColor(item.isLocked)">
-                                {{item.isLocked}}
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
+                                [nameAR]="item?.workflowStatusNameAR">
                             </span>
                         </td>
                         <td>
@@ -61,7 +64,9 @@
                                     </button>
                                     <div ngbDropdownMenu class="border">
                                         <button ngbDropdownItem (click)="cancelReceipt(item.receiptId)">اسقاط</button>
-                                        <button *ngIf="item.entryId" ngbDropdownItem routerLink="/general-accounts/new-entry" [queryParams]="{JournalEntryId:item.entryId}">معاينة القيد</button>
+                                        <button *ngIf="item.entryId" ngbDropdownItem
+                                            routerLink="/general-accounts/new-entry"
+                                            [queryParams]="{JournalEntryId:item.entryId}">معاينة القيد</button>
                                     </div>
                                 </div>
                             </div>
