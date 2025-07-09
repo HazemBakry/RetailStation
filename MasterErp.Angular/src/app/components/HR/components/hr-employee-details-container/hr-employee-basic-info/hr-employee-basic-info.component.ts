@@ -127,7 +127,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
 
       socialStatusId: [null, [Validators.required]],
       phone: [null],
-      passportNumber: [null, [CustomValidators.regexPattern(RegexType.number)]],
+      passportNumber: [null],
       passportIssuanceDate: [null],
       passportExpireDate: [null],
       passportIssuancePlace: [null],
@@ -225,10 +225,10 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
     this.sharedService.GetBranchesSelector().subscribe((data: FormDropdownModel[]) => {
       this.branchSelectorData = data;
     });
-     this.sharedService.GetSponsorsSelector().subscribe((data: FormDropdownModel[]) => {
+    this.sharedService.GetSponsorsSelector().subscribe((data: FormDropdownModel[]) => {
       this.sponsorSelectorData = data;
     });
-     this.sharedService.GetDepartmentsSelector().subscribe((data: FormDropdownModel[]) => {
+    this.sharedService.GetDepartmentsSelector().subscribe((data: FormDropdownModel[]) => {
       this.departmentsSelectorData = data;
     });
     this.lookupService.GetWorkStatusSelector().subscribe((data: FormDropdownModel[]) => {
@@ -315,7 +315,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
 
   navigateToAddedEmployee(employeeId: number) {
     if (employeeId)
-      this.router.navigate(['.'], { relativeTo: this.acRoute, queryParams: { EmployeeId: employeeId,timestamp: new Date().getTime() } });
+      this.router.navigate(['.'], { relativeTo: this.acRoute, queryParams: { EmployeeId: employeeId, timestamp: new Date().getTime() } });
 
   }
   onFileChange(event: any) {
