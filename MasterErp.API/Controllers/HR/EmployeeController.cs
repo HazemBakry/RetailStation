@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Lookups;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.HR;
@@ -145,9 +146,9 @@ namespace MasterErp.API.Controllers.HR
 
         [HttpGet]
         [Route("GetActiveEmployeesSelector")]
-        public ActionResult<List<SelectorDataModel>> GetActiveEmployeesSelector()
+        public ActionResult<List<SelectorDataModel>> GetActiveEmployeesSelector(int? EmployeeStatusId)
         {
-            var result = _employeeService.GetActiveEmployeesSelector();
+            var result = _employeeService.GetActiveEmployeesSelector(EmployeeStatusId);
             return Ok(result);
         }
 

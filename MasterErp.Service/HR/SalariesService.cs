@@ -200,16 +200,185 @@ namespace MasterErp.Service.HR
             return Model;
 
         }
-        public DateTime? GetEmployeeDueStartDate(int employeeId)
+        public DuesPreparationModel GetEmployeeDuesPreparationDate(int employeeId, DueType DueType, DuesPreparationModel model)
         {
-            var date = Context.EmployeeDues
-               .Where(x => x.EmployeeId == employeeId).Max(x=>x.LastWorkingDate);
-            if (date == null)
-                date = Context.Contracts.Where(x => x.EmployeeId == employeeId)?.OrderByDescending(x=>x.StartDate).FirstOrDefault()?.StartDate;
+            var executionDate = model.ExecutionDate;
+            if (model == null)
+                model = new DuesPreparationModel();
 
-            return date ?? DateTime.Now;
+            // 1. Get the last working date from EmployeeDues table
+            model.LastJoinDate = Context.EmployeeDues
+                .Where(x => x.EmployeeId == employeeId)
+                .Max(x => (DateTime?)x.LastWorkingDate);
+
+            // 2. Get the most recent contract by start date
+            var recentContract = Context.Contracts
+                .Where(x => x.EmployeeId == employeeId)
+                .OrderByDescending(x => x.StartDate)
+                .FirstOrDefault();
+            double? HousingAllowance = 0;
+            if (recentContract !=null)
+            {
+                var recentContractSalaries = Context.ContractDetails
+                                .Where(x => x.ContractId == recentContract.ContractId)
+                                .OrderByDescending(x => x.ContractDetailId)
+                                .FirstOrDefault();
+                model.BasicSalary = recentContractSalaries?.BasicSalary;
+                HousingAllowance = recentContractSalaries?.HousingAllowance;
+            }
+
+            // If no dues found, fallback to LastJoinDate from contract
+            if (model.LastJoinDate == null)
+                model.LastJoinDate = recentContract?.LastJoinDate;
+
+            model.ContractVacationPeriod = recentContract?.VacationPeriodDays;
+
+            // 3. Get the first start date of all contracts
+            model.StartWorkingDate = Context.Contracts
+                .Where(x => x.EmployeeId == employeeId)
+                .OrderBy(x => x.StartDate)
+                .Select(x => (DateTime?)x.StartDate)
+                .FirstOrDefault();
+
+            // 4. Get the latest annual vacation
+            var lastVacation = Context.Vacations
+                .Where(x => x.EmployeeId == employeeId && x.VacationTypeId == (int)VacationType.AnnualVacation)
+                .OrderByDescending(x => x.FromDate)
+                .FirstOrDefault();
+
+            model.VacationStartDate = lastVacation?.FromDate;
+            model.VacationEndDate = lastVacation?.ToDate;
+            model.CurrentVacationPeriod = lastVacation?.Period;
+            if (model.VacationStartDate != null && model.VacationEndDate != null && model.VacationStartDate < model.VacationEndDate)
+            {
+                var start = model.VacationStartDate.Value;
+                var end = model.VacationEndDate.Value;
+
+                int months = ((end.Year - start.Year) * 12) + end.Month - start.Month;
+                if (end.Day > start.Day)
+                {
+                    months += 1;
+                }
+                model.HomeAllowance = months * (HousingAllowance ?? 0);
+            }
+            
+            
+            // 5. Get the latest paid salary
+            var latestPaidSalary = Context.MonthlySalaryDetails
+                .Where(d => d.EmployeeId == employeeId)
+                .Join(
+                    Context.MonthlySalary,
+                    detail => detail.MonthlySalaryId,
+                    header => header.MonthlySalaryId,
+                    (detail, header) => new
+                    {
+                        Detail = detail,
+                        SalaryMonth = header.SalaryMonth,
+                        SalaryYear = header.SalaryYear
+                    }
+                )
+                .OrderByDescending(x => x.SalaryYear)
+                .ThenByDescending(x => x.SalaryMonth)
+                .FirstOrDefault();
+            model.LastPaidSalaryMonth = latestPaidSalary?.SalaryMonth ?? model.LastJoinDate?.Month;
+            model.LastPaidSalaryYear = latestPaidSalary?.SalaryYear ?? model.LastJoinDate?.Year ;
+
+
+            var advances = _employeeAdvancesService.GetAdvancePaymentsData(new SearchFilterModel { CurrentPage = 1, PageSize = 100 }, employeeId).Where(x => x.WorkflowStatusId != (int)PaymentWorkflowStatus.Paid).ToList();
+            if (advances.Any())
+            {
+                model.Advances = advances.Sum(x => x.MoneyAmount);
+            }
+
+            DateTime? fromDate = DueType == DueType.Vacation ? model.LastJoinDate : model.StartWorkingDate;
+            if (fromDate!=null && executionDate != null)
+                model.VacationDues = GetDuesByType(DueType, model.BasicSalary, fromDate.Value, executionDate.Value);
+            model.SalaryDues = GetEmployeeSalaryDues(employeeId, model.SalaryDuesMonths);
+            model.CalcTotalDues();
+            return model;
         }
-        public ActionsResponseModel SaveEmployeeDue(int employeeId, EmployeeDueModel model)
+        private double GetEmployeeSalaryDues(int employeeId,List<SalaryDuesMonthModel> SalaryDuesMonthModel)
+        {
+            double salary = 0;
+            if(SalaryDuesMonthModel != null)
+            {
+                List<FilterItem> FilterList = new List<FilterItem>();
+                SearchFilterModel SearchModel = new SearchFilterModel();
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 100;
+                FilterList.Add(new FilterItem
+                {
+                    CategoryName = "EmployeeId",
+                    ItemFlag = employeeId.ToString(),
+                });
+                SearchModel.FilterList = FilterList;
+                foreach (var item in SalaryDuesMonthModel)
+                {
+
+                    var result = GetEmployeeSalarySummary(item.SalaryYear, item.SalaryMonth, SearchModel);
+                    if (result.Any())
+                        salary += result.FirstOrDefault().TotalSalary.GetValueOrDefault();
+                }
+            }
+            
+            return salary;
+        }
+        private double GetDuesByType(DueType dueType, double? salary, DateTime fromDate, DateTime toDate)
+        {
+            if (salary == null || fromDate >= toDate)
+                return 0;
+
+            double dailySalary = (salary.Value / 30.0);
+
+            // Calculate duration between fromDate and toDate in years, months, days
+            int totalYears = toDate.Year - fromDate.Year;
+            int totalMonths = toDate.Month - fromDate.Month;
+            int totalDays = toDate.Day - fromDate.Day;
+
+            if (totalDays < 0)
+            {
+                totalMonths -= 1;
+                totalDays += DateTime.DaysInMonth(toDate.Year, toDate.Month == 1 ? 12 : toDate.Month - 1);
+            }
+
+            if (totalMonths < 0)
+            {
+                totalYears -= 1;
+                totalMonths += 12;
+            }
+
+            // If more than a month and a few days => consider rounding to the next month
+            if (totalMonths >= 0 && totalDays >= 1)
+                totalMonths++;
+
+            double totalYearsDecimal = totalYears + (totalMonths / 12.0);
+
+            double vacationDuesDays = 0;
+
+            if (dueType == DueType.Vacation)
+            {
+                vacationDuesDays = totalYearsDecimal * 21;
+            }
+            else if (dueType == DueType.EndOfContract)
+            {
+                // First 5 years: 15 days per year (0.5 month)
+                // After 5 years: 30 days per year (1 month)
+                if (totalYearsDecimal <= 5)
+                {
+                    vacationDuesDays = totalYearsDecimal * 15;
+                }
+                else
+                {
+                    vacationDuesDays = (5 * 15) + ((totalYearsDecimal - 5) * 30);
+                }
+            }
+
+            double dues = Math.Round(vacationDuesDays * dailySalary, 2);
+            return dues;
+        }
+
+
+        public ActionsResponseModel SaveEmployeeDue(int employeeId, DuesPreparationModel model)
         {
             // Check for overlapping due record
             var conflictingDue = Context.EmployeeDues
@@ -233,24 +402,26 @@ namespace MasterErp.Service.HR
                 NoMonths = 0,
                 NoDays = 0,
                 StartWorkingDate = model.StartWorkingDate,
-                LastWorkingDate = model.LastWorkingDate,
+                LastWorkingDate = model.LastJoinDate,
                 ExecutionDate = model.ExecutionDate,
 
-                Notes = model.Notes,
+                Notes = "",
                 VacationDues = (float?)model.VacationDues,
                 EndOfServiceDues = (float?)model.EndOfServiceDues,
-                CurrentMonthSalary = (float?)model.CurrentMonthSalary,
+                CurrentMonthSalary = (float?)model.SalaryDues,
                 HomeAllowance = (float?)model.HomeAllowance,
                 Advances = (float?)model.Advances,
-                NetAmount = (float?)model.NetAmount,
-                CreatedBy = model.CreatedBy,
+                NetAmount = (float?)model.TotalDueAmount,
+                CreatedBy = "",
                 CreatedDate = DateTime.Now
             };
-            if(model.AddSalaryToDue == true)
+            if(model.IncludeSalary == true)
             {
-                entity.SalaryMonth = model.SalaryMonth;
-                entity.SalaryYear = model.SalaryYear;
-                entity.AddSalaryToDue = model.AddSalaryToDue;
+                //entity.SalaryMonth = model.SalaryMonth;
+                //entity.SalaryYear = model.SalaryYear;
+                //entity.AddSalaryToDue = model.AddSalaryToDue;
+
+
 
             }
             Context.EmployeeDues.Add(entity);

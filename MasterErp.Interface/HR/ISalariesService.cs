@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models.HR;
 using System;
@@ -19,9 +20,9 @@ namespace MasterErp.Interface.HR
 
         #region Employee Dues
         List<EmployeeDueModel> GetEmployeeDues(int EmployeeId, SearchFilterModel SearchModel);
-        DateTime? GetEmployeeDueStartDate(int EmployeeId);
+        DuesPreparationModel GetEmployeeDuesPreparationDate(int employeeId, DueType DueType, DuesPreparationModel model);
         EmployeeDueModel CalculateEmployeeDue(int EmployeeId, EmployeeDueModel Model);
-        ActionsResponseModel SaveEmployeeDue(int EmployeeId, EmployeeDueModel Model);
+        ActionsResponseModel SaveEmployeeDue(int EmployeeId, DuesPreparationModel Model);
         #endregion
 
     }

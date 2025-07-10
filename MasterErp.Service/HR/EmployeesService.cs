@@ -303,7 +303,7 @@ namespace MasterErp.Service.HR
 
                     salary.ContractId = employeeContract.ContractId;
                     salary.EmployeeId = employeeContract.EmployeeId;
-                    salary.BasicSalary = model.BasicSalary;
+                    salary.BasicSalary = model.BasicSalary.GetValueOrDefault();
                     salary.ExtraSalary = model.ExtraSalary;
                     salary.Transportation = model.Transportation;
                     salary.HousingAllowance = model.HousingAllowance;
@@ -327,7 +327,7 @@ namespace MasterErp.Service.HR
 
                     salary.ContractId = employeeContract.ContractId;
                     salary.EmployeeId = employeeContract.EmployeeId;
-                    salary.BasicSalary = model.BasicSalary;
+                    salary.BasicSalary = model.BasicSalary.GetValueOrDefault();
                     salary.ExtraSalary = model.ExtraSalary;
                     salary.Transportation = model.Transportation;
                     salary.HousingAllowance = model.HousingAllowance;
@@ -674,10 +674,10 @@ namespace MasterErp.Service.HR
             return result;
         }
 
-        public List<SelectorDataModel> GetActiveEmployeesSelector()
+        public List<SelectorDataModel> GetActiveEmployeesSelector(int? EmployeeStatusId)
         {
-            SqlParameter[] Params = new SqlParameter[0];
-
+            SqlParameter[] Params = new SqlParameter[1];
+            Params[0] = new SqlParameter("@EmployeeStatusId", EmployeeStatusId);
             var result = SQLHelper.SQLQuery<SelectorDataModel>("[HR].[SP_GetActiveEmployees]", null, Params);
             return result;
         }

@@ -4,7 +4,6 @@
             المستحقات
         </div>
         <div class="d-flex">
-
             <button class="btn btn-success  m-2 d-flex align-items-center gap-2 border rounded px-3"
                 (click)="calculateDues()">
                 <i class="fas fa-check-circle"></i>
@@ -20,12 +19,24 @@
                     <div class="col-lg-12">
                         <div class="mb-2">
                             <label class="form-label d-flex align-items-center gap-2">
+                                نوع المستحقات
+                                <span class="text-danger">*</span>
+                            </label>
+                            <app-general-selector (valueChanged)="dueTypeChanged($event)"
+                                [data]="employeeDueTypesSelectorData" [placeholder]="'نوع المستحقات'"
+                                [(ngModel)]="selectedDueTypeId" [showSearch]="true"></app-general-selector>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-2">
+                            <label class="form-label d-flex align-items-center gap-2">
                                 اسم الموظف
                                 <span class="text-danger">*</span>
                             </label>
                             <app-general-selector [(ngModel)]="selectedEmployeeId"
-                                (valueChanged)="employeeChanged($event)" [data]="employeeSelectorData"
-                                [placeholder]="'اسم الموظف'" [showSearch]="true"></app-general-selector>
+                                [disabled]="!employeeSelectorData?.length" (valueChanged)="employeeChanged($event)"
+                                [data]="employeeSelectorData" [placeholder]="'اسم الموظف'"
+                                [showSearch]="true"></app-general-selector>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -39,91 +50,149 @@
                                 [showSearch]="true"></app-general-selector>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="mb-2">
-                            <label class="form-label d-flex align-items-center gap-2">
-                                نوع المستحقات
-                                <span class="text-danger">*</span>
-                            </label>
-                            <app-general-selector [data]="employeeDueTypesSelectorData" [placeholder]="'نوع المستحقات'"
-                                [(ngModel)]="employeeDueModel.dueTypeId" [showSearch]="true"></app-general-selector>
+
+                    <div class="row">
+
+
+
+                        <div *ngIf="selectedDueTypeId == DueType.EndOfService" class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    أول يوم عمل
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="date" [(ngModel)]="duesCreateModel.startWorkingDate" disabled
+                                    autocomplete="off" class="form-control nw-form-input" />
+                            </div>
+                        </div>
+                        <div *ngIf="selectedDueTypeId == DueType.Vacation" class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    أخر يوم عمل
+                                    <span class="text-danger">*</span></label>
+                                <input type="date" [(ngModel)]="duesCreateModel.lastJoinDate"
+                                    [min]="duesCreateModel.startWorkingDate" disabled autocomplete="off"
+                                    class="form-control nw-form-input" />
+                            </div>
+                        </div>
+                        <div *ngIf="duesCreateModel.startWorkingDate || duesCreateModel.lastJoinDate"
+                            class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    الي تاريخ
+                                    <span class="text-danger">*</span></label>
+                                <input type="date" (change)="calcDeusPeriod()"
+                                    [(ngModel)]="duesCreateModel.executionDate"
+                                    [min]="duesCreateModel.startWorkingDate || duesCreateModel.lastJoinDate"
+                                    autocomplete="off" class="form-control nw-form-input" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="duesCreateModel.totalDuesMonths || duesCreateModel.totalDuesDays">
+                        <div class="col-lg-3">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    عدد الشهور
+
+                                </label>
+                                <input type="text" [value]="duesCreateModel.totalDuesMonths||0" disabled
+                                    autocomplete="off" class="form-control nw-form-input" />
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    عدد الأيام
+                                </label>
+                                <input type="text" [value]="duesCreateModel.totalDuesDays||0" disabled
+                                    autocomplete="off" class="form-control nw-form-input" />
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    الأجازه المستحقة
+                                </label>
+                                <input type="text" [value]="duesCreateModel?.contractVacationPeriod||0"
+                                    disabled autocomplete="off" class="form-control nw-form-input" />
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    مدة أجازه
+                                </label>
+                                <input type="text" [value]="duesCreateModel?.currentVacationPeriod||0"
+                                    disabled autocomplete="off" class="form-control nw-form-input" />
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-lg-4">
-                        <div class="mb-2">
-                            <label class="form-label d-flex align-items-center gap-2">
-                                من تاريخ
-                                <span class="text-danger">*</span>
-                            </label>
-                            <input type="date" [(ngModel)]="employeeDueModel.startWorkingDate" disabled
-                                autocomplete="off" class="form-control nw-form-input" />
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="mb-2">
-                            <label class="form-label d-flex align-items-center gap-2">
-                                الي تاريخ
-                                <span class="text-danger">*</span></label>
-                            <input type="date" [(ngModel)]="employeeDueModel.lastWorkingDate" [min]="startWorkingDate"
-                                autocomplete="off" class="form-control nw-form-input" />
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="mb-2">
-                            <label class="form-label d-flex align-items-center gap-2">
-                                تاريخ التنفيذ
-                                <span class="text-danger">*</span></label>
-                            <input type="date" [(ngModel)]="employeeDueModel.executionDate" autocomplete="off"
-                                class="form-control nw-form-input" />
-                        </div>
-                    </div>
-                    <div class="col-lg-4  mb-3">
-                        <label class="form-label d-flex align-items-center gap-2">
-                            أضافه الراتب للمستحقات
-                        </label>
-                        <input class="big-checkbox" [(ngModel)]="employeeDueModel.addSalaryToDue" type="checkbox">
+                    <div class="row">
 
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="mb-2">
+                        <div class="col-lg-6  mb-3">
                             <label class="form-label d-flex align-items-center gap-2">
-                                السنه
-                                <span class="text-danger">*</span>
+                                أضافه الراتب للمستحقات
                             </label>
-                            <app-general-selector [(ngModel)]="employeeDueModel.salaryYear" [data]="yearsSelectorData"
-                                [placeholder]="'السنه'" [showSearch]="true"></app-general-selector>
+                            <input class="big-checkbox" [(ngModel)]="duesCreateModel.includeSalary" type="checkbox">
+
                         </div>
+                        <ng-container *ngIf="duesCreateModel.includeSalary">
+                            <div class="col-lg-6">
+                                <div class="mb-2">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                        الشهر
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <app-general-selector (valueChanged)="salaryMonthsChanged($event)"
+                                        [data]="salaryMonthsSelector" [placeholder]="'الشهر'"
+                                        [showSearch]="true"></app-general-selector>
+                                </div>
+                            </div>
+                        </ng-container>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="mb-2">
+                    <div class="row">
+
+                        <div class="col-lg-6  mb-3">
                             <label class="form-label d-flex align-items-center gap-2">
-                                الشهر
-                                <span class="text-danger">*</span>
+                                أضافه تذكره طيران
                             </label>
-                            <app-general-selector [(ngModel)]="employeeDueModel.salaryMonth" [data]="monthsSelectorData"
-                                [placeholder]="'الشهر'" [showSearch]="true"></app-general-selector>
+                            <input class="big-checkbox" [(ngModel)]="duesCreateModel.includeFlightTicket" type="checkbox">
+
                         </div>
+                        <ng-container *ngIf="duesCreateModel.includeFlightTicket">
+                            <div class="col-lg-6">
+                                <div class="mb-2">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                        قيمة تذكره طيران
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" (input)="addFlightTicketAmount()" (keypress)="validateNumbers($event.key)"
+                                         [(ngModel)]="duesCreateModel.flightTicketDues" [min]="0"
+                                    autocomplete="off" class="form-control nw-form-input" />
+                                </div>
+                            </div>
+                        </ng-container>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 mb-2 border-start">
                 <div class="row gy-3">
-                    <div class="col-lg-12">
+                    <div *ngIf="selectedDueTypeId == DueType.Vacation" class="col-lg-12">
                         <div class="mb-2">
                             <label class="form-label d-flex align-items-center gap-2">
                                 مستحقات الاجازة
                             </label>
-                            <input type="number" [value]="employeeDueModel?.vacationDues" disabled autocomplete="off"
+                            <input type="number" [value]="duesCreateModel?.vacationDues?? 0" disabled autocomplete="off"
                                 class="form-control nw-form-input text-center text-danger" />
                         </div>
                     </div>
-                    <div class="col-lg-12">
+                    <div *ngIf="selectedDueTypeId == DueType.EndOfService" class="col-lg-12">
                         <div class="mb-2">
                             <label class="form-label d-flex align-items-center gap-2">
                                 مستحقات انهاء تعاقد
                             </label>
-                            <input type="number" [value]="employeeDueModel?.endOfServiceDues" disabled
+                            <input type="number" [value]="duesCreateModel?.endOfServiceDues?? 0" disabled
                                 autocomplete="off" class="form-control nw-form-input text-center text-danger" />
                         </div>
                     </div>
@@ -132,7 +201,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 الراتب
                             </label>
-                            <input type="number" [value]="employeeDueModel?.currentMonthSalary" disabled
+                            <input type="number" [value]="duesCreateModel?.salaryDues ?? 0" disabled
                                 autocomplete="off" class="form-control nw-form-input text-center text-danger" />
                         </div>
                     </div>
@@ -141,7 +210,16 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 مستحقات المعيشه
                             </label>
-                            <input type="number" [value]="employeeDueModel?.homeAllowance" disabled autocomplete="off"
+                            <input type="number" [value]="duesCreateModel?.homeAllowance ?? 0" disabled autocomplete="off"
+                                class="form-control nw-form-input text-center text-danger" />
+                        </div>
+                    </div>
+                    <div *ngIf="duesCreateModel.includeFlightTicket" class="col-lg-12">
+                        <div class="mb-2">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                قيمة تذكره طيران
+                            </label>
+                            <input type="number" [value]="duesCreateModel?.flightTicketDues ??0 " disabled autocomplete="off"
                                 class="form-control nw-form-input text-center text-danger" />
                         </div>
                     </div>
@@ -150,7 +228,16 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 السلف
                             </label>
-                            <input type="number" [value]="employeeDueModel?.advances" disabled autocomplete="off"
+                            <input type="number" [value]="duesCreateModel?.advances??0" disabled autocomplete="off"
+                                class="form-control nw-form-input text-center text-danger" />
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-2">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                العهدة
+                            </label>
+                            <input type="number" [value]="duesCreateModel?.covenant??0" disabled autocomplete="off"
                                 class="form-control nw-form-input text-center text-danger" />
                         </div>
                     </div>
@@ -159,7 +246,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 اجمالي المستحقات
                             </label>
-                            <input type="number" [value]="employeeDueModel?.netAmount" disabled autocomplete="off"
+                            <input type="number" [value]="duesCreateModel?.totalDueAmount ??0" disabled autocomplete="off"
                                 class="form-control nw-form-input text-center text-danger" />
                         </div>
                     </div>
@@ -214,8 +301,7 @@
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
         <div class="table-responsive shadow-sm radius-10 table-vp-height">
-            <table
-                class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0 ">
+            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0 ">
                 <thead class="table-light">
                     <tr>
                         <th>اسم الموظف</th>
@@ -240,7 +326,7 @@
                         <td>{{item.branchNameAR ?? item.branchNameEN}}</td>
                         <td>{{item.jobNameAR ?? item.jobNameEN}}</td>
                         <td>{{item.startWorkingDate| date}}</td>
-                        <td>{{item.lastWorkingDate| date}}</td>
+                        <td>{{item.lastJoinDate| date}}</td>
                         <td>{{item.executionDate | date}}</td>
                         <td>{{item.dueTypeNameAR ?? item.dueTypeNameEN}}</td>
                         <td>{{item.vacationDues}}</td>
@@ -280,3 +366,5 @@
         </button>
     </div>
 </ng-template>
+
+<ngx-loading [show]="showLoader"></ngx-loading>

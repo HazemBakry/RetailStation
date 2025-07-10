@@ -27,7 +27,7 @@ namespace MasterErp.Entities.DTOs.HR
         public int? EmployeeId { get; set; }
 
         //salary
-        public double BasicSalary { get; set; }
+        public double? BasicSalary { get; set; }
         public double? ExtraSalary { get; set; }
         public double? Transportation { get; set; }
         public double? HousingAllowance { get; set; }
