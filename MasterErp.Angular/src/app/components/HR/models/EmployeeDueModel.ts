@@ -9,12 +9,14 @@ export interface EmployeeDueModel {
     jobTitle: string;
     jobNameEN: string;
     jobNameAR: string;
+    totalDuesMonths: number | null;
+    totalDuesDays: number | null;
     totalDueAmount: number | null;
     dueDate: string| null;
     dueDescription: string;
 
     startWorkingDate: string| null;
-    lastWorkingDate: string| null;
+    lastJoinDate: string| null;
     executionDate: string| null;
     salaryMonth: number | null;
     salaryYear: number | null;
@@ -31,4 +33,57 @@ export interface EmployeeDueModel {
     dueTypeId: number | null;
     dueTypeNameEN: string;
     dueTypeNameAR: string;
+    includeFlightTicket:boolean;
+    flightTicketAmount:number;
+    covenant:number;
 }  
+
+export interface DuesPreparationModel {
+    lastJoinDate: string | null;
+    startWorkingDate: string | null;
+    contractVacationPeriod: number | null;
+    vacationStartDate: string | null;
+    vacationEndDate: string | null;
+    currentVacationPeriod: number | null;
+    lastPaidSalaryMonth: number | null;
+    lastPaidSalaryYear: number | null;
+    branchId: number | null;
+    basicSalary: number | null;
+    vacationDues: number | null;
+    homeAllowance: number | null;
+    totalDueAmount: number | null;
+}
+
+export interface DuesPreparationModel {
+    dueTypeId:number;
+    executionDate: string | null;
+    lastJoinDate: string | null;
+    startWorkingDate: string | null;
+    contractVacationPeriod: number | null;
+    vacationStartDate: string | null;
+    vacationEndDate: string | null;
+    currentVacationPeriod: number | null;
+    lastPaidSalaryMonth: number | null;
+    lastPaidSalaryYear: number | null;
+    branchId: number | null;
+    basicSalary: number | null;
+    salaryDues: number | null;
+    vacationDues: number | null;
+    homeAllowance: number | null;
+    advances: number | null;
+    covenant: number | null;
+    flightTicketDues: number | null;
+    includeFlightTicket: boolean | null;
+    includeSalary: boolean | null;
+    salaryDuesMonths: SalaryDuesMonthModel[];
+    endOfServiceDues: number | null;
+
+    totalDuesMonths: number | null;
+    totalDuesDays: number | null;
+    totalDueAmount: number | null;
+}
+
+export interface SalaryDuesMonthModel {
+    salaryMonth: number;
+    salaryYear: number;
+}

@@ -18,10 +18,12 @@ import { Observable } from 'rxjs';
 import { AdvancePaymentModel, EmployeeAdvanceModel } from '../models/EmployeeAdvanceModel';
 import { EmployeeAdvancedAttendanceModel, EmployeeAttendanceModel } from '../models/EmployeeAttendanceModel';
 import { EmployeeSalarySummaryModel } from '../models/EmployeeSalarySummaryModel';
-import { EmployeeDueModel } from '../models/EmployeeDueModel';
+import { DuesPreparationModel, EmployeeDueModel } from '../models/EmployeeDueModel';
 import { SponsorModel } from '../models/SponsoModel';
 import { DepartmentModel } from '../models/DepartmentModel';
 import { EmployeeReportModel, SalaryAnnualIncreaseModel } from '../models/EmployeeReportModel';
+import { EmployeeStatusEnum } from '../../Shared/Enums/EmployeeStatusEnum';
+import { DueTypeEnum } from '../../Shared/Enums/DueTypeEnum';
 
 @Injectable({
   providedIn: 'root'
@@ -184,8 +186,9 @@ export class HrService {
     return this.http.post<any>(this.URL + 'Employee/ExportEmployeesSummaryData', model);
   }
 
-  GetActiveEmployeesSelector() {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Employee/GetActiveEmployeesSelector');
+  GetActiveEmployeesSelector(empStatusId:EmployeeStatusEnum=EmployeeStatusEnum.Active) {
+    var params = empStatusId ? `?EmployeeStatusId=${empStatusId}`:'';
+    return this.http.get<FormDropdownModel[]>(this.URL + `Employee/GetActiveEmployeesSelector${params}`);
   }
 
   GetEmployeesSummary_Filters(model: SearchFilterModel) {
@@ -237,15 +240,27 @@ export class HrService {
     return this.http.post<PagedResponseDTO<EmployeeDueModel[]>>(this.URL + `Salaries/GetEmployeeDues?EmployeeId=${employeeId}`, filter);
   }
 
-  getEmployeeDueStartDate(employeeId: number): Observable<string> {
-    return this.http.get<string>(this.URL + `Salaries/GetEmployeeDueStartDate?EmployeeId=${employeeId}`);
+  GetEmployeeDuesPreparationDate(employeeId: number,dueType:DueTypeEnum,model:DuesPreparationModel): Observable<DuesPreparationModel> {
+    const params = new URLSearchParams();
+
+    params.append('EmployeeId', employeeId.toString());
+    
+    if (dueType !== null) {
+      params.append('DueType', dueType.toString());
+    }
+    // if (executionDate != null) {
+    //   params.append('ExecutionDate', executionDate);
+    // }
+
+    const queryString = params.toString();
+    return this.http.post<DuesPreparationModel>(this.URL + 'Salaries/GetEmployeeDuesPreparationDate'+ (queryString ? `?${queryString}` : ''),model);
   }
 
   calculateEmployeeDue(employeeId: number, model: EmployeeDueModel): Observable<EmployeeDueModel> {
     return this.http.post<EmployeeDueModel>(this.URL + `Salaries/CalculateEmployeeDue?EmployeeId=${employeeId}`, model);
   }
 
-  saveEmployeeDue(employeeId: number, model: EmployeeDueModel): Observable<ActionsResponseModel> {
+  saveEmployeeDue(employeeId: number, model: DuesPreparationModel): Observable<ActionsResponseModel> {
     return this.http.post<ActionsResponseModel>(this.URL + `Salaries/SaveEmployeeDue?EmployeeId=${employeeId}`, model);
   }
 

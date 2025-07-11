@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.HR;
@@ -79,11 +80,11 @@ namespace MasterErp.API.Controllers.HR
         }
 
 
-        [HttpGet]
-        [Route("GetEmployeeDueStartDate")]
-        public IActionResult GetEmployeeDueStartDate(int EmployeeId)
+        [HttpPost]
+        [Route("GetEmployeeDuesPreparationDate")]
+        public IActionResult GetEmployeeDuesPreparationDate(int EmployeeId, DueType DueType, DuesPreparationModel model)
         {
-            var result = _salariesService.GetEmployeeDueStartDate(EmployeeId);
+            var result = _salariesService.GetEmployeeDuesPreparationDate(EmployeeId,DueType, model);
             
             return Ok(result);
         }
@@ -98,7 +99,7 @@ namespace MasterErp.API.Controllers.HR
 
         [HttpPost]
         [Route("SaveEmployeeDue")]
-        public IActionResult SaveEmployeeDue(int EmployeeId, EmployeeDueModel Model)
+        public IActionResult SaveEmployeeDue(int EmployeeId, DuesPreparationModel Model)
         {
             var result = _salariesService.SaveEmployeeDue(EmployeeId, Model);
 

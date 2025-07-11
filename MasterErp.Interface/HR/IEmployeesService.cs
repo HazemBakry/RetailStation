@@ -33,7 +33,7 @@ namespace MasterErp.Interface.HR
         List<FilterModel> GetEmployeesSummary_Filters(SearchFilterModel model);
         ActionsResponseModel ExportEmployeesSummaryData(SearchFilterModel model);
         List<StatisticsCardSummary> GetEmployeesSummary();
-        List<SelectorDataModel> GetActiveEmployeesSelector();
+        List<SelectorDataModel> GetActiveEmployeesSelector(int? EmployeeStatusI);
         ContractDetail GetEmployeeContractDetails(int EmployeeId);
         List<EmployeeSalaryDto> GetEmployeesSalaryByBranch(List<int> BranchId, DateTime ExecutionDate);
         DataTable GetHRDashboardStatistics();

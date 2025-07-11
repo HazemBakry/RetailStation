@@ -14,6 +14,8 @@ namespace MasterErp.Entities.Models.HR
         public int ContractId { get; set; }
         public int EmployeeId { get; set; }
         public DateTime StartDate { get; set; }
+        [NotMapped]
+        public DateTime LastJoinDate => StartDate;
         public DateTime EndDate { get; set; }
         public int ContractPeriodYears { get; set; }
         public int? VacationPeriodDays { get; set; }

@@ -84,7 +84,7 @@ export class HrEmployeeContractInfoComponent implements OnInit {
       endDate: [null, [Validators.required]],
       vacationPeriodDays: [null,[CustomValidators.regexPattern(RegexType.number)]],
       contractPeriodYears: [null,[CustomValidators.regexPattern(RegexType.number)]],
-      isGossi: [null],
+      isGossi: [false],
       vacationDate: [null],
     },
     {
