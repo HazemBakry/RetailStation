@@ -173,7 +173,9 @@ namespace MasterErp.API.Controllers.HR
             return Ok(result);
         }
         #endregion
+
         #region EmployeeSalaryAnnualIncreaseReport
+
         [HttpPost]
         [Route("GetEmployeeSalaryAnnualIncreaseReport_Data")]
         public IActionResult GetEmployeeSalaryAnnualIncreaseReport_Data( SearchFilterModel model)
@@ -188,6 +190,7 @@ namespace MasterErp.API.Controllers.HR
             };
             return Ok(result);
         }
+
         [HttpPost]
         [Route("GetEmployeeSalaryAnnualIncreaseReport_Export")]
         public IActionResult GetEmployeeSalaryAnnualIncreaseReport_Export( SearchFilterModel model)
@@ -196,6 +199,7 @@ namespace MasterErp.API.Controllers.HR
 
             return Ok(result);
         }
+
         [HttpPost]
         [Route("GetEmployeeSalaryAnnualIncreaseReport_Filters")]
         public IActionResult GetEmployeeSalaryAnnualIncreaseReport_Filters( SearchFilterModel model)
@@ -204,6 +208,44 @@ namespace MasterErp.API.Controllers.HR
 
             return Ok(result);
         }
+
+        #endregion
+
+        #region Salaries Report
+
+        [HttpPost]
+        [Route("GetSalariesReport_Data")]
+        public IActionResult GetSalariesReport_Data(int Month, int Year,SearchFilterModel model)
+        {
+            var data = _hrReportService.GetSalariesReport_Data(Month, Year, model);
+            var result = new PagedResponseModel<EmployeeSalarySummaryModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("GetSalariesReport_Export")]
+        public IActionResult GetSalariesReport_Export(int Month , int Year, SearchFilterModel model)
+        {
+            var result = _hrReportService.GetSalariesReport_Export(Month, Year, model);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("GetSalariesReport_Filters")]
+        public IActionResult GetSalariesReport_Filters(int Month, int Year, SearchFilterModel model)
+        {
+            var result = _hrReportService.GetSalariesReport_Filters(Month, Year, model);
+
+            return Ok(result);
+        }
+
         #endregion
 
     }

@@ -36,6 +36,8 @@ import { HrEmployeeContractSalaryComponent } from './components/hr-employee-deta
 import { HrNewComerEmployeesReportComponent } from './components/hr-new-comer-employees-report/hr-new-comer-employees-report.component';
 import { HrEmployeesSalaryAnnualIncreaseReportComponent } from './components/hr-employees-salary-annual-increase-report/hr-employees-salary-annual-increase-report.component';
 import { AuthPageGuard } from 'src/app/Auth/authPage.guard';
+import { HRSalariesReportComponent } from './components/hr-salaries-report/hr-salaries-report.component';
+import { HrJobsComponent } from './components/hr-jobs/hr-jobs.component';
 
 
 const routes: Routes = [
@@ -195,6 +197,12 @@ const routes: Routes = [
         data: { pageName: 'SalaryAnnualIncreaseReport' }
       },
       {
+        path: 'salaries-report',
+        component: HRSalariesReportComponent,
+        // canActivate: [AuthPageGuard],
+        data: { pageName: 'HRSalariesReport' }
+      },
+      {
         path: 'advances-report',
         component: HrAdvancesReportsComponent,
         canActivate: [AuthPageGuard],
@@ -217,6 +225,12 @@ const routes: Routes = [
         component: HrDepartmentsComponent,
         canActivate: [AuthPageGuard],
         data: { pageName: 'Departments' }
+      },
+      {
+        path: 'jobs',
+        component: HrJobsComponent,
+        // canActivate: [AuthPageGuard],
+        data: { pageName: 'Jobs' }
       },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]

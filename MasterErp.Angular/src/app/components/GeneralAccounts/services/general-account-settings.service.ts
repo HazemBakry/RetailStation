@@ -34,15 +34,15 @@ export class GeneralAccountSettingsService {
     return this.http.post<ActionsResponseModel>(this.URL + 'PaymentTerm/CreateNewPaymentTerm', Model);
   }
 
-  CreateNewPaymentTermDetails(paymentTermId:number,Model: PaymentTermDetailsModel) {
+  CreateNewPaymentTermDetails(paymentTermId: number, Model: PaymentTermDetailsModel) {
     return this.http.post<ActionsResponseModel>(this.URL + `PaymentTerm/CreateNewPaymentTermDetails?PaymentTermId=${paymentTermId}`, Model);
   }
 
-  EditPaymentTerm(paymentTermId:number,Model: PaymentTermModel) {
+  EditPaymentTerm(paymentTermId: number, Model: PaymentTermModel) {
     return this.http.post<ActionsResponseModel>(this.URL + `PaymentTerm/EditPaymentTerm?PaymentTermId=${paymentTermId}`, Model);
   }
 
-  EditPaymentTermDetails(paymentTermDetailsId:number,Model: PaymentTermDetailsModel) {
+  EditPaymentTermDetails(paymentTermDetailsId: number, Model: PaymentTermDetailsModel) {
     return this.http.post<ActionsResponseModel>(this.URL + `PaymentTerm/EditPaymentTermDetails?PaymentTermDetailsId=${paymentTermDetailsId}`, Model);
   }
 
@@ -68,7 +68,7 @@ export class GeneralAccountSettingsService {
     return this.http.post<ActionsResponseModel>(this.URL + 'TaxCalculation/CreateNewTaxCalculation', Model);
   }
 
-  EditTaxCalculation(taxCalculationId:number,Model: TaxCalculationModel) {
+  EditTaxCalculation(taxCalculationId: number, Model: TaxCalculationModel) {
     return this.http.post<ActionsResponseModel>(this.URL + `TaxCalculation/EditTaxCalculation?TaxCalculationId=${taxCalculationId}`, Model);
   }
 
@@ -87,7 +87,7 @@ export class GeneralAccountSettingsService {
     return this.http.post<ActionsResponseModel>(this.URL + 'DailyNotebook/CreateNewDailyNotebook', Model);
   }
 
-  EditDailyNotebook(DailyNotebookId:number,Model: DailyNotebookModel) {
+  EditDailyNotebook(DailyNotebookId: number, Model: DailyNotebookModel) {
     return this.http.post<ActionsResponseModel>(this.URL + `DailyNotebook/EditDailyNotebook?DailyNotebookId=${DailyNotebookId}`, Model);
   }
 
@@ -131,4 +131,25 @@ export class GeneralAccountSettingsService {
   DeleteLedgerJournalType(Id: number) {
     return this.http.get<any>(this.URL + 'LedgerJournalType/DeleteLedgerJournalType?Id=' + Id);
   }
+
+  // ------------------------------------------- Banks ------------------------------------------- //
+
+  GetBanksData(model: PagedResponseDTO<any[]>) {
+    return this.http.post<PagedResponseDTO<any[]>>(this.URL + 'Bank/GetBanksData', model);
+  }
+
+  CreateNewBank(model: any) {
+    debugger
+    return this.http.post<ActionsResponseModel>(this.URL + 'Bank/CreateNewBank', model);
+  }
+
+  EditBank(bankId: number, model: any) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Bank/EditBank?BankId=${bankId}`, model);
+  }
+
+  DeleteBank(bankId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `Bank/DeleteBank?BankId=${bankId}`);
+  }
+
+
 }

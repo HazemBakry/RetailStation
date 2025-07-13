@@ -152,6 +152,18 @@ export class HrService {
     return this.http.post<any>(this.URL + 'HRReports/GetPayrollReportAdvances', model);
   }
 
+  GetSalariesReport_Data(month: number, year: number, model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'HRReports/GetSalariesReport_Data?Month=' + month + '&Year=' + year, model);
+  }
+
+  GetSalariesReport_Filters(month: number, year: number, model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'HRReports/GetSalariesReport_Filters?Month=' + month + '&Year=' + year, model);
+  }
+
+  GetSalariesReport_Export(month: number, year: number, model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'HRReports/GetSalariesReport_Export?Month=' + month + '&Year=' + year, model);
+  }
+
   ExportPayrollReportVacations(model: SearchFilterModel) {
     return this.http.post<any>(this.URL + 'HRReports/ExportPayrollReportVacations', model);
   }
@@ -176,6 +188,10 @@ export class HrService {
     return this.http.post<any>(this.URL + 'HRReports/ExportPayrollReportAdvances', model);
   }
 
+  ExportSalarySummaryData(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'HRReports/ExportSalarySummaryData', model);
+  }
+
   //================================== Employees ===============================
 
   GetEmployeesSummary_Data(model: SearchFilterModel) {
@@ -186,8 +202,8 @@ export class HrService {
     return this.http.post<any>(this.URL + 'Employee/ExportEmployeesSummaryData', model);
   }
 
-  GetActiveEmployeesSelector(empStatusId:EmployeeStatusEnum=EmployeeStatusEnum.Active) {
-    var params = empStatusId ? `?EmployeeStatusId=${empStatusId}`:'';
+  GetActiveEmployeesSelector(empStatusId: EmployeeStatusEnum = EmployeeStatusEnum.Active) {
+    var params = empStatusId ? `?EmployeeStatusId=${empStatusId}` : '';
     return this.http.get<FormDropdownModel[]>(this.URL + `Employee/GetActiveEmployeesSelector${params}`);
   }
 
@@ -240,11 +256,11 @@ export class HrService {
     return this.http.post<PagedResponseDTO<EmployeeDueModel[]>>(this.URL + `Salaries/GetEmployeeDues?EmployeeId=${employeeId}`, filter);
   }
 
-  GetEmployeeDuesPreparationDate(employeeId: number,dueType:DueTypeEnum,model:DuesPreparationModel): Observable<DuesPreparationModel> {
+  GetEmployeeDuesPreparationDate(employeeId: number, dueType: DueTypeEnum, model: DuesPreparationModel): Observable<DuesPreparationModel> {
     const params = new URLSearchParams();
 
     params.append('EmployeeId', employeeId.toString());
-    
+
     if (dueType !== null) {
       params.append('DueType', dueType.toString());
     }
@@ -253,7 +269,7 @@ export class HrService {
     // }
 
     const queryString = params.toString();
-    return this.http.post<DuesPreparationModel>(this.URL + 'Salaries/GetEmployeeDuesPreparationDate'+ (queryString ? `?${queryString}` : ''),model);
+    return this.http.post<DuesPreparationModel>(this.URL + 'Salaries/GetEmployeeDuesPreparationDate' + (queryString ? `?${queryString}` : ''), model);
   }
 
   calculateEmployeeDue(employeeId: number, model: EmployeeDueModel): Observable<EmployeeDueModel> {
@@ -598,9 +614,11 @@ export class HrService {
   GetSponsorsData(model: PagedResponseDTO<SponsorModel[]>) {
     return this.http.post<PagedResponseDTO<SponsorModel[]>>(this.URL + 'HR/GetSponsorsData', model);
   }
+
   GetSponsorById(sponsorId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + `HR/GetSponsorById?SponsorId=${sponsorId}`);
   }
+
   CreateNewSponsor(model: SponsorModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'HR/CreateNewSponsor', model);
   }
@@ -608,6 +626,7 @@ export class HrService {
   EditSponsor(sponsorId: number, model: SponsorModel) {
     return this.http.post<ActionsResponseModel>(this.URL + `HR/EditSponsor?SponsorId=${sponsorId}`, model);
   }
+
   DeleteSponsor(sponsorId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + `HR/DeleteSponsor?SponsorId=${sponsorId}`);
   }
@@ -631,6 +650,25 @@ export class HrService {
     return this.http.get<ActionsResponseModel>(this.URL + `HR/DeleteDepartment?DepartmentId=${departmentId}`);
   }
 
+  // ------------------------------------------- Jobs ------------------------------------------- //
+
+  GetJobsData(model: PagedResponseDTO<any[]>) {
+    return this.http.post<PagedResponseDTO<any[]>>(this.URL + 'HR/GetJobsData', model);
+  }
+
+  CreateNewJob(model: any) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'HR/CreateNewJob', model);
+  }
+
+  EditJob(jobId: number, model: any) {
+    return this.http.post<ActionsResponseModel>(this.URL + `HR/EditJob?JobId=${jobId}`, model);
+  }
+
+  DeleteJob(jobId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `HR/DeleteJob?JobId=${jobId}`);
+  }
+
+  //---------------------------------------------------------------------------------------------------------------------------------//
 
 
   /////////////////////////// expired report 

@@ -79,6 +79,7 @@ namespace MasterErp.Entities.Models
         #endregion
 
         public DbSet<Currency> Currency { get; set; }
+        public DbSet<Bank> Banks { get; set; }
         public DbSet<Religion> Religions { get; set; }
         public DbSet<SocialStatus> SocialStatus { get; set; }
 

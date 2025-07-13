@@ -471,7 +471,7 @@ namespace MasterErp.Service.HR
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
         }
-        
+
         public async Task<ActionsResponseModel> ChangeEmployeeStatus(int employeeId, int StatusId)
         {
             try
@@ -672,6 +672,17 @@ namespace MasterErp.Service.HR
 
             var result = SQLHelper.SQLQuery<StatisticsCardSummary>("[HR].[SP_GetEmployeesSummary]", null, Params);
             return result;
+        }
+
+        public List<SelectorDataModel> GetAllEmployeesSelector()
+        {
+            var results = Context.Employees.Select(b => new SelectorDataModel
+            {
+                Id = b.EmployeeId,
+                Name = b.FullNameAR,
+                Code = b.Code.ToString()
+            }).ToList();
+            return results;
         }
 
         public List<SelectorDataModel> GetActiveEmployeesSelector(int? EmployeeStatusId)

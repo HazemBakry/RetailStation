@@ -62,6 +62,7 @@ export class HrVacationComponent implements OnInit {
   isUpdate: boolean = false;
   constructor(private modalService: NgbModal,
     private hrService: HrService,
+    private sharedService: SharedService,
     private form: FormBuilder,
     private _FormService: FormService,
     private datePipe: DatePipe,
@@ -72,13 +73,14 @@ export class HrVacationComponent implements OnInit {
   ngOnInit(): void {
 
     // this.getVacationData();
-    this.getActiveEmployeesSelector();
+    this.getAllEmployeesSelector();
+    this.getVacationTypesSelector();
   }
+  
   getVacationsByEmployeeId() {
     if (!this.checkEmployee())
       return;
 
-    
     this.showLoader = true;
     this.hrService.GetVacationsByEmployeeId(this.selectedEmployeeId, this.employeeVacationResponse).subscribe(data => {
       this.employeeVacationResponse.results = data.results;
@@ -116,7 +118,6 @@ export class HrVacationComponent implements OnInit {
       this.fillEditForm(vacationModel);
 
     this.formGroup.patchValue({ employeeId: this.selectedEmployeeId });
-    this.getVacationTypesSelector();
     this.offcanvasService.open(content, { panelClass: 'add-vacation-panel', position: 'end' });
   }
 
@@ -173,13 +174,9 @@ export class HrVacationComponent implements OnInit {
     }, () => {
       this.showAddLoader = false;
     });
-
-
-
   }
 
   editEmployeeVacation() {
-
     this.showAddLoader = true;
     this.hrService.EditEmployeeVacation(this.selectedEmployeeId, this.employeeVacationModel).subscribe(data => {
 
@@ -238,8 +235,8 @@ export class HrVacationComponent implements OnInit {
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
-  getActiveEmployeesSelector() {
-    this.hrService.GetActiveEmployeesSelector().subscribe((data: GeneralSelectorModel[]) => {
+  getAllEmployeesSelector() {
+    this.sharedService.GetAllEmployeesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.employeeSelectorData = data;
     });
   }

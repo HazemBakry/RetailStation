@@ -143,6 +143,13 @@ namespace MasterErp.API.Controllers.HR
         }
         #endregion
 
+        [HttpGet]
+        [Route("GetAllEmployeesSelector")]
+        public ActionResult<List<SelectorDataModel>> GetAllEmployeesSelector()
+        {
+            var result = _employeeService.GetAllEmployeesSelector();
+            return Ok(result);
+        }
 
         [HttpGet]
         [Route("GetActiveEmployeesSelector")]

@@ -306,6 +306,13 @@ export class MenuService {
               icon: 'fa fa-layer-group',
               route: '/general-accounts/ledger-journal-types'
             },
+            {
+              displayName: ' البنوك ',
+              menuItem: 'anks',
+              description: ' بيانات البنوك ',
+              icon: 'fa fa-warehouse',
+              route: '/general-accounts/banks'
+            },
           ]
         },
         // {

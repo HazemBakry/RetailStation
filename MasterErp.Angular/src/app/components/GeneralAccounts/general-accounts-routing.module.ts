@@ -43,6 +43,7 @@ import { LoansRequestsComponent } from './components/loans-requests/loans-reques
 import { AdvancesRequestsComponent } from './components/advances-requests/advances-requests.component';
 import { IndebtednessPdfReportComponent } from './components/indebtedness-pdf-report/indebtedness-pdf-report.component';
 import { AuthPageGuard } from 'src/app/Auth/authPage.guard';
+import { BanksComponent } from './GeneralAccountSettings/banks/banks.component';
 
 const routes: Routes = [
   {
@@ -92,6 +93,9 @@ const routes: Routes = [
       { path: 'loans-requests', component: LoansRequestsComponent, canActivate: [AuthPageGuard], data: { pageName: 'loans-requests' } },
       { path: 'advances-requests', component: AdvancesRequestsComponent, canActivate: [AuthPageGuard], data: { pageName: 'advances-requests' } },
       { path: 'indebtedness-report', component: IndebtednessPdfReportComponent, canActivate: [AuthPageGuard], data: { pageName: 'indebtedness-report' } },
+      { path: 'banks', component: BanksComponent, 
+        // canActivate: [AuthPageGuard], 
+        data: { pageName: 'banks' } },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
 
 

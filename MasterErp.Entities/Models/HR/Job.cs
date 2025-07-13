@@ -16,6 +16,8 @@ namespace MasterErp.Entities.Models.HR
         public string NameAR { get; set; }
         public string NameEN { get; set; }
         public string Notes { get; set; }
+        [NotMapped]
+        public int? TotalCount { get; set; }
         public int? TotalTime_Saturday { get; set; }
         public int? TotalTime_Sunday { get; set; }
         public int? TotalTime_Monday { get; set; }

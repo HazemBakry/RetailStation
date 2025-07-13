@@ -107,7 +107,6 @@ export class JournalDailyListComponent implements OnInit {
         c.isChecked = this.selectAll;
       });
     }
-
   }
 
   // getSelectedEntries(): number[] {

@@ -139,7 +139,7 @@ export class SharedService {
     const queryString = params.toString();
     return this.http.get<any[]>(this.URL + 'Shared/GetAccountsSelector' + (queryString ? `?${queryString}` : ''));
   }
-  GetCostCenterSelector(IsParent: boolean = false,accountId:number=null) {
+  GetCostCenterSelector(IsParent: boolean = false, accountId: number = null) {
     const params = new URLSearchParams();
 
     if (IsParent !== null) {
@@ -150,7 +150,7 @@ export class SharedService {
     }
 
     const queryString = params.toString();
-    return this.http.get<any[]>(this.URL + 'Shared/GetCostCenterSelector' + (queryString ? `?${queryString}`:''));
+    return this.http.get<any[]>(this.URL + 'Shared/GetCostCenterSelector' + (queryString ? `?${queryString}` : ''));
   }
   GetJournalTemplatesSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetJournalTemplatesSelector');
@@ -207,6 +207,10 @@ export class SharedService {
 
   // --------------------------------- HR Selectors --------------------------------- //
 
+  GetAllEmployeesSelector() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Employee/GetAllEmployeesSelector');
+  }
+
   GetActiveEmployeesSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Employee/GetActiveEmployeesSelector');
   }
@@ -230,6 +234,6 @@ export class SharedService {
   GetArabicEnglishNumberText(ReceiptId: any) {
     return this.http.get<any>(this.URL + 'Shared/GetArabicEnglishNumberText?ReceiptId=' + ReceiptId);
   }
-  
+
 
 }

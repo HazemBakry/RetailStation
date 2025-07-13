@@ -37,9 +37,6 @@ export interface EmployeeSalarySummaryModel {
     absentDays: number | null;
     totalWorkingDays: number | null;
 
-
-
-
     isPaid: boolean | null;
     isGossi: boolean | null;
     totalGrossSalary: number | null;
@@ -50,4 +47,7 @@ export interface EmployeeSalarySummaryModel {
     generalManagerApprove: boolean | null;
     visaPayment: number | null;
     cashPayment: number | null;
+
+    isChecked?: boolean;
+
 }

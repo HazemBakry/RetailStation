@@ -17,12 +17,13 @@ import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsRe
 })
 export class HrEmployeesSalariesComponent implements OnInit {
 
-  TitleList = ['الموارد البشرية', 'الحضور والانصراف'];
+  TitleList = ['الموارد البشرية', 'الرواتب الشهرية'];
   URLs: any[] = [];
   Branches: any[] = [];
   branchSelectorData: GeneralSelectorModel[] = [];
   employeeSelectorData: GeneralSelectorModel[] = [];
   yearsSelectorData: GeneralSelectorModel[] = [];
+  selectAll: boolean = false;
   arabicMonths = [
     "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
     "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
@@ -43,7 +44,7 @@ export class HrEmployeesSalariesComponent implements OnInit {
   pagedResponseModel: PagedResponseDTO<EmployeeSalarySummaryModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 10,
+    pageSize: 25,
     currentPage: 1,
     searchText: ''
   };
@@ -55,11 +56,9 @@ export class HrEmployeesSalariesComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-
     this.loadSelectors();
     // this.getAttendance_Data();
     // this.GetAttendance_Filters();
-
   }
 
   loadSelectors() {
@@ -77,13 +76,14 @@ export class HrEmployeesSalariesComponent implements OnInit {
     }
     this.yearsSelectorData.reverse();
   }
-  search() {
 
+  search() {
     this.pagedResponseModel.results = [];
     this.pagedResponseModel.currentPage = 1;
     this.pagedResponseModel.totalCount = 0;
     this.getSalaries_Data();
   }
+
   getSalaries_Data() {
     this.mapFilters();
     if (!this.selectedYear || !this.selectedMonth) {
@@ -101,6 +101,15 @@ export class HrEmployeesSalariesComponent implements OnInit {
       this.showLoader = false;
     });
   }
+
+  selectAllData() {
+    if (this.pagedResponseModel.results && this.pagedResponseModel.results.length > 0) {
+      this.pagedResponseModel.results.map(c => {
+        c.isChecked = this.selectAll;
+      });
+    }
+  }
+
   exportData() {
     this.mapFilters();
     if (!this.selectedYear || !this.selectedMonth) {

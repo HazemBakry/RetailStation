@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.DTOs.HR;
+using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.HR;
 using MasterErp.Service.HR;
 using Microsoft.AspNetCore.Http;
@@ -121,6 +122,54 @@ namespace MasterErp.API.Controllers.HR
             return Ok(results);
         }
         #endregion
+
+        #region Jobs
+
+        [HttpPost]
+        [Route("GetJobsData")]
+        public IActionResult GetJobsData(SearchFilterModel model)
+        {
+            var data = _hrService.GetJobsData(model);
+            var result = new PagedResponseModel<Job>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("CreateNewJob")]
+        public IActionResult CreateNewJob(Job Model)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            Model.CreatedBy = UserId;
+            var results = _hrService.CreateNewJob(Model);
+            return Ok(results);
+        }
+
+        [HttpPost]
+        [Route("EditJob")]
+        public IActionResult EditJob(int JobId, Job Model)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            Model.ModifiedBy = UserId;
+            var results = _hrService.EditJob(JobId, Model);
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("DeleteJob")]
+        public IActionResult DeleteJob(int JobId)
+        {
+            var results = _hrService.DeleteJob(JobId);
+            return Ok(results);
+        }
+
+        #endregion
+
 
     }
 }

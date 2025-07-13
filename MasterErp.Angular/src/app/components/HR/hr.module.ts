@@ -42,6 +42,8 @@ import { HrEmployeeContractSalaryComponent } from './components/hr-employee-deta
 import { HrAdvanceDetailsComponent } from './components/hr-advance-details/hr-advance-details.component';
 import { HrNewComerEmployeesReportComponent } from './components/hr-new-comer-employees-report/hr-new-comer-employees-report.component';
 import { HrEmployeesSalaryAnnualIncreaseReportComponent } from './components/hr-employees-salary-annual-increase-report/hr-employees-salary-annual-increase-report.component';
+import { HRSalariesReportComponent } from './components/hr-salaries-report/hr-salaries-report.component';
+import { HrJobsComponent } from './components/hr-jobs/hr-jobs.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +85,8 @@ import { HrEmployeesSalaryAnnualIncreaseReportComponent } from './components/hr-
     HrAdvanceDetailsComponent,
     HrNewComerEmployeesReportComponent,
     HrEmployeesSalaryAnnualIncreaseReportComponent,
+    HRSalariesReportComponent,
+    HrJobsComponent
   ],
   imports: [
     HrRoutingModule,

@@ -35,6 +35,8 @@ namespace MasterErp.Service.HR
             this.sharedFilterService = sharedFilterService;
         }
 
+        #region Payroll Reports
+
         public DataTable GetPayrollReportVacations(SearchFilterModel SearchModel)
         {
             var SearchText = SearchModel.FilterModel.FilterItems.Where(x => x.CategoryName == "SearchText").Select(x => x.ItemFlag).FirstOrDefault();
@@ -305,11 +307,10 @@ namespace MasterErp.Service.HR
             }
         }
 
-
-
-
+        #endregion
 
         #region ExpireReport
+
         public List<EmployeeReportModel> GetEmployeesExpireReport_Data(int ReportType, SearchFilterModel SearchModel)
         {
             SqlParameter[] param = new SqlParameter[4];
@@ -323,7 +324,8 @@ namespace MasterErp.Service.HR
             var result = _sQLHelper.SQLQuery<EmployeeReportModel>("[HR].[SP_GetEmployeesExpireReport_Data]", null, param);
 
             return result;
-        }        
+        }
+
         public ActionsResponseModel GetEmployeesExpireReport_Export(int ReportType, SearchFilterModel SearchModel)
         {
             string url = string.Empty;
@@ -353,7 +355,7 @@ namespace MasterErp.Service.HR
                     ExpiryDate = x.ExpiryDate?.ToString("MM/dd/yyyy"),
                     Notes = x.Notes
                 }).ToList();
-                
+
                 if (!result.Any())
                 {
                     result.Add(new EmployeeExpireReportExportModel());
@@ -396,13 +398,14 @@ namespace MasterErp.Service.HR
             param[1].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
 
             var result = _sQLHelper.SQLQuery<FilterItem>("[HR].[SP_GetEmployeesExpireReport_Filters]", null, param);
-             var grouped = sharedFilterService.GroupedFilterItems(result);
+            var grouped = sharedFilterService.GroupedFilterItems(result);
 
             return grouped;
         }
+
         #endregion
 
-        #region NewComerEmployeesRepor
+        #region NewComerEmployeesReport
         public List<EmployeeReportModel> GetNewComerEmployeesReport_Data(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel)
         {
             SqlParameter[] param = new SqlParameter[5];
@@ -417,7 +420,7 @@ namespace MasterErp.Service.HR
             var result = _sQLHelper.SQLQuery<EmployeeReportModel>("[HR].[SP_GetNewComerEmployeesReport_Data]", null, param);
 
             return result;
-        }        
+        }
         public ActionsResponseModel GetNewComerEmployeesReport_Export(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel)
         {
             string url = string.Empty;
@@ -447,7 +450,7 @@ namespace MasterErp.Service.HR
                     ExpiryDate = x.ExpiryDate?.ToString("MM/dd/yyyy"),
                     Notes = x.Notes
                 }).ToList();
-                
+
                 if (!result.Any())
                 {
                     result.Add(new EmployeeExpireReportExportModel());
@@ -491,11 +494,12 @@ namespace MasterErp.Service.HR
             param[2].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
 
             var result = _sQLHelper.SQLQuery<FilterItem>("[HR].[SP_GetNewComerEmployeesReport_Filters]", null, param);
-             var grouped = sharedFilterService.GroupedFilterItems(result);
+            var grouped = sharedFilterService.GroupedFilterItems(result);
 
             return grouped;
         }
         #endregion
+
         #region EmployeeSalaryAnnualIncreaseReport
         public List<SalaryAnnualIncreaseModel> GetEmployeeSalaryAnnualIncreaseReport_Data(SearchFilterModel SearchModel)
         {
@@ -587,7 +591,105 @@ namespace MasterErp.Service.HR
 
             return grouped;
         }
+
         #endregion
+
+        #region Salaries Report
+
+        public List<EmployeeSalarySummaryModel> GetSalariesReport_Data(int Month, int Year, SearchFilterModel SearchModel)
+        {
+            SqlParameter[] param = new SqlParameter[5];
+            param[0] = new SqlParameter("@Month", Month);
+            param[1] = new SqlParameter("@Year", Year);
+            param[2] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            param[3] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            param[4] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[4].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
+
+
+            var result = _sQLHelper.SQLQuery<EmployeeSalarySummaryModel>("[HR].[SP_GetSalariesReport_Data]", null, param);
+
+            return result;
+        }
+
+        public ActionsResponseModel GetSalariesReport_Export(int Month, int Year, SearchFilterModel SearchModel)
+        {
+            string url = string.Empty;
+            try
+            {
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var data = GetSalariesReport_Data(Month, Year, SearchModel);
+
+                var result = data.Select(x => new EmployeeSalarySummaryModel
+                {
+                    EmployeeCode = x.EmployeeCode,
+                    BranchNameEN = x.BranchNameEN,
+                    EmployeeNameEN = x.EmployeeNameEN,
+                    AbsentDays = x.AbsentDays,
+                    BasicSalary = x.BasicSalary,
+                    GrossSalary = x.GrossSalary,
+                    ExtraSalary = x.ExtraSalary,
+                    Penalties = x.Penalties,
+                    Advances = x.Advances,
+                    HousingAllowance = x.HousingAllowance,
+                    MealAllowance = x.MealAllowance,
+                    MobileAllowance = x.MobileAllowance,
+                    NetSalary = x.NetSalary,
+                    Other = x.Other,
+                    Overtime = x.Overtime,
+                    SickDays = x.SickDays,
+                    TotalDeductions = x.TotalDeductions,
+                    Transportation = x.Transportation,
+                    WorkNature = x.WorkNature,
+                    TotalSalary = x.TotalSalary
+                }).ToList();
+
+                if (!result.Any())
+                {
+                    result.Add(new EmployeeSalarySummaryModel());
+
+                }
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "Monthly Salary Report");
+
+                url = GetExportUrl(dtExport, "Monthly Salary Report");
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+        }
+
+        public List<FilterModel> GetSalariesReport_Filters(int Month, int Year, SearchFilterModel SearchModel)
+        {
+            SqlParameter[] param = new SqlParameter[3];
+            param[0] = new SqlParameter("@Month", Month);
+            param[1] = new SqlParameter("@Year", Year);
+            param[2] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[2].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
+
+            var result = _sQLHelper.SQLQuery<FilterItem>("[HR].[SP_GetSalariesReport_Filters]", null, param);
+            var grouped = sharedFilterService.GroupedFilterItems(result);
+
+            return grouped;
+        }
+
+        #endregion
+
         private string GetExportUrl(DataTable DT, string Name)
         {
             DT.TableName = Name;

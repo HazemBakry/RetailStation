@@ -16,6 +16,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MasterErp.Service.HR
 {
@@ -34,13 +35,13 @@ namespace MasterErp.Service.HR
 
 
         #region Sponsers
-        public List<SponsorModel> GetSponsorsData(SearchFilterModel searchModel,int? SponsorId=null)
+        public List<SponsorModel> GetSponsorsData(SearchFilterModel searchModel, int? SponsorId = null)
         {
             var sponsorTypes = LookupsContext.SponsorTypes.ToList();
 
 
             var query = from sponsor in Context.Sponsors
-                        //join period in Context.FinancialPeriods on receiptLedger.FinancialPeriodId equals period.FinancialPeriodId
+                            //join period in Context.FinancialPeriods on receiptLedger.FinancialPeriodId equals period.FinancialPeriodId
                         select new SponsorModel
                         {
                             SponsorId = sponsor.SponsorId,
@@ -63,7 +64,7 @@ namespace MasterErp.Service.HR
 
                             Saudi_Count = sponsor.Saudi_Count,
                             Saudi_Amount = sponsor.Saudi_Amount,
-                           
+
                         };
 
             int totalCount = query.Count();
@@ -83,7 +84,7 @@ namespace MasterErp.Service.HR
                 x.TotalCount = totalCount;
                 x.SponsorTypeNameAR = sponsorType?.NameAR;
                 x.SponsorTypeNameEN = sponsorType?.NameEN;
-                
+
                 return x;
             }).ToList();
 
@@ -220,12 +221,12 @@ namespace MasterErp.Service.HR
         #endregion
 
         #region Departments
-        public List<DepartmentModel> GetDepartmentsData(SearchFilterModel searchModel,int? DepartmentId=null)
+        public List<DepartmentModel> GetDepartmentsData(SearchFilterModel searchModel, int? DepartmentId = null)
         {
             //var Types = LookupsContext.tTypes.ToList();
 
             var query = from dep in Context.Departments
-                        join emp in Context.Employees on dep.ManagerId equals emp.EmployeeId 
+                        join emp in Context.Employees on dep.ManagerId equals emp.EmployeeId
                         select new DepartmentModel
                         {
                             DepartmentId = dep.DepartmentId,
@@ -242,7 +243,7 @@ namespace MasterErp.Service.HR
                             IsSystem = dep.IsSystem,
                             ManagerId = dep.ManagerId,
                             BranchId = dep.BranchId,
-                           
+
 
                             ManagerNameEN = emp.FullNameEN,
                             ManagerNameAR = emp.FullNameAR,
@@ -304,7 +305,7 @@ namespace MasterErp.Service.HR
                 tbl.Description = Model.Description;
                 tbl.ManagerId = Model.ManagerId;
                 tbl.Location = Model.Location;
-              
+
 
                 Context.Departments.Add(tbl);
                 Context.SaveChanges();
@@ -336,7 +337,7 @@ namespace MasterErp.Service.HR
 
                     entity.ModifiedDate = DateTime.Now;
                     entity.ModifiedBy = Model.ModifiedBy;
-                   
+
                     entity.Code = Model.Code;
                     entity.IsSystem = Model.IsSystem;
                     entity.BranchId = Model.BranchId;
@@ -383,6 +384,119 @@ namespace MasterErp.Service.HR
             }
 
         }
+        #endregion
+
+        #region Jobs
+
+        public List<Job> GetJobsData(SearchFilterModel searchModel)
+        {
+            var jobs = Context.Jobs.ToList();
+
+            int totalCount = jobs.Count();
+            if (searchModel.CurrentPage > 0 && searchModel.PageSize > 0)
+            {
+                int skip = (searchModel.CurrentPage - 1) * searchModel.PageSize;
+                jobs = jobs.Skip(skip).Take(searchModel.PageSize).ToList();
+            }
+
+            var pagedResults = jobs.ToList();
+            pagedResults.ForEach(x => x.TotalCount = totalCount);
+            return pagedResults;
+        }
+
+        public ActionsResponseModel CreateNewJob(Job Model)
+        {
+            try
+            {
+                var entity = Context.Jobs.FirstOrDefault(i => i.NameEN == Model.NameEN || i.NameAR == Model.NameAR);
+                if (entity != null)
+                {
+                    return new ActionsResponseModel
+                    {
+                        IsSuccess = false,
+                        Message = "هذا الاسم موجود"
+                    };
+                }
+
+                Job tbl = new Job();
+
+                tbl.Code = Model.Code;
+                tbl.IsActive = Model.IsActive;
+                tbl.NameAR = Model.NameAR;
+                tbl.NameEN = Model.NameEN;
+                tbl.Notes = Model.Notes;
+                tbl.CreatedDate = DateTime.Now;
+                tbl.CreatedBy = Model.CreatedBy;
+
+                Context.Jobs.Add(tbl);
+                Context.SaveChanges();
+
+                return new ActionsResponseModel
+                {
+                    Message = "تم الحفظ  بنجاح"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public ActionsResponseModel EditJob(int JobId, Job Model)
+        {
+            try
+            {
+                var entity = Context.Jobs.FirstOrDefault(i => i.JobId == JobId);
+                if (entity != null)
+                {
+                    entity.Code = Model.Code;
+                    entity.IsActive = Model.IsActive;
+                    entity.NameAR = Model.NameAR;
+                    entity.NameEN = Model.NameEN;
+                    entity.Notes = Model.Notes;
+                    entity.ModifiedDate = DateTime.Now;
+                    entity.ModifiedBy = Model.ModifiedBy;
+
+                    Context.SaveChanges();
+
+                    return new ActionsResponseModel { Message = "تم تعديل البيانات بنجاح !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "هذا الاسم غير موجود" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+
+        }
+
+
+        public ActionsResponseModel DeleteJob(int JobId)
+        {
+
+            try
+            {
+                var entity = Context.Jobs.FirstOrDefault(i => i.JobId == JobId);
+                if (entity != null)
+                {
+                    Context.Remove(entity);
+                    Context.SaveChanges();
+                    return new ActionsResponseModel { Message = "تم الحذف بنجاح !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "هذا الاسم غير موجود" }; ;
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
         #endregion
 
     }
