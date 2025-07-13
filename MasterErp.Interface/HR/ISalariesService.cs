@@ -19,7 +19,11 @@ namespace MasterErp.Interface.HR
         ActionsResponseModel ApproveMonthlySalary(int year, int month, SearchFilterModel searchModel);
 
         #region Employee Dues
+        List<SelectorDataModel> GetEmployeesForDuesSelector(DueType DueType);
+        List<EmployeeDueModel> GetDues_Data(SearchFilterModel SearchModel, int? EmployeeId = null, int? EmployeeDuesId = null);
+        EmployeeDueModel GetEmployeeDuesById(int EmployeeDuesId);
         List<EmployeeDueModel> GetEmployeeDues(int EmployeeId, SearchFilterModel SearchModel);
+        ActionsResponseModel DeleteEmployeeDues(int EmployeeDuesId);
         DuesPreparationModel GetEmployeeDuesPreparationDate(int employeeId, DueType DueType, DuesPreparationModel model);
         EmployeeDueModel CalculateEmployeeDue(int EmployeeId, EmployeeDueModel Model);
         ActionsResponseModel SaveEmployeeDue(int EmployeeId, DuesPreparationModel Model);

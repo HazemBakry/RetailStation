@@ -18,6 +18,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HrService } from 'src/app/components/HR/services/hr.service';
 import { EmployeeAdvanceModel } from 'src/app/components/HR/models/EmployeeAdvanceModel';
 import { AccountTypeEnum } from 'src/app/components/Shared/Enums/AccountTypeEnum';
+import { EmployeeDueModel } from 'src/app/components/HR/models/EmployeeDueModel';
 
 @Component({
   selector: 'app-create-payment-order',
@@ -87,6 +88,10 @@ export class CreatePaymentOrderComponent implements OnInit {
         this.employeeAdvanceId = params.EmployeeAdvanceId;
         this.getAdvancesDetailsById();
       }
+      else if (params.EmployeeDueId) {
+        // this.employeeDueId = params.EmployeeDueId;
+        this.getEmployeeDuesById(params.EmployeeDueId);
+      }
     });
   }
 
@@ -133,6 +138,7 @@ export class CreatePaymentOrderComponent implements OnInit {
       contactName: [null],
       currencyId: [null],
       employeeAdvanceId: [null],
+      employeeDueId: [null],
       moneyAmount: [null, [Validators.required]]
     });
     this.formGroup.valueChanges.subscribe((data) => {
@@ -236,6 +242,31 @@ export class CreatePaymentOrderComponent implements OnInit {
         this.employeeAdvanceId = null;
         this.toaster.error("لا يمكن انشاء أمر صرف على سلفة غير مقبولة");
       }
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+  getEmployeeDuesById(employeeDueId) {
+    this.showLoader = true;
+    this.hrService.GetEmployeeDuesById(employeeDueId).subscribe((data: EmployeeDueModel) => {
+
+      if (data && ![FinanceWorkflowStatus.Cancelled, FinanceWorkflowStatus.Paid].includes(data.workflowStatusId)) {
+        this.formGroup?.patchValue({
+          moneyAmount: data.totalDueAmount,
+          agencyTypeId: 4,
+          employeeId: data.employeeId,
+          contactName: data.employeeNameEN,
+          employeeDueId: employeeDueId
+        });
+        this.formGroup?.get('moneyAmount')?.disable();
+        this.getSelectedAgencyType(4);
+      } else {
+        this.toaster.error("لا يمكن انشاء أمر صرف على مستحقات مغلقة");
+      }
+
       this.showLoader = false;
     }, err => {
       this.showLoader = false;

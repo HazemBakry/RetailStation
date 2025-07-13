@@ -41,6 +41,7 @@ namespace MasterErp.Entities.DTOs.HR
         public string JobStatusAR { get; set; }//
         public DateTime? BirthDate { get; set; }//
         public DateTime? JoinDate { get; set; }//
+        public DateTime? LastJoinDate { get; set; }//
         public string BirthPlace { get; set; }//
         public string ReligionNameAR { get; set; }//
         public string ReligionNameEN { get; set; }//

@@ -63,6 +63,30 @@ namespace MasterErp.API.Controllers.HR
 
         #region Employee Dues
 
+        [HttpGet]
+        [Route("GetEmployeesForDuesSelector")]
+        public IActionResult GetEmployeesForDuesSelector(DueType DueType)
+        {
+            var result = _salariesService.GetEmployeesForDuesSelector(DueType);
+            
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("GetDues_Data")]
+        public IActionResult GetDues_Data(SearchFilterModel SearchModel)
+        {
+            var data = _salariesService.GetDues_Data(SearchModel);
+            var result = new PagedResponseModel<EmployeeDueModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+
+            };
+            return Ok(result);
+        }
         [HttpPost]
         [Route("GetEmployeeDues")]
         public IActionResult GetEmployeeDues(int EmployeeId, SearchFilterModel SearchModel)
@@ -78,7 +102,22 @@ namespace MasterErp.API.Controllers.HR
             };
             return Ok(result);
         }
-
+        [HttpGet]
+        [Route("GetEmployeeDuesById")]
+        public IActionResult GetEmployeeDuesById(int EmployeeDuesId)
+        {
+            var result = _salariesService.GetEmployeeDuesById(EmployeeDuesId);
+            
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("DeleteEmployeeDues")]
+        public IActionResult DeleteEmployeeDues(int EmployeeDuesId)
+        {
+            var result = _salariesService.DeleteEmployeeDues(EmployeeDuesId);
+            
+            return Ok(result);
+        }
 
         [HttpPost]
         [Route("GetEmployeeDuesPreparationDate")]

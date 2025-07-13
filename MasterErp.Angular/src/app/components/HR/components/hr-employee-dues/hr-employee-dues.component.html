@@ -5,9 +5,15 @@
         </div>
         <div class="d-flex">
             <button class="btn btn-success  m-2 d-flex align-items-center gap-2 border rounded px-3"
-                (click)="calculateDues()">
+                (click)="getEmployeeDuesPreparationDate()">
                 <i class="fas fa-check-circle"></i>
                 <span class="ms-2">احتساب</span>
+            </button>
+            <button *ngIf="duesCreateModel?.totalDueAmount"
+                class="btn btn-primary  m-2 d-flex align-items-center gap-2 border rounded px-3"
+                (click)="openSaveModal(saveDialog)">
+                <span class="me-2">حفظ</span>
+                <i class="uil uil-plus-circle"></i>
             </button>
         </div>
     </div>
@@ -61,8 +67,8 @@
                                     أول يوم عمل
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="date" [(ngModel)]="duesCreateModel.startWorkingDate" disabled
-                                    autocomplete="off" class="form-control nw-form-input" />
+                                <input type="date" [(ngModel)]="duesCreateModel.joinDate" disabled autocomplete="off"
+                                    class="form-control nw-form-input" />
                             </div>
                         </div>
                         <div *ngIf="selectedDueTypeId == DueType.Vacation" class="col-lg-6">
@@ -71,20 +77,19 @@
                                     أخر يوم عمل
                                     <span class="text-danger">*</span></label>
                                 <input type="date" [(ngModel)]="duesCreateModel.lastJoinDate"
-                                    [min]="duesCreateModel.startWorkingDate" disabled autocomplete="off"
+                                    [min]="duesCreateModel.joinDate" disabled autocomplete="off"
                                     class="form-control nw-form-input" />
                             </div>
                         </div>
-                        <div *ngIf="duesCreateModel.startWorkingDate || duesCreateModel.lastJoinDate"
-                            class="col-lg-6">
+                        <div *ngIf="duesCreateModel.joinDate || duesCreateModel.lastJoinDate" class="col-lg-6">
                             <div class="mb-2">
                                 <label class="form-label d-flex align-items-center gap-2">
                                     الي تاريخ
                                     <span class="text-danger">*</span></label>
                                 <input type="date" (change)="calcDeusPeriod()"
                                     [(ngModel)]="duesCreateModel.executionDate"
-                                    [min]="duesCreateModel.startWorkingDate || duesCreateModel.lastJoinDate"
-                                    autocomplete="off" class="form-control nw-form-input" />
+                                    [min]="duesCreateModel.joinDate || duesCreateModel.lastJoinDate" autocomplete="off"
+                                    class="form-control nw-form-input" />
                             </div>
                         </div>
                     </div>
@@ -113,8 +118,8 @@
                                 <label class="form-label d-flex align-items-center gap-2">
                                     الأجازه المستحقة
                                 </label>
-                                <input type="text" [value]="duesCreateModel?.contractVacationPeriod||0"
-                                    disabled autocomplete="off" class="form-control nw-form-input" />
+                                <input type="text" [value]="duesCreateModel?.contractVacationPeriod||0" disabled
+                                    autocomplete="off" class="form-control nw-form-input" />
                             </div>
                         </div>
                         <div class="col-lg-3">
@@ -122,8 +127,8 @@
                                 <label class="form-label d-flex align-items-center gap-2">
                                     مدة أجازه
                                 </label>
-                                <input type="text" [value]="duesCreateModel?.currentVacationPeriod||0"
-                                    disabled autocomplete="off" class="form-control nw-form-input" />
+                                <input type="text" [value]="duesCreateModel?.currentVacationPeriod||0" disabled
+                                    autocomplete="off" class="form-control nw-form-input" />
                             </div>
                         </div>
                     </div>
@@ -145,7 +150,7 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <app-general-selector (valueChanged)="salaryMonthsChanged($event)"
-                                        [data]="salaryMonthsSelector" [placeholder]="'الشهر'"
+                                        [data]="salaryMonthsSelector" [selectMulti]="true" [placeholder]="'الشهر'"
                                         [showSearch]="true"></app-general-selector>
                                 </div>
                             </div>
@@ -157,7 +162,8 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 أضافه تذكره طيران
                             </label>
-                            <input class="big-checkbox" [(ngModel)]="duesCreateModel.includeFlightTicket" type="checkbox">
+                            <input class="big-checkbox" [(ngModel)]="duesCreateModel.includeFlightTicket"
+                                type="checkbox">
 
                         </div>
                         <ng-container *ngIf="duesCreateModel.includeFlightTicket">
@@ -167,9 +173,9 @@
                                         قيمة تذكره طيران
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" (input)="addFlightTicketAmount()" (keypress)="validateNumbers($event.key)"
-                                         [(ngModel)]="duesCreateModel.flightTicketDues" [min]="0"
-                                    autocomplete="off" class="form-control nw-form-input" />
+                                    <input type="text" (keypress)="validateNumbers($event.key)"
+                                        [(ngModel)]="duesCreateModel.flightTicketDues" [min]="0" autocomplete="off"
+                                        class="form-control nw-form-input" />
                                 </div>
                             </div>
                         </ng-container>
@@ -201,8 +207,8 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 الراتب
                             </label>
-                            <input type="number" [value]="duesCreateModel?.salaryDues ?? 0" disabled
-                                autocomplete="off" class="form-control nw-form-input text-center text-danger" />
+                            <input type="number" [value]="duesCreateModel?.salaryDues ?? 0" disabled autocomplete="off"
+                                class="form-control nw-form-input text-center text-danger" />
                         </div>
                     </div>
                     <div class="col-lg-12">
@@ -210,8 +216,8 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 مستحقات المعيشه
                             </label>
-                            <input type="number" [value]="duesCreateModel?.homeAllowance ?? 0" disabled autocomplete="off"
-                                class="form-control nw-form-input text-center text-danger" />
+                            <input type="number" [value]="duesCreateModel?.homeAllowance ?? 0" disabled
+                                autocomplete="off" class="form-control nw-form-input text-center text-danger" />
                         </div>
                     </div>
                     <div *ngIf="duesCreateModel.includeFlightTicket" class="col-lg-12">
@@ -219,8 +225,8 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 قيمة تذكره طيران
                             </label>
-                            <input type="number" [value]="duesCreateModel?.flightTicketDues ??0 " disabled autocomplete="off"
-                                class="form-control nw-form-input text-center text-danger" />
+                            <input type="number" [value]="duesCreateModel?.flightTicketDues ??0 " disabled
+                                autocomplete="off" class="form-control nw-form-input text-center text-danger" />
                         </div>
                     </div>
                     <div class="col-lg-12">
@@ -246,8 +252,8 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 اجمالي المستحقات
                             </label>
-                            <input type="number" [value]="duesCreateModel?.totalDueAmount ??0" disabled autocomplete="off"
-                                class="form-control nw-form-input text-center text-danger" />
+                            <input type="number" [value]="duesCreateModel?.totalDueAmount ??0" disabled
+                                autocomplete="off" class="form-control nw-form-input text-center text-danger" />
                         </div>
                     </div>
                 </div>
@@ -259,19 +265,19 @@
             (contractDetails)="contractDetailsChanged($event)"></app-hr-mini-employee-contract-info>
 
         <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-top">
-            <button class="btn btn-primary me-2" [disabled]="showLoader" (click)="search()">
+            <!-- <button class="btn btn-primary me-2" [disabled]="showLoader" (click)="search()">
                 <i class="fas fa-search"></i>
                 <span class="ms-2">بحث</span>
-            </button>
+            </button> -->
             <!-- <button [disabled]="showExportLoader" (click)="exportData()"
             class="btn  btn-outline-success gap-2 border rounded px-3 me-2">
             <i class="fas fa-file-download"></i>
             <span>تصدير CSV</span>
         </button> -->
-            <button class="btn btn-table-action  gap-2 border rounded px-3 me-2">
+            <!-- <button class="btn btn-table-action  gap-2 border rounded px-3 me-2">
                 <i class="fas fa-print fs-7"></i>
                 <span>طباعة</span>
-            </button>
+            </button> -->
             <!-- <button class="btn btn-secondary me-2" (click)="printData()">
             <i class="fas fa-print"></i>
             <span class="ms-2">طباعة</span>
@@ -286,9 +292,15 @@
             <div class="col-md-8">
                 <div class="d-flex align-items-center flex-wrap">
                     <div class="search-box position-relative mb-2">
-                        <button class="btn btn-primary mb-2" (click)="openSaveModal(saveDialog)">
-                            <span class="me-2">حفظ</span>
-                            <i class="uil uil-plus-circle"></i>
+                        <button *ngIf="selectedEmployeeId" class="btn btn-primary me-2" [disabled]="showLoader"
+                            (click)="search()">
+                            <i class="fas fa-search"></i>
+                            <span class="ms-2">بحث</span>
+                        </button>
+
+                        <button *ngIf="selectedEmployeeId" class="btn btn-table-action  gap-2 border rounded px-3 me-2">
+                            <i class="fas fa-print fs-7"></i>
+                            <span>طباعة</span>
                         </button>
                     </div>
                 </div>
@@ -317,6 +329,9 @@
                         <th>المنزل</th>
                         <th>السلف</th>
                         <th>اجمالي المستحقات</th>
+                        <th>الحالة</th>
+
+
 
                     </tr>
                 </thead>
@@ -325,16 +340,22 @@
                         <td>{{item.employeeNameAR ?? item.employeeNameEN}}</td>
                         <td>{{item.branchNameAR ?? item.branchNameEN}}</td>
                         <td>{{item.jobNameAR ?? item.jobNameEN}}</td>
-                        <td>{{item.startWorkingDate| date}}</td>
+                        <td>{{item.joinDate| date}}</td>
                         <td>{{item.lastJoinDate| date}}</td>
                         <td>{{item.executionDate | date}}</td>
                         <td>{{item.dueTypeNameAR ?? item.dueTypeNameEN}}</td>
                         <td>{{item.vacationDues}}</td>
                         <td>{{item.endOfServiceDues}}</td>
-                        <td>{{item.currentMonthSalary}}</td>
+                        <td>{{item.salaryDues}}</td>
                         <td>{{item.homeAllowance}}</td>
                         <td>{{item.advances}}</td>
-                        <td>{{item.netAmount}}</td>
+                        <td>{{item.totalDuesAmount}}</td>
+                        <td>
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
+                                [nameAR]="item?.workflowStatusNameAR">
+                            </span>
+                        </td>
+
                     </tr>
                     <tr *ngIf="!pagedResponseModel.results.length || showLoader">
                         <td colspan="14" class="text-right">
@@ -356,7 +377,8 @@
         <p class="fs-5 m-0">هل انت متأكد من الحفظ ؟</p>
     </div>
     <div class="modal-footer justify-content-start">
-        <button type="button" class="btn btn-success" (click)="modal.close('Save click'); saveEmployeeDue()">
+        <button [disabled]="showLoader" type="button" class="btn btn-success"
+            (click)="modal.close('Save click'); saveEmployeeDue()">
             <i class="fas fa-check"></i>
             <span class="ms-2">نعم</span>
         </button>

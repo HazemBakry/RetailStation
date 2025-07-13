@@ -10,9 +10,10 @@ namespace MasterErp.Entities.DTOs.HR
     public class DuesPreparationModel
     {
         public int DueTypeId { get; set; }
+        public int? VacationId { get; set; }
         public DateTime? ExecutionDate { get; set; }
         public DateTime? LastJoinDate { get; set; }
-        public DateTime? StartWorkingDate { get; set; }
+        public DateTime? JoinDate { get; set; }
         public int? ContractVacationPeriod { get; set; }
         public DateTime? VacationStartDate { get; set; }
         public DateTime? VacationEndDate { get; set; }
@@ -37,6 +38,11 @@ namespace MasterErp.Entities.DTOs.HR
         public double? TotalDueAmount { get; set; }
         public void CalcTotalDues()
         {
+            if (IncludeFlightTicket !=true)
+                FlightTicketDues = 0;
+            if (IncludeSalary != true)
+                SalaryDues = 0;
+
             TotalDueAmount=(SalaryDues.GetValueOrDefault() + VacationDues.GetValueOrDefault() + HomeAllowance.GetValueOrDefault() + FlightTicketDues.GetValueOrDefault()) - (Advances.GetValueOrDefault());
         }
 
@@ -61,8 +67,12 @@ namespace MasterErp.Entities.DTOs.HR
         public string BranchNameEN { get; set; }
         public string JobNameEN { get; set; }
         public string JobNameAR { get; set; }
-        public DateTime? StartWorkingDate { get; set; }
-        public DateTime? LastWorkingDate { get; set; }
+        public string DueNameEN { get; set; }
+        public string DueNameAR { get; set; }
+        public string WorkflowStatusNameEN { get; set; }
+        public string WorkflowStatusNameAR { get; set; }
+        public DateTime? JoinDate { get; set; }
+        public DateTime? LastJoinDate { get; set; }
         public DateTime? ExecutionDate { get; set; }
         public int? SalaryMonth { get; set; }
         public int? SalaryYear { get; set; }
@@ -82,5 +92,14 @@ namespace MasterErp.Entities.DTOs.HR
         public double? TotalDeduction { get; set; }
         public int? TotalCount { get; set; }
 
+        public double? SalaryDues { get; set; }
+        public double? FlightTicketDues { get; set; }
+
+        public int? VacationId { get; set; }
+
+        public double? TotalDuesAmount { get; set; }
+
     }
+
+
 }

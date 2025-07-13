@@ -99,6 +99,8 @@ namespace MasterErp.Service.HR
 
                 employee.CreatedBy = model.CreatedBy;
                 employee.CreatedDate = DateTime.Now;
+                employee.JoinDate = DateTime.Now;
+                employee.LastJoinDate = DateTime.Now;
 
 
                 Context.Employees.Add(employee);

@@ -1,5 +1,12 @@
+
+
 export interface EmployeeDueModel {
+
+
+
+
     employeeId: number | null;
+    employeeDueId: number | null;
     employeeCode: string;
     employeeNameEN: string;
     employeeNameAR: string;
@@ -12,12 +19,12 @@ export interface EmployeeDueModel {
     totalDuesMonths: number | null;
     totalDuesDays: number | null;
     totalDueAmount: number | null;
-    dueDate: string| null;
+    dueDate: string | null;
     dueDescription: string;
 
-    startWorkingDate: string| null;
-    lastJoinDate: string| null;
-    executionDate: string| null;
+    joinDate: string | null;
+    lastJoinDate: string | null;
+    executionDate: string | null;
     salaryMonth: number | null;
     salaryYear: number | null;
     addSalaryToDue: boolean | null;
@@ -28,19 +35,28 @@ export interface EmployeeDueModel {
     currentMonthSalary: number | null;
     homeAllowance: number | null;
     advances: number | null;
-    netAmount : number | null; 
+    netAmount: number | null;
 
     dueTypeId: number | null;
     dueTypeNameEN: string;
     dueTypeNameAR: string;
-    includeFlightTicket:boolean;
-    flightTicketAmount:number;
-    covenant:number;
-}  
+    includeFlightTicket: boolean;
+    flightTicketAmount: number;
+    covenant: number;
+    workflowStatusId: number;
+    noMonths: number;
+    noDays: number;
+    totalDeduction: number | null;
+    totalCount: number | null;
+    salaryDues: number | null;
+    flightTicketDues: number | null;
+    vacationId: number | null;
+    totalDuesAmount: number | null;
+}
 
 export interface DuesPreparationModel {
     lastJoinDate: string | null;
-    startWorkingDate: string | null;
+    joinDate: string | null;
     contractVacationPeriod: number | null;
     vacationStartDate: string | null;
     vacationEndDate: string | null;
@@ -55,10 +71,11 @@ export interface DuesPreparationModel {
 }
 
 export interface DuesPreparationModel {
-    dueTypeId:number;
+    dueTypeId: number;
+    vacationId: number;
     executionDate: string | null;
     lastJoinDate: string | null;
-    startWorkingDate: string | null;
+    joinDate: string | null;
     contractVacationPeriod: number | null;
     vacationStartDate: string | null;
     vacationEndDate: string | null;
