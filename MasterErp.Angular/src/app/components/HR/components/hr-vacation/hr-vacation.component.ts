@@ -33,13 +33,14 @@ export class HrVacationComponent implements OnInit {
     filterModel: { filterItems: [] }
   };
   employeeVacationModel: EmployeeVacationModel = {} as EmployeeVacationModel;
-  employeeVacationResponse: PagedResponseDTO<EmployeeVacationModel[]> = {
+  pagedResponseModel: PagedResponseDTO<EmployeeVacationModel[]> = {
     results: [],
     filterList: [],
     pageSize: 10,
     currentPage: 1,
     searchText: ''
   };
+
   showLoader: boolean = false;
   showAddLoader: boolean = false;
   public formGroup: FormGroup;
@@ -76,15 +77,29 @@ export class HrVacationComponent implements OnInit {
     this.getAllEmployeesSelector();
     this.getVacationTypesSelector();
   }
-  
+
+  getVacationRequestsByType(vacationTypeId: number) {
+    this.showLoader = true;
+    this.hrService.GetVacationRequestsByType(vacationTypeId, this.pagedResponseModel).subscribe(data => {
+      debugger
+      this.pagedResponseModel.results = data.results;
+      this.pagedResponseModel.totalCount = data.totalCount;
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+
   getVacationsByEmployeeId() {
     if (!this.checkEmployee())
       return;
 
     this.showLoader = true;
-    this.hrService.GetVacationsByEmployeeId(this.selectedEmployeeId, this.employeeVacationResponse).subscribe(data => {
-      this.employeeVacationResponse.results = data.results;
-      this.employeeVacationResponse.totalCount = data.totalCount;
+    this.hrService.GetVacationsByEmployeeId(this.selectedEmployeeId, this.pagedResponseModel).subscribe(data => {
+      this.pagedResponseModel.results = data.results;
+      this.pagedResponseModel.totalCount = data.totalCount;
 
       this.showLoader = false;
     }, err => {
@@ -156,7 +171,6 @@ export class HrVacationComponent implements OnInit {
   }
 
   addNewEmployeeVacation() {
-
     this.showAddLoader = true;
     this.hrService.AddNewEmployeeVacation(this.selectedEmployeeId, this.employeeVacationModel).subscribe(data => {
       if (data?.isSuccess) {
@@ -179,7 +193,6 @@ export class HrVacationComponent implements OnInit {
   editEmployeeVacation() {
     this.showAddLoader = true;
     this.hrService.EditEmployeeVacation(this.selectedEmployeeId, this.employeeVacationModel).subscribe(data => {
-
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.offcanvasService?.dismiss();
@@ -198,11 +211,13 @@ export class HrVacationComponent implements OnInit {
 
 
   }
+
   getVacationTypesSelector() {
     this.lookupService.GetVacationTypesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.vacationTypeSelectorData = data;
     });
   }
+
   validateForm(): boolean {
     this._FormService.markFormGroupTouched(this.formGroup);
     if (this.formGroup.valid) {
@@ -212,7 +227,6 @@ export class HrVacationComponent implements OnInit {
       return false;
     }
   }
-
 
   fillEditForm(vacationModel: EmployeeVacationModel) {
     this.isUpdate = true;
@@ -235,6 +249,15 @@ export class HrVacationComponent implements OnInit {
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
+  openEditJoinDateModal(content: any, employeeId: number) {
+    this.selectedEmployeeId = employeeId;
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+
+  updateEmployeeLastJoinDate(){
+    
+  }
+
   getAllEmployeesSelector() {
     this.sharedService.GetAllEmployeesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.employeeSelectorData = data;
@@ -242,12 +265,12 @@ export class HrVacationComponent implements OnInit {
   }
 
   filterChecked(filterItems: FilterItem[]) {
-    this.employeeVacationResponse.filterList = filterItems;
+    this.pagedResponseModel.filterList = filterItems;
     this.getVacationsByEmployeeId();
   }
 
   pageChanged(obj: any) {
-    this.employeeVacationResponse.currentPage = obj.page;
+    this.pagedResponseModel.currentPage = obj.page;
     this.getVacationsByEmployeeId();
   }
 

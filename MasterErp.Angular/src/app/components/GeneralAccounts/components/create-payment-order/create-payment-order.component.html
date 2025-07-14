@@ -107,7 +107,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div *ngIf="formGroup?.value?.agencyTypeId == 2 ||formGroup?.value?.agencyTypeId == 4" class="col-lg-3">
                     <div class="mb-2" *ngIf="formGroup?.value?.agencyTypeId">
                         <label class="form-label d-flex align-items-center gap-2"> جهة التعامل <span
@@ -122,9 +122,8 @@
                         <div *ngIf="formErrors.employeeId" class="text-danger font-small-3 m-03">
                             {{formErrors.employeeId}}
                         </div>
-
                     </div>
-                    
+
                 </div>
                 <div [class]="formGroup?.value?.agencyTypeId == 2 ||formGroup?.value?.agencyTypeId == 4 ?'col-lg-3':'col-lg-6'">
                     <div class="mb-2" *ngIf="formGroup?.value?.agencyTypeId">
@@ -136,7 +135,6 @@
                             {{formErrors.accountId}}
                         </div>
                     </div>
-                    
                 </div>
                 <div class="col-lg-6">
                     <div class="mb-2">

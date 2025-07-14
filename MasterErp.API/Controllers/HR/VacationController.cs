@@ -60,6 +60,22 @@ namespace MasterErp.API.Controllers.HR
             };
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("GetVacationRequestsByType")]
+        public IActionResult GetVacationRequestsByType(int VacationTypeId, SearchFilterModel Model)
+        {
+            var data = _vacationService.GetVacationRequestsByType(VacationTypeId, Model);
+            var result = new PagedResponseModel<EmployeeVacationDto>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = Model.PageSize,
+                CurrentPage = Model.CurrentPage
+            };
+            return Ok(result);
+        }
+        
         [HttpPost]
         [Route("AddNewEmployeeVacation")]
         public IActionResult AddNewEmployeeVacation(int EmployeeId, EmployeeVacationDto model)

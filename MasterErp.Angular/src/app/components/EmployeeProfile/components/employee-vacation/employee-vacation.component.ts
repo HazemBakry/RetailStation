@@ -86,33 +86,29 @@ export class EmployeeVacationComponent implements OnInit {
 
     this.initNewVacationForm(vacationModel);
   }
-  getVacations() {
 
+  getVacations() {
     this.showLoader = true;
     this.employeeProfile.GetVacations(this.vacationResponse).subscribe(data => {
       this.vacationResponse.results = data.results;
       this.vacationResponse.totalCount = data.totalCount;
-
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
     }, () => {
       this.showLoader = false;
     });
-
-
   }
 
   initNewVacationForm(vacationModel: EmployeeVacationModel = null) {
-
     this.isUpdate = false;
     this.buildForm();
     if (vacationModel)
       this.fillEditForm(vacationModel);
 
     // this.formGroup.patchValue({employeeId:this.selectedEmployeeId});
-
   }
+  
   buildForm() {
     this.formGroup = this.form.group({
       vacationId: [null],
@@ -210,6 +206,7 @@ export class EmployeeVacationComponent implements OnInit {
       this.employeeSelectorData = data;
     });
   }
+
   validateForm(): boolean {
     this._FormService.markFormGroupTouched(this.formGroup);
     if (this.formGroup.valid) {

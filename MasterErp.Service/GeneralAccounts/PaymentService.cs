@@ -83,13 +83,13 @@ namespace MasterErp.Service.GeneralAccounts
         {
             try
             {
-                int? accountId = Model.AccountId;
+                //int? accountId = Model.AccountId;
 
-                if (Model.EmployeeId != null)
-                    accountId = Context.AccountTrees.Where(x => x.AccountTypeId == 6).FirstOrDefault().AccountId;
+                //if (Model.EmployeeId != null)
+                //    accountId = Model.AccountId; //Context.AccountTrees.Where(x => x.AccountTypeId == 6).FirstOrDefault().AccountId;
 
-                if (Model.SupplierId != null)
-                    accountId = Context.AccountTrees.Where(x => x.AccountTypeId == 5).FirstOrDefault().AccountId;
+                //if (Model.SupplierId != null)
+                //    accountId = Context.AccountTrees.Where(x => x.AccountTypeId == 5).FirstOrDefault().AccountId;
 
                 PaymentOrder order = new PaymentOrder();
 
@@ -105,7 +105,7 @@ namespace MasterErp.Service.GeneralAccounts
                     Description = Model.Description,
                     MoneyAmount = Model.MoneyAmount,
                     AgencyTypeId = Model.AgencyTypeId,
-                    AccountId = accountId, //Model.AccountId,
+                    AccountId = Model.AccountId,
                     SupplierId = Model.SupplierId,
                     FromAccountId = Model.FromAccountId,
                     WorkflowStatusId = (int)FinanceWorkflowStatus.Pending,
@@ -144,7 +144,7 @@ namespace MasterErp.Service.GeneralAccounts
         {
             try
             {
-                PaymentOrder order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == PaymentOrderId && 
+                PaymentOrder order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == PaymentOrderId &&
                                                                                 x.WorkflowStatusId != (int)FinanceWorkflowStatus.Cancelled && x.WorkflowStatusId != (int)FinanceWorkflowStatus.Paid);
 
                 if (order != null)
@@ -440,6 +440,9 @@ namespace MasterErp.Service.GeneralAccounts
                     ActionId = Model.PaymentReceiptId,
                     Month = Model.ReleaseDate.Month,
                     Year = Model.ReleaseDate.Year,
+                    IsPosted = true,
+                    IsLocked = true,
+                    EntryMonth = Model.ReleaseDate.Month,
                     JournalEntryAccounts = accounts
                 };
 

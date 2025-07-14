@@ -58,7 +58,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-3">
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2"> نوع السند <span
                                 class="text-danger">*</span></label>
@@ -69,7 +69,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-3">
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">طريقة الدفع <span
                                 class="text-danger">*</span></label>
@@ -93,13 +93,15 @@
                 </div>
                 <div class="col-lg-6">
                     <div *ngIf="formGroup?.value?.agencyTypeId" class="mb-2">
-                        <label class="form-label d-flex align-items-center gap-2">الحساب / جهة التعامل <span
+                        <label class="form-label d-flex align-items-center gap-2"> جهة التعامل <span
                                 class="text-danger">*</span></label>
-                        <app-general-selector [showSearch]="true" [disabled]="true" *ngIf="formGroup?.value?.agencyTypeId == 1" formControlName="accountId" [data]="accountList" [placeholder]="'الحسابات'">
+                        <!-- <app-general-selector [showSearch]="true" [disabled]="true"
+                            *ngIf="formGroup?.value?.agencyTypeId == 1" formControlName="accountId" [data]="accountList"
+                            [placeholder]="'الحسابات'">
                         </app-general-selector>
                         <div *ngIf="formErrors.accountId" class="text-danger  font-small-3 m-03">
                             {{formErrors.accountId}}
-                        </div>
+                        </div> -->
 
                         <app-general-selector [showSearch]="true" [disabled]="true" *ngIf="formGroup?.value?.agencyTypeId == 2" formControlName="supplierId" [data]="supplierList" [placeholder]="'جهة التعامل'">
                         </app-general-selector>
@@ -114,17 +116,34 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-6">
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">من حساب<span
                                 class="text-danger">*</span></label>
-                        <app-general-selector [showSearch]="true" [disabled]="true" formControlName="fromAccountId" [data]="fromAccounts" [placeholder]="'الحسابات'">
+                        <app-general-selector [showSearch]="true" [disabled]="true" formControlName="fromAccountId" [data]="accountList" [placeholder]="'من حساب'">
                         </app-general-selector>
                         <div *ngIf="formErrors.fromAccountId" class="text-danger  font-small-3 m-03">
                             {{formErrors.fromAccountId}}
                         </div>
                     </div>
                 </div>
+
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">إلى حساب<span
+                                class="text-danger">*</span></label>
+                        <app-general-selector [showSearch]="true" [disabled]="true" formControlName="accountId" [data]="accountList" [placeholder]="'الحسابات'">
+                        </app-general-selector>
+                        <div *ngIf="formErrors.accountId" class="text-danger  font-small-3 m-03">
+                            {{formErrors.accountId}}
+                        </div>
+                    </div>
+                </div>
+
+
+
+
                 <div class="col-lg-6">
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">المبلغ</label>

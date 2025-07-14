@@ -58,7 +58,8 @@ export class CreatePaymentReceiptComponent implements OnInit {
     receiptLedgerId: '',
     receiptTypeId: '',
     paymentOrderId: '',
-    fromAccountId: ''
+    fromAccountId: '',
+    toAccountId: ''
   };
 
   constructor(private sharedService: SharedService,
@@ -150,15 +151,16 @@ export class CreatePaymentReceiptComponent implements OnInit {
       paymentOrderId: [null],
       fromAccountId: [null],
       supplierId: [null],
-      employeeId: [null]
+      employeeId: [null],
+      toAccountId: [null]
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
     });
     this.formGroup?.get('paymentTypeId')?.valueChanges.subscribe((paymentTypeId) => {
-      if (paymentTypeId) {
-        this.onChoosePaymentType(paymentTypeId);
-      }
+      // if (paymentTypeId) {
+      //   this.onChoosePaymentType(paymentTypeId);
+      // }
     });
   }
 
@@ -174,7 +176,6 @@ export class CreatePaymentReceiptComponent implements OnInit {
 
   fillEditForm(receiptModel: ReceiptModel) {
     this.isUpdate = true;
-
     this.formGroup.patchValue({
       paymentReceiptId: receiptModel.receiptId,
       receiptNumber: receiptModel.receiptNumber,
@@ -196,6 +197,8 @@ export class CreatePaymentReceiptComponent implements OnInit {
       employeeId: receiptModel.employeeId,
       description: receiptModel.description
     });
+
+    console.log(this.accountList);
   }
 
   getPaymentOrderDetailsById(paymentOrderId) {
@@ -236,18 +239,18 @@ export class CreatePaymentReceiptComponent implements OnInit {
     });
   }
 
-  onChoosePaymentType(payment: number) {
-    if (payment == 1) {
-      this.sharedService.GetAccountsByTypeId(4).subscribe(data => {
-        this.fromAccounts = data;
-      });
-    }
-    else {
-      this.sharedService.GetAccountsByTypeId(3).subscribe(data => {
-        this.fromAccounts = data;
-      });
-    }
-  }
+  // onChoosePaymentType(payment: number) {
+  //   if (payment == 1) {
+  //     this.sharedService.GetAccountsByTypeId(4).subscribe(data => {
+  //       this.fromAccounts = data;
+  //     });
+  //   }
+  //   else {
+  //     this.sharedService.GetAccountsByTypeId(3).subscribe(data => {
+  //       this.fromAccounts = data;
+  //     });
+  //   }
+  // }
 
   getSelectedAgencyType(accountType) {
     this.selectedAgencyType = accountType;

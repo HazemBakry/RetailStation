@@ -57,7 +57,7 @@ namespace MasterErp.Service.GeneralAccounts
                 EntryModel.EntryDate = entry.EntryDate;
                 EntryModel.JournalEntryId = entry.JournalEntryId;
                 EntryModel.EntryNumber = entry.EntryNumber.ToString();
-                EntryModel.JournalTypeId =  entry.JournalTypeId;
+                EntryModel.JournalTypeId = entry.JournalTypeId;
                 EntryModel.Month = entry.EntryDate.Month;
                 EntryModel.PeriodId = entry.PeriodId;
                 EntryModel.Year = entry.EntryDate.Year;
@@ -114,7 +114,7 @@ namespace MasterErp.Service.GeneralAccounts
         public List<JournalTemplateModel> GetSavedJournalTemplates(SearchFilterModel SearchModel)
         {
 
-            var query =  Context.JournalTemplates.Select(template=> new JournalTemplateModel 
+            var query = Context.JournalTemplates.Select(template => new JournalTemplateModel
             {
                 JournalTemplateId = template.JournalTemplateId,
                 NameAR = template.NameAR,
@@ -204,11 +204,11 @@ namespace MasterErp.Service.GeneralAccounts
                         Credit = row.Credit ?? 0,
                         Description = row.Description,
                         CostCenterId = row.CostCenterId
-                       
+
                     };
 
-                        Context.JournalTemplateDetails.Add(JournalDetials);
-                        Context.SaveChanges();
+                    Context.JournalTemplateDetails.Add(JournalDetials);
+                    Context.SaveChanges();
                 }
                 return new ActionsResponseModel
                 {
@@ -308,10 +308,12 @@ namespace MasterErp.Service.GeneralAccounts
                     Description = model.Description,
                     DocNumber = model.DocNumber,
                     JournalTypeId = model.JournalTypeId,
+                    IsPosted = model.IsPosted ?? false,
+                    PostDate = DateTime.Now,
                     IsCancelled = false,
-                    IsLocked = false,
+                    IsLocked = model.IsLocked,
                     PeriodId = CurrentPeriod != null ? CurrentPeriod.FinancialPeriodId : 0,
-                    EntryDate = model.EntryDate??DateTime.Now,
+                    EntryDate = model.EntryDate ?? DateTime.Now,
                     ActionTypeId = model.ActionTypeId,
                     ActionId = model.ActionId,
                     CreatedDate = DateTime.Now,
@@ -370,7 +372,7 @@ namespace MasterErp.Service.GeneralAccounts
                 var entry_tbl = Context.JournalEntries.Where(i => i.JournalEntryId == EntryId).FirstOrDefault();
                 if (entry_tbl != null)
                 {
-                    if(entry_tbl.EntryDate != model.EntryDate || entry_tbl.JournalTypeId !=model.JournalTypeId)
+                    if (entry_tbl.EntryDate != model.EntryDate || entry_tbl.JournalTypeId != model.JournalTypeId)
                     {
                         entry_tbl.EntryNumber = GenerateEntryNumber(model.EntryDate ?? DateTime.Now, model.JournalTypeId);
                     }
@@ -410,7 +412,9 @@ namespace MasterErp.Service.GeneralAccounts
                         }
                     }
 
-                    return new ActionsResponseModel { Message = "Entry Updated Successfly !",
+                    return new ActionsResponseModel
+                    {
+                        Message = "Entry Updated Successfly !",
                         Number = entry_tbl.EntryNumber.ToString(),
                         Id = entry_tbl.JournalEntryId,
                     };
@@ -428,10 +432,10 @@ namespace MasterErp.Service.GeneralAccounts
                 };
             }
         }
-        private int GenerateEntryNumber(DateTime EntryDate,int JournalTypeId)
+        private int GenerateEntryNumber(DateTime EntryDate, int JournalTypeId)
         {
             int month = EntryDate.Month;
-            int year = EntryDate.Year ;
+            int year = EntryDate.Year;
             //var PreEntries = Context.JournalEntries.Where(x => x.EntryDate.Month == month && x.EntryDate.Year == year).ToList();
 
             // base on month & year and JournalTypeId
@@ -476,14 +480,14 @@ namespace MasterErp.Service.GeneralAccounts
                                 {
                                     EntryNumber = res.EntryNumber,
                                     EntryType = res.JournalTypeAR ?? res.JournalTypeEN,
-                                    EntryStatus = res.IsLocked == true ? "مرحل": "غير مرحل",
+                                    EntryStatus = res.IsLocked == true ? "مرحل" : "غير مرحل",
                                     ActionType = res.ActionTypeAR ?? res.ActionTypeEN,
                                     EntryMonth = res.EntryMonth,
                                     EntryDate = res.EntryDate?.ToString("MM/dd/yyyy"),
                                     TotalCredit = res.TotalCredit ?? 0,
-                                    TotalDebit = res.TotalDebit ??0,
+                                    TotalDebit = res.TotalDebit ?? 0,
                                     Description = res.Description,
-                                    
+
 
                                 }).ToList();
 
@@ -539,7 +543,7 @@ namespace MasterErp.Service.GeneralAccounts
             {
                 var entries = Context.JournalEntries.Where(item => JournalEntryIds.Contains(item.JournalEntryId)).ToList();
 
-                if(!entries.Any())
+                if (!entries.Any())
                     return new ActionsResponseModel { IsSuccess = false, Message = "لا يوجد قيود !" };
 
                 foreach (var item in entries)
@@ -621,7 +625,7 @@ namespace MasterErp.Service.GeneralAccounts
                 };
             }
         }
-        public ActionsResponseModel ReverseJournalEntry(string UserId,List<int> JournalEntryIds)
+        public ActionsResponseModel ReverseJournalEntry(string UserId, List<int> JournalEntryIds)
         {
             try
             {

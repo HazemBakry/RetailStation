@@ -420,9 +420,15 @@ export class HrService {
   GetAllEmployeeVacationsData(model: SearchFilterModel) {
     return this.http.post<any>(this.URL + 'Vacation/GetAllEmployeeVacationsData', model);
   }
+
   GetVacationsByEmployeeId(employeeId, model: PagedResponseDTO) {
     return this.http.post<PagedResponseDTO<EmployeeVacationModel[]>>(this.URL + 'Vacation/GetVacationsByEmployeeId?EmployeeId=' + employeeId, model);
   }
+
+  GetVacationRequestsByType(vacationTypeId: number, model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<EmployeeVacationModel[]>>(this.URL + 'Vacation/GetVacationRequestsByType?VacationTypeId=' + vacationTypeId, model);
+  }
+
   AddNewEmployeeVacation(employeeId: number, model: EmployeeVacationModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Vacation/AddNewEmployeeVacation?EmployeeId=' + employeeId, model);
   }

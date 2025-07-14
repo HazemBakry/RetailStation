@@ -11,6 +11,7 @@ using MasterErp.Interface.HR;
 using MasterErp.Interface.Shared;
 using MasterErp.Service.Common;
 using MasterErp.Service.Shared;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -101,6 +102,22 @@ namespace MasterErp.Service.HR
             });
             return results;
         }
+        
+        public List<EmployeeVacationDto> GetVacationRequestsByType(int VacationTypeId, SearchFilterModel SearchModel)
+        {
+            var FilterList = SearchModel?.FilterList?.Select(f => new FilterList_TableType { ItemKey = string.Empty, CategoryName = f.CategoryName, ItemValue = f.ItemFlag }).ToList();
+            SqlParameter[] param = new SqlParameter[4];
+
+            param[0] = new SqlParameter("@VacationTypeId", VacationTypeId);
+            param[1] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            param[2] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            param[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[3].Value = FilterList.ToDataTable();
+
+            var result = SQLHelper.SQLQuery<EmployeeVacationDto>("[HR].[SP_GetVacationRequestsByType]", null, param);
+            return result;
+        }
+
         public ActionsResponseModel AddNewEmployeeVacation(int EmployeeId,EmployeeVacationDto model)
         {
             try

@@ -31,39 +31,44 @@
                     نوع الأجازه
                     <span class="text-danger">*</span>
                 </label>
-                <app-general-selector [data]="vacationTypeSelectorData" [showSearch]="true" [placeholder]="'نوع الأجازه'"></app-general-selector>
+                <app-general-selector [data]="vacationTypeSelectorData" (valueChanged)="getVacationRequestsByType($event)" [showSearch]="true" [placeholder]="'نوع الأجازه'"></app-general-selector>
 
                 <div *ngIf="formErrors.vacationTypeId" class="text-danger  font-small-3 m-03">
                     {{formErrors.vacationTypeId}}
                 </div>
             </div>
+            <!-- <div class="col-lg-2">
+                <button class="btn btn-secondary radius-50 mt-4" (click)="getVacationsByEmployeeId()">
+                    <i class="fas fa-search"></i>
+                    <span class="ms-4">بحث</span>
+                </button>
+            </div> -->
+        </div>
+        <div class="row py-3">
+
             <div class="col-lg-4">
                 <label class="form-label d-flex align-items-center gap-2">
-                     اسم الموظف
+                    اسم الموظف
                     <span class="text-danger">*</span>
                 </label>
                 <app-general-selector [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData" [showSearch]="true" [placeholder]="'قائمة الموظفين'"></app-general-selector>
-                <!-- <div *ngIf="formErrors.Id" class="text-danger  font-small-3 m-03">
-                        {{formErrors.regionId}}
-                    </div> -->
             </div>
-        </div>
-        <div class="row py-3">
+
             <!-- <div class="col-lg-4">
                 <select class="form-control mb-3 py-3" formControlName="employeeID">
                     <option [defaultSelected]=true [value]="0" disabled>Employees</option>
                     <option *ngFor="let emp of EmployeeData" [value]="emp.Id">{{emp.name}}</option>
                 </select>
             </div> -->
-
+            <!-- 
             <div class="col-lg-2">
                 <button class="btn btn-secondary radius-50" (click)="getVacationsByEmployeeId()">
                     <i class="fas fa-search"></i>
                     <span class="ms-4">بحث</span>
                 </button>
-            </div>
+            </div> -->
         </div>
-        <h6 class="mb-0 fw-bold" *ngIf="employeeVacationResponse.results.length > 0">فرع {{employeeVacationResponse.results[0].branchName}}
+        <h6 class="mb-0 fw-bold" *ngIf="pagedResponseModel.results.length > 0">فرع {{pagedResponseModel.results[0].branchName}}
         </h6>
     </div>
 </div>
@@ -85,7 +90,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="employeeVacationResponse.currentPage" [pageSize]="employeeVacationResponse.pageSize" [totalCount]="employeeVacationResponse.totalCount"></app-erp-pagination>
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
             </div>
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
@@ -106,7 +111,7 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    <tr *ngFor="let item of employeeVacationResponse.results">
+                    <tr *ngFor="let item of pagedResponseModel.results">
                         <td>{{item.employeeName}}</td>
                         <td>{{item.vacationType}}</td>
 
@@ -119,7 +124,20 @@
                             <div appColorWithStatus status="workflowStatusId" [text]="item.workflowStatusId"></div>
                         </td>
                         <td>
-                            <div class="d-flex align-items-center justify-content-center text-center">
+
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div ngbDropdown container="body">
+                                    <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle>
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <div ngbDropdownMenu class="border">
+                                        <button ngbDropdownItem (click)="cancelPaymentOrder(item.paymentOrderId)">تعديل</button>
+                                        <button ngbDropdownItem (click)="openDeleteModal(deleteModal,item.vacationId)">إلغاء</button>
+                                        <button ngbDropdownItem (click)="openEditJoinDateModal(editJoinDateModal,item.employeeId)">عودة من الأجازة</button>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="d-flex align-items-center justify-content-center text-center">
                                 <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2" (click)="openNewSidePanel(AddModal,item)">
                                     <i class="uil uil-pen"></i>
                                     <span>تعديل</span>
@@ -128,12 +146,17 @@
                                     <i class="uil uil-trash-alt"></i>
                                     <span>الغاء</span>
                                 </button>
+                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openEditJoinDateModal(editJoinDateModal,item.employeeId)">
+                                    <i class="uil uil-trash-alt"></i>
+                                    <span>عودة من أجازة</span>
+                                </button> -->
+
                             </div>
                         </td>
                     </tr>
-                    <tr *ngIf="!employeeVacationResponse.results.length || showLoader">
+                    <tr *ngIf="!pagedResponseModel.results.length || showLoader">
                         <td colspan="9" class="text-right">
-                            <app-empty-data [showEmptyData]="!employeeVacationResponse.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+                            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>
@@ -163,6 +186,62 @@
         </button>
     </div>
 </ng-template>
+
+
+<ng-template #editJoinDateModal let-modal>
+    <div class="modal-header modal-header-bg justify-content-between">
+        <h4 class="d-flex align-items-center gap-2">
+            <i class="uil uil-refresh"></i>
+            <span>عودة الموظف من الأجازة</span>
+        </h4>
+        <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="card ">
+            <!-- bg-light  >> for gray card-->
+            <div class="card-body ">
+                <div class="p-2">
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                حالة الموظف
+                            </label>
+                            <app-general-selector [(ngModel)]="employeeStatus" [data]="employeeSelectorData" [showSearch]="true" [placeholder]="'حالة الموظف'"></app-general-selector>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                تاريخ العودة
+                            </label>
+                            <input type="date" class="form-control nw-form-input w-100" [(ngModel)]="lastJoinDate" autocomplete="off" />
+
+                            <div *ngIf="formErrors.arriveDate" class="text-danger  font-small-3 m-03">
+                                {{formErrors.arriveDate}}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer flex-nowrap gap-2">
+        <button [disabled]="showAddLoader" (click)="updateEmployeeLastJoinDate()" type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
+            <i class="uil uil-save fs-3"></i>
+            <span>حفــظ</span>
+        </button>
+
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="modal.close()">
+            <i class="uil uil-times-circle fs-3"></i>
+            <span>إلغاء</span>
+        </button>
+    </div>
+</ng-template>
+
+
 
 <ng-template #AddModal let-offcanvas class="add-vacation-panel">
     <div class="offcanvas-header gap-3 fs-4 border-bottom py-4">

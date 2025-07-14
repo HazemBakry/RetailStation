@@ -96,7 +96,7 @@
                                     <div ngbDropdownMenu class="border">
                                         <button *ngIf="![wfStatus.Cancelled , wfStatus.Paid].includes(item.workflowStatusId)" ngbDropdownItem routerLink="/general-accounts/create-payment-receipt" [queryParams]="{PaymentReceiptId:item.paymentReceiptId}">تعديل</button>
                                         <button *ngIf="![wfStatus.Cancelled , wfStatus.Paid].includes(item.workflowStatusId)" ngbDropdownItem (click)="cancelPaymentReceipt(item.paymentReceiptId)">اسقاط</button>
-                                        <button *ngIf="item.entryId && ![wfStatus.Cancelled , wfStatus.Paid].includes(item.workflowStatusId)" ngbDropdownItem routerLink="/general-accounts/new-entry" [queryParams]="{JournalEntryId:item.entryId}">معاينة القيد</button>
+                                        <button *ngIf="item.entryId" ngbDropdownItem routerLink="/general-accounts/new-entry" [queryParams]="{JournalEntryId:item.entryId}">معاينة القيد</button>
                                         <button ngbDropdownItem (click)="PrintData(item.paymentReceiptId)">طباعة</button>
                                     </div>
                                 </div>

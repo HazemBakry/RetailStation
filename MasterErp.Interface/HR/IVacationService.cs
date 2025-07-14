@@ -1,6 +1,7 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,6 +16,7 @@ namespace MasterErp.Interface.HR
  
         List<EmployeeVacationDto> GetAllEmployeeVacationsData(SearchFilterModel SearchModel, int? EmployeeId = null, int? ManagerId = null);
         List<EmployeeVacationDto> GetVacationsByEmployeeId(int EmployeeId,SearchFilterModel SearchModel);
+        List<EmployeeVacationDto> GetVacationRequestsByType(int VacationTypeId, SearchFilterModel SearchModel);
         ActionsResponseModel AddNewEmployeeVacation(int EmployeeId, EmployeeVacationDto model);
         ActionsResponseModel EditVacation(int EmployeeId, EmployeeVacationDto model);
         ActionsResponseModel DeleteVacation(int VacationId);
