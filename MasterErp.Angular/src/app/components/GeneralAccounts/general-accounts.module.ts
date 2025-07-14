@@ -48,6 +48,7 @@ import { GeneralAccountsDashboardComponent } from './components/general-accounts
 import { AdvancesRequestsComponent } from './components/advances-requests/advances-requests.component';
 import { IndebtednessPdfReportComponent } from './components/indebtedness-pdf-report/indebtedness-pdf-report.component';
 import { BanksComponent } from './GeneralAccountSettings/banks/banks.component';
+import { DuesRequestsComponent } from './components/dues-requests/dues-requests.component';
 
 
 @NgModule({
@@ -94,7 +95,8 @@ import { BanksComponent } from './GeneralAccountSettings/banks/banks.component';
     GeneralAccountsDashboardComponent,
     AdvancesRequestsComponent,
     IndebtednessPdfReportComponent,
-    BanksComponent
+    BanksComponent,
+    DuesRequestsComponent
   ],
   imports: [
     CommonModule,

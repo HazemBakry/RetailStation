@@ -107,6 +107,13 @@ export class MenuService {
               icon: 'fa fa-file-signature',
               route: '/general-accounts/advances-requests'
             },
+            {
+              displayName: 'طلبات المستحقات',
+              menuItem: 'dues-requests',
+              description: 'إرسال وتتبع طلبات المستحقات المالية',
+              icon: 'fa fa-file-signature',
+              route: '/general-accounts/dues-requests'
+            },
           ]
         },
         {

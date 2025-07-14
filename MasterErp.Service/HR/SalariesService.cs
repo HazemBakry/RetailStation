@@ -13,6 +13,7 @@ using System.Linq;
 using MasterErp.Entities.Common.Enums;
 using Microsoft.AspNetCore.Http.HttpResults;
 using MasterErp.Entities.Common.Export;
+using MasterErp.Entities.DTOs.Purchases;
 
 
 namespace MasterErp.Service.HR
@@ -128,21 +129,66 @@ namespace MasterErp.Service.HR
 
 
         #region Employee Dues
-        public List<EmployeeDueModel> GetEmployeeDues(int EmployeeId, SearchFilterModel SearchModel)
+        public List<SelectorDataModel> GetEmployeesForDuesSelector(DueType DueType)
         {
-            SqlParameter[] param = new SqlParameter[4];
+            SqlParameter[] param = new SqlParameter[1];
+            param[0] = new SqlParameter("@DueType", DueType);
+            var result = SQLHelper.SQLQuery<SelectorDataModel>("[HR].[SP_GetEmployeesForDues]", null, param);
+            return result;
+        }
+        public List<EmployeeDueModel> GetDues_Data(SearchFilterModel SearchModel, int? EmployeeId = null, int? EmployeeDuesId = null)
+        {
+            SqlParameter[] param = new SqlParameter[5];
             param[0] = new SqlParameter("@EmployeeId", EmployeeId);
-            param[1] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
-            param[2] = new SqlParameter("@PageSize", SearchModel.PageSize);
-            param[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            param[3].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
+            param[1] = new SqlParameter("@EmployeeDuesId", EmployeeDuesId);
+            param[2] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            param[3] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            param[4] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[4].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
 
 
             var result = SQLHelper.SQLQuery<EmployeeDueModel>("[HR].[SP_GetEmployeeDues]", null, param);
 
             return result;
         }
+        public EmployeeDueModel GetEmployeeDuesById(int EmployeeDuesId)
+        {
+            return GetDues_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 },null, EmployeeDuesId)?.FirstOrDefault();
 
+        }
+        public List<EmployeeDueModel> GetEmployeeDues(int EmployeeId, SearchFilterModel SearchModel)
+        {
+            //SqlParameter[] param = new SqlParameter[4];
+            //param[0] = new SqlParameter("@EmployeeId", EmployeeId);
+            //param[1] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            //param[2] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            //param[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            //param[3].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
+
+
+            var result = GetDues_Data(SearchModel, EmployeeId);
+
+            return result;
+        }
+        public ActionsResponseModel DeleteEmployeeDues(int EmployeeDuesId)
+        {
+            try
+            {
+                var dues = Context.EmployeeDues.FirstOrDefault(i => i.EmployeeDueId == EmployeeDuesId);
+                if (dues != null && dues.WorkflowStatusId !=(int)FinanceWorkflowStatus.Paid)
+                {
+                    Context.Remove(dues);
+                    Context.SaveChanges();
+                    return new ActionsResponseModel { Message = "Dues deleted successfly !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Dues not found or closed" }; ;
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
         public EmployeeDueModel CalculateEmployeeDue(int EmployeeId, EmployeeDueModel Model)
         {
 
@@ -150,8 +196,8 @@ namespace MasterErp.Service.HR
             if (contract == null)
                 return null;
 
-            var endDate = Model.LastWorkingDate ?? DateTime.Now;
-            var startDate = Model.StartWorkingDate ?? DateTime.Now;
+            var endDate = Model.LastJoinDate ?? DateTime.Now;
+            var startDate = Model.JoinDate ?? DateTime.Now;
             // Total days
             int totalDays = (endDate - startDate).Days;
             int totalMonths = ((endDate.Year - startDate.Year) * 12) + endDate.Month - startDate.Month;
@@ -202,14 +248,25 @@ namespace MasterErp.Service.HR
         }
         public DuesPreparationModel GetEmployeeDuesPreparationDate(int employeeId, DueType DueType, DuesPreparationModel model)
         {
-            var executionDate = model.ExecutionDate;
             if (model == null)
                 model = new DuesPreparationModel();
 
+            var emp = Context.Employees
+                .FirstOrDefault(x => x.EmployeeId == employeeId);
+
+            if (emp == null||emp.LastJoinDate == null)
+                return model;
+            model.LastJoinDate = DueType ==DueType.EndOfContract ? emp.JoinDate:emp.LastJoinDate;
+            model.BranchId = emp.BranchId;
+
             // 1. Get the last working date from EmployeeDues table
-            model.LastJoinDate = Context.EmployeeDues
+            if (model.LastJoinDate == null)
+            {
+                model.LastJoinDate = Context.EmployeeDues
                 .Where(x => x.EmployeeId == employeeId)
-                .Max(x => (DateTime?)x.LastWorkingDate);
+                .Max(x => (DateTime?)x.LastJoinDate);
+            }
+                
 
             // 2. Get the most recent contract by start date
             var recentContract = Context.Contracts
@@ -228,27 +285,41 @@ namespace MasterErp.Service.HR
             }
 
             // If no dues found, fallback to LastJoinDate from contract
-            if (model.LastJoinDate == null)
-                model.LastJoinDate = recentContract?.LastJoinDate;
+            //if (model.LastJoinDate == null)
+            //    model.LastJoinDate = recentContract?.LastJoinDate;
 
             model.ContractVacationPeriod = recentContract?.VacationPeriodDays;
 
             // 3. Get the first start date of all contracts
-            model.StartWorkingDate = Context.Contracts
-                .Where(x => x.EmployeeId == employeeId)
-                .OrderBy(x => x.StartDate)
-                .Select(x => (DateTime?)x.StartDate)
-                .FirstOrDefault();
+            //model.JoinDate = Context.Contracts
+            //    .Where(x => x.EmployeeId == employeeId)
+            //    .OrderBy(x => x.StartDate)
+            //    .Select(x => (DateTime?)x.StartDate)
+            //    .FirstOrDefault();
+            model.JoinDate = emp.JoinDate;
 
             // 4. Get the latest annual vacation
             var lastVacation = Context.Vacations
                 .Where(x => x.EmployeeId == employeeId && x.VacationTypeId == (int)VacationType.AnnualVacation)
                 .OrderByDescending(x => x.FromDate)
                 .FirstOrDefault();
+            if (DueType == DueType.Vacation)
+            {
+                model.VacationStartDate = lastVacation?.FromDate;
+                model.VacationEndDate = lastVacation?.ToDate;
+                model.VacationId = lastVacation?.VacationId;
+                model.CurrentVacationPeriod = lastVacation?.Period;
+                if (model.ExecutionDate == null)
+                    model.ExecutionDate = lastVacation?.FromDate;
+                
 
-            model.VacationStartDate = lastVacation?.FromDate;
-            model.VacationEndDate = lastVacation?.ToDate;
-            model.CurrentVacationPeriod = lastVacation?.Period;
+            }
+            else if (DueType == DueType.EndOfContract)
+            {
+                if (model.ExecutionDate == null)
+                    model.ExecutionDate = DateTime.Now;
+            }
+
             if (model.VacationStartDate != null && model.VacationEndDate != null && model.VacationStartDate < model.VacationEndDate)
             {
                 var start = model.VacationStartDate.Value;
@@ -289,8 +360,8 @@ namespace MasterErp.Service.HR
             {
                 model.Advances = advances.Sum(x => x.MoneyAmount);
             }
-
-            DateTime? fromDate = DueType == DueType.Vacation ? model.LastJoinDate : model.StartWorkingDate;
+            var executionDate = model.ExecutionDate;
+            DateTime? fromDate = DueType == DueType.Vacation ? model.LastJoinDate : model.JoinDate;
             if (fromDate!=null && executionDate != null)
                 model.VacationDues = GetDuesByType(DueType, model.BasicSalary, fromDate.Value, executionDate.Value);
             model.SalaryDues = GetEmployeeSalaryDues(employeeId, model.SalaryDuesMonths);
@@ -317,7 +388,10 @@ namespace MasterErp.Service.HR
 
                     var result = GetEmployeeSalarySummary(item.SalaryYear, item.SalaryMonth, SearchModel);
                     if (result.Any())
-                        salary += result.FirstOrDefault().TotalSalary.GetValueOrDefault();
+                    {
+                        var monthSalary = result.FirstOrDefault();
+                        salary += ((double)monthSalary.TotalSalary.GetValueOrDefault() - (double)monthSalary.Advances);
+                    }
                 }
             }
             
@@ -381,16 +455,32 @@ namespace MasterErp.Service.HR
         public ActionsResponseModel SaveEmployeeDue(int employeeId, DuesPreparationModel model)
         {
             // Check for overlapping due record
-            var conflictingDue = Context.EmployeeDues
-                .Where(x => x.EmployeeId == employeeId && x.LastWorkingDate > model.StartWorkingDate)
+            EmployeeDue conflictingDue =  null;
+            if ((int)model.DueTypeId == (int)DueType.Vacation)
+            {
+                if (model.VacationId == null)
+                {
+                    return new ActionsResponseModel
+                    {
+                        IsSuccess = false,
+                        Message = $"no vacation registered"
+                    };
+                }
+                conflictingDue = Context.EmployeeDues
+                                .Where(x => x.EmployeeId == employeeId && x.VacationId == model.VacationId)
+                                .FirstOrDefault();
+            }
+                
+            else if ((int)model.DueTypeId == (int)DueType.Vacation)
+                conflictingDue = Context.EmployeeDues
+                .Where(x => x.EmployeeId == employeeId)
                 .FirstOrDefault();
-
             if (conflictingDue != null)
             {
                 return new ActionsResponseModel
                 {
                     IsSuccess = false,
-                    Message = $"Cannot save due. There is already a record with a LastWorkingDate later than the provided StartWorkingDate: {conflictingDue.LastWorkingDate:yyyy-MM-dd}"
+                    Message = $"Cannot save due. There is already a record with a LastWorkingDate later than the provided StartWorkingDate: {conflictingDue.JoinDate ?? conflictingDue.LastJoinDate:yyyy-MM-dd}"
                 };
             }
 
@@ -399,19 +489,23 @@ namespace MasterErp.Service.HR
             {
                 EmployeeId = employeeId,
                 DueTypeId = model.DueTypeId,
-                NoMonths = 0,
-                NoDays = 0,
-                StartWorkingDate = model.StartWorkingDate,
-                LastWorkingDate = model.LastJoinDate,
+                NoMonths = (int)model.TotalDuesMonths,
+                NoDays = (int)model.TotalDuesDays,
+                JoinDate = model.JoinDate,
+                LastJoinDate = model.LastJoinDate,
                 ExecutionDate = model.ExecutionDate,
 
                 Notes = "",
                 VacationDues = (float?)model.VacationDues,
                 EndOfServiceDues = (float?)model.EndOfServiceDues,
-                CurrentMonthSalary = (float?)model.SalaryDues,
+                SalaryDues = (float?)model.SalaryDues,
+                FlightTicketDues = (float?)model.FlightTicketDues,
                 HomeAllowance = (float?)model.HomeAllowance,
                 Advances = (float?)model.Advances,
                 NetAmount = (float?)model.TotalDueAmount,
+                TotalDuesAmount = (float?)model.TotalDueAmount,
+                WorkflowStatusId = (int)FinanceWorkflowStatus.Pending,
+                VacationId = model.VacationId,
                 CreatedBy = "",
                 CreatedDate = DateTime.Now
             };

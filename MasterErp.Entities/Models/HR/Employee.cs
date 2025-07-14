@@ -45,6 +45,8 @@ namespace MasterErp.Entities.Models.HR
         public int? VisaJobId { get; set; }//1
         public DateTime? VisaIssueDate { get; set; }//2
         public DateTime? PassportExpireDate { get; set; }//2
+        public DateTime? JoinDate { get; set; }//2
+        public DateTime? LastJoinDate { get; set; }//2
         public string Phone { get; set; }//1
         public string Email { get; set; }//1
         public Contract EmployeeContract { get; set; }

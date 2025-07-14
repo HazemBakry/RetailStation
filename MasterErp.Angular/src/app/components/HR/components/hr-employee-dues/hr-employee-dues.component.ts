@@ -50,13 +50,13 @@ export class HrEmployeeDuesComponent implements OnInit {
   selectedDueTypeId: number;
   selectedBranchId: number;
   public DueType = DueTypeEnum;
-  startWorkingDate: string = '';
+  joinDate: string = '';
   lastJoinDate: string = '';
   employeeContractInfoModel: EmployeeContractModel;
   duesCreateModel: DuesPreparationModel = {} as DuesPreparationModel;
   employeeDueModel: EmployeeDueModel = {
     dueTypeId: null,
-    startWorkingDate: null,
+    joinDate: null,
     lastJoinDate: null,
     executionDate: null,
     addSalaryToDue: null,
@@ -98,21 +98,23 @@ export class HrEmployeeDuesComponent implements OnInit {
   }
   employeeChanged(employeeId: any) {
     this.selectedEmployeeId = employeeId;
+    this.duesCreateModel = {} as DuesPreparationModel;
     this.getEmployeeDuesPreparationDate();
   }
   dueTypeChanged(dueTypeId: DueTypeEnum) {
-    this.selectedDueTypeId =this.duesCreateModel.dueTypeId= dueTypeId;
+    this.duesCreateModel = {} as DuesPreparationModel;
+    this.selectedDueTypeId = dueTypeId;
+    this.duesCreateModel.dueTypeId = dueTypeId;
     this.duesCreateModel.vacationDues = 0;
     this.duesCreateModel.endOfServiceDues = 0;
-    if (dueTypeId == DueTypeEnum.Vacation)
-      this.loadEmployeeSelector(EmployeeStatusEnum.Vacation);
-    else
-      this.loadEmployeeSelector();
+    this.employeeSelectorData =[];
+    this.loadEmployeeSelector(dueTypeId);
+
 
   }
 
-  loadEmployeeSelector(empStatusId: EmployeeStatusEnum = EmployeeStatusEnum.Active) {
-    this.hrService.GetActiveEmployeesSelector(empStatusId).subscribe((data: GeneralSelectorModel[]) => {
+  loadEmployeeSelector(dueTypeId: DueTypeEnum) {
+    this.hrService.GetEmployeesForDuesSelector(dueTypeId).subscribe((data: GeneralSelectorModel[]) => {
       this.employeeSelectorData = data;
     });
   }
@@ -141,17 +143,18 @@ export class HrEmployeeDuesComponent implements OnInit {
     this.getEmployeeDues();
   }
   getEmployeeDuesPreparationDate() {
-    //this.startWorkingDate = null;
+    //this.joinDate = null;
     if (!this.selectedEmployeeId || !this.selectedDueTypeId) {
       return;
     }
     this.showLoader = true;
-    this.hrService.GetEmployeeDuesPreparationDate(this.selectedEmployeeId, this.selectedDueTypeId, this.duesCreateModel).subscribe(data => {
+    this.hrService.GetEmployeeDuesPreparationDate(this.selectedEmployeeId, this.selectedDueTypeId, this.duesCreateModel).subscribe((data:DuesPreparationModel) => {
       if (data) {
         this.duesCreateModel = data;
-        this.startWorkingDate = this.employeeDueModel.startWorkingDate = this.datePipe.transform(data.startWorkingDate, 'yyyy-MM-dd')
+        this.selectedBranchId = data.branchId;
+        this.employeeDueModel.joinDate = this.datePipe.transform(data.joinDate, 'yyyy-MM-dd')
         this.duesCreateModel.lastJoinDate = this.datePipe.transform(data.lastJoinDate, 'yyyy-MM-dd');
-        this.duesCreateModel.executionDate = this.datePipe.transform(data.vacationStartDate, 'yyyy-MM-dd');
+        this.duesCreateModel.executionDate = this.datePipe.transform(data.executionDate, 'yyyy-MM-dd');
 
       }
       this.calcDeusPeriod();
@@ -162,14 +165,20 @@ export class HrEmployeeDuesComponent implements OnInit {
       this.showLoader = false;
     });
   }
-  salaryMonthsChanged(valueId) {
-    var month = this.salaryDuesMonths.find(x => x.id == valueId);
+  salaryMonthsChanged(valueIds: number[]) {
+    var months = this.salaryDuesMonths.filter(x => valueIds.includes(x.id));
     var SalaryDuesMonthModel: SalaryDuesMonthModel[] = [];
-    if (month) {
-      SalaryDuesMonthModel.push({
-        salaryMonth: month.month,
-        salaryYear: month.year
+    if (months?.length) {
+      SalaryDuesMonthModel = months.map(month => {
+        return {
+          salaryMonth: month.month,
+          salaryYear: month.year
+        };
       });
+      // SalaryDuesMonthModel.push({
+      //   salaryMonth: month.month,
+      //   salaryYear: month.year
+      // });
     }
     this.duesCreateModel.salaryDuesMonths = SalaryDuesMonthModel;
   }
@@ -193,7 +202,7 @@ export class HrEmployeeDuesComponent implements OnInit {
     if (this.selectedDueTypeId === DueTypeEnum.Vacation) {
       fromDate = this.duesCreateModel.lastJoinDate ? new Date(this.duesCreateModel.lastJoinDate) : null;
     } else if (this.selectedDueTypeId === DueTypeEnum.EndOfService) {
-      fromDate = this.duesCreateModel.startWorkingDate ? new Date(this.duesCreateModel.startWorkingDate) : null;
+      fromDate = this.duesCreateModel.joinDate ? new Date(this.duesCreateModel.joinDate) : null;
     }
 
 
@@ -237,6 +246,7 @@ export class HrEmployeeDuesComponent implements OnInit {
   saveEmployeeDue() {
     if (!this.checkEmployee())
       return;
+    this.duesCreateModel.dueTypeId =this.selectedDueTypeId;
     this.showLoader = true;
     this.hrService.saveEmployeeDue(this.selectedEmployeeId, this.duesCreateModel).subscribe(data => {
       if (data.isSuccess)
@@ -292,6 +302,7 @@ export class HrEmployeeDuesComponent implements OnInit {
     this.getEmployeeDues();
   }
   openSaveModal(content: any) {
+    this.getEmployeeDuesPreparationDate();
     this.modalService.open(content, { centered: true, size: 'md' });
   }
   validateNumbers(key: any): boolean {

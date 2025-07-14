@@ -251,11 +251,22 @@ export class HrService {
   }
 
   //////////// Employee Dues //
-
+  GetEmployeesForDuesSelector(dueType: DueTypeEnum) {
+    var params = dueType ? `?DueType=${dueType}` : '';
+    return this.http.get<FormDropdownModel[]>(this.URL + `Salaries/GetEmployeesForDuesSelector${params}`);
+  }
+  GetDues_Data(filter: SearchFilterModel): Observable<PagedResponseDTO<EmployeeDueModel[]>> {
+    return this.http.post<PagedResponseDTO<EmployeeDueModel[]>>(this.URL + `Salaries/GetDues_Data`, filter);
+  }
+  GetEmployeeDuesById(employeeDuesId: number) {
+    return this.http.get<EmployeeDueModel>(this.URL + 'Salaries/GetEmployeeDuesById?EmployeeDuesId=' + employeeDuesId);
+  }
   getEmployeeDues(employeeId: number, filter: SearchFilterModel): Observable<PagedResponseDTO<EmployeeDueModel[]>> {
     return this.http.post<PagedResponseDTO<EmployeeDueModel[]>>(this.URL + `Salaries/GetEmployeeDues?EmployeeId=${employeeId}`, filter);
   }
-
+  DeleteEmployeeDues(employeeDuesId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Salaries/DeleteEmployeeDues?EmployeeDuesId=' + employeeDuesId);
+  }
   GetEmployeeDuesPreparationDate(employeeId: number, dueType: DueTypeEnum, model: DuesPreparationModel): Observable<DuesPreparationModel> {
     const params = new URLSearchParams();
 
