@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { EmployeeSalarySummaryModel } from '../../models/EmployeeSalarySummaryModel';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -7,15 +6,16 @@ import { GeneralSelectorModel } from 'src/app/components/Shared/components/gener
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
-import { HrService } from '../../services/hr.service';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
+import { HrService } from 'src/app/components/HR/services/hr.service';
+import { EmployeeSalarySummaryModel } from 'src/app/components/HR/models/EmployeeSalarySummaryModel';
 
 @Component({
-  selector: 'app-hr-employees-salaries',
-  templateUrl: './hr-employees-salaries.component.html',
-  styleUrls: ['./hr-employees-salaries.component.css']
+  selector: 'app-monthly-salaries',
+  templateUrl: './monthly-salaries.component.html',
+  styleUrls: ['./monthly-salaries.component.css']
 })
-export class HrEmployeesSalariesComponent implements OnInit {
+export class MonthlySalariesComponent implements OnInit {
 
   TitleList = ['الموارد البشرية', 'الرواتب الشهرية'];
   URLs: any[] = [];
@@ -41,20 +41,15 @@ export class HrEmployeesSalariesComponent implements OnInit {
   selectedMonth: number;
   selectedEmployeeId: number;
   selectedBranchId: number;
-  //totalSummary: EmployeeSalarySummaryModel;
-
-  basicSalary: number = 0;
-  extraSalary: number = 0;
-  deductions: number = 0;
-  grossSalary: number = 0;
-  totalSalary: number = 0;
-  totalCash: number = 0;
-  totalVisa: number = 0;
-
+  bankAccounts: GeneralSelectorModel[] = [];
+  cashAccounts: GeneralSelectorModel[] = [];
+  bankAccountId: number;
+  cashAccountId: number;
+  totalSummary: any;
   pagedResponseModel: PagedResponseDTO<EmployeeSalarySummaryModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 9999,
+    pageSize: 25,
     currentPage: 1,
     searchText: ''
   };
@@ -78,6 +73,19 @@ export class HrEmployeesSalariesComponent implements OnInit {
     this.hrService.GetActiveEmployeesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.employeeSelectorData = data;
     });
+
+    //onChoosePaymentType(paymentTypeId: number) {
+    //if (paymentTypeId == 1) {
+    this.sharedService.GetAccountsByTypeId(3).subscribe(data => {
+      this.bankAccounts = data;
+    });
+    // }
+    // else {
+    this.sharedService.GetAccountsByTypeId(4).subscribe(data => {
+      this.cashAccounts = data;
+    });
+    //}
+
 
     const currentYear = new Date().getFullYear();
     this.selectedYear = currentYear;
@@ -104,25 +112,11 @@ export class HrEmployeesSalariesComponent implements OnInit {
     this.hrService.GetEmployeeSalarySummary(this.selectedYear, this.selectedMonth, this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data?.results;
       this.pagedResponseModel.totalCount = data?.totalCount;
-
-      this.getTotalSalariesSummary();
-      this.selectAll = true;
-      this.selectAllData();
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
     }, () => {
       this.showLoader = false;
-    });
-  }
-
-  getTotalSalariesSummary() {
-    this.pagedResponseModel.results.forEach(item => {
-      this.basicSalary += item.basicSalary ?? 0;
-      this.extraSalary += item.extraSalary ?? 0;
-      this.deductions += item.deductions ?? 0;
-      this.grossSalary += item.grossSalary ?? 0;
-      this.totalSalary += item.totalSalary ?? 0;
     });
   }
 
@@ -154,17 +148,15 @@ export class HrEmployeesSalariesComponent implements OnInit {
       this.showExportLoader = false;
     });
   }
-
   mapFilters() {
     this.pagedResponseModel.filterList = [];
-    // if (this.selectedEmployeeId) {
-    //   this.pagedResponseModel.filterList.push({ categoryName: 'EmployeeId', itemFlag: this.selectedEmployeeId?.toString() })
-    // }
+    if (this.selectedEmployeeId) {
+      this.pagedResponseModel.filterList.push({ categoryName: 'EmployeeId', itemFlag: this.selectedEmployeeId?.toString() })
+    }
     if (this.selectedBranchId) {
       this.pagedResponseModel.filterList.push({ categoryName: 'BranchId', itemFlag: this.selectedBranchId?.toString() })
     }
   }
-
   pageChanged(obj: any) {
     this.pagedResponseModel.currentPage = obj.page;
     this.getSalaries_Data();
@@ -179,20 +171,9 @@ export class HrEmployeesSalariesComponent implements OnInit {
     }
     this.modalService.open(content, { centered: true, size: 'md' });
   }
-
   approve() {
+
     this.showAddLoader = true;
-
-    debugger
-    let empIds = this.pagedResponseModel.results.filter(item => item.isChecked).map(i => Number(i.employeeId));
-    if (!empIds?.length)
-      return;
-
-    empIds.forEach(element => {
-      this.pagedResponseModel.filterList.push({ categoryName: 'EmployeeId', itemFlag: element.toString() })
-    });
-
-
     this.hrService.ApproveMonthlySalary(this.selectedYear, this.selectedMonth, this.pagedResponseModel).subscribe((data: ActionsResponseModel) => {
       if (data.isSuccess) {
         this.search();

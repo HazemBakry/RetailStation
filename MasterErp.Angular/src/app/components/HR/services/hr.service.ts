@@ -215,6 +215,10 @@ export class HrService {
     return this.http.post<any>(this.URL + 'Employee/GetEmployeeRequests_Data', model);
   }
 
+  GetEmployeesByVacationTypes(VacationTypeId: number) {
+    return this.http.get<any>(this.URL + 'Employee/GetEmployeesByVacationTypes?VacationTypeId=' + VacationTypeId);
+  }
+
   AddNewEmployee(model: any) {
     return this.http.post<any>(this.URL + 'Employee/AddNewEmployee', model);
   }
@@ -239,11 +243,13 @@ export class HrService {
     month = month ?? new Date().getMonth() + 1;
     return this.http.post<PagedResponseDTO<EmployeeSalarySummaryModel[]>>(this.URL + 'Salaries/GetEmployeeSalarySummary?Year=' + year + '&Month=' + month, model);
   }
+  
   GetEmployeeSalarySummary_Export(year: number, month: number, model: PagedResponseDTO<EmployeeSalarySummaryModel[]>) {
     year = year ?? new Date().getFullYear();
     month = month ?? new Date().getMonth() + 1;
     return this.http.post<ActionsResponseModel>(this.URL + 'Salaries/GetEmployeeSalarySummary_Export?Year=' + year + '&Month=' + month, model);
   }
+
   ApproveMonthlySalary(year: number, month: number, model: PagedResponseDTO<EmployeeSalarySummaryModel[]>) {
     year = year ?? new Date().getFullYear();
     month = month ?? new Date().getMonth() + 1;
@@ -334,6 +340,9 @@ export class HrService {
     return this.http.get<any>(this.URL + 'Employee/GetHRDashboardStatistics');
   }
 
+  UpdateEmployeeLastJoinDate(EmployeeId: number, LastJoinDate: any) {
+    return this.http.get<any>(this.URL + 'Employee/UpdateEmployeeLastJoinDate?EmployeeId=' + EmployeeId + '&LastJoinDate=' + LastJoinDate);
+  }
 
   //================================== Attendance ===============================
 
@@ -443,12 +452,23 @@ export class HrService {
   AddNewEmployeeVacation(employeeId: number, model: EmployeeVacationModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Vacation/AddNewEmployeeVacation?EmployeeId=' + employeeId, model);
   }
+
   EditEmployeeVacation(employeeId: number, model: EmployeeVacationModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Vacation/EditEmployeeVacation?EmployeeId=' + employeeId, model);
   }
+
   DeleteVacation(VacationId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'Vacation/DeleteVacation?VacationId=' + VacationId);
   }
+
+  GetVacationsToBeExceuted() {
+    return this.http.get<PagedResponseDTO<EmployeeVacationModel[]>>(this.URL + 'Vacation/GetVacationsToBeExceuted');
+  }
+
+  EditEmployeesWorkStatus(employeeIds: number[]) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Vacation/EditEmployeesWorkStatus', employeeIds);
+  }
+
   //================================== OverTime ===============================
   GetAllEmployeeOverTimeData(model: SearchFilterModel) {
     return this.http.post<PagedResponseDTO<EmployeeOverTimeModel[]>>(this.URL + 'OverTime/GetAllEmployeeOverTimeData', model);
@@ -574,9 +594,6 @@ export class HrService {
   GetLoanTypesSelector() {
     return this.http.get<FormDropdownModel[]>(this.URL + 'Loans/GetLoanTypesSelector');
   }
-
-
-
 
   //================================== Advances ===============================
   GetAllEmployeeAdvancesData(model: SearchFilterModel) {

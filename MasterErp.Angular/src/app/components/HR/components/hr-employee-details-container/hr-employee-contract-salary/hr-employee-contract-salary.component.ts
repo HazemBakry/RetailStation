@@ -26,7 +26,7 @@ export class HrEmployeeContractSalaryComponent implements OnInit {
 
   showLoader: boolean = false;
   showAddLoader: boolean = false;
-
+  IsMealAdded: boolean = false;
   public formGroup: FormGroup;
 
 
@@ -54,8 +54,8 @@ export class HrEmployeeContractSalaryComponent implements OnInit {
       if (data) {
         this.employeeContractInfoModel = data;
         this.contractId = this.employeeContractInfoModel?.contractId;
-        if(this.employeeContractInfoModel?.contractDetailId)
-           this.initNewForm(this.employeeContractInfoModel);
+        if (this.employeeContractInfoModel?.contractDetailId)
+          this.initNewForm(this.employeeContractInfoModel);
       }
 
       this.showLoader = false;
@@ -84,13 +84,14 @@ export class HrEmployeeContractSalaryComponent implements OnInit {
       employeeId: [this.employeeId],
       contractDetailId: [null],
       basicSalary: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
-      extraSalary: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
-      transportation: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
-      housingAllowance: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
-      mobileAllowance: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
-      workNature: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
-      mealAllowance: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
-      other: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]]
+      extraSalary: [null],
+      transportation: [null],
+      housingAllowance: [null],
+      mobileAllowance: [null],
+      workNature: [null],
+      mealAllowance: [null],
+      isMealAdded: [null],
+      other: [null]
     },
       {
 
@@ -111,7 +112,7 @@ export class HrEmployeeContractSalaryComponent implements OnInit {
     }
     this.employeeContractInfoModel = this.formGroup.value;
 
-    if (this.employeeId&&this.contractId)
+    if (this.employeeId && this.contractId)
       this.saveData();
     else
       this.toaster.warning('please add basic info and contract first', 'Warning');
@@ -168,7 +169,8 @@ export class HrEmployeeContractSalaryComponent implements OnInit {
       mobileAllowance: employeeContractInfoModel.mobileAllowance,
       workNature: employeeContractInfoModel.workNature,
       mealAllowance: employeeContractInfoModel.mealAllowance,
-      other: employeeContractInfoModel.other
+      other: employeeContractInfoModel.other,
+      isMealAdded: employeeContractInfoModel.isMealAdded
     });
   }
 
@@ -180,13 +182,6 @@ export class HrEmployeeContractSalaryComponent implements OnInit {
     contractDetailId: '',
     employeeId: '',
     basicSalary: '',
-    extraSalary: '',
-    transportation: '',
-    housingAllowance: '',
-    mobileAllowance: '',
-    workNature: '',
-    mealAllowance: '',
-    other: ''
   };
 
 

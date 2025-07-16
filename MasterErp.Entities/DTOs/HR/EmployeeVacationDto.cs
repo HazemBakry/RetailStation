@@ -12,6 +12,7 @@ namespace MasterErp.Entities.DTOs.HR
     {
         public int? EmployeeId { get; set; }
         public string EmployeeName { get; set; }
+        public int? EmployeeStatusId { get; set; }
         public int? VacationId { get; set; }
         public int VacationTypeId { get; set; }
         public string VacationType { get; set; }
@@ -25,7 +26,7 @@ namespace MasterErp.Entities.DTOs.HR
         public int? Period { get; set; }
         public string WorkflowStatusNameEN { get; set; }
         public string WorkflowStatusNameAR { get; set; }
-        public int? WorkflowStatusId { get; set; } = (int)HRWorkflowStatus.Pending; public bool IsAlternativeAvailable { get; set; }
+        public int? WorkflowStatusId { get; set; } = (int)WorkflowStatus.Pending; public bool IsAlternativeAvailable { get; set; }
         public int? TotalCount { get; set; }
         public string BranchName { get; set; }
     }

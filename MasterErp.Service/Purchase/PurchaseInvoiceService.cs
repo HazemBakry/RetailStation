@@ -111,7 +111,7 @@ namespace MasterErp.Service.Purchase
                 order_tbl.DiscountPercent = model.DiscountPercent;
                 order_tbl.Tax = model.Tax;
                 order_tbl.TaxPercent = model.TaxPercent;
-                order_tbl.WorkflowStatusId = (int)InventoryWorkflowStatus.Pending;
+                order_tbl.WorkflowStatusId = (int)WorkflowStatus.Pending;
                 order_tbl.NetValue = model.OrderDetails?.Sum(x => x.TotalValue) ?? 0;
                 Context.PurchaseInvoices.Add(order_tbl);
                 Context.SaveChanges();
@@ -322,9 +322,9 @@ namespace MasterErp.Service.Purchase
         public ActionsResponseModel CancelPurchaseInvoice(int InvoiceId)
         {
             var Invoice = Context.PurchaseInvoices.FirstOrDefault(x => x.PurchaseInvoiceId == InvoiceId);
-            if (Invoice != null && Invoice.WorkflowStatusId != (int)FinanceWorkflowStatus.Cancelled)
+            if (Invoice != null && Invoice.WorkflowStatusId != (int)WorkflowStatus.Cancelled)
             {
-                Invoice.WorkflowStatusId = (int)FinanceWorkflowStatus.Cancelled;
+                Invoice.WorkflowStatusId = (int)WorkflowStatus.Cancelled;
                 Invoice.ModifiedDate = DateTime.Now;
 
                 Context.SaveChanges();

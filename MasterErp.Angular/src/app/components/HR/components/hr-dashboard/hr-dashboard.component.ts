@@ -1,5 +1,11 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { HrService } from '../../services/hr.service';
+import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { EmployeeVacationModel } from '../../models/EmployeeVacationModel';
+import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-hr-dashboard',
@@ -8,13 +14,24 @@ import { HrService } from '../../services/hr.service';
 })
 export class HrDashboardComponent implements OnInit {
   @ViewChild('chartBox') chartBox!: ElementRef<HTMLElement>;
+  @ViewChild('DetailsSidePanel', { static: true }) DetailsSidePanel: TemplateRef<any>;
+  showLoader: boolean = false;
   parentChartWidth!: number;
   HRStatistics: any;
+  workflowStatusId: any;
+  employeesVacations: EmployeeVacationModel[] = []
+  employeeStatusSelector: GeneralSelectorModel[] = [];
+  selectAll: boolean = false;
 
-  constructor(private hrService: HrService) { }
+  constructor(private hrService: HrService,
+    private offcanvasService: NgbOffcanvas,
+    private toaster: ToastrService,
+    private lookupService: LookupService
+  ) { }
 
   ngOnInit(): void {
     this.getHRDashboardStatistics();
+    this.getVacationsToBeExceuted();
   }
   columnChartType = 'ColumnChart';
   columnChartData = [
@@ -64,9 +81,65 @@ export class HrDashboardComponent implements OnInit {
     this.parentChartWidth =
       this.chartBox.nativeElement.getBoundingClientRect().width;
   }
+
   getHRDashboardStatistics() {
     this.hrService.GetHRDashboardStatistics().subscribe(data => {
       this.HRStatistics = data[0];
     });
   }
+
+  getVacationsToBeExceuted() {
+    this.hrService.GetVacationsToBeExceuted().subscribe(data => {
+      this.employeesVacations = data.results;
+    });
+  }
+  openPendingVacationsSidePanel(content: any = null) {
+    //this.EntryId = journalEntryId;
+    // this.hrService.GetVacationsToBeExceuted().subscribe(data => {
+    //   this.HRStatistics = data[0];
+    // });
+
+    this.lookupService.GetEmployeeStatusSelector().subscribe((data: any[]) => {
+      this.employeeStatusSelector = data
+    });
+
+    if (content == null)
+      this.offcanvasService.open(this.DetailsSidePanel, { panelClass: 'details-panel', position: 'end' });
+    else
+      this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
+  }
+
+  selectAllData() {
+    if (this.employeesVacations && this.employeesVacations.length > 0) {
+      this.employeesVacations.map(c => {
+        c.isChecked = this.selectAll;
+      });
+    }
+  }
+
+  editSelectedEmployeeStatus() {
+    const selectedItems = this.employeesVacations.filter(b => b.isChecked).map(i => Number(i.employeeId));;
+
+    //return selectedItems.map(i => Number(i.employeeId));
+    if (!selectedItems?.length)
+      return;
+
+    this.showLoader = true;
+    this.hrService.EditEmployeesWorkStatus(selectedItems).subscribe((data: ActionsResponseModel) => {
+      if (data.isSuccess) {
+        this.selectAll = false;
+        this.getVacationsToBeExceuted();
+        this.toaster.success(data.message);
+      }
+      else {
+        this.toaster.error(data.message);
+      }
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+
 }

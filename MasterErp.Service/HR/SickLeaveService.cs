@@ -106,7 +106,7 @@ namespace MasterErp.Service.HR
                     Notes = model.Notes,
                     FromDate = model.FromDate,
                     ToDate = model.ToDate,
-                    WorkflowStatusId = (int)HRWorkflowStatus.Approved,
+                    WorkflowStatusId = (int)WorkflowStatus.Approved,
                     CreatedBy = model.CreatedBy,
                     CreatedDate = DateTime.Now
                 };
@@ -187,7 +187,7 @@ namespace MasterErp.Service.HR
                     return new ActionsResponseModel { IsSuccess = false, Message = "No matching sickLeaves found." };
                 }
 
-                int newStatus = isApproved ? (int)HRWorkflowStatus.Approved : (int)HRWorkflowStatus.Rejected;
+                int newStatus = isApproved ? (int)WorkflowStatus.Approved : (int)WorkflowStatus.Rejected;
 
                 foreach (var sickLeave in sickLeaves)
                 {

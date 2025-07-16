@@ -51,8 +51,9 @@
                                 <!-- <td>{{item.docNumber}}</td> -->
                                 <td>{{item?.journalTypeAR}}</td>
                                 <td>
-                                    <!-- <div appColorWithStatus status="entryStatus" [text]="item.entryStatus"></div> -->
-                                    <div appColorWithStatus status="IsLocked" [text]="item.isLocked"></div>
+                                    <!-- <div appColorWithStatus status="IsLocked" [text]="item.isLocked"></div> -->
+                                    <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
+                                    </span>
                                 </td>
                                 <td>{{item?.actionGroup}}</td>
                                 <td>{{item?.actionTypeAR}}</td>
@@ -309,9 +310,11 @@
                 <div class="widget-line">
                     <div *ngFor="let item of PaymentReceipts.results" class="d-flex align-items-center justify-content-between widget-mb">
                         <div class="d-flex align-items-center">
-                            <div appColorWithStatus status="receiptsStatus" [text]="''">
-                                <!-- <i class="fas fa-chart-pie"></i> -->
-                            </div>
+                            <!-- <div appColorWithStatus status="receiptsStatus" [text]="''">
+                                <i class="fas fa-chart-pie"></i>
+                            </div> -->
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
+                            </span>
                             <div class="ms-3">
                                 <div class="fs-5 fw-bold">{{item.contactName}}</div>
                                 <div class="text-muted fs-6">{{item.moneyAmount}}</div>
@@ -342,9 +345,11 @@
                 <div class="widget-line">
                     <div *ngFor="let item of ReceiveReceipts.results" class="d-flex align-items-center justify-content-between widget-mb">
                         <div class="d-flex align-items-center">
-                            <div appColorWithStatus status="receiptsStatus" [text]="''">
-                                <!-- <i class="fas fa-chart-pie"></i> -->
-                            </div>
+                            <!-- <div appColorWithStatus status="receiptsStatus" [text]="''">
+                                <i class="fas fa-chart-pie"></i>
+                            </div> -->
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
+                            </span>
                             <div class="ms-3">
                                 <div class="fs-5 fw-bold">{{item.contactName}}</div>
                                 <div class="text-muted fs-6">{{item.moneyAmount}}</div>

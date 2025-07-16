@@ -56,6 +56,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             };
             return Ok(result);
         }
+
         [HttpGet]
         [Route("GetJournalTemplateDetailsById")]
         public IActionResult GetJournalTemplateDetailsById(int templateId)
@@ -65,7 +66,6 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         }
 
-
         [HttpPost]
         [Route("SaveNewJournalEntryTemplate")]
         public IActionResult SaveNewJournalEntryTemplate(JournalTemplateModel model)
@@ -73,6 +73,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             var results = EntryService.SaveNewJournalEntryTemplate(model);
             return Ok(results);
         }
+
         [HttpPost]
         [Route("EditJournalEntryTemplate")]
         public IActionResult EditJournalEntryTemplate(int EntryId, JournalTemplateModel model)
@@ -81,19 +82,12 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             return Ok(results);
         }
 
-
-
-
         [HttpGet]
         [Route("GetJournalEntryDetailsById")]
         public JournalEntryModel GetJournalEntryDetailsById(int EntryId)
         {
             return EntryService.GetJournalEntryDetailsById(EntryId);
         }
-
-
-
-
 
         [HttpPost]
         [Route("GetDailyJournalEntriesSummary")]
@@ -110,6 +104,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             };
             return Ok(result);
         }
+
         [HttpPost]
         [Route("ExportDailyJournalEntries")]
         public IActionResult ExportDailyJournalEntries(SearchFilterModel SearchModel)
@@ -118,9 +113,6 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             var results = EntryService.ExportDailyJournalEntries(UserName, SearchModel);
             return Ok(results);
         }
-
-      
-
 
         [HttpPost]
         [Route("GetDailyJournalEntriesFilters")]

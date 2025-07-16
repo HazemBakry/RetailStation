@@ -5,8 +5,7 @@
     <div class="card-body">
         <div class="row  py-3">
             <div class="col-lg-4">
-                <app-drop-down-form-control [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData"
-                    [showSearch]="true" [placeholder]="'قائمة الموظفين'"></app-drop-down-form-control>
+                <app-drop-down-form-control [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData" [showSearch]="true" [placeholder]="'قائمة الموظفين'"></app-drop-down-form-control>
             </div>
             <div class="col-lg-2">
                 <button class="btn btn-secondary radius-50" (click)="getLoanByEmployeeId()">
@@ -35,9 +34,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="employeeLoanResponse.currentPage"
-                    [pageSize]="employeeLoanResponse.pageSize"
-                    [totalCount]="employeeLoanResponse.totalCount"></app-erp-pagination>
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="employeeLoanResponse.currentPage" [pageSize]="employeeLoanResponse.pageSize" [totalCount]="employeeLoanResponse.totalCount"></app-erp-pagination>
             </div>
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
@@ -65,20 +62,18 @@
                         <td>{{item.loanAmount}}</td>
                         <td>{{item.paymentAmount}}</td>
                         <td>
-                            <div appColorWithStatus status="isApproved" [text]="item.isApproved"></div>
+                            <!-- <div appColorWithStatus status="isApproved" [text]="item.isApproved"></div> -->
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
+                            </span>
                         </td>
                         <td class="word-break">{{item.notes}}</td>
                         <td>
                             <div class="d-flex align-items-center justify-content-center text-center">
-                                <button
-                                    class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2"
-                                    (click)="openNewSidePanel(AddModal,item)">
+                                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2" (click)="openNewSidePanel(AddModal,item)">
                                     <i class="uil uil-pen"></i>
                                     <span>تعديل</span>
                                 </button>
-                                <button
-                                    class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
-                                    (click)="openDeleteModal(deleteModal,item.loanId)">
+                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteModal,item.loanId)">
                                     <i class="uil uil-trash-alt"></i>
                                     <span>الغاء</span>
                                 </button>
@@ -92,7 +87,7 @@
                     </tr>
                 </tbody>
             </table>
-           
+
         </div>
     </div>
 </div>
@@ -140,8 +135,7 @@
                                 نوع السلفة
                                 <span class="text-danger">*</span>
                             </label>
-                            <app-general-selector formControlName="loanTypeId" [data]="loanTypesSelectorData"
-                                [showSearch]="true" [placeholder]="'نوع السلفة'"></app-general-selector>
+                            <app-general-selector formControlName="loanTypeId" [data]="loanTypesSelectorData" [showSearch]="true" [placeholder]="'نوع السلفة'"></app-general-selector>
 
                             <div *ngIf="formErrors.loanTypeId" class="text-danger  font-small-3 m-03">
                                 {{formErrors.loanTypeId}}
@@ -152,8 +146,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 بداية الدفع
                                 <span class="text-danger">*</span></label>
-                            <input type="date" formControlName="paymentFromDate" autocomplete="off"
-                                class="form-control nw-form-input" />
+                            <input type="date" formControlName="paymentFromDate" autocomplete="off" class="form-control nw-form-input" />
                             <div *ngIf="formErrors.paymentFromDate" class="text-danger  font-small-3 m-03">
                                 {{formErrors.paymentFromDate}}
                             </div>
@@ -162,8 +155,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 قيمة السلفة
                                 <span class="text-danger">*</span></label>
-                            <input type="text" formControlName="loanAmount" autocomplete="off"
-                                class="form-control nw-form-input" />
+                            <input type="text" formControlName="loanAmount" autocomplete="off" class="form-control nw-form-input" />
                             <div *ngIf="formErrors.loanAmount" class="text-danger  font-small-3 m-03">
                                 {{formErrors.loanAmount}}
                             </div>
@@ -172,8 +164,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 القسط الشهرى
                                 <span class="text-danger">*</span></label>
-                            <input type="text" formControlName="paymentAmount" autocomplete="off"
-                                class="form-control nw-form-input" />
+                            <input type="text" formControlName="paymentAmount" autocomplete="off" class="form-control nw-form-input" />
                             <div *ngIf="formErrors.paymentAmount" class="text-danger  font-small-3 m-03">
                                 {{formErrors.paymentAmount}}
                             </div>
@@ -183,8 +174,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 ملاحظات
                             </label>
-                            <input type="text" class="form-control nw-form-input description-area"
-                                formControlName="notes" autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input description-area" formControlName="notes" autocomplete="off" />
                             <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
                                 {{formErrors.notes}}
                             </div>
@@ -195,8 +185,7 @@
             </div>
         </div>
         <div class="d-flex justify-content-center border-top pt-3 mt-3">
-            <button [disabled]="showAddLoader" (click)="saveEmployeeLoan()"
-                class="btn btn-primary w-50 justify-content-center py-3 fs-5 radius-10">
+            <button [disabled]="showAddLoader" (click)="saveEmployeeLoan()" class="btn btn-primary w-50 justify-content-center py-3 fs-5 radius-10">
                 <!-- <i class="fas fa-id-card"></i> -->
                 <span *ngIf="!isUpdate" class="ms-3">إنشاء</span>
                 <span *ngIf="isUpdate" class="ms-3">تعديل</span>

@@ -203,7 +203,7 @@ namespace MasterErp.Service.HR
                     EmployeeAdvanceId = advance.EmployeeAdvanceId,
                     MoneyAmount = amountThisMonth,
                     ExecutionDate = paymentDate,
-                    WorkflowStatusId = (int)PaymentWorkflowStatus.UnPaid,
+                    WorkflowStatusId = (int)WorkflowStatus.Pending,
                     Notes = $"Installment {i + 1} of {totalMonths}",
                     CreatedBy = advance.CreatedBy,
                     CreatedDate = DateTime.Now
@@ -247,7 +247,7 @@ namespace MasterErp.Service.HR
                     EmployeeAdvanceId = advance.EmployeeAdvanceId,
                     MoneyAmount = monthlyPayment,
                     ExecutionDate = executionDate,
-                    WorkflowStatusId = (int)PaymentWorkflowStatus.UnPaid,
+                    WorkflowStatusId = (int)WorkflowStatus.Pending,
                     Notes = $"Installment {i + 1} of {totalMonths}",
                     CreatedBy = advance.CreatedBy,
                     CreatedDate = DateTime.Now
@@ -299,7 +299,7 @@ namespace MasterErp.Service.HR
                 var advance = Context.EmployeeAdvances.FirstOrDefault(i => i.EmployeeAdvanceId == EmployeeAdvanceId);
                 if (advance != null)
                 {
-                    advance.WorkflowStatusId = IsApproved ? (int)HRWorkflowStatus.Approved: (int)HRWorkflowStatus.Rejected;
+                    advance.WorkflowStatusId = IsApproved ? (int)WorkflowStatus.Approved: (int)WorkflowStatus.Rejected;
                     advance.ModifiedBy = string.Empty;
                     advance.ModifiedDate = DateTime.Now;
                     Context.SaveChanges();
@@ -382,7 +382,7 @@ namespace MasterErp.Service.HR
                     return new ActionsResponseModel { IsSuccess = false, Message = "No matching advances found." };
                 }
 
-                int newStatus = isApproved ? (int)HRWorkflowStatus.Approved : (int)HRWorkflowStatus.Rejected;
+                int newStatus = isApproved ? (int)WorkflowStatus.Approved : (int)WorkflowStatus.Rejected;
 
                 foreach (var advance in advances)
                 {

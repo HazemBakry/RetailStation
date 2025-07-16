@@ -117,7 +117,7 @@ namespace MasterErp.Service.HR
                 penalty.DeductionByDays = model.DeductionByDays;
                 penalty.DeductionAmount = model.DeductionAmount ?? 0;
                 penalty.Reason = model.Reason;
-                penalty.WorkflowStatusId = (int)HRWorkflowStatus.Approved;
+                penalty.WorkflowStatusId = (int)WorkflowStatus.Approved;
                 penalty.CreatedBy = model.CreatedBy;
                 penalty.CreatedDate = DateTime.Now;
 
@@ -219,7 +219,7 @@ namespace MasterErp.Service.HR
                     return new ActionsResponseModel { IsSuccess = false, Message = "No matching penalties found." };
                 }
 
-                int newStatus = isApproved ? (int)HRWorkflowStatus.Approved : (int)HRWorkflowStatus.Rejected;
+                int newStatus = isApproved ? (int)WorkflowStatus.Approved : (int)WorkflowStatus.Rejected;
 
                 foreach (var penaltie in penalties)
                 {

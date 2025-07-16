@@ -89,6 +89,13 @@
                     {{formErrors.branchId}}
                 </div>
             </div>
+
+            <div class="col-xl-6  mb-3">
+                <app-drop-down-form-control formControlName="managerId" [placeholder]="'المدير المباشر'" [showSearch]="true" [data]="employeesSelectorData"></app-drop-down-form-control>
+                <div *ngIf="formErrors.managerId" class="text-danger  font-small-3 m-03">
+                    {{formErrors.managerId}}
+                </div>
+            </div>
             <div class="col-xl-6  mb-3">
                 <app-drop-down-form-control formControlName="nationalityId" [placeholder]="'الجنسية'" [showSearch]="true" [data]="nationalitiesSelectorData"></app-drop-down-form-control>
                 <div *ngIf="formErrors.nationalityId" class="text-danger  font-small-3 m-03">

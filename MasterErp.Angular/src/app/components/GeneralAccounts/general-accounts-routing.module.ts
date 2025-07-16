@@ -45,6 +45,7 @@ import { IndebtednessPdfReportComponent } from './components/indebtedness-pdf-re
 import { AuthPageGuard } from 'src/app/Auth/authPage.guard';
 import { BanksComponent } from './GeneralAccountSettings/banks/banks.component';
 import { DuesRequestsComponent } from './components/dues-requests/dues-requests.component';
+import { MonthlySalariesComponent } from './components/monthly-salaries/monthly-salaries.component';
 
 const routes: Routes = [
   {
@@ -93,6 +94,7 @@ const routes: Routes = [
       { path: 'batches', component: BatchesComponent, canActivate: [AuthPageGuard], data: { pageName: 'batches' } },
       { path: 'loans-requests', component: LoansRequestsComponent, canActivate: [AuthPageGuard], data: { pageName: 'loans-requests' } },
       { path: 'advances-requests', component: AdvancesRequestsComponent, canActivate: [AuthPageGuard], data: { pageName: 'advances-requests' } },
+      { path: 'monthly-salaries', component: MonthlySalariesComponent, canActivate: [AuthPageGuard], data: { pageName: 'monthly-salaries' } },
       { path: 'dues-requests', component: DuesRequestsComponent, canActivate: [AuthPageGuard], data: { pageName: 'dues-requests' } },
       { path: 'indebtedness-report', component: IndebtednessPdfReportComponent, canActivate: [AuthPageGuard], data: { pageName: 'indebtedness-report' } },
       { path: 'banks', component: BanksComponent, 

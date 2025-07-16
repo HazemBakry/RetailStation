@@ -24,7 +24,7 @@ namespace MasterErp.Entities.DTOs.HR
         public string Reason { get; set; }
         public string WorkflowStatusNameEN { get; set; }
         public string WorkflowStatusNameAR { get; set; }
-        public int? WorkflowStatusId { get; set; } = (int)HRWorkflowStatus.Pending; public int? TotalCount { get; set; }
+        public int? WorkflowStatusId { get; set; } = (int)WorkflowStatus.Pending; public int? TotalCount { get; set; }
         public string BranchName { get; set; }
     }
 }

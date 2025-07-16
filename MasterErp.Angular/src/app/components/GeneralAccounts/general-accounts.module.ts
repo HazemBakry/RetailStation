@@ -49,6 +49,7 @@ import { AdvancesRequestsComponent } from './components/advances-requests/advanc
 import { IndebtednessPdfReportComponent } from './components/indebtedness-pdf-report/indebtedness-pdf-report.component';
 import { BanksComponent } from './GeneralAccountSettings/banks/banks.component';
 import { DuesRequestsComponent } from './components/dues-requests/dues-requests.component';
+import { MonthlySalariesComponent } from './components/monthly-salaries/monthly-salaries.component';
 
 
 @NgModule({
@@ -96,7 +97,8 @@ import { DuesRequestsComponent } from './components/dues-requests/dues-requests.
     AdvancesRequestsComponent,
     IndebtednessPdfReportComponent,
     BanksComponent,
-    DuesRequestsComponent
+    DuesRequestsComponent,
+    MonthlySalariesComponent
   ],
   imports: [
     CommonModule,

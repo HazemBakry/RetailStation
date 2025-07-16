@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Lookups;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models.HR;
@@ -60,14 +61,15 @@ namespace MasterErp.API.Controllers.HR
 
             var result = await _employeeService.SaveEmployeeContractData(EmployeeId, model);
             return Ok(result);
-        }        [HttpPost]
+        }
+        [HttpPost]
         [Route("SaveEmployeeContractDetailsData")]
         public async Task<IActionResult> SaveEmployeeContractDetailsData(int EmployeeId, int ContractId, EmployeeContractDetailsDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _employeeService.SaveEmployeeContractDetailsData(EmployeeId,ContractId, model);
+            var result = await _employeeService.SaveEmployeeContractDetailsData(EmployeeId, ContractId, model);
             return Ok(result);
         }
         [HttpPost]
@@ -96,6 +98,23 @@ namespace MasterErp.API.Controllers.HR
             var result = await _employeeService.ChangeEmployeeStatus(EmployeeId, StatusId);
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("UpdateEmployeeLastJoinDate")]
+        public IActionResult UpdateEmployeeLastJoinDate(int EmployeeId, DateTime LastJoinDate)
+        {
+            return Ok(_employeeService.UpdateEmployeeLastJoinDate(EmployeeId, LastJoinDate));
+        }
+
+        [HttpPost]
+        [Route("EditEmployeesWorkStatus")]
+        public IActionResult EditEmployeesWorkStatus(List<int> EmployeeIds)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            return Ok(_employeeService.EditEmployeesWorkStatus(UserId, EmployeeIds));
+        }
+
         #endregion
 
         #region GetEmployee
@@ -183,6 +202,14 @@ namespace MasterErp.API.Controllers.HR
             return Ok(results);
         }
 
+        [HttpGet]
+        [Route("GetEmployeesByVacationTypes")]
+        public List<SelectorDataModel> GetEmployeesByVacationTypes(int VacationTypeId)
+        {
+            var results = _employeeService.GetEmployeesByVacationTypes(VacationTypeId);
+            return results;
+        }
+
         [HttpPost]
         [Route("ExportEmployeesSummaryData")]
         public ActionsResponseModel ExportEmployeesSummaryData(SearchFilterModel model)
@@ -195,7 +222,7 @@ namespace MasterErp.API.Controllers.HR
         [Route("GetEmployeeContractDetails")]
         public IActionResult GetEmployeeContract(int EmployeeId)
         {
-            var result= _employeeService.GetEmployeeContractDetails(EmployeeId);
+            var result = _employeeService.GetEmployeeContractDetails(EmployeeId);
             return Ok(result);
         }
 
@@ -214,14 +241,7 @@ namespace MasterErp.API.Controllers.HR
             return Ok(result);
         }
 
-        //[HttpPost]
-        //[Route("EditEmployeeSalary")]
-        //public bool EditEmployeeSalary(EmployeeSalary model)
-        //{
-        //    return _employeeService.EditEmployeeSalary(model);
-        //}
-
-
+        
 
         //[HttpPost]
         //[Route("GetEmployeeRequests_Data")]

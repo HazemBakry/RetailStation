@@ -9,9 +9,9 @@
             <!-- <h3 class="fw-bolder m-0">Welcome back, Abd Elrahman – Here’s your Business Operations Hub 👋</h3> -->
             <div class="d-flex algin-items-center flex-wrap gap-2">
                 <div class="d-flex algin-items-center flex-wrap gap-2">
-                    <div>لديك 24 أجازة اليوم يرجى تغغير حالاتهم and <a class="text-underline-none text-danger cursor-pointer">2
-                            pending alerts</a> that need your attention.</div>
-                    <a class="text-primary cursor-pointer">View Alerts</a>
+                    <div>لديك أجازات اليوم يرجى تغير حالاتهم <a class="text-underline-none text-danger cursor-pointer" (click)="openPendingVacationsSidePanel()">
+                            {{ employeesVacations?.length}} pending requests</a></div>
+                    <!-- <a class="text-primary cursor-pointer">View Alerts</a> -->
                 </div>
             </div>
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
@@ -208,3 +208,106 @@
         </div>
     </section>
 </div>
+
+
+
+
+<ng-template #DetailsSidePanel let-offcanvas>
+    <div class="offcanvas-header justify-content-between gap-3 fs-4 border-bottom py-3">
+        <div class="d-flex align-items-center gap-2">
+            <i class="fas fa-info-circle offcanvas-header-icon"></i>
+            <span>
+                موظفين على وشك أن تبدأ أجازاتهم
+            </span>
+        </div>
+        <div class="cursor-pointer text-danger fs-2" (click)="offcanvas.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="offcanvas-body pt-4 bg-light">
+        <div class="employee-card-body mb-3">
+            <div class="inputs-wrapper border rounded bg-white mb-3">
+                <div class="inputs-sec-content px-3 py-3">
+                    <div class="row gy-3">
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">حالة الموظف</label>
+                                <app-general-selector [(ngModel)]="workflowStatusId" [showSearch]="true" [data]="employeeStatusSelector" [placeholder]="'حالة الموظف'"></app-general-selector>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start m-3">
+                    <button (click)="offcanvas.dismiss()" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2" (click)="editSelectedEmployeeStatus()">
+                        <i class="uil uil-pen"></i>
+                        <span>تعديل</span>
+                    </button>
+                    <!-- <button (click)="PrintData()" class="btn btn-table-action  gap-2 border rounded px-3 me-2">
+                        <i class="fas fa-print fs-7"></i>
+                        <span>طباعة</span>
+                    </button> -->
+                </div>
+            </div>
+        </div>
+
+        <hr class="border-black" />
+
+        <div class="inputs-wrapper border rounded bg-white mb-3">
+            <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">طلبات الأجازات</div>
+            <div class="inputs-sec-content px-3 py-2 table-responsive table-vp-height small-scroll">
+                <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="min-width-50 width-50 max-width-50">
+                                <input type="checkbox" [(ngModel)]="selectAll" (change)="selectAllData()" class="big-checkbox cursor-pointer" />
+                            </th>
+                            <th>اسم الموظف</th>
+                            <th>نوع الأجازة</th>
+                            <th>من تاريخ</th>
+                            <th>حتى تاريخ</th>
+                            <th>أخر يوم عمل</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr *ngFor="let item of employeesVacations">
+                            <td><input type="checkbox" class="big-checkbox" [(ngModel)]="item.isChecked">
+                            </td>
+                            <td>{{item.employeeName}}</td>
+                            <td>{{item.vacationType}}</td>
+
+                            <!-- <td>{{item.alternativeEmployeeName}}</td> -->
+                            <td>{{item.fromDate | date}}</td>
+                            <td>{{item.toDate | date}}</td>
+                            <td>{{item.lastDayWork | date}}</td>
+                            <!-- <td>{{item.period}}</td>
+                            <td>
+                                <div appColorWithStatus status="workflowStatusId" [text]="item.workflowStatusId"></div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div ngbDropdown container="body">
+                                        <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle>
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div ngbDropdownMenu class="border">
+                                            <button ngbDropdownItem (click)="cancelPaymentOrder(item.paymentOrderId)">تعديل</button>
+                                            <button ngbDropdownItem (click)="openDeleteModal(deleteModal,item.vacationId)">إلغاء</button>
+                                            <button ngbDropdownItem (click)="openEditJoinDateModal(editJoinDateModal,item.employeeId)">عودة
+                                                من الأجازة</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td> -->
+                        </tr>
+                        <tr *ngIf="!employeesVacations.length || showLoader">
+                            <td colspan="7" class="text-right">
+                                <app-empty-data [showEmptyData]="!employeesVacations.length && !showLoader" [showLoader]="showLoader"></app-empty-data>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</ng-template>

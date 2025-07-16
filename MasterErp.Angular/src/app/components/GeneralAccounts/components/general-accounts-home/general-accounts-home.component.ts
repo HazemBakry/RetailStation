@@ -26,7 +26,7 @@ export class GeneralAccountsHomeComponent implements OnInit {
   showLoader: boolean = false;
   selectedTabName: string;
   menuItem: MenuSidebarItem;
-  statisticsCardList: any[] = [];
+  statisticsCardList: any;
 
   columnChartType = 'ColumnChart';
   columnChartData = [
@@ -107,10 +107,17 @@ export class GeneralAccountsHomeComponent implements OnInit {
   }
 
   getGeneralAccountsStatistics() {
+    this.showLoader = true;
     this.generalAccountService.GetGeneralAccounts_Statistics().subscribe(data => {
-      this.statisticsCardList = data;
-    },
-      (error) => { console.log("error", error); }, () => { });
+      debugger
+      if (data && data.length > 0)
+        this.statisticsCardList = data[0];
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
   }
 }
 

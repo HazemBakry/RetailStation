@@ -1,6 +1,7 @@
 export interface EmployeeVacationModel {
     employeeId: number;
     employeeName: string;
+    employeeStatusId: number;
     vacationId: number;
     vacationTypeId: number;
     isAlternativeAvailable: boolean;
@@ -16,5 +17,6 @@ export interface EmployeeVacationModel {
     workflowStatusId: number | null;
     workflowStatusNameEN: string;
     workflowStatusNameAR: string;
+    isChecked?:boolean | null;
     totalCount: number | null;
 }

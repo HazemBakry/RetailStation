@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Enums;
+using MasterErp.Entities.Common.Lookups;
 using MasterErp.Entities.Common.SQLTabeType;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.DTOs.Purchases;
@@ -33,7 +34,7 @@ namespace MasterErp.Service.HR
         private readonly ISharedService SharedService;
         private readonly LookupsDbContext LookupsDbContext;
 
-        public VacationService(DBContext Context, ISQLHelper SQLHelper, ISharedService SharedService, IConfiguration Configuration,LookupsDbContext lookupsDbContext)
+        public VacationService(DBContext Context, ISQLHelper SQLHelper, ISharedService SharedService, IConfiguration Configuration, LookupsDbContext lookupsDbContext)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
@@ -85,14 +86,15 @@ namespace MasterErp.Service.HR
                             Period = vacation.Period, //(x.ToDate - x.FromDate).Days
                         };
             int totalCount = query.Count();
-            if (SearchModel.CurrentPage>0 && SearchModel.PageSize >0)
+            if (SearchModel.CurrentPage > 0 && SearchModel.PageSize > 0)
             {
                 int skip = (SearchModel.CurrentPage - 1) * SearchModel.PageSize;
                 query = query.Skip(skip).Take(SearchModel.PageSize);
             }
 
             var results = query.ToList();
-            results.ForEach(x => {
+            results.ForEach(x =>
+            {
                 x.TotalCount = totalCount;
                 var vType = vacationTypes.FirstOrDefault(y => y.VacationTypeId == x.VacationTypeId);
                 if (vType != null)
@@ -102,7 +104,7 @@ namespace MasterErp.Service.HR
             });
             return results;
         }
-        
+
         public List<EmployeeVacationDto> GetVacationRequestsByType(int VacationTypeId, SearchFilterModel SearchModel)
         {
             var FilterList = SearchModel?.FilterList?.Select(f => new FilterList_TableType { ItemKey = string.Empty, CategoryName = f.CategoryName, ItemValue = f.ItemFlag }).ToList();
@@ -118,34 +120,39 @@ namespace MasterErp.Service.HR
             return result;
         }
 
-        public ActionsResponseModel AddNewEmployeeVacation(int EmployeeId,EmployeeVacationDto model)
+        public ActionsResponseModel AddNewEmployeeVacation(int EmployeeId, EmployeeVacationDto model)
         {
             try
             {
-                var vacation = new Vacation();
-                vacation.EmployeeId = EmployeeId;
-                vacation.FromDate=model.FromDate;
-                vacation.ToDate=model.ToDate;
-                vacation.LastDayWork=model.LastDayWork;
-                vacation.VacationTypeId=model.VacationTypeId;
-                vacation.Period = (model.ToDate - model.FromDate).Days;
-                vacation.Notes=model.Notes;
-                vacation.CreatedDate = DateTime.Now;
-                vacation.CreatedBy = model.CreatedBy;
-                vacation.IsAlternativeAvailable=model.IsAlternativeAvailable;
-                if (model.IsAlternativeAvailable)
-                    vacation.AlternativeEmployeeId = model.AlternativeEmployeeId;
+                var vacation = new Vacation
+                {
+                    EmployeeId = EmployeeId,
+                    VacationTypeId = model.VacationTypeId,
+                    RequestDate = DateTime.Now,
+                    FromDate = model.FromDate,
+                    ToDate = model.ToDate,
+                    LastDayWork = model.LastDayWork,
+                    Period = (model.ToDate - model.FromDate).Days,
+                    Notes = model.Notes,
+                    IsAlternativeAvailable = model.IsAlternativeAvailable,
+                    AlternativeEmployeeId = model.IsAlternativeAvailable == true ? model.AlternativeEmployeeId : null,
+                    WorkflowStatusId = (int)WorkflowStatus.Pending,
+                    CreatedDate = DateTime.Now,
+                    CreatedBy = model.CreatedBy
+                };
                 Context.Vacations.Add(vacation);
                 var result = Context.SaveChanges();
 
-                
                 return new ActionsResponseModel { Message = "Vacation Applied Successfly !" };
             }
             catch (Exception ex)
             {
-                return new ActionsResponseModel { IsSuccess=false,Message=ex.InnerException?.Message ?? ex.Message};
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.InnerException?.Message ?? ex.Message
+                };
             }
-
         }
 
         public ActionsResponseModel EditVacation(int EmployeeId, EmployeeVacationDto model)
@@ -196,7 +203,7 @@ namespace MasterErp.Service.HR
                     return new ActionsResponseModel { Message = "Vacation deleted successfly !" };
                 }
                 else
-                    return  new ActionsResponseModel { IsSuccess = false, Message = "Vacation not found" }; ;
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Vacation not found" }; ;
             }
             catch (Exception ex)
             {
@@ -215,7 +222,7 @@ namespace MasterErp.Service.HR
 
                 if (vacation != null)
                 {
-                    vacation.WorkflowStatusId = ApproveStatus ? (int)HRWorkflowStatus.Approved : (int)HRWorkflowStatus.Rejected; ;
+                    vacation.WorkflowStatusId = ApproveStatus ? (int)WorkflowStatus.Approved : (int)WorkflowStatus.Rejected; ;
                     vacation.ModifiedBy = string.Empty;
                     vacation.ModifiedDate = DateTime.Now;
 
@@ -248,7 +255,7 @@ namespace MasterErp.Service.HR
                     return new ActionsResponseModel { IsSuccess = false, Message = "No vacation deducts found." };
                 }
 
-                int newStatus = isApproved ? (int)HRWorkflowStatus.Approved : (int)HRWorkflowStatus.Rejected;
+                int newStatus = isApproved ? (int)WorkflowStatus.Approved : (int)WorkflowStatus.Rejected;
 
                 foreach (var deduct in deducts)
                 {
@@ -272,5 +279,25 @@ namespace MasterErp.Service.HR
                 };
             }
         }
+
+        public List<EmployeeVacationDto> GetVacationsToBeExceuted()
+        {
+            var vacations = Context.Vacations.Where(x => x.LastDayWork <= DateTime.Now && x.WorkflowStatusId == (int)WorkflowStatus.Approved).Select(x => new EmployeeVacationDto
+            {
+                VacationId = x.VacationId,
+                EmployeeId = x.EmployeeId,
+                BranchName = Context.Branches.FirstOrDefault(x => x.BranchId == x.BranchId).NameAR ?? "",
+                EmployeeName = Context.Employees.FirstOrDefault(x => x.EmployeeId == x.EmployeeId).FullNameAR ?? "",
+                CreatedDate = x.CreatedDate,
+                FromDate = x.FromDate,
+                ToDate = x.ToDate,
+                LastDayWork = x.LastDayWork,
+                Period = x.Period
+            }).ToList();
+
+            return vacations;
+        }
+
+        
     }
 }

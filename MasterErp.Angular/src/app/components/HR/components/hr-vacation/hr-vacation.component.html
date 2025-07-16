@@ -31,11 +31,7 @@
                     نوع الأجازه
                     <span class="text-danger">*</span>
                 </label>
-                <app-general-selector [data]="vacationTypeSelectorData" (valueChanged)="getVacationRequestsByType($event)" [showSearch]="true" [placeholder]="'نوع الأجازه'"></app-general-selector>
-
-                <div *ngIf="formErrors.vacationTypeId" class="text-danger  font-small-3 m-03">
-                    {{formErrors.vacationTypeId}}
-                </div>
+                <app-general-selector [data]="vacationTypeSelectorData" (valueChanged)="onVacationTypeSelectionChanged($event)" [showSearch]="true" [placeholder]="'نوع الأجازه'"></app-general-selector>
             </div>
             <!-- <div class="col-lg-2">
                 <button class="btn btn-secondary radius-50 mt-4" (click)="getVacationsByEmployeeId()">
@@ -43,8 +39,7 @@
                     <span class="ms-4">بحث</span>
                 </button>
             </div> -->
-        </div>
-        <div class="row py-3">
+
 
             <div class="col-lg-4">
                 <label class="form-label d-flex align-items-center gap-2">
@@ -68,8 +63,8 @@
                 </button>
             </div> -->
         </div>
-        <h6 class="mb-0 fw-bold" *ngIf="pagedResponseModel.results.length > 0">فرع {{pagedResponseModel.results[0].branchName}}
-        </h6>
+        <!-- <h6 class="mb-0 fw-bold" *ngIf="pagedResponseModel.results.length > 0">فرع {{pagedResponseModel.results[0].branchName}}
+        </h6> -->
     </div>
 </div>
 
@@ -121,7 +116,10 @@
                         <td>{{item.lastDayWork | date}}</td>
                         <td>{{item.period}}</td>
                         <td>
-                            <div appColorWithStatus status="workflowStatusId" [text]="item.workflowStatusId"></div>
+                            <!-- <div appColorWithStatus status="workflowStatusId" [text]="workflowStatusNameEN" [text]="item.workflowStatusId"></div> -->
+
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
+                            </span>
                         </td>
                         <td>
 
@@ -133,7 +131,8 @@
                                     <div ngbDropdownMenu class="border">
                                         <button ngbDropdownItem (click)="cancelPaymentOrder(item.paymentOrderId)">تعديل</button>
                                         <button ngbDropdownItem (click)="openDeleteModal(deleteModal,item.vacationId)">إلغاء</button>
-                                        <button ngbDropdownItem (click)="openEditJoinDateModal(editJoinDateModal,item.employeeId)">عودة من الأجازة</button>
+                                        <button ngbDropdownItem (click)="openEditJoinDateModal(editJoinDateModal,item)">عودة من
+                                            الأجازة</button>
                                     </div>
                                 </div>
 
@@ -208,7 +207,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 حالة الموظف
                             </label>
-                            <app-general-selector [(ngModel)]="employeeStatus" [data]="employeeSelectorData" [showSearch]="true" [placeholder]="'حالة الموظف'"></app-general-selector>
+                            <app-general-selector [(ngModel)]="employeeStatusId" [disabled]="true" [data]="employeeStatusSelector" [placeholder]="'حالة الموظف'"></app-general-selector>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -217,10 +216,6 @@
                                 تاريخ العودة
                             </label>
                             <input type="date" class="form-control nw-form-input w-100" [(ngModel)]="lastJoinDate" autocomplete="off" />
-
-                            <div *ngIf="formErrors.arriveDate" class="text-danger  font-small-3 m-03">
-                                {{formErrors.arriveDate}}
-                            </div>
                         </div>
                     </div>
 

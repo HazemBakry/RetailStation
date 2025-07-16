@@ -103,7 +103,7 @@ namespace MasterErp.Service.HR
                 deduct.ExecutionDate = model.ExecutionDate;
                 deduct.MoneyAmount = model.MoneyAmount;
                 deduct.Notes = model.Notes;
-                deduct.WorkflowStatusId = (int)HRWorkflowStatus.Approved;
+                deduct.WorkflowStatusId = (int)WorkflowStatus.Approved;
                 deduct.CreatedBy = model.CreatedBy;
                 deduct.CreatedDate = DateTime.Now;
 
@@ -190,7 +190,7 @@ namespace MasterErp.Service.HR
                     return new ActionsResponseModel { IsSuccess = false, Message = "No matching deducts found." };
                 }
 
-                int newStatus = isApproved ? (int)HRWorkflowStatus.Approved : (int)HRWorkflowStatus.Rejected;
+                int newStatus = isApproved ? (int)WorkflowStatus.Approved : (int)WorkflowStatus.Rejected;
 
                 foreach (var deduct in deducts)
                 {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PaymentService } from '../../services/payment.service';
 import { ToastrService } from 'ngx-toastr';
@@ -7,6 +7,7 @@ import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
 import { SearchReportModel } from 'src/app/components/Reports/Models/ReportParams';
 import { CreateReportsService } from 'src/app/components/Reports/Services/create-reports.service';
 import { FinanceWorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
+import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-payment-receipts',
@@ -20,7 +21,7 @@ export class PaymentReceiptsComponent implements OnInit {
     currentPage: 1,
     pageSize: 10
   };
-  
+
   ReceiptList: PagedResponseDTO<ReceiptModel[]> = {
     results: [],
     filterList: [],
@@ -29,8 +30,11 @@ export class PaymentReceiptsComponent implements OnInit {
     searchText: ''
   };
   public wfStatus = FinanceWorkflowStatus;
+  @ViewChild('DetailsSidePanel', { static: true }) DetailsSidePanel: TemplateRef<any>;
 
-  constructor(private paymentService: PaymentService, private ReportsService: CreateReportsService,
+  constructor(private paymentService: PaymentService, 
+    private ReportsService: CreateReportsService,
+    private offcanvasService: NgbOffcanvas,
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
@@ -108,6 +112,24 @@ export class PaymentReceiptsComponent implements OnInit {
       this.showLoader = false;
       console.log(`Generate Report Request Time: ${timeTaken} S`);
     });
+  }
+
+  openSidePanel(receiptId: number, content: any = null) {
+    this.paymentService.CancelPaymentReceipt(receiptId).subscribe(data => {
+      if (data) {
+        this.toaster.success('تم الغاء السند بنجاح');
+        this.GetPaymentReceiptsSummary();
+      }
+      else {
+        this.toaster.error('حدث خطأ اثناء الإلغاء');
+      }
+    }, (error) => {
+      this.toaster.error('حدث خطأ اثناء الإلغاء');
+    })
+    if (content == null)
+      this.offcanvasService.open(this.DetailsSidePanel, { panelClass: 'details-panel', position: 'end' });
+    else
+      this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
   }
 
 }

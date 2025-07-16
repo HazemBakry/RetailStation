@@ -34,7 +34,9 @@
                                 <td>{{item.totalCredit}}</td>
                                 <td>
                                     <!-- {{item.entryStatus}} -->
-                                    <div appColorWithStatus status="entryStatus" [text]="item.entryStatus"></div>
+                                    <!-- <div appColorWithStatus status="entryStatus" [text]="item.entryStatus"></div> -->
+                                    <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
+                                    </span>
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center justify-content-center">
@@ -275,9 +277,11 @@
                 <div class="widget-line">
                     <div *ngFor="let item of paymentReceiptsList" class="d-flex align-items-center justify-content-between widget-mb">
                         <div class="d-flex align-items-center">
-                            <div appColorWithStatus status="receiptsStatus" [text]="''">
-                                <!-- <i class="fas fa-chart-pie"></i> -->
-                            </div>
+                            <!-- <div appColorWithStatus status="receiptsStatus" [text]="''">
+                                <i class="fas fa-chart-pie"></i>
+                            </div> -->
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
+                            </span>
                             <div class="ms-3">
                                 <div class="fs-5 fw-bold">{{item.contactName}}</div>
                                 <div class="text-muted fs-6">{{item.moneyAmount}}</div>
@@ -298,9 +302,11 @@
                 <div class="widget-line">
                     <div *ngFor="let item of receiveReceiptsList" class="d-flex align-items-center justify-content-between widget-mb">
                         <div class="d-flex align-items-center">
-                            <div appColorWithStatus status="receiptsStatus" [text]="''">
-                                <!-- <i class="fas fa-chart-pie"></i> -->
-                            </div>
+                            <!-- <div appColorWithStatus status="receiptsStatus" [text]="''">
+                                <i class="fas fa-chart-pie"></i>
+                            </div> -->
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
+                            </span>
                             <div class="ms-3">
                                 <div class="fs-5 fw-bold">{{item.contactName}}</div>
                                 <div class="text-muted fs-6">{{item.moneyAmount}}</div>

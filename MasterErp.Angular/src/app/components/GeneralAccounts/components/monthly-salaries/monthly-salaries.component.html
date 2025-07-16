@@ -5,44 +5,22 @@
         الحضور والانصراف
     </div> -->
     <div class="inputs-sec-content px-3 py-2">
-
         <div class="row gy-3">
-            <div class="col-lg-3">
-                <div class="mb-2">
-                    <label class="form-label d-flex align-items-center gap-2">
-                        الفرع
-                        <span class="text-danger">*</span>
-                    </label>
-                    <app-general-selector [(ngModel)]="selectedBranchId" [data]="branchSelectorData" [placeholder]="'الفروع'" [showSearch]="true"></app-general-selector>
-                </div>
+            <div class="col-lg-3 mb-2">
+                <label class="form-label align-items-center gap-2">
+                    حسابات البنوك
+                    <span class="text-danger">*</span>
+                </label>
+                <app-general-selector [(ngModel)]="bankAccountId" [showSearch]="true" [data]="bankAccounts" [placeholder]="'الحسابات'">
+                </app-general-selector>
             </div>
-
-            <div class="col-lg-3">
-                <div class="mb-2">
-                    <label class="form-label d-flex align-items-center gap-2">
-                        اسم الموظف
-                        <span class="text-danger">*</span>
-                    </label>
-                    <app-general-selector [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData" [placeholder]="'اسم الموظف'" [showSearch]="true"></app-general-selector>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="mb-2">
-                    <label class="form-label d-flex align-items-center gap-2">
-                        السنه
-                        <span class="text-danger">*</span>
-                    </label>
-                    <app-general-selector [(ngModel)]="selectedYear" [data]="yearsSelectorData" [placeholder]="'السنه'" [showSearch]="true"></app-general-selector>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="mb-2">
-                    <label class="form-label d-flex align-items-center gap-2">
-                        الشهر
-                        <span class="text-danger">*</span>
-                    </label>
-                    <app-general-selector [(ngModel)]="selectedMonth" [data]="monthsSelectorData" [placeholder]="'الشهر'" [showSearch]="true"></app-general-selector>
-                </div>
+            <div class="col-lg-3 mb-2">
+                <label class="form-label align-items-center gap-2">
+                    حسابات الكاش
+                    <span class="text-danger">*</span>
+                </label>
+                <app-general-selector [(ngModel)]="cashAccountId" [showSearch]="true" [data]="cashAccounts" [placeholder]="'الحسابات'">
+                </app-general-selector>
             </div>
         </div>
     </div>
@@ -50,26 +28,16 @@
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-top">
         <button class="btn btn-primary me-2 mt-2" [disabled]="showLoader" (click)="search()">
             <i class="fas fa-search"></i>
-            <span class="ms-2">احتساب</span>
+            <span class="ms-2">مراجعة</span>
         </button>
         <button [disabled]="showExportLoader" (click)="exportData()" class="btn btn-outline-success gap-2 border rounded px-3 me-2 mt-2">
             <i class="fas fa-file-download"></i>
             <span>تصدير CSV</span>
         </button>
-        <button class="btn btn-secondary gap-2 border rounded px-3 me-2 mt-2">
-            <i class="fas fa-print fs-7"></i>
-            <span>طباعة</span>
-        </button>
-
         <button class="btn btn-success gap-2 border rounded px-3 me-2 mt-2" [disabled]="showAddLoader" (click)="openSaveModal(saveDialog)">
             <i class="fas fa-check-circle"></i>
             <span>اعتماد</span>
         </button>
-
-        <!-- <button class="btn btn-secondary me-2" (click)="printData()">
-            <i class="fas fa-print"></i>
-            <span class="ms-2">طباعة</span>
-        </button> -->
     </div>
 </div>
 
@@ -78,30 +46,21 @@
         <div class="row p-2">
             <div class="col-md-8">
                 <div class="d-flex align-items-center flex-wrap">
-                    <!-- <div class="search-box position-relative mb-2">
-                        <button [disabled]="showAddLoader" (click)="openSaveModal(saveDialog)" class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3">
-                            <i class="fas fa-plus-circle"></i>
-                            <span>Approve</span>
-                        </button>
-                    </div> -->
-                    <!-- <ng-container *ngIf="filterList.length > 0">
-                        <app-pos-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-pos-filters>
-                    </ng-container> -->
                 </div>
             </div>
-            <!-- <div class="col-md-4">
+            <div class="col-md-4">
                 <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
-            </div> -->
+            </div>
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
-        <div class="table-responsive shadow-sm radius-10 table-vp-height">
+        <div class="table-responsive shadow-sm radius-10">
             <table class="table table-card-table table-bordered table-middle  bg-transparent m-0">
                 <colgroup></colgroup>
                 <thead class="table-light">
                     <tr>
-                        <th rowspan="2" class="min-width-50 width-50 max-width-50">
+                        <!-- <th rowspan="2" class="min-width-50 width-50 max-width-50">
                             <input type="checkbox" [(ngModel)]="selectAll" (change)="selectAllData()" class="big-checkbox cursor-pointer" />
-                        </th>
+                        </th> -->
                         <th rowspan="2">الكود</th>
                         <!-- <th rowspan="2">الحساب البنكى</th> -->
                         <th style="min-width: 200px;" rowspan="2">اسم الموظف</th>
@@ -143,8 +102,8 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of pagedResponseModel.results">
-                        <td><input type="checkbox" class="big-checkbox" [(ngModel)]="item.isChecked">
-                        </td>
+                        <!-- <td><input type="checkbox" class="big-checkbox" [(ngModel)]="item.isChecked">
+                        </td> -->
                         <td>{{item.employeeCode}}</td>
                         <!-- <td>{{item.bankAccountNumber}}</td> -->
                         <td>{{item.employeeNameAR ??item.employeeNameEN}}</td>
@@ -201,14 +160,13 @@
                     </tr>
                 </tbody>
             </table>
-
         </div>
     </div>
 </div>
 
 <div class="card card-shadow border-0 table-card overflow-hidden mb-3 card-radius">
     <div class="card-header bg-transparent py-4 border-bottom">
-        <div class="card-title-text mb-1">إجمالى الرواتب</div>
+        <div class="card-title-text">إجمالى الرواتب</div>
     </div>
     <div class="card-body">
         <div class="row">
@@ -217,7 +175,7 @@
                     <label class="form-label summary-title">إجمالى الأساسى
                         <i class="fas fa-info-circle ms-2 text-muted cursor-pointer"></i>
                     </label>
-                    <input type="text" [(ngModel)]="basicSalary" disabled class="form-control py-2">
+                    <input type="text" [(ngModel)]="totalSummary.basicSalary" disabled class="form-control py-2">
                 </div>
             </div>
             <div class="col-lg-2">
@@ -225,7 +183,7 @@
                     <label class="form-label summary-title">إجمالى الإضافى
                         <i class="fas fa-info-circle ms-2 text-muted cursor-pointer"></i>
                     </label>
-                    <input type="text" [(ngModel)]="extraSalary" disabled class="form-control py-2">
+                    <input type="text" [(ngModel)]="totalSummary.extraSalary" disabled class="form-control py-2">
                 </div>
             </div>
             <!-- <div class="col-lg-2">
@@ -236,14 +194,14 @@
                     <input type="text" [(ngModel)]="totalSummary.workNature" disabled class="form-control py-2">
                 </div>
             </div> -->
-            <!-- <div class="col-lg-2">
+            <div class="col-lg-2">
                 <div class="mb-3">
                     <label class="form-label summary-title">إجمالى البدلات
                         <i class="fas fa-info-circle ms-2 text-muted cursor-pointer"></i>
                     </label>
                     <input type="text" [(ngModel)]="totalSummary.transportation" disabled class="form-control py-2">
                 </div>
-            </div> -->
+            </div>
             <!-- <div class="col-lg-2">
                 <div class="mb-3">
                     <label class="form-label">ساعات عمل إضافية<sup class="text-danger">*</sup>
@@ -254,18 +212,10 @@
             </div> -->
             <div class="col-lg-2">
                 <div class="mb-3">
-                    <label class="form-label summary-title"> الاستقطاعات
-                        <i class="fas fa-info-circle ms-2 text-muted cursor-pointer"></i>
-                    </label>
-                    <input type="text" [value]="deductions" disabled class="form-control py-2">
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <div class="mb-3">
                     <label class="form-label summary-title">صافى القيمة
                         <i class="fas fa-info-circle ms-2 text-muted cursor-pointer"></i>
                     </label>
-                    <input type="text" [value]="grossSalary" disabled class="form-control py-2">
+                    <input type="text" [value]="totalSummary.grossSalary" disabled class="form-control py-2">
                 </div>
             </div>
             <div class="col-lg-2">
@@ -273,7 +223,7 @@
                     <label class="form-label summary-title">إجمالى الكاش
                         <i class="fas fa-info-circle ms-2 text-muted cursor-pointer"></i>
                     </label>
-                    <input type="text" [(ngModel)]="totalCash" disabled class="form-control py-2">
+                    <input type="text" [(ngModel)]="totalSummary.totalCash" disabled class="form-control py-2">
                 </div>
             </div>
             <div class="col-lg-2">
@@ -281,12 +231,71 @@
                     <label class="form-label summary-title">إجمالى الفيزا
                         <i class="fas fa-info-circle ms-2 text-muted cursor-pointer"></i>
                     </label>
-                    <input type="text" [(ngModel)]="totalVisa" disabled class="form-control py-2">
+                    <input type="text" [(ngModel)]="totalSummary.totalVisa" disabled class="form-control py-2">
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+
+
+<!-- <div class="table-responsive shadow-sm radius-10">
+    <table class="table table-card-table table-bordered table-middle  bg-transparent m-0">
+        <thead class="table-light">
+            <tr>
+                <th style="min-width: 500px;">الإجمالى</th>
+                <th>أساسى</th>
+                <th>إضافى</th>
+                <th>بدل انتقال</th>
+                <th>طبيعة عمل</th>
+                <th>بدل وجبات</th>
+                <th>بدل سكن</th>
+                <th>ساعات إضافية</th>
+                <th>بدل هاتف</th>
+                <th>أخري</th>
+                <th>أخري 2</th>
+                <th>الإجمالى</th>
+
+                <th>تأمين</th>
+                <th>غيابات</th>
+                <th>جزاءات</th>
+                <th>سلف</th>
+                <th>أجازات مرضية</th>
+                <th>انتقال(-)</th>
+                <th>سكن(-)</th>
+                <th>أخري(-)</th>
+                <th>إجمالى الخصم</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td>{{totalSummary.basicSalary ?? 0}}</td>
+                <td>{{totalSummary.extraSalary ?? 0 }}</td>
+                <td>{{totalSummary.transportation ?? 0 }}</td>
+                <td>{{totalSummary.workNature ?? 0 }}</td>
+                <td>{{totalSummary.mealAllowance ?? 0 }}</td>
+                <td>{{totalSummary.housingAllowance ?? 0 }}</td>
+                <td>{{totalSummary.overtime ?? 0 }}</td>
+                <td>{{totalSummary.mobileAllowance ?? 0 }}</td>
+                <td>{{totalSummary.other ?? 0 }}</td>
+                <td>{{totalSummary.other2 ?? 0 }}</td>
+                <td>{{totalSummary.grossSalary ?? 0 }}</td>
+                <td>{{totalSummary.dailySalary ?? 0 }}</td>
+                <td>{{totalSummary.netSalary ?? 0 }}</td>
+                <td>{{totalSummary.insurance ?? 0 }}</td>
+                <td>{{totalSummary.penalties ?? 0 }}</td>
+                <td>{{totalSummary.advances ?? 0 }}</td>
+                <td>{{totalSummary.totalDeductions ?? 0 }}</td>
+                <td>{{totalSummary.netSalary ?? 0 }}</td>
+                <td>{{totalSummary.visaPayment ?? 0 }}</td>
+                <td>{{totalSummary.cashPayment ?? 0 }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div> -->
 
 
 <ng-template #saveDialog let-modal>

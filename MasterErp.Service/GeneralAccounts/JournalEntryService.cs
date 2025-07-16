@@ -311,7 +311,7 @@ namespace MasterErp.Service.GeneralAccounts
                     IsPosted = model.IsPosted ?? false,
                     PostDate = DateTime.Now,
                     IsCancelled = false,
-                    IsLocked = model.IsLocked,
+                    IsLocked = false,
                     PeriodId = CurrentPeriod != null ? CurrentPeriod.FinancialPeriodId : 0,
                     EntryDate = model.EntryDate ?? DateTime.Now,
                     ActionTypeId = model.ActionTypeId,

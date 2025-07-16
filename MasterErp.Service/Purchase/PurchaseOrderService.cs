@@ -141,7 +141,7 @@ namespace MasterErp.Service.Purchase
                 order_tbl.OrderDate = DateTime.Now;
                 order_tbl.TotalValue = (double)(model.OrderDetails != null ? model.OrderDetails.Sum(x => x.TotalValue) : 0);
                 order_tbl.SupplierId = (int)model?.SupplierId;
-                order_tbl.WorkflowStatusId = (int)InventoryWorkflowStatus.Pending;
+                order_tbl.WorkflowStatusId = (int)WorkflowStatus.Pending;
 
 
                 Context.PurchaseOrders.Add(order_tbl);

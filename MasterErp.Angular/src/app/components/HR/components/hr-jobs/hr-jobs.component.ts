@@ -71,7 +71,6 @@ export class HrJobsComponent implements OnInit {
   public formGroup: FormGroup;
   public formErrors = {
     jobId: '',
-    code: '',
     nameAR: '',
     nameEN: '',
     isActive: ''
@@ -99,10 +98,9 @@ export class HrJobsComponent implements OnInit {
   buildForm() {
     this.formGroup = this.form.group({
       jobId: [null],
-      code: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       nameAR: [null, [Validators.required]],
       nameEN: [null, [Validators.required]],
-      isActive: [true, [Validators.required]]
+      isActive: [true]
     });
 
     this.formGroup.valueChanges.subscribe((data) => {
@@ -179,7 +177,6 @@ export class HrJobsComponent implements OnInit {
     this.isUpdate = true;
     this.formGroup.patchValue({
       jobId: JobModel.jobId,
-      code: JobModel.code,
       nameAR: JobModel.nameAR,
       nameEN: JobModel.nameEN,
       isActive: JobModel.isActive,

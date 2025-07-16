@@ -52,8 +52,8 @@
                     <div class="bg-white shadow-sm column-card d-flex flex-column align-items-center gap-3 h-100">
                         <header class="d-flex align-items-center justify-content-between gap-2 w-100 light-purple-header">
                             <div class="d-flex flex-column gap-2">
-                                <div class="column-card-title">العمليات المالية</div>
-                                <div class="column-card-description text-muted">إجمالي العمليات اليومية</div>
+                                <div class="column-card-title">القيود اليومية</div>
+                                <div class="column-card-description text-muted">إجمالي القيود اليومية</div>
                             </div>
                             <div class="column-card-icon">
                                 <i class="uil uil-university"></i>
@@ -61,17 +61,17 @@
                         </header>
                         <div class="light-purple-content d-flex flex-column gap-3 w-100">
                             <div class="light-purple-content-item">
-                                <div class="fw-bold">٣٥ عملية</div>
-                                <div class="text-success">١٢٪ أعلى من الأمس</div>
+                                <div class="fw-bold">{{statisticsCardList?.totalEntriesCount}} عملية</div>
+                                <!-- <div class="text-success">١٢٪ أعلى من الأمس</div> -->
                             </div>
                             <div class="light-purple-content-item d-flex justify-content-between gap-2 flex-wrap">
                                 <div>
-                                    <div class="text-muted">إجمالي الإيرادات</div>
-                                    <div class="fw-bold">١٨,٥٠٠ ر.س</div>
+                                    <div class="text-muted">القيود المرحلة</div>
+                                    <div class="fw-bold">{{statisticsCardList?.postEntriesCount}}</div>
                                 </div>
                                 <div>
-                                    <div class="text-muted">إجمالي المصروفات</div>
-                                    <div class="fw-bold">٧,٢٠٠ ر.س</div>
+                                    <div class="text-muted">القيود الغير مرحلة</div>
+                                    <div class="fw-bold">{{statisticsCardList?.pendingEntriesCount}}</div>
                                 </div>
                             </div>
                         </div>
@@ -82,8 +82,8 @@
                     <div class="bg-white shadow-sm column-card d-flex flex-column align-items-center gap-3 h-100">
                         <header class="d-flex align-items-center justify-content-between gap-2 w-100 light-purple-header">
                             <div class="d-flex flex-column gap-2">
-                                <div class="column-card-title">الإيرادات</div>
-                                <div class="column-card-description text-muted">إجمالي الإيرادات اليومية</div>
+                                <div class="column-card-title">سندات الصرف</div>
+                                <div class="column-card-description text-muted">إجمالي سندات الصرف</div>
                             </div>
                             <div class="column-card-icon">
                                 <i class="uil uil-money-insert"></i>
@@ -91,30 +91,29 @@
                         </header>
                         <div class="light-purple-content d-flex flex-column gap-3 w-100">
                             <div class="light-purple-content-item">
-                                <div class="fw-bold">١٨,٥٠٠ ر.س</div>
-                                <div class="text-success">١٢٪ أعلى من الأمس</div>
+                                <div class="fw-bold">{{statisticsCardList?.totalPaymentReceiptsCount}}</div>
+                                <!-- <div class="text-success">١٢٪ أعلى من الأمس</div> -->
                             </div>
                             <div class="light-purple-content-item d-flex justify-content-between gap-2 flex-wrap">
                                 <div>
-                                    <div class="text-muted">عدد العمليات</div>
-                                    <div class="fw-bold">٢٢ عملية</div>
+                                    <div class="text-muted">السندات المدفوهة</div>
+                                    <div class="fw-bold">{{statisticsCardList?.paidPaymentReceiptsCount}} سند</div>
                                 </div>
                                 <div>
-                                    <div class="text-muted">متوسط القيمة</div>
-                                    <div class="fw-bold">٨٤٠ ر.س</div>
+                                    <div class="text-muted">السندات المعلقة</div>
+                                    <div class="fw-bold">{{statisticsCardList?.pendingPaymentReceiptsCount}} سند</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-
                 <div class="col">
                     <div class="bg-white shadow-sm column-card d-flex flex-column align-items-center gap-3 h-100">
                         <header class="d-flex align-items-center justify-content-between gap-2 w-100 light-purple-header">
                             <div class="d-flex flex-column gap-2">
-                                <div class="column-card-title">المصروفات</div>
-                                <div class="column-card-description text-muted">إجمالي المصروفات اليومية</div>
+                                <div class="column-card-title">سندات القبض</div>
+                                <div class="column-card-description text-muted">إجمالي سندات القبض</div>
                             </div>
                             <div class="column-card-icon">
                                 <i class="uil uil-money-stack"></i>
@@ -122,17 +121,17 @@
                         </header>
                         <div class="light-purple-content d-flex flex-column gap-3 w-100">
                             <div class="light-purple-content-item">
-                                <div class="fw-bold">٧,٢٠٠ ر.س</div>
-                                <div class="text-danger">٥٪ أقل من الأمس</div>
+                                <div class="fw-bold">{{statisticsCardList?.totalReceiveReceiptsCount}}</div>
+                                <!-- <div class="text-danger">٥٪ أقل من الأمس</div> -->
                             </div>
                             <div class="light-purple-content-item d-flex justify-content-between gap-2 flex-wrap">
                                 <div>
-                                    <div class="text-muted">عدد العمليات</div>
-                                    <div class="fw-bold">٢٢ عملية</div>
+                                    <div class="text-muted">السندات المدفوعة</div>
+                                    <div class="fw-bold">{{statisticsCardList?.paidReceiveReceiptsCount}} سند</div>
                                 </div>
                                 <div>
-                                    <div class="text-muted">متوسط القيمة</div>
-                                    <div class="fw-bold">٨٤٠ ر.س</div>
+                                    <div class="text-muted">السندات المعلقة</div>
+                                    <div class="fw-bold">سند {{statisticsCardList?.pendingReceiveReceiptsCount}}</div>
                                 </div>
                             </div>
                         </div>

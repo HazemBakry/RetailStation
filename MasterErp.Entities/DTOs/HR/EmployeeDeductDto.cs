@@ -19,7 +19,7 @@ namespace MasterErp.Entities.DTOs.HR
         public DateTime ExecutionDate { get; set; }
         public string WorkflowStatusNameEN { get; set; }
         public string WorkflowStatusNameAR { get; set; }
-        public int? WorkflowStatusId { get; set; } = (int)HRWorkflowStatus.Pending; public string Notes { get; set; }
+        public int? WorkflowStatusId { get; set; } = (int)WorkflowStatus.Pending; public string Notes { get; set; }
         public int? TotalCount { get; set; }
         public string BranchName { get; set; }
 

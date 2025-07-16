@@ -24,32 +24,40 @@ export class WorkflowStatusDirective implements OnInit,OnChanges {
   private renderStatus() {
     const text = this.nameAR || this.nameEN || 'غير معروف';
     const statusColors: Record<number, { bg: string; fg: string }> = {
+      
+      1: { bg: '#FFF3CD', fg: '#856404' }, // Pending
+      2: { bg: '#F8D7DA', fg: '#721C24' }, // Cancelled
+      3: { bg: '#F8D7DA', fg: '#721C24' }, // Rejected
+      4: { bg: '#D1ECF1', fg: '#0C5460' }, // Approved
+      5: { bg: '#D4EDDA', fg: '#155724' }, // Completed
+      
       //Finance
-      7: { bg: '#FFF3CD', fg: '#856404' }, // Pending
-      8: { bg: '#F8D7DA', fg: '#721C24' }, // Cancelled
-      9: { bg: '#D1ECF1', fg: '#0C5460' }, // Waiting Payment
-      10: { bg: '#D4EDDA', fg: '#155724' }, // Paid
-      //HR
-      11: { bg: '#FFF3CD', fg: '#856404' }, // Pending
-      12: { bg: '#F8D7DA', fg: '#721C24' }, // Rejected
-      13: { bg: '#D1ECF1', fg: '#0C5460' }, // Approved
-      14: { bg: '#D4EDDA', fg: '#155724' }, // Completed
-      //payment
-      15: { bg: '#28a745', fg: '#ffffff' }, // Paid
-      16: { bg: '#dc3545', fg: '#ffffff' }, // UnPaid
-      //job
-      17: { bg: '#D1ECF1', fg: '#0C5460' }, // Active
-      18: { bg: '#FFF3CD', fg: '#856404' }, // Vacation
-      19: { bg: '#F8D7DA', fg: '#721C24' }, // Exit
-      20: { bg: '#F8D7DA', fg: '#721C24' }, // Escape
-      21: { bg: '#FFF3CD', fg: '#856404' }, // Pending
-      22: { bg: '#F8D7DA', fg: '#721C24' }, // Case
-      23: { bg: '#F8D7DA', fg: '#721C24' }, // DontReturnVacation
+      
+      // 7: { bg: '#FFF3CD', fg: '#856404' }, // Pending
+      // 8: { bg: '#F8D7DA', fg: '#721C24' }, // Cancelled
+      // 9: { bg: '#D1ECF1', fg: '#0C5460' }, // Waiting Payment
+      // 10: { bg: '#D4EDDA', fg: '#155724' }, // Paid
+      // //HR
+      // 11: { bg: '#FFF3CD', fg: '#856404' }, // Pending
+      // 12: { bg: '#F8D7DA', fg: '#721C24' }, // Rejected
+      // 13: { bg: '#D1ECF1', fg: '#0C5460' }, // Approved
+      // 14: { bg: '#D4EDDA', fg: '#155724' }, // Completed
+      // //payment
+      // 15: { bg: '#28a745', fg: '#ffffff' }, // Paid
+      // 16: { bg: '#dc3545', fg: '#ffffff' }, // UnPaid
+      // //job
+      // 17: { bg: '#D1ECF1', fg: '#0C5460' }, // Active
+      // 18: { bg: '#FFF3CD', fg: '#856404' }, // Vacation
+      // 19: { bg: '#F8D7DA', fg: '#721C24' }, // Exit
+      // 20: { bg: '#F8D7DA', fg: '#721C24' }, // Escape
+      // 21: { bg: '#FFF3CD', fg: '#856404' }, // Pending
+      // 22: { bg: '#F8D7DA', fg: '#721C24' }, // Case
+      // 23: { bg: '#F8D7DA', fg: '#721C24' }, // DontReturnVacation
 
-      24: { bg: '#FFF3CD', fg: '#856404' }, // Pending
-      25: { bg: '#F8D7DA', fg: '#721C24' }, // Rejected
-      26: { bg: '#D1ECF1', fg: '#0C5460' }, // Approved
-      27: { bg: '#D4EDDA', fg: '#155724' }, // Completed
+      // 24: { bg: '#FFF3CD', fg: '#856404' }, // Pending
+      // 25: { bg: '#F8D7DA', fg: '#721C24' }, // Rejected
+      // 26: { bg: '#D1ECF1', fg: '#0C5460' }, // Approved
+      // 27: { bg: '#D4EDDA', fg: '#155724' }, // Completed
     };
      const empStatusColors: Record<number, { bg: string; fg: string }> = {
       //Finance

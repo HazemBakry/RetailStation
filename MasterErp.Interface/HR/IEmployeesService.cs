@@ -21,6 +21,9 @@ namespace MasterErp.Interface.HR
         Task<ActionsResponseModel> SaveEmployeeVerificationData(int EmployeeId, EmployeeVerificationDto model);
         Task<ActionsResponseModel> SaveEmployeeAttachments(int EmployeeId, EmployeeAttachmentDto model);
         Task<ActionsResponseModel> ChangeEmployeeStatus(int EmployeeId, int StatusId);
+        ActionsResponseModel UpdateEmployeeLastJoinDate(int EmployeeId, DateTime LastJoinDate);
+        ActionsResponseModel EditEmployeesWorkStatus(string UserId, List<int> EmployeeIds);
+
         #endregion
 
         #region GetEmployee
@@ -31,6 +34,7 @@ namespace MasterErp.Interface.HR
         EmployeeAttachmentDto GetEmployeeAttachmentsById(int EmployeeId);
         List<EmployeeBasicInfo> GetEmployeesSummary_Data(SearchFilterModel model);
         List<FilterModel> GetEmployeesSummary_Filters(SearchFilterModel model);
+        List<SelectorDataModel> GetEmployeesByVacationTypes(int VacationTypeId);
         ActionsResponseModel ExportEmployeesSummaryData(SearchFilterModel model);
         List<StatisticsCardSummary> GetEmployeesSummary();
         List<SelectorDataModel> GetAllEmployeesSelector();

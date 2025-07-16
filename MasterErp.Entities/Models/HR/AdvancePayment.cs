@@ -18,7 +18,7 @@ namespace MasterErp.Entities.Models.HR
         public int EmployeeAdvanceId { get; set; }
         public double MoneyAmount { get; set; }
         public DateTime ExecutionDate { get; set; }
-        public int? WorkflowStatusId { get; set; } = (int)HRWorkflowStatus.Pending;
+        public int? WorkflowStatusId { get; set; } = (int)WorkflowStatus.Pending;
         public string Notes { get; set; }
 
 

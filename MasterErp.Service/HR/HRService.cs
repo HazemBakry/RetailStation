@@ -420,11 +420,9 @@ namespace MasterErp.Service.HR
 
                 Job tbl = new Job();
 
-                tbl.Code = Model.Code;
                 tbl.IsActive = Model.IsActive;
                 tbl.NameAR = Model.NameAR;
                 tbl.NameEN = Model.NameEN;
-                tbl.Notes = Model.Notes;
                 tbl.CreatedDate = DateTime.Now;
                 tbl.CreatedBy = Model.CreatedBy;
 
@@ -453,11 +451,9 @@ namespace MasterErp.Service.HR
                 var entity = Context.Jobs.FirstOrDefault(i => i.JobId == JobId);
                 if (entity != null)
                 {
-                    entity.Code = Model.Code;
                     entity.IsActive = Model.IsActive;
                     entity.NameAR = Model.NameAR;
                     entity.NameEN = Model.NameEN;
-                    entity.Notes = Model.Notes;
                     entity.ModifiedDate = DateTime.Now;
                     entity.ModifiedBy = Model.ModifiedBy;
 

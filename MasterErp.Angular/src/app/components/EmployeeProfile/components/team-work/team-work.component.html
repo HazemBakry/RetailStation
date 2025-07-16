@@ -1,4 +1,3 @@
-
 <div class="card radius-10 border-0 card-shadow mb-4">
     <div class="card-body">
         <div class="row p-2">
@@ -13,13 +12,11 @@
                     <!-- <ng-container *ngIf="filterList.length > 0">
                         <app-pos-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-pos-filters>
                     </ng-container> -->
-                    
+
                 </div>
             </div>
             <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)"
-                    [currentPage]="employeeBasicInfoResponse.currentPage" [pageSize]="employeeBasicInfoResponse.pageSize"
-                    [totalCount]="employeeBasicInfoResponse.totalCount"></app-erp-pagination>
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="employeeBasicInfoResponse.currentPage" [pageSize]="employeeBasicInfoResponse.pageSize" [totalCount]="employeeBasicInfoResponse.totalCount"></app-erp-pagination>
             </div>
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
@@ -38,7 +35,7 @@
                         <th>الحساب البنكي</th>
                         <th>رقم الاقامة</th>
                         <th>الحالة</th>
-                       
+
                     </tr>
                 </thead>
                 <tbody>
@@ -58,14 +55,15 @@
                         </td>
                         <td>{{item.iqamaNumber}}</td>
                         <td>
-                            <div appColorWithStatus status="isApproved" [text]="item.statusName"></div>
+                            <!-- <div appColorWithStatus status="isApproved" [text]="item.statusName"></div> -->
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
+                            </span>
                         </td>
-                       
+
                     </tr>
                 </tbody>
             </table>
-            <app-empty-data [showEmptyData]="!employeeBasicInfoResponse.results?.length&&!showLoader"
-                [showLoader]="showLoader"></app-empty-data>
+            <app-empty-data [showEmptyData]="!employeeBasicInfoResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
         </div>
     </div>
 </div>

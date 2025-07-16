@@ -23,7 +23,7 @@ namespace MasterErp.Entities.DTOs.HR
         public DateTime? PaymentToDate { get; set; }
         public string WorkflowStatusNameEN { get; set; }
         public string WorkflowStatusNameAR { get; set; }
-        public int? WorkflowStatusId { get; set; } = (int)HRWorkflowStatus.Pending;
+        public int? WorkflowStatusId { get; set; } = (int)WorkflowStatus.Pending;
         public string Notes { get; set; }
         public double? TotalPaid { get; set; }
         public double? TotalRemaining { get; set; }

@@ -12,13 +12,11 @@
                     <!-- <ng-container *ngIf="filterList.length > 0">
                         <app-pos-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-pos-filters>
                     </ng-container> -->
-                    
+
                 </div>
             </div>
             <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)"
-                    [currentPage]="loanResponse.currentPage" [pageSize]="loanResponse.pageSize"
-                    [totalCount]="loanResponse.totalCount"></app-erp-pagination>
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="loanResponse.currentPage" [pageSize]="loanResponse.pageSize" [totalCount]="loanResponse.totalCount"></app-erp-pagination>
             </div>
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
@@ -46,20 +44,20 @@
                         <td>{{item.loanAmount}}</td>
                         <td>{{item.paymentAmount}}</td>
                         <td>
-                            <div appColorWithStatus status="isApproved" [text]="item.isApproved"></div>
+                            <!-- <div appColorWithStatus status="isApproved" [text]="item.isApproved"></div> -->
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
+                            </span>
                         </td>
                         <td class="word-break">{{item.notes}}</td>
                         <td>
-                          
+
                             <div class="d-flex align-items-center justify-content-center text-center">
-                            
-                                <button ngbDropdownItem class="btn text-success"
-                                    (click)="openApproveModal(approveModal,item.loanId,item.employeeId,true)">
+
+                                <button ngbDropdownItem class="btn text-success" (click)="openApproveModal(approveModal,item.loanId,item.employeeId,true)">
                                     <i class="uil uil-trash-alt"></i>
                                     <span class="ms-2">قبول</span>
                                 </button>
-                                <button ngbDropdownItem class="btn text-danger"
-                                    (click)="openApproveModal(approveModal,item.loanId,item.employeeId,false)">
+                                <button ngbDropdownItem class="btn text-danger" (click)="openApproveModal(approveModal,item.loanId,item.employeeId,false)">
                                     <i class="uil uil-trash-alt"></i>
                                     <span class="ms-2">رفض</span>
                                 </button>
@@ -68,8 +66,7 @@
                     </tr>
                 </tbody>
             </table>
-            <app-empty-data [showEmptyData]="!loanResponse.results?.length&&!showLoader"
-                [showLoader]="showLoader"></app-empty-data>
+            <app-empty-data [showEmptyData]="!loanResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
         </div>
     </div>
 </div>

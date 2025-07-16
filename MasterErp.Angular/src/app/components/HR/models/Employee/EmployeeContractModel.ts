@@ -1,7 +1,7 @@
 import { CreatorModel } from "src/app/components/Shared/models/CreatorModel";
 import { EmployeeModel } from "./EmployeeModel";
 
-export interface EmployeeContractModel extends EmployeeContractDetailsModel,CreatorModel {
+export interface EmployeeContractModel extends EmployeeContractDetailsModel, CreatorModel {
     contractId: number | null;
     startDate: string;
     endDate: string;
@@ -36,5 +36,6 @@ export interface EmployeeContractDetailsModel extends CreatorModel {
     workNature: number;
     mealAllowance: number;
     other: number | null;
+    isMealAdded?: boolean | null;
     totalSalary: number | null;
 }

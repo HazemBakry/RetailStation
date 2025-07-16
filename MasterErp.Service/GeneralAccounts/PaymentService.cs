@@ -108,7 +108,7 @@ namespace MasterErp.Service.GeneralAccounts
                     AccountId = Model.AccountId,
                     SupplierId = Model.SupplierId,
                     FromAccountId = Model.FromAccountId,
-                    WorkflowStatusId = (int)FinanceWorkflowStatus.Pending,
+                    WorkflowStatusId = (int)WorkflowStatus.Pending,
                     CreatedDate = DateTime.Now,
                     CreatedBy = ""
                 };
@@ -119,7 +119,7 @@ namespace MasterErp.Service.GeneralAccounts
                 if (Model.EmployeeAdvanceId != null)
                 {
                     var advance = Context.EmployeeAdvances.FirstOrDefault(x => x.EmployeeAdvanceId == Model.EmployeeAdvanceId);
-                    advance.WorkflowStatusId = (int)HRWorkflowStatus.Completed;
+                    advance.WorkflowStatusId = (int)WorkflowStatus.Completed;
                     Context.SaveChanges();
                 }
 
@@ -145,7 +145,7 @@ namespace MasterErp.Service.GeneralAccounts
             try
             {
                 PaymentOrder order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == PaymentOrderId &&
-                                                                                x.WorkflowStatusId != (int)FinanceWorkflowStatus.Cancelled && x.WorkflowStatusId != (int)FinanceWorkflowStatus.Paid);
+                                                                                x.WorkflowStatusId != (int)WorkflowStatus.Cancelled && x.WorkflowStatusId != (int)WorkflowStatus.Completed);
 
                 if (order != null)
                 {
@@ -188,9 +188,9 @@ namespace MasterErp.Service.GeneralAccounts
         public ActionsResponseModel CancelPaymentOrder(int OrderId)
         {
             var order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == OrderId);
-            if (order != null && order.WorkflowStatusId != (int)FinanceWorkflowStatus.Cancelled)
+            if (order != null && order.WorkflowStatusId != (int)WorkflowStatus.Cancelled)
             {
-                order.WorkflowStatusId = (int)FinanceWorkflowStatus.Cancelled;
+                order.WorkflowStatusId = (int)WorkflowStatus.Cancelled;
                 order.ModifiedDate = DateTime.Now;
 
                 Context.SaveChanges();
@@ -224,7 +224,7 @@ namespace MasterErp.Service.GeneralAccounts
 
         public List<SelectorDataModel> GetPaymentOrdersSelector(bool OrderStatus)
         {
-            var results = Context.PaymentOrders.Where(x => x.WorkflowStatusId == (int)FinanceWorkflowStatus.Pending).Select(b => new SelectorDataModel
+            var results = Context.PaymentOrders.Where(x => x.WorkflowStatusId == (int)WorkflowStatus.Completed).Select(b => new SelectorDataModel
             {
                 Id = b.PaymentOrderId,
                 Name = b.OrderNumber.ToString(),
@@ -298,7 +298,7 @@ namespace MasterErp.Service.GeneralAccounts
                     AccountId = Model.AccountId,
                     SupplierId = Model.SupplierId,
                     CreatedDate = DateTime.Now,
-                    WorkflowStatusId = (int)FinanceWorkflowStatus.Paid,
+                    WorkflowStatusId = (int)WorkflowStatus.Completed,
                     CreatedBy = ""
                 };
 
@@ -307,7 +307,7 @@ namespace MasterErp.Service.GeneralAccounts
 
 
                 var payment_order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == Model.PaymentOrderId);
-                payment_order.WorkflowStatusId = (int)FinanceWorkflowStatus.Paid;
+                payment_order.WorkflowStatusId = (int)WorkflowStatus.Completed;
                 Context.SaveChanges();
 
                 var entry = PreparePaymentEntryModel(receipt);
@@ -349,7 +349,7 @@ namespace MasterErp.Service.GeneralAccounts
                 }
 
                 receipt = Context.PaymentReceipts.FirstOrDefault(x => x.PaymentReceiptId == PaymentReceiptId &&
-                                                                                x.WorkflowStatusId != (int)FinanceWorkflowStatus.Cancelled && x.WorkflowStatusId != (int)FinanceWorkflowStatus.Paid);
+                                                                                x.WorkflowStatusId != (int)WorkflowStatus.Cancelled && x.WorkflowStatusId != (int)WorkflowStatus.Completed);
                 if (receipt != null)
                 {
                     receipt.ReceiptLedgerId = Model.ReceiptLedgerId;
@@ -375,7 +375,7 @@ namespace MasterErp.Service.GeneralAccounts
                     return new ActionsResponseModel { IsSuccess = false, Message = "can't find this payment order" };
 
                 var payment_order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == Model.PaymentOrderId);
-                payment_order.WorkflowStatusId = (int)FinanceWorkflowStatus.Paid;
+                payment_order.WorkflowStatusId = (int)WorkflowStatus.Completed;
                 Context.SaveChanges();
 
                 var entry = PreparePaymentEntryModel(receipt);
@@ -459,7 +459,7 @@ namespace MasterErp.Service.GeneralAccounts
             var receipt = Context.PaymentReceipts.FirstOrDefault(x => x.PaymentReceiptId == ReceiptId);
             if (receipt != null)
             {
-                receipt.WorkflowStatusId = (int)FinanceWorkflowStatus.Cancelled;
+                receipt.WorkflowStatusId = (int)WorkflowStatus.Cancelled;
                 receipt.ModifiedDate = DateTime.Now;
 
                 Context.SaveChanges();
@@ -532,7 +532,7 @@ namespace MasterErp.Service.GeneralAccounts
                         receipt.AgencyTypeId = Model.AgencyTypeId;
                         receipt.AccountId = Model.AccountId;
                         receipt.SupplierId = Model.SupplierId;
-                        receipt.WorkflowStatusId = (int)FinanceWorkflowStatus.Pending;
+                        receipt.WorkflowStatusId = (int)WorkflowStatus.Completed;
 
                         Context.SaveChanges();
                     }
@@ -594,55 +594,62 @@ namespace MasterErp.Service.GeneralAccounts
         {
             try
             {
-                int generalSupplierId = Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 5).AccountId;
-                List<JournalEntryAccount> accounts = new List<JournalEntryAccount>();
-                int debitAccountId = Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId;
-                int creditAccountId = Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId;
+                var customers_account = Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 9);
 
-                //---------- Debit Account ----------//
-                accounts.Add(new JournalEntryAccount
+                if (customers_account != null)
                 {
-                    SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
-                    AccountId = debitAccountId, //Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId,
-                    Credit = 0,
-                    Debit = Model.MoneyAmount,
-                    CurrencyId = 1,
-                    Description = Model.Description,
-                    CostCenterId = Context.AccountTrees.FirstOrDefault(x => x.AccountId == debitAccountId)?.CostCenterId
-                });
+                    int generalCustomerId = customers_account.AccountId;
+                    List<JournalEntryAccount> accounts = new List<JournalEntryAccount>();
+                    int debitAccountId = Model.AgencyTypeId == 3 ? generalCustomerId : (int)Model.AccountId;
+                    int creditAccountId = Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId;
 
-                //---------- Credit Account ----------//
-                accounts.Add(new JournalEntryAccount
-                {
-                    AccountId = creditAccountId, //Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId,
-                    Credit = Model.MoneyAmount,
-                    Debit = 0,
-                    CurrencyId = 1,
-                    SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
-                    Description = Model.Description,
-                    CostCenterId = Context.AccountTrees.FirstOrDefault(x => x.AccountId == creditAccountId)?.CostCenterId
-                });
+                    //---------- Debit Account ----------//
+                    accounts.Add(new JournalEntryAccount
+                    {
+                        CustomerId = Model.AgencyTypeId == 3 ? Model.CustomerId : null,
+                        AccountId = debitAccountId, //Model.AgencyTypeId == 3 ? generalSupplierId : (int)Model.AccountId,
+                        Credit = 0,
+                        Debit = Model.MoneyAmount,
+                        CurrencyId = 1,
+                        Description = Model.Description,
+                        CostCenterId = Context.AccountTrees.FirstOrDefault(x => x.AccountId == debitAccountId)?.CostCenterId
+                    });
 
-                JournalEntryModel entry = new JournalEntryModel
-                {
-                    //EntryNumber = GenerateNewEntryNumber(Model.ReleaseDate.Month, Model.ReleaseDate.Year);
-                    DocNumber = Model.DocNumber,
-                    EntryDate = Model.ReleaseDate,
-                    Description = Model.Description,
-                    JournalTypeId = (int)EntryType.Cashing,
-                    PeriodId = Context.ReceiptLedgers.Single(x => x.ReceiptLedgerId == Model.ReceiptLedgerId).FinancialPeriodId,
-                    ActionTypeId = (int)JournalActionType.CashPayment,
-                    ActionId = Model.PaymentTypeId,
-                    Month = Model.ReleaseDate.Month,
-                    Year = Model.ReleaseDate.Year,
-                    JournalEntryAccounts = accounts
-                };
+                    //---------- Credit Account ----------//
+                    accounts.Add(new JournalEntryAccount
+                    {
+                        AccountId = creditAccountId, //Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId,
+                        Credit = Model.MoneyAmount,
+                        Debit = 0,
+                        CurrencyId = 1,
+                        CustomerId = Model.AgencyTypeId == 3 ? Model.CustomerId : null,
+                        Description = Model.Description,
+                        CostCenterId = Context.AccountTrees.FirstOrDefault(x => x.AccountId == creditAccountId)?.CostCenterId
+                    });
 
-                return entry;
+                    JournalEntryModel entry = new JournalEntryModel
+                    {
+                        //EntryNumber = GenerateNewEntryNumber(Model.ReleaseDate.Month, Model.ReleaseDate.Year);
+                        DocNumber = Model.DocNumber,
+                        EntryDate = Model.ReleaseDate,
+                        Description = Model.Description,
+                        JournalTypeId = (int)EntryType.Cashing,
+                        PeriodId = Context.ReceiptLedgers.Single(x => x.ReceiptLedgerId == Model.ReceiptLedgerId).FinancialPeriodId,
+                        ActionTypeId = (int)JournalActionType.CashPayment,
+                        ActionId = Model.PaymentTypeId,
+                        Month = Model.ReleaseDate.Month,
+                        Year = Model.ReleaseDate.Year,
+                        JournalEntryAccounts = accounts
+                    };
+
+                    return entry;
+                }
+                else
+                    throw new Exception("لا يوجد حساب للعملاء فى شجرة الحسابات , يرجى إضافة حساب عملاء");
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("فشل فى حفظ القيد");
             }
         }
 

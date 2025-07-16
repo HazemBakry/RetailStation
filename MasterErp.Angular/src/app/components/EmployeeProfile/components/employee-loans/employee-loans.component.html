@@ -144,7 +144,9 @@
                             <td>{{item.loanAmount}}</td>
                             <td>{{item.paymentAmount}}</td>
                             <td>
-                                <div appColorWithStatus status="isApproved" [text]="item.isApproved"></div>
+                                <!-- <div appColorWithStatus status="isApproved" [text]="item.isApproved"></div> -->
+                                <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
+                                </span>
                             </td>
                             <td class="word-break">{{item.notes}}</td>
                             <td>

@@ -110,6 +110,20 @@ namespace MasterErp.API.Controllers.HR
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("GetVacationsToBeExceuted")]
+        public IActionResult GetVacationsToBeExceuted()
+        {
+            var data = _vacationService.GetVacationsToBeExceuted();
+            var result = new PagedResponseModel<EmployeeVacationDto>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = 1,
+                CurrentPage = 9999
+            };
+            return Ok(result);
+        }
 
     }
 }

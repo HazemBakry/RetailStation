@@ -175,7 +175,7 @@ namespace MasterErp.Service.HR
             try
             {
                 var dues = Context.EmployeeDues.FirstOrDefault(i => i.EmployeeDueId == EmployeeDuesId);
-                if (dues != null && dues.WorkflowStatusId !=(int)FinanceWorkflowStatus.Paid)
+                if (dues != null && dues.WorkflowStatusId !=(int)WorkflowStatus.Completed)
                 {
                     Context.Remove(dues);
                     Context.SaveChanges();
@@ -217,7 +217,7 @@ namespace MasterErp.Service.HR
             decimal calculatedSalary = dailySalary * workingDays;
 
 
-            var advances = _employeeAdvancesService.GetAdvancePaymentsData(new SearchFilterModel { CurrentPage = 1, PageSize = 100  },EmployeeId).Where(x=>x.WorkflowStatusId  != (int)PaymentWorkflowStatus.Paid).ToList();
+            var advances = _employeeAdvancesService.GetAdvancePaymentsData(new SearchFilterModel { CurrentPage = 1, PageSize = 100  },EmployeeId).Where(x=>x.WorkflowStatusId  != (int)WorkflowStatus.Completed).ToList();
             if(advances.Any())
             {
                 Model.Advances = advances.Sum(x => x.MoneyAmount);
@@ -355,7 +355,7 @@ namespace MasterErp.Service.HR
             model.LastPaidSalaryYear = latestPaidSalary?.SalaryYear ?? model.LastJoinDate?.Year ;
 
 
-            var advances = _employeeAdvancesService.GetAdvancePaymentsData(new SearchFilterModel { CurrentPage = 1, PageSize = 100 }, employeeId).Where(x => x.WorkflowStatusId != (int)PaymentWorkflowStatus.Paid).ToList();
+            var advances = _employeeAdvancesService.GetAdvancePaymentsData(new SearchFilterModel { CurrentPage = 1, PageSize = 100 }, employeeId).Where(x => x.WorkflowStatusId != (int)WorkflowStatus.Completed).ToList();
             if (advances.Any())
             {
                 model.Advances = advances.Sum(x => x.MoneyAmount);
@@ -504,7 +504,7 @@ namespace MasterErp.Service.HR
                 Advances = (float?)model.Advances,
                 NetAmount = (float?)model.TotalDueAmount,
                 TotalDuesAmount = (float?)model.TotalDueAmount,
-                WorkflowStatusId = (int)FinanceWorkflowStatus.Pending,
+                WorkflowStatusId = (int)WorkflowStatus.Pending,
                 VacationId = model.VacationId,
                 CreatedBy = "",
                 CreatedDate = DateTime.Now

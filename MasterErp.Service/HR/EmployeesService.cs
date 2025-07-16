@@ -497,6 +497,56 @@ namespace MasterErp.Service.HR
             }
         }
 
+        public ActionsResponseModel UpdateEmployeeLastJoinDate(int EmployeeId, DateTime LastJoinDate)
+        {
+            try
+            {
+                var employee = Context.Employees.FirstOrDefault(e => e.EmployeeId == EmployeeId);
+                if (employee == null)
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Invalid Employee." };
+                }
+                else
+                {
+                    employee.LastJoinDate = LastJoinDate;
+                    employee.StatusId = (int)EmployeeStatus.Active;
+                    Context.SaveChangesAsync();
+
+                    return new ActionsResponseModel { IsSuccess = true, Message = "Employee last join date updated successfully." };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel EditEmployeesWorkStatus(string UserId, List<int> EmployeeIds)
+        {
+            try
+            {
+                var employees = Context.Employees.Where(item => EmployeeIds.Contains(item.EmployeeId)).ToList();
+
+                if (!employees.Any())
+                    return new ActionsResponseModel { IsSuccess = false, Message = "لا يوجد قيود !" };
+
+                foreach (var emp in employees)
+                {
+                    emp.StatusId = 18;
+                }
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "تم تعديل حالة الموظفين بنجاح" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
         #endregion
 
         #region GetEmployee
@@ -666,6 +716,15 @@ namespace MasterErp.Service.HR
             DataTable result = SQLHelper.ExecuteDataTable("[HR].[SP_GetEmployeesSummary_Filters]", Params, null);
             var GroupFilters = SharedFilterService.GroupedFilter(result);
             return GroupFilters;
+        }
+
+        public List<SelectorDataModel> GetEmployeesByVacationTypes(int VacationTypeId)
+        {
+            SqlParameter[] Params = new SqlParameter[1];
+            Params[0] = new SqlParameter("@VacationTypeId", VacationTypeId);
+
+            var result = SQLHelper.SQLQuery<SelectorDataModel>("[HR].[SP_GetEmployeesByVacationTypes]", null, Params);
+            return result;
         }
 
         public List<StatisticsCardSummary> GetEmployeesSummary()

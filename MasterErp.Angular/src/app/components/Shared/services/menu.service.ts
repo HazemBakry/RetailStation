@@ -114,6 +114,13 @@ export class MenuService {
               icon: 'fa fa-file-signature',
               route: '/general-accounts/dues-requests'
             },
+            {
+              displayName: 'الرواتب الشهرية',
+              menuItem: 'monthly-salaries',
+              description: 'اعتماد الرواتب الشهرية',
+              icon: 'fa fa-file-signature',
+              route: '/general-accounts/monthly-salaries'
+            }
           ]
         },
         {

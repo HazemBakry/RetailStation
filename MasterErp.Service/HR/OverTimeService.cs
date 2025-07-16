@@ -111,7 +111,7 @@ namespace MasterErp.Service.HR
                 overTime.MoneyAmount = model.MoneyAmount;
                 overTime.Notes = model.Notes;
                 overTime.IsActive = model.IsActive;
-                overTime.WorkflowStatusId = (int)HRWorkflowStatus.Pending;
+                overTime.WorkflowStatusId = (int)WorkflowStatus.Pending;
 
                 overTime.CreatedBy = model.CreatedBy;
                 overTime.CreatedDate = DateTime.Now;
@@ -203,7 +203,7 @@ namespace MasterErp.Service.HR
                     return new ActionsResponseModel { IsSuccess = false, Message = "No matching overTimes found." };
                 }
 
-                int newStatus = isApproved ? (int)HRWorkflowStatus.Approved : (int)HRWorkflowStatus.Rejected;
+                int newStatus = isApproved ? (int)WorkflowStatus.Approved : (int)WorkflowStatus.Rejected;
 
                 foreach (var overTime in overTimes)
                 {
