@@ -12,6 +12,7 @@ namespace MasterErp.Entities.DTOs.HR
     {
         public int? EmployeeId { get; set; }
         public string EmployeeName { get; set; }
+        public string EmployeeCode { get; set; }
         public int? EmployeeStatusId { get; set; }
         public int? VacationId { get; set; }
         public int VacationTypeId { get; set; }

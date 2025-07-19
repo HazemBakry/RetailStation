@@ -51,8 +51,10 @@ namespace MasterErp.Entities.DTOs.HR
         public string SocialStatusNameEN { get; set; }//
         public string Phone { get; set; }//
         public string Email { get; set; }//
-        public int? SocialStatusId { get; set; }//
-
+        public int? SocialStatusId { get; set; }
+        public DateTime? IqamaExpireDate { get; set; }
+        public DateTime? DrivingLicenseExpireDate { get; set; }
+        public DateTime? PassportExpireDate { get; set; }
         public string Image { get; set; }
         public string FilesPath { get; set; }
         public int TotalCount { get; set; }

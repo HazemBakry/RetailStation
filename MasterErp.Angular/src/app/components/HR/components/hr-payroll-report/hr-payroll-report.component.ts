@@ -41,7 +41,6 @@ export class HRPayrollReportComponent implements OnInit {
     }
   }
 
-
   constructor(private hrService: HrService,
     private sharedService: SharedService,
     private modalService: NgbModal,
@@ -66,9 +65,9 @@ export class HRPayrollReportComponent implements OnInit {
     this.hrService.GetPayrollReportData(type, this.pagedFilterModel).subscribe(data => {
       this.pagedResponseModel.results = data;
       this.pagedResponseModel.totalCount = data[0]?.totalCount ?? 0;
-      this.pagedResponseModel.results.forEach(element => {
-        element.processType = typeName;
-      });
+      // this.pagedResponseModel.results.forEach(element => {
+      //   element.processType = typeName;
+      // });
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
@@ -131,8 +130,8 @@ export class HRPayrollReportComponent implements OnInit {
      this.isApprove=isApprove;
     this.modalService.open(content, { centered: true, size: 'md' });
   }
+
   approve() {
-   
     let rowsId = this.getSelectedRows();
     if (!rowsId?.length)
       return;

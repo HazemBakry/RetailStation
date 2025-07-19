@@ -27,6 +27,7 @@ namespace MasterErp.Interface.HR
         DuesPreparationModel GetEmployeeDuesPreparationDate(int employeeId, DueType DueType, DuesPreparationModel model);
         EmployeeDueModel CalculateEmployeeDue(int EmployeeId, EmployeeDueModel Model);
         ActionsResponseModel SaveEmployeeDue(int EmployeeId, DuesPreparationModel Model);
+        ActionsResponseModel ApproveEmployeeDues(bool isApproved, List<int> advanceIds);
         #endregion
 
     }

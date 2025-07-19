@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PaymentService } from '../../services/payment.service';
 import { ToastrService } from 'ngx-toastr';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { ReceiveReceipt } from '../../models/GeneralAccounts/ReceiveReceipt';
+import { GeneralAccountService } from '../../services/general-account.service';
+import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { JournalEntryModel } from '../../models/GeneralAccounts/JurnalEntryModel';
 
 @Component({
   selector: 'app-receive-receipts',
@@ -25,8 +28,14 @@ export class ReceiveReceiptsComponent implements OnInit {
     currentPage: 1,
     searchText: ''
   };
+  selectedEntryModel: JournalEntryModel = {} as JournalEntryModel;
+  @ViewChild('DetailsSidePanel', { static: true }) DetailsSidePanel: TemplateRef<any>;
 
-  constructor(private paymentService: PaymentService, private toaster: ToastrService) { }
+
+  constructor(private paymentService: PaymentService,
+    private generalService: GeneralAccountService,
+    private offcanvasService: NgbOffcanvas,
+    private toaster: ToastrService) { }
 
   ngOnInit(): void {
     this.getReceiveReceiptsSummary();
@@ -51,6 +60,31 @@ export class ReceiveReceiptsComponent implements OnInit {
     this.FilterModel.currentPage = obj.page;
     this.getReceiveReceiptsSummary();
   }
+
+  openSidePanel(entryId: number, content: any = null) {
+    //this.EntryId = journalEntryId;
+    this.getEntryDetailsByEntryId(entryId);
+    if (content == null)
+      this.offcanvasService.open(this.DetailsSidePanel, { panelClass: 'details-panel', position: 'end' });
+    else
+      this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
+  }
+
+  getEntryDetailsByEntryId(entryId: number) {
+    this.showLoader = true;
+    this.generalService.GetEntryDetailsByEntryId(entryId).subscribe(data => {
+      if (data) {
+        this.selectedEntryModel = data;
+      }
+      this.showLoader = false;
+    }, (error) => {
+      this.showLoader = false;
+
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+
 
   cancelReceipt(receiptId: number) {
     this.paymentService.CancelReceiveReceipt(receiptId).subscribe(data => {

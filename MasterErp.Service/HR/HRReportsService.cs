@@ -127,6 +127,21 @@ namespace MasterErp.Service.HR
             return result;
         }
 
+        public DataTable GetPayrollReportEmployeesDues(SearchFilterModel SearchModel)
+        {
+            var SearchText = SearchModel.FilterModel.FilterItems.Where(x => x.CategoryName == "SearchText").Select(x => x.ItemFlag).FirstOrDefault();
+
+            SqlParameter[] Params = new SqlParameter[5];
+            Params[0] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            Params[1] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            Params[2] = new SqlParameter("@SearchText", SearchText ?? (object)DBNull.Value);
+            Params[3] = new SqlParameter("@FromDate", SearchModel.FromDate ?? (object)DBNull.Value);
+            Params[4] = new SqlParameter("@ToDate", SearchModel.ToDate ?? (object)DBNull.Value);
+
+            var result = _sQLHelper.ExecuteDataTable("[HR].[SP_GetPayrollReportEmployeesDues]", Params, null);
+            return result;
+        }
+
         public ActionsResponseModel ExportPayrollReportVacations(SearchFilterModel model)
         {
             string url = string.Empty;
@@ -284,6 +299,36 @@ namespace MasterErp.Service.HR
             {
                 model.PageSize = 50000;
                 var dtExport = GetPayrollReportAdvances(model);
+                dtExport.Columns.Remove("TotalCount");
+                dtExport.Columns.Remove("EmployeeID");
+                url = GetExportUrl(dtExport, "Employee Advances Report");
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = "Server error",
+                };
+            }
+        }
+
+        public ActionsResponseModel ExportPayrollReportEmployeesDues(SearchFilterModel model)
+        {
+            string url = string.Empty;
+            try
+            {
+                model.PageSize = 50000;
+                var dtExport = GetPayrollReportEmployeesDues(model);
                 dtExport.Columns.Remove("TotalCount");
                 dtExport.Columns.Remove("EmployeeID");
                 url = GetExportUrl(dtExport, "Employee Advances Report");

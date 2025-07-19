@@ -91,7 +91,7 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
       drivingLicenseNumber: [null, [CustomValidators.regexPattern(RegexType.number)]],
       drivingLicenseIssueDate: [null],
       drivingLicenseExpireDate: [null],
-      vehicleId: [null, [CustomValidators.regexPattern(RegexType.number)]],
+      vehicleId: [null],
       vehicleNumber: [null],
       vehicleCode: [null],
 

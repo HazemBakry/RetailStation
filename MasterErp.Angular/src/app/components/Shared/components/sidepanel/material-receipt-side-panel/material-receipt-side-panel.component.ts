@@ -62,7 +62,6 @@ export class MaterialReceiptSidePanelComponent implements OnInit {
     this.mapFilters();
     this.showLoader = true;
     this.inventoryService.GetMaterialReceipts_Data(this.pagedResponseModel).subscribe((data: PagedResponseDTO<MaterialReceiptModel[]>) => {
-      // console.log("data",data);
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
       this.showLoader = false;
@@ -74,7 +73,6 @@ export class MaterialReceiptSidePanelComponent implements OnInit {
 
 
     // this.inventoryService.GetOrdersSearchData(this.SupplierId,this.orderNumber,this.orderDate).subscribe(data => {
-    //   // console.log("data",data);
     //   this.OrdersList=data;
     //   this.showLoader=false;
     // },(err)=>{

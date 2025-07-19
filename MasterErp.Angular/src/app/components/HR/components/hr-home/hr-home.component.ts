@@ -121,7 +121,6 @@ export class HrHomeComponent implements OnInit {
   // getEmployeesSummary() {
   //   this.hrService.GetEmployeesSummary().subscribe(data => {
   //     this.overviewList = data;
-  //     console.log(data);
   //   });
   // }
 

@@ -282,22 +282,41 @@ namespace MasterErp.Service.HR
 
         public List<EmployeeVacationDto> GetVacationsToBeExceuted()
         {
-            var vacations = Context.Vacations.Where(x => x.LastDayWork <= DateTime.Now && x.WorkflowStatusId == (int)WorkflowStatus.Approved).Select(x => new EmployeeVacationDto
-            {
-                VacationId = x.VacationId,
-                EmployeeId = x.EmployeeId,
-                BranchName = Context.Branches.FirstOrDefault(x => x.BranchId == x.BranchId).NameAR ?? "",
-                EmployeeName = Context.Employees.FirstOrDefault(x => x.EmployeeId == x.EmployeeId).FullNameAR ?? "",
-                CreatedDate = x.CreatedDate,
-                FromDate = x.FromDate,
-                ToDate = x.ToDate,
-                LastDayWork = x.LastDayWork,
-                Period = x.Period
-            }).ToList();
+            SqlParameter[] param = new SqlParameter[0];
+            var result = SQLHelper.SQLQuery<EmployeeVacationDto>("[HR].[SP_GetVacationsToBeExceuted]", null, param);
 
-            return vacations;
+            return result;
         }
 
-        
+        public ActionsResponseModel EditEmployeesWorkStatus(string UserId, List<int> EmployeeIds)
+        {
+            try
+            {
+                var emps = Context.Employees.Where(item => EmployeeIds.Contains(item.EmployeeId)).ToList();
+
+                if (!emps.Any())
+                    return new ActionsResponseModel { IsSuccess = false, Message = "لا يوجد موظفين !" };
+
+                foreach (var employee in emps)
+                {
+                    employee.StatusId = 2;
+                    employee.ModifiedDate = DateTime.Now;
+                    employee.ModifiedBy = UserId;
+                }
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "تم تعديل حالة الموظف بنجاح" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+
+
     }
 }

@@ -220,6 +220,8 @@ namespace MasterErp.Service.HR
                     employeeContract.VacationEvery = model.VacationEvery;
                     employeeContract.VacationDays = model.VacationDays;
                     employeeContract.IsGossi = model.IsGossi;
+                    employeeContract.JoinDate = model.JoinDate;
+                    employeeContract.LastJoinDate = model.LastJoinDate;
                     employeeContract.ModifiedBy = model.ModifiedBy;
                     employeeContract.ModifiedDate = DateTime.Now;
 
@@ -258,6 +260,8 @@ namespace MasterErp.Service.HR
                     employeeContract.VacationEvery = model.VacationEvery;
                     employeeContract.VacationDays = model.VacationDays;
                     employeeContract.IsGossi = model.IsGossi;
+                    employeeContract.JoinDate = model.JoinDate;
+                    employeeContract.LastJoinDate = model.LastJoinDate;
                     employeeContract.CreatedBy = model.CreatedBy;
                     employeeContract.CreatedDate = DateTime.Now;
 
@@ -816,6 +820,12 @@ namespace MasterErp.Service.HR
                 };
             }
         }
+
+        public List<Sponsor> GetSponsorData()
+        {
+            var results = Context.Sponsors.ToList();
+            return results;
+        }
         private string GetExportUrl(DataTable DT, string Name)
         {
             DT.TableName = Name;
@@ -842,12 +852,6 @@ namespace MasterErp.Service.HR
         //public List<PassportIssuePlace> GetPassportIssuePlaces()
         //{
         //    var results = Context.PassportIssuePlaces.ToList();
-        //    return results;
-        //}
-
-        //public List<Sponsor> GetSponsorData()
-        //{
-        //    var results = Context.Sponsors.ToList();
         //    return results;
         //}
 

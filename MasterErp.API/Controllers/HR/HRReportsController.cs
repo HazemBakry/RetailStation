@@ -24,44 +24,51 @@ namespace MasterErp.API.Controllers.HR
         }
 
         [HttpPost("GetPayrollReportVacations")]
-        public DataTable GetPayrollReportVacations([FromBody] SearchFilterModel searchModel)
+        public DataTable GetPayrollReportVacations(SearchFilterModel searchModel)
         {
             var result =_hrReportService.GetPayrollReportVacations(searchModel);
             return result;
         }
 
         [HttpPost("GetPayrollReportOverTime")]
-        public DataTable GetPayrollReportOverTime([FromBody] SearchFilterModel searchModel)
+        public DataTable GetPayrollReportOverTime(SearchFilterModel searchModel)
         {
             var result =_hrReportService.GetPayrollReportOverTime(searchModel);
             return result;
         }
 
         [HttpPost("GetPayrollReportPenalties")]
-        public DataTable GetPayrollReportPenalties([FromBody] SearchFilterModel searchModel)
+        public DataTable GetPayrollReportPenalties(SearchFilterModel searchModel)
         {
             var result =_hrReportService.GetPayrollReportPenalties(searchModel);
             return result;
         }
 
         [HttpPost("GetPayrollReportSickLeaves")]
-        public DataTable GetPayrollReportSickLeaves([FromBody] SearchFilterModel searchModel)
+        public DataTable GetPayrollReportSickLeaves(SearchFilterModel searchModel)
         {
             var result =_hrReportService.GetPayrollReportSickLeaves(searchModel);
             return result;
         }
 
         [HttpPost("GetPayrollReportDeducts")]
-        public DataTable GetPayrollReportDeducts([FromBody] SearchFilterModel searchModel)
+        public DataTable GetPayrollReportDeducts(SearchFilterModel searchModel)
         {
             var result =_hrReportService.GetPayrollReportDeducts(searchModel);
             return result;
         }
 
         [HttpPost("GetPayrollReportAdvances")]
-        public DataTable GetPayrollReportAdvances([FromBody] SearchFilterModel searchModel)
+        public DataTable GetPayrollReportAdvances(SearchFilterModel searchModel)
         {
             var result =_hrReportService.GetPayrollReportAdvances(searchModel);
+            return result;
+        }
+
+        [HttpPost("GetPayrollReportEmployeesDues")]
+        public DataTable GetPayrollReportEmployeesDues(SearchFilterModel searchModel)
+        {
+            var result = _hrReportService.GetPayrollReportEmployeesDues(searchModel);
             return result;
         }
 
@@ -104,6 +111,13 @@ namespace MasterErp.API.Controllers.HR
         public ActionsResponseModel ExportPayrollReportAdvances(SearchFilterModel model)
         {
             var result =_hrReportService.ExportPayrollReportAdvances(model);
+            return result;
+        }
+
+        [HttpPost("ExportPayrollReportEmployeesDues")]
+        public ActionsResponseModel ExportPayrollReportEmployeesDues(SearchFilterModel model)
+        {
+            var result = _hrReportService.ExportPayrollReportAdvances(model);
             return result;
         }
 

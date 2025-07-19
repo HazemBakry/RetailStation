@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { EmployeeModel } from '../../models/Employee/EmployeeModel';
 import { environment } from 'src/environments/environment';
+import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 @Component({
   selector: 'app-hr-employees',
   templateUrl: './hr-employees.component.html',
@@ -23,7 +24,8 @@ export class HrEmployeesComponent implements OnInit {
   filterList: FilterModel[] = [];
   TitleList = ['Users', 'Users'];
   BranchName = 'Branches';
-  systemUrl:string=environment.systemUrl
+  showExportLoader: boolean = false;
+  systemUrl: string = environment.systemUrl
   defaultImage = `${this.systemUrl}assets/images/av-8.png`;
 
   SearchText = '';
@@ -34,14 +36,14 @@ export class HrEmployeesComponent implements OnInit {
   StartIndex = 0;
   BranchValidate = false;
   selectedEmployee: any;
-  showLoader: boolean=false;
+  showLoader: boolean = false;
 
-  pagedResponseModel:PagedResponseDTO<EmployeeModel[]>={
-    results:[],
-    filterList:[],
-    pageSize: 10,
-    currentPage:1,
-    searchText:''
+  pagedResponseModel: PagedResponseDTO<EmployeeModel[]> = {
+    results: [],
+    filterList: [],
+    pageSize: 20,
+    currentPage: 1,
+    searchText: ''
   };
 
 
@@ -55,7 +57,7 @@ export class HrEmployeesComponent implements OnInit {
   }
 
   getEmployeesSummary_Data() {
-    this.showLoader=true;
+    this.showLoader = true;
     this.hrService.GetEmployeesSummary_Data(this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data?.results;
       this.pagedResponseModel.totalCount = data?.totalCount;
@@ -121,13 +123,30 @@ export class HrEmployeesComponent implements OnInit {
     }
   }
 
+  exportData() {
+    this.showExportLoader = true;
+    this.hrService.ExportEmployeesSummaryData(this.pagedResponseModel).subscribe((data: ActionsResponseModel) => {
+      if (data.isSuccess) {
+        this.sharedService.urlDownloadOrOpen(data.url);
+        this.toaster.success(data.message);
+      } else {
+        this.toaster.error(data.message);
+      }
+      this.showExportLoader = false;
+    }, err => {
+      this.showExportLoader = false;
+    }, () => {
+      this.showExportLoader = false;
+    });
+  }
+
   // showEmployeeCardData(item: EmployeeModel) {
   //   this.pagedResponseModel.results.map(emp => {
   //     emp.isChecked = false;
   //   });
   //   item.isChecked = true;
   //   this.selectedEmployee = item;
-    
+
   // }
 
 }

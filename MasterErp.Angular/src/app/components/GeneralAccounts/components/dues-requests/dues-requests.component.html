@@ -51,15 +51,15 @@
                         <th>اسم الموظف</th>
                         <th>الفرع</th>
                         <th>الوظيفة</th>
-                        <th> من تاريخ</th>
+                        <th>من تاريخ</th>
                         <th>الي تاريخ</th>
                         <th>تاريخ التنفيذ</th>
                         <th>نوع المستحقات</th>
-                        <th>مستحقات الاجازه</th>
+                        <!-- <th>مستحقات الاجازه</th>
                         <th>مستحقات نهاية الخدمه</th>
                         <th>راتب الشهر</th>
                         <th>المنزل</th>
-                        <th>السلف</th>
+                        <th>السلف</th> -->
                         <th>اجمالي المستحقات</th>
                         <th>الحالة</th>
 
@@ -77,12 +77,12 @@
                         <td>{{item.lastJoinDate| date}}</td>
                         <td>{{item.executionDate | date}}</td>
                         <td>{{item.dueTypeNameAR ?? item.dueTypeNameEN}}</td>
-                        <td>{{item.vacationDues}}</td>
-                        <td>{{item.endOfServiceDues}}</td>
-                        <td>{{item.salaryDues}}</td>
-                        <td>{{item.homeAllowance}}</td>
-                        <td>{{item.advances}}</td>
-                        <td>{{item.totalDuesAmount}}</td>
+                        <!-- <td>{{item.vacationDues | number:'1.2-2'}}</td>
+                        <td>{{item.endOfServiceDues | number:'1.2-2'}}</td>
+                        <td>{{item.salaryDues | number:'1.2-2'}}</td>
+                        <td>{{item.homeAllowance | number:'1.2-2'}}</td>
+                        <td>{{item.advances | number:'1.2-2'}}</td> -->
+                        <td>{{item.totalDuesAmount | number:'1.2-2'}}</td>
                         <td>
                             <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
                             </span>

@@ -1,4 +1,5 @@
 ﻿using MasterErp.Entities.Common;
+using MasterErp.Entities.Common.Lookups;
 using MasterErp.Entities.Models;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.Shared;
@@ -148,10 +149,11 @@ namespace MasterErp.Service.Shared
             return result;
         }
         
-        public List<SelectorDataModel> GetReceiptTypes(string GroupName)
+        public List<SelectorDataModel> GetReceiptTypes(string GroupName, int PaymentTypeId)
         {
-            SqlParameter[] Params = new SqlParameter[1];
+            SqlParameter[] Params = new SqlParameter[2];
             Params[0] = new SqlParameter("@GroupName", (object)GroupName ?? DBNull.Value);
+            Params[1] = new SqlParameter("@PaymentTypeId", (object)PaymentTypeId ?? DBNull.Value);
 
             var result = SQLHelper.SQLQuery<SelectorDataModel>("[Finance].[SP_GetReceiptTypes]", ConnectionString, Params);
             return result;

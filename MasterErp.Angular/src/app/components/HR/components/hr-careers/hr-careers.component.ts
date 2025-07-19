@@ -142,7 +142,6 @@ export class HrCareersComponent implements OnInit {
   }
 
   addNewEmployeeCareer() {
-    debugger;
     this.showAddLoader = true;
     this.hrService.AddNewEmployeeCareer(this.selectedEmployeeId, this.employeeCareerModel).subscribe(data => {
       if (data?.isSuccess) {

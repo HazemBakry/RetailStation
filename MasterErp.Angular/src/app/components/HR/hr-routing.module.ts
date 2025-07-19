@@ -38,6 +38,7 @@ import { HrEmployeesSalaryAnnualIncreaseReportComponent } from './components/hr-
 import { AuthPageGuard } from 'src/app/Auth/authPage.guard';
 import { HRSalariesReportComponent } from './components/hr-salaries-report/hr-salaries-report.component';
 import { HrJobsComponent } from './components/hr-jobs/hr-jobs.component';
+import { HrRegionsComponent } from './components/hr-regions/hr-regions.component';
 
 
 const routes: Routes = [
@@ -49,13 +50,13 @@ const routes: Routes = [
         path: 'home',
         // component: HrHomeComponent
         component: HrDashboardComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'HrDashboard' }
       },
       {
         path: 'employees',
         component: HrEmployeesComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'employees' }
       },
       {
@@ -92,13 +93,13 @@ const routes: Routes = [
       {
         path: 'vacations',
         component: HrVacationComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'Vacations' }
       },
       {
         path: 'careers',
         component: HrCareersComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'Careers' }
       },
       // {
@@ -108,32 +109,32 @@ const routes: Routes = [
       {
         path: 'attendance-report',
         component: HrAttendanceReportComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'AttendanceReport' }
       },
       {
         path: 'sick-leaves',
         component: HrSickLeaveComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'SickLeaves' }
       },
       {
         path: 'over-time',
         component: HrOverTimeComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'OverTime' }
       },
       {
         path: 'penalty',
         component: HrPenaltyComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'Penalties' }
       },
       {
         path: 'salary',
         // component: HrSalaryComponent
         component: HrEmployeesSalariesComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'Salaries' }
       },
       {
@@ -145,55 +146,55 @@ const routes: Routes = [
       {
         path: 'loans-payments',
         component: HrLoansPaymentsComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'LoanPayments' }
       },
       {
         path: 'advances',
         component: HrAdvancesComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'Advances' }
       },
       {
         path: 'advances-payments',
         component: HrAdvancePaymentsComponent,
-        canActivate: [AuthPageGuard],
+        // canActivate: [AuthPageGuard],
         data: { pageName: 'AdvancePayments' }
       },
       {
         path: 'employees-report',
         component: HREmployeesReportComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'EmployeesReport' }
       },
       {
         path: 'iqama-report',
         component: HRIqamaReportComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'IqamaReport' }
       },
       {
         path: 'payroll-report',
         component: HRPayrollReportComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'PayrollReport' }
       },
       {
         path: 'expire-report',
         component: HrEmployeeExpireReportComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'ExpireReport' }
       },
       {
         path: 'new-comer-report',
         component: HrNewComerEmployeesReportComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'NewComersReport' }
       },
       {
         path: 'annual-increase-report',
         component: HrEmployeesSalaryAnnualIncreaseReportComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'SalaryAnnualIncreaseReport' }
       },
       {
@@ -205,25 +206,25 @@ const routes: Routes = [
       {
         path: 'advances-report',
         component: HrAdvancesReportsComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'AdvancesReport' }
       },
       {
         path: 'employee-dues',
         component: HrEmployeeDuesComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'EmployeeDues' }
       },
       {
         path: 'sponsors',
         component: HrSponsorsComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'Sponsors' }
       },
       {
         path: 'departments',
         component: HrDepartmentsComponent,
-        canActivate: [AuthPageGuard],
+        //canActivate: [AuthPageGuard],
         data: { pageName: 'Departments' }
       },
       {
@@ -231,6 +232,12 @@ const routes: Routes = [
         component: HrJobsComponent,
         // canActivate: [AuthPageGuard],
         data: { pageName: 'Jobs' }
+      },
+      {
+        path: 'regions',
+        component: HrRegionsComponent,
+        // canActivate: [AuthPageGuard],
+        data: { pageName: 'Regions' }
       },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]

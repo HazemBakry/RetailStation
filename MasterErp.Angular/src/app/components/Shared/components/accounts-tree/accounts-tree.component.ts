@@ -34,7 +34,6 @@ export class AccountsTreeComponent implements OnInit {
       this.toaster.warning('please select parent account');
       return;
     }
-    // console.log(" account:", account);
     this.selectedAccount.emit(account);
   }
 

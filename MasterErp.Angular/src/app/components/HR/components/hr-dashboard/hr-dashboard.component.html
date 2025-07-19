@@ -232,14 +232,13 @@
                         <div class="col-lg-6">
                             <div class="mb-2">
                                 <label class="form-label d-flex align-items-center gap-2">حالة الموظف</label>
-                                <app-general-selector [(ngModel)]="workflowStatusId" [showSearch]="true" [data]="employeeStatusSelector" [placeholder]="'حالة الموظف'"></app-general-selector>
-
+                                <app-general-selector [disabled]="true" [(ngModel)]="workflowStatusId" [showSearch]="true" [data]="employeeStatusSelector" [placeholder]="'حالة الموظف'"></app-general-selector>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-start m-3">
-                    <button (click)="offcanvas.dismiss()" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2" (click)="editSelectedEmployeeStatus()">
+                    <button (click)="editSelectedEmployeeStatus()" class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3" (click)="editSelectedEmployeeStatus()">
                         <i class="uil uil-pen"></i>
                         <span>تعديل</span>
                     </button>
@@ -262,6 +261,7 @@
                             <th class="min-width-50 width-50 max-width-50">
                                 <input type="checkbox" [(ngModel)]="selectAll" (change)="selectAllData()" class="big-checkbox cursor-pointer" />
                             </th>
+                            <th>الرقم الوظيفى</th>
                             <th>اسم الموظف</th>
                             <th>نوع الأجازة</th>
                             <th>من تاريخ</th>
@@ -273,6 +273,7 @@
                         <tr *ngFor="let item of employeesVacations">
                             <td><input type="checkbox" class="big-checkbox" [(ngModel)]="item.isChecked">
                             </td>
+                            <td>{{item.employeeCode}}</td>
                             <td>{{item.employeeName}}</td>
                             <td>{{item.vacationType}}</td>
 

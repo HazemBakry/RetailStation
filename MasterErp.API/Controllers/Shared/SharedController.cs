@@ -39,9 +39,9 @@ namespace MasterErp.API.Controllers.Shared
 
         [HttpGet]
         [Route("GetReceiptLedgersSelector")]
-        public IActionResult GetReceiptLedgersSelector()
+        public IActionResult GetReceiptLedgersSelector(int PaymentTypeId)
         {
-            var results = _sharedService.GetReceiptLedgersSelector();
+            var results = _sharedService.GetReceiptLedgersSelector(PaymentTypeId);
             return Ok(results);
         }
 

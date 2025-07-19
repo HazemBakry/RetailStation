@@ -38,12 +38,12 @@ namespace MasterErp.Service.Shared
             return Context.DailyNotebooks.ToList();
         }
 
-        public List<SelectorDataModel> GetReceiptLedgersSelector()
+        public List<SelectorDataModel> GetReceiptLedgersSelector(int PaymentTypeId)
         {
-            var results = Context.ReceiptLedgers.Select(b => new SelectorDataModel
+            var results = Context.ReceiptLedgers.Where(x => x.PaymentTypeId == PaymentTypeId).Select(b => new SelectorDataModel
             {
                 Id = b.ReceiptLedgerId,
-                Name = b.NameEN,
+                Name = b.NameEN ?? "",
             }).ToList();
             return results;
         }
@@ -186,7 +186,7 @@ namespace MasterErp.Service.Shared
         {
             var results = Context.Regions.Select(b => new SelectorDataModel
             {
-                Id = b.RegionId,
+                Id = (int)b.RegionId,
                 Name = b.NameAR,
             }).ToList();
             return results;

@@ -31,7 +31,6 @@ export class InvoiceDetailsSidepanelComponent implements OnInit {
     }
     this.showLoader = true;
     this.purchaseService.GetPurchaseInvoiceDetails(this.invoiceId).subscribe(data => {
-      // console.log("data",data);
       if (data) {
         this.invoiceData = data[0];
       }

@@ -262,16 +262,16 @@ export class JournalDailyListComponent implements OnInit {
 
   openSidePanel(journalEntryId: number, content: any = null) {
     this.EntryId = journalEntryId;
-    this.getEntryDetailsById(journalEntryId);
+    this.getEntryDetailsByEntryId(journalEntryId);
     if (content == null)
       this.offcanvasService.open(this.DetailsSidePanel, { panelClass: 'details-panel', position: 'end' });
     else
       this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
   }
 
-  getEntryDetailsById(journalEntryId: number) {
+  getEntryDetailsByEntryId(journalEntryId: number) {
     this.showLoader = true;
-    this.generalService.GetJournalEntryDetailsById(journalEntryId).subscribe(data => {
+    this.generalService.GetEntryDetailsByEntryId(journalEntryId).subscribe(data => {
       if (data) {
         this.selectedEntryModel = data;
 
@@ -291,7 +291,7 @@ export class JournalDailyListComponent implements OnInit {
       { categoryName: 'EntryId', itemFlag: this.EntryId }
     ];
     reportParams.ControllerName = 'JournalEntry';
-    reportParams.ApiName = 'GetJournalEntryDetailsById';
+    reportParams.ApiName = 'GetJournalEntryDetailsByEntryId';
     reportParams.MethodType = 'GET';
     reportParams.pageName = 'journal-daily-report';
     reportParams.isLandScape = false;
@@ -299,7 +299,6 @@ export class JournalDailyListComponent implements OnInit {
     this.showLoader = true;
     this.ReportsService.CreateGeneralReport(reportParams, (timeTaken) => {
       this.showLoader = false;
-      console.log(`Generate Report Request Time: ${timeTaken} S`);
     });
   }
 

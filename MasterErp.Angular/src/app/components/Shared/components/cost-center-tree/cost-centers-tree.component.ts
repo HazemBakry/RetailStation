@@ -31,7 +31,6 @@ export class CostCentersTreeComponent implements OnInit {
       });
       this.CreateCenterTreeList();
     });
-    console.log(this.CenterData);
   }
 
   CreateCenterTreeList() {

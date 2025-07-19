@@ -8,6 +8,8 @@ import { SearchReportModel } from 'src/app/components/Reports/Models/ReportParam
 import { CreateReportsService } from 'src/app/components/Reports/Services/create-reports.service';
 import { FinanceWorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { GeneralAccountService } from '../../services/general-account.service';
+import { JournalEntryModel } from '../../models/GeneralAccounts/JurnalEntryModel';
 
 @Component({
   selector: 'app-payment-receipts',
@@ -21,6 +23,7 @@ export class PaymentReceiptsComponent implements OnInit {
     currentPage: 1,
     pageSize: 10
   };
+  selectedEntryModel: JournalEntryModel = {} as JournalEntryModel;
 
   ReceiptList: PagedResponseDTO<ReceiptModel[]> = {
     results: [],
@@ -32,7 +35,8 @@ export class PaymentReceiptsComponent implements OnInit {
   public wfStatus = FinanceWorkflowStatus;
   @ViewChild('DetailsSidePanel', { static: true }) DetailsSidePanel: TemplateRef<any>;
 
-  constructor(private paymentService: PaymentService, 
+  constructor(private paymentService: PaymentService,
+    private generalService: GeneralAccountService,
     private ReportsService: CreateReportsService,
     private offcanvasService: NgbOffcanvas,
     private toaster: ToastrService) { }
@@ -96,10 +100,10 @@ export class PaymentReceiptsComponent implements OnInit {
       return "open";
   }
 
-  PrintData(paymentReceiptId: any) {
+  PrintData(receiptId: any) {
     let reportParams: SearchReportModel = {} as SearchReportModel;
     let filterItems: FilterItem[] = [
-      { categoryName: 'PaymentReceiptId', itemFlag: paymentReceiptId }
+      { categoryName: 'PaymentReceiptId', itemFlag: receiptId }
     ];
     reportParams.ControllerName = 'Payment';
     reportParams.ApiName = 'GetPaymentReceiptDetailsById';
@@ -110,26 +114,30 @@ export class PaymentReceiptsComponent implements OnInit {
     this.showLoader = true;
     this.ReportsService.CreateGeneralReport(reportParams, (timeTaken) => {
       this.showLoader = false;
-      console.log(`Generate Report Request Time: ${timeTaken} S`);
     });
   }
 
-  openSidePanel(receiptId: number, content: any = null) {
-    this.paymentService.CancelPaymentReceipt(receiptId).subscribe(data => {
-      if (data) {
-        this.toaster.success('تم الغاء السند بنجاح');
-        this.GetPaymentReceiptsSummary();
-      }
-      else {
-        this.toaster.error('حدث خطأ اثناء الإلغاء');
-      }
-    }, (error) => {
-      this.toaster.error('حدث خطأ اثناء الإلغاء');
-    })
+  openSidePanel(entryId: number, content: any = null) {
+    //this.EntryId = journalEntryId;
+    this.getEntryDetailsByEntryId(entryId);
     if (content == null)
       this.offcanvasService.open(this.DetailsSidePanel, { panelClass: 'details-panel', position: 'end' });
     else
       this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
   }
 
+  getEntryDetailsByEntryId(entryId: number) {
+    this.showLoader = true;
+    this.generalService.GetEntryDetailsByEntryId(entryId).subscribe(data => {
+      if (data) {
+        this.selectedEntryModel = data;
+      }
+      this.showLoader = false;
+    }, (error) => {
+      this.showLoader = false;
+
+    }, () => {
+      this.showLoader = false;
+    });
+  }
 }

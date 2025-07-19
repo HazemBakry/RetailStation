@@ -83,10 +83,18 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         }
 
         [HttpGet]
-        [Route("GetJournalEntryDetailsById")]
-        public JournalEntryModel GetJournalEntryDetailsById(int EntryId)
+        [Route("GetEntryDetailsByEntryId")]
+        public JournalEntryModel GetEntryDetailsByEntryId(int EntryId)
         {
-            return EntryService.GetJournalEntryDetailsById(EntryId);
+            return EntryService.GetEntryDetailsById(EntryId);
+        }
+
+        [HttpGet]
+        [Route("GetEntryDetailsByReceiptId")]
+        public IActionResult GetEntryDetailsByReceiptId(int ReceiptId, string ReceiptType)
+        {
+            var result = EntryService.GetEntryDetailsByReceiptId(ReceiptId, ReceiptType);
+            return Ok(result);
         }
 
         [HttpPost]
@@ -133,7 +141,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         [Route("EditJournalEntry")]
         public IActionResult EditJournalEntry(int EntryId, JournalEntryModel model)
         {
-            var results = EntryService.EditJournalEntry(EntryId,model);
+            var results = EntryService.EditJournalEntry(EntryId, model);
             return Ok(results);
         }
 
@@ -178,7 +186,7 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         {
             string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
 
-            return Ok(EntryService.PrintJournalEntry(UserId,JournalEntryIds));
+            return Ok(EntryService.PrintJournalEntry(UserId, JournalEntryIds));
         }
     }
 }

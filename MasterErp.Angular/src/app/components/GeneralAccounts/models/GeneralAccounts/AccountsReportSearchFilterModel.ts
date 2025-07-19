@@ -68,8 +68,6 @@ export interface AccountsBalanceSheetModel {
     totalCount?: number;
 }
 
-
-
 /////// cost center 
 
 export interface CostGeneralLedgerModel {

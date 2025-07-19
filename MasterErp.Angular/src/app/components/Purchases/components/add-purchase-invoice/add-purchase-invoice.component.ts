@@ -255,7 +255,6 @@ export class AddPurchaseInvoiceComponent implements OnInit {
       return true;
     } else {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, false)
-      console.log("🚀 ~ AddPurchaseInvoiceComponent ~ validateForm ~ this.formErrors:", this.formErrors)
       return false;
     }
   }
@@ -276,7 +275,6 @@ export class AddPurchaseInvoiceComponent implements OnInit {
     });
   }
   openSaveModal(content: any) {
-    debugger
     if (this.orderDetails.length === 0)
       this.toaster.warning('لا يوجد اصناف');
 

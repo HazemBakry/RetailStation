@@ -72,7 +72,6 @@ namespace MasterErp.Entities.Models
         #region Global
 
         public DbSet<Branch> Branches { get; set; }
-        public DbSet<Region> Regions { get; set; }
         public DbSet<OrderStatus> OrderStatus { get; set; }
 
 
@@ -86,6 +85,7 @@ namespace MasterErp.Entities.Models
         public DbSet<ItemLookups> ItemLookups { get; set; }
         public DbSet<ItemLookupDetails> ItemLookupDetails { get; set; }
         public DbSet<Job> Jobs { get; set; }
+        public DbSet<Region> Regions { get; set; }
 
         public DbSet<Nationality> Nationalities { get; set; }
 

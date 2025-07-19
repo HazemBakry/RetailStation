@@ -109,7 +109,6 @@ export class GeneralAccountsHomeComponent implements OnInit {
   getGeneralAccountsStatistics() {
     this.showLoader = true;
     this.generalAccountService.GetGeneralAccounts_Statistics().subscribe(data => {
-      debugger
       if (data && data.length > 0)
         this.statisticsCardList = data[0];
       this.showLoader = false;

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
-import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { HrService } from '../../services/hr.service';
@@ -23,6 +23,7 @@ export class HrEmployeesSalariesComponent implements OnInit {
   branchSelectorData: GeneralSelectorModel[] = [];
   employeeSelectorData: GeneralSelectorModel[] = [];
   yearsSelectorData: GeneralSelectorModel[] = [];
+  sponsorSelectorData: any[] = [];
   selectAll: boolean = false;
   arabicMonths = [
     "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
@@ -41,6 +42,7 @@ export class HrEmployeesSalariesComponent implements OnInit {
   selectedMonth: number;
   selectedEmployeeId: number;
   selectedBranchId: number;
+  selectedSponsorId: number;
   //totalSummary: EmployeeSalarySummaryModel;
 
   basicSalary: number = 0;
@@ -66,6 +68,7 @@ export class HrEmployeesSalariesComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
+    debugger
     this.loadSelectors();
     // this.getAttendance_Data();
     // this.GetAttendance_Filters();
@@ -75,8 +78,14 @@ export class HrEmployeesSalariesComponent implements OnInit {
     this.sharedService.GetBranchesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.branchSelectorData = data;
     });
+
     this.hrService.GetActiveEmployeesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.employeeSelectorData = data;
+    });
+
+
+    this.hrService.GetSponsorData().subscribe(data => {
+      this.sponsorSelectorData = this.sponsorSelectorData.map(i => { return { name: i.nameAR, value: i.sponsorId } });
     });
 
     const currentYear = new Date().getFullYear();
@@ -171,6 +180,12 @@ export class HrEmployeesSalariesComponent implements OnInit {
   }
 
 
+  filterChecked(filterItems: FilterItem[]) {
+    this.pagedResponseModel.filterList = filterItems;
+    this.getSalaries_Data();
+  }
+
+
   openSaveModal(content: any, isApprove: boolean = true) {
     this.mapFilters();
     if (!this.selectedYear || !this.selectedMonth) {
@@ -182,8 +197,6 @@ export class HrEmployeesSalariesComponent implements OnInit {
 
   approve() {
     this.showAddLoader = true;
-
-    debugger
     let empIds = this.pagedResponseModel.results.filter(item => item.isChecked).map(i => Number(i.employeeId));
     if (!empIds?.length)
       return;
@@ -191,7 +204,6 @@ export class HrEmployeesSalariesComponent implements OnInit {
     empIds.forEach(element => {
       this.pagedResponseModel.filterList.push({ categoryName: 'EmployeeId', itemFlag: element.toString() })
     });
-
 
     this.hrService.ApproveMonthlySalary(this.selectedYear, this.selectedMonth, this.pagedResponseModel).subscribe((data: ActionsResponseModel) => {
       if (data.isSuccess) {

@@ -47,11 +47,11 @@ export class HrService {
       value: 3,
       name: "الجزاءات",
     },
-    {
-      id: 4,
-      value: 4,
-      name: "الاجازات المرضية",
-    },
+    // {
+    //   id: 4,
+    //   value: 4,
+    //   name: "الاجازات المرضية",
+    // },
     {
       id: 5,
       value: 5,
@@ -62,6 +62,11 @@ export class HrService {
       value: 6,
       name: "السلف",
     },
+    {
+      id: 7,
+      value: 7,
+      name: "طلبات مستحقات الموظفين",
+    }
   ];
 
 
@@ -76,6 +81,7 @@ export class HrService {
       [4, () => this.GetPayrollReportSickLeaves(model)],
       [5, () => this.GetPayrollReportDeducts(model)],
       [6, () => this.GetPayrollReportAdvances(model)],
+      [7, () => this.GetPayrollReportEmployeesDues(model)],
     ]).get(type);
 
     if (fetchFn) return fetchFn();
@@ -101,6 +107,7 @@ export class HrService {
       [4, () => this.ApproveEmployeeSickLeaves(rowsId, isApproved)],
       [5, () => this.ApproveEmployeeDeducts(rowsId, isApproved)],
       [6, () => this.ApproveEmployeeAdvances(rowsId, isApproved)],
+      [7, () => this.ApproveEmployeeDues(rowsId, isApproved)],
     ]).get(type);
 
     if (fetchFn) return fetchFn();
@@ -125,6 +132,10 @@ export class HrService {
   ApproveEmployeeAdvances(employeeAdvancesId: number[], isApproved: boolean = true) {
     return this.http.post<ActionsResponseModel>(this.URL + `EmployeeAdvances/ApproveEmployeeAdvances?IsApproved=${isApproved}`, employeeAdvancesId);
   }
+  ApproveEmployeeDues(employeeAdvancesId: number[], isApproved: boolean = true) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Salaries/ApproveEmployeeDues?IsApproved=${isApproved}`, employeeAdvancesId);
+  }
+
 
   //================================== PayrollReport ===============================
 
@@ -150,6 +161,10 @@ export class HrService {
 
   GetPayrollReportAdvances(model: SearchFilterModel) {
     return this.http.post<any>(this.URL + 'HRReports/GetPayrollReportAdvances', model);
+  }
+
+  GetPayrollReportEmployeesDues(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'HRReports/GetPayrollReportEmployeesDues', model);
   }
 
   GetSalariesReport_Data(month: number, year: number, model: SearchFilterModel) {
@@ -194,17 +209,21 @@ export class HrService {
 
   //================================== Employees ===============================
 
+  GetAllEmployeesSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + `Employee/GetAllEmployeesSelector`);
+  }
+
+  GetActiveEmployeesSelector(empStatusId: EmployeeStatusEnum = EmployeeStatusEnum.Active) {
+    var params = empStatusId ? `?EmployeeStatusId=${empStatusId}` : '';
+    return this.http.get<FormDropdownModel[]>(this.URL + `Employee/GetActiveEmployeesSelector${params}`);
+  }
+
   GetEmployeesSummary_Data(model: SearchFilterModel) {
     return this.http.post<any>(this.URL + 'Employee/GetEmployeesSummary_Data', model);
   }
 
   ExportEmployeesSummaryData(model: SearchFilterModel) {
     return this.http.post<any>(this.URL + 'Employee/ExportEmployeesSummaryData', model);
-  }
-
-  GetActiveEmployeesSelector(empStatusId: EmployeeStatusEnum = EmployeeStatusEnum.Active) {
-    var params = empStatusId ? `?EmployeeStatusId=${empStatusId}` : '';
-    return this.http.get<FormDropdownModel[]>(this.URL + `Employee/GetActiveEmployeesSelector${params}`);
   }
 
   GetEmployeesSummary_Filters(model: SearchFilterModel) {
@@ -243,7 +262,7 @@ export class HrService {
     month = month ?? new Date().getMonth() + 1;
     return this.http.post<PagedResponseDTO<EmployeeSalarySummaryModel[]>>(this.URL + 'Salaries/GetEmployeeSalarySummary?Year=' + year + '&Month=' + month, model);
   }
-  
+
   GetEmployeeSalarySummary_Export(year: number, month: number, model: PagedResponseDTO<EmployeeSalarySummaryModel[]>) {
     year = year ?? new Date().getFullYear();
     month = month ?? new Date().getMonth() + 1;
@@ -700,6 +719,24 @@ export class HrService {
 
   DeleteJob(jobId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + `HR/DeleteJob?JobId=${jobId}`);
+  }
+
+  // ------------------------------------------- Regions ------------------------------------------- //
+
+  GetRegionsData(model: PagedResponseDTO<any[]>) {
+    return this.http.post<PagedResponseDTO<any[]>>(this.URL + 'HR/GetRegionsData', model);
+  }
+
+  CreateNewRegion(model: any) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'HR/CreateNewRegion', model);
+  }
+
+  EditRegion(regionId: number, model: any) {
+    return this.http.post<ActionsResponseModel>(this.URL + `HR/EditRegion?RegionId=${regionId}`, model);
+  }
+
+  DeleteRegion(regionId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `HR/DeleteRegion?RegionId=${regionId}`);
   }
 
   //---------------------------------------------------------------------------------------------------------------------------------//

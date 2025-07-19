@@ -113,9 +113,9 @@ namespace MasterErp.API.Controllers.Shared
 
         [HttpGet]
         [Route("GetReceiptTypes")]
-        public IActionResult GetReceiptTypes(string GroupName)
+        public IActionResult GetReceiptTypes(string GroupName, int PaymentTypeId)
         {
-            var results = lookupService.GetReceiptTypes(GroupName);
+            var results = lookupService.GetReceiptTypes(GroupName, PaymentTypeId);
             return Ok(results);
         }
         [HttpGet]

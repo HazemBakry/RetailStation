@@ -54,8 +54,6 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         [Route("GetAccountsAssistantLedger")]
         public IActionResult GetAccountsAssistantLedger(AccountsReportSearchFilterModel model)
         {
-
-
             var data = ReportService.GetAccountsAssistantLedger(model);
             var result = new PagedResponseModel<AccountsAssistantLedgerModel>
             {
@@ -66,6 +64,22 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             };
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("GetMonthlyAssistantLedger")]
+        public IActionResult GetMonthlyAssistantLedger(AccountsReportSearchFilterModel model)
+        {
+            var data = ReportService.GetMonthlyAssistantLedger(model);
+            var result = new PagedResponseModel<MonthlyAssistantLedger>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+
         [HttpPost]
         [Route("ExportAccountsAssistantLedger")]
         public IActionResult ExportAccountsAssistantLedger(AccountsReportSearchFilterModel SearchModel)
@@ -74,6 +88,16 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
             var results = ReportService.ExportAccountsAssistantLedger(UserName, SearchModel);
             return Ok(results);
         }
+
+        [HttpPost]
+        [Route("ExportMonthlyAssistantLedger")]
+        public IActionResult ExportMonthlyAssistantLedger(AccountsReportSearchFilterModel SearchModel)
+        {
+            string UserName = string.Empty;
+            var results = ReportService.ExportMonthlyAssistantLedger(UserName, SearchModel);
+            return Ok(results);
+        }
+
         [HttpPost]
         [Route("GetAccountsTrialBalanceReport")]
         public IActionResult GetAccountsTrialBalanceReport(AccountsReportSearchFilterModel model)

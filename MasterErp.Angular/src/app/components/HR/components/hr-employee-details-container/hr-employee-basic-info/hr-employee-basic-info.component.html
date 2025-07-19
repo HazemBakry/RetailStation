@@ -110,7 +110,7 @@
                 </div>
             </div>
 
-            <ng-container #ForeignSection>
+            <ng-container *ngIf="formGroup?.value?.nationalityId && formGroup?.value?.nationalityId !=2" #ForeignSection>
                 <div class="col-xl-6 mb-3">
                     <div class="form-floating mb-3">
                         <input type="text" formControlName="passportNumber" class="form-control" id="floatingInput1" placeholder="any">
@@ -148,12 +148,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-6 mb-3">
-                    <app-drop-down-form-control formControlName="sponsorId" [placeholder]="'الكفيل'" [showSearch]="true" [data]="sponsorSelectorData"></app-drop-down-form-control>
-                    <div *ngIf="formErrors.sponsorId" class="text-danger  font-small-3 m-03">
-                        {{formErrors.sponsorId}}
-                    </div>
-                </div>
                 <!-- <div class="col-xl-4 mb-3"> </div> -->
                 <div class="col-xl-12 mb-3">
                     <div class="row">
@@ -181,19 +175,23 @@
                                 {{formErrors.visaJobId}}
                             </div>
                         </div>
-                        <div class="col-xl-3 mb-3">
-                            <app-drop-down-form-control formControlName="sponsorId" [placeholder]="'اسم الشركة'" [showSearch]="true" [data]="sponsorSelectorData"></app-drop-down-form-control>
+                        <!-- <div class="col-xl-3 mb-3">
+                            <app-drop-down-form-control formControlName="sponsorId" [placeholder]="'اسم الشركة'"
+                                [showSearch]="true" [data]="sponsorSelectorData"></app-drop-down-form-control>
                             <div *ngIf="formErrors.sponsorId" class="text-danger  font-small-3 m-03">
                                 {{formErrors.sponsorId}}
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
-
-
-
             </ng-container>
 
+            <div class="col-xl-6 mb-3">
+                <app-drop-down-form-control formControlName="sponsorId" [placeholder]="'الشركة'" [showSearch]="true" [data]="sponsorSelectorData"></app-drop-down-form-control>
+                <div *ngIf="formErrors.sponsorId" class="text-danger  font-small-3 m-03">
+                    {{formErrors.sponsorId}}
+                </div>
+            </div>
             <div class="col-xl-6 mb-3">
                 <div class="form-floating mb-3">
                     <input type="date" formControlName="birthDate" class="form-control" id="floatingInput1" placeholder="any">

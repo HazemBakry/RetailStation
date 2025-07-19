@@ -101,10 +101,10 @@ export class PaymentService {
   GetPaymentOrderDetailsById(paymentOrderId: number) {
     return this.http.get<ReceiptModel>(this.URL + `Payment/GetPaymentOrderDetailsById?PaymentOrderId=${paymentOrderId}`);
   }
-  AddNewPaymentOrder(model: ReceiptModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Payment/AddNewPaymentOrder', model);
+  SaveNewPaymentOrder(model: ReceiptModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Payment/SaveNewPaymentOrder', model);
   }
-  EditPaymentOrder( paymentOrderId:number,model: ReceiptModel) {
+  EditPaymentOrder(paymentOrderId: number, model: ReceiptModel) {
     return this.http.post<ActionsResponseModel>(this.URL + `Payment/EditPaymentOrder?PaymentOrderId=${paymentOrderId}`, model);
   }
 
@@ -116,8 +116,8 @@ export class PaymentService {
     return this.http.get<ActionsResponseModel>(this.URL + 'Payment/CancelOrderOrder?OrderId=' + OrderId);
   }
 
-  GetPaymentOrdersSelector(OrderStatus: any) {
-    return this.http.get<FormDropdownModel[]>(this.URL + 'Payment/GetPaymentOrdersSelector?OrderStatus=' + OrderStatus);
+  GetPaymentOrdersSelector() {
+    return this.http.get<FormDropdownModel[]>(this.URL + 'Payment/GetPaymentOrdersSelector');
   }
 
   //----------------------------------- Payment Receipt ------------------------------------------//
@@ -132,10 +132,10 @@ export class PaymentService {
   GetPaymentReceiptDetailsById(paymentReceiptId: number) {
     return this.http.get<ReceiptModel>(this.URL + `Payment/GetPaymentReceiptDetailsById?PaymentReceiptId=${paymentReceiptId}`);
   }
-  AddNewPaymentReceipt(model: ReceiptModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Payment/AddNewPaymentReceipt', model);
+  SaveNewPaymentReceipt(model: ReceiptModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Payment/SaveNewPaymentReceipt', model);
   }
-  EditPaymentReceipt( paymentReceiptId:number,model: ReceiptModel) {
+  EditPaymentReceipt(paymentReceiptId: number, model: ReceiptModel) {
     return this.http.post<ActionsResponseModel>(this.URL + `Payment/EditPaymentReceipt?PaymentReceiptId=${paymentReceiptId}`, model);
   }
   CancelPaymentReceipt(ReceiptId: any) {
@@ -152,8 +152,12 @@ export class PaymentService {
     return this.http.post<any>(this.URL + 'Payment/GetReceiveReceipts_Filters', model);
   }
 
-  SaveReceiveReceipt(model: ReceiveReceipt) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Payment/SaveReceiveReceipt', model);
+  GetReceiveReceiptDetailsById(receiveReceiptId: number) {
+    return this.http.get<ReceiptModel>(this.URL + `Payment/GetReceiveReceiptDetailsById?ReceiveReceiptId=${receiveReceiptId}`);
+  }
+
+  SaveNewReceiveReceipt(model: ReceiptModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Payment/SaveNewReceiveReceipt', model);
   }
 
   CancelReceiveReceipt(ReceiptId: any) {

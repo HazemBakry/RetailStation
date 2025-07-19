@@ -20,7 +20,8 @@ namespace MasterErp.Interface.GeneralAccounts
         JournalTemplateModel GetJournalTemplateDetailsById(int templateId);
         ActionsResponseModel SaveNewJournalEntryTemplate(JournalTemplateModel model);
         ActionsResponseModel EditJournalEntryTemplate(int JournalTemplateId, JournalTemplateModel model);
-        JournalEntryModel GetJournalEntryDetailsById(int journalId);
+        JournalEntryModel GetEntryDetailsById(int journalId);
+        JournalEntryModel GetEntryDetailsByReceiptId(int ReceiptId, string ReceiptType);
         ActionsResponseModel SaveNewJournalEntry(JournalEntryModel model);
         ActionsResponseModel EditJournalEntry(int EntryId,JournalEntryModel model);
         List<JournalEntryModel> GetDailyJournalEntriesSummary(SearchFilterModel model);

@@ -42,12 +42,13 @@ namespace MasterErp.Interface.HR
         ContractDetail GetEmployeeContractDetails(int EmployeeId);
         List<EmployeeSalaryDto> GetEmployeesSalaryByBranch(List<int> BranchId, DateTime ExecutionDate);
         DataTable GetHRDashboardStatistics();
+        List<Sponsor> GetSponsorData();
+
         #endregion
 
         //List<EmployeeRequest> GetEmployeeRequests_Data(SearchFilterModel model);
         //List<IqamaIssuePlace> GetIqamaIssuePlaces();
         //List<PassportIssuePlace> GetPassportIssuePlaces();
-        //List<Sponsor> GetSponsorData();
         //List<IqamaJob> GetIqamaJobData();
         //List<Nationality> GetNationalityData();
         //List<Job> GetJobData();

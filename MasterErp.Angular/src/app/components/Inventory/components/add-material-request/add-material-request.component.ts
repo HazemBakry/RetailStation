@@ -95,7 +95,6 @@ export class AddMaterialRequestComponent implements OnInit {
       });
 
       this.orderDetails = data;
-      console.log(this.orderDetails);
       if (this.orderDetails.length > 0) {
         // this.formGroup.patchValue({orderDetails:this.orderDetails});
       }

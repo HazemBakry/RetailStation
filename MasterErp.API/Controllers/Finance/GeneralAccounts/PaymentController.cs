@@ -56,10 +56,10 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         }
 
         [HttpPost]
-        [Route("AddNewPaymentOrder")]
-        public IActionResult AddNewPaymentOrder(ReceiptModel Model)
+        [Route("SaveNewPaymentOrder")]
+        public IActionResult SaveNewPaymentOrder(ReceiptModel Model)
         {
-            var results = _paymentService.AddNewPaymentOrder(Model);
+            var results = _paymentService.SaveNewPaymentOrder(Model);
             return Ok(results);
         }
         [HttpPost]
@@ -88,9 +88,9 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
 
         [HttpGet]
         [Route("GetPaymentOrdersSelector")]
-        public IActionResult GetPaymentOrdersSelector(bool OrderStatus)
+        public IActionResult GetPaymentOrdersSelector()
         {
-            var results = _paymentService.GetPaymentOrdersSelector(OrderStatus);
+            var results = _paymentService.GetPaymentOrdersSelector();
             return Ok(results);
         }
 
@@ -128,10 +128,10 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         }
 
         [HttpPost]
-        [Route("AddNewPaymentReceipt")]
-        public IActionResult AddNewPaymentReceipt(ReceiptModel Model)
+        [Route("SaveNewPaymentReceipt")]
+        public IActionResult SaveNewPaymentReceipt(ReceiptModel Model)
         {
-            var results = _paymentService.AddNewPaymentReceipt(Model);
+            var results = _paymentService.SaveNewPaymentReceipt(Model);
             return Ok(results);
         }
         [HttpPost]
@@ -173,10 +173,10 @@ namespace MasterErp.API.Controllers.Finance.GeneralAccounts
         }
 
         [HttpPost]
-        [Route("SaveReceiveReceipt")]
-        public IActionResult SaveReceiveReceipt(ReceiptModel Model)
+        [Route("SaveNewReceiveReceipt")]
+        public IActionResult SaveNewReceiveReceipt(ReceiptModel Model)
         {
-            var results = _paymentService.SaveReceiveReceipt(Model);
+            var results = _paymentService.SaveNewReceiveReceipt(Model);
             return Ok(results);
         }
 

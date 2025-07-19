@@ -48,12 +48,9 @@ export class HeaderComponent implements OnInit {
   onToggler() {
     this.showMenu = !this.showMenu;
     // this.toggler.emit();
-    console.log(this.toggler);
   }
   logout() {
     this.authService.logout();
   }
-
-
 
 }

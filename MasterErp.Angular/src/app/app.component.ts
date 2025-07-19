@@ -13,13 +13,13 @@ export class AppComponent implements OnInit {
   // }
   ngOnInit(): void {
     // this.rolesService.fetchUserAuthorizedPages().subscribe(permissions=>{
-    //   console.log("🚀 ~ AppComponent ~ this.rolesService.fetchUserAuthorizedPages ~ data:", data)
     //this.rolesService.setPermissions(permissions);
     // });
   }
   toggler = false;
   onToggler() {
     this.toggler = !this.toggler;
-    console.log(this.toggler);
   }
 }
+
+

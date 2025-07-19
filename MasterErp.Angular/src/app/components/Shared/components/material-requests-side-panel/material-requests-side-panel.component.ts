@@ -66,7 +66,6 @@ export class MaterialRequestsSidePanelComponent implements OnInit {
     this.mapFilters();
     this.showLoader = true;
     this.inventoryService.GetMaterialRequests_Data(this.pagedResponseModel).subscribe((data: PagedResponseDTO<MaterialRequestModel[]>) => {
-      // console.log("data",data);
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
       this.showLoader = false;

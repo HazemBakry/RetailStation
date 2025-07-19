@@ -70,7 +70,7 @@ export class CreateJournalEntryComponent implements OnInit {
     this.acRoute.queryParams.subscribe((params: any) => {
       if (params.JournalEntryId) {
         this.entryModel = params.JournalEntryId;
-        this.getEntryDetailsById(params.JournalEntryId);
+        this.getEntryDetailsByEntryId(params.JournalEntryId);
       }
     })
 
@@ -80,9 +80,9 @@ export class CreateJournalEntryComponent implements OnInit {
     this.loadSelectors();
   }
 
-  getEntryDetailsById(journalEntryId) {
+  getEntryDetailsByEntryId(journalEntryId) {
     this.showLoader = true;
-    this.generalService.GetJournalEntryDetailsById(journalEntryId).subscribe(data => {
+    this.generalService.GetEntryDetailsByEntryId(journalEntryId).subscribe(data => {
       if (data) {
         this.entryModel = data;
         this.initNewForm(this.entryModel);

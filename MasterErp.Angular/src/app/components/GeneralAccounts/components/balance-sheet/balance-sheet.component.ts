@@ -31,7 +31,7 @@ export class BalanceSheetComponent implements OnInit {
     hideEmptyAccounts: false,
     accountId: null,
     searchType: null,
-    searchLevel: null,
+    searchLevel: 1,
     fromDate: null,
     toDate: null
 

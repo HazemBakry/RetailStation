@@ -28,7 +28,7 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetJournalEntryTypes();
         List<SelectorDataModel> GetLedgerTypes();
         List<SelectorDataModel> GetPaymentTypes();
-        List<SelectorDataModel> GetReceiptTypes(string GroupName);
+        List<SelectorDataModel> GetReceiptTypes(string GroupName, int PaymentTypeId);
         List<SelectorDataModel> GetTaxLookups();
         List<SelectorDataModel> GetMaterialRequestPurposes();
 

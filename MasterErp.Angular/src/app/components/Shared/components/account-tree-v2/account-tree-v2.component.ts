@@ -58,7 +58,6 @@ export class AccountTreeV2Component implements OnInit, OnChanges {
     //   this.toaster.warning('please select parent account');
     //   return;
     // }
-    // console.log(" account:", account);
     if (account.isDeleteAction) {
       this.openDeleteModal(account.accountId);
       return

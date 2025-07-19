@@ -28,12 +28,13 @@ namespace MasterErp.Entities.Models.Finance
         public int? CustomerId { get; set; }
         public int? EmployeeId { get; set; }
         public double MoneyAmount { get; set; }
+        public int? WorkflowStatusId { get; set; }
+        public int JournalEntryId { get; set; }
         public string DocNumber { get; set; }
         public int? CurrencyId { get; set; }
         public string Description { get; set; }
         public bool? IsLocked { get; set; }
         public bool? IsCancelled { get; set; }
-        public int? WorkflowStatusId { get; set; }
 
     }
 }

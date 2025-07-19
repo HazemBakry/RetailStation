@@ -27,7 +27,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
   selectedAgencyType: number = 1;
   supplierList: GeneralSelectorModel[] = [];
   accountList: GeneralSelectorModel[] = [];
-  employeesSelectorData: GeneralSelectorModel [] = [];
+  employeesSelectorData: GeneralSelectorModel[] = [];
   fromAccounts: GeneralSelectorModel[] = [];
   receiptLedgerList: GeneralSelectorModel[] = [];
   receiptTypeList: GeneralSelectorModel[] = [];
@@ -39,6 +39,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
   isUpdate: any = false;
   paymentOrderId: any;
   paymentReceiptId: any;
+  paymentTypeId: number = 0;
 
   formData: FormData = new FormData();
   formGroup: FormGroup;
@@ -69,7 +70,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
     private datePipe: DatePipe,
     private router: Router,
     private acRoute: ActivatedRoute,
-    private hrService : HrService,
+    private hrService: HrService,
     private lookupService: LookupService,
     private toaster: ToastrService) { }
 
@@ -80,14 +81,14 @@ export class CreatePaymentReceiptComponent implements OnInit {
         this.paymentReceiptModel.receiptId = this.paymentReceiptId;
         this.getPaymentReceiptDetailsById();
       }
-
       else if (params.PaymentOrderId) {
         this.paymentOrderId = params.PaymentOrderId;
         this.getPaymentOrderDetailsById(this.paymentOrderId);
       }
     });
-    this.initNewForm();
+
     this.loadSelectors();
+    this.initNewForm();
   }
 
   loadSelectors() {
@@ -99,11 +100,11 @@ export class CreatePaymentReceiptComponent implements OnInit {
       this.accountList = data;
     });
 
-    this.sharedService.GetReceiptLedgersSelector().subscribe(data => {
+    this.sharedService.GetReceiptLedgersSelector(this.paymentTypeId).subscribe(data => {
       this.receiptLedgerList = data;
     });
 
-    this.lookupService.GetReceiptTypes('Payment').subscribe(data => {
+    this.lookupService.GetReceiptTypes('Payment', this.paymentTypeId).subscribe(data => {
       this.receiptTypeList = data;
     });
 
@@ -111,7 +112,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
       this.paymentTypeList = data;
     });
 
-    this.paymentService.GetPaymentOrdersSelector(true).subscribe((data: FormDropdownModel[]) => {
+    this.paymentService.GetPaymentOrdersSelector().subscribe((data: FormDropdownModel[]) => {
       this.paymentOrdersList = data;
     });
 
@@ -197,8 +198,6 @@ export class CreatePaymentReceiptComponent implements OnInit {
       employeeId: receiptModel.employeeId,
       description: receiptModel.description
     });
-
-    console.log(this.accountList);
   }
 
   getPaymentOrderDetailsById(paymentOrderId) {
@@ -206,7 +205,16 @@ export class CreatePaymentReceiptComponent implements OnInit {
     this.paymentService.GetPaymentOrderDetailsById(paymentOrderId).subscribe((data: ReceiptModel) => {
       if (data && ![FinanceWorkflowStatus.Cancelled, FinanceWorkflowStatus.Paid].includes(data.workflowStatusId)) {
         this.paymentReceiptModel = data;
-        debugger
+        this.paymentTypeId = this.paymentReceiptModel?.paymentTypeId;
+
+        this.sharedService.GetReceiptLedgersSelector(this.paymentTypeId).subscribe(data => {
+          this.receiptLedgerList = data;
+        });
+
+        this.lookupService.GetReceiptTypes('Payment', this.paymentTypeId).subscribe(data => {
+          this.receiptTypeList = data;
+        });
+
         this.fillEditForm(this.paymentReceiptModel)
       } else {
         this.paymentReceiptModel = null;
@@ -225,6 +233,16 @@ export class CreatePaymentReceiptComponent implements OnInit {
     this.paymentService.GetPaymentReceiptDetailsById(this.paymentReceiptId).subscribe((data: ReceiptModel) => {
       if (data && ![FinanceWorkflowStatus.Cancelled, FinanceWorkflowStatus.Paid].includes(data.workflowStatusId)) {
         this.paymentReceiptModel = data;
+        this.paymentTypeId = this.paymentReceiptModel?.paymentTypeId;
+
+        this.sharedService.GetReceiptLedgersSelector(this.paymentTypeId).subscribe(data => {
+          this.receiptLedgerList = data;
+        });
+
+        this.lookupService.GetReceiptTypes('Payment', this.paymentTypeId).subscribe(data => {
+          this.receiptTypeList = data;
+        });
+
         this.initNewForm(this.paymentReceiptModel);
         // this.fillEditForm(this.receiptModel)
       } else {
@@ -276,23 +294,22 @@ export class CreatePaymentReceiptComponent implements OnInit {
       return;
     }
     this.paymentReceiptModel = this.formGroup.value;
-    // if (!this.paymentReceiptModel.paymentReceiptId)
-    //   this.paymentReceiptModel.paymentReceiptId = 0;
+    // if (!this.paymentReceiptModel.receiptId)
+    //   this.paymentReceiptModel.receiptId = 0;
 
 
     if (this.paymentReceiptId)
       this.editPaymentReceipt();
     else
-      this.addNewPaymentReceipt();
+      this.saveNewPaymentReceipt();
   }
 
-  addNewPaymentReceipt() {
-    this.paymentService.AddNewPaymentReceipt(this.paymentReceiptModel).subscribe((data: ActionsResponseModel) => {
+  saveNewPaymentReceipt() {
+    this.paymentService.SaveNewPaymentReceipt(this.paymentReceiptModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.paymentReceiptModel.orderNumber = data.number;
         if (data.id) {
           this.paymentReceiptId = data.id;
-          //this.goToPage(this.paymentReceiptId);
           this.router.navigateByUrl('/general-accounts/payment-receipts')
         }
         this.formGroup.patchValue({ receiptNumber: data.number });

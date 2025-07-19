@@ -69,8 +69,12 @@ export class GeneralAccountService {
     return this.http.post<any>(this.URL + 'JournalEntry/GetDailyJournalEntriesFilters', model);
   }
 
-  GetJournalEntryDetailsById(journalEntryId: number) {
-    return this.http.get<JournalEntryModel>(this.URL + 'JournalEntry/GetJournalEntryDetailsById?EntryId=' + journalEntryId);
+  GetEntryDetailsByEntryId(journalEntryId: number) {
+    return this.http.get<JournalEntryModel>(this.URL + 'JournalEntry/GetEntryDetailsByEntryId?EntryId=' + journalEntryId);
+  }
+
+  GetEntryDetailsByReceiptId(receiptId: number, receiptType: string) {
+    return this.http.get<JournalEntryModel>(this.URL + 'JournalEntry/GetEntryDetailsByReceiptId?ReceiptId=' + receiptId + '&ReceiptType=' + receiptType);
   }
 
   GetJournalEntryTypes() {
@@ -82,7 +86,7 @@ export class GeneralAccountService {
   }
 
   GetSavedJournalTemplates(model: PagedResponseDTO<JournalTemplateModel[]>) {
-    return this.http.post<PagedResponseDTO<JournalTemplateModel[]>>(this.URL + 'JournalEntry/GetSavedJournalTemplates',model);
+    return this.http.post<PagedResponseDTO<JournalTemplateModel[]>>(this.URL + 'JournalEntry/GetSavedJournalTemplates', model);
   }
 
   GetJournalTemplateDetailsById(templateId: number) {
@@ -92,8 +96,8 @@ export class GeneralAccountService {
   SaveNewJournalEntryTemplate(model: JournalTemplateModel) {
     return this.http.post<any>(this.URL + 'JournalEntry/SaveNewJournalEntryTemplate', model);
   }
-  EditJournalEntryTemplate(journalEntryId:number,model: JournalTemplateModel) {
-    return this.http.post<any>(this.URL + 'JournalEntry/EditJournalEntryTemplate?EntryId='+journalEntryId, model);
+  EditJournalEntryTemplate(journalEntryId: number, model: JournalTemplateModel) {
+    return this.http.post<any>(this.URL + 'JournalEntry/EditJournalEntryTemplate?EntryId=' + journalEntryId, model);
   }
 
 
@@ -101,8 +105,8 @@ export class GeneralAccountService {
   SaveNewJournalEntry(model: JournalEntryModel) {
     return this.http.post<any>(this.URL + 'JournalEntry/SaveNewJournalEntry', model);
   }
-  EditJournalEntry(journalEntryId:number,model: JournalEntryModel) {
-    return this.http.post<any>(this.URL + 'JournalEntry/EditJournalEntry?EntryId='+journalEntryId, model);
+  EditJournalEntry(journalEntryId: number, model: JournalEntryModel) {
+    return this.http.post<any>(this.URL + 'JournalEntry/EditJournalEntry?EntryId=' + journalEntryId, model);
   }
 
 
@@ -173,9 +177,19 @@ export class GeneralAccountService {
   GetAccountsAssistantLedger(model: AccountsReportSearchFilterModel) {
     return this.http.post<PagedResponseDTO<AccountsAssistantLedgerModel[]>>(this.URL + 'GeneralAccountsReport/GetAccountsAssistantLedger', model);
   }
+
+  GetMonthlyAssistantLedger(model: AccountsReportSearchFilterModel) {
+    return this.http.post<PagedResponseDTO<AccountsAssistantLedgerModel[]>>(this.URL + 'GeneralAccountsReport/GetMonthlyAssistantLedger', model);
+  }
+
   ExportAccountsAssistantLedger(model: AccountsReportSearchFilterModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'GeneralAccountsReport/ExportAccountsAssistantLedger', model);
   }
+
+  ExportMonthlyAssistantLedger(model: AccountsReportSearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'GeneralAccountsReport/ExportMonthlyAssistantLedger', model);
+  }
+
   GetAccountsTrialBalanceReport(model: AccountsReportSearchFilterModel) {
     return this.http.post<PagedResponseDTO<AccountsTrialBalanceModel[]>>(this.URL + 'GeneralAccountsReport/GetAccountsTrialBalanceReport', model);
   }
@@ -243,10 +257,10 @@ export class GeneralAccountService {
     return this.http.post<ActionsResponseModel>(this.URL + 'ReceiptLedger/CreateNewReceiptLedger', model);
   }
 
-  EditReceiptLedger(receiptLedgerId:number,model: ReceiptLedgerModel) {
+  EditReceiptLedger(receiptLedgerId: number, model: ReceiptLedgerModel) {
     return this.http.post<ActionsResponseModel>(this.URL + `ReceiptLedger/EditReceiptLedger?ReceiptLedgerId=${receiptLedgerId}`, model);
   }
-  DeleteReceiptLedger(receiptLedgerId:number) {
+  DeleteReceiptLedger(receiptLedgerId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + `ReceiptLedger/DeleteReceiptLedger?ReceiptLedgerId=${receiptLedgerId}`);
   }
   ////////////////////////  
@@ -259,10 +273,10 @@ export class GeneralAccountService {
   CreateNewJournalEntryType(model: JournalEntryTypeModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'JournalEntryType/CreateNewJournalEntryType', model);
   }
-  EditJournalEntryType(journalTypeId:number,model: JournalEntryTypeModel) {
+  EditJournalEntryType(journalTypeId: number, model: JournalEntryTypeModel) {
     return this.http.post<ActionsResponseModel>(this.URL + `JournalEntryType/EditJournalEntryType?JournalTypeId=${journalTypeId}`, model);
   }
-  DeleteJournalEntryType(journalTypeId:number) {
+  DeleteJournalEntryType(journalTypeId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + `JournalEntryType/DeleteJournalEntryType?JournalTypeId=${journalTypeId}`);
   }
 
@@ -277,10 +291,10 @@ export class GeneralAccountService {
     return this.http.post<ActionsResponseModel>(this.URL + 'FinancialPeriod/CreateNewFinancialPeriod', model);
   }
 
-  EditFinancialPeriod(financialPeriodId:number,model: FinancialPeriodModel) {
+  EditFinancialPeriod(financialPeriodId: number, model: FinancialPeriodModel) {
     return this.http.post<ActionsResponseModel>(this.URL + `FinancialPeriod/EditFinancialPeriod?FinancialPeriodId=${financialPeriodId}`, model);
   }
-  DeleteFinancialPeriod(financialPeriodId:number) {
+  DeleteFinancialPeriod(financialPeriodId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + `FinancialPeriod/DeleteFinancialPeriod?FinancialPeriodId=${financialPeriodId}`);
   }
 

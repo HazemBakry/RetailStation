@@ -147,12 +147,9 @@ export class DesignEmployeeDetailsComponent implements OnInit {
   }
 
   saveEmployeeDate() {
-    console.log(this.SaveEmployeeModel);
-
     // this.hrService.AddNewEmployee(this.SaveEmployeeModel).subscribe(data => {
 
     // })
-
   }
 
 

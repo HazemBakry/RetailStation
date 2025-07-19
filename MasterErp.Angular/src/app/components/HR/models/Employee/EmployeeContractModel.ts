@@ -5,6 +5,8 @@ export interface EmployeeContractModel extends EmployeeContractDetailsModel, Cre
     contractId: number | null;
     startDate: string;
     endDate: string;
+    joinDate: string | null;
+    lastJoinDate: string | null;
     contractPeriodYears: number;
     vacationPeriodDays: number | null;
     vacationDate: string | null;

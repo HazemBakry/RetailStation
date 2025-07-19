@@ -18,7 +18,7 @@ export class HrDashboardComponent implements OnInit {
   showLoader: boolean = false;
   parentChartWidth!: number;
   HRStatistics: any;
-  workflowStatusId: any;
+  workflowStatusId: number = 2;
   employeesVacations: EmployeeVacationModel[] = []
   employeeStatusSelector: GeneralSelectorModel[] = [];
   selectAll: boolean = false;

@@ -87,6 +87,7 @@ namespace MasterErp.API.Controllers.HR
             };
             return Ok(result);
         }
+
         [HttpPost]
         [Route("GetEmployeeDues")]
         public IActionResult GetEmployeeDues(int EmployeeId, SearchFilterModel SearchModel)
@@ -102,6 +103,7 @@ namespace MasterErp.API.Controllers.HR
             };
             return Ok(result);
         }
+
         [HttpGet]
         [Route("GetEmployeeDuesById")]
         public IActionResult GetEmployeeDuesById(int EmployeeDuesId)
@@ -110,6 +112,7 @@ namespace MasterErp.API.Controllers.HR
             
             return Ok(result);
         }
+
         [HttpGet]
         [Route("DeleteEmployeeDues")]
         public IActionResult DeleteEmployeeDues(int EmployeeDuesId)
@@ -127,6 +130,7 @@ namespace MasterErp.API.Controllers.HR
             
             return Ok(result);
         }
+
         [HttpPost]
         [Route("CalculateEmployeeDue")]
         public IActionResult CalculateEmployeeDue(int EmployeeId, EmployeeDueModel Model)
@@ -144,6 +148,15 @@ namespace MasterErp.API.Controllers.HR
 
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("ApproveEmployeeDues")]
+        public IActionResult ApproveEmployeeDues(bool IsApproved, List<int> RowsId)
+        {
+            var result = _salariesService.ApproveEmployeeDues(IsApproved, RowsId);
+            return Ok(result);
+        }
+
         #endregion
 
     }

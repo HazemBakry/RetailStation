@@ -78,14 +78,12 @@ namespace MasterErp.Entities.DTOs.HR
         public int? SalaryYear { get; set; }
         public bool AddSalaryToDue { get; set; }
         public string? Notes { get; set; }
-
         public double? VacationDues { get; set; }
         public double? EndOfServiceDues { get; set; }
         public double? CurrentMonthSalary { get; set; }
         public double? HomeAllowance { get; set; }
         public double? Advances { get; set; }
         public double? NetAmount { get; set; }
-
         public int? WorkflowStatusId { get; set; }
 
         public double? TotalDues { get; set; }

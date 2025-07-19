@@ -20,12 +20,22 @@
             <div class="col-lg-3">
                 <div class="mb-2">
                     <label class="form-label d-flex align-items-center gap-2">
+                        الشركة
+                        <span class="text-danger">*</span>
+                    </label>
+                    <app-general-selector [(ngModel)]="selectedSponsorId" [data]="sponsorSelectorData" [placeholder]="'الشركات'" [showSearch]="true"></app-general-selector>
+                </div>
+            </div>
+
+            <!-- <div class="col-lg-3">
+                <div class="mb-2">
+                    <label class="form-label d-flex align-items-center gap-2">
                         اسم الموظف
                         <span class="text-danger">*</span>
                     </label>
                     <app-general-selector [(ngModel)]="selectedEmployeeId" [data]="employeeSelectorData" [placeholder]="'اسم الموظف'" [showSearch]="true"></app-general-selector>
                 </div>
-            </div>
+            </div> -->
             <div class="col-lg-3">
                 <div class="mb-2">
                     <label class="form-label d-flex align-items-center gap-2">
@@ -78,6 +88,10 @@
         <div class="row p-2">
             <div class="col-md-8">
                 <div class="d-flex align-items-center flex-wrap">
+                    <ng-container>
+                        <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث بإسم الموظف ...'"></app-erp-filters>
+                    </ng-container>
+
                     <!-- <div class="search-box position-relative mb-2">
                         <button [disabled]="showAddLoader" (click)="openSaveModal(saveDialog)" class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3">
                             <i class="fas fa-plus-circle"></i>

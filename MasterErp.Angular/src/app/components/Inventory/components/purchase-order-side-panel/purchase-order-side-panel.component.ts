@@ -66,7 +66,6 @@ export class PurchaseOrderSidePanelComponent implements OnInit {
     this.mapFilters();
     this.showLoader = true;
     this.purchaseService.GetPurchaseOrders_Data(this.pagedResponseModel).subscribe((data: PagedResponseDTO<PurchaseOrderModel[]>) => {
-      // console.log("data",data);
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
       this.showLoader = false;
@@ -78,7 +77,6 @@ export class PurchaseOrderSidePanelComponent implements OnInit {
 
 
     // this.inventoryService.GetOrdersSearchData(this.SupplierId,this.orderNumber,this.orderDate).subscribe(data => {
-    //   // console.log("data",data);
     //   this.OrdersList=data;
     //   this.showLoader=false;
     // },(err)=>{

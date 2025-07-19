@@ -170,6 +170,52 @@ namespace MasterErp.API.Controllers.HR
 
         #endregion
 
+        #region Regions
+
+        [HttpPost]
+        [Route("GetRegionsData")]
+        public IActionResult GetRegionsData(SearchFilterModel model)
+        {
+            var data = _hrService.GetRegionsData(model);
+            var result = new PagedResponseModel<Region>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("CreateNewRegion")]
+        public IActionResult CreateNewRegion(Region Model)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            Model.CreatedBy = UserId;
+            var results = _hrService.CreateNewRegion(Model);
+            return Ok(results);
+        }
+
+        [HttpPost]
+        [Route("EditRegion")]
+        public IActionResult EditRegion(int RegionId, Region Model)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            Model.ModifiedBy = UserId;
+            var results = _hrService.EditRegion(RegionId, Model);
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("DeleteRegion")]
+        public IActionResult DeleteRegion(int RegionId)
+        {
+            var results = _hrService.DeleteRegion(RegionId);
+            return Ok(results);
+        }
+
+        #endregion
 
     }
 }

@@ -172,8 +172,6 @@ export class AddEditAccountTreeComponent implements OnInit, OnChanges {
   }
 
   editAccount() {
-
-    debugger;
     this.showLoader = true;
     this._GeneralAccountService
       .EditAccountTree(this.accountModel.accountId, this.accountModel).subscribe(data => {

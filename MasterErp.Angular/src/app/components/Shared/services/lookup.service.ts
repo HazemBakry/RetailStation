@@ -50,8 +50,8 @@ export class LookupService {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetPaymentTypes');
   }
 
-  GetReceiptTypes(GroupName: string) {
-    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetReceiptTypes?GroupName=' + GroupName);
+  GetReceiptTypes(groupName: string, paymentTypeId: number) {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetReceiptTypes?GroupName=' + groupName + '&PaymentTypeId=' + paymentTypeId);
   }
 
   // --------------------------------- HR Lookups --------------------------------- //
@@ -91,9 +91,9 @@ export class LookupService {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetCountriesSelector');
   }
 
-  GetCitiesSelector(countryId:number=null) {
+  GetCitiesSelector(countryId: number = null) {
     const param = countryId !== null ? `?CountryId=${countryId}` : '';
-    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetCitiesSelector?'+param);
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetCitiesSelector?' + param);
   }
 
   GetTaxLookupsSelector() {

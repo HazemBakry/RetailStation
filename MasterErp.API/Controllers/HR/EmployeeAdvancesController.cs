@@ -112,7 +112,6 @@ namespace MasterErp.API.Controllers.HR
             return Ok(result);
         }
 
-
         [HttpGet]
         [Route("GetAdvanceTypesSelector")]
         public IActionResult GetAdvanceTypesSelector()
@@ -120,6 +119,7 @@ namespace MasterErp.API.Controllers.HR
             var result = _advancesService.GetAdvanceTypesSelector();
             return Ok(result);
         }
+
         [HttpPost]
         [Route("ApproveEmployeeAdvances")]
         public IActionResult ApproveEmployeeAdvances(bool IsApproved, List<int> RowsId)

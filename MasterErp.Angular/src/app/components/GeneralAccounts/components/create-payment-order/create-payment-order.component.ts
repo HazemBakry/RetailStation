@@ -43,6 +43,7 @@ export class CreatePaymentOrderComponent implements OnInit {
   formGroup: FormGroup;
   purchaseInvoiceId: number;
   employeeAdvanceId: number;
+  employeeDueId: number;
   purchaseInvoiceModel: PurchaseInvoiceModel = {} as PurchaseInvoiceModel;
   formErrors = {
     paymentOrderId: '',
@@ -77,10 +78,12 @@ export class CreatePaymentOrderComponent implements OnInit {
     this.initNewForm();
     this.loadSelectors();
     this.acRoute.queryParams.subscribe((params: any) => {
+
       if (params.PaymentOrderId) {
         this.paymentOrderId = params.PaymentOrderId;
         this.getPaymentOrderDetailsById();
-      } else if (params.InvoiceId) {
+      }
+      else if (params.InvoiceId) {
         this.purchaseInvoiceId = params.InvoiceId;
         this.getPurchaseInvoiceDetailsById();
       }
@@ -89,7 +92,7 @@ export class CreatePaymentOrderComponent implements OnInit {
         this.getAdvancesDetailsById();
       }
       else if (params.EmployeeDueId) {
-        // this.employeeDueId = params.EmployeeDueId;
+        this.employeeDueId = params.EmployeeDueId;
         this.getEmployeeDuesById(params.EmployeeDueId);
       }
     });
@@ -105,14 +108,14 @@ export class CreatePaymentOrderComponent implements OnInit {
     this.lookupService.GetPaymentTypes().subscribe(data => {
       this.paymentTypeList = data;
     });
-    this.hrService.GetActiveEmployeesSelector().subscribe(data => {
+    this.hrService.GetAllEmployeesSelector().subscribe(data => {
       this.employeesSelectorData = data;
     });
     this.agencyTypeList = this.paymentService.agencyTypeList.filter(x => x.value != 3);
     //this.paymentTypeList = this.paymentService.paymentTypeList;
   }
   getAccountsByType(accountTypeId: AccountTypeEnum = null) {
-    this.sharedService.GetAccountsSelector(false,accountTypeId).subscribe(data => {
+    this.sharedService.GetAccountsSelector(false, accountTypeId).subscribe(data => {
       this.accountList = data;
     });
   }
@@ -175,11 +178,11 @@ export class CreatePaymentOrderComponent implements OnInit {
       contactName: receiptModel.contactName,
       currencyId: receiptModel.currencyId,
       moneyAmount: receiptModel.moneyAmount,
-      employeeId: receiptModel.employeeId
+      employeeId: receiptModel.employeeId,
+      employeeDueId: receiptModel.employeeDueId,
+      employeeAdvanceId: receiptModel.employeeAdvanceId,
     });
   }
-
-
 
   getPaymentOrderDetailsById() {
     this.showLoader = true;
@@ -202,6 +205,7 @@ export class CreatePaymentOrderComponent implements OnInit {
       this.showLoader = false;
     });
   }
+
   getPurchaseInvoiceDetailsById() {
     this.showLoader = true;
     this.purchaseService.GetPurchaseInvoiceDetailsById(this.purchaseInvoiceId).subscribe((data: PurchaseInvoiceModel) => {
@@ -225,6 +229,7 @@ export class CreatePaymentOrderComponent implements OnInit {
       this.showLoader = false;
     });
   }
+
   getAdvancesDetailsById() {
     this.showLoader = true;
     this.hrService.getAdvanceById(this.employeeAdvanceId).subscribe((data: EmployeeAdvanceModel) => {
@@ -249,13 +254,13 @@ export class CreatePaymentOrderComponent implements OnInit {
       this.showLoader = false;
     });
   }
+
   getEmployeeDuesById(employeeDueId) {
     this.showLoader = true;
     this.hrService.GetEmployeeDuesById(employeeDueId).subscribe((data: EmployeeDueModel) => {
-
       if (data && ![FinanceWorkflowStatus.Cancelled, FinanceWorkflowStatus.Paid].includes(data.workflowStatusId)) {
         this.formGroup?.patchValue({
-          moneyAmount: data.totalDueAmount,
+          moneyAmount: data.totalDuesAmount.toFixed(2),
           agencyTypeId: 4,
           employeeId: data.employeeId,
           contactName: data.employeeNameEN,
@@ -274,6 +279,7 @@ export class CreatePaymentOrderComponent implements OnInit {
       this.showLoader = false;
     });
   }
+
   onChoosePaymentType(paymentTypeId: number) {
     if (paymentTypeId == 1) {
       this.sharedService.GetAccountsByTypeId(4).subscribe(data => {
@@ -316,12 +322,11 @@ export class CreatePaymentOrderComponent implements OnInit {
     if (this.paymentOrderId)
       this.editPaymentOrder();
     else
-      this.addNewPaymentOrder();
+      this.saveNewPaymentOrder();
   }
-  addNewPaymentOrder() {
 
-
-    this.paymentService.AddNewPaymentOrder(this.receiptModel).subscribe((data: ActionsResponseModel) => {
+  saveNewPaymentOrder() {
+    this.paymentService.SaveNewPaymentOrder(this.receiptModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
 
         this.initNewForm();

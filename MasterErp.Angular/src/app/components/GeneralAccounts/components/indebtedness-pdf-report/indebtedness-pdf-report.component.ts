@@ -82,7 +82,6 @@ export class IndebtednessPdfReportComponent implements OnInit {
   }
 
   calculateNetDebt() {
-    debugger;
     const revenues = this.valueKeys2.find(i => i.key === 'Revenues');
     const totalDebts = this.valueKeys.find(i => i.key === 'TotalDebts');
     const revenuesValue1 = revenues?.value1 || 0;

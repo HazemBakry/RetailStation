@@ -528,6 +528,47 @@ namespace MasterErp.Service.HR
             };
         }
 
+        public ActionsResponseModel ApproveEmployeeDues(bool isApproved, List<int> duesIds)
+        {
+            try
+            {
+                if (duesIds == null || !duesIds.Any())
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "No Dues provided." };
+                }
+
+                var emp_dues = Context.EmployeeDues.Where(i => duesIds.Contains(i.EmployeeDueId)).ToList();
+
+                if (!emp_dues.Any())
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "No matching dues found." };
+                }
+
+                int newStatus = isApproved ? (int)WorkflowStatus.Approved : (int)WorkflowStatus.Rejected;
+
+                foreach (var item in emp_dues)
+                {
+                    item.WorkflowStatusId = newStatus;
+                }
+
+                Context.SaveChanges();
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    Message = isApproved ? "Dues approved successfully!" : "Dues rejected successfully!"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.InnerException?.Message ?? ex.Message
+                };
+            }
+        }
+
         #endregion
 
         public ActionsResponseModel ApproveMonthlySalary(int year, int month, SearchFilterModel searchModel)

@@ -7,6 +7,20 @@
                 <i class="fas fa-plus-circle"></i>
                 <span>إنشاء موظف</span>
             </button>
+
+
+            <!-- <button class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3" routerLink="/general-accounts/new-entry">
+                <i class="fas fa-plus-circle"></i>
+                <span>إنشاء قيد</span>
+            </button> -->
+            <!-- <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+                    <i class="fas fa-file-download"></i>
+                    <span>تصدير CSV</span>
+                </button> -->
+            <button [disabled]="showExportLoader" (click)="exportData()" class="btn  btn-outline-success d-flex align-items-center gap-2 border rounded px-3">
+                <i class="fas fa-file-download"></i>
+                <span>تصدير CSV</span>
+            </button>
             <!-- <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
                 <i class="fas fa-file-download"></i>
                 <span>تصدير CSV</span>
@@ -71,6 +85,9 @@
                         <th>رقم الهوية</th>
                         <th>الوظيفة</th>
                         <th>الحالة</th>
+                        <th>تاريخ انتهاء الإقامة</th>
+                        <th>تاريخ انتهاء الرخصة</th>
+                        <th>تاريخ انتهاء الباسبور</th>
                         <th class="text-center"></th>
                     </tr>
                 </thead>
@@ -85,6 +102,9 @@
                             <span appWorkflowStatus [id]="item.statusId" [nameEN]="item?.jobStatusEN" [nameAR]="item?.jobStatusAR" [type]="'employeeStatus'">
                             </span>
                         </td>
+                        <td>{{item.iqamaExpireDate | date:'shortDate'}}</td>
+                        <td>{{item.drivingLicenseExpireDate | date:'shortDate'}}</td>
+                        <td>{{item.passportExpireDate | date:'shortDate'}}</td>
                         <td>
                             <div class="d-flex align-items-center justify-content-center">
                                 <div ngbDropdown container="body">

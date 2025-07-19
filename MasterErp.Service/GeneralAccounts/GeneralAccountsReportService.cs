@@ -54,7 +54,7 @@ namespace MasterErp.Service.GeneralAccounts
             if (model.AccountId is null)
             {
                 return results;
-                
+
             }
             SqlParameter[] Params = new SqlParameter[6];
             Params[0] = new SqlParameter("@AccountId", model.AccountId);
@@ -84,12 +84,12 @@ namespace MasterErp.Service.GeneralAccounts
                                     NameEN = res.NameEN,
                                     NameAR = res.NameAR,
                                     AccountNumber = res.AccountNumber,
-                                    PreDebit=res.PreDebit,
-                                    PreCredit=res.PreCredit,
-                                    Debit=res.Debit,
-                                    Credit=res.Credit,
-                                    TotalDebit=res.TotalDebit,
-                                    TotalCredit=res.TotalCredit,
+                                    PreDebit = res.PreDebit,
+                                    PreCredit = res.PreCredit,
+                                    Debit = res.Debit,
+                                    Credit = res.Credit,
+                                    TotalDebit = res.TotalDebit,
+                                    TotalCredit = res.TotalCredit,
                                     BalanceDebit = res.BalanceDebit,
                                     BalanceCredit = res.BalanceCredit
                                     //CreatedDate = res.CreatedDate?.ToString("MM/dd/yyyy"),
@@ -149,6 +149,19 @@ namespace MasterErp.Service.GeneralAccounts
 
             return results;
         }
+
+        public List<MonthlyAssistantLedger> GetMonthlyAssistantLedger(AccountsReportSearchFilterModel model)
+        {
+            SqlParameter[] Params = new SqlParameter[4];
+            Params[0] = new SqlParameter("@FromDate", model.FromDate);
+            Params[1] = new SqlParameter("@ToDate", model.ToDate);
+            Params[2] = new SqlParameter("@CurrentPage", model.CurrentPage);
+            Params[3] = new SqlParameter("@PageSize", model.PageSize);
+            var results = SQLHelper.SQLQuery<MonthlyAssistantLedger>("[Finance].[SP_GetMonthlyAssistantLedger]", null, Params);
+
+            return results;
+        }
+
         public ActionsResponseModel ExportAccountsAssistantLedger(string UserName, AccountsReportSearchFilterModel SearchModel)
         {
             string url = string.Empty;
@@ -207,9 +220,53 @@ namespace MasterErp.Service.GeneralAccounts
             }
         }
 
-        
+        public ActionsResponseModel ExportMonthlyAssistantLedger(string UserName, AccountsReportSearchFilterModel SearchModel)
+        {
+            string url = string.Empty;
+            try
+            {
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var Data = GetMonthlyAssistantLedger(SearchModel);
 
+                var result = Data.Select(res =>
+                                new MonthlyAssistantLedgerExportModel
+                                {
+                                    EntryMonth = res.EntryMonth,
+                                    Debit = res.Debit,
+                                    Credit = res.Credit,
+                                    BalanceDebit = res.BalanceDebit,
+                                    BalanceCredit = res.BalanceCredit
+                                    //CreatedDate = res.CreatedDate?.ToString("MM/dd/yyyy"),
 
+                                }).ToList();
+
+                if (!result.Any())
+                {
+                    result.Add(new MonthlyAssistantLedgerExportModel());
+                }
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "MonthlyAssistantLedger");
+                url = GetExportFilePath(dtExport, UserName, "MonthlyAssistantLedger");
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+        }
 
         public List<AccountsTrialBalanceModel> GetAccountsTrialBalanceReport(AccountsReportSearchFilterModel model)
         {
@@ -263,15 +320,9 @@ namespace MasterErp.Service.GeneralAccounts
                 if (!result.Any())
                 {
                     result.Add(new AccountsTrialBalanceExportModel());
-
                 }
-
-
                 var dtExport = DalHelper.ConvertToDataTable(result, "AccountsTrialBalanceReport");
-
-
                 url = GetExportFilePath(dtExport, UserName, "AccountsTrialBalanceReport");
-
 
                 return new ActionsResponseModel
                 {
@@ -279,7 +330,6 @@ namespace MasterErp.Service.GeneralAccounts
                     URL = url,
                     Message = "File Exported successfully"
                 };
-
             }
             catch (Exception ex)
             {
@@ -292,7 +342,7 @@ namespace MasterErp.Service.GeneralAccounts
                 };
             }
         }
-        
+
         public List<AccountsBalanceSheetModel> GetAccountsBalanceSheetReport(AccountsReportSearchFilterModel model)
         {
 

@@ -91,8 +91,8 @@ export class SharedService {
     return this.http.get<any[]>(this.URL + 'Shared/GetLeadgerJournalsData');
   }
 
-  GetReceiptLedgersSelector() {
-    return this.http.get<any[]>(this.URL + 'Shared/GetReceiptLedgersSelector');
+  GetReceiptLedgersSelector(PaymentTypeId: number) {
+    return this.http.get<any[]>(this.URL + 'Shared/GetReceiptLedgersSelector?PaymentTypeId=' + PaymentTypeId);
   }
 
 

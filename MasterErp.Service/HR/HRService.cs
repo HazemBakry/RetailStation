@@ -2,7 +2,6 @@
 using MasterErp.Entities.Common.SQLTabeType;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.Finance;
 using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.Common;
 using MasterErp.Interface.HR;
@@ -478,6 +477,117 @@ namespace MasterErp.Service.HR
             try
             {
                 var entity = Context.Jobs.FirstOrDefault(i => i.JobId == JobId);
+                if (entity != null)
+                {
+                    Context.Remove(entity);
+                    Context.SaveChanges();
+                    return new ActionsResponseModel { Message = "تم الحذف بنجاح !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "هذا الاسم غير موجود" }; ;
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        #endregion
+
+        #region Regions
+
+        public List<Region> GetRegionsData(SearchFilterModel searchModel)
+        {
+            var regions = Context.Regions.ToList();
+
+            int totalCount = regions.Count();
+            if (searchModel.CurrentPage > 0 && searchModel.PageSize > 0)
+            {
+                int skip = (searchModel.CurrentPage - 1) * searchModel.PageSize;
+                regions = regions.Skip(skip).Take(searchModel.PageSize).ToList();
+            }
+
+            var pagedResults = regions.ToList();
+            pagedResults.ForEach(x => x.TotalCount = totalCount);
+            return pagedResults;
+        }
+
+        public ActionsResponseModel CreateNewRegion(Region Model)
+        {
+            try
+            {
+                var entity = Context.Regions.FirstOrDefault(i => i.NameEN == Model.NameEN || i.NameAR == Model.NameAR);
+                if (entity != null)
+                {
+                    return new ActionsResponseModel
+                    {
+                        IsSuccess = false,
+                        Message = "هذا الاسم موجود"
+                    };
+                }
+
+                Region tbl = new Region
+                {
+                    IsActive = Model.IsActive,
+                    NameAR = Model.NameAR,
+                    NameEN = Model.NameEN,
+                    BranchId = 1,
+                    CreatedDate = DateTime.Now,
+                    CreatedBy = Model.CreatedBy,
+                    CityId = 1,
+                    CountryId = 1,
+                    Code = "001",
+                    DeliveryValue = 7
+                };
+                Context.Regions.Add(tbl);
+                Context.SaveChanges();
+
+                return new ActionsResponseModel
+                {
+                    Message = "تم الحفظ  بنجاح"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public ActionsResponseModel EditRegion(int RegionId, Region Model)
+        {
+            try
+            {
+                var entity = Context.Regions.FirstOrDefault(i => i.RegionId == RegionId);
+                if (entity != null)
+                {
+                    entity.IsActive = Model.IsActive;
+                    entity.NameAR = Model.NameAR;
+                    entity.NameEN = Model.NameEN;
+                    entity.ModifiedDate = DateTime.Now;
+                    entity.ModifiedBy = Model.ModifiedBy;
+
+                    Context.SaveChanges();
+
+                    return new ActionsResponseModel { Message = "تم تعديل البيانات بنجاح !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "هذا الاسم غير موجود" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel DeleteRegion(int RegionId)
+        {
+            try
+            {
+                var entity = Context.Regions.FirstOrDefault(i => i.RegionId == RegionId);
                 if (entity != null)
                 {
                     Context.Remove(entity);

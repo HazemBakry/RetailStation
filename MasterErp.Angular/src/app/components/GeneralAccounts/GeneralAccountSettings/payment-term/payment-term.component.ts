@@ -117,7 +117,6 @@ export class PaymentTermComponent implements OnInit {
   }
 
   addNewPaymentTerm() {
-
     this.showAddLoader = true;
     this.generalAccountSettingsService
       .CreateNewPaymentTerm(this.paymentTermModel).subscribe(data => {

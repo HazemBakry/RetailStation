@@ -14,9 +14,10 @@ namespace MasterErp.Interface.GeneralAccounts
     {
         List<AccountsGeneralLedgerModel> GetAccountsGeneralLedger(AccountsReportSearchFilterModel SearchModel);
         ActionsResponseModel ExportAccountsGeneralLedger(string UserName, AccountsReportSearchFilterModel SearchModel);
-
         List<AccountsAssistantLedgerModel> GetAccountsAssistantLedger(AccountsReportSearchFilterModel SearchModel);
+        List<MonthlyAssistantLedger> GetMonthlyAssistantLedger(AccountsReportSearchFilterModel SearchModel);
         ActionsResponseModel ExportAccountsAssistantLedger(string UserName, AccountsReportSearchFilterModel SearchModel);
+        ActionsResponseModel ExportMonthlyAssistantLedger(string UserName, AccountsReportSearchFilterModel SearchModel);
         List<AccountsTrialBalanceModel> GetAccountsTrialBalanceReport(AccountsReportSearchFilterModel model);
         ActionsResponseModel ExportAccountsTrialBalanceReport(string UserName, AccountsReportSearchFilterModel SearchModel);
         List<AccountsBalanceSheetModel> GetAccountsBalanceSheetReport(AccountsReportSearchFilterModel model);

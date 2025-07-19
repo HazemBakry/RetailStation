@@ -42,9 +42,9 @@
                         <label class="form-label d-flex align-items-center gap-2">طريقة الدفع <span
                                 class="text-danger">*</span></label>
 
-                        <app-general-selector formControlName="paymentTypeId" [data]="paymentTypeList" [placeholder]="'طريقة الدفع'"></app-general-selector>
-                    
-                    <div *ngIf="formErrors.paymentTypeId" class="text-danger font-small-3 m-03">
+                        <app-general-selector formControlName="paymentTypeId" [data]="paymentTypeList" [placeholder]="'طريقة الدفع'" (valueChanged)="getReceiptLedgerByPaymentTypeId($event)"></app-general-selector>
+
+                        <div *ngIf="formErrors.paymentTypeId" class="text-danger font-small-3 m-03">
                             {{formErrors.paymentTypeId}}
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                         </app-general-selector> -->
 
                         <app-general-selector formControlName="agencyTypeId" [data]="agencyTypeList" (valueChanged)="getSelectedAgencyType($event)" [placeholder]="'نوع جهة التعامل '"></app-general-selector>
-                    <div *ngIf="formErrors.agencyTypeId" class="text-danger font-small-3 m-03">
+                        <div *ngIf="formErrors.agencyTypeId" class="text-danger font-small-3 m-03">
                             {{formErrors.agencyTypeId}}
                         </div>
                     </div>
@@ -66,13 +66,13 @@
                     <div class="mb-2">
                         <label class="form-label d-flex align-items-center gap-2">الحساب / جهة التعامل <span
                                 class="text-danger">*</span></label>
-                        <app-general-selector *ngIf="selectedAgencyType == 1" formControlName="accountId" [data]="accountList" [placeholder]="'الحساب'">
+                        <app-general-selector [showSearch]="true" *ngIf="selectedAgencyType == 1" formControlName="accountId" [data]="accountList" [placeholder]="'الحساب'">
                         </app-general-selector>
                         <div *ngIf="formErrors.accountId" class="text-danger font-small-3 m-03">
                             {{formErrors.accountId}}
                         </div>
 
-                        <app-general-selector *ngIf="selectedAgencyType == 3" formControlName="customerId" [data]="customerList" [placeholder]="'العميل'">
+                        <app-general-selector [showSearch]="true" *ngIf="selectedAgencyType == 3" formControlName="customerId" [data]="customerList" [placeholder]="'العميل'">
                         </app-general-selector>
                         <div *ngIf="formErrors.customerId" class="text-danger font-small-3 m-03">
                             {{formErrors.customerId}}
@@ -128,7 +128,7 @@
         </form>
     </div>
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-top mb-2">
-        <button class="btn btn-primary btn-lg fs-6 me-2 mt-2" (click)="SaveReceiveReceipt()">
+        <button class="btn btn-primary btn-lg fs-6 me-2 mt-2" (click)="saveNewReceiveReceipt()">
             <i class="fas fa-check-circle"></i>
             <span class="ms-2">حفظ</span>
         </button>
@@ -145,3 +145,5 @@
     </div>
 
 </div>
+
+<ngx-loading [show]="showLoader"></ngx-loading>

@@ -224,7 +224,6 @@ export class HrEmployeeDuesComponent implements OnInit {
       const month = months;
       const day = days;
 
-      console.log(`Months: ${month}, Days: ${day}`);
       this.duesCreateModel.totalDuesMonths = month;
       this.duesCreateModel.totalDuesDays = day;
     }

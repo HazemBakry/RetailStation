@@ -79,7 +79,7 @@ namespace MasterErp.Service.GeneralAccounts
             return new DataTable();
         }
 
-        public ActionsResponseModel AddNewPaymentOrder(ReceiptModel Model)
+        public ActionsResponseModel SaveNewPaymentOrder(ReceiptModel Model)
         {
             try
             {
@@ -120,6 +120,12 @@ namespace MasterErp.Service.GeneralAccounts
                 {
                     var advance = Context.EmployeeAdvances.FirstOrDefault(x => x.EmployeeAdvanceId == Model.EmployeeAdvanceId);
                     advance.WorkflowStatusId = (int)WorkflowStatus.Completed;
+                    Context.SaveChanges();
+                }
+                if (Model.EmployeeDueId != null)
+                {
+                    var due = Context.EmployeeDues.FirstOrDefault(x => x.EmployeeDueId == Model.EmployeeDueId);
+                    due.WorkflowStatusId = (int)WorkflowStatus.Completed;
                     Context.SaveChanges();
                 }
 
@@ -222,9 +228,9 @@ namespace MasterErp.Service.GeneralAccounts
             return order;
         }
 
-        public List<SelectorDataModel> GetPaymentOrdersSelector(bool OrderStatus)
+        public List<SelectorDataModel> GetPaymentOrdersSelector()
         {
-            var results = Context.PaymentOrders.Where(x => x.WorkflowStatusId == (int)WorkflowStatus.Completed).Select(b => new SelectorDataModel
+            var results = Context.PaymentOrders.Where(x => x.WorkflowStatusId == (int)WorkflowStatus.Pending).Select(b => new SelectorDataModel
             {
                 Id = b.PaymentOrderId,
                 Name = b.OrderNumber.ToString(),
@@ -262,7 +268,7 @@ namespace MasterErp.Service.GeneralAccounts
             return new DataTable();
         }
 
-        public ActionsResponseModel AddNewPaymentReceipt(ReceiptModel Model)
+        public ActionsResponseModel SaveNewPaymentReceipt(ReceiptModel Model)
         {
             try
             {
@@ -313,6 +319,9 @@ namespace MasterErp.Service.GeneralAccounts
                 var entry = PreparePaymentEntryModel(receipt);
                 var result = entryService.SaveNewJournalEntry(entry);
 
+                receipt.JournalEntryId = result.Id ?? -1;
+                Context.SaveChanges();
+
                 return new ActionsResponseModel
                 {
                     Message = result.IsSuccess ? "تم حفظ البيانات بنجاح" : "فشل فى تسجيل القيد المحاسبى",
@@ -349,7 +358,8 @@ namespace MasterErp.Service.GeneralAccounts
                 }
 
                 receipt = Context.PaymentReceipts.FirstOrDefault(x => x.PaymentReceiptId == PaymentReceiptId &&
-                                                                                x.WorkflowStatusId != (int)WorkflowStatus.Cancelled && x.WorkflowStatusId != (int)WorkflowStatus.Completed);
+                                  x.WorkflowStatusId != (int)WorkflowStatus.Cancelled && 
+                                  x.WorkflowStatusId != (int)WorkflowStatus.Completed);
                 if (receipt != null)
                 {
                     receipt.ReceiptLedgerId = Model.ReceiptLedgerId;
@@ -506,15 +516,15 @@ namespace MasterErp.Service.GeneralAccounts
             return new DataTable();
         }
 
-        public ActionsResponseModel SaveReceiveReceipt(ReceiptModel Model)
+        public ActionsResponseModel SaveNewReceiveReceipt(ReceiptModel Model)
         {
             try
             {
                 ReceiveReceipt receipt = new ReceiveReceipt();
 
-                if (Model.PaymentReceiptId > 0)
+                if (Model.ReceiptId > 0)
                 {
-                    receipt = Context.ReceiveReceipts.FirstOrDefault(x => x.ReceiveReceiptId == Model.PaymentReceiptId);
+                    receipt = Context.ReceiveReceipts.FirstOrDefault(x => x.ReceiveReceiptId == Model.ReceiptId);
                     if (receipt != null)
                     {
                         receipt.ReceiptLedgerId = Model.ReceiptLedgerId;
@@ -557,6 +567,7 @@ namespace MasterErp.Service.GeneralAccounts
                         DocNumber = Model.DocNumber,
                         AgencyTypeId = Model.AgencyTypeId,
                         AccountId = Model.AccountId,
+                        WorkflowStatusId = (int)WorkflowStatus.Completed,
                         CreatedDate = DateTime.Now,
                         CreatedBy = "",
                         IsCancelled = false,
@@ -569,6 +580,9 @@ namespace MasterErp.Service.GeneralAccounts
 
                 var entry = PrepareReceiveEntryModel(receipt);
                 var result = entryService.SaveNewJournalEntry(entry);
+
+                receipt.JournalEntryId = result.Id ?? -1;
+                Context.SaveChanges();
 
                 return new ActionsResponseModel
                 {
@@ -633,6 +647,8 @@ namespace MasterErp.Service.GeneralAccounts
                         DocNumber = Model.DocNumber,
                         EntryDate = Model.ReleaseDate,
                         Description = Model.Description,
+                        IsPosted = true,
+                        IsLocked = true,
                         JournalTypeId = (int)EntryType.Cashing,
                         PeriodId = Context.ReceiptLedgers.Single(x => x.ReceiptLedgerId == Model.ReceiptLedgerId).FinancialPeriodId,
                         ActionTypeId = (int)JournalActionType.CashPayment,

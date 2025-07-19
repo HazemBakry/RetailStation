@@ -35,22 +35,37 @@
                         {{formErrors.contractPeriodYears}}
                     </div>
                 </div>
-
+            </div>
+            <div class="col-xl-5"></div>
+            <div class="col-xl-5">
+                <div class="form-floating mb-3">
+                    <input type="date" formControlName="joinDate" class="form-control" id="floatingInput1" placeholder="any">
+                    <label for="floatingInput5">تاريخ بدء العمل</label>
+                    <div *ngIf="formErrors.joinDate" class="text-danger  font-small-3 m-03">
+                        {{formErrors.joinDate}}
+                    </div>
+                </div>
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
-                <div class=" mb-3">
-
-                    <div class="d-flex">
-                        <input class="form-check-input width-30 height-30" formControlName="isGossi" type="checkbox" value="" id="flexCheckDefault">
-                        <label class=" form-label m-2">مؤمن علية</label>
-                    </div>
-                    <div *ngIf="formErrors.isGossi" class="text-danger  font-small-3 m-03">
-                        {{formErrors.isGossi}}
+                <div class="form-floating mb-3">
+                    <input type="date" formControlName="lastJoinDate" class="form-control" id="floatingInput1" placeholder="any">
+                    <label for="floatingInput5">تاريخ آخر عودة للعمل</label>
+                    <div *ngIf="formErrors.lastJoinDate" class="text-danger  font-small-3 m-03">
+                        {{formErrors.lastJoinDate}}
                     </div>
                 </div>
-
             </div>
+            <!-- <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+                <div class="form-floating mb-3">
+                    <input type="date" formControlName="vacationDate" class="form-control" id="floatingInput1" placeholder="any">
+                    <label for="floatingInput5">تاريخ بدء الأجازة</label>
+                    <div *ngIf="formErrors.vacationDate" class="text-danger  font-small-3 m-03">
+                        {{formErrors.vacationDate}}
+                    </div>
+                </div>
+            </div> -->
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
                 <div class="form-floating mb-3">
@@ -60,7 +75,6 @@
                         {{formErrors.vacationDate}}
                     </div>
                 </div>
-
             </div>
             <div class="col-xl-1"></div>
             <div class="col-xl-5">
@@ -71,8 +85,20 @@
                         {{formErrors.vacationPeriodDays}}
                     </div>
                 </div>
-
             </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-5">
+                <div class=" mb-3">
+                    <div class="d-flex">
+                        <input class="form-check-input width-30 height-30" formControlName="isGossi" type="checkbox" value="" id="flexCheckDefault">
+                        <label class=" form-label m-2">مؤمن علية</label>
+                    </div>
+                    <div *ngIf="formErrors.isGossi" class="text-danger  font-small-3 m-03">
+                        {{formErrors.isGossi}}
+                    </div>
+                </div>
+            </div>
+
 
         </div>
     </form>

@@ -18,7 +18,7 @@ export class AccountsAssistantLedgerComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'دفتر الأستاذ المساعد'];
   showLoader: boolean = false;
   showExportLoader: boolean = false;
-  
+
   assistantLedgerResponse: AccountsReportSearchFilterModel = {
     results: [],
     filterList: [],
@@ -32,7 +32,9 @@ export class AccountsAssistantLedgerComponent implements OnInit {
 
   };
 
-  constructor(private generalService: GeneralAccountService, private sharedService: SharedService, private toaster: ToastrService,
+  constructor(private generalService: GeneralAccountService, 
+    private sharedService: SharedService, 
+    private toaster: ToastrService,
     private ReportsService: CreateReportsService
   ) { }
 
@@ -43,12 +45,11 @@ export class AccountsAssistantLedgerComponent implements OnInit {
     if (!this.validateSearchModel()) {
       return;
     }
-
     this.showLoader = true;
     this.generalService.GetAccountsAssistantLedger(this.assistantLedgerResponse).subscribe((data: PagedResponseDTO<AccountsAssistantLedgerModel[]>) => {
       this.assistantLedgerResponse.results = data.results;
       this.assistantLedgerResponse.totalCount = data.totalCount;
-      
+
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
@@ -56,6 +57,7 @@ export class AccountsAssistantLedgerComponent implements OnInit {
       this.showLoader = false;
     });
   }
+
   exportData() {
     if (!this.validateSearchModel()) {
       return;
@@ -76,11 +78,10 @@ export class AccountsAssistantLedgerComponent implements OnInit {
     }, () => {
       this.showExportLoader = false;
     });
-
-
   }
+
   printData() {
- if (!this.validateSearchModel()) {
+    if (!this.validateSearchModel()) {
       return;
     }
 
@@ -101,22 +102,21 @@ export class AccountsAssistantLedgerComponent implements OnInit {
     this.showLoader = true;
     this.ReportsService.CreateGeneralReport(reportParams, (timeTaken) => {
       this.showLoader = false;
-      console.log(`Generate Report Request Time: ${timeTaken} S`);
     });
   }
 
-
   searchDataChanged(filter: AccountsReportSearchFilterModel) {
-
     this.assistantLedgerResponse.fromDate = filter.fromDate;
     this.assistantLedgerResponse.toDate = filter.toDate;
     this.assistantLedgerResponse.accountId = filter.accountId;
     this.assistantLedgerResponse.costCenterId = filter.costCenterId;
   }
+
   pageChanged(obj: any) {
     this.assistantLedgerResponse.currentPage = obj.page;
     this.loadData();
   }
+
   validateSearchModel(): boolean {
     if (
       !this.assistantLedgerResponse.fromDate ||

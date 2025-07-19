@@ -84,7 +84,8 @@ export class GeneralAccountsDashboardComponent implements OnInit {
     this.generalAccountService.GetGeneralAccounts_Statistics().subscribe(data => {
       this.statisticsCardList = data;
     },
-      (error) => { console.log("error", error); }, () => { });
+      (error) => { 
+      }, () => { });
   }
 
   getSalesSummary() {
@@ -105,7 +106,6 @@ export class GeneralAccountsDashboardComponent implements OnInit {
       this.journalEntriesList = data?.results;
     },
       (error) => {
-        console.log("error", error);
       },
       () => { });
   }

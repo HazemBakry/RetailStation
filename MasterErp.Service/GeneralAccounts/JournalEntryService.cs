@@ -43,7 +43,7 @@ namespace MasterErp.Service.GeneralAccounts
             return result;
         }
 
-        public JournalEntryModel GetJournalEntryDetailsById(int journalId)
+        public JournalEntryModel GetEntryDetailsById(int journalId)
         {
             var entry = Context.JournalEntries.Where(x => x.JournalEntryId == journalId).FirstOrDefault();
             JournalEntryModel EntryModel = new JournalEntryModel();
@@ -92,6 +92,24 @@ namespace MasterErp.Service.GeneralAccounts
             return EntryModel;
         }
 
+        public JournalEntryModel GetEntryDetailsByReceiptId(int ReceiptId, string ReceiptType)
+        {
+            int entryId = 0;
+            if (ReceiptType == "Receive")
+            {
+                var receipt = Context.ReceiveReceipts.Where(x => x.ReceiveReceiptId == ReceiptId).FirstOrDefault();
+                if (receipt != null)
+                    entryId = receipt.JournalEntryId;
+            }
+            else
+            {
+                var receipt = Context.PaymentReceipts.Where(x => x.PaymentReceiptId == ReceiptId).FirstOrDefault();
+                if (receipt != null)
+                    entryId = receipt.JournalEntryId;
+            }
+            var result = GetEntryDetailsById(entryId);
+            return result;
+        }
 
         public int GenerateNewEntryNumber(int month, int year)
         {

@@ -14,8 +14,7 @@
                     <label class="form-label d-flex align-items-center gap-2">
                         التفرع
                     </label>
-                    <input type="number" class="form-control nw-form-input"
-                        [(ngModel)]="balanceSheetResponse.searchLevel" autocomplete="off" />
+                    <input type="number" min="1" class="form-control nw-form-input" [(ngModel)]="balanceSheetResponse.searchLevel" autocomplete="off" />
 
                 </div>
             </div>
@@ -24,8 +23,7 @@
                     <label class="form-label d-flex align-items-center gap-2">
                         نوع التفرع
                     </label>
-                    <app-general-selector [showSearch]="true" [(ngModel)]="balanceSheetResponse.searchType"
-                        [data]="levelTypesSelector" [placeholder]="'نوع التفرع'"></app-general-selector>
+                    <app-general-selector [showSearch]="true" [(ngModel)]="balanceSheetResponse.searchType" [data]="levelTypesSelector" [placeholder]="'نوع التفرع'"></app-general-selector>
                 </div>
             </div>
             <div class="col-lg-3">
@@ -51,8 +49,7 @@
             <i class="fas fa-search"></i>
             <span class="ms-2">بحث</span>
         </button>
-        <button [disabled]="showExportLoader" (click)="exportData()"
-            class="btn  btn-outline-success gap-2 border rounded px-3 me-2">
+        <button [disabled]="showExportLoader" (click)="exportData()" class="btn  btn-outline-success gap-2 border rounded px-3 me-2">
             <i class="fas fa-file-download"></i>
             <span>تصدير CSV</span>
         </button>
@@ -86,15 +83,15 @@
                     <th>الكـود</th>
                     <th>نوع الحســاب</th>
                     <th>الحســاب</th>
-                    <th>الرصيد الحالى (مدين)</th>
-                    <th>الرصيد الحالى (دائن)</th>
+                    <th>مدين</th>
+                    <th>دائن</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of  balanceSheetResponse.results">
                     <td>{{item.accountNumber}}</td>
                     <td>
-                        
+
                         <span *ngIf="item.isGroup" class="badge bg-primary">حساب رئيسى</span>
                         <span *ngIf="!item.isGroup" class="badge bg-secondary">حساب فرعى</span>
                     </td>
@@ -117,17 +114,15 @@
         <div class="row justify-content-end m-3">
             <div class="col-md-2">
                 <label class="form-label d-flex align-items-center gap-2">
-                    أجمالي دائن
+                    أجمالي مدين
                 </label>
-                <input type="text" class="form-control nw-form-input" [value]="totalCredit" disabled
-                    autocomplete="off" />
+                <input type="text" class="form-control nw-form-input" [value]="totalDebit" disabled autocomplete="off" />
             </div>
             <div class="col-md-2">
                 <label class="form-label d-flex align-items-center gap-2">
-                    أجمالي مدين
+                    أجمالي دائن
                 </label>
-                <input type="text" class="form-control nw-form-input" [value]="totalDebit" disabled
-                    autocomplete="off" />
+                <input type="text" class="form-control nw-form-input" [value]="totalCredit" disabled autocomplete="off" />
             </div>
         </div>
         <div class="row justify-content-end mb-3">

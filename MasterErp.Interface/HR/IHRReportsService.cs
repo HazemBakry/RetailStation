@@ -17,13 +17,14 @@ namespace MasterErp.Interface.HR
         DataTable GetPayrollReportSickLeaves(SearchFilterModel SearchModel);
         DataTable GetPayrollReportDeducts(SearchFilterModel SearchModel);
         DataTable GetPayrollReportAdvances(SearchFilterModel SearchModel);
+        DataTable GetPayrollReportEmployeesDues(SearchFilterModel SearchModel);
         ActionsResponseModel ExportPayrollReportVacations(SearchFilterModel model);
         ActionsResponseModel ExportPayrollReportOverTime(SearchFilterModel model);
         ActionsResponseModel ExportPayrollReportPenalties(SearchFilterModel model);
         ActionsResponseModel ExportPayrollReportSickLeaves(SearchFilterModel model);
         ActionsResponseModel ExportPayrollReportDeducts(SearchFilterModel model);
         ActionsResponseModel ExportPayrollReportAdvances(SearchFilterModel model);
-
+        ActionsResponseModel ExportPayrollReportEmployeesDues(SearchFilterModel model);
 
         #region ExpireReports
         List<EmployeeReportModel> GetEmployeesExpireReport_Data(int ReportType, SearchFilterModel model);

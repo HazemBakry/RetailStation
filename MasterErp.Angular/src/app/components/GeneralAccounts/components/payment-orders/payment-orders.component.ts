@@ -115,9 +115,7 @@ export class PaymentOrdersComponent implements OnInit {
   getPaymentOrderDetailsById(paymentOrderId) {
     this.showDetailsLoader = true;
     this.paymentService.GetPaymentOrderDetailsById(paymentOrderId).subscribe((data: ReceiptModel) => {
-      this.paymentOrderDetailsModel = data;
-      console.log('Payment Order Details:', this.paymentOrderDetailsModel);
-      
+      this.paymentOrderDetailsModel = data;      
       this.showDetailsLoader = false;
     }, err => {
       this.showDetailsLoader = false;

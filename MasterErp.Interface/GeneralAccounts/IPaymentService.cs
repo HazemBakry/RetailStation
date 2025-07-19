@@ -15,29 +15,32 @@ namespace MasterErp.Interface.GeneralAccounts
     {
 
         // ----------------- Payment Orders -----------------//
+
         List<ReceiptModel> GetPaymentOrders_Summary(SearchFilterModel model,int? PaymentOrderId = null);
         ReceiptModel GetPaymentOrderDetailsById(int PaymentOrderId);
 
         DataTable GetPaymentOrders_Filters(SearchFilterModel model);
-        ActionsResponseModel AddNewPaymentOrder(ReceiptModel Model);
+        ActionsResponseModel SaveNewPaymentOrder(ReceiptModel Model);
         ActionsResponseModel EditPaymentOrder(int PaymentOrderId, ReceiptModel Model);
         ActionsResponseModel CancelPaymentOrder(int ReceiptId);
         PaymentOrder GetPaymentOrderDetails(int OrderId);
-        List<SelectorDataModel> GetPaymentOrdersSelector(bool OrderStatus);
+        List<SelectorDataModel> GetPaymentOrdersSelector();
+
 
         // ----------------- Payment Receipts -----------------//
         List<ReceiptModel> GetPaymentReceipts_Summary(SearchFilterModel model, int? PaymentReceiptId=null);
         DataTable GetPaymentReceipts_Filters(SearchFilterModel model);
         ReceiptModel GetPaymentReceiptDetailsById(int PaymentReceiptId);
 
-        ActionsResponseModel AddNewPaymentReceipt(ReceiptModel Model);
+        ActionsResponseModel SaveNewPaymentReceipt(ReceiptModel Model);
         ActionsResponseModel EditPaymentReceipt(int PaymentReceiptId ,ReceiptModel Model);
         ActionsResponseModel CancelPaymentReceipt(int ReceiptId);
 
         // ----------------- Receive Receipts -----------------//
+
         List<ReceiptModel> GetReceiveReceipts_Summary(SearchFilterModel model);
         DataTable GetReceiveReceipts_Filters(FilterModel model);
-        ActionsResponseModel SaveReceiveReceipt(ReceiptModel Model);
+        ActionsResponseModel SaveNewReceiveReceipt(ReceiptModel Model);
         ActionsResponseModel CancelReceiveReceipt(int ReceiptId);
 
     }

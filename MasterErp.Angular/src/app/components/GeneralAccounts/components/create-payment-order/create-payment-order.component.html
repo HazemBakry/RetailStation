@@ -117,7 +117,7 @@
                         <div *ngIf="formErrors.supplierId" class="text-danger font-small-3 m-03">
                             {{formErrors.supplierId}}
                         </div>
-                        <app-general-selector [showSearch]="true" *ngIf="formGroup?.value?.agencyTypeId == 4" [disabled]="purchaseInvoiceId" formControlName="employeeId" [data]="employeesSelectorData" [placeholder]="'اسم الموظف'">
+                        <app-general-selector [showSearch]="true" *ngIf="formGroup?.value?.agencyTypeId == 4" [disabled]="employeeDueId" formControlName="employeeId" [data]="employeesSelectorData" [placeholder]="'اسم الموظف'">
                         </app-general-selector>
                         <div *ngIf="formErrors.employeeId" class="text-danger font-small-3 m-03">
                             {{formErrors.employeeId}}

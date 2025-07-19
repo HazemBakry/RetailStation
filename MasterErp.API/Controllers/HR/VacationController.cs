@@ -125,5 +125,16 @@ namespace MasterErp.API.Controllers.HR
             return Ok(result);
         }
 
+        [HttpPost]
+        [Route("EditEmployeesWorkStatus")]
+        public IActionResult EditEmployeesWorkStatus(List<int> EmployeeIds)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            return Ok(_vacationService.EditEmployeesWorkStatus(UserId, EmployeeIds));
+        }
+
+        
+
     }
 }

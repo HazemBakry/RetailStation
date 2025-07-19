@@ -139,7 +139,6 @@ export class GeneralAccountSettingsService {
   }
 
   CreateNewBank(model: any) {
-    debugger
     return this.http.post<ActionsResponseModel>(this.URL + 'Bank/CreateNewBank', model);
   }
 

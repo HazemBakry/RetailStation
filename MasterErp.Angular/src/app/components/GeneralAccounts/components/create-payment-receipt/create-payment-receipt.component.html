@@ -93,11 +93,8 @@
                 </div>
                 <div class="col-lg-6">
                     <div *ngIf="formGroup?.value?.agencyTypeId" class="mb-2">
-                        <label class="form-label d-flex align-items-center gap-2"> جهة التعامل <span
-                                class="text-danger">*</span></label>
-                        <!-- <app-general-selector [showSearch]="true" [disabled]="true"
-                            *ngIf="formGroup?.value?.agencyTypeId == 1" formControlName="accountId" [data]="accountList"
-                            [placeholder]="'الحسابات'">
+                        <label *ngIf="formGroup?.value?.agencyTypeId == 2||formGroup?.value?.agencyTypeId==4" class="form-label d-flex align-items-center gap-2"> جهة التعامل <span class="text-danger">*</span></label>
+                        <!-- <app-general-selector [showSearch]="true" [disabled]="true" *ngIf="formGroup?.value?.agencyTypeId == 1" formControlName="accountId" [data]="accountList" [placeholder]="'الحسابات'">
                         </app-general-selector>
                         <div *ngIf="formErrors.accountId" class="text-danger  font-small-3 m-03">
                             {{formErrors.accountId}}
@@ -180,7 +177,7 @@
 
 </div>
 
-
+<ngx-loading [show]="showLoader"></ngx-loading>
 
 
 

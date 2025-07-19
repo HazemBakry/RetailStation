@@ -125,17 +125,14 @@ namespace MasterErp.API.Controllers.HR
             {
                 var employee = _employeeService.GetEmployeeBasicInfoById(EmployeeId);
                 return Ok(employee);
-
             }
             catch (Exception ex)
             {
                 NotFound();
                 throw;
             }
-
-
-
         }
+
         [HttpGet("GetEmployeeContractInfoById")]
         public IActionResult GetEmployeeContractInfoById(int EmployeeId)
         {
@@ -144,6 +141,7 @@ namespace MasterErp.API.Controllers.HR
             return Ok(employee);
 
         }
+
         [HttpGet("GetEmployeeVerificationInfoById")]
         public IActionResult GetEmployeeVerificationInfoById(int EmployeeId)
         {
@@ -152,14 +150,14 @@ namespace MasterErp.API.Controllers.HR
             return Ok(employee);
 
         }
+
         [HttpGet("GetEmployeeAttachmentsById")]
         public IActionResult GetEmployeeAttachmentsById(int EmployeeId)
         {
-
             var employee = _employeeService.GetEmployeeAttachmentsById(EmployeeId);
             return Ok(employee);
-
         }
+
         #endregion
 
         [HttpGet]
@@ -241,7 +239,13 @@ namespace MasterErp.API.Controllers.HR
             return Ok(result);
         }
 
-        
+        [HttpGet]
+        [Route("GetSponsorData")]
+        public List<Sponsor> GetSponsorData()
+        {
+            return _employeeService.GetSponsorData();
+        }
+
 
         //[HttpPost]
         //[Route("GetEmployeeRequests_Data")]
@@ -273,12 +277,7 @@ namespace MasterErp.API.Controllers.HR
         //    return _employeeService.GetPassportIssuePlaces();
         //}
 
-        //[HttpGet]
-        //[Route("GetSponsorData")]
-        //public List<Sponsor> GetSponsorData()
-        //{
-        //    return _employeeService.GetSponsorData();
-        //}
+
 
         //[HttpGet]
         //[Route("GetIqamaJobData")]

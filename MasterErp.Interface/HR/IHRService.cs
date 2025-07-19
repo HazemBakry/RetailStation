@@ -31,11 +31,18 @@ namespace MasterErp.Interface.HR
         #endregion
 
         #region Jobs
-
         List<Job> GetJobsData(SearchFilterModel searchModel);
         ActionsResponseModel CreateNewJob(Job Model);
         ActionsResponseModel EditJob(int JobId, Job Model);
         ActionsResponseModel DeleteJob(int JobId);
+
+        #endregion
+
+        #region Regions
+        List<Region> GetRegionsData(SearchFilterModel searchModel);
+        ActionsResponseModel CreateNewRegion(Region Model);
+        ActionsResponseModel EditRegion(int RegionId, Region Model);
+        ActionsResponseModel DeleteRegion(int RegionId);
 
         #endregion
     }

@@ -6,10 +6,10 @@ import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsRe
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { DatePipe } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import { ReceiveReceipt } from '../../models/GeneralAccounts/ReceiveReceipt';
-import { ReceiptLedger } from '../../models/GeneralAccounts/ReceiptModel';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ReceiptModel } from '../../models/GeneralAccounts/ReceiptModel';
 import { LookupService } from 'src/app/components/Shared/services/lookup.service';
+import { FinanceWorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
 
 @Component({
   selector: 'app-create-receive-receipt',
@@ -18,6 +18,9 @@ import { LookupService } from 'src/app/components/Shared/services/lookup.service
 })
 export class CreateReceiveReceiptComponent implements OnInit {
   TitleList = ['الحسابات العامة', 'سند قبض جديد'];
+  showLoader: boolean = false;
+  showAddLoader: boolean = false;
+
   agencyTypeList: any[] = [];
   paymentTypeList: any[] = [];
   selectedAgencyType: number = 1;
@@ -25,7 +28,8 @@ export class CreateReceiveReceiptComponent implements OnInit {
   accountList: any[] = [];
   receiptLedgerList: any[] = [];
   receiptTypeList: any[] = [];
-  receiveReceiptModel: ReceiveReceipt = {} as ReceiveReceipt
+  receiveReceiptModel: ReceiptModel = {} as ReceiptModel
+  receiveReceiptId: number;
   inputDropdownValue = '';
   isFocused = false;
   isUpdate: any = false;
@@ -56,6 +60,7 @@ export class CreateReceiveReceiptComponent implements OnInit {
     private _FormService: FormService,
     private datePipe: DatePipe,
     private acRoute: ActivatedRoute,
+    private router: Router,
     private lookupService: LookupService,
     private toaster: ToastrService) { }
 
@@ -79,23 +84,26 @@ export class CreateReceiveReceiptComponent implements OnInit {
       this.accountList = data;
     });
 
-    this.sharedService.GetReceiptLedgersSelector().subscribe(data => {
-      this.receiptLedgerList = data;
-    });
-
-    this.lookupService.GetReceiptTypes('Receive').subscribe(data => {
-      this.receiptTypeList = data;
-    });
-
     this.lookupService.GetPaymentTypes().subscribe(data => {
       this.paymentTypeList = data;
     });
 
-    this.agencyTypeList = this.paymentService.agencyTypeList.filter(x => x.value != 2);
+
+    this.agencyTypeList = this.paymentService.agencyTypeList.filter(x => x.value == 1 || x.value == 3);
     //this.paymentTypeList = this.paymentService.paymentTypeList;
   }
 
-  initNewForm(receiptModel: ReceiveReceipt = null) {
+  getReceiptLedgerByPaymentTypeId(paymentTypeId: number) {
+    this.sharedService.GetReceiptLedgersSelector(paymentTypeId).subscribe(data => {
+      this.receiptLedgerList = data;
+    });
+
+    this.lookupService.GetReceiptTypes('Receive', paymentTypeId).subscribe(data => {
+      this.receiptTypeList = data;
+    });
+  }
+
+  initNewForm(receiptModel: ReceiptModel = null) {
     this.isUpdate = false;
     this.buildForm();
     if (receiptModel)
@@ -136,10 +144,10 @@ export class CreateReceiveReceiptComponent implements OnInit {
     }
   }
 
-  fillEditForm(receiptModel: ReceiveReceipt) {
+  fillEditForm(receiptModel: ReceiptModel) {
     this.isUpdate = true;
     this.formGroup.patchValue({
-      receiveReceiptId: receiptModel.receiveReceiptId,
+      receiveReceiptId: receiptModel.receiptId,
       receiptNumber: receiptModel.receiptNumber,
       docNumber: receiptModel.docNumber,
       releaseDate: this.datePipe.transform(receiptModel.releaseDate, 'yyyy-MM-dd'),
@@ -154,12 +162,27 @@ export class CreateReceiveReceiptComponent implements OnInit {
       paymentTypeId: receiptModel.paymentTypeId,
       receiptLedgerId: receiptModel.receiptLedgerId,
       receiptTypeId: receiptModel.receiptTypeId,
-      safeId: receiptModel.safeId,
+      //safeId: receiptModel.safeId,
     });
   }
 
   getReceiptDetailsById(receiptId: number) {
-
+    this.showLoader = true;
+    this.paymentService.GetReceiveReceiptDetailsById(this.receiveReceiptId).subscribe((data: ReceiptModel) => {
+      if (data && ![FinanceWorkflowStatus.Cancelled, FinanceWorkflowStatus.Paid].includes(data.workflowStatusId)) {
+        this.receiveReceiptModel = data;
+        this.initNewForm(this.receiveReceiptModel);
+        // this.fillEditForm(this.receiptModel)
+      } else {
+        this.receiveReceiptId = null;
+        this.toaster.error("لا يمكن تعديل سند صرف على فاتورة تم تم دفعه أو ملغي");
+      }
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
   }
 
   onChoosePayment(payment: string) {
@@ -185,7 +208,7 @@ export class CreateReceiveReceiptComponent implements OnInit {
     // }
   }
 
-  SaveReceiveReceipt() {
+  saveNewReceiveReceipt() {
     if (!this.validateForm()) {
       return;
     }
@@ -194,14 +217,15 @@ export class CreateReceiveReceiptComponent implements OnInit {
     if (!this.validateReceiveReceipt()) {
       return;
     }
-    if (!this.receiveReceiptModel.receiveReceiptId)
-      this.receiveReceiptModel.receiveReceiptId = 0;
+    if (!this.receiveReceiptModel.receiptId)
+      this.receiveReceiptModel.receiptId = 0;
 
-    this.paymentService.SaveReceiveReceipt(this.receiveReceiptModel).subscribe((data: ActionsResponseModel) => {
+    this.paymentService.SaveNewReceiveReceipt(this.receiveReceiptModel).subscribe((data: ActionsResponseModel) => {
       if (data?.status) {
         this.ClearAllFields();
         this.receiveReceiptModel.receiptNumber = data.number;
         this.toaster.success(data?.message);
+        this.router.navigateByUrl('/general-accounts/receive-receipts')
       } else {
         this.toaster.error(data?.message);
       }
@@ -209,7 +233,7 @@ export class CreateReceiveReceiptComponent implements OnInit {
   }
 
   validateReceiveReceipt(): boolean {
-    let model: ReceiveReceipt = this.receiveReceiptModel;
+    let model: ReceiptModel = this.receiveReceiptModel;
 
     if (!model.contactName ||
       !model.paymentTypeId ||
@@ -228,7 +252,7 @@ export class CreateReceiveReceiptComponent implements OnInit {
   }
 
   ClearAllFields() {
-    this.receiveReceiptModel = {} as ReceiveReceipt;
+    this.receiveReceiptModel = {} as ReceiptModel;
     this.selectedAgencyType = null;
   }
 
