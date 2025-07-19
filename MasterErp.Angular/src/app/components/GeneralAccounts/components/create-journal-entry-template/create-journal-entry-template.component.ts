@@ -143,7 +143,7 @@ export class CreateJournalEntryTemplateComponent implements OnInit {
       docNumber: [null],
       nameAR: [null, [Validators.required]],
       nameEN: [null, [Validators.required]],
-      journalTypeId: [null, [Validators.required]],
+      journalTypeId: [null],
       currencyTypeId: [null],
       accounts: [[] as JournalTemplateDetailsModel[], [Validators.required, Validators.minLength(1)]],
       description: [null],
