@@ -18,6 +18,7 @@ using MasterErp.Entities.DTOs.Shared;
 using MasterErp.Entities.Common.SQLTabeType;
 using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Common.Export;
+using iText.StyledXmlParser.Jsoup.Parser;
 
 namespace MasterErp.Service.HR
 {
@@ -477,7 +478,36 @@ namespace MasterErp.Service.HR
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
         }
+        public ActionsResponseModel DeleteEmployeeAttachment(int EmployeeId, int AttachmentId)
+        {
+            try
+            {
+                // Validate Employee Existence
+                var employeeExists = Context.Employees.Any(e => e.EmployeeId == EmployeeId);
+                if (!employeeExists)
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Invalid Employee." };
+                }
+                var employeeAttach = Context.EmployeeAttachments.FirstOrDefault(e => e.EmployeeId == EmployeeId && e.EmployeeAttachmentId == AttachmentId);
+                if (employeeAttach == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Invalid Attachment." };
+                //string employeeDirectory = GetEmployeetDirectoryName(EmployeeId);
 
+
+                //string path = FileService.GetFileDownloadUrl(employeeAttach.FilePath);
+                var deleteResponse = FileService.DeleteFileAsync(employeeAttach.FilePath).Result;
+
+                Context.Remove(employeeAttach);
+
+                // Save changes to the database
+                Context.SaveChanges();
+                return new ActionsResponseModel { IsSuccess = true, Message = "Employee attachments deleted successfully." };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
         public async Task<ActionsResponseModel> ChangeEmployeeStatus(int employeeId, int StatusId)
         {
             try

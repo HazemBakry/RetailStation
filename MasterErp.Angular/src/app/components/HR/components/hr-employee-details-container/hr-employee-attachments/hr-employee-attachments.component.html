@@ -10,10 +10,20 @@
             <div class="row py-3">
 
                 <div *ngFor="let file of employeeAttachmentModel.attachments" class="col-lg-4">
-                    <button (click)="downloadFile(file.fileUrl)" class="btn btn-outline-secondary mb-1">
-                        <i class="fas fa-paperclip"></i>
-                        <span class="ms-2  text-underline">{{file.fileName}}</span>
-                    </button>
+                    <div class="row border border-2 rounded m-1 p-1 align-items-center">
+                       
+                        <div class="col-10">
+                            <button (click)="downloadFile(file.fileUrl)" class="btn btn-outline-secondary mb-1">
+                                <i class="fas fa-paperclip"></i>
+                                <span class="ms-2  text-underline">{{file.fileName}}</span>
+                            </button>
+                        </div>
+                         <div class="col-2">
+                            <button (click)="openDeleteModal(deleteModal,file.attachmentId)"  class="btn btn-outline-danger mb-1">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-2">
 
@@ -23,6 +33,25 @@
         </div>
     </ng-container>
 </div>
+
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">رسالة تأكيد</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل أنت متأكد من الحذف ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click');deleteAttachment()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">عودة</span>
+        </button>
+    </div>
+</ng-template>
 
 <div class="employee-card-body row">
 

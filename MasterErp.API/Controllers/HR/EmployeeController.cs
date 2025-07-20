@@ -91,6 +91,14 @@ namespace MasterErp.API.Controllers.HR
             var result = await _employeeService.SaveEmployeeAttachments(EmployeeId, model);
             return Ok(result);
         }
+        [HttpGet("DeleteEmployeeAttachment")]
+        public IActionResult DeleteEmployeeAttachment(int EmployeeId, int AttachmentId)
+        {
+
+            var employee = _employeeService.DeleteEmployeeAttachment(EmployeeId, AttachmentId);
+            return Ok(employee);
+
+        }
         [HttpGet]
         [Route("ChangeEmployeeStatus")]
         public async Task<IActionResult> ChangeEmployeeStatus(int EmployeeId, int StatusId)

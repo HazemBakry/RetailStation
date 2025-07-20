@@ -41,7 +41,9 @@ export class EmployeeService {
   SaveEmployeeAttachments(employeeId:number,model: FormData) {
     return this.http.post<ActionsResponseModel>(this.URL + `Employee/SaveEmployeeAttachments?EmployeeId=${employeeId}`, model);
   }
-
+  DeleteEmployeeAttachment(employeeId:number, attachmentId:number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `Employee/DeleteEmployeeAttachment?EmployeeId=${employeeId}&AttachmentId=${attachmentId}`);
+  }
 
   GetEmployeeBasicInfoById(employeeId:number) {
     return this.http.get<EmployeeModel>(this.URL + `Employee/GetEmployeeBasicInfoById?EmployeeId=${employeeId}`);
