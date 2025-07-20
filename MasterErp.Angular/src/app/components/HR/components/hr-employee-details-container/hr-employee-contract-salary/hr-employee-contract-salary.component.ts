@@ -84,14 +84,14 @@ export class HrEmployeeContractSalaryComponent implements OnInit {
       employeeId: [this.employeeId],
       contractDetailId: [null],
       basicSalary: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
-      extraSalary: [null],
-      transportation: [null],
-      housingAllowance: [null],
-      mobileAllowance: [null],
-      workNature: [null],
-      mealAllowance: [null],
+      extraSalary: [null, [CustomValidators.regexPattern(RegexType.number)]],
+      transportation: [null, [CustomValidators.regexPattern(RegexType.number)]],
+      housingAllowance: [null, [CustomValidators.regexPattern(RegexType.number)]],
+      mobileAllowance: [null, [CustomValidators.regexPattern(RegexType.number)]],
+      workNature: [null, [CustomValidators.regexPattern(RegexType.number)]],
+      mealAllowance: [null, [CustomValidators.regexPattern(RegexType.number)]],
       isMealAdded: [null],
-      other: [null]
+      other: [null, [CustomValidators.regexPattern(RegexType.number)]]
     },
       {
 

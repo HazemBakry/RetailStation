@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -106,4 +106,24 @@ export class FormService {
 
     return formErrors;
   }
+
+  public updateFieldsRequiredValidation(formGroup: FormGroup, field: string, isRequired: boolean) {
+    const control = formGroup.get(field);
+    if (!control) return;
+
+    const currentValidators = control.validator ? [control.validator] : [];
+
+    if (isRequired) {
+      // Add required if not already present
+      control.setValidators([Validators.required, ...currentValidators]);
+    } else {
+      // Filter out only the required validator
+      const validators = currentValidators
+        .filter(v => v !== Validators.required);
+      control.setValidators(validators);
+    }
+
+    control.updateValueAndValidity();
+  }
+
 }

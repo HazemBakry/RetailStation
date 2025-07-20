@@ -23,9 +23,25 @@ namespace MasterErp.Entities.DTOs.HR
         public DateTime ExecutionDate { get; set; }
 
         public int? TotalCount { get; set; }
+        public bool? ModifySalary { get; set; }
 
 
+        //salary
+        public double? BasicSalary { get; set; }
+        public double? ExtraSalary { get; set; }
+        public double? Transportation { get; set; }
+        public double? HousingAllowance { get; set; }
+        public double? MobileAllowance { get; set; }
+        public double? WorkNature { get; set; }
+        public double? MealAllowance { get; set; }
+        public double? Other { get; set; }
+        public double? TotalSalary => CalcTotalSalary();
 
+
+        public double CalcTotalSalary()
+        {
+            return BasicSalary + ExtraSalary + Transportation + HousingAllowance + MobileAllowance + WorkNature + MealAllowance + Other ?? 0;
+        }
     }
 
 

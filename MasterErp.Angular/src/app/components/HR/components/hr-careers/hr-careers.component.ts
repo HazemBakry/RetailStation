@@ -9,10 +9,12 @@ import { FormDropdownModel } from 'src/app/components/Shared/components/drop-dow
 import { EmployeeCareerModel } from '../../models/EmployeeCareerModel';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { FormService } from 'src/app/components/Shared/services/form.service';
-import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
+import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 import { JobWorkflowStatus, WorkflowStatusGroup } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
+import { EmployeeContractModel } from '../../models/Employee/EmployeeContractModel';
+import { EmployeeService } from '../../services/employee.service';
 
 @Component({
   selector: 'app-hr-careers',
@@ -38,6 +40,7 @@ export class HrCareersComponent implements OnInit {
   };
   showLoader: boolean = false;
   showAddLoader: boolean = false;
+  employeeContractInfoModel: EmployeeContractModel;
 
   public formGroup: FormGroup;
   public formErrors = {
@@ -50,6 +53,16 @@ export class HrCareersComponent implements OnInit {
     notes: '',
     timeFrom: '',
     timeTo: '',
+    modifySalary: '',
+
+    basicSalary: '',
+    extraSalary: '',
+    transportation: '',
+    housingAllowance: '',
+    mobileAllowance: '',
+    workNature: '',
+    mealAllowance: '',
+    other: '',
 
   };
 
@@ -57,6 +70,7 @@ export class HrCareersComponent implements OnInit {
   isUpdate: boolean = false;
   constructor(private modalService: NgbModal,
     private hrService: HrService,
+    private employeeService: EmployeeService,
     private sharedService: SharedService,
     private form: FormBuilder,
     private _FormService: FormService,
@@ -107,10 +121,35 @@ export class HrCareersComponent implements OnInit {
     this.buildForm();
     if (careerModel)
       this.fillEditForm(careerModel);
-
+    else
+      this.getEmployeeContractInfo();
     this.formGroup.patchValue({ employeeId: this.selectedEmployeeId });
 
     this.offcanvasService.open(content, { panelClass: 'add-new-panel', position: 'end' });
+  }
+  getEmployeeContractInfo() {
+
+    this.employeeService.GetEmployeeContractInfoById(this.selectedEmployeeId).subscribe((data: EmployeeContractModel) => {
+      this.employeeContractInfoModel = data;
+
+      if (data?.basicSalary) {
+        this.formGroup.patchValue({
+          basicSalary: data.basicSalary,
+          extraSalary: data.extraSalary,
+          transportation: data.transportation,
+          housingAllowance: data.housingAllowance,
+          mobileAllowance: data.mobileAllowance,
+          workNature: data.workNature,
+          mealAllowance: data.mealAllowance,
+          other: data.other,
+        });
+      }
+
+    }, err => {
+    }, () => {
+    });
+
+
   }
   buildForm() {
     this.formGroup = this.form.group({
@@ -118,14 +157,31 @@ export class HrCareersComponent implements OnInit {
       employeeId: [null],
       jobId: [null, [Validators.required]],
       branchId: [null, [Validators.required]],
-      WorkFlowStatusId: [null, [Validators.required]],
+      //WorkFlowStatusId: [null, [Validators.required]],
       executionDate: [null, [Validators.required, CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
       notes: [null],
+      modifySalary: [false],
+
+      //salary section
+      basicSalary: [null, [CustomValidators.regexPattern(RegexType.number)]],
+      extraSalary: [null, [CustomValidators.regexPattern(RegexType.number)]],
+      transportation: [null, [CustomValidators.regexPattern(RegexType.number)]],
+      housingAllowance: [null, [CustomValidators.regexPattern(RegexType.number)]],
+      mobileAllowance: [null, [CustomValidators.regexPattern(RegexType.number)]],
+      workNature: [null, [CustomValidators.regexPattern(RegexType.number)]],
+      mealAllowance: [null, [CustomValidators.regexPattern(RegexType.number)]],
+      other: [null, [CustomValidators.regexPattern(RegexType.number)]]
 
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
 
+    });
+    this.formGroup.get('modifySalary').valueChanges.subscribe((value) => {
+      if (value)
+        this._FormService.updateFieldsRequiredValidation(this.formGroup, 'basicSalary', true);
+      else
+        this._FormService.updateFieldsRequiredValidation(this.formGroup, 'basicSalary', false);
     });
 
   }
@@ -208,7 +264,15 @@ export class HrCareersComponent implements OnInit {
       WorkFlowStatusId: careerModel.workStatusId,
       employeeId: this.selectedEmployeeId,
       executionDate: this.datePipe.transform(careerModel.executionDate, 'yyyy-MM-dd'),
-      notes: careerModel.notes
+      notes: careerModel.notes,
+      basicSalary: careerModel.basicSalary,
+      extraSalary: careerModel.extraSalary,
+      transportation: careerModel.transportation,
+      housingAllowance: careerModel.housingAllowance,
+      mobileAllowance: careerModel.mobileAllowance,
+      workNature: careerModel.workNature,
+      mealAllowance: careerModel.mealAllowance,
+      other: careerModel.other,
     });
   }
 
