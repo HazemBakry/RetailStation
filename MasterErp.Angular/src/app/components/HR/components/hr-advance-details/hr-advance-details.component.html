@@ -1,5 +1,9 @@
-<button (click)="openSidePanel(detailsSidePanel)"
+<!-- <button (click)="openSidePanel(detailsSidePanel)"
     class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
+    <i class="uil uil-info"></i>
+    <span>تفاصيل</span>
+</button> -->
+<button ngbDropdownItem (click)="openSidePanel(detailsSidePanel)">
     <i class="uil uil-info"></i>
     <span>تفاصيل</span>
 </button>
@@ -51,7 +55,7 @@
                                 <th>قيمة القسـط</th>
                                 <th>الحالة</th>
                                 <th>ملاحظات</th>
-                                <!-- <th>العمليات</th> -->
+                                <th>العمليات</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -67,18 +71,20 @@
                                     </span>
                                 </td>
                                 <td class="word-break">{{item.notes}}</td>
-                                <!-- <td>
-                            <div class="d-flex align-items-center justify-content-center text-center">
-                                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2" (click)="openNewSidePanel(addModal,item)">
-                                    <i class="uil uil-pen"></i>
-                                    <span>تعديل التاريخ</span>
-                                </button>
-                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteModal,item.advancePaymentId)">
+                                <td>
+                                    <div class="d-flex align-items-center justify-content-center text-center">
+                                        <button (click)="openPostponeModal(postponeModal,item.advancePaymentId)"
+                                            class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2"
+                                            (click)="openNewSidePanel(addModal,item)">
+                                            <i class="uil uil-pen"></i>
+                                            <span>تأجيل</span>
+                                        </button>
+                                        <!-- <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteModal,item.advancePaymentId)">
                                     <i class="uil uil-trash-alt"></i>
                                     <span>الغاء</span>
-                                </button>
-                            </div>
-                        </td> -->
+                                </button> -->
+                                    </div>
+                                </td>
                             </tr>
                             <tr *ngIf="!employeeAdvanceResponse.results.length || showLoader">
                                 <td colspan="8" class="text-right">
@@ -93,5 +99,24 @@
             </div>
         </div>
 
+    </div>
+</ng-template>
+
+<ng-template #postponeModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">رسالة تأكيد</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل أنت متأكد من التأجيل ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click');postponeAdvancesInstallment()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">عودة</span>
+        </button>
     </div>
 </ng-template>

@@ -640,6 +640,9 @@ export class HrService {
   ApproveEmployeeAdvance(employeeAdvanceId: number, isApproved: boolean = true) {
     return this.http.get<ActionsResponseModel>(this.URL + `EmployeeAdvances/ApproveEmployeeAdvance?EmployeeAdvanceId=${employeeAdvanceId}&IsApproved=${isApproved}`);
   }
+  PostponeAdvancesInstallment(employeeId: number, advancePaymentId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `EmployeeAdvances/PostponeAdvancesInstallment?EmployeeId=${employeeId}&AdvancePaymentId=${advancePaymentId}`);
+  }
   DeleteEmployeeAdvance(employeeAdvanceId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'EmployeeAdvances/DeleteEmployeeAdvance?EmployeeAdvanceId=' + employeeAdvanceId);
   }

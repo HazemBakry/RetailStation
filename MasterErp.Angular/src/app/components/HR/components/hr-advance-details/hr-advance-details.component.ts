@@ -42,7 +42,7 @@ export class HrAdvanceDetailsComponent implements OnInit {
   ngOnInit(): void {
   }
   openSidePanel(content: any) {
-    this.employeeAdvanceResponse.results=[];
+    this.employeeAdvanceResponse.results = [];
     this.employeeAdvanceResponse.currentPage = 1;
     this.getAdvancePaymentsData();
     this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
@@ -52,7 +52,7 @@ export class HrAdvanceDetailsComponent implements OnInit {
       return;
 
     this.showLoader = true;
-    this.hrService.GetAdvancePaymentsData(this.employeeId, this.employeeAdvanceResponse,this.employeeAdvanceId).subscribe(data => {
+    this.hrService.GetAdvancePaymentsData(this.employeeId, this.employeeAdvanceResponse, this.employeeAdvanceId).subscribe(data => {
       this.employeeAdvanceResponse.results = data.results;
       this.employeeAdvanceResponse.totalCount = data.totalCount;
 
@@ -107,7 +107,29 @@ export class HrAdvanceDetailsComponent implements OnInit {
       this.showAddLoader = false;
     });
   }
+  openPostponeModal(content: any, advancePaymentId: number) {
+    this.selectedAdvancePaymentId = advancePaymentId;
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+  postponeAdvancesInstallment() {
+    this.showAddLoader = true;
+    this.hrService.PostponeAdvancesInstallment(this.employeeId, this.selectedAdvancePaymentId).subscribe(data => {
 
+      if (data?.isSuccess) {
+        this.modalService?.dismissAll();
+        this.getAdvancePaymentsData();
+        this.toaster.success(data?.message);
+      }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
+    });
+  }
 
 
 }
