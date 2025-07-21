@@ -65,7 +65,7 @@ export class HrCareersComponent implements OnInit {
     other: '',
 
   };
-
+  today: string;
   selectedEmployeeId: number = null;
   isUpdate: boolean = false;
   constructor(private modalService: NgbModal,
@@ -77,7 +77,10 @@ export class HrCareersComponent implements OnInit {
     private datePipe: DatePipe,
     private toaster: ToastrService,
     private lookupService: LookupService,
-    private offcanvasService: NgbOffcanvas,) { }
+    private offcanvasService: NgbOffcanvas,) { 
+      this.today = this.datePipe.transform(new Date, 'yyyy-MM-dd');
+
+    }
 
   ngOnInit(): void {
     this.getActiveEmployeesSelector();
@@ -158,7 +161,7 @@ export class HrCareersComponent implements OnInit {
       jobId: [null, [Validators.required]],
       branchId: [null, [Validators.required]],
       //WorkFlowStatusId: [null, [Validators.required]],
-      executionDate: [null, [Validators.required, CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
+      executionDate: [{ value: this.today, disabled: true }, [Validators.required, CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
       notes: [null],
       modifySalary: [false],
 
@@ -190,7 +193,8 @@ export class HrCareersComponent implements OnInit {
     if (!this.validateForm()) {
       return;
     }
-    this.employeeCareerModel = this.formGroup.value;
+    // this.employeeCareerModel = this.formGroup.value;
+    this.employeeCareerModel = this.formGroup.getRawValue();
     if (this.employeeCareerModel?.employeeCareerId)
       this.editEmployeeCareer();
     else

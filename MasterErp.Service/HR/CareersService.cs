@@ -125,9 +125,40 @@ namespace MasterErp.Service.HR
 
             try
             {
+                model.ExecutionDate = DateTime.Now;
+                var emp = Context.Employees.FirstOrDefault(x => x.EmployeeId == EmployeeId);
+                if(emp == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "الموظف غير موجود !" };
+
+
+                var lastEmpCareer = Context.EmployeeCareers.Where(x => x.EmployeeId == EmployeeId).OrderByDescending(y => y.ExecutionDate).FirstOrDefault();
+                if(lastEmpCareer == null)
+                {
+                    lastEmpCareer = new EmployeeCareer();
+                    lastEmpCareer.EmployeeId = EmployeeId;
+                    lastEmpCareer.ExecutionDate = emp?.JoinDate ?? model.ExecutionDate.AddYears(-1);
+                    lastEmpCareer.JobId = emp.JobId;
+                    lastEmpCareer.BranchId = emp.BranchId.GetValueOrDefault();
+                    lastEmpCareer.WorkStatusId = 0;// (int)model.WorkFlowStatusId;
+                    lastEmpCareer.Notes = "added based on employee data";
+                    lastEmpCareer.CreatedBy = model.CreatedBy;
+                    lastEmpCareer.CreatedDate = DateTime.Now;
+                    Context.EmployeeCareers.Add(lastEmpCareer);
+
+                    
+                }
+                if(lastEmpCareer.JobId == model.JobId)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "لا يمكن انشاء ترقية بنفس الوظيفة الحاليه !" };
+                
+                
+                emp.JobId = model.JobId;
+                emp.BranchId = model.BranchId;
+
+
+
                 var career = new EmployeeCareer();
 
-                career.EmployeeId = model.EmployeeId;
+                career.EmployeeId = EmployeeId;
                 career.ExecutionDate = model.ExecutionDate;
                 career.JobId = model.JobId;
                 career.BranchId = model.BranchId;
