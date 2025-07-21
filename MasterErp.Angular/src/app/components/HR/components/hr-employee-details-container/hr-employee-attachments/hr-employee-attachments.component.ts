@@ -74,13 +74,12 @@ export class HrEmployeeAttachmentsComponent implements OnInit {
 
   }
 
-  downloadFile(url:string)
-  {
+  downloadFile(url: string) {
     this.sharedService.urlDownloadOrOpen(url);
   }
   initNewForm(employeeAttachmentModel: EmployeeAttachmentModel = null) {
     this.formData = new FormData();
-    this.attachmentFiles=[];
+    this.attachmentFiles = [];
     this.isUpdate = false;
     this.buildForm();
 
@@ -202,5 +201,28 @@ export class HrEmployeeAttachmentsComponent implements OnInit {
   onFileChange(event: any) {
     this.attachmentFiles = event.target.files;
     //this.documentsFileName = event.target.files[0].name;
+  }
+  selectedAttachmentId: number;
+  openDeleteModal(content: any, attachmentId: number) {
+    if(!attachmentId)return;
+    this.selectedAttachmentId = attachmentId;
+    this.modalService.open(content, { centered: true, size: 'md' });
+  }
+  deleteAttachment() {
+    this.showAddLoader = true;
+    this.employeeService.DeleteEmployeeAttachment(this.employeeId, this.selectedAttachmentId).subscribe((data: ActionsResponseModel) => {
+      if (data?.isSuccess) {
+        this.toaster.success(data?.message);
+        this.getEmployeeAttachments();
+      }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
+    });
   }
 }

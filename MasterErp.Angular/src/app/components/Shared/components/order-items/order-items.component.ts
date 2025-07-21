@@ -37,7 +37,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   BranchesList: any[] = [];
   lookupSelector: any[] = [];
   orderItems: GeneralOrderDetailsModel[] = [];
-
+  totalValue: number = 0;
   ItemsByLookup: GeneralOrderDetailsModel[] = [];
   ItemsBySupplier: any[] = [];
   // RawItemsList: any[] = [];
@@ -84,6 +84,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
 
     if (changes && changes.clearAllProducts && !changes.clearAllProducts?.firstChange) {
       this.orderItems = [];
+      this.calcTotalValue();
     }
   }
 
@@ -151,14 +152,15 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     this.emitSelectedProductsList();
   }
   removeItem(index: number = null) {
-    if (index) {
+    if (index!=null) {
       this.orderItems.splice(index, 1);
     } else {
       this.orderItems = [];
       this.selectedLookupId = null;
       this.selectedSupplierId = null;
     }
-    this.orderItems.splice(index, 1);
+    // this.orderItems.splice(index, 1);
+    this.calcTotalValue();
     this.emitSelectedProductsList();
   }
 
@@ -201,10 +203,12 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     this.emitSelectedProductsList();
   }
   calcTotalValue() {
+    this.totalValue = 0 ;
     this.orderItems.forEach(item => {
       item.totalValue = item.price * item.quantity;
+      this.totalValue += item.totalValue;
     });
-    this.emitSelectedProductsList();
+    // this.emitSelectedProductsList();
   }
   addProducts() {
     this.selectedProducts.forEach(item => {
@@ -231,6 +235,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
     }
     if (this.orderItems)
       this.emitSelectedProductsList();
+    this.calcTotalValue();
   }
   saveSelectedLookup() {
     // this.selectedItem.itemTotalValue = this.selectedItem.price && this.selectedItem.quantity ? this.selectedItem.price * this.selectedItem.quantity : 0;
@@ -273,6 +278,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
           dueDate:this.getDueDate()
         }
       });
+      this.calcTotalValue();
 
 
     });
@@ -287,7 +293,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
   getSelectedSupplierItems() {
 
     this.orderItems = [];
-
+    
     if (!this.selectedSupplierId) {
       this.toaster.warning('يجب الاختيار من الموردين')
       return;
@@ -310,6 +316,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
             dueDate :this.getDueDate()
           }
         });
+        this.calcTotalValue();
       }
       this.showLoader = false;
     }, err => {

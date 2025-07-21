@@ -131,13 +131,45 @@ namespace MasterErp.Service.HR
                 career.ExecutionDate = model.ExecutionDate;
                 career.JobId = model.JobId;
                 career.BranchId = model.BranchId;
-                career.WorkStatusId = (int)model.WorkFlowStatusId;
+                career.WorkStatusId = 0;// (int)model.WorkFlowStatusId;
                 career.Notes = model.Notes;
                 career.CreatedBy = model.CreatedBy;
                 career.CreatedDate = DateTime.Now;
 
 
                 Context.EmployeeCareers.Add(career);
+
+                if(model.ModifySalary == true)
+                {
+                    var recentContract = Context.Contracts
+                                        .Where(x => x.EmployeeId == EmployeeId)
+                                        .OrderByDescending(x => x.StartDate)
+                                        .FirstOrDefault();
+                    if (recentContract != null)
+                    {
+
+                        var salary = new ContractDetail();
+
+                        salary.ContractId = recentContract.ContractId;
+                        salary.EmployeeId = EmployeeId;
+                        salary.BasicSalary = model.BasicSalary.GetValueOrDefault();
+                        salary.ExtraSalary = model.ExtraSalary;
+                        salary.Transportation = model.Transportation;
+                        salary.HousingAllowance = model.HousingAllowance;
+                        salary.MobileAllowance = model.MobileAllowance;
+                        salary.WorkNature = model.WorkNature;
+                        salary.MealAllowance = model.MealAllowance;
+                        salary.Other = model.Other ?? 0;
+                        salary.GrossSalary = model.TotalSalary;
+                        salary.TotalSalary = model.TotalSalary;
+
+                        Context.ContractDetails.Add(salary);
+                    }
+                    else
+                    {
+                        return new ActionsResponseModel {IsSuccess=false, Message = "No contract found for this employee!" };
+                    }
+                }
                 var result = Context.SaveChanges();
 
 
@@ -163,10 +195,64 @@ namespace MasterErp.Service.HR
                     career.ExecutionDate = model.ExecutionDate;
                     career.JobId = model.JobId;
                     career.BranchId = model.BranchId;
-                    career.WorkStatusId = (int)model.WorkFlowStatusId;
+                    career.WorkStatusId = 0;// (int)model.WorkFlowStatusId;
                     career.Notes = model.Notes;
                     career.ModifiedBy = model.ModifiedBy;
                     career.ModifiedDate = DateTime.Now;
+                    if (model.ModifySalary == true)
+                    {
+                        var recentContract = Context.Contracts
+                                            .Where(x => x.EmployeeId == EmployeeId)
+                                            .OrderByDescending(x => x.StartDate)
+                                            .FirstOrDefault();
+                        if (recentContract != null)
+                        {
+                            var salary = Context.ContractDetails
+                                           .Where(x => x.ContractId == recentContract.ContractId)
+                                           .OrderByDescending(x => x.ContractDetailId)
+                                           .FirstOrDefault();
+                            if (salary == null)
+                            {
+                                salary = new ContractDetail();
+
+                                salary.ContractId = recentContract.ContractId;
+                                salary.EmployeeId = EmployeeId;
+                                salary.BasicSalary = model.BasicSalary.GetValueOrDefault();
+                                salary.ExtraSalary = model.ExtraSalary;
+                                salary.Transportation = model.Transportation;
+                                salary.HousingAllowance = model.HousingAllowance;
+                                salary.MobileAllowance = model.MobileAllowance;
+                                salary.WorkNature = model.WorkNature;
+                                salary.MealAllowance = model.MealAllowance;
+                                salary.Other = model.Other ?? 0;
+                                salary.GrossSalary = model.TotalSalary;
+                                salary.TotalSalary = model.TotalSalary;
+
+                                Context.ContractDetails.Add(salary);
+                            }
+                            else
+                            {
+                                salary.BasicSalary = model.BasicSalary.GetValueOrDefault();
+                                salary.ExtraSalary = model.ExtraSalary;
+                                salary.Transportation = model.Transportation;
+                                salary.HousingAllowance = model.HousingAllowance;
+                                salary.MobileAllowance = model.MobileAllowance;
+                                salary.WorkNature = model.WorkNature;
+                                salary.MealAllowance = model.MealAllowance;
+                                salary.Other = model.Other ?? 0;
+                                salary.GrossSalary = model.TotalSalary;
+                                salary.TotalSalary = model.TotalSalary;
+                            }
+
+
+
+                        }
+                        else
+                        {
+                            return new ActionsResponseModel { IsSuccess = false, Message = "No contract found for this employee!" };
+                        }
+                    }
+
 
                     Context.SaveChanges();
 

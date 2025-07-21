@@ -99,12 +99,12 @@
                             [(ngModel)]="item.totalValue" autocomplete="off">
                     </td>
                     <td *ngIf="showDueDate">
-                        <input type="date" #inputs class="form-control text-center" [(ngModel)]="item.dueDate" [min]="dueDate"
-                            autocomplete="off">
+                        <input type="date" #inputs class="form-control text-center" [(ngModel)]="item.dueDate"
+                            [min]="dueDate" autocomplete="off">
                     </td>
                     <td *ngIf="showExpireDate">
-                        <input type="date" #inputs class="form-control text-center" [(ngModel)]="item.expireDate" [min]="today"
-                            autocomplete="off">
+                        <input type="date" #inputs class="form-control text-center" [(ngModel)]="item.expireDate"
+                            [min]="today" autocomplete="off">
                     </td>
                     <td class="justify-content-center d-flex">
                         <button
@@ -122,25 +122,40 @@
             </tbody>
         </table>
     </div>
-    <div *ngIf="!disabled" class="p-2">
-        <div class="d-flex">
-            <div class="me-1 ms-2">
-                <button *ngIf="showActions"
-                    class="button-table-action mt-3 btn-edit d-flex align-items-center justify-content-center gap-2"
-                    (click)="addField()">
-                    <i class="uil uil-plus fs-5"></i>
-                    <span>اضافة صنف</span>
-                </button>
-                <!-- <div *ngIf="orderItems&&!orderItems?.length" class="text-danger  font-small-3 m-03">
-          {{formErrors.orderItems}}
-        </div> -->
+    <div class="p-2">
+        <div class="row justify-content-between">
+            <div class="d-flex col-lg-8">
+                <ng-container *ngIf="!disabled">
+
+                    <div class="me-1 ms-2">
+                        <button *ngIf="showActions"
+                            class="button-table-action mt-3 btn-edit d-flex align-items-center justify-content-center gap-2"
+                            (click)="addField()">
+                            <i class="uil uil-plus fs-5"></i>
+                            <span>اضافة صنف</span>
+                        </button>
+                        <!-- <div *ngIf="orderItems&&!orderItems?.length" class="text-danger  font-small-3 m-03">
+                        {{formErrors.orderItems}}
+                        </div> -->
+                    </div>
+                    <div class="me-1 ms-2">
+
+                        <button *ngIf="orderItems.length"
+                            class="button-table-action mt-3 btn-delete d-flex align-items-center justify-content-center gap-2"
+                            (click)="removeItem()">
+                            <i class="fas fa-times fs-5"></i>
+                            حذف الكل
+                        </button>
+                    </div>
+                </ng-container>
             </div>
-            <button *ngIf="orderItems.length"
-                class="button-table-action mt-3 btn-delete d-flex align-items-center justify-content-center gap-2"
-                (click)="removeItem()">
-                <i class="fas fa-times fs-5"></i>
-                حذف الكل
-            </button>
+            <div class="col-lg-4">
+                <label class="form-label d-flex align-items-center gap-2">
+                    الاجمالي
+                </label>
+                <input type="text" class="form-control nw-form-input description-area" disabled [value]="totalValue"
+                    autocomplete="off" />
+            </div>
         </div>
     </div>
 </div>

@@ -105,6 +105,13 @@ namespace MasterErp.API.Controllers.HR
             return Ok(result);
         }
         [HttpGet]
+        [Route("PostponeAdvancesInstallment")]
+        public IActionResult PostponeAdvancesInstallment(int EmployeeId, int AdvancePaymentId)
+        {
+            var result = _advancesService.PostponeAdvancesInstallment(EmployeeId, AdvancePaymentId);
+            return Ok(result);
+        }
+        [HttpGet]
         [Route("DeleteEmployeeAdvance")]
         public IActionResult DeleteEmployeeAdvance(int EmployeeAdvanceId)
         {

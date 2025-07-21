@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { HrService } from '../../services/hr.service';
 import { DatePipe } from '@angular/common';
-import { FilterItem} from 'src/app/components/Shared/models/FilterModel';
+import { FilterItem } from 'src/app/components/Shared/models/FilterModel';
 import { ToastrService } from 'ngx-toastr';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
@@ -21,21 +21,21 @@ import { HRWorkflowStatus, PaymentWorkflowStatus } from 'src/app/components/Shar
 export class HrAdvancesComponent implements OnInit {
   VacationData: any[] = [];
   employeeSelectorData: FormDropdownModel[] = [];
-  penaltyTypeSelectorData: FormDropdownModel[]=[];
+  penaltyTypeSelectorData: FormDropdownModel[] = [];
   selectedAdvanceId: number;
-  employeeAdvanceModel: EmployeeAdvanceModel ={} as EmployeeAdvanceModel;
-  showLoader: boolean=false;
-  showAddLoader: boolean=false;
+  employeeAdvanceModel: EmployeeAdvanceModel = {} as EmployeeAdvanceModel;
+  showLoader: boolean = false;
+  showAddLoader: boolean = false;
   public formGroup: FormGroup;
-  selectedEmployeeId:number=null;
-  isUpdate: boolean=false;
-  public workflowStatus =HRWorkflowStatus;
-  employeeAdvanceResponse:PagedResponseDTO<EmployeeAdvanceModel[]>={
-    results:[],
-    filterList:[],
+  selectedEmployeeId: number = null;
+  isUpdate: boolean = false;
+  public workflowStatus = HRWorkflowStatus;
+  employeeAdvanceResponse: PagedResponseDTO<EmployeeAdvanceModel[]> = {
+    results: [],
+    filterList: [],
     pageSize: 10,
-    currentPage:1,
-    searchText:''
+    currentPage: 1,
+    searchText: ''
   };
   public formErrors = {
     employeeAdvanceId: '',
@@ -48,53 +48,50 @@ export class HrAdvancesComponent implements OnInit {
     notes: ''
   };
 
-  constructor(private modalService: NgbModal, private hrService: HrService,private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
-    private datePipe: DatePipe,private toaster:ToastrService,private offcanvasService: NgbOffcanvas,) { }
+  constructor(private modalService: NgbModal, private hrService: HrService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
+    private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
 
   ngOnInit(): void {
     this.getActiveEmployeesSelector();
   }
-  getAdvanceByEmployeeId()
-  {
-    if(!this.checkEmployee())
+  getAdvanceByEmployeeId() {
+    if (!this.checkEmployee())
       return;
 
-    this.showLoader=true;
-    this.hrService.GetAdvancesByEmployeeId(this.selectedEmployeeId,this.employeeAdvanceResponse).subscribe(data => {
+    this.showLoader = true;
+    this.hrService.GetAdvancesByEmployeeId(this.selectedEmployeeId, this.employeeAdvanceResponse).subscribe(data => {
       this.employeeAdvanceResponse.results = data.results;
       this.employeeAdvanceResponse.totalCount = data.totalCount;
 
-      this.showLoader=false;
-    }, err=>{
-      this.showLoader=false;
-    },()=>{
-      this.showLoader=false;
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
   }
 
-  checkEmployee()
-  {
-    if(!this.selectedEmployeeId)
-    {
-      this.toaster.warning('من فضلك اختر من قائمة الموظفين','تحذير');
+  checkEmployee() {
+    if (!this.selectedEmployeeId) {
+      this.toaster.warning('من فضلك اختر من قائمة الموظفين', 'تحذير');
       return false;
     }
     return true;
   }
 
-  openNewSidePanel(content: any,advanceModel:EmployeeAdvanceModel=null) {
-    if(!this.checkEmployee())
+  openNewSidePanel(content: any, advanceModel: EmployeeAdvanceModel = null) {
+    if (!this.checkEmployee())
       return;
 
     this.getAdvanceTypesSelector();
 
-    this.isUpdate=false;
+    this.isUpdate = false;
     this.buildForm();
-    if(advanceModel)
+    if (advanceModel)
       this.fillEditForm(advanceModel);
 
-    this.formGroup.patchValue({employeeId:this.selectedEmployeeId});
-   
+    this.formGroup.patchValue({ employeeId: this.selectedEmployeeId });
+
     this.offcanvasService.open(content, { panelClass: 'add-new-panel', position: 'end' });
   }
   buildForm() {
@@ -102,11 +99,11 @@ export class HrAdvancesComponent implements OnInit {
     this.formGroup = this.form.group({
       employeeAdvanceId: [null],
       employeeId: [null],
-      advanceTypeId: [null,[Validators.required]],
-      advanceAmount: [null,[Validators.required,CustomValidators.regexPattern(RegexType.number)]],
-      paymentAmount: [null,[Validators.required,CustomValidators.regexPattern(RegexType.number)]],
+      advanceTypeId: [null, [Validators.required]],
+      advanceAmount: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
+      paymentAmount: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
       isApproved: [null],
-      paymentFromDate: [null, [Validators.required,CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
+      paymentFromDate: [null, [Validators.required, CustomValidators.dateGreaterThan(new Date(), 'ادخل تاربخ اكبر')]],
       notes: [null],
 
     });
@@ -122,18 +119,17 @@ export class HrAdvancesComponent implements OnInit {
       return;
     }
     this.employeeAdvanceModel = this.formGroup.value;
-    if(this.employeeAdvanceModel?.employeeAdvanceId)
+    if (this.employeeAdvanceModel?.employeeAdvanceId)
       this.editEmployeeAdvance();
     else
       this.addNewEmployeeAdvance();
   }
 
-  addNewEmployeeAdvance()
-  {
+  addNewEmployeeAdvance() {
 
-    this.showAddLoader=true;
-    this.hrService.AddNewEmployeeAdvance(this.selectedEmployeeId,this.employeeAdvanceModel).subscribe(data => {
-      if(data?.isSuccess) {
+    this.showAddLoader = true;
+    this.hrService.AddNewEmployeeAdvance(this.selectedEmployeeId, this.employeeAdvanceModel).subscribe(data => {
+      if (data?.isSuccess) {
         this.formGroup?.reset();
         this.offcanvasService?.dismiss();
         this.getAdvanceByEmployeeId();
@@ -142,24 +138,23 @@ export class HrAdvancesComponent implements OnInit {
       else {
         this.toaster.error(data?.message);
       }
-      this.showAddLoader=false;
-    }, err=>{
-      this.showAddLoader=false;
-    },()=>{
-      this.showAddLoader=false;
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
     });
 
-    
+
 
   }
 
-  editEmployeeAdvance()
-  {
+  editEmployeeAdvance() {
 
-    this.showAddLoader=true;
-    this.hrService.EditEmployeeAdvance(this.selectedEmployeeId,this.employeeAdvanceModel).subscribe(data => {
+    this.showAddLoader = true;
+    this.hrService.EditEmployeeAdvance(this.selectedEmployeeId, this.employeeAdvanceModel).subscribe(data => {
 
-      if(data?.isSuccess) {
+      if (data?.isSuccess) {
         this.formGroup?.reset();
         this.offcanvasService?.dismiss();
         this.getAdvanceByEmployeeId();
@@ -168,14 +163,14 @@ export class HrAdvancesComponent implements OnInit {
       else {
         this.toaster.error(data?.message);
       }
-      this.showAddLoader=false;
-    }, err=>{
-      this.showAddLoader=false;
-    },()=>{
-      this.showAddLoader=false;
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
     });
 
-    
+
   }
 
   validateForm(): boolean {
@@ -189,8 +184,8 @@ export class HrAdvancesComponent implements OnInit {
   }
 
 
-  fillEditForm(advanceModel:EmployeeAdvanceModel) {
-    this.isUpdate=true;
+  fillEditForm(advanceModel: EmployeeAdvanceModel) {
+    this.isUpdate = true;
 
     this.formGroup.patchValue({
       employeeAdvanceId: advanceModel.employeeAdvanceId,
@@ -211,7 +206,7 @@ export class HrAdvancesComponent implements OnInit {
   }
 
   getActiveEmployeesSelector() {
-    this.hrService.GetActiveEmployeesSelector().subscribe((data :FormDropdownModel[])=> {
+    this.hrService.GetActiveEmployeesSelector().subscribe((data: FormDropdownModel[]) => {
       this.employeeSelectorData = data;
     });
   }
@@ -219,19 +214,19 @@ export class HrAdvancesComponent implements OnInit {
   filterChecked(filterItems: FilterItem[]) {
     this.employeeAdvanceResponse.filterList = filterItems;
     this.getAdvanceByEmployeeId();
- }
+  }
 
- pageChanged(obj: any) {
-   this.employeeAdvanceResponse.currentPage = obj.page;
-   this.getAdvanceByEmployeeId();
- }
+  pageChanged(obj: any) {
+    this.employeeAdvanceResponse.currentPage = obj.page;
+    this.getAdvanceByEmployeeId();
+  }
 
 
   deleteEmployeeAdvance() {
-    this.showAddLoader=true;
+    this.showAddLoader = true;
     this.hrService.DeleteEmployeeAdvance(this.selectedAdvanceId).subscribe(data => {
 
-      if(data?.isSuccess) {
+      if (data?.isSuccess) {
         this.modalService?.dismissAll();
         this.getAdvanceByEmployeeId();
         this.toaster.success(data?.message);
@@ -239,11 +234,11 @@ export class HrAdvancesComponent implements OnInit {
       else {
         this.toaster.error(data?.message);
       }
-      this.showAddLoader=false;
-    }, err=>{
-      this.showAddLoader=false;
-    },()=>{
-      this.showAddLoader=false;
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
     });
   }
 
@@ -252,10 +247,10 @@ export class HrAdvancesComponent implements OnInit {
     this.modalService.open(content, { centered: true, size: 'md' });
   }
   approveEmployeeAdvance() {
-    this.showAddLoader=true;
+    this.showAddLoader = true;
     this.hrService.ApproveEmployeeAdvance(this.selectedAdvanceId).subscribe(data => {
 
-      if(data?.isSuccess) {
+      if (data?.isSuccess) {
         this.modalService?.dismissAll();
         this.getAdvanceByEmployeeId();
         this.toaster.success(data?.message);
@@ -263,20 +258,21 @@ export class HrAdvancesComponent implements OnInit {
       else {
         this.toaster.error(data?.message);
       }
-      this.showAddLoader=false;
-    }, err=>{
-      this.showAddLoader=false;
-    },()=>{
-      this.showAddLoader=false;
-    });
-  }
-  advanceTypesSelectorData:FormDropdownModel[]=[];
-  getAdvanceTypesSelector(){
-    this.hrService.GetAdvanceTypesSelector().subscribe((data :FormDropdownModel[])=> {
-      this.advanceTypesSelectorData = data;
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
     });
   }
   
+  advanceTypesSelectorData: FormDropdownModel[] = [];
+  getAdvanceTypesSelector() {
+    this.hrService.GetAdvanceTypesSelector().subscribe((data: FormDropdownModel[]) => {
+      this.advanceTypesSelectorData = data;
+    });
+  }
+
 }
 
 

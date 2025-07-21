@@ -40,10 +40,13 @@ export class AddPurchaseInvoiceComponent implements OnInit {
   public formGroup: FormGroup;
 
   selectedSupplierId: number;
+  today: string;
 
   constructor(private acRoute: ActivatedRoute, private router: Router, private modalService: NgbModal, private inventoryService: InventoryService,
     private purchaseService: PurchaseService, private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
-    private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
+    private datePipe: DatePipe, private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) {
+      this.today = this.datePipe.transform(new Date, 'yyyy-MM-dd');
+     }
 
 
   ngOnInit(): void {
@@ -141,7 +144,7 @@ export class AddPurchaseInvoiceComponent implements OnInit {
       purchaseInvoiceId: [null],
       docNumber: [null],
       orderNumber: [null],
-      orderDate: [null],
+      orderDate: [{ value: this.today, disabled: true }],
       dueDate: [null, [Validators.required]],
       orderTypeId: [null, [Validators.required]],
       supplierId: [null, [Validators.required]],

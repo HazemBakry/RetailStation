@@ -318,6 +318,45 @@ namespace MasterErp.Service.HR
             }
 
         }
+        public ActionsResponseModel PostponeAdvancesInstallment(int EmployeeId, int AdvancePaymentId)
+        {
+
+            try
+            {
+                var installment = Context.AdvancePayments.FirstOrDefault(i => i.AdvancePaymentId == AdvancePaymentId);
+                if (installment == null)
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Advance Installment not found" };
+                }
+
+                var lastInstallment = Context.AdvancePayments.Where(i => i.EmployeeAdvanceId == installment.EmployeeAdvanceId).OrderByDescending(x=>x.ExecutionDate).FirstOrDefault();
+                installment.WorkflowStatusId = (int)WorkflowStatus.Cancelled;
+                installment.ModifiedBy = string.Empty;
+                installment.ModifiedDate = DateTime.Now;
+
+                var newInstallment =new AdvancePayment
+                {
+                    EmployeeAdvanceId = installment.EmployeeAdvanceId,
+                    MoneyAmount = installment.MoneyAmount,
+                    ExecutionDate = lastInstallment.ExecutionDate.AddMonths(1),
+                    WorkflowStatusId = (int)WorkflowStatus.Pending,
+                    Notes = installment.Notes,
+                    CreatedBy = "",
+                    CreatedDate = DateTime.Now
+                };
+
+                Context.AdvancePayments.Add(newInstallment);
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "Advance Installment Postponed successfly !" };
+
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+
+        }
         public ActionsResponseModel DeleteEmployeeAdvance(int EmployeeAdvanceId)
         {
 
