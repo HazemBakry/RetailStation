@@ -165,7 +165,7 @@ namespace MasterErp.Service.HR
 
                 Context.EmployeeAdvances.Add(advance);
                 var result = Context.SaveChanges();
-                //CreateAdvancePayments(advance);
+                CreateAdvancePayments(advance);
 
                 return new ActionsResponseModel { Message = "Advance Added Successfly !" };
             }
@@ -278,7 +278,7 @@ namespace MasterErp.Service.HR
 
                     Context.SaveChanges();
 
-
+                    CreateAdvancePayments(advance);
                     return new ActionsResponseModel { Message = "Advance Updated Successfly !" };
                 }
                 else
@@ -303,10 +303,10 @@ namespace MasterErp.Service.HR
                     advance.ModifiedBy = string.Empty;
                     advance.ModifiedDate = DateTime.Now;
                     Context.SaveChanges();
-                    if(IsApproved)
-                    {
-                        CreateAdvancePayments(advance);
-                    }
+                    //if(IsApproved)
+                    //{
+                    //    CreateAdvancePayments(advance);
+                    //}
                     return new ActionsResponseModel { Message = "Advance status changed successfly !" };
                 }
                 else

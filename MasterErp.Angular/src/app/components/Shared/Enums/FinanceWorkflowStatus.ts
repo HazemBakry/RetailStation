@@ -1,3 +1,10 @@
+export enum WorkflowStatus {
+    Pending = 1, //معلق
+    Cancelled = 2, //ملغى
+    Rejected = 3,
+    Approved = 4,
+    Completed = 5
+}
 export enum FinanceWorkflowStatus {
     Pending = 7, //معلق
     Cancelled = 8, //ملغى

@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { EmployeeAdvanceModel } from 'src/app/components/HR/models/EmployeeAdvanceModel';
 import { HrService } from 'src/app/components/HR/services/hr.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { HRWorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
+import { HRWorkflowStatus, WorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
 import { FilterItem } from 'src/app/components/Shared/models/FilterModel';
 
 @Component({
@@ -21,7 +21,7 @@ export class AdvancesRequestsComponent implements OnInit {
   filterList: FilterItem[] = [];
   mainFilter: FilterItem = {
     categoryName: 'AdvanceStatus',
-    itemFlag: HRWorkflowStatus.Approved.toString()
+    itemFlag: WorkflowStatus.Approved.toString()
   }
   pagedResponseModel: PagedResponseDTO<EmployeeAdvanceModel[]> = {
     results: [],
