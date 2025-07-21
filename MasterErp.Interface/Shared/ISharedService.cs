@@ -31,6 +31,7 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetOrderStatusSelector();
         List<SelectorDataModel> GetStoresSelector();
         List<SelectorDataModel> GetIqamaIssuePlacesSelector();
+        List<SelectorDataModel> GetBanksSelector();
         List<SelectorDataModel> GetVisaJobsSelector();
         List<SelectorDataModel> GetRegionsSelector();
         List<SelectorDataModel> GetSuppliersSelector();

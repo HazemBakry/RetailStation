@@ -358,7 +358,7 @@ namespace MasterErp.Service.GeneralAccounts
                 }
 
                 receipt = Context.PaymentReceipts.FirstOrDefault(x => x.PaymentReceiptId == PaymentReceiptId &&
-                                  x.WorkflowStatusId != (int)WorkflowStatus.Cancelled && 
+                                  x.WorkflowStatusId != (int)WorkflowStatus.Cancelled &&
                                   x.WorkflowStatusId != (int)WorkflowStatus.Completed);
                 if (receipt != null)
                 {
@@ -446,7 +446,7 @@ namespace MasterErp.Service.GeneralAccounts
                     Description = Model.Description,
                     JournalTypeId = (int)EntryType.Cashing,
                     PeriodId = Context.ReceiptLedgers.Single(x => x.ReceiptLedgerId == Model.ReceiptLedgerId).FinancialPeriodId,
-                    ActionTypeId = (int)JournalActionType.CashPayment,
+                    ActionTypeId = Model.PaymentTypeId == 1 ? (int)JournalActionType.CashPayment : (int)JournalActionType.ChequePayment,
                     ActionId = Model.PaymentReceiptId,
                     Month = Model.ReleaseDate.Month,
                     Year = Model.ReleaseDate.Year,
@@ -649,9 +649,9 @@ namespace MasterErp.Service.GeneralAccounts
                         Description = Model.Description,
                         IsPosted = true,
                         IsLocked = true,
-                        JournalTypeId = (int)EntryType.Cashing,
+                        JournalTypeId = (int)EntryType.Receiving,
                         PeriodId = Context.ReceiptLedgers.Single(x => x.ReceiptLedgerId == Model.ReceiptLedgerId).FinancialPeriodId,
-                        ActionTypeId = (int)JournalActionType.CashPayment,
+                        ActionTypeId = Model.PaymentTypeId == 1 ? (int)JournalActionType.CashReceive : (int)JournalActionType.ChequeReceiveReceipt,
                         ActionId = Model.PaymentTypeId,
                         Month = Model.ReleaseDate.Month,
                         Year = Model.ReleaseDate.Year,

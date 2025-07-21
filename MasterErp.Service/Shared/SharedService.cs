@@ -126,7 +126,7 @@ namespace MasterErp.Service.Shared
 
         public List<SelectorDataModel> GetAccountsSelector(bool? IsGroup, int? AccountTypeId)
         {
-            var result = Context.AccountTrees.Where(x => (IsGroup == null || x.IsGroup == IsGroup) && (AccountTypeId ==null || x.AccountTypeId == AccountTypeId)).Select(a => new SelectorDataModel
+            var result = Context.AccountTrees.Where(x => (IsGroup == null || x.IsGroup == IsGroup) && (AccountTypeId == null || x.AccountTypeId == AccountTypeId)).Select(a => new SelectorDataModel
             {
                 Id = a.AccountId,
                 Name = a.NameAR,
@@ -138,7 +138,7 @@ namespace MasterErp.Service.Shared
 
         public List<SelectorDataModel> GetCostCenterSelector(bool IsParent, int? AccountId)
         {
-            if(AccountId != null)
+            if (AccountId != null)
             {
 
             }
@@ -164,14 +164,24 @@ namespace MasterErp.Service.Shared
 
         public List<SelectorDataModel> GetIqamaIssuePlacesSelector()
         {
-            //var results = Context.Countries.Select(b => new SelectorDataModel
-            //{
-            //    Id = b.CountryId,
-            //    Name = b.NameAR,
-            //}).ToList();
-            //return results;
-            return new List<SelectorDataModel>();
+            var results = Context.Regions.Select(b => new SelectorDataModel
+            {
+                Id = (int)b.RegionId,
+                Name = b.NameAR ?? "",
+            }).ToList();
+            return results;
         }
+
+        public List<SelectorDataModel> GetBanksSelector()
+        {
+            var results = Context.Banks.Select(b => new SelectorDataModel
+            {
+                Id = (int)b.BankId,
+                Name = b.NameAR ?? "",
+            }).ToList();
+            return results;
+        }
+
         public List<SelectorDataModel> GetVisaJobsSelector()
         {
             var results = Context.Jobs.Select(b => new SelectorDataModel
@@ -181,7 +191,7 @@ namespace MasterErp.Service.Shared
             }).ToList();
             return results;
         }
-       
+
         public List<SelectorDataModel> GetRegionsSelector()
         {
             var results = Context.Regions.Select(b => new SelectorDataModel

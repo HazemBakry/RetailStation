@@ -19,9 +19,7 @@ export class LookupService {
   GetBanksSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetBanksSelector');
   }
-  GetIqamaIssuePlacesSelector() {
-    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetIqamaIssuePlacesSelector');
-  }
+
   GetCurrencySelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetCurrencySelector');
   }

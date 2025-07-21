@@ -1,10 +1,6 @@
 
 
 export interface EmployeeDueModel {
-
-
-
-
     employeeId: number | null;
     employeeDueId: number | null;
     employeeCode: string;
@@ -42,6 +38,8 @@ export interface EmployeeDueModel {
     dueTypeNameAR: string;
     includeFlightTicket: boolean;
     flightTicketAmount: number;
+    otherDeductionDesc?: string | null;
+    otherDeductionValue?: number | null;
     covenant: number;
     workflowStatusId: number;
     noMonths: number;
@@ -54,21 +52,21 @@ export interface EmployeeDueModel {
     totalDuesAmount: number | null;
 }
 
-export interface DuesPreparationModel {
-    lastJoinDate: string | null;
-    joinDate: string | null;
-    contractVacationPeriod: number | null;
-    vacationStartDate: string | null;
-    vacationEndDate: string | null;
-    currentVacationPeriod: number | null;
-    lastPaidSalaryMonth: number | null;
-    lastPaidSalaryYear: number | null;
-    branchId: number | null;
-    basicSalary: number | null;
-    vacationDues: number | null;
-    homeAllowance: number | null;
-    totalDueAmount: number | null;
-}
+// export interface DuesPreparationModel {
+//     lastJoinDate: string | null;
+//     joinDate: string | null;
+//     contractVacationPeriod: number | null;
+//     vacationStartDate: string | null;
+//     vacationEndDate: string | null;
+//     currentVacationPeriod: number | null;
+//     lastPaidSalaryMonth: number | null;
+//     lastPaidSalaryYear: number | null;
+//     branchId: number | null;
+//     basicSalary: number | null;
+//     vacationDues: number | null;
+//     homeAllowance: number | null;
+//     totalDueAmount: number | null;
+// }
 
 export interface DuesPreparationModel {
     dueTypeId: number;
@@ -91,9 +89,13 @@ export interface DuesPreparationModel {
     covenant: number | null;
     flightTicketDues: number | null;
     includeFlightTicket: boolean | null;
+    otherDeduction?: boolean | null;
+    otherDeductionDesc?: string | null;
+    otherDeductionValue?: number | null;
     includeSalary: boolean | null;
     salaryDuesMonths: SalaryDuesMonthModel[];
     endOfServiceDues: number | null;
+
 
     totalDuesMonths: number | null;
     totalDuesDays: number | null;

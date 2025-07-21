@@ -258,6 +258,7 @@ export class CreatePaymentOrderComponent implements OnInit {
   getEmployeeDuesById(employeeDueId) {
     this.showLoader = true;
     this.hrService.GetEmployeeDuesById(employeeDueId).subscribe((data: EmployeeDueModel) => {
+      debugger
       if (data && ![FinanceWorkflowStatus.Cancelled, FinanceWorkflowStatus.Paid].includes(data.workflowStatusId)) {
         this.formGroup?.patchValue({
           moneyAmount: data.totalDuesAmount.toFixed(2),

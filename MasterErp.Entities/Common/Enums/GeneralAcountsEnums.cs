@@ -41,6 +41,9 @@ namespace MasterErp.Entities.Common.Enums
         PurchaseInvoice = 2, //   فاتورة مشتريات  
         ChequePayment = 3, //  ايصال دفع شيك   
         CashPayment = 4,   //   ايصال دفع نقدى  
+        CashBankDeposit = 5,
+        CashReceive = 6,
+        ChequeReceiveReceipt = 7
 
         //ايداع نقدي بالبنك   Cash Bank Deposit
         //ايصال استلام نقدي   Cash Receive

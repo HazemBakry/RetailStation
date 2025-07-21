@@ -8,7 +8,7 @@ namespace MasterErp.Entities.Common.Enums
 {
     public enum DueType
     {
-        Vacation=1,
+        Vacation = 1,
         EndOfContract
     }
 }

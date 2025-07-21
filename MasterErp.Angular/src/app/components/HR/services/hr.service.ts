@@ -308,11 +308,11 @@ export class HrService {
     return this.http.post<DuesPreparationModel>(this.URL + 'Salaries/GetEmployeeDuesPreparationDate' + (queryString ? `?${queryString}` : ''), model);
   }
 
-  calculateEmployeeDue(employeeId: number, model: EmployeeDueModel): Observable<EmployeeDueModel> {
+  CalculateEmployeeDue(employeeId: number, model: EmployeeDueModel): Observable<EmployeeDueModel> {
     return this.http.post<EmployeeDueModel>(this.URL + `Salaries/CalculateEmployeeDue?EmployeeId=${employeeId}`, model);
   }
 
-  saveEmployeeDue(employeeId: number, model: DuesPreparationModel): Observable<ActionsResponseModel> {
+  SaveEmployeeDue(employeeId: number, model: DuesPreparationModel): Observable<ActionsResponseModel> {
     return this.http.post<ActionsResponseModel>(this.URL + `Salaries/SaveEmployeeDue?EmployeeId=${employeeId}`, model);
   }
 

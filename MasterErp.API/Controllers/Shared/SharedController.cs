@@ -142,6 +142,14 @@ namespace MasterErp.API.Controllers.Shared
         }
 
         [HttpGet]
+        [Route("GetBanksSelector")]
+        public IActionResult GetBanksSelector()
+        {
+            var result = _sharedService.GetBanksSelector();
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("GetVisaJobsSelector")]
         public IActionResult GetVisaJobsSelector()
         {

@@ -27,6 +27,8 @@ namespace MasterErp.Entities.Models.HR
         public double? HomeAllowance { get; set; }
         public double? Advances { get; set; }
         public double? FlightTicketDues { get; set; }
+        public string OtherDeductionDesc { get; set; }
+        public double? OtherDeductionValue { get; set; }
         public double? NetAmount { get; set; }
 
         public int? VacationId { get; set; }

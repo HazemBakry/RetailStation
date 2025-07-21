@@ -219,6 +219,10 @@ export class SharedService {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetIqamaIssuePlacesSelector');
   }
 
+  GetBanksSelector() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetBanksSelector');
+  }
+
   GetVisaJobsSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetVisaJobsSelector');
   }

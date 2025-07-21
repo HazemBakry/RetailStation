@@ -53,6 +53,9 @@ export class HrEmployeesSalariesComponent implements OnInit {
   totalCash: number = 0;
   totalVisa: number = 0;
 
+  branchIds: number[] = [];
+  sponsorIds: number[] = [];
+
   pagedResponseModel: PagedResponseDTO<EmployeeSalarySummaryModel[]> = {
     results: [],
     filterList: [],
@@ -68,7 +71,6 @@ export class HrEmployeesSalariesComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    debugger
     this.loadSelectors();
     // this.getAttendance_Data();
     // this.GetAttendance_Filters();
@@ -82,9 +84,8 @@ export class HrEmployeesSalariesComponent implements OnInit {
     this.hrService.GetActiveEmployeesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.employeeSelectorData = data;
     });
-
-
     this.hrService.GetSponsorData().subscribe(data => {
+      this.sponsorSelectorData = data;
       this.sponsorSelectorData = this.sponsorSelectorData.map(i => { return { name: i.nameAR, value: i.sponsorId } });
     });
 
@@ -94,6 +95,14 @@ export class HrEmployeesSalariesComponent implements OnInit {
       this.yearsSelectorData.push({ value: i, name: i });
     }
     this.yearsSelectorData.reverse();
+  }
+
+  selectMultiBranch(valueIds: number[]) {
+    this.branchIds = valueIds;
+  }
+
+  selectMultiSponsor(valueIds: number[]) {
+    this.sponsorIds = valueIds;
   }
 
   search() {
@@ -166,12 +175,20 @@ export class HrEmployeesSalariesComponent implements OnInit {
 
   mapFilters() {
     this.pagedResponseModel.filterList = [];
-    // if (this.selectedEmployeeId) {
-    //   this.pagedResponseModel.filterList.push({ categoryName: 'EmployeeId', itemFlag: this.selectedEmployeeId?.toString() })
+
+    this.branchIds.forEach(element => {
+      this.pagedResponseModel.filterList.push({ categoryName: 'BranchId', itemFlag: element.toString() })
+    });
+
+    this.sponsorIds.forEach(element => {
+      this.pagedResponseModel.filterList.push({ categoryName: 'SponsorId', itemFlag: element.toString() })
+    });
+    // // if (this.selectedEmployeeId) {
+    // //   this.pagedResponseModel.filterList.push({ categoryName: 'EmployeeId', itemFlag: this.selectedEmployeeId?.toString() })
+    // // }
+    // if (this.selectedBranchId) {
+    //   this.pagedResponseModel.filterList.push({ categoryName: 'BranchId', itemFlag: this.selectedBranchId?.toString() })
     // }
-    if (this.selectedBranchId) {
-      this.pagedResponseModel.filterList.push({ categoryName: 'BranchId', itemFlag: this.selectedBranchId?.toString() })
-    }
   }
 
   pageChanged(obj: any) {

@@ -70,6 +70,8 @@ export class HrEmployeeDuesComponent implements OnInit {
     netAmount: 0,
     totalDueAmount: 0,
     flightTicketAmount: 0,
+    otherDeductionDesc: '',
+    otherDeductionValue: 0,
     covenant: 0,
   } as EmployeeDueModel;
   pagedResponseModel: PagedResponseDTO<EmployeeDueModel[]> = {
@@ -107,7 +109,7 @@ export class HrEmployeeDuesComponent implements OnInit {
     this.duesCreateModel.dueTypeId = dueTypeId;
     this.duesCreateModel.vacationDues = 0;
     this.duesCreateModel.endOfServiceDues = 0;
-    this.employeeSelectorData =[];
+    this.employeeSelectorData = [];
     this.loadEmployeeSelector(dueTypeId);
 
 
@@ -147,8 +149,9 @@ export class HrEmployeeDuesComponent implements OnInit {
     if (!this.selectedEmployeeId || !this.selectedDueTypeId) {
       return;
     }
+    
     this.showLoader = true;
-    this.hrService.GetEmployeeDuesPreparationDate(this.selectedEmployeeId, this.selectedDueTypeId, this.duesCreateModel).subscribe((data:DuesPreparationModel) => {
+    this.hrService.GetEmployeeDuesPreparationDate(this.selectedEmployeeId, this.selectedDueTypeId, this.duesCreateModel).subscribe((data: DuesPreparationModel) => {
       if (data) {
         this.duesCreateModel = data;
         this.selectedBranchId = data.branchId;
@@ -165,6 +168,7 @@ export class HrEmployeeDuesComponent implements OnInit {
       this.showLoader = false;
     });
   }
+
   salaryMonthsChanged(valueIds: number[]) {
     var months = this.salaryDuesMonths.filter(x => valueIds.includes(x.id));
     var SalaryDuesMonthModel: SalaryDuesMonthModel[] = [];
@@ -182,6 +186,7 @@ export class HrEmployeeDuesComponent implements OnInit {
     }
     this.duesCreateModel.salaryDuesMonths = SalaryDuesMonthModel;
   }
+
   calcDeusPeriod() {
     let date = new Date(this.duesCreateModel.executionDate);
     //date.setMonth(date.getMonth() - 1);
@@ -204,7 +209,6 @@ export class HrEmployeeDuesComponent implements OnInit {
     } else if (this.selectedDueTypeId === DueTypeEnum.EndOfService) {
       fromDate = this.duesCreateModel.joinDate ? new Date(this.duesCreateModel.joinDate) : null;
     }
-
 
     if (fromDate && toDate && fromDate <= toDate) {
       const start = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
@@ -233,7 +237,7 @@ export class HrEmployeeDuesComponent implements OnInit {
     if (!this.checkEmployee())
       return;
     this.showLoader = true;
-    this.hrService.calculateEmployeeDue(this.selectedEmployeeId, this.employeeDueModel).subscribe(data => {
+    this.hrService.CalculateEmployeeDue(this.selectedEmployeeId, this.employeeDueModel).subscribe(data => {
       this.employeeDueModel = data;
       this.showLoader = false;
     }, err => {
@@ -242,12 +246,13 @@ export class HrEmployeeDuesComponent implements OnInit {
       this.showLoader = false;
     });
   }
+
   saveEmployeeDue() {
     if (!this.checkEmployee())
       return;
-    this.duesCreateModel.dueTypeId =this.selectedDueTypeId;
+    this.duesCreateModel.dueTypeId = this.selectedDueTypeId;
     this.showLoader = true;
-    this.hrService.saveEmployeeDue(this.selectedEmployeeId, this.duesCreateModel).subscribe(data => {
+    this.hrService.SaveEmployeeDue(this.selectedEmployeeId, this.duesCreateModel).subscribe(data => {
       if (data.isSuccess)
         this.toaster.success(data.message);
       else
@@ -260,6 +265,7 @@ export class HrEmployeeDuesComponent implements OnInit {
       this.showLoader = false;
     });
   }
+
   checkEmployee() {
     if (!this.selectedEmployeeId) {
       this.toaster.warning('من فضلك اختر من قائمة الموظفين', 'تحذير');
@@ -270,8 +276,8 @@ export class HrEmployeeDuesComponent implements OnInit {
 
   contractDetailsChanged(model: EmployeeContractModel) {
     this.selectedBranchId = model?.branchId ?? null;
-
   }
+
   getEmployeeDues() {
     if (!this.checkEmployee())
       return;
@@ -296,20 +302,20 @@ export class HrEmployeeDuesComponent implements OnInit {
       this.pagedResponseModel.filterList.push({ categoryName: 'BranchId', itemFlag: this.selectedBranchId?.toString() })
     }
   }
+
   pageChanged(obj: any) {
     this.pagedResponseModel.currentPage = obj.page;
     this.getEmployeeDues();
   }
+
   openSaveModal(content: any) {
     this.getEmployeeDuesPreparationDate();
     this.modalService.open(content, { centered: true, size: 'md' });
   }
+
   validateNumbers(key: any): boolean {
     let patt = /^([0-9\+])$/;
     let result = patt.test(key);
     return result;
-  }
-  calcTotalDues() {
-    // this.employeeDueModel.totalDueAmount 
   }
 }

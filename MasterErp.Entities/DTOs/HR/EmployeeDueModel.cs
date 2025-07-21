@@ -30,6 +30,8 @@ namespace MasterErp.Entities.DTOs.HR
         public double? Advances { get; set; }
         public double? Covenant { get; set; }
         public double? FlightTicketDues { get; set; }
+        public string OtherDeductionDesc { get; set; }
+        public double? OtherDeductionValue { get; set; }
         public bool? IncludeFlightTicket { get; set; }
         
         public bool? IncludeSalary { get; set; }
@@ -92,6 +94,8 @@ namespace MasterErp.Entities.DTOs.HR
 
         public double? SalaryDues { get; set; }
         public double? FlightTicketDues { get; set; }
+        public string? OtherDeductionDesc { get; set; }
+        public double? OtherDeductionValue { get; set; }
 
         public int? VacationId { get; set; }
 

@@ -116,7 +116,7 @@ export class CreatePaymentReceiptComponent implements OnInit {
       this.paymentOrdersList = data;
     });
 
-    this.hrService.GetActiveEmployeesSelector().subscribe(data => {
+    this.hrService.GetAllEmployeesSelector().subscribe(data => {
       this.employeesSelectorData = data;
     });
 

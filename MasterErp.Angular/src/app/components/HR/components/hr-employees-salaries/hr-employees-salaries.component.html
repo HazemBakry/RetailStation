@@ -7,15 +7,6 @@
     <div class="inputs-sec-content px-3 py-2">
 
         <div class="row gy-3">
-            <div class="col-lg-3">
-                <div class="mb-2">
-                    <label class="form-label d-flex align-items-center gap-2">
-                        الفرع
-                        <span class="text-danger">*</span>
-                    </label>
-                    <app-general-selector [(ngModel)]="selectedBranchId" [data]="branchSelectorData" [placeholder]="'الفروع'" [showSearch]="true"></app-general-selector>
-                </div>
-            </div>
 
             <div class="col-lg-3">
                 <div class="mb-2">
@@ -23,9 +14,19 @@
                         الشركة
                         <span class="text-danger">*</span>
                     </label>
-                    <app-general-selector [(ngModel)]="selectedSponsorId" [data]="sponsorSelectorData" [placeholder]="'الشركات'" [showSearch]="true"></app-general-selector>
+                    <app-general-selector [(ngModel)]="selectedSponsorId" [selectMulti]="true" [showSearch]="true" (valueChanged)="selectMultiSponsor($event)" [data]="sponsorSelectorData" [placeholder]="'الشركات'"></app-general-selector>
                 </div>
             </div>
+            <div class="col-lg-3">
+                <div class="mb-2">
+                    <label class="form-label d-flex align-items-center gap-2">
+                        الفرع
+                        <span class="text-danger">*</span>
+                    </label>
+                    <app-general-selector [(ngModel)]="selectedBranchId" [selectMulti]="true" [showSearch]="true" (valueChanged)="selectMultiBranch($event)" [data]="branchSelectorData" [placeholder]="'الفروع'"></app-general-selector>
+                </div>
+            </div>
+
 
             <!-- <div class="col-lg-3">
                 <div class="mb-2">
@@ -88,9 +89,9 @@
         <div class="row p-2">
             <div class="col-md-8">
                 <div class="d-flex align-items-center flex-wrap">
-                    <ng-container>
+                    <!-- <ng-container>
                         <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث بإسم الموظف ...'"></app-erp-filters>
-                    </ng-container>
+                    </ng-container> -->
 
                     <!-- <div class="search-box position-relative mb-2">
                         <button [disabled]="showAddLoader" (click)="openSaveModal(saveDialog)" class="btn btn-primary d-flex align-items-center gap-2 border rounded px-3">
