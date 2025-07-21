@@ -89,7 +89,7 @@
                         <th>الراتب القديم</th>
                         <th>الراتب الجديد</th>
                         <th>ملاحظات</th>
-                        <!-- <th>الإجراءات</th> -->
+                        <th>الإجراءات</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -103,16 +103,22 @@
                         <td>{{ emp.branchNameAR ?? emp.branchNameEN }}</td>
                         <td>{{ emp.sponsorNameAR??emp.sponsorNameEN }}</td>
                         <td>
-                            <span appWorkflowStatus [id]="emp.statusId" [nameAR]="emp?.employeeStatusNameAR" [type]="'employeeStatus'">
+                            <span appWorkflowStatus [id]="emp.statusId" [nameAR]="emp?.employeeStatusNameAR"
+                                [type]="'employeeStatus'">
                             </span>
                         </td>
                         <td>{{ emp.joinDate | date: 'yyyy-MM-dd' }}</td>
                         <td>{{emp.oldSalary}}</td>
                         <td>{{emp.newSalary}}</td>
                         <td class="word-break">{{emp.notes}}</td>
-                        <!-- <td>
-                           <div class="d-flex align-items-center justify-content-center text-center">
-                                <button *ngIf="item.workflowStatusId != workflowStatus.Approved"
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center text-center">
+                                <button (click)="openSidePanel(detailsSidePanel,emp.employeeId)"
+                                    class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
+                                    <i class="uil uil-info"></i>
+                                    <span>تفاصيل</span>
+                                </button>
+                                <!--  <button *ngIf="item.workflowStatusId != workflowStatus.Approved"
                                     class="button-table-action btn-success d-flex align-items-center justify-content-center gap-2 me-2"
                                     (click)="openApproveModal(approveModal,item.employeeAdvanceId)">
                                     <i class="uil uil-check-circle"></i>
@@ -129,9 +135,9 @@
                                     (click)="openDeleteModal(deleteModal,item.employeeAdvanceId)">
                                     <i class="uil uil-trash-alt"></i>
                                     <span>الغاء</span>
-                                </button>
-                            </div> 
-                        </td>-->
+                                </button>-->
+                            </div>
+                        </td>
                     </tr>
                     <tr *ngIf="!pagedResponse.results.length || showLoader">
                         <td colspan="12" class="text-right">
@@ -145,3 +151,86 @@
         </div>
     </div>
 </div>
+
+
+
+<ng-template #detailsSidePanel let-offcanvas>
+
+    <div class="offcanvas-header justify-content-between gap-3 fs-4 border-bottom py-3">
+        <div class="d-flex align-items-center gap-2">
+            <i class="fas fa-store offcanvas-header-icon"></i>
+            <span>تفاصيل الزيادات</span>
+        </div>
+        <div class="cursor-pointer text-danger fs-2" (click)="offcanvas.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="offcanvas-body pt-4 bg-light">
+        <div class="card card-with-table border shadow-none">
+            <!-- <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-start">
+
+            </div> -->
+
+            <div class="card-body">
+                <div class="row p-2">
+                    <div class="col-md-8">
+                        <button [disabled]="showExportLoader" (click)="exportEmployeeSalaryHistory()"
+                            class="btn  btn-outline-success gap-2 border rounded px-3 me-2">
+                            <i class="fas fa-file-download"></i>
+                            <span>تصدير CSV</span>
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <app-erp-pagination (pageChanged)="pageSalaryHistoryChanged($event)"
+                            [currentPage]="salaryHistoryResponse.currentPage"
+                            [pageSize]="salaryHistoryResponse.pageSize"
+                            [totalCount]="salaryHistoryResponse.totalCount"></app-erp-pagination>
+                    </div>
+                </div>
+                <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
+                <div class="table-responsive shadow-sm radius-10 table-vp-height">
+                    <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>اسم الموظف</th>
+                                <th>التاريخ </th>
+                                <th>أساسى</th>
+                                <th>إضافى</th>
+                                <th>بدل انتقال</th>
+                                <th>طبيعة عمل</th>
+                                <th>بدل وجبات</th>
+                                <th>بدل سكن</th>
+                                <th>بدل هاتف</th>
+                                <th>أخري</th>
+                                <th>اجمالي</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of salaryHistoryResponse.results">
+                                <td>{{item.employeeNameAR ??item.employeeNameEN}}</td>
+                                <td>{{item.createdDate | date}}</td>
+                                <td>{{item.basicSalary ?? 0}}</td>
+                                <td>{{item.extraSalary ?? 0 }}</td>
+                                <td>{{item.transportation ?? 0 }}</td>
+                                <td>{{item.workNature ?? 0 }}</td>
+                                <td>{{item.mealAllowance ?? 0 }}</td>
+                                <td>{{item.housingAllowance ?? 0 }}</td>
+                                <td>{{item.mobileAllowance ?? 0 }}</td>
+                                <td>{{item.other ?? 0 }}</td>
+                                <td>{{item.totalSalary ?? 0 }}</td>
+                            </tr>
+                            <tr *ngIf="!salaryHistoryResponse.results.length || showLoader">
+                                <td colspan="11" class="text-right">
+                                    <app-empty-data
+                                        [showEmptyData]="!salaryHistoryResponse.results.length&&!showDetailsLoader"
+                                        [showLoader]="showDetailsLoader"></app-empty-data>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</ng-template>

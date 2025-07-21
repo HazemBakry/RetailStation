@@ -13,7 +13,7 @@ import { EmployeeAdvanceModel } from '../../models/EmployeeAdvanceModel';
 import { HRWorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
 import { GeneralSelectorComponent, GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { ExpireType } from 'src/app/components/Shared/Enums/ExpireType';
-import { EmployeeReportModel, SalaryAnnualIncreaseModel } from '../../models/EmployeeReportModel';
+import { EmployeeReportModel, SalaryAnnualIncreaseModel, SalaryHistoryModel } from '../../models/EmployeeReportModel';
 
 @Component({
   selector: 'app-hr-employees-salary-annual-increase-report',
@@ -26,6 +26,7 @@ export class HrEmployeesSalaryAnnualIncreaseReportComponent implements OnInit {
   toDate: string;
 
   showLoader: boolean = false;
+  showDetailsLoader: boolean = false;
   showExportLoader: boolean = false;
   showAddLoader: boolean = false;
   selectedReportType: number = null;
@@ -36,6 +37,13 @@ export class HrEmployeesSalaryAnnualIncreaseReportComponent implements OnInit {
   reportName: string;
 
   pagedResponse: PagedResponseDTO<SalaryAnnualIncreaseModel[]> = {
+    results: [],
+    filterList: [],
+    pageSize: 10,
+    currentPage: 1,
+    searchText: ''
+  };
+  salaryHistoryResponse: PagedResponseDTO<SalaryHistoryModel[]> = {
     results: [],
     filterList: [],
     pageSize: 10,
@@ -136,6 +144,51 @@ export class HrEmployeesSalaryAnnualIncreaseReportComponent implements OnInit {
   }
 
 
+  openSidePanel(content: any, employeeId) {
+    if (!employeeId) return;
+    this.selectedEmployeeId = employeeId;
+    this.salaryHistoryResponse.results = [];
+    this.salaryHistoryResponse.currentPage = 1;
+    this.loadEmployeeSalaryHistory();
+    this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
+  }
+  loadEmployeeSalaryHistory() {
+    // if (!this.checkReport())
+    //   return;
+
+    this.showDetailsLoader = true;
+    this.hrService.GetEmployeeSalaryHistory_Data(this.selectedEmployeeId, this.salaryHistoryResponse).subscribe(data => {
+      this.salaryHistoryResponse.results = data.results;
+      this.salaryHistoryResponse.totalCount = data.totalCount;
+
+      this.showDetailsLoader = false;
+    }, err => {
+      this.showDetailsLoader = false;
+    }, () => {
+      this.showDetailsLoader = false;
+    });
+  }
+
+  exportEmployeeSalaryHistory() {
+    if (!this.selectedEmployeeId) return
+    this.showExportLoader = true;
+    this.hrService.GetEmployeeSalaryHistory_Export(this.selectedEmployeeId, this.salaryHistoryResponse).subscribe(data => {
+      if (data.isSuccess) {
+        this.sharedService.urlDownloadOrOpen(data.url);
+        this.toaster.success(data.message);
+      } else {
+        this.toaster.error(data.message);
+      }
+    }, err => {
+      this.showExportLoader = false;
+    }, () => {
+      this.showExportLoader = false;
+    });
+  }
+  pageSalaryHistoryChanged(obj: any) {
+    this.salaryHistoryResponse.currentPage = obj.page;
+    this.loadEmployeeSalaryHistory();
+  }
 }
 
 

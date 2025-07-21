@@ -21,7 +21,7 @@ import { EmployeeSalarySummaryModel } from '../models/EmployeeSalarySummaryModel
 import { DuesPreparationModel, EmployeeDueModel } from '../models/EmployeeDueModel';
 import { SponsorModel } from '../models/SponsoModel';
 import { DepartmentModel } from '../models/DepartmentModel';
-import { EmployeeReportModel, SalaryAnnualIncreaseModel } from '../models/EmployeeReportModel';
+import { EmployeeReportModel, SalaryAnnualIncreaseModel, SalaryHistoryModel} from '../models/EmployeeReportModel';
 import { EmployeeStatusEnum } from '../../Shared/Enums/EmployeeStatusEnum';
 import { DueTypeEnum } from '../../Shared/Enums/DueTypeEnum';
 
@@ -780,6 +780,11 @@ export class HrService {
     return this.http.post<FilterModel[]>(this.URL + `HRReports/GetEmployeeSalaryAnnualIncreaseReport_Filters`, model);
   }
 
-
+  GetEmployeeSalaryHistory_Data(employeeId:number,model: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<SalaryHistoryModel[]>>(this.URL + `HRReports/GetEmployeeSalaryHistory_Data?EmployeeId=${employeeId}`, model);
+  }
+  GetEmployeeSalaryHistory_Export(employeeId:number,model: SearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `HRReports/GetEmployeeSalaryHistory_Export?EmployeeId=${employeeId}`, model);
+  }
 
 }

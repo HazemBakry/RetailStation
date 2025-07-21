@@ -35,3 +35,20 @@ export interface SalaryAnnualIncreaseModel extends EmployeeReportModel {
     newSalaryDate: string | null;
 
 }
+
+export interface SalaryHistoryModel {
+    employeeId: number | null;
+    employeeNameAR: string;
+    employeeNameEN: string;
+    basicSalary: number;
+    extraSalary: number | null;
+    transportation: number | null;
+    housingAllowance: number | null;
+    mobileAllowance: number | null;
+    workNature: number | null;
+    mealAllowance: number | null;
+    other: number | null;
+    grossSalary: number | null;
+    totalSalary: number | null;
+    createdDate: string | null;
+}

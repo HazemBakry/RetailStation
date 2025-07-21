@@ -10,7 +10,7 @@ namespace MasterErp.Entities.Models.HR
 {
     [Table("ContractDetails", Schema = "HR")]
 
-    public class ContractDetail
+    public class ContractDetail:CreatorModel
     {
         public int ContractDetailId { get; set; }
         public int EmployeeId { get; set; }

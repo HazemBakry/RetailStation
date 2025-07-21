@@ -42,6 +42,9 @@ namespace MasterErp.Interface.HR
         List<SalaryAnnualIncreaseModel> GetEmployeeSalaryAnnualIncreaseReport_Data( SearchFilterModel model);
         ActionsResponseModel GetEmployeeSalaryAnnualIncreaseReport_Export( SearchFilterModel model);
         List<FilterModel> GetEmployeeSalaryAnnualIncreaseReport_Filters( SearchFilterModel model);
+
+        List<SalaryHistoryModel> GetEmployeeSalaryHistory_Data(int EmployeeId, SearchFilterModel model);
+        ActionsResponseModel GetEmployeeSalaryHistory_Export(int EmployeeId, SearchFilterModel model);
         #endregion
 
         List<EmployeeSalarySummaryModel> GetSalariesReport_Data(int Month, int Year, SearchFilterModel SearchModel);

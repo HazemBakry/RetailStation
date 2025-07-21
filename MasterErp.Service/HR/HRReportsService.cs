@@ -637,6 +637,80 @@ namespace MasterErp.Service.HR
             return grouped;
         }
 
+        public List<SalaryHistoryModel> GetEmployeeSalaryHistory_Data(int EmployeeId,SearchFilterModel SearchModel)
+        {
+            SqlParameter[] param = new SqlParameter[4];
+
+            param[0] = new SqlParameter("@EmployeeId", EmployeeId);
+            param[1] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            param[2] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            param[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[3].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
+
+
+            var result = _sQLHelper.SQLQuery<SalaryHistoryModel>("[HR].[SP_GetEmployeeSalaryHistory_Data]", null, param);
+
+            return result;
+        }
+        public ActionsResponseModel GetEmployeeSalaryHistory_Export(int EmployeeId,SearchFilterModel SearchModel)
+        {
+            string url = string.Empty;
+            try
+            {
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var Data = GetEmployeeSalaryHistory_Data(EmployeeId,SearchModel);
+
+                var result = Data.Select(x => new SalaryHistoryExportModel
+                {
+                    EmployeeName = x.EmployeeNameAR ?? x.EmployeeNameEN,
+                    CreatedDate = x.CreatedDate?.ToString("MM/dd/yyyy"),
+                    BasicSalary = x.BasicSalary,
+                    GrossSalary = x.GrossSalary,
+                    ExtraSalary = x.ExtraSalary,
+                    HousingAllowance = x.HousingAllowance,
+                    MealAllowance = x.MealAllowance,
+                    MobileAllowance = x.MobileAllowance,
+                    Other = x.Other,
+                    Transportation = x.Transportation,
+                    WorkNature = x.WorkNature,
+                    TotalSalary = x.TotalSalary
+                }).ToList();
+
+                if (!result.Any())
+                {
+                    result.Add(new SalaryHistoryExportModel());
+
+                }
+
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "Employee Salary History");
+
+
+                url = GetExportUrl(dtExport, "Employee Salary History");
+
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+
+        }
+
         #endregion
 
         #region Salaries Report

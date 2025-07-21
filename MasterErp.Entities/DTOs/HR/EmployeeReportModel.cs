@@ -116,4 +116,40 @@ namespace MasterErp.Entities.DTOs.HR
         public string Notes { get; set; }
     }
 
+    public class SalaryHistoryModel
+    {
+        public int? EmployeeId { get; set; }
+        public string EmployeeNameAR { get; set; }
+        public string EmployeeNameEN { get; set; }
+        public double BasicSalary { get; set; }
+        public double? ExtraSalary { get; set; }
+        public double? Transportation { get; set; }
+        public double? HousingAllowance { get; set; }
+        public double? MobileAllowance { get; set; }
+        public double? WorkNature { get; set; }
+        public double? MealAllowance { get; set; }
+        public double? Other { get; set; }
+        public double? GrossSalary { get; set; }
+        public double? TotalSalary { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public int? TotalCount { get; set; }
+
+    } 
+    public class SalaryHistoryExportModel
+    {
+
+        public string EmployeeName { get; set; }
+        public string CreatedDate { get; set; }
+        public double BasicSalary { get; set; }
+        public double? ExtraSalary { get; set; }
+        public double? Transportation { get; set; }
+        public double? HousingAllowance { get; set; }
+        public double? MobileAllowance { get; set; }
+        public double? WorkNature { get; set; }
+        public double? MealAllowance { get; set; }
+        public double? Other { get; set; }
+        public double? GrossSalary { get; set; }
+        public double? TotalSalary { get; set; }
+    }
+
 }

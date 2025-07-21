@@ -223,6 +223,30 @@ namespace MasterErp.API.Controllers.HR
             return Ok(result);
         }
 
+
+        [HttpPost]
+        [Route("GetEmployeeSalaryHistory_Data")]
+        public IActionResult GetEmployeeSalaryHistory_Data(int EmployeeId,SearchFilterModel model)
+        {
+            var data = _hrReportService.GetEmployeeSalaryHistory_Data(EmployeeId,model);
+            var result = new PagedResponseModel<SalaryHistoryModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("GetEmployeeSalaryHistory_Export")]
+        public IActionResult GetEmployeeSalaryHistory_Export(int EmployeeId, SearchFilterModel model)
+        {
+            var result = _hrReportService.GetEmployeeSalaryHistory_Export(EmployeeId, model);
+
+            return Ok(result);
+        }
         #endregion
 
         #region Salaries Report
