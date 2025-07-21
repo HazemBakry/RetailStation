@@ -168,7 +168,8 @@ export class AddPurchaseInvoiceComponent implements OnInit {
     if (!this.validateForm()) {
       return;
     }
-    this.purchaseInvoiceModel = this.formGroup.value;
+    // this.purchaseInvoiceModel = this.formGroup.value;
+    this.purchaseInvoiceModel = this.formGroup.getRawValue();;
 
     if (this.purchaseInvoiceId)
       this.editPurchaseInvoice();
