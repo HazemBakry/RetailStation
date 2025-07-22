@@ -10,9 +10,10 @@ export interface EmployeeSalarySummaryModel {
     employeeNameAR?: string;
     branchId?: number | null;
     branchNameEN?: string;
-    branchNameAR?: string;
-    jobNameEN?: string;
-    jobNameAR?: string;
+    //branchName?: string;
+    //jobNameEN?: string;
+    jobName?: string;
+    sponsorName?: string;
     deductions?: number | null;
     advances?: number | null;
     penalties?: number | null;

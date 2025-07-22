@@ -21,7 +21,7 @@ import { EmployeeSalarySummaryModel } from '../models/EmployeeSalarySummaryModel
 import { DuesPreparationModel, EmployeeDueModel } from '../models/EmployeeDueModel';
 import { SponsorModel } from '../models/SponsoModel';
 import { DepartmentModel } from '../models/DepartmentModel';
-import { EmployeeReportModel, SalaryAnnualIncreaseModel, SalaryHistoryModel} from '../models/EmployeeReportModel';
+import { EmployeeReportModel, SalaryAnnualIncreaseModel, SalaryHistoryModel } from '../models/EmployeeReportModel';
 import { EmployeeStatusEnum } from '../../Shared/Enums/EmployeeStatusEnum';
 import { DueTypeEnum } from '../../Shared/Enums/DueTypeEnum';
 
@@ -746,14 +746,16 @@ export class HrService {
 
 
   /////////////////////////// expired report 
-  GetEmployeesExpireReport_Data(reportType: number, model: SearchFilterModel) {
-    return this.http.post<PagedResponseDTO<EmployeeReportModel[]>>(this.URL + `HRReports/GetEmployeesExpireReport_Data?ReportType=${reportType}`, model);
+  GetEmployeesExpireReport_Data(reportType: number, fromDate: any, toDate: any, model: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<EmployeeReportModel[]>>(this.URL + 'HRReports/GetEmployeesExpireReport_Data?ReportType=' + reportType + '&FromDate=' + fromDate + '&ToDate=' + toDate, model);
   }
-  GetEmployeesExpireReport_Export(reportType: number, model: SearchFilterModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + `HRReports/GetEmployeesExpireReport_Export?ReportType=${reportType}`, model);
+
+  GetEmployeesExpireReport_Export(reportType: number, fromDate: any, toDate: any, model: SearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'HRReports/GetEmployeesExpireReport_Export?ReportType=' + reportType + '&FromDate=' + fromDate + '&ToDate=' + toDate, model);
   }
-  GetEmployeesExpireReport_Filters(reportType: number, model: SearchFilterModel) {
-    return this.http.post<FilterModel[]>(this.URL + `HRReports/GetEmployeesExpireReport_Filters?ReportType=${reportType}`, model);
+  
+  GetEmployeesExpireReport_Filters(reportType: number, fromDate: any, toDate: any, model: SearchFilterModel) {
+    return this.http.post<FilterModel[]>(this.URL + 'HRReports/GetEmployeesExpireReport_Filters?ReportType=' + reportType + '&FromDate=' + fromDate + '&ToDate=' + toDate, model);
   }
 
 
@@ -780,10 +782,10 @@ export class HrService {
     return this.http.post<FilterModel[]>(this.URL + `HRReports/GetEmployeeSalaryAnnualIncreaseReport_Filters`, model);
   }
 
-  GetEmployeeSalaryHistory_Data(employeeId:number,model: SearchFilterModel) {
+  GetEmployeeSalaryHistory_Data(employeeId: number, model: SearchFilterModel) {
     return this.http.post<PagedResponseDTO<SalaryHistoryModel[]>>(this.URL + `HRReports/GetEmployeeSalaryHistory_Data?EmployeeId=${employeeId}`, model);
   }
-  GetEmployeeSalaryHistory_Export(employeeId:number,model: SearchFilterModel) {
+  GetEmployeeSalaryHistory_Export(employeeId: number, model: SearchFilterModel) {
     return this.http.post<ActionsResponseModel>(this.URL + `HRReports/GetEmployeeSalaryHistory_Export?EmployeeId=${employeeId}`, model);
   }
 

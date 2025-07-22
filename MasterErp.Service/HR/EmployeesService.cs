@@ -221,6 +221,7 @@ namespace MasterErp.Service.HR
                     employeeContract.VacationEvery = model.VacationEvery;
                     employeeContract.VacationDays = model.VacationDays;
                     employeeContract.IsGossi = model.IsGossi;
+                    employeeContract.VacationDate = model.VacationDate;
                     employeeContract.JoinDate = model.JoinDate;
                     employeeContract.LastJoinDate = model.LastJoinDate;
                     employeeContract.ModifiedBy = model.ModifiedBy;
@@ -261,6 +262,7 @@ namespace MasterErp.Service.HR
                     employeeContract.VacationEvery = model.VacationEvery;
                     employeeContract.VacationDays = model.VacationDays;
                     employeeContract.IsGossi = model.IsGossi;
+                    employeeContract.VacationDate = model.VacationDate;
                     employeeContract.JoinDate = model.JoinDate;
                     employeeContract.LastJoinDate = model.LastJoinDate;
                     employeeContract.CreatedBy = model.CreatedBy;
@@ -378,6 +380,7 @@ namespace MasterErp.Service.HR
                     employeeVerification.VehicleId = model.VehicleId;
                     employeeVerification.VehicleNumber = model.VehicleNumber;
                     employeeVerification.VehicleCode = model.VehicleCode;
+                    employeeVerification.IsVisa = model.IsVisa;
 
                     employeeVerification.ModifiedBy = model.ModifiedBy;
                     employeeVerification.ModifiedDate = DateTime.Now;
@@ -406,6 +409,7 @@ namespace MasterErp.Service.HR
                     employeeVerification.VehicleId = model.VehicleId;
                     employeeVerification.VehicleNumber = model.VehicleNumber;
                     employeeVerification.VehicleCode = model.VehicleCode;
+                    employeeVerification.IsVisa = model.IsVisa;
 
                     employeeVerification.CreatedBy = model.CreatedBy;
                     employeeVerification.CreatedDate = DateTime.Now;
@@ -680,7 +684,7 @@ namespace MasterErp.Service.HR
                     VehicleId = employee.VehicleId,
                     VehicleNumber = employee.VehicleNumber,
                     VehicleCode = employee.VehicleCode,
-
+                    IsVisa = employee.IsVisa,
 
                     CreatedBy = employee.CreatedBy,
                     CreatedDate = employee.CreatedDate,

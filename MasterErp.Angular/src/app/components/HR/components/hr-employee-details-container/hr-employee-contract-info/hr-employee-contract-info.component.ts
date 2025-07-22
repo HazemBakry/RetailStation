@@ -42,10 +42,7 @@ export class HrEmployeeContractInfoComponent implements OnInit {
   };
 
   constructor(private acRoute: ActivatedRoute,
-    private hrService: HrService,
-    private modalService: NgbModal,
     private employeeService: EmployeeService,
-    private sharedService: SharedService,
     private form: FormBuilder,
     private _FormService: FormService,
     private datePipe: DatePipe,
@@ -93,13 +90,14 @@ export class HrEmployeeContractInfoComponent implements OnInit {
       contractId: [null],
       employeeId: [null],
       startDate: [null, [Validators.required]],
-      joinDate: [null],
-      lastJoinDate: [null],
       endDate: [null, [Validators.required]],
       vacationPeriodDays: [null, [CustomValidators.regexPattern(RegexType.number)]],
       contractPeriodYears: [null, [CustomValidators.regexPattern(RegexType.number)]],
       isGossi: [false],
       vacationDate: [null],
+      joinDate: [null],
+      lastJoinDate: [null],
+      
     },
       {
         validators: [
@@ -164,12 +162,13 @@ export class HrEmployeeContractInfoComponent implements OnInit {
       employeeId: employeeContractInfoModel.employeeId,
       startDate: this.datePipe.transform(employeeContractInfoModel.startDate, 'yyyy-MM-dd'),
       endDate: this.datePipe.transform(employeeContractInfoModel.endDate, 'yyyy-MM-dd'),
-      joinDate: this.datePipe.transform(employeeContractInfoModel.joinDate, 'yyyy-MM-dd'),
-      lastJoinDate: this.datePipe.transform(employeeContractInfoModel.lastJoinDate, 'yyyy-MM-dd'),
       vacationPeriodDays: employeeContractInfoModel.vacationPeriodDays,
       contractPeriodYears: employeeContractInfoModel.contractPeriodYears,
       isGossi: employeeContractInfoModel.isGossi,
       vacationDate: this.datePipe.transform(employeeContractInfoModel.vacationDate, 'yyyy-MM-dd'),
+      joinDate: this.datePipe.transform(employeeContractInfoModel.joinDate, 'yyyy-MM-dd'),
+      lastJoinDate: this.datePipe.transform(employeeContractInfoModel.lastJoinDate, 'yyyy-MM-dd'),
+      
     });
   }
 

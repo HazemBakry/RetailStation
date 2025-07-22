@@ -21,6 +21,7 @@ namespace MasterErp.Entities.Models.HR
         public int? VacationDays { get; set; }
         public bool? IsGossi { get; set; }
         public bool? IsActive { get; set; }
+        public DateTime? VacationDate { get; set; }
         public DateTime? JoinDate { get; set; }
         public DateTime? LastJoinDate { get; set; }
         public Employee Employee { get; set; }

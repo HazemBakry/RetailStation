@@ -7,11 +7,29 @@
     <div class="card-body">
         <div class="row  py-3">
             <div class="col-lg-4">
-                <app-drop-down-form-control [(ngModel)]="selectedReportType" [data]="reportTypes" [showSearch]="true"
-                    [placeholder]="'نوع التقرير'"></app-drop-down-form-control>
+                <app-drop-down-form-control [(ngModel)]="selectedReportType" [data]="reportTypes" [showSearch]="true" [placeholder]="'نوع التقرير'"></app-drop-down-form-control>
             </div>
             <div class="col-lg-2">
-                
+
+            </div>
+        </div>
+        <div class="row  py-3">
+            <div class="col-lg-3">
+                <div class="mb-2">
+                    <label class="form-label d-flex align-items-center gap-2">
+                        من تاريخ
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input [(ngModel)]="fromDate" type="date" autocomplete="off" class="form-control nw-form-input" />
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="mb-2">
+                    <label class="form-label d-flex align-items-center gap-2">
+                        الي تاريخ
+                        <span class="text-danger">*</span></label>
+                    <input [(ngModel)]="toDate" type="date" autocomplete="off" class="form-control nw-form-input" />
+                </div>
             </div>
         </div>
 
@@ -40,14 +58,12 @@
                         </button> -->
                     </div>
                     <ng-container *ngIf="filterList.length > 0">
-                        <app-erp-filters [FilterList]="filterList"
-                            (filterChanged)="filterChecked($event)"></app-erp-filters>
+                        <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-erp-filters>
                     </ng-container>
                 </div>
             </div>
             <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage"
-                    [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount"></app-erp-pagination>
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage" [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount"></app-erp-pagination>
             </div>
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
@@ -63,7 +79,7 @@
                         <th>الوظيفة</th>
                         <th>الفرع</th>
                         <th>الكفيل</th>
-                                                <th>حالة العمل</th>
+                        <th>حالة العمل</th>
 
                         <th>تاريخ التعيين</th>
                         <th>تاريخ الانتهاء</th>
@@ -88,7 +104,7 @@
                         <td>{{ emp.joinDate | date: 'yyyy-MM-dd' }}</td>
                         <td>{{ emp.expiryDate | date: 'yyyy-MM-dd' }}</td>
                         <td class="word-break">{{emp.notes}}</td>
-                         <!-- <td>
+                        <!-- <td>
                            <div class="d-flex align-items-center justify-content-center text-center">
                                 <button *ngIf="item.workflowStatusId != workflowStatus.Approved"
                                     class="button-table-action btn-success d-flex align-items-center justify-content-center gap-2 me-2"
@@ -113,8 +129,7 @@
                     </tr>
                     <tr *ngIf="!pagedResponse.results.length || showLoader">
                         <td colspan="12" class="text-right">
-                            <app-empty-data [showEmptyData]="!pagedResponse.results.length&&!showLoader"
-                                [showLoader]="showLoader"></app-empty-data>
+                            <app-empty-data [showEmptyData]="!pagedResponse.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>

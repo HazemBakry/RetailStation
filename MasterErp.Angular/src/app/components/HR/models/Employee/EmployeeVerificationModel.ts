@@ -20,4 +20,5 @@ export interface EmployeeVerificationModel extends CreatorModel {
     vehicleNumber: string;
     vehicleCode: number | null;
     employee: EmployeeModel;
+    isVisa?: boolean | null
 }

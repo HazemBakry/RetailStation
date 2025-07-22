@@ -356,29 +356,30 @@ namespace MasterErp.Service.HR
 
         #region ExpireReport
 
-        public List<EmployeeReportModel> GetEmployeesExpireReport_Data(int ReportType, SearchFilterModel SearchModel)
+        public List<EmployeeReportModel> GetEmployeesExpireReport_Data(int ReportType, DateTime FromDate, DateTime ToDate, SearchFilterModel SearchModel)
         {
-            SqlParameter[] param = new SqlParameter[4];
+            SqlParameter[] param = new SqlParameter[6];
             param[0] = new SqlParameter("@ReportType", ReportType);
-            param[1] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
-            param[2] = new SqlParameter("@PageSize", SearchModel.PageSize);
-            param[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            param[3].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
-
+            param[1] = new SqlParameter("@FromDate", FromDate);
+            param[2] = new SqlParameter("@ToDate", ToDate);
+            param[3] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            param[4] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            param[5] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[5].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
 
             var result = _sQLHelper.SQLQuery<EmployeeReportModel>("[HR].[SP_GetEmployeesExpireReport_Data]", null, param);
 
             return result;
         }
 
-        public ActionsResponseModel GetEmployeesExpireReport_Export(int ReportType, SearchFilterModel SearchModel)
+        public ActionsResponseModel GetEmployeesExpireReport_Export(int ReportType, DateTime FromDate, DateTime ToDate, SearchFilterModel SearchModel)
         {
             string url = string.Empty;
             try
             {
                 SearchModel.CurrentPage = 1;
                 SearchModel.PageSize = 990000;
-                var Data = GetEmployeesExpireReport_Data(ReportType, SearchModel);
+                var Data = GetEmployeesExpireReport_Data(ReportType, FromDate, ToDate, SearchModel);
 
                 var result = Data.Select(x => new EmployeeExpireReportExportModel
                 {
@@ -435,12 +436,14 @@ namespace MasterErp.Service.HR
 
         }
 
-        public List<FilterModel> GetEmployeesExpireReport_Filters(int ReportType, SearchFilterModel SearchModel)
+        public List<FilterModel> GetEmployeesExpireReport_Filters(int ReportType, DateTime FromDate, DateTime ToDate, SearchFilterModel SearchModel)
         {
-            SqlParameter[] param = new SqlParameter[2];
+            SqlParameter[] param = new SqlParameter[4];
             param[0] = new SqlParameter("@ReportType", ReportType);
-            param[1] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            param[1].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
+            param[1] = new SqlParameter("@FromDate", FromDate);
+            param[2] = new SqlParameter("@ToDate", ToDate);
+            param[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[3].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
 
             var result = _sQLHelper.SQLQuery<FilterItem>("[HR].[SP_GetEmployeesExpireReport_Filters]", null, param);
             var grouped = sharedFilterService.GroupedFilterItems(result);
@@ -637,7 +640,7 @@ namespace MasterErp.Service.HR
             return grouped;
         }
 
-        public List<SalaryHistoryModel> GetEmployeeSalaryHistory_Data(int EmployeeId,SearchFilterModel SearchModel)
+        public List<SalaryHistoryModel> GetEmployeeSalaryHistory_Data(int EmployeeId, SearchFilterModel SearchModel)
         {
             SqlParameter[] param = new SqlParameter[4];
 
@@ -652,14 +655,14 @@ namespace MasterErp.Service.HR
 
             return result;
         }
-        public ActionsResponseModel GetEmployeeSalaryHistory_Export(int EmployeeId,SearchFilterModel SearchModel)
+        public ActionsResponseModel GetEmployeeSalaryHistory_Export(int EmployeeId, SearchFilterModel SearchModel)
         {
             string url = string.Empty;
             try
             {
                 SearchModel.CurrentPage = 1;
                 SearchModel.PageSize = 990000;
-                var Data = GetEmployeeSalaryHistory_Data(EmployeeId,SearchModel);
+                var Data = GetEmployeeSalaryHistory_Data(EmployeeId, SearchModel);
 
                 var result = Data.Select(x => new SalaryHistoryExportModel
                 {

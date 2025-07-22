@@ -20,48 +20,48 @@ namespace MasterErp.API.Controllers.HR
         private readonly IHRReportsService _hrReportService;
         public HRReportsController(IHRReportsService hrReportService)
         {
-           _hrReportService = hrReportService;
+            _hrReportService = hrReportService;
         }
 
         [HttpPost("GetPayrollReportVacations")]
         public DataTable GetPayrollReportVacations(SearchFilterModel searchModel)
         {
-            var result =_hrReportService.GetPayrollReportVacations(searchModel);
+            var result = _hrReportService.GetPayrollReportVacations(searchModel);
             return result;
         }
 
         [HttpPost("GetPayrollReportOverTime")]
         public DataTable GetPayrollReportOverTime(SearchFilterModel searchModel)
         {
-            var result =_hrReportService.GetPayrollReportOverTime(searchModel);
+            var result = _hrReportService.GetPayrollReportOverTime(searchModel);
             return result;
         }
 
         [HttpPost("GetPayrollReportPenalties")]
         public DataTable GetPayrollReportPenalties(SearchFilterModel searchModel)
         {
-            var result =_hrReportService.GetPayrollReportPenalties(searchModel);
+            var result = _hrReportService.GetPayrollReportPenalties(searchModel);
             return result;
         }
 
         [HttpPost("GetPayrollReportSickLeaves")]
         public DataTable GetPayrollReportSickLeaves(SearchFilterModel searchModel)
         {
-            var result =_hrReportService.GetPayrollReportSickLeaves(searchModel);
+            var result = _hrReportService.GetPayrollReportSickLeaves(searchModel);
             return result;
         }
 
         [HttpPost("GetPayrollReportDeducts")]
         public DataTable GetPayrollReportDeducts(SearchFilterModel searchModel)
         {
-            var result =_hrReportService.GetPayrollReportDeducts(searchModel);
+            var result = _hrReportService.GetPayrollReportDeducts(searchModel);
             return result;
         }
 
         [HttpPost("GetPayrollReportAdvances")]
         public DataTable GetPayrollReportAdvances(SearchFilterModel searchModel)
         {
-            var result =_hrReportService.GetPayrollReportAdvances(searchModel);
+            var result = _hrReportService.GetPayrollReportAdvances(searchModel);
             return result;
         }
 
@@ -75,42 +75,42 @@ namespace MasterErp.API.Controllers.HR
         [HttpPost("ExportPayrollReportVacations")]
         public ActionsResponseModel ExportPayrollReportVacations(SearchFilterModel model)
         {
-            var result =_hrReportService.ExportPayrollReportVacations(model);
+            var result = _hrReportService.ExportPayrollReportVacations(model);
             return result;
         }
 
         [HttpPost("ExportPayrollReportOverTime")]
         public ActionsResponseModel ExportPayrollReportOverTime(SearchFilterModel model)
         {
-            var result =_hrReportService.ExportPayrollReportOverTime(model);
+            var result = _hrReportService.ExportPayrollReportOverTime(model);
             return result;
         }
 
         [HttpPost("ExportPayrollReportPenalties")]
         public ActionsResponseModel ExportPayrollReportPenalties(SearchFilterModel model)
         {
-            var result =_hrReportService.ExportPayrollReportPenalties(model);
+            var result = _hrReportService.ExportPayrollReportPenalties(model);
             return result;
         }
 
         [HttpPost("ExportPayrollReportSickLeaves")]
         public ActionsResponseModel ExportPayrollReportSickLeaves(SearchFilterModel model)
         {
-            var result =_hrReportService.ExportPayrollReportSickLeaves(model);
+            var result = _hrReportService.ExportPayrollReportSickLeaves(model);
             return result;
         }
 
         [HttpPost("ExportPayrollReportDeducts")]
         public ActionsResponseModel ExportPayrollReportDeducts(SearchFilterModel model)
         {
-            var result =_hrReportService.ExportPayrollReportDeducts(model);
+            var result = _hrReportService.ExportPayrollReportDeducts(model);
             return result;
         }
 
         [HttpPost("ExportPayrollReportAdvances")]
         public ActionsResponseModel ExportPayrollReportAdvances(SearchFilterModel model)
         {
-            var result =_hrReportService.ExportPayrollReportAdvances(model);
+            var result = _hrReportService.ExportPayrollReportAdvances(model);
             return result;
         }
 
@@ -125,9 +125,9 @@ namespace MasterErp.API.Controllers.HR
         #region ExpireReport
         [HttpPost]
         [Route("GetEmployeesExpireReport_Data")]
-        public IActionResult GetEmployeesExpireReport_Data(int ReportType,SearchFilterModel model)
+        public IActionResult GetEmployeesExpireReport_Data(int ReportType, DateTime FromDate, DateTime ToDate, SearchFilterModel model)
         {
-            var data = _hrReportService.GetEmployeesExpireReport_Data(ReportType, model);
+            var data = _hrReportService.GetEmployeesExpireReport_Data(ReportType, FromDate, ToDate, model);
             var result = new PagedResponseModel<EmployeeReportModel>
             {
                 Results = data,
@@ -139,18 +139,18 @@ namespace MasterErp.API.Controllers.HR
         }
         [HttpPost]
         [Route("GetEmployeesExpireReport_Export")]
-        public IActionResult GetEmployeesExpireReport_Export(int ReportType,SearchFilterModel model)
+        public IActionResult GetEmployeesExpireReport_Export(int ReportType, DateTime FromDate, DateTime ToDate, SearchFilterModel model)
         {
-            var result = _hrReportService.GetEmployeesExpireReport_Export(ReportType,model);
-          
+            var result = _hrReportService.GetEmployeesExpireReport_Export(ReportType, FromDate, ToDate, model);
+
             return Ok(result);
         }
         [HttpPost]
         [Route("GetEmployeesExpireReport_Filters")]
-        public IActionResult GetEmployeesExpireReport_Filters(int ReportType,SearchFilterModel model)
+        public IActionResult GetEmployeesExpireReport_Filters(int ReportType, DateTime FromDate, DateTime ToDate, SearchFilterModel model)
         {
-            var result = _hrReportService.GetEmployeesExpireReport_Filters(ReportType,model);
-          
+            var result = _hrReportService.GetEmployeesExpireReport_Filters(ReportType, FromDate, ToDate, model);
+
             return Ok(result);
         }
         #endregion
@@ -182,7 +182,7 @@ namespace MasterErp.API.Controllers.HR
         [Route("GetNewComerEmployeesReport_Filters")]
         public IActionResult GetNewComerEmployeesReport_Filters(DateTime? FromDate, DateTime? ToDate, SearchFilterModel model)
         {
-            var result = _hrReportService.GetNewComerEmployeesReport_Filters(FromDate,ToDate, model);
+            var result = _hrReportService.GetNewComerEmployeesReport_Filters(FromDate, ToDate, model);
 
             return Ok(result);
         }
@@ -192,7 +192,7 @@ namespace MasterErp.API.Controllers.HR
 
         [HttpPost]
         [Route("GetEmployeeSalaryAnnualIncreaseReport_Data")]
-        public IActionResult GetEmployeeSalaryAnnualIncreaseReport_Data( SearchFilterModel model)
+        public IActionResult GetEmployeeSalaryAnnualIncreaseReport_Data(SearchFilterModel model)
         {
             var data = _hrReportService.GetEmployeeSalaryAnnualIncreaseReport_Data(model);
             var result = new PagedResponseModel<SalaryAnnualIncreaseModel>
@@ -207,7 +207,7 @@ namespace MasterErp.API.Controllers.HR
 
         [HttpPost]
         [Route("GetEmployeeSalaryAnnualIncreaseReport_Export")]
-        public IActionResult GetEmployeeSalaryAnnualIncreaseReport_Export( SearchFilterModel model)
+        public IActionResult GetEmployeeSalaryAnnualIncreaseReport_Export(SearchFilterModel model)
         {
             var result = _hrReportService.GetEmployeeSalaryAnnualIncreaseReport_Export(model);
 
@@ -216,7 +216,7 @@ namespace MasterErp.API.Controllers.HR
 
         [HttpPost]
         [Route("GetEmployeeSalaryAnnualIncreaseReport_Filters")]
-        public IActionResult GetEmployeeSalaryAnnualIncreaseReport_Filters( SearchFilterModel model)
+        public IActionResult GetEmployeeSalaryAnnualIncreaseReport_Filters(SearchFilterModel model)
         {
             var result = _hrReportService.GetEmployeeSalaryAnnualIncreaseReport_Filters(model);
 
@@ -226,9 +226,9 @@ namespace MasterErp.API.Controllers.HR
 
         [HttpPost]
         [Route("GetEmployeeSalaryHistory_Data")]
-        public IActionResult GetEmployeeSalaryHistory_Data(int EmployeeId,SearchFilterModel model)
+        public IActionResult GetEmployeeSalaryHistory_Data(int EmployeeId, SearchFilterModel model)
         {
-            var data = _hrReportService.GetEmployeeSalaryHistory_Data(EmployeeId,model);
+            var data = _hrReportService.GetEmployeeSalaryHistory_Data(EmployeeId, model);
             var result = new PagedResponseModel<SalaryHistoryModel>
             {
                 Results = data,
@@ -253,7 +253,7 @@ namespace MasterErp.API.Controllers.HR
 
         [HttpPost]
         [Route("GetSalariesReport_Data")]
-        public IActionResult GetSalariesReport_Data(int Month, int Year,SearchFilterModel model)
+        public IActionResult GetSalariesReport_Data(int Month, int Year, SearchFilterModel model)
         {
             var data = _hrReportService.GetSalariesReport_Data(Month, Year, model);
             var result = new PagedResponseModel<EmployeeSalarySummaryModel>
@@ -268,7 +268,7 @@ namespace MasterErp.API.Controllers.HR
 
         [HttpPost]
         [Route("GetSalariesReport_Export")]
-        public IActionResult GetSalariesReport_Export(int Month , int Year, SearchFilterModel model)
+        public IActionResult GetSalariesReport_Export(int Month, int Year, SearchFilterModel model)
         {
             var result = _hrReportService.GetSalariesReport_Export(Month, Year, model);
 

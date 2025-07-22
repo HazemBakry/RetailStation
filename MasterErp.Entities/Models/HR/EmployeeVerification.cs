@@ -29,6 +29,7 @@ namespace MasterErp.Entities.Models.HR
         public string VehicleNumber { get; set; }//4
         public int? VehicleCode { get; set; }//4
         public int EmployeeId { get; set; }
+        public bool? IsVisa { get; set; }
         public Employee Employee { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace MasterErp.Entities.DTOs.HR
         public int? VacationEvery { get; set; }
         public int? VacationDays { get; set; }
         public bool IsGossi { get; set; }
+        public DateTime? VacationDate { get; set; }
         public DateTime? JoinDate { get; set; }
         public DateTime? LastJoinDate { get; set; }
     } 

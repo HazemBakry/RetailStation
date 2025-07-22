@@ -15,6 +15,9 @@ namespace MasterErp.Entities.DTOs.HR
         public int? EmployeeId { get; set; }
         public string EmployeeCode { get; set; }
         public string BankAccountNumber { get; set; }
+        public string SponsorName { get; set; }
+        public string BranchName { get; set; }
+        public string DepartmentName { get; set; }
         public string Bank { get; set; }
         public string JobTitle { get; set; }
         public string EmployeeNameEN { get; set; }

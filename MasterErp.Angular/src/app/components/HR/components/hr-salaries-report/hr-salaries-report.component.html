@@ -83,10 +83,10 @@
             <thead class="table-light">
                 <tr>
                     <th rowspan="2">الكود</th>
-                    <!-- <th rowspan="2">الحساب البنكى</th> -->
                     <th style="min-width: 200px;" rowspan="2">اسم الموظف</th>
-                    <!-- <th rowspan="2">كود البنك</th>
-                    <th rowspan="2">الوظيفة</th> -->
+                    <th rowspan="2">الشركة</th>
+                    <th rowspan="2">الفرع</th>
+                    <th rowspan="2">القسم</th>
                     <th colspan="11">الراتب</th>
                     <th rowspan="2">أيام الدوام</th>
                     <th rowspan="2">Diff Cost</th>
@@ -119,17 +119,15 @@
                     <th>سكن(-)</th>
                     <th>أخري(-)</th>
                     <th>إجمالى الخصم</th>
-
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of pagedResponseModel.results">
                     <td>{{item.employeeCode}}</td>
-                    <!-- <td>{{item.bankAccountNumber}}</td> -->
                     <td class="text-right">{{item.employeeNameAR ??item.employeeNameEN}}</td>
-                    <!-- <td>{{item.bank}}</td>
-                    <td>{{item.jobNameEN ?? item.jobNameAR}}</td> -->
-
+                    <td>{{item.sponsorName}}</td>
+                    <td>{{item.branchName}}</td>
+                    <td>{{item.departmentName}}</td>
                     <td>{{item.basicSalary ?? 0}}</td>
                     <td>{{item.extraSalary ?? 0 }}</td>
                     <td>{{item.transportation ?? 0 }}</td>

@@ -104,9 +104,9 @@
                     </ng-container> -->
                 </div>
             </div>
-            <!-- <div class="col-md-4">
+            <div class="col-md-4">
                 <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
-            </div> -->
+            </div>
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
         <div class="table-responsive shadow-sm radius-10 table-vp-height">
@@ -121,6 +121,8 @@
                         <!-- <th rowspan="2">الحساب البنكى</th> -->
                         <th style="min-width: 200px;" rowspan="2">اسم الموظف</th>
                         <!-- <th rowspan="2">كود البنك</th> -->
+                        <th rowspan="2">الشركة</th>
+                        <th rowspan="2">الفرع</th>
                         <th rowspan="2">الوظيفة</th>
                         <th rowspan="2">أيام الدوام</th>
                         <th colspan="11">الراتب</th>
@@ -164,6 +166,8 @@
                         <!-- <td>{{item.bankAccountNumber}}</td> -->
                         <td>{{item.employeeNameAR ??item.employeeNameEN}}</td>
                         <!-- <td>{{item.bank}}</td> -->
+                        <td>{{item.sponsorName}}</td>
+                        <td>{{item.branchName}}</td>
                         <td>{{item.jobNameEN ?? item.jobNameAR}}</td>
                         <td>
                             {{item.totalWorkingDays ?? 0 }}

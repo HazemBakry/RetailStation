@@ -28,6 +28,7 @@ namespace MasterErp.Entities.DTOs.HR
         public int? VehicleId { get; set; }//4
         public string VehicleNumber { get; set; }//4
         public int? VehicleCode { get; set; }//4
+        public bool? IsVisa { get; set; }
         public Employee Employee { get; set; }
     }
 }

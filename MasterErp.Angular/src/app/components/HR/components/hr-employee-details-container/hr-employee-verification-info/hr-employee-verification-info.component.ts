@@ -94,7 +94,7 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
       vehicleId: [null],
       vehicleNumber: [null],
       vehicleCode: [null],
-
+      isVisa: [null],
     },
       {
         validators: [
@@ -121,7 +121,6 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
 
 
   saveData() {
-
     this.showAddLoader = true;
     this.employeeService.SaveEmployeeVerificationData(this.employeeId, this.employeeVerificationInfoModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
@@ -150,7 +149,6 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
     this.sharedService.GetBanksSelector().subscribe((data: FormDropdownModel[]) => {
       this.banksSelectorData = data;
     });
-
   }
 
   validateForm(): boolean {
@@ -166,9 +164,7 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
 
   fillEditForm(employeeVerificationInfoModel: EmployeeVerificationModel) {
     this.isUpdate = true;
-
     this.formGroup.patchValue({
-
       employeeVerificationId: employeeVerificationInfoModel.employeeVerificationId,
       employeeId: this.employeeId,
       bankId: employeeVerificationInfoModel.bankId,
@@ -184,12 +180,9 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
       vehicleId: employeeVerificationInfoModel.vehicleId,
       vehicleNumber: employeeVerificationInfoModel.vehicleNumber,
       vehicleCode: employeeVerificationInfoModel.vehicleCode,
-
+      isVisa: employeeVerificationInfoModel.isVisa,
     });
   }
-
-
-
 
   public formErrors = {
     employeeVerificationId: '',
@@ -206,6 +199,7 @@ export class HrEmployeeVerificationInfoComponent implements OnInit {
     vehicleId: '',
     vehicleNumber: '',
     vehicleCode: '',
+    isVisa: ''
   };
 
 

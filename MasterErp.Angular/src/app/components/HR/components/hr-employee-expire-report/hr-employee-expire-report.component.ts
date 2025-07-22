@@ -38,6 +38,8 @@ export class HrEmployeeExpireReportComponent implements OnInit {
   selectedReportType: number = null;
   selectedEmployeeId: number = null;
   filterList: FilterModel[] = [];
+  fromDate: string;
+  toDate: string;
 
   public workflowStatus = HRWorkflowStatus;
   reportName: string;
@@ -52,8 +54,8 @@ export class HrEmployeeExpireReportComponent implements OnInit {
 
   constructor(private modalService: NgbModal, private hrService: HrService,
     private sharedService: SharedService,
-    private datePipe: DatePipe, 
-    private toaster: ToastrService, 
+    private datePipe: DatePipe,
+    private toaster: ToastrService,
     private offcanvasService: NgbOffcanvas) { }
 
   ngOnInit(): void {
@@ -72,12 +74,13 @@ export class HrEmployeeExpireReportComponent implements OnInit {
     this.loadData();
     this.loadFilters();
   }
+
   exportData() {
     if (!this.checkReport())
       return;
 
     this.showExportLoader = true;
-    this.hrService.GetEmployeesExpireReport_Export(this.selectedReportType, this.pagedResponse).subscribe(data => {
+    this.hrService.GetEmployeesExpireReport_Export(this.selectedReportType,this.fromDate, this.toDate, this.pagedResponse).subscribe(data => {
       if (data.isSuccess) {
         this.sharedService.urlDownloadOrOpen(data.url);
         this.toaster.success(data.message);
@@ -95,7 +98,7 @@ export class HrEmployeeExpireReportComponent implements OnInit {
       return;
 
     this.showLoader = true;
-    this.hrService.GetEmployeesExpireReport_Data(this.selectedReportType, this.pagedResponse).subscribe(data => {
+    this.hrService.GetEmployeesExpireReport_Data(this.selectedReportType, this.fromDate, this.toDate, this.pagedResponse).subscribe(data => {
       this.pagedResponse.results = data.results;
       this.pagedResponse.totalCount = data.totalCount;
 
@@ -112,7 +115,7 @@ export class HrEmployeeExpireReportComponent implements OnInit {
       return;
 
     // this.showLoader = true;
-    this.hrService.GetEmployeesExpireReport_Filters(this.selectedReportType, this.pagedResponse).subscribe(data => {
+    this.hrService.GetEmployeesExpireReport_Filters(this.selectedReportType, this.fromDate, this.toDate, this.pagedResponse).subscribe(data => {
       this.filterList = data;
 
       // this.showLoader = false;
