@@ -1,10 +1,10 @@
 <span ngbPopover #statusPop="ngbPopover" [popoverTitle]="'تغير الحالة'" [autoClose]="'outside'"
     [popoverClass]="'popover-wide  p-0 m-0'" [ngbPopover]="statusListTemplate" triggers="click">
 
-    <span *ngIf="selectedStatusId" class="cursor-pointer" appWorkflowStatus [id]="selectedStatusId" [nameEN]="selectedStatus?.name"
+    <span *ngIf="selectedStatusId&&selectedStatus" class="cursor-pointer" appWorkflowStatus [id]="selectedStatusId" [nameEN]="selectedStatus?.name"
          [type]="type">
     </span>
-    <span *ngIf="!selectedStatusId" class="cursor-pointer text-secondary">
+    <span *ngIf="!selectedStatusId||!selectedStatus" class="cursor-pointer text-secondary">
         <i class="uil uil-plus"></i> إضافة حالة
     </span>
 </span>
