@@ -14,6 +14,7 @@ using MasterErp.Entities.Common.Enums;
 using Microsoft.AspNetCore.Http.HttpResults;
 using MasterErp.Entities.Common.Export;
 using MasterErp.Entities.DTOs.Purchases;
+using System.Diagnostics.Contracts;
 
 
 namespace MasterErp.Service.HR
@@ -258,12 +259,12 @@ namespace MasterErp.Service.HR
             if (model == null)
                 model = new DuesPreparationModel();
 
-            var emp = Context.Employees
-                .FirstOrDefault(x => x.EmployeeId == employeeId);
+            var emp = Context.Employees.FirstOrDefault(x => x.EmployeeId == employeeId);
+            var contract = Context.Contracts.Where(x => x.EmployeeId == employeeId && x.IsActive == true).FirstOrDefault();
 
-            if (emp == null || emp.LastJoinDate == null)
+            if (emp == null || contract.LastJoinDate == null)
                 return model;
-            model.LastJoinDate = DueType == DueType.EndOfContract ? emp.JoinDate : emp.LastJoinDate;
+            model.LastJoinDate = DueType == DueType.EndOfContract ? contract?.JoinDate :contract?.LastJoinDate;
             model.BranchId = emp.BranchId;
 
             // 1. Get the last working date from EmployeeDues table
@@ -276,15 +277,15 @@ namespace MasterErp.Service.HR
 
 
             // 2. Get the most recent contract by start date
-            var recentContract = Context.Contracts
-                .Where(x => x.EmployeeId == employeeId)
-                .OrderByDescending(x => x.StartDate)
-                .FirstOrDefault();
+            //var recentContract = Context.Contracts
+            //    .Where(x => x.EmployeeId == employeeId)
+            //    .OrderByDescending(x => x.StartDate)
+            //    .FirstOrDefault();
             double? HousingAllowance = 0;
-            if (recentContract != null)
+            if (contract != null)
             {
                 var recentContractSalaries = Context.ContractDetails
-                                .Where(x => x.ContractId == recentContract.ContractId)
+                                .Where(x => x.ContractId == contract.ContractId)
                                 .OrderByDescending(x => x.ContractDetailId)
                                 .FirstOrDefault();
                 model.BasicSalary = recentContractSalaries?.BasicSalary;
@@ -295,15 +296,8 @@ namespace MasterErp.Service.HR
             //if (model.LastJoinDate == null)
             //    model.LastJoinDate = recentContract?.LastJoinDate;
 
-            model.ContractVacationPeriod = recentContract?.VacationPeriodDays;
-
-            // 3. Get the first start date of all contracts
-            //model.JoinDate = Context.Contracts
-            //    .Where(x => x.EmployeeId == employeeId)
-            //    .OrderBy(x => x.StartDate)
-            //    .Select(x => (DateTime?)x.StartDate)
-            //    .FirstOrDefault();
-            model.JoinDate = emp.JoinDate;
+            model.ContractVacationPeriod = contract?.VacationPeriodDays;
+            model.JoinDate = contract?.JoinDate;
 
             // 4. Get the latest annual vacation
             var lastVacation = Context.Vacations
@@ -318,8 +312,6 @@ namespace MasterErp.Service.HR
                 model.CurrentVacationPeriod = lastVacation?.Period;
                 if (model.ExecutionDate == null)
                     model.ExecutionDate = lastVacation?.FromDate;
-
-
             }
             else if (DueType == DueType.EndOfContract)
             {
@@ -370,11 +362,20 @@ namespace MasterErp.Service.HR
             var executionDate = model.ExecutionDate;
             DateTime? fromDate = DueType == DueType.Vacation ? model.LastJoinDate : model.JoinDate;
             if (fromDate != null && executionDate != null)
-                model.VacationDues = GetDuesByType(DueType, model.BasicSalary, fromDate.Value, executionDate.Value);
+            {
+                double dues = 0;
+                dues = GetDuesByType(DueType, model.BasicSalary, fromDate.Value, executionDate.Value);
+                if (DueType == DueType.EndOfContract)
+                    model.EndOfServiceDues = dues;
+                if (DueType == DueType.Vacation)
+                    model.VacationDues = dues;
+            }
             model.SalaryDues = GetEmployeeSalaryDues(employeeId, model.SalaryDuesMonths);
-            model.CalcTotalDues();
+            model.CalcTotalDues(DueType);
             return model;
+
         }
+
         private double GetEmployeeSalaryDues(int employeeId, List<SalaryDuesMonthModel> SalaryDuesMonthModel)
         {
             double salary = 0;

@@ -12,43 +12,43 @@ namespace MasterErp.Entities.Models.HR
     public class Employee : CreatorModel
     {
         public int EmployeeId { get; set; }//
-        public int? ManagerId { get; set; }//1
-        public int? DepartmentId { get; set; }//1
+        public int? ManagerId { get; set; }
+        public int? DepartmentId { get; set; }
 
-        public int Code { get; set; }//1 NOT NULL
-        public int JobId { get; set; }//1 NOT NULL
-        public int? BranchId { get; set; }//1  NOT NULL
-        public string FullNameAR { get; set; }// concatenate NOT NULL
-        public string FirstNameAR { get; set; }//1
-        public string FatherNameAR { get; set; }//1
-        public string GrandNameAR { get; set; }//1
-        public string LastNameAR { get; set; }//1
-        public string FullNameEN { get; set; }//1 NOT NULL
-        public string FirstNameEN { get; set; }//1
-        public string FatherNameEN { get; set; }//1
-        public string GrandNameEN { get; set; }//1
-        public string LastNameEN { get; set; }//1
-        public int? SocialStatusId { get; set; }//1
-        public int? StatusId { get; set; }  // 1 by default 1
-        public int? NationalityId { get; set; }//1 NOT NULL
-        public DateTime? BirthDate { get; set; }//1 NOT NULL
-        public string BirthPlace { get; set; }//1
-        public int? SponsorId { get; set; }//1
-        public int? ReligionId { get; set; }//1 NOT NULL
-        public string Address { get; set; }//1
-        public string Image { get; set; } //1
-        public string FilesPath { get; set; }//1
-        public string BorderEntryNumber { get; set; }//2
-        public string PassportNumber { get; set; }//2
-        public string ArrivalPort { get; set; }//2
-        public string VisaNumber { get; set; }//2
-        public int? VisaJobId { get; set; }//1
-        public DateTime? VisaIssueDate { get; set; }//2
-        public DateTime? PassportExpireDate { get; set; }//2
-        public DateTime? JoinDate { get; set; }//2
-        public DateTime? LastJoinDate { get; set; }//2
-        public string Phone { get; set; }//1
-        public string Email { get; set; }//1
+        public int Code { get; set; } 
+        public int JobId { get; set; } 
+        public int? BranchId { get; set; }  
+        public string FullNameAR { get; set; }
+        public string FirstNameAR { get; set; }
+        public string FatherNameAR { get; set; }
+        public string GrandNameAR { get; set; }
+        public string LastNameAR { get; set; }
+        public string FullNameEN { get; set; } 
+        public string FirstNameEN { get; set; }
+        public string FatherNameEN { get; set; }
+        public string GrandNameEN { get; set; }
+        public string LastNameEN { get; set; }
+        public int? SocialStatusId { get; set; }
+        public int? StatusId { get; set; } 
+        public int? NationalityId { get; set; } 
+        public DateTime? BirthDate { get; set; } 
+        public string BirthPlace { get; set; }
+        public int? SponsorId { get; set; }
+        public int? ReligionId { get; set; }
+        public string Address { get; set; }
+        public string Image { get; set; } 
+        public string FilesPath { get; set; }
+        public string BorderEntryNumber { get; set; }
+        public string PassportNumber { get; set; }
+        public string ArrivalPort { get; set; }
+        public string VisaNumber { get; set; }
+        public int? VisaJobId { get; set; }
+        public DateTime? VisaIssueDate { get; set; }
+        public DateTime? PassportExpireDate { get; set; }
+        //public DateTime? JoinDate { get; set; }
+        //public DateTime? LastJoinDate { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
         public Contract EmployeeContract { get; set; }
         public EmployeeVerification EmployeeVerification { get; set; }
         public EmployeeAttachment EmployeeExtraData { get; set; }

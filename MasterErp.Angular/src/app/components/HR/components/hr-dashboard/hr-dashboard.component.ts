@@ -32,23 +32,25 @@ export class HrDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getHRDashboardStatistics();
     this.getVacationsToBeExceuted();
+    this.getDashboardSalariesStatistics();
   }
   columnChartType = 'ColumnChart';
-  columnChartData = [
-    ['يناير', 600, 230],
-    ['فبراير', 1170, 700],
-    ['مارس', 800, 880],
-    ['أبريل', 1300, 900],
-    ['مايو', 400, 700],
-    ['يونيو', 900, 1000],
-    ['يوليو', 200, 700],
-    ['أغسطس', 1200, 550],
-    ['سبتمبر', 470, 789],
-    ['أكتوبر', 300, 900],
-    ['نوفمبر', 250, 800],
-    ['ديسمبر', 500, 1100],
-  ];
-  columnChartNames = ['الشهور', 'النسب', 'الارقام'];
+  columnChartData: any[] = []
+  // columnChartData = [
+  //   ['يناير', 600, 230],
+  //   ['فبراير', 1170, 700],
+  //   ['مارس', 800, 880],
+  //   ['أبريل', 1300, 900],
+  //   ['مايو', 400, 700],
+  //   ['يونيو', 900, 1000],
+  //   ['يوليو', 200, 700],
+  //   ['أغسطس', 1200, 550],
+  //   ['سبتمبر', 470, 789],
+  //   ['أكتوبر', 300, 900],
+  //   ['نوفمبر', 250, 800],
+  //   ['ديسمبر', 500, 1100],
+  // ];
+  columnChartNames = ['الشهور', 'إجمالى الرواتب', 'عدد الموظفين'];
   columnChartOptions = {
     colors: ['#8dd3c7', '#fbbf72'],
     backgroundColor: 'transparent',
@@ -87,6 +89,17 @@ export class HrDashboardComponent implements OnInit {
       this.HRStatistics = data[0];
     });
   }
+
+  getDashboardSalariesStatistics() {
+    this.hrService.GetDashboardSalaries_Statistics().subscribe(data => {
+      //this.columnChartData = data;
+      this.columnChartData = [
+        //['الشهر', 'القيمة الأولى', 'القيمة الثانية'],
+        ...data.map(item => [item.monthName, item.totalNetSalary, item.totalEmployees])
+      ];
+    });
+  }
+
 
   getVacationsToBeExceuted() {
     this.hrService.GetVacationsToBeExceuted().subscribe(data => {

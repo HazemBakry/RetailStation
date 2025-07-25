@@ -71,7 +71,6 @@
                         {{formErrors.fatherNameEN}}
                     </div>
                 </div>
-
             </div>
             <div class="col-xl-3">
                 <div class="form-floating mb-3">
@@ -81,16 +80,15 @@
                         {{formErrors.firstNameEN}}
                     </div>
                 </div>
-
             </div>
-            <div class="col-xl-6  mb-3">
+            <div class="col-xl-6 mb-3 mt-2">
                 <app-drop-down-form-control formControlName="branchId" [placeholder]="'الفرع'" [showSearch]="true" [data]="branchSelectorData"></app-drop-down-form-control>
                 <div *ngIf="formErrors.branchId" class="text-danger  font-small-3 m-03">
                     {{formErrors.branchId}}
                 </div>
             </div>
 
-            <div class="col-xl-6  mb-3">
+            <div class="col-xl-6 mb-3 mt-2">
                 <app-drop-down-form-control formControlName="managerId" [placeholder]="'المدير المباشر'" [showSearch]="true" [data]="employeesSelectorData"></app-drop-down-form-control>
                 <div *ngIf="formErrors.managerId" class="text-danger  font-small-3 m-03">
                     {{formErrors.managerId}}
@@ -103,7 +101,17 @@
                 </div>
             </div>
 
-            <div class="col-xl-6  mb-3">
+            <div class="col-xl-6 mb-3">
+                <div class="form-floating mb-3">
+                    <input type="text" formControlName="code" class="form-control" id="floatingInput1" placeholder="any">
+                    <label for="floatingInput2">الرقم الوظيفى</label>
+                    <div *ngIf="formErrors.code" class="text-danger  font-small-3 m-03">
+                        {{formErrors.code}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6 mb-3">
                 <app-drop-down-form-control formControlName="religionId" [placeholder]="'الديانة'" [showSearch]="true" [data]="religionsSelectorData"></app-drop-down-form-control>
                 <div *ngIf="formErrors.religionId" class="text-danger  font-small-3 m-03">
                     {{formErrors.religionId}}

@@ -60,7 +60,7 @@
                         <div *ngIf="selectedDueTypeId == DueType.Vacation" class="col-lg-6">
                             <div class="mb-2">
                                 <label class="form-label d-flex align-items-center gap-2">
-                                    أخر يوم عمل
+                                    أخر عودة للعمل
                                     <span class="text-danger">*</span></label>
                                 <input type="date" [(ngModel)]="duesCreateModel.lastJoinDate" [min]="duesCreateModel.joinDate" disabled autocomplete="off" class="form-control nw-form-input" />
                             </div>
@@ -92,7 +92,7 @@
                                 <input type="text" [value]="duesCreateModel.totalDuesDays||0" disabled autocomplete="off" class="form-control nw-form-input" />
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div *ngIf="DueType==1" class="col-lg-3">
                             <div class="mb-2">
                                 <label class="form-label d-flex align-items-center gap-2">
                                     الأجازه المستحقة
@@ -100,7 +100,7 @@
                                 <input type="text" [value]="duesCreateModel?.contractVacationPeriod||0" disabled autocomplete="off" class="form-control nw-form-input" />
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div *ngIf="DueType==1" class="col-lg-3">
                             <div class="mb-2">
                                 <label class="form-label d-flex align-items-center gap-2">
                                     مدة أجازه

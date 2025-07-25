@@ -98,11 +98,13 @@ export class HrEmployeeDuesComponent implements OnInit {
     // this.GetAttendance_Filters();
 
   }
+
   employeeChanged(employeeId: any) {
     this.selectedEmployeeId = employeeId;
     this.duesCreateModel = {} as DuesPreparationModel;
     this.getEmployeeDuesPreparationDate();
   }
+
   dueTypeChanged(dueTypeId: DueTypeEnum) {
     this.duesCreateModel = {} as DuesPreparationModel;
     this.selectedDueTypeId = dueTypeId;
@@ -111,8 +113,6 @@ export class HrEmployeeDuesComponent implements OnInit {
     this.duesCreateModel.endOfServiceDues = 0;
     this.employeeSelectorData = [];
     this.loadEmployeeSelector(dueTypeId);
-
-
   }
 
   loadEmployeeSelector(dueTypeId: DueTypeEnum) {
@@ -120,6 +120,7 @@ export class HrEmployeeDuesComponent implements OnInit {
       this.employeeSelectorData = data;
     });
   }
+
   loadSelectors() {
     this.sharedService.GetBranchesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.branchSelectorData = data;
@@ -136,6 +137,7 @@ export class HrEmployeeDuesComponent implements OnInit {
     // }
     // this.yearsSelectorData.reverse();
   }
+
   search() {
     if (!this.checkEmployee())
       return;
@@ -144,6 +146,7 @@ export class HrEmployeeDuesComponent implements OnInit {
     this.pagedResponseModel.totalCount = 0;
     this.getEmployeeDues();
   }
+
   getEmployeeDuesPreparationDate() {
     //this.joinDate = null;
     if (!this.selectedEmployeeId || !this.selectedDueTypeId) {
@@ -153,9 +156,11 @@ export class HrEmployeeDuesComponent implements OnInit {
     this.showLoader = true;
     this.hrService.GetEmployeeDuesPreparationDate(this.selectedEmployeeId, this.selectedDueTypeId, this.duesCreateModel).subscribe((data: DuesPreparationModel) => {
       if (data) {
+        debugger
         this.duesCreateModel = data;
         this.selectedBranchId = data.branchId;
         this.employeeDueModel.joinDate = this.datePipe.transform(data.joinDate, 'yyyy-MM-dd')
+        this.duesCreateModel.joinDate = this.datePipe.transform(data.joinDate, 'yyyy-MM-dd');
         this.duesCreateModel.lastJoinDate = this.datePipe.transform(data.lastJoinDate, 'yyyy-MM-dd');
         this.duesCreateModel.executionDate = this.datePipe.transform(data.executionDate, 'yyyy-MM-dd');
 

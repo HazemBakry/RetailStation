@@ -248,6 +248,14 @@ namespace MasterErp.API.Controllers.HR
         }
 
         [HttpGet]
+        [Route("GetDashboardSalaries_Statistics")]
+        public IActionResult GetDashboardSalaries_Statistics()
+        {
+            var result = _employeeService.GetDashboardSalaries_Statistics();
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("GetSponsorData")]
         public List<Sponsor> GetSponsorData()
         {

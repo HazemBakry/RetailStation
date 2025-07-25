@@ -52,3 +52,10 @@ export interface EmployeeSalarySummaryModel {
     isChecked?: boolean;
 
 }
+
+
+export interface ChartSalarySummaryModel {
+    monthName?: string | null,
+    totalEmployees?: number | null,
+    totalNetSalary?: number | null
+}

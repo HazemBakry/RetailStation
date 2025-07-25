@@ -1,7 +1,7 @@
 <div class="card radius-10 border-0 card-shadow mb-3">
     <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
         <h5 class="mb-0 fw-bold">
-              انتهاء الموظفين الجدد
+            انتهاء الموظفين الجدد
         </h5>
     </div>
     <div class="card-body">
@@ -28,15 +28,14 @@
 
             </div>
         </div>
-
     </div>
+
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-top mb-2">
         <button class="btn btn-primary me-2" (click)="search()">
             <i class="fas fa-search"></i>
             <span class="ms-2">بحث</span>
         </button>
-        <button [disabled]="showExportLoader" (click)="exportData()"
-            class="btn  btn-outline-success gap-2 border rounded px-3 me-2">
+        <button [disabled]="showExportLoader" (click)="exportData()" class="btn  btn-outline-success gap-2 border rounded px-3 me-2">
             <i class="fas fa-file-download"></i>
             <span>تصدير CSV</span>
         </button>
@@ -55,14 +54,12 @@
                         </button> -->
                     </div>
                     <ng-container *ngIf="filterList.length > 0">
-                        <app-erp-filters [FilterList]="filterList"
-                            (filterChanged)="filterChecked($event)"></app-erp-filters>
+                        <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-erp-filters>
                     </ng-container>
                 </div>
             </div>
             <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage"
-                    [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount"></app-erp-pagination>
+                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage" [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount"></app-erp-pagination>
             </div>
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
@@ -126,8 +123,7 @@
                     </tr>
                     <tr *ngIf="!pagedResponse.results.length || showLoader">
                         <td colspan="12" class="text-right">
-                            <app-empty-data [showEmptyData]="!pagedResponse.results.length&&!showLoader"
-                                [showLoader]="showLoader"></app-empty-data>
+                            <app-empty-data [showEmptyData]="!pagedResponse.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>

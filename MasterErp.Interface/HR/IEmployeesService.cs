@@ -43,6 +43,7 @@ namespace MasterErp.Interface.HR
         ContractDetail GetEmployeeContractDetails(int EmployeeId);
         List<EmployeeSalaryDto> GetEmployeesSalaryByBranch(List<int> BranchId, DateTime ExecutionDate);
         DataTable GetHRDashboardStatistics();
+        List<ChartSalarySummaryModel> GetDashboardSalaries_Statistics();
         List<Sponsor> GetSponsorData();
 
         #endregion

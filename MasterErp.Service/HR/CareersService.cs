@@ -127,16 +127,18 @@ namespace MasterErp.Service.HR
             {
                 model.ExecutionDate = DateTime.Now;
                 var emp = Context.Employees.FirstOrDefault(x => x.EmployeeId == EmployeeId);
-                if(emp == null)
+                var contract = Context.Contracts.Where(x => x.EmployeeId == EmployeeId && x.IsActive == true).FirstOrDefault();
+
+                if (emp == null)
                     return new ActionsResponseModel { IsSuccess = false, Message = "الموظف غير موجود !" };
 
 
                 var lastEmpCareer = Context.EmployeeCareers.Where(x => x.EmployeeId == EmployeeId).OrderByDescending(y => y.ExecutionDate).FirstOrDefault();
-                if(lastEmpCareer == null)
+                if (lastEmpCareer == null)
                 {
                     lastEmpCareer = new EmployeeCareer();
                     lastEmpCareer.EmployeeId = EmployeeId;
-                    lastEmpCareer.ExecutionDate = emp?.JoinDate ?? model.ExecutionDate.AddYears(-1);
+                    lastEmpCareer.ExecutionDate = contract?.JoinDate ?? model.ExecutionDate.AddYears(-1);
                     lastEmpCareer.JobId = emp.JobId;
                     lastEmpCareer.BranchId = emp.BranchId.GetValueOrDefault();
                     lastEmpCareer.WorkStatusId = 0;// (int)model.WorkFlowStatusId;
@@ -145,12 +147,12 @@ namespace MasterErp.Service.HR
                     lastEmpCareer.CreatedDate = DateTime.Now;
                     Context.EmployeeCareers.Add(lastEmpCareer);
 
-                    
+
                 }
-                if(lastEmpCareer.JobId == model.JobId)
+                if (lastEmpCareer.JobId == model.JobId)
                     return new ActionsResponseModel { IsSuccess = false, Message = "لا يمكن انشاء ترقية بنفس الوظيفة الحاليه !" };
-                
-                
+
+
                 emp.JobId = model.JobId;
                 emp.BranchId = model.BranchId;
 
@@ -170,7 +172,7 @@ namespace MasterErp.Service.HR
 
                 Context.EmployeeCareers.Add(career);
 
-                if(model.ModifySalary == true)
+                if (model.ModifySalary == true)
                 {
                     var recentContract = Context.Contracts
                                         .Where(x => x.EmployeeId == EmployeeId)
@@ -198,7 +200,7 @@ namespace MasterErp.Service.HR
                     }
                     else
                     {
-                        return new ActionsResponseModel {IsSuccess=false, Message = "No contract found for this employee!" };
+                        return new ActionsResponseModel { IsSuccess = false, Message = "No contract found for this employee!" };
                     }
                 }
                 var result = Context.SaveChanges();

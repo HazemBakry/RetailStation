@@ -50,4 +50,12 @@ namespace MasterErp.Entities.DTOs.HR
         public double? CashPayment { get; set; }
         public double? TotalSalary { get; set; }
     }
+
+    
+    public class ChartSalarySummaryModel
+    {
+        public string MonthName { get; set; }
+        public int? TotalEmployees { get; set; }
+        public decimal? TotalNetSalary { get; set; }
+    }
 }

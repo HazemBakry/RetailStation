@@ -115,6 +115,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       fatherNameEN: [null, [Validators.required]],
       grandNameEN: [null],
       lastNameEN: [null],
+      code: [null],
       nationalityId: [null, [Validators.required]],
       sponsorId: [null],
       birthDate: [null, [Validators.required]],
@@ -285,6 +286,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       fatherNameEN: employeeBasicInfoModel.fatherNameEN,
       grandNameEN: employeeBasicInfoModel.grandNameEN,
       lastNameEN: employeeBasicInfoModel.lastNameEN,
+      code: employeeBasicInfoModel.code,
       borderEntryNumber: employeeBasicInfoModel.borderEntryNumber,
       passportNumber: employeeBasicInfoModel.passportNumber,
 
@@ -338,6 +340,7 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
     fatherNameEN: '',
     grandNameEN: '',
     lastNameEN: '',
+    code: '',
     birthDate: '',
     birthPlace: '',
     nationalityId: '',

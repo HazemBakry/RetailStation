@@ -622,8 +622,8 @@ namespace MasterErp.Service.GeneralAccounts
                     {
                         CustomerId = Model.AgencyTypeId == 3 ? Model.CustomerId : null,
                         AccountId = debitAccountId, //Model.AgencyTypeId == 3 ? generalSupplierId : (int)Model.AccountId,
-                        Credit = 0,
-                        Debit = Model.MoneyAmount,
+                        Credit = Model.MoneyAmount,
+                        Debit = 0,
                         CurrencyId = 1,
                         Description = Model.Description,
                         CostCenterId = Context.AccountTrees.FirstOrDefault(x => x.AccountId == debitAccountId)?.CostCenterId
@@ -633,8 +633,8 @@ namespace MasterErp.Service.GeneralAccounts
                     accounts.Add(new JournalEntryAccount
                     {
                         AccountId = creditAccountId, //Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId,
-                        Credit = Model.MoneyAmount,
-                        Debit = 0,
+                        Credit = 0,
+                        Debit = Model.MoneyAmount,
                         CurrencyId = 1,
                         CustomerId = Model.AgencyTypeId == 3 ? Model.CustomerId : null,
                         Description = Model.Description,

@@ -100,8 +100,8 @@ namespace MasterErp.Service.HR
 
                 employee.CreatedBy = model.CreatedBy;
                 employee.CreatedDate = DateTime.Now;
-                employee.JoinDate = DateTime.Now;
-                employee.LastJoinDate = DateTime.Now;
+                //employee.JoinDate = DateTime.Now;
+                //employee.LastJoinDate = DateTime.Now;
 
 
                 Context.Employees.Add(employee);
@@ -540,13 +540,15 @@ namespace MasterErp.Service.HR
             try
             {
                 var employee = Context.Employees.FirstOrDefault(e => e.EmployeeId == EmployeeId);
+                var contract = Context.Contracts.Where(x => x.EmployeeId == EmployeeId && x.IsActive == true).FirstOrDefault();
+
                 if (employee == null)
                 {
                     return new ActionsResponseModel { IsSuccess = false, Message = "Invalid Employee." };
                 }
                 else
                 {
-                    employee.LastJoinDate = LastJoinDate;
+                    contract.LastJoinDate = LastJoinDate;
                     employee.StatusId = (int)EmployeeStatus.Active;
                     Context.SaveChangesAsync();
 
@@ -809,13 +811,20 @@ namespace MasterErp.Service.HR
             return result;
         }
 
-
         public DataTable GetHRDashboardStatistics()
         {
             SqlParameter[] Params = new SqlParameter[0];
             //Params[0] = new SqlParameter("@ExecutionDate", ExecutionDate);
 
             var result = SQLHelper.ExecuteDataTable("[HR].[SP_GetHRDashboardStatistics]", Params, null);
+            return result;
+        }
+
+        public List<ChartSalarySummaryModel> GetDashboardSalaries_Statistics()
+        {
+            SqlParameter[] Params = new SqlParameter[0];
+
+            var result = SQLHelper.SQLQuery<ChartSalarySummaryModel>("[HR].[SP_GetDashboardSalaries_Statistics]", null, Params);
             return result;
         }
 

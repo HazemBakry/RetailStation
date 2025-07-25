@@ -13,12 +13,12 @@ import { HrService } from '../../services/hr.service';
 })
 
 export class HREmployeesReportComponent implements OnInit {
-  // TitleList = ['الموارد البشرية', 'تقرير الموظفين'];
+  TitleList = ['الموارد البشرية', 'تقرير بيانات الموظفين'];
   showLoader: boolean = false;
   showExportLoader: boolean = false;
   filterList: FilterModel[] = [];
-  TitleList = ['الموارد البشرية', 'تقرير بيانات الموظفين'];
-
+  fromDate: string;
+  toDate: string;
   pagedResponseModel: PagedResponseDTO<SearchFilterModel[]> = {
     results: [],
     filterList: [],
@@ -29,23 +29,23 @@ export class HREmployeesReportComponent implements OnInit {
     toDate: ''
   };
 
-
-
   constructor(private hrService: HrService,
     private sharedService: SharedService,
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.getEmployeesSummary_Data();
-    this.GetEmployeesSummary_Filters();
+    //this.getEmployeesSummary_Data();
+    //this.GetEmployeesSummary_Filters();
   }
 
   getEmployeesSummary_Data() {
-    // if (!this.validateSearchModel()) {
-    //   return;
-    // }
-
     this.showLoader = true;
+    if (this.fromDate) {
+      this.pagedResponseModel.filterList.push({ categoryName: 'FromDate', itemFlag: this.fromDate })
+    }
+    if (this.toDate) {
+      this.pagedResponseModel.filterList.push({ categoryName: 'ToDate', itemFlag: this.toDate })
+    } 
     this.hrService.GetEmployeesSummary_Data(this.pagedResponseModel).subscribe((data: PagedResponseDTO<SearchFilterModel[]>) => {
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
@@ -59,6 +59,12 @@ export class HREmployeesReportComponent implements OnInit {
   }
 
   GetEmployeesSummary_Filters() {
+    if (this.fromDate) {
+      this.pagedResponseModel.filterList.push({ categoryName: 'FromDate', itemFlag: this.fromDate })
+    }
+    if (this.toDate) {
+      this.pagedResponseModel.filterList.push({ categoryName: 'ToDate', itemFlag: this.toDate })
+    } 
     this.hrService.GetEmployeesSummary_Filters(this.pagedResponseModel).subscribe((data: FilterModel[]) => {
       this.filterList = data;
     }, (err) => {
@@ -68,8 +74,19 @@ export class HREmployeesReportComponent implements OnInit {
     });
   }
 
+  searchData(){
+    this.getEmployeesSummary_Data();
+    this.GetEmployeesSummary_Filters();
+  }
+
   exportData() {
     this.showExportLoader = true;
+    if (this.fromDate) {
+      this.pagedResponseModel.filterList.push({ categoryName: 'FromDate', itemFlag: this.fromDate })
+    }
+    if (this.toDate) {
+      this.pagedResponseModel.filterList.push({ categoryName: 'ToDate', itemFlag: this.toDate })
+    } 
     this.hrService.ExportEmployeesSummaryData(this.pagedResponseModel).subscribe((data: ActionsResponseModel) => {
       if (data.isSuccess) {
         this.sharedService.urlDownloadOrOpen(data.url);
@@ -86,15 +103,10 @@ export class HREmployeesReportComponent implements OnInit {
     });
   }
 
-  printData() {
-
-  }
-
-
   filterChecked(filterItems: FilterItem[]) {
     this.pagedResponseModel.filterList = filterItems;
     this.getEmployeesSummary_Data();
-    //this.GetEmployeesSummary_Filters();
+    this.GetEmployeesSummary_Filters();
   }
 
   searchDataChanged(filter: SearchFilterModel) {

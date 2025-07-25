@@ -1,4 +1,5 @@
-﻿using MasterErp.Entities.Models;
+﻿using MasterErp.Entities.Common.Enums;
+using MasterErp.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,19 +34,21 @@ namespace MasterErp.Entities.DTOs.HR
         public string OtherDeductionDesc { get; set; }
         public double? OtherDeductionValue { get; set; }
         public bool? IncludeFlightTicket { get; set; }
-        
+
         public bool? IncludeSalary { get; set; }
         public List<SalaryDuesMonthModel> SalaryDuesMonths { get; set; }
         public double? EndOfServiceDues { get; set; }
         public double? TotalDueAmount { get; set; }
-        public void CalcTotalDues()
+        public void CalcTotalDues(DueType DueType)
         {
-            if (IncludeFlightTicket !=true)
+            if (IncludeFlightTicket != true)
                 FlightTicketDues = 0;
             if (IncludeSalary != true)
                 SalaryDues = 0;
 
-            TotalDueAmount=(SalaryDues.GetValueOrDefault() + VacationDues.GetValueOrDefault() + HomeAllowance.GetValueOrDefault() + FlightTicketDues.GetValueOrDefault()) - (Advances.GetValueOrDefault());
+            TotalDueAmount = (SalaryDues.GetValueOrDefault() +
+                (DueType == DueType.EndOfContract ? EndOfServiceDues : (VacationDues.GetValueOrDefault() + HomeAllowance.GetValueOrDefault())) +
+                FlightTicketDues.GetValueOrDefault()) - (Advances.GetValueOrDefault());
         }
 
     }

@@ -17,7 +17,7 @@ import { EmployeeContractModel } from '../models/Employee/EmployeeContractModel'
 import { Observable } from 'rxjs';
 import { AdvancePaymentModel, EmployeeAdvanceModel } from '../models/EmployeeAdvanceModel';
 import { EmployeeAdvancedAttendanceModel, EmployeeAttendanceModel } from '../models/EmployeeAttendanceModel';
-import { EmployeeSalarySummaryModel } from '../models/EmployeeSalarySummaryModel';
+import { ChartSalarySummaryModel, EmployeeSalarySummaryModel } from '../models/EmployeeSalarySummaryModel';
 import { DuesPreparationModel, EmployeeDueModel } from '../models/EmployeeDueModel';
 import { SponsorModel } from '../models/SponsoModel';
 import { DepartmentModel } from '../models/DepartmentModel';
@@ -357,6 +357,10 @@ export class HrService {
 
   GetHRDashboardStatistics() {
     return this.http.get<any>(this.URL + 'Employee/GetHRDashboardStatistics');
+  }
+
+  GetDashboardSalaries_Statistics() {
+    return this.http.get<ChartSalarySummaryModel[]>(this.URL + 'Employee/GetDashboardSalaries_Statistics');
   }
 
   UpdateEmployeeLastJoinDate(EmployeeId: number, LastJoinDate: any) {
