@@ -34,5 +34,15 @@ namespace MasterErp.Interface.Purchase
         ActionsResponseModel CancelPurchaseReturns(int ReturnsId);
         List<SupplierStatementModel> GetSupplierStatementData(int SupplierId, SearchFilterModel model);
         List<PurchaseInvoiceType> GetInvoiceTypesData();
+
+        #region PurchaseInvoiceType
+
+        List<PurchaseInvoiceTypeModel> GetPurchaseInvoiceTypesData(SearchFilterModel Model, int? PurchaseInvoiceTypeId = null);
+        PurchaseInvoiceTypeModel GetPurchaseInvoiceTypeById(int PurchaseInvoiceTypeId);
+        ActionsResponseModel CreateNewPurchaseInvoiceType(PurchaseInvoiceTypeModel Model);
+        ActionsResponseModel EditPurchaseInvoiceType(int PurchaseInvoiceTypeId, PurchaseInvoiceTypeModel Model);
+        ActionsResponseModel DeletePurchaseInvoiceType(int PurchaseInvoiceTypeId);
+
+        #endregion
     }
 }

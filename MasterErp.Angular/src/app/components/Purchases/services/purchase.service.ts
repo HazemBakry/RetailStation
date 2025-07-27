@@ -13,6 +13,7 @@ import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { PurchaseQuotationModel, PurchaseQuotationDetailsModel } from '../models/PurchaseQuotationModel';
 import { GeneralOrderDetailsModel } from '../../Inventory/models/GeneralOrderModel ';
 import { SupplierStatementModel } from '../models/SupplierStatementModel';
+import { PurchaseInvoiceTypeModel } from '../models/PurchaseInvoiceTypeModel';
 
 @Injectable({
   providedIn: 'root'
@@ -178,4 +179,30 @@ export class PurchaseService {
   CreateNewSupplierReturnsVoucher(model: SupplierReturnsVoucherModel) {
     return this.http.post<any>(this.URL + 'SupplierReturnsVoucher/CreateNewSupplierReturnsVoucher', model);
   }
+
+
+
+  
+  
+    ////////////////////////// sponsor ///////////////////
+  
+    GetPurchaseInvoiceTypesData(model: PagedResponseDTO<PurchaseInvoiceTypeModel[]>) {
+      return this.http.post<PagedResponseDTO<PurchaseInvoiceTypeModel[]>>(this.URL + 'PurchaseInvoice/GetPurchaseInvoiceTypesData', model);
+    }
+  
+    GetPurchaseInvoiceTypeById(purchaseInvoiceTypeId: number) {
+      return this.http.get<ActionsResponseModel>(this.URL + `PurchaseInvoice/GetPurchaseInvoiceTypeById?PurchaseInvoiceTypeId=${purchaseInvoiceTypeId}`);
+    }
+  
+    CreateNewPurchaseInvoiceType(model: PurchaseInvoiceTypeModel) {
+      return this.http.post<ActionsResponseModel>(this.URL + 'PurchaseInvoice/CreateNewPurchaseInvoiceType', model);
+    }
+  
+    EditPurchaseInvoiceType(purchaseInvoiceTypeId: number, model: PurchaseInvoiceTypeModel) {
+      return this.http.post<ActionsResponseModel>(this.URL + `PurchaseInvoice/EditPurchaseInvoiceType?PurchaseInvoiceTypeId=${purchaseInvoiceTypeId}`, model);
+    }
+  
+    DeletePurchaseInvoiceType(purchaseInvoiceTypeId: number) {
+      return this.http.get<ActionsResponseModel>(this.URL + `PurchaseInvoice/DeletePurchaseInvoiceType?PurchaseInvoiceTypeId=${purchaseInvoiceTypeId}`);
+    }
 }

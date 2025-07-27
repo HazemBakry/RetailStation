@@ -16,6 +16,7 @@ import { PurchaseQuotationsComponent } from './components/purchase-quotations/pu
 import { AddPurchaseQuotationComponent } from './components/add-purchase-quotation/add-purchase-quotation.component';
 import { PurchasesLayoutComponent } from './purchases-layout/purchases-layout.component';
 import { AuthPageGuard } from 'src/app/Auth/authPage.guard';
+import { PurchaseInvoiceTypesComponent } from './components/purchase-invoice-types/purchase-invoice-types.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,7 @@ const routes: Routes = [
       { path: 'add-purchase-quotation', component: AddPurchaseQuotationComponent },
       { path: 'suppliers-list', component: SuppliersListComponent, canActivate: [AuthPageGuard], data: { pageName: 'SuppliersList' } },
       { path: 'add-supplier', component: AddSupplierComponent },
+      { path: 'purchase-invoice-types', component: PurchaseInvoiceTypesComponent, data: { pageName: 'PurchaseInvoiceTypes' } },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ],
   },

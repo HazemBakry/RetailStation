@@ -196,5 +196,58 @@ namespace MasterErp.API.Controllers.Finance.Purchase
             return Ok(results);
         }
 
+        #region PurchaseInvoiceType
+        [HttpPost]
+        [Route("GetPurchaseInvoiceTypesData")]
+        public IActionResult GetPurchaseInvoiceTypesData(SearchFilterModel model)
+        {
+            var data = _purchaseInvoiceService.GetPurchaseInvoiceTypesData(model);
+            var result = new PagedResponseModel<PurchaseInvoiceTypeModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("GetPurchaseInvoiceTypeById")]
+        public IActionResult GetPurchaseInvoiceTypeById(int PurchaseInvoiceTypeId)
+        {
+            var result = _purchaseInvoiceService.GetPurchaseInvoiceTypeById(PurchaseInvoiceTypeId);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("CreateNewPurchaseInvoiceType")]
+        public IActionResult CreateNewPurchaseInvoiceType(PurchaseInvoiceTypeModel Model)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            Model.CreatedBy = UserId;
+            var results = _purchaseInvoiceService.CreateNewPurchaseInvoiceType(Model);
+            return Ok(results);
+        }
+        [HttpPost]
+        [Route("EditPurchaseInvoiceType")]
+        public IActionResult EditPurchaseInvoiceType(int PurchaseInvoiceTypeId, PurchaseInvoiceTypeModel Model)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            Model.ModifiedBy = UserId;
+            var results = _purchaseInvoiceService.EditPurchaseInvoiceType(PurchaseInvoiceTypeId, Model);
+            return Ok(results);
+        }
+        [HttpGet]
+        [Route("DeletePurchaseInvoiceType")]
+        public IActionResult DeletePurchaseInvoiceType(int PurchaseInvoiceTypeId)
+        {
+            var results = _purchaseInvoiceService.DeletePurchaseInvoiceType(PurchaseInvoiceTypeId);
+            return Ok(results);
+        }
+
+        #endregion
+
+
     }
 }

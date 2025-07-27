@@ -634,6 +634,166 @@ namespace MasterErp.Service.Purchase
             return Context.PurchaseInvoiceTypes.ToList();
         }
 
+        #region PurchaseInvoiceType
+        public List<PurchaseInvoiceTypeModel> GetPurchaseInvoiceTypesData(SearchFilterModel searchModel, int? PurchaseInvoiceTypeId = null)
+        {
+
+
+            var query = from purchaseInvoice in Context.PurchaseInvoiceTypes
+                        join debit in Context.AccountTrees on purchaseInvoice.AccountDebitId equals debit.AccountId into jT1
+                        from debit in jT1.DefaultIfEmpty()
+                        join credit in Context.AccountTrees on purchaseInvoice.AccountCreditId equals credit.AccountId into jT2
+                        from credit in jT2.DefaultIfEmpty()
+                        where PurchaseInvoiceTypeId == null || purchaseInvoice.PurchaseInvoiceTypeId == PurchaseInvoiceTypeId
+                        select new PurchaseInvoiceTypeModel
+                        {
+                            PurchaseInvoiceTypeId = purchaseInvoice.PurchaseInvoiceTypeId,
+                            NameAR = purchaseInvoice.NameAR,
+                            NameEN = purchaseInvoice.NameEN,
+                            Notes = purchaseInvoice.Notes,
+                            IsActive = purchaseInvoice.IsActive,
+                            IsBindToGeneralAccounting = purchaseInvoice.IsBindToGeneralAccounting,
+                            AccountCreditId = purchaseInvoice.AccountCreditId,
+                            AccountDebitId = purchaseInvoice.AccountDebitId,
+                            DebitAccountNameEN = debit.NameEN,
+                            DebitAccountNameAR = debit.NameAR,
+                            CreditAccountNameEN = credit.NameEN,
+                            CreditAccountNameAR = credit.NameAR,
+                            CreatedBy = purchaseInvoice.CreatedBy,
+                            CreatedDate = purchaseInvoice.CreatedDate,
+                            ModifiedBy = purchaseInvoice.ModifiedBy,
+                            ModifiedDate = purchaseInvoice.ModifiedDate,
+
+                        };
+
+            int totalCount = query.Count();
+            if (searchModel.CurrentPage > 0 && searchModel.PageSize > 0)
+            {
+                int skip = (searchModel.CurrentPage - 1) * searchModel.PageSize;
+                query = query.Skip(skip).Take(searchModel.PageSize);
+            }
+
+            var pagedResults = query.ToList();
+            pagedResults.ForEach(x => x.TotalCount = totalCount);
+
+
+            return pagedResults;
+        }
+        public PurchaseInvoiceTypeModel GetPurchaseInvoiceTypeById(int PurchaseInvoiceTypeId)
+        {
+            return GetPurchaseInvoiceTypesData(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, PurchaseInvoiceTypeId)?.FirstOrDefault();
+
+        }
+
+
+
+        public ActionsResponseModel CreateNewPurchaseInvoiceType(PurchaseInvoiceTypeModel Model)
+        {
+            try
+            {
+                var entity = Context.PurchaseInvoiceTypes.FirstOrDefault(i => i.NameEN == Model.NameEN || i.NameAR == Model.NameAR);
+                if (entity != null)
+                {
+                    return new ActionsResponseModel
+                    {
+                        IsSuccess = false,
+                        Message = "هذا الاسم موجود"
+                    };
+                }
+
+
+                PurchaseInvoiceType tbl = new PurchaseInvoiceType();
+
+                tbl.CreatedDate = DateTime.Now;
+                tbl.CreatedBy = Model.CreatedBy;
+                tbl.AccountDebitId = Model.AccountDebitId;
+                tbl.AccountCreditId = Model.AccountCreditId;
+                tbl.IsActive = Model.IsActive;
+                tbl.IsBindToGeneralAccounting = Model.IsBindToGeneralAccounting;
+                tbl.NameAR = Model.NameAR;
+                tbl.NameEN = Model.NameEN;
+                tbl.Notes = Model.Notes;
+
+
+                Context.PurchaseInvoiceTypes.Add(tbl);
+                Context.SaveChanges();
+
+
+                return new ActionsResponseModel
+                {
+                    Message = "تم الحفظ  بنجاح"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public ActionsResponseModel EditPurchaseInvoiceType(int PurchaseInvoiceTypeId, PurchaseInvoiceTypeModel Model)
+        {
+
+            try
+            {
+                var entity = Context.PurchaseInvoiceTypes.FirstOrDefault(i => i.PurchaseInvoiceTypeId == PurchaseInvoiceTypeId);
+                if (entity != null)
+                {
+
+                    entity.ModifiedDate = DateTime.Now;
+                    entity.ModifiedBy = Model.ModifiedBy;
+
+                    entity.AccountDebitId = Model.AccountDebitId;
+                    entity.AccountCreditId = Model.AccountCreditId;
+                    entity.IsBindToGeneralAccounting = Model.IsBindToGeneralAccounting;
+
+                    entity.IsActive = Model.IsActive;
+                    entity.NameAR = Model.NameAR;
+                    entity.NameEN = Model.NameEN;
+                    entity.Notes = Model.Notes;
+            
+
+                    Context.SaveChanges();
+
+
+                    return new ActionsResponseModel { Message = "Purchase Invoice Type Updated Successfully !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Purchase Invoice Type not found" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+
+        }
+
+
+        public ActionsResponseModel DeletePurchaseInvoiceType(int PurchaseInvoiceTypeId)
+        {
+
+            try
+            {
+                var entity = Context.PurchaseInvoiceTypes.FirstOrDefault(i => i.PurchaseInvoiceTypeId == PurchaseInvoiceTypeId);
+                if (entity != null)
+                {
+                    Context.Remove(entity);
+                    Context.SaveChanges();
+                    return new ActionsResponseModel { Message = "deleted Successfully !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "not found" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+
+        }
+        #endregion
 
         private JournalEntryModel PrepareInvoiceEntryModel(PurchaseInvoiceModel Model)
         {

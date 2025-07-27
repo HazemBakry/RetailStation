@@ -589,7 +589,7 @@ export class MenuService {
           },
           {
             menuItemId: MenuType.InventoryHome,
-            displayName: 'البيانات الاساسية',
+            displayName: 'التهيئة والاعدادات',
             menuItem: '2',
             route: '/purchases/home/2',
             icon: 'fa fa-database',
@@ -600,6 +600,13 @@ export class MenuService {
                 description: 'إدارة بيانات الموردين وتفاصيل الاتصال',
                 icon: 'fa fa-users',
                 route: '/purchases/suppliers-list'
+              },
+              {
+                displayName: 'أنواع فواتير المشتريات',
+                menuItem: 'purchase-invoice-types',
+                description: 'إدارة بيانات أنواع الفواتير وتفاصيل الحسابات',
+                icon: 'fa fa-users',
+                route: '/purchases/purchase-invoice-types'
               }
             ]
           }
