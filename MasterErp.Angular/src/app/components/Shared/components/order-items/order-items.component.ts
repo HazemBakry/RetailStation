@@ -208,7 +208,7 @@ export class OrderItemsComponent implements OnInit, OnChanges {
       item.totalValue = item.price * item.quantity;
       this.totalValue += item.totalValue;
     });
-    // this.emitSelectedProductsList();
+    this.emitSelectedProductsList();
   }
   addProducts() {
     this.selectedProducts.forEach(item => {
