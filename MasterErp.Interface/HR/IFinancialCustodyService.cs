@@ -15,6 +15,8 @@ namespace MasterErp.Interface.HR
     {
  
         List<EmployeeFinancialCustodyModel> GetAllEmployeeFinancialCustodyData(SearchFilterModel SearchModel, int? EmployeeId = null, int? ManagerId = null);
+        ActionsResponseModel GetAllEmployeeFinancialCustody_Export(SearchFilterModel model);
+
         List<EmployeeFinancialCustodyModel> GetFinancialCustodyByEmployeeId(int EmployeeId,SearchFilterModel SearchModel);
         EmployeeFinancialCustodyModel GetFinancialCustodyById(int EmployeeFinancialCustodyId);
         ActionsResponseModel AddNewEmployeeFinancialCustody(int EmployeeId, EmployeeFinancialCustodyModel model);

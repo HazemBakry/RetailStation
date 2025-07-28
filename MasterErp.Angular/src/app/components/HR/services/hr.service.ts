@@ -499,7 +499,9 @@ export class HrService {
   GetAllEmployeeFinancialCustodyData(model: SearchFilterModel) {
     return this.http.post<any>(this.URL + 'FinancialCustody/GetAllEmployeeFinancialCustodyData', model);
   }
-
+  GetAllEmployeeFinancialCustody_Export(model: SearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `FinancialCustody/GetAllEmployeeFinancialCustody_Export`, model);
+  }
   GetFinancialCustodyByEmployeeId(employeeId, model: PagedResponseDTO) {
     return this.http.post<PagedResponseDTO<EmployeeFinancialCustodyModel[]>>(this.URL + 'FinancialCustody/GetFinancialCustodyByEmployeeId?EmployeeId=' + employeeId, model);
   }

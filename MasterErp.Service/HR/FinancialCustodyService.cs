@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Enums;
+using MasterErp.Entities.Common.Export;
 using MasterErp.Entities.Common.Lookups;
 using MasterErp.Entities.Common.SQLTabeType;
 using MasterErp.Entities.DTOs.HR;
@@ -34,8 +35,10 @@ namespace MasterErp.Service.HR
         private readonly ISharedService SharedService;
         private readonly LookupsDbContext LookupsDbContext;
         private readonly ISharedFilterService sharedFilterService;
+        private readonly IExportService _exportService;
 
-        public FinancialCustodyService(DBContext Context, ISQLHelper SQLHelper, ISharedService SharedService, IConfiguration Configuration, LookupsDbContext lookupsDbContext, ISharedFilterService sharedFilterService)
+
+        public FinancialCustodyService(DBContext Context, ISQLHelper SQLHelper, ISharedService SharedService, IConfiguration Configuration, LookupsDbContext lookupsDbContext, ISharedFilterService sharedFilterService, IExportService exportService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
@@ -43,6 +46,7 @@ namespace MasterErp.Service.HR
             this.Configuration = Configuration;
             LookupsDbContext = lookupsDbContext;
             this.sharedFilterService = sharedFilterService;
+            _exportService = exportService;
             //ConnectionString = Configuration.GetConnectionString("DBConnection");
         }
 
@@ -63,6 +67,62 @@ namespace MasterErp.Service.HR
             var result = SQLHelper.SQLQuery<EmployeeFinancialCustodyModel>("[HR].[SP_GetEmployeeFinancialCustodyData]", null, param);
             return result;
         }
+        public ActionsResponseModel GetAllEmployeeFinancialCustody_Export(SearchFilterModel SearchModel)
+        {
+            string url = string.Empty;
+            try
+            {
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var Data = GetAllEmployeeFinancialCustodyData(SearchModel);
+
+                var result = Data.Select(x => new EmployeeFinancialCustodyExportModel
+                {
+                    EmployeeCode = x.EmployeeCode,
+                    EmployeeName = x.EmployeeNameAR ?? x.EmployeeNameEN,
+                    BranchName = x.BranchNameAR ?? x.BranchNameEN,
+                    JobName = x.JobNameAR ?? x.JobNameEN,
+                    FinancialCustodyType = x.FinancialCustodyTypeNameAR ?? x.FinancialCustodyTypeNameEN,
+                    ExecutionDate = x.ExecutionDate.ToString("MM/dd/yyyy"),
+                    MoneyAmount = x.MoneyAmount.ToString(),
+                    WorkflowStatus = x.WorkflowStatusNameAR ?? x.WorkflowStatusNameEN,
+                    Notes = x.Notes,
+                }).ToList();
+
+                if (!result.Any())
+                {
+                    result.Add(new EmployeeFinancialCustodyExportModel());
+
+                }
+
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "Employee Financial Custody");
+
+
+                url = GetExportUrl(dtExport, "Employee Financial Custody");
+
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+
+        }
+
 
         public List<EmployeeFinancialCustodyModel> GetFinancialCustodyByEmployeeId(int employeeId, SearchFilterModel SearchModel)
         {
@@ -221,6 +281,23 @@ namespace MasterErp.Service.HR
                     Message = ex.InnerException?.Message ?? ex.Message
                 };
             }
+        }
+
+        private string GetExportUrl(DataTable DT, string Name)
+        {
+            DT.TableName = Name;
+
+            ExportTemplateBase exportTemplateBase = new ExportTemplateBase
+            {
+                Name = Name,
+                Username = "",
+                TemplateName = Name,
+                ReportName = Name,
+                CustomerName = "",
+                ExcelStyle = ExcelExportStyle.reportStyle,
+                SheetName = "Data",
+            };
+            return _exportService.Export(exportTemplateBase, DT);
         }
 
 

@@ -44,7 +44,14 @@ namespace MasterErp.API.Controllers.HR
             };
             return Ok(result);
         }
+        [HttpPost]
+        [Route("GetAllEmployeeFinancialCustody_Export")]
+        public IActionResult GetAllEmployeeFinancialCustody_Export(SearchFilterModel model)
+        {
+            var result = _financialCustodyService.GetAllEmployeeFinancialCustody_Export(model);
 
+            return Ok(result);
+        }
         [HttpPost]
         [Route("GetFinancialCustodyByEmployeeId")]
         public IActionResult GetFinancialCustodyByEmployeeId(int EmployeeId,SearchFilterModel Model)
