@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common;
 using MasterErp.Entities.Common.Enums;
+using MasterErp.Entities.Common.Export;
 using MasterErp.Entities.Common.Lookups;
 using MasterErp.Entities.Common.SQLTabeType;
 using MasterErp.Entities.DTOs.HR;
@@ -32,31 +33,96 @@ namespace MasterErp.Service.HR
         private readonly IConfiguration Configuration;
         private readonly ISQLHelper SQLHelper;
         private readonly ISharedService SharedService;
+        private readonly ISharedFilterService sharedFilterService;
+        private readonly IExportService _exportService;
         private readonly LookupsDbContext LookupsDbContext;
 
-        public VacationService(DBContext Context, ISQLHelper SQLHelper, ISharedService SharedService, IConfiguration Configuration, LookupsDbContext lookupsDbContext)
+        public VacationService(DBContext Context, ISQLHelper SQLHelper, ISharedService SharedService, IConfiguration Configuration, LookupsDbContext lookupsDbContext, ISharedFilterService sharedFilterService, IExportService exportService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
             this.SharedService = SharedService;
             this.Configuration = Configuration;
             LookupsDbContext = lookupsDbContext;
+            this.sharedFilterService = sharedFilterService;
+            _exportService = exportService;
             //ConnectionString = Configuration.GetConnectionString("DBConnection");
         }
 
 
         public List<EmployeeVacationDto> GetAllEmployeeVacationsData(SearchFilterModel SearchModel, int? EmployeeId = null, int? ManagerId = null)
         {
-            var FilterList = SearchModel?.FilterList?.Select(f => new FilterList_TableType { ItemKey = string.Empty, CategoryName = f.CategoryName, ItemValue = f.ItemFlag }).ToList();
-            SqlParameter[] param = new SqlParameter[3];
+            var FilterListTable = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
+            int? VacationId = null;
+            SqlParameter[] param = new SqlParameter[5];
 
-            param[0] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
-            param[1] = new SqlParameter("@PageSize", SearchModel.PageSize);
-            param[2] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            param[2].Value = FilterList.ToDataTable();
+            param[0] = new SqlParameter("@EmployeeId", EmployeeId);
+            param[1] = new SqlParameter("@VacationId", VacationId);
+            param[2] = new SqlParameter("@CurrentPage", SearchModel.CurrentPage);
+            param[3] = new SqlParameter("@PageSize", SearchModel.PageSize);
+            param[4] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            param[4].Value = FilterListTable;
 
             var result = SQLHelper.SQLQuery<EmployeeVacationDto>("[HR].[SP_GetEmployeeVacationsData]", null, param);
             return result;
+        }
+        public ActionsResponseModel GetEmployeeVacation_Export(SearchFilterModel SearchModel)
+        {
+            string url = string.Empty;
+            try
+            {
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var Data = GetAllEmployeeVacationsData(SearchModel);
+
+                var result = Data.Select(x => new EmployeeVacationExportModel
+                {
+                    EmployeeCode = x.EmployeeCode,
+                    EmployeeName = x.EmployeeName,
+                    BranchName = x.BranchName,
+                    JobName = x.JobNameAR ?? x.JobNameEN,
+                    VacationType = x.VacationType,
+                    FromDate = x.FromDate.ToString("MM/dd/yyyy"),
+                    ToDate = x.ToDate.ToString("MM/dd/yyyy"),
+                    LastDayWork = x.LastDayWork.ToString("MM/dd/yyyy"),
+                    Period = x.Period,
+                    AlternativeEmployee = x.AlternativeEmployeeName,
+                    WorkflowStatus = x.WorkflowStatusNameAR ?? x.WorkflowStatusNameEN,
+                    Notes = x.Notes,
+                }).ToList();
+
+                if (!result.Any())
+                {
+                    result.Add(new EmployeeVacationExportModel());
+
+                }
+
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "Employee Vacation");
+
+
+                url = GetExportUrl(dtExport, "Employee Vacation");
+
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+
         }
 
         public List<EmployeeVacationDto> GetVacationsByEmployeeId(int employeeId, SearchFilterModel SearchModel)
@@ -315,7 +381,22 @@ namespace MasterErp.Service.HR
                 };
             }
         }
+        private string GetExportUrl(DataTable DT, string Name)
+        {
+            DT.TableName = Name;
 
+            ExportTemplateBase exportTemplateBase = new ExportTemplateBase
+            {
+                Name = Name,
+                Username = "",
+                TemplateName = Name,
+                ReportName = Name,
+                CustomerName = "",
+                ExcelStyle = ExcelExportStyle.reportStyle,
+                SheetName = "Data",
+            };
+            return _exportService.Export(exportTemplateBase, DT);
+        }
 
 
     }

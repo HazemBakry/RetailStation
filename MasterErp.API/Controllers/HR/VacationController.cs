@@ -44,6 +44,14 @@ namespace MasterErp.API.Controllers.HR
             };
             return Ok(result);
         }
+        [HttpPost]
+        [Route("GetEmployeeVacation_Export")]
+        public IActionResult GetEmployeeVacation_Export(SearchFilterModel model)
+        {
+            var result = _vacationService.GetEmployeeVacation_Export(model);
+
+            return Ok(result);
+        }
 
         [HttpPost]
         [Route("GetVacationsByEmployeeId")]

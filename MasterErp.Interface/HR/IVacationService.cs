@@ -15,6 +15,8 @@ namespace MasterErp.Interface.HR
     {
  
         List<EmployeeVacationDto> GetAllEmployeeVacationsData(SearchFilterModel SearchModel, int? EmployeeId = null, int? ManagerId = null);
+        ActionsResponseModel GetEmployeeVacation_Export(SearchFilterModel model);
+
         List<EmployeeVacationDto> GetVacationsByEmployeeId(int EmployeeId,SearchFilterModel SearchModel);
         List<EmployeeVacationDto> GetVacationRequestsByType(int VacationTypeId, SearchFilterModel SearchModel);
         ActionsResponseModel AddNewEmployeeVacation(int EmployeeId, EmployeeVacationDto model);

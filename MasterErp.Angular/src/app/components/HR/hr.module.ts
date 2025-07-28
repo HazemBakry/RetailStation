@@ -48,7 +48,7 @@ import { HrRegionsComponent } from './components/hr-regions/hr-regions.component
 import { HrEmployeeStatusComponent } from './components/hr-employee-status/hr-employee-status.component';
 import { HrFinancialCustodyComponent } from './components/hr-financial-custody/hr-financial-custody.component';
 import { HrFinancialCustodyReportComponent } from './components/hr-financial-custody-report/hr-financial-custody-report.component';
-// import { HrVacationsReportComponent } from './components/hr-vacations-report/hr-vacations-report.component';
+import { HrVacationsReportComponent } from './components/hr-vacations-report/hr-vacations-report.component';
 // import { HrDuesReportComponent } from './components/hr-dues-report/hr-dues-report.component';
 
 @NgModule({
@@ -97,7 +97,7 @@ import { HrFinancialCustodyReportComponent } from './components/hr-financial-cus
     HrEmployeeStatusComponent,
     HrFinancialCustodyComponent,
     HrFinancialCustodyReportComponent,
-    // HrVacationsReportComponent,
+    HrVacationsReportComponent,
     // HrDuesReportComponent
   ],
   imports: [

@@ -465,7 +465,9 @@ export class HrService {
   GetAllEmployeeVacationsData(model: SearchFilterModel) {
     return this.http.post<any>(this.URL + 'Vacation/GetAllEmployeeVacationsData', model);
   }
-
+  GetEmployeeVacation_Export(model: SearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Vacation/GetEmployeeVacation_Export`, model);
+  }
   GetVacationsByEmployeeId(employeeId, model: PagedResponseDTO) {
     return this.http.post<PagedResponseDTO<EmployeeVacationModel[]>>(this.URL + 'Vacation/GetVacationsByEmployeeId?EmployeeId=' + employeeId, model);
   }

@@ -1,4 +1,4 @@
-<!-- <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
 <div class="inputs-wrapper border rounded bg-white mb-3">
 
@@ -21,7 +21,7 @@
                         نوع السلفة
                         <span class="text-danger">*</span>
                     </label>
-                    <app-general-selector [(ngModel)]="selectedAdvanceTypeId" [data]="advanceTypesSelectorData"
+                    <app-general-selector [(ngModel)]="selectedVacationTypeId" [data]="vacationTypesSelectorData"
                         [placeholder]="'نوع السلفة'" [showSearch]="true"></app-general-selector>
                 </div>
             </div>
@@ -101,42 +101,35 @@
                 <thead class="table-light">
                     <tr>
                         <th>اسم الموظف</th>
-                        <th> تاريخ البدء</th>
-                        <th> تاريخ الانتهاء</th>
-                        <th>نوع السلفة</th>
-                        <th>القيمة </th>
-                        <th>القسط </th>
+                        <th>نوع الأجازة</th>
+
+                        <th>الموظف البديل</th>
+                        <th>من تاريخ</th>
+                        <th>حتى تاريخ</th>
+                        <th>أخر يوم عمل</th>
+                        <th>اجمالي المدة بالأيام</th>
                         <th>الحالة</th>
-                        <th>السبب</th>
-                        <th>اجمالي المدفوع</th>
-                        <th>اجمالي المتبقي</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of pagedResponseModel.results">
                         <td>{{item.employeeName}}</td>
-                        <td>{{item.paymentFromDate | date}}</td>
-                        <td>{{item.paymentToDate | date}}</td>
-                        <td>{{item.advanceTypeNameAR ??item.advanceTypeNameEN}}</td>
-                        <td>{{item.advanceAmount}}</td>
-                        <td>{{item.paymentAmount}}</td>
+                        <td>{{item.vacationType}}</td>
+
+                        <td>{{item.alternativeEmployeeName}}</td>
+                        <td>{{item.fromDate | date}}</td>
+                        <td>{{item.toDate | date}}</td>
+                        <td>{{item.lastDayWork | date}}</td>
+                        <td>{{item.period}}</td>
                         <td>
+
                             <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
                                 [nameAR]="item?.workflowStatusNameAR">
                             </span>
                         </td>
-                        <td class="word-break">{{item.notes}}</td>
-                        <td>
-                            <span class="text-success"> {{item.totalPaid}}</span>
-                        </td>
-
-                        <td>
-                            <span class="text-danger"> {{item.totalRemaining}}</span>
-
-                        </td>
                     </tr>
                     <tr *ngIf="!pagedResponseModel.results.length || showLoader">
-                        <td colspan="10" class="text-right">
+                        <td colspan="8" class="text-right">
                             <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader"
                                 [showLoader]="showLoader"></app-empty-data>
                         </td>
@@ -149,4 +142,4 @@
 
 
 
-<ngx-loading [show]="showLoader"></ngx-loading> -->
+<ngx-loading [show]="showLoader"></ngx-loading>
