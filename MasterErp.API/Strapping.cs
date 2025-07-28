@@ -80,6 +80,7 @@ namespace MasterErp.API
             services.AddScoped<IHRService, HRService>();
             services.AddScoped<ISalariesService, SalariesService>();
             services.AddScoped<IBankService, BankService>();
+            services.AddScoped<IFinancialCustodyService, FinancialCustodyService>();
 
         }
     }

@@ -1,0 +1,14 @@
+.table-vp-height {
+  height: calc(100vh - 350px);
+}
+
+
+
+  ::ng-deep ngb-offcanvas-panel
+  {
+    width: 35% !important;
+  }
+  .add-financialCustody-panel {
+    width: 35% !important;
+    /* background-color: red; */
+  }

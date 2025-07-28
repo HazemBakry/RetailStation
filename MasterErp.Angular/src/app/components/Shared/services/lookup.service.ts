@@ -57,6 +57,9 @@ export class LookupService {
   GetVacationTypesSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetVacationTypesSelector');
   }
+  GetFinancialCustodyTypesSelector() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetFinancialCustodyTypesSelector');
+  }
   // GetEmployeeStatusSelector() {
   //   return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetEmployeeStatusSelector');
   // }

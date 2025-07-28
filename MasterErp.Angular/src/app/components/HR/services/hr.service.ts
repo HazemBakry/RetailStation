@@ -25,6 +25,7 @@ import { EmployeeReportModel, SalaryAnnualIncreaseModel, SalaryHistoryModel } fr
 import { EmployeeStatusEnum } from '../../Shared/Enums/EmployeeStatusEnum';
 import { DueTypeEnum } from '../../Shared/Enums/DueTypeEnum';
 import { EmployeeStatusModel } from '../models/EmployeeStatusModel';
+import { EmployeeFinancialCustodyModel } from '../models/EmployeeFinancialCustodyModel';
 
 @Injectable({
   providedIn: 'root'
@@ -492,6 +493,33 @@ export class HrService {
   EditEmployeesWorkStatus(employeeIds: number[]) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Vacation/EditEmployeesWorkStatus', employeeIds);
   }
+
+  //================================== FinancialCustody ===============================
+
+  GetAllEmployeeFinancialCustodyData(model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'FinancialCustody/GetAllEmployeeFinancialCustodyData', model);
+  }
+
+  GetFinancialCustodyByEmployeeId(employeeId, model: PagedResponseDTO) {
+    return this.http.post<PagedResponseDTO<EmployeeFinancialCustodyModel[]>>(this.URL + 'FinancialCustody/GetFinancialCustodyByEmployeeId?EmployeeId=' + employeeId, model);
+  }
+  GetFinancialCustodyById(EmployeeFinancialCustodyId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'FinancialCustody/GetFinancialCustodyById?EmployeeFinancialCustodyId=' + EmployeeFinancialCustodyId);
+  }
+
+  AddNewEmployeeFinancialCustody(employeeId: number, model: EmployeeFinancialCustodyModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'FinancialCustody/AddNewEmployeeFinancialCustody?EmployeeId=' + employeeId, model);
+  }
+
+  EditEmployeeFinancialCustody(employeeId: number, model: EmployeeFinancialCustodyModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'FinancialCustody/EditEmployeeFinancialCustody?EmployeeId=' + employeeId, model);
+  }
+
+  DeleteFinancialCustody(EmployeeFinancialCustodyId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'FinancialCustody/DeleteFinancialCustody?EmployeeFinancialCustodyId=' + EmployeeFinancialCustodyId);
+  }
+
+
 
   //================================== OverTime ===============================
   GetAllEmployeeOverTimeData(model: SearchFilterModel) {

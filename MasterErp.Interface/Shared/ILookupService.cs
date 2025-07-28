@@ -44,6 +44,7 @@ namespace MasterErp.Interface.Shared
         List<SelectorDataModel> GetEmployeeStatusSelector();
         List<SelectorDataModel> GetEmployeeDueTypesSelector();
         List<SelectorDataModel> GetSponsorTypesSelector();
+        List<SelectorDataModel> GetFinancialCustodyTypesSelector();
 
         #endregion
     }

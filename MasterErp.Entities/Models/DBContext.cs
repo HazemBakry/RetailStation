@@ -129,6 +129,7 @@ namespace MasterErp.Entities.Models
         public DbSet<Batch> Batches { get; set; }
         public DbSet<VerifiedAttendanceSummary> VerifiedAttendanceSummary { get; set; }
         public DbSet<EmployeeDue> EmployeeDues { get; set; }
+        public DbSet<EmployeeFinancialCustody> EmployeeFinancialCustody { get; set; }
 
 
 

@@ -199,6 +199,13 @@ namespace MasterErp.API.Controllers.Shared
         {
             var results = lookupService.GetSponsorTypesSelector();
             return Ok(results);
+        }     
+        [HttpGet]
+        [Route("GetFinancialCustodyTypesSelector")]
+        public IActionResult GetFinancialCustodyTypesSelector()
+        {
+            var results = lookupService.GetSponsorTypesSelector();
+            return Ok(results);
         }
 
 

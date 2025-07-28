@@ -40,6 +40,7 @@ import { HRSalariesReportComponent } from './components/hr-salaries-report/hr-sa
 import { HrJobsComponent } from './components/hr-jobs/hr-jobs.component';
 import { HrRegionsComponent } from './components/hr-regions/hr-regions.component';
 import { HrEmployeeStatusComponent } from './components/hr-employee-status/hr-employee-status.component';
+import { HrFinancialCustodyComponent } from './components/hr-financial-custody/hr-financial-custody.component';
 
 
 const routes: Routes = [
@@ -165,6 +166,12 @@ const routes: Routes = [
         component: HrAdvancePaymentsComponent,
         // canActivate: [AuthPageGuard],
         data: { pageName: 'AdvancePayments' }
+      },
+      {
+        path: 'financial-custody',
+        component: HrFinancialCustodyComponent,
+        //canActivate: [AuthPageGuard],
+        data: { pageName: 'FinancialCustody' }
       },
       {
         path: 'employees-report',

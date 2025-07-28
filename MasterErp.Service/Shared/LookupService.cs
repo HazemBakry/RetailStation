@@ -229,6 +229,14 @@ namespace MasterErp.Service.Shared
             //    Name = x.StatusNameAR ?? x.StatusNameEN
             //}).ToList();
             return new List<SelectorDataModel>();
+        } 
+        public List<SelectorDataModel> GetFinancialCustodyTypesSelector()
+        {
+            return LookupsContext.FinancialCustodyTypes.Select(x => new SelectorDataModel
+            {
+                Id = x.FinancialCustodyTypeId,
+                Name = x.NameAR ?? x.NameEN
+            }).ToList();
         }
 
         #endregion
