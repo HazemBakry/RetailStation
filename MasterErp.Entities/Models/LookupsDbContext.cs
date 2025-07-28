@@ -55,7 +55,7 @@ namespace MasterErp.Entities.Models
         public DbSet<City> Cities { get; set; }
         public DbSet<SponsorType> SponsorTypes { get; set; }
         public DbSet<VacationType> VacationTypes { get; set; }
-        public DbSet<EmployeeStatus> EmployeeStatus { get; set; }
+        //public DbSet<EmployeeStatus> EmployeeStatus { get; set; }
 
     }
 }

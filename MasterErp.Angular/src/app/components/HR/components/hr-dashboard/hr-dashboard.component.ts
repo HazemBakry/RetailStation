@@ -6,6 +6,7 @@ import { GeneralSelectorModel } from 'src/app/components/Shared/components/gener
 import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { ToastrService } from 'ngx-toastr';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
 
 @Component({
   selector: 'app-hr-dashboard',
@@ -26,7 +27,8 @@ export class HrDashboardComponent implements OnInit {
   constructor(private hrService: HrService,
     private offcanvasService: NgbOffcanvas,
     private toaster: ToastrService,
-    private lookupService: LookupService
+    private lookupService: LookupService,
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit(): void {
@@ -112,7 +114,7 @@ export class HrDashboardComponent implements OnInit {
     //   this.HRStatistics = data[0];
     // });
 
-    this.lookupService.GetEmployeeStatusSelector().subscribe((data: any[]) => {
+    this.sharedService.GetEmployeeStatusSelector().subscribe((data: any[]) => {
       this.employeeStatusSelector = data
     });
 

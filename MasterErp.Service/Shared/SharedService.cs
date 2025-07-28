@@ -311,6 +311,15 @@ namespace MasterErp.Service.Shared
             return results;
         }
 
+        public List<SelectorDataModel> GetEmployeeStatusSelector()
+        {
+            return Context.EmployeeStatus.Select(x => new SelectorDataModel
+            {
+                Id = x.EmployeeStatusId,
+                Name = x.StatusNameAR ?? x.StatusNameEN
+            }).ToList();
+        }
+
         #endregion
 
     }

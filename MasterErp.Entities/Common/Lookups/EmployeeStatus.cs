@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace MasterErp.Entities.Common.Lookups
 {
-    [Table("EmployeeStatus", Schema = "HR")]
-    public class EmployeeStatus
-    {
-        public int EmployeeStatusId { get; set; }
-        public string StatusNameEN { get; set; }
-        public string StatusNameAR { get; set; }
+    //[Table("EmployeeStatus", Schema = "HR")]
+    //public class EmployeeStatus
+    //{
+    //    public int EmployeeStatusId { get; set; }
+    //    public string StatusNameEN { get; set; }
+    //    public string StatusNameAR { get; set; }
 
-    }
+    //}
 }

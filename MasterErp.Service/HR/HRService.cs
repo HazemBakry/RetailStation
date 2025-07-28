@@ -605,5 +605,146 @@ namespace MasterErp.Service.HR
 
         #endregion
 
+        #region EmployeeStatus
+        public List<EmployeeStatusModel> GetEmployeeStatusData(SearchFilterModel searchModel, int? EmployeeStatusId = null)
+        {
+
+
+            var query = from status in Context.EmployeeStatus
+                        where EmployeeStatusId == null || status.EmployeeStatusId == EmployeeStatusId
+                        select new EmployeeStatusModel
+                        {
+                            EmployeeStatusId = status.EmployeeStatusId,
+                            StatusNameAR = status.StatusNameAR,
+                            StatusNameEN = status.StatusNameEN,
+                            Notes = status.Notes,
+                            IsActive = status.IsActive,
+                            CreatedBy = status.CreatedBy,
+                            CreatedDate = status.CreatedDate,
+                            ModifiedBy = status.ModifiedBy,
+                            ModifiedDate = status.ModifiedDate
+                           
+
+                        };
+
+            int totalCount = query.Count();
+            if (searchModel.CurrentPage > 0 && searchModel.PageSize > 0)
+            {
+                int skip = (searchModel.CurrentPage - 1) * searchModel.PageSize;
+                query = query.Skip(skip).Take(searchModel.PageSize);
+            }
+
+            var pagedResults = query.ToList();
+            pagedResults.ForEach(x => x.TotalCount = totalCount);
+
+            return pagedResults;
+        }
+        public EmployeeStatusModel GetEmployeeStatusById(int EmployeeStatusId)
+        {
+            return GetEmployeeStatusData(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, EmployeeStatusId)?.FirstOrDefault();
+
+        }
+
+
+
+        public ActionsResponseModel CreateNewEmployeeStatus(EmployeeStatusModel Model)
+        {
+            try
+            {
+                var entity = Context.EmployeeStatus.FirstOrDefault(i => i.StatusNameEN == Model.StatusNameEN || i.StatusNameAR == Model.StatusNameAR);
+                if (entity != null)
+                {
+                    return new ActionsResponseModel
+                    {
+                        IsSuccess = false,
+                        Message = "هذا الاسم موجود"
+                    };
+                }
+
+
+                EmployeeStatus tbl = new EmployeeStatus();
+
+                tbl.CreatedDate = DateTime.Now;
+                tbl.CreatedBy = Model.CreatedBy;
+                tbl.IsActive = Model.IsActive;
+                tbl.StatusNameAR = Model.StatusNameAR;
+                tbl.StatusNameEN = Model.StatusNameEN;
+                tbl.Notes = Model.Notes;
+
+
+                Context.EmployeeStatus.Add(tbl);
+                Context.SaveChanges();
+
+
+                return new ActionsResponseModel
+                {
+                    Message = "تم الحفظ  بنجاح"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public ActionsResponseModel EditEmployeeStatus(int EmployeeStatusId, EmployeeStatusModel Model)
+        {
+
+            try
+            {
+                var entity = Context.EmployeeStatus.FirstOrDefault(i => i.EmployeeStatusId == EmployeeStatusId);
+                if (entity != null)
+                {
+
+                    entity.ModifiedDate = DateTime.Now;
+                    entity.ModifiedBy = Model.ModifiedBy;
+
+                    entity.IsActive = Model.IsActive;
+                    entity.StatusNameAR = Model.StatusNameAR;
+                    entity.StatusNameEN = Model.StatusNameEN;
+                    entity.Notes = Model.Notes;
+                    Context.SaveChanges();
+
+
+                    return new ActionsResponseModel { Message = "Updated Successfully !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "not found" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+
+        }
+
+
+        public ActionsResponseModel DeleteEmployeeStatus(int EmployeeStatusId)
+        {
+
+            try
+            {
+                var entity = Context.EmployeeStatus.FirstOrDefault(i => i.EmployeeStatusId == EmployeeStatusId);
+                if (entity != null)
+                {
+                    Context.Remove(entity);
+                    Context.SaveChanges();
+                    return new ActionsResponseModel { Message = "deleted Successfully !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "not found" }; ;
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+
+        }
+        #endregion
+
     }
 }

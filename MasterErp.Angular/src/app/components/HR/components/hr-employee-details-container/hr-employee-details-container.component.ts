@@ -60,7 +60,7 @@ export class HrEmployeeDetailsContainerComponent implements OnInit {
 
   getEmployeeStatusSelector() {
     this.showLoader = true;
-    this.lookupService.GetEmployeeStatusSelector().subscribe((data: any[]) => {
+    this.sharedService.GetEmployeeStatusSelector().subscribe((data: any[]) => {
       if (data) {
         this.employeeStatusSelector = data;
       }

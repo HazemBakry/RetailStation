@@ -24,6 +24,7 @@ import { DepartmentModel } from '../models/DepartmentModel';
 import { EmployeeReportModel, SalaryAnnualIncreaseModel, SalaryHistoryModel } from '../models/EmployeeReportModel';
 import { EmployeeStatusEnum } from '../../Shared/Enums/EmployeeStatusEnum';
 import { DueTypeEnum } from '../../Shared/Enums/DueTypeEnum';
+import { EmployeeStatusModel } from '../models/EmployeeStatusModel';
 
 @Injectable({
   providedIn: 'root'
@@ -710,6 +711,28 @@ export class HrService {
     return this.http.get<ActionsResponseModel>(this.URL + `HR/DeleteDepartment?DepartmentId=${departmentId}`);
   }
 
+
+   ////////////////////////// sponsor ///////////////////
+
+  GetEmployeeStatusData(model: PagedResponseDTO<EmployeeStatusModel[]>) {
+    return this.http.post<PagedResponseDTO<EmployeeStatusModel[]>>(this.URL + 'HR/GetEmployeeStatusData', model);
+  }
+
+  GetEmployeeStatusById(sponsorId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `HR/GetEmployeeStatusById?EmployeeStatusId=${sponsorId}`);
+  }
+
+  CreateNewEmployeeStatus(model: EmployeeStatusModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'HR/CreateNewEmployeeStatus', model);
+  }
+
+  EditEmployeeStatus(sponsorId: number, model: EmployeeStatusModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `HR/EditEmployeeStatus?EmployeeStatusId=${sponsorId}`, model);
+  }
+
+  DeleteEmployeeStatus(sponsorId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `HR/DeleteEmployeeStatus?EmployeeStatusId=${sponsorId}`);
+  }
   // ------------------------------------------- Jobs ------------------------------------------- //
 
   GetJobsData(model: PagedResponseDTO<any[]>) {

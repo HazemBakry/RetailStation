@@ -239,5 +239,7 @@ export class SharedService {
     return this.http.get<any>(this.URL + 'Shared/GetArabicEnglishNumberText?ReceiptId=' + ReceiptId);
   }
 
-
+  GetEmployeeStatusSelector() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetEmployeeStatusSelector');
+  }
 }

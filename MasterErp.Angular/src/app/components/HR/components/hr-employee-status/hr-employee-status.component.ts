@@ -9,32 +9,32 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { LookupService } from 'src/app/components/Shared/services/lookup.service';
-import { PurchaseInvoiceTypeModel } from '../../models/PurchaseInvoiceTypeModel';
-import { PurchaseService } from '../../services/purchase.service';
+import { HrService } from '../../services/hr.service';
+import { EmployeeStatusModel } from '../../models/EmployeeStatusModel';
 
 @Component({
-  selector: 'app-purchase-invoice-types',
-  templateUrl: './purchase-invoice-types.component.html',
-  styleUrls: ['./purchase-invoice-types.component.css']
+  selector: 'app-hr-employee-status',
+  templateUrl: './hr-employee-status.component.html',
+  styleUrls: ['./hr-employee-status.component.css']
 })
-export class PurchaseInvoiceTypesComponent implements OnInit {
+export class HrEmployeeStatusComponent implements OnInit {
 
 
 
-  TitleList = ['المشترايات', 'أنواع فواتير المشترايات'];
+  TitleList = ['الموارد البشرية', 'حالات الموظف'];
 
   showLoader: boolean = false;
   showAddLoader: boolean = false;
-  pagedResponse: PagedResponseDTO<PurchaseInvoiceTypeModel[]> = {
+  pagedResponse: PagedResponseDTO<EmployeeStatusModel[]> = {
     currentPage: 1,
     pageSize: 10,
     results: [],
     filterList: [],
     searchText: ''
   }
-  purchaseInvoiceTypeModel: PurchaseInvoiceTypeModel = {} as PurchaseInvoiceTypeModel;
+  employeeStatusModel: EmployeeStatusModel = {} as EmployeeStatusModel;
 
-  constructor(private purchaseService: PurchaseService, private toaster: ToastrService,
+  constructor(private _hrService: HrService, private toaster: ToastrService,
     private sharedService: SharedService,
     private modalService: NgbModal,
     private lookupService: LookupService,
@@ -49,7 +49,7 @@ export class PurchaseInvoiceTypesComponent implements OnInit {
 
   loadData() {
     this.showLoader = true;
-    this.purchaseService.GetPurchaseInvoiceTypesData(this.pagedResponse).subscribe((data: any) => {
+    this._hrService.GetEmployeeStatusData(this.pagedResponse).subscribe((data: any) => {
       this.pagedResponse.results = data.results;
       this.pagedResponse.totalCount = data.totalCount;
       this.showLoader = false;
@@ -75,76 +75,60 @@ export class PurchaseInvoiceTypesComponent implements OnInit {
   isUpdate: boolean = false;
   public formGroup: FormGroup;
   public formErrors = {
-    purchaseInvoiceTypeId: '',
-    nameAR: '',
-    nameEN: '',
+    employeeStatusId: '',
+    statusNameAR: '',
+    statusNameEN: '',
     isActive: '',
-    isBindToGeneralAccounting: '',
     notes: '',
-    accountDebitId: '',
-    accountCreditId: ''
 
   };
-  accountsSelectorData: GeneralSelectorModel[] = [];
-  selectedPurchaseInvoiceTypeId: number;
-  openAddModal(content: any, PurchaseInvoiceTypeModel: PurchaseInvoiceTypeModel = null) {
+  employeeStatusTypesSelectorData: GeneralSelectorModel[] = [];
+  selectedEmployeeStatusId: number;
+  openAddModal(content: any, EmployeeStatusModel: EmployeeStatusModel = null) {
     this.loadSelectors();
     this.isUpdate = false;
     this.buildForm();
-    if (PurchaseInvoiceTypeModel)
-      this.fillEditForm(PurchaseInvoiceTypeModel);
+    if (EmployeeStatusModel)
+      this.fillEditForm(EmployeeStatusModel);
 
     this.modalService.open(content, { centered: true, size: 'lg', fullscreen: 'lg' });
   }
   loadSelectors() {
-    this.sharedService.GetAccountsSelector(false).subscribe(data => {
-      this.accountsSelectorData = data;
-    });
+
 
   }
   buildForm() {
     this.formGroup = this.form.group({
-      purchaseInvoiceTypeId: [null],
-      nameAR: [null, [Validators.required]],
-      nameEN: [null, [Validators.required]],
+      employeeStatusId: [null],
+      statusNameAR: [null, [Validators.required]],
+      statusNameEN: [null, [Validators.required]],
       notes: [null],
-      accountCreditId: [null, [Validators.required]],
-      accountDebitId: [null, [Validators.required]],
       isActive: [true, [Validators.required]],
-      isBindToGeneralAccounting: [false, [Validators.required]],
+
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
 
     });
-    // this.formGroup.get('isBindToGeneralAccounting').valueChanges.subscribe((value) => {
-    //   if (value) {
-    //     this._FormService.updateFieldsRequiredValidation(this.formGroup, 'accountCreditId', true);
-    //     this._FormService.updateFieldsRequiredValidation(this.formGroup, 'accountDebitId', true);
-    //   }
-    //   else {
-    //     this._FormService.updateFieldsRequiredValidation(this.formGroup, 'accountCreditId', false);
-    //     this._FormService.updateFieldsRequiredValidation(this.formGroup, 'accountDebitId', false);
-    //   }
-    // });
+
   }
 
   saveRecord() {
     if (!this.validateForm()) {
       return;
     }
-    this.purchaseInvoiceTypeModel = this.formGroup.value;
-    if (this.purchaseInvoiceTypeModel?.purchaseInvoiceTypeId)
-      this.editNewPurchaseInvoiceType();
+    this.employeeStatusModel = this.formGroup.value;
+    if (this.employeeStatusModel?.employeeStatusId)
+      this.editNewEmployeeStatus();
     else
-      this.addNewPurchaseInvoiceType();
+      this.addNewEmployeeStatus();
   }
 
-  addNewPurchaseInvoiceType() {
+  addNewEmployeeStatus() {
 
     this.showAddLoader = true;
-    this.purchaseService
-      .CreateNewPurchaseInvoiceType(this.purchaseInvoiceTypeModel).subscribe(data => {
+    this._hrService
+      .CreateNewEmployeeStatus(this.employeeStatusModel).subscribe(data => {
         if (data?.isSuccess) {
           this.formGroup?.reset();
           this.modalService?.dismissAll();
@@ -165,12 +149,12 @@ export class PurchaseInvoiceTypesComponent implements OnInit {
 
   }
 
-  editNewPurchaseInvoiceType() {
+  editNewEmployeeStatus() {
 
 
     this.showAddLoader = true;
-    this.purchaseService
-      .EditPurchaseInvoiceType(this.purchaseInvoiceTypeModel.purchaseInvoiceTypeId, this.purchaseInvoiceTypeModel).subscribe(data => {
+    this._hrService
+      .EditEmployeeStatus(this.employeeStatusModel.employeeStatusId, this.employeeStatusModel).subscribe(data => {
 
         if (data?.isSuccess) {
           // this.formGroup?.reset();
@@ -204,28 +188,25 @@ export class PurchaseInvoiceTypesComponent implements OnInit {
     }
   }
 
-  fillEditForm(PurchaseInvoiceTypeModel: PurchaseInvoiceTypeModel) {
+  fillEditForm(EmployeeStatusModel: EmployeeStatusModel) {
     this.isUpdate = true;
 
     this.formGroup.patchValue({
-      purchaseInvoiceTypeId: PurchaseInvoiceTypeModel.purchaseInvoiceTypeId,
-      nameAR: PurchaseInvoiceTypeModel.nameAR,
-      nameEN: PurchaseInvoiceTypeModel.nameEN,
-      isBindToGeneralAccounting: PurchaseInvoiceTypeModel.isBindToGeneralAccounting,
-      isActive: PurchaseInvoiceTypeModel.isActive,
-      notes: PurchaseInvoiceTypeModel.notes,
-      accountCreditId: PurchaseInvoiceTypeModel.accountCreditId,
-      accountDebitId: PurchaseInvoiceTypeModel.accountDebitId,
+      employeeStatusId: EmployeeStatusModel.employeeStatusId,
+      statusNameAR: EmployeeStatusModel.statusNameAR,
+      statusNameEN: EmployeeStatusModel.statusNameEN,
+      isActive: EmployeeStatusModel.isActive,
+      notes: EmployeeStatusModel.notes,
     });
   }
   openDeleteModal(content: any, id: number) {
-    this.selectedPurchaseInvoiceTypeId = id;
+    this.selectedEmployeeStatusId = id;
     this.modalService.open(content, { centered: true, size: 'sm' });
   }
 
-  deletePurchaseInvoiceType() {
+  deleteEmployeeStatus() {
     this.showAddLoader = true;
-    this.purchaseService.DeletePurchaseInvoiceType(this.selectedPurchaseInvoiceTypeId).subscribe(data => {
+    this._hrService.DeleteEmployeeStatus(this.selectedEmployeeStatusId).subscribe(data => {
 
       if (data?.isSuccess) {
         this.modalService?.dismissAll();

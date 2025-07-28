@@ -217,5 +217,58 @@ namespace MasterErp.API.Controllers.HR
 
         #endregion
 
+
+        #region EmployeeStatus
+        [HttpPost]
+        [Route("GetEmployeeStatusData")]
+        public IActionResult GetEmployeeStatusData(SearchFilterModel model)
+        {
+            var data = _hrService.GetEmployeeStatusData(model);
+            var result = new PagedResponseModel<EmployeeStatusModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("GetEmployeeStatusById")]
+        public IActionResult GetEmployeeStatusById(int EmployeeStatusId)
+        {
+            var result = _hrService.GetEmployeeStatusById(EmployeeStatusId);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("CreateNewEmployeeStatus")]
+        public IActionResult CreateNewEmployeeStatus(EmployeeStatusModel Model)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            Model.CreatedBy = UserId;
+            var results = _hrService.CreateNewEmployeeStatus(Model);
+            return Ok(results);
+        }
+        [HttpPost]
+        [Route("EditEmployeeStatus")]
+        public IActionResult EditEmployeeStatus(int EmployeeStatusId, EmployeeStatusModel Model)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            Model.ModifiedBy = UserId;
+            var results = _hrService.EditEmployeeStatus(EmployeeStatusId, Model);
+            return Ok(results);
+        }
+        [HttpGet]
+        [Route("DeleteEmployeeStatus")]
+        public IActionResult DeleteEmployeeStatus(int EmployeeStatusId)
+        {
+            var results = _hrService.DeleteEmployeeStatus(EmployeeStatusId);
+            return Ok(results);
+        }
+
+        #endregion
+
     }
 }

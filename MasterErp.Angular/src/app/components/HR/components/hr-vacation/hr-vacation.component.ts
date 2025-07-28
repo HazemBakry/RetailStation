@@ -265,7 +265,7 @@ export class HrVacationComponent implements OnInit {
 
   openEditJoinDateModal(content: any, request: any) {
     this.showAddLoader = true;
-    this.lookupService.GetEmployeeStatusSelector().subscribe((data: any[]) => {
+    this.sharedService.GetEmployeeStatusSelector().subscribe((data: any[]) => {
       if (data) {
         this.employeeStatusSelector = data;
         this.employeeStatusId = request?.employeeStatusId;

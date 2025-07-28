@@ -39,6 +39,7 @@ import { AuthPageGuard } from 'src/app/Auth/authPage.guard';
 import { HRSalariesReportComponent } from './components/hr-salaries-report/hr-salaries-report.component';
 import { HrJobsComponent } from './components/hr-jobs/hr-jobs.component';
 import { HrRegionsComponent } from './components/hr-regions/hr-regions.component';
+import { HrEmployeeStatusComponent } from './components/hr-employee-status/hr-employee-status.component';
 
 
 const routes: Routes = [
@@ -62,6 +63,10 @@ const routes: Routes = [
       {
         path: 'employee',
         component: HrEmployeeDetailsComponent
+      },
+      {
+        path: 'employee-status',
+        component: HrEmployeeStatusComponent
       },
       {
         path: 'employee-details',

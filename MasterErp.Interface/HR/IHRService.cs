@@ -45,5 +45,16 @@ namespace MasterErp.Interface.HR
         ActionsResponseModel DeleteRegion(int RegionId);
 
         #endregion
+
+        #region EmployeeStatus
+
+        List<EmployeeStatusModel> GetEmployeeStatusData(SearchFilterModel Model, int? EmployeeStatusId = null);
+        EmployeeStatusModel GetEmployeeStatusById(int EmployeeStatusId);
+        ActionsResponseModel CreateNewEmployeeStatus(EmployeeStatusModel Model);
+        ActionsResponseModel EditEmployeeStatus(int EmployeeStatusId, EmployeeStatusModel Model);
+        ActionsResponseModel DeleteEmployeeStatus(int EmployeeStatusId);
+
+        #endregion
+
     }
 }

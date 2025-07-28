@@ -248,6 +248,14 @@ namespace MasterErp.API.Controllers.Shared
             var result = _sharedService.GetDepartmentsSelector();
             return Ok(result);
         }
+        
+        [HttpGet]
+        [Route("GetEmployeeStatusSelector")]
+        public IActionResult GetEmployeeStatusSelector()
+        {
+            var result = _sharedService.GetEmployeeStatusSelector();
+            return Ok(result);
+        }
 
         #endregion
     }

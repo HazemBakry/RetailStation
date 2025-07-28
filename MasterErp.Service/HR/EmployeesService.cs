@@ -549,7 +549,7 @@ namespace MasterErp.Service.HR
                 else
                 {
                     contract.LastJoinDate = LastJoinDate;
-                    employee.StatusId = (int)EmployeeStatus.Active;
+                    employee.StatusId = (int)Entities.Common.Enums.EmployeeStatus.Active;
                     Context.SaveChangesAsync();
 
                     return new ActionsResponseModel { IsSuccess = true, Message = "Employee last join date updated successfully." };
