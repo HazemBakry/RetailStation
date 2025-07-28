@@ -204,7 +204,7 @@ namespace MasterErp.API.Controllers.Shared
         [Route("GetFinancialCustodyTypesSelector")]
         public IActionResult GetFinancialCustodyTypesSelector()
         {
-            var results = lookupService.GetSponsorTypesSelector();
+            var results = lookupService.GetFinancialCustodyTypesSelector();
             return Ok(results);
         }
 

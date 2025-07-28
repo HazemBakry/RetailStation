@@ -51,6 +51,7 @@
                         <th>التاريخ</th>
                         <th>القيمة</th>
                         <th>الحالة</th>
+                        <th>ملاحظات</th>
                         <th>اجراءات</th>
                     </tr>
                 </thead>
@@ -65,6 +66,7 @@
                                 [nameAR]="item?.workflowStatusNameAR">
                             </span>
                         </td>
+                        <td>{{item.notes}}</td>
                         <td>
 
                             <div class="d-flex align-items-center justify-content-center text-center">
@@ -84,7 +86,7 @@
                         </td>
                     </tr>
                     <tr *ngIf="!pagedResponseModel.results.length || showLoader">
-                        <td colspan="6" class="text-right">
+                        <td colspan="7" class="text-right">
                             <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader"
                                 [showLoader]="showLoader"></app-empty-data>
                         </td>
@@ -141,20 +143,18 @@
 
                         <div class="row mb-3">
 
-                            <div class="col-sm-10">
-                                <label class="form-label d-flex align-items-center gap-2">
-                                    نوع العهدة
-                                    <!-- <span class="text-danger">*</span> -->
-                                </label>
-                                <app-general-selector formControlName="financialCustodyTypeId"
-                                    [data]="financialCustodyTypeSelectorData" [showSearch]="true"
-                                    [placeholder]="'قائمة الموظفين'"></app-general-selector>
+                            <label class="form-label d-flex align-items-center gap-2">
+                                نوع العهدة
+                                <!-- <span class="text-danger">*</span> -->
+                            </label>
+                            <app-general-selector formControlName="financialCustodyTypeId"
+                                [data]="financialCustodyTypeSelectorData" [showSearch]="true"
+                                [placeholder]="'قائمة الموظفين'"></app-general-selector>
 
-                                <div *ngIf="formErrors.financialCustodyTypeId" class="text-danger  font-small-3 m-03">
-                                    {{formErrors.financialCustodyTypeId}}
-                                </div>
-
+                            <div *ngIf="formErrors.financialCustodyTypeId" class="text-danger  font-small-3 m-03">
+                                {{formErrors.financialCustodyTypeId}}
                             </div>
+
                         </div>
                         <div class="row mb-3">
                             <label class="form-label d-flex align-items-center gap-2">
@@ -171,10 +171,10 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 قيمة العهدة
                                 <span class="text-danger">*</span></label>
-                            <input type="text" formControlName="monyAmount" autocomplete="off"
+                            <input type="text" formControlName="moneyAmount" autocomplete="off"
                                 class="form-control nw-form-input" />
-                            <div *ngIf="formErrors.monyAmount" class="text-danger  font-small-3 m-03">
-                                {{formErrors.monyAmount}}
+                            <div *ngIf="formErrors.moneyAmount" class="text-danger  font-small-3 m-03">
+                                {{formErrors.moneyAmount}}
                             </div>
                         </div>
                         <!-- <hr class="my-4" /> -->

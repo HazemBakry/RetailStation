@@ -87,9 +87,9 @@ namespace MasterErp.API.Controllers.HR
 
         [HttpGet]
         [Route("DeleteFinancialCustody")]
-        public IActionResult DeleteFinancialCustody(int FinancialCustodyId)
+        public IActionResult DeleteFinancialCustody(int EmployeeFinancialCustodyId)
         {
-            var result= _financialCustodyService.DeleteFinancialCustody(FinancialCustodyId);
+            var result= _financialCustodyService.DeleteFinancialCustody(EmployeeFinancialCustodyId);
             return Ok(result);
         }
 

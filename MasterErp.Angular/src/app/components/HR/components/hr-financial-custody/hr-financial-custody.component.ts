@@ -124,6 +124,7 @@ export class HrFinancialCustodyComponent implements OnInit {
   openNewSidePanel(content: any, financialCustodyModel: EmployeeFinancialCustodyModel = null) {
     if (!this.checkEmployee())
       return;
+    this.getFinancialCustodyTypesSelector();
     this.isUpdate = false;
     this.buildForm();
     if (financialCustodyModel)
@@ -214,7 +215,7 @@ export class HrFinancialCustodyComponent implements OnInit {
     this.formGroup.patchValue({
       employeeFinancialCustodyId: financialCustodyModel.employeeFinancialCustodyId,
       employeeId: this.selectedEmployeeId,
-      executionDate: financialCustodyModel.executionDate,
+      executionDate: this.datePipe.transform(financialCustodyModel.executionDate,'yyyy-MM-dd'),
       moneyAmount: financialCustodyModel.moneyAmount,
       financialCustodyTypeId: financialCustodyModel.financialCustodyTypeId,
       notes: financialCustodyModel.notes,
