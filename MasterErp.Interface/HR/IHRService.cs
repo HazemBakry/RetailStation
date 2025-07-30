@@ -56,5 +56,10 @@ namespace MasterErp.Interface.HR
 
         #endregion
 
+        #region EmployeeShifts
+        List<EmployeeWeeklyShiftModel> GetEmployeeWeeklyShifts_Data(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel);
+
+        #endregion
+
     }
 }

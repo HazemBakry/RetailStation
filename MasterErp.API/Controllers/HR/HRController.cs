@@ -5,6 +5,7 @@ using MasterErp.Interface.HR;
 using MasterErp.Service.HR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 
 namespace MasterErp.API.Controllers.HR
@@ -268,6 +269,25 @@ namespace MasterErp.API.Controllers.HR
             return Ok(results);
         }
 
+        #endregion
+
+        #region EmployeeShifts
+
+        [HttpPost]
+        [Route("GetEmployeeWeeklyShifts_Data")]
+        public IActionResult GetEmployeeWeeklyShifts_Data(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel)
+        {
+            var data = _hrService.GetEmployeeWeeklyShifts_Data(FromDate, ToDate, SearchModel);
+            var result = new PagedResponseModel<EmployeeWeeklyShiftModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+
+            };
+            return Ok(result);
+        }
         #endregion
 
     }

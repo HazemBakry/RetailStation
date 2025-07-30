@@ -851,4 +851,10 @@ export class HrService {
     return this.http.post<ActionsResponseModel>(this.URL + `HRReports/GetEmployeeSalaryHistory_Export?EmployeeId=${employeeId}`, model);
   }
 
+//EmployeeWeeklyShifts
+  GetEmployeeWeeklyShifts_Data(fromDate: string, toDate: string, model: SearchFilterModel) {
+    fromDate = fromDate ?? '';
+    toDate = toDate ?? '';
+    return this.http.post<PagedResponseDTO<EmployeeAttendanceModel[]>>(this.URL + 'HR/GetEmployeeWeeklyShifts_Data?FromDate=' + fromDate + '&ToDate=' + toDate, model);
+  }
 }

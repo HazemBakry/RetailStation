@@ -44,6 +44,7 @@ import { HrFinancialCustodyComponent } from './components/hr-financial-custody/h
 import { HrFinancialCustodyReportComponent } from './components/hr-financial-custody-report/hr-financial-custody-report.component';
 import { HrVacationsReportComponent } from './components/hr-vacations-report/hr-vacations-report.component';
 import { HrDuesReportComponent } from './components/hr-dues-report/hr-dues-report.component';
+import { HrWeeklyShiftsComponent } from './components/hr-weekly-shifts/hr-weekly-shifts.component';
 
 
 const routes: Routes = [
@@ -98,6 +99,12 @@ const routes: Routes = [
           },
           { path: '', redirectTo: 'basic-info', pathMatch: 'full' },
         ]
+      },
+      {
+        path: 'weekly-shifts',
+        component: HrWeeklyShiftsComponent,
+        //canActivate: [AuthPageGuard],
+        data: { pageName: 'WeeklyShifts' }
       },
       {
         path: 'vacations',

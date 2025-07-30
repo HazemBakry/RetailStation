@@ -66,6 +66,7 @@ namespace MasterErp.Entities.Models
         public DbSet<PenaltyType> PenaltyTypes { get; set; }
         public DbSet<MonthlySalary> MonthlySalary { get; set; }
         public DbSet<MonthlySalaryDetails> MonthlySalaryDetails { get; set; }
+        public DbSet<EmployeeWeeklyShift> EmployeeWeeklyShifts { get; set; }
         public DbSet<EmployeeStatus> EmployeeStatus { get; set; }
 
 
