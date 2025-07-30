@@ -20,7 +20,9 @@ namespace MasterErp.Interface.HR
 
         #region Employee Dues
         List<SelectorDataModel> GetEmployeesForDuesSelector(DueType DueType);
+
         List<EmployeeDueModel> GetDues_Data(SearchFilterModel SearchModel, int? EmployeeId = null, int? EmployeeDuesId = null);
+        ActionsResponseModel GetEmployeeDues_Export(SearchFilterModel model);
         EmployeeDueModel GetEmployeeDuesById(int EmployeeDuesId);
         List<EmployeeDueModel> GetEmployeeDues(int EmployeeId, SearchFilterModel SearchModel);
         ActionsResponseModel DeleteEmployeeDues(int EmployeeDuesId);

@@ -1,5 +1,6 @@
 ﻿using MasterErp.Entities.Common.Enums;
 using MasterErp.Entities.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,7 +62,7 @@ namespace MasterErp.Entities.DTOs.HR
     public class EmployeeDueModel : CreatorModel
     {
         public int? EmployeeDueId { get; set; }
-
+        public int? EmployeeCode { get; set; }
         public int EmployeeId { get; set; }
         public int DueTypeId { get; set; }
         public int NoMonths { get; set; }
@@ -72,8 +73,8 @@ namespace MasterErp.Entities.DTOs.HR
         public string BranchNameEN { get; set; }
         public string JobNameEN { get; set; }
         public string JobNameAR { get; set; }
-        public string DueNameEN { get; set; }
-        public string DueNameAR { get; set; }
+        public string DueTypeNameEN { get; set; }
+        public string DueTypeNameAR { get; set; }
         public string WorkflowStatusNameEN { get; set; }
         public string WorkflowStatusNameAR { get; set; }
         public DateTime? JoinDate { get; set; }
@@ -106,5 +107,60 @@ namespace MasterErp.Entities.DTOs.HR
 
     }
 
+    public class EmployeeDueExportModel
+    {
+        [JsonProperty("Employee Code")]
+        public int? EmployeeCode { get; set; }
 
+        [JsonProperty("Employee Name")]
+        public string EmployeeName { get; set; }
+
+        [JsonProperty("Job Title")]
+        public string JobName { get; set; }
+
+        [JsonProperty("Branch")]
+        public string BranchName { get; set; }
+
+
+        [JsonProperty("Due Type")]
+        public string DueType { get; set; }
+        [JsonProperty("Due Months")]
+        public int NoMonths { get; set; }
+        [JsonProperty("Due Days")]
+        public int NoDays { get; set; }
+
+        [JsonProperty("Join Date")]
+        public string JoinDate { get; set; }
+        [JsonProperty("Last Join Date")]
+        public string LastJoinDate { get; set; }
+        [JsonProperty("Execution Date")]
+        public string ExecutionDate { get; set; }
+
+        [JsonProperty("Notes")]
+        public string Notes { get; set; }
+        [JsonProperty("Vacation Dues")]
+        public string VacationDues { get; set; }
+        [JsonProperty("End Of Service Dues")]
+        public string EndOfServiceDues { get; set; }
+        [JsonProperty("Salary Dues")]
+        public string SalaryDues { get; set; }
+        [JsonProperty("Home Allowance")]
+        public string HomeAllowance { get; set; }
+        [JsonProperty("Advances")]
+        public string Advances { get; set; }
+        [JsonProperty("Flight Ticket Dues")]
+        public string FlightTicketDues { get; set; }
+
+        [JsonProperty("Net Amount")]
+        public string NetAmount { get; set; }
+        [JsonProperty("Total Dues Amount")]
+        public string TotalDuesAmount { get; set; }
+        [JsonProperty("Total Deduction")]
+        public string TotalDeduction { get; set; }
+
+        [JsonProperty("Workflow Status")]
+        public string WorkflowStatus { get; set; }
+
+
+    }
 }

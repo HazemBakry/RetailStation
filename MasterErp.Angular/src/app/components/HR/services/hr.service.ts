@@ -285,6 +285,9 @@ export class HrService {
   GetDues_Data(filter: SearchFilterModel): Observable<PagedResponseDTO<EmployeeDueModel[]>> {
     return this.http.post<PagedResponseDTO<EmployeeDueModel[]>>(this.URL + `Salaries/GetDues_Data`, filter);
   }
+  GetEmployeeDues_Export(model: SearchFilterModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Salaries/GetEmployeeDues_Export`, model);
+  }
   GetEmployeeDuesById(employeeDuesId: number) {
     return this.http.get<EmployeeDueModel>(this.URL + 'Salaries/GetEmployeeDuesById?EmployeeDuesId=' + employeeDuesId);
   }

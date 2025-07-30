@@ -49,7 +49,7 @@ import { HrEmployeeStatusComponent } from './components/hr-employee-status/hr-em
 import { HrFinancialCustodyComponent } from './components/hr-financial-custody/hr-financial-custody.component';
 import { HrFinancialCustodyReportComponent } from './components/hr-financial-custody-report/hr-financial-custody-report.component';
 import { HrVacationsReportComponent } from './components/hr-vacations-report/hr-vacations-report.component';
-// import { HrDuesReportComponent } from './components/hr-dues-report/hr-dues-report.component';
+import { HrDuesReportComponent } from './components/hr-dues-report/hr-dues-report.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +98,7 @@ import { HrVacationsReportComponent } from './components/hr-vacations-report/hr-
     HrFinancialCustodyComponent,
     HrFinancialCustodyReportComponent,
     HrVacationsReportComponent,
-    // HrDuesReportComponent
+    HrDuesReportComponent
   ],
   imports: [
     HrRoutingModule,

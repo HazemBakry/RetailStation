@@ -87,7 +87,14 @@ namespace MasterErp.API.Controllers.HR
             };
             return Ok(result);
         }
+        [HttpPost]
+        [Route("GetEmployeeDues_Export")]
+        public IActionResult GetEmployeeDues_Export(SearchFilterModel model)
+        {
+            var result = _salariesService.GetEmployeeDues_Export(model);
 
+            return Ok(result);
+        }
         [HttpPost]
         [Route("GetEmployeeDues")]
         public IActionResult GetEmployeeDues(int EmployeeId, SearchFilterModel SearchModel)

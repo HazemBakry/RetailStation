@@ -43,6 +43,7 @@ import { HrEmployeeStatusComponent } from './components/hr-employee-status/hr-em
 import { HrFinancialCustodyComponent } from './components/hr-financial-custody/hr-financial-custody.component';
 import { HrFinancialCustodyReportComponent } from './components/hr-financial-custody-report/hr-financial-custody-report.component';
 import { HrVacationsReportComponent } from './components/hr-vacations-report/hr-vacations-report.component';
+import { HrDuesReportComponent } from './components/hr-dues-report/hr-dues-report.component';
 
 
 const routes: Routes = [
@@ -234,6 +235,12 @@ const routes: Routes = [
         component: HrVacationsReportComponent,
         //canActivate: [AuthPageGuard],
         data: { pageName: 'VacationsReport' }
+      },
+      {
+        path: 'dues-report',
+        component: HrDuesReportComponent,
+        //canActivate: [AuthPageGuard],
+        data: { pageName: 'DuesReport' }
       },
       {
         path: 'employee-dues',

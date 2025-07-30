@@ -24,7 +24,7 @@ export class DuesRequestsComponent  implements OnInit {
   //   itemFlag: HRWorkflowStatus.Approved.toString()
   // }
   //mainFilter: FilterItem = { categoryName: 'FinalStatus', itemFlag: '0' }
-    mainFilter: FilterItem = { categoryName: 'WorkflowStatusId', itemFlag: '4' }
+    mainFilter: FilterItem = { categoryName: 'DueStatus', itemFlag: '4' }
 
 
   pagedResponseModel: PagedResponseDTO<EmployeeDueModel[]> = {

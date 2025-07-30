@@ -340,12 +340,12 @@
                         <td>{{item.lastJoinDate| date}}</td>
                         <td>{{item.executionDate | date}}</td>
                         <td>{{item.dueTypeNameAR ?? item.dueTypeNameEN}}</td>
-                        <td>{{item.vacationDues}}</td>
-                        <td>{{item.endOfServiceDues}}</td>
-                        <td>{{item.salaryDues}}</td>
-                        <td>{{item.homeAllowance}}</td>
-                        <td>{{item.advances}}</td>
-                        <td>{{item.totalDuesAmount}}</td>
+                        <td>{{item.vacationDues| number:'1.2-2'}}</td>
+                        <td>{{item.endOfServiceDues| number:'1.2-2'}}</td>
+                        <td>{{item.salaryDues| number:'1.2-2'}}</td>
+                        <td>{{item.homeAllowance| number:'1.2-2'}}</td>
+                        <td>{{item.advances| number:'1.2-2'}}</td>
+                        <td>{{item.totalDuesAmount| number:'1.2-2'}}</td>
                         <td>
                             <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
                             </span>

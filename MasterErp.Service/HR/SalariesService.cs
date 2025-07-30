@@ -153,6 +153,74 @@ namespace MasterErp.Service.HR
 
             return result;
         }
+        public ActionsResponseModel GetEmployeeDues_Export(SearchFilterModel SearchModel)
+        {
+            string url = string.Empty;
+            try
+            {
+                SearchModel.CurrentPage = 1;
+                SearchModel.PageSize = 990000;
+                var Data = GetDues_Data(SearchModel);
+
+                var result = Data.Select(x => new EmployeeDueExportModel
+                {
+                    
+                    EmployeeCode = x.EmployeeCode,
+                    EmployeeName = x.EmployeeNameAR ?? x.EmployeeNameEN,
+                    JobName = x.JobNameAR ?? x.JobNameEN,
+                    BranchName = x.BranchNameAR ?? x.BranchNameEN,
+                    DueType = x.DueTypeNameAR ?? x.DueTypeNameEN,
+                    NoMonths = x.NoMonths,
+                    NoDays = x.NoDays,
+                    JoinDate = x.JoinDate?.ToString("MM/dd/yyyy"),
+                    LastJoinDate = x.LastJoinDate?.ToString("MM/dd/yyyy"),
+                    ExecutionDate = x.ExecutionDate?.ToString("MM/dd/yyyy"),
+                    Notes = x.Notes,
+                    VacationDues = x.VacationDues?.ToString("F2"),
+                    EndOfServiceDues = x.EndOfServiceDues?.ToString("F2"),
+                    SalaryDues = x.SalaryDues?.ToString("F2"),
+                    HomeAllowance = x.HomeAllowance?.ToString("F2"),
+                    Advances = x.Advances?.ToString("F2"),
+                    FlightTicketDues = x.FlightTicketDues?.ToString("F2"),
+                    NetAmount = x.NetAmount?.ToString("F2"),
+                    TotalDuesAmount = x.TotalDuesAmount?.ToString("F2"),
+                    TotalDeduction = x.TotalDeduction?.ToString("F2"),
+                    WorkflowStatus = x.WorkflowStatusNameAR ?? x.WorkflowStatusNameEN
+                }).ToList();
+                if (!result.Any())
+                {
+                    result.Add(new EmployeeDueExportModel());
+
+                }
+
+
+                var dtExport = DalHelper.ConvertToDataTable(result, "Employee Dues Report");
+
+
+                url = GetExportUrl(dtExport, "Employee Dues Report");
+
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    URL = url,
+                    Message = "File Exported successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Status = 0,
+                    URL = "",
+                    Message = ex.InnerException?.Message ?? ex.Message,
+                };
+            }
+
+        }
+
         public EmployeeDueModel GetEmployeeDuesById(int EmployeeDuesId)
         {
             return GetDues_Data(new SearchFilterModel
