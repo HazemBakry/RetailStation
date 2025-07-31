@@ -1,72 +1,3 @@
-<!-- <div class="p-4 bg-white rounded-xl shadow-md">
-    <div class="flex justify-between items-center mb-4">
-        <div class="space-x-2 rtl:space-x-reverse">
-            <button class="btn">Load From Previous Week</button>
-            <button class="btn">Load From Next Week</button>
-        </div>
-        <div class="flex items-center space-x-2 rtl:space-x-reverse">
-            <label class="font-semibold">الفرع:</label>
-            <select >
-                <option value="1">Thoqba</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="text-center mb-4">
-        <h2 class="text-xl font-bold">السبت</h2>
-        <p class="text-gray-500">2025-07-19</p>
-    </div>
-
-    <div class="overflow-x-auto">
-        <table class="table w-full text-center border rounded-lg">
-            <thead>
-                <tr class="bg-gray-100 text-sm">
-                    <th class="p-2 border">الكود</th>
-                    <th class="p-2 border">اسم الموظف</th>
-                    <ng-container *ngFor="let day of weekDays">
-                        <th colspan="4" class="p-2 border">{{ day.name }}<br>{{ day.date }}</th>
-                    </ng-container>
-                </tr>
-                <tr class="bg-gray-50 text-xs">
-                    <th colspan="2"></th>
-                    <ng-container *ngFor="let _ of weekDays">
-                        <th class="p-1 border">1</th>
-                        <th class="p-1 border">2</th>
-                        <th class="p-1 border">3</th>
-                        <th class="p-1 border">4</th>
-                    </ng-container>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let emp of employees" class="text-sm">
-                    <td class="p-2 border text-gray-600 font-semibold">{{ emp.code }}</td>
-                    <td class="p-2 border text-right">{{ emp.name }}</td>
-                    <ng-container *ngFor="let day of weekDays">
-                        <td class="p-1 border">
-                            <input  type="time" [(ngModel)]="getShift(emp.id, day.date).shiftOneFrom" />
-                        </td>
-                        <td class="p-1 border">
-                            <input  type="time" [(ngModel)]="getShift(emp.id, day.date).shiftOneTo" />
-                        </td>
-                        <td class="p-1 border">
-                            <input  type="time" [(ngModel)]="getShift(emp.id, day.date).shiftTwoFrom" />
-                        </td>
-                        <td class="p-1 border">
-                            <select  [(ngModel)]="getShift(emp.id, day.date).shiftType">
-                                <option value="">--</option>
-                                <option value="Shift A">Shift A</option>
-                                <option value="Shift B">Shift B</option>
-                            </select>
-                        </td>
-                    </ng-container>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
- -->
-
-
 <div class="inputs-wrapper border rounded bg-white mb-3">
     <div class="inputs-sec-content px-3 py-2">
 
@@ -139,10 +70,13 @@
             <div class="col-md-8">
                 <div class="d-flex align-items-center flex-wrap">
                     <div class="search-box position-relative mb-2">
-                        <!-- <button class="btn btn-primary mb-2" (click)="(AddModal)">
-                            <span class="me-2">إنشاء </span>
+                        <button class="btn btn-primary mb-2" (click)="saveEmployeeShifts()" [disabled]="showAddLoader">
+                            <span class="me-2" *ngIf="!showAddLoader">حفظ</span>
+                            <span class="me-2" *ngIf="showAddLoader">جاري الحفظ...</span>
                             <i class="uil uil-plus-circle"></i>
-                        </button> -->
+
+                        </button>
+
                     </div>
                     <!-- <ng-container *ngIf="filterList.length > 0">
                         <app-pos-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-pos-filters>
@@ -155,9 +89,25 @@
                     [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
             </div>
         </div>
-        <div class="text-center mb-4">
-            <h2 class="text-xl font-bold">السبت</h2>
-            <p class="text-gray-500">2025-07-19</p>
+        <div class="d-flex align-items-center justify-content-center mb-4 row">
+            <div class="col-2">
+                <button (click)="prevWeek()" class="btn  btn-outline-primary gap-2 border rounded px-3 me-2">
+                    <i class="fas fa-arrow-right"></i>
+                    <span>السابق</span>
+                </button>
+            </div>
+
+            <div class="col-2">
+                <h2 class="text-xl font-bold">{{selectedWeekStartDay?.name}}</h2>
+                <p class="text-gray-500">{{selectedWeekStartDay?.date}}</p>
+            </div>
+            <div class="col-2">
+                <button (click)="nextWeek()" class="btn  btn-outline-primary gap-2 border rounded px-3 me-2">
+                    <span>التالي</span>
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
         <div class="table-responsive shadow-sm radius-10 table-vp-height">
@@ -201,13 +151,17 @@
                                     [(ngModel)]="getShift(emp.employeeId, day.date).shiftTwoFrom" />
                             </td>
                             <td class="p-1 border">
+                                <input type="time" class="form-control nw-form-input"
+                                    [(ngModel)]="getShift(emp.employeeId, day.date).shiftTwoTo" />
+                            </td>
+                            <!-- <td class="p-1 border">
                                 <select class="form-control nw-form-input"
                                     [(ngModel)]="getShift(emp.employeeId, day.date).shiftType">
                                     <option value="">--</option>
                                     <option value="Shift A">Shift A</option>
                                     <option value="Shift B">Shift B</option>
                                 </select>
-                            </td>
+                            </td> -->
                         </ng-container>
                     </tr>
                 </tbody>
@@ -216,3 +170,4 @@
         </div>
     </div>
 </div>
+<ngx-loading [show]="showLoader"></ngx-loading>

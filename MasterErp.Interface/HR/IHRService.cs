@@ -57,7 +57,9 @@ namespace MasterErp.Interface.HR
         #endregion
 
         #region EmployeeShifts
-        List<EmployeeWeeklyShiftModel> GetEmployeeWeeklyShifts_Data(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel);
+        List<EmployeeWeeklyShiftModel> GetEmployeeWeeklyShifts_Data(DateTime FromDate, DateTime ToDate, SearchFilterModel SearchModel);
+        ActionsResponseModel SaveEmployeeShifts(List<EmployeeWeeklyShiftModel> employeeModels);
+        ActionsResponseModel DeleteEmployeeShift(int EmployeeWeeklyShiftId);
 
         #endregion
 

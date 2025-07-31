@@ -751,7 +751,7 @@ namespace MasterErp.Service.HR
 
 
         #region EmployeeShifts
-        public List<EmployeeWeeklyShiftModel> GetEmployeeWeeklyShifts_Data(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel)
+        public List<EmployeeWeeklyShiftModel> GetEmployeeWeeklyShifts_Data(DateTime FromDate, DateTime ToDate, SearchFilterModel SearchModel)
         {
             SqlParameter[] param = new SqlParameter[5];
             param[0] = new SqlParameter("@FromDate", FromDate);
@@ -762,147 +762,250 @@ namespace MasterErp.Service.HR
             param[4].Value = sharedFilterService.MapFilterModelToDataTable(SearchModel?.FilterList);
 
 
-            var result = SQLHelper.SQLQuery<EmployeeWeeklyShiftModel>("[HR].[SP_GetEmployeeWeeklyShifts_Data]", null, param);
+            var result = SQLHelper.SQLQuery<EmployeeWeeklyShiftFlatModel>("[HR].[SP_GetEmployeeWeeklyShifts_Data]", null, param);
+            
+            // 2. Group shifts by EmployeeId
+            var employees = result
+                .GroupBy(s => s.EmployeeId)
+                .Select(g => new EmployeeWeeklyShiftModel
+                {
+                    EmployeeId = g.Key,
+                    EmployeeCode = g.First().EmployeeCode,
+                    EmployeeNameEN = g.First().EmployeeNameEN,
+                    EmployeeNameAR = g.First().EmployeeNameAR,
+                    BranchId = g.First().BranchId,
+                    BranchNameEN = g.First().BranchNameEN,
+                    BranchNameAR = g.First().BranchNameAR,
+                    TotalCount = g.First().TotalCount
+                })
+                .ToList();
 
-            return result;
-        }
-        public ActionsResponseModel SaveEmployeeShifts(List<EmployeeWeeklyShiftModel> models, int? loggedInEmployeeId)
-        {
-            if (models == null || !models.Any())
+            // 3. Generate all dates in the requested range
+            var allDates = Enumerable
+                .Range(0, (int)(ToDate - FromDate).TotalDays + 1)
+                .Select(offset => FromDate.AddDays(offset))
+                .ToList();
+
+            // 4. For each employee, ensure they have a shift record for every date
+            foreach (var employee in employees)
             {
-                return new ActionsResponseModel { IsSuccess = false, Message = "No shift data provided." };
+                // Get existing shifts for this employee
+                var existingShifts = result
+                    .Where(s => s.EmployeeId == employee.EmployeeId)
+                    .Select(s => new ShiftModel
+                    {
+                        EmployeeWeeklyShiftId = s.EmployeeWeeklyShiftId,
+                        EmployeeId = s.EmployeeId,
+                        ShiftDate = s.ShiftDate,
+                        ShiftOneFrom = s.ShiftOneFrom,
+                        ShiftOneTo = s.ShiftOneTo,
+                        ShiftTwoFrom = s.ShiftTwoFrom,
+                        ShiftTwoTo = s.ShiftTwoTo,
+                        ShiftType = s.ShiftType,
+                        IsDayOff = s.IsDayOff,
+                        IsWeekend = s.IsWeekend,
+                        Notes = s.Notes
+                    })
+                    .ToList();
+
+                // Fill missing dates with default shifts
+                foreach (var date in allDates)
+                {
+                    // Check if a shift already exists for this date
+                    var existingShift = existingShifts.FirstOrDefault(s => s.ShiftDate.Date == date.Date);
+
+                    if (existingShift == null)
+                    {
+                        // Add a default (empty) shift for the missing date
+                        employee.WeekShifts.Add(new ShiftModel
+                        {
+                            EmployeeId = employee.EmployeeId,
+                            ShiftDate = date,
+                            IsDayOff = false,
+                            IsWeekend = false,
+                            Notes = ""
+                        });
+                    }
+                    else
+                    {
+                        // Keep the existing shift
+                        employee.WeekShifts.Add(existingShift);
+                    }
+                }
+
+                // Sort shifts by date (optional)
+                employee.WeekShifts = employee.WeekShifts
+                    .OrderBy(s => s.ShiftDate)
+                    .ToList();
+            }
+
+            return employees;
+        }
+        public ActionsResponseModel SaveEmployeeShifts(List<EmployeeWeeklyShiftModel> employeeModels)
+        {
+            if (employeeModels == null || !employeeModels.Any())
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = "No employee shift data provided." };
             }
 
             var results = new List<ActionsResponseModel>();
+            var totalSavedChanges = 0;
 
             using (var transaction = Context.Database.BeginTransaction())
             {
                 try
                 {
-                    foreach (var model in models)
+                    foreach (var employeeModel in employeeModels)
                     {
-                        // --- Per-Shift Validation ---
-                        if (model.EmployeeId <= 0) // Basic EmployeeId validation
+                        if (employeeModel.WeekShifts == null || !employeeModel.WeekShifts.Any())
                         {
                             results.Add(new ActionsResponseModel
                             {
                                 IsSuccess = false,
-                                Message = $"Invalid Employee ID for shift on {model.ShiftDate.ToShortDateString()}. Skipping."
-                            });
-                            continue; // Skip to the next model
-                        }
-                        if (model.ShiftOneFrom.HasValue && model.ShiftOneTo.HasValue && model.ShiftOneTo <= model.ShiftOneFrom)
-                        {
-                            results.Add(new ActionsResponseModel
-                            {
-                                IsSuccess = false,
-                                Message = $"Shift One 'To' time must be after 'From' time for Employee {model.EmployeeId} on {model.ShiftDate.ToShortDateString()}. Skipping."
-                            });
-                            continue;
-                        }
-                        if (model.ShiftTwoFrom.HasValue && model.ShiftTwoTo.HasValue && model.ShiftTwoTo <= model.ShiftTwoFrom)
-                        {
-                            results.Add(new ActionsResponseModel
-                            {
-                                IsSuccess = false,
-                                Message = $"Shift Two 'To' time must be after 'From' time for Employee {model.EmployeeId} on {model.ShiftDate.ToShortDateString()}. Skipping."
+                                Message = $"No shifts provided for employee {employeeModel.EmployeeId}. Skipping."
                             });
                             continue;
                         }
 
-                        EmployeeWeeklyShift entity;
-
-                        if (model.EmployeeWeeklyShiftId.HasValue && model.EmployeeWeeklyShiftId.Value > 0)
+                        foreach (var shiftModel in employeeModel.WeekShifts)
                         {
-                            // Update existing shift
-                            entity = Context.EmployeeWeeklyShifts.Find(model.EmployeeWeeklyShiftId.Value);
-
-                            if (entity == null)
-                            {
-                                results.Add(new ActionsResponseModel { IsSuccess = false, Message = $"Shift with ID {model.EmployeeWeeklyShiftId.Value} not found for update. Skipping." });
-                                continue;
-                            }
-
-                            // --- Overlap Check for Updates (Exclude current entity) ---
-                            var existingShiftOnDate = Context.EmployeeWeeklyShifts
-                                .AsNoTracking() // Important: don't track this query, as it might conflict with the entity already tracked for update
-                                .Where(s => s.EmployeeId == model.EmployeeId &&
-                                            s.ShiftDate == model.ShiftDate.Date && // Compare only date part
-                                            s.EmployeeWeeklyShiftId != model.EmployeeWeeklyShiftId.Value) // Exclude the shift being updated
-                                .FirstOrDefault();
-
-                            if (existingShiftOnDate != null)
+                            // Validate shift data
+                            if (shiftModel.EmployeeId <= 0)
                             {
                                 results.Add(new ActionsResponseModel
                                 {
                                     IsSuccess = false,
-                                    Message = $"An employee shift already exists for Employee ID {model.EmployeeId} on {model.ShiftDate.ToShortDateString()}. Skipping update for this shift."
+                                    Message = $"Invalid Employee ID for shift on {shiftModel.ShiftDate.ToShortDateString()}. Skipping."
                                 });
                                 continue;
                             }
 
-                            entity.EmployeeId = model.EmployeeId;
-                            entity.ShiftDate = model.ShiftDate.Date;
-                            entity.ShiftOneFrom = model.ShiftOneFrom;
-                            entity.ShiftOneTo = model.ShiftOneTo;
-                            entity.ShiftTwoFrom = model.ShiftTwoFrom;
-                            entity.ShiftTwoTo = model.ShiftTwoTo;
-                            entity.ShiftType = model.ShiftType;
-                            entity.IsDayOff = model.IsDayOff;
-                            entity.IsWeekend = model.IsWeekend;
-                            entity.Notes = model.Notes;
-                        }
-                        else
-                        {
-                            entity = new EmployeeWeeklyShift
-                            {
-                                EmployeeId = model.EmployeeId,
-                                ShiftDate = model.ShiftDate.Date,
-                                ShiftOneFrom = model.ShiftOneFrom,
-                                ShiftOneTo = model.ShiftOneTo,
-                                ShiftTwoFrom = model.ShiftTwoFrom,
-                                ShiftTwoTo = model.ShiftTwoTo,
-                                ShiftType = model.ShiftType,
-                                IsDayOff = model.IsDayOff,
-                                IsWeekend = model.IsWeekend,
-                                Notes = model.Notes,
-                                CreatedBy = model.CreatedBy,
-                                CreatedDate = DateTime.Now
-                            };
-
-                            // --- Overlap Check for New Shifts ---
-                            var conflictingShift = Context.EmployeeWeeklyShifts
-                                .AsNoTracking()
-                                .Where(s => s.EmployeeId == entity.EmployeeId && s.ShiftDate == entity.ShiftDate)
-                                .FirstOrDefault();
-
-                            if (conflictingShift != null)
+                            if (shiftModel.ShiftOneFrom.HasValue && shiftModel.ShiftOneTo.HasValue &&
+                                shiftModel.ShiftOneTo <= shiftModel.ShiftOneFrom)
                             {
                                 results.Add(new ActionsResponseModel
                                 {
                                     IsSuccess = false,
-                                    Message = $"Cannot create shift. An employee shift already exists for Employee ID {entity.EmployeeId} on {entity.ShiftDate.ToShortDateString()}. Skipping creation for this shift."
+                                    Message = $"Shift One 'To' time must be after 'From' time for Employee {shiftModel.EmployeeId} on {shiftModel.ShiftDate.ToShortDateString()}. Skipping."
                                 });
                                 continue;
                             }
 
-                            Context.EmployeeWeeklyShifts.Add(entity);
+                            if (shiftModel.ShiftTwoFrom.HasValue && shiftModel.ShiftTwoTo.HasValue &&
+                                shiftModel.ShiftTwoTo <= shiftModel.ShiftTwoFrom)
+                            {
+                                results.Add(new ActionsResponseModel
+                                {
+                                    IsSuccess = false,
+                                    Message = $"Shift Two 'To' time must be after 'From' time for Employee {shiftModel.EmployeeId} on {shiftModel.ShiftDate.ToShortDateString()}. Skipping."
+                                });
+                                continue;
+                            }
+
+                            EmployeeWeeklyShift entity;
+
+                            if (shiftModel.EmployeeWeeklyShiftId.HasValue && shiftModel.EmployeeWeeklyShiftId.Value > 0)
+                            {
+                                // Update existing shift
+                                entity = Context.EmployeeWeeklyShifts.Find(shiftModel.EmployeeWeeklyShiftId.Value);
+
+                                if (entity == null)
+                                {
+                                    results.Add(new ActionsResponseModel
+                                    {
+                                        IsSuccess = false,
+                                        Message = $"Shift with ID {shiftModel.EmployeeWeeklyShiftId.Value} not found for update. Skipping."
+                                    });
+                                    continue;
+                                }
+
+                                // Check for overlapping shifts (excluding current one)
+                                var existingShift = Context.EmployeeWeeklyShifts
+                                    .AsNoTracking()
+                                    .Where(s => s.EmployeeId == shiftModel.EmployeeId &&
+                                                s.ShiftDate == shiftModel.ShiftDate.Date &&
+                                                s.EmployeeWeeklyShiftId != shiftModel.EmployeeWeeklyShiftId.Value)
+                                    .FirstOrDefault();
+
+                                if (existingShift != null)
+                                {
+                                    results.Add(new ActionsResponseModel
+                                    {
+                                        IsSuccess = false,
+                                        Message = $"Shift already exists for Employee {shiftModel.EmployeeId} on {shiftModel.ShiftDate.ToShortDateString()}. Skipping update."
+                                    });
+                                    continue;
+                                }
+
+                                // Update entity
+                                entity.ShiftDate = shiftModel.ShiftDate.Date;
+                                entity.ShiftOneFrom = shiftModel.ShiftOneFrom;
+                                entity.ShiftOneTo = shiftModel.ShiftOneTo;
+                                entity.ShiftTwoFrom = shiftModel.ShiftTwoFrom;
+                                entity.ShiftTwoTo = shiftModel.ShiftTwoTo;
+                                entity.ShiftType = shiftModel.ShiftType;
+                                entity.IsDayOff = shiftModel.IsDayOff;
+                                entity.IsWeekend = shiftModel.IsWeekend;
+                                entity.Notes = shiftModel.Notes;
+                                entity.ModifiedBy = shiftModel.ModifiedBy;
+                                entity.ModifiedDate = DateTime.Now;
+                            }
+                            else
+                            {
+                                // Create new shift
+                                entity = new EmployeeWeeklyShift
+                                {
+                                    EmployeeId = shiftModel.EmployeeId,
+                                    ShiftDate = shiftModel.ShiftDate.Date,
+                                    ShiftOneFrom = shiftModel.ShiftOneFrom,
+                                    ShiftOneTo = shiftModel.ShiftOneTo,
+                                    ShiftTwoFrom = shiftModel.ShiftTwoFrom,
+                                    ShiftTwoTo = shiftModel.ShiftTwoTo,
+                                    ShiftType = shiftModel.ShiftType,
+                                    IsDayOff = shiftModel.IsDayOff,
+                                    IsWeekend = shiftModel.IsWeekend,
+                                    Notes = shiftModel.Notes,
+                                    CreatedBy = shiftModel.CreatedBy,
+                                    CreatedDate = DateTime.Now
+                                };
+
+                                // Check for existing shift
+                                var existingShift = Context.EmployeeWeeklyShifts
+                                    .AsNoTracking()
+                                    .Where(s => s.EmployeeId == shiftModel.EmployeeId &&
+                                                s.ShiftDate == shiftModel.ShiftDate.Date)
+                                    .FirstOrDefault();
+
+                                if (existingShift != null)
+                                {
+                                    results.Add(new ActionsResponseModel
+                                    {
+                                        IsSuccess = false,
+                                        Message = $"Shift already exists for Employee {shiftModel.EmployeeId} on {shiftModel.ShiftDate.ToShortDateString()}. Skipping creation."
+                                    });
+                                    continue;
+                                }
+
+                                Context.EmployeeWeeklyShifts.Add(entity);
+                            }
+
+                            results.Add(new ActionsResponseModel
+                            {
+                                IsSuccess = true,
+                                Message = $"Shift for Employee {shiftModel.EmployeeId} on {shiftModel.ShiftDate.ToShortDateString()} processed."
+                            });
                         }
-                        results.Add(new ActionsResponseModel { IsSuccess = true, Message = $"Shift for Employee {model.EmployeeId} on {model.ShiftDate.ToShortDateString()} prepared for saving." });
                     }
 
-                    // Save all changes at once
-                    var totalSavedChanges = Context.SaveChanges();
-                    transaction.Commit(); // Commit the transaction if all individual operations were successful
+                    totalSavedChanges = Context.SaveChanges();
+                    transaction.Commit();
 
-                    // Summarize the results
-                    bool overallSuccess = results.All(r => r.IsSuccess);
                     return new ActionsResponseModel
                     {
-                        IsSuccess = overallSuccess,
-                        Message = overallSuccess ?
-                                  $"{totalSavedChanges} shifts saved successfully." :
-                                  $"Some shifts failed to save. See Data for details. Total changes: {totalSavedChanges}.",
+                        IsSuccess = results.All(r => r.IsSuccess),
+                        Message = results.All(r => r.IsSuccess)
+                            ? $"Successfully saved {totalSavedChanges} shifts."
+                            : $"Completed with some errors. Saved {totalSavedChanges} shifts. See details for individual results."
                     };
                 }
                 catch (Exception ex)
@@ -911,42 +1014,19 @@ namespace MasterErp.Service.HR
                     return new ActionsResponseModel
                     {
                         IsSuccess = false,
-                        Message = $"An unexpected error occurred during bulk save: {ex.Message}. All changes rolled back."
+                        Message = $"Error saving shifts: {ex.Message}"
                     };
                 }
             }
         }
-
         public EmployeeWeeklyShift GetEmployeeShiftById(int shiftId)
         {
             return Context.EmployeeWeeklyShifts.Find(shiftId);
         }
 
-        public List<EmployeeWeeklyShift> GetEmployeeShiftsByDateRange(int employeeId, DateTime fromDate, DateTime toDate)
+        public ActionsResponseModel DeleteEmployeeShift(int EmployeeWeeklyShiftId)
         {
-            DateTime endOfDayToDate = toDate.Date.AddDays(1).AddTicks(-1);
-
-            return Context.EmployeeWeeklyShifts
-                           .Where(s => s.EmployeeId == employeeId &&
-                                       s.ShiftDate >= fromDate.Date &&
-                                       s.ShiftDate <= toDate.Date)
-                           .OrderBy(s => s.ShiftDate)
-                           .ToList();
-        }
-        public List<EmployeeWeeklyShift> GetAllEmployeeShiftsByDateRange(DateTime fromDate, DateTime toDate)
-        {
-            DateTime endOfDayToDate = toDate.Date.AddDays(1).AddTicks(-1);
-
-            return Context.EmployeeWeeklyShifts
-                           .Where(s => s.ShiftDate >= fromDate.Date &&
-                                       s.ShiftDate <= toDate.Date)
-                           .OrderBy(s => s.ShiftDate)
-                           .ToList();
-        }
-
-        public ActionsResponseModel DeleteEmployeeShift(int shiftId)
-        {
-            var shiftToDelete = Context.EmployeeWeeklyShifts.Find(shiftId);
+            var shiftToDelete = Context.EmployeeWeeklyShifts.Find(EmployeeWeeklyShiftId);
             if (shiftToDelete == null)
             {
                 return new ActionsResponseModel { IsSuccess = false, Message = "Shift not found." };

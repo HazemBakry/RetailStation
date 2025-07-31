@@ -26,6 +26,7 @@ import { EmployeeStatusEnum } from '../../Shared/Enums/EmployeeStatusEnum';
 import { DueTypeEnum } from '../../Shared/Enums/DueTypeEnum';
 import { EmployeeStatusModel } from '../models/EmployeeStatusModel';
 import { EmployeeFinancialCustodyModel } from '../models/EmployeeFinancialCustodyModel';
+import { EmployeeWeeklyShiftModel } from '../models/EmployeeWeeklyShiftModel';
 
 @Injectable({
   providedIn: 'root'
@@ -855,6 +856,9 @@ export class HrService {
   GetEmployeeWeeklyShifts_Data(fromDate: string, toDate: string, model: SearchFilterModel) {
     fromDate = fromDate ?? '';
     toDate = toDate ?? '';
-    return this.http.post<PagedResponseDTO<EmployeeAttendanceModel[]>>(this.URL + 'HR/GetEmployeeWeeklyShifts_Data?FromDate=' + fromDate + '&ToDate=' + toDate, model);
+    return this.http.post<PagedResponseDTO<EmployeeWeeklyShiftModel[]>>(this.URL + 'HR/GetEmployeeWeeklyShifts_Data?FromDate=' + fromDate + '&ToDate=' + toDate, model);
+  }
+  SaveEmployeeShifts( model: EmployeeWeeklyShiftModel[]) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'HR/SaveEmployeeShifts?FromDate', model);
   }
 }

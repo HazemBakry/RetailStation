@@ -1,4 +1,5 @@
-﻿using MasterErp.Entities.Common;
+﻿using ICU4N.Util;
+using MasterErp.Entities.Common;
 using MasterErp.Entities.DTOs.HR;
 using MasterErp.Entities.Models.HR;
 using MasterErp.Interface.HR;
@@ -6,6 +7,7 @@ using MasterErp.Service.HR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MasterErp.API.Controllers.HR
@@ -273,9 +275,10 @@ namespace MasterErp.API.Controllers.HR
 
         #region EmployeeShifts
 
+
         [HttpPost]
         [Route("GetEmployeeWeeklyShifts_Data")]
-        public IActionResult GetEmployeeWeeklyShifts_Data(DateTime? FromDate, DateTime? ToDate, SearchFilterModel SearchModel)
+        public IActionResult GetEmployeeWeeklyShifts_Data(DateTime FromDate, DateTime ToDate, SearchFilterModel SearchModel)
         {
             var data = _hrService.GetEmployeeWeeklyShifts_Data(FromDate, ToDate, SearchModel);
             var result = new PagedResponseModel<EmployeeWeeklyShiftModel>
@@ -286,6 +289,20 @@ namespace MasterErp.API.Controllers.HR
                 CurrentPage = SearchModel.CurrentPage
 
             };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("SaveEmployeeShifts")]
+        public IActionResult SaveEmployeeShifts(List<EmployeeWeeklyShiftModel> employeeModels)
+        { 
+            var result = _hrService.SaveEmployeeShifts(employeeModels);
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("DeleteEmployeeShift")]
+        public IActionResult DeleteEmployeeShift(int EmployeeWeeklyShiftId)
+        {
+            var result = _hrService.DeleteEmployeeShift(EmployeeWeeklyShiftId);
             return Ok(result);
         }
         #endregion
