@@ -133,6 +133,11 @@ namespace MasterErp.Service.HR
                 var employee = Context.Employees.FirstOrDefault(i => i.EmployeeId == EmployeeId);
                 if (employee != null)
                 {
+                    if(employee.NationalityId != model.NationalityId)
+                    {
+                        int? lastEmpCode = Context.Employees.Where(x => x.NationalityId == model.NationalityId).OrderByDescending(e => e.Code).FirstOrDefault()?.Code;
+                        employee.Code = lastEmpCode + 1 ?? 1;
+                    }
                     employee.FirstNameAR = model.FirstNameAR;
                     employee.FatherNameAR = model.FatherNameAR;
                     employee.GrandNameAR = model.GrandNameAR;
