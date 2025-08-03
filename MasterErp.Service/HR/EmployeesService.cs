@@ -55,7 +55,7 @@ namespace MasterErp.Service.HR
             {
                 var employee = new Employee();
 
-                int? lastEmpCode = Context.Employees.OrderBy(e => e.EmployeeId).LastOrDefault()?.Code;
+                int? lastEmpCode = Context.Employees.Where(x=>x.NationalityId == model.NationalityId).OrderByDescending(e => e.Code).FirstOrDefault()?.Code;
                 employee.Code = lastEmpCode + 1 ?? 1;
                 employee.FirstNameAR = model.FirstNameAR;
                 employee.FatherNameAR = model.FatherNameAR;
