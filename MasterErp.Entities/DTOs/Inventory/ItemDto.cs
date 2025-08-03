@@ -14,18 +14,18 @@ namespace MasterErp.Entities.DTOs.Inventory
         public int? ItemId { get; set; }
         public string NameAR { get; set; }
         public string NameEN { get; set; }
-        public int UnitId { get; set; }
+        public int? UnitId { get; set; }
         public string UnitName { get; set; }
         public int? PurchaseUnitId { get; set; }
         public string PurchaseUnitName { get; set; }
         public int? ItemCategoryId { get; set; }
         public string ItemCategoryName { get; set; }
-        public double Cost { get; set; }
-        public double Price => Cost;
+        public double? Cost { get; set; }
+        public double? Price => Cost;
         public double? PurchasePrice { get; set; }
         public double? Yield { get; set; }
         public double? ConvertRatio { get; set; }
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
         public int? ItemTypeId { get; set; }
         public int? SupplierId { get; set; }
         public string SupplierName { get; set; }
@@ -49,7 +49,7 @@ namespace MasterErp.Entities.DTOs.Inventory
         [JsonProperty("Category")] 
         public string ItemCategoryName { get; set; }
         [JsonProperty("Cost")]
-        public double Cost { get; set; }
+        public double? Cost { get; set; }
 
     }
 

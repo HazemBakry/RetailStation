@@ -10,16 +10,13 @@ import { MenuService, MenuType } from '../../Shared/services/menu.service';
 export class InventoryLayoutComponent implements OnInit {
   isToggle = false;
   menuItem: MenuSidebarItem;
-
   constructor(private menuService: MenuService,) {
     this.menuItem = this.menuService.getMenuById(MenuType.InventoryHome);
-
   }
 
   ngOnInit(): void {
+
   }
-
-
 
   onToggleContent() {
     this.isToggle = !this.isToggle;

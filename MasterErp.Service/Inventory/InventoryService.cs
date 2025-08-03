@@ -123,7 +123,7 @@ namespace MasterErp.Service.Inventory
 
             SqlParameter[] Params = new SqlParameter[1];
 
-            
+
             Params[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[0].Value = FilterListDt;
 
@@ -185,7 +185,7 @@ namespace MasterErp.Service.Inventory
                 order_tbl.SerialNumber = DalHelper.GenerateSerialNumber(SerialType.MaterialReceipt, code);
                 order_tbl.OrderDate = model.OrderDate ?? DateTime.Now;
                 order_tbl.CreatedDate = DateTime.Now;
-                order_tbl.DocNumber =   model.DocNumber;
+                order_tbl.DocNumber = model.DocNumber;
                 order_tbl.CreatedBy = model.CreatedBy;
                 order_tbl.PurchaseOrderId = model.PurchaseOrderId;
                 order_tbl.TotalValue = model.OrderDetails.Sum(x => x.TotalValue);
@@ -195,12 +195,12 @@ namespace MasterErp.Service.Inventory
                 order_tbl.WorkflowStatusId = (int)WorkflowStatus.Pending;
 
                 Context.MaterialReceipts.Add(order_tbl);
-                if(model.PurchaseOrderId != null)
+                if (model.PurchaseOrderId != null)
                 {
-                    var p_Order =Context.PurchaseOrders.FirstOrDefault(x => x.PurchaseOrderId == model.PurchaseOrderId);
-                    if(p_Order != null)
+                    var p_Order = Context.PurchaseOrders.FirstOrDefault(x => x.PurchaseOrderId == model.PurchaseOrderId);
+                    if (p_Order != null)
                     {
-                        p_Order.WorkflowStatusId = (int) WorkflowStatus.Completed;
+                        p_Order.WorkflowStatusId = (int)WorkflowStatus.Completed;
                     }
                 }
                 Context.SaveChanges();
@@ -589,7 +589,7 @@ namespace MasterErp.Service.Inventory
 
         public MaterialIssueModel GetMaterialIssueDetailsById(int MaterialIssueId)
         {
-            var result= GetMaterialIssue_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, MaterialIssueId)?.FirstOrDefault();
+            var result = GetMaterialIssue_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, MaterialIssueId)?.FirstOrDefault();
 
 
             if (result != null)
@@ -607,7 +607,7 @@ namespace MasterErp.Service.Inventory
                                 .FirstOrDefault();
             }
             return result;
-            
+
         }
 
         public List<GeneralOrderDetailsModel> GetMaterialIssueProducts_Data(int MaterialIssueId)
@@ -809,7 +809,7 @@ namespace MasterErp.Service.Inventory
         public MaterialRequestModel GetMaterialRequestDetailsById(int MaterialRequestId)
         {
             var result = GetMaterialRequests_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, MaterialRequestId)?.FirstOrDefault();
-            if(result !=null)
+            if (result != null)
             {
                 result.PreviousId = Context.MaterialRequests
                                     .Where(p => p.MaterialRequestId < MaterialRequestId)
@@ -943,28 +943,28 @@ namespace MasterErp.Service.Inventory
         public List<GeneralOrderDetailsModel> GetMaterialRequestProducts_Data(List<int> MaterialRequestIds)
         {
             var data = (from orderProduct in Context.MaterialRequestDetails
-                          join item in Context.Items on orderProduct.ItemId equals item.ItemId
-                          join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
-                          from unit in jT2.DefaultIfEmpty()
-                          where MaterialRequestIds.Contains(orderProduct.MaterialRequestId)
-                          //where orderProduct.MaterialRequestId == MaterialRequestId
-                          select new GeneralOrderDetailsModel
-                          {
-                              ItemId = item.ItemId,
-                              ItemNameEN = item.NameEN,
-                              ItemNameAR = item.NameAR,
-                              Price = item.Cost,
-                              Quantity = orderProduct.Quantity,
-                              TotalValue = orderProduct.Quantity > 0 ? orderProduct.Quantity * item.Cost : orderProduct.Quantity,
-                              UnitId = item.UnitId,
-                              UnitNameAR = unit.NameAR,
-                              UnitNameEN = unit.NameEN,
-                              OrderId = orderProduct.MaterialRequestId,
-                              DueDate = orderProduct.DueDate,
+                        join item in Context.Items on orderProduct.ItemId equals item.ItemId
+                        join unit in Context.Units on item.UnitId equals unit.UnitId into jT2
+                        from unit in jT2.DefaultIfEmpty()
+                        where MaterialRequestIds.Contains(orderProduct.MaterialRequestId)
+                        //where orderProduct.MaterialRequestId == MaterialRequestId
+                        select new GeneralOrderDetailsModel
+                        {
+                            ItemId = item.ItemId,
+                            ItemNameEN = item.NameEN,
+                            ItemNameAR = item.NameAR,
+                            Price = item.Cost,
+                            Quantity = orderProduct.Quantity,
+                            TotalValue = orderProduct.Quantity > 0 ? orderProduct.Quantity * (item.Cost ?? 0) : orderProduct.Quantity,
+                            UnitId = item.UnitId,
+                            UnitNameAR = unit.NameAR,
+                            UnitNameEN = unit.NameEN,
+                            OrderId = orderProduct.MaterialRequestId,
+                            DueDate = orderProduct.DueDate,
 
-                          }).ToList();
+                        }).ToList();
 
-            var result =data.GroupBy(p => new { p.ItemId, p.ItemNameEN, p.ItemNameAR, p.UnitId, p.UnitNameAR, p.UnitNameEN })
+            var result = data.GroupBy(p => new { p.ItemId, p.ItemNameEN, p.ItemNameAR, p.UnitId, p.UnitNameAR, p.UnitNameEN })
                              .Select(g => new GeneralOrderDetailsModel
                              {
                                  ItemId = g.Key.ItemId,
@@ -1034,7 +1034,7 @@ namespace MasterErp.Service.Inventory
                 {
                     order.IsLocked = true;
                     order.PurchaseOrderId = purchaseOrderId;
-                    order.WorkflowStatusId = (int) WorkflowStatus.Completed;
+                    order.WorkflowStatusId = (int)WorkflowStatus.Completed;
                     order.ModifiedDate = DateTime.Now;
                     order.ModifiedBy = "";
                 }

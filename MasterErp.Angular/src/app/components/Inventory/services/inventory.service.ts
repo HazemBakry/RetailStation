@@ -369,5 +369,20 @@ export class InventoryService {
     return this.http.get<any[]>(this.URL + 'Items/GetItemsLookups');
   }
 
+  //----------------------------------------- Inventory reports ---------------------------------------------
+
+  GetItemsPricesFollowUp_Data(fromDate: any, toDate: any, model: SearchFilterModel) {
+    return this.http.post<PagedResponseDTO<any[]>>(this.URL + 'InventoryReports/GetItemsPricesFollowUp_Data?FromDate=' + fromDate + '&ToDate=' + toDate, model);
+  }
+
+  GetItemsPricesFollowUp_Filters(fromDate: any, toDate: any, model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'InventoryReports/GetItemsPricesFollowUp_Filters?FromDate=' + fromDate + '&ToDate=' + toDate, model);
+  }
+
+  GetItemsPricesFollowUp_Export(fromDate: any, toDate: any, model: SearchFilterModel) {
+    return this.http.post<any>(this.URL + 'InventoryReports/GetItemsPricesFollowUp_Export?FromDate=' + fromDate + '&ToDate=' + toDate, model);
+  }
+
+
 
 }

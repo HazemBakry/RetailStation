@@ -21,6 +21,9 @@ import { AddMaterialReceiptComponent } from './components/add-material-receipt/a
 import { MaterialReceiptsComponent } from './components/material-receipts/material-receipts.component';
 import { ItemLookupsComponent } from './components/item-lookups/item-lookups.component';
 import { AuthPageGuard } from 'src/app/Auth/authPage.guard';
+import { ItemsFollowupReportComponent } from './components/items-followup-report/items-followup-report.component';
+import { ReceivedItemsReportComponent } from './components/received-items-report/received-items-report.component';
+import { MaterialReceiptsReportComponent } from './components/material-receipts-report/material-receipts-report.component';
 
 const routes: Routes = [
   {
@@ -47,6 +50,12 @@ const routes: Routes = [
       { path: 'add-item', component: AddItemComponent },
       { path: 'purchases-requests', component: PurchasesRequestsComponent },
       { path: 'units', component: UnitsComponent, canActivate: [AuthPageGuard], data: { pageName: 'Units' } },
+      { path: 'items-followUp-report', component: ItemsFollowupReportComponent },
+      { path: 'received-items-report', component: ReceivedItemsReportComponent },
+      { path: 'material-receipts-report', component: MaterialReceiptsReportComponent },
+      
+      
+      
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ],
   },

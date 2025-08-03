@@ -24,6 +24,9 @@ import { AddMaterialReceiptComponent } from './components/add-material-receipt/a
 import { MaterialReceiptsComponent } from './components/material-receipts/material-receipts.component';
 import { InventoryDashboardComponent } from './components/inventory-dashboard/inventory-dashboard.component';
 import { ItemLookupsComponent } from './components/item-lookups/item-lookups.component';
+import { ItemsFollowupReportComponent } from './components/items-followup-report/items-followup-report.component';
+import { ReceivedItemsReportComponent } from './components/received-items-report/received-items-report.component';
+import { MaterialReceiptsReportComponent } from './components/material-receipts-report/material-receipts-report.component';
 
 
 @NgModule({
@@ -47,7 +50,10 @@ import { ItemLookupsComponent } from './components/item-lookups/item-lookups.com
     UnitsComponent,
     MaterialRequestsComponent,
     InventoryDashboardComponent,
-    ItemLookupsComponent
+    ItemLookupsComponent,
+    ItemsFollowupReportComponent,
+    ReceivedItemsReportComponent,
+    MaterialReceiptsReportComponent
   ],
   imports: [
     CommonModule,

@@ -12,6 +12,7 @@ export class MenuService {
     }
     return this.menus.find(x => x.menuItemId == menuId);
   }
+
   menus: MenuSidebarItem[] = [
     {
       menuItemId: MenuType.GeneralAccountsHome,
@@ -448,10 +449,19 @@ export class MenuService {
       subMenus: [
         {
           menuItemId: MenuType.InventoryHome,
-          displayName: 'المخازن',
+          displayName: 'لوحة التحكم',
+          menuItem: '',
+          description: 'الاحصائيات المخزنية',
+          icon: 'fas fa-th-large',
+          route: '/inventory/home'
+        },
+        {
+          menuItemId: MenuType.InventoryHome,
+          displayName: 'العمليات المخزنية',
           menuItem: '1',
+          description: 'إجراء العمليات اليومية للمخازن',
+          icon: 'fa-solid fa-exchange-alt',
           route: '/inventory/home/1',
-          icon: 'fa fa-warehouse',
           subMenus: [
             {
               displayName: 'مجموعات الأصناف',
@@ -506,10 +516,49 @@ export class MenuService {
         },
         {
           menuItemId: MenuType.InventoryHome,
-          displayName: 'البيانات الاساسية',
+          displayName: 'تقارير المخازن',
           menuItem: '2',
+          description: 'عرض وتحليل التقارير المخزنية',
           route: '/inventory/home/2',
-          icon: 'fa fa-cogs',
+          icon: 'fa-solid fa-file-invoice-dollar',
+          subMenus: [
+            {
+              displayName: 'تقرير تتبع سعر الصنف',
+              menuItem: 'items-followUp-report',
+              description: 'عرض تتبع سعر صنف',
+              icon: 'fa fa-book-open',
+              route: '/inventory/items-followUp-report'
+            },
+            {
+              displayName: 'تفاصيل الأصناف المستلمة',
+              menuItem: 'received-items-report',
+              description: 'تفاصيل الأصناف المستلمة خلال فترة',
+              icon: 'fa fa-layer-group',
+              route: '/inventory/received-items-report'
+            },
+            {
+              displayName: 'تقرير إجمالى الأصناف المستلمة',
+              menuItem: 'received-items-summary',
+              description: 'ملخص إجمالى الأصناف المستلمة',
+              icon: 'fa fa-layer-group',
+              route: '/inventory/received-items-summary'
+            },
+            {
+              displayName: 'تقرير أذونات الإضافة',
+              menuItem: 'material-receipts-report',
+              description: 'أذونات الإضافة للأصناف خلال فترة',
+              icon: 'fa fa-layer-group',
+              route: '/inventory/material-receipts-report'
+            }
+          ]
+        },
+        {
+          menuItemId: MenuType.InventoryHome,
+          displayName: 'التهيئة والإعدادات',
+          menuItem: '3',
+          description: 'تعريفات البيانات الأساسية للمخازن',
+          icon: 'fa-solid fa-exchange-alt',
+          route: '/inventory/home/3',
           subMenus: [
             {
               displayName: 'وحدات الأصناف',
@@ -519,7 +568,34 @@ export class MenuService {
               route: '/inventory/units'
             }
           ]
-        }
+        },
+        
+
+        // {
+        //   menuItemId: MenuType.InventoryHome,
+        //   displayName: 'المخازن',
+        //   menuItem: '1',
+        //   route: '/inventory/home/1',
+        //   icon: 'fa fa-warehouse',
+
+        // },
+        // {
+        //   menuItemId: MenuType.InventoryHome,
+        //   displayName: 'البيانات الاساسية',
+        //   menuItem: '2',
+        //   route: '/inventory/home/2',
+        //   icon: 'fa fa-cogs',
+        //   subMenus: [
+        //     {
+        //       displayName: 'وحدات الأصناف',
+        //       menuItem: 'units',
+        //       description: 'description',
+        //       icon: 'fa fa-balance-scale',
+        //       route: '/inventory/units'
+        //     }
+        //   ]
+        // },
+
       ]
     }
     ,
@@ -611,8 +687,6 @@ export class MenuService {
             ]
           }
         ]
-
-
     },
     {
       menuItemId: MenuType.AdminHome,

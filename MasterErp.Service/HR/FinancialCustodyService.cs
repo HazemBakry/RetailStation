@@ -147,7 +147,7 @@ namespace MasterErp.Service.HR
                     ExecutionDate = model.ExecutionDate,
                     MoneyAmount = model.MoneyAmount,
                     Notes = model.Notes,
-                    WorkflowStatusId = (int)WorkflowStatus.Pending,
+                    WorkflowStatusId = (int)WorkflowStatus.Approved,
                     CreatedDate = DateTime.Now,
                     CreatedBy = model.CreatedBy
                 };

@@ -19,12 +19,12 @@ namespace MasterErp.Entities.Models.Inventory
         public string Code { get; set; }
         public double? PurchasePrice { get; set; }
         public double? Yield { get; set; }
-        public double Cost { get; set; }
+        public double? Cost { get; set; }
         public int? PurchaseUnitId { get; set; }
-        public int UnitId { get; set; }
+        public int? UnitId { get; set; }
         public int? ItemCategoryId { get; set; }
         public double? ConvertRatio { get; set; }
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
         public int? ItemTypeId { get; set; }
 
         public ICollection<ItemSupplier> ItemSuppliers { get; set; }
