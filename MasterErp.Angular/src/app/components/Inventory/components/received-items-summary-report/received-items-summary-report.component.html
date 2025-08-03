@@ -1,9 +1,9 @@
-<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+<!-- <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb> -->
 
 <div class="inputs-wrapper border rounded bg-white mb-3">
     <div class="inputs-sec-content px-3 py-2">
         <div class="row gy-3">
-            <div class="col-lg-4">
+             <div class="col-lg-4">
                 <div class="mb-2">
                     <label class="form-label d-flex align-items-center gap-2">
                         الاصناف
@@ -21,8 +21,7 @@
                         من تاريخ
                         <span class="text-danger">*</span>
                     </label>
-                    <input [(ngModel)]="fromDate" type="date" [(ngModel)]="fromDate" autocomplete="off"
-                        class="form-control nw-form-input" />
+                    <input [(ngModel)]="fromDate" type="date" [(ngModel)]="fromDate" autocomplete="off" class="form-control nw-form-input" />
                 </div>
             </div>
             <div class="col-lg-3">
@@ -30,8 +29,7 @@
                     <label class="form-label d-flex align-items-center gap-2">
                         الي تاريخ
                         <span class="text-danger">*</span></label>
-                    <input [(ngModel)]="toDate" type="date" [(ngModel)]="toDate" autocomplete="off"
-                        class="form-control nw-form-input" />
+                    <input [(ngModel)]="toDate" type="date" [(ngModel)]="toDate" autocomplete="off" class="form-control nw-form-input" />
                 </div>
             </div>
         </div>
@@ -42,8 +40,7 @@
             <i class="fas fa-search"></i>
             <span class="ms-2">بحث</span>
         </button>
-        <button [disabled]="showExportLoader" (click)="exportData()"
-            class="btn  btn-outline-success gap-2 border rounded px-3 me-2">
+        <button [disabled]="showExportLoader" (click)="exportData()" class="btn  btn-outline-success gap-2 border rounded px-3 me-2">
             <i class="fas fa-file-download"></i>
             <span>تصدير CSV</span>
         </button>
@@ -55,17 +52,14 @@
 </div>
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div
-        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="col-md-8 mb-2">
             <div class="d-flex align-items-center gap-2">
 
             </div>
         </div>
         <div class="col-md-4 mb-2">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
-                [pageSize]="pagedResponseModel.pageSize"
-                [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
         </div>
 
 
@@ -84,28 +78,23 @@
                         <th>كود الصنف</th>
                         <th>اسم الصنف</th>
                         <th>المجموعة</th>
-                        <th>تاريخ الاستلام</th>
-                        <th>الكمية المستلمة</th>
-                        <th>رقم أمر الشراء</th>
-                        <th>سعر الشراء</th>
-                        <th>اسم المورد</th>
+                        <th>الكمية</th>
+                        <th>متوسط سعر الوحدة </th>
+                        <th>اجمالي السعر </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of pagedResponseModel.results">
                         <td>{{item.code}}</td>
                         <td>{{item.itemNameAR}}</td>
-                        <td>{{item.categoryNameAR}}</td>
-                        <td>{{item.orderDate | date}}</td>
+                        <td>{{item.categoryNameAR ??item.categoryNameEN}}</td>
                         <td>{{item.quantity}}</td>
-                        <td>{{item.orderNumber}}</td>
                         <td>{{item.price}}</td>
-                        <td>{{item.supplierNameAR}}</td>
+                        <td>{{item.totalValue}}</td>
                     </tr>
                     <tr *ngIf="!pagedResponseModel.results.length || showLoader">
-                        <td colspan="8" class="text-right">
-                            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader"
-                                [showLoader]="showLoader"></app-empty-data>
+                        <td colspan="6" class="text-right">
+                            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>

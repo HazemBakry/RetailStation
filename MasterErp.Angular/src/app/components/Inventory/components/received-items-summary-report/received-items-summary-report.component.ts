@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
@@ -12,22 +13,22 @@ import { InventoryService } from "../../services/inventory.service";
 
 
 @Component({
-  selector: 'app-material-receipts-report',
-  templateUrl: './material-receipts-report.component.html',
-  styleUrls: ['./material-receipts-report.component.css']
+  selector: 'app-received-items-summary-report',
+  templateUrl: './received-items-summary-report.component.html',
+  styleUrls: ['./received-items-summary-report.component.css']
 })
-export class MaterialReceiptsReportComponent implements OnInit {
-  TitleList = ['المخازن', 'تقرير أذونات الإضافة'];
+export class ReceivedItemsSummaryReportComponent implements OnInit {
+  TitleList = ['المخازن', 'تقرير الأصناف المستلمة'];
   showLoader: boolean;
-  vacationTypesSelectorData: GeneralSelectorModel[] = [];
   workflowStatusSelectorData: GeneralSelectorModel[] = [];
-  employeeSelectorData: GeneralSelectorModel[] = [];
+  itemsSelectorData: GeneralSelectorModel[] = [];
   fromDate: string;
   toDate: string;
   selectedEmployeeId: number;
   selectedVacationTypeId: number;
   selectedStatusId: number;
   filterList: FilterItem[] = [];
+  selectedItemIds: number[] = [];
 
   pagedResponseModel: PagedResponseDTO<ItemModel[]> = {
     results: [],
@@ -52,8 +53,8 @@ export class MaterialReceiptsReportComponent implements OnInit {
 
 
   loadSelectors() {
-    this.lookupService.GetWorkStatusSelector(WorkflowStatusGroup.HR).subscribe((data: GeneralSelectorModel[]) => {
-      this.workflowStatusSelectorData = data;
+    this.sharedService.GetItemsSelector().subscribe((data: GeneralSelectorModel[]) => {
+      this.itemsSelectorData = data;
     });
   }
 
@@ -67,7 +68,7 @@ export class MaterialReceiptsReportComponent implements OnInit {
   loadData() {
     this.mapFilters();
     this.showLoader = true;
-    this.inventoryService.GetMaterialReceiptsReport_Data(this.fromDate, this.toDate, this.pagedResponseModel).subscribe(data => {
+    this.inventoryService.GetReceivedItemsSummaryReport_Data(this.fromDate, this.toDate, this.pagedResponseModel).subscribe(data => {
       
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
@@ -83,7 +84,7 @@ export class MaterialReceiptsReportComponent implements OnInit {
   exportData() {
     this.mapFilters();
     this.showExportLoader = true;
-    this.inventoryService.GetMaterialReceiptsReport_Export(this.fromDate, this.toDate, this.pagedResponseModel).subscribe(data => {
+    this.inventoryService.GetReceivedItemsSummaryReport_Export(this.fromDate, this.toDate, this.pagedResponseModel).subscribe(data => {
       if (data.isSuccess) {
         this.sharedService.urlDownloadOrOpen(data.url);
         this.toaster.success(data.message);
@@ -105,17 +106,24 @@ export class MaterialReceiptsReportComponent implements OnInit {
     if (this.toDate) {
       this.pagedResponseModel.filterList.push({ categoryName: 'ToDate', itemFlag: this.toDate })
     }
+    if (this.selectedItemIds?.length > 0) {
+      this.selectedItemIds.forEach(itemId => {
+        this.pagedResponseModel.filterList.push({ categoryName: 'Item', itemFlag: itemId?.toString() })
+      });
+    }
     // if (this.selectedEmployeeId) {
     //   this.pagedResponseModel.filterList.push({ categoryName: 'EmployeeId', itemFlag: this.selectedEmployeeId?.toString() })
     // }
     // if (this.selectedVacationTypeId) {
     //   this.pagedResponseModel.filterList.push({ categoryName: 'VacationType', itemFlag: this.selectedVacationTypeId?.toString() })
     // }
-    if (this.selectedStatusId) {
-      this.pagedResponseModel.filterList.push({ categoryName: 'Status', itemFlag: this.selectedStatusId?.toString() })
-    }
+    // if (this.selectedStatusId) {
+    //   this.pagedResponseModel.filterList.push({ categoryName: 'VacationStatus', itemFlag: this.selectedStatusId?.toString() })
+    // }
   }
-
+  getSelectedItems(itemIds: number[]) {
+    this.selectedItemIds = itemIds;
+  }
   pageChanged(obj: any) {
     this.pagedResponseModel.currentPage = obj.page;
     this.loadData();
@@ -128,3 +136,4 @@ export class MaterialReceiptsReportComponent implements OnInit {
 
 
 }
+

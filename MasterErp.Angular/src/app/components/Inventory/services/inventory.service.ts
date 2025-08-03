@@ -372,17 +372,72 @@ export class InventoryService {
   //----------------------------------------- Inventory reports ---------------------------------------------
 
   GetItemsPricesFollowUp_Data(fromDate: any, toDate: any, model: SearchFilterModel) {
+    fromDate = fromDate ?? '';
+    toDate = toDate ?? '';
     return this.http.post<PagedResponseDTO<any[]>>(this.URL + 'InventoryReports/GetItemsPricesFollowUp_Data?FromDate=' + fromDate + '&ToDate=' + toDate, model);
   }
 
   GetItemsPricesFollowUp_Filters(fromDate: any, toDate: any, model: SearchFilterModel) {
+    fromDate = fromDate ?? '';
+    toDate = toDate ?? '';
     return this.http.post<any>(this.URL + 'InventoryReports/GetItemsPricesFollowUp_Filters?FromDate=' + fromDate + '&ToDate=' + toDate, model);
   }
 
   GetItemsPricesFollowUp_Export(fromDate: any, toDate: any, model: SearchFilterModel) {
+    fromDate = fromDate ?? '';
+    toDate = toDate ?? '';
     return this.http.post<any>(this.URL + 'InventoryReports/GetItemsPricesFollowUp_Export?FromDate=' + fromDate + '&ToDate=' + toDate, model);
   }
 
+  GetReceivedItemsSummaryReport_Data(fromDate: any, toDate: any, model: SearchFilterModel) {
+    fromDate = fromDate ?? '';
+    toDate = toDate ?? '';
+    return this.http.post<PagedResponseDTO<any[]>>(this.URL + 'InventoryReports/GetReceivedItemsSummaryReport_Data?FromDate=' + fromDate + '&ToDate=' + toDate, model);
+  }
+  GetReceivedItemsSummaryReport__Filters(fromDate: any, toDate: any, model: SearchFilterModel) {
+    fromDate = fromDate ?? '';
+    toDate = toDate ?? '';
+    return this.http.post<any>(this.URL + 'InventoryReports/GetReceivedItemsSummaryReport__Filters?FromDate=' + fromDate + '&ToDate=' + toDate, model);
+  }
 
+  GetReceivedItemsSummaryReport_Export(fromDate: any, toDate: any, model: SearchFilterModel) {
+    fromDate = fromDate ?? '';
+    toDate = toDate ?? '';
+    return this.http.post<any>(this.URL + 'InventoryReports/GetReceivedItemsSummaryReport_Export?FromDate=' + fromDate + '&ToDate=' + toDate, model);
+  }
+
+
+
+  GetReceivedItemsDetailsReport_Data(fromDate: any, toDate: any, model: SearchFilterModel) {
+    fromDate = fromDate ?? '';
+    toDate = toDate ?? '';
+    return this.http.post<PagedResponseDTO<any[]>>(this.URL + 'InventoryReports/GetReceivedItemsDetailsReport_Data?FromDate=' + fromDate + '&ToDate=' + toDate, model);
+  }
+  GetReceivedItemsDetailsReport_Filters(fromDate: any, toDate: any, model: SearchFilterModel) {
+    fromDate = fromDate ?? '';
+    toDate = toDate ?? '';
+    return this.http.post<any>(this.URL + 'InventoryReports/GetReceivedItemsSummaryReport__Filters?FromDate=' + fromDate + '&ToDate=' + toDate, model);
+  }
+  GetReceivedItemsDetailsReport_Export(fromDate: any, toDate: any, model: SearchFilterModel) {
+    fromDate = fromDate ?? '';
+    toDate = toDate ?? '';
+    return this.http.post<any>(this.URL + 'InventoryReports/GetReceivedItemsDetailsReport_Export?FromDate=' + fromDate + '&ToDate=' + toDate, model);
+  }
+
+  GetMaterialReceiptsReport_Data(fromDate: any, toDate: any, model: SearchFilterModel) {
+    fromDate = fromDate ?? '';
+    toDate = toDate ?? '';
+    return this.http.post<PagedResponseDTO<any[]>>(this.URL + 'InventoryReports/GetMaterialReceiptsReport_Data?FromDate=' + fromDate + '&ToDate=' + toDate, model);
+  }
+  GetMaterialReceiptsReport_Filters(fromDate: any, toDate: any, model: SearchFilterModel) {
+    fromDate = fromDate ?? '';
+    toDate = toDate ?? '';
+    return this.http.post<any>(this.URL + 'InventoryReports/GetMaterialReceiptsReport_Filters?FromDate=' + fromDate + '&ToDate=' + toDate, model);
+  }
+  GetMaterialReceiptsReport_Export(fromDate: any, toDate: any, model: SearchFilterModel) {
+    fromDate = fromDate ?? '';
+    toDate = toDate ?? '';
+    return this.http.post<any>(this.URL + 'InventoryReports/GetMaterialReceiptsReport_Export?FromDate=' + fromDate + '&ToDate=' + toDate, model);
+  }
 
 }

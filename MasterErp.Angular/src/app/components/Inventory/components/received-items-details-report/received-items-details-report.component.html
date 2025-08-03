@@ -1,9 +1,9 @@
-<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+<!-- <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb> -->
 
 <div class="inputs-wrapper border rounded bg-white mb-3">
     <div class="inputs-sec-content px-3 py-2">
         <div class="row gy-3">
-            <div class="col-lg-4">
+             <div class="col-lg-4">
                 <div class="mb-2">
                     <label class="form-label d-flex align-items-center gap-2">
                         الاصناف
@@ -86,7 +86,8 @@
                         <th>المجموعة</th>
                         <th>تاريخ الاستلام</th>
                         <th>الكمية المستلمة</th>
-                        <th>رقم أمر الشراء</th>
+                        <th>رقم أمر الاستلام</th>
+                        <th>#</th>
                         <th>سعر الشراء</th>
                         <th>اسم المورد</th>
                     </tr>
@@ -95,12 +96,13 @@
                     <tr *ngFor="let item of pagedResponseModel.results">
                         <td>{{item.code}}</td>
                         <td>{{item.itemNameAR}}</td>
-                        <td>{{item.categoryNameAR}}</td>
+                        <td>{{item.categoryNameAR ??item.categoryNameEN}}</td>
                         <td>{{item.orderDate | date}}</td>
                         <td>{{item.quantity}}</td>
                         <td>{{item.orderNumber}}</td>
+                        <td>{{item.serialNumber}}</td>
                         <td>{{item.price}}</td>
-                        <td>{{item.supplierNameAR}}</td>
+                        <td>{{item.supplierNameAR ?? item.supplierNameEN}}</td>
                     </tr>
                     <tr *ngIf="!pagedResponseModel.results.length || showLoader">
                         <td colspan="8" class="text-right">

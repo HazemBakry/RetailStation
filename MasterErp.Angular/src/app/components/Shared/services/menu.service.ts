@@ -537,13 +537,6 @@ export class MenuService {
               route: '/inventory/received-items-report'
             },
             {
-              displayName: 'تقرير إجمالى الأصناف المستلمة',
-              menuItem: 'received-items-summary',
-              description: 'ملخص إجمالى الأصناف المستلمة',
-              icon: 'fa fa-layer-group',
-              route: '/inventory/received-items-summary'
-            },
-            {
               displayName: 'تقرير أذونات الإضافة',
               menuItem: 'material-receipts-report',
               description: 'أذونات الإضافة للأصناف خلال فترة',

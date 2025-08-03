@@ -19,8 +19,7 @@ import { InventoryService } from "../../services/inventory.service";
 export class ItemsFollowupReportComponent implements OnInit {
   TitleList = ['المخازن', 'تقارير تتبع أسعار الأصناف'];
   showLoader: boolean;
-  vacationTypesSelectorData: GeneralSelectorModel[] = [];
-  workflowStatusSelectorData: GeneralSelectorModel[] = [];
+  itemsSelectorData: GeneralSelectorModel[] = [];
   employeeSelectorData: GeneralSelectorModel[] = [];
   fromDate: string;
   toDate: string;
@@ -28,7 +27,8 @@ export class ItemsFollowupReportComponent implements OnInit {
   selectedVacationTypeId: number;
   selectedStatusId: number;
   filterList: FilterItem[] = [];
-
+  selectedItemIds: number[] = [];
+  selectedItems: GeneralSelectorModel[] = [];
   pagedResponseModel: PagedResponseDTO<ItemModel[]> = {
     results: [],
     filterList: [],
@@ -46,21 +46,23 @@ export class ItemsFollowupReportComponent implements OnInit {
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    //this.loadSelectors();
+    this.loadSelectors();
     //this.onSearch();
   }
 
 
   loadSelectors() {
-    this.lookupService.GetVacationTypesSelector().subscribe((data: GeneralSelectorModel[]) => {
-      this.vacationTypesSelectorData = data;
-    });
-    this.lookupService.GetWorkStatusSelector(WorkflowStatusGroup.HR).subscribe((data: GeneralSelectorModel[]) => {
-      this.workflowStatusSelectorData = data;
+
+    this.sharedService.GetItemsSelector().subscribe((data: GeneralSelectorModel[]) => {
+      this.itemsSelectorData = data;
     });
   }
 
   onSearch() {
+    if (!this.fromDate || !this.toDate || !this.selectedItemIds?.length) {
+      this.toaster.error('الرجاء ملئ جميع الحقول المطلوبة');
+      return;
+    }
     this.pagedResponseModel.results = [];
     this.pagedResponseModel.currentPage = 1;
     this.pagedResponseModel.totalCount = 0;
@@ -71,7 +73,7 @@ export class ItemsFollowupReportComponent implements OnInit {
     this.mapFilters();
     this.showLoader = true;
     this.inventoryService.GetItemsPricesFollowUp_Data(this.fromDate, this.toDate, this.pagedResponseModel).subscribe(data => {
-      debugger
+      
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
 
@@ -84,7 +86,7 @@ export class ItemsFollowupReportComponent implements OnInit {
   }
 
   exportData() {
-    //this.mapFilters();
+    this.mapFilters();
     this.showExportLoader = true;
     this.inventoryService.GetItemsPricesFollowUp_Export(this.fromDate, this.toDate, this.pagedResponseModel).subscribe(data => {
       if (data.isSuccess) {
@@ -108,6 +110,11 @@ export class ItemsFollowupReportComponent implements OnInit {
     if (this.toDate) {
       this.pagedResponseModel.filterList.push({ categoryName: 'ToDate', itemFlag: this.toDate })
     }
+    if (this.selectedItemIds?.length > 0) {
+      this.selectedItemIds.forEach(itemId => {
+        this.pagedResponseModel.filterList.push({ categoryName: 'Item', itemFlag: itemId?.toString() })
+      });
+    }
     // if (this.selectedEmployeeId) {
     //   this.pagedResponseModel.filterList.push({ categoryName: 'EmployeeId', itemFlag: this.selectedEmployeeId?.toString() })
     // }
@@ -118,7 +125,10 @@ export class ItemsFollowupReportComponent implements OnInit {
     //   this.pagedResponseModel.filterList.push({ categoryName: 'VacationStatus', itemFlag: this.selectedStatusId?.toString() })
     // }
   }
-
+  getSelectedItems(itemIds: number[]) {
+    this.selectedItemIds = itemIds;
+    //this.selectedItems = this.itemsSelectorData.filter(item => itemIds.some(itemId => itemId == item.value)).map(item => ({ ...item }));
+  }
   pageChanged(obj: any) {
     this.pagedResponseModel.currentPage = obj.page;
     this.getItemsPricesFollowUp_Data();

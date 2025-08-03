@@ -27,6 +27,8 @@ import { ItemLookupsComponent } from './components/item-lookups/item-lookups.com
 import { ItemsFollowupReportComponent } from './components/items-followup-report/items-followup-report.component';
 import { ReceivedItemsReportComponent } from './components/received-items-report/received-items-report.component';
 import { MaterialReceiptsReportComponent } from './components/material-receipts-report/material-receipts-report.component';
+import { ReceivedItemsSummaryReportComponent } from './components/received-items-summary-report/received-items-summary-report.component';
+import { ReceivedItemsDetailsReportComponent } from './components/received-items-details-report/received-items-details-report.component';
 
 
 @NgModule({
@@ -53,7 +55,9 @@ import { MaterialReceiptsReportComponent } from './components/material-receipts-
     ItemLookupsComponent,
     ItemsFollowupReportComponent,
     ReceivedItemsReportComponent,
-    MaterialReceiptsReportComponent
+    MaterialReceiptsReportComponent,
+    ReceivedItemsSummaryReportComponent,
+    ReceivedItemsDetailsReportComponent
   ],
   imports: [
     CommonModule,
