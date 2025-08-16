@@ -149,6 +149,10 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
 
     });
+    this.formGroup.get('nationalityId').valueChanges.subscribe((data) => {
+      if(data&&!this.isUpdate)
+        this.getEmployeesCodeByNationality(data);
+    });
   }
 
   saveEmployeeBasicInfo() {
@@ -210,6 +214,19 @@ export class HrEmployeeBasicInfoComponent implements OnInit {
       else {
         this.toaster.error(data?.message);
       }
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
+    });
+
+
+  }
+  getEmployeesCodeByNationality(nationalityId:number) {
+    this.showAddLoader = true;
+    this.employeeService.GetEmployeesCodeByNationality(nationalityId).subscribe((data: number) => {
+      this.formGroup.patchValue({code:data})
       this.showAddLoader = false;
     }, err => {
       this.showAddLoader = false;

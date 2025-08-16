@@ -45,6 +45,9 @@ export class EmployeeService {
     return this.http.get<ActionsResponseModel>(this.URL + `Employee/DeleteEmployeeAttachment?EmployeeId=${employeeId}&AttachmentId=${attachmentId}`);
   }
 
+  GetEmployeesCodeByNationality(nationality:number) {
+    return this.http.get<number>(this.URL + `Employee/GetEmployeesCodeByNationality?NationalityId=${nationality}`);
+  }
   GetEmployeeBasicInfoById(employeeId:number) {
     return this.http.get<EmployeeModel>(this.URL + `Employee/GetEmployeeBasicInfoById?EmployeeId=${employeeId}`);
   }

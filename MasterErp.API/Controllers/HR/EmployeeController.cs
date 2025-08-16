@@ -223,7 +223,13 @@ namespace MasterErp.API.Controllers.HR
             var result = _employeeService.ExportEmployeesSummaryData(model);
             return result;
         }
-
+        [HttpGet]
+        [Route("GetEmployeesCodeByNationality")]
+        public IActionResult GetEmployeesCodeByNationality(int NationalityId)
+        {
+            var results = _employeeService.GetEmployeesCodeByNationality(NationalityId);
+            return Ok(results);
+        }
         [HttpGet]
         [Route("GetEmployeeContractDetails")]
         public IActionResult GetEmployeeContract(int EmployeeId)

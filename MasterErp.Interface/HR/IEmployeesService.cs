@@ -37,6 +37,7 @@ namespace MasterErp.Interface.HR
         List<FilterModel> GetEmployeesSummary_Filters(SearchFilterModel model);
         List<SelectorDataModel> GetEmployeesByVacationTypes(int VacationTypeId);
         ActionsResponseModel ExportEmployeesSummaryData(SearchFilterModel model);
+        int? GetEmployeesCodeByNationality(int NationalityId);
         List<StatisticsCardSummary> GetEmployeesSummary();
         List<SelectorDataModel> GetAllEmployeesSelector();
         List<SelectorDataModel> GetActiveEmployeesSelector(int? EmployeeStatusI);

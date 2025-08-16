@@ -54,9 +54,26 @@ namespace MasterErp.Service.HR
             try
             {
                 var employee = new Employee();
+               
+                if (model.Code > 0)
+                {
+                    bool exists = Context.Employees.Any(x => x.Code == model.Code);
+                    if (exists)
+                    {
+                        return new ActionsResponseModel { IsSuccess = false, Message = "An employee with the same code already exists." };
+                    }
+                    employee.Code = model.Code;
+                }
+                else
+                {
+                    int? lastEmpCode = Context.Employees
+                        .Where(x => x.NationalityId == model.NationalityId)
+                        .OrderByDescending(e => e.Code)
+                        .Select(e => e.Code) 
+                        .FirstOrDefault();
+                    employee.Code = (lastEmpCode ?? 0) + 1;
+                }
 
-                int? lastEmpCode = Context.Employees.Where(x=>x.NationalityId == model.NationalityId).OrderByDescending(e => e.Code).FirstOrDefault()?.Code;
-                employee.Code = lastEmpCode + 1 ?? 1;
                 employee.FirstNameAR = model.FirstNameAR;
                 employee.FatherNameAR = model.FatherNameAR;
                 employee.GrandNameAR = model.GrandNameAR;
@@ -133,10 +150,23 @@ namespace MasterErp.Service.HR
                 var employee = Context.Employees.FirstOrDefault(i => i.EmployeeId == EmployeeId);
                 if (employee != null)
                 {
-                    if(employee.NationalityId != model.NationalityId)
+                    //if(employee.NationalityId != model.NationalityId)
+                    //{
+                    //    int? lastEmpCode = Context.Employees.Where(x => x.NationalityId == model.NationalityId).OrderByDescending(e => e.Code).FirstOrDefault()?.Code;
+                    //    employee.Code = lastEmpCode + 1 ?? 1;
+                    //}
+                    if (model.Code > 0 && employee.Code != model.Code)
                     {
-                        int? lastEmpCode = Context.Employees.Where(x => x.NationalityId == model.NationalityId).OrderByDescending(e => e.Code).FirstOrDefault()?.Code;
-                        employee.Code = lastEmpCode + 1 ?? 1;
+                       
+                        bool codeExists = Context.Employees
+                            .Any(x => x.Code == model.Code && x.EmployeeId != employee.EmployeeId);
+
+                        if (codeExists)
+                        {
+                            return new ActionsResponseModel { IsSuccess = false, Message = "An employee with the same code already exists." };
+                        }
+
+                        employee.Code = model.Code;
                     }
                     employee.FirstNameAR = model.FirstNameAR;
                     employee.FatherNameAR = model.FatherNameAR;
@@ -866,6 +896,24 @@ namespace MasterErp.Service.HR
                     URL = "",
                     Message = "Server error",
                 };
+            }
+        }
+        public int? GetEmployeesCodeByNationality(int NationalityId)
+        {
+            int? code = null;
+            try
+            {
+
+                int? lastEmpCode = Context.Employees.Where(x => x.NationalityId == NationalityId).OrderByDescending(e => e.Code).FirstOrDefault()?.Code;
+
+                code = (lastEmpCode ?? 0) + 1;
+
+                return code;
+                
+            }
+            catch (Exception ex)
+            {
+                return code;
             }
         }
 
