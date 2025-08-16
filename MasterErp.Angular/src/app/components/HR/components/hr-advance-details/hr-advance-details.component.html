@@ -69,9 +69,13 @@
                                 <!-- <td class="word-break">{{item.notes}}</td> -->
                                 <td>
                                     <div class="d-flex align-items-center justify-content-center text-center">
-                                        <button (click)="openPostponeModal(postponeModal,item.advancePaymentId)" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2" (click)="openNewSidePanel(addModal,item)">
+                                        <button *ngIf="item.workflowStatusId == wfStatus.Pending" (click)="openPostponeModal(postponeModal,item.advancePaymentId)" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2" (click)="openNewSidePanel(addModal,item)">
                                             <i class="uil uil-pen"></i>
                                             <span>تأجيل</span>
+                                        </button>
+                                        <button *ngIf="item.workflowStatusId == wfStatus.Cancelled" (click)="openPostponeModal(postponeModal,item.advancePaymentId,false)" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2" (click)="openNewSidePanel(addModal,item)">
+                                            <i class="uil uil-pen"></i>
+                                            <span>الغاء تأجيل</span>
                                         </button>
                                         <!-- <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteModal,item.advancePaymentId)">
                                     <i class="uil uil-trash-alt"></i>
@@ -99,7 +103,7 @@
         <h4 class="modal-title">رسالة تأكيد</h4>
     </div>
     <div class="modal-body">
-        <p class="fs-5 m-0">هل أنت متأكد من التأجيل ؟</p>
+        <p class="fs-5 m-0">هل أنت متأكد من {{isPostpone ? 'التأجيل' :'الغاء تأجيل'}} ؟</p>
     </div>
     <div class="modal-footer justify-content-start">
         <button type="button" class="btn btn-success" (click)="modal.close('Save click');postponeAdvancesInstallment()">

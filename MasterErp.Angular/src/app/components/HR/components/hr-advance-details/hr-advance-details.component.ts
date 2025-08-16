@@ -9,6 +9,7 @@ import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponse
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { AdvancePaymentModel } from '../../models/EmployeeAdvanceModel';
 import { HrService } from '../../services/hr.service';
+import { WorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
 
 @Component({
   selector: 'app-hr-advance-details',
@@ -20,9 +21,10 @@ export class HrAdvanceDetailsComponent implements OnInit {
   @Input() employeeAdvanceId: number;
   @Input() employeeId: number;
   selectedAdvancePaymentId: number;
+  isPostpone: boolean = true;
   showLoader: boolean = false;
   showAddLoader: boolean = false;
-
+  public wfStatus=WorkflowStatus;
   @ViewChild('detailsSidePanel', { static: true }) detailsSidePanel: TemplateRef<any>;
 
   constructor(private modalService: NgbModal, private hrService: HrService, private sharedService: SharedService,
@@ -107,13 +109,14 @@ export class HrAdvanceDetailsComponent implements OnInit {
       this.showAddLoader = false;
     });
   }
-  openPostponeModal(content: any, advancePaymentId: number) {
+  openPostponeModal(content: any, advancePaymentId: number,isPostpone:boolean=true) {
     this.selectedAdvancePaymentId = advancePaymentId;
+    this.isPostpone = isPostpone;
     this.modalService.open(content, { centered: true, size: 'md' });
   }
   postponeAdvancesInstallment() {
     this.showAddLoader = true;
-    this.hrService.PostponeAdvancesInstallment(this.employeeId, this.selectedAdvancePaymentId).subscribe(data => {
+    this.hrService.PostponeAdvancesInstallment(this.employeeId, this.selectedAdvancePaymentId,this.isPostpone).subscribe(data => {
 
       if (data?.isSuccess) {
         this.modalService?.dismissAll();
@@ -130,6 +133,5 @@ export class HrAdvanceDetailsComponent implements OnInit {
       this.showAddLoader = false;
     });
   }
-
 
 }

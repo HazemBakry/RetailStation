@@ -106,9 +106,9 @@ namespace MasterErp.API.Controllers.HR
         }
         [HttpGet]
         [Route("PostponeAdvancesInstallment")]
-        public IActionResult PostponeAdvancesInstallment(int EmployeeId, int AdvancePaymentId)
+        public IActionResult PostponeAdvancesInstallment(int EmployeeId, int AdvancePaymentId, bool IsPostpone = true)
         {
-            var result = _advancesService.PostponeAdvancesInstallment(EmployeeId, AdvancePaymentId);
+            var result = _advancesService.PostponeAdvancesInstallment(EmployeeId, AdvancePaymentId, IsPostpone);
             return Ok(result);
         }
         [HttpGet]

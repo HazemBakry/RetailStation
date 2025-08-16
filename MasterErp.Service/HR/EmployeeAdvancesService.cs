@@ -318,7 +318,7 @@ namespace MasterErp.Service.HR
             }
 
         }
-        public ActionsResponseModel PostponeAdvancesInstallment(int EmployeeId, int AdvancePaymentId)
+        public ActionsResponseModel PostponeAdvancesInstallment_Old(int EmployeeId, int AdvancePaymentId,bool IsPostPone)
         {
 
             try
@@ -357,6 +357,97 @@ namespace MasterErp.Service.HR
             }
 
         }
+        public ActionsResponseModel PostponeAdvancesInstallment(int EmployeeId, int AdvancePaymentId, bool IsPostPone)
+        {
+            try
+            {
+                // Find the installment that the user is trying to modify
+                var currentInstallment = Context.AdvancePayments.FirstOrDefault(i => i.AdvancePaymentId == AdvancePaymentId);
+                if (currentInstallment == null)
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Advance Installment not found." };
+                }
+
+                // Handle the case where the user wants to postpone the installment
+                if (IsPostPone)
+                {
+                    // Find the last installment for this employee's advance to determine the new date
+                    var lastInstallment = Context.AdvancePayments
+                        .Where(i => i.EmployeeAdvanceId == currentInstallment.EmployeeAdvanceId)
+                        .OrderByDescending(x => x.ExecutionDate)
+                        .FirstOrDefault();
+
+                    if (lastInstallment == null)
+                    {
+                        return new ActionsResponseModel { IsSuccess = false, Message = "Last installment could not be found for this advance." };
+                    }
+
+                    // Mark the current installment as cancelled
+                    currentInstallment.WorkflowStatusId = (int)WorkflowStatus.Cancelled;
+                    currentInstallment.ModifiedBy = string.Empty;
+                    currentInstallment.ModifiedDate = DateTime.Now;
+
+                    // Create a new postponed installment to be paid one month later
+                    var newInstallment = new AdvancePayment
+                    {
+                        EmployeeAdvanceId = currentInstallment.EmployeeAdvanceId,
+                        MoneyAmount = currentInstallment.MoneyAmount,
+                        ExecutionDate = lastInstallment.ExecutionDate.AddMonths(1),
+                        WorkflowStatusId = (int)WorkflowStatus.Pending,
+                        Notes = currentInstallment.Notes,
+                        CreatedBy = string.Empty,
+                        CreatedDate = DateTime.Now
+                    };
+
+                    // Add the new installment and save all changes
+                    Context.AdvancePayments.Add(newInstallment);
+                    Context.SaveChanges();
+
+                    return new ActionsResponseModel { Message = "Advance Installment postponed successfully!" };
+                }
+                else // This block handles the case where the user wants to un-postpone a payment
+                {
+                    // First, check if there's a next, un-paid installment that needs to be cancelled
+                    var nextInstallment = Context.AdvancePayments
+                        .Where(i => i.EmployeeAdvanceId == currentInstallment.EmployeeAdvanceId && i.ExecutionDate > currentInstallment.ExecutionDate)
+                        .OrderBy(x => x.ExecutionDate)
+                        .FirstOrDefault();
+
+                    if (nextInstallment != null && nextInstallment.WorkflowStatusId != (int)WorkflowStatus.Completed)
+                    {
+                        // Find the last installment for this employee's advance to cancel it
+                        var lastInstallment = Context.AdvancePayments
+                            .Where(i => i.EmployeeAdvanceId == currentInstallment.EmployeeAdvanceId)
+                            .OrderByDescending(x => x.ExecutionDate)
+                            .FirstOrDefault();
+                        
+
+                        // Mark the last installment as cancelled
+                        //lastInstallment.WorkflowStatusId = (int)WorkflowStatus.Cancelled;
+                        //lastInstallment.ModifiedBy = string.Empty;
+                        //lastInstallment.ModifiedDate = DateTime.Now;
+                        Context.AdvancePayments.Remove(lastInstallment);
+
+                        // Mark the current installment as pending, effectively reactivating it
+                        currentInstallment.WorkflowStatusId = (int)WorkflowStatus.Pending;
+                        currentInstallment.ModifiedBy = string.Empty;
+                        currentInstallment.ModifiedDate = DateTime.Now;
+                    }
+
+                   
+                    Context.SaveChanges();
+
+                    return new ActionsResponseModel { Message = "Advance Installment un-postponed successfully!" };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+
+
         public ActionsResponseModel DeleteEmployeeAdvance(int EmployeeAdvanceId)
         {
 
