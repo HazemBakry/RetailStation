@@ -101,7 +101,7 @@
                         <th>حتى تاريخ</th>
                         <th>أخر يوم عمل</th>
                         <th>اجمالي المدة بالأيام</th>
-                        <th>الحالة</th>
+                        <th>حالة الطلب</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -129,7 +129,7 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <div ngbDropdownMenu class="border">
-                                        <button ngbDropdownItem (click)="cancelPaymentOrder(item.paymentOrderId)">تعديل</button>
+                                        <button ngbDropdownItem (click)="openNewSidePanel(AddModal,item)">تعديل</button>
                                         <button ngbDropdownItem (click)="openDeleteModal(deleteModal,item.vacationId)">إلغاء</button>
                                         <button ngbDropdownItem (click)="openEditJoinDateModal(editJoinDateModal,item)">عودة من
                                             الأجازة</button>
@@ -207,17 +207,17 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 حالة الموظف
                             </label>
-                            <app-general-selector [(ngModel)]="employeeStatusId" [disabled]="true" [data]="employeeStatusSelector" [placeholder]="'حالة الموظف'"></app-general-selector>
+                            <app-general-selector [(ngModel)]="employeeStatusId" [data]="employeeStatusSelector" [placeholder]="'حالة الموظف'"></app-general-selector>
                         </div>
                     </div>
-                    <div class="row mb-3">
+                    <!-- <div class="row mb-3">
                         <div class="col-md-12">
                             <label class="form-label d-flex align-items-center gap-2">
                                 تاريخ العودة
                             </label>
                             <input type="date" class="form-control nw-form-input w-100" [(ngModel)]="lastJoinDate" autocomplete="off" />
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
             </div>
