@@ -109,9 +109,9 @@ namespace MasterErp.API.Controllers.HR
 
         [HttpGet]
         [Route("UpdateEmployeeLastJoinDate")]
-        public IActionResult UpdateEmployeeLastJoinDate(int EmployeeId, DateTime LastJoinDate)
+        public IActionResult UpdateEmployeeLastJoinDate(int EmployeeId, DateTime LastJoinDate, int StatusId)
         {
-            return Ok(_employeeService.UpdateEmployeeLastJoinDate(EmployeeId, LastJoinDate));
+            return Ok(_employeeService.UpdateEmployeeLastJoinDate(EmployeeId, LastJoinDate,StatusId));
         }
 
         [HttpPost]

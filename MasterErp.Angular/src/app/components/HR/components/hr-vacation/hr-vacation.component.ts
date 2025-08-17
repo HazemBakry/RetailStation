@@ -14,6 +14,7 @@ import { LookupService } from 'src/app/components/Shared/services/lookup.service
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { EmployeeService } from '../../services/employee.service';
+import { WorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
 
 @Component({
   selector: 'app-hr-vacation',
@@ -61,6 +62,7 @@ export class HrVacationComponent implements OnInit {
     notes: '',
 
   };
+  public wfStatus=WorkflowStatus;
   selectedEmployeeId: number = null;
   alternativeEmployeeId: number = null;
 
@@ -322,48 +324,48 @@ export class HrVacationComponent implements OnInit {
   }
 
   updateEmployeeLastJoinDate() {
-    if (!this.selectedEmployeeId || !this.employeeStatusId) {
-      this.toaster.warning('please fill fields !')
-      return;
-    }
-    this.showLoader = true;
-    this.employeeService.ChangeEmployeeStatus(this.selectedEmployeeId, this.employeeStatusId).subscribe((data: ActionsResponseModel) => {
-      if (data.isSuccess) {
-        this.modalService?.dismissAll();
-        this.getVacationRequestsByType(this.VacationTypeId);
-        this.toaster.success(data.message);
-      }
-      else {
-        this.toaster.error(data.message);
-      }
-      this.showLoader = false;
-    }, (err) => {
-      this.showLoader = false;
-    }, () => {
-      this.showLoader = false;
-    });
-
-
-    // if(!this.selectedEmployeeId || !this.lastJoinDate)
-    // {
+    // if (!this.selectedEmployeeId || !this.employeeStatusId) {
     //   this.toaster.warning('please fill fields !')
     //   return;
     // }
-    // this.showAddLoader = true;
-    // this.hrService.UpdateEmployeeLastJoinDate(this.selectedEmployeeId, this.lastJoinDate).subscribe(data => {
-    //   if (data?.isSuccess) {
+    // this.showLoader = true;
+    // this.employeeService.ChangeEmployeeStatus(this.selectedEmployeeId, this.employeeStatusId).subscribe((data: ActionsResponseModel) => {
+    //   if (data.isSuccess) {
     //     this.modalService?.dismissAll();
     //     this.getVacationRequestsByType(this.VacationTypeId);
-    //     this.toaster.success(data?.message);
+    //     this.toaster.success(data.message);
     //   }
     //   else {
-    //     this.toaster.error(data?.message);
+    //     this.toaster.error(data.message);
     //   }
-    //   this.showAddLoader = false;
-    // }, err => {
-    //   this.showAddLoader = false;
+    //   this.showLoader = false;
+    // }, (err) => {
+    //   this.showLoader = false;
     // }, () => {
-    //   this.showAddLoader = false;
+    //   this.showLoader = false;
     // });
+
+
+    if(!this.selectedEmployeeId || !this.lastJoinDate || !this.employeeStatusId)
+    {
+      this.toaster.warning('please fill fields !')
+      return;
+    }
+    this.showAddLoader = true;
+    this.hrService.UpdateEmployeeLastJoinDate(this.selectedEmployeeId, this.lastJoinDate,this.employeeStatusId).subscribe(data => {
+      if (data?.isSuccess) {
+        this.modalService?.dismissAll();
+        this.getVacationRequestsByType(this.VacationTypeId);
+        this.toaster.success(data?.message);
+      }
+      else {
+        this.toaster.error(data?.message);
+      }
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
+    });
   }
 }

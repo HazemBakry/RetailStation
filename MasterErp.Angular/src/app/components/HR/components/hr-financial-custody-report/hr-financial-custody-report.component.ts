@@ -89,7 +89,8 @@ export class HrFinancialCustodyReportComponent implements OnInit {
     this.showExportLoader = true;
     this.hrService.GetAllEmployeeFinancialCustody_Export(this.pagedResponseModel).subscribe(data => {
       if (data.isSuccess) {
-        this.sharedService.urlDownloadOrOpen(data.url);
+        // this.sharedService.urlDownloadOrOpen(data.url);
+        console.log("🚀 ~ HrFinancialCustodyReportComponent ~ exportData ~ data.url:", data.url)
         this.toaster.success(data.message);
       } else {
         this.toaster.error(data.message);

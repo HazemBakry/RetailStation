@@ -131,7 +131,7 @@
                                     <div ngbDropdownMenu class="border">
                                         <button ngbDropdownItem (click)="openNewSidePanel(AddModal,item)">تعديل</button>
                                         <button ngbDropdownItem (click)="openDeleteModal(deleteModal,item.vacationId)">إلغاء</button>
-                                        <button ngbDropdownItem (click)="openEditJoinDateModal(editJoinDateModal,item)">عودة من
+                                        <button *ngIf="item.workflowStatusId == wfStatus.Completed" ngbDropdownItem (click)="openEditJoinDateModal(editJoinDateModal,item)">عودة من
                                             الأجازة</button>
                                     </div>
                                 </div>
@@ -210,14 +210,14 @@
                             <app-general-selector [(ngModel)]="employeeStatusId" [data]="employeeStatusSelector" [placeholder]="'حالة الموظف'"></app-general-selector>
                         </div>
                     </div>
-                    <!-- <div class="row mb-3">
+                    <div class="row mb-3">
                         <div class="col-md-12">
                             <label class="form-label d-flex align-items-center gap-2">
                                 تاريخ العودة
                             </label>
                             <input type="date" class="form-control nw-form-input w-100" [(ngModel)]="lastJoinDate" autocomplete="off" />
                         </div>
-                    </div> -->
+                    </div>
 
                 </div>
             </div>

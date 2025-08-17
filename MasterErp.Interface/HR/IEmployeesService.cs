@@ -22,7 +22,7 @@ namespace MasterErp.Interface.HR
         Task<ActionsResponseModel> SaveEmployeeAttachments(int EmployeeId, EmployeeAttachmentDto model);
         ActionsResponseModel DeleteEmployeeAttachment(int EmployeeId, int AttachmentId);
         Task<ActionsResponseModel> ChangeEmployeeStatus(int EmployeeId, int StatusId);
-        ActionsResponseModel UpdateEmployeeLastJoinDate(int EmployeeId, DateTime LastJoinDate);
+        ActionsResponseModel UpdateEmployeeLastJoinDate(int EmployeeId, DateTime LastJoinDate, int StatusId);
         ActionsResponseModel EditEmployeesWorkStatus(string UserId, List<int> EmployeeIds);
 
         #endregion

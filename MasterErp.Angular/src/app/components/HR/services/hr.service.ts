@@ -369,8 +369,8 @@ export class HrService {
     return this.http.get<ChartSalarySummaryModel[]>(this.URL + 'Employee/GetDashboardSalaries_Statistics');
   }
 
-  UpdateEmployeeLastJoinDate(EmployeeId: number, LastJoinDate: any) {
-    return this.http.get<any>(this.URL + 'Employee/UpdateEmployeeLastJoinDate?EmployeeId=' + EmployeeId + '&LastJoinDate=' + LastJoinDate);
+  UpdateEmployeeLastJoinDate(EmployeeId: number, LastJoinDate: any,StatusId:number) {
+    return this.http.get<any>(this.URL + `Employee/UpdateEmployeeLastJoinDate?EmployeeId=${EmployeeId}&LastJoinDate=${LastJoinDate}&StatusId=${StatusId}`);
   }
 
   //================================== Attendance ===============================

@@ -570,7 +570,7 @@ namespace MasterErp.Service.HR
             }
         }
 
-        public ActionsResponseModel UpdateEmployeeLastJoinDate(int EmployeeId, DateTime LastJoinDate)
+        public ActionsResponseModel UpdateEmployeeLastJoinDate(int EmployeeId, DateTime LastJoinDate,int StatusId)
         {
             try
             {
@@ -584,10 +584,10 @@ namespace MasterErp.Service.HR
                 else
                 {
                     contract.LastJoinDate = LastJoinDate;
-                    employee.StatusId = (int)Entities.Common.Enums.EmployeeStatus.Active;
+                    //employee.StatusId = (int)Entities.Common.Enums.EmployeeStatus.Active;
+                    employee.StatusId = StatusId;
                     Context.SaveChangesAsync();
-
-                    return new ActionsResponseModel { IsSuccess = true, Message = "Employee last join date updated successfully." };
+                    return new ActionsResponseModel { IsSuccess = true, Message = "Employee last join date and status updated successfully." };
                 }
             }
             catch (Exception ex)
