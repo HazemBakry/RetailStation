@@ -53,8 +53,9 @@ namespace MasterErp.Service.Common
         {
             string serverPath = _configuration["ExportFilesURL"];
             var request = _contextAccessor.HttpContext.Request;
-            string URL = string.Format("{0}://{1}{2}/{3}", request.Scheme, request.Host, serverPath, FileName);
-            return URL;
+            return $"{request.Scheme}://{request.Host}{request.PathBase}/{serverPath.Replace("wwwroot/", "").Replace("\\", "/")}/{FileName}";
+            //string URL = string.Format("{0}://{1}{2}/{3}", request.Scheme, request.Host, serverPath, FileName);
+            //return URL;
         }
         private string GetLocalPath(string fileTitle, string extension)
         {
