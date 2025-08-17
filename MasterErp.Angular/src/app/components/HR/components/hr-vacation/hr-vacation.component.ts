@@ -276,7 +276,6 @@ export class HrVacationComponent implements OnInit {
       if (data) {
         this.employeeStatusSelector = data;
         this.employeeStatusId = request?.employeeStatusId;
-        console.log("🚀 ~ HrVacationComponent ~ openEditJoinDateModal ~ this.employeeStatusId :", this.employeeStatusId )
         this.selectedEmployeeId = request?.employeeId;
       }
       else {
