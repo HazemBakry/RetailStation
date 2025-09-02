@@ -1,5 +1,5 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.DTOs.Inventory;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.DTOs.Inventory;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Interface.Inventory
+namespace RetailStation.Interface.Inventory
 {
     public interface IInventoryReportsService
     {

@@ -1,6 +1,6 @@
-using MasterErp.Entities.Models;
-using MasterErp.Interface.Auth;
-using MasterErp.Service.Auth;
+using RetailStation.Entities.Models;
+using RetailStation.Interface.Auth;
+using RetailStation.Service.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,7 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.API
+namespace RetailStation.API
 {
     public class Program
     {

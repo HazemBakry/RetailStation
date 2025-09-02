@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Interface.Common
+namespace RetailStation.Interface.Common
 {
     public interface ISQLHelper
     {

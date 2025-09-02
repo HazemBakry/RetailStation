@@ -18,11 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MasterErp.Service\RetailStation.Service.csproj" />
+    <Folder Include="wwwroot\Fonts\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Fonts\" />
+    <ProjectReference Include="..\RetailStation.Service\RetailStation.Service.csproj" />
   </ItemGroup>
 
 </Project>

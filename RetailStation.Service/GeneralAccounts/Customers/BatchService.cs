@@ -1,8 +1,8 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.Finance;
-using MasterErp.Interface.Common;
-using MasterErp.Interface.GeneralAccounts.Customers;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.Finance;
+using RetailStation.Interface.Common;
+using RetailStation.Interface.GeneralAccounts.Customers;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Service.GeneralAccounts.Customers
+namespace RetailStation.Service.GeneralAccounts.Customers
 {
     public class BatchService: IBatchService
     {

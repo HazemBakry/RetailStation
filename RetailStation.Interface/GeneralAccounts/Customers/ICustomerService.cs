@@ -1,5 +1,5 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Models;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Interface.GeneralAccounts.Customers
+namespace RetailStation.Interface.GeneralAccounts.Customers
 {
     public interface ICustomerService
     {

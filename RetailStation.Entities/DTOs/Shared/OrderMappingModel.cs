@@ -1,11 +1,11 @@
-﻿using MasterErp.Entities.Common;
+﻿using RetailStation.Entities.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.DTOs.Shared
+namespace RetailStation.Entities.DTOs.Shared
 {
     public class OrderMappingModel :OrderProductModel
     {

@@ -1,12 +1,12 @@
-﻿using MasterErp.Entities.Models;
-using MasterErp.Interface.EmployeeProfile;
+﻿using RetailStation.Entities.Models;
+using RetailStation.Interface.EmployeeProfile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Service.EmployeeProfile
+namespace RetailStation.Service.EmployeeProfile
 {
     public class EmployeeProfileService : IEmployeeProfileService
     {

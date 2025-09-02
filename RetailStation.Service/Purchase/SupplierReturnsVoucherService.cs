@@ -1,11 +1,11 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Common.Finance.Purchases;
-using MasterErp.Entities.DTOs.Inventory;
-using MasterErp.Entities.DTOs.Purchases;
-using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.Purchases;
-using MasterErp.Interface.Common;
-using MasterErp.Interface.Purchase;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.Finance.Purchases;
+using RetailStation.Entities.DTOs.Inventory;
+using RetailStation.Entities.DTOs.Purchases;
+using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.Purchases;
+using RetailStation.Interface.Common;
+using RetailStation.Interface.Purchase;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Service.Purchase
+namespace RetailStation.Service.Purchase
 {
     public class SupplierReturnsVoucherService : ISupplierReturnsVoucherService
     {

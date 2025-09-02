@@ -1,6 +1,6 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Common.SQLTabeType;
-using MasterErp.Interface.Common;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.SQLTabeType;
+using RetailStation.Interface.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static NuGet.Packaging.PackagingConstants;
 
-namespace MasterErp.Service.Common
+namespace RetailStation.Service.Common
 {
     public class SharedFilterService : ISharedFilterService
     {

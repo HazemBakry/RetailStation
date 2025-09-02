@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models
+namespace RetailStation.Entities.Models
 {
     public class CreatorModel
     {

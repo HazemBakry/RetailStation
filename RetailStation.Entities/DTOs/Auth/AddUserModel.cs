@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.DTOs.Auth
+namespace RetailStation.Entities.DTOs.Auth
 {
     public class AddUserModel
     {

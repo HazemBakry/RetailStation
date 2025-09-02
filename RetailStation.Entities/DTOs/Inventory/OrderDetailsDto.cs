@@ -1,7 +1,7 @@
-﻿using MasterErp.Entities.DTOs.Purchases;
-using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.Inventory;
-using MasterErp.Entities.Models.Purchases;
+﻿using RetailStation.Entities.DTOs.Purchases;
+using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.Inventory;
+using RetailStation.Entities.Models.Purchases;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.DTOs.Inventory
+namespace RetailStation.Entities.DTOs.Inventory
 {
     public class OrderDetailsReportModel
     {

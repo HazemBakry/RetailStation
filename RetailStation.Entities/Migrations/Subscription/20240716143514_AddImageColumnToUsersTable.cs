@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MasterErp.Entities.Migrations.Subscription
+namespace RetailStation.Entities.Migrations.Subscription
 {
     public partial class AddImageColumnToUsersTable : Migration
     {

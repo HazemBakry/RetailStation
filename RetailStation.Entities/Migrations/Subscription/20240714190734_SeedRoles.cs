@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 
-namespace MasterErp.Entities.Migrations.Subscription
+namespace RetailStation.Entities.Migrations.Subscription
 {
     public partial class SeedRoles : Migration
     {

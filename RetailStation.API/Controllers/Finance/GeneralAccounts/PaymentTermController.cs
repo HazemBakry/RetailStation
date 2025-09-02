@@ -1,14 +1,14 @@
 ﻿using ICU4N.Util;
-using MasterErp.Entities.Common;
-using MasterErp.Entities.Common.Finance.GeneralAccounts;
-using MasterErp.Entities.Models.Finance;
-using MasterErp.Interface.GeneralAccounts.GeneralAccountSettings;
+using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.Finance.GeneralAccounts;
+using RetailStation.Entities.Models.Finance;
+using RetailStation.Interface.GeneralAccounts.GeneralAccountSettings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MasterErp.API.Controllers.Finance.GeneralAccounts
+namespace RetailStation.API.Controllers.Finance.GeneralAccounts
 {
     [Route("api/[controller]")]
     [ApiController]

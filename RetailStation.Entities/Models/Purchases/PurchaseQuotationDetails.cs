@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models.Purchases
+namespace RetailStation.Entities.Models.Purchases
 {
     [Table("PurchaseQuotationDetails", Schema = "Purchase")]
 

@@ -1,17 +1,17 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.DTOs.HR;
-using MasterErp.Interface.HR;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.DTOs.HR;
+using RetailStation.Interface.HR;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System;
 using Microsoft.AspNetCore.Authorization;
-using MasterErp.Interface.Inventory;
-using MasterErp.Service.HR;
+using RetailStation.Interface.Inventory;
+using RetailStation.Service.HR;
 using OfficeOpenXml.Table.PivotTable;
-using MasterErp.Entities.DTOs.Inventory;
+using RetailStation.Entities.DTOs.Inventory;
 using System.Linq;
 
-namespace MasterErp.API.Controllers.Inventory
+namespace RetailStation.API.Controllers.Inventory
 {
 
     [Route("api/[controller]")]

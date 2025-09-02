@@ -1,7 +1,7 @@
-﻿using MasterErp.Entities.DTOs.Auth;
-using MasterErp.Entities.Models;
-using MasterErp.Interface.Auth;
-using MasterErp.Service.Auth;
+﻿using RetailStation.Entities.DTOs.Auth;
+using RetailStation.Entities.Models;
+using RetailStation.Interface.Auth;
+using RetailStation.Service.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Configuration;
 using System.Text;
 
-namespace MasterErp.API
+namespace RetailStation.API
 {
     public static class IdentityConfigurations
     {

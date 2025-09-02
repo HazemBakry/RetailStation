@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Common.Finance.Purchases
+namespace RetailStation.Entities.Common.Finance.Purchases
 {
     public class SupplierStatementModel
     {

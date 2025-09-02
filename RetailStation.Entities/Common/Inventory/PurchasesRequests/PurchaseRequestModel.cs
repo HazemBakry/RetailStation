@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Common.Inventory.PurchasesRequests
+namespace RetailStation.Entities.Common.Inventory.PurchasesRequests
 {
     public class PurchaseRequestModel
     {

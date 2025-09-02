@@ -1,12 +1,12 @@
-﻿using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.HR;
+﻿using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.HR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Common
+namespace RetailStation.Entities.Common
 {
     public class SaveEmployeeModel
     {

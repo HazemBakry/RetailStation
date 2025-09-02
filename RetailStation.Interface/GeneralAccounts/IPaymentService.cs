@@ -1,7 +1,7 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Common.Finance.GeneralAccounts;
-using MasterErp.Entities.DTOs.Purchases;
-using MasterErp.Entities.Models.Finance;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.Finance.GeneralAccounts;
+using RetailStation.Entities.DTOs.Purchases;
+using RetailStation.Entities.Models.Finance;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Interface.GeneralAccounts
+namespace RetailStation.Interface.GeneralAccounts
 {
     public interface IPaymentService
     {

@@ -9,10 +9,10 @@ using iText.Kernel.Pdf.Canvas;
 using iText.Kernel.Font;
 using iText.Layout.Font;
 using iText.Kernel.Geom;
-using MasterErp.Interface.Shared;
+using RetailStation.Interface.Shared;
 using iText.Layout;
 
-namespace MasterErp.Service.Shared
+namespace RetailStation.Service.Shared
 {
     public class Helper : IHelper
     {

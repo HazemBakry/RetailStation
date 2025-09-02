@@ -1,12 +1,12 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.DTOs.Auth;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.DTOs.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Interface.Auth
+namespace RetailStation.Interface.Auth
 {
     public interface IAuthService
     {

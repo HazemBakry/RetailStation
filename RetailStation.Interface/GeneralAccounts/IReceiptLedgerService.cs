@@ -1,14 +1,14 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Common.Finance.GeneralAccounts;
-using MasterErp.Entities.DTOs.GeneralAccounts;
-using MasterErp.Entities.Models;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.Finance.GeneralAccounts;
+using RetailStation.Entities.DTOs.GeneralAccounts;
+using RetailStation.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Interface.GeneralAccounts
+namespace RetailStation.Interface.GeneralAccounts
 {
     public interface IReceiptLedgerService
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MasterErp.API.Controllers
+namespace RetailStation.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

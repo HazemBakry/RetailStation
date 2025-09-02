@@ -1,6 +1,6 @@
-﻿using MasterErp.Entities.Common.Enums;
-using MasterErp.Entities.Common.Export;
-using MasterErp.Interface.Common;
+﻿using RetailStation.Entities.Common.Enums;
+using RetailStation.Entities.Common.Export;
+using RetailStation.Interface.Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Http;
@@ -17,7 +17,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Service.Common
+namespace RetailStation.Service.Common
 {
     public class ExportService : IExportService
     {

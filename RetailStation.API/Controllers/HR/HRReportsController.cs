@@ -1,7 +1,7 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.DTOs.HR;
-using MasterErp.Interface.HR;
-using MasterErp.Service.HR;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.DTOs.HR;
+using RetailStation.Interface.HR;
+using RetailStation.Service.HR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +9,7 @@ using System;
 using System.Data;
 using System.Linq;
 
-namespace MasterErp.API.Controllers.HR
+namespace RetailStation.API.Controllers.HR
 {
     [Route("api/[controller]")]
     [ApiController]

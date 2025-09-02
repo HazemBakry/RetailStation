@@ -1,25 +1,25 @@
-﻿using MasterErp.Entities.Common.Inventory.PurchasesRequests;
-using MasterErp.Entities.Common;
-using MasterErp.Entities.DTOs.Inventory;
-using MasterErp.Entities.Models;
-using MasterErp.Interface.Common;
+﻿using RetailStation.Entities.Common.Inventory.PurchasesRequests;
+using RetailStation.Entities.Common;
+using RetailStation.Entities.DTOs.Inventory;
+using RetailStation.Entities.Models;
+using RetailStation.Interface.Common;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MasterErp.Entities.Common.Finance.GeneralAccounts;
-using MasterErp.Entities.DTOs.GeneralAccounts;
+using RetailStation.Entities.Common.Finance.GeneralAccounts;
+using RetailStation.Entities.DTOs.GeneralAccounts;
 using Microsoft.EntityFrameworkCore;
-using MasterErp.Entities.Common.Enums;
-using MasterErp.Interface.GeneralAccounts;
+using RetailStation.Entities.Common.Enums;
+using RetailStation.Interface.GeneralAccounts;
 using Microsoft.Data.SqlClient;
-using MasterErp.Entities.DTOs.HR;
+using RetailStation.Entities.DTOs.HR;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-using MasterErp.Entities.Models.Finance;
+using RetailStation.Entities.Models.Finance;
 
-namespace MasterErp.Service.GeneralAccounts
+namespace RetailStation.Service.GeneralAccounts
 {
     public class ReceiptLedgerService : IReceiptLedgerService
     {

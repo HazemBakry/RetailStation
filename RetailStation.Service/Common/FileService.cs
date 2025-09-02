@@ -1,5 +1,5 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Interface.Common;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Interface.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Service.Common
+namespace RetailStation.Service.Common
 {
     public class FileService : IFileService
     {

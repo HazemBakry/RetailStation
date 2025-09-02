@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models.Finance
+namespace RetailStation.Entities.Models.Finance
 {
     [Table("PaymentReceipts", Schema = "Finance")]
     public class PaymentReceipt : CreatorModel

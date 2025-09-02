@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.DTOs.DataImport
+namespace RetailStation.Entities.DTOs.DataImport
 {
     public class DBTableColumnsDto
     {

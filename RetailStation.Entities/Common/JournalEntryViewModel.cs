@@ -1,5 +1,5 @@
 ﻿
-namespace MasterErp.Entities.Common
+namespace RetailStation.Entities.Common
 {
     public class JournalEntryViewModel
     {

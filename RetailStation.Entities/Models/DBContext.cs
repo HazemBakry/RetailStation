@@ -1,12 +1,12 @@
 ﻿using Azure.Core;
-using MasterErp.Entities.Common.Finance;
-using MasterErp.Entities.Models.DataImport;
-using MasterErp.Entities.Models.Finance;
-using MasterErp.Entities.Models.Global;
-using MasterErp.Entities.Models.HR;
-using MasterErp.Entities.Models.Inventory;
-using MasterErp.Entities.Models.Lookups;
-using MasterErp.Entities.Models.Purchases;
+using RetailStation.Entities.Common.Finance;
+using RetailStation.Entities.Models.DataImport;
+using RetailStation.Entities.Models.Finance;
+using RetailStation.Entities.Models.Global;
+using RetailStation.Entities.Models.HR;
+using RetailStation.Entities.Models.Inventory;
+using RetailStation.Entities.Models.Lookups;
+using RetailStation.Entities.Models.Purchases;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models
+namespace RetailStation.Entities.Models
 {
     public class DBContext : DbContext
     {

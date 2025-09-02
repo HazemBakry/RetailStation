@@ -1,31 +1,31 @@
-﻿using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.HR;
-using MasterErp.Interface.Auth;
-using MasterErp.Interface.Common;
-using MasterErp.Interface.EmployeeProfile;
-using MasterErp.Interface.GeneralAccounts;
-using MasterErp.Interface.GeneralAccounts.Customers;
-using MasterErp.Interface.GeneralAccounts.GeneralAccountSettings;
-using MasterErp.Interface.HR;
-using MasterErp.Interface.Inventory;
-using MasterErp.Interface.Purchase;
-using MasterErp.Interface.Sales;
-using MasterErp.Interface.Shared;
-using MasterErp.Service.Auth;
-using MasterErp.Service.Common;
-using MasterErp.Service.EmployeeProfile;
-using MasterErp.Service.GeneralAccounts;
-using MasterErp.Service.GeneralAccounts.Customers;
-using MasterErp.Service.GeneralAccounts.GeneralAccountSettings;
-using MasterErp.Service.HR;
-using MasterErp.Service.Inventory;
-using MasterErp.Service.Purchase;
-using MasterErp.Service.Sales;
-using MasterErp.Service.Shared;
+﻿using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.HR;
+using RetailStation.Interface.Auth;
+using RetailStation.Interface.Common;
+using RetailStation.Interface.EmployeeProfile;
+using RetailStation.Interface.GeneralAccounts;
+using RetailStation.Interface.GeneralAccounts.Customers;
+using RetailStation.Interface.GeneralAccounts.GeneralAccountSettings;
+using RetailStation.Interface.HR;
+using RetailStation.Interface.Inventory;
+using RetailStation.Interface.Purchase;
+using RetailStation.Interface.Sales;
+using RetailStation.Interface.Shared;
+using RetailStation.Service.Auth;
+using RetailStation.Service.Common;
+using RetailStation.Service.EmployeeProfile;
+using RetailStation.Service.GeneralAccounts;
+using RetailStation.Service.GeneralAccounts.Customers;
+using RetailStation.Service.GeneralAccounts.GeneralAccountSettings;
+using RetailStation.Service.HR;
+using RetailStation.Service.Inventory;
+using RetailStation.Service.Purchase;
+using RetailStation.Service.Sales;
+using RetailStation.Service.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MasterErp.API
+namespace RetailStation.API
 {
     public static class Strapping
     {

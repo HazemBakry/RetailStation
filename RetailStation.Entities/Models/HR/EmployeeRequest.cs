@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Azure.Core.HttpHeader;
 
-namespace MasterErp.Entities.Models.HR
+namespace RetailStation.Entities.Models.HR
 {
     [Table("EmployeeRequests", Schema = "HR")]
 

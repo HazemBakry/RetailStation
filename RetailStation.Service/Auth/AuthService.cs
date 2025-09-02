@@ -1,9 +1,9 @@
 ﻿using Azure.Core;
-using MasterErp.Entities.Common;
-using MasterErp.Entities.DTOs.Auth;
-using MasterErp.Entities.Models;
-using MasterErp.Interface.Auth;
-using MasterErp.Interface.Common;
+using RetailStation.Entities.Common;
+using RetailStation.Entities.DTOs.Auth;
+using RetailStation.Entities.Models;
+using RetailStation.Interface.Auth;
+using RetailStation.Interface.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +20,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Service.Auth
+namespace RetailStation.Service.Auth
 {
     public class AuthService : IAuthService
     {

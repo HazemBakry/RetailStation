@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Common.Enums
+namespace RetailStation.Entities.Common.Enums
 {
     public enum SerialType
     {

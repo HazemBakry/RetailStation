@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Interface.EmployeeProfile
+namespace RetailStation.Interface.EmployeeProfile
 {
     public interface IEmployeeProfileService
     {

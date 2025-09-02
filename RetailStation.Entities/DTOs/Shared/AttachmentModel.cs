@@ -5,7 +5,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.DTOs.Shared
+namespace RetailStation.Entities.DTOs.Shared
 {
     public class AttachmentModel
     {

@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Service.Common
+namespace RetailStation.Service.Common
 {
     public static class Extension
     {

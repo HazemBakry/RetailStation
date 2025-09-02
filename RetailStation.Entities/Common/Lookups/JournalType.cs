@@ -1,4 +1,4 @@
-﻿using MasterErp.Entities.Models;
+﻿using RetailStation.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Common.Lookups
+namespace RetailStation.Entities.Common.Lookups
 {
     [Table("JournalEntryTypes", Schema = "Finance")]
     public class JournalType:CreatorModel

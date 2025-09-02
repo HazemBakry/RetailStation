@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models.Finance
+namespace RetailStation.Entities.Models.Finance
 {
     [Table("DailyNotebooks", Schema = "Finance")]
     public class DailyNotebook : CreatorModel

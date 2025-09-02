@@ -1,5 +1,5 @@
-using MasterErp.Entities.DTOs.Auth;
-using MasterErp.Entities.Models;
+using RetailStation.Entities.DTOs.Auth;
+using RetailStation.Entities.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace MasterErp.API
+namespace RetailStation.API
 {
     public class Startup
     {
@@ -21,7 +21,7 @@ namespace MasterErp.API
             Configuration = configuration;
         }
 
-        readonly string MyAllowSpecificOrigins = "_MasterErp";
+        readonly string MyAllowSpecificOrigins = "_RetailStation";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)

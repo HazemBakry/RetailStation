@@ -1,5 +1,5 @@
-﻿using MasterErp.Entities.Common.Reports;
-using MasterErp.Interface.Shared;
+﻿using RetailStation.Entities.Common.Reports;
+using RetailStation.Interface.Shared;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace MasterErp.Service.Shared
+namespace RetailStation.Service.Shared
 {
     public class CreateReportService : ICreateReportService
     {

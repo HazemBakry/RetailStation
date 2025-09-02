@@ -1,9 +1,9 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.Finance;
-using MasterErp.Entities.Models.HR;
-using MasterErp.Interface.Common;
-using MasterErp.Interface.GeneralAccounts.GeneralAccountSettings;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.Finance;
+using RetailStation.Entities.Models.HR;
+using RetailStation.Interface.Common;
+using RetailStation.Interface.GeneralAccounts.GeneralAccountSettings;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
+namespace RetailStation.Service.GeneralAccounts.GeneralAccountSettings
 {
     public class BankService : IBankService
     {

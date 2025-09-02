@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
-namespace MasterErp.Entities.Models.Inventory
+namespace RetailStation.Entities.Models.Inventory
 {
     [Table("Items", Schema = "Inventory")]
 

@@ -1,5 +1,5 @@
-﻿using MasterErp.Entities.Common.Reports;
-using MasterErp.Interface.Shared;
+﻿using RetailStation.Entities.Common.Reports;
+using RetailStation.Interface.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Linq;
 
-namespace MasterErp.API.Controllers.Shared
+namespace RetailStation.API.Controllers.Shared
 {
     [Route("api/[controller]")]
     [ApiController]

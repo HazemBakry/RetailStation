@@ -1,18 +1,18 @@
 ﻿using ICU4N.Util;
 using iText.Layout.Borders;
-using MasterErp.Entities.Common;
-using MasterErp.Entities.Common.Enums;
-using MasterErp.Entities.Common.Finance.Purchases;
-using MasterErp.Entities.Common.Inventory.ReceiveOrder;
-using MasterErp.Entities.Common.SQLTabeType;
-using MasterErp.Entities.DTOs.HR;
-using MasterErp.Entities.DTOs.Inventory;
-using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.Inventory;
-using MasterErp.Entities.Models.Purchases;
-using MasterErp.Interface.Common;
-using MasterErp.Interface.Inventory;
-using MasterErp.Service.Common;
+using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.Enums;
+using RetailStation.Entities.Common.Finance.Purchases;
+using RetailStation.Entities.Common.Inventory.ReceiveOrder;
+using RetailStation.Entities.Common.SQLTabeType;
+using RetailStation.Entities.DTOs.HR;
+using RetailStation.Entities.DTOs.Inventory;
+using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.Inventory;
+using RetailStation.Entities.Models.Purchases;
+using RetailStation.Interface.Common;
+using RetailStation.Interface.Inventory;
+using RetailStation.Service.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -22,7 +22,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Service.Inventory
+namespace RetailStation.Service.Inventory
 {
     public class InventoryService : IInventoryService
     {

@@ -1,14 +1,14 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.DTOs.Purchases;
-using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.Purchases;
-using MasterErp.Interface.Purchase;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.DTOs.Purchases;
+using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.Purchases;
+using RetailStation.Interface.Purchase;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MasterErp.Service.Purchase
+namespace RetailStation.Service.Purchase
 {
     public class SuppliersService : ISuppliersService
     {

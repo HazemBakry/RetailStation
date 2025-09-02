@@ -1,5 +1,5 @@
-﻿using MasterErp.Entities.Common.Enums;
-using MasterErp.Entities.Common.Export;
+﻿using RetailStation.Entities.Common.Enums;
+using RetailStation.Entities.Common.Export;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Interface.Common
+namespace RetailStation.Interface.Common
 {
     public interface IExportService
     {

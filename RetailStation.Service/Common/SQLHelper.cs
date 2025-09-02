@@ -6,12 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Common;
-using MasterErp.Service.Common;
-using MasterErp.Interface.Common;
-using MasterErp.Entities.Models;
+using RetailStation.Service.Common;
+using RetailStation.Interface.Common;
+using RetailStation.Entities.Models;
 using Microsoft.AspNetCore.Http;
 
-namespace MasterErp.Service.Common
+namespace RetailStation.Service.Common
 {
 
     public class SQLHelper : ISQLHelper

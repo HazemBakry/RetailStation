@@ -1,11 +1,11 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Common.Inventory.ReceiveOrder;
-using MasterErp.Entities.DTOs.HR;
-using MasterErp.Entities.DTOs.Inventory;
-using MasterErp.Entities.Models.Inventory;
-using MasterErp.Interface.Inventory;
-using MasterErp.Service.Common;
-using MasterErp.Service.Inventory;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.Inventory.ReceiveOrder;
+using RetailStation.Entities.DTOs.HR;
+using RetailStation.Entities.DTOs.Inventory;
+using RetailStation.Entities.Models.Inventory;
+using RetailStation.Interface.Inventory;
+using RetailStation.Service.Common;
+using RetailStation.Service.Inventory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +16,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MasterErp.API.Controllers.Inventory
+namespace RetailStation.API.Controllers.Inventory
 {
     [Route("api/[controller]")]
     [ApiController]

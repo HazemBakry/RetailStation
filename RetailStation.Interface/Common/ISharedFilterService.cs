@@ -1,8 +1,8 @@
-﻿using MasterErp.Entities.Common;
+﻿using RetailStation.Entities.Common;
 using System.Collections.Generic;
 using System.Data;
 
-namespace MasterErp.Interface.Common
+namespace RetailStation.Interface.Common
 {
     public interface ISharedFilterService
     {

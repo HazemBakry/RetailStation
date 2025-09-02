@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models.Global
+namespace RetailStation.Entities.Models.Global
 {
 
 

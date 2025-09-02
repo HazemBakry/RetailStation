@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Common.Reports
+namespace RetailStation.Entities.Common.Reports
 {
     public class SearchReportModel
     {

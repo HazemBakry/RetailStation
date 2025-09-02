@@ -1,7 +1,7 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Common.Finance.GeneralAccounts;
-using MasterErp.Entities.Models;
-using MasterErp.Interface.Common;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.Finance.GeneralAccounts;
+using RetailStation.Entities.Models;
+using RetailStation.Interface.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -15,15 +15,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using OfficeOpenXml;
 using LicenseContext = OfficeOpenXml.LicenseContext;
-using MasterErp.Entities.Common.Enums;
-using MasterErp.Entities.Common.Export;
-using MasterErp.Interface.GeneralAccounts;
-using MasterErp.Entities.Models.Finance;
-using MasterErp.Entities.DTOs.Inventory;
-using MasterErp.Service.Common;
-using MasterErp.Entities.Models.Inventory;
+using RetailStation.Entities.Common.Enums;
+using RetailStation.Entities.Common.Export;
+using RetailStation.Interface.GeneralAccounts;
+using RetailStation.Entities.Models.Finance;
+using RetailStation.Entities.DTOs.Inventory;
+using RetailStation.Service.Common;
+using RetailStation.Entities.Models.Inventory;
 
-namespace MasterErp.Service.GeneralAccounts
+namespace RetailStation.Service.GeneralAccounts
 {
     public class AccountTreeService : IAccountTreeService
     {

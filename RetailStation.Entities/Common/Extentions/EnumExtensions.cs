@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Common.Extentions
+namespace RetailStation.Entities.Common.Extentions
 {
     public static class EnumExtensions
     {

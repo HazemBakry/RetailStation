@@ -1,15 +1,15 @@
-﻿using MasterErp.Entities.Common.Inventory.PurchasesRequests;
-using MasterErp.Entities.Common;
-using MasterErp.Entities.Models;
+﻿using RetailStation.Entities.Common.Inventory.PurchasesRequests;
+using RetailStation.Entities.Common;
+using RetailStation.Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MasterErp.Entities.Common.Finance.GeneralAccounts;
-using MasterErp.Interface.GeneralAccounts;
-using MasterErp.Service.GeneralAccounts;
+using RetailStation.Entities.Common.Finance.GeneralAccounts;
+using RetailStation.Interface.GeneralAccounts;
+using RetailStation.Service.GeneralAccounts;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 
-namespace MasterErp.API.Controllers.Finance.GeneralAccounts
+namespace RetailStation.API.Controllers.Finance.GeneralAccounts
 {
     [Route("api/[controller]")]
     [ApiController]

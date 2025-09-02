@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Common.Lookups
+namespace RetailStation.Entities.Common.Lookups
 {
     [Table("VacationTypes", Schema = "HR")]
 

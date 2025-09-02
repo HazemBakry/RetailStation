@@ -1,7 +1,7 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Models;
-using MasterErp.Interface.Common;
-using MasterErp.Interface.Sales;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Models;
+using RetailStation.Interface.Common;
+using RetailStation.Interface.Sales;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Service.Sales
+namespace RetailStation.Service.Sales
 {
     public class SalesInvoiceService : ISalesInvoiceService
     {

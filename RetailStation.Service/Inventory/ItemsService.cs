@@ -1,12 +1,12 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Common.Enums;
-using MasterErp.Entities.Common.Export;
-using MasterErp.Entities.DTOs.Inventory;
-using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.Inventory;
-using MasterErp.Interface.Common;
-using MasterErp.Interface.Inventory;
-using MasterErp.Service.Common;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.Enums;
+using RetailStation.Entities.Common.Export;
+using RetailStation.Entities.DTOs.Inventory;
+using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.Inventory;
+using RetailStation.Interface.Common;
+using RetailStation.Interface.Inventory;
+using RetailStation.Service.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -15,7 +15,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 
-namespace MasterErp.Service.Inventory
+namespace RetailStation.Service.Inventory
 {
     public class ItemsService : IItemsService
     {

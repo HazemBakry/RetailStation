@@ -1,13 +1,13 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Common.Enums;
-using MasterErp.Entities.Common.Export;
-using MasterErp.Entities.DTOs.GeneralAccounts;
-using MasterErp.Entities.DTOs.Inventory;
-using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.Finance;
-using MasterErp.Interface.Common;
-using MasterErp.Interface.GeneralAccounts;
-using MasterErp.Service.Common;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.Enums;
+using RetailStation.Entities.Common.Export;
+using RetailStation.Entities.DTOs.GeneralAccounts;
+using RetailStation.Entities.DTOs.Inventory;
+using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.Finance;
+using RetailStation.Interface.Common;
+using RetailStation.Interface.GeneralAccounts;
+using RetailStation.Service.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -17,7 +17,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Service.GeneralAccounts
+namespace RetailStation.Service.GeneralAccounts
 {
     public class GeneralAccountsReportService : IGeneralAccountsReportService
     {

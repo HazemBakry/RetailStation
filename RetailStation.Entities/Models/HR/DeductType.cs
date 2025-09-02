@@ -1,4 +1,4 @@
-﻿using MasterErp.Entities.Models;
+﻿using RetailStation.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models.HR
+namespace RetailStation.Entities.Models.HR
 {
     [Table("DeductTypes", Schema = "HR")]
 

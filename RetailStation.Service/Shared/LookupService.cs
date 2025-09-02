@@ -1,9 +1,9 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Common.Lookups;
-using MasterErp.Entities.Models;
-using MasterErp.Interface.Common;
-using MasterErp.Interface.Shared;
-using MasterErp.Service.Common;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.Lookups;
+using RetailStation.Entities.Models;
+using RetailStation.Interface.Common;
+using RetailStation.Interface.Shared;
+using RetailStation.Service.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Service.Shared
+namespace RetailStation.Service.Shared
 {
     public class LookupService : ILookupService
     {

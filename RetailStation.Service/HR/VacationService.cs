@@ -1,18 +1,18 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Common.Enums;
-using MasterErp.Entities.Common.Export;
-using MasterErp.Entities.Common.Lookups;
-using MasterErp.Entities.Common.SQLTabeType;
-using MasterErp.Entities.DTOs.HR;
-using MasterErp.Entities.DTOs.Purchases;
-using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.HR;
-using MasterErp.Entities.Models.Purchases;
-using MasterErp.Interface.Common;
-using MasterErp.Interface.HR;
-using MasterErp.Interface.Shared;
-using MasterErp.Service.Common;
-using MasterErp.Service.Shared;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.Enums;
+using RetailStation.Entities.Common.Export;
+using RetailStation.Entities.Common.Lookups;
+using RetailStation.Entities.Common.SQLTabeType;
+using RetailStation.Entities.DTOs.HR;
+using RetailStation.Entities.DTOs.Purchases;
+using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.HR;
+using RetailStation.Entities.Models.Purchases;
+using RetailStation.Interface.Common;
+using RetailStation.Interface.HR;
+using RetailStation.Interface.Shared;
+using RetailStation.Service.Common;
+using RetailStation.Service.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.Data.SqlClient;
@@ -25,7 +25,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Service.HR
+namespace RetailStation.Service.HR
 {
     public class VacationService : IVacationService
     {

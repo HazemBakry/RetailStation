@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Interface.Shared
+namespace RetailStation.Interface.Shared
 {
     public interface IHelper
     {

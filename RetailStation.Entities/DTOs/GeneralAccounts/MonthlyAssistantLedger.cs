@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.DTOs.GeneralAccounts
+namespace RetailStation.Entities.DTOs.GeneralAccounts
 {
     public class MonthlyAssistantLedger
     {

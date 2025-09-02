@@ -1,7 +1,7 @@
-﻿using MasterErp.Entities.Common.Enums;
-using MasterErp.Entities.Common.Export;
-using MasterErp.Entities.Common;
-using MasterErp.Interface.Common;
+﻿using RetailStation.Entities.Common.Enums;
+using RetailStation.Entities.Common.Export;
+using RetailStation.Entities.Common;
+using RetailStation.Interface.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,15 +9,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using MasterErp.Entities.Models;
+using RetailStation.Entities.Models;
 using Microsoft.Data.SqlClient;
-using MasterErp.Entities.Common.Finance.GeneralAccounts;
-using MasterErp.Entities.DTOs.DataImport;
+using RetailStation.Entities.Common.Finance.GeneralAccounts;
+using RetailStation.Entities.DTOs.DataImport;
 using Microsoft.Identity.Client;
-using MasterErp.Entities.Models.DataImport;
+using RetailStation.Entities.Models.DataImport;
 using System.Data.Entity;
 
-namespace MasterErp.Service.Common
+namespace RetailStation.Service.Common
 {
     public class DataImportService : IDataImportService
     {

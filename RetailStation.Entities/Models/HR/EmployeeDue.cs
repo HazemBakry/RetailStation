@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace MasterErp.Entities.Models.HR
+namespace RetailStation.Entities.Models.HR
 {
     [Table("EmployeeDues", Schema = "HR")]
     public class EmployeeDue : CreatorModel

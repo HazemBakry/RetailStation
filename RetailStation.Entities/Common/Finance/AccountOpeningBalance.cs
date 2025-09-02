@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MasterErp.Entities.Models;
+using RetailStation.Entities.Models;
 
-namespace MasterErp.Entities.Common.Finance
+namespace RetailStation.Entities.Common.Finance
 {
     public class AccountOpeningBalance : CreatorModel
     {

@@ -1,13 +1,13 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Common.Enums;
-using MasterErp.Entities.Models.Finance;
-using MasterErp.Interface.Shared;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.Enums;
+using RetailStation.Entities.Models.Finance;
+using RetailStation.Interface.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
-namespace MasterErp.API.Controllers.Shared
+namespace RetailStation.API.Controllers.Shared
 {
     [Route("api/[controller]")]
     [ApiController]

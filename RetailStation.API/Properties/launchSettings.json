@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "MasterErp.API": {
+    "RetailStation.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/Values",

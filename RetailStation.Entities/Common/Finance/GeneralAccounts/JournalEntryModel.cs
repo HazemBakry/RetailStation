@@ -1,4 +1,4 @@
-﻿using MasterErp.Entities.Common.Enums;
+﻿using RetailStation.Entities.Common.Enums;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Common
+namespace RetailStation.Entities.Common
 {
     public class JournalEntryModel
     {

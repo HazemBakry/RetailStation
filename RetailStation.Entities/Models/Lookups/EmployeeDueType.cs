@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models.Lookups
+namespace RetailStation.Entities.Models.Lookups
 {
     [Table("EmployeeDueTypes", Schema = "HR")]
     public class EmployeeDueType

@@ -1,9 +1,9 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Common.Finance.Purchases;
-using MasterErp.Entities.Common.Inventory.ReceiveOrder;
-using MasterErp.Entities.DTOs.HR;
-using MasterErp.Entities.DTOs.Inventory;
-using MasterErp.Entities.Models.Inventory;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.Finance.Purchases;
+using RetailStation.Entities.Common.Inventory.ReceiveOrder;
+using RetailStation.Entities.DTOs.HR;
+using RetailStation.Entities.DTOs.Inventory;
+using RetailStation.Entities.Models.Inventory;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Interface.Inventory
+namespace RetailStation.Interface.Inventory
 {
     public interface IInventoryService
     {

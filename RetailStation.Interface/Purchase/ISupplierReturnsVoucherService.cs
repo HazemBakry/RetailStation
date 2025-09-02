@@ -1,10 +1,10 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Common.Finance.Purchases;
-using MasterErp.Entities.DTOs.Purchases;
-using MasterErp.Entities.Models;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.Finance.Purchases;
+using RetailStation.Entities.DTOs.Purchases;
+using RetailStation.Entities.Models;
 
 
-namespace MasterErp.Interface.Purchase
+namespace RetailStation.Interface.Purchase
 {
     public interface ISupplierReturnsVoucherService
     {

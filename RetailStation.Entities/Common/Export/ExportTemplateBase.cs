@@ -1,11 +1,11 @@
-﻿using MasterErp.Entities.Common.Enums;
+﻿using RetailStation.Entities.Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Common.Export
+namespace RetailStation.Entities.Common.Export
 {
     public class ExportTemplateBase
     {

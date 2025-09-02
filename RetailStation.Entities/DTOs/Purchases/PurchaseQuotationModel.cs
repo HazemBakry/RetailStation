@@ -1,11 +1,11 @@
-﻿using MasterErp.Entities.Models;
+﻿using RetailStation.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.DTOs.Purchases
+namespace RetailStation.Entities.DTOs.Purchases
 {
     public class PurchaseQuotationModel : CreatorModel
     {

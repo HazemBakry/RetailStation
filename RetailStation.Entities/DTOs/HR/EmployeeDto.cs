@@ -1,13 +1,13 @@
-﻿using MasterErp.Entities.Models;
+﻿using RetailStation.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using MasterErp.Entities.Models.HR;
+using RetailStation.Entities.Models.HR;
 
-namespace MasterErp.Entities.DTOs.HR
+namespace RetailStation.Entities.DTOs.HR
 {
 
     public class EmployeeDto : CreatorModel

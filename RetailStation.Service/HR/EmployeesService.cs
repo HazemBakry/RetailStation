@@ -1,9 +1,9 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.DTOs.HR;
-using MasterErp.Entities.Models;
-using MasterErp.Interface.Common;
-using MasterErp.Interface.HR;
-using MasterErp.Service.Common;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.DTOs.HR;
+using RetailStation.Entities.Models;
+using RetailStation.Interface.Common;
+using RetailStation.Interface.HR;
+using RetailStation.Service.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -11,16 +11,16 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using MasterErp.Entities.Models.HR;
+using RetailStation.Entities.Models.HR;
 using Microsoft.AspNetCore.Http;
 using System.IO;
-using MasterErp.Entities.DTOs.Shared;
-using MasterErp.Entities.Common.SQLTabeType;
-using MasterErp.Entities.Common.Enums;
-using MasterErp.Entities.Common.Export;
+using RetailStation.Entities.DTOs.Shared;
+using RetailStation.Entities.Common.SQLTabeType;
+using RetailStation.Entities.Common.Enums;
+using RetailStation.Entities.Common.Export;
 using iText.StyledXmlParser.Jsoup.Parser;
 
-namespace MasterErp.Service.HR
+namespace RetailStation.Service.HR
 {
     public class EmployeeService : IEmployeeService
     {

@@ -1,4 +1,4 @@
-﻿using MasterErp.Entities.Models;
+﻿using RetailStation.Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,13 +9,13 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System;
-using MasterErp.Interface.Auth;
-using MasterErp.Entities.DTOs.Auth;
+using RetailStation.Interface.Auth;
+using RetailStation.Entities.DTOs.Auth;
 using Microsoft.AspNetCore.Authorization;
-using MasterErp.Entities.Common;
+using RetailStation.Entities.Common;
 using System.Linq;
 
-namespace MasterErp.API.Controllers.Auth
+namespace RetailStation.API.Controllers.Auth
 {
     [Route("api/[controller]")]
     [ApiController]

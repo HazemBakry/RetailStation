@@ -1,5 +1,5 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.DTOs.HR;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.DTOs.HR;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Interface.HR
+namespace RetailStation.Interface.HR
 {
     public interface IHRReportsService
     {

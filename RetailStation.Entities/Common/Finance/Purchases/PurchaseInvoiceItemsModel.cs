@@ -1,8 +1,8 @@
-﻿using MasterErp.Entities.Models;
+﻿using RetailStation.Entities.Models;
 using System;
 using System.Collections.Generic;
 
-namespace MasterErp.Entities.Common.Finance.Purchases
+namespace RetailStation.Entities.Common.Finance.Purchases
 {
     public class PurchaseInvoiceItemsModel
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models.Inventory
+namespace RetailStation.Entities.Models.Inventory
 {
     [Table("ItemCategories", Schema = "Inventory")]
 

@@ -1,12 +1,12 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Common.Enums;
-using MasterErp.Entities.Common.SQLTabeType;
-using MasterErp.Entities.DTOs.HR;
-using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.HR;
-using MasterErp.Interface.Common;
-using MasterErp.Interface.HR;
-using MasterErp.Service.Common;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.Enums;
+using RetailStation.Entities.Common.SQLTabeType;
+using RetailStation.Entities.DTOs.HR;
+using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.HR;
+using RetailStation.Interface.Common;
+using RetailStation.Interface.HR;
+using RetailStation.Service.Common;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Service.HR
+namespace RetailStation.Service.HR
 {
     public class EmployeeAdvancesService : IEmployeeAdvancesService
     {

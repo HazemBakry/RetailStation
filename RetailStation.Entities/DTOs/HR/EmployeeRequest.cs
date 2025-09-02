@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.DTOs.HR
+namespace RetailStation.Entities.DTOs.HR
 {
     public class EmployeeRequest
     {

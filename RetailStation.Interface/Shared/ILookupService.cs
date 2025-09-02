@@ -1,12 +1,12 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Models;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Interface.Shared
+namespace RetailStation.Interface.Shared
 {
     public interface ILookupService
     {

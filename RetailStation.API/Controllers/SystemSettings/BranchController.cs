@@ -1,5 +1,5 @@
-﻿using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.Global;
+﻿using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.Global;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-namespace MasterErp.API.Controllers.Finance.Purchase
+namespace RetailStation.API.Controllers.Finance.Purchase
 {
     [Route("api/[controller]")]
     [ApiController]

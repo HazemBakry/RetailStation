@@ -1,5 +1,5 @@
-﻿using MasterErp.Entities.DTOs.Purchases;
-using MasterErp.Entities.Models;
+﻿using RetailStation.Entities.DTOs.Purchases;
+using RetailStation.Entities.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.DTOs.Inventory
+namespace RetailStation.Entities.DTOs.Inventory
 {
     public class ItemDto : CreatorModel
     {

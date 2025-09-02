@@ -1,7 +1,7 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.DTOs.GeneralAccounts;
-using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.Finance;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.DTOs.GeneralAccounts;
+using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.Finance;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Interface.GeneralAccounts
+namespace RetailStation.Interface.GeneralAccounts
 {
     public interface IJournalEntryService
     {

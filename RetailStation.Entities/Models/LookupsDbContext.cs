@@ -1,6 +1,6 @@
-﻿using MasterErp.Entities.Common.Lookups;
-using MasterErp.Entities.Models.HR;
-using MasterErp.Entities.Models.Lookups;
+﻿using RetailStation.Entities.Common.Lookups;
+using RetailStation.Entities.Models.HR;
+using RetailStation.Entities.Models.Lookups;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.CodeAnalysis.CodeActions;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models
+namespace RetailStation.Entities.Models
 {
 
     public class LookupsDbContext : DbContext

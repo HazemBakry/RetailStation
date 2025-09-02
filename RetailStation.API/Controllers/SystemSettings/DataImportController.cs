@@ -1,15 +1,15 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.DTOs.DataImport;
-using MasterErp.Entities.DTOs.HR;
-using MasterErp.Interface.Common;
-using MasterErp.Interface.Purchase;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.DTOs.DataImport;
+using RetailStation.Entities.DTOs.HR;
+using RetailStation.Interface.Common;
+using RetailStation.Interface.Purchase;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MasterErp.API.Controllers.SystemSettings
+namespace RetailStation.API.Controllers.SystemSettings
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.DTOs.Inventory
+namespace RetailStation.Entities.DTOs.Inventory
 {
     public class MaterialIssueModel : GeneralOrderModel
     {

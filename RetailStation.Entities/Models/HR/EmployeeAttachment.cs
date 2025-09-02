@@ -7,7 +7,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Entities.Models.HR
+namespace RetailStation.Entities.Models.HR
 {
     [Table("EmployeeAttachments", Schema = "HR")]
 

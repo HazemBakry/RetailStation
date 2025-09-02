@@ -1,18 +1,18 @@
-﻿using MasterErp.Entities.Common.Finance.GeneralAccounts;
-using MasterErp.Entities.Common;
-using MasterErp.Entities.Models;
-using MasterErp.Interface.Common;
-using MasterErp.Interface.GeneralAccounts.GeneralAccountSettings;
-using MasterErp.Service.Common;
+﻿using RetailStation.Entities.Common.Finance.GeneralAccounts;
+using RetailStation.Entities.Common;
+using RetailStation.Entities.Models;
+using RetailStation.Interface.Common;
+using RetailStation.Interface.GeneralAccounts.GeneralAccountSettings;
+using RetailStation.Service.Common;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MasterErp.Entities.Models.Finance;
+using RetailStation.Entities.Models.Finance;
 
-namespace MasterErp.Service.GeneralAccounts.GeneralAccountSettings
+namespace RetailStation.Service.GeneralAccounts.GeneralAccountSettings
 {
     public class PaymentTermService : IPaymentTermService
     {

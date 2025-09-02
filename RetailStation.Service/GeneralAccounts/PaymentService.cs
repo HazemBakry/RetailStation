@@ -1,13 +1,13 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.Common.Enums;
-using MasterErp.Entities.Common.Finance.GeneralAccounts;
-using MasterErp.Entities.DTOs.Purchases;
-using MasterErp.Entities.Models;
-using MasterErp.Entities.Models.Finance;
-using MasterErp.Entities.Models.Inventory;
-using MasterErp.Interface.Common;
-using MasterErp.Interface.GeneralAccounts;
-using MasterErp.Service.Common;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.Enums;
+using RetailStation.Entities.Common.Finance.GeneralAccounts;
+using RetailStation.Entities.DTOs.Purchases;
+using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.Finance;
+using RetailStation.Entities.Models.Inventory;
+using RetailStation.Interface.Common;
+using RetailStation.Interface.GeneralAccounts;
+using RetailStation.Service.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-namespace MasterErp.Service.GeneralAccounts
+namespace RetailStation.Service.GeneralAccounts
 {
     public class PaymentService : IPaymentService
     {

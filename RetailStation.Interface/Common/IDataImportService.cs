@@ -1,6 +1,6 @@
-﻿using MasterErp.Entities.Common;
-using MasterErp.Entities.DTOs.DataImport;
-using MasterErp.Entities.DTOs.HR;
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.DTOs.DataImport;
+using RetailStation.Entities.DTOs.HR;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterErp.Interface.Common
+namespace RetailStation.Interface.Common
 {
     public interface IDataImportService
     {

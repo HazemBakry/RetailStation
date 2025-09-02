@@ -1,7 +1,7 @@
-﻿using MasterErp.Entities.Common.Finance.GeneralAccounts;
-using MasterErp.Entities.Models.Finance;
-using MasterErp.Interface.GeneralAccounts;
-using MasterErp.Service.GeneralAccounts;
+﻿using RetailStation.Entities.Common.Finance.GeneralAccounts;
+using RetailStation.Entities.Models.Finance;
+using RetailStation.Interface.GeneralAccounts;
+using RetailStation.Service.GeneralAccounts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +11,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MasterErp.API.Controllers.Finance.GeneralAccounts
+namespace RetailStation.API.Controllers.Finance.GeneralAccounts
 {
     [Route("api/[controller]")]
     [ApiController]
