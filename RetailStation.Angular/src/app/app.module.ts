@@ -6,12 +6,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { DashboardComponent } from './components/Main/dashboard/dashboard.component';
+import { DashboardComponent } from './components/Shared/components/dashboard/dashboard.component';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from './components/Shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ReviewsComponent } from './components/Main/reviews/reviews.component';
 import { ErpLoginComponent } from './components/Shared/components/erp-login/erp-login.component';
 import { SigninComponent } from './components/Shared/components/signin/signin.component';
 import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
@@ -21,9 +20,7 @@ import { RolesService } from './Auth/roles.service';
   declarations: [
     AppComponent,
     ErpLoginComponent,
-
     DashboardComponent,
-    ReviewsComponent,
     SigninComponent,
     AuthCallbackComponent,
   ],

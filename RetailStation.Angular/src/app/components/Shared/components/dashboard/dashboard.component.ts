@@ -1,14 +1,14 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { GeneralAccountService } from '../../GeneralAccounts/services/general-account.service';
-import { FilterModel } from '../../Shared/models/FilterModel';
-import { PurchaseService } from '../../Purchases/services/purchase.service';
-import { PaymentService } from '../../GeneralAccounts/services/payment.service';
+import { GeneralAccountService } from '../../../GeneralAccounts/services/general-account.service';
+import { FilterModel } from '../../models/FilterModel';
+import { PurchaseService } from '../../../Purchases/services/purchase.service';
+import { PaymentService } from '../../../GeneralAccounts/services/payment.service';
 import { ToastrService } from 'ngx-toastr';
-import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
-import { OrderModel } from '../../Inventory/models/inventory';
-import { ReceiptModel } from '../../GeneralAccounts/models/GeneralAccounts/ReceiptModel';
+import { PagedResponseDTO } from '../../models/PagedResponseDTO';
+import { OrderModel } from '../../../Inventory/models/inventory';
+import { ReceiptModel } from '../../../GeneralAccounts/models/GeneralAccounts/ReceiptModel';
 
 
 @Component({

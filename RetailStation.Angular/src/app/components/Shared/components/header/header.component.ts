@@ -1,11 +1,12 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { AuthService } from 'src/app/Auth/auth.service';
 import { environment } from 'src/environments/environment';
-import { LoginUserModel } from '../../Shared/models/LoginResponseModel';
 import { ActivatedRoute, NavigationStart, Route, Router } from '@angular/router';
 import { filter } from 'rxjs';
-import { MenuService, MenuType } from '../../Shared/services/menu.service';
-import { MenuSidebarItem } from '../../Shared/models/MenuSidebarItem';
+import { LoginUserModel } from '../../models/LoginResponseModel';
+import { MenuSidebarItem } from '../../models/MenuSidebarItem';
+import { MenuService, MenuType } from '../../services/menu.service';
+
 
 @Component({
   selector: 'app-header',

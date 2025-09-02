@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './components/Main/dashboard/dashboard.component';
-import { ReviewsComponent } from './components/Main/reviews/reviews.component';
+import { DashboardComponent } from './components/Shared/components/dashboard/dashboard.component';
 import { NotAuthorizedComponent } from './components/Shared/components/not-authorized/not-authorized.component';
 import { AuthGuard } from './Auth/auth.guard';
 import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
@@ -15,7 +14,6 @@ const routes: Routes = [
   { path: 'auth-callback', component: AuthCallbackComponent },
   { path: 'unauthorized', component: NotAuthorizedComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'reviews', component: ReviewsComponent },
   { path: 'hr', loadChildren: () => import('./components/HR/hr.module').then(erp => erp.HrModule), canActivate: [AuthPageGuard], data: { pageName: 'HR' }},
   { path: 'purchases', loadChildren: () => import('./components/Purchases/purchases.module').then(erp => erp.PurchasesModule), canActivate: [AuthPageGuard], data: { pageName: 'Purchases' } },
   { path: 'sales', loadChildren: () => import('./components/Sales/sales.module').then(erp => erp.SalesModule), canActivate: [AuthGuard] },

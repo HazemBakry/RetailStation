@@ -32,8 +32,7 @@ import { ErpHomeComponent } from './components/erp-home/erp-home.component';
 import { SwiperModule } from 'swiper/angular';
 import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 import { RoleCheckerDirective } from './directives/role-checker.directive';
-import { SidebarComponent } from '../Main/sidebar/sidebar.component';
-import { HeaderComponent } from '../Main/header/header.component';
+
 import { RouterModule } from '@angular/router';
 import { DropDownFormControlComponent } from './components/drop-down-form-control/drop-down-form-control.component';
 import { BusinessCoreLayoutComponent } from './components/business-core-layout/business-core-layout.component';
@@ -56,6 +55,8 @@ import { NextPreviousComponent } from './components/tools/next-previous/next-pre
 import { ERPSidebarComponent } from './components/erp-sidebar/erp-sidebar.component';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { StatusSelectorComponent } from './components/status-selector/status-selector.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
