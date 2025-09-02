@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34916.146
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetailStation.API", "RetailStation.API\RetailStation.API.csproj", "{84916390-129F-4242-A23D-DDEC79D4608B}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "RetailStation.Angular", "RetailStation.Angular\", "{C3F681FD-CD1E-49F9-BC47-810BF5A321F5}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_53719"
+		Debug.AspNetCompiler.PhysicalPath = "RetailStation.Angular\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53719\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_53719"
+		Release.AspNetCompiler.PhysicalPath = "RetailStation.Angular\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53719\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "53719"
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetailStation.Entities", "RetailStation.Entities\RetailStation.Entities.csproj", "{A16F3114-A016-4E44-9B00-BF2837ED9637}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetailStation.Interface", "RetailStation.Interface\RetailStation.Interface.csproj", "{B7824279-808A-4B87-8746-E3432F5EB1E1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetailStation.Service", "RetailStation.Service\RetailStation.Service.csproj", "{AB96B975-9DCC-4395-940E-003165ECF6BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{84916390-129F-4242-A23D-DDEC79D4608B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84916390-129F-4242-A23D-DDEC79D4608B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84916390-129F-4242-A23D-DDEC79D4608B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84916390-129F-4242-A23D-DDEC79D4608B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3F681FD-CD1E-49F9-BC47-810BF5A321F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3F681FD-CD1E-49F9-BC47-810BF5A321F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3F681FD-CD1E-49F9-BC47-810BF5A321F5}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3F681FD-CD1E-49F9-BC47-810BF5A321F5}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{A16F3114-A016-4E44-9B00-BF2837ED9637}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A16F3114-A016-4E44-9B00-BF2837ED9637}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A16F3114-A016-4E44-9B00-BF2837ED9637}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A16F3114-A016-4E44-9B00-BF2837ED9637}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7824279-808A-4B87-8746-E3432F5EB1E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7824279-808A-4B87-8746-E3432F5EB1E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7824279-808A-4B87-8746-E3432F5EB1E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7824279-808A-4B87-8746-E3432F5EB1E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB96B975-9DCC-4395-940E-003165ECF6BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB96B975-9DCC-4395-940E-003165ECF6BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB96B975-9DCC-4395-940E-003165ECF6BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB96B975-9DCC-4395-940E-003165ECF6BF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02915602-E827-4DE0-8651-06B55483E13F}
+	EndGlobalSection
+EndGlobal

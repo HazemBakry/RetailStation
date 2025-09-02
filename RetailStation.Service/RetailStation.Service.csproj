@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MasterErp.Interface\MasterErp.Interface.csproj" />
+    <ProjectReference Include="..\MasterErp.Interface\RetailStation.Interface.csproj" />
   </ItemGroup>
 
 </Project>

@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MasterErp.Entities\MasterErp.Entities.csproj" />
+    <ProjectReference Include="..\MasterErp.Entities\RetailStation.Entities.csproj" />
   </ItemGroup>
 
 </Project>
