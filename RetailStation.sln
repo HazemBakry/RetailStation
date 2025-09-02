@@ -23,6 +23,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "RetailStation.Angular", "Re
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "53719"
+		SlnRelativePath = "RetailStation.Angular\"
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetailStation.Entities", "RetailStation.Entities\RetailStation.Entities.csproj", "{A16F3114-A016-4E44-9B00-BF2837ED9637}"
