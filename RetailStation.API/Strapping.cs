@@ -24,6 +24,16 @@ using RetailStation.Service.Sales;
 using RetailStation.Service.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using RetailStation.Interface.Roles;
+using RetailStation.Service.Roles;
+using RetailStation.Interfaces.Subscription;
+using RetailStation.Services.Subscription;
+using RetailStation.Interface.Users;
+using RetailStation.Service.Users;
+using RetailStation.Interface.Branches;
+using RetailStation.Service.Branches;
+using RetailStation.Service.Operation;
+using RetailStation.Interface.Operation;
 
 namespace RetailStation.API
 {
@@ -73,6 +83,11 @@ namespace RetailStation.API
             services.AddScoped<ILookupService, LookupService>();
             services.AddScoped<ITenantService, TenantService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IRolesService, RolesService>();
+            services.AddScoped<ISubscribersService, SubscribersService>();
+            services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IBranchesService, BranchesService>();
+
             services.AddScoped<ICreateReportService, CreateReportService>();
             services.AddScoped<IHelper, Helper>();
             services.AddScoped<IEmployeeAdvancesService, EmployeeAdvancesService>();
@@ -82,6 +97,9 @@ namespace RetailStation.API
             services.AddScoped<IBankService, BankService>();
             services.AddScoped<IFinancialCustodyService, FinancialCustodyService>();
             services.AddScoped<IInventoryReportsService, InventoryReportsService>();
+
+
+
             
 
         }

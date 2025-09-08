@@ -27,20 +27,11 @@ export class AuthService {
   constructor(private http: HttpClient, private toaster: ToastrService, private router: Router,private rolesService:RolesService) 
   {
   }
-  loginRedirect(logout:boolean=false):void
-  {
-    if(this.isAuthenticated())
-    {
-      this.router.navigateByUrl('/');
-      return;
-    }
-    var logoutQuery = logout ? 'logout=true' : '';
-    const appReturnUrl = encodeURIComponent(window.location.origin + '/auth-callback');
-    window.location.href = `${this.centralizedLoginUrl}/login?returnUrl=${appReturnUrl}&${logoutQuery}`;
+  loginRedirect(): void {
+    this.router.navigateByUrl('/login');
   }
-
   login(model: any) {
-    return this.http.post<LoginUserModel>(this.authApi + '/Login', model).pipe(tap((data: LoginUserModel) => {
+    return this.http.post<LoginUserModel>(this.URL + 'Auth/Login', model).pipe(tap((data: LoginUserModel) => {
       if (data?.isAuthenticated) {
         this.loggedInUser = data;
         this.isAuthenticatedSubject.next(true);
@@ -50,6 +41,19 @@ export class AuthService {
         this.storeTokens(data.token, data.refreshToken);
       }
     }));
+  }
+  register(model: any) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Auth/Register', model);
+    // return this.http.post<ActionsResponseModel>(this.URL + 'Auth/Register', model).pipe(tap((data: ActionsResponseModel) => {
+    //   if (data?.isAuthenticated) {
+    //     this.loggedInUser = data;
+    //     this.isAuthenticatedSubject.next(true);
+    //     this.storeUser(data);
+    //   }
+    //   if (data?.token) {
+    //     this.storeTokens(data.token, data.refreshToken);
+    //   }
+    // }));
   }
   storeTokens(token: string, refreshToken: string): void {
     localStorage.setItem(this.JWT_TOKEN, token);
@@ -63,7 +67,7 @@ export class AuthService {
   logout(): void {
     this.clearStorage();
     this.isAuthenticatedSubject.next(false);
-    this.loginRedirect(true);
+    this.loginRedirect();
   }
   refreshToken() {
     return this.http

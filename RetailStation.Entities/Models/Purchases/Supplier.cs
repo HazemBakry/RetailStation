@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RetailStation.Entities.Models.Purchases
 {
-    [Table("Suppliers", Schema = "Purchase")]
+    [Table("Suppliers", Schema = "Operation")]
 
     public class Supplier : CreatorModel
     {
@@ -25,12 +25,13 @@ namespace RetailStation.Entities.Models.Purchases
         public string Address { get; set; }
         public string CommercialRegister { get; set; }
         public string TaxNumber { get; set; }
-        public double? BeginningBalance { get; set; }
+        public decimal? BeginningBalance { get; set; }
         public string BalanceType { get; set; }
         public int? SupplierGroupId { get; set; }
         public string ContactPerson { get; set; }
         public string ContactMobile { get; set; }
         public string Notes { get; set; }
+        public string SubscriberId { get; set; }
         public bool IsActive { get; set; }
     }
 }

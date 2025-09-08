@@ -1,11 +1,11 @@
 ﻿using RetailStation.Entities.Common;
-using RetailStation.Entities.Models;
 using RetailStation.Interface.GeneralAccounts.Customers;
 using RetailStation.Interface.GeneralAccounts.GeneralAccountSettings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using RetailStation.Entities.Models.Subscription;
 
 namespace RetailStation.API.Controllers.Finance.Sales
 {

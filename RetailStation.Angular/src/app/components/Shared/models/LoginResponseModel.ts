@@ -3,6 +3,9 @@
 //     token: string;
 //     userModel: ApplicationUserModel;
 //     statusCode: number | null;
+
+import { SubscriberType } from "../Enums/SubscriptionTypeEnum";
+
 // }
 export interface LoginUserModel {
     message: string;
@@ -28,7 +31,17 @@ export interface LoginUserModel {
     authorizedPages?: PagePermissionModel[];
 }
 
-
+export interface SubscriberRegistrationModel {
+    firstName: string;
+    lastName: string;
+    userName: string;
+    email: string;
+    phoneNumber: string;
+    subscriberTypeId: SubscriberType;
+    address: string;
+    subscriberName: string;
+    subscriberEmail: string;
+}
 
 
 export interface PagePermissionModel {

@@ -9,12 +9,12 @@ namespace RetailStation.Entities.Models.Lookups
 {
     [Table("Countries", Schema = "Global")]
 
-    public class Country : CreatorModel
+    public class Country
     {
         public int CountryId { get; set; }
         public string NameAR { get; set; }
         public string NameEN { get; set; }
-        public string Code { get; set; }
+        //public string Code { get; set; }
         public bool IsActive { get; set; }
 
     }

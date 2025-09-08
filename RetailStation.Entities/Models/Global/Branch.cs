@@ -34,5 +34,10 @@ namespace RetailStation.Entities.Models.Global
         public bool IsAdmin { get; set; }
         public string SubscriberId { get; set; }
         public string AttendanceDbPath { get; set; }
+        public string Email { get; set; }
+        public string Fax { get; set; }
+        public string Address { get; set; }
+        public string Notes { get; set; }
+        public bool IsAdminBranch { get; set; }
     }
 }

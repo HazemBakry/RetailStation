@@ -96,6 +96,18 @@ export class LookupService {
     const param = countryId !== null ? `?CountryId=${countryId}` : '';
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetCitiesSelector?' + param);
   }
+  GetRegionIdSelector(countryId: number = null, cityId: number = null) {
+    const params = new URLSearchParams();
+    if (countryId !== null) {
+      params.append('CountryId', countryId.toString());
+    }
+    if (cityId !== null) {
+      params.append('CityId', cityId.toString());
+    }
+    const queryString = params.toString();
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetRegionIdSelector' + (queryString ? `?${queryString}` : ''));
+
+  }
 
   GetTaxLookupsSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetTaxLookups');

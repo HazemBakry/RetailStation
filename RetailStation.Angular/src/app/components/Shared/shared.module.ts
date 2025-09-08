@@ -11,7 +11,7 @@ import { CostCentersTreeComponent } from './components/cost-center-tree/cost-cen
 import { ErpSelectorComponent } from './components/selectors/erp-selector/erp-selector.component';
 import { ErpSelectorWithSearchComponent } from './components/selectors/erp-selector-with-search/erp-selector-with-search.component';
 import { ErpSelectorWithCheckboxComponent } from './components/selectors/erp-selector-with-checkbox/erp-selector-with-checkbox.component';
-import { ErpPaginationComponent } from './components/erp-pagination/erp-pagination.component';
+import { ErpPaginationComponent, PaginationComponent } from './components/erp-pagination/erp-pagination.component';
 import { ErpFiltersComponent } from './components/erp-filters/erp-filters.component';
 import { EmptyDataComponent } from './components/empty-data/empty-data.component';
 import { AppBreadcrumbComponent } from './components/app-breadcrumb/app-breadcrumb.component';
@@ -37,7 +37,7 @@ import { RouterModule } from '@angular/router';
 import { DropDownFormControlComponent } from './components/drop-down-form-control/drop-down-form-control.component';
 import { BusinessCoreLayoutComponent } from './components/business-core-layout/business-core-layout.component';
 import { GeneralOrderProductsComponent } from './components/general-order-products/general-order-products.component';
-import { MaterialReceiptSidePanelComponent} from './components/sidepanel/material-receipt-side-panel/material-receipt-side-panel.component';
+import { MaterialReceiptSidePanelComponent } from './components/sidepanel/material-receipt-side-panel/material-receipt-side-panel.component';
 import { ProductsDetailsSidePanelComponent } from './components/sidepanel/products-details-side-panel/products-details-side-panel.component';
 import { RenderComponent } from './components/render/render.component';
 import { ComponentHostDirective } from './directives/component-host.directive';
@@ -57,6 +57,8 @@ import { GoogleChartsModule } from 'angular-google-charts';
 import { StatusSelectorComponent } from './components/status-selector/status-selector.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
+import { RetailHomeComponent } from './components/retail-home/retail-home.component';
+import { RegisterComponent } from 'src/app/Auth/register/register.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +72,7 @@ import { HeaderComponent } from './components/header/header.component';
     ErpSelectorWithSearchComponent,
     ErpSelectorWithCheckboxComponent,
     ErpPaginationComponent,
+    PaginationComponent,
     ErpFiltersComponent,
     EmptyDataComponent,
     OrderProductsComponent,
@@ -107,7 +110,9 @@ import { HeaderComponent } from './components/header/header.component';
     GoToAccountReportDirective,
     NextPreviousComponent,
     ERPSidebarComponent,
-    StatusSelectorComponent
+    StatusSelectorComponent,
+    RetailHomeComponent,
+    RegisterComponent
   ],
 
   imports: [
@@ -145,6 +150,7 @@ import { HeaderComponent } from './components/header/header.component';
     ErpSelectorWithSearchComponent,
     ErpSelectorWithCheckboxComponent,
     ErpPaginationComponent,
+    PaginationComponent,
     ErpFiltersComponent,
     EmptyDataComponent,
     OrderProductsComponent,
@@ -177,7 +183,9 @@ import { HeaderComponent } from './components/header/header.component';
     NextPreviousComponent,
     ERPSidebarComponent,
     GoogleChartsModule,
-    StatusSelectorComponent
+    StatusSelectorComponent,
+    RegisterComponent
+
 
   ],
   providers: [
@@ -189,4 +197,4 @@ import { HeaderComponent } from './components/header/header.component';
     },
   ],
 })
-export class SharedModule {}
+export class SharedModule { }

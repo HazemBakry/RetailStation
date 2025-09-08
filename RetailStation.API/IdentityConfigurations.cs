@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Configuration;
 using System.Text;
+using RetailStation.Entities.Models.Auth;
 
 namespace RetailStation.API
 {

@@ -81,6 +81,14 @@ namespace RetailStation.Service.Shared
             return result;
         }
 
+        public List<SelectorDataModel> GetRegionIdSelector(int? CountryId = null, int? CityId = null)
+        {
+            return LookupsContext.Regions.Where(x=>(!CountryId.HasValue || CountryId == x.CountryId)&& (!CityId.HasValue || CityId == x.CityId)).Select(x => new SelectorDataModel
+            {
+                Id = x.RegionId,
+                Name = x.NameAR ?? x.NameEN
+            }).ToList();
+        }
         public List<SelectorDataModel> GetCitiesSelector(int? CountryId =null)
         {
             SqlParameter[] Params = new SqlParameter[1];

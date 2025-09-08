@@ -1,0 +1,206 @@
+<div class="login-wrapper">
+    <div class="container-fluid py-3">
+        <div class="login-card shadow-lg" [ngClass]="{'login': loggingMode, 'register': !loggingMode}">
+            <div class="login-img-box">
+                <img src="../../assets/signin.png" class="login-img" alt="" loading="lazy" />
+            </div>
+            <div class="card-body p-5 text-center">
+                <h2 class="header-form fw-bold">
+                    <span class="login-title">انشاء حساب جديد</span>
+                    <span class="register-title">انشاء حساب جديد !</span>
+                </h2>
+                <section class="form-section">
+                    <div class="login-form">
+                        <form [formGroup]="formGroup" (ngSubmit)="openSaveModal(saveDialog)" autocomplete="off">
+                            <div class="row gy-3">
+                                <div class="col-lg-6">
+                                    <div class="mb-2">
+                                        <label class="form-label d-flex align-items-center gap-2">
+                                            الاسم الأول (First Name)
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control nw-form-input"
+                                            formControlName="firstName" autocomplete="off" />
+
+                                        <div *ngIf="formErrors.firstName" class="text-danger font-small-3 m-03">
+                                            {{formErrors.firstName}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-2">
+                                        <label class="form-label d-flex align-items-center gap-2">
+                                            اسم العائلة (Last Name)
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control nw-form-input" formControlName="lastName"
+                                            autocomplete="off" />
+
+                                        <div *ngIf="formErrors.lastName" class="text-danger font-small-3 m-03">
+                                            {{formErrors.lastName}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-2">
+                                        <label class="form-label d-flex align-items-center gap-2">
+                                            اسم المستخدم (User Name)
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control nw-form-input" formControlName="userName"
+                                            autocomplete="off" />
+
+                                        <div *ngIf="formErrors.userName" class="text-danger font-small-3 m-03">
+                                            {{formErrors.userName}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-2">
+                                        <label class="form-label d-flex align-items-center gap-2">
+                                            الرقم السري (Password)
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control nw-form-input" formControlName="password"
+                                            autocomplete="off" />
+
+                                        <div *ngIf="formErrors.password" class="text-danger font-small-3 m-03">
+                                            {{formErrors.password}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-2">
+                                        <label class="form-label d-flex align-items-center gap-2">
+                                            البريد الألكتروني (Email)
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control nw-form-input" formControlName="email"
+                                            autocomplete="off" />
+
+                                        <div *ngIf="formErrors.email" class="text-danger font-small-3 m-03">
+                                            {{formErrors.email}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-2">
+                                        <label class="form-label d-flex align-items-center gap-2">
+                                            رقم الهاتف (Phone Number)
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control nw-form-input"
+                                            formControlName="phoneNumber" autocomplete="off" />
+
+                                        <div *ngIf="formErrors.phoneNumber" class="text-danger font-small-3 m-03">
+                                            {{formErrors.phoneNumber}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="mb-2">
+                                        <label class="form-label d-flex align-items-center gap-2">
+                                            نوع الاشتراك (Subscriber Type)
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="d-flex flex-wrap gap-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio"
+                                                    formControlName="subscriberTypeId" id="customerRadio"
+                                                    [value]="SubscriberType.Customer">
+                                                <label class="form-check-label" for="customerRadio">عميل</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio"
+                                                    formControlName="subscriberTypeId" id="supplierRadio"
+                                                    [value]="SubscriberType.Supplier">
+                                                <label class="form-check-label" for="supplierRadio">مورد</label>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="formErrors.subscriberTypeId" class="text-danger font-small-3 m-3">
+                                            {{formErrors.subscriberTypeId}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-2">
+                                        <label class="form-label d-flex align-items-center gap-2">
+                                            اسم المشترك
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control nw-form-input"
+                                            formControlName="subscriberName" autocomplete="off" />
+
+                                        <div *ngIf="formErrors.subscriberName" class="text-danger font-small-3 m-03">
+                                            {{formErrors.subscriberName}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-2">
+                                        <label class="form-label d-flex align-items-center gap-2">
+                                            البريد الألكتروني
+                                            للشركة
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control nw-form-input"
+                                            formControlName="subscriberEmail" autocomplete="off" />
+
+                                        <div *ngIf="formErrors.subscriberEmail" class="text-danger font-small-3 m-03">
+                                            {{formErrors.subscriberEmail}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="mb-2">
+                                        <label class="form-label d-flex align-items-center gap-2">
+                                            العنوان (Address)
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control nw-form-input description-area"
+                                            id="address" formControlName="address" autocomplete="off" />
+                                        <div *ngIf="formErrors.address" class="text-danger font-small-3 m-3">
+                                            {{formErrors.address}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button [disabled]="showLoader" type="submit"
+                                class="btn btn-lg btn-primary mt-4 shadow-sm text-center">
+                                <span *ngIf="!showLoader">Register</span>
+                                <span *ngIf="showLoader">Please wait</span>
+                            </button>
+                        </form>
+
+
+
+
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<ng-template #saveDialog let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد العملية</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد من الحفظ ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click'); saveSubscriberData()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">الغاء</span>
+        </button>
+    </div>
+</ng-template>

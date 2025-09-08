@@ -1,21 +1,23 @@
 <nav class="navbar navbar-expand-lg bg-nw-header new-rounded-header py-0">
-    <div class="container-fluid">
-        <!-- <button *ngIf="showToggler" (click)="onToggler()" type="button"
+  <div class="container-fluid">
+    <!-- <button *ngIf="showToggler" (click)="onToggler()" type="button"
       class="hamburger nw-hamburger hamburger--elastic rounded-1 main-bgcolor m-2">
       <span class="hamburger-box">
         <span class="hamburger-inner"></span>
       </span>
     </button> -->
 
-        <a class="navbar-brand logo-blue-clr fw-bold">شعار</a>
-        <button class="navbar-toggler hamburger nw-hamburger hamburger--elastic rounded-1 main-bgcolor my-2" [class.is-active]="!collapsed" type="button" aria-controls="navbar-content" [attr.aria-expanded]="!collapsed" aria-label="Toggle navigation" (click)="collapsed = !collapsed">
+    <a routerLink="/" class="navbar-brand logo-blue-clr fw-bold">شعار</a>
+    <button class="navbar-toggler hamburger nw-hamburger hamburger--elastic rounded-1 main-bgcolor my-2"
+      [class.is-active]="!collapsed" type="button" aria-controls="navbar-content" [attr.aria-expanded]="!collapsed"
+      aria-label="Toggle navigation" (click)="collapsed = !collapsed">
       <span class="hamburger-box">
         <span class="hamburger-inner"></span>
       </span>
     </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent" [class.collapse]="collapsed">
-            <div class="d-flex ms-auto justify-content-center justify-content-lg-start">
-                <!-- <form role="search">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" [class.collapse]="collapsed">
+      <div class="d-flex ms-auto justify-content-center justify-content-lg-start">
+        <form role="search">
           <div class="input-group">
             <span class="input-group-text bg-white pe-0">
               <i class="fa-solid fa-magnifying-glass"></i>
@@ -23,282 +25,97 @@
             <input type="text" class="form-control me-4 nw-search-header border-start-0"
               placeholder="ابحث عن اى شى..." />
           </div>
-        </form> -->
+        </form>
+      </div>
+
+      <ul class="navbar-nav mb-2 mb-lg-0 gap-4">
+        <li class="nav-item">
+          <a class="nav-link justify-content-center justify-content-md-start">
+            <img src="{{systemUrl}}assets/alert.svg" class="nw-header-icon-link-img" alt="AlertImage" loading="lazy" />
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link justify-content-center justify-content-md-start gap-1">
+            <img src="{{systemUrl}}assets/lang.svg" class="nw-header-icon-link-img head-lang-img" alt="LanguageImage"
+              loading="lazy" />
+            <span class="fs-5">AR</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link justify-content-center justify-content-md-start" routerLink="/system-settings/home">
+            <img src="{{systemUrl}}assets/settings.svg" class="nw-header-icon-link-img" alt="SettingsImage"
+              loading="lazy" />
+          </a>
+        </li>
+        <li ngbDropdown class="nav-item nw-dropdown header-nav-dropdown" display="dynamic">
+          <a class="nav-link justify-content-center d-inline-flex align-items-center gap-2" ngbDropdownToggle>
+            <img src="{{systemUrl}}assets/user.svg" class="nw-header-icon-link-img" class="nw-user-img-header"
+              alt="UserImage" loading="lazy" />
+            <span>{{UserModel?.fullName}}</span>
+            <i class="fa-solid fa-chevron-down dropdown-arrow fs-13"></i>
+          </a>
+          <ul class="border shadow-lg" ngbDropdownMenu aria-labelledby="user-settings">
+            <li >
+              <a routerLink="/admin" routerLinkActive="/admin" class="dropdown-item cursor-pointer d-flex align-items-center">
+                <i class="fa-solid fa-user-gear"></i>
+                <span class="ms-2">Admin</span>
+              </a>
+            </li>
+            <li >
+              <a routerLink="/main" routerLinkActive="/admin" class="dropdown-item cursor-pointer d-flex align-items-center">
+                <i class="fa-solid fa-user-gear"></i>
+                <span class="ms-2">Supplier</span>
+              </a>
+            </li>
+            <li *ngIf="isAuthenticated" >
+              <a (click)="logout()" class="dropdown-item cursor-pointer d-flex align-items-center">
+                <i class="fas fa-power-off"></i>
+                <span class="ms-2">SignOut</span>
+              </a>
+            </li>
+            <li *ngIf="!isAuthenticated" >
+              <a (click)="login()" class="dropdown-item cursor-pointer d-flex align-items-center">
+                <i class="fas fa-power-off"></i>
+                <span class="ms-2">Login</span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item cursor-pointer d-flex align-items-center">
+                <i class="fa-solid fa-user-gear"></i>
+                <span class="ms-2">Profile</span>
+              </a>
+            </li>
+
+          </ul>
+
+        </li>
+        <!-- <li ngbDropdown class="nav-item nw-dropdown" display="dynamic">
+          <a class="nav-link justify-content-center d-inline-flex align-items-center gap-2 bg-white my-2 py-2 px-3 h-auto radius-15"
+            ngbDropdownToggle>
+            <div class="dropdown-header-icon">
+              <i class="fa-solid fa-building-columns"></i>
             </div>
+            <span style="min-width: 100px;" class="dropdown-header-text text-nowrap">{{selectedModuleName}}</span>
+            <i class="fa-solid fa-chevron-down dropdown-arrow fs-13"></i>
+          </a>
+          <ul class="border shadow-lg min-width-300" ngbDropdownMenu aria-labelledby="user-settings">
 
-            <ul class="navbar-nav mb-2 mb-lg-0 gap-4">
-                <li class="nav-item">
-                    <a class="nav-link justify-content-center justify-content-md-start">
-                        <img src="{{systemUrl}}assets/alert.svg" class="nw-header-icon-link-img" alt="AlertImage" loading="lazy" />
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link justify-content-center justify-content-md-start gap-1">
-                        <img src="{{systemUrl}}assets/lang.svg" class="nw-header-icon-link-img head-lang-img" alt="LanguageImage" loading="lazy" />
-                        <span class="fs-5">AR</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link justify-content-center justify-content-md-start" routerLink="/system-settings/home">
-                        <img src="{{systemUrl}}assets/settings.svg" class="nw-header-icon-link-img" alt="SettingsImage" loading="lazy" />
-                    </a>
-                </li>
-                <li ngbDropdown class="nav-item nw-dropdown" display="dynamic">
-                    <a class="nav-link justify-content-center d-inline-flex align-items-center gap-2" ngbDropdownToggle>
-                        <img src="{{systemUrl}}assets/user.svg" class="nw-header-icon-link-img" class="nw-user-img-header" alt="UserImage" loading="lazy" />
-                        <span>{{UserModel?.fullName}}</span>
-                        <i class="fa-solid fa-chevron-down dropdown-arrow fs-13"></i>
-                    </a>
-                    <ul class="border shadow-lg" ngbDropdownMenu aria-labelledby="user-settings">
-                       <li *ngIf="productSystemUrl">
-                            <a [href]="productSystemUrl" target="_blank" class="dropdown-item cursor-pointer d-flex align-items-center">
-                                <i class="fab fa-product-hunt"></i>
-                                <span class="ms-2">Products</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a (click)="logout()" class="dropdown-item cursor-pointer d-flex align-items-center">
-                                <i class="fas fa-power-off"></i>
-                                <span class="ms-2">SignOut</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item cursor-pointer d-flex align-items-center">
-                                <i class="fa-solid fa-user-gear"></i>
-                                <span class="ms-2">Profile</span>
-                            </a>
-                        </li>
-                       
-                    </ul>
+            <li *ngFor="let module of modulesMenu">
+              <a [routerLink]="module.route" routerLinkActive="active"
+                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
+                <i class="dropdown-header-icon sm-icon-size" [class]="module.icon"></i> {{module.displayName}}
+              </a>
+            </li>
+          </ul>
 
-                </li>
-                <li ngbDropdown class="nav-item nw-dropdown" display="dynamic">
-                    <a class="nav-link justify-content-center d-inline-flex align-items-center gap-2 bg-white my-2 py-2 px-3 h-auto radius-15" ngbDropdownToggle>
-                        <div class="dropdown-header-icon">
-                            <i class="fa-solid fa-building-columns"></i>
-                        </div>
-                        <span style="min-width: 100px;" class="dropdown-header-text text-nowrap">{{selectedModuleName}}</span>
-                        <i class="fa-solid fa-chevron-down dropdown-arrow fs-13"></i>
-                    </a>
-                    <ul class="border shadow-lg min-width-300" ngbDropdownMenu aria-labelledby="user-settings">
-
-                        <li *ngFor="let module of modulesMenu">
-                            <a [routerLink]="module.route" routerLinkActive="active" class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
-                                <i class="dropdown-header-icon sm-icon-size" [class]="module.icon"></i> {{module.displayName}}
-                            </a>
-                        </li>
-                        <!-- <li>
-              <a routerLink="/inventory" routerLinkActive="active"
-                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
-                <i class="dropdown-header-icon sm-icon-size fa-solid fa-pen-nib"></i>
-                المخازن
-              </a>
-            </li>
-            <li>
-              <a routerLink="/purchases" routerLinkActive="active"
-                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
-                <i class="dropdown-header-icon sm-icon-size fa-solid fa-scale-balanced"></i>
-                المشتريات
-              </a>
-            </li>
-            <li>
-              <a  routerLink="/sales" routerLinkActive="active"
-                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
-                <i class="dropdown-header-icon sm-icon-size fa-solid fa-building-columns"></i>
-                المبيعات
-              </a>
-            </li>
-            <li>
-              <a routerLink="/hr" routerLinkActive="active"
-                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
-                <i class="dropdown-header-icon sm-icon-size fa-solid fa-chart-line"></i>
-                الموارد البشرية
-              </a>
-            </li>
-            <li>
-              <a routerLink="/system-settings" routerLinkActive="active"
-                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
-                <i class="dropdown-header-icon sm-icon-size fa-solid fa-lock"></i>
-                إعدادات النظام
-              </a>
-            </li> -->
-                        <!-- <li>
-              <a routerLink="/accounts/settings" routerLinkActive="active"
-                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
-                <i class="dropdown-header-icon sm-icon-size fa-solid fa-gear"></i>
-                إعدادات الحسابات
-              </a>
-            </li>
-            <li>
-              <a routerLink="/reports/accounting" routerLinkActive="active"
-                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
-                <i class="dropdown-header-icon sm-icon-size fa-solid fa-file-invoice-dollar"></i>
-                التقارير المحاسبية
-              </a>
-            </li>
-            <li>
-              <a routerLink="/auto-entries/setup" routerLinkActive="active"
-                class="dropdown-item cursor-pointer d-flex align-items-center gap-2 fs-11">
-                <i class="dropdown-header-icon sm-icon-size fa-solid fa-robot"></i>
-                إعداد القيود الآلية
-              </a>
-            </li> -->
-                    </ul>
-
-                </li>
-            </ul>
-        </div>
-
+        </li> -->
+      </ul>
     </div>
+
+  </div>
 </nav>
 
 
 
 <!-- <app-sidebar [toggler]="showMenu"></app-sidebar> -->
 
-
-
-
-<!-- <header id="main_header" class="fixed-top">
-  <nav class="navbar navbar-expand-lg bg-header shadow py-0">
-    <div class="container-fluid">
-      <a class="navbar-brand text-uppercase logo-font text-white">Erp System</a>
-      <div class="setting-menu d-flex flex-grow-1" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto flex-row">
-          <li *ngIf="showToggler" class="nav-item">
-            <a class="nav-link menu-toggler me-4" (click)="onToggler()">
-              <span class="sidebar-menu"></span>
-            </a>
-          </li>
-        </ul>
-        <ul class="navbar-nav ms-auto flex-row">
-          <li class="nav-item">
-            <a class="nav-link nav-link-pump" routerLink="/" routerLinkActive="router-link-active" >
-              <span class="position-relative">
-                <i class="uil uil-home"></i>
-              </span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-link-pump">
-              <span class="position-relative">
-                <i class="uil uil-envelope"></i>
-                <span class="circle green"></span>
-              </span>
-            </a>
-          </li>
-          <li class="nav-item" ngbDropdown display="dynamic">
-            <a class="nav-link nav-link-pump" tabindex="0" ngbDropdownToggle id="userAlarm" role="button">
-              <span class="position-relative">
-                <i class="uil uil-bell"></i>
-                <span class="circle red"></span>
-              </span>
-            </a>
-            <div ngbDropdownMenu aria-labelledby="userAlarm"
-              class="dropdown-menu notification-dropdown p-0 shadow-md overflow-hidden">
-              <div class="d-flex align-items-center justify-content-between cursor-pointer alarm-area py-3"
-                ngbDropdownItem>
-                <h6 class="fw-bold m-0 text-white">Notifications</h6>
-                <div class="d-flexalign-items-center">
-                  <a class="text-undeline text-white me-2">Mark as read</a>
-                  <a class="text-undeline text-white">Clear all</a>
-                </div>
-              </div>
-              <div class="notification-box small-scroll">
-                <h5 class="notification-status text-uppercase px-4 pt-3 pb-2 fs-6">New</h5>
-                <a class="notification-item d-flex align-items-center cursor-pointer py-2" ngbDropdownItem>
-                  <img src="../../../assets/images/user-img.jpg" class="profile-img" alt="user-image" loading="lazy" />
-                  <div class="w-100 ms-3">
-                    <div class="d-flex align-items-center justify-content-between">
-                      <h6 class="m-0 fw-bold">Hany Salaam</h6>
-                      <div class="d-flex align-items-center text-muted n-time">
-                        <i class="uil uil-clock-nine me-3"></i>
-                        5 Min
-                      </div>
-                    </div>
-                    <p class="m-0">New Ticket Added</p>
-                  </div>
-                </a>
-                <h5 class="notification-status text-uppercase px-4 pt-3 pb-2 fs-6">Earlier</h5>
-                <a class="notification-item d-flex align-items-center cursor-pointer py-2" ngbDropdownItem>
-                  <img src="../../../assets/images/user-img.jpg" class="profile-img" alt="user-image" loading="lazy" />
-                  <div class="w-100 ms-3">
-                    <div class="d-flex align-items-center justify-content-between">
-                      <h6 class="m-0 fw-bold">Hazeem Bakry</h6>
-                      <div class="d-flex align-items-center text-muted n-time">
-                        <i class="uil uil-clock-nine me-3"></i>
-                        5 Min
-                      </div>
-                    </div>
-                    <p class="m-0">New Ticket Added</p>
-                  </div>
-                </a>
-                <a class="notification-item d-flex align-items-center cursor-pointer py-2" ngbDropdownItem>
-                  <img src="../../../assets/images/user-img.jpg" class="profile-img" alt="user-image" loading="lazy" />
-                  <div class="w-100 ms-3">
-                    <div class="d-flex align-items-center justify-content-between">
-                      <h6 class="m-0 fw-bold">Abo Nasr</h6>
-                      <div class="d-flex align-items-center text-muted n-time">
-                        <i class="uil uil-clock-nine me-3"></i>
-                        6 Min
-                      </div>
-                    </div>
-                    <p class="m-0">New Ticket Added</p>
-                  </div>
-                </a>
-                <a class="notification-item d-flex align-items-center cursor-pointer py-2" ngbDropdownItem>
-                  <img src="../../../assets/images/user-img.jpg" class="profile-img" alt="user-image" loading="lazy" />
-                  <div class="w-100 ms-3">
-                    <div class="d-flex align-items-center justify-content-between">
-                      <h6 class="m-0 fw-bold">Salam Hany</h6>
-                      <div class="d-flex align-items-center text-muted n-time">
-                        <i class="uil uil-clock-nine me-3"></i>
-                        10 Min
-                      </div>
-                    </div>
-                    <p class="m-0">New Ticket Added</p>
-                  </div>
-                </a>
-              </div>
-              <div class="notification-show-all">
-                <a class="text-underline text-dark cursor-pointer fs-6">Show all</a>
-              </div>
-            </div>
-          </li>
-          <li class="nav-item" ngbDropdown display="dynamic">
-            <a class="nav-link" tabindex="0" ngbDropdownToggle id="userProfileImage" role="button">
-              <img src="../../../assets/images/user-img.jpg" class="profile-img" alt="user-image" loading="lazy" />
-            </a>
-            <div ngbDropdownMenu aria-labelledby="userProfileImage"
-              class="dropdown-menu profile-dropdown p-0 shadow-md">
-              <div class="d-flex align-items-center justify-content-between cursor-pointer user-area py-3"
-                ngbDropdownItem>
-                <div class="d-flex align-items-center">
-                  <img src="../../../assets/images/user-img.jpg" class="profile-img" alt="user-image" loading="lazy" />
-                  <span class="ms-2 text-white">Hazeem Bakry</span>
-                </div>
-                <i class="uil uil-sign-out-alt signout-btn text-white cursor-pointer"></i>
-              </div>
-              <a class="d-flex align-items-center cursor-pointer" ngbDropdownItem>
-                <i class="uil uil-user"></i>
-                <span class="ms-2">Profile</span>
-              </a>
-              <a class="d-flex align-items-center cursor-pointer" ngbDropdownItem>
-                <i class="uil uil-envelope-download"></i>
-                <span class="ms-2">My Messages</span>
-              </a>
-              <a class="d-flex align-items-center cursor-pointer" ngbDropdownItem>
-                <i class="uil uil-padlock"></i>
-                <span class="ms-2">Lock Screen</span>
-              </a>
-              <a class="d-flex align-items-center cursor-pointer" (click)="logout()" ngbDropdownItem >
-                <i class="fas fa-power-off"></i>
-                <span class="ms-2">SignOut</span>
-              </a>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-</header> -->

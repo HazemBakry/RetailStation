@@ -17,5 +17,8 @@ namespace RetailStation.Interface.Common
         DataTable ExecuteDataTable(string CommandText, SqlParameter[] Parameters, string ConnectionString = null);
         DataSet ExecuteDataset(string CommandText, SqlParameter[] Parameters, string ConnectionString = null);
         Task<List<TElement>> SQLQueryAsync<TElement>(string CommandText, string connectionString = null, params SqlParameter[] Parameters);
+
+        DataTable ExecuteDataTable(string CommandText, string ConnectionString, params SqlParameter[] Parameters);
+
     }
 }

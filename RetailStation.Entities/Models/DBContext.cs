@@ -1,58 +1,60 @@
-﻿using Azure.Core;
-using RetailStation.Entities.Common.Finance;
-using RetailStation.Entities.Models.DataImport;
-using RetailStation.Entities.Models.Finance;
-using RetailStation.Entities.Models.Global;
-using RetailStation.Entities.Models.HR;
-using RetailStation.Entities.Models.Inventory;
-using RetailStation.Entities.Models.Lookups;
-using RetailStation.Entities.Models.Purchases;
-using Microsoft.AspNetCore.Http;
+﻿using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.Auth;
+using RetailStation.Entities.Models.Subscription;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using RetailStation.Entities.Models.Subscription;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RetailStation.Entities.Models.Global;
+using RetailStation.Entities.Common.Finance;
+using RetailStation.Entities.Models.DataImport;
+using RetailStation.Entities.Models.Finance;
+using RetailStation.Entities.Models.HR;
+using RetailStation.Entities.Models.Inventory;
+using RetailStation.Entities.Models.Lookups;
+using RetailStation.Entities.Models.Purchases;
+using RetailStation.Entities.Models.Operation;
 
 namespace RetailStation.Entities.Models
 {
-    public class DBContext : DbContext
+    public class DBContext: DbContext
     {
-        //private readonly IConfiguration Configuration;
-        private readonly ITenantService _tenantService;
-        private readonly string ConnectionString;
+        private readonly IConfiguration Configuration;
 
-        public DBContext(DbContextOptions<DBContext> options, ITenantService tenantService)//, IConfiguration _configuration)
-            : base(options)
+        public DBContext(IConfiguration _configuration)
         {
-            //Configuration = _configuration;
-            _tenantService = tenantService;
+            Configuration = _configuration;
         }
 
-        public DBContext(DbContextOptions<DBContext> options, ITenantService tenantService, IHttpContextAccessor httpContextAccessor)
-       : base(options)
+        public DBContext(DbContextOptions<DbContext> options)
+           : base(options)
         {
-            var user = httpContextAccessor.HttpContext?.User;
-            if (user == null)
-            {
-                throw new Exception("SubscriberId is required in the request header.");
-            }
-            var subscriberId = user.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
 
-            //var token = httpContextAccessor.HttpContext?.Request.Headers["Authorization"].ToString();
-            //var tenantId = "Mishwar"; // httpContextAccessor.HttpContext?.Request.Headers["SubscriberId"].ToString();
-
-            ConnectionString = tenantService.GetConnectionString(subscriberId);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(ConnectionString);
-        }
+        //Elassal
 
 
+        public DbSet<Customer> Customers { get; set; }
+
+        public DbSet<Page> Pages { get; set; }
+        public DbSet<RoleAction> RoleActions { get; set; }
+        public DbSet<PageAction> PageActions { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
+
+        public DbSet<ApplicationModel> Applications { get; set; }
+        public DbSet<SubscriberApplicationModel> SubscriberApplications { get; set; }
+        public DbSet<SubscriberModel> Subscribers { get; set; }
+        #region Lookups
+        public DbSet<Branch> Branches { get; set; }
+
+
+
+        #region Depricated
         #region HR
 
         public DbSet<Employee> Employees { get; set; }
@@ -74,7 +76,6 @@ namespace RetailStation.Entities.Models
 
         #region Global
 
-        public DbSet<Branch> Branches { get; set; }
         public DbSet<OrderStatus> OrderStatus { get; set; }
 
 
@@ -109,7 +110,7 @@ namespace RetailStation.Entities.Models
         public DbSet<SupplierGroup> SupplierGroups { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<Vacation> Vacations { get; set; }
-        
+
         public DbSet<Deduct> Deducts { get; set; }
         public DbSet<DeductType> DeductTypes { get; set; }
         public DbSet<EmployeeCareer> EmployeeCareers { get; set; }
@@ -185,7 +186,6 @@ namespace RetailStation.Entities.Models
 
         #region Sales
 
-        public DbSet<Customer> Customers { get; set; }
 
         #endregion
 
@@ -194,27 +194,21 @@ namespace RetailStation.Entities.Models
         public DbSet<ImporterColumnModel> ImporterColumns { get; set; }
         #endregion
 
+        #endregion
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        string connString = this.Configuration.GetConnectionString("DBConnection");
-        //        optionsBuilder.UseSqlServer(connString);
-        //        optionsBuilder.EnableSensitiveDataLogging();
-        //    }
+        //public DbSet<Country> Countries { get; set; }
+        //public DbSet<City> Cities { get; set; }
+        //public DbSet<Region> Regions { get; set; }
 
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        #endregion
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
-            // Configure relationships
-            modelBuilder.Entity<ImporterModel>()
-                .HasMany(t => t.Columns)
-                .WithOne(f => f.Importer)
-                .HasForeignKey(f => f.ImporterId)
-                .OnDelete(DeleteBehavior.Cascade);
+            if (!optionsBuilder.IsConfigured)
+            {
+                string connString = this.Configuration.GetConnectionString("DBConnection");
+                optionsBuilder.UseSqlServer(connString);
+                optionsBuilder.EnableSensitiveDataLogging();
+            }
         }
     }
 }

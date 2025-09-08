@@ -19,6 +19,12 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using RetailStation.Interface.Shared;
+using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.Auth;
+using RetailStation.Entities.DTOs.Auth;
+using RetailStation.Entities.Common.Enums;
+using RetailStation.Entities.Models.Subscription;
 
 namespace RetailStation.Service.Auth
 {
@@ -28,15 +34,12 @@ namespace RetailStation.Service.Auth
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JWT _jwt;
         private readonly IFileService _fileService;
+        private readonly ISharedService _sharedService;
         public readonly string UserImagesFolder;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ITenantService _tenantService;
-        private readonly DBContext _context;
-        //private readonly IJwtService _jwtService;
+        private readonly DBContext Context;
 
-
-        public AuthService(UserManager<ApplicationUser> userManager, JWT jwt, RoleManager<IdentityRole> roleManager,
-            IHttpContextAccessor httpContextAccessor, IFileService fileService, ITenantService tenantService)
+        public AuthService(UserManager<ApplicationUser> userManager, JWT jwt, RoleManager<IdentityRole> roleManager, IHttpContextAccessor httpContextAccessor, IFileService fileService, ISharedService sharedService, DBContext context)
         {
             _userManager = userManager;
             _jwt = jwt;
@@ -44,37 +47,131 @@ namespace RetailStation.Service.Auth
             UserImagesFolder = "UserImages";
             _httpContextAccessor = httpContextAccessor;
             _fileService = fileService;
-            _tenantService = tenantService;
+            _sharedService = sharedService;
+            Context = context;
         }
 
-        public async Task<ActionsResponseModel> Register(AddUserModel model)
+
+        public async Task<AuthModel> LoginAsync(LoginModel model)
         {
-            if (await _userManager.FindByEmailAsync(model.Email) is not null)
-                return new ActionsResponseModel { Message = "Email already registered" };
-            if (await _userManager.FindByNameAsync(model.UserName) is not null)
-                return new ActionsResponseModel { Message = "UserName already registered" };
-            if (model.EmployeeId != null && await _userManager.Users.FirstOrDefaultAsync(x => x.EmployeeId == model.EmployeeId) is not null)
-                return new ActionsResponseModel { Message = "employee already has account" };
-            var User = new ApplicationUser
+            var authModel = new AuthModel();
+            ApplicationUser user = null;
+
+            // Check if Email or Username is provided
+            if (!string.IsNullOrEmpty(model.Email))
+            {
+                user = await _userManager.FindByEmailAsync(model.Email);
+            }
+            else if (!string.IsNullOrEmpty(model.Username))
+            {
+                user = await _userManager.FindByNameAsync(model.Username);
+            }
+
+            // If the user doesn't exist or password is incorrect
+            if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
+            {
+                authModel.Message = "Invalid email/username or password";
+                return authModel;
+            }
+
+            authModel = await GetAuthModel(user);
+            return authModel;
+        }
+        public async Task<ActionsResponseModel> RegisterAsync(SubscriberRegistrationModel model)
+        {
+            if (await Context.Subscribers.AnyAsync(t => t.SubscriberName == model.SubscriberName || t.Email == model.SubscriberEmail))
+            {
+                if (await Context.Subscribers.AnyAsync(t => t.SubscriberName == model.SubscriberName))
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Subscriber name already exists." };
+                if (await Context.Subscribers.AnyAsync(t => t.Email == model.SubscriberEmail))
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Subscriber email already exists." };
+            }
+
+            if (await _userManager.Users.AnyAsync(u => u.Email == model.Email || u.UserName == model.UserName))
+            {
+                if (await _userManager.FindByNameAsync(model.UserName) is not null)
+                    return new ActionsResponseModel { Message = "Username already exists.", IsSuccess = false };
+                if (await _userManager.FindByEmailAsync(model.Email) is not null)
+                    return new ActionsResponseModel { Message = "Email already exists.", IsSuccess = false };
+            }
+            if (string.IsNullOrEmpty(model.Password) || model.Password.Length < 4)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = "Password is required with 4 char."
+                };
+            }
+
+            // Create and save the new subscriber
+            var subscriber = new SubscriberModel
+            {
+                SubscriberId = Guid.NewGuid().ToString(),
+                SubscriberName = model.SubscriberName,
+                Email = model.SubscriberEmail,
+                DomainName = string.Empty,
+                SubscriberTypeId = (SubscriberType)model.SubscriberTypeId,
+                CreatedDate = DateTime.Now,
+                IsActive = false,
+                IsApproved = false
+            };
+            Context.Subscribers.Add(subscriber);
+            await Context.SaveChangesAsync();
+
+            // Create and save the new user
+            var user = new ApplicationUser
             {
                 UserName = model.UserName,
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                EmployeeId = model.EmployeeId,
+                SubscriberId = subscriber.SubscriberId,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddYears(1),
+                IsActive = true
             };
-            if (model.Image != null)
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded)
             {
-                var uploadResponse = await _fileService.UploadFileAsync(model.Image, UserImagesFolder, FileType.Image);
-                if (uploadResponse.IsUploaded)
-                    User.ImageUrl = uploadResponse.FilePath;
-                else
-                    return new ActionsResponseModel { Message = uploadResponse.Message, IsSuccess = false };
-
-
+                var errors = string.Join(" , ", result.Errors.Select(e => e.Description));
+                return new ActionsResponseModel { IsSuccess = false, Message = errors };
             }
 
-            var result = await _userManager.CreateAsync(User, model.Password);
+            // Add user to the default role
+            await _userManager.AddToRoleAsync(user, "User");
+
+            return new ActionsResponseModel { IsSuccess = true, Message = "User created successfully!" };
+        }
+        public async Task<ActionsResponseModel> ChangePasswordAsync(ChangePasswordModel model)
+        {
+            var response = new ActionsResponseModel();
+            ApplicationUser user = null;
+
+            if (model.NewPassword != model.ConfirmNewPassword)
+            {
+                response.IsSuccess = false;
+                response.Message = "Invalid password confirmation !";
+                return response;
+            }
+            // Check if Email or Username is provided
+            if (!string.IsNullOrEmpty(model.Email))
+            {
+                user = await _userManager.FindByEmailAsync(model.Email);
+            }
+            else if (!string.IsNullOrEmpty(model.Username))
+            {
+                user = await _userManager.FindByNameAsync(model.Username);
+            }
+
+            // If the user doesn't exist or password is incorrect
+            if (user == null || !await _userManager.CheckPasswordAsync(user, model.OldPassword))
+            {
+                response.IsSuccess = false;
+                response.Message = "Invalid email/username or password";
+                return response;
+            }
+            var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
             if (!result.Succeeded)
             {
                 var errors = string.Empty;
@@ -82,60 +179,67 @@ namespace RetailStation.Service.Auth
                 {
                     errors += $"{error.Description} , ";
                 }
-                return new ActionsResponseModel { Message = errors };
+                response.IsSuccess = false;
+                response.Message = errors;
+                return response;
             }
-            await _userManager.AddToRoleAsync(User, "User");
-            //var jwtSecurityToken = await CreateJwtToken(User);
-            //return new AuthModel
-            //{
-            //    Email = User.Email,
-            //    IsAuthunticated = true,
-            //    ExpireOn = jwtSecurityToken.ValidTo,
-            //    Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
-            //    UserName = User.UserName,
-            //    Roles = new List<string> { "User" }
-            //};
-            return new ActionsResponseModel { Message = "user created successfully !" };
-
-
+            response.Message = "Password Changed Successuful";
+            return response;
         }
 
-        public async Task<ActionsResponseModel> EditUserAsync(AddUserModel model)
+        public async Task<AuthModel> GetLoggedInUserAsync(string UserId)
         {
-            var user = await _userManager.FindByIdAsync(model.UserId);
+            var authModel = new AuthModel();
+
+            var user = await _userManager.FindByIdAsync(UserId);
             if (user == null)
             {
-                return new ActionsResponseModel { Message = "user not found", IsSuccess = false };
+                authModel.Message = "user not found";
+                return authModel;
             }
-            if (await _userManager.FindByEmailAsync(model.Email) is not null && user.Id != model.UserId)
-                return new ActionsResponseModel { Message = "invalid email", IsSuccess = false };
-            if (await _userManager.FindByNameAsync(model.UserName) is not null && user.Id != model.UserId)
-                return new ActionsResponseModel { Message = "invalid username", IsSuccess = false };
-            if (model.EmployeeId != null && await _userManager.Users.FirstOrDefaultAsync(x => x.EmployeeId == model.EmployeeId && x.Id != model.UserId) is not null)
-                return new ActionsResponseModel { Message = "employee already has account", IsSuccess = false };
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-            user.UserName = model.UserName;
-            user.Email = model.Email;
-            user.PhoneNumber = model.PhoneNumber;
-            user.EmployeeId = model.EmployeeId;
-            if (model.Image != null)
+
+            authModel = await GetAuthModel(user);
+
+            return authModel;
+        }
+        private async Task<AuthModel> GetAuthModel(ApplicationUser user)
+        {
+            var authModel = new AuthModel();
+
+
+            // Generate JWT Token
+            var jwtSecurityToken = await CreateJwtToken(user);
+            var roleList = await _userManager.GetRolesAsync(user);
+
+            // Fill AuthModel with user info and token
+            authModel.UserId = user.Id;
+            authModel.Email = user.Email;
+            authModel.PhoneNumber = user.PhoneNumber;
+            authModel.FullName = $"{user.FirstName} {user.LastName}";
+            authModel.IsAuthenticated = true;
+            authModel.ExpireOn = jwtSecurityToken.ValidTo;
+            authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+            authModel.UserName = user.UserName;
+            authModel.SubscriberId = user.SubscriberId;
+            authModel.Roles = roleList.ToList();
+            authModel.BranchId = user.BranchId;
+            authModel.ImageUrl = _fileService.GetFileDownloadUrl(user.ImageUrl);
+
+            var userBranch = _sharedService.GetBranchById(user.SubscriberId, user.BranchId);
+            if (userBranch is not null)
             {
-                var uploadResponse = await _fileService.UploadFileAsync(model.Image, UserImagesFolder, FileType.Image);
-                if (uploadResponse.IsUploaded)
-                {
-                    user.ImageUrl = uploadResponse.FilePath;
-                }
-                else
-                {
-                    return new ActionsResponseModel { Message = uploadResponse.Message, IsSuccess = false };
-                }
+                authModel.BranchNameAR = userBranch.NameAR;
+                authModel.BranchNameEN = userBranch.NameEN;
+            }
+            if (user.SubscriberId is not null)
+            {
+                var subscriber = Context.Subscribers.FirstOrDefault(x => x.SubscriberId == user.SubscriberId);
 
+                authModel.SubscriberName = subscriber?.SubscriberName;
             }
 
-            var result = await _userManager.UpdateAsync(user);
 
-            return new ActionsResponseModel { Message = "user updated successfully !" };
+            return authModel;
         }
 
         public async Task<AuthModel> LoginByEmailAsync(LoginModel model)
@@ -159,13 +263,14 @@ namespace RetailStation.Service.Auth
             authModel.ExpireOn = jwtSecurityToken.ValidTo;
             authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             authModel.UserName = User.UserName;
-            authModel.EmployeeId = User.EmployeeId;
+            authModel.SubscriberId = User.SubscriberId;
             authModel.ImageUrl = _fileService.GetFileDownloadUrl(User.ImageUrl);
             authModel.Roles = roleList.ToList();
 
             return authModel;
 
         }
+
         public async Task<AuthModel> LoginByUserNameAsync(LoginModel model)
         {
             var authModel = new AuthModel();
@@ -187,17 +292,8 @@ namespace RetailStation.Service.Auth
             authModel.ExpireOn = jwtSecurityToken.ValidTo;
             authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             authModel.UserName = User.UserName;
-            authModel.EmployeeId = User.EmployeeId;
-            authModel.Roles = roleList.ToList();
             authModel.SubscriberId = User.SubscriberId;
-
-
-            var connectionString = _tenantService.GetConnectionString(User.SubscriberId);
-
-            var optionsBuilder = new DbContextOptionsBuilder<DBContext>();
-            optionsBuilder.UseSqlServer(connectionString);
-
-            using var dbContext = new DBContext(optionsBuilder.Options, _tenantService, new HttpContextAccessor());
+            authModel.Roles = roleList.ToList();
 
             return authModel;
 
@@ -217,8 +313,8 @@ namespace RetailStation.Service.Auth
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Email,user.Email),
                 new Claim("UserId",user.Id),
-                //new Claim("EmployeeId",user.EmployeeId?.ToString()),
-                new Claim("EmployeeId","1"),
+                new Claim("SubscriberId",user.SubscriberId),
+                new Claim("BranchId",user.BranchId.ToString()),
             }.Union(userClaims).Union(roleClaims);
 
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key));
@@ -234,8 +330,6 @@ namespace RetailStation.Service.Auth
 
             return jwtSecurityToken;
         }
-
-
         public async Task<List<RoleDto>> GetRolesAsync(SearchFilterModel model)
         {
             var Roles = await _roleManager.Roles.ToListAsync();
@@ -248,46 +342,7 @@ namespace RetailStation.Service.Auth
             }).ToList();
 
         }
-        public async Task<ActionsResponseModel> AssignUserRoleAsync(AddUserRoleModel model)
-        {
-            var user = await _userManager.FindByIdAsync(model.UserId);
 
-            if (user == null)
-            {
-                return new ActionsResponseModel { Message = "Invalid User Id", IsSuccess = false };
-            }
-
-            var userRoles = await _userManager.GetRolesAsync(user);
-            var rolesToAdd = model.Roles.Select(r => r.RoleName).Except(userRoles);
-            var rolesToRemove = userRoles.Except(model.Roles.Select(r => r.RoleName));
-
-            // Remove roles that are no longer assigned
-            foreach (var role in rolesToRemove)
-            {
-                var removeResult = await _userManager.RemoveFromRoleAsync(user, role);
-                if (!removeResult.Succeeded)
-                {
-                    return new ActionsResponseModel { Message = "Failed to remove roles", IsSuccess = false };
-                }
-            }
-
-            // Add new roles
-            foreach (var role in rolesToAdd)
-            {
-                if (!await _roleManager.RoleExistsAsync(role))
-                {
-                    return new ActionsResponseModel { Message = $"Invalid Role: {role}", IsSuccess = false };
-                }
-
-                var addResult = await _userManager.AddToRoleAsync(user, role);
-                if (!addResult.Succeeded)
-                {
-                    return new ActionsResponseModel { Message = "Failed to add roles", IsSuccess = false };
-                }
-            }
-
-            return new ActionsResponseModel { Message = "Roles assigned successfully", IsSuccess = true };
-        }
         public async Task<ActionsResponseModel> AddRoleAsync(string roleName)
         {
             if (await _roleManager.RoleExistsAsync(roleName))
@@ -300,87 +355,6 @@ namespace RetailStation.Service.Auth
 
             return result.Succeeded ? new ActionsResponseModel { Message = "role added successfully" }
                                                : new ActionsResponseModel { Message = "can't add role", IsSuccess = false };
-        }
-
-        public async Task<List<UserDto>> GetUsersAsync(SearchFilterModel model)
-        {
-            Expression<Func<ApplicationUser, bool>> criteria = c => c.UserName.Contains(model.SearchText) || c.FirstName.Contains(model.SearchText) || string.IsNullOrEmpty(model.SearchText);
-
-            int totalCount = await _userManager.Users.Where(criteria).CountAsync();
-
-            var data = await _userManager.Users
-                                            .Where(criteria)
-                                            .Skip((model.CurrentPage - 1) * model.PageSize)
-                                            .Take(model.PageSize).ToListAsync();
-            var results = new List<UserDto>();
-            foreach (var user in data)
-            {
-                var roles = await _userManager.GetRolesAsync(user);
-                user.ImageUrl = _fileService.GetFileDownloadUrl(user.ImageUrl);
-                results.Add(new UserDto
-                {
-                    FullName = $"{user.FirstName} {user.LastName}",
-                    UserId = user.Id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    UserName = user.UserName,
-                    Email = user.Email,
-                    PhoneNumber = user.PhoneNumber,
-                    ImageUrl = user.ImageUrl,
-                    EmployeeId = user.EmployeeId,
-                    Roles = roles.ToList(),
-                    BranchId = user.BranchId,
-                    TotalCount = totalCount
-                });
-            }
-
-
-            return results;
-
-        }
-        public async Task<UserDto> GetUserByIdAsync(string userId)
-        {
-
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
-
-            if (user is not null)
-            {
-                var roles = await _userManager.GetRolesAsync(user);
-                return new UserDto
-                {
-                    FullName = $"{user.FirstName} {user.LastName}",
-                    UserId = user.Id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    UserName = user.UserName,
-                    Email = user.Email,
-                    PhoneNumber = user.PhoneNumber,
-                    EmployeeId = user.EmployeeId,
-                    ImageUrl = _fileService.GetFileDownloadUrl(user.ImageUrl),
-                    Roles = roles.ToList(),
-
-                };
-            }
-
-            return null;
-
-        }
-
-        public async Task<ActionsResponseModel> DeleteUserAsync(string userId)
-        {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return null;
-            }
-
-
-            var result = await _userManager.DeleteAsync(user);
-            if (!result.Succeeded)
-            {
-                return new ActionsResponseModel { Message = "error", IsSuccess = false };
-            }
-            return new ActionsResponseModel { Message = "user deleted" };
         }
 
 

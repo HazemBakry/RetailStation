@@ -14,6 +14,7 @@ using RetailStation.Entities.DTOs.Auth;
 using Microsoft.AspNetCore.Authorization;
 using RetailStation.Entities.Common;
 using System.Linq;
+using RetailStation.Entities.DTOs.Auth;
 
 namespace RetailStation.API.Controllers.Auth
 {
@@ -21,7 +22,6 @@ namespace RetailStation.API.Controllers.Auth
     [ApiController]
     public class AuthController : ControllerBase
     {
-        //private readonly SignInManager<ApplicationUser> _signInManager;
 
 
 
@@ -32,117 +32,56 @@ namespace RetailStation.API.Controllers.Auth
             _authService = authService;
         }
 
-
-        [HttpPost("AddUser")]
-        public async Task<IActionResult> RegisterAsync([FromForm] AddUserModel model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            try
-            {
-                var result = await _authService.Register(model);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex?.Message);
-            }
-
-        }
-        [HttpPost("EditUser")]
-        public async Task<IActionResult> EditUser([FromForm] AddUserModel model)
-        {
-            if (!ModelState.IsValid || string.IsNullOrEmpty(model.UserId))
-                return BadRequest(ModelState);
-            try
-            {
-                var result = await _authService.EditUserAsync(model);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex?.Message);
-            }
-
-
-        }
-
         [HttpPost("Login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var result = await _authService.LoginByUserNameAsync(model);
+            var result = await _authService.LoginAsync(model);
 
             return Ok(result);
 
         }
-        [HttpPost("GetUsers")]
-        public async Task<IActionResult> GetUsers([FromBody] SearchFilterModel model)
-        {
-            var users = await _authService.GetUsersAsync(model);
-            var result = new PagedResponseModel<UserDto>
-            {
-                Results = users,
-                TotalCount = users.FirstOrDefault()?.TotalCount ?? 0,
-                
-                
-            };
-            return Ok(result);
-
-        }
-        [HttpPost("GetUserById")]
-        public async Task<IActionResult> GetUserById(string userId)
-        {
-           
-            var user = await _authService.GetUserByIdAsync(userId);
-            if (user == null)
-                return NotFound();
-            return Ok(user);
-
-        }
-
-        [HttpPost("GetRoles")]
-        public async Task<IActionResult> GetRoles([FromBody] SearchFilterModel model)
-        {
-            var roles = await _authService.GetRolesAsync(model);
-            var result = new PagedResponseModel<RoleDto>
-            {
-                Results = roles,
-                TotalCount = roles.FirstOrDefault()?.TotalCount ?? 0,
-
-            };
-            return Ok(result);
-
-        }
-        [HttpPost("AssignUserRole")]
-        public async Task<IActionResult> AssignUserRoleAsync([FromBody] AddUserRoleModel model)
+        [HttpPost("Register")]
+        public async Task<IActionResult> RegisterAsync([FromBody] SubscriberRegistrationModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var result = await _authService.AssignUserRoleAsync(model);
+            var result = await _authService.RegisterAsync(model);
 
             return Ok(result);
 
         }
+        [HttpPost("ChangePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var result = await _authService.ChangePasswordAsync(model);
+
+            return Ok(result);
+
+        }
+        [HttpGet("GetLoggedInUser")]
+        [Authorize]
+        public async Task<IActionResult> GetLoggedInUserAsync()
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if (string.IsNullOrEmpty(UserId))
+                return BadRequest("can't find User");
+            var result = await _authService.GetLoggedInUserAsync(UserId);
+
+            return Ok(result);
+
+        }
+
         [HttpGet("AddNewRole")]
         public async Task<IActionResult> AddNewRole(string Role)
         {
             var result = await _authService.AddRoleAsync(Role);
-            
-            return Ok(result);
-        }
-        [HttpGet("DeleteUser")]
-        public async Task<IActionResult> DeleteUser(string userId)
-        {
-            var result = await _authService.DeleteUserAsync(userId);
-            if (result is null)
-            {
-                return BadRequest("user not found");
-            }
+
             return Ok(result);
         }
     }
+
 }

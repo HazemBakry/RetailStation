@@ -13,5 +13,10 @@ export interface UserModel {
     status: number | null;
     createdDate: string;
     updatedDate: string | null;
-    totalCount: number | null;
+    totalCount: number | null; 
+    code:number;
+    subscriberId?: string | null;
+    startDate: string | null;
+    endDate: string | null;
+    isActive: boolean | null;
 }

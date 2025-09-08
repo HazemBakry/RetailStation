@@ -1,4 +1,5 @@
-﻿using RetailStation.Entities.Common;
+﻿using RetailStation.Entities.DTOs.Auth;
+using RetailStation.Entities.Common;
 using RetailStation.Entities.DTOs.Auth;
 using System;
 using System.Collections.Generic;
@@ -10,15 +11,13 @@ namespace RetailStation.Interface.Auth
 {
     public interface IAuthService
     {
-        Task<ActionsResponseModel> Register(AddUserModel model);
-        Task<ActionsResponseModel> EditUserAsync(AddUserModel model);
+        Task<AuthModel> LoginAsync(LoginModel model);
+        Task<ActionsResponseModel> RegisterAsync(SubscriberRegistrationModel model);
+        Task<ActionsResponseModel> ChangePasswordAsync(ChangePasswordModel model);
+        Task<AuthModel> GetLoggedInUserAsync(string UserId);
         Task<AuthModel> LoginByEmailAsync(LoginModel model);
         Task<AuthModel> LoginByUserNameAsync(LoginModel model);
-        Task<ActionsResponseModel> AssignUserRoleAsync(AddUserRoleModel model);
         Task<List<RoleDto>> GetRolesAsync(SearchFilterModel model);
         Task<ActionsResponseModel> AddRoleAsync(string roleName);
-        Task<List<UserDto>> GetUsersAsync(SearchFilterModel model);
-        Task<UserDto> GetUserByIdAsync(string userId);
-        Task<ActionsResponseModel> DeleteUserAsync(string userId);
     }
 }

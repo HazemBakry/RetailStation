@@ -46,6 +46,13 @@ namespace RetailStation.API.Controllers.Shared
         }
 
         [HttpGet]
+        [Route("GetRegionIdSelector")]
+        public IActionResult GetRegionIdSelector(int? CountryId = null, int? CityId = null)
+        {
+            var results = lookupService.GetRegionIdSelector(CountryId, CityId);
+            return Ok(results);
+        }
+        [HttpGet]
         [Route("GetCitiesSelector")]
         public IActionResult GetCitiesSelector(int? CountryId = null)
         {

@@ -24,9 +24,11 @@ export class HeaderComponent implements OnInit {
   UserModel: LoginUserModel;
   selectedModuleName : string = 'الأنظمة';
   modulesMenu:MenuSidebarItem[] = [];
+  isAuthenticated:boolean=false;
   constructor(private authService: AuthService, private router: Router,private menuService: MenuService) {
         this.modulesMenu = this.menuService.getMenuById(MenuType.MainModules)?.subMenus;
     this.UserModel = this.authService.getCurrentUser();
+    this.isAuthenticated = this.authService.isAuthenticated();
     this.routerSubscriber();
   }
 
@@ -52,6 +54,9 @@ export class HeaderComponent implements OnInit {
   }
   logout() {
     this.authService.logout();
+  }
+  login() {
+    this.authService.loginRedirect();
   }
 
 }

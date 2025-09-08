@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RetailStation.Entities.DTOs.Auth
+namespace Entities.DTOs.Auth
 {
     public class AddUserModel
     {
+
 
         public string UserId { get; set; }
         [Required]
@@ -23,8 +24,11 @@ namespace RetailStation.Entities.DTOs.Auth
         [Required]
         public string Password { get; set; }
         public string PhoneNumber { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public bool IsActive { get; set; }
         public IFormFile Image { get; set; }
 
-        public int? EmployeeId { get; set; }
+        public string SubscriberId { get; set; }
     }
 }

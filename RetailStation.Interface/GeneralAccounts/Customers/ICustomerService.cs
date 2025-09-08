@@ -1,5 +1,5 @@
 ﻿using RetailStation.Entities.Common;
-using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.Subscription;
 using System;
 using System.Collections.Generic;
 using System.Data;

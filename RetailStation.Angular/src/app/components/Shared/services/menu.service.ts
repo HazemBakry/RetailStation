@@ -15,6 +15,118 @@ export class MenuService {
 
   menus: MenuSidebarItem[] = [
     {
+      menuItemId: MenuType.Supplier,
+      displayName: 'الموردين',
+      menuItem: 'Supplier',
+      subMenus: [
+        {
+          menuItemId: MenuType.Supplier,
+          displayName: 'لوحة التحكم',
+          menuItem: '',
+          description: 'احصائيات',
+          icon: 'fas fa-th-large',
+          route: '/main/home'
+        },
+        {
+          menuItemId: MenuType.Supplier,
+          displayName: 'ألأصناف',
+          menuItem: '',
+          description: 'احصائيات',
+          icon: 'fas fa-th-large',
+          route: '/main/supplier-items'
+        },
+        {
+          menuItemId: MenuType.Supplier,
+          displayName: 'فواتير الشراء',
+          menuItem: 'supplier-invoices',
+          description: 'عرض وإدارة فواتير الشراء للموردين',
+          icon: 'fa fa-file-invoice',
+          route: '/main/supplier-invoices'
+        },
+        {
+          displayName: 'طلبات الشراء',
+          menuItem: 'supplier-orders',
+          description: 'إدارة أوامر الشراء الصادرة للموردين',
+          icon: 'fa fa-clipboard-list',
+          route: '/main/supplier-orders'
+        },
+      ]
+    },
+    {
+      menuItemId: MenuType.Admin,
+      displayName: 'الأدمن',
+      menuItem: 'Admin',
+      subMenus: [
+        {
+          menuItemId: MenuType.Admin,
+          displayName: 'لوحة التحكم',
+          menuItem: '',
+          description: 'احصائيات',
+          icon: 'fas fa-th-large',
+          route: '/admin/home'
+        },
+        {
+          menuItemId: MenuType.Admin,
+          displayName: 'المشتركين',
+          menuItem: '',
+          description: 'احصائيات',
+          icon: 'fas fa-th-large',
+          route: '/admin/manage-subscriptions'
+        },
+        {
+          menuItemId: MenuType.Admin,
+          displayName: 'مجموعات الأصناف',
+          menuItem: 'items-categories',
+          description: 'تعريف وتصنيف مجموعات الأصناف داخل المخازن',
+          icon: 'fa fa-layer-group',
+          route: '/admin/items-categories'
+        },
+        {
+          menuItemId: MenuType.Admin,
+          displayName: 'وحدات الأصناف',
+          menuItem: 'items-units',
+          description: 'تعريف وتصنيف مجموعات الأصناف داخل المخازن',
+          icon: 'fa fa-layer-group',
+          route: '/admin/items-units'
+        },
+
+        {
+          menuItemId: MenuType.Admin,
+
+          displayName: 'قائمة الموردين',
+          menuItem: 'suppliers',
+          description: 'إدارة بيانات الموردين وتفاصيل الاتصال',
+          icon: 'fa fa-users',
+          route: '/admin/suppliers'
+        },
+        // {
+        //   menuItemId: MenuType.Admin,
+        //   displayName: 'الادلة',
+        //   menuItem: '1',
+        //   description: 'الوصول إلى شجرة الحسابات ومراكز التكلفة',
+        //   icon: 'fa-solid fa-sitemap',
+        //   route: '/general-accounts/home/1',
+        //   subMenus: [
+        //     {
+        //       displayName: 'شجرة الحسابات',
+        //       menuItem: 'AccountTree',
+        //       description: 'عرض وتصميم هيكل الحسابات المالية',
+        //       icon: 'fa fa-sitemap',
+        //       route: '/general-accounts/account-tree'
+        //     },
+        //     {
+        //       displayName: 'مراكز التكلفة',
+        //       menuItem: 'CostCenter',
+        //       description: 'إدارة وإنشاء مراكز التكلفة وربطها بالعمليات',
+        //       icon: 'fa fa-project-diagram',
+        //       route: '/general-accounts/cost-center-tree'
+        //     },
+        //   ]
+        // }
+
+      ]
+    },
+    {
       menuItemId: MenuType.GeneralAccountsHome,
       displayName: 'الحسابات العامة',
       menuItem: 'GeneralAccounts',
@@ -562,7 +674,7 @@ export class MenuService {
             }
           ]
         },
-        
+
 
         // {
         //   menuItemId: MenuType.InventoryHome,
@@ -721,7 +833,7 @@ export class MenuService {
               description: 'إدارة صلاحيات المستخدمين',
               icon: 'fa fa-cogs',
               route: '/system-settings/roles'
-            }
+            },
           ]
         },
         // {
@@ -749,6 +861,8 @@ export enum MenuType {
   MainModules,
   InventoryHome,
   PurchasesHome,
-  AdminHome
+  AdminHome,
+  Admin,
+  Supplier,
 
 }

@@ -10,6 +10,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RetailStation.Entities.Models.Subscription;
 
 namespace RetailStation.Service.GeneralAccounts.Customers
 {

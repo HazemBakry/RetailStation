@@ -29,65 +29,6 @@ namespace RetailStation.API.Controllers.Shared
             return Ok(results);
         }
 
-        [HttpGet]
-        [Route("GetLeadgerJournalsData")]
-        public IActionResult GetLeadgerJournalsData()
-        {
-            var results = _sharedService.GetLeadgerJournalsData();
-            return Ok(results);
-        }
-
-        [HttpGet]
-        [Route("GetReceiptLedgersSelector")]
-        public IActionResult GetReceiptLedgersSelector(int PaymentTypeId)
-        {
-            var results = _sharedService.GetReceiptLedgersSelector(PaymentTypeId);
-            return Ok(results);
-        }
-
-        [HttpGet]
-        [Route("GetAccountsSelector")]
-        public List<SelectorDataModel> GetAccountsSelector(bool? IsGroup,int? AccountTypeId)
-        {
-            return _sharedService.GetAccountsSelector(IsGroup,AccountTypeId);
-        }
-        [HttpGet]
-        [Route("GetAccountsByTypeId")]
-        public List<SelectorDataModel> GetAccountsByTypeId(int TypeId)
-        {
-            return _sharedService.GetAccountsByTypeId(TypeId);
-        }
-
-        [HttpGet]
-        [Route("GetCostCenterSelector")]
-        public List<SelectorDataModel> GetCostCenterSelector(bool IsParent, int? AccountId)
-        {
-            return _sharedService.GetCostCenterSelector(IsParent, AccountId);
-        }
-        [HttpGet]
-        [Route("GetJournalTemplatesSelector")]
-        public List<SelectorDataModel> GetJournalTemplatesSelector()
-        {
-            return _sharedService.GetJournalTemplatesSelector();
-        }
-
-        [HttpGet]
-        [Route("GetFinancialPeriods")]
-        public IActionResult GetFinancialPeriods()
-        {
-            var results = _sharedService.GetFinancialPeriods();
-
-            return Ok(results);
-        }
-
-        [HttpGet]
-        [Route("GetCurrentFinancialPeriod")]
-        public IActionResult GetCurrentFinancialPeriod()
-        {
-            var results = _sharedService.GetCurrentFinancialPeriod();
-
-            return Ok(results);
-        }
 
         [HttpGet]
         [Route("DownloadImporterTemplate")]
@@ -108,23 +49,7 @@ namespace RetailStation.API.Controllers.Shared
             var result = _sharedService.GetBranchesSelector();
             return Ok(result);
         }
-
-        [HttpGet]
-        [Route("GetSponsorsSelector")]
-        public IActionResult GetSponsorsSelector()
-        {
-            var result = _sharedService.GetSponsorsSelector();
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route("GetOrderStatusSelector")]
-        public IActionResult GetOrderStatusSelector()
-        {
-            var result = _sharedService.GetOrderStatusSelector();
-            return Ok(result);
-        }
-
+       
         [HttpGet]
         [Route("GetStoresSelector")]
         public IActionResult GetStoresSelector()
@@ -132,40 +57,8 @@ namespace RetailStation.API.Controllers.Shared
             var result = _sharedService.GetStoresSelector();
             return Ok(result);
         }
+        
 
-        [HttpGet]
-        [Route("GetIqamaIssuePlacesSelector")]
-        public IActionResult GetIqamaIssuePlacesSelector()
-        {
-            var result = _sharedService.GetIqamaIssuePlacesSelector();
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route("GetBanksSelector")]
-        public IActionResult GetBanksSelector()
-        {
-            var result = _sharedService.GetBanksSelector();
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route("GetVisaJobsSelector")]
-        public IActionResult GetVisaJobsSelector()
-        {
-            var result = _sharedService.GetVisaJobsSelector();
-            return Ok(result);
-        }
-
-
-
-        [HttpGet]
-        [Route("GetRegionsSelector")]
-        public IActionResult GetRegionsSelector()
-        {
-            var result = _sharedService.GetRegionsSelector();
-            return Ok(result);
-        }
 
         [HttpGet]
         [Route("GetSuppliersSelector")]
@@ -183,20 +76,6 @@ namespace RetailStation.API.Controllers.Shared
             return Ok(result);
         }
 
-        [HttpGet]
-        [Route("GetSupplierGroupsSelector")]
-        public IActionResult GetSupplierGroupsSelector()
-        {
-            var result = _sharedService.GetSupplierGroupsSelector();
-            return Ok(result);
-        }
-        [HttpGet]
-        [Route("GetPurchaseInvoiceTypesSelector")]
-        public IActionResult GetPurchaseInvoiceTypesSelector()
-        {
-            var result = _sharedService.GetPurchaseInvoiceTypesSelector();
-            return Ok(result);
-        }
         [HttpGet]
         [Route("GetItemsSelector")]
         public IActionResult GetItemsSelector()
@@ -218,14 +97,7 @@ namespace RetailStation.API.Controllers.Shared
             var result = _sharedService.GetUnitsSelector();
             return Ok(result);
         }
-        [HttpGet]
-        [Route("GetChildAccountsSelector")]
-        public IActionResult GetChildAccountsSelector()
-        {
-            var result = _sharedService.GetChildAccountsSelector();
-            return Ok(result);
-        }
-
+        
         [HttpGet]
         [Route("GetItemLookupsSelector")]
         public IActionResult GetItemLookupsSelector()
@@ -234,29 +106,7 @@ namespace RetailStation.API.Controllers.Shared
             return Ok(result);
         }
 
-        [HttpGet]
-        [Route("GetArabicEnglishNumberText")]
-        public IActionResult GetArabicEnglishNumberText(int ReceiptId)
-        {
-            var result = _sharedService.GetArabicEnglishNumberText(ReceiptId);
-            return Ok(result);
-        }
-        [HttpGet]
-        [Route("GetDepartmentsSelector")]
-        public IActionResult GetDepartmentsSelector()
-        {
-            var result = _sharedService.GetDepartmentsSelector();
-            return Ok(result);
-        }
         
-        [HttpGet]
-        [Route("GetEmployeeStatusSelector")]
-        public IActionResult GetEmployeeStatusSelector()
-        {
-            var result = _sharedService.GetEmployeeStatusSelector();
-            return Ok(result);
-        }
-
         #endregion
     }
 }

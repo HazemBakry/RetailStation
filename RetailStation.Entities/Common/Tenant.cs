@@ -75,8 +75,9 @@ namespace RetailStation.Entities.Models
                     ConnectionString = "Data Source=37.76.224.205; Initial Catalog=Sub_DevelopersCO;User ID=sa;Password=zA0s5g?5!;TrustServerCertificate=True;" }
             };
 
-            var tenant = tenants.FirstOrDefault(t => t.SubscriberId.Equals(subscriberId, StringComparison.OrdinalIgnoreCase));
-            return tenant?.ConnectionString ?? throw new Exception("Tenant not found");
+            //var tenant = tenants.FirstOrDefault(t => t.SubscriberId.Equals(subscriberId, StringComparison.OrdinalIgnoreCase));
+            //return tenant?.ConnectionString ?? throw new Exception("Tenant not found");
+            return "Data Source=37.76.224.205; Initial Catalog=MasterRetail;User ID=sa;Password=zA0s5g?5!;TrustServerCertificate=True";
         }
     }
 }

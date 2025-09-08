@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace RetailStation.Entities.Models.HR
 {
-    [Table("Regions", Schema = "HR")]
-    public class Region : CreatorModel
+    [Table("Regions", Schema = "Global")]
+    public class Region
     {
-        public int? RegionId { get; set; }
+        public int RegionId { get; set; }
         public string? Code { get; set; }
         public string NameAR { get; set; }
         public string NameEN { get; set; }

@@ -13,6 +13,8 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RetailStation.Entities.Models.Subscription;
+using RetailStation.Entities.DTOs.Lookups;
 
 namespace RetailStation.Service.Shared
 {
@@ -27,51 +29,46 @@ namespace RetailStation.Service.Shared
             _exportService = exportService;
         }
 
+        public BranchDto GetBranchById(string SubscriberId, int BranchId)
+        {
+            //var results = Context.Branches.Where(b => b.BranchId == BranchId && b.SubscriberId == SubscriberId)
+            //.Select(b => new BranchDto
+            //{
+            //    BranchId = b.BranchId,
+            //    SubscriberId = b.SubscriberId,
+            //    Code = b.Code,
+            //    DisplayOrder = b.DisplayOrder,
+            //    NameAR = b.NameAR,
+            //    NameEN = b.NameEN,
+            //    IsActive = b.IsActive,
+            //    IsAdminBranch = b.IsAdminBranch,
+            //    CityId = b.CityId,
+            //    DrawingsCostCenterId = b.DrawingsCostCenterId,
+            //    ExpensesCostCenterId = b.ExpensesCostCenterId,
+            //    Phone = b.Phone,
+            //    Email = b.Email,
+            //    Fax = b.Fax,
+            //    Address = b.Address,
+            //    Notes = b.Notes,
+            //}).FirstOrDefault();
+            //return results;
 
+            return new BranchDto
+            {
+                BranchId = BranchId,
+                SubscriberId = SubscriberId,
+                NameAR = "Main Branch",
+                NameEN = "Main Branch",
+                IsActive =true,
+                IsAdminBranch = true
+            };
+        }
         public List<Customer> GetCustomersData()
         {
             return Context.Customers.ToList();
         }
 
-        public List<DailyNotebook> GetLeadgerJournalsData()
-        {
-            return Context.DailyNotebooks.ToList();
-        }
 
-        public List<SelectorDataModel> GetReceiptLedgersSelector(int PaymentTypeId)
-        {
-            var results = Context.ReceiptLedgers.Where(x => x.PaymentTypeId == PaymentTypeId).Select(b => new SelectorDataModel
-            {
-                Id = b.ReceiptLedgerId,
-                Name = b.NameEN ?? "",
-            }).ToList();
-            return results;
-        }
-
-        public List<SelectorDataModel> GetAccountsByTypeId(int TypeId)
-        {
-            var result = Context.AccountTrees.Where(x => x.AccountTypeId == TypeId).Select(b => new SelectorDataModel
-            {
-                Id = b.AccountId,
-                Name = b.NameAR,
-                //Code = b.AccountNumber
-            }).ToList();
-
-            return result;
-        }
-
-        public List<FinancialPeriod> GetFinancialPeriods()
-        {
-            var result = Context.FinancialPeriods.ToList();
-
-            return result;
-        }
-        public FinancialPeriod GetCurrentFinancialPeriod()
-        {
-            var result = Context.FinancialPeriods.Where(x => x.IsActive).OrderByDescending(x => x.NameEN).FirstOrDefault();
-
-            return result;
-        }
 
         public ActionsResponseModel DownloadImporterTemplate(ExcelExportStyle ImporterType)
         {
@@ -95,120 +92,28 @@ namespace RetailStation.Service.Shared
             return results;
         }
 
-        public List<SelectorDataModel> GetSponsorsSelector()
-        {
-            var results = Context.Sponsors.Select(b => new SelectorDataModel
-            {
-                Id = b.SponsorId,
-                Name = b.NameAR ?? b.NameEN,
-            }).ToList();
-            return results;
-        }
-        public List<SelectorDataModel> GetOrderStatusSelector()
-        {
-            var results = Context.OrderStatus.Select(b => new SelectorDataModel
-            {
-                Id = b.StatusId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
-        }
-
         public List<SelectorDataModel> GetStoresSelector()
         {
-            var results = Context.Stores.Select(b => new SelectorDataModel
-            {
-                Id = b.StoreId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
+            //var results = Context.Stores.Select(b => new SelectorDataModel
+            //{
+            //    Id = b.StoreId,
+            //    Name = b.NameAR,
+            //}).ToList();
+            //return results;
+            return new List<SelectorDataModel>();
         }
 
-        public List<SelectorDataModel> GetAccountsSelector(bool? IsGroup, int? AccountTypeId)
-        {
-            var result = Context.AccountTrees.Where(x => (IsGroup == null || x.IsGroup == IsGroup) && (AccountTypeId == null || x.AccountTypeId == AccountTypeId)).Select(a => new SelectorDataModel
-            {
-                Id = a.AccountId,
-                Name = a.NameAR,
-                Code = a.AccountNumber
-            }).ToList();
-
-            return result;
-        }
-
-        public List<SelectorDataModel> GetCostCenterSelector(bool IsParent, int? AccountId)
-        {
-            if (AccountId != null)
-            {
-
-            }
-            var result = Context.CostCenterTree.Where(x => x.IsParent == IsParent).Select(a => new SelectorDataModel
-            {
-                Id = a.CostCenterId,
-                Name = a.NameAR,
-                Code = a.CostCenterNumber
-            }).ToList();
-
-            return result;
-        }
-        public List<SelectorDataModel> GetJournalTemplatesSelector()
-        {
-            var result = Context.JournalTemplates.Select(a => new SelectorDataModel
-            {
-                Id = a.JournalTemplateId,
-                Name = a.NameAR
-            }).ToList();
-
-            return result;
-        }
-
-        public List<SelectorDataModel> GetIqamaIssuePlacesSelector()
-        {
-            var results = Context.Regions.Select(b => new SelectorDataModel
-            {
-                Id = (int)b.RegionId,
-                Name = b.NameAR ?? "",
-            }).ToList();
-            return results;
-        }
-
-        public List<SelectorDataModel> GetBanksSelector()
-        {
-            var results = Context.Banks.Select(b => new SelectorDataModel
-            {
-                Id = (int)b.BankId,
-                Name = b.NameAR ?? "",
-            }).ToList();
-            return results;
-        }
-
-        public List<SelectorDataModel> GetVisaJobsSelector()
-        {
-            var results = Context.Jobs.Select(b => new SelectorDataModel
-            {
-                Id = (int)b.JobId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
-        }
-
-        public List<SelectorDataModel> GetRegionsSelector()
-        {
-            var results = Context.Regions.Select(b => new SelectorDataModel
-            {
-                Id = (int)b.RegionId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
-        }
+      
         public List<SelectorDataModel> GetSuppliersSelector()
         {
-            var results = Context.Suppliers.Select(b => new SelectorDataModel
-            {
-                Id = b.SupplierId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
+            //var results = Context.Suppliers.Select(b => new SelectorDataModel
+            //{
+            //    Id = b.SupplierId,
+            //    Name = b.NameAR,
+            //}).ToList();
+            //return results;
+
+            return new List<SelectorDataModel>();
         }
 
         public List<SelectorDataModel> GetCustomersSelector()
@@ -221,34 +126,18 @@ namespace RetailStation.Service.Shared
             return results;
         }
 
-        public List<SelectorDataModel> GetSupplierGroupsSelector()
-        {
-            var results = Context.SupplierGroups.Select(b => new SelectorDataModel
-            {
-                Id = b.SupplierGroupId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
-        }
-        public List<SelectorDataModel> GetPurchaseInvoiceTypesSelector()
-        {
-            var results = Context.PurchaseInvoiceTypes.Select(b => new SelectorDataModel
-            {
-                Id = b.PurchaseInvoiceTypeId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
-        }
-
+     
         public List<SelectorDataModel> GetItemsSelector()
         {
-            var results = Context.Items.Select(b => new SelectorDataModel
-            {
-                Id = b.ItemId,
-                Name = b.NameAR ?? b.NameEN,
-                Code = b.Code
-            }).ToList();
-            return results;
+            //var results = Context.Items.Select(b => new SelectorDataModel
+            //{
+            //    Id = b.ItemId,
+            //    Name = b.NameAR ?? b.NameEN,
+            //    Code = b.Code
+            //}).ToList();
+            //return results;
+            return new List<SelectorDataModel>();
+
         }
 
         public List<SelectorDataModel> GetItemCategoriesSelector()
@@ -259,66 +148,32 @@ namespace RetailStation.Service.Shared
                 Name = b.NameAR,
             }).ToList();
             return results;
+
         }
         public List<SelectorDataModel> GetUnitsSelector()
         {
-            var results = Context.Units.Select(b => new SelectorDataModel
-            {
-                Id = b.UnitId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
-        }
-        public List<SelectorDataModel> GetChildAccountsSelector()
-        {
-            var results = Context.AccountTrees.Where(x => x.AccountLevel == 5).Select(b => new SelectorDataModel
-            {
-                Id = b.AccountId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
+            //var results = Context.Units.Select(b => new SelectorDataModel
+            //{
+            //    Id = b.UnitId,
+            //    Name = b.NameAR,
+            //}).ToList();
+            //return results;
+            return new List<SelectorDataModel>();
+
         }
 
         public List<SelectorDataModel> GetItemLookupsSelector()
         {
-            var results = Context.ItemLookups.Select(b => new SelectorDataModel
-            {
-                Id = b.ItemLookupId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
+            //var results = Context.ItemLookups.Select(b => new SelectorDataModel
+            //{
+            //    Id = b.ItemLookupId,
+            //    Name = b.NameAR,
+            //}).ToList();
+            //return results;
+            return new List<SelectorDataModel>();
+
         }
 
-        public object GetArabicEnglishNumberText(int ReceiptId)
-        {
-            var receipt = Context.PaymentReceipts.FirstOrDefault(x => x.PaymentReceiptId == ReceiptId);
-            if (receipt.CurrencyId == null)
-                return new { DescAr = "", DescEn = "" };
-            CurrencyInfo currencies = new CurrencyInfo(receipt.CurrencyId.Value, Context);
-            ToWord toWord = new ToWord(decimal.Parse(receipt.MoneyAmount.ToString()), currencies);
-            var descAr = toWord.ConvertToArabic();
-            var descEn = toWord.ConvertToEnglish();
-            return new { DescAr = descAr, DescEn = descEn };
-        }
-
-        public List<SelectorDataModel> GetDepartmentsSelector()
-        {
-            var results = Context.Departments.Select(b => new SelectorDataModel
-            {
-                Id = b.DepartmentId.GetValueOrDefault(),
-                Name = b.NameAR ?? b.NameEN,
-            }).ToList();
-            return results;
-        }
-
-        public List<SelectorDataModel> GetEmployeeStatusSelector()
-        {
-            return Context.EmployeeStatus.Select(x => new SelectorDataModel
-            {
-                Id = x.EmployeeStatusId,
-                Name = x.StatusNameAR ?? x.StatusNameEN
-            }).ToList();
-        }
 
         #endregion
 

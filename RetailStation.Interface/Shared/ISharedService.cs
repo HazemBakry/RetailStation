@@ -1,7 +1,8 @@
 ﻿using RetailStation.Entities.Common;
 using RetailStation.Entities.Common.Enums;
-using RetailStation.Entities.Models;
+using RetailStation.Entities.DTOs.Lookups;
 using RetailStation.Entities.Models.Finance;
+using RetailStation.Entities.Models.Subscription;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,38 +14,21 @@ namespace RetailStation.Interface.Shared
 {
     public interface ISharedService
     {
+        BranchDto GetBranchById(string SubscriberId, int BranchId);
         List<Customer> GetCustomersData();
-        List<DailyNotebook> GetLeadgerJournalsData();
-        List<SelectorDataModel> GetReceiptLedgersSelector(int PaymentTypeId);
-        List<SelectorDataModel> GetAccountsSelector(bool? IsGroup, int? AccountTypeId);
-        List<SelectorDataModel> GetCostCenterSelector(bool IsParent, int? AccountId);
-        List<SelectorDataModel> GetJournalTemplatesSelector();
-        List<SelectorDataModel> GetAccountsByTypeId(int TypeId);
-        List<FinancialPeriod> GetFinancialPeriods();
-        FinancialPeriod GetCurrentFinancialPeriod();
         ActionsResponseModel DownloadImporterTemplate(ExcelExportStyle ImporterType);
-        List<SelectorDataModel> GetSponsorsSelector();
-        object GetArabicEnglishNumberText(int ReceiptId);
 
         #region Selectors
         List<SelectorDataModel> GetBranchesSelector();
-        List<SelectorDataModel> GetOrderStatusSelector();
+       
         List<SelectorDataModel> GetStoresSelector();
-        List<SelectorDataModel> GetIqamaIssuePlacesSelector();
-        List<SelectorDataModel> GetBanksSelector();
-        List<SelectorDataModel> GetVisaJobsSelector();
-        List<SelectorDataModel> GetRegionsSelector();
+       
         List<SelectorDataModel> GetSuppliersSelector();
         List<SelectorDataModel> GetCustomersSelector();  
-        List<SelectorDataModel> GetSupplierGroupsSelector();
-        List<SelectorDataModel> GetPurchaseInvoiceTypesSelector();
         List<SelectorDataModel> GetItemsSelector();
         List<SelectorDataModel> GetItemCategoriesSelector();
         List<SelectorDataModel> GetUnitsSelector();
-        List<SelectorDataModel> GetChildAccountsSelector();
         List<SelectorDataModel> GetItemLookupsSelector();
-        List<SelectorDataModel> GetDepartmentsSelector();
-        List<SelectorDataModel> GetEmployeeStatusSelector();
 
         #endregion
     }

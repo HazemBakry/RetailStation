@@ -1,0 +1,41 @@
+<div class="login-wrapper">
+    <div class="container-fluid py-3">
+        <div class="login-card shadow-lg" [ngClass]="{'login': loggingMode, 'register': !loggingMode}">
+            <div class="login-img-box">
+                <img src="../../assets/signin.png" class="login-img" alt="" loading="lazy" />
+            </div>
+            <div class="card-body p-5 text-center">
+                <h2 class="header-form fw-bold">
+                    <span class="login-title"> Login Now !</span>
+                    <span class="register-title">انشاء حساب جديد !</span>
+                </h2>
+                <section class="form-section">
+                    <div class="login-form">
+                        <form>
+
+                            <div class="mb-4">
+                                <input type="text" name="userName" [(ngModel)]="userName" class="form-control py-3"
+                                    placeholder="User Name" autocomplete="off" />
+                            </div>
+                            <div class="mb-4">
+                                <input type="password" name="Password" [(ngModel)]="password" class="form-control py-3"
+                                    placeholder="Password" autocomplete="off" />
+                            </div>
+
+                            <button [disabled]="showLoader" type="submit" class="btn btn-lg btn-primary  mb-4 shadow-sm text-center"
+                                (click)="Login()">
+
+                                <span *ngIf="!showLoader">Login</span>
+                                <span *ngIf="showLoader">Please wait</span>
+                            </button>
+                        </form>
+                        <div class="text-center p-2">
+                            <span>You don't have an account ? </span>
+                            <a routerLink="/register" class="text-underline main-color me-2 fw-bold "> Register</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>

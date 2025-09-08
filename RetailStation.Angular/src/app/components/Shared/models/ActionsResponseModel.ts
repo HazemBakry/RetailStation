@@ -1,6 +1,6 @@
 export interface ActionsResponseModel {
 
-    id?:number;
+    id?:any;
     number?:any;
     hasError:boolean;
     isSuccess:boolean;

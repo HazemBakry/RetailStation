@@ -1,0 +1,167 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+
+<div class="inputs-wrapper border rounded bg-white mb-3">
+    <div class="d-flex justify-content-between align-items-center px-3 border-bottom mb-2">
+        <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2">بيانات المشترك</div>
+        <div class="d-flex">
+            <ng-container *ngIf="subscriberId">
+                <app-next-previous [nextId]="subscriberModel?.nextId" [previousId]="subscriberModel?.previousId"
+                    (valueChanged)="goToPage($event)">
+                </app-next-previous>
+            </ng-container>
+
+            <button [disabled]="showAddLoader"
+                class="btn btn-secondary  m-2 d-flex align-items-center gap-2 border rounded px-3"
+                (click)="openSaveModal(saveDialog)">
+                <i class="fas fa-check-circle"></i>
+                <span class="ms-2">حفـظ</span>
+            </button>
+        </div>
+    </div>
+    <div class="inputs-sec-content px-3 py-2">
+
+        <form [formGroup]="formGroup" autocomplete="off">
+            <div class="row gy-3">
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            اسم المشترك
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control nw-form-input" formControlName="subscriberName"
+                            autocomplete="off" />
+
+                        <div *ngIf="formErrors.subscriberName" class="text-danger font-small-3 m-03">
+                            {{formErrors.subscriberName}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            البريد الألكتروني
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control nw-form-input" formControlName="email"
+                            autocomplete="off" />
+
+                        <div *ngIf="formErrors.email" class="text-danger font-small-3 m-03">
+                            {{formErrors.email}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            من تاريخ
+                            <span class="text-danger">*</span></label>
+                        <input type="date" formControlName="startDate" autocomplete="off"
+                            class="form-control nw-form-input" />
+                        <div *ngIf="formErrors.startDate" class="text-danger  font-small-3 m-03">
+                            {{formErrors.startDate}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            الي تاريخ
+                            <span class="text-danger">*</span></label>
+                        <input type="date" formControlName="endDate" autocomplete="off"
+                            class="form-control nw-form-input" />
+                        <div *ngIf="formErrors.endDate" class="text-danger  font-small-3 m-03">
+                            {{formErrors.endDate}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            نوع الاشتراك
+                            <span class="text-danger">*</span></label>
+                        <!-- <div class="d-flex flex-column flex-md-row align-items-center justify-content-center gap-4 p-4 mx-auto"
+                            style="max-width: 900px;"> -->
+                            <!-- <h2 class="h5 fw-bold text-gray-800 me-md-3 mb-3 mb-md-0">Select Subscriber Type:</h2> -->
+                            <div class="d-flex flex-wrap gap-3">
+
+                                <!-- Radio button for Admin -->
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" formControlName="subscriberTypeId" id="adminRadio"
+                                        [value]="subscriberType.Admin">
+                                    <label class="form-check-label" for="adminRadio">Admin</label>
+                                </div>
+
+                                <!-- Radio button for Customer (selected by default) -->
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" formControlName="subscriberTypeId"
+                                        id="customerRadio" [value]="subscriberType.Customer">
+                                    <label class="form-check-label" for="customerRadio">Customer</label>
+                                </div>
+
+                                <!-- Radio button for Supplier -->
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" formControlName="subscriberTypeId"
+                                        id="supplierRadio" [value]="subscriberType.Supplier">
+                                    <label class="form-check-label" for="supplierRadio">Supplier</label>
+                                </div>
+
+                            </div>
+                        <!-- </div> -->
+                    </div>
+                </div>
+
+                <!-- <div class="col-lg-12">
+                    <div class="mb-2">
+                        <label class="form-label d-flex align-items-center gap-2">
+                            العنوان
+                        </label>
+                        <input type="text" class="form-control nw-form-input description-area" formControlName="address" autocomplete="off" />
+                        <div *ngIf="formErrors.address" class="text-danger  font-small-3 m-03">
+                            {{formErrors.address}}
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </form>
+    </div>
+
+    <!-- <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-top mb-2">
+        <button class="btn btn-secondary btn-lg fs-6 me-2 mt-2" (click)="saveSubscriberData()">
+            <i class="fas fa-check-circle"></i>
+            <span class="ms-2">حفـظ</span>
+        </button>
+
+        <button class="btn btn-secondary btn-lg fs-6 me-2 mt-2" *ngIf="!subscriberModel?.subscriberId &&!showLoader"
+            (click)="initNewForm()">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">مسح</span>
+        </button>
+
+        <button class="btn btn-secondary btn-lg fs-6 me-2 mt-2">
+            <i class="fas fa-print"></i>
+            <span class="ms-2">طباعة</span>
+        </button>
+    </div> -->
+</div>
+
+
+<ng-template #saveDialog let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد العملية</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد من الحفظ ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click'); saveSubscriberData()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">الغاء</span>
+        </button>
+    </div>
+</ng-template>

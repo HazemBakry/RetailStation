@@ -535,8 +535,8 @@ namespace RetailStation.Service.HR
                     NameAR = Model.NameAR,
                     NameEN = Model.NameEN,
                     BranchId = 1,
-                    CreatedDate = DateTime.Now,
-                    CreatedBy = Model.CreatedBy,
+                    //CreatedDate = DateTime.Now,
+                    //CreatedBy = Model.CreatedBy,
                     CityId = 1,
                     CountryId = 1,
                     Code = "001",
@@ -570,8 +570,8 @@ namespace RetailStation.Service.HR
                     entity.IsActive = Model.IsActive;
                     entity.NameAR = Model.NameAR;
                     entity.NameEN = Model.NameEN;
-                    entity.ModifiedDate = DateTime.Now;
-                    entity.ModifiedBy = Model.ModifiedBy;
+                    //entity.ModifiedDate = DateTime.Now;
+                    //entity.ModifiedBy = Model.ModifiedBy;
 
                     Context.SaveChanges();
 

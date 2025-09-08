@@ -195,7 +195,7 @@ namespace RetailStation.API.Controllers.HR
         public IActionResult CreateNewRegion(Region Model)
         {
             string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
-            Model.CreatedBy = UserId;
+            //Model.CreatedBy = UserId;
             var results = _hrService.CreateNewRegion(Model);
             return Ok(results);
         }
@@ -205,7 +205,7 @@ namespace RetailStation.API.Controllers.HR
         public IActionResult EditRegion(int RegionId, Region Model)
         {
             string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
-            Model.ModifiedBy = UserId;
+            //Model.ModifiedBy = UserId;
             var results = _hrService.EditRegion(RegionId, Model);
             return Ok(results);
         }

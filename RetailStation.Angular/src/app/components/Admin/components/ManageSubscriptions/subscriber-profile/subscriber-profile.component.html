@@ -1,0 +1,64 @@
+<div class="d-flex flex-column gap-1">
+    <section class="general-accounts-section d-flex flex-column gap-4">
+        <!-- <li class="menu-item-user pb-3 d-flex align-items-center justify-content-center flex-column border-bottom">
+            <div class="menu-item-user-img mb-2">
+                <img [src]="loggedInUser?.imageUrl" (error)="$event.target.src = defaultImage" class="profile-img"
+                    loading="lazy" alt="" />
+            </div>
+            <div class="menu-item-user-info">
+                <div class="item-title mb-0 fw-bold main-color-blue">{{loggedInUser?.fullName}}</div>
+                <div class="item-details text-muted fw-bold">{{loggedInUser?.subscriberName}} -
+                    {{loggedInUser?.branchNameEN}}
+                </div>
+            </div>
+            <div class="menu-item-user-info text-center">
+                <div class="item-details mb-0 fw-bold" style="color:red">
+                    {{time | date}} : {{clock}}
+                </div>
+
+            </div>
+        </li> -->
+        <header class="section-header d-flex flex-column gap-2">
+            <a class="nav-link cursor-pointer text-dark d-flex align-items-center justify-content-between w-100"
+                routerLink="/admin/manage-subscriptions" routerLinkActive="active">
+                <h2 class="d-flex align-items-center gap-2">
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                    <span class="section-title m-0">Subscribers</span>
+                </h2>
+            </a>
+            <span class="text-muted">{{time | date}} : {{clock}}</span>
+        </header>
+        <div class="section-content">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-6 g-4">
+                <div class="col">
+                    <div routerLink="./subscriber-info" routerLinkActive="active"
+                        class="bg-white shadow-sm column-card d-flex flex-column align-items-center gap-3 text-center h-100  cursor-pointer hovered">
+                        <div class="column-card-icon">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <div class="column-card-title">Subscriber Info</div>
+                        <!-- <div class="column-card-description text-muted">
+                            {{item.description}}
+                        </div> -->
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div routerLink="./subscriber-users" routerLinkActive="active"
+                        class="bg-white shadow-sm column-card d-flex flex-column align-items-center gap-3 text-center h-100  cursor-pointer hovered">
+                        <div class="column-card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="column-card-title">Users</div>
+                        <!-- <div class="column-card-description text-muted">
+                            {{item.description}}
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <router-outlet></router-outlet>
+
+</div>

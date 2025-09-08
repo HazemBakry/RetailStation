@@ -53,6 +53,7 @@ namespace RetailStation.Entities.Models
         public DbSet<IqamaIssuePlace> IqamaIssuePlaces { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<Region> Regions { get; set; }
         public DbSet<SponsorType> SponsorTypes { get; set; }
         public DbSet<VacationType> VacationTypes { get; set; }
         public DbSet<FinancialCustodyType> FinancialCustodyTypes { get; set; }

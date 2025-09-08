@@ -181,6 +181,29 @@ namespace RetailStation.Service.Common
                 return dt;
             }
         }
+        public DataTable ExecuteDataTable(string commandText, string ConnectionString, params SqlParameter[] Parameters)
+        {
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                DataTable dt = new DataTable();
+                connection.Open();
+                SqlCommand command = new SqlCommand();
+
+                command.Connection = connection;
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = commandText;
+                for (int i = 0; i < Parameters.Length; i++)
+                {
+                    command.Parameters.Add(Parameters[i]);
+
+                }
+                SqlDataAdapter adpater = new SqlDataAdapter(command);
+                adpater.SelectCommand.CommandTimeout = 1200;
+                adpater.Fill(dt);
+                connection.Close();
+                return dt;
+            }
+        }
 
         public DataSet ExecuteDataset(string commandText, SqlParameter[] Parameters, string ConnectionString = null)
         {
