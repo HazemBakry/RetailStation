@@ -26,7 +26,7 @@ const routes: Routes = [
       { path: 'items-categories', component: ItemsCategoriesComponent },
       { path: 'items-units', component: ItemUnitsComponent },
       { path: 'suppliers', component: SuppliersComponent },
-      { path: 'items', component: ItemsComponent, canActivate: [AuthPageGuard] },//, data: { pageName: 'Items' } },
+      { path: 'items', component: ItemsComponent,  },//canActivate: [AuthPageGuard], data: { pageName: 'Items' } },
 
       {
         path: 'manage-subscriptions',

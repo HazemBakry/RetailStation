@@ -152,14 +152,12 @@ namespace RetailStation.Service.Shared
         }
         public List<SelectorDataModel> GetUnitsSelector()
         {
-            //var results = Context.Units.Select(b => new SelectorDataModel
-            //{
-            //    Id = b.UnitId,
-            //    Name = b.NameAR,
-            //}).ToList();
-            //return results;
-            return new List<SelectorDataModel>();
-
+            var results = Context.Units.Select(b => new SelectorDataModel
+            {
+                Id = b.UnitId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
         }
 
         public List<SelectorDataModel> GetItemLookupsSelector()

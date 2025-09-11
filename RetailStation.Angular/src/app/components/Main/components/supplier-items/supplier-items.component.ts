@@ -13,6 +13,7 @@ import { SupplierModel } from 'src/app/components/Purchases/models/SupplierModel
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { SupplierItemModel } from '../../models/SupplierItemModel';
 import { SupplierService } from '../../services/supplier.service';
+import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 
 @Component({
   selector: 'app-supplier-items',
@@ -50,7 +51,8 @@ export class SupplierItemsComponent implements OnInit {
     unitId: '',
     purchaseUnitId: '',
     itemCategoryId: '',
-    cost: '',
+    price: '',
+    quantity: '',
     convertRatio: '',
     isActive: '',
     yield: '',
@@ -152,7 +154,8 @@ export class SupplierItemsComponent implements OnInit {
       unitId: [null, [Validators.required]],
       purchaseUnitId: [null],
       itemCategoryId: [null],
-      cost: [null, [Validators.required]],
+      price: [null, [Validators.required, CustomValidators.regexPattern(RegexType.currency)]],
+      quantity: [null, [Validators.required, CustomValidators.regexPattern(RegexType.numeric)]],
       convertRatio: [null],
       isActive: [true],
       yield: [null],
@@ -258,7 +261,8 @@ export class SupplierItemsComponent implements OnInit {
       unitId: supplierItemModel.unitId,
       purchaseUnitId: supplierItemModel.purchaseUnitId,
       itemCategoryId: supplierItemModel.itemCategoryId,
-      cost: supplierItemModel.cost,
+      price: supplierItemModel.price,
+      quantity: supplierItemModel.quantity,
       isActive: supplierItemModel.isActive,
       purchasePrice: supplierItemModel.purchasePrice,
       itemTypeId: supplierItemModel.itemTypeId

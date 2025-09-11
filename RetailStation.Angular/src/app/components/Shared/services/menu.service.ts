@@ -89,6 +89,14 @@ export class MenuService {
           icon: 'fa fa-layer-group',
           route: '/admin/items-units'
         },
+        {
+          menuItemId: MenuType.Admin,
+          displayName: 'الأصناف',
+          menuItem: 'items',
+          description: 'الأصناف داخل المخازن',
+          icon: 'fa fa-layer-group',
+          route: '/admin/items'
+        },
 
         {
           menuItemId: MenuType.Admin,

@@ -14,6 +14,7 @@ import { SupplierModel } from 'src/app/components/Purchases/models/SupplierModel
 import { ItemModel } from '../../../models/Operation/ItemModel';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { OperationService } from '../../../services/operation.service';
+import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 
 @Component({
   selector: 'app-items',
@@ -151,7 +152,7 @@ export class ItemsComponent implements OnInit {
       unitId: [null, [Validators.required]],
       purchaseUnitId: [null],
       itemCategoryId: [null],
-      cost: [null, [Validators.required]],
+      cost: [null, [Validators.required, CustomValidators.regexPattern(RegexType.currency)]],
       convertRatio: [null],
       isActive: [true],
       yield: [null],

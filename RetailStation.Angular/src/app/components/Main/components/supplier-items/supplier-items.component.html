@@ -66,9 +66,8 @@
                                 <tr>
                                     <th>الصنف</th>
                                     <th>الوحدة</th>
-                                    <th>وحدة المشتريات</th>
                                     <th>سعر الوحدة</th>
-                                    <th>الموردين</th>
+                                    <th>Quantity</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -86,17 +85,8 @@
                                         </div>
                                     </td>
                                     <td>{{item.unitName}}</td>
-                                    <td>{{item.purchaseUnitName}}</td>
-                                    <td>{{item.cost}}</td>
-                                    <td>
-                                        <!-- <a class="cursor-pointer" (click)="openSuppliersDialog(ItemSuppliersDialog,item.supplierItemId)">
-                                        الموردين
-                                    </a> -->
-                                        <a class="cursor-pointer"
-                                            (click)="openSuppliersSidePanel(ItemSuppliersSidePanel,item.supplierItemId)">
-                                            الموردين
-                                        </a>
-                                    </td>
+                                    <td>{{item.price}}</td>
+                                    <td>{{item.quantity}}</td>
                                     <td class="text-center">
                                         <div class="d-flex align-items-center gap-2">
                                             <label class="switch me-2">
@@ -173,41 +163,31 @@
                     <tr>
                         <td class="table-feature">التكلفة</td>
                         <td class="table-value">
-                            <input type="text" formControlName="cost" class="form-control form-control-lg"
+                            <input type="text" formControlName="price" class="form-control form-control-lg"
                                 placeholder="التكلفة">
-                            <div *ngIf="formErrors.cost" class="text-danger  font-small-3 m-03">
-                                {{formErrors.cost}}
+                            <div *ngIf="formErrors.price" class="text-danger  font-small-3 m-03">
+                                {{formErrors.price}}
                             </div>
 
                         </td>
                     </tr>
                     <tr>
-                        <td class="table-feature">نسية الانتاجية</td>
+                        <td class="table-feature">Quantity</td>
                         <td class="table-value">
-                            <input type="text" formControlName="yield" class="form-control form-control-lg"
-                                placeholder="نسية الانتاجية">
-                            <div *ngIf="formErrors.yield" class="text-danger  font-small-3 m-03">
-                                {{formErrors.yield}}
+                            <input type="text" formControlName="quantity" class="form-control form-control-lg"
+                                placeholder="Quantity">
+                            <div *ngIf="formErrors.quantity" class="text-danger  font-small-3 m-03">
+                                {{formErrors.quantity}}
                             </div>
 
                         </td>
                     </tr>
-                    <tr>
-                        <td class="table-feature">عدد الوحدات</td>
-                        <td class="table-value">
-                            <input type="text" formControlName="convertRatio" class="form-control form-control-lg"
-                                placeholder="عدد الوحدات">
-                            <div *ngIf="formErrors.convertRatio" class="text-danger  font-small-3 m-03">
-                                {{formErrors.convertRatio}}
-                            </div>
 
-                        </td>
-                    </tr>
                     <tr>
                         <td class="table-feature">الوحدة</td>
                         <td class="table-value">
                             <div class="row">
-                                <div class="col-xl-6">
+                                <div class="col-xl-12">
                                     <app-drop-down-form-control formControlName="unitId" [placeholder]="'الوحدة'"
                                         [showSearch]="true" [data]="unitsSelectorData"></app-drop-down-form-control>
                                     <div *ngIf="formErrors.unitId" class="text-danger  font-small-3 m-03">
@@ -215,14 +195,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-xl-6">
-                                    <app-drop-down-form-control formControlName="purchaseUnitId"
-                                        [placeholder]="'وحدة الشراء'" [showSearch]="true"
-                                        [data]="unitsSelectorData"></app-drop-down-form-control>
-                                    <div *ngIf="formErrors.purchaseUnitId" class="text-danger  font-small-3 m-03">
-                                        {{formErrors.purchaseUnitId}}
-                                    </div>
-                                </div>
+
                             </div>
 
                         </td>

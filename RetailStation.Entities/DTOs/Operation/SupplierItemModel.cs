@@ -10,7 +10,7 @@ namespace RetailStation.Entities.DTOs.Operation
 {
     public class SupplierItemModel:CreatorModel
     {
-        public int? SuppllierItemId { get; set; }
+        public int? SupplierItemId { get; set; }
         public int? ItemId { get; set; }
         public string NameAR { get; set; }
         public string NameEN { get; set; }
@@ -22,6 +22,7 @@ namespace RetailStation.Entities.DTOs.Operation
         public string PurchaseUnitName { get; set; }
         public int? ItemCategoryId { get; set; }
         public string ItemCategoryName { get; set; }
+        public decimal? Quantity { get; set; }
         public decimal? Price { get; set; }
         public bool IsActive { get; set; }
         public int? ItemTypeId { get; set; }

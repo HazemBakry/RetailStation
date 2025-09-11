@@ -56,7 +56,7 @@ namespace RetailStation.Service.SupplierManagement
                 new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
             };
 
-            var result = SQLHelper.SQLQuery<SupplierItemModel>("[Inventory].[SP_GetSupplierItemsData]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<SupplierItemModel>("[Supplier].[SP_GetSupplierItemsData]", ConnectionString, Params);
             return result;
 
         }
@@ -74,6 +74,7 @@ namespace RetailStation.Service.SupplierManagement
                     NameEN = model.NameEN,
                     NameAR = model.NameAR,
                     Price = (decimal)model.Price,
+                    Quantity = (decimal)model.Quantity,
                     UnitId = model.UnitId,
                     ItemCategoryId = model.ItemCategoryId,
                     ItemTypeId = model.ItemTypeId,
@@ -102,6 +103,7 @@ namespace RetailStation.Service.SupplierManagement
                     item.NameEN = model.NameEN;
                     item.NameAR = model.NameAR;
                     item.Price = (decimal) model.Price;
+                    item.Quantity = (decimal) model.Quantity;
                     item.UnitId = model.UnitId;
                     item.ItemCategoryId = model.ItemCategoryId;
                     item.ItemTypeId = model.ItemTypeId;

@@ -13,6 +13,7 @@ export interface SupplierItemModel extends CreatorModel {
     itemCategoryName: string;
     cost: number | null;
     price: number | null;
+    quantity: number | null;
     purchasePrice: number | null;
     isActive: boolean | null;
     itemTypeId: number | null;

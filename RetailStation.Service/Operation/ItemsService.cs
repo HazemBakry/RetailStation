@@ -53,7 +53,7 @@ namespace RetailStation.Service.Operation
             Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[3].Value = dt;
 
-            var result = SQLHelper.SQLQuery<ItemDto>("[Inventory].[SP_GetItemsData]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<ItemDto>("[Operation].[SP_GetItemsData]", ConnectionString, Params);
             return result;
 
             //var query = from item in Context.Items.AsNoTracking()
@@ -180,20 +180,6 @@ namespace RetailStation.Service.Operation
                     item.ModifiedDate = DateTime.Now;
                     Context.SaveChanges();
 
-                    var ItemsSupplier = Context.ItemSuppliers.Where(x => x.ItemId == ItemId).ToList();
-                    Context.ItemSuppliers.RemoveRange(ItemsSupplier);
-                    Context.SaveChanges();
-
-                    foreach (var supplierId in model.SupplierIds)
-                    {
-                        Context.ItemSuppliers.Add(new ItemSupplier
-                        {
-                            ItemId = ItemId,
-                            SupplierId = supplierId
-                        });
-
-                        Context.SaveChanges();
-                    }
 
                     return new ActionsResponseModel { Message = "Item Updated Successfly !" };
                 }

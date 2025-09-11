@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RetailStation.Entities.Models.Operation
 {
-    [Table("Items", Schema = "Inventory")]
+    [Table("Items", Schema = "Operation")]
 
     public class Item : CreatorModel
     {
