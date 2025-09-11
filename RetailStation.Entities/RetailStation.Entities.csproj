@@ -26,4 +26,9 @@
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\Dashboard\" />
+    <Folder Include="Models\Dashboard\" />
+  </ItemGroup>
+
 </Project>

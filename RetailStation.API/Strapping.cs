@@ -36,6 +36,8 @@ using RetailStation.Service.Operation;
 using RetailStation.Interface.Operation;
 using RetailStation.Interface.SupplierManagement;
 using RetailStation.Service.SupplierManagement;
+using RetailStation.Interface.Dashboard;
+using RetailStation.Service.Dashboard;
 
 namespace RetailStation.API
 {
@@ -75,6 +77,7 @@ namespace RetailStation.API
             services.AddScoped<ILoansService, LoansService>();
             services.AddScoped<ISuppliersService, SuppliersService>();
             services.AddScoped<ISupplierManagementService, SupplierManagementService>();
+            services.AddScoped<IDashboardService, DashboardService>();
             services.AddScoped<IPaymentTermService, PaymentTermService>();
             services.AddScoped<ITaxCalculationService, TaxCalculationService>();
             services.AddScoped<IDailyNotebookService, DailyNotebookService>();

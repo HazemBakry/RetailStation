@@ -7,6 +7,9 @@ import { GeneralAccountService } from 'src/app/components/GeneralAccounts/servic
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
 import { MenuSidebarItem } from 'src/app/components/Shared/models/MenuSidebarItem';
 import { MenuService, MenuType } from 'src/app/components/Shared/services/menu.service';
+import { DashboardService } from '../../services/dashboard.service';
+import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { SupplierItemModel } from '../../models/SupplierItemModel';
 
 @Component({
   selector: 'app-main-home',
@@ -17,16 +20,19 @@ export class MainHomeComponent implements OnInit {
   showLoader: boolean = false;
   selectedTabName: string;
   menuItem: MenuSidebarItem;
+  pageResponseModel: PagedResponseModel<SupplierItemModel[]> = {
+    results: [],
+    filterList: [],
+    pageSize: 20,
+    currentPage: 1,
+    searchText: ''
+  };
   constructor(private modalService: NgbModal,
     private route: ActivatedRoute,
     private datePipe: DatePipe,
-    private generalAccountService: GeneralAccountService,
-    private purchaseService: PurchaseService,
+    private dashboardService: DashboardService,
     private menuService: MenuService,
-    private toaster: ToastrService) { }
-
-  ngOnInit(): void {
-
+    private toaster: ToastrService) {
     this.route.params.subscribe(params => {
       this.menuItem = null;
       if (params['tabName']) {
@@ -36,5 +42,31 @@ export class MainHomeComponent implements OnInit {
     });
   }
 
+  ngOnInit(): void {
+    this.getSearchQuery();
+    this.loadData();
+
+  }
+  getSearchQuery() {
+    this.route.queryParams.subscribe(params => {
+      if (params['searchText']) {
+      }
+      if (params['itemId']) {
+      }
+    });
+  }
+  loadData() {
+    this.showLoader = true;
+    this.dashboardService.GetDashboardItems_Data(this.pageResponseModel).subscribe(data => {
+      this.pageResponseModel.results = data.results;
+      this.pageResponseModel.totalCount = data.totalCount;
+
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
 
 }
