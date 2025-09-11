@@ -17,9 +17,9 @@ namespace RetailStation.Entities.Models.Operation
         public string NameEN { get; set; }
         public string Barcode { get; set; }
         public string Code { get; set; }
-        public double? PurchasePrice { get; set; }
+        public decimal? PurchasePrice { get; set; }
         public double? Yield { get; set; }
-        public double? Cost { get; set; }
+        public decimal? Cost { get; set; }
         public int? PurchaseUnitId { get; set; }
         public int? UnitId { get; set; }
         public int? ItemCategoryId { get; set; }

@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { PurchasesRequestsComponent } from './components/purchases-requests/purchases-requests.component';
 import { InventoryHomeComponent } from './components/inventory-home/inventory-home.component';
 import { UnitsComponent } from './components/units/units.component';
-import { ItemsComponent } from './components/items/items.component';
 import { AddItemComponent } from './components/add-item/add-item.component';
 import { ItemsCategoryComponent } from './components/items-category/items-category.component';
 import { DeliveryNotesComponent } from './components/delivery-notes/delivery-notes.component';
@@ -33,7 +32,6 @@ const routes: Routes = [
       { path: 'home', component: InventoryHomeComponent },
       { path: 'home/:tabName', component: InventoryHomeComponent },
       { path: 'items-category', component: ItemsCategoryComponent, canActivate: [AuthPageGuard], data: { pageName: 'ItemsCategory' } },
-      { path: 'items', component: ItemsComponent, canActivate: [AuthPageGuard], data: { pageName: 'Items' } },
       { path: 'item-lookups', component: ItemLookupsComponent, canActivate: [AuthPageGuard], data: { pageName: 'ItemLookups' } },
       { path: 'material-requests', component: MaterialRequestsComponent, canActivate: [AuthPageGuard], data: { pageName: 'MaterialRequests' } },
       { path: 'add-material-request', component: AddMaterialRequestComponent },

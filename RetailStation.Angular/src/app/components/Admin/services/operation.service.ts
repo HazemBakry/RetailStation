@@ -9,9 +9,10 @@ import { UserModel } from '../../Shared/models/UserModel';
 import { BranchModel } from '../../Shared/models/BranchModel';
 import { ItemCategoryModel } from '../models/Operation/itemCategory';
 import { CategorySortModel } from '../models/Operation/categorySort';
-import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
 import { UnitModel } from '../models/Operation/UnitModel';
 import { SupplierModel } from '../models/Operation/SupplierModel';
+import { ItemModel } from '../models/Operation/ItemModel';
+import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
 
 
 @Injectable({
@@ -90,4 +91,39 @@ export class OperationService {
     return this.http.get<ActionsResponseModel>(this.URL + 'Suppliers/DeleteSupplier?SupplierId=' + supplierId);
   }
 
+
+
+  /////////////////////////////// Items ////////////////////////
+
+  GetItemsData(searchModel: PagedResponseModel<ItemModel[]>) {
+    return this.http.post<PagedResponseModel<ItemModel[]>>(this.URL + 'Items/GetItemsData', searchModel);
+  }
+
+  GetItemDetailsById(itemId: number) {
+    return this.http.get<ItemModel>(this.URL + `Items/GetItemDetailsById?ItemId=${itemId}`);
+  }
+
+  AddNewItem(model: ItemModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Items/AddNewItem', model);
+  }
+
+  EditItem(itemId: number, model: ItemModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Items/EditItem?ItemId=${itemId}`, model)
+  }
+
+  DeleteItem(itemId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `Items/DeleteItem?ItemId=${itemId}`);
+  }
+  ChangeItemActiveStatus(ItemId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Items/ChangeItemActiveStatus?ItemId=' + ItemId);
+  }
+  ItemQuickUpdate(ItemId: number, Price: number, UnitId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `Items/ItemQuickUpdate?ItemId=${ItemId}&Price=${Price}&UnitId=${UnitId}`);
+  }
+  ExportItems(searchModel: PagedResponseModel, categoryId: number) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Items/ExportItems?CategoryId=${categoryId} `, searchModel);
+  }
+  GetSuppliersByItemId(itemId: number) {
+    return this.http.get<PagedResponseModel<SupplierModel[]>>(this.URL + `Suppliers/GetSuppliersByItemId?ItemId=${itemId} `);
+  }
 }

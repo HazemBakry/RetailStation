@@ -109,40 +109,46 @@ export class SuppliersComponent implements OnInit {
     if (SupplierModel)
       this.fillEditForm(SupplierModel);
 
-    this.modalService.open(content, { centered: true, size: 'lg', fullscreen: 'lg' });
+    this.modalService.open(content, { centered: true, size: 'xl', fullscreen: 'xl' });
   }
   loadSelectors() {
 
-    this.lookupService.GetCitiesSelector().subscribe((data: GeneralSelectorModel[]) => {
-      this.citiesSelectorData = data;
-    });
+
+
     this.lookupService.GetCountriesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.countriesSelectorData = data;
     });
-    this.lookupService.GetRegionIdSelector().subscribe((data: GeneralSelectorModel[]) => {
+  }
+
+  loadCitiesByCountryId(countryId: number) {
+    this.lookupService.GetCitiesSelector(countryId).subscribe((data: GeneralSelectorModel[]) => {
+      this.citiesSelectorData = data;
+    });
+  }
+  loadRegions(countryId = null, cityId: number = null) {
+
+    this.lookupService.GetRegionIdSelector(countryId, cityId).subscribe((data: GeneralSelectorModel[]) => {
       this.regionsSelectorData = data;
     });
-
   }
   buildForm() {
     this.formGroup = this.form.group({
       supplierId: [null],
       nameAR: [null, [Validators.required]],
       nameEN: [null, [Validators.required]],
-      description: [null],
+      code: [null, [Validators.required]],
       isActive: [true, [Validators.required]],
-      code: [null],
-      phone: [null, [Validators.required]],
-      mobile: [null, [Validators.required]],
-      countryId: [null, [Validators.required]],
-      cityId: [null, [Validators.required]],
-      regionId: [null, [Validators.required]],
+      phone: [null],
+      mobile: [null],
+      countryId: [null],
+      cityId: [null],
+      regionId: [null],
       address: [null],
       notes: [null],
       commercialRegister: [null],
       taxNumber: [null],
-      beginningBalance: [null, [CustomValidators.regexPattern(RegexType.currency)]],
-      balanceType: [null],
+      beginningBalance: [null, [Validators.required, CustomValidators.regexPattern(RegexType.currency)]],
+      balanceType: [null,[Validators.required]],
       supplierGroupId: [null],
       contactPerson: [null],
       contactMobile: [null],
@@ -151,6 +157,20 @@ export class SuppliersComponent implements OnInit {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
 
     });
+    this.formGroup.get('countryId').valueChanges.subscribe(countryId => {
+      this.citiesSelectorData = [];
+      this.regionsSelectorData = [];
+      this.formGroup.patchValue({ cityId: null, regionId: null });
+      if (countryId) {
+        this.loadCitiesByCountryId(countryId);
+        this.loadRegions(countryId);
+      }
+    });
+    // this.formGroup.get('cityId').valueChanges.subscribe(cityId => {
+    //   this.regionsSelectorData = [];
+    //   this.formGroup.patchValue({ regionId: null });
+
+    // });
   }
 
   saveRecord() {

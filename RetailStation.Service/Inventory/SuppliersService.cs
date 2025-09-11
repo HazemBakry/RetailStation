@@ -90,7 +90,7 @@ namespace RetailStation.Service.Inventory
             {
                 var supplier = new Supplier();
 
-                supplier.Code = Context.Suppliers.Max(s => s.Code) ?? "1";
+                supplier.Code = model.Code;//Context.Suppliers.Max(s => s.Code) ?? "1";
                 supplier.NameAR = model.NameAR;
                 supplier.NameEN = model.NameEN;
                 supplier.Phone = model.Phone;
@@ -168,7 +168,7 @@ namespace RetailStation.Service.Inventory
             try
             {
                 var supplier = Context.Suppliers.FirstOrDefault(i => i.SupplierId == SupplierId);
-                var purchaseCount = Context.PurchaseInvoices.Where(x => x.SupplierId == SupplierId).ToList().Count();
+                //var purchaseCount = Context.PurchaseInvoices.Where(x => x.SupplierId == SupplierId).ToList().Count();
                 if (supplier != null)
                 {
                     Context.Remove(supplier);

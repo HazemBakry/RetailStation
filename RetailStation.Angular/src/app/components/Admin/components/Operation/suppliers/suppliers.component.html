@@ -48,7 +48,7 @@
 
                                 <button
                                     class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
-                                    (click)="openDeleteModal(deleteModal,item.unitId)">
+                                    (click)="openDeleteModal(deleteModal,item.supplierId)">
                                     <i class="uil uil-pen"></i>
                                     <span>حذف</span>
                                 </button>
@@ -76,9 +76,9 @@
     <div class="modal-header modal-header-bg justify-content-between">
         <h4 class="d-flex align-items-center gap-2">
             <i class="uil uil-plus"></i>
-            <span>املأ البيانات الأتية</span>
-            <span *ngIf="!isUpdate" class="ms-3">(إنشاء)</span>
-            <span *ngIf="isUpdate" class="ms-3">(تعديل)</span>
+            <span>Fill Form</span>
+            <span *ngIf="!isUpdate" class="ms-3">(Create)</span>
+            <span *ngIf="isUpdate" class="ms-3">(Update)</span>
         </h4>
         <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
             <i class="uil uil-times-circle"></i>
@@ -101,44 +101,201 @@
                     <form [formGroup]="formGroup" autocomplete="off">
 
 
+                        <div class="row">
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Name (AR)
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="nameAR"
+                                    autocomplete="off" />
+
+                                <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.nameAR}}
+                                </div>
+                            </div>
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Name (EN)
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="nameEN"
+                                    autocomplete="off" />
+
+                                <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.nameEN}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-4 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Code
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="code"
+                                    autocomplete="off" />
+
+                                <div *ngIf="formErrors.code" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.code}}
+                                </div>
+                            </div>
+                            <div class="col-xl-4 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Phone
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="phone"
+                                    autocomplete="off" />
+
+                                <div *ngIf="formErrors.phone" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.phone}}
+                                </div>
+                            </div>
+                            <div class="col-xl-4 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Mobile
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="mobile"
+                                    autocomplete="off" />
+
+                                <div *ngIf="formErrors.mobile" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.mobile}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-4 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Country
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <app-general-selector formControlName="countryId" [data]="countriesSelectorData"
+                                    [disabled]="countriesSelectorData?.length==0" [showSearch]="true"
+                                    [placeholder]="'Country'">
+
+                                </app-general-selector>
+
+                                <div *ngIf="formErrors.countryId" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.countryId}}
+                                </div>
+
+                            </div>
+                            <div class="col-xl-4 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    City
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <app-general-selector formControlName="cityId" [data]="citiesSelectorData"
+                                    [disabled]="citiesSelectorData?.length==0" [showSearch]="true"
+                                    [placeholder]="'City'">
+
+                                </app-general-selector>
+
+                                <div *ngIf="formErrors.cityId" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.cityId}}
+                                </div>
+
+                            </div>
+                            <div class="col-xl-4 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Region
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <app-general-selector formControlName="regionId" [data]="regionsSelectorData"
+                                    [disabled]="regionsSelectorData?.length==0" [showSearch]="true"
+                                    [placeholder]="'Region'">
+
+                                </app-general-selector>
+
+                                <div *ngIf="formErrors.regionId" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.regionId}}
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Commercial Register
+                                </label>
+                                <input type="text" class="form-control nw-form-input"
+                                    formControlName="commercialRegister" autocomplete="off" />
+
+                                <div *ngIf="formErrors.commercialRegister" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.commercialRegister}}
+                                </div>
+                            </div>
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Tax Number
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="taxNumber"
+                                    autocomplete="off" />
+
+                                <div *ngIf="formErrors.taxNumber" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.taxNumber}}
+                                </div>
+                            </div>
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Beginning Balance
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="beginningBalance"
+                                    autocomplete="off" />
+
+                                <div *ngIf="formErrors.beginningBalance" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.beginningBalance}}
+                                </div>
+                            </div>
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Balance Type
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="balanceType"
+                                    autocomplete="off" />
+
+                                <div *ngIf="formErrors.balanceType" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.balanceType}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Contact Person
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="contactPerson"
+                                    autocomplete="off" />
+
+                                <div *ngIf="formErrors.contactPerson" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.contactPerson}}
+                                </div>
+                            </div>
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    ContactMobile
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="contactMobile"
+                                    autocomplete="off" />
+
+                                <div *ngIf="formErrors.contactMobile" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.contactMobile}}
+                                </div>
+                            </div>
+                        </div>
+
+
                         <div class="row mb-3">
                             <label class="form-label d-flex align-items-center gap-2">
-                                الاسم (AR)
+                                Address
                             </label>
-                            <input type="text" class="form-control nw-form-input" formControlName="nameAR"
-                                autocomplete="off" />
 
-                            <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
-                                {{formErrors.nameAR}}
+                            <textarea formControlName="address" class="form-control"></textarea>
+                            <div *ngIf="formErrors.address" class="text-danger  font-small-3 m-03">
+                                {{formErrors.address}}
                             </div>
+
                         </div>
                         <div class="row mb-3">
                             <label class="form-label d-flex align-items-center gap-2">
-                                الاسم (EN)
-                            </label>
-                            <input type="text" class="form-control nw-form-input" formControlName="nameEN"
-                                autocomplete="off" />
-
-                            <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
-                                {{formErrors.nameEN}}
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class="form-label d-flex align-items-center gap-2">
-                                الكود
-                            </label>
-                            <input type="text" class="form-control nw-form-input" formControlName="code"
-                                autocomplete="off" />
-
-                            <div *ngIf="formErrors.code" class="text-danger  font-small-3 m-03">
-                                {{formErrors.code}}
-                            </div>
-                        </div>
-
-
-                        <div class="row mb-3">
-                            <label class="form-label d-flex align-items-center gap-2">
-                                الملاحظات
+                                Notes
                             </label>
 
                             <textarea formControlName="notes" class="form-control"></textarea>
@@ -148,14 +305,12 @@
 
                         </div>
 
-
-
                         <hr class="my-4" />
-                        <div class="row mb-3">
+                        <div class="col-xl-6 mb-3">
 
                             <div class="col-sm-4">
                                 <label class="form-label d-flex align-items-center gap-2">
-                                    نشط
+                                    Active
                                 </label>
                                 <input class="big-checkbox" formControlName="isActive" type="checkbox">
 

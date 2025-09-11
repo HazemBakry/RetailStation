@@ -141,6 +141,7 @@ namespace RetailStation.Entities.Models
 
         public DbSet<ItemSupplier> ItemSuppliers { get; set; }
         public DbSet<Item> Items { get; set; }
+        public DbSet<SupplierItem> SupplierItems { get; set; }
         public DbSet<ItemCategory> ItemCategories { get; set; }
         public DbSet<MaterialReceipt> MaterialReceipts { get; set; }
         public DbSet<MaterialReceiptDetails> MaterialReceiptDetails { get; set; }

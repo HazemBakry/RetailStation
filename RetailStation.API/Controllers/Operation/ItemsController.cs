@@ -88,7 +88,7 @@ namespace RetailStation.API.Controllers.Operation
         }
         [HttpGet]
         [Route("ItemQuickUpdate")]
-        public ActionsResponseModel ItemQuickUpdate(int ItemId, double Price, int UnitId)
+        public ActionsResponseModel ItemQuickUpdate(int ItemId, decimal Price, int UnitId)
         {
             return _itemService.ItemQuickUpdate(ItemId, Price, UnitId);
         }

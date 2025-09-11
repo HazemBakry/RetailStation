@@ -94,7 +94,7 @@ export class LookupService {
 
   GetCitiesSelector(countryId: number = null) {
     const param = countryId !== null ? `?CountryId=${countryId}` : '';
-    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetCitiesSelector?' + param);
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetCitiesSelector' + param);
   }
   GetRegionIdSelector(countryId: number = null, cityId: number = null) {
     const params = new URLSearchParams();

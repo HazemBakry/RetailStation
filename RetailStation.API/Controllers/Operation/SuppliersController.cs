@@ -87,5 +87,7 @@ namespace RetailStation.API.Controllers.Operation
             return Ok(results);
         }
 
+
+
     }
 }

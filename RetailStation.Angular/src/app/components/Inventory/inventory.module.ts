@@ -11,7 +11,6 @@ import { PurchasesRequestsComponent } from './components/purchases-requests/purc
 import { AddItemComponent } from './components/add-item/add-item.component';
 import { InventoryHomeComponent } from './components/inventory-home/inventory-home.component';
 import { UnitsComponent } from './components/units/units.component';
-import { ItemsComponent } from './components/items/items.component';
 import { AddDeliveryNoteComponent } from './components/add-delivery-note/add-delivery-note.component';
 import { DeliveryNotesComponent } from './components/delivery-notes/delivery-notes.component';
 import { PurchaseReceiptsComponent } from './components/purchase-receipts/purchase-receipts.component';
@@ -36,7 +35,6 @@ import { ReceivedItemsDetailsReportComponent } from './components/received-items
     InventoryLayoutComponent,    
     InventoryHomeComponent,
     ItemsCategoryComponent,
-    ItemsComponent,
     PurchaseReceiptsComponent,
     AddPurchasesReceiptComponent,
     MaterialIssueReceiptsComponent,

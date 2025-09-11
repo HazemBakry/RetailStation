@@ -1,5 +1,5 @@
-﻿using RetailStation.Entities.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using RetailStation.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,34 +8,30 @@ using System.Threading.Tasks;
 
 namespace RetailStation.Entities.DTOs.Operation
 {
-    public class ItemDto : CreatorModel
+    public class SupplierItemModel:CreatorModel
     {
+        public int? SuppllierItemId { get; set; }
         public int? ItemId { get; set; }
         public string NameAR { get; set; }
         public string NameEN { get; set; }
+        public string ItemNameAR { get; set; }
+        public string ItemNameEN { get; set; }
         public int? UnitId { get; set; }
         public string UnitName { get; set; }
         public int? PurchaseUnitId { get; set; }
         public string PurchaseUnitName { get; set; }
         public int? ItemCategoryId { get; set; }
         public string ItemCategoryName { get; set; }
-        public decimal? Cost { get; set; }
-        public decimal? Price => Cost;
-        public decimal? PurchasePrice { get; set; }
-        public double? Yield { get; set; }
-        public double? ConvertRatio { get; set; }
-        public bool? IsActive { get; set; }
+        public decimal? Price { get; set; }
+        public bool IsActive { get; set; }
         public int? ItemTypeId { get; set; }
         public int? SupplierId { get; set; }
         public string SupplierName { get; set; }
-        public List<int> SupplierIds { get; set; } = new List<int>();
-        public List<SupplierDto> ItemSuppliers { get; set; }
-
         public int? TotalCount { get; set; }
 
     }
 
-    public class ItemDtoExportModel
+    public class SupplierItemExportModel
     {
         [JsonProperty("Name (AR)")]
         public string NameAR { get; set; }
@@ -47,11 +43,8 @@ namespace RetailStation.Entities.DTOs.Operation
         public string PurchaseUnitName { get; set; }
         [JsonProperty("Category")]
         public string ItemCategoryName { get; set; }
-        [JsonProperty("Cost")]
-        public decimal? Cost { get; set; }
+        [JsonProperty("Price")]
+        public decimal? Price { get; set; }
 
     }
-
-
 }
-

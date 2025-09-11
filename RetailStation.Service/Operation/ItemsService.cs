@@ -348,7 +348,7 @@ namespace RetailStation.Service.Operation
                 };
             }
         }
-        public ActionsResponseModel ItemQuickUpdate(int ItemId, double Price, int UnitId)
+        public ActionsResponseModel ItemQuickUpdate(int ItemId, decimal Price, int UnitId)
         {
             try
             {

@@ -27,7 +27,7 @@ namespace RetailStation.Interface.Operation
         List<ItemDto> GetItemsBySupplierId(int SupplierId);
         DataTable GetItemsBySupplierIdV2(int SupplierId);
         ActionsResponseModel ChangeItemActiveStatus(int ItemId);
-        ActionsResponseModel ItemQuickUpdate(int ItemId, double Price, int UnitId);
+        ActionsResponseModel ItemQuickUpdate(int ItemId, decimal Price, int UnitId);
         List<ItemDto> GetItemsDeleted(int ItemCategoryId, string SearchText);
         string ExportItemsDeleted(int categoryId, string SearchText, string UserName);
         #endregion

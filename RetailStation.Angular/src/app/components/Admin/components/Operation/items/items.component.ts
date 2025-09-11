@@ -6,13 +6,14 @@ import { DatePipe } from '@angular/common';
 import { FilterItem } from 'src/app/components/Shared/models/FilterModel';
 import { ToastrService } from 'ngx-toastr';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
-import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { PagedResponseDTO, PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
-import { ItemModel } from '../../models/Item';
-import { InventoryService } from '../../services/inventory.service';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { SupplierModel } from 'src/app/components/Purchases/models/SupplierModel';
+import { ItemModel } from '../../../models/Operation/ItemModel';
+import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
+import { OperationService } from '../../../services/operation.service';
 
 @Component({
   selector: 'app-items',
@@ -20,16 +21,16 @@ import { SupplierModel } from 'src/app/components/Purchases/models/SupplierModel
   styleUrls: ['./items.component.css']
 })
 export class ItemsComponent implements OnInit {
-  TitleList = ['المخازن', 'بيانات الأصناف'];
-  unitsSelectorData: FormDropdownModel[] = [];
-  suppliersSelectorData: FormDropdownModel[] = [];
-  itemCategoriesSelectorData: FormDropdownModel[] = [];
-  categoriesData: FormDropdownModel[] = [];
+  TitleList = ['التشغيل', 'بيانات الأصناف'];
+  unitsSelectorData: GeneralSelectorModel[] = [];
+  suppliersSelectorData: GeneralSelectorModel[] = [];
+  itemCategoriesSelectorData: GeneralSelectorModel[] = [];
+  categoriesData: GeneralSelectorModel[] = [];
 
   selectedItemId: number;
 
   itemModel: ItemModel = {} as ItemModel;
-  itemResponseModel: PagedResponseDTO<ItemModel[]> = {
+  itemResponseModel: PagedResponseModel<ItemModel[]> = {
     results: [],
     filterList: [],
     pageSize: 20,
@@ -51,7 +52,6 @@ export class ItemsComponent implements OnInit {
     cost: '',
     convertRatio: '',
     isActive: '',
-    supplierIds: '',
     yield: '',
     purchasePrice: '',
     itemTypeId: ''
@@ -59,7 +59,7 @@ export class ItemsComponent implements OnInit {
 
   selectedCategoryId: number = 0;
   isUpdate: boolean = false;
-  constructor(private modalService: NgbModal, private inventoryService: InventoryService,
+  constructor(private modalService: NgbModal, private operationService: OperationService,
     private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
     private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
 
@@ -73,7 +73,7 @@ export class ItemsComponent implements OnInit {
 
   loadData() {
     this.showLoader = true;
-    this.inventoryService.GetItemsData(this.itemResponseModel).subscribe(data => {
+    this.operationService.GetItemsData(this.itemResponseModel).subscribe(data => {
       this.itemResponseModel.results = data.results;
       this.itemResponseModel.totalCount = data.totalCount;
 
@@ -89,7 +89,7 @@ export class ItemsComponent implements OnInit {
 
   exportData(categoryId: number = 0) {
     this.showExportLoader = true;
-    this.inventoryService.ExportItems(this.itemResponseModel, categoryId).subscribe((data: ActionsResponseModel) => {
+    this.operationService.ExportItems(this.itemResponseModel, categoryId).subscribe((data: ActionsResponseModel) => {
       if (data.isSuccess) {
         this.sharedService.urlDownloadOrOpen(data.url);
         this.toaster.success(data.message);
@@ -142,7 +142,7 @@ export class ItemsComponent implements OnInit {
 
     // this.offcanvasService.open(content, { panelClass: 'add-new-panel', position: 'end' });
   }
-  
+
   buildForm() {
     this.formGroup = this.form.group({
       itemId: [null],
@@ -154,7 +154,6 @@ export class ItemsComponent implements OnInit {
       cost: [null, [Validators.required]],
       convertRatio: [null],
       isActive: [true],
-      supplierIds: [[]],
       yield: [null],
       purchasePrice: [null],
       itemTypeId: [null]
@@ -179,7 +178,7 @@ export class ItemsComponent implements OnInit {
 
   addNewItem() {
     this.showAddLoader = true;
-    this.inventoryService.AddNewItem(this.itemModel).subscribe((data: ActionsResponseModel) => {
+    this.operationService.AddNewItem(this.itemModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.toaster.success(data?.message);
@@ -202,7 +201,7 @@ export class ItemsComponent implements OnInit {
 
   editItem() {
     this.showAddLoader = true;
-    this.inventoryService.EditItem(this.itemModel.itemId, this.itemModel).subscribe((data: ActionsResponseModel) => {
+    this.operationService.EditItem(this.itemModel.itemId, this.itemModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         // this.initNewForm();
@@ -221,7 +220,7 @@ export class ItemsComponent implements OnInit {
     });
   }
   changeItemStatus(ItemId: number) {
-    this.inventoryService.ChangeItemActiveStatus(ItemId).subscribe(data => {
+    this.operationService.ChangeItemActiveStatus(ItemId).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message);
         this.loadData();
@@ -259,7 +258,6 @@ export class ItemsComponent implements OnInit {
       convertRatio: itemModel.convertRatio,
       cost: itemModel.cost,
       isActive: itemModel.isActive,
-      supplierIds: itemModel.supplierIds,
       yield: itemModel.yield,
       purchasePrice: itemModel.purchasePrice,
       itemTypeId: itemModel.itemTypeId
@@ -297,7 +295,7 @@ export class ItemsComponent implements OnInit {
 
   deleteItem() {
     this.showAddLoader = true;
-    this.inventoryService.DeleteItem(this.selectedItemId).subscribe(data => {
+    this.operationService.DeleteItem(this.selectedItemId).subscribe(data => {
 
       if (data?.isSuccess) {
         this.modalService?.dismissAll();
@@ -327,7 +325,7 @@ export class ItemsComponent implements OnInit {
   }
   getItemSuppliersByItemId(itemId: number) {
     this.itemSuppliers = [];
-    this.inventoryService.GetSuppliersByItemId(itemId).subscribe(data => {
+    this.operationService.GetSuppliersByItemId(itemId).subscribe(data => {
       if (data && data.results.length > 0) {
         this.itemSuppliers = data.results;
       }

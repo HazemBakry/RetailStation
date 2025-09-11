@@ -13,6 +13,8 @@ import { ManageSubscriptionsComponent } from './components/ManageSubscriptions/m
 import { ItemsCategoriesComponent } from './components/Operation/items-categories/items-categories.component';
 import { ItemUnitsComponent } from './components/Operation/item-units/item-units.component';
 import { SuppliersComponent } from './components/Operation/suppliers/suppliers.component';
+import { AuthPageGuard } from 'src/app/Auth/authPage.guard';
+import { ItemsComponent } from './components/Operation/items/items.component';
 
 const routes: Routes = [
   {
@@ -24,6 +26,8 @@ const routes: Routes = [
       { path: 'items-categories', component: ItemsCategoriesComponent },
       { path: 'items-units', component: ItemUnitsComponent },
       { path: 'suppliers', component: SuppliersComponent },
+      { path: 'items', component: ItemsComponent, canActivate: [AuthPageGuard] },//, data: { pageName: 'Items' } },
+
       {
         path: 'manage-subscriptions',
         canActivate: [AuthGuard],

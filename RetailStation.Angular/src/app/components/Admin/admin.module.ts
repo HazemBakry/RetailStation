@@ -17,6 +17,7 @@ import { SubscribersComponent } from './components/ManageSubscriptions/subscribe
 import { ItemsCategoriesComponent } from './components/Operation/items-categories/items-categories.component';
 import { ItemUnitsComponent } from './components/Operation/item-units/item-units.component';
 import { SuppliersComponent } from './components/Operation/suppliers/suppliers.component';
+import { ItemsComponent } from './components/Operation/items/items.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { SuppliersComponent } from './components/Operation/suppliers/suppliers.c
     SubscriberBranchesComponent,
     ItemsCategoriesComponent,
     ItemUnitsComponent,
-    SuppliersComponent
+    SuppliersComponent,
+    ItemsComponent
   ],
   imports: [
     CommonModule,
