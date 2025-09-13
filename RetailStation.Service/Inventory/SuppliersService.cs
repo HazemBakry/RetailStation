@@ -48,6 +48,7 @@ namespace RetailStation.Service.Inventory
                             ContactPerson = supplier.ContactPerson,
                             ContactMobile = supplier.ContactMobile,
                             Notes = supplier.Notes,
+                            SubscriberId = supplier.SubscriberId,
                             IsActive = supplier.IsActive,
                             CreatedBy = supplier.CreatedBy,
                             CreatedDate = supplier.CreatedDate,
@@ -107,6 +108,7 @@ namespace RetailStation.Service.Inventory
                 supplier.ContactPerson = model.ContactPerson;
                 supplier.ContactMobile = model.ContactMobile;
                 supplier.Notes = model.Notes;
+                supplier.SubscriberId = model.SubscriberId;
                 supplier.IsActive = true;
                 supplier.CreatedBy = model.CreatedBy;
                 supplier.CreatedDate = DateTime.Now;
@@ -146,6 +148,7 @@ namespace RetailStation.Service.Inventory
                     supplier.ContactPerson = model.ContactPerson;
                     supplier.ContactMobile = model.ContactMobile;
                     supplier.Notes = model.Notes;
+                    supplier.SubscriberId = model.SubscriberId;
                     supplier.IsActive = supplier.IsActive;
                     supplier.ModifiedBy = model.ModifiedBy;
                     supplier.ModifiedDate = DateTime.Now;

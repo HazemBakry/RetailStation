@@ -150,6 +150,7 @@ namespace RetailStation.Service.Shared
             return results;
 
         }
+
         public List<SelectorDataModel> GetUnitsSelector()
         {
             var results = Context.Units.Select(b => new SelectorDataModel
@@ -171,7 +172,16 @@ namespace RetailStation.Service.Shared
             return new List<SelectorDataModel>();
 
         }
+        public List<SelectorDataModel_Str> GetSubscribersSelector()
+        {
+            var results = Context.Subscribers.Select(b => new SelectorDataModel_Str
+            {
+                Id = b.SubscriberId,
+                Name = b.SubscriberName,
+            }).ToList();
+            return results;
 
+        }
 
         #endregion
 

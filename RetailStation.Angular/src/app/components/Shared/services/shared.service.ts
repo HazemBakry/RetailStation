@@ -242,4 +242,7 @@ export class SharedService {
   GetEmployeeStatusSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetEmployeeStatusSelector');
   }
+  GetSubscribersSelector() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetSubscribersSelector');
+  }
 }

@@ -23,5 +23,6 @@ export interface SupplierModel extends CreatorModel {
     contactPerson: string;
     contactMobile: string;
     notes: string;
+    subscriberId: string;
     isActive: boolean;
 }

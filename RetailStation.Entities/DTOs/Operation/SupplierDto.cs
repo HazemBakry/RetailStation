@@ -33,6 +33,7 @@ namespace RetailStation.Entities.DTOs.Operation
         public string ContactPerson { get; set; }
         public string ContactMobile { get; set; }
         public string Notes { get; set; }
+        public string SubscriberId { get; set; }
         public bool IsActive { get; set; }
         public int? TotalCount { get; set; }
     }

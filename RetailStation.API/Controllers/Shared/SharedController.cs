@@ -105,6 +105,14 @@ namespace RetailStation.API.Controllers.Shared
             var result = _sharedService.GetItemLookupsSelector();
             return Ok(result);
         }
+        
+        [HttpGet]
+        [Route("GetSubscribersSelector")]
+        public IActionResult GetSubscribersSelector()
+        {
+            var result = _sharedService.GetSubscribersSelector();
+            return Ok(result);
+        }
 
         
         #endregion

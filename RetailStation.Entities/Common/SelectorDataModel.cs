@@ -13,4 +13,11 @@ namespace RetailStation.Entities.Common
         public string Name { get; set; }
         public string Code { get; set; }
     }
+    public class SelectorDataModel_Str
+    {
+        public string Id { get; set; }
+        public string Value => Id;
+        public string Name { get; set; }
+        public string Code { get; set; }
+    }
 }

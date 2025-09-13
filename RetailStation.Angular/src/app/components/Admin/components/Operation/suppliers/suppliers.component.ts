@@ -28,6 +28,7 @@ export class SuppliersComponent implements OnInit {
   showAddLoader: boolean = false;
   regionsSelectorData: GeneralSelectorModel[] = [];
   countriesSelectorData: GeneralSelectorModel[] = [];
+  subscribersSelectorData: GeneralSelectorModel[] = [];
   citiesSelectorData: GeneralSelectorModel[] = [];
   pagedResponse: PagedResponseModel<SupplierModel[]> = {
     currentPage: 1,
@@ -99,6 +100,7 @@ export class SuppliersComponent implements OnInit {
     supplierGroupId: '',
     contactPerson: '',
     contactMobile: '',
+    subscriberId: '',
 
   };
   selectedSupplierId: number;
@@ -117,6 +119,9 @@ export class SuppliersComponent implements OnInit {
 
     this.lookupService.GetCountriesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.countriesSelectorData = data;
+    });
+    this.sharedService.GetSubscribersSelector().subscribe((data: GeneralSelectorModel[]) => {
+      this.subscribersSelectorData = data;
     });
   }
 
@@ -152,6 +157,7 @@ export class SuppliersComponent implements OnInit {
       supplierGroupId: [null],
       contactPerson: [null],
       contactMobile: [null],
+      subscriberId: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
@@ -271,6 +277,7 @@ export class SuppliersComponent implements OnInit {
       supplierGroupId: SupplierModel.supplierGroupId,
       contactPerson: SupplierModel.contactPerson,
       contactMobile: SupplierModel.contactMobile,
+      subscriberId: SupplierModel.subscriberId,
     });
   }
   openDeleteModal(content: any, id: number) {

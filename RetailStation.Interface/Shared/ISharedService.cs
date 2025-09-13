@@ -29,6 +29,7 @@ namespace RetailStation.Interface.Shared
         List<SelectorDataModel> GetItemCategoriesSelector();
         List<SelectorDataModel> GetUnitsSelector();
         List<SelectorDataModel> GetItemLookupsSelector();
+        List<SelectorDataModel_Str> GetSubscribersSelector();
 
         #endregion
     }
