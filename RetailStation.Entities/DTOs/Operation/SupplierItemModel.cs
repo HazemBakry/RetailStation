@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using RetailStation.Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,9 @@ namespace RetailStation.Entities.DTOs.Operation
         public int? ItemTypeId { get; set; }
         public int? SupplierId { get; set; }
         public string SupplierName { get; set; }
+        public IFormFile Image { get; set; }
+        public string ImageUrl { get; set; }
+
         public int? TotalCount { get; set; }
 
     }

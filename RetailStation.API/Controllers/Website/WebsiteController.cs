@@ -2,31 +2,31 @@
 using Microsoft.AspNetCore.Mvc;
 using RetailStation.Entities.Common;
 using RetailStation.Entities.DTOs.Operation;
-using RetailStation.Interface.Dashboard;
+using RetailStation.Interface.Website;
 using RetailStation.Interface.SupplierManagement;
 using RetailStation.Service.SupplierManagement;
 using System.Linq;
 
-namespace RetailStation.API.Controllers.Dashboard
+namespace RetailStation.API.Controllers.Website
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DashboardController : ControllerBase
+    public class WebsiteController : ControllerBase
     {
 
-        private readonly IDashboardService _dashboardService;
+        private readonly IWebsiteService _dashboardService;
         public const int SupplierId = 1;
-        public DashboardController(IDashboardService dashboardService)
+        public WebsiteController(IWebsiteService dashboardService)
         {
             _dashboardService = dashboardService;
         }
 
 
         [HttpPost]
-        [Route("GetDashboardItems_Data")]
-        public IActionResult GetDashboardItems_Data(SearchFilterModel SearchModel)
+        [Route("GetWebsiteItems_Data")]
+        public IActionResult GetWebsiteItems_Data(SearchFilterModel SearchModel)
         {
-            var data = _dashboardService.GetDashboardItems_Data(SearchModel);
+            var data = _dashboardService.GetWebsiteItems_Data(SearchModel);
             var result = new PagedResponseModel<SupplierItemModel>
             {
                 Results = data,
@@ -37,10 +37,10 @@ namespace RetailStation.API.Controllers.Dashboard
             return Ok(result);
         }
         [HttpPost]
-        [Route("GetDashboardItems_Filters")]
-        public IActionResult GetDashboardItems_Filters(SearchFilterModel SearchModel)
+        [Route("GetWebsiteItems_Filters")]
+        public IActionResult GetWebsiteItems_Filters(SearchFilterModel SearchModel)
         {
-            var data = _dashboardService.GetDashboardItems_Filters(SearchModel);
+            var data = _dashboardService.GetWebsiteItems_Filters(SearchModel);
             return Ok(data);
         }
 
@@ -48,7 +48,7 @@ namespace RetailStation.API.Controllers.Dashboard
         [Route("GetSupplierItemDetailsById")]
         public IActionResult GetSupplierItemDetailsById(int SupplierItemId)
         {
-            var results = _dashboardService.GetDashboardItemDetailsById(SupplierItemId);
+            var results = _dashboardService.GetWebsiteItemDetailsById(SupplierItemId);
             return Ok(results);
         }
 

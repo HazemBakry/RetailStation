@@ -103,11 +103,11 @@ export class OperationService {
     return this.http.get<ItemModel>(this.URL + `Items/GetItemDetailsById?ItemId=${itemId}`);
   }
 
-  AddNewItem(model: ItemModel) {
+  AddNewItem(model: FormData) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Items/AddNewItem', model);
   }
 
-  EditItem(itemId: number, model: ItemModel) {
+  EditItem(itemId: number, model: FormData) {
     return this.http.post<ActionsResponseModel>(this.URL + `Items/EditItem?ItemId=${itemId}`, model)
   }
 

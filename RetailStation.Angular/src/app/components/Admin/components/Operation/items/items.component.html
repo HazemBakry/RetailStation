@@ -22,8 +22,7 @@
         </div>
         <div class="justify-content-end">
             <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="itemResponseModel.currentPage"
-                [pageSize]="itemResponseModel.pageSize"
-                [totalCount]="itemResponseModel.totalCount"></app-pagination>
+                [pageSize]="itemResponseModel.pageSize" [totalCount]="itemResponseModel.totalCount"></app-pagination>
         </div>
     </div>
     <div class="p-3 bg-white">
@@ -78,7 +77,8 @@
                                     <td>
                                         <div class="file-table-ele d-flex align-items-center gap-3">
                                             <div class="file-table-ele-icon warning">
-                                                <i class="far fa-file-pdf"></i>
+                                                <i *ngIf="!item.imageUrl" class="far fa-file-pdf"></i>
+                                                <img *ngIf="item.imageUrl" [src]="item.imageUrl">
                                             </div>
                                             <div class="file-table-ele-text">
                                                 <div class="fw-bold fs-5">{{item.nameAR}}</div>
@@ -233,6 +233,23 @@
                                 <div *ngIf="formErrors.itemCategoryId" class="text-danger  font-small-3 m-03">
                                     {{formErrors.itemCategoryId}}
                                 </div>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-feature">صورة</td>
+                            <td class="table-value">
+
+                                <div class="form-floating mb-3">
+                                    <input formControlName="image" (change)="onFileChange($event)" type="file"
+                                        class="cursor-pointer" placeholder="الصورة الشخصية">
+
+                                    <div *ngIf="formErrors.image" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.image}}
+                                    </div>
+                                </div>
+
+
 
                             </td>
                         </tr>

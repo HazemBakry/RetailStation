@@ -19,5 +19,7 @@ export interface ItemModel extends CreatorModel {
     supplierId: number | null;
     supplierName: string;
     disabled: boolean | null;
+    image: File | null;
+    imageUrl: string;
 
 }

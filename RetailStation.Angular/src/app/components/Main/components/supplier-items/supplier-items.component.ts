@@ -57,11 +57,15 @@ export class SupplierItemsComponent implements OnInit {
     isActive: '',
     yield: '',
     purchasePrice: '',
-    itemTypeId: ''
+    itemTypeId: '',
+    image: '',
   };
 
   selectedCategoryId: number = 0;
   isUpdate: boolean = false;
+
+  imageFile: File;
+  formData: FormData = new FormData();
   constructor(private modalService: NgbModal, private supplierService: SupplierService,
     private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
     private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
@@ -160,20 +164,30 @@ export class SupplierItemsComponent implements OnInit {
       isActive: [true],
       yield: [null],
       purchasePrice: [null],
-      itemTypeId: [null]
-
+      itemTypeId: [null],
+      image: [null],
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
     });
   }
-
+  onFileChange(event: any) {
+    this.imageFile = event.target.files[0];
+    //this.imageFileName = event.target.files[0].name;
+  }
   saveItem() {
     if (!this.validateForm()) {
       return;
     }
     this.supplierItemModel = this.formGroup.value;
-
+     this.formData = new FormData();
+    if (this.imageFile != null) {
+      this.formData.append('image', this.imageFile);
+    }
+    Object.keys(this.formGroup.value).forEach(key => {
+      if (key != 'image' && this.formGroup.value[key]!= undefined)
+        this.formData.append(key, this.formGroup.value[key]);
+    });
     if (this.supplierItemModel.supplierItemId)
       this.editItem();
     else
@@ -182,7 +196,7 @@ export class SupplierItemsComponent implements OnInit {
 
   addNewItem() {
     this.showAddLoader = true;
-    this.supplierService.AddNewSupplierItem(this.supplierItemModel).subscribe((data: ActionsResponseModel) => {
+    this.supplierService.AddNewSupplierItem(this.formData).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.toaster.success(data?.message);
@@ -205,7 +219,7 @@ export class SupplierItemsComponent implements OnInit {
 
   editItem() {
     this.showAddLoader = true;
-    this.supplierService.EditSupplierItem(this.supplierItemModel.supplierItemId, this.supplierItemModel).subscribe((data: ActionsResponseModel) => {
+    this.supplierService.EditSupplierItem(this.supplierItemModel.supplierItemId, this.formData).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         // this.initNewForm();

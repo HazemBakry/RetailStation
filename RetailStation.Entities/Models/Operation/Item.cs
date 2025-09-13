@@ -26,6 +26,7 @@ namespace RetailStation.Entities.Models.Operation
         public double? ConvertRatio { get; set; }
         public bool? IsActive { get; set; }
         public int? ItemTypeId { get; set; }
+        public string ImageUrl { get; set; }
 
         public ICollection<ItemSupplier> ItemSuppliers { get; set; }
     }

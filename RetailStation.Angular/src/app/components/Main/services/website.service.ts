@@ -19,15 +19,15 @@ export class WebsiteService {
 
   /////////////////////////////// SupplierItems ////////////////////////
 
-  GetDashboardItems_Data(searchModel: PagedResponseModel<SupplierItemModel[]>) {
-    return this.http.post<PagedResponseModel<SupplierItemModel[]>>(this.URL + 'Dashboard/GetDashboardItems_Data', searchModel);
+  GetWebsiteItems_Data(searchModel: PagedResponseModel<SupplierItemModel[]>) {
+    return this.http.post<PagedResponseModel<SupplierItemModel[]>>(this.URL + 'Website/GetWebsiteItems_Data', searchModel);
   }
-  GetDashboardItems_Filters(searchModel: PagedResponseModel<SupplierItemModel[]>) {
-    return this.http.post<PagedResponseModel<SupplierItemModel[]>>(this.URL + 'Dashboard/GetDashboardItems_Filters', searchModel);
+  GetWebsiteItems_Filters(searchModel: PagedResponseModel<SupplierItemModel[]>) {
+    return this.http.post<PagedResponseModel<SupplierItemModel[]>>(this.URL + 'Website/GetWebsiteItems_Filters', searchModel);
   }
 
-  GetDashboardItemDetailsById(itemId: number) {
-    return this.http.get<SupplierItemModel>(this.URL + `Dashboard/GetDashboardItemDetailsById?SupplierItemId=${itemId}`);
+  GetWebsiteItemDetailsById(itemId: number) {
+    return this.http.get<SupplierItemModel>(this.URL + `Website/GetWebsiteItemDetailsById?SupplierItemId=${itemId}`);
   }
 
 }

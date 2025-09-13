@@ -13,8 +13,8 @@ namespace RetailStation.Interface.SupplierManagement
     {
         List<SupplierItemModel> GetSupplierItemsData(int SupplierId, SearchFilterModel FilterModel, int? SupplierItemId = null);
         SupplierItemModel GetSupplierItemDetailsById(int SupplierId, int SupplierItemId);
-        ActionsResponseModel AddNewSupplierItem(int SupplierId, SupplierItemModel model);
-        ActionsResponseModel EditSupplierItem(int SupplierId, int SupplierItemId, SupplierItemModel model);
+        Task<ActionsResponseModel> AddNewSupplierItem(int SupplierId, SupplierItemModel model);
+        Task<ActionsResponseModel> EditSupplierItem(int SupplierId, int SupplierItemId, SupplierItemModel model);
         ActionsResponseModel DeleteSupplierItem(int SupplierId, int SupplierItemId);
         ActionsResponseModel ExportSupplierItem(int SupplierId, string UserName, SearchFilterModel Model);
         ActionsResponseModel ChangeSupplierItemActiveStatus(int SupplierId, int SupplierItemId);

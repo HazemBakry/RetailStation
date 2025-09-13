@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace RetailStation.Entities.DTOs.Operation
 {
@@ -28,8 +29,9 @@ namespace RetailStation.Entities.DTOs.Operation
         public int? ItemTypeId { get; set; }
         public int? SupplierId { get; set; }
         public string SupplierName { get; set; }
-        public List<int> SupplierIds { get; set; } = new List<int>();
         public List<SupplierDto> ItemSuppliers { get; set; }
+        public IFormFile Image { get; set; }
+        public string ImageUrl { get; set; }
 
         public int? TotalCount { get; set; }
 

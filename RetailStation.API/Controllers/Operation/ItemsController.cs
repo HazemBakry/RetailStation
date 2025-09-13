@@ -59,17 +59,17 @@ namespace RetailStation.API.Controllers.Operation
 
         [HttpPost]
         [Route("AddNewItem")]
-        public IActionResult AddNewItem(ItemDto model)
+        public async Task<IActionResult> AddNewItem([FromForm] ItemDto model)
         {
-            var results = _itemService.AddNewItem(model);
+            var results = await _itemService.AddNewItem(model);
             return Ok(results);
         }
 
         [HttpPost]
         [Route("EditItem")]
-        public IActionResult EditItem(int ItemId, ItemDto model)
+        public async Task<IActionResult> EditItem(int ItemId, [FromForm] ItemDto model)
         {
-            var results = _itemService.EditItem(ItemId, model);
+            var results = await _itemService.EditItem(ItemId, model);
             return Ok(results);
         }
 

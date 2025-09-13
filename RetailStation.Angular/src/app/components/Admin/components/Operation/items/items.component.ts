@@ -55,11 +55,16 @@ export class ItemsComponent implements OnInit {
     isActive: '',
     yield: '',
     purchasePrice: '',
-    itemTypeId: ''
+    itemTypeId: '',
+    image: '',
+
   };
 
   selectedCategoryId: number = 0;
   isUpdate: boolean = false;
+  imageFile: File;
+  formData: FormData = new FormData();
+
   constructor(private modalService: NgbModal, private operationService: OperationService,
     private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
     private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
@@ -157,20 +162,33 @@ export class ItemsComponent implements OnInit {
       isActive: [true],
       yield: [null],
       purchasePrice: [null],
-      itemTypeId: [null]
+      itemTypeId: [null],
+      image: [null],
+      
 
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
     });
   }
-
+  onFileChange(event: any) {
+    this.imageFile = event.target.files[0];
+    //this.imageFileName = event.target.files[0].name;
+  }
   saveItem() {
     if (!this.validateForm()) {
       return;
     }
     this.itemModel = this.formGroup.value;
 
+     this.formData = new FormData();
+    if (this.imageFile != null) {
+      this.formData.append('image', this.imageFile);
+    }
+    Object.keys(this.formGroup.value).forEach(key => {
+      if (key != 'image' && this.formGroup.value[key] != undefined)
+        this.formData.append(key, this.formGroup.value[key]);
+    });
     if (this.itemModel.itemId)
       this.editItem();
     else
@@ -179,7 +197,7 @@ export class ItemsComponent implements OnInit {
 
   addNewItem() {
     this.showAddLoader = true;
-    this.operationService.AddNewItem(this.itemModel).subscribe((data: ActionsResponseModel) => {
+    this.operationService.AddNewItem(this.formData).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.toaster.success(data?.message);
@@ -202,7 +220,7 @@ export class ItemsComponent implements OnInit {
 
   editItem() {
     this.showAddLoader = true;
-    this.operationService.EditItem(this.itemModel.itemId, this.itemModel).subscribe((data: ActionsResponseModel) => {
+    this.operationService.EditItem(this.itemModel.itemId, this.formData).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         // this.initNewForm();
@@ -258,7 +276,7 @@ export class ItemsComponent implements OnInit {
       itemCategoryId: itemModel.itemCategoryId,
       convertRatio: itemModel.convertRatio,
       cost: itemModel.cost,
-      isActive: itemModel.isActive,
+      isActive: itemModel.isActive ?? false,
       yield: itemModel.yield,
       purchasePrice: itemModel.purchasePrice,
       itemTypeId: itemModel.itemTypeId

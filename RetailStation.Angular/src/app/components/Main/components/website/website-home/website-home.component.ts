@@ -108,7 +108,7 @@ export class WebsiteHomeComponent implements OnInit {
   }
   loadData() {
     this.showLoader = true;
-    this.websiteService.GetDashboardItems_Data(this.pageResponseModel).subscribe(data => {
+    this.websiteService.GetWebsiteItems_Data(this.pageResponseModel).subscribe(data => {
       this.pageResponseModel.results = data.results;
       this.suppliersData = data.results;
       this.pageResponseModel.totalCount = data.totalCount;

@@ -16,11 +16,11 @@ using RetailStation.Interface.Operation;
 using RetailStation.Entities.Models.Operation;
 using RetailStation.Entities.DTOs.Operation;
 using RetailStation.Interface.SupplierManagement;
-using RetailStation.Interface.Dashboard;
+using RetailStation.Interface.Website;
 
-namespace RetailStation.Service.Dashboard
+namespace RetailStation.Service.Website
 {
-    public class DashboardService : IDashboardService
+    public class WebsiteService : IWebsiteService
     {
         private readonly DBContext Context;
         private readonly LookupsDbContext LookupsDbContext;
@@ -29,10 +29,11 @@ namespace RetailStation.Service.Dashboard
         private readonly ISharedFilterService SharedFilterService;
         private readonly string ConnectionString;
         private readonly IExportService ExportService;
+        private readonly IFileService _fileService;
 
-        public DashboardService(DBContext Context, ISQLHelper SQLHelper,
+        public WebsiteService(DBContext Context, ISQLHelper SQLHelper,
             IConfiguration Configuration, IExportService ExportService,
-            ISharedFilterService sharedFilterService, LookupsDbContext lookupsDbContext)
+            ISharedFilterService sharedFilterService, LookupsDbContext lookupsDbContext, IFileService fileService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
@@ -41,8 +42,9 @@ namespace RetailStation.Service.Dashboard
             this.ExportService = ExportService;
             SharedFilterService = sharedFilterService;
             LookupsDbContext = lookupsDbContext;
+            _fileService = fileService;
         }
-        public List<SupplierItemModel> GetDashboardItems_Data(SearchFilterModel model)
+        public List<SupplierItemModel> GetWebsiteItems_Data(SearchFilterModel model)
         {
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
@@ -53,11 +55,15 @@ namespace RetailStation.Service.Dashboard
                 new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
             };
 
-            var result = SQLHelper.SQLQuery<SupplierItemModel>("[Dashboard].[GetDashboardItems_Data]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<SupplierItemModel>("[Website].[GetWebsiteItems_Data]", ConnectionString, Params);
+            foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
+            {
+                item.ImageUrl = _fileService.GetFileDownloadUrl(item.ImageUrl);
+            }
             return result;
 
         }
-        public List<FilterModel> GetDashboardItems_Filters(SearchFilterModel model)
+        public List<FilterModel> GetWebsiteItems_Filters(SearchFilterModel model)
         {
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
@@ -66,14 +72,14 @@ namespace RetailStation.Service.Dashboard
                 new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
             };
 
-            var result = SQLHelper.SQLQuery<FilterItem>("[Dashboard].[GetDashboardItems_Filters]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<FilterItem>("[Website].[GetWebsiteItems_Filters]", ConnectionString, Params);
             var grouped = SharedFilterService.GroupedFilterItems(result);
             return grouped;
 
         }
-        public SupplierItemModel GetDashboardItemDetailsById(int SupplierItemId)
+        public SupplierItemModel GetWebsiteItemDetailsById(int SupplierItemId)
         {
-            return GetDashboardItems_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }).FirstOrDefault();
+            return GetWebsiteItems_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }).FirstOrDefault();
         }
     }
 }

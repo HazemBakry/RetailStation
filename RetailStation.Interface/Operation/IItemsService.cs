@@ -20,8 +20,8 @@ namespace RetailStation.Interface.Operation
 
         List<ItemDto> GetItemsData(SearchFilterModel FilterModel, int? ItemId = null);
         ItemDto GetItemDetailsById(int ItemId);
-        ActionsResponseModel AddNewItem(ItemDto model);
-        ActionsResponseModel EditItem(int ItemId, ItemDto model);
+        Task<ActionsResponseModel> AddNewItem(ItemDto model);
+        Task<ActionsResponseModel> EditItem(int ItemId, ItemDto model);
         ActionsResponseModel DeleteItem(int ItemId);
         ActionsResponseModel ExportItems(int categoryId, string UserName, SearchFilterModel Model);
         List<ItemDto> GetItemsBySupplierId(int SupplierId);

@@ -16,6 +16,7 @@ using RetailStation.Interface.Operation;
 using RetailStation.Entities.Models.Operation;
 using RetailStation.Entities.DTOs.Operation;
 using RetailStation.Interface.SupplierManagement;
+using System.Threading.Tasks;
 
 namespace RetailStation.Service.SupplierManagement
 {
@@ -28,10 +29,11 @@ namespace RetailStation.Service.SupplierManagement
         private readonly ISharedFilterService SharedFilterService;
         private readonly string ConnectionString;
         private readonly IExportService ExportService;
-
+        private readonly IFileService _fileService;
+        public readonly string ItemsImagesFolder;
         public SupplierManagementService(DBContext Context, ISQLHelper SQLHelper,
             IConfiguration Configuration, IExportService ExportService,
-            ISharedFilterService sharedFilterService, LookupsDbContext lookupsDbContext)
+            ISharedFilterService sharedFilterService, LookupsDbContext lookupsDbContext, IFileService fileService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
@@ -40,6 +42,9 @@ namespace RetailStation.Service.SupplierManagement
             this.ExportService = ExportService;
             SharedFilterService = sharedFilterService;
             LookupsDbContext = lookupsDbContext;
+            _fileService = fileService;
+            ItemsImagesFolder = "ItemsImages";
+
         }
 
 
@@ -57,6 +62,10 @@ namespace RetailStation.Service.SupplierManagement
             };
 
             var result = SQLHelper.SQLQuery<SupplierItemModel>("[Supplier].[SP_GetSupplierItemsData]", ConnectionString, Params);
+            foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
+            {
+                item.ImageUrl = _fileService.GetFileDownloadUrl(item.ImageUrl);
+            }
             return result;
 
         }
@@ -64,7 +73,7 @@ namespace RetailStation.Service.SupplierManagement
         {
             return GetSupplierItemsData(SupplierId,new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, SupplierItemId).FirstOrDefault();
         }
-        public ActionsResponseModel AddNewSupplierItem(int SupplierId,SupplierItemModel model)
+        public async Task<ActionsResponseModel> AddNewSupplierItem(int SupplierId,SupplierItemModel model)
         {
             try
             {
@@ -82,7 +91,14 @@ namespace RetailStation.Service.SupplierManagement
                     CreatedBy = model.CreatedBy,
                     CreatedDate = DateTime.Now
                 };
-
+                if (model.Image != null)
+                {
+                    var uploadResponse = await _fileService.UploadFileAsync(model.Image, ItemsImagesFolder, FileType.Image);
+                    if (uploadResponse.IsUploaded)
+                        Item.ImageUrl = uploadResponse.FilePath;
+                    else
+                        return new ActionsResponseModel { Message = uploadResponse.Message, IsSuccess = false };
+                }
                 Context.SupplierItems.Add(Item);
                 Context.SaveChanges();
                 return new ActionsResponseModel { Message = "Item Added Successful !" };
@@ -92,7 +108,7 @@ namespace RetailStation.Service.SupplierManagement
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
         }
-        public ActionsResponseModel EditSupplierItem(int SupplierId, int SupplierItemId, SupplierItemModel model)
+        public async Task<ActionsResponseModel> EditSupplierItem(int SupplierId, int SupplierItemId, SupplierItemModel model)
         {
 
             try
@@ -110,6 +126,19 @@ namespace RetailStation.Service.SupplierManagement
                     item.IsActive = model.IsActive;
                     item.ModifiedBy = model.ModifiedBy;
                     item.ModifiedDate = DateTime.Now;
+                    if (model.Image != null)
+                    {
+                        var uploadResponse = await _fileService.UploadFileAsync(model.Image, ItemsImagesFolder, FileType.Image);
+                        if (uploadResponse.IsUploaded)
+                        {
+                            item.ImageUrl = uploadResponse.FilePath;
+                        }
+                        else
+                        {
+                            return new ActionsResponseModel { Message = uploadResponse.Message, IsSuccess = false };
+                        }
+
+                    }
                     Context.SaveChanges();
 
                     return new ActionsResponseModel { Message = "Item Updated Successfully !" };

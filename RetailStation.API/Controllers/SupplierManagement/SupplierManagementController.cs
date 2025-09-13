@@ -7,6 +7,7 @@ using RetailStation.Entities.Models.Operation;
 using RetailStation.Interface.Operation;
 using RetailStation.Interface.SupplierManagement;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RetailStation.API.Controllers.SupplierManagement
 {
@@ -49,17 +50,17 @@ namespace RetailStation.API.Controllers.SupplierManagement
 
         [HttpPost]
         [Route("AddNewSupplierItem")]
-        public IActionResult AddNewSupplierItem(SupplierItemModel model)
+        public async Task<IActionResult> AddNewSupplierItem([FromForm] SupplierItemModel model)
         {
-            var results = _supplierManagementService.AddNewSupplierItem(SupplierId, model);
+            var results = await _supplierManagementService.AddNewSupplierItem(SupplierId, model);
             return Ok(results);
         }
 
         [HttpPost]
         [Route("EditSupplierItem")]
-        public IActionResult EditSupplierItem(int SupplierItemId, SupplierItemModel model)
+        public async Task<IActionResult> EditSupplierItem(int SupplierItemId,[FromForm] SupplierItemModel model)
         {
-            var results = _supplierManagementService.EditSupplierItem(SupplierId, SupplierItemId, model);
+            var results = await _supplierManagementService.EditSupplierItem(SupplierId, SupplierItemId, model);
             return Ok(results);
         }
 

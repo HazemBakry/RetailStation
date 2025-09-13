@@ -27,11 +27,11 @@ export class SupplierService {
     return this.http.get<SupplierItemModel>(this.URL + `SupplierManagement/GetSupplierItemDetailsById?SupplierItemId=${itemId}`);
   }
 
-  AddNewSupplierItem(model: SupplierItemModel) {
+  AddNewSupplierItem(model: FormData) {
     return this.http.post<ActionsResponseModel>(this.URL + 'SupplierManagement/AddNewSupplierItem', model);
   }
 
-  EditSupplierItem(itemId: number, model: SupplierItemModel) {
+  EditSupplierItem(itemId: number, model: FormData) {
     return this.http.post<ActionsResponseModel>(this.URL + `SupplierManagement/EditSupplierItem?SupplierItemId=${itemId}`, model)
   }
 
