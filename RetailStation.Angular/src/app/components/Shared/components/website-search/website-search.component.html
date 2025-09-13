@@ -1,0 +1,33 @@
+<div class="search-row bg-light sticky-top shadow-sm">
+  <div class="container">
+    <div class="search-wrapper custom-select position-relative w-75">
+      <div class="search-box position-relative w-100">
+        <div class="form-floating">
+            <input (keydown.enter)="search()" type="text" [(ngModel)]="searchText" id="floatingInput1" [placeholder]="placeholder" autocomplete="off"
+              class="form-control">
+          <label for="floatingInput1">{{ placeholder }}</label>
+        </div>
+        <i (click)="search()" class="fas fa-search search-icon text-muted cursor-pointer"></i>
+      </div>
+    </div>
+    <!-- <div class="search-wrapper custom-select position-relative w-75" clickedOutsideElement
+      (clickOutside)="onClickedOutside()">
+      <div class="search-box position-relative w-100">
+        <div class="form-floating">
+          <input type="text" id="floatingInput1" placeholder="بحث" autocomplete="off" class="form-control"
+            (click)="isSearchDropdown = !isSearchDropdown">
+          <label for="floatingInput1">{{ placeholderText }}</label>
+        </div>
+        <i class="fas fa-search search-icon text-muted cursor-pointer"></i>
+      </div>
+      <ul class="list-unstyled custom-select-list shadow w-100" *ngIf="isSearchDropdown">
+        <li class="custom-select-item">Search Item 1</li>
+        <li class="custom-select-item">Search Item 2</li>
+        <li class="custom-select-item">Search Item 3</li>
+        <li class="custom-select-item">Search Item 4</li>
+        <li class="custom-select-item">Search Item 5</li>
+        <li class="custom-select-item">Search Item 6</li>
+      </ul>
+    </div> -->
+  </div>
+</div>

@@ -10,7 +10,7 @@ import { SupplierItemModel } from '../models/SupplierItemModel';
 @Injectable({
   providedIn: 'root',
 })
-export class DashboardService {
+export class WebsiteService {
   URL = environment.apiURL;
 
   constructor(private http: HttpClient) { }

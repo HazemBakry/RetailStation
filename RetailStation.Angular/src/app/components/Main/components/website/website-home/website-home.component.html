@@ -1,0 +1,327 @@
+<!-- <app-website-search [placeholderText]="'بحث في المطاعم'"></app-website-search > -->
+<div class="home-slider">
+  <ngb-carousel *ngIf="images">
+    <ng-template ngbSlide *ngFor="let image of images">
+      <div class="slider-img-wrapper">
+        <img [src]="image.image" alt="Random first slide" />
+      </div>
+      <div class="carousel-caption">
+        <h3>أبو أنس الدمشقى</h3>
+        <p>هنا بعض النصوص عن كل مطعم من التوب عندنا</p>
+      </div>
+    </ng-template>
+  </ngb-carousel>
+</div>
+<div class="tasty-offers">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <h3 class="m-0">عروض شهية</h3>
+      <a class="main-color cursor-pointer">
+        <span class="ms-1">رؤية الكل</span>
+        <i class="fas fa-caret-left"></i>
+      </a>
+    </div>
+
+    <swiper class="big-carousel-swiper" [slidesPerView]="4" [spaceBetween]="10" [navigation]="true"
+      [pagination]="{ clickable: true }" [slidesPerGroup]="4" [breakpoints]="{
+        '0': {
+          slidesPerView: 1
+        },
+        '575': {
+          slidesPerView: 1
+        },
+        '767': {
+          slidesPerView: 2
+        },
+        '1024': {
+          slidesPerView: 3
+        },
+        '1200': {
+          slidesPerView: 4
+        }
+      }">
+      <ng-template swiperSlide *ngFor="let item of PromotionItems">
+        <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+          <div class="order-card-img position-relative">
+            <img src="{{item.image}}" alt="order-img" />
+            <div class="highlight-text order-highlight">
+              <h6 class="m-0">{{item.nameAr}}</h6>
+            </div>
+          </div>
+          <div class="card-content position-relative px-3">
+            <div class="bg-white border-radius w-100 shadow-sm p-2 mt--20">
+              <div class="card-content-info d-flex align-items-center">
+                <div class="card-content-img">
+                  <img
+                    src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/979d7ddd-cc99-42dd-98fe-db186bbff711.jpg"
+                    alt="order-logo" />
+                </div>
+                <div class="me-3 w-100">
+                  <div class="foods-title m-0">
+                    <h6 class="m-0 fw-bold">{{item.subscriberNameAr}}</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="offer-box d-flex align-items-center shadow-sm" (click)="openModal(cartModal,item)">
+                <!-- <i class="fas fa-percentage"></i> -->
+                <span class="me-2">{{item.nameAr}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </swiper>
+
+
+  </div>
+</div>
+<div class="container py-5">
+  <div class="row">
+    <div class="col-xl-2">
+      <div class="order-filter-box card">
+        <div class="card-header main-bg text-white py-3 d-flex align-items-center">
+          <i class="fas fa-sort-amount-down fs-18 ms-2"></i>
+          <h5 class="m-0">ترتيب</h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="filter-wrapper form-check" *ngFor="let item of mostPopular; index as i"
+            (click)="activeOrderFilter = i" [ngClass]="{'active': activeOrderFilter === i}">{{ item }}</div>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="foods-filter-box card">
+        <div class="card-header main-bg text-white py-3 d-flex align-items-center">
+          <i class="fas fa-utensils fs-18 ms-2"></i>
+          <h5 class="m-0">المطابخ</h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="filter-wrapper form-check" *ngFor="let item of kitchenCategories | slice: 0 : count; index as i"
+            (click)="activeSectionsFilter = i;onFoodTypeChange(item.foodTypeId)"
+            [ngClass]="{'active': activeSectionsFilter === i}">{{ item.nameAr }}</div>
+          <a class="more-filter-text text-underline main-color fw-bold cursor-pointer" (click)="moreAndLessFilterBtn()">
+            {{ moreFilters ? 'اظهر أقل' : '+' + (kitchenCategories.length - 7) + ' أكثر' }}</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-10 pe-4">
+      <h3 class="d-flex align-items-end mb-4">
+        <span class="ms-2">مطعم</span>
+      </h3>
+      <div class="row">
+        <!-- START THIS IS A DEMO FOR BIG CARDS IN HOME AND ALSO IN PRODUCT LIST PAGE YA SALAAM -->
+        <div class="col-md-6 col-xl-4" *ngFor="let item of suppliersData">
+          <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+            <div class="card-inner">
+              <div class="card-slider">
+                <a class="card-img-box d-block position-relative">
+                  <!-- <swiper class="small-carousel-swiper" [slidesPerView]="1" [spaceBetween]="0" [navigation]="true"
+                    [pagination]="{ clickable: true }" [autoplay]="{ delay: 5000, disableOnInteraction: false }">
+                    <ng-template swiperSlide *ngFor="let slider of item.image">
+                      <img src="{{slider}}" alt="order-img" />
+                    </ng-template>
+                  </swiper> -->
+                      <img src="{{systemURL}}assets\images\menu-board-1.jpg" alt="order-img" />
+
+                  <div class="highlight-text order-highlight">
+                    <h6 class="m-0">{{item.nameEN}}</h6>
+                  </div>
+                </a>
+              </div>
+              <div class="card-content mt-3">
+                <div class="card-content-info d-flex mb-3">
+                  <div class="card-content-img">
+                    <img
+                      src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg"
+                      alt="restaurant-logo" />
+                  </div>
+                  <div class="me-2 w-100">
+                    <div class="foods-title d-flex align-items-center justify-content-between">
+                      <a routerLink="/ProductList" [queryParams]="{ResturantID:item.supplierItemId}" class="m-0 fw-bold"
+                        style="color: black;">{{item.nameAR}}</a>
+                      <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center">
+                          <i class="fas fa-star rate-color-gold fs-12"></i>
+                          <i class="fas fa-star rate-color-gold fs-12"></i>
+                          <i class="fas fa-star rate-color-gold fs-12"></i>
+                          <i class="fas fa-star rate-color-gold fs-12"></i>
+                          <i class="fas fa-star rate-color-grey fs-12"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="offer-box align-items-center text-center" style="height: 40px;padding-top: 10px;">
+                  <a routerLink="/ProductList" [queryParams]="{ResturantID:item.supplierItemId}" class="me-2"
+                    style="color: #4caf50;">اوردر أونلاين</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-lg w-100 btn-danger mt-4 main-bg text-white" type="button">تحميل مطاعم أكثر</button>
+    </div>
+  </div>
+</div>
+
+
+
+<ng-template #cartModal let-modal>
+  <div class="modal-body" *ngIf="FoodItem">
+    <div class="row">
+      <div class="col-xl-5">
+        <div class="card-img-box img-thumbnail">
+          <img src="{{FoodItem?.image}}" alt="Food" />
+        </div>
+      </div>
+      <div class="col-xl-7">
+        <div class="d-flex align-itmes-center justify-content-between">
+          <h3 class="fs-2 mb-3">{{FoodItem?.nameAr}}</h3>
+          <div class="d-flex align-items-start flex-column">
+            <div *ngIf="FoodItem?.discount != 0 && FoodItem?.discount != null"
+              class="new-price d-flex align-items-center mb-1">
+              <span class="main-color fw-bold fs-5 ms-1">{{FoodItem?.totalValue}}</span>
+              <sub class="text-muted">ر.س.</sub>
+            </div>
+            <div *ngIf="FoodItem?.discount == 0 || FoodItem?.discount == null"
+              class="new-price d-flex align-items-center mb-1">
+              <span class="main-color fw-bold fs-5 ms-1">{{FoodItem?.totalValue}}</span>
+              <sub class="text-muted">ر.س.</sub>
+            </div>
+            <div class="d-flex align-items-center" *ngIf="FoodItem?.discount != 0 && FoodItem?.discount != null">
+              <div dir="ltr" class="discount-badge ms-2">{{FoodItem?.discount / FoodItem?.price2 * 100 |
+                number:'2.1-2'}}%
+              </div>
+              <div class="old-price d-flex align-items-center">
+                <span class="text-muted fw-bold fs-5 ms-1">{{FoodItem?.price2}}</span>
+                <sub class="text-muted">ر.س.</sub>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p>{{FoodItem?.descriptionAr}}</p>
+        <div class="counter big-counter d-flex justify-content-between align-items-center shadow-sm mt-5">
+          <button class="counter-plus counter-action cursor-pointer" (click)="counter('plus',null)">
+            <i class="fas fa-plus"></i>
+          </button>
+          <div class="counter-value">
+            <input type="text" class="form-control border-0 bg-transparent px-1" min="1" [value]="counterValue" />
+          </div>
+          <button class="counter-minus counter-action cursor-pointer" (click)="counter('minus',null)"
+            [disabled]="counterValue === 1">
+            <i class="fas fa-minus"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer d-block">
+    <div class="row">
+      <div class="col-xl-10">
+        <button type="button" class="btn btn-success w-100 mb-2"
+          (click)="openSidePanel(cartSidePanel,FoodItem); modal.close()">أضف الى السلة</button>
+      </div>
+      <div class="col-xl-2">
+        <button type="button" class="modal-close-btn btn btn-danger w-100 mb-2" (click)="modal.close()">الغاء</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+
+<ng-template #cartSidePanel let-offcanvas>
+  <div class="offcanvas-header">
+    <div class="d-flex align-items-center">
+      <i class="fas fa-cart-plus ms-1 fs-4"></i>
+      <h4 class="offcanvas-title">سله مشتريات</h4>
+    </div>
+    <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="d-flex align-items-center flex-wrap px-3 py-2 border-bottom">
+    <span class="fw-bold">{{CartItemsList[0].subscriberNameAr}}</span>
+  </div>
+  <div class="offcanvas-body p-0">
+    <div class="sidepanel-card-wrapper bg-light border-bottom overflow-auto px-2 py-3">
+      <div class="sidepanel-card card border rounded shadow-sm" *ngFor="let item of CartItemsList">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-4">
+              <img src="{{item.image}}" class="sidepanel-card-img img-thumbnail" alt="Cart-Img" />
+            </div>
+            <div class="col-lg-8">
+              <h6 class="fw-bold mb-1">{{item.nameAr}}</h6>
+              <p>{{item.descriptionAr}}</p>
+              <div class="d-flex align-items-center justify-content-between">
+                <div *ngIf="item.discount != 0 && item.discount != null" class="new-price d-flex align-items-center">
+                  <span class="main-color fw-bold fs-5 ms-1">{{item.price2 - item.discount}}</span>
+                  <sub class="text-muted">ر.س.</sub>
+                </div>
+                <div *ngIf="item.discount == 0 || item.discount == null" class="new-price d-flex align-items-center">
+                  <span class="main-color fw-bold fs-5 ms-1">{{item.price2}}</span>
+                  <sub class="text-muted">ر.س.</sub>
+                </div>
+                <div *ngIf="item.discount != 0 && item.discount != null">
+                  <div dir="ltr" class="discount-badge">{{item.discount / item.price2 * 100 | number:'2.1-2'}}%
+                  </div>
+                  <div class="old-price d-flex align-items-center">
+                    <span class="text-muted fw-bold fs-5 ms-1">{{item.price2}}</span>
+                    <sub class="text-muted">ر.س.</sub>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="d-flex align-items-center">
+            <div class="ms-2">الكميه :</div>
+            <div class="fw-bold">{{item.counterValue}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="order-price px-1 py-3">
+      <div class="row mx-0 cart-row-choosen align-items-center">
+        <div class="col-xl-6">
+          <h6 class="m-0 fw-bolder fs-14">المجموع</h6>
+        </div>
+        <div class="col-xl-6">
+          <div class="new-price d-flex justify-content-end align-items-center">
+            <span class="fw-bold fs-5 ms-1">{{TotalValue}}</span>
+            <sub class="text-muted">ر.س.</sub>
+          </div>
+        </div>
+      </div>
+      <div class="row mx-0 cart-row-choosen align-items-center">
+        <div class="col-xl-6">
+          <h6 class="m-0 fw-bolder fs-14">رسوم التوصيل</h6>
+        </div>
+        <div class="col-xl-6">
+          <div class="new-price d-flex justify-content-end align-items-center">
+            <span class="fw-bold fs-5 ms-1">{{DeliveryFees}}</span>
+            <sub class="text-muted">ر.س.</sub>
+          </div>
+        </div>
+      </div>
+      <div class="row mx-0 cart-row-choosen align-items-center border-top mt-3 pt-2">
+        <div class="col-xl-6">
+          <h6 class="m-0 fw-bolder green-color">المبلغ الاجمالى</h6>
+        </div>
+        <div class="col-xl-6">
+          <div class="new-price d-flex justify-content-end align-items-center">
+            <span class="fw-bold fs-5 ms-1 green-color">{{NetValue}}</span>
+            <sub class="text-muted">ر.س.</sub>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mx-2 mt-3">
+      <button type="button" class="btn btn-success w-100" routerLink="/Cart" (click)="offcanvas.close()">تنفيذ
+        الطلب</button>
+    </div>
+  </div>
+</ng-template>

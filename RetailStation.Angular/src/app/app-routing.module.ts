@@ -9,13 +9,25 @@ import { AuthPageGuard } from './Auth/authPage.guard';
 import { LoginComponent } from './Auth/login/login.component';
 import { RetailHomeComponent } from './components/Shared/components/retail-home/retail-home.component';
 import { RegisterComponent } from './Auth/register/register.component';
+import { WebsiteComponent } from './components/Main/components/website/website.component';
+import { WebsiteHomeComponent } from './components/Main/components/website/website-home/website-home.component';
 
 const routes: Routes = [
   { path: '', component: RetailHomeComponent},
-  { path: 'login', component: LoginComponent},
-  { path: 'register', component: RegisterComponent},
+  {
+    path: 'website',
+    canActivate: [AuthGuard],
+    // data: { roles: ['SuperAdmin'] },
+    component: WebsiteComponent,
+    children: [
+      { path: '', component: WebsiteHomeComponent },
+      { path: '', redirectTo: '', pathMatch: 'full' },
+    ],
+  },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'main', loadChildren: () => import('./components/Main/main.module').then(erp => erp.MainModule), canActivate: [AuthGuard] },
-  { path: 'admin', loadChildren: () => import('./components/Admin/admin.module').then(erp => erp.AdminModule)},
+  { path: 'admin', loadChildren: () => import('./components/Admin/admin.module').then(erp => erp.AdminModule) },
   { path: 'design', loadChildren: () => import('./components/Design/design.module').then(erp => erp.DesignModule), canActivate: [AuthGuard] },
   // { path: 'profile', loadChildren: () => import('./components/EmployeeProfile/employee-profile.module').then(erp => erp.EmployeeProfileModule), canActivate: [AuthGuard] },
   // { path: 'auth-callback', component: AuthCallbackComponent },

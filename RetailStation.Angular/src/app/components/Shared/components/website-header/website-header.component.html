@@ -1,0 +1,126 @@
+<header id="website-header" class="sticky-top">
+    <div class="progress-bar-wrapper">
+        <div class="progress-bar-item" [ngStyle]="{'width': scrollWidth + '%'}"></div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light navbar-bg py-0">
+        <div class="container">
+            <a class="navbar-brand me-0" routerLink="">
+                <!-- <img src="https://www.elmenus.com/public/img/newLogo.svg" alt="Food-Logo" /> -->
+            </a>
+            <button class="navbar-toggler py-2 px-3" (click)="isMenuOpen = !isMenuOpen" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarFoodStationMenu" aria-controls="navbarFoodStationMenu"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars fs-2" [ngClass]="{'fa-times': isMenuOpen === true }"></i>
+            </button>
+            <div class="collapse navbar-collapse" [ngClass]="{ 'show': isMenuOpen === true }"
+                id="navbarFoodStationMenu">
+                <ul class="navbar-nav ms-auto pe-3">
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center justify-content-center flex-column" routerLink="/"
+                            routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                            <i class="fas fa-hamburger mb-2 fs-18"></i>
+                            Items
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center justify-content-center flex-column"
+                            routerLink="/subscribe" routerLinkActive="active">
+                            <i class="fas fa-external-link-square-alt mb-2 fs-18"></i>
+                            Subscribe
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center justify-content-center flex-column">
+                            <i class="fas fa-store mb-2 fs-18"></i>
+                            Promotions
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center justify-content-center flex-column">
+                            <i class="fas fa-warehouse mb-2 fs-18"></i>
+                            الاسر المنتجة
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center justify-content-center flex-column"
+                            [routerLink]="['/admin']" routerLinkActive="active">
+                            <i class="fas fa-user-cog mb-2 fs-18"></i>
+                            Admin
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav me-auto">
+                    <ng-container *ngIf="!isAuthenticated">
+                        <li class="nav-item">
+                            <button (click)="login()" class="btn btn-sm btn-danger signin-btn main-bg text-white"
+                                type="button">Login</button>
+                        </li>
+                    </ng-container>
+                    <ng-container *ngIf="isAuthenticated">
+                        <div class="custom-select user-logined-dropdown d-flex align-items-center justify-content-center cursor-pointer position-relative"
+                            clickedOutsideElement (clickOutside)="onClickedOutside()"
+                            [ngClass]="{'active': isUserDropdown}">
+                            <div (click)="isUserDropdown = !isUserDropdown"
+                                class="custom-select-text d-flex align-items-center justify-content-between m-0 min-width-180 h-100">
+                                <div class="d-flex align-items-center">
+                                    <img *ngIf="UserModel.imageUrl" [src]="UserModel.imageUrl" class="user-logined-img small"
+                                        alt="User-Image" />
+                                    <div class="me-2">
+                                        <div>اهلا</div>
+                                        <div class="fw-bold">{{UserModel.userName}}</div>
+                                    </div>
+                                </div>
+                                <i class="fas fa-caret-down dropdown-arrow cursor-pointer"
+                                    [ngClass]="{'arrow-rotated': isUserDropdown}"></i>
+                            </div>
+                            <ul class="list-unstyled custom-select-list shadow min-width-250" *ngIf="isUserDropdown">
+                                <li
+                                    class="custom-select-list-header main-bg text-white d-flex align-items-center border-bottom">
+                                    <img src="../../../assets/images/user.png" class="user-logined-img medium"
+                                        alt="User-Image" />
+                                    <h4 class="fs-5 fw-bold m-0 me-2">{{UserModel.userName}}</h4>
+                                </li>
+                                <li class="custom-select-item" routerLink="/MyOrders" routerLinkActive="active">
+                                    <i class="fas fa-hamburger"></i>
+                                    <span class="me-2">اوردراتي</span>
+                                </li>
+                                <li class="custom-select-item d-flex align-items-center">
+                                    <i class="fas fa-cog"></i>
+                                    <span class="me-2">الاعدادات</span>
+                                </li>
+                                <li class="custom-select-item" (click)="logout()">
+                                    <i class="fas fa-power-off"></i>
+                                    <span class="me-2">Logout</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- <li class="nav-item">
+              <div class="me-2">اهلا {{UserModel.userName}}</div>
+            </li>
+            <li class="nav-item">
+              <div class="me-2">اوردراتي</div>
+            </li>
+            <li class="nav-item">
+              <div class="me-2">الاعدادات</div>
+            </li>
+            <li class="nav-item">
+              <button class="btn btn-sm btn-danger signin-btn main-bg text-white me-2" type="button" (click)="Signout()">تسجيل الخروج</button>
+            </li> -->
+                    </ng-container>
+                </ul>
+                <ul class="navbar-nav mr-30 border-end pe-1">
+                    <li class="nav-item">
+                        <div class="cart-btn position-relative" routerLink="/Cart">
+                            <span class="ordered-cart-number shadow"
+                                *ngIf="CartItemsList && CartItemsList.length > 0">{{CartItemsList.length}}</span>
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center justify-content-center lang-link">English</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

@@ -10,6 +10,8 @@ import { MainHomeComponent } from './components/main-home/main-home.component';
 import { SupplierItemsComponent } from './components/supplier-items/supplier-items.component';
 import { SupplierOrdersComponent } from './components/supplier-orders/supplier-orders.component';
 import { SupplierInvoicesComponent } from './components/supplier-invoices/supplier-invoices.component';
+import { WebsiteComponent } from './components/website/website.component';
+import { WebsiteHomeComponent } from './components/website/website-home/website-home.component';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { SupplierInvoicesComponent } from './components/supplier-invoices/suppli
     MainHomeComponent,
     SupplierItemsComponent,
     SupplierOrdersComponent,
-    SupplierInvoicesComponent
+    SupplierInvoicesComponent,
+    WebsiteComponent,
+    WebsiteHomeComponent
   ],
   imports: [
     CommonModule,

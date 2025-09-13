@@ -7,7 +7,7 @@ import { GeneralAccountService } from 'src/app/components/GeneralAccounts/servic
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
 import { MenuSidebarItem } from 'src/app/components/Shared/models/MenuSidebarItem';
 import { MenuService, MenuType } from 'src/app/components/Shared/services/menu.service';
-import { DashboardService } from '../../services/dashboard.service';
+import { WebsiteService } from '../../services/website.service';
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { SupplierItemModel } from '../../models/SupplierItemModel';
 
@@ -30,7 +30,7 @@ export class MainHomeComponent implements OnInit {
   constructor(private modalService: NgbModal,
     private route: ActivatedRoute,
     private datePipe: DatePipe,
-    private dashboardService: DashboardService,
+    private websiteService: WebsiteService,
     private menuService: MenuService,
     private toaster: ToastrService) {
     this.route.params.subscribe(params => {
@@ -57,7 +57,7 @@ export class MainHomeComponent implements OnInit {
   }
   loadData() {
     this.showLoader = true;
-    this.dashboardService.GetDashboardItems_Data(this.pageResponseModel).subscribe(data => {
+    this.websiteService.GetDashboardItems_Data(this.pageResponseModel).subscribe(data => {
       this.pageResponseModel.results = data.results;
       this.pageResponseModel.totalCount = data.totalCount;
 

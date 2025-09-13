@@ -11,12 +11,12 @@ namespace RetailStation.API.Controllers.Dashboard
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DashboardController1 : ControllerBase
+    public class DashboardController : ControllerBase
     {
 
         private readonly IDashboardService _dashboardService;
         public const int SupplierId = 1;
-        public DashboardController1(IDashboardService dashboardService)
+        public DashboardController(IDashboardService dashboardService)
         {
             _dashboardService = dashboardService;
         }

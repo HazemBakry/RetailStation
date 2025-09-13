@@ -59,6 +59,9 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { RetailHomeComponent } from './components/retail-home/retail-home.component';
 import { RegisterComponent } from 'src/app/Auth/register/register.component';
+import { WebsiteHeaderComponent } from './components/website-header/website-header.component';
+import { WebsiteSearchComponent } from './components/website-search/website-search.component';
+import { WebsiteSubscribeComponent } from './components/website-subscribe/website-subscribe.component';
 
 @NgModule({
   declarations: [
@@ -112,7 +115,10 @@ import { RegisterComponent } from 'src/app/Auth/register/register.component';
     ERPSidebarComponent,
     StatusSelectorComponent,
     RetailHomeComponent,
-    RegisterComponent
+    RegisterComponent,
+    WebsiteHeaderComponent,
+    WebsiteSearchComponent,
+    WebsiteSubscribeComponent
   ],
 
   imports: [
@@ -184,8 +190,10 @@ import { RegisterComponent } from 'src/app/Auth/register/register.component';
     ERPSidebarComponent,
     GoogleChartsModule,
     StatusSelectorComponent,
-    RegisterComponent
-
+    RegisterComponent,
+    WebsiteHeaderComponent,
+    WebsiteSearchComponent,
+    WebsiteSubscribeComponent
 
   ],
   providers: [
