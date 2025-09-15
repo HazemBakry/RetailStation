@@ -17,7 +17,6 @@ namespace RetailStation.API.Controllers.SupplierManagement
     public class SupplierManagementController : ControllerBase
     {
         private readonly ISupplierManagementService _supplierManagementService;
-        public const int SupplierId = 1;
         public SupplierManagementController(ISupplierManagementService supplierManagementService)
         {
             _supplierManagementService = supplierManagementService;
@@ -29,6 +28,11 @@ namespace RetailStation.API.Controllers.SupplierManagement
         [Route("GetSupplierItemsData")]
         public IActionResult GetSupplierItemsData(SearchFilterModel SearchModel)
         {
+            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "SupplierId")?.Value,out int SupplierId);
+            if (SupplierId <= 0)
+                return BadRequest("No Supplier assigned");
             var data = _supplierManagementService.GetSupplierItemsData(SupplierId,SearchModel);
             var result = new PagedResponseModel<SupplierItemModel>
             {
@@ -44,6 +48,11 @@ namespace RetailStation.API.Controllers.SupplierManagement
         [Route("GetSupplierItemDetailsById")]
         public IActionResult GetSupplierItemDetailsById(int SupplierItemId)
         {
+            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "SupplierId")?.Value, out int SupplierId);
+            if (SupplierId <= 0)
+                return BadRequest("No Supplier assigned");
             var results = _supplierManagementService.GetSupplierItemDetailsById(SupplierId, SupplierItemId);
             return Ok(results);
         }
@@ -52,6 +61,11 @@ namespace RetailStation.API.Controllers.SupplierManagement
         [Route("AddNewSupplierItem")]
         public async Task<IActionResult> AddNewSupplierItem([FromForm] SupplierItemModel model)
         {
+            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "SupplierId")?.Value, out int SupplierId);
+            if (SupplierId <= 0)
+                return BadRequest("No Supplier assigned");
             var results = await _supplierManagementService.AddNewSupplierItem(SupplierId, model);
             return Ok(results);
         }
@@ -60,6 +74,11 @@ namespace RetailStation.API.Controllers.SupplierManagement
         [Route("EditSupplierItem")]
         public async Task<IActionResult> EditSupplierItem(int SupplierItemId,[FromForm] SupplierItemModel model)
         {
+            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "SupplierId")?.Value, out int SupplierId);
+            if (SupplierId <= 0)
+                return BadRequest("No Supplier assigned");
             var results = await _supplierManagementService.EditSupplierItem(SupplierId, SupplierItemId, model);
             return Ok(results);
         }
@@ -68,25 +87,45 @@ namespace RetailStation.API.Controllers.SupplierManagement
         [Route("DeleteSupplierItem")]
         public IActionResult DeleteSupplierItem(int SupplierItemId)
         {
+            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "SupplierId")?.Value, out int SupplierId);
+            if (SupplierId <= 0)
+                return BadRequest("No Supplier assigned");
             var results = _supplierManagementService.DeleteSupplierItem(SupplierId, SupplierItemId);
             return Ok(results);
         }
         [HttpGet]
         [Route("ChangeSupplierItemActiveStatus")]
-        public ActionsResponseModel ChangeItemStatus(int SupplierItemId)
+        public IActionResult ChangeItemStatus(int SupplierItemId)
         {
-            return _supplierManagementService.ChangeSupplierItemActiveStatus(SupplierId, SupplierItemId);
+            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "SupplierId")?.Value, out int SupplierId);
+            if (SupplierId <= 0)
+                return BadRequest("No Supplier assigned");
+            return Ok(_supplierManagementService.ChangeSupplierItemActiveStatus(SupplierId, SupplierItemId));
         }
         [HttpGet]
         [Route("ItemQuickUpdate")]
-        public ActionsResponseModel ItemQuickUpdate(int SupplierItemId, decimal Price, int UnitId)
+        public IActionResult ItemQuickUpdate(int SupplierItemId, decimal Price, int UnitId)
         {
-            return _supplierManagementService.ItemQuickUpdate(SupplierId, SupplierItemId, Price, UnitId);
+            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "SupplierId")?.Value, out int SupplierId);
+            if (SupplierId <= 0)
+                return BadRequest("No Supplier assigned");
+            return Ok(_supplierManagementService.ItemQuickUpdate(SupplierId, SupplierItemId, Price, UnitId));
         }
         [HttpPost]
         [Route("ExportSupplierItem")]
         public IActionResult ExportSupplierItem(SearchFilterModel SearchModel)
         {
+            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "SupplierId")?.Value, out int SupplierId);
+            if (SupplierId <= 0)
+                return BadRequest("No Supplier assigned");
             string UserName = string.Empty;
             var results = _supplierManagementService.ExportSupplierItem(SupplierId, UserName, SearchModel);
             return Ok(results);

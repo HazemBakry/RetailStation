@@ -234,8 +234,9 @@ namespace RetailStation.Service.Auth
             if (user.SubscriberId is not null)
             {
                 var subscriber = Context.Subscribers.FirstOrDefault(x => x.SubscriberId == user.SubscriberId);
-
+                var supplier = Context.Suppliers.FirstOrDefault(x => x.SubscriberId == user.SubscriberId);
                 authModel.SubscriberName = subscriber?.SubscriberName;
+                authModel.SupplierId = supplier?.SupplierId;
             }
 
 

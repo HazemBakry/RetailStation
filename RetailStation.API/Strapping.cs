@@ -93,6 +93,8 @@ namespace RetailStation.API
             services.AddScoped<ISubscribersService, SubscribersService>();
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IBranchesService, BranchesService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<ICartService, CartService>();
 
             services.AddScoped<ICreateReportService, CreateReportService>();
             services.AddScoped<IHelper, Helper>();

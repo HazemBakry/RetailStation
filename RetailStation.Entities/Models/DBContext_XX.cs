@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RetailStation.Entities.Models.Subscription;
 using RetailStation.Entities.Models.Operation;
+using RetailStation.Entities.Models.Website;
 
 namespace RetailStation.Entities.Models
 {

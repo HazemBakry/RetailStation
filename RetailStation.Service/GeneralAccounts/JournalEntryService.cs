@@ -103,9 +103,7 @@ namespace RetailStation.Service.GeneralAccounts
             }
             else
             {
-                var receipt = Context.PaymentReceipts.Where(x => x.PaymentReceiptId == ReceiptId).FirstOrDefault();
-                if (receipt != null)
-                    entryId = receipt.JournalEntryId;
+
             }
             var result = GetEntryDetailsById(entryId);
             return result;
