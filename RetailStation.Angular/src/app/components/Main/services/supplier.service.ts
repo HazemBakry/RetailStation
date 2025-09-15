@@ -3,10 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
-import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
 import { SupplierItemModel } from '../models/SupplierItemModel';
 import { PaymentReceiptModel } from '../models/PaymentReceiptModel';
-import { FilterModel } from '../../Shared/models/FilterModel';
+import { FilterItem, FilterModel } from '../../Shared/models/FilterModel';
+import { WebsiteOrderItemModel, WebsiteOrderModel } from '../models/WebsiteOrderModel ';
+import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
 
 
 @Injectable({
@@ -74,4 +75,29 @@ export class SupplierService {
   CancelPaymentReceipt(paymentReceiptId: any) {
     return this.http.get<ActionsResponseModel>(this.URL + 'PaymentReceipts/CancelPaymentReceipt?PaymentReceiptId=' + paymentReceiptId);
   }
+
+
+
+   //-------------------------------------  Order ----------------------------------
+    GetOrders_Data(model: PagedResponseModel) {
+      return this.http.post<PagedResponseModel<WebsiteOrderModel[]>>(this.URL + 'Order/GetOrders_Data', model);
+    }
+    GetOrders_Filters(model: PagedResponseModel<any[]>) {
+      return this.http.post<FilterItem[]>(this.URL + 'Order/GetOrders_Filters', model);
+    }
+    GetOrderDetailsById(OrderId: number) {
+      return this.http.get<WebsiteOrderModel>(this.URL + 'Order/GetOrderDetailsById?OrderId=' + OrderId);
+    }
+    GetOrderItems_Data(OrderId: number) {
+      return this.http.get<WebsiteOrderItemModel[]>(this.URL + `Order/GetOrderItems_Data?OrderId=${OrderId}`);
+    }
+    AddNewOrder(model: WebsiteOrderModel) {
+      return this.http.post<ActionsResponseModel>(this.URL + 'Order/AddNewOrder', model);
+    }
+    EditOrder(OrderId:number,model: WebsiteOrderModel) {
+      return this.http.post<ActionsResponseModel>(this.URL + 'Order/EditOrder?OrderId=' + OrderId, model);
+    }
+    CancelOrder(OrderId: number) {
+      return this.http.get<ActionsResponseModel>(this.URL + 'Order/CancelOrder?OrderId=' + OrderId);
+    }
 }
