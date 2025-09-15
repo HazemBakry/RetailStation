@@ -11,8 +11,8 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { SupplierModel } from 'src/app/components/Purchases/models/SupplierModel';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
-import { SupplierItemModel } from '../../models/SupplierItemModel';
-import { SupplierService } from '../../services/supplier.service';
+import { SupplierItemModel } from '../../../models/SupplierItemModel';
+import { SupplierService } from '../../../services/supplier.service';
 import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 
 @Component({

@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
 import { SupplierItemModel } from '../models/SupplierItemModel';
+import { PaymentReceiptModel } from '../models/PaymentReceiptModel';
+import { FilterModel } from '../../Shared/models/FilterModel';
 
 
 @Injectable({
@@ -48,4 +50,28 @@ export class SupplierService {
     return this.http.post<ActionsResponseModel>(this.URL + `SupplierManagement/ExportSupplierItems?CategoryId=${categoryId} `, searchModel);
   }
 
+
+
+
+  //----------------------------------- Payment Receipt ------------------------------------------//
+
+  GetPaymentReceipts_Data(model: PagedResponseModel<PaymentReceiptModel[]>) {
+    return this.http.post<PagedResponseModel<PaymentReceiptModel[]>>(this.URL + 'PaymentReceipts/GetPaymentReceipts_Data', model);
+  }
+
+  GetPaymentReceipts_Filters(model: PagedResponseModel<PaymentReceiptModel[]>) {
+    return this.http.post<FilterModel[]>(this.URL + 'PaymentReceipts/GetPaymentReceipts_Filters', model);
+  }
+  GetPaymentReceiptDetailsById(paymentReceiptId: number) {
+    return this.http.get<PaymentReceiptModel>(this.URL + `PaymentReceipts/GetPaymentReceiptDetailsById?PaymentReceiptId=${paymentReceiptId}`);
+  }
+  SaveNewPaymentReceipt(model: PaymentReceiptModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'PaymentReceipts/SaveNewPaymentReceipt', model);
+  }
+  EditPaymentReceipt(paymentReceiptId: number, model: PaymentReceiptModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `PaymentReceipts/EditPaymentReceipt?PaymentReceiptId=${paymentReceiptId}`, model);
+  }
+  CancelPaymentReceipt(paymentReceiptId: any) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'PaymentReceipts/CancelPaymentReceipt?PaymentReceiptId=' + paymentReceiptId);
+  }
 }

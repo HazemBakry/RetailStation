@@ -7,9 +7,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../Shared/shared.module';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { MainHomeComponent } from './components/main-home/main-home.component';
-import { SupplierItemsComponent } from './components/supplier-items/supplier-items.component';
-import { SupplierOrdersComponent } from './components/supplier-orders/supplier-orders.component';
-import { SupplierInvoicesComponent } from './components/supplier-invoices/supplier-invoices.component';
+import { SupplierItemsComponent } from './components/supplier/supplier-items/supplier-items.component';
+import { SupplierOrdersComponent } from './components/supplier/supplier-orders/supplier-orders.component';
+import { SupplierInvoicesComponent } from './components/supplier/supplier-invoices/supplier-invoices.component';
 import { WebsiteComponent } from './components/website/website.component';
 import { WebsiteHomeComponent } from './components/website/website-home/website-home.component';
 
