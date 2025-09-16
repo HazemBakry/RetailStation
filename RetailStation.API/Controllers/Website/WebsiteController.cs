@@ -6,6 +6,7 @@ using RetailStation.Interface.Website;
 using RetailStation.Interface.SupplierManagement;
 using RetailStation.Service.SupplierManagement;
 using System.Linq;
+using RetailStation.Service.Website;
 
 namespace RetailStation.API.Controllers.Website
 {
@@ -14,11 +15,11 @@ namespace RetailStation.API.Controllers.Website
     public class WebsiteController : ControllerBase
     {
 
-        private readonly IWebsiteService _dashboardService;
+        private readonly IWebsiteService _websiteService;
         public const int SupplierId = 1;
-        public WebsiteController(IWebsiteService dashboardService)
+        public WebsiteController(IWebsiteService websiteService)
         {
-            _dashboardService = dashboardService;
+            _websiteService = websiteService;
         }
 
 
@@ -26,7 +27,7 @@ namespace RetailStation.API.Controllers.Website
         [Route("GetWebsiteItems_Data")]
         public IActionResult GetWebsiteItems_Data(SearchFilterModel SearchModel)
         {
-            var data = _dashboardService.GetWebsiteItems_Data(SearchModel);
+            var data = _websiteService.GetWebsiteItems_Data(SearchModel);
             var result = new PagedResponseModel<SupplierItemModel>
             {
                 Results = data,
@@ -40,7 +41,7 @@ namespace RetailStation.API.Controllers.Website
         [Route("GetWebsiteItems_Filters")]
         public IActionResult GetWebsiteItems_Filters(SearchFilterModel SearchModel)
         {
-            var data = _dashboardService.GetWebsiteItems_Filters(SearchModel);
+            var data = _websiteService.GetWebsiteItems_Filters(SearchModel);
             return Ok(data);
         }
 
@@ -48,10 +49,31 @@ namespace RetailStation.API.Controllers.Website
         [Route("GetSupplierItemDetailsById")]
         public IActionResult GetSupplierItemDetailsById(int SupplierItemId)
         {
-            var results = _dashboardService.GetWebsiteItemDetailsById(SupplierItemId);
+            var results = _websiteService.GetWebsiteItemDetailsById(SupplierItemId);
             return Ok(results);
         }
 
 
+        [HttpPost]
+        [Route("GetWebsitePromotionItems")]
+        public IActionResult GetWebsitePromotionItems(SearchFilterModel SearchModel)
+        {
+            var data = _websiteService.GetWebsitePromotionItems(SearchModel);
+            var result = new PagedResponseModel<SupplierItemModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("GetWebsiteMainSlider")]
+        public IActionResult GetWebsiteMainSlider()
+        {
+            var result = _websiteService.GetWebsiteMainSlider();
+            return Ok(result);
+        }
     }
 }

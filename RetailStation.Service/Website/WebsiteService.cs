@@ -17,6 +17,7 @@ using RetailStation.Entities.Models.Operation;
 using RetailStation.Entities.DTOs.Operation;
 using RetailStation.Interface.SupplierManagement;
 using RetailStation.Interface.Website;
+using RetailStation.Entities.DTOs.Website;
 
 namespace RetailStation.Service.Website
 {
@@ -55,7 +56,7 @@ namespace RetailStation.Service.Website
                 new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
             };
 
-            var result = SQLHelper.SQLQuery<SupplierItemModel>("[Website].[GetWebsiteItems_Data]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<SupplierItemModel>("[Website].[SP_GetWebsiteItems_Data]", ConnectionString, Params);
             foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
             {
                 item.ImageUrl = _fileService.GetFileDownloadUrl(item.ImageUrl);
@@ -72,9 +73,44 @@ namespace RetailStation.Service.Website
                 new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
             };
 
-            var result = SQLHelper.SQLQuery<FilterItem>("[Website].[GetWebsiteItems_Filters]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<FilterItem>("[Website].[SP_GetWebsiteItems_Filters]", ConnectionString, Params);
             var grouped = SharedFilterService.GroupedFilterItems(result);
             return grouped;
+
+        }
+
+        public List<SupplierItemModel> GetWebsitePromotionItems(SearchFilterModel model)
+        {
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
+
+            SqlParameter[] Params = new SqlParameter[]
+            {
+                new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value),
+                new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value),
+                new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
+            };
+
+            var result = SQLHelper.SQLQuery<SupplierItemModel>("[Website].[SP_GetWebsitePromotionItems]", ConnectionString, Params);
+            foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
+            {
+                item.ImageUrl = _fileService.GetFileDownloadUrl(item.ImageUrl);
+            }
+            return result;
+
+        }
+        public List<WebsiteSliderModel> GetWebsiteMainSlider()
+        {
+            SqlParameter[] Params = new SqlParameter[]
+            {
+               // new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
+            };
+
+            var result = SQLHelper.SQLQuery<WebsiteSliderModel>("[Website].[SP_GetWebsiteMainSlider]", ConnectionString, Params);
+            foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
+            {
+                item.ImageUrl = _fileService.GetFileDownloadUrl(item.ImageUrl);
+            }
+            return result;
 
         }
         public SupplierItemModel GetWebsiteItemDetailsById(int SupplierItemId)

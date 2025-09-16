@@ -1,81 +1,11 @@
 <div class="container-fluid py-5">
     <div class="row">
         <div class="col-xl-2">
-            <div class="order-filter-box card">
-                <div class="card-header main-bg text-white py-3 d-flex align-items-center">
-                    <i class="fas fa-sort-amount-down fs-18 ms-2"></i>
-                    <h5 class="m-0">ترتيب</h5>
-                </div>
-                <div class="card-body p-0">
-                    <div class="filter-wrapper form-check d-flex align-items-center gap-2">
-                        <input type="checkbox" id="flexCheckChecked_1">
-                        <label for="flexCheckChecked_1" class="m-0">
-                            ترتيب 1
-                        </label>
-                    </div>
-                    <div class="filter-wrapper form-check d-flex align-items-center gap-2">
-                        <input type="checkbox" id="flexCheckChecked_2">
-                        <label for="flexCheckChecked_2" class="m-0">
-                            ترتيب 2
-                        </label>
-                    </div>
-                    <div class="filter-wrapper form-check d-flex align-items-center gap-2">
-                        <input type="checkbox" id="flexCheckChecked_3">
-                        <label for="flexCheckChecked_3" class="m-0">
-                            ترتيب 3
-                        </label>
-                    </div>
-                    <div class="filter-wrapper form-check d-flex align-items-center gap-2">
-                        <input type="checkbox" id="flexCheckChecked_4">
-                        <label for="flexCheckChecked_4" class="m-0">
-                            ترتيب 3
-                        </label>
-                    </div>
-                </div>
-            </div>
 
-            <hr />
 
-            <div class="foods-filter-box card">
-                <div class="card-header main-bg text-white py-3 d-flex align-items-center">
-                    <i class="fas fa-utensils fs-18 ms-2"></i>
-                    <h5 class="m-0">المطابخ</h5>
-                </div>
-                <div class="card-body p-0">
-                    <div class="filter-wrapper form-check d-flex align-items-center gap-2">
-                        <input type="checkbox" id="flexCheckkitchen_1">
-                        <label for="flexCheckkitchen_1" class="m-0">
-                            مطبخ 3
-                        </label>
-                    </div>
-                    <div class="filter-wrapper form-check d-flex align-items-center gap-2">
-                        <input type="checkbox" id="flexCheckkitchen_2">
-                        <label for="flexCheckkitchen_2" class="m-0">
-                            مطبخ 2
-                        </label>
-                    </div>
-                    <div class="filter-wrapper form-check d-flex align-items-center gap-2">
-                        <input type="checkbox" id="flexCheckkitchen_3">
-                        <label for="flexCheckkitchen_3" class="m-0">
-                            مطبخ 3
-                        </label>
-                    </div>
-                    <div class="filter-wrapper form-check d-flex align-items-center gap-2">
-                        <input type="checkbox" id="flexCheckkitchen_4">
-                        <label for="flexCheckkitchen_4" class="m-0">
-                            مطبخ 4
-                        </label>
-                    </div>
-                    <div class="filter-wrapper form-check d-flex align-items-center gap-2">
-                        <input type="checkbox" id="flexCheckkitchen_5">
-                        <label for="flexCheckkitchen_5" class="m-0">
-                            مطبخ 5
-                        </label>
-                    </div>
-                    <a class="more-filter-text text-underline main-color fw-bold cursor-pointer">
-                        sdsadsadasd</a>
-                </div>
-            </div>
+            <app-website-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"
+                [searchPlaceholder]="'البحث  ...'"></app-website-filters>
+
         </div>
         <div class="col-xl-10 pe-4">
             <h3 class="d-flex align-items-end mb-4">
@@ -179,12 +109,9 @@
 
             </div>
 
-            <app-pagination (pageChanged)="pageChanged($event)" 
-                [currentPage]="pageResponseModel.currentPage" 
-                [pageSize]="pageResponseModel.pageSize" 
-                [totalCount]="pageResponseModel.totalCount"
-                [usePaginationBtn]="true"
-                [text]="'تحميل مطاعم أكثر'">
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pageResponseModel.currentPage"
+                [pageSize]="pageResponseModel.pageSize" [totalCount]="pageResponseModel.totalCount"
+                [usePaginationBtn]="true" [text]="'تحميل مطاعم أكثر'">
             </app-pagination>
 
         </div>

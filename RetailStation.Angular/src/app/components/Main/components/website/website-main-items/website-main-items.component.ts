@@ -9,7 +9,7 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { environment } from 'src/environments/environment';
 import { SupplierItemModel } from '../../../models/SupplierItemModel';
 import { WebsiteService } from '../../../services/website.service';
-import { FilterItem } from 'src/app/components/Shared/models/FilterModel';
+import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 @Component({
   selector: 'app-website-main-items',
@@ -31,10 +31,11 @@ export class WebsiteMainItemsComponent implements OnInit {
   mostPopular = ['الأكثر شهرة', 'الأعلى تقييماً', 'الأسرع في التوصيل'];
 
   showLoader: boolean = false;
+  filterList: FilterModel[] = [];
   pageResponseModel: PagedResponseModel<SupplierItemModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 1,
+    pageSize: 20,
     currentPage: 1,
     searchText: ''
   };
@@ -60,6 +61,7 @@ export class WebsiteMainItemsComponent implements OnInit {
   ngOnInit(): void {
     this.getSearchQuery();
     this.loadData();
+    this.loadFilters();
   }
 
   getSearchQuery() {
@@ -87,7 +89,6 @@ export class WebsiteMainItemsComponent implements OnInit {
     this.websiteService.GetWebsiteItems_Data(this.pageResponseModel).subscribe(data => {
       this.pageResponseModel.results = data.results;
       this.suppliersData = this.suppliersData.concat([...data.results]);
-      console.log("🚀 ~ WebsiteMainItemsComponent ~ loadData ~ this.suppliersData :", this.suppliersData)
       this.pageResponseModel.totalCount = data.totalCount;
 
       this.showLoader = false;
@@ -97,10 +98,25 @@ export class WebsiteMainItemsComponent implements OnInit {
       this.showLoader = false;
     });
   }
+  loadFilters() {
+    // this.showLoader = true;
+    this.websiteService.GetWebsiteItems_Filters(this.pageResponseModel).subscribe((data: FilterModel[]) => {
+      this.filterList = data;
+    }, (err) => {
+      // this.showLoader = false;
+    }, () => {
+      // this.showLoader = false;
+    });
+  }
 
   pageChanged(obj: any) {
     this.pageResponseModel.currentPage = obj.page;
     this.loadData();
   }
-
+  filterChecked(filterItems: FilterItem[]) {
+    this.pageResponseModel.filterList = filterItems;
+    // this.pageResponseModel.filterList.push(this.mainFilter);
+    this.suppliersData = [];
+    this.loadData();
+  }
 }

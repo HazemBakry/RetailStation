@@ -15,7 +15,7 @@ import { WebsiteService } from '../../../services/website.service';
   templateUrl: './website-promotion-items.component.html',
   styleUrls: ['./website-promotion-items.component.css']
 })
-export class WebsitePromotionItemsComponent  implements OnInit {
+export class WebsitePromotionItemsComponent implements OnInit {
   systemURL: string = environment.systemUrl;
   UserModel: any;
   activeOrderFilter: number;
@@ -54,6 +54,22 @@ export class WebsitePromotionItemsComponent  implements OnInit {
     });
   }
   ngOnInit(): void {
-
+    this.loadData();
   }
+
+  loadData() {
+    this.showLoader = true;
+    this.websiteService.GetWebsitePromotionItems(this.pageResponseModel).subscribe(data => {
+      this.pageResponseModel.results = data.results;
+      this.suppliersData = this.suppliersData.concat([...data.results]);
+      this.pageResponseModel.totalCount = data.totalCount;
+
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+
 }

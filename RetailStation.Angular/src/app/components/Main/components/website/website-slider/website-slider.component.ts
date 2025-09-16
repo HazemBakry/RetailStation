@@ -8,13 +8,14 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { environment } from 'src/environments/environment';
 import { SupplierItemModel } from '../../../models/SupplierItemModel';
 import { WebsiteService } from '../../../services/website.service';
+import { WebsiteSliderModel } from '../../../models/WebsiteSliderModel';
 
 @Component({
   selector: 'app-website-slider',
   templateUrl: './website-slider.component.html',
   styleUrls: ['./website-slider.component.css']
 })
-export class WebsiteSliderComponent  implements OnInit {
+export class WebsiteSliderComponent implements OnInit {
   systemURL: string = environment.systemUrl;
   UserModel: any;
   activeOrderFilter: number;
@@ -36,7 +37,7 @@ export class WebsiteSliderComponent  implements OnInit {
     currentPage: 1,
     searchText: ''
   };
-  suppliersData: SupplierItemModel[] = [];
+  sliderData: WebsiteSliderModel[] = [];
   constructor(config: NgbCarouselConfig, private websiteService: WebsiteService,
     private sharedService: SharedService, private modalService: NgbModal,
     private offcanvasService: NgbOffcanvas, private toaster: ToastrService,
@@ -53,6 +54,19 @@ export class WebsiteSliderComponent  implements OnInit {
     });
   }
   ngOnInit(): void {
-
+    this.loadData();
   }
+
+  loadData() {
+    this.showLoader = true;
+    this.websiteService.GetWebsiteMainSlider().subscribe(data => {
+      this.sliderData = data;
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+
 }

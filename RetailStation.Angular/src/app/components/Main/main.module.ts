@@ -15,6 +15,7 @@ import { SupplierOrdersComponent } from './components/supplier/supplier-orders/s
 import { WebsiteSliderComponent } from './components/website/website-slider/website-slider.component';
 import { WebsitePromotionItemsComponent } from './components/website/website-promotion-items/website-promotion-items.component';
 import { WebsiteMainItemsComponent } from './components/website/website-main-items/website-main-items.component';
+import { WebsiteFiltersComponent } from './components/website/website-filters/website-filters.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { WebsiteMainItemsComponent } from './components/website/website-main-ite
     WebsiteHomeComponent,
     WebsiteSliderComponent,
     WebsitePromotionItemsComponent,
-    WebsiteMainItemsComponent
+    WebsiteMainItemsComponent,
+    WebsiteFiltersComponent
   ],
   imports: [
     CommonModule,
