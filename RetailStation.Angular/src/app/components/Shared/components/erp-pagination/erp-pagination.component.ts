@@ -5,12 +5,14 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
   templateUrl: './erp-pagination.component.html',
   styleUrls: ['./erp-pagination.component.css']
 })
-export class ErpPaginationComponent implements OnInit ,OnChanges{
+export class ErpPaginationComponent implements OnInit, OnChanges {
   @Input() currentPage: number;
   @Input() pageSize: number;
   @Input() totalCount: number;
   @Input() totalPages: number;
   @Input() newPagination: boolean = true;
+  @Input() usePaginationBtn: boolean = false;
+  @Input() text: string = 'Load More +';
   pages: number[] = [];
 
   @Output() pageChanged = new EventEmitter<any>();
@@ -22,12 +24,12 @@ export class ErpPaginationComponent implements OnInit ,OnChanges{
     this.resetShowingStr();
   }
 
-  ngOnChanges(changes: any){
+  ngOnChanges(changes: any) {
     this.resetShowingStr();
-    if(!changes.totalCount?.firstChange)//&&!changes.totalCount?.previousValue)
+    if (!changes.totalCount?.firstChange)//&&!changes.totalCount?.previousValue)
     {
       this.totalPages = Math.ceil(this.totalCount / this.pageSize);
-      this. generatePages();
+      this.generatePages();
 
     }
   }
@@ -37,8 +39,8 @@ export class ErpPaginationComponent implements OnInit ,OnChanges{
     // last page
     const lPage = this.currentPage * this.pageSize;
     if (lPage >= this.totalCount) {
-      const fNum =  (this.pageSize * (this.currentPage - 1)) + 1;
-      const lNum =  (this.totalCount - fNum);
+      const fNum = (this.pageSize * (this.currentPage - 1)) + 1;
+      const lNum = (this.totalCount - fNum);
       showingStr = (fNum) + '-' + (lNum + fNum);
 
     } else {
@@ -48,7 +50,7 @@ export class ErpPaginationComponent implements OnInit ,OnChanges{
           showingStr = this.currentPage + '-' + this.totalCount;
         }
         const fNum = (this.pageSize * (this.currentPage - 1));
-        const lNum = (this.totalCount - fNum) ;
+        const lNum = (this.totalCount - fNum);
         showingStr = (fNum + 1) + '-' + (lNum + fNum);
       } else {
         if (this.currentPage === 1 || this.currentPage === 0) {
@@ -58,7 +60,7 @@ export class ErpPaginationComponent implements OnInit ,OnChanges{
             showingStr = '1-' + this.pageSize;
           }
         } else {
-          showingStr = (this.pageSize * (this.currentPage - 1)) + 1 + '-' + ( this.currentPage * this.pageSize );
+          showingStr = (this.pageSize * (this.currentPage - 1)) + 1 + '-' + (this.currentPage * this.pageSize);
         }
       }
     }
@@ -94,12 +96,14 @@ export class ErpPaginationComponent implements OnInit ,OnChanges{
   templateUrl: './erp-pagination.component.html',
   styleUrls: ['./erp-pagination.component.css']
 })
-export class PaginationComponent implements OnInit ,OnChanges{
+export class PaginationComponent implements OnInit, OnChanges {
   @Input() currentPage: number;
   @Input() pageSize: number;
   @Input() totalCount: number;
   @Input() totalPages: number;
   @Input() newPagination: boolean = true;
+  @Input() usePaginationBtn: boolean = false;
+  @Input() text: string = 'Load More +';
   pages: number[] = [];
 
   @Output() pageChanged = new EventEmitter<any>();
@@ -111,12 +115,12 @@ export class PaginationComponent implements OnInit ,OnChanges{
     this.resetShowingStr();
   }
 
-  ngOnChanges(changes: any){
+  ngOnChanges(changes: any) {
     this.resetShowingStr();
-    if(!changes.totalCount?.firstChange)//&&!changes.totalCount?.previousValue)
+    if (!changes.totalCount?.firstChange)//&&!changes.totalCount?.previousValue)
     {
       this.totalPages = Math.ceil(this.totalCount / this.pageSize);
-      this. generatePages();
+      this.generatePages();
 
     }
   }
@@ -126,8 +130,8 @@ export class PaginationComponent implements OnInit ,OnChanges{
     // last page
     const lPage = this.currentPage * this.pageSize;
     if (lPage >= this.totalCount) {
-      const fNum =  (this.pageSize * (this.currentPage - 1)) + 1;
-      const lNum =  (this.totalCount - fNum);
+      const fNum = (this.pageSize * (this.currentPage - 1)) + 1;
+      const lNum = (this.totalCount - fNum);
       showingStr = (fNum) + '-' + (lNum + fNum);
 
     } else {
@@ -137,7 +141,7 @@ export class PaginationComponent implements OnInit ,OnChanges{
           showingStr = this.currentPage + '-' + this.totalCount;
         }
         const fNum = (this.pageSize * (this.currentPage - 1));
-        const lNum = (this.totalCount - fNum) ;
+        const lNum = (this.totalCount - fNum);
         showingStr = (fNum + 1) + '-' + (lNum + fNum);
       } else {
         if (this.currentPage === 1 || this.currentPage === 0) {
@@ -147,7 +151,7 @@ export class PaginationComponent implements OnInit ,OnChanges{
             showingStr = '1-' + this.pageSize;
           }
         } else {
-          showingStr = (this.pageSize * (this.currentPage - 1)) + 1 + '-' + ( this.currentPage * this.pageSize );
+          showingStr = (this.pageSize * (this.currentPage - 1)) + 1 + '-' + (this.currentPage * this.pageSize);
         }
       }
     }

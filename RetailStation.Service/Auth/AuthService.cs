@@ -206,7 +206,14 @@ namespace RetailStation.Service.Auth
         {
             var authModel = new AuthModel();
 
-
+            if (user.SubscriberId is not null)
+            {
+                var subscriber = Context.Subscribers.FirstOrDefault(x => x.SubscriberId == user.SubscriberId);
+                var supplier = Context.Suppliers.FirstOrDefault(x => x.SubscriberId == user.SubscriberId);
+                authModel.SubscriberName = subscriber?.SubscriberName;
+                authModel.SupplierId = supplier?.SupplierId;
+                user.SupplierId = authModel.SupplierId.GetValueOrDefault();
+            }
             // Generate JWT Token
             var jwtSecurityToken = await CreateJwtToken(user);
             var roleList = await _userManager.GetRolesAsync(user);
@@ -231,13 +238,7 @@ namespace RetailStation.Service.Auth
                 authModel.BranchNameAR = userBranch.NameAR;
                 authModel.BranchNameEN = userBranch.NameEN;
             }
-            if (user.SubscriberId is not null)
-            {
-                var subscriber = Context.Subscribers.FirstOrDefault(x => x.SubscriberId == user.SubscriberId);
-                var supplier = Context.Suppliers.FirstOrDefault(x => x.SubscriberId == user.SubscriberId);
-                authModel.SubscriberName = subscriber?.SubscriberName;
-                authModel.SupplierId = supplier?.SupplierId;
-            }
+            
 
 
             return authModel;
@@ -252,7 +253,12 @@ namespace RetailStation.Service.Auth
                 authModel.Message = "Invalid email or password";
                 return authModel;
             }
-
+            if (User.SubscriberId is not null)
+            {
+                var supplier = Context.Suppliers.FirstOrDefault(x => x.SubscriberId == User.SubscriberId);
+                authModel.SupplierId = supplier?.SupplierId;
+                User.SupplierId = authModel.SupplierId.GetValueOrDefault();
+            }
             var jwtSecurityToken = await CreateJwtToken(User);
             var roleList = await _userManager.GetRolesAsync(User);
 
@@ -281,7 +287,12 @@ namespace RetailStation.Service.Auth
                 authModel.Message = "Invalid email or password";
                 return authModel;
             }
-
+            if (User.SubscriberId is not null)
+            {
+                var supplier = Context.Suppliers.FirstOrDefault(x => x.SubscriberId == User.SubscriberId);
+                authModel.SupplierId = supplier?.SupplierId;
+                User.SupplierId = authModel.SupplierId.GetValueOrDefault();
+            }
             var jwtSecurityToken = await CreateJwtToken(User);
             var roleList = await _userManager.GetRolesAsync(User);
 
@@ -316,6 +327,7 @@ namespace RetailStation.Service.Auth
                 new Claim("UserId",user.Id),
                 new Claim("SubscriberId",user.SubscriberId),
                 new Claim("BranchId",user.BranchId.ToString()),
+                new Claim("SupplierId",user.SupplierId.ToString()),
             }.Union(userClaims).Union(roleClaims);
 
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key));

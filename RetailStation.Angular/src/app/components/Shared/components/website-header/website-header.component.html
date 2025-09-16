@@ -3,7 +3,7 @@
         <div class="progress-bar-item" [ngStyle]="{'width': scrollWidth + '%'}"></div>
     </div>
     <nav class="navbar navbar-expand-lg navbar-light navbar-bg py-0">
-        <div class="container">
+        <div class="container-fluid">
             <a class="navbar-brand me-0" routerLink="">
                 <!-- <img src="https://www.elmenus.com/public/img/newLogo.svg" alt="Food-Logo" /> -->
             </a>
@@ -14,7 +14,7 @@
             </button>
             <div class="collapse navbar-collapse" [ngClass]="{ 'show': isMenuOpen === true }"
                 id="navbarFoodStationMenu">
-                <ul class="navbar-nav ms-auto pe-3">
+                <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link d-flex align-items-center justify-content-center flex-column" routerLink="/"
                             routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
@@ -49,7 +49,7 @@
                         </a>
                     </li>
                 </ul>
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav me-auto ms-0">
                     <ng-container *ngIf="!isAuthenticated">
                         <li class="nav-item">
                             <button (click)="login()" class="btn btn-sm btn-danger signin-btn main-bg text-white"
@@ -63,8 +63,8 @@
                             <div (click)="isUserDropdown = !isUserDropdown"
                                 class="custom-select-text d-flex align-items-center justify-content-between m-0 min-width-180 h-100">
                                 <div class="d-flex align-items-center">
-                                    <img *ngIf="UserModel.imageUrl" [src]="UserModel.imageUrl" class="user-logined-img small"
-                                        alt="User-Image" />
+                                    <img *ngIf="UserModel.imageUrl" [src]="UserModel.imageUrl"
+                                        class="user-logined-img small" alt="User-Image" />
                                     <div class="me-2">
                                         <div>اهلا</div>
                                         <div class="fw-bold">{{UserModel.userName}}</div>
@@ -76,15 +76,15 @@
                             <ul class="list-unstyled custom-select-list shadow min-width-250" *ngIf="isUserDropdown">
                                 <li
                                     class="custom-select-list-header main-bg text-white d-flex align-items-center border-bottom">
-                                    <img src="../../../assets/images/user.png" class="user-logined-img medium"
+                                    <img src="{{systemUrl}}assets/images/admin.png" class="user-logined-img user-img medium"
                                         alt="User-Image" />
                                     <h4 class="fs-5 fw-bold m-0 me-2">{{UserModel.userName}}</h4>
                                 </li>
-                                <li class="custom-select-item" routerLink="/MyOrders" routerLinkActive="active">
+                                <!-- <li class="custom-select-item" routerLink="/MyOrders" routerLinkActive="active">
                                     <i class="fas fa-hamburger"></i>
                                     <span class="me-2">اوردراتي</span>
-                                </li>
-                                <li class="custom-select-item d-flex align-items-center">
+                                </li> -->
+                                <li routerLink="/main" class="custom-select-item d-flex align-items-center">
                                     <i class="fas fa-cog"></i>
                                     <span class="me-2">الاعدادات</span>
                                 </li>

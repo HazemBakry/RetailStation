@@ -1,5 +1,17 @@
 <!-- <app-website-search [placeholderText]="'بحث في المطاعم'"></app-website-search > -->
-<div class="home-slider">
+
+
+
+
+<ng-container>
+  <app-website-slider></app-website-slider>
+  <app-website-promotion-items></app-website-promotion-items>
+  <app-website-main-items></app-website-main-items>
+</ng-container>
+
+
+
+<!-- <div class="home-slider">
   <ngb-carousel *ngIf="images">
     <ng-template ngbSlide *ngFor="let image of images">
       <div class="slider-img-wrapper">
@@ -63,7 +75,6 @@
                 </div>
               </div>
               <div class="offer-box d-flex align-items-center shadow-sm" (click)="openModal(cartModal,item)">
-                <!-- <i class="fas fa-percentage"></i> -->
                 <span class="me-2">{{item.nameAr}}</span>
               </div>
             </div>
@@ -110,19 +121,13 @@
         <span class="ms-2">مطعم</span>
       </h3>
       <div class="row">
-        <!-- START THIS IS A DEMO FOR BIG CARDS IN HOME AND ALSO IN PRODUCT LIST PAGE YA SALAAM -->
         <div class="col-md-6 col-xl-4" *ngFor="let item of suppliersData">
           <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
             <div class="card-inner">
               <div class="card-slider">
                 <a class="card-img-box d-block position-relative">
-                  <!-- <swiper class="small-carousel-swiper" [slidesPerView]="1" [spaceBetween]="0" [navigation]="true"
-                    [pagination]="{ clickable: true }" [autoplay]="{ delay: 5000, disableOnInteraction: false }">
-                    <ng-template swiperSlide *ngFor="let slider of item.image">
-                      <img src="{{slider}}" alt="order-img" />
-                    </ng-template>
-                  </swiper> -->
-                      <img src="{{systemURL}}assets\images\menu-board-1.jpg" alt="order-img" />
+
+                  <img src="{{systemURL}}assets\images\menu-board-1.jpg" alt="order-img" />
 
                   <div class="highlight-text order-highlight">
                     <h6 class="m-0">{{item.nameEN}}</h6>
@@ -164,7 +169,7 @@
       <button class="btn btn-lg w-100 btn-danger mt-4 main-bg text-white" type="button">تحميل مطاعم أكثر</button>
     </div>
   </div>
-</div>
+</div> -->
 
 
 

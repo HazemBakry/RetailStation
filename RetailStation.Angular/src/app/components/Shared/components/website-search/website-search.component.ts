@@ -25,7 +25,7 @@ export class WebsiteSearchComponent implements OnInit {
     });
   }
   search() {
-    if (!this.searchText) return;
+    // if (!this.searchText) return;
 
     this.router.navigate([], {
       relativeTo: this.acRoute,

@@ -160,11 +160,11 @@ input:checked+.slider:before {
   transition: 0.4s;
 }
 
-.z2actionbtnA:hover {
+.app-actionbtnA:hover {
   background: #eaf4fb;
 }
 
-.z2actionbtnA {
+.app-actionbtnA {
   background: #ffffff;
   border: 1px solid #b8c2ca;
   padding: 5px 10px;

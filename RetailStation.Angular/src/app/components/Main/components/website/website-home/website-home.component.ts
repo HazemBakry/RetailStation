@@ -83,44 +83,7 @@ export class WebsiteHomeComponent implements OnInit {
     this.GetSubscribersByFoodType(0);
     this.GetFoodTypes();
 
-    this.getSearchQuery();
-    this.loadData();
   }
-
-  getSearchQuery() {
-    let searchText:string='';
-    this.route.queryParams.subscribe(params => {
-      searchText = params['q'] || '';
-      if (params['itemId']) {
-      }
-    });
-
-    this.route.queryParamMap.subscribe(params => {
-      searchText = params.get('q') || '';
-    });
-    console.log("🚀 ~ WebsiteHomeComponent ~ getSearchQuery ~ searchText:", searchText)
-    if(searchText)
-    {
-      let searchFilter: FilterItem = { categoryName: 'SearchText', itemFlag: '4' }
-      this.pageResponseModel.filterList.push(searchFilter);
-      this.loadData();
-    }
-  }
-  loadData() {
-    this.showLoader = true;
-    this.websiteService.GetWebsiteItems_Data(this.pageResponseModel).subscribe(data => {
-      this.pageResponseModel.results = data.results;
-      this.suppliersData = data.results;
-      this.pageResponseModel.totalCount = data.totalCount;
-
-      this.showLoader = false;
-    }, err => {
-      this.showLoader = false;
-    }, () => {
-      this.showLoader = false;
-    });
-  }
-
   GetFoodTypes() {
     // this.websiteService.GetFoodTypes().subscribe(data => {
     //   this.kitchenCategories = data;

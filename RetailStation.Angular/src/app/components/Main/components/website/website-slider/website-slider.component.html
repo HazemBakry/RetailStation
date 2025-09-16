@@ -1,0 +1,48 @@
+<div class="home-slider">
+
+    <swiper [spaceBetween]="10" [navigation]="true" [pagination]="{ clickable: true }" [breakpoints]="{
+            '0': {
+              slidesPerView: 1
+            },
+            '575': {
+              slidesPerView: 1
+            },
+            '767': {
+              slidesPerView: 1
+            },
+            '1024': {
+              slidesPerView: 1
+            },
+            '1200': {
+              slidesPerView: 1
+            }
+          }">
+        <ng-template swiperSlide>
+            <div class="slider-img-wrapper">
+                <img src="../../../../../assets/images/module_home.jpg" alt="Random first slide" />
+            </div>
+            <div class="carousel-caption">
+                <h3>أبو أنس الدمشقى</h3>
+                <p>هنا بعض النصوص عن كل مطعم من التوب عندنا</p>
+            </div>
+        </ng-template>
+        <ng-template swiperSlide>
+            <div class="slider-img-wrapper">
+                <img src="../../../../../assets/images/homePage1.jpeg" alt="Random first slide" />
+            </div>
+            <div class="carousel-caption">
+                <h3>أبو أنس الدمشقى</h3>
+                <p>هنا بعض النصوص عن كل مطعم من التوب عندنا</p>
+            </div>
+        </ng-template>
+        <ng-template swiperSlide>
+            <div class="slider-img-wrapper">
+                <img src="../../../../../assets/images/lock-user.png" alt="Random first slide" />
+            </div>
+            <div class="carousel-caption">
+                <h3>أبو أنس الدمشقى</h3>
+                <p>هنا بعض النصوص عن كل مطعم من التوب عندنا</p>
+            </div>
+        </ng-template>
+    </swiper>
+</div>

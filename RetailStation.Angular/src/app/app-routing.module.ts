@@ -13,9 +13,9 @@ import { WebsiteComponent } from './components/Main/components/website/website.c
 import { WebsiteHomeComponent } from './components/Main/components/website/website-home/website-home.component';
 
 const routes: Routes = [
-  { path: '', component: RetailHomeComponent },
+  // { path: '', component: RetailHomeComponent },
   {
-    path: 'website',
+    path: '',
     canActivate: [AuthGuard],
     // data: { roles: ['SuperAdmin'] },
     component: WebsiteComponent,
@@ -44,6 +44,7 @@ const routes: Routes = [
         (erp) => erp.DesignModule
       ),
   },
+  { path: '**', pathMatch:'full' ,redirectTo:'' },
   // { path: 'profile', loadChildren: () => import('./components/EmployeeProfile/employee-profile.module').then(erp => erp.EmployeeProfileModule), canActivate: [AuthGuard] },
   // { path: 'auth-callback', component: AuthCallbackComponent },
   // { path: 'unauthorized', component: NotAuthorizedComponent, canActivate: [AuthGuard] },

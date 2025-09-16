@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,5 +22,8 @@ namespace RetailStation.Entities.Models.Auth
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public bool? IsActive { get; set; }
+        [NotMapped]
+        public int SupplierId { get; set; }
+
     }
 }

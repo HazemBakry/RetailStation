@@ -65,6 +65,7 @@ import { RegisterComponent } from 'src/app/Auth/register/register.component';
 import { WebsiteHeaderComponent } from './components/website-header/website-header.component';
 import { WebsiteSearchComponent } from './components/website-search/website-search.component';
 import { WebsiteSubscribeComponent } from './components/website-subscribe/website-subscribe.component';
+import { RateComponent } from './components/rate/rate.component';
 
 @NgModule({
   declarations: [
@@ -122,6 +123,7 @@ import { WebsiteSubscribeComponent } from './components/website-subscribe/websit
     WebsiteHeaderComponent,
     WebsiteSearchComponent,
     WebsiteSubscribeComponent,
+    RateComponent,
   ],
 
   imports: [
@@ -197,6 +199,7 @@ import { WebsiteSubscribeComponent } from './components/website-subscribe/websit
     WebsiteHeaderComponent,
     WebsiteSearchComponent,
     WebsiteSubscribeComponent,
+    RateComponent
   ],
   providers: [
     DatePipe,
