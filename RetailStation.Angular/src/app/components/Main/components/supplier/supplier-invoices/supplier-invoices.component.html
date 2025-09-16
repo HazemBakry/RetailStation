@@ -1,0 +1,136 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-success d-flex align-items-center gap-2 border rounded px-3"
+                routerLink="/">
+                <i class="fas fa-plus-circle"></i>
+                <span>إنشاء سند صرف</span>
+            </button>
+            <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3 me-2">
+                <i class="fas fa-file-download"></i>
+                <span>تصدير CSV</span>
+            </button>
+            <!-- <div ngbDropdown class="d-inline-block">
+                <button type="button" class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3"
+                    id="dropdownBasic1" ngbDropdownToggle>
+                    <i class="fas fa-cogs"></i>
+                    <span>الإجراءات</span>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="border rounded">
+                    <button ngbDropdownItem class="d-flex align-items-center gap-2">
+                        <i class="fas fa-edit"></i>
+                        <span>تعديل</span>
+                    </button>
+                    <button ngbDropdownItem class="d-flex align-items-center gap-2">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>اسقاط</span>
+                    </button>
+                </div>
+            </div> -->
+            <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+                <i class="fas fa-filter"></i>
+                <span>إنشاء فلتر</span>
+            </button>
+            <!--<button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+                <i class="fas fa-save"></i>
+                <span>المرشحات المحفوظة</span>
+            </button> -->
+        </div>
+        <div class="justify-content-end">
+            <!-- <nav>
+                <ul class="pagination table-paging m-0">
+                    <li class="page-item disabled">
+                        <a class="page-link">السابق</a>
+                    </li>
+                    <li class="page-item"><a class="page-link">1</a></li>
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link">2</a>
+                    </li>
+                    <li class="page-item"><a class="page-link">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link">التالى</a>
+                    </li>
+                </ul>
+            </nav> -->
+            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pageResponseModel.currentPage"
+                [pageSize]="pageResponseModel.pageSize"
+                [totalCount]="pageResponseModel.totalCount"></app-erp-pagination>
+        </div>
+    </div>
+    <div class="p-3 bg-white">
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+                <thead>
+                    <tr>
+                        <th>رقم الايصال</th>
+                        <th>اسم المستفيد</th>
+                        <th>دفتر إيصال</th>
+                        <th>تاريخ الاصدار</th>
+                        <th>طريقة الدفع</th>
+                        <!-- <th>نوع جهة التعامل</th>
+                    <th>جهة التعامل</th> -->
+                        <th>المبلغ</th>
+                        <th>نوع السند</th>
+                        <th>حالة السند</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of pageResponseModel.results">
+                        <td>{{item.receiptNumber}}</td>
+                        <td>{{item.contactName}}</td>
+                        <td>{{item.receiptLedgerName}}</td>
+                        <td>{{item.releaseDate | date}}</td>
+                        <td>{{item.paymentTypeName }}</td>
+                        <td>{{item.moneyAmount}}</td>
+                        <td>{{item.receiptTypeName}}</td>
+                        <td>
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
+                                [nameAR]="item?.workflowStatusNameAR">
+                            </span>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div ngbDropdown container="body">
+                                    <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle>
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <div ngbDropdownMenu class="border">
+                                        <!-- <button
+                                            *ngIf="![wfStatus.Cancelled , wfStatus.Paid].includes(item.workflowStatusId)"
+                                            ngbDropdownItem routerLink="/general-accounts/create-payment-receipt"
+                                            [queryParams]="{PaymentReceiptId:item.receiptId}">تعديل</button>
+                                        <button
+                                            *ngIf="![wfStatus.Cancelled , wfStatus.Paid].includes(item.workflowStatusId)"
+                                            ngbDropdownItem
+                                            (click)="cancelPaymentReceipt(item.receiptId)">اسقاط</button> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="w-100 d-flex align-items-center justify-content-center">
+                                <button (click)="CancelPaymentReceipt(item.receiptId)" class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2">
+                                    <i class="uil uil-times"></i>
+                                    <span>إلغاء</span>
+                                </button>
+                                <button class="btn btn-primary me-2">
+                                    <i class="fas fa-edit"></i>
+                                    <span class="ms-2">Edit</span>
+                                </button>
+                            </div> -->
+                        </td>
+                    </tr>
+                    <tr *ngIf="!pageResponseModel.results.length">
+                        <td colspan="9" class="text-right">
+                            <app-empty-data [showEmptyData]="!pageResponseModel.results.length"></app-empty-data>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ngx-loading [show]="showLoader"></ngx-loading>
