@@ -270,199 +270,23 @@ namespace RetailStation.Service.GeneralAccounts
 
         public ActionsResponseModel SaveNewPaymentReceipt(ReceiptModel Model)
         {
-            try
+            return new ActionsResponseModel
             {
-                PaymentReceipt receipt = new PaymentReceipt();
-
-                if (Model.PaymentOrderId == null || Model.PaymentOrderId == 0)
-                {
-                    return new ActionsResponseModel
-                    {
-                        Message = "يجب اختيار أمر صرف أولا لاتمام حفظ السند",
-                        IsSuccess = false
-                    };
-                }
-
-                receipt = new PaymentReceipt()
-                {
-                    ReceiptNumber = Context.PaymentReceipts.Count() > 0 ? Context.PaymentReceipts.Max(x => x.ReceiptNumber) + 1 : 1,
-                    ReceiptLedgerId = Model.ReceiptLedgerId,
-                    PaymentOrderId = Model.PaymentOrderId,
-                    PaymentTypeId = Model.PaymentTypeId,
-                    ReleaseDate = Model.ReleaseDate,
-                    ContactName = Model.ContactName,
-                    CurrencyId = Model.CurrencyId,
-                    ReceiptTypeId = Model.ReceiptTypeId,
-                    FromAccountId = Model.FromAccountId,
-                    BankAccountId = Model.BankAccountId,
-                    CustomerId = Model.CustomerId,
-                    EmployeeId = Model.EmployeeId,
-                    Description = Model.Description,
-                    MoneyAmount = Model.MoneyAmount,
-                    DocNumber = Model.DocNumber,
-                    AgencyTypeId = Model.AgencyTypeId,
-                    AccountId = Model.AccountId,
-                    SupplierId = Model.SupplierId,
-                    CreatedDate = DateTime.Now,
-                    WorkflowStatusId = (int)WorkflowStatus.Completed,
-                    CreatedBy = ""
-                };
-
-                Context.PaymentReceipts.Add(receipt);
-                Context.SaveChanges();
-
-
-                var payment_order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == Model.PaymentOrderId);
-                payment_order.WorkflowStatusId = (int)WorkflowStatus.Completed;
-                Context.SaveChanges();
-
-                var entry = PreparePaymentEntryModel(receipt);
-                var result = entryService.SaveNewJournalEntry(entry);
-
-                receipt.JournalEntryId = result.Id ?? -1;
-                Context.SaveChanges();
-
-                return new ActionsResponseModel
-                {
-                    Message = result.IsSuccess ? "تم حفظ البيانات بنجاح" : "فشل فى تسجيل القيد المحاسبى",
-                    Id = receipt.PaymentReceiptId,
-                    Number = receipt.ReceiptNumber.ToString(),
-                    IsSuccess = result.IsSuccess
-                };
-            }
-            catch (Exception ex)
-            {
-                return new ActionsResponseModel
-                {
-                    Message = ex.Message,
-                    IsSuccess = false
-                };
-            }
+                Message = "يجب اختيار أمر صرف أولا لاتمام حفظ السند",
+                IsSuccess = false
+            };
         }
 
         public ActionsResponseModel EditPaymentReceipt(int PaymentReceiptId, ReceiptModel Model)
         {
-            try
+            return new ActionsResponseModel
             {
-                PaymentReceipt receipt = new PaymentReceipt();
-
-                if (Model.PaymentOrderId == null || Model.PaymentOrderId == 0)
-                {
-                    return new ActionsResponseModel
-                    {
-                        Status = 100,
-                        Message = "يجب اختيار أمر صرف أولا لاتمام حفظ السند",
-                        Id = 0,
-                        IsSuccess = false
-                    };
-                }
-
-                receipt = Context.PaymentReceipts.FirstOrDefault(x => x.PaymentReceiptId == PaymentReceiptId &&
-                                  x.WorkflowStatusId != (int)WorkflowStatus.Cancelled &&
-                                  x.WorkflowStatusId != (int)WorkflowStatus.Completed);
-                if (receipt != null)
-                {
-                    receipt.ReceiptLedgerId = Model.ReceiptLedgerId;
-                    receipt.PaymentOrderId = Model.PaymentOrderId;
-                    receipt.PaymentTypeId = Model.PaymentTypeId;
-                    receipt.ContactName = Model.ContactName;
-                    receipt.CurrencyId = Model.CurrencyId;
-                    receipt.ReceiptTypeId = Model.ReceiptTypeId;
-                    receipt.BankAccountId = Model.BankAccountId;
-                    receipt.FromAccountId = Model.FromAccountId;
-                    receipt.CustomerId = Model.CustomerId;
-                    receipt.EmployeeId = Model.EmployeeId;
-                    receipt.Description = Model.Description;
-                    receipt.MoneyAmount = Model.MoneyAmount;
-                    receipt.DocNumber = Model.DocNumber;
-                    receipt.AgencyTypeId = Model.AgencyTypeId;
-                    receipt.AccountId = Model.AccountId;
-                    receipt.SupplierId = Model.SupplierId;
-
-                    Context.SaveChanges();
-                }
-                else
-                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this payment order" };
-
-                var payment_order = Context.PaymentOrders.FirstOrDefault(x => x.PaymentOrderId == Model.PaymentOrderId);
-                payment_order.WorkflowStatusId = (int)WorkflowStatus.Completed;
-                Context.SaveChanges();
-
-                var entry = PreparePaymentEntryModel(receipt);
-                var result = entryService.SaveNewJournalEntry(entry);
-
-                return new ActionsResponseModel
-                {
-                    Message = result.IsSuccess ? "تم حفظ البيانات بنجاح" : "فشل فى تسجيل القيد المحاسبى",
-                    Id = receipt.PaymentReceiptId,
-                    Number = receipt.ReceiptNumber.ToString(),
-                };
-            }
-            catch (Exception ex)
-            {
-                return new ActionsResponseModel
-                {
-                    Message = ex.Message,
-                    IsSuccess = false
-                };
-            }
+                Message = "يجب اختيار أمر صرف أولا لاتمام حفظ السند",
+                IsSuccess = false
+            };
         }
 
-        private JournalEntryModel PreparePaymentEntryModel(PaymentReceipt Model)
-        {
-            try
-            {
-                //int generalSupplierId = Context.AccountTrees.Single(x => x.AccountTypeId == 5).AccountId;
-                //int accountId = Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId;
-                List<JournalEntryAccount> accounts = new List<JournalEntryAccount>();
-
-                accounts.Add(new JournalEntryAccount
-                {
-                    AccountId = (int)Model.FromAccountId,//Model.AgencyTypeId == 2 ? generalSupplierId : (int)Model.AccountId,
-                    Credit = Model.MoneyAmount,
-                    Debit = 0,
-                    CurrencyId = 1,
-                    SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
-                    Description = Model.Description,
-                    CostCenterId = Context.AccountTrees.FirstOrDefault(x => x.AccountId == (int)Model.FromAccountId)?.CostCenterId
-                });
-
-                accounts.Add(new JournalEntryAccount
-                {
-                    AccountId = (int)Model.AccountId,//Context.AccountTrees.FirstOrDefault(x => x.AccountTypeId == 4 && x.IsParent == false).AccountId,
-                    Credit = 0,
-                    Debit = Model.MoneyAmount,
-                    CurrencyId = 1,
-                    SupplierId = Model.AgencyTypeId == 2 ? Model.SupplierId : null,
-                    Description = Model.Description,
-                    CostCenterId = Context.AccountTrees.FirstOrDefault(x => x.AccountId == (int)Model.AccountId)?.CostCenterId
-                });
-
-                JournalEntryModel entry = new JournalEntryModel
-                {
-                    //EntryNumber = GenerateNewEntryNumber(Model.ReleaseDate.Month, Model.ReleaseDate.Year);
-                    DocNumber = Model.DocNumber,
-                    EntryDate = Model.ReleaseDate,
-                    Description = Model.Description,
-                    JournalTypeId = (int)EntryType.Cashing,
-                    PeriodId = Context.ReceiptLedgers.Single(x => x.ReceiptLedgerId == Model.ReceiptLedgerId).FinancialPeriodId,
-                    ActionTypeId = Model.PaymentTypeId == 1 ? (int)JournalActionType.CashPayment : (int)JournalActionType.ChequePayment,
-                    ActionId = Model.PaymentReceiptId,
-                    Month = Model.ReleaseDate.Month,
-                    Year = Model.ReleaseDate.Year,
-                    IsPosted = true,
-                    IsLocked = true,
-                    EntryMonth = Model.ReleaseDate.Month,
-                    JournalEntryAccounts = accounts
-                };
-
-                return entry;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.InnerException?.Message ?? ex.Message);
-            }
-        }
+      
 
         public ActionsResponseModel CancelPaymentReceipt(int ReceiptId)
         {

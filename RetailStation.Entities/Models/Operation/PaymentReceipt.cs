@@ -6,9 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RetailStation.Entities.Models.Website
+namespace RetailStation.Entities.Models.Operation
 {
-
     [Table("PaymentReceipts", Schema = "Supplier")]
     public class PaymentReceipt : CreatorModel
     {

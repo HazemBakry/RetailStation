@@ -3,12 +3,6 @@ using RetailStation.Entities.Models.Auth;
 using RetailStation.Entities.Models.Subscription;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using RetailStation.Entities.Models.Subscription;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using RetailStation.Entities.Models.Global;
 using RetailStation.Entities.Common.Finance;
 using RetailStation.Entities.Models.DataImport;
@@ -18,10 +12,11 @@ using RetailStation.Entities.Models.Inventory;
 using RetailStation.Entities.Models.Lookups;
 using RetailStation.Entities.Models.Purchases;
 using RetailStation.Entities.Models.Operation;
+using RetailStation.Entities.Models.Website;
 
 namespace RetailStation.Entities.Models
 {
-    public class DBContext: DbContext
+    public class DBContext : DbContext
     {
         private readonly IConfiguration Configuration;
 
@@ -49,6 +44,9 @@ namespace RetailStation.Entities.Models
         public DbSet<ApplicationModel> Applications { get; set; }
         public DbSet<SubscriberApplicationModel> SubscriberApplications { get; set; }
         public DbSet<SubscriberModel> Subscribers { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Cart> Carts { get; set; }
         #region Lookups
         public DbSet<Branch> Branches { get; set; }
 
