@@ -11,7 +11,10 @@ import { CostCentersTreeComponent } from './components/cost-center-tree/cost-cen
 import { ErpSelectorComponent } from './components/selectors/erp-selector/erp-selector.component';
 import { ErpSelectorWithSearchComponent } from './components/selectors/erp-selector-with-search/erp-selector-with-search.component';
 import { ErpSelectorWithCheckboxComponent } from './components/selectors/erp-selector-with-checkbox/erp-selector-with-checkbox.component';
-import { ErpPaginationComponent, PaginationComponent } from './components/erp-pagination/erp-pagination.component';
+import {
+  ErpPaginationComponent,
+  PaginationComponent,
+} from './components/erp-pagination/erp-pagination.component';
 import { ErpFiltersComponent } from './components/erp-filters/erp-filters.component';
 import { EmptyDataComponent } from './components/empty-data/empty-data.component';
 import { AppBreadcrumbComponent } from './components/app-breadcrumb/app-breadcrumb.component';
@@ -118,7 +121,7 @@ import { WebsiteSubscribeComponent } from './components/website-subscribe/websit
     RegisterComponent,
     WebsiteHeaderComponent,
     WebsiteSearchComponent,
-    WebsiteSubscribeComponent
+    WebsiteSubscribeComponent,
   ],
 
   imports: [
@@ -193,8 +196,7 @@ import { WebsiteSubscribeComponent } from './components/website-subscribe/websit
     RegisterComponent,
     WebsiteHeaderComponent,
     WebsiteSearchComponent,
-    WebsiteSubscribeComponent
-
+    WebsiteSubscribeComponent,
   ],
   providers: [
     DatePipe,
@@ -205,4 +207,4 @@ import { WebsiteSubscribeComponent } from './components/website-subscribe/websit
     },
   ],
 })
-export class SharedModule { }
+export class SharedModule {}

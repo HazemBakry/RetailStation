@@ -16,6 +16,8 @@ import { NwHeaderComponent } from './components/nw-header/nw-header.component';
 import { GeneralAccountsComponent } from './components/general-accounts/general-accounts.component';
 import { NwSidebarComponent } from './components/nw-sidebar/nw-sidebar.component';
 import { GoogleChartsModule } from 'angular-google-charts';
+import { NewHomeComponent } from './components/new-home/new-home.component';
+import { SharedModule } from '../Shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -30,12 +32,14 @@ import { GoogleChartsModule } from 'angular-google-charts';
     NwHeaderComponent,
     GeneralAccountsComponent,
     NwSidebarComponent,
+    NewHomeComponent,
   ],
   imports: [
     CommonModule,
     DesignRoutingModule,
     NgbModule,
     FormsModule,
+    SharedModule,
     GoogleChartsModule,
   ],
 })

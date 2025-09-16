@@ -13,7 +13,7 @@ import { WebsiteComponent } from './components/Main/components/website/website.c
 import { WebsiteHomeComponent } from './components/Main/components/website/website-home/website-home.component';
 
 const routes: Routes = [
-  { path: '', component: RetailHomeComponent},
+  { path: '', component: RetailHomeComponent },
   {
     path: 'website',
     canActivate: [AuthGuard],
@@ -26,9 +26,24 @@ const routes: Routes = [
   },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'main', loadChildren: () => import('./components/Main/main.module').then(erp => erp.MainModule), canActivate: [AuthGuard] },
-  { path: 'admin', loadChildren: () => import('./components/Admin/admin.module').then(erp => erp.AdminModule) },
-  { path: 'design', loadChildren: () => import('./components/Design/design.module').then(erp => erp.DesignModule), canActivate: [AuthGuard] },
+  {
+    path: 'main',
+    loadChildren: () =>
+      import('./components/Main/main.module').then((erp) => erp.MainModule),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./components/Admin/admin.module').then((erp) => erp.AdminModule),
+  },
+  {
+    path: 'design',
+    loadChildren: () =>
+      import('./components/Design/design.module').then(
+        (erp) => erp.DesignModule
+      ),
+  },
   // { path: 'profile', loadChildren: () => import('./components/EmployeeProfile/employee-profile.module').then(erp => erp.EmployeeProfileModule), canActivate: [AuthGuard] },
   // { path: 'auth-callback', component: AuthCallbackComponent },
   // { path: 'unauthorized', component: NotAuthorizedComponent, canActivate: [AuthGuard] },
@@ -44,6 +59,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

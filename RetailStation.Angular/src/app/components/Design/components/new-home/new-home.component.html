@@ -1,0 +1,1242 @@
+<div dir="rtl">
+  <header id="website-header" class="sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-bg py-0">
+      <div class="container-fluid">
+        <a class="navbar-brand me-0" routerLink="">
+          <!-- <img src="https://www.elmenus.com/public/img/newLogo.svg" alt="Food-Logo" /> -->
+        </a>
+        <button class="navbar-toggler py-2 px-3" (click)="isMenuOpen = !isMenuOpen" type="button"
+          data-bs-toggle="collapse" data-bs-target="#navbarFoodStationMenu" aria-controls="navbarFoodStationMenu"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-bars fs-2" [ngClass]="{'fa-times': isMenuOpen === true }"></i>
+        </button>
+        <div class="collapse navbar-collapse" [ngClass]="{ 'show': isMenuOpen === true }" id="navbarFoodStationMenu">
+          <ul class="navbar-nav">
+            <li class="nav-item" (click)="onSwitchContent(1)">
+              <a class="nav-link d-flex align-items-center justify-content-center flex-column cursor-pointer"
+                [class.active]="activeContent === 'home'">
+                <i class="fas fa-hamburger mb-2 fs-18"></i>
+                الرئيسية
+              </a>
+            </li>
+            <li class="nav-item" (click)="onSwitchContent(2)">
+              <a class="nav-link d-flex align-items-center justify-content-center flex-column cursor-pointer"
+                [class.active]="activeContent === 'subscribe'">
+                <i class="fas fa-external-link-square-alt mb-2 fs-18"></i>
+                اشترك معنا
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link d-flex align-items-center justify-content-center flex-column cursor-pointer">
+                <i class="fas fa-store mb-2 fs-18"></i>
+                العروض
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link d-flex align-items-center justify-content-center flex-column cursor-pointer">
+                <i class="fas fa-warehouse mb-2 fs-18"></i>
+                الاسر المنتجة
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link d-flex align-items-center justify-content-center flex-column cursor-pointer">
+                <i class="fas fa-user-cog mb-2 fs-18"></i>
+                لوحة التحكم
+              </a>
+            </li>
+          </ul>
+          <ul class="navbar-nav me-auto ms-0">
+            <ng-container *ngIf="UserModel == null">
+              <li class="nav-item">
+                <button class="btn btn-sm btn-danger signin-btn main-bg text-white" type="button"
+                  routerLink="/Login">تسجيل الدخول</button>
+              </li>
+            </ng-container>
+            <ng-container *ngIf="UserModel != null">
+              <div
+                class="custom-select user-logined-dropdown d-flex align-items-center justify-content-center cursor-pointer position-relative"
+                clickedOutsideElement (clickOutside)="onClickedOutside()" [ngClass]="{'active': isUserDropdown}">
+                <div (click)="isUserDropdown = !isUserDropdown"
+                  class="custom-select-text d-flex align-items-center justify-content-between m-0 min-width-180 h-100">
+                  <div class="d-flex align-items-center">
+                    <img src="../../../assets/images/user.png" class="user-logined-img small" alt="User-Image" />
+                    <div class="me-2">
+                      <div>اهلا</div>
+                      <div class="fw-bold">{{UserModel.userName}}</div>
+                    </div>
+                  </div>
+                  <i class="fas fa-caret-down dropdown-arrow cursor-pointer"
+                    [ngClass]="{'arrow-rotated': isUserDropdown}"></i>
+                </div>
+                <ul class="list-unstyled custom-select-list shadow min-width-250" *ngIf="isUserDropdown">
+                  <li class="custom-select-list-header main-bg text-white d-flex align-items-center border-bottom">
+                    <img src="../../../assets/images/user.png" class="user-logined-img medium" alt="User-Image" />
+                    <h4 class="fs-5 fw-bold m-0 me-2">{{UserModel.userName}}</h4>
+                  </li>
+                  <li class="custom-select-item" routerLink="/MyOrders" routerLinkActive="active">
+                    <i class="fas fa-hamburger"></i>
+                    <span class="me-2">اوردراتي</span>
+                  </li>
+                  <li class="custom-select-item d-flex align-items-center">
+                    <i class="fas fa-cog"></i>
+                    <span class="me-2">الاعدادات</span>
+                  </li>
+                  <li class="custom-select-item" (click)="Signout()">
+                    <i class="fas fa-power-off"></i>
+                    <span class="me-2">تسجيل الخروج</span>
+                  </li>
+                </ul>
+              </div>
+              <!-- <li class="nav-item">
+                <div class="me-2">اهلا {{UserModel.userName}}</div>
+              </li>
+              <li class="nav-item">
+                <div class="me-2">اوردراتي</div>
+              </li>
+              <li class="nav-item">
+                <div class="me-2">الاعدادات</div>
+              </li>
+              <li class="nav-item">
+                <button class="btn btn-sm btn-danger signin-btn main-bg text-white me-2" type="button" (click)="Signout()">تسجيل الخروج</button>
+              </li> -->
+            </ng-container>
+          </ul>
+          <ul class="navbar-nav mr-30 border-end pe-1">
+            <li class="nav-item">
+              <div class="cart-btn position-relative" routerLink="/Cart">
+                <span class="ordered-cart-number shadow"
+                  *ngIf="CartItemsList && CartItemsList.length > 0">{{CartItemsList.length}}</span>
+                <i class="fas fa-shopping-cart"></i>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link d-flex align-items-center justify-content-center lang-link">English</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <ng-container *ngIf="activeContent === 'home'">
+    <div class="search-row bg-light sticky-top shadow-sm">
+      <div class="container-fluid">
+        <div class="search-wrapper custom-select position-relative w-75" clickedOutsideElement
+          (clickOutside)="onClickedOutside()">
+          <div class="search-box position-relative w-100">
+            <div class="form-floating">
+              <input type="text" id="floatingInput1" placeholder="بحث" autocomplete="off" class="form-control"
+                (click)="isSearchDropdown = !isSearchDropdown">
+              <label for="floatingInput1">{{ placeholderText }}</label>
+            </div>
+            <i class="fas fa-search search-icon text-muted cursor-pointer"></i>
+          </div>
+          <ul class="list-unstyled custom-select-list shadow w-100" *ngIf="isSearchDropdown">
+            <li class="custom-select-item">Search Item 1</li>
+            <li class="custom-select-item">Search Item 2</li>
+            <li class="custom-select-item">Search Item 3</li>
+            <li class="custom-select-item">Search Item 4</li>
+            <li class="custom-select-item">Search Item 5</li>
+            <li class="custom-select-item">Search Item 6</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="home-slider">
+
+      <swiper [spaceBetween]="10" [navigation]="true" [pagination]="{ clickable: true }" [breakpoints]="{
+            '0': {
+              slidesPerView: 1
+            },
+            '575': {
+              slidesPerView: 1
+            },
+            '767': {
+              slidesPerView: 1
+            },
+            '1024': {
+              slidesPerView: 1
+            },
+            '1200': {
+              slidesPerView: 1
+            }
+          }">
+        <ng-template swiperSlide>
+          <div class="slider-img-wrapper">
+            <img src="../../../../../assets/images/module_home.jpg" alt="Random first slide" />
+          </div>
+          <div class="carousel-caption">
+            <h3>أبو أنس الدمشقى</h3>
+            <p>هنا بعض النصوص عن كل مطعم من التوب عندنا</p>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="slider-img-wrapper">
+            <img src="../../../../../assets/images/homePage1.jpeg" alt="Random first slide" />
+          </div>
+          <div class="carousel-caption">
+            <h3>أبو أنس الدمشقى</h3>
+            <p>هنا بعض النصوص عن كل مطعم من التوب عندنا</p>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="slider-img-wrapper">
+            <img src="../../../../../assets/images/lock-user.png" alt="Random first slide" />
+          </div>
+          <div class="carousel-caption">
+            <h3>أبو أنس الدمشقى</h3>
+            <p>هنا بعض النصوص عن كل مطعم من التوب عندنا</p>
+          </div>
+        </ng-template>
+      </swiper>
+    </div>
+    <div class="tasty-offers">
+      <div class="container-fluid">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <h3 class="m-0">عروض شهية</h3>
+          <a class="main-color cursor-pointer">
+            <span class="ms-1">رؤية الكل</span>
+            <i class="fas fa-caret-left"></i>
+          </a>
+        </div>
+
+        <swiper class="big-carousel-swiper" [slidesPerView]="4" [spaceBetween]="10" [navigation]="true"
+          [pagination]="{ clickable: true }" [slidesPerGroup]="4" [breakpoints]="{
+            '0': {
+              slidesPerView: 1
+            },
+            '575': {
+              slidesPerView: 1
+            },
+            '767': {
+              slidesPerView: 2
+            },
+            '1024': {
+              slidesPerView: 3
+            },
+            '1200': {
+              slidesPerView: 4
+            }
+          }">
+          <ng-template swiperSlide>
+            <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+              <div class="order-card-img position-relative">
+                <img src="../../../../../assets/images/homePage1.jpeg" alt="order-img" />
+                <div class="highlight-text order-highlight">
+                  <h6 class="m-0">Hello</h6>
+                </div>
+              </div>
+              <div class="card-content position-relative px-3">
+                <div class="bg-white border-radius w-100 shadow-sm p-2 mt--20">
+                  <div class="card-content-info d-flex align-items-center">
+                    <div class="card-content-img">
+                      <img
+                        src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/979d7ddd-cc99-42dd-98fe-db186bbff711.jpg"
+                        alt="order-logo" />
+                    </div>
+                    <div class="me-3 w-100">
+                      <div class="foods-title m-0">
+                        <h6 class="m-0 fw-bold">sdasdasda</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="offer-box d-flex align-items-center shadow-sm">
+                    <span class="me-2">Hello again</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template swiperSlide>
+            <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+              <div class="order-card-img position-relative">
+                <img src="../../../../../assets/images/homePage2.jpeg" alt="order-img" />
+                <div class="highlight-text order-highlight">
+                  <h6 class="m-0">Hello</h6>
+                </div>
+              </div>
+              <div class="card-content position-relative px-3">
+                <div class="bg-white border-radius w-100 shadow-sm p-2 mt--20">
+                  <div class="card-content-info d-flex align-items-center">
+                    <div class="card-content-img">
+                      <img
+                        src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/979d7ddd-cc99-42dd-98fe-db186bbff711.jpg"
+                        alt="order-logo" />
+                    </div>
+                    <div class="me-3 w-100">
+                      <div class="foods-title m-0">
+                        <h6 class="m-0 fw-bold">sdasdasda</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="offer-box d-flex align-items-center shadow-sm">
+                    <span class="me-2">Hello again</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template swiperSlide>
+            <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+              <div class="order-card-img position-relative">
+                <img src="../../../../../assets/images/homePage1.jpeg" alt="order-img" />
+                <div class="highlight-text order-highlight">
+                  <h6 class="m-0">Hello</h6>
+                </div>
+              </div>
+              <div class="card-content position-relative px-3">
+                <div class="bg-white border-radius w-100 shadow-sm p-2 mt--20">
+                  <div class="card-content-info d-flex align-items-center">
+                    <div class="card-content-img">
+                      <img
+                        src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/979d7ddd-cc99-42dd-98fe-db186bbff711.jpg"
+                        alt="order-logo" />
+                    </div>
+                    <div class="me-3 w-100">
+                      <div class="foods-title m-0">
+                        <h6 class="m-0 fw-bold">sdasdasda</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="offer-box d-flex align-items-center shadow-sm">
+                    <span class="me-2">Hello again</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template swiperSlide>
+            <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+              <div class="order-card-img position-relative">
+                <img src="../../../../../assets/images/homePage2.jpeg" alt="order-img" />
+                <div class="highlight-text order-highlight">
+                  <h6 class="m-0">Hello</h6>
+                </div>
+              </div>
+              <div class="card-content position-relative px-3">
+                <div class="bg-white border-radius w-100 shadow-sm p-2 mt--20">
+                  <div class="card-content-info d-flex align-items-center">
+                    <div class="card-content-img">
+                      <img
+                        src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/979d7ddd-cc99-42dd-98fe-db186bbff711.jpg"
+                        alt="order-logo" />
+                    </div>
+                    <div class="me-3 w-100">
+                      <div class="foods-title m-0">
+                        <h6 class="m-0 fw-bold">sdasdasda</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="offer-box d-flex align-items-center shadow-sm">
+                    <span class="me-2">Hello again</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template swiperSlide>
+            <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+              <div class="order-card-img position-relative">
+                <img src="../../../../../assets/images/homePage1.jpeg" alt="order-img" />
+                <div class="highlight-text order-highlight">
+                  <h6 class="m-0">Hello</h6>
+                </div>
+              </div>
+              <div class="card-content position-relative px-3">
+                <div class="bg-white border-radius w-100 shadow-sm p-2 mt--20">
+                  <div class="card-content-info d-flex align-items-center">
+                    <div class="card-content-img">
+                      <img
+                        src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/979d7ddd-cc99-42dd-98fe-db186bbff711.jpg"
+                        alt="order-logo" />
+                    </div>
+                    <div class="me-3 w-100">
+                      <div class="foods-title m-0">
+                        <h6 class="m-0 fw-bold">sdasdasda</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="offer-box d-flex align-items-center shadow-sm">
+                    <span class="me-2">Hello again</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template swiperSlide>
+            <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+              <div class="order-card-img position-relative">
+                <img src="../../../../../assets/images/homePage2.jpeg" alt="order-img" />
+                <div class="highlight-text order-highlight">
+                  <h6 class="m-0">Hello</h6>
+                </div>
+              </div>
+              <div class="card-content position-relative px-3">
+                <div class="bg-white border-radius w-100 shadow-sm p-2 mt--20">
+                  <div class="card-content-info d-flex align-items-center">
+                    <div class="card-content-img">
+                      <img
+                        src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/979d7ddd-cc99-42dd-98fe-db186bbff711.jpg"
+                        alt="order-logo" />
+                    </div>
+                    <div class="me-3 w-100">
+                      <div class="foods-title m-0">
+                        <h6 class="m-0 fw-bold">sdasdasda</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="offer-box d-flex align-items-center shadow-sm">
+                    <span class="me-2">Hello again</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template swiperSlide>
+            <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+              <div class="order-card-img position-relative">
+                <img src="../../../../../assets/images/homePage1.jpeg" alt="order-img" />
+                <div class="highlight-text order-highlight">
+                  <h6 class="m-0">Hello</h6>
+                </div>
+              </div>
+              <div class="card-content position-relative px-3">
+                <div class="bg-white border-radius w-100 shadow-sm p-2 mt--20">
+                  <div class="card-content-info d-flex align-items-center">
+                    <div class="card-content-img">
+                      <img
+                        src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/979d7ddd-cc99-42dd-98fe-db186bbff711.jpg"
+                        alt="order-logo" />
+                    </div>
+                    <div class="me-3 w-100">
+                      <div class="foods-title m-0">
+                        <h6 class="m-0 fw-bold">sdasdasda</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="offer-box d-flex align-items-center shadow-sm">
+                    <span class="me-2">Hello again</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template swiperSlide>
+            <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+              <div class="order-card-img position-relative">
+                <img src="../../../../../assets/images/homePage2.jpeg" alt="order-img" />
+                <div class="highlight-text order-highlight">
+                  <h6 class="m-0">Hello</h6>
+                </div>
+              </div>
+              <div class="card-content position-relative px-3">
+                <div class="bg-white border-radius w-100 shadow-sm p-2 mt--20">
+                  <div class="card-content-info d-flex align-items-center">
+                    <div class="card-content-img">
+                      <img
+                        src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/979d7ddd-cc99-42dd-98fe-db186bbff711.jpg"
+                        alt="order-logo" />
+                    </div>
+                    <div class="me-3 w-100">
+                      <div class="foods-title m-0">
+                        <h6 class="m-0 fw-bold">sdasdasda</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="offer-box d-flex align-items-center shadow-sm">
+                    <span class="me-2">Hello again</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template swiperSlide>
+            <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+              <div class="order-card-img position-relative">
+                <img src="../../../../../assets/images/homePage1.jpeg" alt="order-img" />
+                <div class="highlight-text order-highlight">
+                  <h6 class="m-0">Hello</h6>
+                </div>
+              </div>
+              <div class="card-content position-relative px-3">
+                <div class="bg-white border-radius w-100 shadow-sm p-2 mt--20">
+                  <div class="card-content-info d-flex align-items-center">
+                    <div class="card-content-img">
+                      <img
+                        src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/979d7ddd-cc99-42dd-98fe-db186bbff711.jpg"
+                        alt="order-logo" />
+                    </div>
+                    <div class="me-3 w-100">
+                      <div class="foods-title m-0">
+                        <h6 class="m-0 fw-bold">sdasdasda</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="offer-box d-flex align-items-center shadow-sm">
+                    <span class="me-2">Hello again</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template swiperSlide>
+            <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+              <div class="order-card-img position-relative">
+                <img src="../../../../../assets/images/homePage2.jpeg" alt="order-img" />
+                <div class="highlight-text order-highlight">
+                  <h6 class="m-0">Hello</h6>
+                </div>
+              </div>
+              <div class="card-content position-relative px-3">
+                <div class="bg-white border-radius w-100 shadow-sm p-2 mt--20">
+                  <div class="card-content-info d-flex align-items-center">
+                    <div class="card-content-img">
+                      <img
+                        src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/979d7ddd-cc99-42dd-98fe-db186bbff711.jpg"
+                        alt="order-logo" />
+                    </div>
+                    <div class="me-3 w-100">
+                      <div class="foods-title m-0">
+                        <h6 class="m-0 fw-bold">sdasdasda</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="offer-box d-flex align-items-center shadow-sm">
+                    <span class="me-2">Hello again</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template swiperSlide>
+            <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+              <div class="order-card-img position-relative">
+                <img src="../../../../../assets/images/homePage1.jpeg" alt="order-img" />
+                <div class="highlight-text order-highlight">
+                  <h6 class="m-0">Hello</h6>
+                </div>
+              </div>
+              <div class="card-content position-relative px-3">
+                <div class="bg-white border-radius w-100 shadow-sm p-2 mt--20">
+                  <div class="card-content-info d-flex align-items-center">
+                    <div class="card-content-img">
+                      <img
+                        src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/979d7ddd-cc99-42dd-98fe-db186bbff711.jpg"
+                        alt="order-logo" />
+                    </div>
+                    <div class="me-3 w-100">
+                      <div class="foods-title m-0">
+                        <h6 class="m-0 fw-bold">sdasdasda</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="offer-box d-flex align-items-center shadow-sm">
+                    <span class="me-2">Hello again</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template swiperSlide>
+            <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+              <div class="order-card-img position-relative">
+                <img src="../../../../../assets/images/homePage2.jpeg" alt="order-img" />
+                <div class="highlight-text order-highlight">
+                  <h6 class="m-0">Hello</h6>
+                </div>
+              </div>
+              <div class="card-content position-relative px-3">
+                <div class="bg-white border-radius w-100 shadow-sm p-2 mt--20">
+                  <div class="card-content-info d-flex align-items-center">
+                    <div class="card-content-img">
+                      <img
+                        src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/979d7ddd-cc99-42dd-98fe-db186bbff711.jpg"
+                        alt="order-logo" />
+                    </div>
+                    <div class="me-3 w-100">
+                      <div class="foods-title m-0">
+                        <h6 class="m-0 fw-bold">sdasdasda</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="offer-box d-flex align-items-center shadow-sm">
+                    <span class="me-2">Hello again</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template swiperSlide>
+            <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+              <div class="order-card-img position-relative">
+                <img src="../../../../../assets/images/homePage1.jpeg" alt="order-img" />
+                <div class="highlight-text order-highlight">
+                  <h6 class="m-0">Hello</h6>
+                </div>
+              </div>
+              <div class="card-content position-relative px-3">
+                <div class="bg-white border-radius w-100 shadow-sm p-2 mt--20">
+                  <div class="card-content-info d-flex align-items-center">
+                    <div class="card-content-img">
+                      <img
+                        src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/979d7ddd-cc99-42dd-98fe-db186bbff711.jpg"
+                        alt="order-logo" />
+                    </div>
+                    <div class="me-3 w-100">
+                      <div class="foods-title m-0">
+                        <h6 class="m-0 fw-bold">sdasdasda</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="offer-box d-flex align-items-center shadow-sm">
+                    <span class="me-2">Hello again</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template swiperSlide>
+            <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+              <div class="order-card-img position-relative">
+                <img src="../../../../../assets/images/homePage2.jpeg" alt="order-img" />
+                <div class="highlight-text order-highlight">
+                  <h6 class="m-0">Hello</h6>
+                </div>
+              </div>
+              <div class="card-content position-relative px-3">
+                <div class="bg-white border-radius w-100 shadow-sm p-2 mt--20">
+                  <div class="card-content-info d-flex align-items-center">
+                    <div class="card-content-img">
+                      <img
+                        src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/979d7ddd-cc99-42dd-98fe-db186bbff711.jpg"
+                        alt="order-logo" />
+                    </div>
+                    <div class="me-3 w-100">
+                      <div class="foods-title m-0">
+                        <h6 class="m-0 fw-bold">sdasdasda</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="offer-box d-flex align-items-center shadow-sm">
+                    <span class="me-2">Hello again</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </swiper>
+
+
+      </div>
+    </div>
+    <div class="container-fluid py-5">
+      <div class="row">
+        <div class="col-xl-2">
+          <div class="order-filter-box card">
+            <div class="card-header main-bg text-white py-3 d-flex align-items-center">
+              <i class="fas fa-sort-amount-down fs-18 ms-2"></i>
+              <h5 class="m-0">ترتيب</h5>
+            </div>
+            <div class="card-body p-0">
+              <div class="filter-wrapper form-check d-flex align-items-center gap-2">
+                <input type="checkbox" id="flexCheckChecked_1">
+                <label for="flexCheckChecked_1" class="m-0">
+                  ترتيب 1
+                </label>
+              </div>
+              <div class="filter-wrapper form-check d-flex align-items-center gap-2">
+                <input type="checkbox" id="flexCheckChecked_2">
+                <label for="flexCheckChecked_2" class="m-0">
+                  ترتيب 2
+                </label>
+              </div>
+              <div class="filter-wrapper form-check d-flex align-items-center gap-2">
+                <input type="checkbox" id="flexCheckChecked_3">
+                <label for="flexCheckChecked_3" class="m-0">
+                  ترتيب 3
+                </label>
+              </div>
+              <div class="filter-wrapper form-check d-flex align-items-center gap-2">
+                <input type="checkbox" id="flexCheckChecked_4">
+                <label for="flexCheckChecked_4" class="m-0">
+                  ترتيب 3
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="foods-filter-box card">
+            <div class="card-header main-bg text-white py-3 d-flex align-items-center">
+              <i class="fas fa-utensils fs-18 ms-2"></i>
+              <h5 class="m-0">المطابخ</h5>
+            </div>
+            <div class="card-body p-0">
+              <div class="filter-wrapper form-check d-flex align-items-center gap-2">
+                <input type="checkbox" id="flexCheckkitchen_1">
+                <label for="flexCheckkitchen_1" class="m-0">
+                  مطبخ 3
+                </label>
+              </div>
+              <div class="filter-wrapper form-check d-flex align-items-center gap-2">
+                <input type="checkbox" id="flexCheckkitchen_2">
+                <label for="flexCheckkitchen_2" class="m-0">
+                  مطبخ 2
+                </label>
+              </div>
+              <div class="filter-wrapper form-check d-flex align-items-center gap-2">
+                <input type="checkbox" id="flexCheckkitchen_3">
+                <label for="flexCheckkitchen_3" class="m-0">
+                  مطبخ 3
+                </label>
+              </div>
+              <div class="filter-wrapper form-check d-flex align-items-center gap-2">
+                <input type="checkbox" id="flexCheckkitchen_4">
+                <label for="flexCheckkitchen_4" class="m-0">
+                  مطبخ 4
+                </label>
+              </div>
+              <div class="filter-wrapper form-check d-flex align-items-center gap-2">
+                <input type="checkbox" id="flexCheckkitchen_5">
+                <label for="flexCheckkitchen_5" class="m-0">
+                  مطبخ 5
+                </label>
+              </div>
+              <a class="more-filter-text text-underline main-color fw-bold cursor-pointer">
+                sdsadsadasd</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-10 pe-4">
+          <h3 class="d-flex align-items-end mb-4">
+            <span class="ms-2">مطعم</span>
+          </h3>
+          <div class="row">
+            <!-- START THIS IS A DEMO FOR BIG CARDS IN HOME AND ALSO IN PRODUCT LIST PAGE YA SALAAM -->
+            <div class="col-md-6 col-xl-4">
+              <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+                <div class="card-inner">
+                  <div class="card-slider">
+                    <a class="card-img-box d-block position-relative">
+                      <swiper class="small-carousel-swiper" [slidesPerView]="1" [spaceBetween]="0" [navigation]="true"
+                        [pagination]="{ clickable: true }" [autoplay]="{ delay: 5000, disableOnInteraction: false }">
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/13.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/14.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/15.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/16.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/17.png" alt="order-img" />
+                        </ng-template>
+                      </swiper>
+                      <div class="highlight-text order-highlight">
+                        <h6 class="m-0">سلطه كفته</h6>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="card-content mt-3">
+                    <div class="card-content-info d-flex mb-3">
+                      <div class="card-content-img">
+                        <img
+                          src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg"
+                          alt="restaurant-logo" />
+                      </div>
+                      <div class="me-2 w-100">
+                        <div class="foods-title d-flex align-items-center justify-content-between">
+                          <a class="m-0 fw-bold" style="color: black;">sadsadsadsa</a>
+                          <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center">
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-grey fs-12"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="offer-box align-items-center text-center" style="height: 40px;padding-top: 10px;">
+                      <a class="me-2" style="color: #4caf50;">اوردر أونلاين</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-xl-4">
+              <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+                <div class="card-inner">
+                  <div class="card-slider">
+                    <a class="card-img-box d-block position-relative">
+                      <swiper class="small-carousel-swiper" [slidesPerView]="1" [spaceBetween]="0" [navigation]="true"
+                        [pagination]="{ clickable: true }" [autoplay]="{ delay: 5000, disableOnInteraction: false }">
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/13.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/14.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/15.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/16.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/17.png" alt="order-img" />
+                        </ng-template>
+                      </swiper>
+                      <div class="highlight-text order-highlight">
+                        <h6 class="m-0">سلطه كفته</h6>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="card-content mt-3">
+                    <div class="card-content-info d-flex mb-3">
+                      <div class="card-content-img">
+                        <img
+                          src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg"
+                          alt="restaurant-logo" />
+                      </div>
+                      <div class="me-2 w-100">
+                        <div class="foods-title d-flex align-items-center justify-content-between">
+                          <a class="m-0 fw-bold" style="color: black;">sadsadsadsa</a>
+                          <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center">
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-grey fs-12"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="offer-box align-items-center text-center" style="height: 40px;padding-top: 10px;">
+                      <a class="me-2" style="color: #4caf50;">اوردر أونلاين</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+                <div class="card-inner">
+                  <div class="card-slider">
+                    <a class="card-img-box d-block position-relative">
+                      <swiper class="small-carousel-swiper" [slidesPerView]="1" [spaceBetween]="0" [navigation]="true"
+                        [pagination]="{ clickable: true }" [autoplay]="{ delay: 5000, disableOnInteraction: false }">
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/13.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/14.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/15.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/16.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/17.png" alt="order-img" />
+                        </ng-template>
+                      </swiper>
+                      <div class="highlight-text order-highlight">
+                        <h6 class="m-0">سلطه كفته</h6>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="card-content mt-3">
+                    <div class="card-content-info d-flex mb-3">
+                      <div class="card-content-img">
+                        <img
+                          src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg"
+                          alt="restaurant-logo" />
+                      </div>
+                      <div class="me-2 w-100">
+                        <div class="foods-title d-flex align-items-center justify-content-between">
+                          <a class="m-0 fw-bold" style="color: black;">sadsadsadsa</a>
+                          <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center">
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-grey fs-12"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="offer-box align-items-center text-center" style="height: 40px;padding-top: 10px;">
+                      <a class="me-2" style="color: #4caf50;">اوردر أونلاين</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+                <div class="card-inner">
+                  <div class="card-slider">
+                    <a class="card-img-box d-block position-relative">
+                      <swiper class="small-carousel-swiper" [slidesPerView]="1" [spaceBetween]="0" [navigation]="true"
+                        [pagination]="{ clickable: true }" [autoplay]="{ delay: 5000, disableOnInteraction: false }">
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/13.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/14.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/15.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/16.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/17.png" alt="order-img" />
+                        </ng-template>
+                      </swiper>
+                      <div class="highlight-text order-highlight">
+                        <h6 class="m-0">سلطه كفته</h6>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="card-content mt-3">
+                    <div class="card-content-info d-flex mb-3">
+                      <div class="card-content-img">
+                        <img
+                          src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg"
+                          alt="restaurant-logo" />
+                      </div>
+                      <div class="me-2 w-100">
+                        <div class="foods-title d-flex align-items-center justify-content-between">
+                          <a class="m-0 fw-bold" style="color: black;">sadsadsadsa</a>
+                          <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center">
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-grey fs-12"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="offer-box align-items-center text-center" style="height: 40px;padding-top: 10px;">
+                      <a class="me-2" style="color: #4caf50;">اوردر أونلاين</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+                <div class="card-inner">
+                  <div class="card-slider">
+                    <a class="card-img-box d-block position-relative">
+                      <swiper class="small-carousel-swiper" [slidesPerView]="1" [spaceBetween]="0" [navigation]="true"
+                        [pagination]="{ clickable: true }" [autoplay]="{ delay: 5000, disableOnInteraction: false }">
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/13.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/14.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/15.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/16.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/17.png" alt="order-img" />
+                        </ng-template>
+                      </swiper>
+                      <div class="highlight-text order-highlight">
+                        <h6 class="m-0">سلطه كفته</h6>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="card-content mt-3">
+                    <div class="card-content-info d-flex mb-3">
+                      <div class="card-content-img">
+                        <img
+                          src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg"
+                          alt="restaurant-logo" />
+                      </div>
+                      <div class="me-2 w-100">
+                        <div class="foods-title d-flex align-items-center justify-content-between">
+                          <a class="m-0 fw-bold" style="color: black;">sadsadsadsa</a>
+                          <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center">
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-grey fs-12"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="offer-box align-items-center text-center" style="height: 40px;padding-top: 10px;">
+                      <a class="me-2" style="color: #4caf50;">اوردر أونلاين</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+                <div class="card-inner">
+                  <div class="card-slider">
+                    <a class="card-img-box d-block position-relative">
+                      <swiper class="small-carousel-swiper" [slidesPerView]="1" [spaceBetween]="0" [navigation]="true"
+                        [pagination]="{ clickable: true }" [autoplay]="{ delay: 5000, disableOnInteraction: false }">
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/13.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/14.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/15.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/16.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/17.png" alt="order-img" />
+                        </ng-template>
+                      </swiper>
+                      <div class="highlight-text order-highlight">
+                        <h6 class="m-0">سلطه كفته</h6>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="card-content mt-3">
+                    <div class="card-content-info d-flex mb-3">
+                      <div class="card-content-img">
+                        <img
+                          src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg"
+                          alt="restaurant-logo" />
+                      </div>
+                      <div class="me-2 w-100">
+                        <div class="foods-title d-flex align-items-center justify-content-between">
+                          <a class="m-0 fw-bold" style="color: black;">sadsadsadsa</a>
+                          <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center">
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-grey fs-12"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="offer-box align-items-center text-center" style="height: 40px;padding-top: 10px;">
+                      <a class="me-2" style="color: #4caf50;">اوردر أونلاين</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+                <div class="card-inner">
+                  <div class="card-slider">
+                    <a class="card-img-box d-block position-relative">
+                      <swiper class="small-carousel-swiper" [slidesPerView]="1" [spaceBetween]="0" [navigation]="true"
+                        [pagination]="{ clickable: true }" [autoplay]="{ delay: 5000, disableOnInteraction: false }">
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/13.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/14.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/15.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/16.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/17.png" alt="order-img" />
+                        </ng-template>
+                      </swiper>
+                      <div class="highlight-text order-highlight">
+                        <h6 class="m-0">سلطه كفته</h6>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="card-content mt-3">
+                    <div class="card-content-info d-flex mb-3">
+                      <div class="card-content-img">
+                        <img
+                          src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg"
+                          alt="restaurant-logo" />
+                      </div>
+                      <div class="me-2 w-100">
+                        <div class="foods-title d-flex align-items-center justify-content-between">
+                          <a class="m-0 fw-bold" style="color: black;">sadsadsadsa</a>
+                          <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center">
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-grey fs-12"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="offer-box align-items-center text-center" style="height: 40px;padding-top: 10px;">
+                      <a class="me-2" style="color: #4caf50;">اوردر أونلاين</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+                <div class="card-inner">
+                  <div class="card-slider">
+                    <a class="card-img-box d-block position-relative">
+                      <swiper class="small-carousel-swiper" [slidesPerView]="1" [spaceBetween]="0" [navigation]="true"
+                        [pagination]="{ clickable: true }" [autoplay]="{ delay: 5000, disableOnInteraction: false }">
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/13.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/14.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/15.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+                          <img src="../../../../../assets/images/16.png" alt="order-img" />
+                        </ng-template>
+                        <ng-template swiperSlide>
+
+                          <img src="../../../../../assets/images/17.png" alt="order-img" />
+                        </ng-template>
+                      </swiper>
+                      <div class="highlight-text order-highlight">
+                        <h6 class="m-0">سلطه كفته</h6>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="card-content mt-3">
+                    <div class="card-content-info d-flex mb-3">
+                      <div class="card-content-img">
+                        <img
+                          src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg"
+                          alt="restaurant-logo" />
+                      </div>
+                      <div class="me-2 w-100">
+                        <div class="foods-title d-flex align-items-center justify-content-between">
+                          <a class="m-0 fw-bold" style="color: black;">sadsadsadsa</a>
+                          <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center">
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-gold fs-12"></i>
+                              <i class="fas fa-star rate-color-grey fs-12"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="offer-box align-items-center text-center" style="height: 40px;padding-top: 10px;">
+                      <a class="me-2" style="color: #4caf50;">اوردر أونلاين</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-lg w-100 btn-danger mt-4 main-bg text-white text-center justify-content-center"
+            type="button">تحميل مطاعم
+            أكثر</button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+
+  <ng-container *ngIf="activeContent === 'subscribe'">
+    <div class="container pt-4">
+      <div class="card shadow">
+        <div class="card-header main-bg text-white fs-4 py-3">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-share-square ms-3"></i>
+            <span>اشترك معنا</span>
+          </div>
+        </div>
+        <div class="card-body bg-light">
+          <div class="mb-3">
+            <label class="form-label fs-6">اسم المطعم</label>
+            <div class="form-floating">
+              <input type="text" class="form-control" id="floatingInput1" placeholder="name@example.com">
+              <label for="floatingInput1">اسم المطعم</label>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fs-6">السجل التجاري</label>
+            <div class="form-floating">
+              <input type="email" class="form-control" id="floatingInput2" placeholder="name@example.com" disabled>
+              <label for="floatingInput2">السجل التجاري</label>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fs-6">رقم الهاتف</label>
+            <div class="form-floating">
+              <input type="number" class="form-control" id="floatingInput3" placeholder="name@example.com">
+              <label for="floatingInput3">رقم الهاتف</label>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fs-6">البريد الالكتروني</label>
+            <div class="form-floating">
+              <input type="number" class="form-control" id="floatingInput4" placeholder="name@example.com" disabled>
+              <label for="floatingInput4">البريد الالكتروني</label>
+            </div>
+          </div>
+          <div class="line-seperate bg-light"></div>
+          <button type="button" class="btn btn-lg w-100 btn-danger main-bg text-white">تسجيل
+            الطلب</button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+</div>

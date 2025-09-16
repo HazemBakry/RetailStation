@@ -33,8 +33,8 @@ import { RegisterComponent } from './Auth/register/register.component';
       provide: APP_INITIALIZER,
       useFactory: fetchPermissionsOnStart,
       deps: [RolesService],
-      multi: true
-    }
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -51,7 +51,7 @@ import { RegisterComponent } from './Auth/register/register.component';
     SharedModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}
 
 export function fetchPermissionsOnStart(rolesService: RolesService) {
   // if (authService.isAuthenticated()) {
