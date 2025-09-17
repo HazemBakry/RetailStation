@@ -15,6 +15,8 @@ import { ItemUnitsComponent } from './components/Operation/item-units/item-units
 import { SuppliersComponent } from './components/Operation/suppliers/suppliers.component';
 import { AuthPageGuard } from 'src/app/Auth/authPage.guard';
 import { ItemsComponent } from './components/Operation/items/items.component';
+import { RolesComponent } from './components/ManageSubscriptions/roles/roles.component';
+import { ManageRolePagesComponent } from './components/ManageSubscriptions/manage-role-pages/manage-role-pages.component';
 
 const routes: Routes = [
   {
@@ -26,7 +28,7 @@ const routes: Routes = [
       { path: 'items-categories', component: ItemsCategoriesComponent },
       { path: 'items-units', component: ItemUnitsComponent },
       { path: 'suppliers', component: SuppliersComponent },
-      { path: 'items', component: ItemsComponent,  },//canActivate: [AuthPageGuard], data: { pageName: 'Items' } },
+      { path: 'items', component: ItemsComponent, },//canActivate: [AuthPageGuard], data: { pageName: 'Items' } },
 
       {
         path: 'manage-subscriptions',
@@ -50,6 +52,10 @@ const routes: Routes = [
           { path: '', redirectTo: 'subscribers', pathMatch: 'full' },
         ],
       },
+      { path: 'roles', component: RolesComponent },
+      { path: 'manage-role-pages/:roleId', component: ManageRolePagesComponent },
+
+
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]
   }

@@ -54,15 +54,18 @@ export interface PagePermissionModel {
     hasChild: boolean;
     isActive: boolean;
     isChecked: boolean;
-    displayNameAr: string;
-    displayNameEn: string;
+    displayNameAR: string;
+    displayNameEN: string;
     pageName: string;
     parentName: string;
     icon: string;
     route: string;
     groupName: string;
     actionName: string;
+    isSelected: boolean;
+    pageLevel: number | null;
     actions: PageActionModel[];
+    subPages: PagePermissionModel[];
 }
 
 export interface PageActionModel {

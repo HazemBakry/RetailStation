@@ -18,6 +18,9 @@ import { ItemsCategoriesComponent } from './components/Operation/items-categorie
 import { ItemUnitsComponent } from './components/Operation/item-units/item-units.component';
 import { SuppliersComponent } from './components/Operation/suppliers/suppliers.component';
 import { ItemsComponent } from './components/Operation/items/items.component';
+import { RolesComponent } from './components/ManageSubscriptions/roles/roles.component';
+import { ManageRolePagesComponent } from './components/ManageSubscriptions/manage-role-pages/manage-role-pages.component';
+import { PermissionItemComponent } from './components/ManageSubscriptions/permission-item/permission-item.component';
 
 
 @NgModule({
@@ -28,6 +31,9 @@ import { ItemsComponent } from './components/Operation/items/items.component';
     SubscriberApplicationsComponent,
     SubscriberUsersComponent,
     SubscribersComponent,
+    RolesComponent,
+    PermissionItemComponent,
+    ManageRolePagesComponent,
     SubscriberProfileComponent,
     AddSubscriberComponent,
     SubscriberBranchesComponent,

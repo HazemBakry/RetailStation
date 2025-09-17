@@ -75,6 +75,14 @@ export class MenuService {
         },
         {
           menuItemId: MenuType.Admin,
+          displayName: 'الصلاحيات',
+          menuItem: '',
+          description: 'احصائيات',
+          icon: 'fas fa-th-large',
+          route: '/admin/roles'
+        },
+        {
+          menuItemId: MenuType.Admin,
           displayName: 'مجموعات الأصناف',
           menuItem: 'items-categories',
           description: 'تعريف وتصنيف مجموعات الأصناف داخل المخازن',

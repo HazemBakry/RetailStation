@@ -1,0 +1,45 @@
+<div class="permission-tree cursor-pointer " (click)="toggleNode(page)">
+  <div class="">
+    <div class="tree-row-text d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div class="p-2 gap-2" [class.pb-0]="page.subPages?.length" [class.pt-0]="page.subPages?.length"
+        [class.ps-0]="page.subPages?.length" [class.d-flex]="page.subPages?.length"
+        [class.align-items-center]="page.subPages?.length">
+        <i *ngIf="page.subPages?.length" class="fas me-2" [class]="!expanded?'fa-plus-circle':'fa-minus-circle'"></i>
+        <div class="manage-check" [class.d-none]="page.subPages?.length <= 1">
+          <div class="custom-control custom-checkbox cursor-pointer pr-05 mb-1 ms-1">
+            <input [(ngModel)]="page.isChecked"
+              (change)="onPageEvent($event,page)"type="checkbox" class="custom-control-input" id="chk_checkbox{{ page.pageId }}_{{ page.pageName }}" />
+            <label class="custom-control-label" for="chk_checkbox{{ page.pageId }}_{{ page.pageName }}">
+              <span class="cursor-pointer">
+                {{ page.displayNameEN }}
+              </span>
+            </label>
+          </div>
+        </div>
+        <span class="fw-bold" [class.d-none]="page.subPages?.length >= 1">{{ page.displayNameEN }}</span>
+      </div>
+      <div class="d-flex flex-wrap gap-2 p-2" [class.d-none]="page.subPages?.length >= 1">
+        <div *ngFor="let ac of page.actions" class="manage-check">
+          <div class="custom-control custom-checkbox cursor-pointer pr-05 mb-1 ms-1">
+            <input type="checkbox" class="custom-control-input" [(ngModel)]="ac.isChecked"
+              (change)="onEvent($event,page)" id="chk_checkbox{{page.pageId}}_{{ ac.actionName }}_{{page.displayNameEN}}" />
+            <label class="custom-control-label" for="chk_checkbox{{page.pageId}}_{{ ac.actionName }}_{{page.displayNameEN}}">
+              <span class="cursor-pointer">
+                {{ac.actionName}}
+              </span>
+            </label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!--<div *ngFor="let child of page.actions" class="tree-row-icon d-flex align-items-center">
+         <i class="fas fa-edit cursor-pointer" (click)="onEvent($event,page)"></i> -->
+</div>
+
+
+<div *ngIf="page.subPages && (expanded) ">
+  <app-permission-item (selectedPage)="selectPage($event,child)" *ngFor="let child of page.subPages"
+    [page]="child"></app-permission-item>
+</div>

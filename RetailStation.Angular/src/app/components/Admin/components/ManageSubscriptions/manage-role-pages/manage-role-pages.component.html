@@ -1,0 +1,48 @@
+<div>
+  <div class="maintabs">
+    <div class="panel blank-panel">
+      <div class="panel-heading">
+        <ul ngbNav #applications="ngbNav" [activeId]="activeId" type="most" class="nav nav-tabs nav-top-border square">
+          <ng-container *ngFor="let app of applicationPagesList;let i = index;">
+            <li [ngbNavItem]="app.applicationId" [id]="'navItem-' + i">
+              <a ngbNavLink class="nav-link d-flex">
+                <i class="fas fa-chart-bar fas me-2"></i>
+                <span class="ulllinks-text">{{app.applicationName}}</span>
+              </a>
+
+              <ng-template ngbNavContent>
+                <ng-container *ngIf="app.pages && app.pages.length > 0">
+                  <div
+                    class="main-permission-box border bg-white small-scroll overflow-auto permission-height striped-row p-3">
+                    <app-permission-item class="permission-all-boxs" *ngFor="let page of app.pages" [page]="page"
+                      (selectedPage)="selectPage($event)"></app-permission-item>
+                  </div>
+
+                </ng-container>
+                <ng-container *ngIf="app.pages?.length == 0">
+                  <div class="border bg-white">
+                    <app-empty-data [showContainer]="app.pages?.length == 0" [showLoader]="showLoader"></app-empty-data>
+                  </div>
+
+                </ng-container>
+              </ng-template>
+            </li>
+          </ng-container>
+
+        </ul>
+        <app-empty-data [showEmptyData]="applicationPagesList?.length == 0 && !showLoader"
+          [showLoader]="showLoader"></app-empty-data>
+      </div>
+    </div>
+  </div>
+
+  <div [ngbNavOutlet]="applications"></div>
+
+  <div *ngIf="applicationPagesList?.length > 0" class="main-card-action p-3 bg-white border-top">
+    <button [disabled]="showLoader" class="btn btn-primary" (click)="saveSubscriberRolePages()">
+      <i class="fas fa-save"></i>
+      <app-inFood-spinner *ngIf="showLoader"></app-inFood-spinner>
+      <span class="ms-2">Save</span>
+    </button>
+  </div>
+</div>
