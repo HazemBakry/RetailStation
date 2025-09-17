@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { SupplierItemModel } from '../../../models/SupplierItemModel';
 import { WebsiteService } from '../../../services/website.service';
 import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
+import { CompareService } from 'src/app/components/Shared/services/comapre.service';
 
 @Component({
   selector: 'app-website-main-items',
@@ -47,7 +48,7 @@ export class WebsiteMainItemsComponent implements OnInit {
     private sharedService: SharedService, private modalService: NgbModal,
     private offcanvasService: NgbOffcanvas, private toaster: ToastrService,
     private route: ActivatedRoute,
-    private datePipe: DatePipe,) {
+    private datePipe: DatePipe, private compareService: CompareService) {
     config.interval = 5000;
     config.wrap = true;
     config.keyboard = true;
@@ -59,6 +60,9 @@ export class WebsiteMainItemsComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.compareService.compareList$.subscribe(list => {
+      this.checkCompareAdded();
+    });
     this.getSearchQuery();
     this.loadData();
     this.loadFilters();
@@ -88,9 +92,10 @@ export class WebsiteMainItemsComponent implements OnInit {
     this.showLoader = true;
     this.websiteService.GetWebsiteItems_Data(this.pageResponseModel).subscribe(data => {
       this.pageResponseModel.results = data.results;
-      this.suppliersData = this.suppliersData.concat([...data.results]);
+      // this.suppliersData = this.suppliersData.concat([...data.results]);
+      this.suppliersData = data.results;
       this.pageResponseModel.totalCount = data.totalCount;
-
+      this.checkCompareAdded();
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
@@ -108,7 +113,20 @@ export class WebsiteMainItemsComponent implements OnInit {
       // this.showLoader = false;
     });
   }
+  checkCompareAdded() {
+     this.suppliersData.forEach(item => {
+      item.isCompareAdded = this.compareService.isItemInList(item.supplierItemId);
+      // item.isCompareAdded  = list.some(i => i.supplierItemId === item.supplierItemId);
+    });
 
+  }
+  toggleCompare(item: SupplierItemModel): void {
+    if (item.isCompareAdded) {
+      this.compareService.removeItem(item.supplierItemId, item.itemId);
+    } else {
+      this.compareService.addItem(item.supplierItemId, item.itemId);
+    }
+  }
   pageChanged(obj: any) {
     this.pageResponseModel.currentPage = obj.page;
     this.loadData();

@@ -10,7 +10,11 @@ namespace RetailStation.Interface.Website
 {
     public interface IOrderService
     {
+        List<WebsiteOrderModel> GetOrders_Data(SearchFilterModel model, int? OrderId = null);
+        List<FilterModel> GetOrders_Filters(SearchFilterModel PagingFilter);
+        WebsiteOrderModel GetOrderDetailsById(int OrderId);
         ActionsResponseModel CreateNewOrder(WebsiteOrderModel model);
+        ActionsResponseModel EditOrder(int OrderId, WebsiteOrderModel model);
         ActionsResponseModel CancelOrder(int OrderId);
     }
 }

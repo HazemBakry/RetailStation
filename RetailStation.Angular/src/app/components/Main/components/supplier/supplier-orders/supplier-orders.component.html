@@ -4,16 +4,11 @@
     <div
         class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3"
-                routerLink="/purchases/add-purchase-order">
+            <!-- <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3"
+                routerLink="/">
                 <i class="fas fa-plus-circle"></i>
-                <span>إنشاء أمر شراء</span>
-            </button>
-            <!-- <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
-                <i class="fas fa-filter"></i>
-                <span>إنشاء فلتر</span>
+                <span>إنشاء</span>
             </button> -->
-
         </div>
         <div class="justify-content-end">
             <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
@@ -70,16 +65,11 @@
                                     <div ngbDropdownMenu class="border">
                                         <button ngbDropdownItem (click)="showOrderDetails(item)">تفاصيل</button>
                                         <button ngbDropdownItem routerLink="/purchases/add-purchase-order"
-                                            [queryParams]="{OrderId:item.purchaseOrderId}">
+                                            [queryParams]="{OrderId:item.orderId}">
                                             تعديل
                                         </button>
-                                        <button *ngIf="item.purchaseOrderId" ngbDropdownItem
-                                            routerLink="/inventory/add-material-receipt"
-                                            [queryParams]="{OrderId:item.purchaseOrderId}">
-                                            انشاء أذن أضافة
-                                        </button>
                                         <button ngbDropdownItem
-                                            (click)="openDeleteModal(deleteDialog,item.purchaseOrderId)">الغاء</button>
+                                            (click)="openDeleteModal(deleteDialog,item.orderId)">الغاء</button>
 
                                     </div>
                                 </div>
@@ -88,7 +78,7 @@
                             <!-- <div class="w-100 d-flex align-items-center justify-content-center">
 
                                 <button routerLink="/purchases/add-purchase-order"
-                                    [queryParams]="{OrderId:item.purchaseOrderId}"
+                                    [queryParams]="{OrderId:item.orderId}"
                                     class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
                                     <i class="uil uil-pen"></i>
                                     <span>تعديل</span>
@@ -96,7 +86,7 @@
 
                                 <button
                                     class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2 me-2"
-                                    (click)="cancelOrder(item.purchaseOrderId)">
+                                    (click)="cancelOrder(item.orderId)">
                                     <i class="uil uil-trash-alt"></i>
                                     <span>حذف</span>
                                 </button>

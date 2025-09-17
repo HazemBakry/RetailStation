@@ -25,6 +25,9 @@ namespace RetailStation.Entities.DTOs.Operation
         public string ItemCategoryName { get; set; }
         public decimal? Quantity { get; set; }
         public decimal? Price { get; set; }
+        public decimal? Price10 { get; set; }
+        public decimal? Price100 { get; set; }
+        public decimal? Price1000 { get; set; }
         public bool IsActive { get; set; }
         public int? ItemTypeId { get; set; }
         public int? SupplierId { get; set; }

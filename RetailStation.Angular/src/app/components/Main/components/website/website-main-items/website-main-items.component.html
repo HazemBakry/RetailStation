@@ -13,13 +13,13 @@
             </h3>
             <div class="row">
 
-                <div *ngFor="let item of suppliersData" class="col-md-6 col-xl-4">
+                <div *ngFor="let item of suppliersData;let i =index" class="col-md-6 col-xl-4">
                     <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
                         <div class="card-inner">
                             <div class="card-slider">
                                 <a class="card-img-box d-block position-relative">
                                     <img [src]="item.imageUrl" alt="order-img"
-                                        (error)="$event.target.src = defaultItemImage" />
+                                        (error)="$event.target.src = defaultItemImage"/>
                                     <div class="highlight-text order-highlight">
                                         <h6 class="m-0">{{item.description}}</h6>
                                     </div>
@@ -39,6 +39,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                <button [class]="item.isCompareAdded ? 'btn-delete':'btn-edit'"
+                                    class="button-table-action  d-flex align-items-center justify-content-center gap-2"
+                                    (click)="toggleCompare(item)">
+                                    <i class="fa-solid fa-code-compare"></i>
+                                    <span *ngIf="!item.isCompareAdded">مقارنة</span>
+                                    <span *ngIf="item.isCompareAdded"> حذف المقارنة</span>
+                                </button>
+
+                                <!-- <div class="align-items-center text-center">
+                                    <button class="me-2 btn" style="color: #4caf50;">مقارنة</button>
+                                </div> -->
                                 <div class="offer-box align-items-center text-center"
                                     style="height: 40px;padding-top: 10px;">
                                     <a class="me-2" style="color: #4caf50;">اوردر أونلاين</a>

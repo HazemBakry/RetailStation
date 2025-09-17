@@ -93,7 +93,7 @@ namespace RetailStation.Service.Website
                 Context.PaymentReceipts.Add(receipt);
                 var result = Context.SaveChanges();
 
-                // Assuming 'result' is defined somewhere and has an 'IsSuccess' property
+
                 return new ActionsResponseModel
                 {
                     Message = result > 0 ? "Data saved successfully." : "Failed to record the accounting entry.",

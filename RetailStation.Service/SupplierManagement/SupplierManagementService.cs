@@ -119,6 +119,9 @@ namespace RetailStation.Service.SupplierManagement
                     item.NameEN = model.NameEN;
                     item.NameAR = model.NameAR;
                     item.Price = (decimal) model.Price;
+                    item.Price10 = (decimal) model.Price10;
+                    item.Price100 = (decimal) model.Price100;
+                    item.Price1000 = (decimal) model.Price1000;
                     item.Quantity = (decimal) model.Quantity;
                     item.UnitId = model.UnitId;
                     item.ItemCategoryId = model.ItemCategoryId;

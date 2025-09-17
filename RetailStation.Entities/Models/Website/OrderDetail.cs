@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace RetailStation.Entities.Models.Website
 {
+
+    [Table("OrderDetails", Schema = "Website")]
+
     public class OrderDetail
     {
         public int OrderDetailId { get; set; }

@@ -13,6 +13,9 @@ export interface SupplierItemModel extends CreatorModel {
     itemCategoryName: string;
     cost: number | null;
     price: number | null;
+    price10: number | null;
+    price100: number | null;
+    price1000: number | null;
     quantity: number | null;
     purchasePrice: number | null;
     isActive: boolean | null;
@@ -20,6 +23,7 @@ export interface SupplierItemModel extends CreatorModel {
     supplierId: number | null;
     supplierName: string;
     disabled: boolean | null;
+    isCompareAdded: boolean | null;
     image: File | null;
     imageUrl: string;
 

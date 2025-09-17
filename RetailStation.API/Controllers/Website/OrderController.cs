@@ -27,15 +27,56 @@ namespace RetailStation.API.Controllers.Website
 
 
         [HttpPost]
+        [Route("GetOrders_Data")]
+        public IActionResult GetOrders_Data(SearchFilterModel model)
+        {
+            var data = _orderService.GetOrders_Data(model);
+            var result = new PagedResponseModel<WebsiteOrderModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("GetOrders_Filters")]
+        public IActionResult GetOrders_Filters(SearchFilterModel model)
+        {
+            return Ok(_orderService.GetOrders_Filters(model));
+        }
+
+        [HttpGet]
+        [Route("GetOrderDetailsById")]
+        public IActionResult GetOrderDetailsById(int OrderId)
+        {
+            var result = _orderService.GetOrderDetailsById(OrderId);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
         [Route("CreateNewOrder")]
         public IActionResult CreateNewOrder([FromBody] WebsiteOrderModel order)
         {
             string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
             string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
-            string SupplierId = User.Claims.FirstOrDefault(c => c.Type == "SupplierId")?.Value;
             if (string.IsNullOrEmpty(SubscriberId))
-                return BadRequest("No Supplier assigned");
+                return BadRequest("No Subscriber assigned");
             return Ok(_orderService.CreateNewOrder(order));
+        }
+        
+        [HttpPost]
+        [Route("EditOrder")]
+        public IActionResult EditOrder(int OrderId, [FromBody] WebsiteOrderModel order)
+        {
+            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if (string.IsNullOrEmpty(SubscriberId))
+                return BadRequest("No Subscriber assigned");
+            return Ok(_orderService.EditOrder(OrderId,order));
         }
 
         [HttpGet]

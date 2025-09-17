@@ -1,0 +1,65 @@
+<div class="cart-btn position-relative" (click)="OpenSidePanel(CompareSidePanel)">
+    <span class="ordered-cart-number shadow">{{compareCount$ }}</span>
+    <i class="fa-solid fa-code-compare"></i>
+</div>
+<ng-template #CompareSidePanel let-offcanvas>
+
+    <div class="offcanvas-header justify-content-between gap-3 fs-4 border-bottom py-3">
+        <div class="d-flex align-items-center gap-2">
+            <i class="fas fa-store offcanvas-header-icon"></i>
+            <span>مقارنة</span>
+        </div>
+        <div class="cursor-pointer text-danger fs-2" (click)="offcanvas.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="offcanvas-body pt-4 bg-light">
+        <div class="card card-with-table border shadow-none">
+
+            <div class="card-body table-responsive p-0 shadow-sm radius-10">
+                <table
+                    class="table table-card-table table-borderless table-middle table-hover bg-transparent small-scroll m-0">
+                    <thead>
+                        <tr>
+                            <th>اسم الصنف</th>
+
+                            <th>سعر 1</th>
+                            <th>سعر 10</th>
+                            <th>سعر 100</th>
+                            <th>سعر 1000</th>
+                            <th>اسم المورد</th>
+                            <th class="text-center"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of pageResponseModel.results">
+                            <td class="fs-5 fw-bold text-center">
+                                <!-- {{item.orderNumber}} -->
+                                {{item.nameAR ?? item.nameEN}}
+
+                            </td>
+                            <td>{{item.price}}</td>
+                            <td>{{item.price10}}</td>
+                            <td>{{item.price100}}</td>
+                            <td>{{item.price1000}}</td>
+                            <td>{{item.supplierName}}</td>
+                            <!-- <td>{{item.supplierNameAR?? item.supplierNameEN}}</td> -->
+                            <td>
+                                <div class="w-100 d-flex align-items-center justify-content-center">
+                                    <button (click)="remove(item)"
+                                        class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2 me-2">
+                                        <i class="uil uil-trash-alt"></i>
+                                        <span></span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <app-empty-data [showEmptyData]="!pageResponseModel.results?.length&&!showLoader"
+                    [showLoader]="showLoader"></app-empty-data>
+            </div>
+        </div>
+
+    </div>
+</ng-template>

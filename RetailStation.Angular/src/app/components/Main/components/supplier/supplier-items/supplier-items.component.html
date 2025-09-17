@@ -67,6 +67,9 @@
                                     <th>الصنف</th>
                                     <th>الوحدة</th>
                                     <th>سعر الوحدة</th>
+                                    <th>سعر 10 الوحدة</th>
+                                    <th>سعر 100 الوحدة</th>
+                                    <th>سعر 1000 الوحدة</th>
                                     <th>Quantity</th>
                                     <th></th>
                                 </tr>
@@ -87,6 +90,9 @@
                                     </td>
                                     <td>{{item.unitName}}</td>
                                     <td>{{item.price}}</td>
+                                    <td>{{item.price10}}</td>
+                                    <td>{{item.price100}}</td>
+                                    <td>{{item.price1000}}</td>
                                     <td>{{item.quantity}}</td>
                                     <td class="text-center">
                                         <div class="d-flex align-items-center gap-2">
@@ -168,6 +174,39 @@
                                 placeholder="التكلفة">
                             <div *ngIf="formErrors.price" class="text-danger  font-small-3 m-03">
                                 {{formErrors.price}}
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">التكلفة 10</td>
+                        <td class="table-value">
+                            <input type="text" formControlName="price10" class="form-control form-control-lg"
+                                placeholder="التكلفة 10">
+                            <div *ngIf="formErrors.price10" class="text-danger  font-small-3 m-03">
+                                {{formErrors.price10}}
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">التكلفة 100</td>
+                        <td class="table-value">
+                            <input type="text" formControlName="price100" class="form-control form-control-lg"
+                                placeholder="التكلفة 100">
+                            <div *ngIf="formErrors.price100" class="text-danger  font-small-3 m-03">
+                                {{formErrors.price100}}
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">التكلفة 1000</td>
+                        <td class="table-value">
+                            <input type="text" formControlName="price1000" class="form-control form-control-lg"
+                                placeholder="التكلفة 1000">
+                            <div *ngIf="formErrors.price1000" class="text-danger  font-small-3 m-03">
+                                {{formErrors.price1000}}
                             </div>
 
                         </td>

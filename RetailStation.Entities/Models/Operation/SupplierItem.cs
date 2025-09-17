@@ -18,6 +18,9 @@ namespace RetailStation.Entities.Models.Operation
         public string NameAR { get; set; }
         public string NameEN { get; set; }
         public decimal Price { get; set; }
+        public decimal? Price10 { get; set; }
+        public decimal? Price100 { get; set; }
+        public decimal? Price1000 { get; set; }
         public decimal Quantity { get; set; }
         public int? ItemId { get; set; }
         public int? UnitId { get; set; }
