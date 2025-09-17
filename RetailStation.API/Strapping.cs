@@ -95,6 +95,7 @@ namespace RetailStation.API
             services.AddScoped<IBranchesService, BranchesService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ICartService, CartService>();
+            services.AddScoped<IPaymentReceiptService, PaymentReceiptService>();
 
             services.AddScoped<ICreateReportService, CreateReportService>();
             services.AddScoped<IHelper, Helper>();

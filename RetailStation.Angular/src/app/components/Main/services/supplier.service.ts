@@ -57,23 +57,23 @@ export class SupplierService {
   //----------------------------------- Payment Receipt ------------------------------------------//
 
   GetPaymentReceipts_Data(model: PagedResponseModel<PaymentReceiptModel[]>) {
-    return this.http.post<PagedResponseModel<PaymentReceiptModel[]>>(this.URL + 'PaymentReceipts/GetPaymentReceipts_Data', model);
+    return this.http.post<PagedResponseModel<PaymentReceiptModel[]>>(this.URL + 'PaymentReceipt/GetPaymentReceipts_Data', model);
   }
 
   GetPaymentReceipts_Filters(model: PagedResponseModel<PaymentReceiptModel[]>) {
-    return this.http.post<FilterModel[]>(this.URL + 'PaymentReceipts/GetPaymentReceipts_Filters', model);
+    return this.http.post<FilterModel[]>(this.URL + 'PaymentReceipt/GetPaymentReceipts_Filters', model);
   }
   GetPaymentReceiptDetailsById(paymentReceiptId: number) {
-    return this.http.get<PaymentReceiptModel>(this.URL + `PaymentReceipts/GetPaymentReceiptDetailsById?PaymentReceiptId=${paymentReceiptId}`);
+    return this.http.get<PaymentReceiptModel>(this.URL + `PaymentReceipt/GetPaymentReceiptDetailsById?PaymentReceiptId=${paymentReceiptId}`);
   }
   SaveNewPaymentReceipt(model: PaymentReceiptModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'PaymentReceipts/SaveNewPaymentReceipt', model);
+    return this.http.post<ActionsResponseModel>(this.URL + 'PaymentReceipt/SaveNewPaymentReceipt', model);
   }
   EditPaymentReceipt(paymentReceiptId: number, model: PaymentReceiptModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + `PaymentReceipts/EditPaymentReceipt?PaymentReceiptId=${paymentReceiptId}`, model);
+    return this.http.post<ActionsResponseModel>(this.URL + `PaymentReceipt/EditPaymentReceipt?PaymentReceiptId=${paymentReceiptId}`, model);
   }
   CancelPaymentReceipt(paymentReceiptId: any) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'PaymentReceipts/CancelPaymentReceipt?PaymentReceiptId=' + paymentReceiptId);
+    return this.http.get<ActionsResponseModel>(this.URL + 'PaymentReceipt/CancelPaymentReceipt?PaymentReceiptId=' + paymentReceiptId);
   }
 
 

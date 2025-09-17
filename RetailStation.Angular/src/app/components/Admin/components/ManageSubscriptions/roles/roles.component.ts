@@ -23,7 +23,7 @@ export class RolesComponent implements OnInit {
     searchText: ''
   }
   roleName: string = '';
-
+  isUpdate:boolean=false;
   constructor(private subscriptionsService: SubscriptionsService, private toaster: ToastrService, private modalService: NgbModal) { }
 
   ngOnInit(): void {

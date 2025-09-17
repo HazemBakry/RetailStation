@@ -37,14 +37,14 @@ export class MenuService {
         },
         {
           menuItemId: MenuType.Supplier,
-          displayName: 'فواتير الشراء',
+          displayName: 'الفواتير',
           menuItem: 'supplier-invoices',
           description: 'عرض وإدارة فواتير الشراء للموردين',
           icon: 'fa fa-file-invoice',
           route: '/main/supplier-invoices'
         },
         {
-          displayName: 'طلبات الشراء',
+          displayName: 'قائمة الطلبات',
           menuItem: 'supplier-orders',
           description: 'إدارة أوامر الشراء الصادرة للموردين',
           icon: 'fa fa-clipboard-list',
