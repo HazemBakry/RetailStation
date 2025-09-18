@@ -44,6 +44,7 @@ namespace RetailStation.Entities.Models
         public DbSet<ApplicationModel> Applications { get; set; }
         public DbSet<SubscriberApplicationModel> SubscriberApplications { get; set; }
         public DbSet<SubscriberModel> Subscribers { get; set; }
+        public DbSet<SubscribeRequest> SubscribeRequests { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Cart> Carts { get; set; }

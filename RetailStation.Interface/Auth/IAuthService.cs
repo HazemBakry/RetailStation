@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RetailStation.Entities.DTOs.Website;
 
 namespace RetailStation.Interface.Auth
 {
@@ -19,5 +20,7 @@ namespace RetailStation.Interface.Auth
         Task<AuthModel> LoginByUserNameAsync(LoginModel model);
         Task<List<RoleDto>> GetRolesAsync(SearchFilterModel model);
         Task<ActionsResponseModel> AddRoleAsync(string roleName);
+
+        ActionsResponseModel SubscribeRequest(SubscribeRequestModel model);
     }
 }

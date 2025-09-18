@@ -1,6 +1,7 @@
 ﻿using RetailStation.Entities.Common;
 using RetailStation.Entities.DTOs.Auth;
 using RetailStation.Entities.DTOs.Subscription;
+using RetailStation.Entities.DTOs.Website;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,5 +20,13 @@ namespace RetailStation.Interfaces.Subscription
         SubscriberDto GetSubscriberById(string SubscriberId);
         List<SubscriberApplicationDto> GetSubscriberApplications(string SubscriberId);
         ActionsResponseModel EditSubscriberApplications(string SubscriberId, List<SubscriberApplicationDto> ApplicationList);
+
+
+        #region SubscribeRequests
+        ActionsResponseModel EditSubscribeRequest(string SubscribeRequestId, SubscribeRequestModel model);
+        ActionsResponseModel DeleteSubscribeRequest(string SubscribeRequestId);
+        List<SubscribeRequestModel> GetSubscribeRequests_Data(SearchFilterModel FilterModel);
+        ActionsResponseModel ApproveSubscribeRequest(string SubscribeRequestId, SubscriberRegistrationModel model);
+        #endregion
     }
 }

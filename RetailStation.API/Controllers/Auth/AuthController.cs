@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using RetailStation.Entities.Common;
 using System.Linq;
 using RetailStation.Entities.DTOs.Auth;
+using RetailStation.Entities.DTOs.Website;
 
 namespace RetailStation.API.Controllers.Auth
 {
@@ -81,6 +82,18 @@ namespace RetailStation.API.Controllers.Auth
             var result = await _authService.AddRoleAsync(Role);
 
             return Ok(result);
+        }
+
+
+        [HttpPost("SubscribeRequest")]
+        public IActionResult SubscribeRequest([FromBody] SubscribeRequestModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var result =  _authService.SubscribeRequest(model);
+
+            return Ok(result);
+
         }
     }
 

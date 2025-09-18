@@ -8,6 +8,8 @@ import { SubscriberApplicationModel, SubscriberModel } from '../models/Subscribe
 import { AddUserRoleModel, RoleModel } from '../../Shared/models/RoleModel';
 import { UserModel } from '../../Shared/models/UserModel';
 import { BranchModel } from '../../Shared/models/BranchModel';
+import { SubscribeRequestModel } from '../models/SubscribeRequestModel';
+import { SubscriberRegistrationModel } from '../../Shared/models/LoginResponseModel';
 
 
 @Injectable({
@@ -20,7 +22,7 @@ export class SubscriptionsService {
 
 
   // Create New Subscriber
-  createNewSubscriber(model: FormData){
+  createNewSubscriber(model: FormData) {
     return this.http.post<ActionsResponseModel>(`${this.URL}ManageSubscribers/CreateNewSubscriber`, model);
   }
 
@@ -35,63 +37,87 @@ export class SubscriptionsService {
   }
 
   // Get Subscriber By ID
-  getSubscriberById(subscriberId: string){
+  getSubscriberById(subscriberId: string) {
     return this.http.get<SubscriberModel>(`${this.URL}ManageSubscribers/GetSubscriberById?SubscriberId=${subscriberId}`);
   }
-  deleteSubscriber(subscriberId: string){
+  deleteSubscriber(subscriberId: string) {
     return this.http.get<ActionsResponseModel>(`${this.URL}ManageSubscribers/deleteSubscriber?SubscriberId=${subscriberId}`);
   }
 
   // Get Subscriber Applications
-  getSubscriberApplications(subscriberId: string){
+  getSubscriberApplications(subscriberId: string) {
     return this.http.get<SubscriberApplicationModel[]>(`${this.URL}ManageSubscribers/GetSubscriberApplications?SubscriberId=${subscriberId}`);
   }
 
   // Edit Subscriber Applications
-  editSubscriberApplications(subscriberId: string,applicationList: SubscriberApplicationModel[]) {
-    return this.http.post<ActionsResponseModel>(`${this.URL}ManageSubscribers/EditSubscriberApplications?SubscriberId=${subscriberId}`,applicationList);
+  editSubscriberApplications(subscriberId: string, applicationList: SubscriberApplicationModel[]) {
+    return this.http.post<ActionsResponseModel>(`${this.URL}ManageSubscribers/EditSubscriberApplications?SubscriberId=${subscriberId}`, applicationList);
   }
 
   ///////////////////// Users //////////////////////////////////
   // Get Users For Subscriber
-  getSubscriberUsers(subscriberId: string,model: any) {
+  getSubscriberUsers(subscriberId: string, model: any) {
     return this.http.post(`${this.URL}ManageSubscribers/GetSubscriberUsers?SubscriberId=${subscriberId}`, model);
   }
 
-  
-  getUsers(subscriberId:string,model: PagedResponseModel):Observable<PagedResponseModel<UserModel[]>> {
+
+  getUsers(subscriberId: string, model: PagedResponseModel): Observable<PagedResponseModel<UserModel[]>> {
     return this.http.post<PagedResponseModel<UserModel[]>>(`${this.URL}ManageSubscribers/GetUsers?SubscriberId=${subscriberId}`, model);
   }
-  getRoles(model: PagedResponseModel):Observable<PagedResponseModel<RoleModel[]>> {
+  getRoles(model: PagedResponseModel): Observable<PagedResponseModel<RoleModel[]>> {
     return this.http.post<PagedResponseModel<RoleModel[]>>(`${this.URL}ManageSubscribers/GetRoles`, model);
   }
-  addNewRole(role: string):Observable<ActionsResponseModel> {
+  addNewRole(role: string): Observable<ActionsResponseModel> {
     return this.http.get<ActionsResponseModel>(`${this.URL}ManageSubscribers/AddNewRole?Role=${role}`);
   }
-  assignUserRole(subscriberId:string,userId:string,model: AddUserRoleModel):Observable<ActionsResponseModel> {
+  assignUserRole(subscriberId: string, userId: string, model: AddUserRoleModel): Observable<ActionsResponseModel> {
     return this.http.post<ActionsResponseModel>(`${this.URL}ManageSubscribers/AssignUserRole?SubscriberId=${subscriberId}&UserId=${userId}`, model);
   }
-  addNewUser(subscriberId:string,model: FormData) {
+  addNewUser(subscriberId: string, model: FormData) {
     return this.http.post<ActionsResponseModel>(`${this.URL}ManageSubscribers/AddUser?SubscriberId=${subscriberId}`, model);
   }
-  editUser(subscriberId:string,userId: string,model: FormData) {
+  editUser(subscriberId: string, userId: string, model: FormData) {
     return this.http.post<ActionsResponseModel>(`${this.URL}ManageSubscribers/EditUser?UserId= ${userId}&SubscriberId=${subscriberId}`, model);
   }
-  deleteUser(subscriberId:string,userId: string) {
+  deleteUser(subscriberId: string, userId: string) {
     return this.http.get<ActionsResponseModel>(`${this.URL}ManageSubscribers/DeleteUser?UserId= ${userId}&SubscriberId=${subscriberId}`);
   }
 
-  getBranches(subscriberId:string,model: PagedResponseModel):Observable<PagedResponseModel<BranchModel[]>> {
+  getBranches(subscriberId: string, model: PagedResponseModel): Observable<PagedResponseModel<BranchModel[]>> {
     return this.http.post<PagedResponseModel<BranchModel[]>>(`${this.URL}ManageSubscribers/GetBranches?SubscriberId=${subscriberId}`, model);
   }
-  addNewBranch(subscriberId:string,model: FormData) {
+  addNewBranch(subscriberId: string, model: FormData) {
     return this.http.post<ActionsResponseModel>(`${this.URL}ManageSubscribers/AddBranch?SubscriberId=${subscriberId}`, model);
   }
-  editBranch(subscriberId:string,branchId: number,model: FormData) {
+  editBranch(subscriberId: string, branchId: number, model: FormData) {
     return this.http.post<ActionsResponseModel>(`${this.URL}ManageSubscribers/EditBranch?BranchId= ${branchId}&SubscriberId=${subscriberId}`, model);
   }
-  deleteBranch(subscriberId:string,branchId: number) {
+  deleteBranch(subscriberId: string, branchId: number) {
     return this.http.get<ActionsResponseModel>(`${this.URL}ManageSubscribers/DeleteBranch?BranchId= ${branchId}&SubscriberId=${subscriberId}`);
   }
-  
+
+
+
+
+  ////////////////////// SubscribeRequest
+
+  GetSubscribeRequests_Data(model: PagedResponseModel<SubscribeRequestModel[]>) {
+    return this.http.post<PagedResponseModel<SubscribeRequestModel[]>>(this.URL + 'ManageSubscribers/GetSubscribeRequests_Data', model);
+  }
+
+  GetSubscribeRequestDetailsById(SubscribeRequestId: string) {
+    return this.http.get<SubscribeRequestModel>(this.URL + `ManageSubscribers/GetSubscribeRequestDetailsById?SubscribeRequestId=${SubscribeRequestId}`);
+  }
+  SaveNewSubscribeRequest(model: SubscribeRequestModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'ManageSubscribers/SubscribeRequest', model);
+  }
+  EditSubscribeRequest(SubscribeRequestId: string, model: SubscribeRequestModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `ManageSubscribers/EditSubscribeRequest?SubscribeRequestId=${SubscribeRequestId}`, model);
+  }
+  DeleteSubscribeRequest(SubscribeRequestId: string) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'ManageSubscribers/DeleteSubscribeRequest?SubscribeRequestId=' + SubscribeRequestId);
+  }
+  ApproveSubscribeRequest(SubscribeRequestId: string,model:SubscriberRegistrationModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'ManageSubscribers/ApproveSubscribeRequest?SubscribeRequestId=' + SubscribeRequestId,model);
+  }
 }

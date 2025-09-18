@@ -16,6 +16,7 @@ using RetailStation.Interface.Branches;
 using RetailStation.Entities.Models.Subscription;
 using RetailStation.Entities.DTOs.Lookups;
 using Entities.DTOs.Auth;
+using RetailStation.Entities.DTOs.Website;
 
 namespace RetailStation.API.Controllers.Subscription
 {
@@ -295,6 +296,52 @@ namespace RetailStation.API.Controllers.Subscription
             {
                 return BadRequest("branch not found");
             }
+            return Ok(result);
+        }
+        #endregion
+
+
+        #region SubscribeRequests
+
+        [HttpPost]
+        [Route("EditSubscribeRequest")]
+        public IActionResult EditSubscribeRequest(string SubscribeRequestId, [FromForm] SubscribeRequestModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = _subscribersService.EditSubscribeRequest(SubscribeRequestId, model);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("DeleteSubscribeRequest")]
+        public IActionResult DeleteSubscribeRequest(string SubscribeRequestId)
+        {
+            var result = _subscribersService.DeleteSubscribeRequest(SubscribeRequestId);
+            return Ok(result);
+        }
+
+        [HttpPost("GetSubscribeRequests_Data")]
+        public IActionResult GetSubscribeRequests_Data(SearchFilterModel Model)
+        {
+            var data = _subscribersService.GetSubscribeRequests_Data(Model);
+            var result = new PagedResponseModel<SubscribeRequestModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = Model.PageSize,
+                CurrentPage = Model.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("ApproveSubscribeRequest")]
+        public IActionResult ApproveSubscribeRequest(string SubscribeRequestId, SubscriberRegistrationModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var result = _subscribersService.ApproveSubscribeRequest(SubscribeRequestId, model);
             return Ok(result);
         }
         #endregion

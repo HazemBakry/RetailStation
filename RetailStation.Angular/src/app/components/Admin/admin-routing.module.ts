@@ -17,6 +17,7 @@ import { AuthPageGuard } from 'src/app/Auth/authPage.guard';
 import { ItemsComponent } from './components/Operation/items/items.component';
 import { RolesComponent } from './components/ManageSubscriptions/roles/roles.component';
 import { ManageRolePagesComponent } from './components/ManageSubscriptions/manage-role-pages/manage-role-pages.component';
+import { WebsiteSubscribeRequestsComponent } from './components/ManageSubscriptions/website-subscribe-requests/website-subscribe-requests.component';
 
 const routes: Routes = [
   {
@@ -54,6 +55,7 @@ const routes: Routes = [
       },
       { path: 'roles', component: RolesComponent },
       { path: 'manage-role-pages/:roleId', component: ManageRolePagesComponent },
+      { path: 'subscribe-requests', component: WebsiteSubscribeRequestsComponent },
 
 
       { path: '', redirectTo: 'home', pathMatch: 'full' },

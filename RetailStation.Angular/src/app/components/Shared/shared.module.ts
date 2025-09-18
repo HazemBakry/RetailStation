@@ -64,7 +64,6 @@ import { RetailHomeComponent } from './components/retail-home/retail-home.compon
 import { RegisterComponent } from 'src/app/Auth/register/register.component';
 import { WebsiteHeaderComponent } from './components/website-header/website-header.component';
 import { WebsiteSearchComponent } from './components/website-search/website-search.component';
-import { WebsiteSubscribeComponent } from './components/website-subscribe/website-subscribe.component';
 import { RateComponent } from './components/rate/rate.component';
 import { CompareComponent } from './components/sidepanel/compare/compare.component';
 
@@ -123,7 +122,6 @@ import { CompareComponent } from './components/sidepanel/compare/compare.compone
     RegisterComponent,
     WebsiteHeaderComponent,
     WebsiteSearchComponent,
-    WebsiteSubscribeComponent,
     RateComponent,
     CompareComponent,
   ],
@@ -200,7 +198,6 @@ import { CompareComponent } from './components/sidepanel/compare/compare.compone
     RegisterComponent,
     WebsiteHeaderComponent,
     WebsiteSearchComponent,
-    WebsiteSubscribeComponent,
     RateComponent,
     CompareComponent
   ],

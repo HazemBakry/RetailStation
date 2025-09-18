@@ -16,6 +16,7 @@ import { WebsiteSliderComponent } from './components/website/website-slider/webs
 import { WebsitePromotionItemsComponent } from './components/website/website-promotion-items/website-promotion-items.component';
 import { WebsiteMainItemsComponent } from './components/website/website-main-items/website-main-items.component';
 import { WebsiteFiltersComponent } from './components/website/website-filters/website-filters.component';
+import { WebsiteSubscribeComponent } from './components/website/website-subscribe/website-subscribe.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { WebsiteFiltersComponent } from './components/website/website-filters/we
     WebsiteSliderComponent,
     WebsitePromotionItemsComponent,
     WebsiteMainItemsComponent,
-    WebsiteFiltersComponent
+    WebsiteFiltersComponent,
+    WebsiteSubscribeComponent
   ],
   imports: [
     CommonModule,

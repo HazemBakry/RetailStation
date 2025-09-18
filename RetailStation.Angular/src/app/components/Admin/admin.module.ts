@@ -21,6 +21,7 @@ import { ItemsComponent } from './components/Operation/items/items.component';
 import { RolesComponent } from './components/ManageSubscriptions/roles/roles.component';
 import { ManageRolePagesComponent } from './components/ManageSubscriptions/manage-role-pages/manage-role-pages.component';
 import { PermissionItemComponent } from './components/ManageSubscriptions/permission-item/permission-item.component';
+import { WebsiteSubscribeRequestsComponent } from './components/ManageSubscriptions/website-subscribe-requests/website-subscribe-requests.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { PermissionItemComponent } from './components/ManageSubscriptions/permis
     ItemsCategoriesComponent,
     ItemUnitsComponent,
     SuppliersComponent,
-    ItemsComponent
+    ItemsComponent,
+    WebsiteSubscribeRequestsComponent
   ],
   imports: [
     CommonModule,

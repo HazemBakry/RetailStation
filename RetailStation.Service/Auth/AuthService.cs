@@ -25,6 +25,9 @@ using RetailStation.Entities.Models.Auth;
 using RetailStation.Entities.DTOs.Auth;
 using RetailStation.Entities.Common.Enums;
 using RetailStation.Entities.Models.Subscription;
+using RetailStation.Entities.DTOs.Website;
+using RetailStation.Entities.Models.Operation;
+using ICU4N.Util;
 
 namespace RetailStation.Service.Auth
 {
@@ -137,9 +140,13 @@ namespace RetailStation.Service.Auth
                 var errors = string.Join(" , ", result.Errors.Select(e => e.Description));
                 return new ActionsResponseModel { IsSuccess = false, Message = errors };
             }
-
+            string defaultRole = "BasicUser";
+            if(model.SubscriberTypeId == SubscriberType.Supplier)
+                defaultRole = "SupplierAdmin";
+            else if(model.SubscriberTypeId == SubscriberType.Customer)
+                defaultRole = "CustomerAdmin";
             // Add user to the default role
-            await _userManager.AddToRoleAsync(user, "User");
+            await AddAndAssignRoleAsync(user, defaultRole);
 
             return new ActionsResponseModel { IsSuccess = true, Message = "User created successfully!" };
         }
@@ -369,8 +376,54 @@ namespace RetailStation.Service.Auth
             return result.Succeeded ? new ActionsResponseModel { Message = "role added successfully" }
                                                : new ActionsResponseModel { Message = "can't add role", IsSuccess = false };
         }
+        private async Task<bool> AddAndAssignRoleAsync(ApplicationUser user,string roleName)
+        {
+            var Succeeded = true;
+            if (!await _roleManager.RoleExistsAsync(roleName))
+            { 
+                var role = new IdentityRole(roleName);
+                var result = await _roleManager.CreateAsync(role);
+                Succeeded = result.Succeeded;
+            }
+
+            if(Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, roleName);
+
+            }
+            return Succeeded;
+        }
 
 
+        public ActionsResponseModel SubscribeRequest(SubscribeRequestModel model)
+        {
+            try
+            {
 
+                Context.Add(new SubscribeRequest
+                {
+                    SubscribeRequestId = Guid.NewGuid().ToString(),
+                    SubscriberName = model.SubscriberName,
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
+                    SubscriberTypeId = model.SubscriberTypeId,
+                    WorkflowStatusId = (int)WorkflowStatus.Pending
+                });
+
+                Context.SaveChanges();
+                return new ActionsResponseModel
+                {
+                    Message = "تم حفظ البيانات بنجاح"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.InnerException?.Message ?? ex.Message
+                };
+            }
+        }
     }
 }

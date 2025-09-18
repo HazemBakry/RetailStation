@@ -16,6 +16,10 @@ using Microsoft.Data.SqlClient;
 using RetailStation.Entities.DTOs.Auth;
 using System.IO;
 using RetailStation.Entities.Common.Enums;
+using RetailStation.Entities.DTOs.Website;
+using RetailStation.Interface.Auth;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using RetailStation.Entities.Common.Lookups;
 
 namespace RetailStation.Services.Subscription
 {
@@ -25,10 +29,12 @@ namespace RetailStation.Services.Subscription
         private readonly IConfiguration _configuration;
         private readonly DBContext Context;
         private readonly ISharedFilterService SharedFilterService;
+        private readonly IAuthService AuthService;
         private readonly IFileService FileService;
+        private readonly LookupsDbContext LookupsContext;
         private readonly string ConnectionString;
         public readonly string SubscribersFolderName;
-        public SubscribersService(ISQLHelper sQLHelper, IConfiguration configuration, IFileService fileService, ISharedFilterService sharedFilterService, DBContext context)
+        public SubscribersService(ISQLHelper sQLHelper, IConfiguration configuration, IFileService fileService, ISharedFilterService sharedFilterService, DBContext context, IAuthService authService, LookupsDbContext lookupsContext)
         {
             _sQLHelper = sQLHelper;
             _configuration = configuration;
@@ -37,6 +43,8 @@ namespace RetailStation.Services.Subscription
             FileService = fileService;
             SharedFilterService = sharedFilterService;
             Context = context;
+            AuthService = authService;
+            LookupsContext = lookupsContext;
         }
         public async Task<ActionsResponseModel> CreateNewSubscriber(SubscriberDto model)
         {
@@ -219,6 +227,121 @@ namespace RetailStation.Services.Subscription
             }
 
         }
+
+
+        #region SubscribeRequests
+        public ActionsResponseModel EditSubscribeRequest(string SubscribeRequestId, SubscribeRequestModel model)
+        {
+            var Item = Context.SubscribeRequests.Where(x => x.SubscribeRequestId == SubscribeRequestId).FirstOrDefault();
+
+            if (Item != null)
+            {
+                Item.SubscriberName = model.SubscriberName;
+                Item.Email = model.Email;
+                Item.PhoneNumber = model.PhoneNumber;
+                Item.SubscriberTypeId = model.SubscriberTypeId;
+                Context.SaveChanges();
+                return new ActionsResponseModel
+                {
+                    Message = "تم حفظ البيانات بنجاح"
+                };
+            }
+            else
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = "يرجى اختبار المراد تعديلها"
+                };
+            }
+        }
+        public ActionsResponseModel DeleteSubscribeRequest(string SubscribeRequestId)
+        {
+            var item = Context.SubscribeRequests.FirstOrDefault(m => m.SubscribeRequestId == SubscribeRequestId);
+
+            if (item != null)
+            {
+                Context.Remove(item);
+                Context.SaveChanges();
+
+                return new ActionsResponseModel
+                {
+                    Status = 1,
+                    Message = "تم حذف البيانات بنجاح"
+                };
+            }
+            else
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = "يرجى اختبار الوحدة المراد حذفها"
+                };
+            }
+        }
+        public List<SubscribeRequestModel> GetSubscribeRequests_Data(SearchFilterModel FilterModel)
+        {
+            var query = from sub in Context.SubscribeRequests
+                        select new SubscribeRequestModel
+                        {
+                            SubscriberName = sub.SubscriberName,
+                            Email = sub.Email,
+                            PhoneNumber = sub.PhoneNumber,
+                            SubscriberTypeId = sub.SubscriberTypeId,
+                            RequestDate = sub.RequestDate,
+                            WorkflowStatusId = sub.WorkflowStatusId,
+
+                        };
+            //var WorkflowStatus = LookupsContext.WorkflowStatus.ToList();
+
+            int totalCount = query.Count();
+            if (FilterModel.CurrentPage > 0 && FilterModel.PageSize > 0)
+            {
+                int skip = (FilterModel.CurrentPage - 1) * FilterModel.PageSize;
+                query = query.Skip(skip).Take(FilterModel.PageSize);
+            }
+
+            var pagedResults = query.ToList();
+            //results.ForEach(x => x.TotalCount = totalCount);
+            var results = pagedResults.Select(x =>
+            {
+                //var workflowStatus = WorkflowStatus.FirstOrDefault(p => p.WorkflowStatusId == x.WorkflowStatusId);
+                x.TotalCount = totalCount;
+                //x.WorkflowStatusNameEN = workflowStatus?.NameEN;
+                //x.WorkflowStatusNameAR = workflowStatus?.NameAR;
+                return x;
+            }).ToList();
+            return results;
+        }
+        public ActionsResponseModel ApproveSubscribeRequest(string SubscribeRequestId, SubscriberRegistrationModel model)
+        {
+            var request = Context.SubscribeRequests.FirstOrDefault(m => m.SubscribeRequestId == SubscribeRequestId);
+            
+            if (request != null)
+            {
+                var response = AuthService.RegisterAsync(model).Result;
+                //return new ActionsResponseModel
+                //{
+                //    Status = 1,
+                //    Message = "تم الموافقة البيانات بنجاح"
+                //};
+                if(response.IsSuccess)
+                {
+                    request.WorkflowStatusId =(int) WorkflowStatus.Approved;
+                    Context.SaveChanges();
+                }
+                return response;
+            }
+            else
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = "يرجى اختبار الطلب المراد الموافقة علية"
+                };
+            }
+        }
+        #endregion
 
 
         public string GetSubscribertDirectoryName(string SubscriberId)

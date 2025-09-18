@@ -7,6 +7,7 @@ import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
 import { SupplierItemModel } from '../models/SupplierItemModel';
 import { WebsiteSliderModel } from '../models/WebsiteSliderModel';
 import { FilterModel } from '../../Shared/models/FilterModel';
+import { SubscribeRequestModel } from '../../Admin/models/SubscribeRequestModel';
 
 
 @Injectable({
@@ -38,4 +39,11 @@ export class WebsiteService {
     return this.http.get<SupplierItemModel>(this.URL + `Website/GetWebsiteItemDetailsById?SupplierItemId=${itemId}`);
   }
 
+
+
+
+  //////////////////////  SubscribeRequest
+    SaveNewSubscribeRequest(model: SubscribeRequestModel) {
+      return this.http.post<ActionsResponseModel>(this.URL + 'Auth/SubscribeRequest', model);
+    }
 }

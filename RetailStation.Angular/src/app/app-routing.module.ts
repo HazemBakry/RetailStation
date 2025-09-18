@@ -11,6 +11,7 @@ import { RetailHomeComponent } from './components/Shared/components/retail-home/
 import { RegisterComponent } from './Auth/register/register.component';
 import { WebsiteComponent } from './components/Main/components/website/website.component';
 import { WebsiteHomeComponent } from './components/Main/components/website/website-home/website-home.component';
+import { WebsiteSubscribeComponent } from './components/Main/components/website/website-subscribe/website-subscribe.component';
 
 const routes: Routes = [
   // { path: '', component: RetailHomeComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
     component: WebsiteComponent,
     children: [
       { path: '', component: WebsiteHomeComponent },
+      { path: 'subscribe', component: WebsiteSubscribeComponent },
       { path: '', redirectTo: '', pathMatch: 'full' },
     ],
   },
@@ -44,7 +46,7 @@ const routes: Routes = [
         (erp) => erp.DesignModule
       ),
   },
-  { path: '**', pathMatch:'full' ,redirectTo:'' },
+  { path: '**', pathMatch: 'full', redirectTo: '' },
   // { path: 'profile', loadChildren: () => import('./components/EmployeeProfile/employee-profile.module').then(erp => erp.EmployeeProfileModule), canActivate: [AuthGuard] },
   // { path: 'auth-callback', component: AuthCallbackComponent },
   // { path: 'unauthorized', component: NotAuthorizedComponent, canActivate: [AuthGuard] },
@@ -62,4 +64,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

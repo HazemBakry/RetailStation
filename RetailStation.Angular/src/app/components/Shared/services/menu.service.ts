@@ -75,6 +75,14 @@ export class MenuService {
         },
         {
           menuItemId: MenuType.Admin,
+          displayName: 'طلبات الاشتراك',
+          menuItem: '',
+          description: 'احصائيات',
+          icon: 'fas fa-th-large',
+          route: '/admin/subscribe-requests'
+        },
+        {
+          menuItemId: MenuType.Admin,
           displayName: 'الصلاحيات',
           menuItem: '',
           description: 'احصائيات',
