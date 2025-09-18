@@ -32,8 +32,11 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of pagedResponse.results">
+                        <td>
+                            <a routerLink="/admin/suppliers/manage-supplier-items/{{item.supplierId}}">
+                                {{item.nameEN}}</a>
+                        </td>
                         <td>{{item.nameAR}}</td>
-                        <td>{{item.nameEN}}</td>
                         <td>{{item.code}}</td>
                         <td>{{item.isActive}}</td>
                         <td>{{item.notes}}</td>

@@ -130,5 +130,33 @@ namespace RetailStation.API.Controllers.SupplierManagement
             var results = _supplierManagementService.ExportSupplierItem(SupplierId, UserName, SearchModel);
             return Ok(results);
         }
+
+
+
+
+        [HttpPost]
+        [Route("GetSupplierItems_Data")]
+        public IActionResult GetSupplierItems_Data(int SupplierId,SearchFilterModel SearchModel)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            var data = _supplierManagementService.GetSupplierItemsData(SupplierId, SearchModel);
+            var result = new PagedResponseModel<SupplierItemModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+            };
+            return Ok(result);
+        }
+
+
+        [HttpGet]
+        [Route("MapSupplierItem")]
+        public async Task<IActionResult> MapSupplierItem(int SupplierId,int SupplierItemId,int? ItemId)
+        {
+            var results = await _supplierManagementService.MapSupplierItem(SupplierId, SupplierItemId, ItemId);
+            return Ok(results);
+        }
     }
 }

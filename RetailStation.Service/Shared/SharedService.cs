@@ -129,14 +129,13 @@ namespace RetailStation.Service.Shared
      
         public List<SelectorDataModel> GetItemsSelector()
         {
-            //var results = Context.Items.Select(b => new SelectorDataModel
-            //{
-            //    Id = b.ItemId,
-            //    Name = b.NameAR ?? b.NameEN,
-            //    Code = b.Code
-            //}).ToList();
-            //return results;
-            return new List<SelectorDataModel>();
+            var results = Context.Items.Select(b => new SelectorDataModel
+            {
+                Id = b.ItemId,
+                Name = b.NameAR ?? b.NameEN,
+                Code = b.Code
+            }).ToList();
+            return results;
 
         }
 

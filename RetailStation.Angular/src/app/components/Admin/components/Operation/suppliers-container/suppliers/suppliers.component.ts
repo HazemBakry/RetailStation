@@ -8,9 +8,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { LookupService } from 'src/app/components/Shared/services/lookup.service';
-import { OperationService } from '../../../services/operation.service';
+import { OperationService } from '../../../../services/operation.service';
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
-import { SupplierModel } from '../../../models/Operation/SupplierModel';
+import { SupplierModel } from '../../../../models/Operation/SupplierModel';
 import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 
 @Component({

@@ -13,6 +13,7 @@ import { UnitModel } from '../models/Operation/UnitModel';
 import { SupplierModel } from '../models/Operation/SupplierModel';
 import { ItemModel } from '../models/Operation/ItemModel';
 import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
+import { SupplierItemModel } from '../../Main/models/SupplierItemModel';
 
 
 @Injectable({
@@ -125,5 +126,20 @@ export class OperationService {
   }
   GetSuppliersByItemId(itemId: number) {
     return this.http.get<PagedResponseModel<SupplierModel[]>>(this.URL + `Suppliers/GetSuppliersByItemId?ItemId=${itemId} `);
+  }
+
+  GetSupplierItems_Data(supplierId: number, searchModel: PagedResponseModel<SupplierItemModel[]>) {
+    return this.http.post<PagedResponseModel<SupplierItemModel[]>>(this.URL + `SupplierManagement/GetSupplierItems_Data?SupplierId=${supplierId}`, searchModel);
+  }
+  MapSupplierItem(supplierId: number, supplierItemId: number, itemId: number) {
+    const params = new URLSearchParams();
+    params.append('SupplierId', supplierId.toString());
+    params.append('SupplierItemId', supplierItemId.toString());
+    if (itemId !== null) {
+      params.append('ItemId', itemId.toString());
+    }
+
+    const queryString = params.toString();
+    return this.http.get<ActionsResponseModel>(this.URL + `SupplierManagement/MapSupplierItem?${queryString}`);
   }
 }

@@ -12,12 +12,14 @@ import { SubscribersComponent } from './components/ManageSubscriptions/subscribe
 import { ManageSubscriptionsComponent } from './components/ManageSubscriptions/manage-subscriptions.component';
 import { ItemsCategoriesComponent } from './components/Operation/items-categories/items-categories.component';
 import { ItemUnitsComponent } from './components/Operation/item-units/item-units.component';
-import { SuppliersComponent } from './components/Operation/suppliers/suppliers.component';
+import { SuppliersComponent } from './components/Operation/suppliers-container/suppliers/suppliers.component';
 import { AuthPageGuard } from 'src/app/Auth/authPage.guard';
 import { ItemsComponent } from './components/Operation/items/items.component';
 import { RolesComponent } from './components/ManageSubscriptions/roles/roles.component';
 import { ManageRolePagesComponent } from './components/ManageSubscriptions/manage-role-pages/manage-role-pages.component';
 import { WebsiteSubscribeRequestsComponent } from './components/ManageSubscriptions/website-subscribe-requests/website-subscribe-requests.component';
+import { SuppliersContainerComponent } from './components/Operation/suppliers-container/suppliers-container.component';
+import { ManageSupplierItemsComponent } from './components/Operation/suppliers-container/manage-supplier-items/manage-supplier-items.component';
 
 const routes: Routes = [
   {
@@ -28,9 +30,22 @@ const routes: Routes = [
       { path: 'home/:tabName', component: AdminHomeComponent },
       { path: 'items-categories', component: ItemsCategoriesComponent },
       { path: 'items-units', component: ItemUnitsComponent },
-      { path: 'suppliers', component: SuppliersComponent },
       { path: 'items', component: ItemsComponent, },//canActivate: [AuthPageGuard], data: { pageName: 'Items' } },
 
+      {
+        path: 'suppliers',
+        canActivate: [AuthGuard],
+        data: { roles: ['SuperAdmin'] },
+        component: SuppliersContainerComponent,
+        children: [
+          { path: '', component: SuppliersComponent },
+          { path: 'add-subscriber', component: AddSubscriberComponent },
+          {
+            path: 'manage-supplier-items/:SupplierId',
+            component: ManageSupplierItemsComponent
+          }
+        ],
+      },
       {
         path: 'manage-subscriptions',
         canActivate: [AuthGuard],

@@ -1,0 +1,70 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2">
+
+        </div>
+        <div class="justify-content-end">
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage"
+                [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount"></app-pagination>
+        </div>
+    </div>
+    <div class="p-3 bg-white">
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+
+                <thead>
+                    <tr>
+                        <th>الصنف</th>
+                        <th>الوحدة</th>
+                        <th>سعر الوحدة</th>
+                        <th>سعر 10 الوحدة</th>
+                        <th>سعر 100 الوحدة</th>
+                        <th>سعر 1000 الوحدة</th>
+                        <th>Quantity</th>
+                        <th class="text-center"></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of pagedResponse.results">
+                        <td>
+                            <div class="file-table-ele d-flex align-items-center gap-3">
+                                <div class="file-table-ele-icon warning">
+                                    <i *ngIf="!item.imageUrl" class="far fa-file-pdf"></i>
+                                    <img *ngIf="item.imageUrl" [src]="item.imageUrl">
+                                </div>
+                                <div class="file-table-ele-text">
+                                    <div class="fw-bold fs-5">{{item.nameAR}}</div>
+                                    <div class="text-muted fs-6">{{item.nameEN}}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{item.unitName}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.price10}}</td>
+                        <td>{{item.price100}}</td>
+                        <td>{{item.price1000}}</td>
+                        <td>{{item.quantity}}</td>
+                        <td class="width-300 min-width-300">
+                            <app-general-selector [(ngModel)]="item.itemId" [data]="itemsSelectorData" [disabled]="itemsSelectorData?.length==0"
+                                [showSearch]="true" [placeholder]="'Item Map'"
+                                (valueChanged)="mapSupplierItem(item.supplierItemId,$event)">
+                            </app-general-selector>
+                        </td>
+                    </tr>
+                    <tr *ngIf="!pagedResponse.results.length">
+                        <td colspan="8" class="text-right">
+                            <app-empty-data [showEmptyData]="!pagedResponse.results?.length&&!showLoader"
+                                [showLoader]="showLoader"></app-empty-data>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ngx-loading [show]="showLoader"></ngx-loading>

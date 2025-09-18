@@ -254,6 +254,29 @@ namespace RetailStation.Service.SupplierManagement
                 };
             }
         }
+
+        public async Task<ActionsResponseModel> MapSupplierItem(int SupplierId, int SupplierItemId, int? ItemId)
+        {
+
+            try
+            {
+                var item = Context.SupplierItems.Where(i => i.SupplierItemId == SupplierItemId && i.SupplierId == SupplierId).FirstOrDefault();
+                if (item != null)
+                {
+                    item.ItemId = ItemId;
+                    await Context.SaveChangesAsync();
+                    return new ActionsResponseModel { Message = "Item Updated Successfully !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this item" };
+            }
+            catch (Exception ex)
+            {
+
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+
+            }
+        }
         public ActionsResponseModel ItemQuickUpdate(int SupplierId, int SupplierItemId, decimal Price, int UnitId)
         {
             try

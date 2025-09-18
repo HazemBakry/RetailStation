@@ -16,12 +16,14 @@ import { SubscriberProfileComponent } from './components/ManageSubscriptions/sub
 import { SubscribersComponent } from './components/ManageSubscriptions/subscribers/subscribers.component';
 import { ItemsCategoriesComponent } from './components/Operation/items-categories/items-categories.component';
 import { ItemUnitsComponent } from './components/Operation/item-units/item-units.component';
-import { SuppliersComponent } from './components/Operation/suppliers/suppliers.component';
+import { SuppliersComponent } from './components/Operation/suppliers-container/suppliers/suppliers.component';
 import { ItemsComponent } from './components/Operation/items/items.component';
 import { RolesComponent } from './components/ManageSubscriptions/roles/roles.component';
 import { ManageRolePagesComponent } from './components/ManageSubscriptions/manage-role-pages/manage-role-pages.component';
 import { PermissionItemComponent } from './components/ManageSubscriptions/permission-item/permission-item.component';
 import { WebsiteSubscribeRequestsComponent } from './components/ManageSubscriptions/website-subscribe-requests/website-subscribe-requests.component';
+import { SuppliersContainerComponent } from './components/Operation/suppliers-container/suppliers-container.component';
+import { ManageSupplierItemsComponent } from './components/Operation/suppliers-container/manage-supplier-items/manage-supplier-items.component';
 
 
 @NgModule({
@@ -42,7 +44,9 @@ import { WebsiteSubscribeRequestsComponent } from './components/ManageSubscripti
     ItemUnitsComponent,
     SuppliersComponent,
     ItemsComponent,
-    WebsiteSubscribeRequestsComponent
+    WebsiteSubscribeRequestsComponent,
+    SuppliersContainerComponent,
+    ManageSupplierItemsComponent
   ],
   imports: [
     CommonModule,
