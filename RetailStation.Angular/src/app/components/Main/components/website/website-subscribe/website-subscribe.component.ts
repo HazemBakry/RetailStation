@@ -111,7 +111,7 @@ export class WebsiteSubscribeComponent implements OnInit {
     }
     this.subscribeRequestModel = this.formGroup.value;
     if (this.subscribeRequestId)
-      this.editSubscribeRequestBasicInfo();
+      this.editSubscribeRequest();
     else
       this.addNewSubscribeRequest();
   }
@@ -137,7 +137,7 @@ export class WebsiteSubscribeComponent implements OnInit {
 
   }
 
-  editSubscribeRequestBasicInfo() {
+  editSubscribeRequest() {
 
     this.showAddLoader = true;
     this.subscriptionsService.EditSubscribeRequest(this.subscribeRequestId, this.subscribeRequestModel).subscribe((data: ActionsResponseModel) => {

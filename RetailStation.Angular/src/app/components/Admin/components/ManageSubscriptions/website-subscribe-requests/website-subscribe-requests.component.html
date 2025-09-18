@@ -89,13 +89,11 @@
                                     <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle>
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
-                                    <div ngbDropdownMenu class="border">
+                                    <div *ngIf="item.workflowStatusId == wfStatus.Pending && !item.subscriberId" ngbDropdownMenu class="border">
                                         <button ngbDropdownItem (click)="openAddModal(addNewModal,item)">
                                             <!-- <i class="uil uil-trash-alt"></i> -->
                                             قبول
                                         </button>
-
-
                                     </div>
                                     <div ngbDropdownMenu class="border">
                                         <button ngbDropdownItem
@@ -103,8 +101,6 @@
                                             <!-- <i class="uil uil-trash-alt"></i> -->
                                             حذف
                                         </button>
-
-
                                     </div>
                                 </div>
                             </div>

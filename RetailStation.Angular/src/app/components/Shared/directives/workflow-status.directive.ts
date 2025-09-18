@@ -22,14 +22,14 @@ export class WorkflowStatusDirective implements OnInit,OnChanges {
     }
   }
   private renderStatus() {
-    const text = this.nameAR || this.nameEN || 'غير معروف';
-    const statusColors: Record<number, { bg: string; fg: string }> = {
+    var text = this.nameAR || this.nameEN || 'غير معروف';
+    const statusColors: Record<number, { bg: string; fg: string;nameEN:string }> = {
       
-      1: { bg: '#FFF3CD', fg: '#856404' }, // Pending
-      2: { bg: '#F8D7DA', fg: '#721C24' }, // Cancelled
-      3: { bg: '#F8D7DA', fg: '#721C24' }, // Rejected
-      4: { bg: '#D1ECF1', fg: '#0C5460' }, // Approved
-      5: { bg: '#D4EDDA', fg: '#155724' }, // Completed
+      1: { bg: '#FFF3CD', fg: '#856404',nameEN:'Pending' }, // Pending
+      2: { bg: '#F8D7DA', fg: '#721C24',nameEN:'Cancelled' }, // Cancelled
+      3: { bg: '#F8D7DA', fg: '#721C24' ,nameEN:'Rejected'}, // Rejected
+      4: { bg: '#D1ECF1', fg: '#0C5460',nameEN:'Approved' }, // Approved
+      5: { bg: '#D4EDDA', fg: '#155724',nameEN:'Completed' }, // Completed
       
       //Finance
       
@@ -71,7 +71,11 @@ export class WorkflowStatusDirective implements OnInit,OnChanges {
     // let colors = this.id && statusColors[this.id] ? statusColors[this.id] : defaultColors;
     let colors = defaultColors;
     if(this.type?.toLowerCase() == 'workflowStatus'.toLowerCase() )
+    {
+
       colors = this.id && statusColors[this.id] ? statusColors[this.id] : defaultColors;
+      text = this.id && statusColors[this.id] ? statusColors[this.id].nameEN : text;
+    }
     else if(this.type?.toLowerCase() == 'employeeStatus'.toLowerCase() )
       colors = this.id && empStatusColors[this.id] ? empStatusColors[this.id] : defaultColors;
     // Apply styles

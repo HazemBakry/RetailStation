@@ -284,7 +284,9 @@ namespace RetailStation.Services.Subscription
             var query = from sub in Context.SubscribeRequests
                         select new SubscribeRequestModel
                         {
+                            SubscribeRequestId = sub.SubscribeRequestId,
                             SubscriberName = sub.SubscriberName,
+                            SubscriberId = sub.SubscriberId,
                             Email = sub.Email,
                             PhoneNumber = sub.PhoneNumber,
                             SubscriberTypeId = sub.SubscriberTypeId,
