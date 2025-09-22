@@ -22,6 +22,7 @@ export interface SupplierItemModel extends CreatorModel {
     itemTypeId: number | null;
     supplierId: number | null;
     supplierName: string;
+    description: string;
     disabled: boolean | null;
     isCompareAdded: boolean | null;
     image: File | null;

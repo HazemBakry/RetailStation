@@ -1,0 +1,28 @@
+<div class="quantity-container d-flex align-items-center p-2 rounded shadow-sm bg-white border">
+  
+  <!-- Decrement -->
+  <button 
+    (click)="decrement()" 
+    [disabled]="value <= 1"
+    class="btn btn-light btn-quantity me-2"
+  >
+    <span>-</span>
+  </button>
+
+  <!-- Input -->
+  <input 
+    type="number"
+    [value]="value"
+    (change)="onQuantityChange($event)"
+    min="1"
+    class="form-control text-center quantity-input mx-2"
+  />
+
+  <!-- Increment -->
+  <button 
+    (click)="increment()" 
+    class="btn btn-primary btn-quantity ms-2"
+  >
+    <span>+</span>
+  </button>
+</div>

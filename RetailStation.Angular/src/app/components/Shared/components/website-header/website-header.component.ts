@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/Auth/auth.service';
 import { MenuService, MenuType } from '../../services/menu.service';
 import { environment } from 'src/environments/environment';
 import { CompareService } from '../../services/comapre.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-website-header',
@@ -26,13 +27,17 @@ export class WebsiteHeaderComponent implements OnInit {
   selectedModuleName: string = 'الأنظمة';
   modulesMenu: MenuSidebarItem[] = [];
   isAuthenticated: boolean = false;
+  cartItemsCount$: number = 0;
 
-  constructor(private authService: AuthService, private router: Router, private menuService: MenuService) {
+  constructor(private authService: AuthService, private router: Router, private menuService: MenuService, private cartService: CartService) {
     this.modulesMenu = this.menuService.getMenuById(MenuType.MainModules)?.subMenus;
     this.UserModel = this.authService.getCurrentUser();
     this.isAuthenticated = this.authService.isAuthenticated();
     this.routerSubscriber();
     this.getCartItemsNumber(); this.getUserModel();
+    this.cartService.itemCount$.subscribe(count => {
+      this.cartItemsCount$ = count || 0;
+    });
   }
 
 

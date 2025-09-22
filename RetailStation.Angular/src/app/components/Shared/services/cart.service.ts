@@ -6,17 +6,12 @@ import { ActionsResponseModel } from '../models/ActionsResponseModel';
 import { AuthService } from 'src/app/Auth/auth.service';
 
 export interface CartModel {
+  cartId?: number;
   supplierItemId: number;
   quantity: number;
   userId: string;
 }
 
-export interface Cart {
-  cartId: number;
-  supplierItemId: number;
-  quantity: number;
-  userId: string;
-}
 
 const LOCAL_STORAGE_CART_KEY = 'cartItems';
 
@@ -25,9 +20,9 @@ const LOCAL_STORAGE_CART_KEY = 'cartItems';
 })
 
 export class CartService {
-  private _cartItemsSource = new BehaviorSubject<Cart[]>([]);
+  private _cartItemsSource = new BehaviorSubject<CartModel[]>([]);
 
-  cartItems$: Observable<Cart[]> = this._cartItemsSource.asObservable();
+  cartItems$: Observable<CartModel[]> = this._cartItemsSource.asObservable();
 
   itemCount$: Observable<number> = this.cartItems$.pipe(
     map(items => items.length)
@@ -60,7 +55,7 @@ export class CartService {
   /**
    * Gets the current cart items. Synchronous access.
    */
-  getCurrentCartItems(): Cart[] {
+  getCurrentCartItems(): CartModel[] {
     return this._cartItemsSource.value;
   }
 
@@ -72,7 +67,7 @@ export class CartService {
     const currentList = this.getCurrentCartItems();
     const existingItem = currentList.find(item => item.supplierItemId === cartItem.supplierItemId);
 
-    let updatedList: Cart[];
+    let updatedList: CartModel[];
 
     if (existingItem) {
       // Update quantity of existing item
@@ -83,7 +78,7 @@ export class CartService {
       );
     } else {
       // Add new item to the list with a dummy cartId for local storage
-      const newItem: Cart = { ...cartItem, cartId: new Date().getTime() }; // Temp ID for local use
+      const newItem: CartModel = { ...cartItem, cartId: new Date().getTime() }; // Temp ID for local use
       updatedList = [...currentList, newItem];
     }
 
@@ -103,19 +98,13 @@ export class CartService {
     }
   }
 
-  /**
-   * Removes an item from the cart, syncing with local storage and the database.
-   * @param cartId The database cartId of the item to remove.
-   */
-  removeItem(cartId: number): void {
-    const updatedList = this.getCurrentCartItems().filter(item => item.cartId !== cartId);
+  removeItem(supplierItemId: number): void {
+    const updatedList = this.getCurrentCartItems().filter(item => item.supplierItemId !== supplierItemId);
 
     this._cartItemsSource.next(updatedList);
     this.saveToLocalStorage(updatedList);
-
-    // Sync with API if item has a real DB ID
     if (this.authService.isAuthenticated()) {
-      this.removeItemFromCart(cartId).pipe(
+      this.removeItemFromCart(supplierItemId).pipe(
         catchError(error => {
           console.error('Failed to remove item from database.', error);
           return throwError(error);
@@ -124,11 +113,7 @@ export class CartService {
     }
   }
 
-  /**
-   * Clears all items from the cart, syncing with local storage and the database.
-   */
   clearCart(): void {
-
     this._cartItemsSource.next([]);
     this.saveToLocalStorage([]);
 
@@ -144,7 +129,7 @@ export class CartService {
 
   // --- API Methods (Wrapper functions for clarity and error handling) ---
 
-  private getCartItems(userId: string): Observable<Cart[]> {
+  private getCartItems(userId: string): Observable<CartModel[]> {
     //return this.http.get<Cart[]>(`${this.apiUrl}/Cart/${userId}`);
     return of([]);
 
@@ -166,14 +151,17 @@ export class CartService {
     return of({ isSuccess: true, message: 'Cart cleared successfully (temp response).' } as ActionsResponseModel);
 
   }
-
+  private changeItemQuantityInDB(supplierItemId: number, quantity: number): Observable<ActionsResponseModel> {
+    // return this.http.put<ActionsResponseModel>(`${this.apiUrl}/Cart/${supplierItemId}`, { quantity });
+    return of({ isSuccess: true, message: 'Item quantity updated successfully (temp response).' } as ActionsResponseModel);
+  }
   // --- Local Storage Sync Methods ---
 
   private loadFromLocalStorage(): void {
     try {
       const storedList = localStorage.getItem(LOCAL_STORAGE_CART_KEY);
       if (storedList) {
-        const items: Cart[] = JSON.parse(storedList);
+        const items: CartModel[] = JSON.parse(storedList);
         this._cartItemsSource.next(items);
       }
     } catch (e) {
@@ -182,7 +170,7 @@ export class CartService {
     }
   }
 
-  private saveToLocalStorage(list: Cart[]): void {
+  private saveToLocalStorage(list: CartModel[]): void {
     try {
       localStorage.setItem(LOCAL_STORAGE_CART_KEY, JSON.stringify(list));
     } catch (e) {
@@ -194,8 +182,8 @@ export class CartService {
    * Merges the DB cart with the local storage cart and sets the BehaviorSubject.
    * This is called only on the initial load for an authenticated user.
    */
-  private syncLocalAndDb(dbCart: Cart[]): void {
-    const localCart: Cart[] = this.loadFromLocalStorageAndReturn();
+  private syncLocalAndDb(dbCart: CartModel[]): void {
+    const localCart: CartModel[] = this.loadFromLocalStorageAndReturn();
 
     // Simple sync: prioritize the DB cart
     const finalCart = dbCart.length > 0 ? dbCart : localCart;
@@ -205,7 +193,7 @@ export class CartService {
   }
 
   // Helper method to load local storage without setting the subject
-  private loadFromLocalStorageAndReturn(): Cart[] {
+  private loadFromLocalStorageAndReturn(): CartModel[] {
     try {
       const storedList = localStorage.getItem(LOCAL_STORAGE_CART_KEY);
       return storedList ? JSON.parse(storedList) : [];
@@ -214,20 +202,36 @@ export class CartService {
       return [];
     }
   }
-  // getCartItems(userId: string): Observable<Cart[]> {
-  //   return this.http.get<Cart[]>(`${this.apiUrl}/Cart/${userId}`);
-  // }
 
+  isItemInList(itemId: number): boolean {
+    return this._cartItemsSource.value.some(item => item.supplierItemId === itemId);
+  }
 
-  // addItemToCart(cartItem: CartModel): Observable<ActionsResponseModel> {
-  //   return this.http.post<ActionsResponseModel>(`${this.apiUrl}/Cart`, cartItem);
-  // }
+  changeItemQuantity(supplierItemId: number, newQuantity: number): void {
+    if (newQuantity <= 0) {
+      const itemToRemove = this.getCurrentCartItems().find(item => item.supplierItemId === supplierItemId);
+      if (itemToRemove) {
+        this.removeItem(supplierItemId);
+      }
+      return;
+    }
 
-  // removeItemFromCart(cartId: number): Observable<ActionsResponseModel> {
-  //   return this.http.delete<ActionsResponseModel>(`${this.apiUrl}/Cart/${cartId}`);
-  // }
-  // clearCart(userId: string): Observable<ActionsResponseModel> {
-  //   return this.http.delete<ActionsResponseModel>(`${this.apiUrl}/Cart/clear/${userId}`);
-  // }
+    const updatedList = this.getCurrentCartItems().map(item =>
+      item.supplierItemId === supplierItemId
+        ? { ...item, quantity: newQuantity }
+        : item
+    );
+
+    this._cartItemsSource.next(updatedList);
+    this.saveToLocalStorage(updatedList);
+    if (this.authService.isAuthenticated()) {
+      this.changeItemQuantityInDB(supplierItemId, newQuantity).pipe(
+        catchError(error => {
+          console.error('Failed to update item quantity in database.', error);
+          return throwError(error);
+        })
+      ).subscribe();
+    }
+  }
 
 }

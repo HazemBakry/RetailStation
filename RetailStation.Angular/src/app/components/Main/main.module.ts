@@ -17,6 +17,8 @@ import { WebsitePromotionItemsComponent } from './components/website/website-pro
 import { WebsiteMainItemsComponent } from './components/website/website-main-items/website-main-items.component';
 import { WebsiteFiltersComponent } from './components/website/website-filters/website-filters.component';
 import { WebsiteSubscribeComponent } from './components/website/website-subscribe/website-subscribe.component';
+import { WebsiteItemCardComponent } from './components/website/website-item-card/website-item-card.component';
+import { WebsiteCartComponent } from './components/website/website-cart/website-cart.component';
 
 
 @NgModule({
@@ -32,7 +34,9 @@ import { WebsiteSubscribeComponent } from './components/website/website-subscrib
     WebsitePromotionItemsComponent,
     WebsiteMainItemsComponent,
     WebsiteFiltersComponent,
-    WebsiteSubscribeComponent
+    WebsiteSubscribeComponent,
+    WebsiteItemCardComponent,
+    WebsiteCartComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,103 @@
+<div class="container-fluid">
+
+    <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+    <div class="table-card border radius-10 overflow-hidden shadow-sm">
+        <div
+            class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3"
+                    (click)="openSaveModal(saveDialog)">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>حفظ</span>
+                </button>
+                <button class="btn btn-outline-danger d-flex align-items-center gap-2 border rounded px-3"
+                    (click)="clearCart()">
+                    <i class="fas fa-trash"></i>
+                    <span>أفراغ السلة</span>
+                </button>
+            </div>
+            <div class="justify-content-end">
+                <!-- left side -->
+            </div>
+        </div>
+        <div class="p-3 bg-white">
+            <div class="table-responsive shadow-sm radius-10">
+                <table
+                    class="table table-card-table table-borderless table-middle table-hover bg-transparent small-scroll m-0">
+                    <thead>
+                        <tr>
+                            <th>اسم الصنف</th>
+                            <th>سعر 1</th>
+                            <th>سعر 10</th>
+                            <th>سعر 100</th>
+                            <th>سعر 1000</th>
+                            <th>اسم المورد</th>
+                            <!-- <th>الكمية</th> -->
+                            <th>التكلفة</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of pageResponseModel.results">
+                            <td class="fs-5 fw-bold text-center">
+                                <!-- {{item.orderNumber}} -->
+                                {{item.nameAR ?? item.nameEN}}
+
+                            </td>
+                            <td>{{item.price}}</td>
+                            <td>{{item.price10}}</td>
+                            <td>{{item.price100}}</td>
+                            <td>{{item.price1000}}</td>
+                            <td>{{item.supplierName}}</td>
+                            <!-- <td>
+                                <app-change-quantity [value]="item.quantity"
+                                    (valueChange)="onQuantityChange(item, $event)">
+                                </app-change-quantity>
+                            </td> -->
+                            <td>{{item.cost}}</td>
+                            <td>
+                                <div class="w-100 d-flex align-items-center justify-content-center">
+                                    <app-change-quantity [value]="item.quantity"
+                                       (valueChange)="onQuantityChange(item, $event)">
+                                   </app-change-quantity>
+                                    <button (click)="remove(item)"
+                                        class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2 me-2">
+                                        <i class="uil uil-trash-alt"></i>
+                                        <span></span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="!pageResponseModel.results.length">
+                            <td colspan="8" class="text-right">
+                                <app-empty-data [showEmptyData]="!pageResponseModel.results.length"></app-empty-data>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-loading [show]="showLoader"></ngx-loading>
+
+
+<ng-template #saveDialog let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد العملية</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد من الحفظ ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click'); createOrder()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">الغاء</span>
+        </button>
+    </div>
+</ng-template>

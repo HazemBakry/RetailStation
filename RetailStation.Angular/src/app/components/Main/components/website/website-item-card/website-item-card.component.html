@@ -1,0 +1,40 @@
+<div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+    <div class="card-inner">
+        <div class="card-slider">
+            <a class="card-img-box d-block position-relative">
+                <img [src]="item.imageUrl" alt="order-img" (error)="$event.target.src = defaultItemImage" />
+                <div class="highlight-text order-highlight">
+                    <h6 class="m-0">{{item.description}}</h6>
+                </div>
+            </a>
+        </div>
+        <div class="card-content mt-3">
+            <div class="card-content-info d-flex mb-3">
+                <div class="card-content-img">
+                    <img [src]="supplierLogo" alt="restaurant-logo" />
+                </div>
+                <div class="me-2 w-100">
+                    <div class="foods-title d-flex align-items-center justify-content-between">
+                        <a class="m-0 fw-bold" style="color: black;">{{item.nameAR}}</a>
+                        <div class="d-flex align-items-center">
+                            <app-rate></app-rate>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button [class]="item.isCompareAdded ? 'btn-delete':'btn-edit'"
+                class="button-table-action  d-flex align-items-center justify-content-center gap-2"
+                (click)="toggleCompare(item)">
+                <i class="fa-solid fa-code-compare"></i>
+                <span *ngIf="!item.isCompareAdded">مقارنة</span>
+                <span *ngIf="item.isCompareAdded"> حذف المقارنة</span>
+            </button>
+            <div (click)="addToCart()" *ngIf="!isItemInCart" class="offer-box align-items-center text-center" style="height: 40px;padding-top: 10px;">
+                <a class="me-2" style="color: #4caf50;">اوردر أونلاين</a>
+            </div>
+            <div (click)="removeItem()" *ngIf="isItemInCart" class="offer-box align-items-center text-center" style="height: 40px;padding-top: 10px;">
+                <a class="me-2" style="color: #d14b4b;">حذف من السلة</a>
+            </div>
+        </div>
+    </div>
+</div>

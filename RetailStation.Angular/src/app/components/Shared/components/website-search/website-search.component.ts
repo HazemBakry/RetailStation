@@ -27,7 +27,7 @@ export class WebsiteSearchComponent implements OnInit {
   search() {
     // if (!this.searchText) return;
 
-    this.router.navigate([], {
+    this.router.navigate(['/'], {
       relativeTo: this.acRoute,
       queryParams: { q: this.searchText },
       queryParamsHandling: 'merge'

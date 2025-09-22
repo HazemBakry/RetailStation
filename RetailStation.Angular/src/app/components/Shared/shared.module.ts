@@ -66,6 +66,7 @@ import { WebsiteHeaderComponent } from './components/website-header/website-head
 import { WebsiteSearchComponent } from './components/website-search/website-search.component';
 import { RateComponent } from './components/rate/rate.component';
 import { CompareComponent } from './components/sidepanel/compare/compare.component';
+import { ChangeQuantityComponent } from './components/change-quantity/change-quantity.component';
 
 @NgModule({
   declarations: [
@@ -124,6 +125,7 @@ import { CompareComponent } from './components/sidepanel/compare/compare.compone
     WebsiteSearchComponent,
     RateComponent,
     CompareComponent,
+    ChangeQuantityComponent,
   ],
 
   imports: [
@@ -199,7 +201,8 @@ import { CompareComponent } from './components/sidepanel/compare/compare.compone
     WebsiteHeaderComponent,
     WebsiteSearchComponent,
     RateComponent,
-    CompareComponent
+    CompareComponent,
+    ChangeQuantityComponent
   ],
   providers: [
     DatePipe,

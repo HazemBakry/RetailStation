@@ -1,0 +1,27 @@
+.quantity-container {
+  border-radius: 1.5rem; /* rounded pill-like */
+  width: fit-content;
+}
+
+.btn-quantity {
+  width: 40px;
+  height: 40px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease-in-out;
+}
+
+.btn-quantity:active {
+  transform: scale(0.9);
+}
+
+.quantity-input {
+  width: 60px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}

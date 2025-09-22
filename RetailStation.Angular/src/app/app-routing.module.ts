@@ -12,6 +12,7 @@ import { RegisterComponent } from './Auth/register/register.component';
 import { WebsiteComponent } from './components/Main/components/website/website.component';
 import { WebsiteHomeComponent } from './components/Main/components/website/website-home/website-home.component';
 import { WebsiteSubscribeComponent } from './components/Main/components/website/website-subscribe/website-subscribe.component';
+import { WebsiteCartComponent } from './components/Main/components/website/website-cart/website-cart.component';
 
 const routes: Routes = [
   // { path: '', component: RetailHomeComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
     children: [
       { path: '', component: WebsiteHomeComponent },
       { path: 'subscribe', component: WebsiteSubscribeComponent },
+      { path: 'cart', component: WebsiteCartComponent },
       { path: '', redirectTo: '', pathMatch: 'full' },
     ],
   },

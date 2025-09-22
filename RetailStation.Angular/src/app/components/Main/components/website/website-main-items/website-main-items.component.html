@@ -9,12 +9,13 @@
         </div>
         <div class="col-xl-10 pe-4">
             <h3 class="d-flex align-items-end mb-4">
-                <span class="ms-2">مطعم</span>
+                <span class="ms-2">الأصناف</span>
             </h3>
             <div class="row">
 
                 <div *ngFor="let item of suppliersData;let i =index" class="col-md-6 col-xl-4">
-                    <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
+                    <app-website-item-card [item]="item"></app-website-item-card>
+                    <!-- <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
                         <div class="card-inner">
                             <div class="card-slider">
                                 <a class="card-img-box d-block position-relative">
@@ -46,17 +47,13 @@
                                     <span *ngIf="!item.isCompareAdded">مقارنة</span>
                                     <span *ngIf="item.isCompareAdded"> حذف المقارنة</span>
                                 </button>
-
-                                <!-- <div class="align-items-center text-center">
-                                    <button class="me-2 btn" style="color: #4caf50;">مقارنة</button>
-                                </div> -->
                                 <div class="offer-box align-items-center text-center"
                                     style="height: 40px;padding-top: 10px;">
                                     <a class="me-2" style="color: #4caf50;">اوردر أونلاين</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <!-- card with slider -->
                 <!-- <div class="col-md-6 col-xl-4">
