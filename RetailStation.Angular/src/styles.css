@@ -2212,36 +2212,6 @@ td {
   padding-left: 20px;
 }
 
-.form-check-label {
-  padding: 1rem 1.25rem;
-  border-radius: 0.5rem;
-  border: 1px solid #dee2e6;
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
-  font-weight: 500;
-}
-
-.form-check-input:checked ~ .form-check-label {
-  background-color: #e3f2fd;
-  /* Light blue */
-  border-color: #64b5f6;
-  /* Blue */
-  color: #1976d2;
-  /* Darker blue */
-  box-shadow: 0 0 0 0.2rem rgba(100, 181, 246, 0.5);
-}
-
-.form-check-label:hover {
-  background-color: #f8f9fa;
-  /* Lighter gray */
-  border-color: #adb5bd;
-}
-
-/* Hide the default radio button */
-.form-check-input {
-  display: none;
-}
-
 /* // end radio buttons for subscriber type/ */
 
 /* START CSS OF FOOD STATION FILE */

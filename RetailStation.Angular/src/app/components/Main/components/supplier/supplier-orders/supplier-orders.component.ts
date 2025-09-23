@@ -94,7 +94,7 @@ export class SupplierOrdersComponent implements OnInit {
   showOrderDetails(detailsModel: any) {
 
     // this.showLoader = true;
-    this.supplierService.GetOrderItems_Data(detailsModel.orderId).subscribe((data: any[]) => {
+    this.supplierService.GetOrder_Items(detailsModel.orderId).subscribe((data: any[]) => {
       this.dynamicComponentService.loadProductDetailsSidePanel(
         this.detailsComponentHost.viewContainerRef,
         detailsModel,
@@ -114,17 +114,17 @@ export class SupplierOrdersComponent implements OnInit {
   }
   orderDetailsDataFields: DataField[] = [
     {
-      fieldName: 'itemNameAR',
+      fieldName: 'nameAR',
       fieldType: FieldType.Text,
       displayName: 'Name (AR)',
     },
     {
-      fieldName: 'itemNameEN',
+      fieldName: 'nameEN',
       fieldType: FieldType.Text,
       displayName: 'Name (EN)',
     },
     {
-      fieldName: 'unitNameAR',
+      fieldName: 'unitName',
       fieldType: FieldType.Text,
       displayName: 'Unit',
     },

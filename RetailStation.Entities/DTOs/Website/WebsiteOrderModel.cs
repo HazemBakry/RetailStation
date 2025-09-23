@@ -13,6 +13,7 @@ namespace RetailStation.Entities.DTOs.Website
     {
         public int? OrderId { get; set; }
         public int? OrderNumber { get; set; }
+        public string SerialNumber { get; set; }
         public string SubscriberId { get; set; }
         public string DocNumber { get; set; }
         public DateTime? OrderDate { get; set; }
@@ -48,7 +49,7 @@ namespace RetailStation.Entities.DTOs.Website
     }
     public class WebsiteOrderItemModel
     {
-        public int? OrderDetailsId { get; set; }
+        public int? OrderDetailId { get; set; }
         public int? OrderId { get; set; }
         public int? SupplierItemId { get; set; }
 

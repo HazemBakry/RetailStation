@@ -11,6 +11,7 @@ namespace RetailStation.Interface.Website
     public interface IOrderService
     {
         List<WebsiteOrderModel> GetOrders_Data(SearchFilterModel model, int? OrderId = null);
+        List<WebsiteOrderItemModel> GetOrder_Items(int OrderId);
         List<FilterModel> GetOrders_Filters(SearchFilterModel PagingFilter);
         WebsiteOrderModel GetOrderDetailsById(int OrderId);
         ActionsResponseModel CreateNewOrder(string SubscriberId, CreateOrderModel model);

@@ -64,17 +64,31 @@ namespace RetailStation.Service.Website
         {
             DataTable FilterList = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
-            SqlParameter[] Params = new SqlParameter[4];
-
-            Params[0] = new SqlParameter("@OrderId", OrderId);
-            Params[1] = new SqlParameter("@CurrentPage", model.CurrentPage);
-            Params[2] = new SqlParameter("@PageSize", model.PageSize);
-            Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            Params[3].Value = FilterList;
-
-            var result = SQLHelper.SQLQuery<WebsiteOrderModel>("[dbo].[SP_GetOrdersData]", ConnectionString, Params);
+            SqlParameter[] Params = new SqlParameter[]
+            {
+                new SqlParameter("@OrderId", (object)OrderId ?? DBNull.Value),
+                new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value),
+                new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value),
+                new SqlParameter("@FilterList", SqlDbType.Structured) { Value = FilterList },
+            };
+            var result = SQLHelper.SQLQuery<WebsiteOrderModel>("[Operation].[SP_GetOrders_Data]", ConnectionString, Params);
             return result;
         }
+        public List<WebsiteOrderItemModel> GetOrder_Items(int OrderId)
+        {
+
+            SqlParameter[] Params = new SqlParameter[]
+            {
+                new SqlParameter("@OrderId",OrderId),
+            };
+            var result = SQLHelper.SQLQuery<WebsiteOrderItemModel>("[Operation].[SP_GetOrder_Items]", ConnectionString, Params);
+            foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
+            {
+                item.ImageUrl = _fileService.GetFileDownloadUrl(item.ImageUrl);
+            }
+            return result;
+        }
+
         public List<FilterModel> GetOrders_Filters(SearchFilterModel PagingFilter)
         {
             var FilterListDt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
@@ -85,7 +99,7 @@ namespace RetailStation.Service.Website
             Params[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[0].Value = FilterListDt;
 
-            var results = SQLHelper.SQLQuery<FilterItem>("[dbo].[SP_GetOrders_Filters]", ConnectionString, Params);
+            var results = SQLHelper.SQLQuery<FilterItem>("[Operation].[SP_GetOrders_Filters]", ConnectionString, Params);
             return SharedFilterService.GroupedFilterItems(results);
         }
 

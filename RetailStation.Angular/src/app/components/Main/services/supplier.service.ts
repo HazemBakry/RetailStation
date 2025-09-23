@@ -88,8 +88,8 @@ export class SupplierService {
     GetOrderDetailsById(OrderId: number) {
       return this.http.get<WebsiteOrderModel>(this.URL + 'Order/GetOrderDetailsById?OrderId=' + OrderId);
     }
-    GetOrderItems_Data(OrderId: number) {
-      return this.http.get<WebsiteOrderItemModel[]>(this.URL + `Order/GetOrderItems_Data?OrderId=${OrderId}`);
+    GetOrder_Items(OrderId: number) {
+      return this.http.get<WebsiteOrderItemModel[]>(this.URL + `Order/GetOrder_Items?OrderId=${OrderId}`);
     }
     AddNewOrder(model: WebsiteOrderModel) {
       return this.http.post<ActionsResponseModel>(this.URL + 'Order/AddNewOrder', model);

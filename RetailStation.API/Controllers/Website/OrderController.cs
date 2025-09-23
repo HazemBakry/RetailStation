@@ -41,6 +41,14 @@ namespace RetailStation.API.Controllers.Website
             };
             return Ok(result);
         }
+        [HttpGet]
+        [Route("GetOrder_Items")]
+        public IActionResult GetOrder_Items(int OrderId)
+        {
+            var result = _orderService.GetOrder_Items(OrderId);
+           
+            return Ok(result);
+        }
 
         [HttpPost]
         [Route("GetOrders_Filters")]
