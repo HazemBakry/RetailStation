@@ -13,7 +13,7 @@ namespace RetailStation.Interface.Website
         List<WebsiteOrderModel> GetOrders_Data(SearchFilterModel model, int? OrderId = null);
         List<FilterModel> GetOrders_Filters(SearchFilterModel PagingFilter);
         WebsiteOrderModel GetOrderDetailsById(int OrderId);
-        ActionsResponseModel CreateNewOrder(WebsiteOrderModel model);
+        ActionsResponseModel CreateNewOrder(string SubscriberId, CreateOrderModel model);
         ActionsResponseModel EditOrder(int OrderId, WebsiteOrderModel model);
         ActionsResponseModel CancelOrder(int OrderId);
     }

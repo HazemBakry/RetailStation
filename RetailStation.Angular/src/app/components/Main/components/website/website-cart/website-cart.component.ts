@@ -10,6 +10,7 @@ import { WebsiteService } from 'src/app/components/Main/services/website.service
 import { SupplierItemModel } from 'src/app/components/Main/models/SupplierItemModel';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { CartModel, CartService } from 'src/app/components/Shared/services/cart.service';
+import { CreateOrderItemModel, CreateOrderModel, WebsiteOrderItemModel, WebsiteOrderModel } from '../../../models/WebsiteOrderModel ';
 
 @Component({
   selector: 'app-website-cart',
@@ -32,6 +33,7 @@ export class WebsiteCartComponent implements OnInit {
     currentPage: 1,
     searchText: ''
   };
+  cartItems: SupplierItemModel[] = [];
   suppliersSelectorData: GeneralSelectorModel[] = [];
   compareCount$: number = 0;
 
@@ -58,6 +60,7 @@ export class WebsiteCartComponent implements OnInit {
     this.showLoader = true;
     this.websiteService.GetWebsiteItems_Data(this.pageResponseModel).subscribe(data => {
       this.pageResponseModel.results = data.results;
+      this.cartItems = this.pageResponseModel.results;
       // this.suppliersData = this.suppliersData.concat([...data.results]);
       this.pageResponseModel.totalCount = data.totalCount;
 
@@ -115,13 +118,6 @@ export class WebsiteCartComponent implements OnInit {
   }
 
 
-
-
-
-
-
-
-
   openSaveModal(content: any) {
     if (this.pageResponseModel.results.length == 0) {
       this.toaster.warning('لا يوجد أصناف ');
@@ -131,8 +127,63 @@ export class WebsiteCartComponent implements OnInit {
   }
 
 
+  orderModel: CreateOrderModel = {} as CreateOrderModel;
+  orderItems: CreateOrderItemModel[] = [];
+
   createOrder() {
-    console.log("🚀 ~ WebsiteCartComponent ~ createOrder ~ this.pageResponseModel.results:", this.pageResponseModel.results)
+
+    this.orderItems = [];
+    this.orderModel = {} as CreateOrderModel;
+
+    if (this.cartItems.length == 0 || !this.cartItems.some(i => i.quantity)) {
+      this.toaster.warning('Please Add Items with Quantity');
+      return;
+    }
+    this.cartItems = this.cartItems.filter(i => i.quantity);
+
+    this.cartItems.forEach(item => {
+      let OrderItem: CreateOrderItemModel = {} as CreateOrderItemModel;
+      OrderItem.itemId = item.itemId;
+      OrderItem.supplierItemId = item.supplierItemId;
+      OrderItem.supplierId = item.supplierId;
+      OrderItem.price = item.price;
+      OrderItem.quantity = item.quantity;
+      OrderItem.subTotal = 0;
+      OrderItem.discount = 0;
+      OrderItem.discountPercent = 0;
+      OrderItem.unitId = item.unitId;
+      OrderItem.totalValue = item.price * item.quantity;
+      OrderItem.notes = '';
+      this.orderItems.push(OrderItem);
+    });
+
+    this.orderModel.discount = 0;
+    this.orderModel.notes = '';
+    this.orderModel.deliveryValue = 0;
+    this.orderModel.subTotal = 0;
+    this.orderModel.tax = 0;
+    this.orderModel.totalValue = this.orderItems.reduce((sum, item) => (sum + item.totalValue), 0);
+    this.orderModel.paymentTypeId = 1;
+    this.orderModel.netValue = this.orderModel.totalValue - (this.orderModel.discount ?? 0) + (this.orderModel.tax ?? 0) + (this.orderModel.deliveryValue ?? 0);
+    this.orderModel.items = this.orderItems;
+    this.showLoader = true;
+    this.websiteService.CreateNewOrder(this.orderModel).subscribe(response => {
+      this.showLoader = false;
+
+      if (response.isSuccess) {
+        this.toaster.success(response.message);
+        this.clearCart();
+      }
+      else {
+        this.toaster.error(response.message);
+      }
+      this.showLoader = false;
+      this.modalService?.dismissAll();
+    }, (error) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
   }
 }
 

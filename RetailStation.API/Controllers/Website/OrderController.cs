@@ -7,6 +7,7 @@ using RetailStation.Interface.Operation;
 using RetailStation.Interface.Website;
 using RetailStation.Service.Website;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RetailStation.API.Controllers.Website
 {
@@ -59,13 +60,14 @@ namespace RetailStation.API.Controllers.Website
 
         [HttpPost]
         [Route("CreateNewOrder")]
-        public IActionResult CreateNewOrder([FromBody] WebsiteOrderModel order)
+        public IActionResult CreateNewOrder([FromBody] CreateOrderModel order)
         {
             string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
             string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
             if (string.IsNullOrEmpty(SubscriberId))
                 return BadRequest("No Subscriber assigned");
-            return Ok(_orderService.CreateNewOrder(order));
+            order.CreatedBy = UserId;
+            return Ok(_orderService.CreateNewOrder(SubscriberId,order));
         }
         
         [HttpPost]

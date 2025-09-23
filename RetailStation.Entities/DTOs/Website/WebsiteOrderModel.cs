@@ -13,6 +13,7 @@ namespace RetailStation.Entities.DTOs.Website
     {
         public int? OrderId { get; set; }
         public int? OrderNumber { get; set; }
+        public string SubscriberId { get; set; }
         public string DocNumber { get; set; }
         public DateTime? OrderDate { get; set; }
         public DateTime? DueDate { get; set; }

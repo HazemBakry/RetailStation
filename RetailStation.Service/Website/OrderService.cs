@@ -104,7 +104,7 @@ namespace RetailStation.Service.Website
                 Order tbl_Order = new Order
                 {
                     OrderNumber = code,
-                    SeialNumber = serialNumber,
+                    SerialNumber = serialNumber,
                     WorkflowStatusId = (int)WorkflowStatus.Pending,
                     SubTotal = Math.Round(model.TotalValue, 2),
                     DeliveryValue = model.DeliveryValue,
@@ -155,6 +155,126 @@ namespace RetailStation.Service.Website
                 return new ActionsResponseModel
                 {
                     Message = "An Error Occured During Saving Order",
+                    IsSuccess = false
+                };
+            }
+        }
+        public ActionsResponseModel CreateNewOrder(string SubscriberId, CreateOrderModel model)
+        {
+            using var transaction = Context.Database.BeginTransaction();
+
+            try
+            {
+                var requestedItemIds = model.Items.Select(x => x.SupplierItemId).ToList();
+                var supplierItems = Context.SupplierItems
+                    .Where(x => requestedItemIds.Contains(x.SupplierItemId))
+                    .AsNoTracking()
+                    .ToList();
+
+                var notFoundItems = requestedItemIds.Except(supplierItems.Select(x => x.SupplierItemId));
+                if (notFoundItems.Any())
+                {
+                    return new ActionsResponseModel
+                    {
+                        Message = "One or more requested items were not found.",
+                        IsSuccess = false
+                    };
+                }
+
+                foreach (var requestedItem in model.Items)
+                {
+                    var item = supplierItems.FirstOrDefault(x => x.SupplierItemId == requestedItem.SupplierItemId);
+                    if (item == null)
+                    {
+                        continue;
+                    }
+
+                    if (item.Quantity < requestedItem.Quantity)
+                    {
+                        return new ActionsResponseModel
+                        {
+                            Message = $"Insufficient stock for item: {item.SupplierItemId}. Available: {item.Quantity}, Requested: {requestedItem.Quantity}",
+                            IsSuccess = false
+                        };
+                    }
+                }
+
+                // Get the new order number synchronously.
+                var newOrderNumber = Context.Orders.Count() > 0 ? Context.Orders.Max(x => x.OrderNumber) + 1 : 1;
+
+                var requestedItemsBySupplier = model.Items.GroupBy(x => x.SupplierId);
+
+                var createdOrderIds = new List<int>();
+
+                foreach (var supplierGroup in requestedItemsBySupplier)
+                {
+                    var serialNumber = DalHelper.GenerateSerialNumber(SerialType.PurchaseOrder, newOrderNumber);
+                    var order = new Order
+                    {
+                        SupplierId = supplierGroup.Key,
+                        OrderNumber = newOrderNumber,
+                        SerialNumber = serialNumber,
+                        SubscriberId = SubscriberId,
+                        WorkflowStatusId = (int)WorkflowStatus.Pending,
+                        SubTotal = Math.Round(supplierGroup.Sum(x => x.SubTotal), 2),
+                        DeliveryValue = 0,
+                        DiscountAmount = 0,
+                        Tax = 0,
+                        TotalValue = Math.Round(supplierGroup.Sum(x => x.TotalValue), 2),
+                        OrderDate = DateTime.Now,
+                        NetValue = Math.Round(supplierGroup.Sum(x => x.NetValue.GetValueOrDefault()), 2),
+                        Notes = model.Notes,
+                        PaymentTypeId = model.PaymentTypeId.GetValueOrDefault(),
+                        CreatedBy = model.CreatedBy,
+                        CreatedDate = DateTime.Now
+                    };
+
+                    Context.Orders.Add(order);
+                    Context.SaveChanges(); // Synchronous SaveChanges()
+
+                    createdOrderIds.Add(order.OrderId);
+
+                    var orderDetails = new List<OrderDetail>();
+                    foreach (var requestedItem in supplierGroup)
+                    {
+                        var orderDetail = new OrderDetail
+                        {
+                            OrderId = order.OrderId,
+                            ItemId = requestedItem.SupplierItemId,
+                            UnitId = requestedItem.UnitId,
+                            Quantity = requestedItem.Quantity,
+                            Price = requestedItem.Price.GetValueOrDefault(),
+                            SubTotal = requestedItem.SubTotal,
+                            Discount = requestedItem.Discount.GetValueOrDefault(),
+                            DiscountPercent = requestedItem.DiscountPercent.GetValueOrDefault(),
+                            TotalValue = requestedItem.TotalValue,
+                            Notes = requestedItem.Notes
+                        };
+                        orderDetails.Add(orderDetail);
+                    }
+
+                    Context.OrderDetails.AddRange(orderDetails);
+                    Context.SaveChanges(); // Synchronous SaveChanges()
+                    newOrderNumber++;
+                }
+
+                transaction.Commit();
+
+                return new ActionsResponseModel
+                {
+                    Message = "Orders created successfully.",
+                    Id = createdOrderIds.FirstOrDefault(),
+                    Number = newOrderNumber.ToString(),
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+
+                return new ActionsResponseModel
+                {
+                    Message = "An Error Occurred During Order Creation: " + ex.Message,
                     IsSuccess = false
                 };
             }
@@ -236,7 +356,7 @@ namespace RetailStation.Service.Website
                     Id = OrderId,
                     IsSuccess = true,
                     Message = "Order Cancelled Successfly ",
-                    Number = Invoice.SeialNumber.ToString()
+                    Number = Invoice.SerialNumber.ToString()
                 };
             }
             else
@@ -246,7 +366,7 @@ namespace RetailStation.Service.Website
                     Id = OrderId,
                     IsSuccess = false,
                     Message = "can't cancel this order",
-                    Number = Invoice.SeialNumber.ToString()
+                    Number = Invoice.SerialNumber.ToString()
                 };
             }
 

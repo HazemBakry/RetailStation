@@ -91,10 +91,10 @@ export class SupplierOrdersComponent implements OnInit {
     })
   }
 
-  showOrderDetails(detailsModel: WebsiteOrderModel) {
+  showOrderDetails(detailsModel: any) {
 
     // this.showLoader = true;
-    this.supplierService.GetOrderItems_Data(detailsModel.orderId).subscribe((data: WebsiteOrderItemModel[]) => {
+    this.supplierService.GetOrderItems_Data(detailsModel.orderId).subscribe((data: any[]) => {
       this.dynamicComponentService.loadProductDetailsSidePanel(
         this.detailsComponentHost.viewContainerRef,
         detailsModel,

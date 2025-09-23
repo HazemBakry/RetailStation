@@ -14,7 +14,8 @@ namespace RetailStation.Entities.Models
     {
         public int OrderId { get; set; }
         public int OrderNumber { get; set; }
-        public string SeialNumber { get; set; }
+        public string SerialNumber { get; set; }
+        public string  SubscriberId { get; set; }
         public int WorkflowStatusId { get; set; }
         public decimal SubTotal { get; set; }
         public decimal? DeliveryValue { get; set; }

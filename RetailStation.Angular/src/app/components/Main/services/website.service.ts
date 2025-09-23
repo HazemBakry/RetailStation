@@ -8,6 +8,7 @@ import { SupplierItemModel } from '../models/SupplierItemModel';
 import { WebsiteSliderModel } from '../models/WebsiteSliderModel';
 import { FilterModel } from '../../Shared/models/FilterModel';
 import { SubscribeRequestModel } from '../../Admin/models/SubscribeRequestModel';
+import { CreateOrderModel, WebsiteOrderModel } from '../models/WebsiteOrderModel ';
 
 
 @Injectable({
@@ -43,7 +44,14 @@ export class WebsiteService {
 
 
   //////////////////////  SubscribeRequest
-    SaveNewSubscribeRequest(model: SubscribeRequestModel) {
-      return this.http.post<ActionsResponseModel>(this.URL + 'Auth/SubscribeRequest', model);
-    }
+  SaveNewSubscribeRequest(model: SubscribeRequestModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Auth/SubscribeRequest', model);
+  }
+
+
+
+  /////////////// order
+  CreateNewOrder(order: CreateOrderModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Website/CreateNewOrder', order);
+  }
 }

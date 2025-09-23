@@ -7,6 +7,8 @@ using RetailStation.Interface.SupplierManagement;
 using RetailStation.Service.SupplierManagement;
 using System.Linq;
 using RetailStation.Service.Website;
+using RetailStation.Entities.DTOs.Website;
+using System.Threading.Tasks;
 
 namespace RetailStation.API.Controllers.Website
 {
@@ -16,10 +18,12 @@ namespace RetailStation.API.Controllers.Website
     {
 
         private readonly IWebsiteService _websiteService;
+        private readonly IOrderService _orderService;
         public const int SupplierId = 1;
-        public WebsiteController(IWebsiteService websiteService)
+        public WebsiteController(IWebsiteService websiteService, IOrderService orderService)
         {
             _websiteService = websiteService;
+            _orderService = orderService;
         }
 
 
@@ -74,6 +78,22 @@ namespace RetailStation.API.Controllers.Website
         {
             var result = _websiteService.GetWebsiteMainSlider();
             return Ok(result);
+        }
+
+
+
+
+
+        [HttpPost]
+        [Route("CreateNewOrder")]
+        public IActionResult CreateNewOrder([FromBody] CreateOrderModel order)
+        {
+            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if (string.IsNullOrEmpty(SubscriberId))
+                return BadRequest("No Subscriber assigned");
+            order.CreatedBy = UserId;
+            return Ok(_orderService.CreateNewOrder(SubscriberId, order));
         }
     }
 }

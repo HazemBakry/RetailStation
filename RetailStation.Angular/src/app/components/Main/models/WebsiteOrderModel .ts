@@ -38,32 +38,67 @@ export interface WebsiteOrderModel extends CreatorModel {
 }
 
 export interface WebsiteOrderItemModel {
-    orderDetailsId: number | null;
-    orderId: number | null;
+    orderDetailsId?: number | null;
+    orderId?: number | null;
     supplierItemId: number | null;
-    nameAR: string;
-    nameEN: string;
+    nameAR?: string;
+    nameEN?: string;
     image: string;
-    itemId: number;
-    unitId: number | null;
+    itemId?: number;
+    unitId?: number | null;
     quantity: number;
     price: number | null;
     subTotal: number;
     discount: number | null;
     discountPercent: number | null;
     totalValue: number;
-    notes: string;
-    itemNameAR: string;
-    itemNameEN: string;
-    unitName: string;
-    purchaseUnitId: number | null;
-    purchaseUnitName: string;
-    itemCategoryId: number | null;
-    itemCategoryName: string;
-    isActive: boolean;
-    itemTypeId: number | null;
+    notes?: string;
+    itemNameAR?: string;
+    itemNameEN?: string;
+    unitName?: string;
+    purchaseUnitId?: number | null;
+    purchaseUnitName?: string;
+    itemCategoryId?: number | null;
+    itemCategoryName?: string;
+    isActive?: boolean;
+    itemTypeId?: number | null;
     supplierId: number | null;
-    supplierName: string;
-    imageUrl: string;
-    totalCount: number | null;
+    supplierName?: string;
+    imageUrl?: string;
+    totalCount?: number | null;
+}
+
+export interface CreateOrderModel extends CreatorModel {
+    orderId?: number | null;
+    orderNumber?: number | null;
+    serialNumber?: number | null;
+    docNumber?: string;
+    orderDate?: string | null;
+    dueDate?: string | null;
+    orderTypeId?: number | null;
+    paymentTypeId: number | null;
+    deliveryValue: number | null;
+    subTotal: number | null;
+    tax: number | null;
+    taxPercent: number | null;
+    discount: number | null;
+    discountPercent: number | null;
+    totalValue: number;
+    netValue: number | null;
+    notes: string;
+    items: CreateOrderItemModel[];
+}
+
+export interface CreateOrderItemModel {
+    supplierItemId: number | null;
+    itemId?: number;
+    unitId?: number | null;
+    quantity: number;
+    price: number | null;
+    subTotal: number;
+    discount: number | null;
+    discountPercent: number | null;
+    totalValue: number;
+    notes?: string;
+    supplierId: number | null;
 }
