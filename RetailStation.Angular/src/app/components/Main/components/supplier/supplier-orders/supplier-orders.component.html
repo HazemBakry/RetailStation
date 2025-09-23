@@ -64,10 +64,10 @@
                                     </button>
                                     <div ngbDropdownMenu class="border">
                                         <button ngbDropdownItem (click)="showOrderDetails(item)">تفاصيل</button>
-                                        <button ngbDropdownItem routerLink="/purchases/add-purchase-order"
+                                        <!-- <button ngbDropdownItem routerLink="/"
                                             [queryParams]="{OrderId:item.orderId}">
                                             تعديل
-                                        </button>
+                                        </button> -->
                                         <button ngbDropdownItem
                                             (click)="openDeleteModal(deleteDialog,item.orderId)">الغاء</button>
 
