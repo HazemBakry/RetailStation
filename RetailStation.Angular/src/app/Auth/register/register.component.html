@@ -109,13 +109,13 @@
                                                 <input class="form-check-input" type="radio"
                                                     formControlName="subscriberTypeId" id="customerRadio"
                                                     [value]="SubscriberType.Customer">
-                                                <label class="form-check-label" for="customerRadio">عميل</label>
+                                                <label class="form-check-label" for="customerRadio">أفراد</label>
                                             </div>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio"
                                                     formControlName="subscriberTypeId" id="supplierRadio"
                                                     [value]="SubscriberType.Supplier">
-                                                <label class="form-check-label" for="supplierRadio">مورد</label>
+                                                <label class="form-check-label" for="supplierRadio">شركات</label>
                                             </div>
                                         </div>
                                         <div *ngIf="formErrors.subscriberTypeId" class="text-danger font-small-3 m-3">
@@ -123,49 +123,54 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-2">
-                                        <label class="form-label d-flex align-items-center gap-2">
-                                            اسم المشترك
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="text" class="form-control nw-form-input"
-                                            formControlName="subscriberName" autocomplete="off" />
+                                <ng-container *ngIf="formGroup?.value?.subscriberTypeId == SubscriberType.Supplier">
+                                    <div class="col-lg-6">
+                                        <div class="mb-2">
+                                            <label class="form-label d-flex align-items-center gap-2">
+                                                اسم المشترك
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" class="form-control nw-form-input"
+                                                formControlName="subscriberName" autocomplete="off" />
 
-                                        <div *ngIf="formErrors.subscriberName" class="text-danger font-small-3 m-03">
-                                            {{formErrors.subscriberName}}
+                                            <div *ngIf="formErrors.subscriberName"
+                                                class="text-danger font-small-3 m-03">
+                                                {{formErrors.subscriberName}}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-2">
-                                        <label class="form-label d-flex align-items-center gap-2">
-                                            البريد الألكتروني
-                                            للشركة
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="text" class="form-control nw-form-input"
-                                            formControlName="subscriberEmail" autocomplete="off" />
+                                    <div class="col-lg-6">
+                                        <div class="mb-2">
+                                            <label class="form-label d-flex align-items-center gap-2">
+                                                البريد الألكتروني
+                                                للشركة
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" class="form-control nw-form-input"
+                                                formControlName="subscriberEmail" autocomplete="off" />
 
-                                        <div *ngIf="formErrors.subscriberEmail" class="text-danger font-small-3 m-03">
-                                            {{formErrors.subscriberEmail}}
+                                            <div *ngIf="formErrors.subscriberEmail"
+                                                class="text-danger font-small-3 m-03">
+                                                {{formErrors.subscriberEmail}}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="col-lg-12">
-                                    <div class="mb-2">
-                                        <label class="form-label d-flex align-items-center gap-2">
-                                            العنوان (Address)
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="text" class="form-control nw-form-input description-area"
-                                            id="address" formControlName="address" autocomplete="off" />
-                                        <div *ngIf="formErrors.address" class="text-danger font-small-3 m-3">
-                                            {{formErrors.address}}
+                                    <div class="col-lg-12">
+                                        <div class="mb-2">
+                                            <label class="form-label d-flex align-items-center gap-2">
+                                                العنوان (Address)
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" class="form-control nw-form-input description-area"
+                                                id="address" formControlName="address" autocomplete="off" />
+                                            <div *ngIf="formErrors.address" class="text-danger font-small-3 m-3">
+                                                {{formErrors.address}}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </ng-container>
+
                             </div>
                             <button [disabled]="showLoader" type="submit"
                                 class="btn btn-lg btn-primary mt-4 shadow-sm text-center">
@@ -174,7 +179,10 @@
                             </button>
                         </form>
 
-
+                        <div class="text-center p-2">
+                            <span>You have an account ? </span>
+                            <a routerLink="/login" class="text-underline main-color me-2 fw-bold "> Login</a>
+                        </div>
 
 
                     </div>

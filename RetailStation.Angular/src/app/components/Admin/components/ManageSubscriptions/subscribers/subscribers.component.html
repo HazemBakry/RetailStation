@@ -71,8 +71,8 @@
             <td>{{item?.email ?? '-'}}</td>
             <td>
               <span *ngIf="item.subscriberTypeId == SubscriberType.Admin">Admin</span>
-              <span *ngIf="item.subscriberTypeId == SubscriberType.Customer">Customer</span>
-              <span *ngIf="item.subscriberTypeId == SubscriberType.Supplier">Supplier</span>
+              <span *ngIf="item.subscriberTypeId == SubscriberType.Customer">Individual</span>
+              <span *ngIf="item.subscriberTypeId == SubscriberType.Supplier">Company</span>
 
             </td>
             <td>{{item?.domainName ?? '-'}}</td>

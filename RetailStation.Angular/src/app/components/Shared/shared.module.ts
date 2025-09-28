@@ -31,7 +31,7 @@ import { AccountTreeItemComponent } from './components/account-tree-item/account
 import { CustomFormDropdownComponent } from './components/custom-form-dropdown/custom-form-dropdown.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpConfigInterceptor } from './security/interceptor/http-config.interceptor';
-import { ErpHomeComponent } from './components/erp-home/erp-home.component';
+import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
 import { SwiperModule } from 'swiper/angular';
 import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 import { RoleCheckerDirective } from './directives/role-checker.directive';
@@ -100,7 +100,7 @@ import { ChangeQuantityComponent } from './components/change-quantity/change-qua
     WorkflowStatusDirective,
     ComponentHostDirective,
     CustomFormDropdownComponent,
-    ErpHomeComponent,
+    WelcomePageComponent,
     NotAuthorizedComponent,
     DropDownFormControlComponent,
     RoleCheckerDirective,
@@ -180,7 +180,7 @@ import { ChangeQuantityComponent } from './components/change-quantity/change-qua
     WorkflowStatusDirective,
     ComponentHostDirective,
     CustomFormDropdownComponent,
-    ErpHomeComponent,
+    WelcomePageComponent,
     NotAuthorizedComponent,
     DropDownFormControlComponent,
     RoleCheckerDirective,

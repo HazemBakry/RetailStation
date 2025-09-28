@@ -28,6 +28,9 @@ using RetailStation.Entities.Models.Subscription;
 using RetailStation.Entities.DTOs.Website;
 using RetailStation.Entities.Models.Operation;
 using ICU4N.Util;
+using RetailStation.Entities.DTOs.Operation;
+using static Azure.Core.HttpHeader;
+using RetailStation.Interface.Operation;
 
 namespace RetailStation.Service.Auth
 {
@@ -38,11 +41,12 @@ namespace RetailStation.Service.Auth
         private readonly JWT _jwt;
         private readonly IFileService _fileService;
         private readonly ISharedService _sharedService;
+        private readonly ISuppliersService _supplierService;
         public readonly string UserImagesFolder;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly DBContext Context;
 
-        public AuthService(UserManager<ApplicationUser> userManager, JWT jwt, RoleManager<IdentityRole> roleManager, IHttpContextAccessor httpContextAccessor, IFileService fileService, ISharedService sharedService, DBContext context)
+        public AuthService(UserManager<ApplicationUser> userManager, JWT jwt, RoleManager<IdentityRole> roleManager, IHttpContextAccessor httpContextAccessor, IFileService fileService, ISharedService sharedService, DBContext context, ISuppliersService supplierService)
         {
             _userManager = userManager;
             _jwt = jwt;
@@ -52,6 +56,7 @@ namespace RetailStation.Service.Auth
             _fileService = fileService;
             _sharedService = sharedService;
             Context = context;
+            _supplierService = supplierService;
         }
 
 
@@ -82,12 +87,17 @@ namespace RetailStation.Service.Auth
         }
         public async Task<ActionsResponseModel> RegisterAsync(SubscriberRegistrationModel model)
         {
+            if (model.SubscriberTypeId == SubscriberType.Customer)
+            {
+                model.SubscriberName = string.Concat([model.FirstName, " ", model.LastName, " ", model.UserName]);
+                model.SubscriberEmail = model.Email;
+            }
             if (await Context.Subscribers.AnyAsync(t => t.SubscriberName == model.SubscriberName || t.Email == model.SubscriberEmail))
             {
                 if (await Context.Subscribers.AnyAsync(t => t.SubscriberName == model.SubscriberName))
                     return new ActionsResponseModel { IsSuccess = false, Message = "Subscriber name already exists." };
                 if (await Context.Subscribers.AnyAsync(t => t.Email == model.SubscriberEmail))
-                    return new ActionsResponseModel { IsSuccess = false, Message = "Subscriber email already exists." };
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Email already exists." };
             }
 
             if (await _userManager.Users.AnyAsync(u => u.Email == model.Email || u.UserName == model.UserName))
@@ -142,9 +152,26 @@ namespace RetailStation.Service.Auth
             }
             string defaultRole = "BasicUser";
             if(model.SubscriberTypeId == SubscriberType.Supplier)
-                defaultRole = "SupplierAdmin";
+            {
+                //defaultRole = "SupplierAdmin";
+                defaultRole = "Supplier";
+                var supplier = new SupplierDto
+                {
+                    Code = model.UserName,
+                    NameAR = model.SubscriberName,
+                    NameEN = model.SubscriberName,
+                    BeginningBalance = 0,
+                    BalanceType = string.Empty,
+                    SubscriberId = subscriber.SubscriberId,
+                };
+                _supplierService.AddNewSupplier(supplier);
+
+            }
             else if(model.SubscriberTypeId == SubscriberType.Customer)
-                defaultRole = "CustomerAdmin";
+            {
+                //defaultRole = "CustomerAdmin";                
+                defaultRole = "Customer";
+            }
             // Add user to the default role
             await AddAndAssignRoleAsync(user, defaultRole);
 

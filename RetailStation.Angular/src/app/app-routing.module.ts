@@ -4,7 +4,7 @@ import { DashboardComponent } from './components/Shared/components/dashboard/das
 import { NotAuthorizedComponent } from './components/Shared/components/not-authorized/not-authorized.component';
 import { AuthGuard } from './Auth/auth.guard';
 import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
-import { ErpHomeComponent } from './components/Shared/components/erp-home/erp-home.component';
+import { WelcomePageComponent } from './components/Shared/components/welcome-page/welcome-page.component';
 import { AuthPageGuard } from './Auth/authPage.guard';
 import { LoginComponent } from './Auth/login/login.component';
 import { RetailHomeComponent } from './components/Shared/components/retail-home/retail-home.component';
@@ -16,30 +16,35 @@ import { WebsiteCartComponent } from './components/Main/components/website/websi
 
 const routes: Routes = [
   // { path: '', component: RetailHomeComponent },
+  { path: '', component: WelcomePageComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   {
-    path: '',
+    path: 'purchases',
     canActivate: [AuthGuard],
-    // data: { roles: ['SuperAdmin'] },
+    data: { roles: ['Customer','Supplier'] },
     component: WebsiteComponent,
     children: [
       { path: '', component: WebsiteHomeComponent },
-      { path: 'subscribe', component: WebsiteSubscribeComponent },
+      //{ path: 'subscribe', component: WebsiteSubscribeComponent },
       { path: 'cart', component: WebsiteCartComponent },
       { path: '', redirectTo: '', pathMatch: 'full' },
     ],
   },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+
   {
-    path: 'main',
+    path: 'sales-management',
     loadChildren: () =>
       import('./components/Main/main.module').then((erp) => erp.MainModule),
     canActivate: [AuthGuard],
+    data: { roles: ['Supplier'] },
   },
   {
     path: 'admin',
     loadChildren: () =>
       import('./components/Admin/admin.module').then((erp) => erp.AdminModule),
+    canActivate: [AuthGuard],
+    data: { roles: ['SuperAdmin'] },
   },
   {
     path: 'design',

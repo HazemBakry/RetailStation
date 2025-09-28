@@ -26,11 +26,14 @@ export class WebsiteSearchComponent implements OnInit {
   }
   search() {
     // if (!this.searchText) return;
-
-    this.router.navigate(['/'], {
+    let queryParams : any={};
+    if(this.searchText)
+      queryParams.q=this.searchText;
+    this.router.navigate(['/purchases'], {
       relativeTo: this.acRoute,
-      queryParams: { q: this.searchText },
-      queryParamsHandling: 'merge'
+      //queryParams: { q: this.searchText },
+      queryParams: queryParams,
+      //queryParamsHandling: 'merge'
     });
     this.isSearchDropdown = false;
   }

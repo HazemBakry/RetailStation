@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class FormService {
   public markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {
       control.markAsTouched();
-  
+
       // if (control.controls) {
       //     control.controls.forEach(c => this.markFormGroupTouched(c));
       // }
@@ -23,18 +23,18 @@ export class FormService {
     const messages = {
       required: 'Required',
       email: 'Invalid Email',
-      pattern:'Invalid Pattern',
-      min:'Invalid Number , Enter greater than this',
+      pattern: 'Invalid Pattern',
+      min: 'Invalid Number , Enter greater than this',
       max: 'Invalid Number , Enter less than this',
-      invalid_URL:'Invalid URL',
-      invalid_Html:'Invalid HTML',
+      invalid_URL: 'Invalid URL',
+      invalid_Html: 'Invalid HTML',
       //endDateLessThanStartDate:'End Date Must Be Greater Than Start Date',
-      endDateLessThanStartDate: (error: string) =>  error || 'End Date Must Be Greater Than Start Date',
+      endDateLessThanStartDate: (error: string) => error || 'End Date Must Be Greater Than Start Date',
       regexPattern: (error: string) => error || 'Invalid pattern',
       dateGreaterThan: (error: string) => error || 'Date must be greater than the specific date',
       dateLessThan: (error: string) => error || 'Date must be less than the specific date',
       arrayLength: (error: string) => error || 'Data must be less than or grater than ',
-      
+
       // invalidExtension:'Invalid Extension , choose from jpg,jpeg,png',
       invalidExtension: (matches: any[]) => {
 
@@ -91,8 +91,8 @@ export class FormService {
         if (control && !control.valid) {
           if (!checkDirty || (control.dirty || control.touched)) {
             for (const key in control.errors) {
-              
-              if (key && !['invalid_characters','invalidExtension','endDateLessThanStartDate','regexPattern','dateGreaterThan','dateLessThan','arrayLength'].includes(key)) {
+
+              if (key && !['invalid_characters', 'invalidExtension', 'endDateLessThanStartDate', 'regexPattern', 'dateGreaterThan', 'dateLessThan', 'arrayLength'].includes(key)) {
                 formErrors[field] = formErrors[field] || messages[key];
               }
               else {
@@ -111,19 +111,20 @@ export class FormService {
     const control = formGroup.get(field);
     if (!control) return;
 
-    const currentValidators = control.validator ? [control.validator] : [];
+    let validators = control.validator ? [control.validator] : [];
 
     if (isRequired) {
-      // Add required if not already present
-      control.setValidators([Validators.required, ...currentValidators]);
+      if (!validators.some(this.isRequiredValidator)) {
+        validators.push(Validators.required);
+      }
     } else {
-      // Filter out only the required validator
-      const validators = currentValidators
-        .filter(v => v !== Validators.required);
-      control.setValidators(validators);
+      validators = validators.filter(v => !this.isRequiredValidator(v));
     }
 
+    control.setValidators(validators);
     control.updateValueAndValidity();
   }
-
+  isRequiredValidator(fn: ValidatorFn): boolean {
+    return fn && fn({ value: null } as AbstractControl)?.['required'] === true;
+  }
 }

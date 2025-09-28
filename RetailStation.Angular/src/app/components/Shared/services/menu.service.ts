@@ -25,7 +25,7 @@ export class MenuService {
           menuItem: '',
           description: 'احصائيات',
           icon: 'fas fa-th-large',
-          route: '/main/home'
+          route: '/sales-management/home'
         },
         {
           menuItemId: MenuType.Supplier,
@@ -33,7 +33,7 @@ export class MenuService {
           menuItem: '',
           description: 'احصائيات',
           icon: 'fas fa-th-large',
-          route: '/main/supplier-items'
+          route: '/sales-management/supplier-items'
         },
         {
           menuItemId: MenuType.Supplier,
@@ -41,14 +41,14 @@ export class MenuService {
           menuItem: 'supplier-invoices',
           description: 'عرض وإدارة فواتير الشراء للموردين',
           icon: 'fa fa-file-invoice',
-          route: '/main/supplier-invoices'
+          route: '/sales-management/supplier-invoices'
         },
         {
           displayName: 'قائمة الطلبات',
           menuItem: 'supplier-orders',
           description: 'إدارة أوامر الشراء الصادرة للموردين',
           icon: 'fa fa-clipboard-list',
-          route: '/main/supplier-orders'
+          route: '/sales-management/supplier-orders'
         },
       ]
     },

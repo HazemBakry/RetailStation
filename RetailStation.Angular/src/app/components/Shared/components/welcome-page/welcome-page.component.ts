@@ -6,11 +6,11 @@ import { LoginUserModel } from '../../models/LoginResponseModel';
 import SwiperCore, { Autoplay, Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 
 @Component({
-  selector: 'app-erp-home',
-  templateUrl: './erp-home.component.html',
-  styleUrls: ['./erp-home.component.css']
+  selector: 'app-welcome-page',
+  templateUrl: './welcome-page.component.html',
+  styleUrls: ['./welcome-page.component.css']
 })
-export class ErpHomeComponent implements OnInit {
+export class WelcomePageComponent implements OnInit {
   Lang = 'en';
   UserModel: LoginUserModel;
   // customerApplications: CustomerApplicationModel[] = [];
@@ -66,13 +66,4 @@ export class ErpHomeComponent implements OnInit {
       this.clock = this.time.getHours() + ':' + (this.time.getMinutes()<10?'0':'') + this.time.getMinutes()
     }, 1000);
   }
-
-  // getCustomerApplications() {
-  //   this._MainService.getCustomerApplications().subscribe((data: CustomerApplicationModel[]) => {
-  //     this.customerApplications = data;
-  //   }, (error) => {
-  //   }, () => {
-
-  //   })
-  // }
 }

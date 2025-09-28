@@ -29,7 +29,6 @@ export class RegisterComponent implements OnInit {
   systemURL: string = environment.systemUrl;
 
   subscriberModel: SubscriberRegistrationModel = {} as SubscriberRegistrationModel;
-  showAddLoader: boolean = false;
   subscriberImageFile: File;
   formData: FormData = new FormData();
   public formGroup: FormGroup;
@@ -128,8 +127,8 @@ export class RegisterComponent implements OnInit {
       phoneNumber: [null, Validators.required],
       subscriberTypeId: [SubscriberType.Customer, Validators.required],
       address: [null],
-      subscriberName: [null, Validators.required],
-      subscriberEmail: [null, [Validators.required, Validators.email]],
+      subscriberName: [null, []],
+      subscriberEmail: [null, [Validators.email]],
       // number: [null, [CustomValidators.regexPattern(RegexType.number)]],
     },
       {
@@ -138,7 +137,20 @@ export class RegisterComponent implements OnInit {
         ],
       });
 
-    this.formGroup.valueChanges.subscribe((data) => {
+   
+    this.formGroup.get('subscriberTypeId').valueChanges.subscribe((subscriberTypeId) => {
+      if (subscriberTypeId == SubscriberType.Supplier) {
+        this._FormService.updateFieldsRequiredValidation(this.formGroup, 'subscriberName', true);
+        this._FormService.updateFieldsRequiredValidation(this.formGroup, 'subscriberEmail', true);
+        this._FormService.updateFieldsRequiredValidation(this.formGroup, 'address', true);
+      } else {
+        this._FormService.updateFieldsRequiredValidation(this.formGroup, 'subscriberName', false);
+        this._FormService.updateFieldsRequiredValidation(this.formGroup, 'subscriberEmail', false);
+        this._FormService.updateFieldsRequiredValidation(this.formGroup, 'address', false);
+      }
+
+    });
+     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
 
     });
@@ -168,20 +180,21 @@ export class RegisterComponent implements OnInit {
 
   register() {
 
-    this.showAddLoader = true;
+    this.showLoader = true;
     this.authService.register(this.subscriberModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.toaster.success(data?.message);
+        this.authService.loginRedirect();
       }
       else {
         this.toaster.error(data?.message);
       }
-      this.showAddLoader = false;
+      this.showLoader = false;
     }, err => {
-      this.showAddLoader = false;
+      this.showLoader = false;
     }, () => {
-      this.showAddLoader = false;
+      this.showLoader = false;
     });
 
 

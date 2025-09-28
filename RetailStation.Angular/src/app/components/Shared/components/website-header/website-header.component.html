@@ -16,19 +16,19 @@
                 id="navbarFoodStationMenu">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center justify-content-center flex-column" routerLink="/"
+                        <a class="nav-link d-flex align-items-center justify-content-center flex-column" routerLink="/purchases"
                             routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                             <i class="fas fa-hamburger mb-2 fs-18"></i>
                             الرئيسية
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link d-flex align-items-center justify-content-center flex-column"
                             routerLink="/subscribe" routerLinkActive="active">
                             <i class="fas fa-external-link-square-alt mb-2 fs-18"></i>
                             Subscribe
                         </a>
-                    </li>
+                    </li> -->
                     <!-- <li class="nav-item">
                         <a class="nav-link d-flex align-items-center justify-content-center flex-column">
                             <i class="fas fa-store mb-2 fs-18"></i>
@@ -41,13 +41,13 @@
                             الاسر المنتجة
                         </a>
                     </li> -->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link d-flex align-items-center justify-content-center flex-column"
                             [routerLink]="['/admin']" routerLinkActive="active">
                             <i class="fas fa-user-cog mb-2 fs-18"></i>
                             Admin
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
                 <ul class="navbar-nav me-auto ms-0">
                     <ng-container *ngIf="!isAuthenticated">
@@ -84,10 +84,10 @@
                                     <i class="fas fa-hamburger"></i>
                                     <span class="me-2">اوردراتي</span>
                                 </li> -->
-                                <li routerLink="/main" class="custom-select-item d-flex align-items-center">
+                                <!-- <li routerLink="/main" class="custom-select-item d-flex align-items-center">
                                     <i class="fas fa-cog"></i>
                                     <span class="me-2">الاعدادات</span>
-                                </li>
+                                </li> -->
                                 <li class="custom-select-item" (click)="logout()">
                                     <i class="fas fa-power-off"></i>
                                     <span class="me-2">Logout</span>
@@ -110,7 +110,7 @@
                 </ul>
                 <ul class="navbar-nav mr-30 border-end pe-1">
                     <li class="nav-item">
-                        <div class="cart-btn position-relative" routerLink="/cart">
+                        <div class="cart-btn position-relative" routerLink="/purchases/cart">
                             <span class="ordered-cart-number shadow">
                                 {{cartItemsCount$}}
                             </span>

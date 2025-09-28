@@ -72,8 +72,8 @@
                         <td>{{item?.email ?? '-'}}</td>
                         <td>
                             <span *ngIf="item.subscriberTypeId == SubscriberType.Admin">Admin</span>
-                            <span *ngIf="item.subscriberTypeId == SubscriberType.Customer">Customer</span>
-                            <span *ngIf="item.subscriberTypeId == SubscriberType.Supplier">Supplier</span>
+                            <span *ngIf="item.subscriberTypeId == SubscriberType.Customer">Individual</span>
+                            <span *ngIf="item.subscriberTypeId == SubscriberType.Supplier">Company</span>
 
                         </td>
                         <td>{{item?.requestDate | date}}</td>
@@ -293,12 +293,12 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" formControlName="subscriberTypeId"
                                             id="customerRadio" [value]="SubscriberType.Customer">
-                                        <label class="form-check-label" for="customerRadio">عميل</label>
+                                        <label class="form-check-label" for="customerRadio">أفراد</label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" formControlName="subscriberTypeId"
                                             id="supplierRadio" [value]="SubscriberType.Supplier">
-                                        <label class="form-check-label" for="supplierRadio">مورد</label>
+                                        <label class="form-check-label" for="supplierRadio">شركات</label>
                                     </div>
                                 </div>
                                 <div *ngIf="formErrors.subscriberTypeId" class="text-danger font-small-3 m-3">
