@@ -46,7 +46,7 @@ export class PDFExportService {
             ],
             [
               {
-                // text: 'شركة مطاعم مشوار',
+                // text: 'شركة مشوار',
                 text: 'Restaurant Company',
                 bold: true,
                 alignment: 'right',

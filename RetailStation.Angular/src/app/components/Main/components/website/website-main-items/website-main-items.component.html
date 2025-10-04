@@ -13,7 +13,7 @@
             </h3>
             <div class="row">
 
-                <div *ngFor="let item of suppliersData;let i =index" class="col-md-6 col-xl-4">
+                <div *ngFor="let item of suppliersData;let i =index" class="col-md-6 col-xl-3">
                     <app-website-item-card [item]="item"></app-website-item-card>
                     <!-- <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
                         <div class="card-inner">
@@ -119,7 +119,7 @@
 
             <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pageResponseModel.currentPage"
                 [pageSize]="pageResponseModel.pageSize" [totalCount]="pageResponseModel.totalCount"
-                [usePaginationBtn]="true" [text]="'تحميل مطاعم أكثر'">
+                [usePaginationBtn]="true" [text]="'تحميل أكثر'">
             </app-pagination>
 
         </div>
