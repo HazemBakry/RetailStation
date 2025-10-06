@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace RetailStation.Entities.Common.Lookups
 {
-    [Table("PaymentMethods", Schema = "Finance")]
-    public class PaymentMethod
+    [Table("PaymentTypes", Schema = "Finance")]
+    public class PaymentType
     {
         [Key]
-        public int PaymentMethodId { get; set; }
+        public int PaymentTypeId { get; set; }
         public string NameAR { get; set; }
         public string NameEN { get; set; }
         public bool? IsActive { get; set; }

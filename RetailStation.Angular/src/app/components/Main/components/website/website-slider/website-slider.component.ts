@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { SupplierItemModel } from '../../../models/SupplierItemModel';
 import { WebsiteService } from '../../../services/website.service';
 import { WebsiteSliderModel } from '../../../models/WebsiteSliderModel';
+import { SliderModel } from 'src/app/components/Admin/models/Operation/SliderModel';
 
 @Component({
   selector: 'app-website-slider',
@@ -37,7 +38,7 @@ export class WebsiteSliderComponent implements OnInit {
     currentPage: 1,
     searchText: ''
   };
-  sliderData: WebsiteSliderModel[] = [];
+  sliderData: SliderModel[] = [];
   constructor(config: NgbCarouselConfig, private websiteService: WebsiteService,
     private sharedService: SharedService, private modalService: NgbModal,
     private offcanvasService: NgbOffcanvas, private toaster: ToastrService,

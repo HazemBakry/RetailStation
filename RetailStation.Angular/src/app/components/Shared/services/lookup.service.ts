@@ -47,6 +47,9 @@ export class LookupService {
   GetPaymentTypes() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetPaymentTypes');
   }
+  GetPaymentMethods() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetPaymentMethods');
+  }
 
   GetReceiptTypes(groupName: string, paymentTypeId: number) {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Lookup/GetReceiptTypes?GroupName=' + groupName + '&PaymentTypeId=' + paymentTypeId);

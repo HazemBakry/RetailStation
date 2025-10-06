@@ -156,7 +156,14 @@ namespace RetailStation.Service.Shared
             var result = SQLHelper.SQLQuery<SelectorDataModel>("[Finance].[SP_GetPaymentTypes]", ConnectionString, Params);
             return result;
         }
-        
+        public List<SelectorDataModel> GetPaymentMethods()
+        {
+            return LookupsContext.PaymentMethods.Select(x => new SelectorDataModel
+            {
+                Id = x.PaymentMethodId,
+                Name = x.NameAR ?? x.NameEN
+            }).ToList();
+        }
         public List<SelectorDataModel> GetReceiptTypes(string GroupName, int PaymentTypeId)
         {
             SqlParameter[] Params = new SqlParameter[2];

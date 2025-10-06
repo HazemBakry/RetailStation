@@ -20,6 +20,8 @@ import { ManageRolePagesComponent } from './components/ManageSubscriptions/manag
 import { WebsiteSubscribeRequestsComponent } from './components/ManageSubscriptions/website-subscribe-requests/website-subscribe-requests.component';
 import { SuppliersContainerComponent } from './components/Operation/suppliers-container/suppliers-container.component';
 import { ManageSupplierItemsComponent } from './components/Operation/suppliers-container/manage-supplier-items/manage-supplier-items.component';
+import { PromotionsComponent } from './components/website-admin/promotions/promotions.component';
+import { SlidersComponent } from './components/website-admin/sliders/sliders.component';
 
 const routes: Routes = [
   {
@@ -71,6 +73,8 @@ const routes: Routes = [
       { path: 'roles', component: RolesComponent },
       { path: 'manage-role-pages/:roleId', component: ManageRolePagesComponent },
       { path: 'subscribe-requests', component: WebsiteSubscribeRequestsComponent },
+      { path: 'sliders', component: SlidersComponent },
+      { path: 'promotions', component: PromotionsComponent },
 
 
       { path: '', redirectTo: 'home', pathMatch: 'full' },

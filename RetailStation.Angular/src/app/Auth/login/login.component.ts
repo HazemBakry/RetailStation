@@ -96,7 +96,7 @@ export class LoginComponent implements OnInit {
       }
     }
     else {
-      redirectUrl = './'
+      redirectUrl = './home'
     }
 
     window.location.href = redirectUrl;

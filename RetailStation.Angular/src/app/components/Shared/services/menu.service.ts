@@ -123,6 +123,24 @@ export class MenuService {
           icon: 'fa fa-users',
           route: '/admin/suppliers'
         },
+        {
+          menuItemId: MenuType.Admin,
+
+          displayName: 'Sliders',
+          menuItem: 'Sliders',
+          description: 'إدارة بيانات الموردين وتفاصيل الاتصال',
+          icon: 'fa fa-users',
+          route: '/admin/sliders'
+        },
+        {
+          menuItemId: MenuType.Admin,
+
+          displayName: 'Promotion',
+          menuItem: 'Promotions',
+          description: 'إدارة بيانات الموردين وتفاصيل الاتصال',
+          icon: 'fa fa-users',
+          route: '/admin/promotions'
+        },
         // {
         //   menuItemId: MenuType.Admin,
         //   displayName: 'الادلة',

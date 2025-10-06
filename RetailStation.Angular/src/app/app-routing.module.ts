@@ -16,7 +16,14 @@ import { WebsiteCartComponent } from './components/Main/components/website/websi
 
 const routes: Routes = [
   // { path: '', component: RetailHomeComponent },
-  { path: '', component: WelcomePageComponent, canActivate: [AuthGuard] },
+  {
+    path: '',
+    component: WebsiteComponent,
+    children: [
+      { path: '', component: WebsiteHomeComponent }
+    ],
+  },
+  { path: 'home', component: WelcomePageComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {

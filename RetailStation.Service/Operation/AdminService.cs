@@ -1,0 +1,367 @@
+﻿using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.Enums;
+using RetailStation.Entities.Common.Export;
+using RetailStation.Entities.DTOs.Inventory;
+using RetailStation.Entities.Models;
+using RetailStation.Interface.Common;
+using RetailStation.Service.Common;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using RetailStation.Interface.Operation;
+using RetailStation.Entities.Models.Operation;
+using RetailStation.Entities.DTOs.Operation;
+using System.Threading.Tasks;
+
+namespace RetailStation.Service.Operation
+{
+    public class AdminService : IAdminService
+    {
+
+        private readonly DBContext Context;
+        private readonly ISQLHelper SQLHelper;
+        private readonly IConfiguration Configuration;
+        private readonly ISharedFilterService SharedFilterService;
+        private readonly string ConnectionString;
+        private readonly IExportService ExportService;
+        private readonly IFileService _fileService;
+        private readonly string SliderImagesFolder = "SliderImages";
+        private readonly string PromotionImagesFolder = "PromotionsImages";
+
+
+        public AdminService(DBContext Context, ISQLHelper SQLHelper,
+            IConfiguration Configuration, IExportService ExportService,
+            ISharedFilterService sharedFilterService, IFileService fileService)
+        {
+            this.Context = Context;
+            this.SQLHelper = SQLHelper;
+            this.Configuration = Configuration;
+            ConnectionString = Configuration.GetConnectionString("DBConnection");
+            this.ExportService = ExportService;
+            SharedFilterService = sharedFilterService;
+            _fileService = fileService;
+
+        }
+
+
+        #region Slider
+        public List<SliderModel> GetSlidersData(SearchFilterModel filter, int? sliderId = null)
+        {
+            var query = Context.Sliders.AsNoTracking()
+                .Where(s => (!sliderId.HasValue || s.SliderId == sliderId));
+
+            int totalCount = query.Count();
+
+            if (filter.CurrentPage > 0 && filter.PageSize > 0)
+            {
+                int skip = (filter.CurrentPage - 1) * filter.PageSize;
+                query = query.Skip(skip).Take(filter.PageSize);
+            }
+
+            var results = query
+                .Select(s => new SliderModel
+                {
+                    SliderId = s.SliderId,
+                    Title = s.Title,
+                    Description = s.Description,
+                    ImageURL = s.Image,
+                    Link = s.Link,
+                    IsActive = s.IsActive,
+                    CreatedBy = s.CreatedBy,
+                    CreatedDate = s.CreatedDate,
+                    ModifiedBy = s.ModifiedBy,
+                    ModifiedDate = s.ModifiedDate
+                })
+                .ToList();
+
+            foreach (var item in results.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
+            {
+                item.ImageURL = _fileService.GetFileDownloadUrl(item.ImageURL);
+            }
+
+            results.ForEach(x => x.TotalCount = totalCount);
+            return results;
+        }
+
+        public SliderModel GetSliderById(int sliderId)
+        {
+            return GetSlidersData(new SearchFilterModel { PageSize = 1, CurrentPage = 1 }, sliderId).FirstOrDefault();
+        }
+
+        public async Task<ActionsResponseModel> AddSlider(SliderModel model)
+        {
+            try
+            {
+                var slider = new Slider
+                {
+                    Title = model.Title,
+                    Description = model.Description,
+                    Link = model.Link,
+                    IsActive = model.IsActive,
+                    CreatedBy = model.CreatedBy,
+                    CreatedDate = DateTime.Now
+                };
+
+                if (model.Image != null)
+                {
+                    var upload = await _fileService.UploadFileAsync(model.Image, SliderImagesFolder, FileType.Image);
+                    if (upload.IsUploaded)
+                        slider.Image = upload.FilePath;
+                    else
+                        return new ActionsResponseModel { IsSuccess = false, Message = upload.Message };
+                }
+
+                Context.Sliders.Add(slider);
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "Slider added successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public async Task<ActionsResponseModel> EditSlider(int sliderId, SliderModel model)
+        {
+            try
+            {
+                var slider = Context.Sliders.FirstOrDefault(s => s.SliderId == sliderId);
+                if (slider == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Slider not found." };
+
+                slider.Title = model.Title;
+                slider.Description = model.Description;
+                slider.Link = model.Link;
+                slider.IsActive = model.IsActive;
+                slider.ModifiedBy = model.ModifiedBy;
+                slider.ModifiedDate = DateTime.Now;
+
+                if (model.Image != null)
+                {
+                    var upload = await _fileService.UploadFileAsync(model.Image, SliderImagesFolder, FileType.Image);
+                    if (upload.IsUploaded)
+                        slider.Image = upload.FilePath;
+                    else
+                        return new ActionsResponseModel { IsSuccess = false, Message = upload.Message };
+                }
+
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "Slider updated successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel DeleteSlider(int sliderId)
+        {
+            try
+            {
+                var slider = Context.Sliders.FirstOrDefault(s => s.SliderId == sliderId);
+                if (slider == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Slider not found." };
+
+                Context.Sliders.Remove(slider);
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "Slider deleted successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel ChangeSliderActiveStatus(int sliderId)
+        {
+            try
+            {
+                var slider = Context.Sliders.FirstOrDefault(s => s.SliderId == sliderId);
+                if (slider == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Slider not found." };
+
+                slider.IsActive = !slider.IsActive;
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "Slider status changed successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+        #endregion
+
+        #region Promotions
+
+        public List<PromotionModel> GetPromotionsData(SearchFilterModel filter, int? promotionId = null)
+        {
+            var query = Context.Promotions.AsNoTracking()
+                .Where(p => (!promotionId.HasValue || p.PromotionId == promotionId));
+
+            int totalCount = query.Count();
+
+            if (filter.CurrentPage > 0 && filter.PageSize > 0)
+            {
+                int skip = (filter.CurrentPage - 1) * filter.PageSize;
+                query = query.Skip(skip).Take(filter.PageSize);
+            }
+
+            var results = query
+                .Select(p => new PromotionModel
+                {
+                    PromotionId = p.PromotionId,
+                    ItemId = p.ItemId,
+                    Title = p.Title,
+                    Description = p.Description,
+                    ImageURL = p.Image,
+                    OfferPrice = p.OfferPrice,
+                    StartDate = p.StartDate,
+                    EndDate = p.EndDate,
+                    MinQty = p.MinQty,
+                    MaxQty = p.MaxQty,
+                    IsActive = p.IsActive,
+                    CreatedBy = p.CreatedBy,
+                    CreatedDate = p.CreatedDate,
+                    ModifiedBy = p.ModifiedBy,
+                    ModifiedDate = p.ModifiedDate
+                })
+                .ToList();
+
+            foreach (var item in results.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
+            {
+                item.ImageURL = _fileService.GetFileDownloadUrl(item.ImageURL);
+            }
+
+            results.ForEach(x => x.TotalCount = totalCount);
+            return results;
+        }
+
+
+        public PromotionModel GetPromotionById(int promotionId)
+        {
+            return GetPromotionsData(new SearchFilterModel { PageSize = 1, CurrentPage = 1 }, promotionId).FirstOrDefault();
+        }
+
+        public async Task<ActionsResponseModel> AddPromotion(PromotionModel model)
+        {
+            try
+            {
+                var promotion = new Promotion
+                {
+                    ItemId = model.ItemId.GetValueOrDefault(),
+                    Title = model.Title,
+                    Description = model.Description,
+                    OfferPrice = model.OfferPrice,
+                    StartDate = model.StartDate,
+                    EndDate = model.EndDate,
+                    MinQty = model.MinQty,
+                    MaxQty = model.MaxQty,
+                    IsActive = model.IsActive,
+                    CreatedBy = model.CreatedBy,
+                    CreatedDate = DateTime.Now
+                };
+
+                if (model.Image != null)
+                {
+                    var upload = await _fileService.UploadFileAsync(model.Image, PromotionImagesFolder, FileType.Image);
+                    if (upload.IsUploaded)
+                        promotion.Image = upload.FilePath;
+                    else
+                        return new ActionsResponseModel { IsSuccess = false, Message = upload.Message };
+                }
+
+                Context.Promotions.Add(promotion);
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "Promotion added successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public async Task<ActionsResponseModel> EditPromotion(int promotionId, PromotionModel model)
+        {
+            try
+            {
+                var promotion = Context.Promotions.FirstOrDefault(p => p.PromotionId == promotionId);
+                if (promotion == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Promotion not found." };
+
+                promotion.ItemId = model.ItemId.GetValueOrDefault();
+                promotion.Title = model.Title;
+                promotion.Description = model.Description;
+                promotion.OfferPrice = model.OfferPrice;
+                promotion.StartDate = model.StartDate;
+                promotion.EndDate = model.EndDate;
+                promotion.MinQty = model.MinQty;
+                promotion.MaxQty = model.MaxQty;
+                promotion.IsActive = model.IsActive;
+                promotion.ModifiedBy = model.ModifiedBy;
+                promotion.ModifiedDate = DateTime.Now;
+
+                if (model.Image != null)
+                {
+                    var upload = await _fileService.UploadFileAsync(model.Image, PromotionImagesFolder, FileType.Image);
+                    if (upload.IsUploaded)
+                        promotion.Image = upload.FilePath;
+                    else
+                        return new ActionsResponseModel { IsSuccess = false, Message = upload.Message };
+                }
+
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "Promotion updated successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel DeletePromotion(int promotionId)
+        {
+            try
+            {
+                var promotion = Context.Promotions.FirstOrDefault(p => p.PromotionId == promotionId);
+                if (promotion == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Promotion not found." };
+
+                Context.Promotions.Remove(promotion);
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "Promotion deleted successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel ChangePromotionActiveStatus(int promotionId)
+        {
+            try
+            {
+                var promotion = Context.Promotions.FirstOrDefault(p => p.PromotionId == promotionId);
+                if (promotion == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Promotion not found." };
+
+                promotion.IsActive = !promotion.IsActive;
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "Promotion status changed successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+        #endregion
+
+    }
+}

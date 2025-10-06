@@ -26,6 +26,7 @@ namespace RetailStation.Service.Inventory
             var cities = LookupsDbContext.Cities.ToList();
             var contries = LookupsDbContext.Countries.ToList();
             var regions = LookupsDbContext.Regions.ToList();
+            var payments = LookupsDbContext.PaymentMethods.ToList();
             var query = from supplier in Context.Suppliers
                         where !SupplierId.HasValue || supplier.SupplierId == SupplierId
                         select new SupplierDto
@@ -36,13 +37,16 @@ namespace RetailStation.Service.Inventory
                             NameEN = supplier.NameEN,
                             Phone = supplier.Phone,
                             Mobile = supplier.Mobile,
-                            //CountryId = supplier.CountryId,
-                            //CityId = supplier.CityId,
+                            CountryId = supplier.CountryId,
+                            CityId = supplier.CityId,
                             RegionId = supplier.RegionId,
                             Address = supplier.Address,
                             CommercialRegister = supplier.CommercialRegister,
                             TaxNumber = supplier.TaxNumber,
                             BeginningBalance = supplier.BeginningBalance,
+                            DeliveryTime = supplier.DeliveryTime,
+                            DeliveryCost = supplier.DeliveryCost,
+                            PaymentMethodId = supplier.PaymentMethodId,
                             BalanceType = supplier.BalanceType,
                             SupplierGroupId = supplier.SupplierGroupId,
                             ContactPerson = supplier.ContactPerson,
@@ -70,10 +74,12 @@ namespace RetailStation.Service.Inventory
                 var city = cities.FirstOrDefault(x=>x.CityId == item.CityId); 
                 var country = contries.FirstOrDefault(x=>x.CountryId == item.CountryId); 
                 var reigon = regions.FirstOrDefault(x=>x.RegionId == item.RegionId);
+                var payment = payments.FirstOrDefault(x=>x.PaymentMethodId == item.PaymentMethodId);
 
                 item.CountryName = country?.NameAR;
                 item.CityName = reigon?.NameAR;
                 item.RegionName = reigon?.NameAR;
+                item.PaymentMethod = payment?.NameAR;
             }
             return results;
         }
@@ -103,6 +109,9 @@ namespace RetailStation.Service.Inventory
                 supplier.CommercialRegister = model.CommercialRegister;
                 supplier.TaxNumber = model.TaxNumber;
                 supplier.BeginningBalance = model.BeginningBalance;
+                supplier.DeliveryCost = model.DeliveryCost;
+                supplier.DeliveryTime = model.DeliveryTime;
+                supplier.PaymentMethodId = model.PaymentMethodId;
                 supplier.BalanceType = model.BalanceType; //model.BalanceTypeId != null ? model.BalanceTypeId.ToString() : string.Empty;
                 supplier.SupplierGroupId = model.SupplierGroupId;
                 supplier.ContactPerson = model.ContactPerson;
@@ -143,6 +152,9 @@ namespace RetailStation.Service.Inventory
                     supplier.CommercialRegister = model.CommercialRegister;
                     supplier.TaxNumber = model.TaxNumber;
                     supplier.BeginningBalance = model.BeginningBalance;
+                    supplier.DeliveryCost = model.DeliveryCost;
+                    supplier.DeliveryTime = model.DeliveryTime;
+                    supplier.PaymentMethodId = model.PaymentMethodId;
                     supplier.BalanceType = model.BalanceType; //model.BalanceTypeId != null ? model.BalanceTypeId.ToString() : string.Empty;
                     supplier.SupplierGroupId = model.SupplierGroupId;
                     supplier.ContactPerson = model.ContactPerson;

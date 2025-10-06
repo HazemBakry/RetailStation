@@ -79,7 +79,7 @@ namespace RetailStation.Service.Website
 
         }
 
-        public List<SupplierItemModel> GetWebsitePromotionItems(SearchFilterModel model)
+        public List<PromotionModel> GetWebsitePromotionItems(SearchFilterModel model)
         {
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
@@ -90,27 +90,40 @@ namespace RetailStation.Service.Website
                 new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
             };
 
-            var result = SQLHelper.SQLQuery<SupplierItemModel>("[Website].[SP_GetWebsitePromotionItems]", ConnectionString, Params);
-            foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
+            var result = SQLHelper.SQLQuery<PromotionModel>("[Website].[SP_GetWebsitePromotionItems]", ConnectionString, Params);
+            foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
             {
-                item.ImageUrl = _fileService.GetFileDownloadUrl(item.ImageUrl);
+                item.ImageURL = _fileService.GetFileDownloadUrl(item.ImageURL);
             }
             return result;
 
         }
-        public List<WebsiteSliderModel> GetWebsiteMainSlider()
+        public List<SliderModel> GetWebsiteMainSlider()
         {
-            SqlParameter[] Params = new SqlParameter[]
-            {
-               // new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
-            };
+            var query = Context.Sliders.AsNoTracking()
+               .Where(s => s.IsActive);
 
-            var result = SQLHelper.SQLQuery<WebsiteSliderModel>("[Website].[SP_GetWebsiteMainSlider]", ConnectionString, Params);
-            foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
+            var results = query
+                .Select(s => new SliderModel
+                {
+                    SliderId = s.SliderId,
+                    Title = s.Title,
+                    Description = s.Description,
+                    ImageURL = s.Image,
+                    Link = s.Link,
+                    IsActive = s.IsActive,
+                    CreatedBy = s.CreatedBy,
+                    CreatedDate = s.CreatedDate,
+                    ModifiedBy = s.ModifiedBy,
+                    ModifiedDate = s.ModifiedDate
+                })
+                .ToList();
+
+            foreach (var item in results.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
             {
-                item.ImageUrl = _fileService.GetFileDownloadUrl(item.ImageUrl);
+                item.ImageURL = _fileService.GetFileDownloadUrl(item.ImageURL);
             }
-            return result;
+            return results;
 
         }
         public SupplierItemModel GetWebsiteItemDetailsById(int SupplierItemId)

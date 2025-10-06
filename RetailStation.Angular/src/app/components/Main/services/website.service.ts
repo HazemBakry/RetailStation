@@ -9,6 +9,8 @@ import { WebsiteSliderModel } from '../models/WebsiteSliderModel';
 import { FilterModel } from '../../Shared/models/FilterModel';
 import { SubscribeRequestModel } from '../../Admin/models/SubscribeRequestModel';
 import { CreateOrderModel, WebsiteOrderModel } from '../models/WebsiteOrderModel ';
+import { SliderModel } from '../../Admin/models/Operation/SliderModel';
+import { PromotionModel } from '../../Admin/models/Operation/PromotionModel';
 
 
 @Injectable({
@@ -29,11 +31,11 @@ export class WebsiteService {
   GetWebsiteItems_Filters(searchModel: PagedResponseModel<SupplierItemModel[]>) {
     return this.http.post<FilterModel[]>(this.URL + 'Website/GetWebsiteItems_Filters', searchModel);
   }
-  GetWebsitePromotionItems(searchModel: PagedResponseModel<SupplierItemModel[]>) {
-    return this.http.post<PagedResponseModel<SupplierItemModel[]>>(this.URL + 'Website/GetWebsitePromotionItems', searchModel);
+  GetWebsitePromotionItems(searchModel: PagedResponseModel<PromotionModel[]>) {
+    return this.http.post<PagedResponseModel<PromotionModel[]>>(this.URL + 'Website/GetWebsitePromotionItems', searchModel);
   }
   GetWebsiteMainSlider() {
-    return this.http.get<WebsiteSliderModel[]>(this.URL + 'Website/GetWebsiteMainSlider');
+    return this.http.get<SliderModel[]>(this.URL + 'Website/GetWebsiteMainSlider');
   }
 
   GetWebsiteItemDetailsById(itemId: number) {

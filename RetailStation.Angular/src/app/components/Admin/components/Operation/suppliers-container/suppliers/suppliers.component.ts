@@ -29,6 +29,7 @@ export class SuppliersComponent implements OnInit {
   regionsSelectorData: GeneralSelectorModel[] = [];
   countriesSelectorData: GeneralSelectorModel[] = [];
   subscribersSelectorData: GeneralSelectorModel[] = [];
+  paymentMethodsSelectorData: GeneralSelectorModel[] = [];
   citiesSelectorData: GeneralSelectorModel[] = [];
   pagedResponse: PagedResponseModel<SupplierModel[]> = {
     currentPage: 1,
@@ -94,6 +95,9 @@ export class SuppliersComponent implements OnInit {
     address: '',
     notes: '',
     commercialRegister: '',
+    deliveryCost: '',
+    deliveryTime: '',
+    paymentMethodId: '',
     taxNumber: '',
     beginningBalance: '',
     balanceType: '',
@@ -123,6 +127,9 @@ export class SuppliersComponent implements OnInit {
     this.sharedService.GetSubscribersSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.subscribersSelectorData = data;
     });
+    this.lookupService.GetPaymentMethods().subscribe((data: GeneralSelectorModel[]) => {
+      this.paymentMethodsSelectorData = data;
+    });
   }
 
   loadCitiesByCountryId(countryId: number) {
@@ -151,9 +158,12 @@ export class SuppliersComponent implements OnInit {
       address: [null],
       notes: [null],
       commercialRegister: [null],
+      deliveryCost: [null,[CustomValidators.regexPattern(RegexType.currency)]],
+      deliveryTime: [null,[CustomValidators.regexPattern(RegexType.number)]],
+      paymentMethodId: [null],
       taxNumber: [null],
       beginningBalance: [null, [Validators.required, CustomValidators.regexPattern(RegexType.currency)]],
-      balanceType: [null,[Validators.required]],
+      balanceType: [null, [Validators.required]],
       supplierGroupId: [null],
       contactPerson: [null],
       contactMobile: [null],
@@ -271,6 +281,9 @@ export class SuppliersComponent implements OnInit {
       address: SupplierModel.address,
       notes: SupplierModel.notes,
       commercialRegister: SupplierModel.commercialRegister,
+      deliveryCost: SupplierModel.deliveryCost,
+      deliveryTime: SupplierModel.deliveryTime,
+      paymentMethodId: SupplierModel.paymentMethodId,
       taxNumber: SupplierModel.taxNumber,
       beginningBalance: SupplierModel.beginningBalance,
       balanceType: SupplierModel.balanceType,

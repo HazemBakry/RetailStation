@@ -29,6 +29,7 @@ namespace RetailStation.Interface.Shared
         List<SelectorDataModel> GetJournalEntryTypes();
         List<SelectorDataModel> GetLedgerTypes();
         List<SelectorDataModel> GetPaymentTypes();
+        List<SelectorDataModel> GetPaymentMethods();
         List<SelectorDataModel> GetReceiptTypes(string GroupName, int PaymentTypeId);
         List<SelectorDataModel> GetTaxLookups();
         List<SelectorDataModel> GetMaterialRequestPurposes();

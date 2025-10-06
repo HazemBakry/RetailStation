@@ -49,6 +49,7 @@ namespace RetailStation.API
 
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<ISQLHelper, SQLHelper>();
+            services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IAttendanceService, AttendanceService>();
             services.AddScoped<IOverTimeService, OverTimeService>();

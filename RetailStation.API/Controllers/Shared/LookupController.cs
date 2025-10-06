@@ -117,6 +117,13 @@ namespace RetailStation.API.Controllers.Shared
             var results = lookupService.GetPaymentTypes();
             return Ok(results);
         }
+        [HttpGet]
+        [Route("GetPaymentMethods")]
+        public IActionResult GetPaymentMethods()
+        {
+            var results = lookupService.GetPaymentMethods();
+            return Ok(results);
+        }
 
         [HttpGet]
         [Route("GetReceiptTypes")]

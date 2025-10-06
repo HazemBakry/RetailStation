@@ -16,7 +16,11 @@ export interface SupplierModel extends CreatorModel {
     commercialRegister: string;
     taxNumber: string;
     beginningBalance: number | null;
+    deliveryCost: number | null;
+    deliveryTime: number | null;
+    paymentMethodId: number | null;
     // balanceTypeId: number;
+    paymentMethod: string;
     balanceType: string;
     supplierGroupId: number | null;
     supplierGroupName: string;

@@ -46,6 +46,7 @@ namespace RetailStation.Entities.Models
         public DbSet<JournalType> JournalTypes { get; set; }
         public DbSet<LedgerType> LedgerTypes { get; set; }
         public DbSet<PaymentType> PaymentTypes { get; set; }
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<ReceiptType> ReceiptTypes { get; set; }
         public DbSet<TaxLookup> TaxLookups { get; set; }
         public DbSet<Bank> Banks { get; set; }

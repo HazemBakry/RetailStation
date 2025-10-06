@@ -63,7 +63,7 @@ namespace RetailStation.API.Controllers.Website
         public IActionResult GetWebsitePromotionItems(SearchFilterModel SearchModel)
         {
             var data = _websiteService.GetWebsitePromotionItems(SearchModel);
-            var result = new PagedResponseModel<SupplierItemModel>
+            var result = new PagedResponseModel<PromotionModel>
             {
                 Results = data,
                 TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,

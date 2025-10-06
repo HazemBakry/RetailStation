@@ -14,8 +14,8 @@ namespace RetailStation.Interface.Website
         List<SupplierItemModel> GetWebsiteItems_Data(SearchFilterModel FilterModel);
         List<FilterModel> GetWebsiteItems_Filters(SearchFilterModel FilterModel);
         SupplierItemModel GetWebsiteItemDetailsById(int SupplierItemId);
-        List<SupplierItemModel> GetWebsitePromotionItems(SearchFilterModel model);
-        List<WebsiteSliderModel> GetWebsiteMainSlider();
+        List<PromotionModel> GetWebsitePromotionItems(SearchFilterModel model);
+        List<SliderModel> GetWebsiteMainSlider();
 
     }
 }

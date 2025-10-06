@@ -24,6 +24,9 @@ import { PermissionItemComponent } from './components/ManageSubscriptions/permis
 import { WebsiteSubscribeRequestsComponent } from './components/ManageSubscriptions/website-subscribe-requests/website-subscribe-requests.component';
 import { SuppliersContainerComponent } from './components/Operation/suppliers-container/suppliers-container.component';
 import { ManageSupplierItemsComponent } from './components/Operation/suppliers-container/manage-supplier-items/manage-supplier-items.component';
+import { WebsiteAdminComponent } from './components/website-admin/website-admin.component';
+import { PromotionsComponent } from './components/website-admin/promotions/promotions.component';
+import { SlidersComponent } from './components/website-admin/sliders/sliders.component';
 
 
 @NgModule({
@@ -46,7 +49,10 @@ import { ManageSupplierItemsComponent } from './components/Operation/suppliers-c
     ItemsComponent,
     WebsiteSubscribeRequestsComponent,
     SuppliersContainerComponent,
-    ManageSupplierItemsComponent
+    ManageSupplierItemsComponent,
+    WebsiteAdminComponent,
+    PromotionsComponent,
+    SlidersComponent
   ],
   imports: [
     CommonModule,
