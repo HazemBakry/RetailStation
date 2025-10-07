@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/Auth/auth.service';
 
 @Component({
   selector: 'app-website-search',
@@ -15,6 +16,7 @@ export class WebsiteSearchComponent implements OnInit {
   constructor(
     private router: Router,
     private acRoute: ActivatedRoute,
+    private authService: AuthService,
   ) {
     this.acRoute
   }
@@ -26,10 +28,15 @@ export class WebsiteSearchComponent implements OnInit {
   }
   search() {
     // if (!this.searchText) return;
-    let queryParams : any={};
-    if(this.searchText)
-      queryParams.q=this.searchText;
-    this.router.navigate(['/purchases'], {
+    let queryParams: any = {};
+    if (this.searchText)
+      queryParams.q = this.searchText;
+
+    let path = '/';
+    if (this.authService.isAuthenticated()) {
+      path = '/purchases'
+    }
+    this.router.navigate([path], {
       relativeTo: this.acRoute,
       //queryParams: { q: this.searchText },
       queryParams: queryParams,
