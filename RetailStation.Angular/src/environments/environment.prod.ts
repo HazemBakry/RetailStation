@@ -1,13 +1,8 @@
 export const environment = {
   production: true,
-  // apiURL:'https://posapi.postaps.com/api/',
-  apiURL: 'https://erp.infood.ai/webapi/api/',
+  apiURL: 'http://localhost:63246/api/',
   systemUrl: 'https://erp.infood.ai/',
   defaultUserPassword: '0000',
-  //login system
-  // authApi:'https://loginsso.infood.ai/api/',
-  // authServerUrl: 'https://login.infood.ai/',
-
-  authApi: 'https://app.infood.ai/webapi/api/',
-  authServerUrl: 'https://app.infood.ai',
+  authApi: 'http://localhost:63246/api/',
+  authServerUrl: 'http://localhost:63246/api',
 };

@@ -9,14 +9,6 @@ export const environment = {
   appId: 'e5b35f76-bdd3-4e93-8038-89668f4ff4bc',
   authApi:'http://localhost:63246/api/',
   defaultUserPassword: '0000',
-
-  // //login system
-  // authApi:'https://loginsso.infood.ai/api/',
-  // //authApi:'http://localhost:41146/api/',
-  // authServerUrl: 'https://login.infood.ai/',
-  //login system
-  //authApi:'http://localhost:41146/api/',
-  // authApi:'https://app.infood.ai/webapi/api/',
   authServerUrl: 'https://app.infood.ai',
 };
 
