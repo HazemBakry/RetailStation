@@ -83,10 +83,10 @@ export class SupplierService {
 
    //-------------------------------------  Order ----------------------------------
     GetOrders_Data(model: PagedResponseModel) {
-      return this.http.post<PagedResponseModel<WebsiteOrderModel[]>>(this.URL + 'Order/GetOrders_Data', model);
+      return this.http.post<PagedResponseModel<WebsiteOrderModel[]>>(this.URL + 'SupplierManagement/GetOrders_Data', model);
     }
     GetOrders_Filters(model: PagedResponseModel<any[]>) {
-      return this.http.post<FilterItem[]>(this.URL + 'Order/GetOrders_Filters', model);
+      return this.http.post<FilterItem[]>(this.URL + 'SupplierManagement/GetOrders_Filters', model);
     }
     GetOrderDetailsById(OrderId: number) {
       return this.http.get<WebsiteOrderModel>(this.URL + 'Order/GetOrderDetailsById?OrderId=' + OrderId);

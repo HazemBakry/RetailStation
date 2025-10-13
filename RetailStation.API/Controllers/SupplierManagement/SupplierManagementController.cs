@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RetailStation.Entities.Common;
 using RetailStation.Entities.DTOs.Operation;
+using RetailStation.Entities.DTOs.Website;
 using RetailStation.Entities.Models.Operation;
 using RetailStation.Interface.Operation;
 using RetailStation.Interface.SupplierManagement;
+using RetailStation.Interface.Website;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,9 +19,11 @@ namespace RetailStation.API.Controllers.SupplierManagement
     public class SupplierManagementController : ControllerBase
     {
         private readonly ISupplierManagementService _supplierManagementService;
-        public SupplierManagementController(ISupplierManagementService supplierManagementService)
+        private readonly IOrderService _orderService;
+        public SupplierManagementController(ISupplierManagementService supplierManagementService, IOrderService orderService)
         {
             _supplierManagementService = supplierManagementService;
+            _orderService = orderService;
         }
 
 
@@ -170,5 +174,48 @@ namespace RetailStation.API.Controllers.SupplierManagement
             var results = await _supplierManagementService.ImportSupplierItemsFile(SupplierId,ImporterName, ImportFile);
             return Ok(results);
         }
+
+
+
+
+        #region Orders
+        [HttpPost]
+        [Route("GetOrders_Data")]
+        public IActionResult GetOrders_Data(SearchFilterModel model)
+        {
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "SupplierId")?.Value, out int SupplierId);
+            if (SupplierId <= 0)
+                return BadRequest("No Supplier assigned");
+
+            model.FilterList.Add(new FilterItem
+            {
+                CategoryName = "SupplierId",
+                ItemFlag = SupplierId.ToString(),
+            });
+            var data = _orderService.GetOrders_Data(model);
+            var result = new PagedResponseModel<WebsiteOrderModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("GetOrders_Filters")]
+        public IActionResult GetOrders_Filters(SearchFilterModel model)
+        {
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "SupplierId")?.Value, out int SupplierId);
+            if (SupplierId <= 0)
+                return BadRequest("No Supplier assigned");
+            model.FilterList.Add(new FilterItem
+            {
+                CategoryName = "SupplierId",
+                ItemFlag = SupplierId.ToString(),
+            });
+            return Ok(_orderService.GetOrders_Filters(model));
+        }
+        #endregion
     }
 }
