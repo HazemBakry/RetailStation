@@ -83,6 +83,7 @@ namespace RetailStation.API.Controllers.Website
 
 
 
+        #region Orders
 
         [HttpPost]
         [Route("CreateNewOrder")]
@@ -95,5 +96,47 @@ namespace RetailStation.API.Controllers.Website
             order.CreatedBy = UserId;
             return Ok(_orderService.CreateNewOrder(SubscriberId, order));
         }
+
+
+        [HttpPost]
+        [Route("GetOrders_Data")]
+        public IActionResult GetOrders_Data(SearchFilterModel model)
+        {
+            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if (string.IsNullOrEmpty(SubscriberId))
+                return BadRequest("No Subscriber assigned");
+            model.FilterList.Add(new FilterItem
+            {
+                CategoryName = "SubscriberId",
+                ItemFlag = SubscriberId.ToString(),
+            });
+            var data = _orderService.GetOrders_Data(model);
+            var result = new PagedResponseModel<WebsiteOrderModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = model.PageSize,
+                CurrentPage = model.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("GetOrders_Filters")]
+        public IActionResult GetOrders_Filters(SearchFilterModel model)
+        {
+            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if (string.IsNullOrEmpty(SubscriberId))
+                return BadRequest("No Subscriber assigned");
+            model.FilterList.Add(new FilterItem
+            {
+                CategoryName = "SubscriberId",
+                ItemFlag = SubscriberId.ToString(),
+            });
+            return Ok(_orderService.GetOrders_Filters(model));
+        }
+        #endregion
+
     }
 }

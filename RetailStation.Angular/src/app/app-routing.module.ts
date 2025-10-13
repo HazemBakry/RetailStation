@@ -13,6 +13,7 @@ import { WebsiteComponent } from './components/Main/components/website/website.c
 import { WebsiteHomeComponent } from './components/Main/components/website/website-home/website-home.component';
 import { WebsiteSubscribeComponent } from './components/Main/components/website/website-subscribe/website-subscribe.component';
 import { WebsiteCartComponent } from './components/Main/components/website/website-cart/website-cart.component';
+import { WebsiteOrdersComponent } from './components/Main/components/website/website-orders/website-orders.component';
 
 const routes: Routes = [
   // { path: '', component: RetailHomeComponent },
@@ -35,6 +36,7 @@ const routes: Routes = [
       { path: '', component: WebsiteHomeComponent },
       //{ path: 'subscribe', component: WebsiteSubscribeComponent },
       { path: 'cart', component: WebsiteCartComponent },
+      { path: 'my-orders', component: WebsiteOrdersComponent },
       { path: '', redirectTo: '', pathMatch: 'full' },
     ],
   },

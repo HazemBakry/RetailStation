@@ -19,6 +19,7 @@ import { WebsiteFiltersComponent } from './components/website/website-filters/we
 import { WebsiteSubscribeComponent } from './components/website/website-subscribe/website-subscribe.component';
 import { WebsiteItemCardComponent } from './components/website/website-item-card/website-item-card.component';
 import { WebsiteCartComponent } from './components/website/website-cart/website-cart.component';
+import { WebsiteOrdersComponent } from './components/website/website-orders/website-orders.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { WebsiteCartComponent } from './components/website/website-cart/website-
     WebsiteFiltersComponent,
     WebsiteSubscribeComponent,
     WebsiteItemCardComponent,
-    WebsiteCartComponent
+    WebsiteCartComponent,
+    WebsiteOrdersComponent
   ],
   imports: [
     CommonModule,

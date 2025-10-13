@@ -9,16 +9,17 @@ import { FilterItem, FilterModel } from 'src/app/components/Shared/models/Filter
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { WebsiteOrderItemModel, WebsiteOrderModel } from '../../../models/WebsiteOrderModel ';
 import { SupplierService } from '../../../services/supplier.service';
+import { WebsiteService } from '../../../services/website.service';
 import { OrderService } from '../../../services/order.service';
 
 
 @Component({
-  selector: 'app-supplier-orders',
-  templateUrl: './supplier-orders.component.html',
-  styleUrls: ['./supplier-orders.component.css']
+  selector: 'app-website-orders',
+  templateUrl: './website-orders.component.html',
+  styleUrls: ['./website-orders.component.css']
 })
-export class SupplierOrdersComponent implements OnInit {
-  TitleList = ['Supplier', 'Orders'];
+export class WebsiteOrdersComponent implements OnInit {
+  TitleList = ['Purchases', 'MY Orders'];
   showLoader: boolean;
   TotalCount: any;
   TotalPages: any;
@@ -33,8 +34,8 @@ export class SupplierOrdersComponent implements OnInit {
   };
   selectedOrderId: number;
   @ViewChild(ComponentHostDirective, { static: true }) detailsComponentHost!: ComponentHostDirective;
-  constructor(private supplierService: SupplierService,
-    private orderService: OrderService,
+  constructor(private orderService: OrderService,
+    private websiteService: WebsiteService,
     private modalService: NgbModal,
     private toaster: ToastrService, private dynamicComponentService: DynamicComponentLoaderService) { }
 
@@ -45,7 +46,7 @@ export class SupplierOrdersComponent implements OnInit {
 
   getsOrdersData() {
     this.showLoader = true;
-    this.supplierService.GetOrders_Data(this.pagedResponseModel).subscribe(data => {
+    this.websiteService.GetOrders_Data(this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
       this.showLoader = false;
@@ -57,7 +58,7 @@ export class SupplierOrdersComponent implements OnInit {
   }
   loadFilters() {
     // this.showLoader = true;
-    this.supplierService.GetOrders_Filters(this.pagedResponseModel).subscribe(data => {
+    this.websiteService.GetOrders_Filters(this.pagedResponseModel).subscribe(data => {
       this.filterList = data;
 
       // this.showLoader = false;
