@@ -29,3 +29,8 @@ export interface FileImportModel
     importerName:string;
     file: File;
 }
+
+
+export enum ImporterName {
+  SupplierItems = 'SupplierItems'
+}

@@ -33,6 +33,9 @@ export class SupplierService {
   AddNewSupplierItem(model: FormData) {
     return this.http.post<ActionsResponseModel>(this.URL + 'SupplierManagement/AddNewSupplierItem', model);
   }
+  ImportSupplierItemsFile(importerName:string,file: FormData) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'SupplierManagement/ImportSupplierItemsFile?ImporterName='+importerName, file);
+  }
 
   EditSupplierItem(itemId: number, model: FormData) {
     return this.http.post<ActionsResponseModel>(this.URL + `SupplierManagement/EditSupplierItem?SupplierItemId=${itemId}`, model)

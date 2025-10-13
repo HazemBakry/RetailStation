@@ -140,5 +140,16 @@ namespace RetailStation.API.Controllers.SystemSettings
 
 
 
+        #region MyRegion
+
+        [HttpGet]
+        [Route("ExportTemplateByImporterLookup")]
+        public IActionResult ExportTemplateByImporterLookup(string ImporterName)
+        {
+            var result = _dataImportService.ExportTemplateByImporterLookup(ImporterName);
+            return Ok(result);
+        }
+        #endregion
+
     }
 }

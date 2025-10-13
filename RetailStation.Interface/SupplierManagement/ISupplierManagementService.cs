@@ -1,4 +1,6 @@
-﻿using RetailStation.Entities.Common;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using RetailStation.Entities.Common;
 using RetailStation.Entities.DTOs.Operation;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,7 @@ namespace RetailStation.Interface.SupplierManagement
         ActionsResponseModel ChangeSupplierItemActiveStatus(int SupplierId, int SupplierItemId);
         ActionsResponseModel ItemQuickUpdate(int SupplierId, int SupplierItemId, decimal Price, int UnitId);
         Task<ActionsResponseModel> MapSupplierItem(int SupplierId, int SupplierItemId, int? ItemId);
+        Task<ActionsResponseModel> ImportSupplierItemsFile(int SupplierId,string ImporterName, IFormFile file);
 
     }
 }

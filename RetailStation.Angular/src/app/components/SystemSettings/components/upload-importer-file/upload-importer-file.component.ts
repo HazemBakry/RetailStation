@@ -8,7 +8,7 @@ import { FormService } from 'src/app/components/Shared/services/form.service';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
-import { FileImportModel, ImporterColumnModel} from '../../models/DataImporter';
+import { FileImportModel, ImporterColumnModel } from '../../models/DataImporter';
 import { DataImportersService } from '../../services/data-importers.service';
 import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
 
@@ -20,9 +20,12 @@ import { CustomValidators } from 'src/app/components/Shared/services/custom-vali
 export class UploadImporterFileComponent implements OnInit {
   // @Input() importerId: number;
   @Input() importerName: string;
-  @Input() fromSinglePage: boolean=true;
+  @Input() fromSinglePage: boolean = true;
+  @Input() useTemplateSP: boolean = false;
+  @Input() useExternalService: boolean = false;
   @Input() btnDesign: string = 'default';
   @Output() dataUpdated = new EventEmitter<boolean>();
+  @Output() uploadedFile = new EventEmitter<File>();
   showExportLoader: boolean = false;
 
   fileImportModel: FileImportModel = {} as FileImportModel;
@@ -73,7 +76,7 @@ export class UploadImporterFileComponent implements OnInit {
   buildForm() {
     this.formGroup = this.form.group({
       importerId: [null],
-      importFile: [null as File, [Validators.required,CustomValidators.extensionValidator(['.xls','xlsx','.csv'])]]
+      importFile: [null as File, [Validators.required, CustomValidators.extensionValidator(['.xls', 'xlsx', '.csv'])]]
 
     });
     this.formGroup.valueChanges.subscribe((data) => {
@@ -89,7 +92,14 @@ export class UploadImporterFileComponent implements OnInit {
     this.fileImportModel = this.formGroup.value;
 
     if (this.importerName && this.selectedFile != null)
-      this.executeImporter();
+      if (!this.useExternalService) {
+
+        this.executeImporter();
+      }
+      else {
+        this.uploadedFile.emit(this.selectedFile);
+        this.modalService?.dismissAll();
+      }
     else
       this.toaster.warning('please add file', 'Warning');
   }
@@ -132,7 +142,7 @@ export class UploadImporterFileComponent implements OnInit {
       }
 
       this.sharedService.urlDownloadOrOpen(data.url);
-      
+
       this.showAddLoader = false;
     }, err => {
       this.showAddLoader = false;
@@ -189,24 +199,44 @@ export class UploadImporterFileComponent implements OnInit {
     //this.documentsFileName = event.target.files[0].name;
   }
 
-  exportTemplateByName()
-  {
-    this.showExportLoader=true;
-    this.dataImportersService.ExportTemplateByImporterName(this.importerName).subscribe((data:ActionsResponseModel) => {
-      if (data.isSuccess) {
-        this.sharedService.urlDownloadOrOpen(data.url);
-        this.toaster.success(data.message);
-      } else {
-        this.toaster.error(data.message);
-      }
+  exportTemplateByName() {
+    if (this.useTemplateSP) {
+      this.showExportLoader = true;
+      this.dataImportersService.ExportTemplateByImporterLookup(this.importerName).subscribe((data: ActionsResponseModel) => {
+        if (data.isSuccess) {
+          this.sharedService.urlDownloadOrOpen(data.url);
+          this.toaster.success(data.message);
+        } else {
+          this.toaster.error(data.message);
+        }
 
 
-      this.showExportLoader=false;
-    }, err=>{
-      this.showExportLoader=false;
-    },()=>{
-      this.showExportLoader=false;
-    });
+        this.showExportLoader = false;
+      }, err => {
+        this.showExportLoader = false;
+      }, () => {
+        this.showExportLoader = false;
+      });
+    }
+    else {
+      this.showExportLoader = true;
+      this.dataImportersService.ExportTemplateByImporterName(this.importerName).subscribe((data: ActionsResponseModel) => {
+        if (data.isSuccess) {
+          this.sharedService.urlDownloadOrOpen(data.url);
+          this.toaster.success(data.message);
+        } else {
+          this.toaster.error(data.message);
+        }
+
+
+        this.showExportLoader = false;
+      }, err => {
+        this.showExportLoader = false;
+      }, () => {
+        this.showExportLoader = false;
+      });
+    }
+
 
 
   }

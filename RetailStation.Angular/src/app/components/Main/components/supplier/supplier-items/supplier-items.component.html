@@ -14,7 +14,12 @@
                 <i class="fas fa-file-download"></i>
                 <span>تصدير</span>
             </button>
-
+            <app-upload-importer-file 
+            [importerName]="importerName"
+            [useTemplateSP]="true"
+            [useExternalService]="true"
+            (uploadedFile)="importerFileChanged($event)">
+            </app-upload-importer-file> 
             <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
                 <i class="fas fa-filter"></i>
                 <span>إنشاء فلتر</span>

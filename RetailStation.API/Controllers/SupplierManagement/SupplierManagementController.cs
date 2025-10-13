@@ -158,5 +158,17 @@ namespace RetailStation.API.Controllers.SupplierManagement
             var results = await _supplierManagementService.MapSupplierItem(SupplierId, SupplierItemId, ItemId);
             return Ok(results);
         }
+
+
+        [HttpPost]
+        [Route("ImportSupplierItemsFile")]
+        public async Task<IActionResult> ImportSupplierItemsFile(string ImporterName,[FromForm] IFormFile ImportFile)
+        {
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "SupplierId")?.Value, out int SupplierId);
+            if (SupplierId <= 0)
+                return BadRequest("No Supplier assigned");
+            var results = await _supplierManagementService.ImportSupplierItemsFile(SupplierId,ImporterName, ImportFile);
+            return Ok(results);
+        }
     }
 }
