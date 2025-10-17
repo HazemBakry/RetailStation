@@ -24,8 +24,13 @@ export interface SupplierItemModel extends CreatorModel {
     supplierName: string;
     description: string;
     disabled: boolean | null;
+    isFav: boolean | null;
     isCompareAdded: boolean | null;
     image: File | null;
     imageUrl: string;
+    deliveryCost: number | null;
+    deliveryTime: number | null;
+    paymentMethodId: number | null;
+    paymentMethod: string;
 
 }

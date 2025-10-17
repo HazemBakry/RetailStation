@@ -31,7 +31,11 @@ namespace RetailStation.Entities.DTOs.Operation
         public bool IsActive { get; set; }
         public int? ItemTypeId { get; set; }
         public int? SupplierId { get; set; }
+        public double? DeliveryTime { get; set; }
+        public decimal? DeliveryCost { get; set; }
+        public int? PaymentMethodId { get; set; }
         public string SupplierName { get; set; }
+        public string PaymentMethod { get; set; }
         public IFormFile Image { get; set; }
         public string ImageUrl { get; set; }
 

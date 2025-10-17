@@ -20,6 +20,7 @@ import { WebsiteSubscribeComponent } from './components/website/website-subscrib
 import { WebsiteItemCardComponent } from './components/website/website-item-card/website-item-card.component';
 import { WebsiteCartComponent } from './components/website/website-cart/website-cart.component';
 import { WebsiteOrdersComponent } from './components/website/website-orders/website-orders.component';
+import { WebsiteMainCategoriesComponent } from './components/website/website-main-categories/website-main-categories.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { WebsiteOrdersComponent } from './components/website/website-orders/webs
     WebsiteSliderComponent,
     WebsitePromotionItemsComponent,
     WebsiteMainItemsComponent,
+    WebsiteMainCategoriesComponent,
     WebsiteFiltersComponent,
     WebsiteSubscribeComponent,
     WebsiteItemCardComponent,

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/Auth/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-website-search',
@@ -13,6 +14,8 @@ export class WebsiteSearchComponent implements OnInit {
   @Input() placeholder: string = 'search'
   @Input() searchPage: string = ''
   searchText: string = '';
+  systemUrl: string = environment.systemUrl;
+
   constructor(
     private router: Router,
     private acRoute: ActivatedRoute,

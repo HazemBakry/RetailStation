@@ -1,65 +1,102 @@
-<div class="cart-btn position-relative" (click)="OpenSidePanel(CompareSidePanel)">
+<!-- <div class="cart-btn position-relative" (click)="OpenSidePanel(CompareSidePanel)">
     <span class="ordered-cart-number shadow">{{compareCount$ }}</span>
     <i class="fa-solid fa-code-compare"></i>
-</div>
-<ng-template #CompareSidePanel let-offcanvas>
+</div> -->
 
-    <div class="offcanvas-header justify-content-between gap-3 fs-4 border-bottom py-3">
-        <div class="d-flex align-items-center gap-2">
-            <i class="fas fa-store offcanvas-header-icon"></i>
-            <span>مقارنة</span>
+<a class="nav-link d-flex align-items-center position-relative py-0 fs-2 cursor-pointer h-100"
+    (click)="OpenSidePanel(CompareSidePanel)">
+    <i class="ph ph-git-diff"></i>
+    <div class="circle-order-count-box">{{compareCount$ }}</div>
+</a>
+
+
+
+<ng-template #CompareSidePanel let-modal>
+    <div class="modal-header modal-header-gray justify-content-between">
+        <div class="fs-16 fw-semibold d-flex align-items-center gap-2 m-0">
+            <i class="ph ph-git-diff fs-4"></i>
+            <div>مقارنة المنتجات</div>
         </div>
-        <div class="cursor-pointer text-danger fs-2" (click)="offcanvas.dismiss()">
-            <i class="uil uil-times-circle"></i>
-        </div>
+        <i class="ph ph-x fs-4 cursor-pointer" (click)="modal.dismiss()"></i>
     </div>
-    <div class="offcanvas-body pt-4 bg-light">
-        <div class="card card-with-table border shadow-none">
+    <div class="modal-body bg-light">
+        <table *ngIf="pageResponseModel.results.length"
+            class="table table-bordered table-light align-middle table-hover text-center m-0">
+            <thead>
+                <tr>
+                    <th class="border bg-white text-muted fw-semibold">المعلومات</th>
+                    <ng-container *ngFor="let item of pageResponseModel.results">
+                        <th class="border bg-white text-muted fw-semibold">{{item.nameAR ?? item.nameEN}}</th>
+                    </ng-container>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let field of dataFields">
+                    <td class="bg-white text-muted fw-semibold">{{field.displayName}}</td>
+                    <ng-container *ngFor="let item of pageResponseModel.results">
 
-            <div class="card-body table-responsive p-0 shadow-sm radius-10">
-                <table
-                    class="table table-card-table table-borderless table-middle table-hover bg-transparent small-scroll m-0">
-                    <thead>
-                        <tr>
-                            <th>اسم الصنف</th>
-
-                            <th>سعر 1</th>
-                            <th>سعر 10</th>
-                            <th>سعر 100</th>
-                            <th>سعر 1000</th>
-                            <th>اسم المورد</th>
-                            <th class="text-center"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of pageResponseModel.results">
-                            <td class="fs-5 fw-bold text-center">
-                                <!-- {{item.orderNumber}} -->
-                                {{item.nameAR ?? item.nameEN}}
-
-                            </td>
-                            <td>{{item.price}}</td>
-                            <td>{{item.price10}}</td>
-                            <td>{{item.price100}}</td>
-                            <td>{{item.price1000}}</td>
-                            <td>{{item.supplierName}}</td>
-                            <!-- <td>{{item.supplierNameAR?? item.supplierNameEN}}</td> -->
-                            <td>
-                                <div class="w-100 d-flex align-items-center justify-content-center">
-                                    <button (click)="remove(item)"
-                                        class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2 me-2">
-                                        <i class="uil uil-trash-alt"></i>
-                                        <span></span>
-                                    </button>
+                        <td *ngIf="['productImage'].includes(field.fieldName)" class="bg-white">
+                            <img [src]="item.imageUrl" class="more-buy-image" alt="more-buy-image" loading="lazy" />
+                        </td>
+                        <td *ngIf="['productName'].includes(field.fieldName)" class="bg-white fw-semibold">
+                            {{item.nameAR ?? item.nameEN}}
+                        </td>
+                        <td *ngIf="['price'].includes(field.fieldName)" class="bg-white fw-semibold">
+                            <div class="d-flex align-items-center justify-content-center gap-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="text-danger fw-bold fs-4">{{item.price}}</div>
+                                    <img src="../../../../../assets/ryal-black-icon.svg" class="ryial-img"
+                                        alt="ryal-icon" loading="lazy" />
                                 </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <app-empty-data [showEmptyData]="!pageResponseModel.results?.length&&!showLoader"
-                    [showLoader]="showLoader"></app-empty-data>
-            </div>
-        </div>
+                                <div class="d-flex align-items-center gap-2 line-through">
+                                    <div class="text-muted fw-bold fs-4">{{item.price + item.price*20/100}}</div>
+                                    <img src="../../../../../assets/ryal-gray-icon.svg" class="ryial-img"
+                                        alt="ryal-icon" loading="lazy" />
+                                </div>
+                                <button class="btn btn-danger py-1 px-3">Sale 20%</button>
+                            </div>
+                            <!-- <div>للكيلو (عند طلب 5 طن)</div> -->
+                        </td>
+                        <td *ngIf="['productRate'].includes(field.fieldName)" class="bg-white fw-semibold">
+                            <div class="rate-box d-inline-flex align-items-center justify-content-center gap-2">
+                                <div>4.9</div>
+                                <i class="ph ph-star-four star-rate-icon stared"></i>
+                            </div>
+                        </td>
+                        <td *ngIf="['productUrl'].includes(field.fieldName)" class="bg-white fw-semibold">
+                            <a class="text-underline">شاهد تفاصيل المنتج</a>
+                        </td>
+                        <td *ngIf="field.fieldName == 'supplierName'" class="bg-white fw-semibold"> 
 
+                            {{item.supplierName}}
+                        </td>
+                        <td *ngIf="field.fieldName == 'manufacturingCountry'" class="bg-white fw-semibold">مصر</td>
+                        <td *ngIf="['supplierRate'].includes(field.fieldName)" class="bg-white fw-semibold">
+                            <div class="rate-box d-inline-flex align-items-center gap-2">
+                                <div>4.9</div>
+                                <i class="ph ph-star-four star-rate-icon stared"></i>
+                            </div>
+                        </td>
+                        <td *ngIf="field.fieldName == 'deliveryTime'" class="bg-white fw-semibold">
+                            {{item.deliveryTime}}
+                        </td>
+                        <td *ngIf="field.fieldName == 'dimensions'" class="bg-white fw-semibold">حجم متوسط (متوسط 250
+                            جرام/برتقالة)</td>
+                        <td *ngIf="field.fieldName == 'weight'" class="bg-white fw-semibold">الوزن الصافي: 15 كيلو/صندوق
+                        </td>
+                        <td *ngIf="field.fieldName == 'minOrderQuantity'" class="bg-white fw-semibold">1 طن</td>
+                        <td *ngIf="field.fieldName == 'returnPolicy'" class="bg-white fw-semibold">متاح خلال 24 ساعة من
+                            الاستلام</td>
+                        <td *ngIf="field.fieldName == 'paymentMethods'" class="bg-white fw-semibold">  
+                            {{item.paymentMethod}}
+                        </td>
+
+
+                    </ng-container>
+                </tr>
+            </tbody>
+        </table>
+        <app-empty-data [showEmptyData]="!pageResponseModel.results?.length&&!showLoader"
+            [showLoader]="showLoader"></app-empty-data>
     </div>
 </ng-template>
