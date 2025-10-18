@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
-  apiURL: 'http://localhost:63246/api/',
-  systemUrl: 'https://erp.infood.ai/',
+  apiURL: 'https://retail.infood.ai/webapi/api/',
+  systemUrl: 'https://retail.infood.ai/',
   defaultUserPassword: '0000',
-  authApi: 'http://localhost:63246/api/',
-  authServerUrl: 'http://localhost:63246/api',
+  authApi: 'https://retail.infood.ai/webapi/api/',
+  authServerUrl: 'https://retail.infood.ai/webapi/api',
 };
