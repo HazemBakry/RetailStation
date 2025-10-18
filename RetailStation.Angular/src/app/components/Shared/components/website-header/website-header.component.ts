@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
 import { NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs';
@@ -9,6 +9,7 @@ import { MenuService, MenuType } from '../../services/menu.service';
 import { environment } from 'src/environments/environment';
 import { CompareService } from '../../services/comapre.service';
 import { CartService } from '../../services/cart.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-website-header',
@@ -29,7 +30,9 @@ export class WebsiteHeaderComponent implements OnInit {
   isAuthenticated: boolean = false;
   cartItemsCount$: number = 0;
 
-  constructor(private authService: AuthService, private router: Router, private menuService: MenuService, private cartService: CartService) {
+  constructor(private authService: AuthService, private router: Router,
+    private menuService: MenuService, private cartService: CartService,
+    private modalService: NgbModal) {
     this.modulesMenu = this.menuService.getMenuById(MenuType.MainModules)?.subMenus;
     this.UserModel = this.authService.getCurrentUser();
     this.isAuthenticated = this.authService.isAuthenticated();
@@ -41,6 +44,13 @@ export class WebsiteHeaderComponent implements OnInit {
   }
 
 
+  openModal(content: TemplateRef<any>) {
+    this.modalService.open(content, {
+      size: 'xl',
+      centered: true,
+      scrollable: true,
+    });
+  }
 
   CartItemsList: any;
   isMenuOpen = false;

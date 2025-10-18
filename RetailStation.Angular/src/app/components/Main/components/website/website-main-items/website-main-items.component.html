@@ -1,4 +1,38 @@
 <div class="container-fluid py-5">
+    <section class="marketing-category-section">
+        <div class="carousel-title d-flex align-items-center gap-2 position-relative mb-3">
+            <img src="../../../../../assets/strong-offet-icon-2.svg" class="header-offer-icon" alt="offer-icon"
+                loading="lazy" />
+            <div class="fw-semibold fs-18">الأكثر مبيعا</div>
+        </div>
+        <swiper class="medium-carousel-swiper navigator-with-head h-auto" [slidesPerView]="1" [spaceBetween]="10"
+            [navigation]="true" [pagination]="false" [slidesPerGroup]="1"
+            [autoplay]="{ delay: 3500, disableOnInteraction: false }" [loop]="true" [breakpoints]="{
+            '0': {
+              slidesPerView: 1
+            },
+            '575': {
+              slidesPerView: 2
+            },
+            '767': {
+              slidesPerView: 3
+            },
+            '1024': {
+              slidesPerView: 3
+            },
+            '1200': {
+              slidesPerView:4
+            }
+          }">
+            <ng-container *ngFor="let item of suppliersData;let i =index">
+                <ng-template swiperSlide>
+                    <app-website-item-card [item]="item"></app-website-item-card>
+                </ng-template>
+            </ng-container>
+        </swiper>
+    </section>
+</div>
+<!-- <div class="container-fluid py-5">
     <div class="row">
         <div class="col-xl-2">
 
@@ -15,106 +49,7 @@
 
                 <div *ngFor="let item of suppliersData;let i =index" class="col-md-6 col-xl-3">
                     <app-website-item-card [item]="item"></app-website-item-card>
-                    <!-- <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
-                        <div class="card-inner">
-                            <div class="card-slider">
-                                <a class="card-img-box d-block position-relative">
-                                    <img [src]="item.imageUrl" alt="order-img"
-                                        (error)="$event.target.src = defaultItemImage"/>
-                                    <div class="highlight-text order-highlight">
-                                        <h6 class="m-0">{{item.description}}</h6>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="card-content mt-3">
-                                <div class="card-content-info d-flex mb-3">
-                                    <div class="card-content-img">
-                                        <img [src]="supplierLogo" alt="restaurant-logo" />
-                                    </div>
-                                    <div class="me-2 w-100">
-                                        <div class="foods-title d-flex align-items-center justify-content-between">
-                                            <a class="m-0 fw-bold" style="color: black;">{{item.nameAR}}</a>
-                                            <div class="d-flex align-items-center">
-                                                <app-rate></app-rate>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button [class]="item.isCompareAdded ? 'btn-delete':'btn-edit'"
-                                    class="button-table-action  d-flex align-items-center justify-content-center gap-2"
-                                    (click)="toggleCompare(item)">
-                                    <i class="fa-solid fa-code-compare"></i>
-                                    <span *ngIf="!item.isCompareAdded">مقارنة</span>
-                                    <span *ngIf="item.isCompareAdded"> حذف المقارنة</span>
-                                </button>
-                                <div class="offer-box align-items-center text-center"
-                                    style="height: 40px;padding-top: 10px;">
-                                    <a class="me-2" style="color: #4caf50;">اوردر أونلاين</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
                 </div>
-                <!-- card with slider -->
-                <!-- <div class="col-md-6 col-xl-4">
-                    <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
-                        <div class="card-inner">
-                            <div class="card-slider">
-                                <a class="card-img-box d-block position-relative">
-                                    <swiper class="small-carousel-swiper" [slidesPerView]="1" [spaceBetween]="0"
-                                        [navigation]="true" [pagination]="{ clickable: true }"
-                                        [autoplay]="{ delay: 5000, disableOnInteraction: false }">
-                                        <ng-template swiperSlide>
-                                            <img src="../../../../../assets/images/13.png" alt="order-img" />
-                                        </ng-template>
-                                        <ng-template swiperSlide>
-                                            <img src="../../../../../assets/images/14.png" alt="order-img" />
-                                        </ng-template>
-                                        <ng-template swiperSlide>
-                                            <img src="../../../../../assets/images/15.png" alt="order-img" />
-                                        </ng-template>
-                                        <ng-template swiperSlide>
-                                            <img src="../../../../../assets/images/16.png" alt="order-img" />
-                                        </ng-template>
-                                        <ng-template swiperSlide>
-                                            <img src="../../../../../assets/images/17.png" alt="order-img" />
-                                        </ng-template>
-                                    </swiper>
-                                    <div class="highlight-text order-highlight">
-                                        <h6 class="m-0">سلطه كفته</h6>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="card-content mt-3">
-                                <div class="card-content-info d-flex mb-3">
-                                    <div class="card-content-img">
-                                        <img src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg"
-                                            alt="restaurant-logo" />
-                                    </div>
-                                    <div class="me-2 w-100">
-                                        <div class="foods-title d-flex align-items-center justify-content-between">
-                                            <a class="m-0 fw-bold" style="color: black;">sadsadsadsa</a>
-                                            <div class="d-flex align-items-center">
-                                                <div class="d-flex align-items-center">
-                                                    <i class="fas fa-star rate-color-gold fs-12"></i>
-                                                    <i class="fas fa-star rate-color-gold fs-12"></i>
-                                                    <i class="fas fa-star rate-color-gold fs-12"></i>
-                                                    <i class="fas fa-star rate-color-gold fs-12"></i>
-                                                    <i class="fas fa-star rate-color-grey fs-12"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="offer-box align-items-center text-center"
-                                    style="height: 40px;padding-top: 10px;">
-                                    <a class="me-2" style="color: #4caf50;">اوردر أونلاين</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-
             </div>
 
             <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pageResponseModel.currentPage"
@@ -124,4 +59,4 @@
 
         </div>
     </div>
-</div>
+</div> -->

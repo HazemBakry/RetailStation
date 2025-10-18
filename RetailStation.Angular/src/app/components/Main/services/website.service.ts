@@ -6,7 +6,7 @@ import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
 import { SupplierItemModel } from '../models/SupplierItemModel';
 import { WebsiteSliderModel } from '../models/WebsiteSliderModel';
-import { FilterModel } from '../../Shared/models/FilterModel';
+import { FilterItem, FilterModel } from '../../Shared/models/FilterModel';
 import { SubscribeRequestModel } from '../../Admin/models/SubscribeRequestModel';
 import { CreateOrderModel, WebsiteOrderModel } from '../models/WebsiteOrderModel ';
 import { SliderModel } from '../../Admin/models/Operation/SliderModel';
@@ -53,7 +53,16 @@ export class WebsiteService {
 
 
   /////////////// order
+  //-------------------------------------  Order ----------------------------------
   CreateNewOrder(order: CreateOrderModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Website/CreateNewOrder', order);
+  }
+
+
+  GetOrders_Data(model: PagedResponseModel) {
+    return this.http.post<PagedResponseModel<WebsiteOrderModel[]>>(this.URL + 'Website/GetOrders_Data', model);
+  }
+  GetOrders_Filters(model: PagedResponseModel<any[]>) {
+    return this.http.post<FilterItem[]>(this.URL + 'Website/GetOrders_Filters', model);
   }
 }

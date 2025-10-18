@@ -17,6 +17,8 @@ using RetailStation.Entities.Models.Operation;
 using RetailStation.Entities.DTOs.Operation;
 using RetailStation.Interface.SupplierManagement;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using RetailStation.Entities.Models.Purchases;
 
 namespace RetailStation.Service.SupplierManagement
 {
@@ -30,10 +32,11 @@ namespace RetailStation.Service.SupplierManagement
         private readonly string ConnectionString;
         private readonly IExportService ExportService;
         private readonly IFileService _fileService;
+        private readonly IDataImportService _dataImportService;
         public readonly string ItemsImagesFolder;
         public SupplierManagementService(DBContext Context, ISQLHelper SQLHelper,
             IConfiguration Configuration, IExportService ExportService,
-            ISharedFilterService sharedFilterService, LookupsDbContext lookupsDbContext, IFileService fileService)
+            ISharedFilterService sharedFilterService, LookupsDbContext lookupsDbContext, IFileService fileService, IDataImportService dataImportService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
@@ -44,7 +47,7 @@ namespace RetailStation.Service.SupplierManagement
             LookupsDbContext = lookupsDbContext;
             _fileService = fileService;
             ItemsImagesFolder = "ItemsImages";
-
+            _dataImportService = dataImportService;
         }
 
 
@@ -277,6 +280,27 @@ namespace RetailStation.Service.SupplierManagement
 
             }
         }
+        public async Task<ActionsResponseModel> ImportSupplierItemsFile(int SupplierId,string ImporterName, IFormFile file)
+        {
+
+            try
+            {
+                SqlParameter[] Params = new SqlParameter[]
+                {
+                    new SqlParameter("@SupplierId", SupplierId),
+                };
+                var response = await _dataImportService.ExecuteImporter(file, Params, "[Import].[SP_Import_SupplierItems]", ImporterName);
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+
+            }
+        }
+        
+        
         public ActionsResponseModel ItemQuickUpdate(int SupplierId, int SupplierItemId, decimal Price, int UnitId)
         {
             try

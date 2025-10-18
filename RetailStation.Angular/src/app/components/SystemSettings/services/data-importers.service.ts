@@ -44,6 +44,9 @@ export class DataImportersService {
   ExportTemplateByImporterName(importerName: string) {
     return this.http.get<ActionsResponseModel>(this.URL + 'DataImport/ExportTemplateByImporterName?ImporterName='+ importerName);
   }
+  ExportTemplateByImporterLookup(importerName: string) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'DataImport/ExportTemplateByImporterLookup?ImporterName='+ importerName);
+  }
   GetDBStoredProcedure(SchemaName) {
     return this.http.get<DBStoredProcedureModel[]>(this.URL + 'DataImport/GetDBStoredProcedure?SchemaName='+ SchemaName);
   }

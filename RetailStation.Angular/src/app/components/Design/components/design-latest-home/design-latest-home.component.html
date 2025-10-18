@@ -1,0 +1,561 @@
+<app-design-latest-header></app-design-latest-header>
+<div class="container-fluid pt-5">
+  <div class="d-flex flex-column gap-4">
+    <!-- أقوي العروض -->
+    <section class="strong-offer-section">
+      <div class="carousel-title d-flex align-items-center gap-2 position-relative mb-3">
+        <img src="../../../../../assets/strong-offet-icon.svg" class="header-offer-icon" alt="offer-icon"
+          loading="lazy" />
+        <div class="fw-semibold fs-18">أقوي العروض</div>
+      </div>
+      <swiper class="big-offer-carousel medium-carousel-swiper navigator-with-head h-auto" [slidesPerView]="1"
+        [spaceBetween]="10" [navigation]="true" [pagination]="false" [slidesPerGroup]="1"
+        [autoplay]="{ delay: 4000, disableOnInteraction: false }" [loop]="true" [breakpoints]="{
+            '0': {
+              slidesPerView: 1
+            },
+            '575': {
+              slidesPerView: 1
+            },
+            '767': {
+              slidesPerView: 1
+            },
+            '1024': {
+              slidesPerView: 2
+            },
+            '1200': {
+              slidesPerView: 2
+            }
+          }">
+        <ng-template swiperSlide>
+          <img src="../../../../../assets/offer-carousel-1.svg" class="offer-carousel-image" alt="offer-image"
+            loading="lazy" />
+        </ng-template>
+        <ng-template swiperSlide>
+          <img src="../../../../../assets/offer-carousel-2.svg" class="offer-carousel-image" alt="offer-image"
+            loading="lazy" />
+        </ng-template>
+        <ng-template swiperSlide>
+          <img src="../../../../../assets/offer-carousel-1.svg" class="offer-carousel-image" alt="offer-image"
+            loading="lazy" />
+        </ng-template>
+        <ng-template swiperSlide>
+          <img src="../../../../../assets/offer-carousel-2.svg" class="offer-carousel-image" alt="offer-image"
+            loading="lazy" />
+        </ng-template>
+        <ng-template swiperSlide>
+          <img src="../../../../../assets/offer-carousel-1.svg" class="offer-carousel-image" alt="offer-image"
+            loading="lazy" />
+        </ng-template>
+        <ng-template swiperSlide>
+          <img src="../../../../../assets/offer-carousel-2.svg" class="offer-carousel-image" alt="offer-image"
+            loading="lazy" />
+        </ng-template>
+      </swiper>
+    </section>
+
+    <!-- تسوق حسب التصنيف -->
+    <section class="marketing-category-section">
+      <div class="carousel-title d-flex align-items-center gap-2 position-relative mb-3">
+        <img src="../../../../../assets/strong-offet-icon-2.svg" class="header-offer-icon" alt="offer-icon"
+          loading="lazy" />
+        <div class="fw-semibold fs-18">تسوق حسب التصنيف</div>
+      </div>
+      <swiper class="medium-carousel-swiper navigator-with-head h-auto" [slidesPerView]="1" [spaceBetween]="20"
+        [navigation]="true" [pagination]="false" [slidesPerGroup]="1"
+        [autoplay]="{ delay: 2000, disableOnInteraction: false }" [loop]="true" [breakpoints]="{
+            '0': {
+              slidesPerView: 1
+            },
+            '575': {
+              slidesPerView: 2
+            },
+            '767': {
+              slidesPerView: 3
+            },
+            '1024': {
+              slidesPerView: 5
+            },
+            '1200': {
+              slidesPerView: 6
+            }
+          }">
+        <ng-template swiperSlide>
+          <div class="market-cat-card d-flex flex-column gap-2 align-items-center bg-white p-3">
+            <img src="../../../../../assets/marketing-cat-1.svg" class="marketing-cat-carousel-image" alt="offer-image"
+              loading="lazy" />
+            <div class="fs-16 fw-semibold">لحوم ودجاج وأسماك</div>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="market-cat-card d-flex flex-column gap-2 align-items-center bg-white p-3">
+            <img src="../../../../../assets/marketing-cat-2.svg" class="marketing-cat-carousel-image" alt="offer-image"
+              loading="lazy" />
+            <div class="fs-16 fw-semibold">خضروات وفواكه</div>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="market-cat-card d-flex flex-column gap-2 align-items-center bg-white p-3">
+            <img src="../../../../../assets/marketing-cat-3.svg" class="marketing-cat-carousel-image" alt="offer-image"
+              loading="lazy" />
+            <div class="fs-16 fw-semibold">نواشف</div>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="market-cat-card d-flex flex-column gap-2 align-items-center bg-white p-3">
+            <img src="../../../../../assets/marketing-cat-4.svg" class="marketing-cat-carousel-image" alt="offer-image"
+              loading="lazy" />
+            <div class="fs-16 fw-semibold">صلصات وتوابل</div>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="market-cat-card d-flex flex-column gap-2 align-items-center bg-white p-3">
+            <img src="../../../../../assets/marketing-cat-5.svg" class="marketing-cat-carousel-image" alt="offer-image"
+              loading="lazy" />
+            <div class="fs-16 fw-semibold">زيوت وسمنة</div>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="market-cat-card d-flex flex-column gap-2 align-items-center bg-white p-3">
+            <img src="../../../../../assets/marketing-cat-6.svg" class="marketing-cat-carousel-image" alt="offer-image"
+              loading="lazy" />
+            <div class="fs-16 fw-semibold">معلبات</div>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="market-cat-card d-flex flex-column gap-2 align-items-center bg-white p-3">
+            <img src="../../../../../assets/marketing-cat-1.svg" class="marketing-cat-carousel-image" alt="offer-image"
+              loading="lazy" />
+            <div class="fs-16 fw-semibold">لحوم ودجاج وأسماك</div>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="market-cat-card d-flex flex-column gap-2 align-items-center bg-white p-3">
+            <img src="../../../../../assets/marketing-cat-2.svg" class="marketing-cat-carousel-image" alt="offer-image"
+              loading="lazy" />
+            <div class="fs-16 fw-semibold">خضروات وفواكه</div>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="market-cat-card d-flex flex-column gap-2 align-items-center bg-white p-3">
+            <img src="../../../../../assets/marketing-cat-3.svg" class="marketing-cat-carousel-image" alt="offer-image"
+              loading="lazy" />
+            <div class="fs-16 fw-semibold">نواشف</div>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="market-cat-card d-flex flex-column gap-2 align-items-center bg-white p-3">
+            <img src="../../../../../assets/marketing-cat-4.svg" class="marketing-cat-carousel-image" alt="offer-image"
+              loading="lazy" />
+            <div class="fs-16 fw-semibold">صلصات وتوابل</div>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="market-cat-card d-flex flex-column gap-2 align-items-center bg-white p-3">
+            <img src="../../../../../assets/marketing-cat-5.svg" class="marketing-cat-carousel-image" alt="offer-image"
+              loading="lazy" />
+            <div class="fs-16 fw-semibold">زيوت وسمنة</div>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="market-cat-card d-flex flex-column gap-2 align-items-center bg-white p-3">
+            <img src="../../../../../assets/marketing-cat-6.svg" class="marketing-cat-carousel-image" alt="offer-image"
+              loading="lazy" />
+            <div class="fs-16 fw-semibold">معلبات</div>
+          </div>
+        </ng-template>
+
+      </swiper>
+    </section>
+
+    <!-- الأكثر مبيعا -->
+    <section class="marketing-category-section">
+      <div class="carousel-title d-flex align-items-center gap-2 position-relative mb-3">
+        <img src="../../../../../assets/strong-offet-icon-2.svg" class="header-offer-icon" alt="offer-icon"
+          loading="lazy" />
+        <div class="fw-semibold fs-18">الأكثر مبيعا</div>
+      </div>
+      <swiper class="medium-carousel-swiper navigator-with-head h-auto" [slidesPerView]="1" [spaceBetween]="20"
+        [navigation]="true" [pagination]="false" [slidesPerGroup]="1"
+        [autoplay]="{ delay: 3500, disableOnInteraction: false }" [loop]="true" [breakpoints]="{
+            '0': {
+              slidesPerView: 1
+            },
+            '575': {
+              slidesPerView: 1
+            },
+            '767': {
+              slidesPerView: 2
+            },
+            '1024': {
+              slidesPerView: 3
+            },
+            '1200': {
+              slidesPerView: 3
+            }
+          }">
+        <ng-template swiperSlide>
+          <div class="market-cat-card bg-white p-3 position-relative" [class.is-fav]="isFav_1">
+            <i class="{{ isFav_1 ? 'ph-fill ph-heart' : 'ph ph-heart' }} cursor-pointer like-product-icon"
+              (click)="isFav_1 = !isFav_1" [style.color]="isFav_1 ? '#86ee02d9' : ''"></i>
+            <div class="d-flex flex-wrap gap-3">
+              <div>
+                <div class="d-flex flex-column justify-content-between gap-2 h-100">
+                  <div class="more-buy-img-box position-relative">
+                    <img src="../../../../../assets/m-buy-1.svg" class="more-buy-image" alt="more-buy-image"
+                      loading="lazy" />
+                    <button class="btn btn-add-compare d-flex align-items-center gap-2 top-position">
+                      <i class="ph ph-git-diff fs-6"></i>
+                      <div>أضف للمقارنة</div>
+                    </button>
+                  </div>
+                  <div class="count-button d-flex align-items-center gap-2">
+                    <i class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
+                    <input type="text" value="1" class="form-control border text-center height-30 width-50">
+                    <i class="ph ph-trash cursor-pointer text-danger fw-semibold"></i>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="d-flex flex-column gap-3 position-relative">
+                  <div class="fs-16 fw-semibold">الوليمة أرز مزة بسمتي هندي ضيافة الذهبي</div>
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="ph ph-link-simple text-muted"></i>
+                    <a class="text-muted fw-semibold cursor-pointer">شركة المشد للتجارة</a>
+                    <div class="rate-box d-flex align-items-center gap-2">
+                      <div>4.9</div>
+                      <i class="ph ph-star-four star-rate-icon stared"></i>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                      <i class="ph ph-chart-line-down text-muted"></i>
+                      <div class="d-flex align-items-center gap-1 text-muted">أقل كمية للطلب: <span class="fw-bold">3
+                          كرتونة</span></div>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="text-danger fw-bold fs-4">122</div>
+                        <img src="../../../../../assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon"
+                          loading="lazy" />
+                      </div>
+                      <div class="d-flex align-items-center gap-2 line-through">
+                        <div class="text-danger fw-bold fs-4">150</div>
+                        <img src="../../../../../assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon"
+                          loading="lazy" />
+                      </div>
+                      <button class="btn btn-danger py-1 px-3">Sale 20%</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="market-cat-card bg-white p-3 position-relative" [class.is-fav]="isFav_2">
+            <i class="{{ isFav_2 ? 'ph-fill ph-heart' : 'ph ph-heart' }} cursor-pointer like-product-icon"
+              (click)="isFav_2 = !isFav_2" [style.color]="isFav_2 ? '#86ee02d9' : ''"></i>
+            <div class="d-flex flex-wrap gap-3">
+              <div>
+                <div class="d-flex flex-column justify-content-between gap-2 h-100">
+                  <div class="more-buy-img-box position-relative">
+                    <img src="../../../../../assets/m-buy-1.svg" class="more-buy-image" alt="more-buy-image"
+                      loading="lazy" />
+                    <button class="btn btn-add-compare d-flex align-items-center gap-2 top-position">
+                      <i class="ph ph-git-diff fs-6"></i>
+                      <div>أضف للمقارنة</div>
+                    </button>
+                  </div>
+                  <div class="count-button d-flex align-items-center gap-2">
+                    <i class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
+                    <input type="text" value="1" class="form-control border text-center height-30 width-50">
+                    <i class="ph ph-trash cursor-pointer text-danger fw-semibold"></i>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="d-flex flex-column gap-3 position-relative">
+                  <div class="fs-16 fw-semibold">الوليمة أرز مزة بسمتي هندي ضيافة الذهبي</div>
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="ph ph-link-simple text-muted"></i>
+                    <a class="text-muted fw-semibold cursor-pointer">شركة المشد للتجارة</a>
+                    <div class="rate-box d-flex align-items-center gap-2">
+                      <div>4.9</div>
+                      <i class="ph ph-star-four star-rate-icon stared"></i>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                      <i class="ph ph-chart-line-down text-muted"></i>
+                      <div class="d-flex align-items-center gap-1 text-muted">أقل كمية للطلب: <span class="fw-bold">3
+                          كرتونة</span></div>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="text-danger fw-bold fs-4">122</div>
+                        <img src="../../../../../assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon"
+                          loading="lazy" />
+                      </div>
+                      <div class="d-flex align-items-center gap-2 line-through">
+                        <div class="text-danger fw-bold fs-4">150</div>
+                        <img src="../../../../../assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon"
+                          loading="lazy" />
+                      </div>
+                      <button class="btn btn-danger py-1 px-3">Sale 20%</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="market-cat-card bg-white p-3 position-relative" [class.is-fav]="isFav_3">
+            <i class="{{ isFav_3 ? 'ph-fill ph-heart' : 'ph ph-heart' }} cursor-pointer like-product-icon"
+              (click)="isFav_3 = !isFav_3" [style.color]="isFav_3 ? '#86ee02d9' : ''"></i>
+            <div class="d-flex flex-wrap gap-3">
+              <div>
+                <div class="d-flex flex-column justify-content-between gap-2 h-100">
+                  <div class="more-buy-img-box position-relative">
+                    <img src="../../../../../assets/m-buy-1.svg" class="more-buy-image" alt="more-buy-image"
+                      loading="lazy" />
+                    <button class="btn btn-add-compare d-flex align-items-center gap-2 top-position">
+                      <i class="ph ph-git-diff fs-6"></i>
+                      <div>أضف للمقارنة</div>
+                    </button>
+                  </div>
+                  <div class="count-button d-flex align-items-center gap-2">
+                    <i class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
+                    <input type="text" value="1" class="form-control border text-center height-30 width-50">
+                    <i class="ph ph-trash cursor-pointer text-danger fw-semibold"></i>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="d-flex flex-column gap-3 position-relative">
+                  <div class="fs-16 fw-semibold">الوليمة أرز مزة بسمتي هندي ضيافة الذهبي</div>
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="ph ph-link-simple text-muted"></i>
+                    <a class="text-muted fw-semibold cursor-pointer">شركة المشد للتجارة</a>
+                    <div class="rate-box d-flex align-items-center gap-2">
+                      <div>4.9</div>
+                      <i class="ph ph-star-four star-rate-icon stared"></i>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                      <i class="ph ph-chart-line-down text-muted"></i>
+                      <div class="d-flex align-items-center gap-1 text-muted">أقل كمية للطلب: <span class="fw-bold">3
+                          كرتونة</span></div>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="text-danger fw-bold fs-4">122</div>
+                        <img src="../../../../../assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon"
+                          loading="lazy" />
+                      </div>
+                      <div class="d-flex align-items-center gap-2 line-through">
+                        <div class="text-danger fw-bold fs-4">150</div>
+                        <img src="../../../../../assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon"
+                          loading="lazy" />
+                      </div>
+                      <button class="btn btn-danger py-1 px-3">Sale 20%</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="market-cat-card bg-white p-3 position-relative" [class.is-fav]="isFav_4">
+            <i class="{{ isFav_4 ? 'ph-fill ph-heart' : 'ph ph-heart' }} cursor-pointer like-product-icon"
+              (click)="isFav_4 = !isFav_4" [style.color]="isFav_4 ? '#86ee02d9' : ''"></i>
+            <div class="d-flex flex-wrap gap-3">
+              <div>
+                <div class="d-flex flex-column justify-content-between gap-2 h-100">
+                  <div class="more-buy-img-box position-relative">
+                    <img src="../../../../../assets/m-buy-1.svg" class="more-buy-image" alt="more-buy-image"
+                      loading="lazy" />
+                    <button class="btn btn-add-compare d-flex align-items-center gap-2 top-position">
+                      <i class="ph ph-git-diff fs-6"></i>
+                      <div>أضف للمقارنة</div>
+                    </button>
+                  </div>
+                  <div class="count-button d-flex align-items-center gap-2">
+                    <i class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
+                    <input type="text" value="1" class="form-control border text-center height-30 width-50">
+                    <i class="ph ph-trash cursor-pointer text-danger fw-semibold"></i>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="d-flex flex-column gap-3 position-relative">
+                  <div class="fs-16 fw-semibold">الوليمة أرز مزة بسمتي هندي ضيافة الذهبي</div>
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="ph ph-link-simple text-muted"></i>
+                    <a class="text-muted fw-semibold cursor-pointer">شركة المشد للتجارة</a>
+                    <div class="rate-box d-flex align-items-center gap-2">
+                      <div>4.9</div>
+                      <i class="ph ph-star-four star-rate-icon stared"></i>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                      <i class="ph ph-chart-line-down text-muted"></i>
+                      <div class="d-flex align-items-center gap-1 text-muted">أقل كمية للطلب: <span class="fw-bold">3
+                          كرتونة</span></div>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="text-danger fw-bold fs-4">122</div>
+                        <img src="../../../../../assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon"
+                          loading="lazy" />
+                      </div>
+                      <div class="d-flex align-items-center gap-2 line-through">
+                        <div class="text-danger fw-bold fs-4">150</div>
+                        <img src="../../../../../assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon"
+                          loading="lazy" />
+                      </div>
+                      <button class="btn btn-danger py-1 px-3">Sale 20%</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="market-cat-card bg-white p-3 position-relative" [class.is-fav]="isFav_5">
+            <i class="{{ isFav_5 ? 'ph-fill ph-heart' : 'ph ph-heart' }} cursor-pointer like-product-icon"
+              (click)="isFav_5 = !isFav_5" [style.color]="isFav_5 ? '#86ee02d9' : ''"></i>
+            <div class="d-flex flex-wrap gap-3">
+              <div>
+                <div class="d-flex flex-column justify-content-between gap-2 h-100">
+                  <div class="more-buy-img-box position-relative">
+                    <img src="../../../../../assets/m-buy-1.svg" class="more-buy-image" alt="more-buy-image"
+                      loading="lazy" />
+                    <button class="btn btn-add-compare d-flex align-items-center gap-2 top-position">
+                      <i class="ph ph-git-diff fs-6"></i>
+                      <div>أضف للمقارنة</div>
+                    </button>
+                  </div>
+                  <div class="count-button d-flex align-items-center gap-2">
+                    <i class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
+                    <input type="text" value="1" class="form-control border text-center height-30 width-50">
+                    <i class="ph ph-trash cursor-pointer text-danger fw-semibold"></i>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="d-flex flex-column gap-3 position-relative">
+                  <div class="fs-16 fw-semibold">الوليمة أرز مزة بسمتي هندي ضيافة الذهبي</div>
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="ph ph-link-simple text-muted"></i>
+                    <a class="text-muted fw-semibold cursor-pointer">شركة المشد للتجارة</a>
+                    <div class="rate-box d-flex align-items-center gap-2">
+                      <div>4.9</div>
+                      <i class="ph ph-star-four star-rate-icon stared"></i>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                      <i class="ph ph-chart-line-down text-muted"></i>
+                      <div class="d-flex align-items-center gap-1 text-muted">أقل كمية للطلب: <span class="fw-bold">3
+                          كرتونة</span></div>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="text-danger fw-bold fs-4">122</div>
+                        <img src="../../../../../assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon"
+                          loading="lazy" />
+                      </div>
+                      <div class="d-flex align-items-center gap-2 line-through">
+                        <div class="text-danger fw-bold fs-4">150</div>
+                        <img src="../../../../../assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon"
+                          loading="lazy" />
+                      </div>
+                      <button class="btn btn-danger py-1 px-3">Sale 20%</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="market-cat-card bg-white p-3 position-relative" [class.is-fav]="isFav_6">
+            <i class="{{ isFav_6 ? 'ph-fill ph-heart' : 'ph ph-heart' }} cursor-pointer like-product-icon"
+              (click)="isFav_6 = !isFav_6" [style.color]="isFav_6 ? '#86ee02d9' : ''"></i>
+            <div class="d-flex flex-wrap gap-3">
+              <div>
+                <div class="d-flex flex-column justify-content-between gap-2 h-100">
+                  <div class="more-buy-img-box position-relative">
+                    <img src="../../../../../assets/m-buy-1.svg" class="more-buy-image" alt="more-buy-image"
+                      loading="lazy" />
+                    <button class="btn btn-add-compare d-flex align-items-center gap-2 top-position">
+                      <i class="ph ph-git-diff fs-6"></i>
+                      <div>أضف للمقارنة</div>
+                    </button>
+                  </div>
+                  <div class="count-button d-flex align-items-center gap-2">
+                    <i class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
+                    <input type="text" value="1" class="form-control border text-center height-30 width-50">
+                    <i class="ph ph-trash cursor-pointer text-danger fw-semibold"></i>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="d-flex flex-column gap-3 position-relative">
+                  <div class="fs-16 fw-semibold">الوليمة أرز مزة بسمتي هندي ضيافة الذهبي</div>
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="ph ph-link-simple text-muted"></i>
+                    <a class="text-muted fw-semibold cursor-pointer">شركة المشد للتجارة</a>
+                    <div class="rate-box d-flex align-items-center gap-2">
+                      <div>4.9</div>
+                      <i class="ph ph-star-four star-rate-icon stared"></i>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                      <i class="ph ph-chart-line-down text-muted"></i>
+                      <div class="d-flex align-items-center gap-1 text-muted">أقل كمية للطلب: <span class="fw-bold">3
+                          كرتونة</span></div>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="text-danger fw-bold fs-4">122</div>
+                        <img src="../../../../../assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon"
+                          loading="lazy" />
+                      </div>
+                      <div class="d-flex align-items-center gap-2 line-through">
+                        <div class="text-danger fw-bold fs-4">150</div>
+                        <img src="../../../../../assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon"
+                          loading="lazy" />
+                      </div>
+                      <button class="btn btn-danger py-1 px-3">Sale 20%</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </swiper>
+    </section>
+
+  </div>
+</div>

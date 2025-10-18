@@ -14,6 +14,7 @@ import { GeneralSelectorModel } from 'src/app/components/Shared/components/gener
 import { SupplierItemModel } from '../../../models/SupplierItemModel';
 import { SupplierService } from '../../../services/supplier.service';
 import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
+import { ImporterName } from 'src/app/components/SystemSettings/models/DataImporter';
 
 @Component({
   selector: 'app-supplier-items',
@@ -40,7 +41,7 @@ export class SupplierItemsComponent implements OnInit {
   showLoader: boolean = false;
   showAddLoader: boolean = false;
   showExportLoader: boolean = false;
-
+  importerName: string = ImporterName.SupplierItems;
   public formGroup: FormGroup;
   public formErrors = {
     supplierItemId: '',
@@ -186,12 +187,12 @@ export class SupplierItemsComponent implements OnInit {
       return;
     }
     this.supplierItemModel = this.formGroup.value;
-     this.formData = new FormData();
+    this.formData = new FormData();
     if (this.imageFile != null) {
       this.formData.append('image', this.imageFile);
     }
     Object.keys(this.formGroup.value).forEach(key => {
-      if (key != 'image' && this.formGroup.value[key]!= undefined)
+      if (key != 'image' && this.formGroup.value[key] != undefined)
         this.formData.append(key, this.formGroup.value[key]);
     });
     if (this.supplierItemModel.supplierItemId)
@@ -342,6 +343,33 @@ export class SupplierItemsComponent implements OnInit {
   }
   itemSuppliers: SupplierModel[] = [];
 
+
+
+  importerFileChanged(file: File) {
+    if (file) {
+      this.showAddLoader = true;
+      var formData = new FormData();
+      formData.append('importFile', file);
+      this.supplierService.ImportSupplierItemsFile(this.importerName, formData).subscribe((data: ActionsResponseModel) => {
+        if (data?.isSuccess) {
+          if (data.url) {
+            this.sharedService.urlDownloadOrOpen(data.url);
+          }
+          //this.formGroup?.reset();
+          this.toaster.success(data?.message);
+          this.loadData();
+        }
+        else {
+          this.toaster.error(data?.message);
+        }
+        this.showAddLoader = false;
+      }, err => {
+        this.showAddLoader = false;
+      }, () => {
+        this.showAddLoader = false;
+      });
+    }
+  }
 
 }
 

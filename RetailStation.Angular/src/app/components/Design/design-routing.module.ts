@@ -9,6 +9,7 @@ import { DesignTableComponent } from './components/design-table/design-table.com
 import { InputsAreaComponent } from './components/inputs-area/inputs-area.component';
 import { GeneralAccountsComponent } from './components/general-accounts/general-accounts.component';
 import { NewHomeComponent } from './components/new-home/new-home.component';
+import { DesignLatestHomeComponent } from './components/design-latest-home/design-latest-home.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
     children: [
       { path: 'home', component: DesignHomeComponent },
       { path: 'new-home', component: NewHomeComponent },
+      { path: 'latest-home', component: DesignLatestHomeComponent },
       { path: 'account-tree', component: AccountTreeComponent },
       { path: 'opening-balance', component: OpeningBalanceComponent },
       { path: 'receipts', component: ReceiptsComponent },

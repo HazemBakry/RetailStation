@@ -1,4 +1,40 @@
-<div class="tasty-offers" *ngIf="promotionItems?.length  >0">
+<!-- أقوي العروض -->
+<section class="strong-offer-section">
+  <div class="carousel-title d-flex align-items-center gap-2 position-relative mb-3">
+    <img src="{{systemURL}}assets/strong-offet-icon.svg" class="header-offer-icon" alt="offer-icon" loading="lazy" />
+    <div class="fw-semibold fs-18">أقوي العروض</div>
+  </div>
+  <swiper class="big-offer-carousel medium-carousel-swiper navigator-with-head h-auto" [slidesPerView]="1"
+    [spaceBetween]="20" [navigation]="true" [pagination]="false" [slidesPerGroup]="1"
+    [autoplay]="{ delay: 4000, disableOnInteraction: false }" [loop]="true" [breakpoints]="{
+            '0': {
+              slidesPerView: 1
+            },
+            '575': {
+              slidesPerView: 2
+            },
+            '767': {
+              slidesPerView: 2
+            },
+            '1024': {
+              slidesPerView: 2
+            },
+            '1200': {
+              slidesPerView: 2
+            }
+          }">
+    <ng-container *ngFor="let promo of promotionItems">
+
+      <ng-template swiperSlide>
+        <img [src]="promo.imageURL" alt="offer-image" (error)="$event.target.src = defaultItemImage"
+          class="offer-carousel-image" loading="lazy" />
+      </ng-template>
+    </ng-container>
+  </swiper>
+</section>
+
+
+<!-- <div class="tasty-offers" *ngIf="promotionItems?.length  >0">
   <div class="container-fluid">
     <div class="d-flex align-items-center justify-content-between mb-4">
       <h3 class="m-0">عروض</h3>
@@ -60,4 +96,4 @@
 
 
   </div>
-</div>
+</div> -->

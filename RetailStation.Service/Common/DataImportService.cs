@@ -16,6 +16,7 @@ using RetailStation.Entities.DTOs.DataImport;
 using Microsoft.Identity.Client;
 using RetailStation.Entities.Models.DataImport;
 using System.Data.Entity;
+using Microsoft.AspNetCore.Http;
 
 namespace RetailStation.Service.Common
 {
@@ -28,7 +29,10 @@ namespace RetailStation.Service.Common
         private readonly string ConnectionString;
         private readonly IFileService FileService;
         public readonly string ImportersFolderName;
-
+        private static readonly Dictionary<string, string> ImporterToSP = new()
+        {
+            { "SupplierItems", "[Template].[SP_Import_SupplierItems_Template]" }
+        };
         public DataImportService(DBContext dBContext, ISQLHelper iSQLHelper, IConfiguration _configuration, IExportService exportService, IFileService fileService)
         {
             Context = dBContext;
@@ -477,5 +481,70 @@ namespace RetailStation.Service.Common
             };
             return _exportService.Export(exportTemplateBase, DT);
         }
+
+
+
+
+        #region SaveImporterFile
+        public async Task<ActionsResponseModel> ExecuteImporter(IFormFile ImportFile, SqlParameter[] param,string StoredProcedure,string ImporterName = "Importer")
+        {
+            try
+            {
+                // Validate Files
+                if (ImportFile == null)
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = "No files uploaded." };
+                }
+                var uploadResponse = await FileService.UploadFileAsync(ImportFile, ImportersFolderName, FileType.Importer);
+                if (uploadResponse.IsUploaded)
+                {
+
+                }
+                else
+                {
+                    return new ActionsResponseModel { IsSuccess = false, Message = $"{uploadResponse.FileName} >> {uploadResponse.Message}" };
+                }
+
+                // Save changes to the database
+
+                return ImportFileData(param.ToList(),StoredProcedure, uploadResponse.FileName, uploadResponse.FileUrl, uploadResponse.Extention, ImporterName);
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+        public ActionsResponseModel ImportFileData(List<SqlParameter> param, string StoredProcedure,string fileName, string filePath, string fileExtention,string ImporterName)
+        {
+            param.Add(new SqlParameter("@FileName", fileName));
+            param.Add(new SqlParameter("@FilePath", filePath));
+            param.Add(new SqlParameter("@FileFormat", fileExtention));
+            var result = SQLHelper.ExecuteDataTable(StoredProcedure, param.ToArray(), ConnectionString);
+            string exportURL = GetExportUrl(result, ImporterName + "Execute");
+            return new ActionsResponseModel { IsSuccess = true, Message = $"File Uploade >> check output", URL = exportURL };
+        }
+
+        
+        public ActionsResponseModel ExportTemplateByImporterLookup(string importerName)
+        {
+            if (!ImporterToSP.TryGetValue(importerName, out string storedProcedure))
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = $"Unknown importer name: {importerName}",
+                };
+
+            var result = SQLHelper.ExecuteDataTable(storedProcedure, Array.Empty<SqlParameter>(), ConnectionString);
+
+            string exportURL = GetExportUrl(result, importerName + "Template");
+
+            return new ActionsResponseModel
+            {
+                IsSuccess = true,
+                Message = $"Template for {importerName} generated successfully.",
+                URL = exportURL
+            };
+        }
+        #endregion
     }
 }

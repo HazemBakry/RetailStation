@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
 
 namespace RetailStation.Interface.Common
 {
@@ -24,6 +26,12 @@ namespace RetailStation.Interface.Common
         Task<ActionsResponseModel> ExecuteImporterByName(string ImporterName, [FromForm] FileImportDto model);
         List<DBStoredProcedureDto> GetDBStoredProcedure(string SchemaName);
         List<DBTableDto> GetDBTables();
+
+
+        #region MyRegion
+        Task<ActionsResponseModel> ExecuteImporter(IFormFile ImportFile, SqlParameter[] param, string StoredProcedure, string ImporterName = "Importer");
+        ActionsResponseModel ExportTemplateByImporterLookup(string ImporterName);
+        #endregion
 
     }
 }

@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
 import { PagedResponseDTO, PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
@@ -10,6 +10,8 @@ import { MaterialReceiptModel } from 'src/app/components/Inventory/models/Materi
 import { WebsiteService } from 'src/app/components/Main/services/website.service';
 import { SupplierItemModel } from 'src/app/components/Main/models/SupplierItemModel';
 import { CompareService, ItemCompareModel } from '../../../services/comapre.service';
+import { FieldType } from '../../../Enums/FieldType';
+import { DataField } from '../../../models/DataField';
 
 @Component({
   selector: 'app-compare',
@@ -41,6 +43,7 @@ export class CompareComponent implements OnInit {
   constructor(private offcanvasService: NgbOffcanvas,
     private sharedService: SharedService,
     private compareService: CompareService,
+    private modalService: NgbModal,
     private toaster: ToastrService, private websiteService: WebsiteService,
   ) { }
 
@@ -87,15 +90,106 @@ export class CompareComponent implements OnInit {
       }
     });
   }
-  OpenSidePanel(content: any) {
+  OpenSidePanel(content: TemplateRef<any>) {
     this.pageResponseModel.results = [];
     this.loadData();
-    this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
+    // this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
+    this.modalService.open(content, {
+      size: 'xl',
+      centered: true,
+      scrollable: true,
+    });
   }
+
+
   remove(item: SupplierItemModel): void {
     this.compareService.removeItem(item.supplierItemId, item.itemId);
     this.loadData();
   }
+
+
+  dataFields: DataField[] = [
+    {
+      fieldName: 'productImage',
+      fieldType: FieldType.image,
+      displayName: 'صورة المنتج',
+    },
+    {
+      fieldName: 'productName',
+      fieldType: FieldType.Text,
+      displayName: 'اسم المنتج',
+    },
+    {
+      fieldName: 'price',
+      fieldType: FieldType.Text,
+      displayName: 'السعر',
+    },
+    {
+      fieldName: 'productRate',
+      fieldType: FieldType.Text,
+      displayName: 'تقييم المنتج',
+    },
+
+    {
+      fieldName: 'productUrl',
+      fieldType: FieldType.Text,
+      displayName: 'رابط المنتج',
+    }
+    ,
+    {
+      fieldName: 'supplierName',
+      fieldType: FieldType.Text,
+      displayName: 'اسم المورد',
+    }
+    ,
+    {
+      fieldName: 'manufacturingCountry',
+      fieldType: FieldType.Text,
+      displayName: 'بلد المنشأ',
+    }
+    ,
+    {
+      fieldName: 'supplierRate',
+      fieldType: FieldType.Text,
+      displayName: 'تقييم المورد',
+    }
+    ,
+    {
+      fieldName: 'deliveryTime',
+      fieldType: FieldType.Text,
+      displayName: 'مدة الشحن المتوقعة',
+    }
+    ,
+    {
+      fieldName: 'dimensions',
+      fieldType: FieldType.Text,
+      displayName: 'الأبعاد',
+    }
+    ,
+    {
+      fieldName: 'weight',
+      fieldType: FieldType.Text,
+      displayName: 'الوزن',
+    }
+    ,
+    {
+      fieldName: 'minOrderQuantity',
+      fieldType: FieldType.Text,
+      displayName: 'الحد الأدنى للكمية',
+    }
+    ,
+    {
+      fieldName: 'returnPolicy',
+      fieldType: FieldType.Text,
+      displayName: 'سياسة الإرجاع',
+    }
+    ,
+    {
+      fieldName: 'paymentMethods',
+      fieldType: FieldType.Text,
+      displayName: 'طرق الدفع المتاحة',
+    }
+  ];
 
 }
 

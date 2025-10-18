@@ -9,6 +9,7 @@ import { FilterItem, FilterModel } from 'src/app/components/Shared/models/Filter
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { WebsiteOrderItemModel, WebsiteOrderModel } from '../../../models/WebsiteOrderModel ';
 import { SupplierService } from '../../../services/supplier.service';
+import { OrderService } from '../../../services/order.service';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class SupplierOrdersComponent implements OnInit {
   selectedOrderId: number;
   @ViewChild(ComponentHostDirective, { static: true }) detailsComponentHost!: ComponentHostDirective;
   constructor(private supplierService: SupplierService,
+    private orderService: OrderService,
     private modalService: NgbModal,
     private toaster: ToastrService, private dynamicComponentService: DynamicComponentLoaderService) { }
 
@@ -78,7 +80,7 @@ export class SupplierOrdersComponent implements OnInit {
     this.modalService.open(content, { centered: true, size: 'md' });
   }
   cancelOrder() {
-    this.supplierService.CancelOrder(this.selectedOrderId).subscribe(data => {
+    this.orderService.CancelOrder(this.selectedOrderId).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message);
         this.getsOrdersData();
@@ -94,7 +96,7 @@ export class SupplierOrdersComponent implements OnInit {
   showOrderDetails(detailsModel: any) {
 
     // this.showLoader = true;
-    this.supplierService.GetOrder_Items(detailsModel.orderId).subscribe((data: any[]) => {
+    this.orderService.GetOrder_Items(detailsModel.orderId).subscribe((data: any[]) => {
       this.dynamicComponentService.loadProductDetailsSidePanel(
         this.detailsComponentHost.viewContainerRef,
         detailsModel,

@@ -18,6 +18,8 @@ import { NwSidebarComponent } from './components/nw-sidebar/nw-sidebar.component
 import { GoogleChartsModule } from 'angular-google-charts';
 import { NewHomeComponent } from './components/new-home/new-home.component';
 import { SharedModule } from '../Shared/shared.module';
+import { DesignLatestHomeComponent } from './components/design-latest-home/design-latest-home.component';
+import { DesignLatestHeaderComponent } from './components/design-latest-header/design-latest-header.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { SharedModule } from '../Shared/shared.module';
     GeneralAccountsComponent,
     NwSidebarComponent,
     NewHomeComponent,
+    DesignLatestHomeComponent,
+    DesignLatestHeaderComponent,
   ],
   imports: [
     CommonModule,

@@ -35,14 +35,14 @@ export class MenuService {
           icon: 'fas fa-th-large',
           route: '/sales-management/supplier-items'
         },
-        {
-          menuItemId: MenuType.Supplier,
-          displayName: 'الفواتير',
-          menuItem: 'supplier-invoices',
-          description: 'عرض وإدارة فواتير الشراء للموردين',
-          icon: 'fa fa-file-invoice',
-          route: '/sales-management/supplier-invoices'
-        },
+        // {
+        //   menuItemId: MenuType.Supplier,
+        //   displayName: 'الفواتير',
+        //   menuItem: 'supplier-invoices',
+        //   description: 'عرض وإدارة فواتير الشراء للموردين',
+        //   icon: 'fa fa-file-invoice',
+        //   route: '/sales-management/supplier-invoices'
+        // },
         {
           displayName: 'قائمة الطلبات',
           menuItem: 'supplier-orders',
