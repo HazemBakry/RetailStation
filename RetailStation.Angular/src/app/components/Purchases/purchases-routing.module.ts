@@ -17,12 +17,14 @@ import { AddPurchaseQuotationComponent } from './components/add-purchase-quotati
 import { PurchasesLayoutComponent } from './purchases-layout/purchases-layout.component';
 import { AuthPageGuard } from 'src/app/Auth/authPage.guard';
 import { PurchaseInvoiceTypesComponent } from './components/purchase-invoice-types/purchase-invoice-types.component';
+import { PurchaseDashboardComponent } from './components/purchase-dashboard/purchase-dashboard.component';
 
 const routes: Routes = [
   {
     path: '',
     component: PurchasesLayoutComponent,
     children: [
+      { path: 'dashboard', component: PurchaseDashboardComponent, canActivate: [AuthPageGuard], data: { pageName: 'PurchaseDashboard' } },
       { path: 'home', component: PurchasesHomeComponent, canActivate: [AuthPageGuard], data: { pageName: 'PurchasesDashboard' } },
       { path: 'home/:tabName', component: PurchasesHomeComponent },
       { path: 'purchase-orders', component: PurchaseOrdersComponent, canActivate: [AuthPageGuard], data: { pageName: 'PurchaseOrders' } },
@@ -39,7 +41,7 @@ const routes: Routes = [
       { path: 'suppliers-list', component: SuppliersListComponent, canActivate: [AuthPageGuard], data: { pageName: 'SuppliersList' } },
       { path: 'add-supplier', component: AddSupplierComponent },
       { path: 'purchase-invoice-types', component: PurchaseInvoiceTypesComponent, data: { pageName: 'PurchaseInvoiceTypes' } },
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },
 ];

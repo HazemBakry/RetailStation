@@ -1,0 +1,196 @@
+<div class="p-4 gradient-nw-wrraper-bg">
+
+    <app-header></app-header>
+
+    <div class="container-fluid width-90-per position-relative zindex-2 py-3">
+        <header class="module-header rounded shadow-lg d-flex align-items-center mb-4">
+            <div class="half-content">
+                <div class="row gy-2">
+                    <div class="col-lg-11">
+                        <div class="horizontal-line w-100 h-100 d-flex align-items-center justify-content-center justify-content-lg-start text-white ps-0 ps-lg-4">
+                            <div>
+                                <h2 class="with-bullets d-flex align-items-center">
+                                    <div class="module-header-icon ms-2">
+                                        <i class="fas fa-user-tie"></i>
+                                    </div>
+                                    <div> <span class="username-title text-white text-uppercase fw-bold ms-2">{{loggedInUser?.fullName}}</span>
+                                    </div>
+                                </h2>
+                                <h4 class="with-bullets">
+                                    <div class="module-header-icon ms-2 me-2">
+                                        <i class="fas fa-map-marker"></i>
+                                    </div>
+                                    <div>
+                                        <span>{{loggedInUser?.subscriberName}}</span>
+                                        <!-- <span class="mx-2">/</span> -->
+                                        <!-- <span>{{loggedInUser?.branch}}</span> -->
+                                    </div>
+                                </h4>
+                                <!-- <h6 class="with-bullets">
+                                    <div class="module-header-icon me-2">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <div>{{loggedInUser.salesDay | date}}</div>
+                                </h6> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 d-flex justify-content-center justify-content-lg-end">
+                        <div class="summary-circle-date shadow-sm">
+                            <span>{{clock}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <img src="../../../../../../assets/svg-banner.svg" class="image-banner" loading="lazy" alt="" /> -->
+        </header>
+
+        <!-- <section class="pos-home-products">
+            <div class="card radius-10 border shadow-sm mb-4">
+                <div class="card-body pt-3">
+                    <div class="d-flex align-items-center mb-3 gap-3 pb-3 border-bottom">
+                        <div class="title-with-img">
+                            <img src="../../../../../assets/select-product.png" class="title-imaged" loading="lazy" alt="" />
+                        </div>
+                        <h4 class="fw-bold m-0">Modules</h4>
+                        <a routerLink="/create-orders-v2" class="badge rounded-pill default p-2 text-uppercase px-3 finished">New Version </a>
+                    </div>
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-6 gy-4">
+                        <div class="col" routerLink="/create-orders" appRole [roles]="['Cashier','Supervisor','Manager','SuperAdmin']">
+                            <div class="pos-prod-item prod-red box-hover cursor-pointer">
+                                <div class="d-flex flex-column align-items-center justify-content-between">
+                                    <div class="pos-prod-icon shadow-sm pos-icon-red">
+                                        <img src="../../../../../assets/palce-order.png" class="product-img" loading="lazy" alt="" />
+                                    </div>
+                                    <div class="pos-prod-text prod-text-red fw-bold fs-5">Place Order</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" routerLink="/manager" appRole [roles]="['BasicUser','Supervisor','Manager','SuperAdmin']">
+                            <div class="pos-prod-item prod-purple box-hover cursor-pointer">
+                                <div class="d-flex flex-column align-items-center justify-content-between">
+                                    <div class="pos-prod-icon shadow-sm pos-icon-purple">
+                                        <img src="../../../../../assets/pos-manager.png" class="product-img" loading="lazy" alt="" />
+                                    </div>
+                                    <div class="pos-prod-text prod-text-purple fw-bold fs-5">Pos Manager</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" routerLink="/reports" appRole [roles]="['Supervisor','Manager','SuperAdmin']">
+                            <div class="pos-prod-item prod-blue box-hover cursor-pointer">
+                                <div class="d-flex flex-column align-items-center justify-content-between">
+                                    <div class="pos-prod-icon shadow-sm pos-icon-blue">
+                                        <img src="../../../../../assets/pos-reports.png" class="product-img" loading="lazy" alt="" />
+                                    </div>
+                                    <div class="pos-prod-text prod-text-blue fw-bold fs-5">Reports</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" routerLink="/inventory" appRole [roles]="['Supervisor','Manager','SuperAdmin']">
+                            <div class="pos-prod-item prod-green box-hover cursor-pointer">
+                                <div class="d-flex flex-column align-items-center justify-content-between">
+                                    <div class="pos-prod-icon shadow-sm pos-icon-green">
+                                        <img src="../../../../../assets/inventory.png" class="product-img" loading="lazy" alt="" />
+                                    </div>
+                                    <div class="pos-prod-text prod-text-green fw-bold fs-5">Inventory</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" routerLink="/general-settings" appRole [roles]="['Supervisor','Manager','SuperAdmin']">
+                            <div class="pos-prod-item prod-yellow box-hover cursor-pointer">
+                                <div class="d-flex flex-column align-items-center justify-content-between">
+                                    <div class="pos-prod-icon shadow-sm pos-icon-yellow">
+                                        <img src="../../../../../assets/settings.png" class="product-img" loading="lazy" alt="" />
+                                    </div>
+                                    <div class="pos-prod-text prod-text-yellow fw-bold fs-5">General Settings</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" routerLink="/admin" appRole [roles]="['SuperAdmin']">
+                            <div class="pos-prod-item prod-gray box-hover cursor-pointer">
+                                <div class="d-flex flex-column align-items-center justify-content-between">
+                                    <div class="pos-prod-icon shadow-sm pos-icon-gray">
+                                        <img src="../../../../../assets/settings.png" class="product-img" loading="lazy" alt="" />
+                                    </div>
+                                    <div class="pos-prod-text prod-text-gray fw-bold fs-5">System Admin</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+
+        <section class="pos-home-products">
+            <div class="card radius-10 lighter-bg-white border-0 shadow-sm mb-4">
+                <div class="card-body pt-3">
+                    <div class="d-flex align-items-center mb-3 gap-3 pb-3 border-bottom">
+                        <div class="title-with-img">
+                            <img src="../../../../../assets/select-product.png" class="title-imaged" loading="lazy" alt="" />
+                        </div>
+                        <h4 class="fw-bold m-0">لوحة التحكم</h4>
+                        <!-- <a routerLink="/create-orders-v2" class="badge rounded-pill default p-2 text-uppercase px-3 finished">New Version </a> -->
+                    </div>
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 gy-4">
+                        <div class="col" routerLink="/create-orders">
+                            <div class="bg-white radius-20 p-3 shadow-sm h-100 module-box new-delivery-order-box">
+                                <div class="title">Place Order</div>
+                                <div class="icon">
+                                    <i class="ph ph-first-aid"></i>
+                                </div>
+                                <div class="button btn btn-primary-clr">طلب جديد</div>
+                            </div>
+                        </div>
+                        <div class="col" routerLink="/purchases/dashboard">
+                            <div class="bg-white radius-20 p-3 shadow-sm h-100 module-box customers-box">
+                                <div class="title">Purchases</div>
+                                <div class="icon">
+                                    <i class="ph ph-user-circle-gear"></i>
+                                </div>
+                                <div class="button btn btn-light-green-clr">إدارة المشتريات</div>
+                            </div>
+                        </div>
+                        <div class="col" routerLink="/sales-management">
+                            <div class="bg-white radius-20 p-3 shadow-sm h-100 module-box customers-box">
+                                <div class="title">Sales</div>
+                                <div class="icon">
+                                    <i class="ph ph-user-circle-gear"></i>
+                                </div>
+                                <div class="button btn btn-light-green-clr">إدارة المبيعات</div>
+                            </div>
+                        </div>
+                        <div class="col" routerLink="/reports">
+                            <div class="bg-white radius-20 p-3 shadow-sm h-100 module-box delivery-orders-box">
+                                <div class="title">Reports</div>
+                                <div class="icon">
+                                    <i class="ph ph-chart-line"></i>
+                                </div>
+                                <div class="button btn btn-purple-clr">التقارير</div>
+                            </div>
+                        </div>
+                        <!-- <div class="col" routerLink="/inventory">
+                            <div class="bg-white radius-20 p-3 shadow-sm h-100 module-box customer-compliant-box">
+                                <div class="title">Inventory</div>
+                                <div class="icon">
+                                    <i class="ph ph-database"></i>
+                                </div>
+                                <div class="button btn btn-orange-clr">Inventory</div>
+                            </div>
+                        </div> -->
+                        <div class="col" routerLink="/general-settings">
+                            <div class="bg-white radius-20 p-3 shadow-sm h-100 module-box delivery-reports-box">
+                                <div class="title">Setup / Configuration</div>
+                                <div class="icon">
+                                    <i class="ph ph-gear"></i>
+                                </div>
+                                <div class="button btn btn-red-clr">التهيئة والإعدادات</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</div>

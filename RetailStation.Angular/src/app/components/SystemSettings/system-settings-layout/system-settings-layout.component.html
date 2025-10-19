@@ -12,7 +12,7 @@
                     </button>
 
                     <div *ngIf="menuItem && menuItem.subMenus?.length >0" class="p-2">
-                        <div class="sidebar-scrolling small-scroll d-flex flex-column gap-4 nw-sidebar-height">
+                        <div class="sidebar-scrolling small-scroll d-flex flex-column gap-3 nw-sidebar-height">
                             <section *ngFor="let item of menuItem.subMenus" class="d-flex flex-column gap-4">
                                 <h4 class="nw-sidebar-title cursor-pointer mb-0">
                                     {{item.displayName}}

@@ -67,11 +67,13 @@ import { WebsiteSearchComponent } from './components/website-search/website-sear
 import { RateComponent } from './components/rate/rate.component';
 import { CompareComponent } from './components/sidepanel/compare/compare.component';
 import { ChangeQuantityComponent } from './components/change-quantity/change-quantity.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     SidebarComponent,
     HeaderComponent,
+    HomeComponent,
     AccountsTreeComponent,
     StatsCardComponent,
     SearchArryPipe,
@@ -153,6 +155,7 @@ import { ChangeQuantityComponent } from './components/change-quantity/change-qua
     SwiperModule,
     SidebarComponent,
     HeaderComponent,
+    HomeComponent,
     AccountsTreeComponent,
     CostCentersTreeComponent,
     NgxLoadingModule,

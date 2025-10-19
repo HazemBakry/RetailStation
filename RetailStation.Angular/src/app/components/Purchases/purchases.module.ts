@@ -23,6 +23,7 @@ import { AddSupplierReturnsVoucherComponent } from './components/add-supplier-re
 import { AddPurchaseQuotationComponent } from './components/add-purchase-quotation/add-purchase-quotation.component';
 import { PurchaseQuotationsComponent } from './components/purchase-quotations/purchase-quotations.component';
 import { PurchaseInvoiceTypesComponent } from './components/purchase-invoice-types/purchase-invoice-types.component';
+import { PurchaseDashboardComponent } from './components/purchase-dashboard/purchase-dashboard.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { PurchaseInvoiceTypesComponent } from './components/purchase-invoice-typ
     AddPurchaseQuotationComponent,
     PurchaseQuotationsComponent,
     PurchaseInvoiceTypesComponent,
+    PurchaseDashboardComponent
   ],
   imports: [
     CommonModule,

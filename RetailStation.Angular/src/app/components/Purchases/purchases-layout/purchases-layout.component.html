@@ -1,4 +1,3 @@
-
 <div class="p-4 gradient-nw-wrraper-bg">
     <div class="container-fluid width-90-per">
         <app-header></app-header>
@@ -10,16 +9,15 @@
                         <i class="uil uil-angle-left"></i>
                     </button>
 
-                     <div *ngIf="menuItem && menuItem.subMenus?.length >0" class="p-2">
-                        <div class="sidebar-scrolling small-scroll d-flex flex-column gap-4 nw-sidebar-height">
+                    <div *ngIf="menuItem && menuItem.subMenus?.length >0" class="p-2">
+                        <div class="sidebar-scrolling small-scroll d-flex flex-column gap-3 nw-sidebar-height">
                             <section *ngFor="let item of menuItem.subMenus" class="d-flex flex-column gap-4">
                                 <h4 class="nw-sidebar-title cursor-pointer mb-0">
                                     {{item.displayName}}
                                 </h4>
                                 <ul class="nw-sidebar-list list-unstyled p-0 m-0 d-flex flex-column gap-3">
                                     <li *ngFor="let sub of item.subMenus" class="nw-sidebar-item">
-                                        <a [routerLink]="sub.route" routerLinkActive="active"
-                                            class="nw-sidebar-link d-flex align-items-center gap-3">
+                                        <a [routerLink]="sub.route" routerLinkActive="active" class="nw-sidebar-link d-flex align-items-center gap-3">
                                             <div class="nw-sidebar-icon">
                                                 <i [class]="sub.icon"></i>
                                             </div>
@@ -28,7 +26,7 @@
                                     </li>
                                 </ul>
                             </section>
-                    
+
                         </div>
                     </div>
                 </aside>
@@ -45,133 +43,3 @@
 
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <app-header (toggler)="onToggler()"></app-header>
-<main id="app">
-    <div class="app-content">
-        <aside id="main_sidebar" class="main-sidebar" [ngClass]="{'toggled': toggler}">
-            <ul class="nav list-unstyled flex-column p-0 m-0 small-scroll overflow-auto h-100 flex-column flex-nowrap">
-                <div class="nalika-profile" style="background: #16487ad9;color: white;">
-                    <a class="nav-link cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" routerLink="/" routerLinkActive="active">
-                        <div class="nav-text d-flex align-items-center w-100">
-                            <i class="uil uil-home nav-icon" style="font-size: 20px; color: white;"></i>
-                            <span class="nav-link-text item-sidebar fw-bold main-nav-link ms-3" style="color: white; font-size: 14px;">الرئيسية
-                                </span>
-                        </div>
-                    </a>
-                </div>
-
-
-
-                <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100 active" (click)="toggleMenu(menu_purchase)" [ngClass]="{'active': menu_purchase.classList.contains('show')}">
-                        <div class="nav-text d-flex align-items-center w-100">
-                            <i class="uil uil-database nav-icon"></i>
-                            <span class="nav-link-text item-sidebar main-nav-link ms-3">المشتريات</span>
-                        </div>
-                        <div class="nav-collapse">
-                            <i class="uil uil-angle-left-b"></i>
-                        </div>
-                    </a>
-                    <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu_purchase>
-                        <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./purchase-invoices" routerLinkActive="active">
-                                <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
-                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">فواتير الشراء</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./add-purchase-invoice" routerLinkActive="active">
-                                <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
-                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">انشاء فاتورة شراء</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./purchase-orders" routerLinkActive="active">
-                                <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
-                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">أوامر الشراء</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./purchase-returns" routerLinkActive="active">
-                                <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
-                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">مرتجعات المشتريات</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./suppliers-account-statement" routerLinkActive="active">
-                                <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
-                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">كشف حساب مورد</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="/purchases/purchase-quotations" routerLinkActive="active">
-                                <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
-                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">عروض الاسعار</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./supplier-returns-voucher" routerLinkActive="active">
-                                <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
-                                    <span class="nav-link-text item-sidebar main-nav-link ms-3"> اشعارات خصم الموردين
-                                    </span>
-                                </div>
-                            </a>
-                        </li>
-                        
-                    </ul>
-                </li>
-                <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" (click)="toggleMenu(menu_PurchaseDef)" [ngClass]="{'active': menu_PurchaseDef.classList.contains('show')}">
-                        <div class="nav-text d-flex align-items-center w-100">
-                            <i class="uil uil-database nav-icon"></i>
-                            <span class="nav-link-text item-sidebar main-nav-link ms-3">البيانات الاساسية</span>
-                        </div>
-                        <div class="nav-collapse">
-                            <i class="uil uil-angle-left-b"></i>
-                        </div>
-                    </a>
-                    <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0" #menu_PurchaseDef>
-                        <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./suppliers-list" routerLinkActive="active">
-                                <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
-                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">قائمة الموردين</span>
-                                </div>
-                            </a>
-                        </li>
-                       
-                    </ul>
-                </li>
-            </ul>
-        </aside>
-        <div class="main-content" [ngClass]="{'toggled': toggler}">
-            <router-outlet></router-outlet>
-        </div>
-    </div>
-</main> -->

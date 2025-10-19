@@ -1,23 +1,21 @@
-<nav class="navbar navbar-expand-lg bg-nw-header new-rounded-header py-0">
-  <div class="container-fluid">
-    <!-- <button *ngIf="showToggler" (click)="onToggler()" type="button"
+<nav class="navbar navbar-expand-lg bg-nw-header new-rounded-header py-0 mx-2">
+    <div class="container-fluid">
+        <!-- <button *ngIf="showToggler" (click)="onToggler()" type="button"
       class="hamburger nw-hamburger hamburger--elastic rounded-1 main-bgcolor m-2">
       <span class="hamburger-box">
         <span class="hamburger-inner"></span>
       </span>
     </button> -->
 
-    <a routerLink="/" class="navbar-brand logo-blue-clr fw-bold">شعار</a>
-    <button class="navbar-toggler hamburger nw-hamburger hamburger--elastic rounded-1 main-bgcolor my-2"
-      [class.is-active]="!collapsed" type="button" aria-controls="navbar-content" [attr.aria-expanded]="!collapsed"
-      aria-label="Toggle navigation" (click)="collapsed = !collapsed">
+        <a routerLink="/" class="navbar-brand logo-blue-clr fw-bold">شعار</a>
+        <button class="navbar-toggler hamburger nw-hamburger hamburger--elastic rounded-1 main-bgcolor my-2" [class.is-active]="!collapsed" type="button" aria-controls="navbar-content" [attr.aria-expanded]="!collapsed" aria-label="Toggle navigation" (click)="collapsed = !collapsed">
       <span class="hamburger-box">
         <span class="hamburger-inner"></span>
       </span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent" [class.collapse]="collapsed">
-      <div class="d-flex ms-auto justify-content-center justify-content-lg-start">
-        <!-- <form role="search">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" [class.collapse]="collapsed">
+            <div class="d-flex ms-auto justify-content-center justify-content-lg-start">
+                <!-- <form role="search">
           <div class="input-group">
             <span class="input-group-text bg-white pe-0">
               <i class="fa-solid fa-magnifying-glass"></i>
@@ -26,70 +24,67 @@
               placeholder="ابحث عن اى شى..." />
           </div>
         </form> -->
-      </div>
+            </div>
 
-      <ul class="navbar-nav mb-2 mb-lg-0 gap-4">
-        <li class="nav-item">
-          <a class="nav-link justify-content-center justify-content-md-start">
-            <img src="{{systemUrl}}assets/alert.svg" class="nw-header-icon-link-img" alt="AlertImage" loading="lazy" />
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link justify-content-center justify-content-md-start gap-1">
-            <img src="{{systemUrl}}assets/lang.svg" class="nw-header-icon-link-img head-lang-img" alt="LanguageImage"
-              loading="lazy" />
-            <span class="fs-5">AR</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link justify-content-center justify-content-md-start" routerLink="/system-settings/home">
-            <img src="{{systemUrl}}assets/settings.svg" class="nw-header-icon-link-img" alt="SettingsImage"
-              loading="lazy" />
-          </a>
-        </li>
-        <li ngbDropdown class="nav-item nw-dropdown header-nav-dropdown" display="dynamic">
-          <a class="nav-link justify-content-center d-inline-flex align-items-center gap-2" ngbDropdownToggle>
-            <img src="{{systemUrl}}assets/user.svg" class="nw-header-icon-link-img" class="nw-user-img-header"
-              alt="UserImage" loading="lazy" />
-            <span>{{UserModel?.fullName}}</span>
-            <i class="fa-solid fa-chevron-down dropdown-arrow fs-13"></i>
-          </a>
-          <ul class="border shadow-lg" ngbDropdownMenu aria-labelledby="user-settings">
-            <li >
-              <a routerLink="/admin" routerLinkActive="/admin" class="dropdown-item cursor-pointer d-flex align-items-center">
-                <i class="fa-solid fa-user-gear"></i>
-                <span class="ms-2">Admin</span>
-              </a>
-            </li>
-            <li >
-              <a routerLink="/main" routerLinkActive="/admin" class="dropdown-item cursor-pointer d-flex align-items-center">
-                <i class="fa-solid fa-user-gear"></i>
-                <span class="ms-2">Supplier</span>
-              </a>
-            </li>
-            <li *ngIf="isAuthenticated" >
-              <a (click)="logout()" class="dropdown-item cursor-pointer d-flex align-items-center">
-                <i class="fas fa-power-off"></i>
-                <span class="ms-2">SignOut</span>
-              </a>
-            </li>
-            <li *ngIf="!isAuthenticated" >
-              <a (click)="login()" class="dropdown-item cursor-pointer d-flex align-items-center">
-                <i class="fas fa-power-off"></i>
-                <span class="ms-2">Login</span>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item cursor-pointer d-flex align-items-center">
-                <i class="fa-solid fa-user-gear"></i>
-                <span class="ms-2">Profile</span>
-              </a>
-            </li>
+            <ul class="navbar-nav mb-2 mb-lg-0 gap-4">
+                <li class="nav-item">
+                    <a class="nav-link justify-content-center justify-content-md-start">
+                        <img src="{{systemUrl}}assets/alert.svg" class="nw-header-icon-link-img" alt="AlertImage" loading="lazy" />
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link justify-content-center justify-content-md-start gap-1">
+                        <img src="{{systemUrl}}assets/lang.svg" class="nw-header-icon-link-img head-lang-img" alt="LanguageImage" loading="lazy" />
+                        <span class="fs-5">AR</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link justify-content-center justify-content-md-start" routerLink="/system-settings/home">
+                        <img src="{{systemUrl}}assets/settings.svg" class="nw-header-icon-link-img" alt="SettingsImage" loading="lazy" />
+                    </a>
+                </li>
+                <li ngbDropdown class="nav-item nw-dropdown header-nav-dropdown" display="dynamic">
+                    <a class="nav-link justify-content-center d-inline-flex align-items-center gap-2" ngbDropdownToggle>
+                        <img src="{{systemUrl}}assets/user.svg" class="nw-header-icon-link-img" class="nw-user-img-header" alt="UserImage" loading="lazy" />
+                        <span>{{UserModel?.fullName}}</span>
+                        <i class="fa-solid fa-chevron-down dropdown-arrow fs-13"></i>
+                    </a>
+                    <ul class="border shadow-lg" ngbDropdownMenu aria-labelledby="user-settings">
+                        <li>
+                            <a routerLink="/admin" routerLinkActive="/admin" class="dropdown-item cursor-pointer d-flex align-items-center">
+                                <i class="fa-solid fa-user-gear"></i>
+                                <span class="ms-2">Admin</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/main" routerLinkActive="/admin" class="dropdown-item cursor-pointer d-flex align-items-center">
+                                <i class="fa-solid fa-user-gear"></i>
+                                <span class="ms-2">Supplier</span>
+                            </a>
+                        </li>
+                        <li *ngIf="isAuthenticated">
+                            <a (click)="logout()" class="dropdown-item cursor-pointer d-flex align-items-center">
+                                <i class="fas fa-power-off"></i>
+                                <span class="ms-2">SignOut</span>
+                            </a>
+                        </li>
+                        <li *ngIf="!isAuthenticated">
+                            <a (click)="login()" class="dropdown-item cursor-pointer d-flex align-items-center">
+                                <i class="fas fa-power-off"></i>
+                                <span class="ms-2">Login</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item cursor-pointer d-flex align-items-center">
+                                <i class="fa-solid fa-user-gear"></i>
+                                <span class="ms-2">Profile</span>
+                            </a>
+                        </li>
 
-          </ul>
+                    </ul>
 
-        </li>
-        <!-- <li ngbDropdown class="nav-item nw-dropdown" display="dynamic">
+                </li>
+                <!-- <li ngbDropdown class="nav-item nw-dropdown" display="dynamic">
           <a class="nav-link justify-content-center d-inline-flex align-items-center gap-2 bg-white my-2 py-2 px-3 h-auto radius-15"
             ngbDropdownToggle>
             <div class="dropdown-header-icon">
@@ -109,13 +104,12 @@
           </ul>
 
         </li> -->
-      </ul>
-    </div>
+            </ul>
+        </div>
 
-  </div>
+    </div>
 </nav>
 
 
 
 <!-- <app-sidebar [toggler]="showMenu"></app-sidebar> -->
-

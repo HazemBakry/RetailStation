@@ -14,6 +14,9 @@ import { WebsiteHomeComponent } from './components/Main/components/website/websi
 import { WebsiteSubscribeComponent } from './components/Main/components/website/website-subscribe/website-subscribe.component';
 import { WebsiteCartComponent } from './components/Main/components/website/website-cart/website-cart.component';
 import { WebsiteOrdersComponent } from './components/Main/components/website/website-orders/website-orders.component';
+import { HomeComponent } from './components/Shared/components/home/home.component';
+import { PurchaseDashboardComponent } from './components/Purchases/components/purchase-dashboard/purchase-dashboard.component';
+
 
 const routes: Routes = [
   // { path: '', component: RetailHomeComponent },
@@ -24,23 +27,31 @@ const routes: Routes = [
       { path: '', component: WebsiteHomeComponent }
     ],
   },
-  { path: 'home', component: WelcomePageComponent, canActivate: [AuthGuard] },
+  // { path: 'home', component: WelcomePageComponent, canActivate: [AuthGuard] },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  // {
+  //   path: 'purchases',
+  //   canActivate: [AuthGuard],
+  //   data: { roles: ['Customer', 'Supplier'] },
+  //   component: WebsiteComponent,
+  //   children: [
+  //     { path: '', component: WebsiteHomeComponent },
+  //     { path: 'dashboard', component: PurchaseDashboardComponent },
+  //     //{ path: 'subscribe', component: WebsiteSubscribeComponent },
+  //     { path: 'cart', component: WebsiteCartComponent },
+  //     { path: 'my-orders', component: WebsiteOrdersComponent },
+  //     { path: '', redirectTo: '', pathMatch: 'full' },
+  //   ],
+  // },
   {
     path: 'purchases',
+    loadChildren: () =>
+      import('./components/Purchases/purchases.module').then((x) => x.PurchasesModule),
     canActivate: [AuthGuard],
-    data: { roles: ['Customer','Supplier'] },
-    component: WebsiteComponent,
-    children: [
-      { path: '', component: WebsiteHomeComponent },
-      //{ path: 'subscribe', component: WebsiteSubscribeComponent },
-      { path: 'cart', component: WebsiteCartComponent },
-      { path: 'my-orders', component: WebsiteOrdersComponent },
-      { path: '', redirectTo: '', pathMatch: 'full' },
-    ],
+    data: { roles: ['Supplier'] },
   },
-
   {
     path: 'sales-management',
     loadChildren: () =>
