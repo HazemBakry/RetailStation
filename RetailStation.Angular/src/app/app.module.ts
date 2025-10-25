@@ -16,7 +16,6 @@ import { SigninComponent } from './components/Shared/components/signin/signin.co
 import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 import { RolesService } from './Auth/roles.service';
 import { LoginComponent } from './Auth/login/login.component';
-import { RegisterComponent } from './Auth/register/register.component';
 
 @NgModule({
   declarations: [

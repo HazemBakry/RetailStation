@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { PurchaseService } from '../../services/purchase.service';
 import { ToastrService } from 'ngx-toastr';
 import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
-import { ItemModel } from 'src/app/components/Inventory/models/Item';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { ItemModel } from 'src/app/components/Shared/models/ItemModel';
 
 @Component({
   selector: 'app-suppliers-list',

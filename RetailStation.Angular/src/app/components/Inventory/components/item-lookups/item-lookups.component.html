@@ -5,8 +5,7 @@
     <div class="card-body">
         <div class="row  py-3">
             <div class="col-lg-4">
-                <app-general-selector (valueChanged)="selectedItemLookupChanged($event)" [data]="itemLookupSelectorData"
-                    [showSearch]="true" [placeholder]="'قوالب الأصناف'"></app-general-selector>
+                <app-general-selector (valueChanged)="selectedItemLookupChanged($event)" [data]="itemLookupSelectorData" [showSearch]="true" [placeholder]="'قوالب الأصناف'"></app-general-selector>
             </div>
             <div class="col-lg-2">
 
@@ -16,20 +15,15 @@
     <div class="m-3">
         <div class="d-flex align-items-center gap-2">
 
-            <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2"
-                (click)="openAddModal(addNewModal)">
+            <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="openAddModal(addNewModal)">
                 <i class="uil uil-pen"></i>
                 <span>أضافة</span>
             </button>
-            <button *ngIf="selectedItemLookupId && itemLookupModel"
-                class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2"
-                (click)="openAddModal(addNewModal,itemLookupModel)">
+            <button *ngIf="selectedItemLookupId && itemLookupModel" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="openAddModal(addNewModal,itemLookupModel)">
                 <i class="uil uil-pen"></i>
                 <span>تعديل</span>
             </button>
-            <button *ngIf="selectedItemLookupId"
-                class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
-                (click)="openDeleteModal(deleteModal,selectedItemLookupId)">
+            <button *ngIf="selectedItemLookupId" class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteModal,selectedItemLookupId)">
                 <i class="uil uil-trash-alt"></i>
                 <span>حذف</span>
             </button>
@@ -60,9 +54,7 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <app-erp-pagination (pageChanged)="pageItemsChanged($event)"
-                            [currentPage]="itemResponseModel.currentPage" [pageSize]="itemResponseModel.pageSize"
-                            [totalCount]="itemResponseModel.totalCount"></app-erp-pagination>
+                        <app-pagination (pageChanged)="pageItemsChanged($event)" [currentPage]="itemResponseModel.currentPage" [pageSize]="itemResponseModel.pageSize" [totalCount]="itemResponseModel.totalCount"></app-pagination>
                     </div>
                 </div>
                 <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
@@ -86,9 +78,7 @@
                                 <td>{{item.purchaseUnitName}}</td>
                                 <td>{{item.cost}}</td>
                                 <td>
-                                    <button *ngIf="!item.disabled"
-                                        class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2"
-                                        (click)="moveItemToLookup(item)">
+                                    <button *ngIf="!item.disabled" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="moveItemToLookup(item)">
                                         <i class="uil uil-pen"></i>
                                         <span>أضافة</span>
                                     </button>
@@ -96,8 +86,7 @@
                             </tr>
                             <tr *ngIf="!itemResponseModel.results.length || showLoader">
                                 <td colspan="5" class="text-right">
-                                    <app-empty-data [showEmptyData]="!itemResponseModel.results.length&&!showLoader"
-                                        [showLoader]="showLoader"></app-empty-data>
+                                    <app-empty-data [showEmptyData]="!itemResponseModel.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
                                 </td>
                             </tr>
                         </tbody>
@@ -111,9 +100,7 @@
         <div class="card radius-10 border-0 card-shadow mb-4">
             <div class="card-header border-bottom bg-gray d-flex align-items-center justify-content-between">
                 <h5 class="mb-0 fw-bold">أصناف القالب</h5>
-                <button class="btn btn-primary mb-2"
-                    [disabled]="!itemLookupModel?.itemLookupId || !itemLookupModel?.items.length ||showAddLoader"
-                    (click)="addItemsToLookup()">
+                <button class="btn btn-primary mb-2" [disabled]="!itemLookupModel?.itemLookupId || !itemLookupModel?.items.length ||showAddLoader" (click)="addItemsToLookup()">
                     <span class="me-2">حفظ</span>
                     <i class="uil uil-plus-circle"></i>
                 </button>
@@ -131,9 +118,9 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <!-- <app-erp-pagination (pageChanged)="pageChanged($event)"
+                        <!-- <app-pagination (pageChanged)="pageChanged($event)"
                             [currentPage]="pagedResponse.currentPage" [pageSize]="pagedResponse.pageSize"
-                            [totalCount]="pagedResponse.totalCount"></app-erp-pagination> -->
+                            [totalCount]="pagedResponse.totalCount"></app-pagination> -->
                     </div>
                 </div>
                 <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
@@ -157,13 +144,10 @@
                                     <td>{{item.unitNameAR ?? item.unitNameEN}}</td>
                                     <td>{{item.price}}</td>
                                     <td>
-                                        <input type="number" min="0" class="form-control text-center"
-                                            [(ngModel)]="item.quantity" autocomplete="off">
+                                        <input type="number" min="0" class="form-control text-center" [(ngModel)]="item.quantity" autocomplete="off">
                                     </td>
                                     <td>
-                                        <button
-                                            class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
-                                            (click)="removeItemDetails(i,itemLookupModel?.items)">
+                                        <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="removeItemDetails(i,itemLookupModel?.items)">
                                             <i class="uil uil-trash-alt"></i>
                                             <span></span>
                                         </button>
@@ -173,8 +157,7 @@
                             </ng-container>
                             <tr *ngIf="!itemLookupModel?.items?.length || showLoader">
                                 <td colspan="9" class="text-right">
-                                    <app-empty-data [showEmptyData]="!itemLookupModel?.items?.length&&!showLoader"
-                                        [showLoader]="showLoader"></app-empty-data>
+                                    <app-empty-data [showEmptyData]="!itemLookupModel?.items?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
                                 </td>
                             </tr>
                         </tbody>
@@ -231,8 +214,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 الاسم (AR)
                             </label>
-                            <input type="text" class="form-control nw-form-input" formControlName="nameAR"
-                                autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input" formControlName="nameAR" autocomplete="off" />
 
                             <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
                                 {{formErrors.nameAR}}
@@ -242,8 +224,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 الاسم (EN)
                             </label>
-                            <input type="text" class="form-control nw-form-input" formControlName="nameEN"
-                                autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input" formControlName="nameEN" autocomplete="off" />
 
                             <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
                                 {{formErrors.nameEN}}
@@ -281,14 +262,12 @@
         </div>
     </div>
     <div class="modal-footer flex-nowrap gap-2">
-        <button [disabled]="showAddLoader" (click)="saveItemLookup()" type="button"
-            class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
+        <button [disabled]="showAddLoader" (click)="saveItemLookup()" type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
             <i class="uil uil-save fs-3"></i>
             <span>{{isUpdate?'تعديل':'أضافة'}}</span>
         </button>
 
-        <button type="button" class="btn btn-danger d-flex align-items-center gap-2"
-            (click)="formGroup?.reset();modal.close()">
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="formGroup?.reset();modal.close()">
             <i class="uil uil-times-circle fs-3"></i>
             <span>الغاء</span>
         </button>

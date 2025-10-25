@@ -1,43 +1,40 @@
-﻿using RetailStation.Entities.Models;
-using RetailStation.Entities.Models.HR;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using RetailStation.Entities.Models;
 using RetailStation.Interface.Auth;
 using RetailStation.Interface.Common;
 using RetailStation.Interface.EmployeeProfile;
 using RetailStation.Interface.GeneralAccounts;
 using RetailStation.Interface.GeneralAccounts.Customers;
 using RetailStation.Interface.GeneralAccounts.GeneralAccountSettings;
-using RetailStation.Interface.HR;
 using RetailStation.Interface.Inventory;
+using RetailStation.Interface.Operation;
 using RetailStation.Interface.Purchase;
+using RetailStation.Interface.Roles;
 using RetailStation.Interface.Sales;
 using RetailStation.Interface.Shared;
+using RetailStation.Interface.SupplierManagement;
+using RetailStation.Interface.SystemAdmin;
+using RetailStation.Interface.Users;
+using RetailStation.Interface.Website;
+using RetailStation.Interfaces.Subscription;
 using RetailStation.Service.Auth;
 using RetailStation.Service.Common;
 using RetailStation.Service.EmployeeProfile;
 using RetailStation.Service.GeneralAccounts;
 using RetailStation.Service.GeneralAccounts.Customers;
 using RetailStation.Service.GeneralAccounts.GeneralAccountSettings;
-using RetailStation.Service.HR;
 using RetailStation.Service.Inventory;
+using RetailStation.Service.Operation;
 using RetailStation.Service.Purchase;
+using RetailStation.Service.Roles;
 using RetailStation.Service.Sales;
 using RetailStation.Service.Shared;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using RetailStation.Interface.Roles;
-using RetailStation.Service.Roles;
-using RetailStation.Interfaces.Subscription;
-using RetailStation.Services.Subscription;
-using RetailStation.Interface.Users;
-using RetailStation.Service.Users;
-using RetailStation.Interface.Branches;
-using RetailStation.Service.Branches;
-using RetailStation.Service.Operation;
-using RetailStation.Interface.Operation;
-using RetailStation.Interface.SupplierManagement;
 using RetailStation.Service.SupplierManagement;
+using RetailStation.Service.SystemAdmin;
+using RetailStation.Service.Users;
 using RetailStation.Service.Website;
-using RetailStation.Interface.Website;
+using RetailStation.Services.Subscription;
 
 namespace RetailStation.API
 {
@@ -50,20 +47,11 @@ namespace RetailStation.API
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<ISQLHelper, SQLHelper>();
             services.AddScoped<IAdminService, AdminService>();
-            services.AddScoped<IEmployeeService, EmployeeService>();
-            services.AddScoped<IAttendanceService, AttendanceService>();
-            services.AddScoped<IOverTimeService, OverTimeService>();
-            services.AddScoped<IPenaltyService, PenaltyService>();
-            services.AddScoped<ISickLeaveService, SickLeaveService>();
-            services.AddScoped<IVacationService, VacationService>();
-            services.AddScoped<ICareersService, CareersService>();
-            services.AddScoped<IDeductsService, DeductsService>();
             services.AddScoped<IAccountTreeService, AccountTreeService>();
             services.AddScoped<ICostCenterTreeService, CostCenterTreeService>();
             services.AddScoped<IPurchaseInvoiceService, PurchaseInvoiceService>();
             services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
             services.AddScoped<ISalesInvoiceService, SalesInvoiceService>();
-            services.AddScoped<IJournalEntryService, JournalEntryService>();
             services.AddScoped<IInventoryService, InventoryService>();
             services.AddScoped<ISharedService, SharedService>();
             services.AddScoped<IPaymentService, PaymentService>();
@@ -75,7 +63,6 @@ namespace RetailStation.API
             services.AddScoped<IFinancialPeriodService, FinancialPeriodService>();
             services.AddScoped<IExportService, ExportService>();
             services.AddScoped<IEmployeeProfileService, EmployeeProfileService>();
-            services.AddScoped<ILoansService, LoansService>();
             services.AddScoped<ISuppliersService, SuppliersService>();
             services.AddScoped<ISupplierManagementService, SupplierManagementService>();
             services.AddScoped<IWebsiteService, WebsiteService>();
@@ -83,7 +70,6 @@ namespace RetailStation.API
             services.AddScoped<ITaxCalculationService, TaxCalculationService>();
             services.AddScoped<IDailyNotebookService, DailyNotebookService>();
             services.AddScoped<IAssetsFormService, AssetsFormService>();
-            services.AddScoped<ILoansFormService, LoansFormService>();
             services.AddScoped<IBatchService, BatchService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IDataImportService, DataImportService>();
@@ -93,20 +79,16 @@ namespace RetailStation.API
             services.AddScoped<IRolesService, RolesService>();
             services.AddScoped<ISubscribersService, SubscribersService>();
             services.AddScoped<IUsersService, UsersService>();
-            services.AddScoped<IBranchesService, BranchesService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ICartService, CartService>();
             services.AddScoped<IPaymentReceiptService, PaymentReceiptService>();
 
             services.AddScoped<ICreateReportService, CreateReportService>();
             services.AddScoped<IHelper, Helper>();
-            services.AddScoped<IEmployeeAdvancesService, EmployeeAdvancesService>();
-            services.AddScoped<IHRReportsService, HRReportsService>();
-            services.AddScoped<IHRService, HRService>();
-            services.AddScoped<ISalariesService, SalariesService>();
             services.AddScoped<IBankService, BankService>();
-            services.AddScoped<IFinancialCustodyService, FinancialCustodyService>();
             services.AddScoped<IInventoryReportsService, InventoryReportsService>();
+            services.AddScoped<INotificationService, NotificationService>();
+            
 
 
 

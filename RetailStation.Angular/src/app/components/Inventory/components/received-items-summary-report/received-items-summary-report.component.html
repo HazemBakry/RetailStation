@@ -3,16 +3,14 @@
 <div class="inputs-wrapper border rounded bg-white mb-3">
     <div class="inputs-sec-content px-3 py-2">
         <div class="row gy-3">
-             <div class="col-lg-4">
+            <div class="col-lg-4">
                 <div class="mb-2">
                     <label class="form-label d-flex align-items-center gap-2">
                         الاصناف
                         <span class="text-danger">*</span>
                     </label>
-                    <app-general-selector [selectMulti]="true"
-                        [placeholder]="'الاصناف'" [showSearch]="true" [data]="itemsSelectorData"
-                        (valueChanged)="getSelectedItems($event)"></app-general-selector>
-                    
+                    <app-general-selector [selectMulti]="true" [placeholder]="'الاصناف'" [showSearch]="true" [data]="itemsSelectorData" (valueChanged)="getSelectedItems($event)"></app-general-selector>
+
                 </div>
             </div>
             <div class="col-lg-3">
@@ -59,7 +57,7 @@
             </div>
         </div>
         <div class="col-md-4 mb-2">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-pagination>
         </div>
 
 

@@ -13,7 +13,6 @@ import { AuthService } from 'src/app/Auth/auth.service';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { AddUserRoleModel, RoleModel } from 'src/app/components/Shared/models/RoleModel';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
-import { HrService } from 'src/app/components/HR/services/hr.service';
 
 @Component({
   selector: 'app-system-users',
@@ -82,7 +81,6 @@ export class SystemUsersComponent implements OnInit {
   constructor(private modalService: NgbModal, private toaster: ToastrService,
     private settingsService: SystemSettingsService,
     private fb: FormBuilder, private _FormService: FormService,
-    private hrService: HrService,
     private sharedService: SharedService, private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -99,10 +97,6 @@ export class SystemUsersComponent implements OnInit {
   }
 
   loadSelectors() {
-    this.hrService.GetActiveEmployeesSelector().subscribe((data: FormDropdownModel[]) => {
-      this.employeesSelectorData = data;
-    });
-
     this.sharedService.GetBranchesSelector().subscribe((data: FormDropdownModel[]) => {
       this.branchSelectorData = data;
     });

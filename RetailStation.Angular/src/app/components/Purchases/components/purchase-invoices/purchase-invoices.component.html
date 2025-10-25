@@ -1,11 +1,9 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div
-        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3"
-                routerLink="/purchases/add-purchase-invoice">
+            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3" routerLink="/purchases/add-purchase-invoice">
                 <i class="fas fa-plus-circle"></i>
                 <span>انشاء فاتورة</span>
             </button>
@@ -16,15 +14,12 @@
             </button> -->
         </div>
         <div class="justify-content-end">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
-                [pageSize]="pagedResponseModel.pageSize"
-                [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-pagination>
         </div>
         <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center">
                 <ng-container>
-                    <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"
-                        [searchPlaceholder]="'بحث  ...'"></app-erp-filters>
+                    <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'بحث  ...'"></app-erp-filters>
                 </ng-container>
             </div>
         </div>
@@ -59,8 +54,7 @@
                         <!-- <td>{{item.insertUser}}</td>
                             <td>{{item.insertDate | date}}</td>-->
                         <td>
-                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
-                                [nameAR]="item?.workflowStatusNameAR">
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
                             </span>
                         </td>
                         <td>{{item.totalValue}}</td>
@@ -76,21 +70,17 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <div ngbDropdownMenu class="border">
-                                        <button ngbDropdownItem routerLink="/purchases/add-purchase-invoice"
-                                            [queryParams]="{InvoiceId:item.purchaseInvoiceId}">
+                                        <button ngbDropdownItem routerLink="/purchases/add-purchase-invoice" [queryParams]="{InvoiceId:item.purchaseInvoiceId}">
                                             تعديل
                                         </button>
-                                        <button ngbDropdownItem
-                                            (click)="openDeleteModal(deleteDialog,item.purchaseInvoiceId)">
+                                        <button ngbDropdownItem (click)="openDeleteModal(deleteDialog,item.purchaseInvoiceId)">
                                             <span>حذف</span>
                                         </button>
                                         <button ngbDropdownItem (click)="showInvoiceDetails(item)">
                                             <span>تفاصيل</span>
                                         </button>
-                                        <ng-container
-                                            *ngIf="![wfStatus.Cancelled , wfStatus.Paid].includes(item.workflowStatusId)">
-                                            <button ngbDropdownItem routerLink="/general-accounts/create-payment-order"
-                                                [queryParams]="{InvoiceId:item.purchaseInvoiceId}">
+                                        <ng-container *ngIf="![wfStatus.Cancelled , wfStatus.Paid].includes(item.workflowStatusId)">
+                                            <button ngbDropdownItem routerLink="/general-accounts/create-payment-order" [queryParams]="{InvoiceId:item.purchaseInvoiceId}">
                                                 انشاء أمر صرف
                                             </button>
                                         </ng-container>

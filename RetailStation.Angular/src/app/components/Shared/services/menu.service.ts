@@ -25,7 +25,7 @@ export class MenuService {
           menuItem: '',
           description: 'احصائيات',
           icon: 'fas fa-th-large',
-          route: '/sales-management/home'
+          route: '/sales/home'
         },
         {
           menuItemId: MenuType.Supplier,
@@ -33,7 +33,7 @@ export class MenuService {
           menuItem: '',
           description: 'احصائيات',
           icon: 'fas fa-th-large',
-          route: '/sales-management/supplier-items'
+          route: '/sales/supplier-items'
         },
         // {
         //   menuItemId: MenuType.Supplier,
@@ -41,133 +41,143 @@ export class MenuService {
         //   menuItem: 'supplier-invoices',
         //   description: 'عرض وإدارة فواتير الشراء للموردين',
         //   icon: 'fa fa-file-invoice',
-        //   route: '/sales-management/supplier-invoices'
+        //   route: '/sales/supplier-invoices'
         // },
         {
           displayName: 'قائمة الطلبات',
           menuItem: 'supplier-orders',
           description: 'إدارة أوامر الشراء الصادرة للموردين',
           icon: 'fa fa-clipboard-list',
-          route: '/sales-management/supplier-orders'
+          route: '/sales/supplier-orders'
         },
       ]
     },
     {
-      menuItemId: MenuType.Admin,
-      displayName: 'الأدمن',
-      menuItem: 'Admin',
-      subMenus: [
-        {
-          menuItemId: MenuType.Admin,
-          displayName: 'لوحة التحكم',
-          menuItem: '',
-          description: 'احصائيات',
-          icon: 'fas fa-th-large',
-          route: '/admin/home'
-        },
-        {
-          menuItemId: MenuType.Admin,
-          displayName: 'المشتركين',
-          menuItem: '',
-          description: 'احصائيات',
-          icon: 'fas fa-th-large',
-          route: '/admin/manage-subscriptions'
-        },
-        {
-          menuItemId: MenuType.Admin,
-          displayName: 'طلبات الاشتراك',
-          menuItem: '',
-          description: 'احصائيات',
-          icon: 'fas fa-th-large',
-          route: '/admin/subscribe-requests'
-        },
-        {
-          menuItemId: MenuType.Admin,
-          displayName: 'الصلاحيات',
-          menuItem: '',
-          description: 'احصائيات',
-          icon: 'fas fa-th-large',
-          route: '/admin/roles'
-        },
-        {
-          menuItemId: MenuType.Admin,
-          displayName: 'مجموعات الأصناف',
-          menuItem: 'items-categories',
-          description: 'تعريف وتصنيف مجموعات الأصناف داخل المخازن',
-          icon: 'fa fa-layer-group',
-          route: '/admin/items-categories'
-        },
-        {
-          menuItemId: MenuType.Admin,
-          displayName: 'وحدات الأصناف',
-          menuItem: 'items-units',
-          description: 'تعريف وتصنيف مجموعات الأصناف داخل المخازن',
-          icon: 'fa fa-layer-group',
-          route: '/admin/items-units'
-        },
-        {
-          menuItemId: MenuType.Admin,
-          displayName: 'الأصناف',
-          menuItem: 'items',
-          description: 'الأصناف داخل المخازن',
-          icon: 'fa fa-layer-group',
-          route: '/admin/items'
-        },
-
-        {
-          menuItemId: MenuType.Admin,
-
-          displayName: 'قائمة الموردين',
-          menuItem: 'suppliers',
-          description: 'إدارة بيانات الموردين وتفاصيل الاتصال',
-          icon: 'fa fa-users',
-          route: '/admin/suppliers'
-        },
-        {
-          menuItemId: MenuType.Admin,
-
-          displayName: 'Sliders',
-          menuItem: 'Sliders',
-          description: 'إدارة بيانات الموردين وتفاصيل الاتصال',
-          icon: 'fa fa-users',
-          route: '/admin/sliders'
-        },
-        {
-          menuItemId: MenuType.Admin,
-
-          displayName: 'Promotion',
-          menuItem: 'Promotions',
-          description: 'إدارة بيانات الموردين وتفاصيل الاتصال',
-          icon: 'fa fa-users',
-          route: '/admin/promotions'
-        },
-        // {
-        //   menuItemId: MenuType.Admin,
-        //   displayName: 'الادلة',
-        //   menuItem: '1',
-        //   description: 'الوصول إلى شجرة الحسابات ومراكز التكلفة',
-        //   icon: 'fa-solid fa-sitemap',
-        //   route: '/general-accounts/home/1',
-        //   subMenus: [
-        //     {
-        //       displayName: 'شجرة الحسابات',
-        //       menuItem: 'AccountTree',
-        //       description: 'عرض وتصميم هيكل الحسابات المالية',
-        //       icon: 'fa fa-sitemap',
-        //       route: '/general-accounts/account-tree'
-        //     },
-        //     {
-        //       displayName: 'مراكز التكلفة',
-        //       menuItem: 'CostCenter',
-        //       description: 'إدارة وإنشاء مراكز التكلفة وربطها بالعمليات',
-        //       icon: 'fa fa-project-diagram',
-        //       route: '/general-accounts/cost-center-tree'
-        //     },
-        //   ]
-        // }
-
-      ]
+      menuItemId: MenuType.AdminHome,
+      displayName: 'إدارة النظام',
+      menuItem: 'Sales',
+      subMenus:
+        [
+          {
+            menuItemId: MenuType.AdminHome,
+            displayName: 'لوحة التحكم',
+            menuItem: '1',
+            route: '/admin/home/1',
+            icon: 'fa fa-gears',
+            subMenus: [
+              {
+                displayName: 'الرئيسية',
+                menuItem: 'dashboard',
+                description: 'إحصائيات النظام',
+                icon: 'fas fa-th-large',
+                route: '/admin/home'
+              },
+              {
+                displayName: 'المشتركين',
+                menuItem: 'manage-subscriptions',
+                description: 'بيانات المشتركين',
+                icon: 'fas fa-th-large',
+                route: '/admin/manage-subscriptions'
+              },
+              {
+                displayName: 'طلبات الاشتراك',
+                menuItem: 'subscription-requests',
+                description: 'طلبات الاشتراك',
+                icon: 'fas fa-th-large',
+                route: '/admin/subscription-requests'
+              },
+              {
+                displayName: 'صلاحيات المشتركين',
+                menuItem: '',
+                description: 'صلاحيات المشتركين والمستخدمين',
+                icon: 'fas fa-th-large',
+                route: '/admin/roles'
+              },
+              {
+                displayName: 'العروض',
+                menuItem: 'promotions',
+                description: 'إدارة العروض والخصومات',
+                icon: 'fa fa-tags',
+                route: '/admin/promotions'
+              },
+              {
+                displayName: 'إدارة بيانات الأصناف',
+                menuItem: 'items',
+                description: 'الأصناف داخل المخازن',
+                icon: 'fa fa-layer-group',
+                route: '/admin/items'
+              },
+              {
+                displayName: 'إدارة بيانات الأصناف',
+                menuItem: 'items',
+                description: 'الأصناف داخل المخازن',
+                icon: 'fa fa-layer-group',
+                route: '/admin/items'
+              },
+              {
+                displayName: 'قائمة الموردين',
+                menuItem: 'suppliers',
+                description: 'إدارة بيانات الموردين وتفاصيل الاتصال',
+                icon: 'fa fa-users',
+                route: '/admin/suppliers'
+              },
+            ]
+          },
+          {
+            menuItemId: MenuType.InventoryHome,
+            displayName: 'التهيئة والاعدادات',
+            menuItem: '2',
+            route: '/admin/home/2',
+            icon: 'fa fa-database',
+            subMenus: [
+              {
+                displayName: 'Tags Manager',
+                menuItem: 'tags-manager',
+                description: 'إضافة و تعديل بيانات الأصناف',
+                icon: 'fa fa-clipboard-list',
+                route: '/admin/tags-manager'
+              },
+              {
+                displayName: 'إدارة الإشعارات',
+                menuItem: 'notifications-manager',
+                description: 'إدارة وتعديل الإشعارات',
+                icon: 'fa fa-clipboard-list',
+                route: '/admin/notifications-manager'
+              },
+              {
+                displayName: 'Social Media Settings',
+                menuItem: 'social-media',
+                description: 'إدارة التسويق',
+                icon: 'fa fa-users',
+                route: '/admin/social-media'
+              },
+              {
+                displayName: 'Sliders',
+                menuItem: 'Sliders',
+                description: 'إدارة بيانات الموردين وتفاصيل الاتصال',
+                icon: 'fa fa-users',
+                route: '/admin/sliders'
+              },
+              {
+                displayName: 'مجموعات الأصناف',
+                menuItem: 'items-categories',
+                description: 'تعريف وتصنيف مجموعات الأصناف داخل المخازن',
+                icon: 'fa fa-layer-group',
+                route: '/admin/items-categories'
+              },
+              {
+                displayName: 'وحدات الأصناف',
+                menuItem: 'items-units',
+                description: 'تعريف وتصنيف مجموعات الأصناف داخل المخازن',
+                icon: 'fa fa-layer-group',
+                route: '/admin/items-units'
+              }
+            ]
+          }
+        ]
     },
+
+
     {
       menuItemId: MenuType.GeneralAccountsHome,
       displayName: 'الحسابات العامة',
@@ -760,33 +770,40 @@ export class MenuService {
             icon: 'fa fa-shopping-cart',
             subMenus: [
               {
-                displayName: 'أوامر الشراء',
+                displayName: 'لوحة التحكم',
+                menuItem: 'dashboard',
+                description: 'متابعة احصائيات المشتريات',
+                icon: 'fa fa-clipboard-list',
+                route: '/purchases/dashboard'
+              },
+              {
+                displayName: 'قائمة الطلبات',
                 menuItem: 'purchase-orders',
-                description: 'إدارة أوامر الشراء وإنشاؤها',
+                description: 'متابعة وإدارة قائمة طلبات المشتريات',
                 icon: 'fa fa-clipboard-list',
                 route: '/purchases/purchase-orders'
               },
-              {
-                displayName: 'انشاء فاتورة شراء',
-                menuItem: 'add-purchase-invoice',
-                description: 'إدخال فاتورة شراء جديدة لمورد',
-                icon: 'fa fa-file-invoice-dollar',
-                route: '/purchases/add-purchase-invoice'
-              },
-              {
-                displayName: 'فواتير الشراء',
-                menuItem: 'purchase-invoices',
-                description: 'عرض وإدارة فواتير الشراء للموردين',
-                icon: 'fa fa-file-invoice',
-                route: '/purchases/purchase-invoices'
-              },
-              {
-                displayName: 'مرتجعات المشتريات',
-                menuItem: 'purchase-returns',
-                description: 'معالجة وإدارة المرتجعات على المشتريات',
-                icon: 'fa fa-undo-alt',
-                route: '/purchases/purchase-returns'
-              },
+              // {
+              //   displayName: 'انشاء فاتورة شراء',
+              //   menuItem: 'add-purchase-invoice',
+              //   description: 'إدخال فاتورة شراء جديدة لمورد',
+              //   icon: 'fa fa-file-invoice-dollar',
+              //   route: '/purchases/add-purchase-invoice'
+              // },
+              // {
+              //   displayName: 'فواتير الشراء',
+              //   menuItem: 'purchase-invoices',
+              //   description: 'عرض وإدارة فواتير الشراء للموردين',
+              //   icon: 'fa fa-file-invoice',
+              //   route: '/purchases/purchase-invoices'
+              // },
+              // {
+              //   displayName: 'مرتجعات المشتريات',
+              //   menuItem: 'purchase-returns',
+              //   description: 'معالجة وإدارة المرتجعات على المشتريات',
+              //   icon: 'fa fa-undo-alt',
+              //   route: '/purchases/purchase-returns'
+              // },
               {
                 displayName: 'كشف حساب مورد',
                 menuItem: 'suppliers-account-statement',
@@ -794,19 +811,102 @@ export class MenuService {
                 icon: 'fa fa-file-alt',
                 route: '/purchases/suppliers-account-statement'
               },
+              // {
+              //   displayName: 'عروض الاسعار',
+              //   menuItem: 'purchase-quotations',
+              //   description: 'إدارة عروض الأسعار المستلمة من الموردين',
+              //   icon: 'fa fa-tags',
+              //   route: '/purchases/purchase-quotations'
+              // },
+              // {
+              //   displayName: 'اشعارات خصم الموردين',
+              //   menuItem: 'supplier-returns-voucher',
+              //   description: 'إصدار إشعارات الخصم لمشتريات الموردين',
+              //   icon: 'fa fa-receipt',
+              //   route: '/purchases/supplier-returns-voucher'
+              // }
+            ]
+          },
+          // {
+          //   menuItemId: MenuType.InventoryHome,
+          //   displayName: 'التهيئة والاعدادات',
+          //   menuItem: '2',
+          //   route: '/purchases/home/2',
+          //   icon: 'fa fa-database',
+          //   subMenus: [
+          //     {
+          //       displayName: 'قائمة الموردين',
+          //       menuItem: 'suppliers-list',
+          //       description: 'إدارة بيانات الموردين وتفاصيل الاتصال',
+          //       icon: 'fa fa-users',
+          //       route: '/purchases/suppliers-list'
+          //     },
+          //     {
+          //       displayName: 'أنواع فواتير المشتريات',
+          //       menuItem: 'purchase-invoice-types',
+          //       description: 'إدارة بيانات أنواع الفواتير وتفاصيل الحسابات',
+          //       icon: 'fa fa-users',
+          //       route: '/purchases/purchase-invoice-types'
+          //     }
+          //   ]
+          // }
+        ]
+    },
+
+    {
+      menuItemId: MenuType.SalesHome,
+      displayName: 'إدارة المبيعات',
+      menuItem: 'Sales',
+      subMenus:
+        [
+          {
+            menuItemId: MenuType.SalesHome,
+            displayName: 'إدارة المبيعات',
+            menuItem: '1',
+            route: '/sales/home/1',
+            icon: 'fa fa-shopping-cart',
+            subMenus: [
               {
-                displayName: 'عروض الاسعار',
-                menuItem: 'purchase-quotations',
-                description: 'إدارة عروض الأسعار المستلمة من الموردين',
-                icon: 'fa fa-tags',
-                route: '/purchases/purchase-quotations'
+                displayName: 'لوحة التحكم',
+                menuItem: 'dashboard',
+                description: 'متابعة احصائيات المبيعات',
+                icon: 'fa fa-clipboard-list',
+                route: '/sales/dashboard'
               },
               {
-                displayName: 'اشعارات خصم الموردين',
-                menuItem: 'supplier-returns-voucher',
-                description: 'إصدار إشعارات الخصم لمشتريات الموردين',
+                displayName: 'قائمة الطلبات',
+                menuItem: 'orders',
+                description: 'متابعة وإدارة قائمة الطلبات',
+                icon: 'fa fa-clipboard-list',
+                route: '/sales/orders'
+              },
+              {
+                displayName: 'مرتجعات المبيعات',
+                menuItem: 'sales-returns',
+                description: 'معالجة وإدارة المرتجعات على المبيعات',
+                icon: 'fa fa-undo-alt',
+                route: '/sales/sales-returns'
+              },
+              {
+                displayName: 'العروض',
+                menuItem: 'promotions',
+                description: 'إدارة العروض والخصومات',
+                icon: 'fa fa-tags',
+                route: '/sales/promotions'
+              },
+              {
+                displayName: 'كشف حساب العملاء',
+                menuItem: 'customers-statement',
+                description: 'عرض جميع العمليات الخاصة بالموردين',
+                icon: 'fa fa-file-alt',
+                route: '/sales/customers-statement'
+              },
+              {
+                displayName: 'اشعارات خصم للعملاء',
+                menuItem: 'customer-returns-voucher',
+                description: 'إصدار إشعارات الخصم لمشتريات العملاء',
                 icon: 'fa fa-receipt',
-                route: '/purchases/supplier-returns-voucher'
+                route: '/sales/customer-returns-voucher'
               }
             ]
           },
@@ -818,19 +918,33 @@ export class MenuService {
             icon: 'fa fa-database',
             subMenus: [
               {
-                displayName: 'قائمة الموردين',
-                menuItem: 'suppliers-list',
-                description: 'إدارة بيانات الموردين وتفاصيل الاتصال',
-                icon: 'fa fa-users',
-                route: '/purchases/suppliers-list'
+                displayName: 'بيانات الأصناف',
+                menuItem: 'items',
+                description: 'إضافة و تعديل بيانات الأصناف',
+                icon: 'fa fa-clipboard-list',
+                route: '/sales/items'
               },
               {
-                displayName: 'أنواع فواتير المشتريات',
-                menuItem: 'purchase-invoice-types',
-                description: 'إدارة بيانات أنواع الفواتير وتفاصيل الحسابات',
-                icon: 'fa fa-users',
-                route: '/purchases/purchase-invoice-types'
-              }
+                displayName: 'مجموعات الأصناف',
+                menuItem: 'items-categories',
+                description: 'إدارة بيانات الموردين وتفاصيل الاتصال',
+                icon: 'fa fa-clipboard-list',
+                route: '/sales/items-categories'
+              },
+              {
+                displayName: 'فائمة الموردين',
+                menuItem: 'my-suppliers',
+                description: 'إدارة بيانات الموردين',
+                icon: 'fa fa-clipboard-list',
+                route: '/sales/my-suppliers'
+              },
+              // {
+              //   displayName: 'أنواع فواتير المشتريات',
+              //   menuItem: 'purchase-invoice-types',
+              //   description: 'إدارة بيانات أنواع الفواتير وتفاصيل الحسابات',
+              //   icon: 'fa fa-users',
+              //   route: '/purchases/purchase-invoice-types'
+              // }
             ]
           }
         ]
@@ -847,7 +961,6 @@ export class MenuService {
           route: '/system-settings/home/1',
           icon: 'fa fa-warehouse',
           subMenus: [
-
             {
               displayName: 'لوحة التحكم',
               menuItem: 'dashboard',
@@ -903,6 +1016,7 @@ export enum MenuType {
   MainModules,
   InventoryHome,
   PurchasesHome,
+  SalesHome,
   AdminHome,
   Admin,
   Supplier,

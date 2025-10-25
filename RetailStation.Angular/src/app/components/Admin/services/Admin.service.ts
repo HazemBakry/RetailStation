@@ -1,21 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
-import { SubscriberApplicationModel, SubscriberModel } from '../models/Subscriber';
-import { AddUserRoleModel, RoleModel } from '../../Shared/models/RoleModel';
-import { UserModel } from '../../Shared/models/UserModel';
-import { BranchModel } from '../../Shared/models/BranchModel';
-import { ItemCategoryModel } from '../models/Operation/itemCategory';
-import { CategorySortModel } from '../models/Operation/categorySort';
-import { UnitModel } from '../models/Operation/UnitModel';
-import { SupplierModel } from '../models/Operation/SupplierModel';
-import { ItemModel } from '../models/Operation/ItemModel';
 import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
-import { SupplierItemModel } from '../../Main/models/SupplierItemModel';
 import { SliderModel } from '../models/Operation/SliderModel';
-import { PromotionModel } from '../models/Operation/PromotionModel';
+import { Observable } from 'rxjs';
+import { FilterModel } from '../../Shared/models/FilterModel';
+import { Tag } from '../models/TagsManagerModels';
+import { PromotionModel } from '../../Shared/models/PromotionModel';
 
 
 @Injectable({
@@ -109,4 +101,75 @@ export class AdminService {
     );
   }
 
+
+  
+    // ================================== Notifications Manager ==================================
+  
+    GetNotifications(model: FilterModel) {
+      return this.http.post<any>(this.URL + 'Notification/GetNotificationsBySubscriberID', model);
+    }
+  
+    GetRecipientsByNotificationID(notificationID: number) {
+      return this.http.get<any[]>(this.URL + 'Notification/GetRecipientsByNotificationID?notificationID=' + notificationID);
+    }
+  
+    getCustomers(params: { search?: string, take?: number }): Observable<any[]> {
+      const httpParams = new HttpParams({ fromObject: { ...params } });
+      return this.http.get<any[]>(this.URL + 'Notification/GetCustomers', { params: httpParams });
+    }
+  
+    SaveNotification(model: any) {
+      return this.http.post<any>(this.URL + 'Notification/SaveNotification', model)
+    }
+  
+    UpdateNotification(model: any) {
+      return this.http.post<any>(this.URL + 'Notification/UpdateNotification', model)
+    }
+  
+    UpdateNotificationIsActive(id: any, isActive: any) {
+      return this.http.post<any>(this.URL + 'Notification/UpdateNotificationStatus?id=' + id, isActive)
+    }
+  
+  
+  
+    // ================================== Tags Manager ==================================
+  
+  
+    getTags() {
+      return this.http.get<Tag[]>(this.URL + 'TagsManager/GetTags');
+    }
+  
+    createTag(tag: Partial<Tag>) {
+      const { name } = tag;
+      return this.http.post<Tag>(this.URL + 'TagsManager/CreateTag', tag);
+    }
+  
+    updateTag(tag: Tag) {
+      return this.http.post(this.URL + `TagsManager/tags/${tag.tagId}`, tag);
+    }
+  
+    deleteTag(tagId: number) {
+      return this.http.post(this.URL + `TagsManager/DeleteTag/${tagId}`, {});
+    }
+  
+    getAllItems() {
+      return this.http.get<any[]>(this.URL + 'ItemTags/GetAllItems');
+    }
+  
+    getItemsForTag(tagId: number) {
+      return this.http.get<any[]>(this.URL + `ItemTags/tags/${tagId}/items`);
+    }
+  
+    assignItemToTag(tagId: number, itemId: number) {
+      return this.http.post(this.URL + `ItemTags/assign/${itemId}/${tagId}`, {});
+    }
+  
+    unassignItemFromTag(tagId: number, itemId: number) {
+      return this.http.post(this.URL + `ItemTags/unassign/${itemId}/${tagId}`, {});
+    }
+  
+    updateIsActive(id: any, isActive: any) {
+      return this.http.post<any>(this.URL + 'TagsManager/updateIsActive?id=' + id, isActive)
+    }
+  
 }

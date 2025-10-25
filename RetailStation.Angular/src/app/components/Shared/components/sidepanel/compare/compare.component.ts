@@ -1,17 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
-import { PagedResponseDTO, PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
-import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
 import { GeneralSelectorModel } from '../../general-selector/general-selector.component';
 import { MaterialReceiptModel } from 'src/app/components/Inventory/models/MaterialReceiptModel';
 import { WebsiteService } from 'src/app/components/Main/services/website.service';
-import { SupplierItemModel } from 'src/app/components/Main/models/SupplierItemModel';
 import { CompareService, ItemCompareModel } from '../../../services/comapre.service';
 import { FieldType } from '../../../Enums/FieldType';
 import { DataField } from '../../../models/DataField';
+import { SupplierItemModel } from '../../../models/SupplierItemModel';
 
 @Component({
   selector: 'app-compare',

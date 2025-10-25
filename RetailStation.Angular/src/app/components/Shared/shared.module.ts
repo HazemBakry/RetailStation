@@ -11,10 +11,6 @@ import { CostCentersTreeComponent } from './components/cost-center-tree/cost-cen
 import { ErpSelectorComponent } from './components/selectors/erp-selector/erp-selector.component';
 import { ErpSelectorWithSearchComponent } from './components/selectors/erp-selector-with-search/erp-selector-with-search.component';
 import { ErpSelectorWithCheckboxComponent } from './components/selectors/erp-selector-with-checkbox/erp-selector-with-checkbox.component';
-import {
-  ErpPaginationComponent,
-  PaginationComponent,
-} from './components/erp-pagination/erp-pagination.component';
 import { ErpFiltersComponent } from './components/erp-filters/erp-filters.component';
 import { EmptyDataComponent } from './components/empty-data/empty-data.component';
 import { AppBreadcrumbComponent } from './components/app-breadcrumb/app-breadcrumb.component';
@@ -62,12 +58,12 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { RetailHomeComponent } from './components/retail-home/retail-home.component';
 import { RegisterComponent } from 'src/app/Auth/register/register.component';
-import { WebsiteHeaderComponent } from './components/website-header/website-header.component';
-import { WebsiteSearchComponent } from './components/website-search/website-search.component';
 import { RateComponent } from './components/rate/rate.component';
 import { CompareComponent } from './components/sidepanel/compare/compare.component';
 import { ChangeQuantityComponent } from './components/change-quantity/change-quantity.component';
 import { HomeComponent } from './components/home/home.component';
+import { AppPaginationComponent } from './components/app-pagination/app-pagination.component';
+import { AppFiltersComponent } from './components/app-filters/app-filters.component';
 
 @NgModule({
   declarations: [
@@ -81,8 +77,8 @@ import { HomeComponent } from './components/home/home.component';
     ErpSelectorComponent,
     ErpSelectorWithSearchComponent,
     ErpSelectorWithCheckboxComponent,
-    ErpPaginationComponent,
-    PaginationComponent,
+    AppPaginationComponent,
+    AppPaginationComponent,
     ErpFiltersComponent,
     EmptyDataComponent,
     OrderProductsComponent,
@@ -123,11 +119,10 @@ import { HomeComponent } from './components/home/home.component';
     StatusSelectorComponent,
     RetailHomeComponent,
     RegisterComponent,
-    WebsiteHeaderComponent,
-    WebsiteSearchComponent,
     RateComponent,
     CompareComponent,
     ChangeQuantityComponent,
+    AppFiltersComponent
   ],
 
   imports: [
@@ -165,8 +160,7 @@ import { HomeComponent } from './components/home/home.component';
     ErpSelectorComponent,
     ErpSelectorWithSearchComponent,
     ErpSelectorWithCheckboxComponent,
-    ErpPaginationComponent,
-    PaginationComponent,
+    AppPaginationComponent,
     ErpFiltersComponent,
     EmptyDataComponent,
     OrderProductsComponent,
@@ -201,11 +195,10 @@ import { HomeComponent } from './components/home/home.component';
     GoogleChartsModule,
     StatusSelectorComponent,
     RegisterComponent,
-    WebsiteHeaderComponent,
-    WebsiteSearchComponent,
     RateComponent,
     CompareComponent,
-    ChangeQuantityComponent
+    ChangeQuantityComponent,
+    AppFiltersComponent
   ],
   providers: [
     DatePipe,

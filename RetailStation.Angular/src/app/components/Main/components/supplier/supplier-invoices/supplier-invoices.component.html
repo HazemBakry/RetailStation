@@ -1,8 +1,7 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div
-        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="d-flex align-items-center gap-2">
             <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3 me-2">
                 <i class="fas fa-file-download"></i>
@@ -14,9 +13,7 @@
             </button>
         </div>
         <div class="justify-content-end">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pageResponseModel.currentPage"
-                [pageSize]="pageResponseModel.pageSize"
-                [totalCount]="pageResponseModel.totalCount"></app-erp-pagination>
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pageResponseModel.currentPage" [pageSize]="pageResponseModel.pageSize" [totalCount]="pageResponseModel.totalCount"></app-pagination>
         </div>
     </div>
     <div class="p-3 bg-white">
@@ -45,8 +42,7 @@
                         <td>{{item.moneyAmount}}</td>
                         <td>{{item.receiptTypeName}}</td>
                         <td>
-                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
-                                [nameAR]="item?.workflowStatusNameAR">
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
                             </span>
                         </td>
                         <td>

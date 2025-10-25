@@ -3,12 +3,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
-import { FilterModel, SearchFilterModel } from '../../models/FilterModel';
+import { SearchFilterModel } from '../../models/FilterModel';
 import { SharedService } from '../../services/shared.service';
-import { ItemModel } from 'src/app/components/Inventory/models/Item';
 import { GeneralSelectorModel } from '../general-selector/general-selector.component';
 import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
 import { DatePipe } from '@angular/common';
+import { ItemModel } from '../../models/ItemModel';
 
 @Component({
   selector: 'app-order-items',

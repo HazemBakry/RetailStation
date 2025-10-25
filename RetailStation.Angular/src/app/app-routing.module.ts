@@ -1,21 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './components/Shared/components/dashboard/dashboard.component';
-import { NotAuthorizedComponent } from './components/Shared/components/not-authorized/not-authorized.component';
 import { AuthGuard } from './Auth/auth.guard';
-import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
-import { WelcomePageComponent } from './components/Shared/components/welcome-page/welcome-page.component';
-import { AuthPageGuard } from './Auth/authPage.guard';
 import { LoginComponent } from './Auth/login/login.component';
-import { RetailHomeComponent } from './components/Shared/components/retail-home/retail-home.component';
 import { RegisterComponent } from './Auth/register/register.component';
-import { WebsiteComponent } from './components/Main/components/website/website.component';
-import { WebsiteHomeComponent } from './components/Main/components/website/website-home/website-home.component';
-import { WebsiteSubscribeComponent } from './components/Main/components/website/website-subscribe/website-subscribe.component';
-import { WebsiteCartComponent } from './components/Main/components/website/website-cart/website-cart.component';
-import { WebsiteOrdersComponent } from './components/Main/components/website/website-orders/website-orders.component';
 import { HomeComponent } from './components/Shared/components/home/home.component';
-import { PurchaseDashboardComponent } from './components/Purchases/components/purchase-dashboard/purchase-dashboard.component';
+import { WebsiteComponent } from './components/Website/components/website.component';
+import { WebsiteHomeComponent } from './components/Website/components/website-home/website-home.component';
 
 
 const routes: Routes = [
@@ -46,6 +36,13 @@ const routes: Routes = [
   //   ],
   // },
   {
+    path: 'website',
+    loadChildren: () =>
+      import('./components/Website/website.module').then((x) => x.WebsiteModule),
+    canActivate: [AuthGuard],
+    data: { roles: ['Supplier'] },
+  },
+  {
     path: 'purchases',
     loadChildren: () =>
       import('./components/Purchases/purchases.module').then((x) => x.PurchasesModule),
@@ -53,16 +50,16 @@ const routes: Routes = [
     data: { roles: ['Supplier'] },
   },
   {
-    path: 'sales-management',
+    path: 'sales',
     loadChildren: () =>
-      import('./components/Main/main.module').then((erp) => erp.MainModule),
+      import('./components/Sales/sales.module').then((e) => e.SalesModule),
     canActivate: [AuthGuard],
     data: { roles: ['Supplier'] },
   },
   {
     path: 'admin',
     loadChildren: () =>
-      import('./components/Admin/admin.module').then((erp) => erp.AdminModule),
+      import('./components/Admin/admin.module').then((e) => e.AdminModule),
     canActivate: [AuthGuard],
     data: { roles: ['SuperAdmin'] },
   },

@@ -3,12 +3,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
-import { FilterModel, SearchFilterModel } from '../../models/FilterModel';
+import { SearchFilterModel } from '../../models/FilterModel';
 import { FormDropdownModel } from '../drop-down-form-control/drop-down-form-control.component';
 import { SharedService } from '../../services/shared.service';
-import { ItemModel } from 'src/app/components/Inventory/models/Item';
-import { ActionsResponseModel } from '../../models/ActionsResponseModel';
+
 import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
+import { ItemModel } from '../../models/ItemModel';
 
 @Component({
   selector: 'app-general-order-products',

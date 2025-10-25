@@ -1,0 +1,106 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-2 table-card-title bg-light">
+        <!-- <div class="d-flex align-items-center gap-2 p-2">
+            <app-erp-filters [FilterList]="filterList" [showSearchText]="true" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'بحث برقم الطلب ...'"></app-erp-filters>
+        </div>
+        <div class="d-flex justify-content-between align-items-center gap-2 p-2">
+            <div class="d-flex flex-wrap gap-2">
+                <button class="btn btn-outline-success d-flex align-items-center gap-2 border rounded px-3">
+                    <i class="ph ph-download-simple"></i>
+                    <span>تصدير CSV</span>
+                </button>
+                <button class="btn btn-blue d-flex align-items-center gap-2 px-3" (click)="openAddModal(addNewModal)">
+                    <i class="ph ph-plus"></i>
+                    <span>إضافة وحدة</span>
+                </button>
+            </div>
+        </div> -->
+    </div>
+    <div class="p-3 bg-white">
+
+        <div class="row">
+            <!-- Tag Form & Item Selector -->
+            <div class="col-6">
+                <h4>{{ selectedTag ? 'Edit Tag' : 'Create Tag' }}</h4>
+
+                <form [formGroup]="tagForm" (ngSubmit)="saveTag()">
+                    <div class="mb-3">
+                        <input type="text" formControlName="name" class="form-control" />
+                    </div>
+                    <button class="btn btn-primary me-2" type="submit">{{ selectedTag ? 'Update' : 'Create' }}</button>
+                    <button class="btn btn-secondary" type="button" (click)="cancelEdit()">Cancel</button>
+                </form>
+            </div>
+        </div>
+
+        <div *ngIf="selectedTag" class="row">
+            <!-- Tag Form & Item Selector -->
+
+            <h5 class="mt-4">Manage Tag: "{{ selectedTag.name }}"</h5>
+
+            <div class="row">
+                <!-- Left column: Assign items -->
+                <div class="col-md-6">
+                    <h6>Assign Items</h6>
+                    <div class="border rounded p-2" style="max-height: 300px; overflow-y: auto;">
+                        <div class="form-check" *ngFor="let item of items" [ngClass]="{'bg-warning-subtle': highlightedItem?.foodItemId === item.foodItemId}" [attr.data-item-id]="item.foodItemId">
+
+                            <div class="m-1">
+                                <input class="form-check-input" type="checkbox" [checked]="isItemSelected(item)" (change)="toggleItemForTag(item, $event.target.checked)">
+                                <label class="form-check-label">{{ item.nameEn }}</label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right column: Selected items (read-only) -->
+                <div class="col-md-6">
+                    <h6>Selected Items</h6>
+                    <div class="border rounded p-2" style="max-height: 300px; overflow-y: auto;">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item p-1" *ngFor="let item of selectedTagItems" (click)="highlightInAssignList(item)" style="cursor: pointer;">
+                                {{ item.nameEn }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Tag List -->
+
+        <div class="row">
+            <div class="col-5 mt-3">
+                <h4>Tags</h4>
+                <ul class="list-group">
+                    <li *ngFor="let tag of tags" class="list-group-item d-flex justify-content-between align-items-center">
+
+                        <div class="d-flex align-items-center justify-content-center">
+                            <span class="min-width-300" (click)="selectTag(tag)" style="cursor: pointer">{{ tag.name }}</span>
+
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" [checked]="tag.isActive" (change)="onToggleStatus(tag)" id="flexSwitchCheck{{tag.tagId}}" />
+                                <label class="form-check-label" [for]="'flexSwitchCheck' + tag.tagId">
+                  {{ tag.isActive ? "Active" : "Inactive" }}
+                </label>
+                            </div>
+
+                            <button class="btn btn-danger btn-sm" (click)="deleteTag(tag.tagId)">Delete</button>
+
+                        </div>
+
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</div>

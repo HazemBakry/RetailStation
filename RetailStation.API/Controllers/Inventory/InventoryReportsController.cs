@@ -1,13 +1,8 @@
 ﻿using RetailStation.Entities.Common;
-using RetailStation.Entities.DTOs.HR;
-using RetailStation.Interface.HR;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 using System;
 using Microsoft.AspNetCore.Authorization;
 using RetailStation.Interface.Inventory;
-using RetailStation.Service.HR;
-using OfficeOpenXml.Table.PivotTable;
 using RetailStation.Entities.DTOs.Inventory;
 using System.Linq;
 

@@ -1,6 +1,6 @@
 ﻿using RetailStation.Entities.Common;
 using RetailStation.Entities.DTOs.Website;
-using RetailStation.Entities.Models.Website;
+using RetailStation.Entities.Models.Purchases;
 using System;
 using System.Collections.Generic;
 using System.Linq;

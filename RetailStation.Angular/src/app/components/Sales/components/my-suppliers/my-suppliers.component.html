@@ -1,0 +1,398 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2">
+            <button (click)="openAddModal(addNewModal)" class="btn btn-success d-flex align-items-center gap-2 border rounded px-3">
+                <i class="fas fa-plus-circle"></i>
+                <span>إنشاء</span>
+            </button>
+        </div>
+        <!-- <div class="justify-content-end">
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage"
+                [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount"></app-pagination>
+        </div> -->
+    </div>
+    <div class="p-3 bg-white">
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-hover bg-transparent m-0">
+                <thead>
+                    <tr>
+                        <th>اسم المورد (AR)</th>
+                        <th>اسم المورد (EN)</th>
+                        <th>الكود</th>
+                        <th>نشط</th>
+                        <th>الوصف</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of pagedResponseModel.results">
+                        <td> {{item.nameAR}}
+                            <!-- <a routerLink="/admin/suppliers/manage-supplier-items/{{item.supplierId}}">
+                                {{item.nameAR}}</a> -->
+                        </td>
+                        <td>{{item.nameEN}}</td>
+                        <td>{{item.code}}</td>
+                        <td>{{item.isActive}}</td>
+                        <td>{{item.notes}}</td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2" (click)="openAddModal(addNewModal,item)">
+                                    <i class="uil uil-pen"></i>
+                                    <span>تعديل</span>
+                                </button>
+
+                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteModal,item.supplierId)">
+                                    <i class="uil uil-pen"></i>
+                                    <span>حذف</span>
+                                </button>
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr *ngIf="!pagedResponseModel.results.length">
+                        <td colspan="6" class="text-right">
+                            <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="p-3 border-top mt-3" style="direction: ltr;">
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-pagination>
+        </div>
+    </div>
+</div>
+
+<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->
+
+
+
+<ng-template #addNewModal let-modal>
+    <div class="modal-header modal-header-bg justify-content-between">
+        <h4 class="d-flex align-items-center gap-2">
+            <i class="uil uil-plus"></i>
+            <span>Fill Form</span>
+            <span *ngIf="!isUpdate" class="ms-3">(Create)</span>
+            <span *ngIf="isUpdate" class="ms-3">(Update)</span>
+        </h4>
+        <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="modal-body">
+
+        <div class="card ">
+            <!-- <div class="card-header bg-white">
+                <h6 class="fw-bold m-0">
+                    <span *ngIf="!isUpdate" class="ms-3">إنشاء</span>
+                    <span *ngIf="isUpdate" class="ms-3">تعديل</span>
+                </h6>
+            </div> -->
+            <!-- bg-light  >> for gray card-->
+            <div class="card-body ">
+                <div class="p-2">
+
+
+                    <form [formGroup]="formGroup" autocomplete="off">
+
+
+                        <div class="row">
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Name (AR)
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="nameAR" autocomplete="off" />
+
+                                <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.nameAR}}
+                                </div>
+                            </div>
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Name (EN)
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="nameEN" autocomplete="off" />
+
+                                <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.nameEN}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-4 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Code
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="code" autocomplete="off" />
+
+                                <div *ngIf="formErrors.code" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.code}}
+                                </div>
+                            </div>
+                            <div class="col-xl-4 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Phone
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="phone" autocomplete="off" />
+
+                                <div *ngIf="formErrors.phone" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.phone}}
+                                </div>
+                            </div>
+                            <div class="col-xl-4 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Mobile
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="mobile" autocomplete="off" />
+
+                                <div *ngIf="formErrors.mobile" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.mobile}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-4 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Country
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <app-general-selector formControlName="countryId" [data]="countriesSelectorData" [disabled]="countriesSelectorData?.length==0" [showSearch]="true" [placeholder]="'Country'">
+
+                                </app-general-selector>
+
+                                <div *ngIf="formErrors.countryId" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.countryId}}
+                                </div>
+
+                            </div>
+                            <div class="col-xl-4 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    City
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <app-general-selector formControlName="cityId" [data]="citiesSelectorData" [disabled]="citiesSelectorData?.length==0" [showSearch]="true" [placeholder]="'City'">
+
+                                </app-general-selector>
+
+                                <div *ngIf="formErrors.cityId" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.cityId}}
+                                </div>
+
+                            </div>
+                            <div class="col-xl-4 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Region
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <app-general-selector formControlName="regionId" [data]="regionsSelectorData" [disabled]="regionsSelectorData?.length==0" [showSearch]="true" [placeholder]="'Region'">
+
+                                </app-general-selector>
+
+                                <div *ngIf="formErrors.regionId" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.regionId}}
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-xl-4 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Payment Method
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <app-general-selector formControlName="paymentMethodId" [data]="paymentMethodsSelectorData" [disabled]="paymentMethodsSelectorData?.length==0" [showSearch]="true" [placeholder]="'Region'">
+
+                                </app-general-selector>
+
+                                <div *ngIf="formErrors.paymentMethodId" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.paymentMethodId}}
+                                </div>
+
+                            </div>
+                            <div class="col-xl-4 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Delivery Cost
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="deliveryCost" autocomplete="off" />
+
+                                <div *ngIf="formErrors.deliveryCost" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.deliveryCost}}
+                                </div>
+
+                            </div>
+                            <div class="col-xl-4 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Delivery Time
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="deliveryTime" autocomplete="off" />
+
+                                <div *ngIf="formErrors.deliveryTime" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.deliveryTime}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Commercial Register
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="commercialRegister" autocomplete="off" />
+
+                                <div *ngIf="formErrors.commercialRegister" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.commercialRegister}}
+                                </div>
+
+                            </div>
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Tax Number
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="taxNumber" autocomplete="off" />
+
+                                <div *ngIf="formErrors.taxNumber" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.taxNumber}}
+                                </div>
+                            </div>
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Beginning Balance
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="beginningBalance" autocomplete="off" />
+
+                                <div *ngIf="formErrors.beginningBalance" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.beginningBalance}}
+                                </div>
+                            </div>
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Balance Type
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="balanceType" autocomplete="off" />
+
+                                <div *ngIf="formErrors.balanceType" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.balanceType}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Contact Person
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="contactPerson" autocomplete="off" />
+
+                                <div *ngIf="formErrors.contactPerson" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.contactPerson}}
+                                </div>
+                            </div>
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    ContactMobile
+                                </label>
+                                <input type="text" class="form-control nw-form-input" formControlName="contactMobile" autocomplete="off" />
+
+                                <div *ngIf="formErrors.contactMobile" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.contactMobile}}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                Address
+                            </label>
+
+                            <textarea formControlName="address" class="form-control"></textarea>
+                            <div *ngIf="formErrors.address" class="text-danger  font-small-3 m-03">
+                                {{formErrors.address}}
+                            </div>
+
+                        </div>
+                        <div class="row mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                Notes
+                            </label>
+
+                            <textarea formControlName="notes" class="form-control"></textarea>
+                            <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
+                                {{formErrors.notes}}
+                            </div>
+
+                        </div>
+
+                        <hr class="my-4" />
+                        <div class="row">
+
+
+                            <div class="col-xl-6 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Subscriber
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <app-general-selector formControlName="subscriberId" [data]="subscribersSelectorData" [disabled]="subscribersSelectorData?.length==0" [showSearch]="true" [placeholder]="'Subscriber'">
+
+                                </app-general-selector>
+
+                                <div *ngIf="formErrors.subscriberId" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.subscriberId}}
+                                </div>
+
+                            </div>
+                            <div class="col-xl-6 mb-3">
+
+                                <div class="col-sm-4">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                        Active
+                                    </label>
+                                    <input class="big-checkbox" formControlName="isActive" type="checkbox">
+
+                                    <div *ngIf="formErrors.isActive" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.isActive}}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer flex-nowrap gap-2">
+        <button [disabled]="showAddLoader" (click)="saveRecord()" type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
+            <i class="uil uil-save fs-3"></i>
+            <span>{{isUpdate?'تعديل':'أضافة'}}</span>
+        </button>
+
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="formGroup?.reset();modal.close()">
+            <i class="uil uil-times-circle fs-3"></i>
+            <span>الغاء</span>
+        </button>
+    </div>
+</ng-template>
+
+
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد العملية</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد من الحذف ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" [disabled]="showAddLoader" class="btn btn-success" (click)="modal.close('Save click');deleteSupplier()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" [disabled]="showAddLoader" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">الغاء</span>
+        </button>
+    </div>
+</ng-template>
+<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->

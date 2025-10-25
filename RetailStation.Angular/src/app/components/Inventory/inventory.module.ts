@@ -10,11 +10,9 @@ import { InventoryLayoutComponent } from './inventory-layout/inventory-layout.co
 import { PurchasesRequestsComponent } from './components/purchases-requests/purchases-requests.component';
 import { AddItemComponent } from './components/add-item/add-item.component';
 import { InventoryHomeComponent } from './components/inventory-home/inventory-home.component';
-import { UnitsComponent } from './components/units/units.component';
 import { AddDeliveryNoteComponent } from './components/add-delivery-note/add-delivery-note.component';
 import { DeliveryNotesComponent } from './components/delivery-notes/delivery-notes.component';
 import { PurchaseReceiptsComponent } from './components/purchase-receipts/purchase-receipts.component';
-import { AddPurchasesReceiptComponent } from './components/add-purchase-receipt/add-purchase-receipt.component';
 import { MaterialIssueReceiptsComponent } from './components/material-issue-receipts/material-issue-receipts.component';
 import { AddMaterialIssueReceiptComponent } from './components/add-material-issue-receipt/add-material-issue-receipt.component';
 import { AddMaterialRequestComponent } from './components/add-material-request/add-material-request.component';
@@ -36,7 +34,6 @@ import { ReceivedItemsDetailsReportComponent } from './components/received-items
     InventoryHomeComponent,
     ItemsCategoryComponent,
     PurchaseReceiptsComponent,
-    AddPurchasesReceiptComponent,
     MaterialIssueReceiptsComponent,
     AddMaterialIssueReceiptComponent,
     AddMaterialReceiptComponent,
@@ -47,7 +44,6 @@ import { ReceivedItemsDetailsReportComponent } from './components/received-items
     AddMaterialRequestComponent,
     PurchasesRequestsComponent,
     AddItemComponent,
-    UnitsComponent,
     MaterialRequestsComponent,
     InventoryDashboardComponent,
     ItemLookupsComponent,

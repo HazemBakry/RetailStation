@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RetailStation.Entities.Models.Purchases
 {
-    [Table("Suppliers", Schema = "Operation")]
+    [Table("Suppliers", Schema = "Purchase")]
 
     public class Supplier : CreatorModel
     {

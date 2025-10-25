@@ -8,7 +8,6 @@ import { MenuService, MenuType } from '../../Shared/services/menu.service';
   styleUrls: ['./purchases-layout.component.css']
 })
 export class PurchasesLayoutComponent implements OnInit {
-
    isToggle = false;
    menuItem: MenuSidebarItem;
  

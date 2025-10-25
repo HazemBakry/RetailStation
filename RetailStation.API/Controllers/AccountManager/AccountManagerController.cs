@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System;
 using RetailStation.Interface.Auth;
 using System.Linq;
-using RetailStation.Interface.Branches;
 using RetailStation.Interface.Users;
 using RetailStation.Entities.DTOs.Subscription;
 using RetailStation.Interfaces.Subscription;
@@ -24,13 +23,11 @@ namespace RetailStation.API.Controllers.AccountManager
         private readonly ISubscribersService _subscribersService;
 
         private readonly IAuthService _authService;
-        private readonly IBranchesService _branchesService;
         private readonly IUsersService _usersService;
-        public AccountManagerController(IAuthService authService, IUsersService usersService, IBranchesService branchesService, ISubscribersService subscribersService)
+        public AccountManagerController(IAuthService authService, IUsersService usersService, ISubscribersService subscribersService)
         {
             _authService = authService;
             _usersService = usersService;
-            _branchesService = branchesService;
             _subscribersService = subscribersService;
         }
         [HttpPost]
@@ -190,104 +187,5 @@ namespace RetailStation.API.Controllers.AccountManager
             }
             return Ok(result);
         }
-
-
-        #region Branches
-        [HttpPost("GetBranches")]
-        public IActionResult GetBranchs([FromBody] SearchFilterModel Model)
-        {
-            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
-            if (string.IsNullOrEmpty(SubscriberId))
-                return BadRequest("can't find SubscriberId");
-
-            var branches = _branchesService.GetBranches(SubscriberId, Model);
-            var result = new PagedResponseModel<BranchDto>
-            {
-                Results = branches,
-                TotalCount = branches.FirstOrDefault()?.TotalCount ?? 0,
-                PageSize = Model.PageSize,
-                CurrentPage = Model.CurrentPage
-
-            };
-            return Ok(result);
-
-        }
-        [HttpPost("GetBranchById")]
-        public IActionResult GetBranchById(int BranchId)
-        {
-            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
-            if (string.IsNullOrEmpty(SubscriberId))
-                return BadRequest("can't find SubscriberId");
-
-            var Branch = _branchesService.GetBranchById(SubscriberId, BranchId);
-            if (Branch == null)
-                return NotFound();
-            return Ok(Branch);
-
-        }
-        [HttpPost("AddBranch")]
-        public IActionResult AddNewBranch([FromForm] BranchDto model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
-            if (string.IsNullOrEmpty(SubscriberId))
-                return BadRequest("can't find SubscriberId");
-            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
-            model.SubscriberId = SubscriberId;
-            model.CreatedBy = UserId;
-            try
-            {
-                var result = _branchesService.AddNewBranch(SubscriberId, model);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex?.Message);
-            }
-
-        }
-        [HttpPost("EditBranch")]
-        public IActionResult EditBranch(int BranchId, [FromForm] BranchDto model)
-        {
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
-            if (string.IsNullOrEmpty(SubscriberId))
-                return BadRequest("can't find SubscriberId");
-            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
-            model.SubscriberId = SubscriberId;
-            model.ModifiedBy = UserId;
-            try
-            {
-                var result = _branchesService.EditBranch(SubscriberId, BranchId, model);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex?.Message);
-            }
-
-
-        }
-
-
-        [HttpGet("DeleteBranch")]
-        public IActionResult DeleteBranch(int BranchId)
-        {
-            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
-            if (string.IsNullOrEmpty(SubscriberId))
-                return BadRequest("can't find SubscriberId");
-            var result = _branchesService.DeleteBranch(SubscriberId, BranchId);
-            if (result is null)
-            {
-                return BadRequest("branch not found");
-            }
-            return Ok(result);
-        }
-        #endregion
     }
 }

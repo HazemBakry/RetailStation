@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
-import { SupplierItemModel } from '../models/SupplierItemModel';
-import { WebsiteSliderModel } from '../models/WebsiteSliderModel';
 import { FilterItem, FilterModel } from '../../Shared/models/FilterModel';
 import { SubscribeRequestModel } from '../../Admin/models/SubscribeRequestModel';
-import { CreateOrderModel, WebsiteOrderModel } from '../models/WebsiteOrderModel ';
 import { SliderModel } from '../../Admin/models/Operation/SliderModel';
-import { PromotionModel } from '../../Admin/models/Operation/PromotionModel';
+import { CreateOrderModel, WebsiteOrderModel } from '../../Website/models/WebsiteOrderModel ';
+import { PromotionModel } from '../../Shared/models/PromotionModel';
+import { SupplierItemModel } from '../../Shared/models/SupplierItemModel';
 
 
 @Injectable({
@@ -55,14 +53,19 @@ export class WebsiteService {
   /////////////// order
   //-------------------------------------  Order ----------------------------------
   CreateNewOrder(order: CreateOrderModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Website/CreateNewOrder', order);
+    return this.http.post<ActionsResponseModel>(this.URL + 'Order/CreateNewOrder', order);
   }
 
 
   GetOrders_Data(model: PagedResponseModel) {
-    return this.http.post<PagedResponseModel<WebsiteOrderModel[]>>(this.URL + 'Website/GetOrders_Data', model);
+    return this.http.post<PagedResponseModel<WebsiteOrderModel[]>>(this.URL + 'Order/GetOrders_Data', model);
   }
   GetOrders_Filters(model: PagedResponseModel<any[]>) {
-    return this.http.post<FilterItem[]>(this.URL + 'Website/GetOrders_Filters', model);
+    return this.http.post<FilterItem[]>(this.URL + 'Order/GetOrders_Filters', model);
+  }
+
+  GetOrderDetailsById(orderId: number) {
+    return this.http.get<WebsiteOrderModel>(this.URL + 'Order/GetOrderDetailsById?OrderId=' + orderId);
+
   }
 }

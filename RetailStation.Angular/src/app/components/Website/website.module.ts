@@ -1,0 +1,48 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from '../Shared/shared.module';
+import { WebsiteComponent } from './components/website.component';
+import { WebsiteHomeComponent } from './components/website-home/website-home.component';
+import { WebsiteSliderComponent } from './components/website-slider/website-slider.component';
+import { WebsitePromotionItemsComponent } from './components/website-promotion-items/website-promotion-items.component';
+import { WebsiteMainItemsComponent } from './components/website-main-items/website-main-items.component';
+import { WebsiteMainCategoriesComponent } from './components/website-main-categories/website-main-categories.component';
+import { WebsiteFiltersComponent } from './components/website-filters/website-filters.component';
+import { WebsiteSubscribeComponent } from './components/website-subscribe/website-subscribe.component';
+import { WebsiteItemCardComponent } from './components/website-item-card/website-item-card.component';
+import { WebsiteCartComponent } from './components/website-cart/website-cart.component';
+import { WebsiteOrdersComponent } from './components/website-orders/website-orders.component';
+import { WebsiteHeaderComponent } from './components/website-header/website-header.component';
+import { WebsiteSearchComponent } from './components/website-search/website-search.component';
+import { MainRoutingModule } from './website-routing.module';
+
+
+
+@NgModule({
+  declarations: [
+    WebsiteComponent,
+    WebsiteHomeComponent,
+    WebsiteSliderComponent,
+    WebsitePromotionItemsComponent,
+    WebsiteMainItemsComponent,
+    WebsiteMainCategoriesComponent,
+    WebsiteFiltersComponent,
+    WebsiteSubscribeComponent,
+    WebsiteItemCardComponent,
+    WebsiteCartComponent,
+    WebsiteOrdersComponent,
+    WebsiteHeaderComponent,
+    WebsiteSearchComponent
+  ],
+  imports: [
+    CommonModule,
+    MainRoutingModule,
+    FormsModule,
+    NgbModule,
+    SharedModule,
+    ReactiveFormsModule
+  ]
+})
+export class WebsiteModule { }

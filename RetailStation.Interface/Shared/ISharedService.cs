@@ -14,15 +14,12 @@ namespace RetailStation.Interface.Shared
 {
     public interface ISharedService
     {
-        BranchDto GetBranchById(string SubscriberId, int BranchId);
         List<Customer> GetCustomersData();
         ActionsResponseModel DownloadImporterTemplate(ExcelExportStyle ImporterType);
 
         #region Selectors
-        List<SelectorDataModel> GetBranchesSelector();
-       
+
         List<SelectorDataModel> GetStoresSelector();
-       
         List<SelectorDataModel> GetSuppliersSelector();
         List<SelectorDataModel> GetCustomersSelector();  
         List<SelectorDataModel> GetItemsSelector();

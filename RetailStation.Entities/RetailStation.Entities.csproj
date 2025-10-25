@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Dashboard\**" />
+    <EmbeddedResource Remove="Models\Dashboard\**" />
+    <None Remove="Models\Dashboard\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.5.1" />
     <PackageReference Include="EPPlus" Version="7.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
@@ -28,7 +34,6 @@
 
   <ItemGroup>
     <Folder Include="DTOs\Dashboard\" />
-    <Folder Include="Models\Dashboard\" />
   </ItemGroup>
 
 </Project>

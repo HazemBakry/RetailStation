@@ -43,14 +43,6 @@ namespace RetailStation.API.Controllers.Shared
         #region Selectors
 
         [HttpGet]
-        [Route("GetBranchesSelector")]
-        public IActionResult GetBranchesSelector()
-        {
-            var result = _sharedService.GetBranchesSelector();
-            return Ok(result);
-        }
-       
-        [HttpGet]
         [Route("GetStoresSelector")]
         public IActionResult GetStoresSelector()
         {
@@ -58,8 +50,6 @@ namespace RetailStation.API.Controllers.Shared
             return Ok(result);
         }
         
-
-
         [HttpGet]
         [Route("GetSuppliersSelector")]
         public IActionResult GetSuppliersSelector()

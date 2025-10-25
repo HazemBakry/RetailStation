@@ -2,10 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddPurchaseInvoiceComponent } from './components/add-purchase-invoice/add-purchase-invoice.component';
 import { AddPurchaseOrderComponent } from './components/add-purchase-order/add-purchase-order.component';
-import { AddPurchaseReturnsComponent } from './components/add-purchase-returns/add-purchase-returns.component';
 import { PurchaseInvoicesComponent } from './components/purchase-invoices/purchase-invoices.component';
 import { PurchaseOrdersComponent } from './components/purchase-orders/purchase-orders.component';
-import { PurchaseReturnsComponent } from './components/purchase-returns/purchase-returns.component';
 import { SuppliersAccountStatementComponent } from './components/suppliers-account-statement/suppliers-account-statement.component';
 import { SupplierReturnsVouchersComponent } from './components/supplier-returns-vouchers/supplier-returns-vouchers.component';
 import { SuppliersListComponent } from './components/suppliers-list/suppliers-list.component';
@@ -25,14 +23,12 @@ const routes: Routes = [
     component: PurchasesLayoutComponent,
     children: [
       { path: 'dashboard', component: PurchaseDashboardComponent, canActivate: [AuthPageGuard], data: { pageName: 'PurchaseDashboard' } },
-      { path: 'home', component: PurchasesHomeComponent, canActivate: [AuthPageGuard], data: { pageName: 'PurchasesDashboard' } },
-      { path: 'home/:tabName', component: PurchasesHomeComponent },
-      { path: 'purchase-orders', component: PurchaseOrdersComponent, canActivate: [AuthPageGuard], data: { pageName: 'PurchaseOrders' } },
+      // { path: 'home', component: PurchasesHomeComponent, canActivate: [AuthPageGuard], data: { pageName: 'PurchasesDashboard' } },
+      // { path: 'home/:tabName', component: PurchasesHomeComponent },
+      { path: 'purchase-orders', component: PurchaseOrdersComponent , canActivate: [AuthPageGuard], data: { pageName: 'PurchaseOrders' } },
       { path: 'add-purchase-order', component: AddPurchaseOrderComponent },
       { path: 'purchase-invoices', component: PurchaseInvoicesComponent, canActivate: [AuthPageGuard], data: { pageName: 'PurchaseInvoices' } },
       { path: 'add-purchase-invoice', component: AddPurchaseInvoiceComponent },
-      { path: 'purchase-returns', component: PurchaseReturnsComponent, canActivate: [AuthPageGuard], data: { pageName: 'PurchaseReturns' } },
-      { path: 'add-purchase-returns', component: AddPurchaseReturnsComponent },
       { path: 'suppliers-account-statement', component: SuppliersAccountStatementComponent, canActivate: [AuthPageGuard], data: { pageName: 'SuppliersAccountStatement' } },
       { path: 'supplier-returns-voucher', component: SupplierReturnsVouchersComponent, canActivate: [AuthPageGuard], data: { pageName: 'SupplierReturnsVoucher' } },
       { path: 'add-supplier-returns-voucher', component: AddSupplierReturnsVoucherComponent },

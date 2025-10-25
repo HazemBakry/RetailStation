@@ -6,8 +6,7 @@
     <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">دفتر الأستاذ المساعد - مراكز التكلفة
     </div>
     <div class="inputs-sec-content px-3 py-2">
-        <app-accounts-report-search (searchDataChanged)="searchDataChanged($event)" [isParent]="false"
-            [showAccounts]="true" [showCostCenter]="true"></app-accounts-report-search>
+        <app-accounts-report-search (searchDataChanged)="searchDataChanged($event)" [isParent]="false" [showAccounts]="true" [showCostCenter]="true"></app-accounts-report-search>
         <div class="row">
 
             <div class="col-lg-4  mb-3">
@@ -25,8 +24,7 @@
             <i class="fas fa-search"></i>
             <span class="ms-2">بحث</span>
         </button>
-        <button [disabled]="showExportLoader" (click)="exportData()"
-            class="btn  btn-outline-success gap-2 border rounded px-3 me-2">
+        <button [disabled]="showExportLoader" (click)="exportData()" class="btn  btn-outline-success gap-2 border rounded px-3 me-2">
             <i class="fas fa-file-download"></i>
             <span>تصدير CSV</span>
         </button>
@@ -48,8 +46,8 @@
     </div>
     <!-- <div class="px-3 py-2 mb-2">
 
-        <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="assistantLedgerResponse.currentPage"
-            [pageSize]="assistantLedgerResponse.pageSize" [totalCount]="assistantLedgerResponse.totalCount"></app-erp-pagination>
+        <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="assistantLedgerResponse.currentPage"
+            [pageSize]="assistantLedgerResponse.pageSize" [totalCount]="assistantLedgerResponse.totalCount"></app-pagination>
     </div> -->
 
     <div class="table-responsive shadow-sm radius-10  small-scroll">
@@ -67,7 +65,7 @@
                     <th colspan="2">الرصيد</th>
                 </tr>
                 <tr>
-                   
+
                     <th>مدين</th>
                     <th>دائن</th>
                     <th>مدين</th>

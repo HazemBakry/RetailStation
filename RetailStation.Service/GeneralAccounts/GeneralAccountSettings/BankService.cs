@@ -1,15 +1,12 @@
 ﻿using RetailStation.Entities.Common;
 using RetailStation.Entities.Models;
 using RetailStation.Entities.Models.Finance;
-using RetailStation.Entities.Models.HR;
 using RetailStation.Interface.Common;
 using RetailStation.Interface.GeneralAccounts.GeneralAccountSettings;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RetailStation.Service.GeneralAccounts.GeneralAccountSettings
 {

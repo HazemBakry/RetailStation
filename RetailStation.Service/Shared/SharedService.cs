@@ -29,46 +29,10 @@ namespace RetailStation.Service.Shared
             _exportService = exportService;
         }
 
-        public BranchDto GetBranchById(string SubscriberId, int BranchId)
-        {
-            //var results = Context.Branches.Where(b => b.BranchId == BranchId && b.SubscriberId == SubscriberId)
-            //.Select(b => new BranchDto
-            //{
-            //    BranchId = b.BranchId,
-            //    SubscriberId = b.SubscriberId,
-            //    Code = b.Code,
-            //    DisplayOrder = b.DisplayOrder,
-            //    NameAR = b.NameAR,
-            //    NameEN = b.NameEN,
-            //    IsActive = b.IsActive,
-            //    IsAdminBranch = b.IsAdminBranch,
-            //    CityId = b.CityId,
-            //    DrawingsCostCenterId = b.DrawingsCostCenterId,
-            //    ExpensesCostCenterId = b.ExpensesCostCenterId,
-            //    Phone = b.Phone,
-            //    Email = b.Email,
-            //    Fax = b.Fax,
-            //    Address = b.Address,
-            //    Notes = b.Notes,
-            //}).FirstOrDefault();
-            //return results;
-
-            return new BranchDto
-            {
-                BranchId = BranchId,
-                SubscriberId = SubscriberId,
-                NameAR = "Main Branch",
-                NameEN = "Main Branch",
-                IsActive =true,
-                IsAdminBranch = true
-            };
-        }
         public List<Customer> GetCustomersData()
         {
             return Context.Customers.ToList();
         }
-
-
 
         public ActionsResponseModel DownloadImporterTemplate(ExcelExportStyle ImporterType)
         {
@@ -82,15 +46,6 @@ namespace RetailStation.Service.Shared
         }
 
         #region Selectors
-        public List<SelectorDataModel> GetBranchesSelector()
-        {
-            var results = Context.Branches.Select(b => new SelectorDataModel
-            {
-                Id = b.BranchId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
-        }
 
         public List<SelectorDataModel> GetStoresSelector()
         {

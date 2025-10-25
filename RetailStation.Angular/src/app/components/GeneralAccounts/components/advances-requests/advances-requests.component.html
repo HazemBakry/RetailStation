@@ -1,8 +1,7 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div
-        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="col-md-8 mb-2">
             <div class="d-flex align-items-center gap-2">
 
@@ -30,9 +29,7 @@
             </div>
         </div>
         <div class="col-md-4 mb-2">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
-                [pageSize]="pagedResponseModel.pageSize"
-                [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-pagination>
         </div>
 
 
@@ -40,8 +37,7 @@
         <div class="col-md-12 mt-3">
             <div class="d-flex align-items-center">
                 <ng-container>
-                    <app-erp-filters (filterChanged)="filterChecked($event)"
-                        [searchPlaceholder]="'البحث  ...'"></app-erp-filters>
+                    <app-erp-filters (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث  ...'"></app-erp-filters>
                 </ng-container>
             </div>
         </div>
@@ -71,8 +67,7 @@
                         <td>{{item.advanceAmount}}</td>
                         <td>{{item.paymentAmount}}</td>
                         <td>
-                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
-                                [nameAR]="item?.workflowStatusNameAR">
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
                             </span>
                         </td>
                         <td class="word-break">{{item.notes}}</td>
@@ -84,14 +79,11 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <div ngbDropdownMenu class="border">
-                                        <button ngbDropdownItem
-                                            (click)="openDeleteModal(deleteModal,item.employeeAdvanceId)">
+                                        <button ngbDropdownItem (click)="openDeleteModal(deleteModal,item.employeeAdvanceId)">
                                             <!-- <i class="uil uil-trash-alt"></i> -->
                                             اسقاط
                                         </button>
-                                        <button *ngIf="item.employeeAdvanceId && item.workflowStatusId ==wfStatus.Approved" ngbDropdownItem
-                                            routerLink="/general-accounts/create-payment-order"
-                                            [queryParams]="{EmployeeAdvanceId:item.employeeAdvanceId}">انشاء أمر
+                                        <button *ngIf="item.employeeAdvanceId && item.workflowStatusId ==wfStatus.Approved" ngbDropdownItem routerLink="/general-accounts/create-payment-order" [queryParams]="{EmployeeAdvanceId:item.employeeAdvanceId}">انشاء أمر
                                             صرف
                                         </button>
 
@@ -102,8 +94,7 @@
                     </tr>
                     <tr *ngIf="!pagedResponseModel.results.length || showLoader">
                         <td colspan="9" class="text-right">
-                            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader"
-                                [showLoader]="showLoader"></app-empty-data>
+                            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>

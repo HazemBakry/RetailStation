@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
-import { FilterItem, FilterModel } from '../../Shared/models/FilterModel';
-import { WebsiteOrderItemModel, WebsiteOrderModel } from '../models/WebsiteOrderModel ';
+import { FilterItem } from '../../Shared/models/FilterModel';
 import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
+import { WebsiteOrderItemModel, WebsiteOrderModel } from '../../Website/models/WebsiteOrderModel ';
 
 
 @Injectable({

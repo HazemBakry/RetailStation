@@ -1,0 +1,106 @@
+<div class="d-flex align-items-start gap-2">
+    <div class="input-search-with-dropdown position-relative" role="search">
+        <div ngbDropdown class="dropdown-search px-3" style="min-width: 155px;">
+            <a class="dropdown-search-link sm-action-dropdown" ngbDropdownToggle>
+                <span>{{selectedCategory?.nameAR ?? 'الفئـة'}}</span>
+                <i class="ph ph-caret-down dropdown-arrow m-0"></i>
+            </a>
+            <div class="dropdown-search-menu p-0" ngbDropdownMenu>
+                <ng-container *ngFor="let cat of categories">
+                    <div (click)="onCategorySelected(cat)" class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
+                        <div class="drop-image-box">
+                            <img src="{{systemUrl}}assets/meat.svg" alt="drop-icon" loading="lazy" />
+                        </div>
+                        <div>{{cat?.nameAR}}</div>
+                    </div>
+                </ng-container>
+                <!-- <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
+                    <div class="drop-image-box">
+                        <img src="{{systemUrl}}assets/vegitables.svg" alt="drop-icon" loading="lazy" />
+                    </div>
+                    <div>خضار وفواكه</div>
+                </div>
+                <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
+                    <div class="drop-image-box">
+                        <img src="{{systemUrl}}assets/chesse.svg" alt="drop-icon" loading="lazy" />
+                    </div>
+                    <div>اجبان</div>
+                </div> -->
+            </div>
+        </div>
+        <div class="dropdown-search-input-box position-relative">
+            <i class="ph-duotone ph-magnifying-glass dropdown-search-input-icon" (click)="search()"></i>
+            <div>
+                <input (keydown.enter)="search()" type="search" [(ngModel)]="searchText" class="dropdown-search-input form-control" [placeholder]="placeholder" aria-label="Search" />
+                <!-- ngbDropdownToggle -->
+                <!-- <div class="dropdown-search-menu w-100 p-0" ngbDropdownMenu>
+                    <div class="d-flex align-items-center gap-2 cursor-pointer border-bottom-not-last" ngbDropdownItem>
+                        <img src="{{systemUrl}}assets/search-prod-img-01.svg" class="search-img" alt="search-image" loading="lazy" />
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-semibold">فرشلي زيت زيتون بكر فاخر</div>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="text-danger fw-bold fs-4">122</div>
+                                    <img src="{{systemUrl}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
+                                </div>
+                                <div class="d-flex align-items-center gap-2 line-through">
+                                    <div class="text-danger fw-bold fs-4">150</div>
+                                    <img src="{{systemUrl}}assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
+                                </div>
+                                <button class="btn btn-bdage-danger py-1 px-3">Sale 20%</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 cursor-pointer border-bottom-not-last" ngbDropdownItem>
+                        <img src="{{systemUrl}}assets/search-prod-img-02.svg" class="search-img" alt="search-image" loading="lazy" />
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-semibold">الجميل زيت زيتون</div>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="text-danger fw-bold fs-4">122</div>
+                                    <img src="{{systemUrl}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
+                                </div>
+                                <div class="d-flex align-items-center gap-2 line-through">
+                                    <div class="text-danger fw-bold fs-4">150</div>
+                                    <img src="{{systemUrl}}assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 cursor-pointer border-bottom-not-last" ngbDropdownItem>
+                        <img src="{{systemUrl}}assets/search-prod-img-03.svg" class="search-img" alt="search-image" loading="lazy" />
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-semibold">كوبوليفا زيتون أخضر بدون عجو</div>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="text-danger fw-bold fs-4">122</div>
+                                    <img src="{{systemUrl}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 cursor-pointer border-bottom-not-last" ngbDropdownItem>
+                        <img src="{{systemUrl}}assets/search-prod-img-04.svg" class="search-img" alt="search-image" loading="lazy" />
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-semibold">اليت زيت زيتون</div>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="text-danger fw-bold fs-4">122</div>
+                                    <img src="{{systemUrl}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
+                                </div>
+                                <div class="d-flex align-items-center gap-2 line-through">
+                                    <div class="text-danger fw-bold fs-4">150</div>
+                                    <img src="{{systemUrl}}assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <!-- <button class="btn btn-filter d-flex align-items-center gap-1" type="button">
+    <i class="ph ph-sliders fw-bold fs-6"></i>
+    <span>فرز</span>
+  </button> -->
+</div>

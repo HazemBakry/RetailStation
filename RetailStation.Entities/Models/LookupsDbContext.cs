@@ -1,16 +1,8 @@
 ﻿using RetailStation.Entities.Common.Lookups;
-using RetailStation.Entities.Models.HR;
 using RetailStation.Entities.Models.Lookups;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RetailStation.Entities.Models.Global;
 
 namespace RetailStation.Entities.Models
 {
@@ -54,11 +46,11 @@ namespace RetailStation.Entities.Models
         public DbSet<IqamaIssuePlace> IqamaIssuePlaces { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
-        public DbSet<Region> Regions { get; set; }
         public DbSet<SponsorType> SponsorTypes { get; set; }
         public DbSet<VacationType> VacationTypes { get; set; }
         public DbSet<FinancialCustodyType> FinancialCustodyTypes { get; set; }
         //public DbSet<EmployeeStatus> EmployeeStatus { get; set; }
+        public DbSet<Region> Regions { get; set; }
 
     }
 }

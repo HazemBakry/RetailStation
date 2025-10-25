@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 namespace RetailStation.Entities.Models.Global
 {
 
-
     [Table("OrderStatus", Schema = "Global")]
 
     public class OrderStatus : CreatorModel

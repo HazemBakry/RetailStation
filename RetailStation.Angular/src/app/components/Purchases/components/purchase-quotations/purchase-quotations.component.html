@@ -1,19 +1,15 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div
-        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3"
-                routerLink="/purchases/add-purchase-quotation">
+            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3" routerLink="/purchases/add-purchase-quotation">
                 <i class="fas fa-plus-circle"></i>
                 <span>انشاء عرض مشتريات</span>
             </button>
         </div>
         <div class="justify-content-end">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
-                [pageSize]="pagedResponseModel.pageSize"
-                [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-pagination>
         </div>
     </div>
     <div class="p-3 bg-white">
@@ -42,14 +38,11 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <div ngbDropdownMenu class="border">
-                                        <button ngbDropdownItem
-                                            (click)="openQuotationDetailsSidePanel(item)">تفاصيل</button>
-                                        <button ngbDropdownItem routerLink="/purchases/add-purchase-quotation"
-                                            [queryParams]="{PurchaseQuotationId:item.purchaseQuotationId}">
+                                        <button ngbDropdownItem (click)="openQuotationDetailsSidePanel(item)">تفاصيل</button>
+                                        <button ngbDropdownItem routerLink="/purchases/add-purchase-quotation" [queryParams]="{PurchaseQuotationId:item.purchaseQuotationId}">
                                             تعديل
                                         </button>
-                                        <button ngbDropdownItem
-                                            (click)="openDeleteModal(deleteDialog,item.purchaseQuotationId)">حذف</button>
+                                        <button ngbDropdownItem (click)="openDeleteModal(deleteDialog,item.purchaseQuotationId)">حذف</button>
 
                                     </div>
                                 </div>
@@ -60,8 +53,7 @@
 
                     <tr *ngIf="!pagedResponseModel?.results.length || showLoader">
                         <td colspan="8" class="text-right">
-                            <app-empty-data [showEmptyData]="!pagedResponseModel?.results.length&&!showLoader"
-                                [showLoader]="showLoader"></app-empty-data>
+                            <app-empty-data [showEmptyData]="!pagedResponseModel?.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>
@@ -120,15 +112,13 @@
                         <div class="col-lg-6">
                             <div class="mb-2">
                                 <label class="form-label d-flex align-items-center gap-2">رقم العرض</label>
-                                <input type="text" disabled class="form-control nw-form-input"
-                                    [value]="quotationDetailsModel?.serialNumber" />
+                                <input type="text" disabled class="form-control nw-form-input" [value]="quotationDetailsModel?.serialNumber" />
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="mb-2">
                                 <label class="form-label d-flex align-items-center gap-2">تاريخ العرض</label>
-                                <input type="text" disabled class="form-control nw-form-input"
-                                    [value]="quotationDetailsModel?.quotationDate | date" />
+                                <input type="text" disabled class="form-control nw-form-input" [value]="quotationDetailsModel?.quotationDate | date" />
                             </div>
                         </div>
                         <div class="col-lg-12">
@@ -136,8 +126,7 @@
                                 <label class="form-label d-flex align-items-center gap-2">
                                     البيان
                                 </label>
-                                <input type="text" disabled class="form-control nw-form-input description-area"
-                                    [value]="quotationDetailsModel?.notes" />
+                                <input type="text" disabled class="form-control nw-form-input description-area" [value]="quotationDetailsModel?.notes" />
                             </div>
                         </div>
                     </div>
@@ -162,8 +151,7 @@
         <div class="inputs-wrapper border rounded bg-white mb-3">
             <div class="inputs-sec-title fw-semibold fs-16 px-3 py-2 border-bottom mb-2">الموردين و الاسعار</div>
             <div class="inputs-sec-content px-3 py-2 table-responsive table-vp-height small-scroll">
-                <table *ngIf="distinctSuppliers?.length >0"
-                    class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+                <table *ngIf="distinctSuppliers?.length >0" class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
 
                     <thead>
 
@@ -180,8 +168,7 @@
                             <td class="table-feature item-td-size">{{item.itemNameAR ?? item.itemNameEN}}</td>
 
                             <td *ngFor="let supplier of distinctSuppliers" class="table-value supplier-td-size fw-bold">
-                                <app-render *ngIf="getFieldValue(item.supplierPrices,supplier.supplierId) as itemPrice"
-                                    [value]="itemPrice" [fieldType]="FieldType.Text">
+                                <app-render *ngIf="getFieldValue(item.supplierPrices,supplier.supplierId) as itemPrice" [value]="itemPrice" [fieldType]="FieldType.Text">
                                 </app-render>
                             </td>
 

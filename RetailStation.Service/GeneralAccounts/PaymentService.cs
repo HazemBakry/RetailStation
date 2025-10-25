@@ -22,19 +22,14 @@ namespace RetailStation.Service.GeneralAccounts
     {
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
-        //private readonly IConfiguration Configuration;
-        private readonly IJournalEntryService entryService;
-        //private readonly string ConnectionString;
         private readonly ISharedFilterService SharedFilterService;
 
-        public PaymentService(DBContext DbContext, ISQLHelper SQLHelper, IJournalEntryService EntryService, ISharedFilterService sharedFilterService) //IConfiguration _configuration )
+        public PaymentService(DBContext DbContext, ISQLHelper SQLHelper, 
+            ISharedFilterService sharedFilterService) 
         {
             this.Context = DbContext;
             this.SQLHelper = SQLHelper;
-            //this.Configuration = _configuration;
-            //this.ConnectionString = Configuration.GetConnectionString("DBConnection");
-            this.entryService = EntryService;
-            SharedFilterService = sharedFilterService;
+            this.SharedFilterService = sharedFilterService;
         }
 
         //----------------------------------- Payment Order ------------------------------------------//
@@ -115,19 +110,6 @@ namespace RetailStation.Service.GeneralAccounts
 
                 Context.PaymentOrders.Add(order);
                 Context.SaveChanges();
-
-                if (Model.EmployeeAdvanceId != null)
-                {
-                    var advance = Context.EmployeeAdvances.FirstOrDefault(x => x.EmployeeAdvanceId == Model.EmployeeAdvanceId);
-                    advance.WorkflowStatusId = (int)WorkflowStatus.Completed;
-                    Context.SaveChanges();
-                }
-                if (Model.EmployeeDueId != null)
-                {
-                    var due = Context.EmployeeDues.FirstOrDefault(x => x.EmployeeDueId == Model.EmployeeDueId);
-                    due.WorkflowStatusId = (int)WorkflowStatus.Completed;
-                    Context.SaveChanges();
-                }
 
                 return new ActionsResponseModel
                 {
@@ -403,18 +385,18 @@ namespace RetailStation.Service.GeneralAccounts
                 }
 
                 var entry = PrepareReceiveEntryModel(receipt);
-                var result = entryService.SaveNewJournalEntry(entry);
+                //var result = entryService.SaveNewJournalEntry(entry);
 
-                receipt.JournalEntryId = result.Id ?? -1;
-                Context.SaveChanges();
+                //receipt.JournalEntryId = result.Id ?? -1;
+                //Context.SaveChanges();
 
                 return new ActionsResponseModel
                 {
-                    Status = result.Status,
-                    Message = result.IsSuccess ? "تم حفظ البيانات بنجاح" : "فشل فى تسجيل القيد المحاسبى",
+                    Status = 100,   //result.Status,
+                    Message = "",   //result.IsSuccess ? "تم حفظ البيانات بنجاح" : "فشل فى تسجيل القيد المحاسبى",
                     Id = receipt.ReceiveReceiptId,
                     Number = receipt.ReceiptNumber.ToString(),
-                    IsSuccess = result.IsSuccess
+                    IsSuccess = false     //result.IsSuccess
                 };
             }
             catch (Exception ex)

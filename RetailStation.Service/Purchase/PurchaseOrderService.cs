@@ -31,7 +31,6 @@ namespace RetailStation.Service.Purchase
         private readonly DBContext Context;
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
-        private readonly IJournalEntryService JournalEntryService;
         private readonly ISharedFilterService SharedFilterService;
         private readonly IInventoryService InventoryService;
         private readonly string ConnectionString;
@@ -39,14 +38,12 @@ namespace RetailStation.Service.Purchase
         public PurchaseOrderService(DBContext Context,
             ISQLHelper SQLHelper,
             IConfiguration Configuration,
-            IJournalEntryService JournalEntryService,
             ISharedFilterService sharedFilterService,
             IInventoryService inventoryService)
         {
             this.Context = Context;
             this.SQLHelper = SQLHelper;
             this.Configuration = Configuration;
-            this.JournalEntryService = JournalEntryService;
             this.ConnectionString = Configuration.GetConnectionString("DBConnection");
             SharedFilterService = sharedFilterService;
             InventoryService = inventoryService;

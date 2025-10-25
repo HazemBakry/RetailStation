@@ -7,7 +7,6 @@ import { DesignHomeComponent } from './components/design-home/design-home.compon
 import { AccountTreeComponent } from './components/account-tree/account-tree.component';
 import { OpeningBalanceComponent } from './components/opening-balance/opening-balance.component';
 import { ReceiptsComponent } from './components/receipts/receipts.component';
-import { DesignEmployeeDetailsComponent } from './components/design-employee-details/design-employee-details.component';
 import { DesignTableComponent } from './components/design-table/design-table.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InputsAreaComponent } from './components/inputs-area/inputs-area.component';
@@ -28,7 +27,6 @@ import { DesignLatestHeaderComponent } from './components/design-latest-header/d
     AccountTreeComponent,
     OpeningBalanceComponent,
     ReceiptsComponent,
-    DesignEmployeeDetailsComponent,
     DesignTableComponent,
     InputsAreaComponent,
     NwHeaderComponent,

@@ -7,7 +7,6 @@ using RetailStation.Entities.Common.Finance.Purchases;
 using RetailStation.Entities.DTOs.Website;
 using RetailStation.Entities.Models;
 using RetailStation.Entities.Models.Operation;
-using RetailStation.Entities.Models.Website;
 using RetailStation.Interface.Common;
 using RetailStation.Interface.Website;
 using System;

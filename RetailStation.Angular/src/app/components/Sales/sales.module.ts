@@ -6,17 +6,29 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SalesLayoutComponent } from './sales-layout/sales-layout.component';
 import { SharedModule } from '../Shared/shared.module';
-import { SalesInvoicesComponent } from './components/sales-invoices/sales-invoices.component';
 import { AddSalesInvoiceComponent } from './components/add-sales-invoice/add-sales-invoice.component';
-import { SalesHomeComponent } from './components/sales-home/sales-home.component';
+import { SalesDashboardComponent } from './components/sales-dashboard/sales-dashboard.component';
+import { OrdersComponent } from './components/orders/orders.component';
+import { ItemsComponent } from './components/items/items.component';
+import { PromotionsComponent } from './components/promotions/promotions.component';
+import { SalesReturnsComponent } from './components/sales-returns/sales-returns.component';
+import { AddSalesReturnsComponent } from './components/add-sales-returns/add-sales-returns.component';
+import { CustomersStatementComponent } from './components/customers-statement/customers-statement.component';
+import { MySuppliersComponent } from './components/my-suppliers/my-suppliers.component';
 
 
 @NgModule({
   declarations: [
     SalesLayoutComponent,
-    SalesInvoicesComponent,
     AddSalesInvoiceComponent,
-    SalesHomeComponent
+    SalesDashboardComponent,
+    OrdersComponent,
+    ItemsComponent,
+    PromotionsComponent,
+    SalesReturnsComponent,
+    AddSalesReturnsComponent,
+    CustomersStatementComponent,
+    MySuppliersComponent
   ],
   imports: [
     CommonModule,

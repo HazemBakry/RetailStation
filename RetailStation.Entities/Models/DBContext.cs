@@ -1,5 +1,4 @@
-﻿using RetailStation.Entities.Models;
-using RetailStation.Entities.Models.Auth;
+﻿using RetailStation.Entities.Models.Auth;
 using RetailStation.Entities.Models.Subscription;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -7,12 +6,12 @@ using RetailStation.Entities.Models.Global;
 using RetailStation.Entities.Common.Finance;
 using RetailStation.Entities.Models.DataImport;
 using RetailStation.Entities.Models.Finance;
-using RetailStation.Entities.Models.HR;
 using RetailStation.Entities.Models.Inventory;
 using RetailStation.Entities.Models.Lookups;
 using RetailStation.Entities.Models.Purchases;
 using RetailStation.Entities.Models.Operation;
-using RetailStation.Entities.Models.Website;
+using System.Collections.Generic;
+using RetailStation.Entities.Models.SystemAdmin;
 
 namespace RetailStation.Entities.Models
 {
@@ -48,30 +47,9 @@ namespace RetailStation.Entities.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Cart> Carts { get; set; }
-        #region Lookups
-        public DbSet<Branch> Branches { get; set; }
-
-
+        
 
         #region Depricated
-        #region HR
-
-        public DbSet<Employee> Employees { get; set; }
-        public DbSet<Attendance> Attendance { get; set; }
-        public DbSet<EmployeeVerification> EmployeeVerifications { get; set; }
-        public DbSet<EmployeeAttachment> EmployeeAttachments { get; set; }
-        public DbSet<Contract> Contracts { get; set; }
-        public DbSet<ContractDetail> ContractDetails { get; set; }
-        public DbSet<OverTime> OverTime { get; set; }
-        public DbSet<Penalty> Penalties { get; set; }
-        public DbSet<PenaltyType> PenaltyTypes { get; set; }
-        public DbSet<MonthlySalary> MonthlySalary { get; set; }
-        public DbSet<MonthlySalaryDetails> MonthlySalaryDetails { get; set; }
-        public DbSet<EmployeeWeeklyShift> EmployeeWeeklyShifts { get; set; }
-        public DbSet<EmployeeStatus> EmployeeStatus { get; set; }
-
-
-        #endregion
 
         #region Global
 
@@ -87,8 +65,6 @@ namespace RetailStation.Entities.Models
 
         public DbSet<ItemLookups> ItemLookups { get; set; }
         public DbSet<ItemLookupDetails> ItemLookupDetails { get; set; }
-        public DbSet<Job> Jobs { get; set; }
-        public DbSet<Region> Regions { get; set; }
 
         public DbSet<Nationality> Nationalities { get; set; }
 
@@ -102,38 +78,16 @@ namespace RetailStation.Entities.Models
         public DbSet<PurchaseQuotationDetails> PurchaseQuotationDetails { get; set; }
         public DbSet<SalesInvoice> SalesInvoices { get; set; }
         public DbSet<SalesInvoiceDetails> SalesInvoiceDetails { get; set; }
-        public DbSet<Sponsor> Sponsors { get; set; }
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<SickLeave> SickLeaves { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<SupplierGroup> SupplierGroups { get; set; }
         public DbSet<Unit> Units { get; set; }
-        public DbSet<Vacation> Vacations { get; set; }
-
-        public DbSet<Deduct> Deducts { get; set; }
-        public DbSet<DeductType> DeductTypes { get; set; }
-        public DbSet<EmployeeCareer> EmployeeCareers { get; set; }
-        public DbSet<WorkStatus> WorkStatus { get; set; }
-        public DbSet<LoansPayment> LoansPayment { get; set; }
-        public DbSet<Loan> Loans { get; set; }
-        public DbSet<LoanType> LoanTypes { get; set; }
-        public DbSet<EmployeeAdvance> EmployeeAdvances { get; set; }
-        public DbSet<AdvancePayment> AdvancePayments { get; set; }
-        public DbSet<AdvanceType> AdvanceTypes { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<PaymentTerm> PaymentTerms { get; set; }
         public DbSet<PaymentTermDetails> PaymentTermDetails { get; set; }
         public DbSet<TaxCalculation> TaxCalculations { get; set; }
         public DbSet<DailyNotebook> DailyNotebooks { get; set; }
         public DbSet<AssetsForm> AssetsForms { get; set; }
-        public DbSet<Loan> LoansForms { get; set; }
         public DbSet<Batch> Batches { get; set; }
-        public DbSet<VerifiedAttendanceSummary> VerifiedAttendanceSummary { get; set; }
-        public DbSet<EmployeeDue> EmployeeDues { get; set; }
-        public DbSet<EmployeeFinancialCustody> EmployeeFinancialCustody { get; set; }
-
-
-
 
 
         #region Inventory
@@ -196,13 +150,20 @@ namespace RetailStation.Entities.Models
         public DbSet<ImporterColumnModel> ImporterColumns { get; set; }
         #endregion
 
+        #region System Admin
+
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<NotificationRecipient> NotificationRecipients { get; set; }
+
+
+        #endregion
+
         #endregion
 
         //public DbSet<Country> Countries { get; set; }
         //public DbSet<City> Cities { get; set; }
         //public DbSet<Region> Regions { get; set; }
 
-        #endregion
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

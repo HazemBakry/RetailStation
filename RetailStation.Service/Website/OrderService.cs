@@ -20,14 +20,13 @@ using System.Threading.Tasks;
 using RetailStation.Interface.Website;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
 using RetailStation.Entities.DTOs.Website;
-using RetailStation.Entities.Models.Website;
 using ICU4N.Util;
 using RetailStation.Entities.DTOs.Purchases;
-using RetailStation.Entities.Models.Purchases;
 using iText.Layout.Properties;
 using OpenQA.Selenium.BiDi.Modules.Script;
 using RetailStation.Entities.Common.Lookups;
 using iText.Layout.Borders;
+using RetailStation.Entities.Models.Global;
 
 namespace RetailStation.Service.Website
 {
@@ -71,7 +70,7 @@ namespace RetailStation.Service.Website
                 new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value),
                 new SqlParameter("@FilterList", SqlDbType.Structured) { Value = FilterList },
             };
-            var result = SQLHelper.SQLQuery<WebsiteOrderModel>("[Operation].[SP_GetOrders_Data]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<WebsiteOrderModel>("[dbo].[SP_GetOrders_Data]", ConnectionString, Params);
             return result;
         }
         public List<WebsiteOrderItemModel> GetOrder_Items(int OrderId)
@@ -99,7 +98,7 @@ namespace RetailStation.Service.Website
             Params[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[0].Value = FilterListDt;
 
-            var results = SQLHelper.SQLQuery<FilterItem>("[Operation].[SP_GetOrders_Filters]", ConnectionString, Params);
+            var results = SQLHelper.SQLQuery<FilterItem>("[dbo].[SP_GetOrders_Filters]", ConnectionString, Params);
             return SharedFilterService.GroupedFilterItems(results);
         }
 

@@ -266,12 +266,12 @@ namespace RetailStation.Service.Auth
             authModel.BranchId = user.BranchId;
             authModel.ImageUrl = _fileService.GetFileDownloadUrl(user.ImageUrl);
 
-            var userBranch = _sharedService.GetBranchById(user.SubscriberId, user.BranchId);
-            if (userBranch is not null)
-            {
-                authModel.BranchNameAR = userBranch.NameAR;
-                authModel.BranchNameEN = userBranch.NameEN;
-            }
+            //var userBranch = _sharedService.GetBranchById(user.SubscriberId, user.BranchId);
+            //if (userBranch is not null)
+            //{
+            //    authModel.BranchNameAR = userBranch.NameAR;
+            //    authModel.BranchNameEN = userBranch.NameEN;
+            //}
             
 
 

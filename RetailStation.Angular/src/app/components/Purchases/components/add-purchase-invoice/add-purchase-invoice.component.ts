@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseService } from 'src/app/components/Purchases/services/purchase.service';
-import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -11,10 +10,10 @@ import { DatePipe } from '@angular/common';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
-import { ItemModel } from 'src/app/components/Inventory/models/Item';
 import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
 import { MaterialReceiptModel } from 'src/app/components/Inventory/models/MaterialReceiptModel';
 import { PurchaseInvoiceModel } from '../../models/PurchaseInvoiceModel';
+import { ItemModel } from 'src/app/components/Shared/models/ItemModel';
 
 @Component({
   selector: 'app-add-purchase-invoice',

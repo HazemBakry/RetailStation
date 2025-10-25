@@ -11,8 +11,7 @@
                         المورد
                         <span class="text-danger">*</span>
                     </label>
-                    <app-general-selector [data]="suppliersSelectorData" [placeholder]="'الموردين'" [showSearch]="true"
-                        (valueChanged)="getSelectedSupplier($event)"></app-general-selector>
+                    <app-general-selector [data]="suppliersSelectorData" [placeholder]="'الموردين'" [showSearch]="true" (valueChanged)="getSelectedSupplier($event)"></app-general-selector>
                 </div>
             </div>
             <div class="col-lg-4">
@@ -73,9 +72,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
-                    [pageSize]="pagedResponseModel.pageSize"
-                    [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+                <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-pagination>
             </div>
         </div>
         <!-- <h5 class="mb-3 fw-bold">Table</h5> -->
@@ -108,8 +105,7 @@
                     </tr>
                     <tr *ngIf="!pagedResponseModel.results.length || showLoader">
                         <td colspan="7" class="text-right">
-                            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader"
-                                [showLoader]="showLoader"></app-empty-data>
+                            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>

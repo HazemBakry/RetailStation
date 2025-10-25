@@ -19,10 +19,11 @@ using RetailStation.Interface.SupplierManagement;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using RetailStation.Entities.Models.Purchases;
+using System.IO;
 
 namespace RetailStation.Service.SupplierManagement
 {
-    public class SupplierManagementService  : ISupplierManagementService
+    public class SupplierManagementService : ISupplierManagementService
     {
         private readonly DBContext Context;
         private readonly LookupsDbContext LookupsDbContext;
@@ -34,6 +35,8 @@ namespace RetailStation.Service.SupplierManagement
         private readonly IFileService _fileService;
         private readonly IDataImportService _dataImportService;
         public readonly string ItemsImagesFolder;
+        public readonly string ApiUrl;
+
         public SupplierManagementService(DBContext Context, ISQLHelper SQLHelper,
             IConfiguration Configuration, IExportService ExportService,
             ISharedFilterService sharedFilterService, LookupsDbContext lookupsDbContext, IFileService fileService, IDataImportService dataImportService)
@@ -48,6 +51,8 @@ namespace RetailStation.Service.SupplierManagement
             _fileService = fileService;
             ItemsImagesFolder = "ItemsImages";
             _dataImportService = dataImportService;
+            this.ApiUrl = Configuration.GetSection("ApiUrl").Value;
+
         }
 
 
@@ -64,19 +69,19 @@ namespace RetailStation.Service.SupplierManagement
                 new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
             };
 
-            var result = SQLHelper.SQLQuery<SupplierItemModel>("[Supplier].[SP_GetSupplierItemsData]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<SupplierItemModel>("[dbo].[SP_GetSupplierItemsData]", ConnectionString, Params);
             foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
             {
-                item.ImageUrl = _fileService.GetFileDownloadUrl(item.ImageUrl);
+                item.ImageUrl = item.ImageUrl != null ? Path.Combine(ApiUrl, "ItemsImages", item.ImageUrl) : ""; //_fileService.GetFileDownloadUrl(item.ImageUrl);
             }
             return result;
 
         }
         public SupplierItemModel GetSupplierItemDetailsById(int SupplierId, int SupplierItemId)
         {
-            return GetSupplierItemsData(SupplierId,new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, SupplierItemId).FirstOrDefault();
+            return GetSupplierItemsData(SupplierId, new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, SupplierItemId).FirstOrDefault();
         }
-        public async Task<ActionsResponseModel> AddNewSupplierItem(int SupplierId,SupplierItemModel model)
+        public async Task<ActionsResponseModel> AddNewSupplierItem(int SupplierId, SupplierItemModel model)
         {
             try
             {
@@ -121,11 +126,11 @@ namespace RetailStation.Service.SupplierManagement
                 {
                     item.NameEN = model.NameEN;
                     item.NameAR = model.NameAR;
-                    item.Price = (decimal) model.Price;
-                    item.Price10 = (decimal) model.Price10;
-                    item.Price100 = (decimal) model.Price100;
-                    item.Price1000 = (decimal) model.Price1000;
-                    item.Quantity = (decimal) model.Quantity;
+                    item.Price = (decimal)model.Price;
+                    item.Price10 = (decimal)model.Price10;
+                    item.Price100 = (decimal)model.Price100;
+                    item.Price1000 = (decimal)model.Price1000;
+                    item.Quantity = (decimal)model.Quantity;
                     item.UnitId = model.UnitId;
                     item.ItemCategoryId = model.ItemCategoryId;
                     item.ItemTypeId = model.ItemTypeId;
@@ -185,7 +190,7 @@ namespace RetailStation.Service.SupplierManagement
             {
                 SearchModel.CurrentPage = 1;
                 SearchModel.PageSize = 990000;
-                var Data = GetSupplierItemsData(SupplierId,SearchModel);
+                var Data = GetSupplierItemsData(SupplierId, SearchModel);
 
                 var result = Data.Select(res =>
                                 new SupplierItemExportModel
@@ -260,7 +265,6 @@ namespace RetailStation.Service.SupplierManagement
 
         public async Task<ActionsResponseModel> MapSupplierItem(int SupplierId, int SupplierItemId, int? ItemId)
         {
-
             try
             {
                 var item = Context.SupplierItems.Where(i => i.SupplierItemId == SupplierItemId && i.SupplierId == SupplierId).FirstOrDefault();
@@ -275,12 +279,11 @@ namespace RetailStation.Service.SupplierManagement
             }
             catch (Exception ex)
             {
-
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
-
             }
         }
-        public async Task<ActionsResponseModel> ImportSupplierItemsFile(int SupplierId,string ImporterName, IFormFile file)
+
+        public async Task<ActionsResponseModel> ImportSupplierItemsFile(int SupplierId, string ImporterName, IFormFile file)
         {
 
             try
@@ -299,8 +302,8 @@ namespace RetailStation.Service.SupplierManagement
 
             }
         }
-        
-        
+
+
         public ActionsResponseModel ItemQuickUpdate(int SupplierId, int SupplierItemId, decimal Price, int UnitId)
         {
             try

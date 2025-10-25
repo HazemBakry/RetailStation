@@ -1,18 +1,15 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div
-        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="d-flex align-items-center gap-2">
-            <button (click)="openAddModal(addNewModal)"
-                class="btn btn-success d-flex align-items-center gap-2 border rounded px-3">
+            <button (click)="openAddModal(addNewModal)" class="btn btn-success d-flex align-items-center gap-2 border rounded px-3">
                 <i class="fas fa-plus-circle"></i>
                 <span>إنشاء</span>
             </button>
         </div>
         <div class="justify-content-end">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage"
-                [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount"></app-erp-pagination>
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage" [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount"></app-pagination>
         </div>
     </div>
     <div class="p-3 bg-white">
@@ -49,8 +46,7 @@
                     </tr>
                     <tr *ngIf="!pagedResponse.results.length">
                         <td colspan="6" class="text-right">
-                            <app-empty-data [showEmptyData]="!pagedResponse.results?.length&&!showLoader"
-                                [showLoader]="showLoader"></app-empty-data>
+                            <app-empty-data [showEmptyData]="!pagedResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>
@@ -96,8 +92,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 الاسم (AR)
                             </label>
-                            <input type="text" class="form-control nw-form-input" formControlName="nameAR"
-                                autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input" formControlName="nameAR" autocomplete="off" />
 
                             <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
                                 {{formErrors.nameAR}}
@@ -107,8 +102,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 الاسم (EN)
                             </label>
-                            <input type="text" class="form-control nw-form-input" formControlName="nameEN"
-                                autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input" formControlName="nameEN" autocomplete="off" />
 
                             <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
                                 {{formErrors.nameEN}}
@@ -119,8 +113,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 الرمز
                             </label>
-                            <input type="text" class="form-control nw-form-input" formControlName="code"
-                                autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input" formControlName="code" autocomplete="off" />
 
                             <div *ngIf="formErrors.code" class="text-danger  font-small-3 m-03">
                                 {{formErrors.code}}
@@ -171,14 +164,12 @@
         </div>
     </div>
     <div class="modal-footer flex-nowrap gap-2">
-        <button [disabled]="showAddLoader" (click)="saveRecord()" type="button"
-            class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
+        <button [disabled]="showAddLoader" (click)="saveRecord()" type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
             <i class="uil uil-save fs-3"></i>
             <span>{{isUpdate?'تعديل':'أضافة'}}</span>
         </button>
 
-        <button type="button" class="btn btn-danger d-flex align-items-center gap-2"
-            (click)="initNewForm();modal.close()">
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="initNewForm();modal.close()">
             <i class="uil uil-times-circle fs-3"></i>
             <span>الغاء</span>
         </button>

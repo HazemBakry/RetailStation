@@ -59,7 +59,7 @@ namespace RetailStation.Service.Operation
             Params[3] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[3].Value = dt;
 
-            var result = SQLHelper.SQLQuery<ItemDto>("[Operation].[SP_GetItemsData]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<ItemDto>("[dbo].[SP_GetItemsData]", ConnectionString, Params);
             foreach (var item in result.Where(x=>!string.IsNullOrEmpty(x.ImageUrl)))
             {
                 item.ImageUrl = _fileService.GetFileDownloadUrl(item.ImageUrl);

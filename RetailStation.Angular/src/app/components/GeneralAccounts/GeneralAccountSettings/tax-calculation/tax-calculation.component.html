@@ -2,18 +2,15 @@
 
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div
-        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="d-flex align-items-center gap-2">
-            <button (click)="openAddModal(addNewModal)"
-                class="btn btn-success d-flex align-items-center gap-2 border rounded px-3">
+            <button (click)="openAddModal(addNewModal)" class="btn btn-success d-flex align-items-center gap-2 border rounded px-3">
                 <i class="fas fa-plus-circle"></i>
                 <span>إنشاء</span>
             </button>
         </div>
         <div class="justify-content-end">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage"
-                [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount"></app-erp-pagination>
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponse.currentPage" [pageSize]="pagedResponse.pageSize" [totalCount]="pagedResponse.totalCount"></app-pagination>
         </div>
     </div>
     <div class="p-3 bg-white">
@@ -65,16 +62,12 @@
 
                         <td>
                             <div class="d-flex align-items-center justify-content-center">
-                                <button
-                                    class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2"
-                                    (click)="openAddModal(addNewModal,item)">
+                                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2" (click)="openAddModal(addNewModal,item)">
                                     <i class="uil uil-pen"></i>
                                     <span>تعديل</span>
                                 </button>
 
-                                <button
-                                    class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
-                                    (click)="openDeleteModal(deleteModal,item.taxCalculationId)">
+                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteModal,item.taxCalculationId)">
                                     <i class="uil uil-trash-alt"></i>
                                     <span>حذف</span>
                                 </button>
@@ -84,8 +77,7 @@
                     </tr>
                     <tr *ngIf="!pagedResponse.results.length">
                         <td colspan="11" class="text-right">
-                            <app-empty-data [showEmptyData]="!pagedResponse.results?.length&&!showLoader"
-                                [showLoader]="showLoader"></app-empty-data>
+                            <app-empty-data [showEmptyData]="!pagedResponse.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>
@@ -130,8 +122,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 الاسم (AR)
                             </label>
-                            <input type="text" class="form-control nw-form-input" formControlName="nameAR"
-                                autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input" formControlName="nameAR" autocomplete="off" />
 
                             <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
                                 {{formErrors.nameAR}}
@@ -141,8 +132,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 الاسم (EN)
                             </label>
-                            <input type="text" class="form-control nw-form-input" formControlName="nameEN"
-                                autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input" formControlName="nameEN" autocomplete="off" />
 
                             <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
                                 {{formErrors.nameEN}}
@@ -154,8 +144,7 @@
                                 نوع الضريبة
                                 <span class="text-danger">*</span>
                             </label>
-                            <app-general-selector formControlName="taxType" [data]="taxTypesSelectorData"
-                                [showSearch]="true" [placeholder]="'نوع الضريبة'"></app-general-selector>
+                            <app-general-selector formControlName="taxType" [data]="taxTypesSelectorData" [showSearch]="true" [placeholder]="'نوع الضريبة'"></app-general-selector>
 
 
                             <div *ngIf="formErrors.taxType" class="text-danger  font-small-3 m-03">
@@ -167,8 +156,7 @@
                                 نطاق الضريبة
                                 <span class="text-danger">*</span>
                             </label>
-                            <app-general-selector formControlName="taxScope" [data]="taxScopesSelectorData"
-                                [showSearch]="true" [placeholder]="'نطاق الضريبة'"></app-general-selector>
+                            <app-general-selector formControlName="taxScope" [data]="taxScopesSelectorData" [showSearch]="true" [placeholder]="'نطاق الضريبة'"></app-general-selector>
 
                             <div *ngIf="formErrors.taxScope" class="text-danger  font-small-3 m-03">
                                 {{formErrors.taxScope}}
@@ -179,8 +167,7 @@
                                 حساب الضريبة
                                 <span class="text-danger">*</span>
                             </label>
-                            <app-general-selector formControlName="taxLookupId" [data]="taxLookupsSelectorData"
-                                [showSearch]="true" [placeholder]="'حساب الضريبة'"></app-general-selector>
+                            <app-general-selector formControlName="taxLookupId" [data]="taxLookupsSelectorData" [showSearch]="true" [placeholder]="'حساب الضريبة'"></app-general-selector>
                             <div *ngIf="formErrors.taxLookupId" class="text-danger  font-small-3 m-03">
                                 {{formErrors.taxLookupId}}
                             </div>
@@ -189,8 +176,7 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 قيمة الضريبة
                             </label>
-                            <input type="text" class="form-control nw-form-input" formControlName="amount"
-                                autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input" formControlName="amount" autocomplete="off" />
 
                             <div *ngIf="formErrors.amount" class="text-danger  font-small-3 m-03">
                                 {{formErrors.amount}}
@@ -230,14 +216,12 @@
         </div>
     </div>
     <div class="modal-footer flex-nowrap gap-2">
-        <button [disabled]="showAddLoader" (click)="saveRecord()" type="button"
-            class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
+        <button [disabled]="showAddLoader" (click)="saveRecord()" type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
             <i class="uil uil-save fs-3"></i>
             <span>{{isUpdate?'تعديل':'أضافة'}}</span>
         </button>
 
-        <button type="button" class="btn btn-danger d-flex align-items-center gap-2"
-            (click)="formGroup?.reset();modal.close()">
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="formGroup?.reset();modal.close()">
             <i class="uil uil-times-circle fs-3"></i>
             <span>الغاء</span>
         </button>
@@ -253,8 +237,7 @@
         <p class="fs-5 m-0">هل انت متأكد من الحذف ؟</p>
     </div>
     <div class="modal-footer justify-content-start">
-        <button type="button" [disabled]="showAddLoader" class="btn btn-success"
-            (click)="modal.close('Save click');deleteTaxCalculation()">
+        <button type="button" [disabled]="showAddLoader" class="btn btn-success" (click)="modal.close('Save click');deleteTaxCalculation()">
             <i class="fas fa-check"></i>
             <span class="ms-2">نعم</span>
         </button>
@@ -284,8 +267,7 @@
                     <tr>
                         <td class="table-feature">اسم الضريبة</td>
                         <td class="table-value">
-                            <input type="text" class="form-control form-control-lg" placeholder="أدخل الاسم..."
-                                formControlName="taxCalculationName">
+                            <input type="text" class="form-control form-control-lg" placeholder="أدخل الاسم..." formControlName="taxCalculationName">
                             <div *ngIf="formErrors.taxCalculationName" class="text-danger  font-small-3 m-03">
                                 {{formErrors.taxCalculationName}}
                             </div>
@@ -294,8 +276,7 @@
                     <tr>
                         <td class="table-feature">الوصف</td>
                         <td class="table-value">
-                            <input type="text" class="form-control form-control-lg" placeholder="أدخل الوصف..."
-                                formControlName="description">
+                            <input type="text" class="form-control form-control-lg" placeholder="أدخل الوصف..." formControlName="description">
                             <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
                                 {{formErrors.description}}
                             </div>
@@ -307,8 +288,7 @@
         </form>
     </div>
     <div class="modal-footer flex-nowrap gap-2">
-        <button type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100"
-            (click)="AddNewTaxCalculation()">
+        <button type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100" (click)="AddNewTaxCalculation()">
             <i class="uil uil-save fs-3"></i>
             <span>حفظ</span>
         </button>

@@ -2,7 +2,7 @@
 using RetailStation.Entities.Common;
 using RetailStation.Entities.DTOs.Website;
 using RetailStation.Entities.Models;
-using RetailStation.Entities.Models.Website;
+using RetailStation.Entities.Models.Purchases;
 using RetailStation.Interface.Common;
 using RetailStation.Interface.Website;
 using System;

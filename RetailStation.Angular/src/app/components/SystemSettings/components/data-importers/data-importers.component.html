@@ -13,15 +13,12 @@
             </button> -->
         </div>
         <nav>
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="importerResponseModel.currentPage"
-                [pageSize]="importerResponseModel.pageSize"
-                [totalCount]="importerResponseModel.totalCount"></app-erp-pagination>
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="importerResponseModel.currentPage" [pageSize]="importerResponseModel.pageSize" [totalCount]="importerResponseModel.totalCount"></app-pagination>
         </nav>
     </div>
 
     <div class="card-body table-responsive p-0">
-        <table class="table table-borderless align-middle table-hover table-component text-center m-0 p-0"
-            style="border-right-style: double;">
+        <table class="table table-borderless align-middle table-hover table-component text-center m-0 p-0" style="border-right-style: double;">
             <thead>
                 <tr>
                     <th>Template Name</th>
@@ -38,20 +35,15 @@
                     <td>{{item.destinationStoredProcedure}}</td>
                     <td class="text-center">
                         <div class="d-flex align-items-center gap-2">
-                            <app-create-importer [importerModel]="item" [isUpdate]="true"
-                                (dataUpdated)="dataUpdated($event)">
+                            <app-create-importer [importerModel]="item" [isUpdate]="true" (dataUpdated)="dataUpdated($event)">
 
                             </app-create-importer>
-                            <app-upload-importer-file 
-                                [importerName]="item.importerName"
-                                [btnDesign]="'gride'">
+                            <app-upload-importer-file [importerName]="item.importerName" [btnDesign]="'gride'">
 
                             </app-upload-importer-file>
-                            
 
-                            <button
-                                class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
-                                (click)="openDeleteModal(deleteModal,item.importerId)">
+
+                            <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteModal,item.importerId)">
                                 <i class="uil uil-trash-alt"></i>
                                 <span>حذف</span>
                             </button>
@@ -60,8 +52,7 @@
                 </tr>
             </tbody>
         </table>
-        <app-empty-data [showEmptyData]="!importerResponseModel.results?.length&&!showLoader"
-            [showLoader]="showLoader"></app-empty-data>
+        <app-empty-data [showEmptyData]="!importerResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
     </div>
 </div>
 

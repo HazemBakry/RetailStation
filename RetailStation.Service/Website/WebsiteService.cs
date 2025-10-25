@@ -18,6 +18,7 @@ using RetailStation.Entities.DTOs.Operation;
 using RetailStation.Interface.SupplierManagement;
 using RetailStation.Interface.Website;
 using RetailStation.Entities.DTOs.Website;
+using System.IO;
 
 namespace RetailStation.Service.Website
 {
@@ -29,6 +30,7 @@ namespace RetailStation.Service.Website
         private readonly IConfiguration Configuration;
         private readonly ISharedFilterService SharedFilterService;
         private readonly string ConnectionString;
+        private readonly string ApiUrl;
         private readonly IExportService ExportService;
         private readonly IFileService _fileService;
 
@@ -39,7 +41,8 @@ namespace RetailStation.Service.Website
             this.Context = Context;
             this.SQLHelper = SQLHelper;
             this.Configuration = Configuration;
-            ConnectionString = Configuration.GetConnectionString("DBConnection");
+            this.ConnectionString = Configuration.GetConnectionString("DBConnection");
+            this.ApiUrl = Configuration.GetSection("ApiUrl").Value;
             this.ExportService = ExportService;
             SharedFilterService = sharedFilterService;
             LookupsDbContext = lookupsDbContext;
@@ -59,7 +62,7 @@ namespace RetailStation.Service.Website
             var result = SQLHelper.SQLQuery<SupplierItemModel>("[Website].[SP_GetWebsiteItems_Data]", ConnectionString, Params);
             foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
             {
-                item.ImageUrl = _fileService.GetFileDownloadUrl(item.ImageUrl);
+                item.ImageUrl = item.ImageUrl != null ? Path.Combine(ApiUrl, "ItemsImages", item.ImageUrl) : "";//_fileService.GetFileDownloadUrl(item.ImageUrl);
             }
             return result;
 
@@ -76,7 +79,6 @@ namespace RetailStation.Service.Website
             var result = SQLHelper.SQLQuery<FilterItem>("[Website].[SP_GetWebsiteItems_Filters]", ConnectionString, Params);
             var grouped = SharedFilterService.GroupedFilterItems(result);
             return grouped;
-
         }
 
         public List<PromotionModel> GetWebsitePromotionItems(SearchFilterModel model)
@@ -93,11 +95,11 @@ namespace RetailStation.Service.Website
             var result = SQLHelper.SQLQuery<PromotionModel>("[Website].[SP_GetWebsitePromotionItems]", ConnectionString, Params);
             foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
             {
-                item.ImageURL = _fileService.GetFileDownloadUrl(item.ImageURL);
+                item.ImageURL = item.ImageURL != null ? Path.Combine(ApiUrl, "SliderImages", item.ImageURL) : ""; //_fileService.GetFileDownloadUrl(item.ImageURL);
             }
             return result;
-
         }
+
         public List<SliderModel> GetWebsiteMainSlider()
         {
             var query = Context.Sliders.AsNoTracking()

@@ -9,8 +9,8 @@ import { MenuService, MenuType } from 'src/app/components/Shared/services/menu.s
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { MenuSidebarItem } from 'src/app/components/Shared/models/MenuSidebarItem';
 import { AuthService } from 'src/app/Auth/auth.service';
-import { SupplierItemModel } from 'src/app/components/Main/models/SupplierItemModel';
 import { WebsiteService } from 'src/app/components/Main/services/website.service';
+import { SupplierItemModel } from '../../models/SupplierItemModel';
 
 // install Swiper modules
 SwiperCore.use([Autoplay, Navigation, Pagination, Scrollbar, A11y]);

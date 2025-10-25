@@ -1,0 +1,133 @@
+.header-offer-icon {
+    --dim: 25px;
+    width: var(--dim);
+    height: var(--dim);
+}
+
+::ng-deep .big-offer-carousel .swiper-container,
+::ng-deep .big-offer-carousel .swiper-slide {
+    width: 100%;
+    height: 300px;
+}
+
+.offer-carousel-image {
+    object-fit: cover;
+}
+
+.market-cat-card {
+    border: 1px solid #eeeeee;
+    box-shadow: 0px 4px 16px 0px #e7e7e71f;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+}
+
+.market-cat-card.is-fav {
+    border-color: #86ee02d9;
+    background-color: #f8fff0d9 !important;
+}
+
+.marketing-cat-carousel-image {
+    --dim: 96px;
+    width: var(--dim);
+    height: var(--dim);
+}
+
+.carousel-title {
+    position: relative;
+    z-index: 2;
+    max-width: calc(100% - 130px);
+}
+
+.more-buy-image {
+    width: auto;
+    height: 100px;
+    margin-top: -5px;
+}
+
+.ryial-img {
+    width: 20px;
+}
+
+.like-product-icon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 22px;
+    color: rgba(33, 37, 41, 0.75);
+}
+
+.top-position {
+    margin-top: -20px;
+    position: relative;
+    z-index: 2;
+    font-size: 11px;
+}
+
+.count-button {
+    background-color: #fff;
+    padding: 4px 8px;
+    font-size: 18px;
+    border: 1px solid #eeeeee;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+
+
+/* Carousel Style */
+
+::ng-deep .home-slider .carousel-inner .slider-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 400px;
+}
+
+::ng-deep .home-slider .carousel-inner .slider-img-wrapper img {
+    width: 100%;
+    height: 400px;
+    max-height: 400px;
+}
+
+::ng-deep .home-slider .carousel-inner .carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 30px 20px;
+}
+
+::ng-deep .home-slider .carousel-control-next,
+::ng-deep .home-slider .carousel-control-prev {
+    width: 50px;
+    height: 50px;
+    top: 50%;
+    background-color: var(--main-color);
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+}
+
+::ng-deep .home-slider .carousel-control-next {
+    left: 25px;
+}
+
+::ng-deep .home-slider .carousel-control-prev {
+    right: 25px;
+}
+
+::ng-deep .home-slider .carousel-indicators {
+    opacity: 1 !important;
+}
+
+::ng-deep .home-slider .carousel-indicators .active {
+    background-color: var(--main-color);
+}

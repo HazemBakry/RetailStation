@@ -1,0 +1,49 @@
+<div class="d-flex align-items-center flex-wrap gap-2">
+    <div class="input-group max-width-300 min-width-300">
+        <span class="input-group-text bg-light">
+      <button (click)="filterChecked()" class="border-0 bg-transparent">
+        <i class="fas fa-search"></i>
+      </button>
+
+    </span>
+        <input [(ngModel)]="SearchText" (keyup.enter)="filterChecked()" type="text" [placeholder]="searchPlaceholder" class="form-control">
+    </div>
+    <div ngbDropdown class="dropdown-filter-wrapper d-inline-block" *ngFor="let filter of FilterList;let i = index">
+        <button type="button" class="filter-button bg-white d-flex align-items-center justify-content-between gap-2" id="filterInput1" ngbDropdownToggle>
+      {{filter.categoryDisplayName}}
+    </button>
+        <div ngbDropdownMenu aria-labelledby="filterInput1" class="dropdown-filter p-0 overflow-hidden" container="body">
+            <div class="d-flex flex-column gap-2">
+                <div class="position-relative">
+                    <input type="text" [(ngModel)]="filterSearch" class="form-control form-control-sm main-border-2 radius-8 height-35" placeholder="Search..." />
+                    <i class="ph ph-magnifying-glass cursor-pointer search-icon-button"></i>
+                </div>
+                <div class="erp-filter-box small-scroll">
+                    <div class="check-row" *ngFor="let filterItem of filter.filterItems | searchArry: filterSearch:'itemFlag';let x = index">
+                        <div class="d-flex align-items-center gap-1">
+                            <input class="form-check-input m-0 cursor-pointer" [(ngModel)]="filterItem.isChecked" (change)="filterChecked(filterItem)" type="checkbox" id="filter-input_{{i}}_{{x}}">
+                            <label class="form-check-label d-flex align-items-center justify-content-between w-100 cursor-pointer" for="filter-input_{{i}}_{{x}}" style="width: calc(100% - 20px) !important">
+                <!-- <span>{{filterItem.itemFlag}}</span> -->
+                <span class="singleline-3-dots" ngbPopover="{{filterItem.itemKey.replace('/\s+/g', ' ').trim()}}"
+                  placement="left" container="body" triggers="mouseenter:mouseleave"
+                  (mouseenter)="checkOverflowText(filterEl, $event)" #popoverEl="ngbPopover"
+                  #filterEl>{{filterItem.itemKey.replace('/\s+/g', ' ').trim()}}</span>
+                <span>{{filterItem.itemValue}}</span>
+              </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-flex align-items-center flex-wrap gap-1" *ngIf="SelectedFilter.length">
+    <span class="d-flex align-items-center gap-1 badge-box blue" *ngFor="let selected of SelectedFilter;let i = index">
+    <span>{{selected.categoryDisplayName}} : {{selected.itemKey}}</span>
+    <i class="ph ph-x cursor-pointer fs-13" (click)="RemoveSelectedFilter(selected,i)"></i>
+    </span>
+    <span class="d-flex align-items-center gap-1 badge-box red" *ngIf="SelectedFilter.length > 0">
+    Clear All
+    <i class="ph ph-x cursor-pointer fs-13" (click)="RemoveAllFilters()"></i>
+  </span>
+</div>

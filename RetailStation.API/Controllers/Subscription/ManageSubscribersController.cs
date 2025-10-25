@@ -12,8 +12,6 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using RetailStation.Interface.Users;
-using RetailStation.Interface.Branches;
-using RetailStation.Entities.Models.Subscription;
 using RetailStation.Entities.DTOs.Lookups;
 using Entities.DTOs.Auth;
 using RetailStation.Entities.DTOs.Website;
@@ -27,14 +25,13 @@ namespace RetailStation.API.Controllers.Subscription
     {
         private readonly ISubscribersService _subscribersService;
         private readonly IAuthService _authService;
-        private readonly IBranchesService _branchesService;
         private readonly IUsersService _usersService;
-        public ManageSubscribersController(ISubscribersService subscribersService, IAuthService authService, IUsersService usersService, IBranchesService branchesService)
+        public ManageSubscribersController(ISubscribersService subscribersService, 
+            IAuthService authService, IUsersService usersService)
         {
             _subscribersService = subscribersService;
             _authService = authService;
             _usersService = usersService;
-            _branchesService = branchesService;
         }
 
 
@@ -107,8 +104,6 @@ namespace RetailStation.API.Controllers.Subscription
             };
             return Ok(result);
         }
-
-
 
         #region Users
         [HttpPost("GetUsers")]
@@ -217,89 +212,6 @@ namespace RetailStation.API.Controllers.Subscription
             return Ok(result);
         }
         #endregion
-
-        #region Branches
-        [HttpPost("GetBranches")]
-        public IActionResult GetBranchs(string SubscriberId, [FromBody] SearchFilterModel Model)
-        {
-            var branches =  _branchesService.GetBranches(SubscriberId, Model);
-            var result = new PagedResponseModel<BranchDto>
-            {
-                Results = branches,
-                TotalCount = branches.FirstOrDefault()?.TotalCount ?? 0,
-                PageSize = Model.PageSize,
-                CurrentPage = Model.CurrentPage
-
-            };
-            return Ok(result);
-
-        }
-        [HttpPost("GetBranchById")]
-        public IActionResult GetBranchById(string SubscriberId, int BranchId)
-        {
-
-            var Branch =  _branchesService.GetBranchById(SubscriberId, BranchId);
-            if (Branch == null)
-                return NotFound();
-            return Ok(Branch);
-
-        }
-        [HttpPost("AddBranch")]
-        public IActionResult AddNewBranch(string SubscriberId, [FromForm] BranchDto model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
-            model.SubscriberId = SubscriberId;
-            model.CreatedBy = UserId;
-            try
-            {
-                var result =  _branchesService.AddNewBranch(SubscriberId, model);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex?.Message);
-            }
-
-        }
-        [HttpPost("EditBranch")]
-        public IActionResult EditBranch(string SubscriberId, int BranchId, [FromForm] BranchDto model)
-        {
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
-            model.SubscriberId = SubscriberId;
-            model.ModifiedBy = UserId; 
-            try
-            {
-                var result = _branchesService.EditBranch(SubscriberId,BranchId, model);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex?.Message);
-            }
-
-
-        }
-
-        
-        [HttpGet("DeleteBranch")]
-        public IActionResult DeleteBranch(string SubscriberId,int BranchId)
-        {
-            var result = _branchesService.DeleteBranch(SubscriberId, BranchId);
-            if (result is null)
-            {
-                return BadRequest("branch not found");
-            }
-            return Ok(result);
-        }
-        #endregion
-
 
         #region SubscribeRequests
 

@@ -10,7 +10,7 @@
                 </button>
             </div>
             <div class="col-md-4">
-                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="FilterModel.currentPage" [pageSize]="FilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="totalPages"></app-erp-pagination>
+                <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="FilterModel.currentPage" [pageSize]="FilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="totalPages"></app-pagination>
             </div>
         </div>
         <div class="card-body table-responsive">

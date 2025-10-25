@@ -1,21 +1,12 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 <div class="card radius-10 border-0 card-shadow mb-3">
     <div class="card-body bg-light">
-        <app-accounts-report-header 
-            [showAccountFilter]="true" 
-            [showCostCenterFilter]="true" 
-            [IsParentAccount]="true"
-            (SearchData)="headerSearchChanged($event)">
+        <app-accounts-report-header [showAccountFilter]="true" [showCostCenterFilter]="true" [IsParentAccount]="true" (SearchData)="headerSearchChanged($event)">
         </app-accounts-report-header>
         <div class="row">
             <div class="col-lg-3 mb-3">
-                
-                <app-erp-selector-with-search #Selector1 
-                    [SelectorName]="'نوع مركز التكلفة'" 
-                    [ItemsList]="costCenterTypeList" 
-                    [Height]="'35px'" 
-                    [SearchKey]="'nameAR'" 
-                    (ItemObj)="costCenterTypeSelected($event)">
+
+                <app-erp-selector-with-search #Selector1 [SelectorName]="'نوع مركز التكلفة'" [ItemsList]="costCenterTypeList" [Height]="'35px'" [SearchKey]="'nameAR'" (ItemObj)="costCenterTypeSelected($event)">
                 </app-erp-selector-with-search>
 
             </div>
@@ -58,7 +49,7 @@
                     </div> -->
                     </div>
                     <div class="col-md-4 mb-3">
-                        <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="SearchFilterModel.currentPage" [pageSize]="SearchFilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="TotalPages"></app-erp-pagination>
+                        <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="SearchFilterModel.currentPage" [pageSize]="SearchFilterModel.pageSize" [totalCount]="TotalCount" [totalPages]="TotalPages"></app-pagination>
                     </div>
                 </div>
             </div>

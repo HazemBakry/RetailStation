@@ -9,7 +9,7 @@
         <input [(ngModel)]="SearchText" (keyup.enter)="filterChecked()" type="text" [placeholder]="searchPlaceholder" class="form-control">
     </div>
     <div ngbDropdown class="dropdown-filter-wrapper d-inline-block" *ngFor="let filter of FilterList;let i = index">
-        <button type="button" class="filter-button border px-3 py-2 rounded bg-white min-width-100 d-flex align-items-center justify-content-between" id="filterInput1" ngbDropdownToggle>
+        <button type="button" class="filter-button border px-3 py-2 bg-white min-width-100 d-flex align-items-center justify-content-between" id="filterInput1" ngbDropdownToggle>
       {{filter.categoryDisplayName}}
     </button>
         <div ngbDropdownMenu aria-labelledby="filterInput1" class="dropdown-filter p-0 overflow-hidden" container="body">

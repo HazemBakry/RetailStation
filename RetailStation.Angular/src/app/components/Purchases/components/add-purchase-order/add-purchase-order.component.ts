@@ -10,11 +10,11 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { DatePipe } from '@angular/common';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { InventoryService } from 'src/app/components/Inventory/services/inventory.service';
-import { ItemModel } from 'src/app/components/Inventory/models/Item';
 import { MaterialRequestModel } from 'src/app/components/Inventory/models/MaterialRequestModel ';
 import { GeneralOrderDetailsModel } from 'src/app/components/Inventory/models/GeneralOrderModel ';
 import { PurchaseOrderModel } from '../../models/PurchaseOrder';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
+import { ItemModel } from 'src/app/components/Shared/models/ItemModel';
 
 @Component({
   selector: 'app-add-purchase-order',

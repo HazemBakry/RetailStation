@@ -19,22 +19,18 @@
 
         <div class="employee-card-body row mb-3">
             <div class="col-xl-4 mb-2">
-                <app-general-selector [(ngModel)]="selectedSupplierId" [disabled]="true" [data]="suppliersSelectorData"
-                    [showSearch]="true" [placeholder]="'الموردين'"></app-general-selector>
+                <app-general-selector [(ngModel)]="selectedSupplierId" [disabled]="true" [data]="suppliersSelectorData" [showSearch]="true" [placeholder]="'الموردين'"></app-general-selector>
             </div>
             <div class="col-xl-4 mb-2">
-                <input type="text" autocomplete="off" [(ngModel)]="orderNumber" class="form-control nw-form-input"
-                    placeholder="رقم الطلب">
+                <input type="text" autocomplete="off" [(ngModel)]="orderNumber" class="form-control nw-form-input" placeholder="رقم الطلب">
 
             </div>
             <div class="col-xl-4 mb-2">
-                <input type="date" [(ngModel)]="orderDate" class="form-control nw-form-input"
-                    placeholder="تاريخ الاصدار">
+                <input type="date" [(ngModel)]="orderDate" class="form-control nw-form-input" placeholder="تاريخ الاصدار">
             </div>
             <div class="col-xl-12">
                 <div class="d-flex justify-content-center mt-3">
-                    <button (click)="loadData()"
-                        class="btn btn-primary w-50 justify-content-center py-2 fs-5 radius-10">
+                    <button (click)="loadData()" class="btn btn-primary w-50 justify-content-center py-2 fs-5 radius-10">
                         بحث
                     </button>
                 </div>
@@ -45,23 +41,18 @@
 
         <div class="card card-with-table border shadow-none">
             <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
-                <button (click)="selectOrders()"
-                    class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
+                <button (click)="selectOrders()" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
                     <i class="fas fa-upload"></i>
                     <span>تحميل</span>
                 </button>
-                <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
-                    [pageSize]="pagedResponseModel.pageSize"
-                    [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+                <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-pagination>
             </div>
             <div class="card-body table-responsive p-0 shadow-sm radius-10">
-                <table
-                    class="table table-card-table table-borderless table-middle table-hover bg-transparent small-scroll m-0">
+                <table class="table table-card-table table-borderless table-middle table-hover bg-transparent small-scroll m-0">
                     <thead>
                         <tr>
                             <th>
-                                <input class="cursor-pointer" (change)="selectAllData()" [(ngModel)]="selectAll"
-                                    type="checkbox">
+                                <input class="cursor-pointer" (change)="selectAllData()" [(ngModel)]="selectAll" type="checkbox">
 
                             </th>
 
@@ -92,14 +83,12 @@
                             <td>{{item.storeNameAR}}</td>
                             <td>{{item.totalValue}}</td>
                             <td>
-                                <span appWorkflowStatus [id]="item.workflowStatusId"
-                                    [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
+                                <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
                                 </span>
                             </td>
                             <td>
                                 <div class="w-100 d-flex align-items-center justify-content-center">
-                                    <button (click)="selectOrder(item)"
-                                        class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
+                                    <button (click)="selectOrder(item)" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
                                         <i class="fas fa-upload"></i>
                                         <span>تحميل</span>
                                     </button>
@@ -108,8 +97,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length&&!showLoader"
-                    [showLoader]="showLoader"></app-empty-data>
+                <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
             </div>
         </div>
 

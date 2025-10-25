@@ -1,0 +1,197 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-2 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2 p-2">
+            <app-erp-filters [FilterList]="filterList" [showSearchText]="true" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'بحث برقم الطلب ...'"></app-erp-filters>
+        </div>
+        <div class="d-flex justify-content-between align-items-center gap-2 p-2">
+            <div class="d-flex flex-wrap gap-2">
+                <button class="btn btn-outline-success d-flex align-items-center gap-2 border rounded px-3">
+                    <i class="ph ph-download-simple"></i>
+                    <span>تصدير CSV</span>
+                </button>
+                <button class="btn btn-blue d-flex align-items-center gap-2 px-3" (click)="openAddModal(addNewModal)">
+                    <i class="ph ph-plus"></i>
+                    <span>إضافة وحدة</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="p-3 bg-white">
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-hover bg-transparent m-0">
+                <thead>
+                    <tr>
+                        <th>اسم الوحدة (AR)</th>
+                        <th>اسم الوحدة (EN)</th>
+                        <th>كود الوحدة</th>
+                        <th>نشط</th>
+                        <th>الوصف</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of pagedResponseModel.results">
+                        <td>{{item.nameAR}}</td>
+                        <td>{{item.nameEN}}</td>
+                        <td>{{item.code}}</td>
+                        <td>{{item.isActive}}</td>
+                        <td>{{item.description}}</td>
+                        <td class="text-center">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2" (click)="openAddModal(addNewModal,item)">
+                                    <i class="uil uil-pen"></i>
+                                    <span>تعديل</span>
+                                </button>
+
+                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteModal,item.unitId)">
+                                    <i class="uil uil-pen"></i>
+                                    <span>حذف</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="!pagedResponseModel.results.length">
+                        <td colspan="6" class="text-right">
+                            <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->
+
+
+
+<ng-template #addNewModal let-modal>
+    <div class="modal-header modal-header-bg justify-content-between">
+        <h4 class="d-flex align-items-center gap-2">
+            <i class="uil uil-plus"></i>
+            <span>املأ البيانات الأتية</span>
+            <span *ngIf="!isUpdate" class="ms-3">(إنشاء)</span>
+            <span *ngIf="isUpdate" class="ms-3">(تعديل)</span>
+        </h4>
+        <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="modal-body">
+
+        <div class="card ">
+            <!-- <div class="card-header bg-white">
+                <h6 class="fw-bold m-0">
+                    <span *ngIf="!isUpdate" class="ms-3">إنشاء</span>
+                    <span *ngIf="isUpdate" class="ms-3">تعديل</span>
+                </h6>
+            </div> -->
+            <!-- bg-light  >> for gray card-->
+            <div class="card-body ">
+                <div class="p-2">
+
+
+                    <form [formGroup]="formGroup" autocomplete="off">
+
+
+                        <div class="row mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                الاسم (AR)
+                            </label>
+                            <input type="text" class="form-control nw-form-input" formControlName="nameAR" autocomplete="off" />
+
+                            <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
+                                {{formErrors.nameAR}}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                الاسم (EN)
+                            </label>
+                            <input type="text" class="form-control nw-form-input" formControlName="nameEN" autocomplete="off" />
+
+                            <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
+                                {{formErrors.nameEN}}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                الكود
+                            </label>
+                            <input type="text" class="form-control nw-form-input" formControlName="code" autocomplete="off" />
+
+                            <div *ngIf="formErrors.code" class="text-danger  font-small-3 m-03">
+                                {{formErrors.code}}
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                الملاحظات
+                            </label>
+
+                            <textarea formControlName="description" class="form-control"></textarea>
+                            <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
+                                {{formErrors.description}}
+                            </div>
+
+                        </div>
+
+
+
+                        <hr class="my-4" />
+                        <div class="row mb-3">
+
+                            <div class="col-sm-4">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    نشط
+                                </label>
+                                <input class="big-checkbox" formControlName="isActive" type="checkbox">
+
+                                <div *ngIf="formErrors.isActive" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.isActive}}
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer flex-nowrap gap-2">
+        <button [disabled]="showAddLoader" (click)="saveRecord()" type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
+            <i class="uil uil-save fs-3"></i>
+            <span>{{isUpdate?'تعديل':'أضافة'}}</span>
+        </button>
+
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="formGroup?.reset();modal.close()">
+            <i class="uil uil-times-circle fs-3"></i>
+            <span>الغاء</span>
+        </button>
+    </div>
+</ng-template>
+
+
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد العملية</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد من الحذف ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" [disabled]="showAddLoader" class="btn btn-success" (click)="modal.close('Save click');deleteUnit()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" [disabled]="showAddLoader" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">الغاء</span>
+        </button>
+    </div>
+</ng-template>
+<!-- <ngx-loading [show]="showLoader"></ngx-loading> -->

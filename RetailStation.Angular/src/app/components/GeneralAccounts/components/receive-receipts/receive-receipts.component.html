@@ -17,8 +17,8 @@
             </button>
         </div>
         <div class="justify-content-end">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="ReceiveReceipts.currentPage" [pageSize]="ReceiveReceipts.pageSize" [totalCount]="ReceiveReceipts.totalCount">
-            </app-erp-pagination>
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="ReceiveReceipts.currentPage" [pageSize]="ReceiveReceipts.pageSize" [totalCount]="ReceiveReceipts.totalCount">
+            </app-pagination>
         </div>
     </div>
     <div class="p-3 bg-white">

@@ -1,18 +1,9 @@
 ﻿using RetailStation.Entities.Common;
-using RetailStation.Entities.Common.Finance.GeneralAccounts;
 using RetailStation.Entities.Models.Finance;
-using RetailStation.Entities.Models.HR;
-using RetailStation.Interface.GeneralAccounts;
 using RetailStation.Interface.GeneralAccounts.GeneralAccountSettings;
-using RetailStation.Service.GeneralAccounts;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace RetailStation.API.Controllers.Finance.GeneralAccounts
 {

@@ -52,6 +52,11 @@
     max-width: 300px;
 }
 
+.filter-button {
+    border-color: #c1918f !important;
+    -webkit-border-radius: 20px;
+}
+
 .filter-button.dropdown-toggle::after {
     content: "\f078";
     font-family: "Font Awesome 5 Free";
@@ -64,9 +69,7 @@
     content: "\f077";
 }
 
-
 .badge {
     font-size: inherit !important;
     font-weight: normal !important;
-   
 }

@@ -7,9 +7,9 @@ import { ComponentHostDirective } from 'src/app/components/Shared/directives/com
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
-import { WebsiteOrderItemModel, WebsiteOrderModel } from '../../../models/WebsiteOrderModel ';
 import { SupplierService } from '../../../services/supplier.service';
 import { OrderService } from '../../../services/order.service';
+import { WebsiteOrderModel } from 'src/app/components/Website/models/WebsiteOrderModel ';
 
 
 @Component({

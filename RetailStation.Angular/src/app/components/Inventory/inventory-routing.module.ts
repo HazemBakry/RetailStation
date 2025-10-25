@@ -2,14 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PurchasesRequestsComponent } from './components/purchases-requests/purchases-requests.component';
 import { InventoryHomeComponent } from './components/inventory-home/inventory-home.component';
-import { UnitsComponent } from './components/units/units.component';
 import { AddItemComponent } from './components/add-item/add-item.component';
 import { ItemsCategoryComponent } from './components/items-category/items-category.component';
 import { DeliveryNotesComponent } from './components/delivery-notes/delivery-notes.component';
 import { AddDeliveryNoteComponent } from './components/add-delivery-note/add-delivery-note.component';
 import { InventoryLayoutComponent } from './inventory-layout/inventory-layout.component';
 import { PurchaseReceiptsComponent } from './components/purchase-receipts/purchase-receipts.component';
-import { AddPurchasesReceiptComponent } from './components/add-purchase-receipt/add-purchase-receipt.component';
 import { AddMaterialIssueReceiptComponent } from './components/add-material-issue-receipt/add-material-issue-receipt.component';
 import { MaterialIssueReceiptsComponent } from './components/material-issue-receipts/material-issue-receipts.component';
 import { AddMaterialRequestComponent } from './components/add-material-request/add-material-request.component';
@@ -42,12 +40,10 @@ const routes: Routes = [
       { path: 'material-issue', component: MaterialIssueReceiptsComponent, canActivate: [AuthPageGuard], data: { pageName: 'MaterialIssue' } },
       { path: 'add-material-issue', component: AddMaterialIssueReceiptComponent },
       { path: 'purchase-receipts', component: PurchaseReceiptsComponent },
-      { path: 'add-purchase-receipt', component: AddPurchasesReceiptComponent },
       { path: 'delivery-notes', component: DeliveryNotesComponent },
       { path: 'add-delivery-note', component: AddDeliveryNoteComponent },
       { path: 'add-item', component: AddItemComponent },
       { path: 'purchases-requests', component: PurchasesRequestsComponent },
-      { path: 'units', component: UnitsComponent, canActivate: [AuthPageGuard], data: { pageName: 'Units' } },
       { path: 'items-followUp-report', component: ItemsFollowupReportComponent },
       { path: 'received-items-report', component: ReceivedItemsReportComponent },
       { path: 'material-receipts-report', component: MaterialReceiptsReportComponent },

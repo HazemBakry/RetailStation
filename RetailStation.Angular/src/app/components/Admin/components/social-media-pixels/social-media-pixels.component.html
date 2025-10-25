@@ -1,0 +1,30 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="pixel-manager">
+    <h2>Social Media Pixel Manager</h2>
+
+    <div class="form-group">
+        <label for="platform-select">Select Platform:</label>
+        <select id="platform-select" [(ngModel)]="selectedPlatform" (change)="onPlatformSelect()" class="form-control">
+      <option [ngValue]="null" disabled>-- Select a platform --</option>
+      <option *ngFor="let platform of platforms" [ngValue]="platform"> {{ platform.displayName }} </option>
+    </select>
+    </div>
+
+    <div *ngIf="selectedPlatform" class="form-group">
+        <label for="pixel-id">Pixel ID:</label>
+        <input type="text" id="pixel-id" [(ngModel)]="pixelId" placeholder="Enter your pixel ID" class="form-control">
+    </div>
+
+    <div *ngIf="selectedPlatform" class="form-group">
+        <button (click)="injectPixel()" [disabled]="!pixelId || isInjected" class="btn btn-primary">
+      {{ isInjected ? '✓ Injected' : 'Inject Pixel' }}
+    </button>
+        <button *ngIf="isInjected" (click)="removeExistingPixels(); isInjected = false" class="btn btn-secondary"> Remove Pixel </button>
+    </div>
+
+    <div *ngIf="selectedPlatform" class="script-preview">
+        <h4>Pixel Script Preview:</h4>
+        <pre>{{ selectedPlatform.pixelScript.replace('YOUR_PIXEL_ID', pixelId || 'YOUR_PIXEL_ID') }}</pre>
+    </div>
+</div>

@@ -1,83 +1,45 @@
-<app-header (toggler)="onToggler()"></app-header>
-<main id="app">
-    <div class="app-content">
-        <!-- <app-sidebar [toggler]="toggler"></app-sidebar> -->
+<div class="p-4 gradient-nw-wrraper-bg">
+    <div class="container-fluid width-90-per">
+        <app-header></app-header>
 
+        <main class="main-design-wrapper pt-3">
+            <div class="d-flex">
+                <aside class="nw-sidebar-wrapper" [class.is-toggle]="isToggle">
+                    <button class="sidebar-button-collapser" (click)="onToggleContent()">
+                        <i class="uil uil-angle-left"></i>
+                    </button>
 
-        <aside id="main_sidebar" class="main-sidebar" [ngClass]="{'toggled': toggler}">
-            <ul class="nav list-unstyled flex-column p-0 m-0 small-scroll overflow-auto h-100 flex-column flex-nowrap">
-                <div class="nalika-profile" style="background: #16487ad9;color: white;">
-                    <a class="nav-link cursor-pointer text-dark d-flex align-items-center justify-content-between w-100" routerLink="/" routerLinkActive="active">
-                        <div class="nav-text d-flex align-items-center w-100">
-                            <i class="uil uil-home nav-icon" style="font-size: 20px; color: white;"></i>
-                            <span class="nav-link-text item-sidebar fw-bold main-nav-link ms-3" style="color: white; font-size: 14px;">الرئيسية
-                                </span>
+                    <div *ngIf="menuItem && menuItem.subMenus?.length >0" class="p-2">
+                        <div class="sidebar-scrolling small-scroll d-flex flex-column gap-3 nw-sidebar-height">
+                            <section *ngFor="let item of menuItem.subMenus" class="d-flex flex-column gap-4">
+                                <h4 class="nw-sidebar-title cursor-pointer mb-0">
+                                    {{item.displayName}}
+                                </h4>
+                                <ul class="nw-sidebar-list list-unstyled p-0 m-0 d-flex flex-column gap-3">
+                                    <li *ngFor="let sub of item.subMenus" class="nw-sidebar-item">
+                                        <a [routerLink]="sub.route" routerLinkActive="active" class="nw-sidebar-link d-flex align-items-center gap-3">
+                                            <div class="nw-sidebar-icon">
+                                                <i [class]="sub.icon"></i>
+                                            </div>
+                                            <div class="nw-sidebar-text">{{sub.displayName}}</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </section>
+
                         </div>
-                    </a>
+                    </div>
+                </aside>
+
+
+                <div class="main-general-account-content py-3">
+                    <router-outlet></router-outlet>
                 </div>
-                <li class="nav-item nav-item-item">
-                    <a class="nav-link main-nav cursor-pointer text-dark d-flex align-items-center justify-content-between w-100 active" (click)="toggleMenu(menu_Sales)" [ngClass]="{'active': menu_Sales.classList.contains('show')}">
-                        <div class="nav-text d-flex align-items-center w-100">
-                            <i class="uil uil-database nav-icon"></i>
-                            <span class="nav-link-text item-sidebar main-nav-link ms-3">المبيعات</span>
-                        </div>
-                        <div class="nav-collapse">
-                            <i class="uil uil-angle-left-b"></i>
-                        </div>
-                    </a>
-                    <ul class="nav list-unstyled nav-sub-list flex-column p-0 m-0 show" #menu_Sales>
-                        <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./sales-invoices" routerLinkActive="active">
-                                <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
-                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">فواتير المبيعات</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./add-sales-invoice" routerLinkActive="active">
-                                <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
-                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">انشاء فاتورة
-                                        مبيعات</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./sales-returns" routerLinkActive="active">
-                                <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
-                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">مرتجعات المبيعات</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./customer-statement" routerLinkActive="active">
-                                <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
-                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">كشف حساب عميل</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link sub-nav cursor-pointer d-flex align-items-center" routerLink="./customer-statement" routerLinkActive="active">
-                                <div class="nav-text d-flex align-items-center w-100">
-                                    <i class="uil uil-users-alt nav-icon"></i>
-                                    <span class="nav-link-text item-sidebar main-nav-link ms-3">كشف حساب عميل</span>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </aside>
+            </div>
 
+            <div id="overlaying-element" class="cursor-pointer" [class.show]="isToggle" (click)="onOverlayClicked()">
+            </div>
+        </main>
 
-
-
-
-        <div class="main-content" [ngClass]="{'toggled': toggler}">
-            <router-outlet></router-outlet>
-        </div>
     </div>
-</main>
+</div>

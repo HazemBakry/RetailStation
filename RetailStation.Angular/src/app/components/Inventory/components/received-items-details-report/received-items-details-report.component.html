@@ -3,16 +3,14 @@
 <div class="inputs-wrapper border rounded bg-white mb-3">
     <div class="inputs-sec-content px-3 py-2">
         <div class="row gy-3">
-             <div class="col-lg-4">
+            <div class="col-lg-4">
                 <div class="mb-2">
                     <label class="form-label d-flex align-items-center gap-2">
                         الاصناف
                         <span class="text-danger">*</span>
                     </label>
-                    <app-general-selector [selectMulti]="true"
-                        [placeholder]="'الاصناف'" [showSearch]="true" [data]="itemsSelectorData"
-                        (valueChanged)="getSelectedItems($event)"></app-general-selector>
-                    
+                    <app-general-selector [selectMulti]="true" [placeholder]="'الاصناف'" [showSearch]="true" [data]="itemsSelectorData" (valueChanged)="getSelectedItems($event)"></app-general-selector>
+
                 </div>
             </div>
             <div class="col-lg-3">
@@ -21,8 +19,7 @@
                         من تاريخ
                         <span class="text-danger">*</span>
                     </label>
-                    <input [(ngModel)]="fromDate" type="date" [(ngModel)]="fromDate" autocomplete="off"
-                        class="form-control nw-form-input" />
+                    <input [(ngModel)]="fromDate" type="date" [(ngModel)]="fromDate" autocomplete="off" class="form-control nw-form-input" />
                 </div>
             </div>
             <div class="col-lg-3">
@@ -30,8 +27,7 @@
                     <label class="form-label d-flex align-items-center gap-2">
                         الي تاريخ
                         <span class="text-danger">*</span></label>
-                    <input [(ngModel)]="toDate" type="date" [(ngModel)]="toDate" autocomplete="off"
-                        class="form-control nw-form-input" />
+                    <input [(ngModel)]="toDate" type="date" [(ngModel)]="toDate" autocomplete="off" class="form-control nw-form-input" />
                 </div>
             </div>
         </div>
@@ -42,8 +38,7 @@
             <i class="fas fa-search"></i>
             <span class="ms-2">بحث</span>
         </button>
-        <button [disabled]="showExportLoader" (click)="exportData()"
-            class="btn  btn-outline-success gap-2 border rounded px-3 me-2">
+        <button [disabled]="showExportLoader" (click)="exportData()" class="btn  btn-outline-success gap-2 border rounded px-3 me-2">
             <i class="fas fa-file-download"></i>
             <span>تصدير CSV</span>
         </button>
@@ -55,17 +50,14 @@
 </div>
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div
-        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="col-md-8 mb-2">
             <div class="d-flex align-items-center gap-2">
 
             </div>
         </div>
         <div class="col-md-4 mb-2">
-            <app-erp-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
-                [pageSize]="pagedResponseModel.pageSize"
-                [totalCount]="pagedResponseModel.totalCount"></app-erp-pagination>
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-pagination>
         </div>
 
 
@@ -106,8 +98,7 @@
                     </tr>
                     <tr *ngIf="!pagedResponseModel.results.length || showLoader">
                         <td colspan="8" class="text-right">
-                            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader"
-                                [showLoader]="showLoader"></app-empty-data>
+                            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>

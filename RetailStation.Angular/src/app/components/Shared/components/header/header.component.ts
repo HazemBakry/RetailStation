@@ -20,24 +20,40 @@ export class HeaderComponent implements OnInit {
   collapsed = true;
   showMenu: boolean = false;
   systemUrl: string = environment.systemUrl;
-  productSystemUrl: string = environment.authServerUrl+'/products';
+  productSystemUrl: string = environment.authServerUrl + '/products';
   UserModel: LoginUserModel;
-  selectedModuleName : string = 'الأنظمة';
-  modulesMenu:MenuSidebarItem[] = [];
-  isAuthenticated:boolean=false;
-  constructor(private authService: AuthService, private router: Router,private menuService: MenuService) {
-        this.modulesMenu = this.menuService.getMenuById(MenuType.MainModules)?.subMenus;
+  selectedModuleName: string = 'الأنظمة';
+  modulesMenu: MenuSidebarItem[] = [];
+  isAuthenticated: boolean = false;
+  CurrentTime: any;
+  CurrentDate: any;
+
+  constructor(private authService: AuthService, private router: Router, private menuService: MenuService) {
+    this.modulesMenu = this.menuService.getMenuById(MenuType.MainModules)?.subMenus;
     this.UserModel = this.authService.getCurrentUser();
     this.isAuthenticated = this.authService.isAuthenticated();
     this.routerSubscriber();
   }
 
   ngOnInit(): void {
+    this.GetCurrentTime();
+    this.CurrentDate = Date.now();
+  }
+
+  GetCurrentTime() {
+    let intervalClock = setInterval(() => {
+      let Time = new Date();
+      this.CurrentTime =
+        Time.getHours() +
+        ':' +
+        (Time.getMinutes() < 10 ? '0' : '') +
+        Time.getMinutes();
+    }, 1000);
   }
 
   routerSubscriber() {
     this.setSelectedModule(this.router.url);
-    
+
     this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe((event: NavigationStart) => {
       this.setSelectedModule(event.url);
     });
@@ -45,7 +61,7 @@ export class HeaderComponent implements OnInit {
   setSelectedModule(url: string) {
     var selectedModule = url.split('/') ? url.split('/')[1] : '';
     if (selectedModule) {
-      this.selectedModuleName = this.modulesMenu.find(x => x.route ==`/${selectedModule}`)?.displayName;
+      this.selectedModuleName = this.modulesMenu.find(x => x.route == `/${selectedModule}`)?.displayName;
     }
   }
   onToggler() {

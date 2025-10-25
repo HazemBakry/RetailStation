@@ -8,11 +8,12 @@ import { MenuService, MenuType } from '../../Shared/services/menu.service';
   styleUrls: ['./admin-layout.component.css']
 })
 export class AdminLayoutComponent implements OnInit {
-
   isToggle = false;
   menuItem: MenuSidebarItem;
+
   constructor(private menuService: MenuService,) {
-    this.menuItem = this.menuService.getMenuById(MenuType.Admin);
+    this.menuItem = this.menuService.getMenuById(MenuType.AdminHome);
+
   }
 
   ngOnInit(): void {

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
-import { AdminHomeComponent } from './components/admin-home/admin-home.component';
 import { AuthGuard } from 'src/app/Auth/auth.guard';
 import { SubscriberApplicationsComponent } from './components/ManageSubscriptions/subscriber-applications/subscriber-applications.component';
 import { AddSubscriberComponent } from './components/ManageSubscriptions/add-subscriber/add-subscriber.component';
@@ -10,30 +9,28 @@ import { SubscriberBranchesComponent } from './components/ManageSubscriptions/su
 import { SubscriberProfileComponent } from './components/ManageSubscriptions/subscriber-profile/subscriber-profile.component';
 import { SubscribersComponent } from './components/ManageSubscriptions/subscribers/subscribers.component';
 import { ManageSubscriptionsComponent } from './components/ManageSubscriptions/manage-subscriptions.component';
-import { ItemsCategoriesComponent } from './components/Operation/items-categories/items-categories.component';
-import { ItemUnitsComponent } from './components/Operation/item-units/item-units.component';
-import { SuppliersComponent } from './components/Operation/suppliers-container/suppliers/suppliers.component';
-import { AuthPageGuard } from 'src/app/Auth/authPage.guard';
-import { ItemsComponent } from './components/Operation/items/items.component';
 import { RolesComponent } from './components/ManageSubscriptions/roles/roles.component';
 import { ManageRolePagesComponent } from './components/ManageSubscriptions/manage-role-pages/manage-role-pages.component';
-import { WebsiteSubscribeRequestsComponent } from './components/ManageSubscriptions/website-subscribe-requests/website-subscribe-requests.component';
-import { SuppliersContainerComponent } from './components/Operation/suppliers-container/suppliers-container.component';
-import { ManageSupplierItemsComponent } from './components/Operation/suppliers-container/manage-supplier-items/manage-supplier-items.component';
-import { PromotionsComponent } from './components/website-admin/promotions/promotions.component';
-import { SlidersComponent } from './components/website-admin/sliders/sliders.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { SlidersComponent } from './components/sliders/sliders.component';
+import { SuppliersContainerComponent } from './components/suppliers-container/suppliers-container.component';
+import { SuppliersComponent } from './components/suppliers-container/suppliers/suppliers.component';
+import { ManageSupplierItemsComponent } from './components/suppliers-container/manage-supplier-items/manage-supplier-items.component';
+import { SubscriptionRequestsComponent } from './components/ManageSubscriptions/subscription-requests/subscription-requests.component';
+import { ItemsCategoriesComponent } from './components/items-categories/items-categories.component';
+import { ItemUnitsComponent } from './components/item-units/item-units.component';
+import { SocialMediaPixelsComponent } from './components/social-media-pixels/social-media-pixels.component';
+import { NotificationManagerComponent } from './components/notification-manager/notification-manager.component';
+import { TagsManagerComponent } from './components/tags-manager/tags-manager.component';
+
 
 const routes: Routes = [
   {
     path: '',
     component: AdminLayoutComponent,
     children: [
-      { path: 'home', component: AdminHomeComponent },
-      { path: 'home/:tabName', component: AdminHomeComponent },
-      { path: 'items-categories', component: ItemsCategoriesComponent },
-      { path: 'items-units', component: ItemUnitsComponent },
-      { path: 'items', component: ItemsComponent, },//canActivate: [AuthPageGuard], data: { pageName: 'Items' } },
-
+      { path: 'home', component: AdminDashboardComponent },
+      { path: 'home/:tabName', component: AdminDashboardComponent },
       {
         path: 'suppliers',
         canActivate: [AuthGuard],
@@ -42,10 +39,7 @@ const routes: Routes = [
         children: [
           { path: '', component: SuppliersComponent },
           { path: 'add-subscriber', component: AddSubscriberComponent },
-          {
-            path: 'manage-supplier-items/:SupplierId',
-            component: ManageSupplierItemsComponent
-          }
+          { path: 'manage-supplier-items/:SupplierId', component: ManageSupplierItemsComponent }
         ],
       },
       {
@@ -70,13 +64,15 @@ const routes: Routes = [
           { path: '', redirectTo: 'subscribers', pathMatch: 'full' },
         ],
       },
+      { path: 'items-categories', component: ItemsCategoriesComponent },
+      { path: 'items-units', component: ItemUnitsComponent },
       { path: 'roles', component: RolesComponent },
       { path: 'manage-role-pages/:roleId', component: ManageRolePagesComponent },
-      { path: 'subscribe-requests', component: WebsiteSubscribeRequestsComponent },
+      { path: 'subscription-requests', component: SubscriptionRequestsComponent },
       { path: 'sliders', component: SlidersComponent },
-      { path: 'promotions', component: PromotionsComponent },
-
-
+      { path: 'social-media', component: SocialMediaPixelsComponent },
+      { path: 'notifications-manager', component: NotificationManagerComponent },
+      { path: 'tags-manager', component: TagsManagerComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]
   }

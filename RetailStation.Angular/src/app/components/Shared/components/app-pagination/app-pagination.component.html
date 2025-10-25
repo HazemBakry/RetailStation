@@ -1,0 +1,66 @@
+<div *ngIf="!newPagination" class="pagination-container d-flex align-items-center justify-content-end flex-wrap">
+  <span class="me-2">
+    <span class="CrossRef_2_Info">{{'Showing'}} {{showingStr}} {{'of'}} </span>
+    <span class="CrossRef_2_InfoTotal">{{totalCount}}</span>
+  </span>
+  <div class="pull-right NewPaging">
+    <pagination [boundaryLinks]="true" [totalItems]="totalCount" [maxSize]="maxSize"
+      (pageChanged)="pageChangeEvevnt($event)" [itemsPerPage]="pageSize" previousText="{{'Previous'}}"
+      nextText="{{'Next'}}" firstText="{{'First'}}" lastText="{{'Last'}}">
+    </pagination>
+  </div>
+</div>
+
+<div *ngIf="newPagination"
+  class="pagination-container d-flex align-items-center justify-content-center flex-wrap gap-2">
+  <span>
+    <span class="CrossRef_2_Info">{{'Showing'}} {{showingStr}} {{'of'}} </span>
+    <span class="CrossRef_2_InfoTotal">{{totalCount}}</span>
+  </span>
+  <div class="pull-right NewPaging">
+    <nav>
+      <div class="pagination-new m-0 p-0">
+        <div *ngIf="totalPages > 3" class="page-item" [class.disabled]="currentPage === 1">
+          <a (click)="setPage(1)" class="page-link">First</a>
+        </div>
+        <ng-container *ngIf="isRightDirection">
+          <div class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link" aria-label="Previous" (click)="setPage(currentPage - 1)">
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!isRightDirection">
+          <div class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link d-flex align-items-cernter gap-1" aria-label="Previous"
+              (click)="setPage(currentPage - 1)">
+              <i class="ph ph-arrow-left"></i>
+              <span>Previous</span>
+            </a>
+          </div>
+        </ng-container>
+        <div *ngFor="let page of pages" class="page-item" [class.active]="page === currentPage">
+          <a (click)="setPage(page)" class="page-number">{{page}}</a>
+        </div>
+        <ng-container *ngIf="isRightDirection">
+          <div class="page-item" [class.disabled]="currentPage === totalPages">
+            <a class="page-link" (click)="setPage(currentPage + 1)" aria-label="Next">
+              <i class="fas fa-chevron-left"></i>
+            </a>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!isRightDirection">
+          <div class="page-item" [class.disabled]="currentPage === totalPages">
+            <a class="page-link d-flex align-items-center gap-1" (click)="setPage(currentPage + 1)" aria-label="Next">
+              <span>Next</span>
+              <i class="ph ph-arrow-right"></i>
+            </a>
+          </div>
+        </ng-container>
+        <div *ngIf="totalPages > 3" class="page-item" [class.disabled]="currentPage === totalPages">
+          <a (click)="setPage(totalPages)" class="page-link">Last</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</div>

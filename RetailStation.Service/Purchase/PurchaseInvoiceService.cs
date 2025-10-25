@@ -32,7 +32,6 @@ namespace RetailStation.Service.Purchase
         private readonly ISQLHelper SQLHelper;
         private readonly IConfiguration Configuration;
         private readonly ISharedFilterService SharedFilterService;
-        private readonly IJournalEntryService JournalEntryService;
         private readonly IInventoryService _inventoryService;
         private string ConnectionString;
 
@@ -40,7 +39,6 @@ namespace RetailStation.Service.Purchase
             ISQLHelper SQLHelper,
             IConfiguration Configuration,
             ISharedFilterService SharedFilterService,
-            IJournalEntryService _journalEntryService,
             IInventoryService inventoryService)
         {
             this.Context = Context;
@@ -48,7 +46,6 @@ namespace RetailStation.Service.Purchase
             this.Configuration = Configuration;
             this.ConnectionString = Configuration.GetConnectionString("DBConnection");
             this.SharedFilterService = SharedFilterService;
-            JournalEntryService = _journalEntryService;
             _inventoryService = inventoryService;
         }
 
@@ -316,7 +313,7 @@ namespace RetailStation.Service.Purchase
                 JournalEntryAccounts = accounts
             };
 
-            JournalEntryService.SaveNewJournalEntry(entry);
+            //JournalEntryService.SaveNewJournalEntry(entry);
         }
 
         public ActionsResponseModel CancelPurchaseInvoice(int InvoiceId)

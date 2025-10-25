@@ -3,20 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { OrderModel } from '../models/inventory';
 import { FilterItem, FilterModel, SearchFilterModel } from '../../Shared/models/FilterModel';
-import { ItemModel } from '../models/Item';
-import { PurchaseRequestModel } from '../models/PurchasesRequestModel';
 import { Unit } from '../models/unit';
 import { PagedResponseDTO } from '../../Shared/models/PagedResponseDTO';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { SupplierModel } from '../../Purchases/models/SupplierModel';
-import { ItemCategoryModel } from '../models/itemCategory';
-import { CategorySortModel } from '../models/categorySort';
-import { OrderDetailModel } from '../../Shared/models/ItemModel';
 import { MaterialRequestModel } from '../models/MaterialRequestModel ';
 import { GeneralOrderDetailsModel } from '../models/GeneralOrderModel ';
 import { MaterialReceiptModel } from '../models/MaterialReceiptModel';
 import { MaterialIssueModel } from '../models/MaterialIssueModel';
-import { ItemLookupDetailsModel, ItemLookupModel } from '../models/ItemLookupModel';
+import { ItemModel } from '../../Shared/models/ItemModel';
+import { ItemCategoryModel } from '../../Shared/models/ItemCategory';
+import { CategorySortModel } from '../../Shared/models/CategorySort';
+import { ItemLookupDetailsModel, ItemLookupModel } from '../../Shared/models/ItemLookupModel';
 
 @Injectable({
   providedIn: 'root'
