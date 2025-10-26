@@ -33,17 +33,17 @@
 
 
 <div class="home-slider">
-    <ngb-carousel *ngIf="promotionItems && promotionItems.length>0">
-        <ng-template ngbSlide *ngFor="let promo of promotionItems">
-            <div class="slider-img-wrapper">
-                <img [src]="promo?.imageURL" alt="Random first slide" />
-            </div>
-            <div class="carousel-caption">
-                <h3>{{promo?.supplierName}}</h3>
-                <p>{{promo?.description}}</p>
-            </div>
-        </ng-template>
-    </ngb-carousel>
+  <ngb-carousel *ngIf="promotionItems && promotionItems.length>0" [interval]="5000">
+    <ng-template ngbSlide *ngFor="let promo of promotionItems">
+      <div class="slider-img-wrapper">
+        <img [src]="promo?.imagePath" alt="Random first slide" />
+      </div>
+      <div class="carousel-caption">
+        <h3>{{promo?.supplierName}}</h3>
+        <p>{{promo?.description}}</p>
+      </div>
+    </ng-template>
+  </ngb-carousel>
 </div>
 
 

@@ -7,7 +7,7 @@ import { SalesService } from 'src/app/components/Sales/services/sales.service';
 @Component({
   selector: 'app-website-main-categories',
   templateUrl: './website-main-categories.component.html',
-  styleUrls: ['./website-main-categories.component.css']
+  styleUrls: ['./website-main-categories.component.css'],
 })
 export class WebsiteMainCategoriesComponent implements OnInit {
   showLoader: boolean = false;
@@ -16,10 +16,12 @@ export class WebsiteMainCategoriesComponent implements OnInit {
     filterList: [],
     pageSize: 10,
     currentPage: 1,
-    searchText: ''
-
+    searchText: '',
   };
-  constructor(private webService: WebsiteService, private salesService : SalesService) { }
+  constructor(
+    private webService: WebsiteService,
+    private salesService: SalesService
+  ) {}
 
   ngOnInit(): void {
     this.getItemCategories();
@@ -27,17 +29,24 @@ export class WebsiteMainCategoriesComponent implements OnInit {
 
   getItemCategories() {
     this.showLoader = true;
-    this.salesService.GetItemCategories().subscribe((data: PagedResponseModel<ItemCategoryModel[]>) => {
-      this.responseModel.results = data.results;
-      this.responseModel.totalCount = data.totalCount;
-      this.showLoader = false;
-    }, err => {
-      this.showLoader = false;
-    }, () => {
-      this.showLoader = false;
-    });
+    this.salesService.GetItemCategories().subscribe(
+      (data: PagedResponseModel<ItemCategoryModel[]>) => {
+        this.responseModel.results = data.results;
+        this.responseModel.totalCount = data.totalCount;
+        this.showLoader = false;
+        console.log(data.results);
+      },
+      (err) => {
+        this.showLoader = false;
+      },
+      () => {
+        this.showLoader = false;
+      }
+    );
   }
 
-
-
+  activeCat = null;
+  onActiveItem(index: number) {
+    this.activeCat = this.responseModel.results[index].itemCategoryId;
+  }
 }

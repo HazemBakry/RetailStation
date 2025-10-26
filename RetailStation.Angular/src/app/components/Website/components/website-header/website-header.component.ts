@@ -1,4 +1,12 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output, TemplateRef } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+  TemplateRef,
+} from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { AuthService } from 'src/app/Auth/auth.service';
@@ -6,16 +14,21 @@ import { environment } from 'src/environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginUserModel } from 'src/app/components/Shared/models/LoginResponseModel';
 import { MenuSidebarItem } from 'src/app/components/Shared/models/MenuSidebarItem';
-import { MenuService, MenuType } from 'src/app/components/Shared/services/menu.service';
+import {
+  MenuService,
+  MenuType,
+} from 'src/app/components/Shared/services/menu.service';
 import { CartService } from 'src/app/components/Shared/services/cart.service';
 
 @Component({
   selector: 'app-website-header',
   templateUrl: './website-header.component.html',
-  styleUrls: ['./website-header.component.css', '../../../../../styles-website.css']
+  styleUrls: [
+    './website-header.component.css',
+    '../../../../../styles-website.css',
+  ],
 })
 export class WebsiteHeaderComponent implements OnInit {
-
   @Input() showToggler: boolean = true;
   @Output() toggler = new EventEmitter<boolean>();
   collapsed = true;
@@ -28,19 +41,35 @@ export class WebsiteHeaderComponent implements OnInit {
   isAuthenticated: boolean = false;
   cartItemsCount$: number = 0;
 
-  constructor(private authService: AuthService, private router: Router,
-    private menuService: MenuService, private cartService: CartService,
-    private modalService: NgbModal) {
-    this.modulesMenu = this.menuService.getMenuById(MenuType.MainModules)?.subMenus;
+  isLoginMode = true;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private menuService: MenuService,
+    private cartService: CartService,
+    private modalService: NgbModal
+  ) {
+    this.modulesMenu = this.menuService.getMenuById(
+      MenuType.MainModules
+    )?.subMenus;
     this.UserModel = this.authService.getCurrentUser();
     this.isAuthenticated = this.authService.isAuthenticated();
     this.routerSubscriber();
-    this.getCartItemsNumber(); this.getUserModel();
-    this.cartService.itemCount$.subscribe(count => {
+    this.getCartItemsNumber();
+    this.getUserModel();
+    this.cartService.itemCount$.subscribe((count) => {
       this.cartItemsCount$ = count || 0;
     });
   }
 
+  openLoginRegisterModal(content: TemplateRef<any>) {
+    this.modalService.open(content, {
+      size: 'lg',
+      centered: true,
+      scrollable: true,
+    });
+  }
 
   openModal(content: TemplateRef<any>) {
     this.modalService.open(content, {
@@ -74,30 +103,33 @@ export class WebsiteHeaderComponent implements OnInit {
     // });
   }
 
-
   onClickedOutside() {
     this.isUserDropdown = false;
   }
 
   @HostListener('window:scroll') onScroll() {
     let windowScroll = window.scrollY;
-    let windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    let windowHeight =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
     this.scrollWidth = (windowScroll / windowHeight) * 100;
   }
-
-
 
   routerSubscriber() {
     this.setSelectedModule(this.router.url);
 
-    this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe((event: NavigationStart) => {
-      this.setSelectedModule(event.url);
-    });
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationStart))
+      .subscribe((event: NavigationStart) => {
+        this.setSelectedModule(event.url);
+      });
   }
   setSelectedModule(url: string) {
     var selectedModule = url.split('/') ? url.split('/')[1] : '';
     if (selectedModule) {
-      this.selectedModuleName = this.modulesMenu.find(x => x.route == `/${selectedModule}`)?.displayName;
+      this.selectedModuleName = this.modulesMenu.find(
+        (x) => x.route == `/${selectedModule}`
+      )?.displayName;
     }
   }
   onToggler() {
@@ -110,6 +142,4 @@ export class WebsiteHeaderComponent implements OnInit {
   login() {
     this.authService.loginRedirect();
   }
-
-
 }

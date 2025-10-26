@@ -1,17 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbCarouselConfig, NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbCarouselConfig,
+  NgbModal,
+  NgbOffcanvas,
+} from '@ng-bootstrap/ng-bootstrap';
 import { MenuSidebarItem } from 'src/app/components/Shared/models/MenuSidebarItem';
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
-import { MenuService, MenuType } from 'src/app/components/Shared/services/menu.service';
+import {
+  MenuService,
+  MenuType,
+} from 'src/app/components/Shared/services/menu.service';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { WebsiteService } from '../../services/website.service';
 import { SupplierItemModel } from 'src/app/components/Shared/models/SupplierItemModel';
 
+export interface RetailStationLogos {
+  name: string;
+  logo: string;
+}
+
 @Component({
   selector: 'app-website-home',
   templateUrl: './website-home.component.html',
-  styleUrls: ['./website-home.component.css']
+  styleUrls: ['./website-home.component.css'],
 })
 export class WebsiteHomeComponent implements OnInit {
   systemURL: string = environment.systemUrl;
@@ -44,27 +56,32 @@ export class WebsiteHomeComponent implements OnInit {
     filterList: [],
     pageSize: 20,
     currentPage: 1,
-    searchText: ''
+    searchText: '',
   };
   suppliersData: SupplierItemModel[] = [];
-  constructor(config: NgbCarouselConfig, private websiteService: WebsiteService,
+  constructor(
+    config: NgbCarouselConfig,
+    private websiteService: WebsiteService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
-    private menuService: MenuService) {
+    private menuService: MenuService
+  ) {
     config.interval = 5000;
     config.wrap = true;
     config.keyboard = true;
     config.pauseOnHover = false;
 
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       this.menuItem = null;
       if (params['tabName']) {
         this.selectedTabName = params['tabName'];
-        this.menuItem = this.menuService.getMenuById(MenuType.GeneralAccountsHome, this.selectedTabName);
+        this.menuItem = this.menuService.getMenuById(
+          MenuType.GeneralAccountsHome,
+          this.selectedTabName
+        );
       }
     });
   }
-
 
   ngOnInit(): void {
     // this.UserModelStr = localStorage.getItem('UserModel');
@@ -76,7 +93,6 @@ export class WebsiteHomeComponent implements OnInit {
     this.GetPromotionItems();
     this.GetSubscribersByFoodType(0);
     this.GetFoodTypes();
-
   }
   GetFoodTypes() {
     // this.websiteService.GetFoodTypes().subscribe(data => {
@@ -115,12 +131,13 @@ export class WebsiteHomeComponent implements OnInit {
 
   onFoodTypeChange(foodTypeId: any) {
     this.GetSubscribersByFoodType(foodTypeId);
-
   }
 
   moreAndLessFilterBtn() {
     this.moreFilters = !this.moreFilters;
-    this.moreFilters ? this.count = this.count * this.kitchenCategories.length : this.count = this.countRange;
+    this.moreFilters
+      ? (this.count = this.count * this.kitchenCategories.length)
+      : (this.count = this.countRange);
   }
 
   SaveMyCart(itemId: number, quantity: number, userId: number, notes: string) {
@@ -141,7 +158,11 @@ export class WebsiteHomeComponent implements OnInit {
     debugger;
     this.FoodItem = FoodItem;
     this.counterValue = 1;
-    this.modalService.open(content, { centered: true, scrollable: true, size: 'lg' })
+    this.modalService.open(content, {
+      centered: true,
+      scrollable: true,
+      size: 'lg',
+    });
   }
 
   openSidePanel(content: any, CartItem: any) {
@@ -167,7 +188,6 @@ export class WebsiteHomeComponent implements OnInit {
     //       CartItem.totalValue = CartItem.price2 * this.counterValue;
     //     }
     //     CartItem.counterValue = this.counterValue;
-
     //     this.CartItemsList.push(CartItem);
     //     this.CartItemsList.map(item => {
     //       this.TotalValue += item.totalValue;
@@ -180,8 +200,49 @@ export class WebsiteHomeComponent implements OnInit {
     //   this.sharedService.AddToCartList(CartItem);
     //   this.sharedService.ChangeCartNumber(this.CartItemsList);
     //   this.offcanvasService.open(content, { scroll: true })
-
     // }
   }
 
+  retailStationLogos: RetailStationLogos[] = [
+    {
+      name: 'Shell',
+      logo: 'https://1000logos.net/wp-content/uploads/2024/08/Shell-Logo.png',
+    },
+    {
+      name: 'TotalEnergies',
+      logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/5/54/TotalEnergies_logo.svg/1200px-TotalEnergies_logo.svg.png',
+    },
+    {
+      name: 'ExxonMobil',
+      logo: 'https://download.logo.wine/logo/ExxonMobil/ExxonMobil-Logo.wine.png',
+    },
+    {
+      name: 'BP',
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c0/Bp_logo1961.png',
+    },
+    {
+      name: 'Caltex',
+      logo: 'https://images.seeklogo.com/logo-png/2/2/caltex-logo-png_seeklogo-25055.png',
+    },
+    {
+      name: 'Esso',
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Esso-Logo.svg/1200px-Esso-Logo.svg.png',
+    },
+    {
+      name: 'Emarat',
+      logo: 'https://logos-world.net/wp-content/uploads/2020/03/Emirates-Logo.png',
+    },
+    {
+      name: 'ENOC',
+      logo: 'https://autostarcompany.com/en/assets/uploads/2021/11/enoc-products.png',
+    },
+    {
+      name: 'ADNOC',
+      logo: 'https://arda.africa/wp-content/uploads/2022/08/Arda_Sponsor_Logos_Gold_Adnoc.png',
+    },
+    {
+      name: 'PetroChina',
+      logo: 'https://upload.wikimedia.org/wikipedia/en/2/2b/Petrochina_logo.svg',
+    },
+  ];
 }

@@ -5,7 +5,21 @@
 
 <ng-container>
   <!-- <app-website-slider></app-website-slider> -->
-  <app-website-promotion-items></app-website-promotion-items>
+  <div class="py-4">
+    <app-website-promotion-items></app-website-promotion-items>
+  </div>
+  <section class="marketing-category-section d-flex flex-column gap-3 mt-4 mb-5">
+    <div class="d-flex align-items-center gap-2 position-relative">
+      <img src="../../../../../assets/strong-offet-icon-2.svg" class="header-offer-icon" alt="offer-icon"
+        loading="lazy" />
+      <div class="fw-semibold fs-18">أشهر العلامات</div>
+    </div>
+    <div class="d-flex gap-3 flex-wrap px-3">
+      <div class="logos-box border radius-10 overflow-hidden bg-white" *ngFor="let item of retailStationLogos">
+        <img [src]="item.logo" alt="{{ item.name }}" loading="lazy" />
+      </div>
+    </div>
+  </section>
   <app-website-main-categories></app-website-main-categories>
   <app-website-main-items></app-website-main-items>
 </ng-container>

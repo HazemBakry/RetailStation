@@ -2,22 +2,32 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CompareService } from 'src/app/components/Shared/services/comapre.service';
 import { environment } from 'src/environments/environment';
-import { CartModel, CartService } from 'src/app/components/Shared/services/cart.service';
+import {
+  CartModel,
+  CartService,
+} from 'src/app/components/Shared/services/cart.service';
 import { SupplierItemModel } from 'src/app/components/Shared/models/SupplierItemModel';
 
 @Component({
   selector: 'app-website-item-card',
   templateUrl: './website-item-card.component.html',
-  styleUrls: ['./website-item-card.component.css']
+  styleUrls: ['./website-item-card.component.css'],
 })
 export class WebsiteItemCardComponent implements OnInit {
   @Input() item!: SupplierItemModel;
   isItemInCart = false;
   systemURL: string = environment.systemUrl;
 
-  supplierLogo: string = 'https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg'
+  isCounterMode = false;
+
+  supplierLogo: string =
+    'https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg';
   defaultItemImage = `${this.systemURL}assets/images/13.png`;
-  constructor(config: NgbCarouselConfig, private compareService: CompareService, private cartService: CartService) {
+  constructor(
+    config: NgbCarouselConfig,
+    private compareService: CompareService,
+    private cartService: CartService
+  ) {
     config.interval = 5000;
     config.wrap = true;
     config.keyboard = true;
@@ -31,9 +41,10 @@ export class WebsiteItemCardComponent implements OnInit {
     // });
   }
   checkCompareAdded() {
-    this.item.isCompareAdded = this.compareService.isItemInList(this.item.supplierItemId);
+    this.item.isCompareAdded = this.compareService.isItemInList(
+      this.item.supplierItemId
+    );
   }
-
 
   toggleCompare(item: SupplierItemModel): void {
     if (item.isCompareAdded) {
@@ -44,7 +55,6 @@ export class WebsiteItemCardComponent implements OnInit {
     this.checkCompareAdded();
   }
 
-
   checkCartAdded() {
     // this.cartService.cartItems$.subscribe(items => {
     //   this.isItemInCart = items.some(cartItem => cartItem.supplierItemId === this.item.supplierItemId);
@@ -52,11 +62,10 @@ export class WebsiteItemCardComponent implements OnInit {
     this.isItemInCart = this.cartService.isItemInList(this.item.supplierItemId);
   }
   addToCart(): void {
-
     const cartItem: CartModel = {
       supplierItemId: this.item.supplierItemId,
       quantity: 1,
-      userId: ''
+      userId: '',
     };
     this.cartService.addItem(cartItem);
     this.checkCartAdded();
@@ -69,7 +78,7 @@ export class WebsiteItemCardComponent implements OnInit {
 
   itemQuantity: number = 1;
   addQuantity(qty: number) {
-    if ((this.itemQuantity + qty) > 0 ) {
+    if (this.itemQuantity + qty > 0) {
       this.itemQuantity = this.itemQuantity + qty;
     }
   }

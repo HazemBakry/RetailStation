@@ -1,0 +1,6 @@
+.market-cat-card:hover,
+.market-cat-card.active {
+  border-color: #86ee02d9 !important;
+  background-color: #f8fff0d9 !important;
+  cursor: pointer;
+}

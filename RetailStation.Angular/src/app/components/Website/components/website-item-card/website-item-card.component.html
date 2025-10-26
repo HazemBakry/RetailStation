@@ -45,67 +45,81 @@
 </div> -->
 
 
-<div class="market-cat-card bg-white p-3 position-relative" [class.is-fav]="item.isFav">
-    <i class="{{ item.isFav ? 'ph-fill ph-heart' : 'ph ph-heart' }} cursor-pointer like-product-icon" (click)="item.isFav = !item.isFav" [style.color]="item.isFav ? '#86ee02d9' : ''"></i>
-    <div class="d-flex flex-wrap gap-3">
-        <div>
-            <div class="d-flex flex-column justify-content-between gap-2 h-100">
-                <div class="more-buy-img-box position-relative">
-                    <img [src]="item.imageUrl" class="more-buy-image" alt="more-buy-image" loading="lazy" />
-                    <button (click)="toggleCompare(item)" class="btn btn-add-compare d-flex align-items-center gap-2 top-position">
-                        <i class="ph ph-git-diff fs-6"></i>
-                        <div>
-                            <span *ngIf="!item.isCompareAdded">مقارنة</span>
-                            <span *ngIf="item.isCompareAdded"> حذف المقارنة</span>
-                        </div>
-                    </button>
-                </div>
-                <div class="count-button d-flex align-items-center gap-2">
-                    <i (click)="addToCart()" *ngIf="!isItemInCart" class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
-                    <input type="text" value="1" disabled class="form-control border text-center height-30 width-50">
-                    <i (click)="removeItem()" *ngIf="isItemInCart" class="ph ph-trash cursor-pointer text-danger fw-semibold"></i>
-                </div>
-                <div class="count-button d-flex align-items-center gap-2">
-                    <i (click)="addQuantity(1)" class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
-                    <input type="text" disabled [(ngModel)]="itemQuantity" class="form-control border text-center height-30 width-50">
-                    <i (click)="addQuantity(-1)" class="ph ph-minus cursor-pointer text-danger fw-semibold"></i>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="d-flex flex-column gap-3 position-relative">
-                <div class="fs-16 fw-semibold">
-                    {{item.nameAR}}
-                </div>
-                <div class="d-flex align-items-center gap-2">
-                    <i class="ph ph-link-simple text-muted"></i>
-                    <a class="text-muted fw-semibold cursor-pointer">
-                        {{item.supplierName}}
-                    </a>
-                    <app-rate></app-rate>
-
-                </div>
-                <div class="d-flex align-items-center gap-2">
-                    <div class="d-flex align-items-center gap-2">
-                        <i class="ph ph-chart-line-down text-muted"></i>
-                        <div class="d-flex align-items-center gap-1 text-muted">أقل كمية للطلب: <span class="fw-bold">3
-                                قطعة</span></div>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center gap-2">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="text-danger fw-bold fs-4">{{item.price}}</div>
-                            <img src="{{systemURL}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
-                        </div>
-                        <div class="d-flex align-items-center gap-2 line-through">
-                            <div class="text-danger fw-bold fs-4">{{item.price + item.price*20/100}}</div>
-                            <img src="{{systemURL}}assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
-                        </div>
-                        <button class="btn btn-danger py-1 px-3">Sale 20%</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="bg-white position-relative overflow-hidden h-100" [class.is-fav]="item.isFav">
+  <i class="{{ item.isFav ? 'ph-fill ph-heart' : 'ph ph-heart' }} cursor-pointer like-product-icon"
+    (click)="item.isFav = !item.isFav" [style.color]="item.isFav ? '#86ee02d9' : ''"></i>
+  <div class="main-item-card-content d-flex flex-wrap gap-3 border border-bottom-0 radius-top-10">
+    <div class="d-flex flex-column align-items-center gap-2 w-100 px-3 pt-3">
+      <div class="more-buy-img-box position-relative">
+        <img [src]="item.imageUrl" class="more-buy-image" alt="more-buy-image" loading="lazy" />
+      </div>
     </div>
+    <div class="d-flex flex-column gap-3 position-relative w-100 px-3 pb-3">
+      <div class="fs-16 fw-semibold">
+        {{item.nameAR}}
+      </div>
+      <div class="d-flex align-items-center justify-content-between gap-2">
+        <div class="d-flex align-items-center gap-2">
+          <i class="ph ph-link-simple text-muted"></i>
+          <a class="text-muted fw-semibold cursor-pointer">
+            {{item.supplierName}}
+          </a>
+        </div>
+        <app-rate></app-rate>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-2">
+          <i class="ph ph-chart-line-down text-muted"></i>
+          <div class="d-flex align-items-center gap-1 text-muted">أقل كمية للطلب: <span class="fw-bold">3
+              قطعة</span></div>
+        </div>
+      </div>
+      <div class="d-flex align-items-center justify-content-between gap-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="d-flex align-items-center gap-2">
+            <div class="text-danger fw-bold fs-4">{{item.price}}</div>
+            <img src="{{systemURL}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
+          </div>
+          <div class="d-flex align-items-center gap-2 line-through">
+            <div class="text-danger fw-bold fs-4">{{item.price + item.price*20/100}}</div>
+            <img src="{{systemURL}}assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
+          </div>
+        </div>
+        <button (click)="toggleCompare(item)" class="btn btn-add-compare d-flex align-items-center gap-2">
+          <i class="ph ph-git-diff fs-6"></i>
+          <div>
+            <span *ngIf="!item.isCompareAdded">مقارنة</span>
+            <span *ngIf="item.isCompareAdded"> حذف المقارنة</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="main-item-card-action light-green-hover border p-3 w-100 cursor-pointer radius-bottom-10">
+    <ng-container *ngIf="!isCounterMode">
+      <div class="d-flex align-items-center justify-content-center gap-2" (click)="isCounterMode = true">
+        <i class="ph ph-shopping-cart fs-4"></i>
+        <div class="fw-bold">أضف للعربه</div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="isCounterMode">
+      <div class="d-flex align-items-center justify-content-center gap-4">
+        <div class="count-button d-flex align-items-center gap-2">
+          <i (click)="addToCart()" *ngIf="!isItemInCart" class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
+          <input type="text" value="1" disabled class="form-control border text-center height-30 width-50">
+          <i (click)="removeItem(); isCounterMode = false" *ngIf="isItemInCart"
+            class="ph ph-trash cursor-pointer text-danger fw-semibold"></i>
+        </div>
+        <div>-</div>
+        <div class="count-button d-flex align-items-center gap-2">
+          <i (click)="addQuantity(1)" class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
+          <input type="text" disabled [(ngModel)]="itemQuantity"
+            class="form-control border text-center height-30 width-50">
+          <i (click)="addQuantity(-1)" class="ph ph-minus cursor-pointer text-danger fw-semibold"></i>
+        </div>
+      </div>
+    </ng-container>
+
+
+  </div>
 </div>
