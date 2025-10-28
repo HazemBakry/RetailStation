@@ -1,60 +1,13 @@
 <div class="home-slider">
-
-  <swiper [spaceBetween]="10" [navigation]="true" [pagination]="{ clickable: true }" [breakpoints]="{
-            '0': {
-              slidesPerView: 1
-            },
-            '575': {
-              slidesPerView: 1
-            },
-            '767': {
-              slidesPerView: 1
-            },
-            '1024': {
-              slidesPerView: 1
-            },
-            '1200': {
-              slidesPerView: 1
-            }
-          }">
-
-    <ng-container *ngFor="let slide of sliderData">
-      <ng-template swiperSlide>
-        <div class="slider-img-wrapper">
-          <img [src]="slide.imageURL" alt="Random first slide" />
-        </div>
-        <div class="carousel-caption">
-          <h3>{{slide.title}}</h3>
-          <p>{{slide.description}}</p>
-        </div>
-      </ng-template>
-    </ng-container>
-    <!-- <ng-template swiperSlide>
-      <div class="slider-img-wrapper">
-        <img src="../../../../../assets/images/module_home.jpg" alt="Random first slide" />
-      </div>
-      <div class="carousel-caption">
-        <h3>أبو أنس الدمشقى</h3>
-        <p>هنا بعض النصوص عن كل مطعم من التوب عندنا</p>
-      </div>
-    </ng-template>
-    <ng-template swiperSlide>
-      <div class="slider-img-wrapper">
-        <img src="../../../../../assets/images/homePage1.jpeg" alt="Random first slide" />
-      </div>
-      <div class="carousel-caption">
-        <h3>أبو أنس الدمشقى</h3>
-        <p>هنا بعض النصوص عن كل مطعم من التوب عندنا</p>
-      </div>
-    </ng-template>
-    <ng-template swiperSlide>
-      <div class="slider-img-wrapper">
-        <img src="../../../../../assets/images/lock-user.png" alt="Random first slide" />
-      </div>
-      <div class="carousel-caption">
-        <h3>أبو أنس الدمشقى</h3>
-        <p>هنا بعض النصوص عن كل مطعم من التوب عندنا</p>
-      </div>
-    </ng-template> -->
-  </swiper>
+    <ngb-carousel *ngIf="pageResponseModel.results && pageResponseModel.results.length>0" [interval]="5000">
+        <ng-template ngbSlide *ngFor="let slider of pageResponseModel.results">
+            <div class="slider-img-wrapper">
+                <img [src]="slider?.imageURL" alt="Random first slide" />
+            </div>
+            <div class="carousel-caption">
+                <h3>{{slider?.title}}</h3>
+                <p>{{slider?.description}}</p>
+            </div>
+        </ng-template>
+    </ngb-carousel>
 </div>

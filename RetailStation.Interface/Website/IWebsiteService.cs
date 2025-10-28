@@ -11,11 +11,13 @@ namespace RetailStation.Interface.Website
 {
     public interface IWebsiteService
     {
+        List<SliderModel> GetWebsiteMainSlider();
+        List<ItemCategoryModel> GetWebsiteHomeCategories(int? CategoryId = null);
+        List<ItemDto> GetItemsByCategoryId(int CategoryId, SearchFilterModel model);
         List<SupplierItemModel> GetWebsiteItems_Data(SearchFilterModel FilterModel);
         List<FilterModel> GetWebsiteItems_Filters(SearchFilterModel FilterModel);
         SupplierItemModel GetWebsiteItemDetailsById(int SupplierItemId);
         List<PromotionModel> GetWebsitePromotionItems(SearchFilterModel model);
-        List<SliderModel> GetWebsiteMainSlider();
 
     }
 }

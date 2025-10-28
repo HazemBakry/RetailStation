@@ -19,22 +19,20 @@ export class WebsiteMainCategoriesComponent implements OnInit {
     searchText: '',
   };
   constructor(
-    private webService: WebsiteService,
-    private salesService: SalesService
+    private webService: WebsiteService
   ) {}
 
   ngOnInit(): void {
-    this.getItemCategories();
+    this.getWebsiteHomeCategories();
   }
 
-  getItemCategories() {
+  getWebsiteHomeCategories() {
     this.showLoader = true;
-    this.salesService.GetItemCategories().subscribe(
+    this.webService.GetWebsiteHomeCategories().subscribe(
       (data: PagedResponseModel<ItemCategoryModel[]>) => {
         this.responseModel.results = data.results;
         this.responseModel.totalCount = data.totalCount;
         this.showLoader = false;
-        console.log(data.results);
       },
       (err) => {
         this.showLoader = false;

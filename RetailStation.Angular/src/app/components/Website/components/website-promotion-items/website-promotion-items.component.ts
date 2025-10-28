@@ -82,19 +82,12 @@ export class WebsitePromotionItemsComponent implements OnInit {
             } else if (result.itemId === 1) {
               imagePath = '../../../../../assets/main_banner_03.svg';
             }
-
             return {
               ...result,
               imagePath,
             };
           });
-
-          console.log(data.results);
-
           this.promotionItems = updatedResults;
-
-          console.log(updatedResults);
-
           this.showLoader = false;
         },
         (err) => {

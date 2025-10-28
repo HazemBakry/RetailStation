@@ -14,18 +14,57 @@ namespace RetailStation.API.Controllers.Website
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class WebsiteController : ControllerBase
     {
-
         private readonly IWebsiteService _websiteService;
         private readonly IOrderService _orderService;
         public const int SupplierId = 1;
+
         public WebsiteController(IWebsiteService websiteService, IOrderService orderService)
         {
             _websiteService = websiteService;
             _orderService = orderService;
         }
 
+        [HttpGet]
+        [Route("GetWebsiteMainSlider")]
+        public IActionResult GetWebsiteMainSlider()
+        {
+            var result = _websiteService.GetWebsiteMainSlider();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("GetWebsiteHomeCategories")]
+        public IActionResult GetWebsiteHomeCategories()
+        {
+            var data = _websiteService.GetWebsiteHomeCategories();
+            var result = new PagedResponseModel<ItemCategoryModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = 0,
+                CurrentPage = 0
+            };
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("GetItemsByCategoryId")]
+        public IActionResult GetItemsByCategoryId(int CategoryId, SearchFilterModel model)
+        {
+            var data = _websiteService.GetItemsByCategoryId(CategoryId, model);
+            var result = new PagedResponseModel<ItemDto>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = 0,
+                CurrentPage = 0
+
+            };
+            return Ok(result);
+        }
 
         [HttpPost]
         [Route("GetWebsiteItems_Data")]
@@ -41,6 +80,7 @@ namespace RetailStation.API.Controllers.Website
             };
             return Ok(result);
         }
+
         [HttpPost]
         [Route("GetWebsiteItems_Filters")]
         public IActionResult GetWebsiteItems_Filters(SearchFilterModel SearchModel)
@@ -72,15 +112,6 @@ namespace RetailStation.API.Controllers.Website
             };
             return Ok(result);
         }
-        [HttpGet]
-        [Route("GetWebsiteMainSlider")]
-        public IActionResult GetWebsiteMainSlider()
-        {
-            var result = _websiteService.GetWebsiteMainSlider();
-            return Ok(result);
-        }
-
-
 
 
         #region Orders

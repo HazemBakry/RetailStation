@@ -5,6 +5,7 @@ import { SalesService } from 'src/app/components/Sales/services/sales.service';
 import { ItemCategoryModel } from 'src/app/components/Shared/models/ItemCategory';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { environment } from 'src/environments/environment';
+import { WebsiteService } from '../../services/website.service';
 
 @Component({
   selector: 'app-website-search',
@@ -24,8 +25,7 @@ export class WebsiteSearchComponent implements OnInit {
   constructor(
     private router: Router,
     private acRoute: ActivatedRoute,
-    private authService: AuthService,
-    private salesService: SalesService) {
+    private websiteService: WebsiteService) {
   }
 
   ngOnInit(): void {
@@ -36,16 +36,16 @@ export class WebsiteSearchComponent implements OnInit {
   }
 
   getItemCategories() {
-    this.salesService.GetItemCategories().subscribe((data: PagedResponseDTO<ItemCategoryModel[]>) => {
+    this.websiteService.GetWebsiteHomeCategories().subscribe((data: PagedResponseDTO<ItemCategoryModel[]>) => {
       this.categories = data.results;
     }, err => {
-      
+
     }, () => {
-      
+
     });
   }
 
-  onCategorySelected(cat){
+  onCategorySelected(cat) {
     this.selectedCategory = cat;
   }
 

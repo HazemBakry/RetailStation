@@ -9,6 +9,7 @@ import { CreateOrderModel, WebsiteOrderModel } from '../models/WebsiteOrderModel
 import { SliderModel } from '../../Admin/models/Operation/SliderModel';
 import { SupplierItemModel } from '../../Shared/models/SupplierItemModel';
 import { PromotionModel } from '../../Shared/models/PromotionModel';
+import { ItemCategoryModel } from '../../Shared/models/ItemCategory';
 
 
 @Injectable({
@@ -20,15 +21,24 @@ export class WebsiteService {
   constructor(private http: HttpClient) { }
 
 
+  GetWebsiteHomeCategories() {
+    return this.http.get<PagedResponseModel<ItemCategoryModel[]>>(this.URL + 'Website/GetWebsiteHomeCategories');
+  }
 
   /////////////////////////////// SupplierItems ////////////////////////
 
   GetWebsiteItems_Data(searchModel: PagedResponseModel<SupplierItemModel[]>) {
     return this.http.post<PagedResponseModel<SupplierItemModel[]>>(this.URL + 'Website/GetWebsiteItems_Data', searchModel);
   }
+
   GetWebsiteItems_Filters(searchModel: PagedResponseModel<SupplierItemModel[]>) {
     return this.http.post<FilterModel[]>(this.URL + 'Website/GetWebsiteItems_Filters', searchModel);
   }
+
+  GetItemsByCategoryId(categoryId: number, searchModel: PagedResponseModel<SupplierItemModel[]>) {
+    return this.http.post<PagedResponseModel<SupplierItemModel[]>>(this.URL + `Website/GetItemsByCategoryId?CategoryId=${categoryId}`, searchModel);
+  }
+
   GetWebsitePromotionItems(searchModel: PagedResponseModel<PromotionModel[]>) {
     return this.http.post<PagedResponseModel<PromotionModel[]>>(this.URL + 'Website/GetWebsitePromotionItems', searchModel);
   }

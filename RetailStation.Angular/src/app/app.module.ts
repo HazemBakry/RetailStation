@@ -2,7 +2,6 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -11,7 +10,6 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from './components/Shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ErpLoginComponent } from './components/Shared/components/erp-login/erp-login.component';
 import { SigninComponent } from './components/Shared/components/signin/signin.component';
 import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 import { RolesService } from './Auth/roles.service';
@@ -20,7 +18,6 @@ import { LoginComponent } from './Auth/login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
-    ErpLoginComponent,
     LoginComponent,
     DashboardComponent,
     SigninComponent,

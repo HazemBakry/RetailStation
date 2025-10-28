@@ -152,8 +152,6 @@ export class SubscriptionRequestsComponent implements OnInit {
     });
   }
   saveRecord() {
-    console.log(this.formErrors);
-
     if (!this.validateForm()) {
       return;
     }

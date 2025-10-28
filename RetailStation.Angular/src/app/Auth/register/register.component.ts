@@ -39,7 +39,6 @@ export class RegisterComponent implements OnInit {
     private form: FormBuilder, private _FormService: FormService,
     private modalService: NgbModal) {
     this.returnUrl = this.acRouter.snapshot.queryParamMap.get('returnUrl'); //|| '/';
-    console.log("this.returnUrl", this.returnUrl);
     this.logout = this.acRouter.snapshot.queryParamMap.get('logout') === 'true';
     // if (this.logout) {
     //   this.authService.logout();
@@ -157,8 +156,6 @@ export class RegisterComponent implements OnInit {
   }
 
   saveSubscriberData() {
-    console.log(this.formErrors);
-
     if (!this.validateForm()) {
       return;
     }
@@ -196,9 +193,8 @@ export class RegisterComponent implements OnInit {
     }, () => {
       this.showLoader = false;
     });
-
-
   }
+
   validateForm(): boolean {
     this._FormService.markFormGroupTouched(this.formGroup);
     if (this.formGroup.valid) {
@@ -208,6 +204,7 @@ export class RegisterComponent implements OnInit {
       return false;
     }
   }
+  
   onFileChange(event: any) {
     this.subscriberImageFile = event.target.files[0];
     //this.imageFileName = event.target.files[0].name;

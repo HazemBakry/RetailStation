@@ -6,6 +6,7 @@ import { RegisterComponent } from './Auth/register/register.component';
 import { HomeComponent } from './components/Shared/components/home/home.component';
 import { WebsiteComponent } from './components/Website/components/website.component';
 import { WebsiteHomeComponent } from './components/Website/components/website-home/website-home.component';
+import { WebsiteCartComponent } from './components/Website/components/website-cart/website-cart.component';
 
 
 const routes: Routes = [
@@ -14,7 +15,8 @@ const routes: Routes = [
     path: '',
     component: WebsiteComponent,
     children: [
-      { path: '', component: WebsiteHomeComponent }
+      { path: '', component: WebsiteHomeComponent },
+      { path: 'cart', component: WebsiteCartComponent },
     ],
   },
   // { path: 'home', component: WelcomePageComponent, canActivate: [AuthGuard] },

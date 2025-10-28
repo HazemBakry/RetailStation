@@ -45,6 +45,7 @@ export class RolesService {
     return this.http.post<ActionsResponseModel>(this.URL + `SaveSubscriberRolePages?RoleId=${roleId}`, pageActionIds);
 
   }
+  
   fetchUserAuthorizedPages(): Observable<PagePermissionModel[]> {
     return this.http.get<PagePermissionModel[]>(this.URL + 'GetUserAuthorizedPages').pipe(
       retry(3),

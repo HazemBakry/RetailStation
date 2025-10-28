@@ -8,6 +8,8 @@ import { GeneralSelectorModel } from 'src/app/components/Shared/components/gener
 import { CartModel, CartService } from 'src/app/components/Shared/services/cart.service';
 import { CreateOrderItemModel, CreateOrderModel } from '../../models/WebsiteOrderModel ';
 import { SupplierItemModel } from 'src/app/components/Shared/models/SupplierItemModel';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-website-cart',
@@ -36,9 +38,11 @@ export class WebsiteCartComponent implements OnInit {
 
   constructor(private offcanvasService: NgbOffcanvas,
     private sharedService: SharedService,
+    private router: Router,
     private cartService: CartService,
     private modalService: NgbModal,
-    private toaster: ToastrService, private websiteService: WebsiteService,
+    // private toaster: ToastrService, 
+    private websiteService: WebsiteService,
   ) { }
 
 
@@ -49,10 +53,10 @@ export class WebsiteCartComponent implements OnInit {
 
   loadData() {
     this.mapFilters();
-    if (this.pageResponseModel.filterList.length == 0) {
-      this.toaster.warning('لا يوجد أصناف ');
-      return;
-    }
+    // if (this.pageResponseModel.filterList.length == 0) {
+    //   this.toaster.warning('لا يوجد أصناف ');
+    //   return;
+    // }
 
     this.showLoader = true;
     this.websiteService.GetWebsiteItems_Data(this.pageResponseModel).subscribe(data => {
@@ -111,17 +115,17 @@ export class WebsiteCartComponent implements OnInit {
     this.pageResponseModel.filterList = [];
     this.pageResponseModel.totalCount = 0;
     this.cartList = [];
-    this.toaster.success('Cart has been cleared.');
+    //this.toaster.success('Cart has been cleared.');
   }
 
 
-  openSaveModal(content: any) {
-    if (this.pageResponseModel.results.length == 0) {
-      this.toaster.warning('لا يوجد أصناف ');
-      return;
-    }
-    this.modalService.open(content, { centered: true, size: 'md' });
-  }
+  // openSaveModal(content: any) {
+  //   if (this.pageResponseModel.results.length == 0) {
+  //     this.toaster.warning('لا يوجد أصناف ');
+  //     return;
+  //   }
+  //   this.modalService.open(content, { centered: true, size: 'md' });
+  // }
 
 
   orderModel: CreateOrderModel = {} as CreateOrderModel;
@@ -133,7 +137,7 @@ export class WebsiteCartComponent implements OnInit {
     this.orderModel = {} as CreateOrderModel;
 
     if (this.cartItems.length == 0 || !this.cartItems.some(i => i.quantity)) {
-      this.toaster.warning('Please Add Items with Quantity');
+      this.alertConfirmation('Please Add Items with Quantity', 'Warning', 0);
       return;
     }
     this.cartItems = this.cartItems.filter(i => i.quantity);
@@ -168,11 +172,17 @@ export class WebsiteCartComponent implements OnInit {
       this.showLoader = false;
 
       if (response.isSuccess) {
-        this.toaster.success(response.message);
+        //this.toaster.success(response.message);
         this.clearCart();
+
+        localStorage.removeItem('cartItems');
+        this.cartItems = [];
+
+        this.alertConfirmation('Order Submitted Successfully', 'Success', 2);
       }
       else {
-        this.toaster.error(response.message);
+        this.alertConfirmation('Order Not Submitted', 'Error', 0);
+        //this.toaster.error(response.message);
       }
       this.showLoader = false;
       this.modalService?.dismissAll();
@@ -180,6 +190,22 @@ export class WebsiteCartComponent implements OnInit {
       this.showLoader = false;
     }, () => {
       this.showLoader = false;
+    });
+  }
+
+
+  alertConfirmation(message: string, alterType: any, orderNumber: number) {
+    Swal.fire({
+      // title: 'تم تاكيد الطلب بنجاح',
+      title: message,
+      html: alterType == 'Success' ? ' رقم الطلب: ' + orderNumber : '',
+      icon: alterType == 'Success' ? 'success' : 'error',
+      confirmButtonColor: '#0d6efd',
+      confirmButtonText: 'موافق',
+    }).then((result) => {
+      if (result.value) {
+        this.router.navigateByUrl('/');
+      }
     });
   }
 }

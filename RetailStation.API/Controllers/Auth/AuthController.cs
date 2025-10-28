@@ -1,20 +1,9 @@
-﻿using RetailStation.Entities.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using System;
 using RetailStation.Interface.Auth;
 using RetailStation.Entities.DTOs.Auth;
 using Microsoft.AspNetCore.Authorization;
-using RetailStation.Entities.Common;
 using System.Linq;
-using RetailStation.Entities.DTOs.Auth;
 using RetailStation.Entities.DTOs.Website;
 
 namespace RetailStation.API.Controllers.Auth
@@ -23,9 +12,6 @@ namespace RetailStation.API.Controllers.Auth
     [ApiController]
     public class AuthController : ControllerBase
     {
-
-
-
         private readonly IAuthService _authService;
 
         public AuthController(IAuthService authService)

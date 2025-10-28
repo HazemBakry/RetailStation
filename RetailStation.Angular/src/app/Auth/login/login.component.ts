@@ -24,11 +24,10 @@ export class LoginComponent implements OnInit {
   logout: boolean = false;
   showLoader: boolean = false;
   systemURL: string = environment.systemUrl;
-  constructor(private authService: AuthService, private acRouter: ActivatedRoute, 
-    private router: Router, private toaster: ToastrService, 
-    private modalService: NgbModal) {
+  constructor(private authService: AuthService,
+    private acRouter: ActivatedRoute,
+    private toaster: ToastrService) {
     this.returnUrl = this.acRouter.snapshot.queryParamMap.get('returnUrl'); //|| '/';
-    console.log("this.returnUrl", this.returnUrl);
 
     this.appId = this.acRouter.snapshot.queryParamMap.get('appId') || '';
     this.logout = this.acRouter.snapshot.queryParamMap.get('logout') === 'true';

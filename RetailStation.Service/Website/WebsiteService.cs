@@ -48,6 +48,94 @@ namespace RetailStation.Service.Website
             LookupsDbContext = lookupsDbContext;
             _fileService = fileService;
         }
+
+        public List<SliderModel> GetWebsiteMainSlider()
+        {
+            var query = Context.Sliders.AsNoTracking()
+               .Where(s => s.IsActive);
+
+            var results = query
+                .Select(s => new SliderModel
+                {
+                    SliderId = s.SliderId,
+                    Title = s.Title,
+                    Description = s.Description,
+                    ImageURL = s.Image,
+                    Link = s.Link,
+                    IsActive = s.IsActive,
+                    CreatedBy = s.CreatedBy,
+                    CreatedDate = s.CreatedDate,
+                    ModifiedBy = s.ModifiedBy,
+                    ModifiedDate = s.ModifiedDate
+                })
+                .ToList();
+
+            foreach (var item in results.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
+            {
+                item.ImageURL = item.ImageURL != null ? Path.Combine(ApiUrl, "SliderImages", item.ImageURL) : "";  //_fileService.GetFileDownloadUrl(item.ImageURL);
+            }
+            return results;
+        }
+
+        public List<ItemCategoryModel> GetWebsiteHomeCategories(int? CategoryId = null)
+        {
+            var result = (from cat in Context.ItemCategories
+                          join parentGroup in Context.ItemCategories on cat.ParentCategoryId equals parentGroup.ItemCategoryId into jT2
+                          from parentGroup in jT2.DefaultIfEmpty()
+                          select new ItemCategoryModel
+                          {
+                              ItemCategoryId = cat.ItemCategoryId,
+                              NameAR = cat.NameAR,
+                              NameEN = cat.NameEN,
+                              DisplayOrder = cat.DisplayOrder,
+                              Description = cat.Description,
+                              IsActive = cat.IsActive,
+                              IsDeleted = cat.IsDeleted,
+                              CreatedBy = cat.CreatedBy,
+                              CreatedDate = cat.CreatedDate,
+                              ModifiedBy = cat.ModifiedBy,
+                              ModifiedDate = cat.ModifiedDate,
+                              IsGroup = cat.IsGroup,
+                              ParentCategoryId = cat.ParentCategoryId,
+                              ParentCategoryNameAR = parentGroup.NameAR,
+                              ParentCategoryNameEN = parentGroup.NameEN
+                          }).OrderBy(c => c.DisplayOrder).ToList();
+            return result;
+        }
+
+        public List<ItemDto> GetItemsByCategoryId(int CategoryId, SearchFilterModel model)
+        {
+            var query = (from cat in Context.Items
+                             //join parentGroup in Context.ItemCategories on cat.ParentCategoryId equals parentGroup.ItemCategoryId into jT2
+                             //from parentGroup in jT2.DefaultIfEmpty()
+                         select new ItemDto
+                         {
+                             ItemId = cat.ItemId,
+                             NameAR = cat.NameAR,
+                             NameEN = cat.NameEN,
+                             IsActive = cat.IsActive,
+                             ItemCategoryId = cat.ItemCategoryId,
+                             ImageUrl = "http://localhost:63246/ItemsImages/image1.jpg", // cat.ImageUrl != null ? Path.Combine(ApiUrl, "ItemsImages", cat.ImageUrl) : "",
+                             CreatedBy = cat.CreatedBy,
+                             CreatedDate = cat.CreatedDate,
+                             ModifiedBy = cat.ModifiedBy,
+                             ModifiedDate = cat.ModifiedDate
+                         }).Where(x => x.ItemCategoryId == CategoryId);//.ToList();//.OrderBy(c => c.DisplayOrder).ToList();
+
+
+            int totalCount = query.Count();
+            if (model.CurrentPage > 0 && model.PageSize > 0)
+            {
+                int skip = (model.CurrentPage - 1) * model.PageSize;
+                query = query.Skip(skip).Take(model.PageSize);
+            }
+
+            var result = query.ToList();
+            foreach (var item in result) { item.TotalCount = totalCount; }
+
+            return result;
+        }
+
         public List<SupplierItemModel> GetWebsiteItems_Data(SearchFilterModel model)
         {
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
@@ -67,6 +155,7 @@ namespace RetailStation.Service.Website
             return result;
 
         }
+
         public List<FilterModel> GetWebsiteItems_Filters(SearchFilterModel model)
         {
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
@@ -100,34 +189,6 @@ namespace RetailStation.Service.Website
             return result;
         }
 
-        public List<SliderModel> GetWebsiteMainSlider()
-        {
-            var query = Context.Sliders.AsNoTracking()
-               .Where(s => s.IsActive);
-
-            var results = query
-                .Select(s => new SliderModel
-                {
-                    SliderId = s.SliderId,
-                    Title = s.Title,
-                    Description = s.Description,
-                    ImageURL = s.Image,
-                    Link = s.Link,
-                    IsActive = s.IsActive,
-                    CreatedBy = s.CreatedBy,
-                    CreatedDate = s.CreatedDate,
-                    ModifiedBy = s.ModifiedBy,
-                    ModifiedDate = s.ModifiedDate
-                })
-                .ToList();
-
-            foreach (var item in results.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
-            {
-                item.ImageURL = _fileService.GetFileDownloadUrl(item.ImageURL);
-            }
-            return results;
-
-        }
         public SupplierItemModel GetWebsiteItemDetailsById(int SupplierItemId)
         {
             return GetWebsiteItems_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }).FirstOrDefault();

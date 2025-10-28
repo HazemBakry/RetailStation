@@ -1,0 +1,11 @@
+.complete-purchase-action {
+    background-color: #ecf9f3;
+    color: #34976c;
+    border-color: #a6e2c9 !important;
+}
+
+.complete-purchase-action:hover,
+select {
+    background-color: #176440;
+    color: #fff;
+}

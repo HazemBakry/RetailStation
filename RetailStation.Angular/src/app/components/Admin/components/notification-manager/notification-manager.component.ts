@@ -59,7 +59,6 @@ export class NotificationManagerComponent implements OnInit {
           (data[0].matchCount != null || data[0].matchCount != undefined)
           ? data[0].matchCount
           : 0;
-      console.log('this.NotificationData ', this.NotificationData);
       this.showLoader = false;
     });
   }
@@ -86,7 +85,6 @@ export class NotificationManagerComponent implements OnInit {
       .GetRecipientsByNotificationID(notificationID)
       .subscribe((data) => {
         this.notificationRecipient = data;
-        console.log('this.notificationRecipient', this.notificationRecipient);
       });
   }
 
@@ -96,17 +94,13 @@ export class NotificationManagerComponent implements OnInit {
   }
 
   openEdit(content: any, item: any) {
-    console.log('openEdit', item)
-
     this.adminService.GetRecipientsByNotificationID(item.id).subscribe(recipients => {
       const selectedCustomers = recipients.map(r => ({
         id: r.id,
         name: r.name
       }));
-
       // Set the few needed customers to ng-select
       this.customers = selectedCustomers;
-
       // Patch only the selected IDs
       this.form.patchValue({
         id: item.id,
@@ -132,7 +126,6 @@ export class NotificationManagerComponent implements OnInit {
     this.adminService.getCustomers({ take: 20 }).subscribe(data => {
       this.customers = data;
       this.loadingCustomers = false;
-      //console.log('this.customers', this.customers)
     });
 
 
@@ -160,9 +153,6 @@ export class NotificationManagerComponent implements OnInit {
     formData.append('title', FormValue.title);
     formData.append('content', FormValue.content);
     formData.append('recipientsIds', FormValue.subscriberIds);
-
-    console.log('this.form.value', this.form.value)
-
     if (FormValue) {
       this.adminService.SaveNotification(this.form.value).subscribe((data) => {
         if (data.item1 == 200) {
@@ -177,15 +167,10 @@ export class NotificationManagerComponent implements OnInit {
   UpdateNotification() {
     const formData = new FormData();
     let FormValue = this.form.value;
-
-
     formData.append('id', FormValue.id);
     formData.append('title', FormValue.title);
     formData.append('content', FormValue.content);
     formData.append('recipientsIds', FormValue.subscriberIds);
-
-    console.log('this.form.value', this.form.value)
-
     if (FormValue) {
       this.adminService.UpdateNotification(this.form.value).subscribe((data) => {
         if (data.item1 == 200) {

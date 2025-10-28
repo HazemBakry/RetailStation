@@ -120,7 +120,6 @@ loadAndInjectAllCustomerPixels(){
           data.forEach(pixel => {
             this.injectPixels(pixel.platform,pixel.pixelID,pixel.pixelScript);
             this.loadPixels(pixel.platform,pixel.pixelID);
-
           });
         },
         error: (error) => {

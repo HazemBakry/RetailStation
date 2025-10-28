@@ -14,6 +14,8 @@ import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { WebsiteService } from '../../services/website.service';
 import { SupplierItemModel } from 'src/app/components/Shared/models/SupplierItemModel';
+import { ItemCategoryModel } from 'src/app/components/Shared/models/ItemCategory';
+import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
 export interface RetailStationLogos {
   name: string;
@@ -51,14 +53,18 @@ export class WebsiteHomeComponent implements OnInit {
   showLoader: boolean = false;
   selectedTabName: string;
   menuItem: MenuSidebarItem;
+  CategoriesList: ItemCategoryModel[] = [];
+  filterList: FilterModel[] = [];
+
   pageResponseModel: PagedResponseModel<SupplierItemModel[]> = {
     results: [],
     filterList: [],
-    pageSize: 20,
+    pageSize: 12,
     currentPage: 1,
     searchText: '',
   };
-  suppliersData: SupplierItemModel[] = [];
+  //ItemsList: SupplierItemModel[] = [];
+
   constructor(
     config: NgbCarouselConfig,
     private websiteService: WebsiteService,
@@ -93,7 +99,10 @@ export class WebsiteHomeComponent implements OnInit {
     this.GetPromotionItems();
     this.GetSubscribersByFoodType(0);
     this.GetFoodTypes();
+    this.getWebsiteHomeCategories();
+    this.loadFilters();
   }
+
   GetFoodTypes() {
     // this.websiteService.GetFoodTypes().subscribe(data => {
     //   this.kitchenCategories = data;
@@ -121,6 +130,31 @@ export class WebsiteHomeComponent implements OnInit {
     //     item.counterValue = 1;
     //   });
     // });
+  }
+
+  getWebsiteHomeCategories() {
+    this.showLoader = true;
+    this.websiteService.GetWebsiteHomeCategories().subscribe(
+      (data: PagedResponseModel<ItemCategoryModel[]>) => {
+        this.CategoriesList = data.results;
+        //this.responseModel.totalCount = data.totalCount;
+        this.showLoader = false;
+      },
+      (err) => {
+        this.showLoader = false;
+      },
+      () => {
+        this.showLoader = false;
+      }
+    );
+  }
+
+  activeCategoryId = null;
+  activeCategoryName = null;
+  onActiveItem(index: number) {
+    this.activeCategoryId = this.CategoriesList[index].itemCategoryId;
+    this.activeCategoryName = this.CategoriesList[index].nameAR;
+    this.getItemsByCategoryId()
   }
 
   GetSlidersImages() {
@@ -201,6 +235,43 @@ export class WebsiteHomeComponent implements OnInit {
     //   this.sharedService.ChangeCartNumber(this.CartItemsList);
     //   this.offcanvasService.open(content, { scroll: true })
     // }
+  }
+
+  getItemsByCategoryId() {
+    this.showLoader = true;
+    this.websiteService.GetItemsByCategoryId(this.activeCategoryId, this.pageResponseModel).subscribe(data => {
+      this.pageResponseModel.results = data?.results;
+      this.pageResponseModel.totalCount = data?.totalCount;
+      this.showLoader = false;
+    }, err => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
+    });
+  }
+
+
+  loadFilters() {
+    // this.showLoader = true;
+    this.websiteService.GetWebsiteItems_Filters(this.pageResponseModel).subscribe((data: FilterModel[]) => {
+      this.filterList = data;
+    }, (err) => {
+      // this.showLoader = false;
+    }, () => {
+      // this.showLoader = false;
+    });
+  }
+
+  filterChecked(filterItems: FilterItem[]) {
+    this.pageResponseModel.filterList = filterItems;
+    // this.pageResponseModel.filterList.push(this.mainFilter);
+    this.pageResponseModel.results = [];
+    this.getItemsByCategoryId();
+  }
+
+  pageChanged(obj: any) {
+    this.pageResponseModel.currentPage = obj.page;
+    this.getItemsByCategoryId();
   }
 
   retailStationLogos: RetailStationLogos[] = [

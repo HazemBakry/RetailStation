@@ -91,7 +91,6 @@ export class SocialMediaPixelsComponent implements OnInit {
               this.pixelId = '';
               this.isInjected = false;
             }
-            console.log('this.selectedPlatform', this.selectedPlatform);
           },
           error: () => {
             this.toaster.error('Error happened');
@@ -123,8 +122,6 @@ export class SocialMediaPixelsComponent implements OnInit {
           } else {
             this.toaster.error("Can't add pixel, Please try again later");
           }
-          console.log('this.selectedPlatform', this.selectedPlatform);
-
         },
         error: () => {
           this.toaster.error("Can't Add Pixel, Please try again later");
@@ -154,7 +151,6 @@ export class SocialMediaPixelsComponent implements OnInit {
           } else {
             this.toaster.error("Can't Remove Pixel, Please try again later");
           }
-          console.log('this.selectedPlatform', this.selectedPlatform);
           this.isInjected = false;
         },
         error: () => {

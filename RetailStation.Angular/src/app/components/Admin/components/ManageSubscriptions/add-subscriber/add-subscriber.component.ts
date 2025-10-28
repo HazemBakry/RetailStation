@@ -111,8 +111,6 @@ export class AddSubscriberComponent implements OnInit {
   }
 
   saveSubscriberData() {
-    console.log(this.formErrors);
-
     if (!this.validateForm()) {
       return;
     }

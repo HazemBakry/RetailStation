@@ -24,12 +24,16 @@ export class AuthService {
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
   private readonly USER_MODEL = 'USER_MODEL';
   public readonly VIEW_ACTION_NAME: string = 'View';
-  constructor(private http: HttpClient, private toaster: ToastrService, private router: Router,private rolesService:RolesService) 
+
+  constructor(private http: HttpClient, 
+    private router: Router,
+    private rolesService:RolesService) 
   {
   }
   loginRedirect(): void {
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('/home');
   }
+
   login(model: any) {
     return this.http.post<LoginUserModel>(this.URL + 'Auth/Login', model).pipe(tap((data: LoginUserModel) => {
       if (data?.isAuthenticated) {
