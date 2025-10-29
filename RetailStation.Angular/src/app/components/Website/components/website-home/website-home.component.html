@@ -55,7 +55,6 @@
         <div class="col-xl-2">
 
             <app-website-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث  ...'"></app-website-filters>
-
             <!-- <div class="order-filter-box card">
                 <div class="card-header main-bg text-white py-3 d-flex align-items-center">
                     <i class="fas fa-sort-amount-down fs-18 ms-2"></i>
@@ -142,10 +141,7 @@
     </div>
 
 
-
-
     <div *ngIf="!activeCategoryId">
-
         <section class="marketing-category-section">
             <div class="carousel-title d-flex align-items-center gap-2 position-relative mb-3">
                 <img src="../../../../../assets/strong-offet-icon-2.svg" class="header-offer-icon" alt="offer-icon" loading="lazy" />
@@ -160,171 +156,11 @@
                 </div>
             </div>
         </section>
-
     </div>
 </ng-container>
 
 
 
-<!-- <div class="home-slider">
-  <ngb-carousel *ngIf="images">
-    <ng-template ngbSlide *ngFor="let image of images">
-      <div class="slider-img-wrapper">
-        <img [src]="image.image" alt="Random first slide" />
-      </div>
-      <div class="carousel-caption">
-        <h3>أبو أنس الدمشقى</h3>
-        <p>هنا بعض النصوص عن كل مطعم من التوب عندنا</p>
-      </div>
-    </ng-template>
-  </ngb-carousel>
-</div>
-<div class="tasty-offers">
-  <div class="container">
-    <div class="d-flex align-items-center justify-content-between mb-4">
-      <h3 class="m-0">عروض شهية</h3>
-      <a class="main-color cursor-pointer">
-        <span class="ms-1">رؤية الكل</span>
-        <i class="fas fa-caret-left"></i>
-      </a>
-    </div>
-
-    <swiper class="big-carousel-swiper" [slidesPerView]="4" [spaceBetween]="10" [navigation]="true"
-      [pagination]="{ clickable: true }" [slidesPerGroup]="4" [breakpoints]="{
-        '0': {
-          slidesPerView: 1
-        },
-        '575': {
-          slidesPerView: 1
-        },
-        '767': {
-          slidesPerView: 2
-        },
-        '1024': {
-          slidesPerView: 3
-        },
-        '1200': {
-          slidesPerView: 4
-        }
-      }">
-      <ng-template swiperSlide *ngFor="let item of PromotionItems">
-        <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
-          <div class="order-card-img position-relative">
-            <img src="{{item.image}}" alt="order-img" />
-            <div class="highlight-text order-highlight">
-              <h6 class="m-0">{{item.nameAr}}</h6>
-            </div>
-          </div>
-          <div class="card-content position-relative px-3">
-            <div class="bg-white border-radius w-100 shadow-sm p-2 mt--20">
-              <div class="card-content-info d-flex align-items-center">
-                <div class="card-content-img">
-                  <img
-                    src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/979d7ddd-cc99-42dd-98fe-db186bbff711.jpg"
-                    alt="order-logo" />
-                </div>
-                <div class="me-3 w-100">
-                  <div class="foods-title m-0">
-                    <h6 class="m-0 fw-bold">{{item.subscriberNameAr}}</h6>
-                  </div>
-                </div>
-              </div>
-              <div class="offer-box d-flex align-items-center shadow-sm" (click)="openModal(cartModal,item)">
-                <span class="me-2">{{item.nameAr}}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-template>
-    </swiper>
-
-
-  </div>
-</div>
-<div class="container py-5">
-  <div class="row">
-    <div class="col-xl-2">
-      <div class="order-filter-box card">
-        <div class="card-header main-bg text-white py-3 d-flex align-items-center">
-          <i class="fas fa-sort-amount-down fs-18 ms-2"></i>
-          <h5 class="m-0">ترتيب</h5>
-        </div>
-        <div class="card-body p-0">
-          <div class="filter-wrapper form-check" *ngFor="let item of mostPopular; index as i"
-            (click)="activeOrderFilter = i" [ngClass]="{'active': activeOrderFilter === i}">{{ item }}</div>
-        </div>
-      </div>
-
-      <hr />
-
-      <div class="foods-filter-box card">
-        <div class="card-header main-bg text-white py-3 d-flex align-items-center">
-          <i class="fas fa-utensils fs-18 ms-2"></i>
-          <h5 class="m-0">المطابخ</h5>
-        </div>
-        <div class="card-body p-0">
-          <div class="filter-wrapper form-check" *ngFor="let item of kitchenCategories | slice: 0 : count; index as i"
-            (click)="activeSectionsFilter = i;onFoodTypeChange(item.foodTypeId)"
-            [ngClass]="{'active': activeSectionsFilter === i}">{{ item.nameAr }}</div>
-          <a class="more-filter-text text-underline main-color fw-bold cursor-pointer" (click)="moreAndLessFilterBtn()">
-            {{ moreFilters ? 'اظهر أقل' : '+' + (kitchenCategories.length - 7) + ' أكثر' }}</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-10 pe-4">
-      <h3 class="d-flex align-items-end mb-4">
-        <span class="ms-2">مطعم</span>
-      </h3>
-      <div class="row">
-        <div class="col-md-6 col-xl-4" *ngFor="let item of suppliersData">
-          <div class="resturant-card px-2 pt-3 pb-4 mb-4 cursor-pointer">
-            <div class="card-inner">
-              <div class="card-slider">
-                <a class="card-img-box d-block position-relative">
-
-                  <img src="{{systemURL}}assets\images\menu-board-1.jpg" alt="order-img" />
-
-                  <div class="highlight-text order-highlight">
-                    <h6 class="m-0">{{item.nameEN}}</h6>
-                  </div>
-                </a>
-              </div>
-              <div class="card-content mt-3">
-                <div class="card-content-info d-flex mb-3">
-                  <div class="card-content-img">
-                    <img
-                      src="https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg"
-                      alt="restaurant-logo" />
-                  </div>
-                  <div class="me-2 w-100">
-                    <div class="foods-title d-flex align-items-center justify-content-between">
-                      <a routerLink="/ProductList" [queryParams]="{ResturantID:item.supplierItemId}" class="m-0 fw-bold"
-                        style="color: black;">{{item.nameAR}}</a>
-                      <div class="d-flex align-items-center">
-                        <div class="d-flex align-items-center">
-                          <i class="fas fa-star rate-color-gold fs-12"></i>
-                          <i class="fas fa-star rate-color-gold fs-12"></i>
-                          <i class="fas fa-star rate-color-gold fs-12"></i>
-                          <i class="fas fa-star rate-color-gold fs-12"></i>
-                          <i class="fas fa-star rate-color-grey fs-12"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="offer-box align-items-center text-center" style="height: 40px;padding-top: 10px;">
-                  <a routerLink="/ProductList" [queryParams]="{ResturantID:item.supplierItemId}" class="me-2"
-                    style="color: #4caf50;">اوردر أونلاين</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button class="btn btn-lg w-100 btn-danger mt-4 main-bg text-white" type="button">تحميل أكثر</button>
-    </div>
-  </div>
-</div> -->
 
 
 <ng-template #cartModal let-modal>
