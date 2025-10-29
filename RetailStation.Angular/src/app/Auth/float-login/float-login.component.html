@@ -17,7 +17,7 @@
         </div>
     </div>
     <div class="modal-body">
-        <div class="position-relative overflow-hidden"
+        <div class="position-relative overflow-auto small-scroll"
             [style.min-height]="isLoginMode ? 'calc(100vh - 430px)' : 'calc(100vh - 190px)'">
 
             <ng-container *ngIf="isLoginMode" class="lr-form login-form">
@@ -48,48 +48,104 @@
             </ng-container>
 
             <ng-container class="lr-form login-form" *ngIf="!isLoginMode">
-                <form class="lr-form register-form" [class.active]="!isLoginMode">
+                <form class="lr-form register-form" [formGroup]="formGroup" (ngSubmit)="register()" 
+                    [class.active]="!isLoginMode">
                     <div class="d-flex flex-column gap-4">
                         <div class="d-flex gap-3">
                             <div class="form-input-group w-100">
-                                <label for="register-email-input_1" class="form-label">الاسم كامل</label>
+                                <label for="firstName" class="form-label">
+                                    الاسم الأول (First Name)
+                                </label>
                                 <input type="text"
                                     class="form-control form-control-lg text-start main-input-focus mh-xl"
-                                    id="register-email-input_1" placeholder="olivia.kmlha" />
+                                    id="firstName" placeholder="" formControlName="firstName"
+                                    autocomplete="off" />
+                                <div *ngIf="formErrors.firstName" class="text-danger font-small-3 m-03">
+                                    {{formErrors.firstName}}
+                                </div>
                             </div>
                             <div class="form-input-group w-100">
-                                <label for="register-email-input_2" class="form-label">اسم المستخدم</label>
+                                <label for="lastName" class="form-label">
+                                    اسم العائلة (Last Name)
+                                </label>
                                 <input type="text"
                                     class="form-control form-control-lg text-start main-input-focus mh-xl"
-                                    id="register-email-input_2" placeholder="olivia.kmlha" />
+                                    id="lastName" placeholder="" formControlName="lastName"
+                                    autocomplete="off" />
+                                <div *ngIf="formErrors.lastName" class="text-danger font-small-3 m-03">
+                                    {{formErrors.lastName}}
+                                </div>
                             </div>
                         </div>
                         <div class="form-input-group">
-                            <label for="register-email-input_3" class="form-label">كلمة المرور <sup
-                                    class="text-danger">*</sup></label>
-                            <input type="password"
-                                class="form-control form-control-lg text-start main-input-focus mh-xl"
-                                id="register-email-input_3" placeholder="olivia.kmlha" />
+                            <div class="form-input-group w-100">
+                                <label for="userName" class="form-label">
+                                    اسم المستخدم (User Name)
+                                </label>
+                                <input type="text"
+                                    class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                    id="userName" placeholder="" formControlName="userName"
+                                    autocomplete="off" />
+                                <div *ngIf="formErrors.userName" class="text-danger font-small-3 m-03">
+                                    {{formErrors.userName}}
+                                </div>
+                            </div>
                         </div>
                         <div class="form-input-group">
-                            <label for="register-email-input_4" class="form-label">البريد الالكتروني</label>
-                            <input type="email" class="form-control form-control-lg text-start main-input-focus mh-xl"
-                                id="register-email-input_4" placeholder="olivia.kmlha" />
+                            <div class="form-input-group w-100">
+                                <label for="password" class="form-label">
+                                    الرقم السري (Password)
+                                </label>
+                                <input type="text"
+                                    class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                    id="password" placeholder="" formControlName="password"
+                                    autocomplete="off" />
+                                <div *ngIf="formErrors.password" class="text-danger font-small-3 m-03">
+                                    {{formErrors.password}}
+                                </div>
+                            </div>
                         </div>
                         <div class="form-input-group">
-                            <label for="register-email-input_5" class="form-label">رقم الجوال</label>
-                            <input type="email" class="form-control form-control-lg text-start main-input-focus mh-xl"
-                                id="register-email-input_5" placeholder="olivia.kmlha" />
+                            <div class="form-input-group w-100">
+                                <label for="email" class="form-label">
+                                    البريد الألكتروني (Email)
+                                </label>
+                                <input type="text"
+                                    class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                    id="email" placeholder="" formControlName="email"
+                                    autocomplete="off" />
+                                <div *ngIf="formErrors.email" class="text-danger font-small-3 m-03">
+                                    {{formErrors.email}}
+                                </div>
+                            </div>
                         </div>
+                        <div class="form-input-group">
+                            <div class="form-input-group w-100">
+                                <label for="phoneNumber" class="form-label">
+                                    رقم الهاتف (Phone Number)
+                                </label>
+                                <input type="text"
+                                    class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                    id="phoneNumber" placeholder="" formControlName="phoneNumber"
+                                    autocomplete="off" />
+                                <div *ngIf="formErrors.phoneNumber" class="text-danger font-small-3 m-03">
+                                    {{formErrors.phoneNumber}}
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="d-flex flex-column gap-2">
-                            <div>نوع الاشتراك</div>
+                            <div>
+                                نوع الاشتراك (Subscriber Type)
+
+                            </div>
                             <div class="d-flex gap-3">
                                 <div
                                     class="selected-subscribe-type-box d-flex align-items-center justify-content-between border rounded w-100 p-2">
                                     <div class="d-flex align-items-center gap-2">
-                                        <input type="radio" class="radio-ele" name="type-subscribes" id="ones-subscribe"
-                                            checked>
-                                        <label class="m-0 cursor-pointer" for="ones-subscribe">
+                                        <input type="radio" class="radio-ele" formControlName="subscriberTypeId"
+                                            id="customerRadio" [value]="SubscriberType.Customer">
+                                        <label class="m-0 cursor-pointer" for="customerRadio">
                                             أفراد
                                         </label>
                                     </div>
@@ -99,9 +155,9 @@
                                 <div
                                     class="selected-subscribe-type-box d-flex align-items-center justify-content-between border rounded w-100 p-2">
                                     <div class="d-flex align-items-center gap-2">
-                                        <input type="radio" class="radio-ele" name="type-subscribes"
-                                            id="companies-subscribe">
-                                        <label class="m-0 cursor-pointer" for="companies-subscribe">
+                                        <input type="radio" class="radio-ele" formControlName="subscriberTypeId"
+                                            id="supplierRadio" [value]="SubscriberType.Supplier">
+                                        <label class="m-0 cursor-pointer" for="supplierRadio">
                                             شركات
                                         </label>
                                     </div>
@@ -110,7 +166,51 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-dark-green w-100 mh-xl">التسجيل</button>
+                        <ng-container *ngIf="formGroup?.value?.subscriberTypeId == SubscriberType.Supplier">
+                            <div class="form-input-group">
+                                <label for="subscriberName" class="form-label">
+                                    اسم المشترك
+                                </label>
+                                <input type="text"
+                                    class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                    id="subscriberName" placeholder="" formControlName="subscriberName"
+                                    autocomplete="off" />
+                                <div *ngIf="formErrors.subscriberName" class="text-danger font-small-3 m-03">
+                                    {{formErrors.subscriberName}}
+                                </div>
+                            </div>
+                            <div class="form-input-group">
+                                <label for="subscriberEmail" class="form-label">
+
+                                    البريد الألكتروني
+                                    للشركة
+
+                                </label>
+                                <input type="text"
+                                    class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                    id="subscriberEmail" placeholder="" formControlName="subscriberEmail"
+                                    autocomplete="off" />
+                                <div *ngIf="formErrors.subscriberEmail" class="text-danger font-small-3 m-03">
+                                    {{formErrors.subscriberEmail}}
+                                </div>
+                            </div>
+                            <div class="form-input-group">
+                                <label for="address" class="form-label">
+                                    العنوان (Address)
+                                </label>
+                                <input type="text"
+                                    class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                    id="address" placeholder="" formControlName="address"
+                                    autocomplete="off" />
+                                <div *ngIf="formErrors.address" class="text-danger font-small-3 m-03">
+                                    {{formErrors.address}}
+                                </div>
+                            </div>
+                        </ng-container>
+                        <button type="submit" class="btn btn-dark-green w-100 mh-xl" [disabled]="showLoader">
+                            <span *ngIf="!showLoader">التسجيل</span>
+                            <span *ngIf="showLoader">جاري التسجيل ...</span>
+                        </button>
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <div>ألديك حساب بالفعل؟</div>
                             <a class="cursor-pointer" style="color: #08B16A;" (click)="isLoginMode = true">تسجيل
