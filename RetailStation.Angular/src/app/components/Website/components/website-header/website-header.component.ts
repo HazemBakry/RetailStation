@@ -167,33 +167,6 @@ export class WebsiteHeaderComponent implements OnInit {
   // }
 
 
-  login() {
-    if (!this.userName || !this.password) {
-      this.toaster.warning('Please enter a valid username and password!');
-      return;
-    }
-    let model = {
-      //Email: this.email,
-      userName: this.userName,
-      Password: this.password
-    }
-    this.showLoader = true;
-    this.authService.login(model).subscribe((data: LoginUserModel) => {
-      if (this.authService.isAuthenticated()) {
-        localStorage.setItem('lang', 'en');
-        window.location.href = '/';
-        //this.redirectToDesiredApp();
-      } else {
-        this.toaster.error(data.message);
-      }
-      this.showLoader = false;
-    }, (error) => {
-      this.showLoader = false;
-
-    }, () => {
-      this.showLoader = false;
-    });
-  }
 
   register() {
     this.showLoader = true;
