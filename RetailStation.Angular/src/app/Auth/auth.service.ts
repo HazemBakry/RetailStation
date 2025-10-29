@@ -71,7 +71,10 @@ export class AuthService {
   logout(): void {
     this.clearStorage();
     this.isAuthenticatedSubject.next(false);
-    this.loginRedirect();
+    // this.loginRedirect();
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 50);
   }
   refreshToken() {
     return this.http

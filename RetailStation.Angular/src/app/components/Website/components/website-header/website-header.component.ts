@@ -156,10 +156,10 @@ export class WebsiteHeaderComponent implements OnInit {
   }
 
   logout() {
-    // this.authService.logout();
-    this.clearStorage();
-    this.isAuthenticatedSubject.next(false);
-    window.location.href = '/';
+    this.authService.logout();
+    // this.clearStorage();
+    // this.isAuthenticatedSubject.next(false);
+    // window.location.href = '/';
   }
 
   // login() {

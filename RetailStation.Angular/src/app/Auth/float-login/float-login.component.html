@@ -1,0 +1,125 @@
+<a class="sm-action-dropdown d-flex align-items-center gap-2 text-dark text-underline-none cursor-pointer"
+    style="height: 45px" (click)="openLoginRegisterModal(loginRegisterModal)">
+    <div class="d-flex align-items-center gap-2">
+        <i class="ph ph-user-circle-gear fs-3"></i>
+        <div class="fw-bold">تسجيل الدخول</div>
+    </div>
+    <i class="ph ph-caret-down dropdown-arrow m-0"></i>
+</a>
+
+
+<ng-template #loginRegisterModal let-modal>
+    <div class="modal-header login-register-bg d-block">
+        <i class="ph ph-x fs-4 cursor-pointer text-dark" (click)="modal.dismiss()"></i>
+        <div class="d-flex align-items-center justify-content-center" style="margin-top: -10px;">
+            <img src="{{systemURL}}assets/login-register-modal-logo.svg" class="width-100" alt="login-register-logo"
+                loading="lazy" />
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="position-relative overflow-hidden"
+            [style.min-height]="isLoginMode ? 'calc(100vh - 430px)' : 'calc(100vh - 190px)'">
+
+            <ng-container *ngIf="isLoginMode" class="lr-form login-form">
+                <div class="d-flex flex-column gap-4">
+                    <div class="form-input-group">
+                        <label for="login-userName-input" class="form-label">اسم المستخدم</label>
+                        <input (keyup.enter)="login()" type="userName" [(ngModel)]="userName"
+                            class="form-control form-control-lg text-start main-input-focus mh-xl"
+                            id="login-userName-input" placeholder="اسم المستخدم" autocomplete="off" />
+                    </div>
+                    <div class="form-input-group">
+                        <label for="login-password-input" class="form-label">كلمة المرور <sup
+                                class="text-danger">*</sup></label>
+                        <input (keyup.enter)="login()" type="password" name="Password" [(ngModel)]="password"
+                            class="form-control form-control-lg text-start main-input-focus mh-xl"
+                            id="login-password-input" placeholder="كلمة المرور" autocomplete="off" />
+                    </div>
+                    <button [disabled]="showLoader" type="submit" class="btn btn-dark-green w-100 mh-xl"
+                        (click)="login()">
+                        <span *ngIf="!showLoader">تسجيل الدخول</span>
+                        <span *ngIf="showLoader">جاري التسجيل ...</span>
+                    </button>
+                    <div class="d-flex align-items-center justify-content-center gap-2">
+                        <div>ليس لديك حساب بالفعل؟</div>
+                        <a class="cursor-pointer" style="color: #08B16A;" (click)="isLoginMode = false">التسجيل</a>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container class="lr-form login-form" *ngIf="!isLoginMode">
+                <form class="lr-form register-form" [class.active]="!isLoginMode">
+                    <div class="d-flex flex-column gap-4">
+                        <div class="d-flex gap-3">
+                            <div class="form-input-group w-100">
+                                <label for="register-email-input_1" class="form-label">الاسم كامل</label>
+                                <input type="text"
+                                    class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                    id="register-email-input_1" placeholder="olivia.kmlha" />
+                            </div>
+                            <div class="form-input-group w-100">
+                                <label for="register-email-input_2" class="form-label">اسم المستخدم</label>
+                                <input type="text"
+                                    class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                    id="register-email-input_2" placeholder="olivia.kmlha" />
+                            </div>
+                        </div>
+                        <div class="form-input-group">
+                            <label for="register-email-input_3" class="form-label">كلمة المرور <sup
+                                    class="text-danger">*</sup></label>
+                            <input type="password"
+                                class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                id="register-email-input_3" placeholder="olivia.kmlha" />
+                        </div>
+                        <div class="form-input-group">
+                            <label for="register-email-input_4" class="form-label">البريد الالكتروني</label>
+                            <input type="email" class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                id="register-email-input_4" placeholder="olivia.kmlha" />
+                        </div>
+                        <div class="form-input-group">
+                            <label for="register-email-input_5" class="form-label">رقم الجوال</label>
+                            <input type="email" class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                id="register-email-input_5" placeholder="olivia.kmlha" />
+                        </div>
+                        <div class="d-flex flex-column gap-2">
+                            <div>نوع الاشتراك</div>
+                            <div class="d-flex gap-3">
+                                <div
+                                    class="selected-subscribe-type-box d-flex align-items-center justify-content-between border rounded w-100 p-2">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <input type="radio" class="radio-ele" name="type-subscribes" id="ones-subscribe"
+                                            checked>
+                                        <label class="m-0 cursor-pointer" for="ones-subscribe">
+                                            أفراد
+                                        </label>
+                                    </div>
+                                    <img src="../../../../../assets/ones-logo.svg" class="selected-type-subscribe-img"
+                                        alt="Ones Logo" loading="lazy" />
+                                </div>
+                                <div
+                                    class="selected-subscribe-type-box d-flex align-items-center justify-content-between border rounded w-100 p-2">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <input type="radio" class="radio-ele" name="type-subscribes"
+                                            id="companies-subscribe">
+                                        <label class="m-0 cursor-pointer" for="companies-subscribe">
+                                            شركات
+                                        </label>
+                                    </div>
+                                    <img src="../../../../../assets/companies-logo.svg"
+                                        class="selected-type-subscribe-img" alt="Companies Logo" loading="lazy" />
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-dark-green w-100 mh-xl">التسجيل</button>
+                        <div class="d-flex align-items-center justify-content-center gap-2">
+                            <div>ألديك حساب بالفعل؟</div>
+                            <a class="cursor-pointer" style="color: #08B16A;" (click)="isLoginMode = true">تسجيل
+                                الدخول</a>
+                        </div>
+                    </div>
+                </form>
+            </ng-container>
+        </div>
+
+    </div>
+</ng-template>

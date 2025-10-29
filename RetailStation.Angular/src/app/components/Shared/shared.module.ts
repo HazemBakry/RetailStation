@@ -64,9 +64,11 @@ import { ChangeQuantityComponent } from './components/change-quantity/change-qua
 import { HomeComponent } from './components/home/home.component';
 import { AppPaginationComponent } from './components/app-pagination/app-pagination.component';
 import { AppFiltersComponent } from './components/app-filters/app-filters.component';
+import { FloatLoginComponent } from 'src/app/Auth/float-login/float-login.component';
 
 @NgModule({
   declarations: [
+    FloatLoginComponent,
     SidebarComponent,
     HeaderComponent,
     HomeComponent,
@@ -156,6 +158,7 @@ import { AppFiltersComponent } from './components/app-filters/app-filters.compon
     NgxLoadingModule,
     NgbModule,
     SearchArryPipe,
+    FloatLoginComponent,
     ErpSpinnerComponentComponent,
     ErpSelectorComponent,
     ErpSelectorWithSearchComponent,

@@ -43,41 +43,50 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-3">
     <div class="container-fluid">
         <a class="navbar-brand me-4 cursor-pointer">
-            <img src="{{systemUrl}}assets/images/retail-station-logo.svg" routerLink="/" class="retail-station-logo" alt="Retail-station-logo" loading="lazy" />
+            <img src="{{systemUrl}}assets/images/retail-station-logo.svg" routerLink="/" class="retail-station-logo"
+                alt="Retail-station-logo" loading="lazy" />
         </a>
-        <button class="navbar-toggler hamburger nw-hamburger hamburger--elastic rounded-1 toggle-phosphor my-2" [class.is-active]="!collapsed" type="button" aria-controls="navbar-content" [attr.aria-expanded]="!collapsed" aria-label="Toggle navigation" (click)="collapsed = !collapsed">
-      <span class="hamburger-box">
-        <span class="hamburger-inner"></span>
-      </span>
-    </button>
+        <button class="navbar-toggler hamburger nw-hamburger hamburger--elastic rounded-1 toggle-phosphor my-2"
+            [class.is-active]="!collapsed" type="button" aria-controls="navbar-content"
+            [attr.aria-expanded]="!collapsed" aria-label="Toggle navigation" (click)="collapsed = !collapsed">
+            <span class="hamburger-box">
+                <span class="hamburger-inner"></span>
+            </span>
+        </button>
 
         <div class="collapse navbar-collapse" [class.collapse]="collapsed">
             <ul class="navbar-nav me-auto ms-0">
                 <li>
-                    <div ngbDropdown class="dropdown-search input-search-with-dropdown border-0 px-3 h-100 d-flex align-items-center">
+                    <div ngbDropdown
+                        class="dropdown-search input-search-with-dropdown border-0 px-3 h-100 d-flex align-items-center">
                         <a class="dropdown-search-link sm-action-dropdown border-0" ngbDropdownToggle>
                             <i class="ph ph-map-pin fs-5"></i>
                             <span>الرياض</span>
                             <i class="ph ph-caret-down dropdown-arrow m-0"></i>
                         </a>
                         <div class="dropdown-search-menu p-0" ngbDropdownMenu>
-                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
+                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
+                                ngbDropdownItem>
                                 <i class="ph ph-map-pin"></i>
                                 <div>الرياض 1</div>
                             </div>
-                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
+                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
+                                ngbDropdownItem>
                                 <i class="ph ph-map-pin"></i>
                                 <div>الرياض 2</div>
                             </div>
-                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
+                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
+                                ngbDropdownItem>
                                 <i class="ph ph-map-pin"></i>
                                 <div>3 الرياض</div>
                             </div>
-                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
+                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
+                                ngbDropdownItem>
                                 <i class="ph ph-map-pin"></i>
                                 <div>الرياض 4</div>
                             </div>
-                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
+                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
+                                ngbDropdownItem>
                                 <i class="ph ph-map-pin"></i>
                                 <div>الرياض 5</div>
                             </div>
@@ -96,13 +105,15 @@
                         <!-- <a (click)="login()" class="nav-link d-flex align-items-center">
               <button type="button" class="btn btn-outline-muted radius-4">تسجيل الدخول</button>
             </a> -->
-                        <a class="sm-action-dropdown d-flex align-items-center gap-2 text-dark text-underline-none cursor-pointer" style="height: 45px" (click)="openLoginRegisterModal(loginRegisterModal)">
+                        <!-- <a class="sm-action-dropdown d-flex align-items-center gap-2 text-dark text-underline-none cursor-pointer"
+                            style="height: 45px" (click)="openLoginRegisterModal(loginRegisterModal)">
                             <div class="d-flex align-items-center gap-2">
                                 <i class="ph ph-user-circle-gear fs-3"></i>
                                 <div class="fw-bold">تسجيل الدخول</div>
                             </div>
                             <i class="ph ph-caret-down dropdown-arrow m-0"></i>
-                        </a>
+                        </a> -->
+                        <app-float-login></app-float-login>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link d-flex align-items-center">
@@ -113,19 +124,23 @@
 
                 <ng-container *ngIf="isAuthenticated">
                     <div ngbDropdown class="dropdown-search px-3" placement="auto">
-                        <a class="sm-action-dropdown d-flex align-items-center gap-2 text-dark text-underline-none cursor-pointer" ngbDropdownToggle style="height: 45px">
+                        <a class="sm-action-dropdown d-flex align-items-center gap-2 text-dark text-underline-none cursor-pointer"
+                            ngbDropdownToggle style="height: 45px">
                             <i class="ph ph-user-circle fs-3"></i>
                             <i class="ph ph-caret-down dropdown-arrow m-0"></i> {{UserModel?.fullName}}
                         </a>
-                        <div class="dropdown-search-menu with-triangle overflow-unset p-2 pb-0 mt-3" style="max-height: 350px; right: -100px;" ngbDropdownMenu>
+                        <div class="dropdown-search-menu with-triangle overflow-unset p-2 pb-0 mt-3"
+                            style="max-height: 350px; right: -100px;" ngbDropdownMenu>
                             <div class="d-flex flex-column align-items-center gap-3 bg-dark-light p-3 radius-10">
-                                <img src="../../../../../assets/user-image-profile.svg" class="user-image-profile" alt="user profile" loading="lazy" />
+                                <img src="../../../../../assets/user-image-profile.svg" class="user-image-profile"
+                                    alt="user profile" loading="lazy" />
                                 <div class="d-flex align-items-center gap-2">
                                     <div>مرحبا</div>
                                     <div class="fw-bold">{{UserModel.userName}}</div>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
+                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
+                                ngbDropdownItem>
                                 <!-- <div class="drop-image-box">
                   <img src="{{systemUrl}}assets/images/admin.png" alt="drop-icon" loading="lazy" />
                 </div>
@@ -133,7 +148,8 @@
                                 <i class="ph ph-user"></i>
                                 <div>حسابى</div>
                             </div>
-                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
+                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
+                                ngbDropdownItem>
                                 <!-- <div class="drop-image-box">
                   <img src="{{systemUrl}}assets/vegitables.svg" alt="drop-icon" loading="lazy" />
                   <i class="fas fa-check-circle"></i>
@@ -141,7 +157,8 @@
                                 <i class="ph ph-squares-four"></i>
                                 <div routerLink="/home">لوحة التحكم</div>
                             </div>
-                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
+                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
+                                ngbDropdownItem>
                                 <!-- <div class="drop-image-box">
                   <img src="{{systemUrl}}assets/vegitables.svg" alt="drop-icon" loading="lazy" />
                   <i class="fas fa-check-circle"></i>
@@ -149,13 +166,14 @@
                                 <i class="ph ph-question"></i>
                                 <div routerLink="/purchases/my-orders">تحتاج مساعده؟</div>
                             </div>
-                            <div class="d-flex align-items-center justify-content-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
+                            <div (click)="logout()" class="d-flex align-items-center justify-content-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
+                                ngbDropdownItem>
                                 <!-- <div class="drop-image-box">
                   <img src="{{systemUrl}}assets/chesse.svg" alt="drop-icon" loading="lazy" />
                   <i class="fas fa-power-off"></i>
                 </div> -->
                                 <i class="ph ph-sign-out"></i>
-                                <div (click)="logout()">تسجيل الخروج</div>
+                                <div >تسجيل الخروج</div>
                             </div>
                         </div>
                     </div>
@@ -170,7 +188,8 @@
                     </a>
                 </li> -->
                 <li class="nav-item me-4">
-                    <a class="nav-link d-flex align-items-center py-0 fs-2 cursor-pointer h-100 position-relative" routerLink="/cart">
+                    <a class="nav-link d-flex align-items-center py-0 fs-2 cursor-pointer h-100 position-relative"
+                        routerLink="/cart">
                         <i class="ph ph-shopping-cart-simple"></i>
                         <div class="circle-order-count-box">{{cartItemsCount$}}</div>
                     </a>
@@ -185,21 +204,28 @@
     <div class="modal-header login-register-bg d-block">
         <i class="ph ph-x fs-4 cursor-pointer text-dark" (click)="modal.dismiss()"></i>
         <div class="d-flex align-items-center justify-content-center" style="margin-top: -10px;">
-            <img src="../../../../../assets/login-register-modal-logo.svg" class="width-100" alt="login-register-logo" loading="lazy" />
+            <img src="../../../../../assets/login-register-modal-logo.svg" class="width-100" alt="login-register-logo"
+                loading="lazy" />
         </div>
     </div>
     <div class="modal-body">
-        <div class="position-relative overflow-hidden" [style.min-height]="isLoginMode ? 'calc(100vh - 430px)' : 'calc(100vh - 190px)'">
+        <div class="position-relative overflow-hidden"
+            [style.min-height]="isLoginMode ? 'calc(100vh - 430px)' : 'calc(100vh - 190px)'">
 
             <ng-container *ngIf="isLoginMode" class="lr-form login-form">
                 <div class="d-flex flex-column gap-4">
                     <div class="form-input-group">
                         <label for="login-userName-input" class="form-label">اسم المستخدم</label>
-                        <input type="userName" [(ngModel)]="userName" class="form-control form-control-lg text-start main-input-focus mh-xl" id="login-userName-input" placeholder="User Name" />
+                        <input type="userName" [(ngModel)]="userName"
+                            class="form-control form-control-lg text-start main-input-focus mh-xl"
+                            id="login-userName-input" placeholder="User Name" />
                     </div>
                     <div class="form-input-group">
-                        <label for="login-password-input" class="form-label">كلمة المرور <sup class="text-danger">*</sup></label>
-                        <input type="password" name="Password" [(ngModel)]="password" class="form-control form-control-lg text-start main-input-focus mh-xl" id="login-password-input" placeholder="Password" />
+                        <label for="login-password-input" class="form-label">كلمة المرور <sup
+                                class="text-danger">*</sup></label>
+                        <input type="password" name="Password" [(ngModel)]="password"
+                            class="form-control form-control-lg text-start main-input-focus mh-xl"
+                            id="login-password-input" placeholder="Password" />
                     </div>
                     <button type="submit" class="btn btn-dark-green w-100 mh-xl" (click)="login()">تسجيل الدخول</button>
                     <div class="d-flex align-items-center justify-content-center gap-2">
@@ -215,53 +241,68 @@
                         <div class="d-flex gap-3">
                             <div class="form-input-group w-100">
                                 <label for="register-email-input_1" class="form-label">الاسم كامل</label>
-                                <input type="text" class="form-control form-control-lg text-start main-input-focus mh-xl" id="register-email-input_1" placeholder="olivia.kmlha" />
+                                <input type="text"
+                                    class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                    id="register-email-input_1" placeholder="olivia.kmlha" />
                             </div>
                             <div class="form-input-group w-100">
                                 <label for="register-email-input_2" class="form-label">اسم المستخدم</label>
-                                <input type="text" class="form-control form-control-lg text-start main-input-focus mh-xl" id="register-email-input_2" placeholder="olivia.kmlha" />
+                                <input type="text"
+                                    class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                    id="register-email-input_2" placeholder="olivia.kmlha" />
                             </div>
                         </div>
                         <div class="form-input-group">
                             <label for="register-email-input_3" class="form-label">كلمة المرور <sup
-                  class="text-danger">*</sup></label>
-                            <input type="password" class="form-control form-control-lg text-start main-input-focus mh-xl" id="register-email-input_3" placeholder="olivia.kmlha" />
+                                    class="text-danger">*</sup></label>
+                            <input type="password"
+                                class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                id="register-email-input_3" placeholder="olivia.kmlha" />
                         </div>
                         <div class="form-input-group">
                             <label for="register-email-input_4" class="form-label">البريد الالكتروني</label>
-                            <input type="email" class="form-control form-control-lg text-start main-input-focus mh-xl" id="register-email-input_4" placeholder="olivia.kmlha" />
+                            <input type="email" class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                id="register-email-input_4" placeholder="olivia.kmlha" />
                         </div>
                         <div class="form-input-group">
                             <label for="register-email-input_5" class="form-label">رقم الجوال</label>
-                            <input type="email" class="form-control form-control-lg text-start main-input-focus mh-xl" id="register-email-input_5" placeholder="olivia.kmlha" />
+                            <input type="email" class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                id="register-email-input_5" placeholder="olivia.kmlha" />
                         </div>
                         <div class="d-flex flex-column gap-2">
                             <div>نوع الاشتراك</div>
                             <div class="d-flex gap-3">
-                                <div class="selected-subscribe-type-box d-flex align-items-center justify-content-between border rounded w-100 p-2">
+                                <div
+                                    class="selected-subscribe-type-box d-flex align-items-center justify-content-between border rounded w-100 p-2">
                                     <div class="d-flex align-items-center gap-2">
-                                        <input type="radio" class="radio-ele" name="type-subscribes" id="ones-subscribe" checked>
+                                        <input type="radio" class="radio-ele" name="type-subscribes" id="ones-subscribe"
+                                            checked>
                                         <label class="m-0 cursor-pointer" for="ones-subscribe">
-                      أفراد
-                    </label>
+                                            أفراد
+                                        </label>
                                     </div>
-                                    <img src="../../../../../assets/ones-logo.svg" class="selected-type-subscribe-img" alt="Ones Logo" loading="lazy" />
+                                    <img src="../../../../../assets/ones-logo.svg" class="selected-type-subscribe-img"
+                                        alt="Ones Logo" loading="lazy" />
                                 </div>
-                                <div class="selected-subscribe-type-box d-flex align-items-center justify-content-between border rounded w-100 p-2">
+                                <div
+                                    class="selected-subscribe-type-box d-flex align-items-center justify-content-between border rounded w-100 p-2">
                                     <div class="d-flex align-items-center gap-2">
-                                        <input type="radio" class="radio-ele" name="type-subscribes" id="companies-subscribe">
+                                        <input type="radio" class="radio-ele" name="type-subscribes"
+                                            id="companies-subscribe">
                                         <label class="m-0 cursor-pointer" for="companies-subscribe">
-                      شركات
-                    </label>
+                                            شركات
+                                        </label>
                                     </div>
-                                    <img src="../../../../../assets/companies-logo.svg" class="selected-type-subscribe-img" alt="Companies Logo" loading="lazy" />
+                                    <img src="../../../../../assets/companies-logo.svg"
+                                        class="selected-type-subscribe-img" alt="Companies Logo" loading="lazy" />
                                 </div>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-dark-green w-100 mh-xl">التسجيل</button>
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <div>ألديك حساب بالفعل؟</div>
-                            <a class="cursor-pointer" style="color: #08B16A;" (click)="isLoginMode = true">تسجيل الدخول</a>
+                            <a class="cursor-pointer" style="color: #08B16A;" (click)="isLoginMode = true">تسجيل
+                                الدخول</a>
                         </div>
                     </div>
                 </form>
