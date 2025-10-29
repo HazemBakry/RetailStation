@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbCarouselConfig, NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
@@ -14,7 +14,11 @@ import { SupplierItemModel } from 'src/app/components/Shared/models/SupplierItem
   templateUrl: './website-main-items.component.html',
   styleUrls: ['./website-main-items.component.css']
 })
-export class WebsiteMainItemsComponent implements OnInit {
+export class WebsiteMainItemsComponent implements OnInit, OnChanges {
+  @Input() selectedCategoryId: number;
+  @Input() selectedCategoryName: number;
+  searchText: string = '';
+  itemCategoryId: string = '';
   systemURL: string = environment.systemUrl;
   UserModel: any;
   activeOrderFilter: number;
@@ -37,11 +41,12 @@ export class WebsiteMainItemsComponent implements OnInit {
     currentPage: 1,
     searchText: ''
   };
+  bestSellerData: SupplierItemModel[] = [];
   suppliersData: SupplierItemModel[] = [];
   supplierLogo: string = 'https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg'
   defaultItemImage = `${this.systemURL}assets/images/13.png`;
 
-  constructor(config: NgbCarouselConfig, 
+  constructor(config: NgbCarouselConfig,
     private websiteService: WebsiteService,
     private route: ActivatedRoute,
     private datePipe: DatePipe, private compareService: CompareService) {
@@ -55,17 +60,27 @@ export class WebsiteMainItemsComponent implements OnInit {
       }
     });
   }
+
   ngOnInit(): void {
     this.compareService.compareList$.subscribe(list => {
       this.checkCompareAdded();
     });
     this.getSearchQuery();
+    this.loadBestSellersData();
     this.loadData();
     this.loadFilters();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedCategoryId'] && !changes['selectedCategoryId'].firstChange) {
+      console.log("🚀 ~ WebsiteMainItemsComponent ~ ngOnChanges ~ this.selectedCategoryId:", this.selectedCategoryId)
+      this.itemCategoryId = this.selectedCategoryId ? this.selectedCategoryId.toString() : '';
+      this.applySearch();
+    }
+  }
   getSearchQuery() {
     let searchText: string = '';
+    let itemCategoryId: string = '';
     // this.route.queryParams.subscribe(params => {
     //   searchText = params['q'] || '';
     //   if (params['itemId']) {
@@ -73,15 +88,55 @@ export class WebsiteMainItemsComponent implements OnInit {
     // });
 
     this.route.queryParamMap.subscribe(params => {
-      searchText = params.get('q') || '';
-      this.pageResponseModel.filterList = [];
-      if (searchText) {
-        let searchFilter: FilterItem = { categoryName: 'SearchText', itemFlag: searchText }
-        this.pageResponseModel.filterList.push(searchFilter);
-      }
-      this.pageResponseModel.results = [];
-      this.suppliersData = [];
-      this.loadData();
+      this.searchText = params.get('q') || '';
+      this.itemCategoryId = params.get('catId') || '';
+      this.applySearch();
+      // this.pageResponseModel.filterList = [];
+      // if (searchText) {
+      //   let searchFilter: FilterItem = { categoryName: 'SearchText', itemFlag: searchText }
+      //   this.pageResponseModel.filterList.push(searchFilter);
+      // }
+      // if (itemCategoryId) {
+      //   let searchFilter: FilterItem = { categoryName: 'ItemCategoryId', itemFlag: itemCategoryId }
+      //   this.pageResponseModel.filterList.push(searchFilter);
+      // }
+      // this.pageResponseModel.results = [];
+      // this.suppliersData = [];
+      // this.loadData();
+    });
+  }
+
+  applySearch() {
+    this.pageResponseModel.filterList = [];
+    if (this.searchText) {
+      let searchFilter: FilterItem = { categoryName: 'SearchText', itemFlag: this.searchText }
+      this.pageResponseModel.filterList.push(searchFilter);
+    }
+    if (this.itemCategoryId) {
+      let searchFilter: FilterItem = { categoryName: 'CategoryId', itemFlag: this.itemCategoryId }
+      this.pageResponseModel.filterList.push(searchFilter);
+    }
+    this.pageResponseModel.results = [];
+    this.suppliersData = [];
+    this.loadData();
+  }
+  loadBestSellersData() {
+    let pageResponseModel: PagedResponseModel<SupplierItemModel[]> = {
+      results: [],
+      filterList: [],
+      pageSize: 20,
+      currentPage: 1,
+      searchText: ''
+    };
+    // this.showLoader = true;
+    this.websiteService.GetWebsiteItems_Data(pageResponseModel).subscribe(data => {
+      this.bestSellerData = data.results;
+      this.checkCompareAdded();
+      // this.showLoader = false;
+    }, err => {
+      // this.showLoader = false;
+    }, () => {
+      // this.showLoader = false;
     });
   }
   loadData() {
@@ -110,9 +165,12 @@ export class WebsiteMainItemsComponent implements OnInit {
     });
   }
   checkCompareAdded() {
-     this.suppliersData.forEach(item => {
+    this.suppliersData.forEach(item => {
       item.isCompareAdded = this.compareService.isItemInList(item.supplierItemId);
       // item.isCompareAdded  = list.some(i => i.supplierItemId === item.supplierItemId);
+    });
+    this.bestSellerData.forEach(item => {
+      item.isCompareAdded = this.compareService.isItemInList(item.supplierItemId);
     });
 
   }

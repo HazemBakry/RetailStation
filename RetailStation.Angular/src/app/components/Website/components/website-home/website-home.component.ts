@@ -95,6 +95,7 @@ export class WebsiteHomeComponent implements OnInit {
     // if (this.sharedService.CartList.length > 0) {
     //   this.CartItemsList = this.sharedService.CartList;
     // }
+    this.getSearchQuery();
     this.GetSlidersImages();
     this.GetPromotionItems();
     this.GetSubscribersByFoodType(0);
@@ -102,7 +103,16 @@ export class WebsiteHomeComponent implements OnInit {
     this.getWebsiteHomeCategories();
     this.loadFilters();
   }
-
+  getSearchQuery() {
+    let itemCategoryId: string = '';
+    this.route.queryParamMap.subscribe(params => {
+      itemCategoryId = params.get('catId') || '';
+      if(itemCategoryId){
+        this.activeCategoryId = Number(itemCategoryId);
+        this.activeCategoryName = this.CategoriesList.find(c=>c.itemCategoryId==this.activeCategoryId)?.nameAR;
+      }
+    });
+  }
   GetFoodTypes() {
     // this.websiteService.GetFoodTypes().subscribe(data => {
     //   this.kitchenCategories = data;
@@ -154,7 +164,7 @@ export class WebsiteHomeComponent implements OnInit {
   onActiveItem(index: number) {
     this.activeCategoryId = this.CategoriesList[index].itemCategoryId;
     this.activeCategoryName = this.CategoriesList[index].nameAR;
-    this.getItemsByCategoryId()
+    // this.getItemsByCategoryId();
   }
 
   GetSlidersImages() {
