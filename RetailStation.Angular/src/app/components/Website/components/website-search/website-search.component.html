@@ -1,12 +1,20 @@
 <div class="input-search-with-dropdown d-flex align-items-center position-relative" role="search">
   <div ngbDropdown class="dropdown-search px-3">
     <a class="dropdown-search-link sm-action-dropdown" ngbDropdownToggle>
-      <span>{{selectedCategory?.nameAR ?? 'الفئـة'}}</span>
+      <span>{{selectedCategory?.nameAR ?? 'كل الفئات'}}</span>
       <i class="ph ph-caret-down dropdown-arrow m-0"></i>
     </a>
     <div class="dropdown-search-menu p-0" ngbDropdownMenu>
+        <div (click)="onCategorySelected(null)" [class.active]="!selectedCategory"
+          class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
+          ngbDropdownItem>
+          <div class="drop-image-box">
+            <img src="{{systemUrl}}assets/meat.svg" alt="drop-icon" loading="lazy" />
+          </div>
+          <div>كل الفئات</div>
+        </div>
       <ng-container *ngFor="let cat of categories">
-        <div (click)="onCategorySelected(cat)"
+        <div (click)="onCategorySelected(cat)" [class.active]="selectedCategory?.itemCategoryId == cat.itemCategoryId"
           class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
           ngbDropdownItem>
           <div class="drop-image-box">
