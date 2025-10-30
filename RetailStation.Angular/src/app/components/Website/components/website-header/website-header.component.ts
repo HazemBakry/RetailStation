@@ -35,7 +35,7 @@ export class WebsiteHeaderComponent implements OnInit {
   collapsed = true;
   showMenu: boolean = false;
   systemUrl: string = environment.systemUrl;
-  productSystemUrl: string = environment.authServerUrl + '/products';
+  //productSystemUrl: string = environment.authServerUrl + '/products';
   UserModel: LoginUserModel;
   selectedModuleName: string = 'الأنظمة';
   modulesMenu: MenuSidebarItem[] = [];

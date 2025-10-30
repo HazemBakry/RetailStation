@@ -108,9 +108,6 @@ namespace RetailStation.API.Controllers
             return _rolesService.GetPermissionsByRole(RoleName);
         }
 
-
-
-
         [HttpGet]
         [Route("GetMenuListByRoleName")]
         public DataTable GetMenuListByRoleName(string RoleName, string GroupName)

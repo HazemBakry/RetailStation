@@ -19,20 +19,21 @@ import { LoginComponent } from './Auth/login/login.component';
   declarations: [
     AppComponent,
     LoginComponent,
-    DashboardComponent,
-    SigninComponent,
+    // DashboardComponent,
+    // SigninComponent,
     AuthCallbackComponent,
   ],
-  providers: [
-    DatePipe,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: fetchPermissionsOnStart,
-      deps: [RolesService],
-      multi: true,
-    },
-  ],
+  // providers: [
+  //   DatePipe,
+  //   {
+  //     provide: APP_INITIALIZER,
+  //     useFactory: fetchPermissionsOnStart,
+  //     deps: [RolesService],
+  //     multi: true,
+  //   },
+  // ],
   bootstrap: [AppComponent],
+  providers: [],
   imports: [
     CommonModule,
     FormsModule,
@@ -49,23 +50,23 @@ import { LoginComponent } from './Auth/login/login.component';
 })
 export class AppModule {}
 
-export function fetchPermissionsOnStart(rolesService: RolesService) {
-  // if (authService.isAuthenticated()) {
-  return () => {
-    return rolesService
-      .fetchUserAuthorizedPages()
-      .toPromise()
-      .then((permissions) => {
-        rolesService.setPermissions(permissions);
-      })
-      .catch((error) => {
-        console.error('Unhandled error during permission fetching:', error);
-        rolesService.setPermissions([]);
-      });
-  };
-  // }
-  console.warn(
-    'User is not authenticated. Authorized Pages will not be fetched.'
-  );
-  rolesService.setPermissions([]);
-}
+// export function fetchPermissionsOnStart(rolesService: RolesService) {
+//   // if (authService.isAuthenticated()) {
+//   return () => {
+//     return rolesService
+//       .fetchUserAuthorizedPages()
+//       .toPromise()
+//       .then((permissions) => {
+//         rolesService.setPermissions(permissions);
+//       })
+//       .catch((error) => {
+//         console.error('Unhandled error during permission fetching:', error);
+//         rolesService.setPermissions([]);
+//       });
+//   };
+//   // }
+//   console.warn(
+//     'User is not authenticated. Authorized Pages will not be fetched.'
+//   );
+//   rolesService.setPermissions([]);
+//}

@@ -15,6 +15,7 @@ using System.Linq;
 
 namespace RetailStation.Service.Roles
 {
+
     public class RolesService : IRolesService
     {
         private readonly DBContext Context;
@@ -41,9 +42,9 @@ namespace RetailStation.Service.Roles
 
         public List<PagePermissionModel> GetUserAuthorizedPages(string UserId)
         {
-            var userRoles=SubscriptionContext.UserRoles.Where(r=>r.UserId==UserId).ToList();
+            var userRoles = SubscriptionContext.UserRoles.Where(r => r.UserId == UserId).ToList();
             var results = (from userRole in userRoles
-                           //join rol in SubscriptionContext.Roles on userRole.RoleId equals rol.Id
+                               //join rol in SubscriptionContext.Roles on userRole.RoleId equals rol.Id
                            join perm in Context.RolePermissions on userRole.RoleId equals perm.RoleId
                            join pAction in Context.PageActions on perm.PageActionId equals pAction.PageActionId
                            join ac in Context.RoleActions on pAction.ActionId equals ac.RoleActionId
@@ -154,7 +155,7 @@ namespace RetailStation.Service.Roles
                     PageName = f.FirstOrDefault().PageName,
                     DisplayOrder = f.FirstOrDefault().DisplayOrder,
                     IsSelected = f.FirstOrDefault().IsSelected,
-                    IsChecked = f.Any(y => !string.IsNullOrEmpty(y.ActionName)&& (bool)y.IsChecked),
+                    IsChecked = f.Any(y => !string.IsNullOrEmpty(y.ActionName) && (bool)y.IsChecked),
                     PageLevel = f.FirstOrDefault().PageLevel,
                     SubPages = new List<PagePermissionModel>(),
                     Actions = f.Where(y => !string.IsNullOrEmpty(y.ActionName)).Select(x => new PageActionModel
@@ -206,16 +207,16 @@ namespace RetailStation.Service.Roles
             return rootAccounts.ToList();
         }
 
-       
+
 
         public ActionsResponseModel SaveSubscriberRolePages(string SubscriberId, string RoleId, List<int> PageActionIds)
         {
-            var role = RoleManager.Roles.FirstOrDefault(r=>r.Id == RoleId);
-            if (role==null)
+            var role = RoleManager.Roles.FirstOrDefault(r => r.Id == RoleId);
+            if (role == null)
             {
                 return new ActionsResponseModel { IsSuccess = false, Message = "can't find this role!" };
             }
-            var Roles = Context.RolePermissions.Where(a => a.RoleId == RoleId && a.SubscriberId==SubscriberId).ToList();
+            var Roles = Context.RolePermissions.Where(a => a.RoleId == RoleId && a.SubscriberId == SubscriberId).ToList();
             Context.RolePermissions.RemoveRange(Roles);
 
             try
@@ -231,15 +232,15 @@ namespace RetailStation.Service.Roles
                 }
                 Context.SaveChanges();
 
-                return new ActionsResponseModel { Message ="Saved successfully !"};
+                return new ActionsResponseModel { Message = "Saved successfully !" };
             }
             catch (Exception ex)
             {
-                return new ActionsResponseModel { IsSuccess=false,Message = "Error!" };
+                return new ActionsResponseModel { IsSuccess = false, Message = "Error!" };
             }
         }
 
-       
+
         public bool CheckComponentPermission(string RoleName, string ComponentName)
         {
             var Component = Context.Pages.Where(a => a.PageName == ComponentName).FirstOrDefault();

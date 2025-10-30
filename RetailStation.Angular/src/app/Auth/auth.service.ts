@@ -15,7 +15,7 @@ import { RolesService } from './roles.service';
 export class AuthService {
   URL = environment.apiURL;
   authApi = environment.authApi+'Auth';
-  centralizedLoginUrl = environment.authServerUrl;
+  //centralizedLoginUrl = environment.authServerUrl;
   hasPermission = true;
   loggedInUser: LoginUserModel;
   isAuthenticatedSubject = new BehaviorSubject<boolean>(this.isAuthenticated());

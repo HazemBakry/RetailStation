@@ -11,7 +11,7 @@ import { ActionsResponseModel } from '../components/Shared/models/ActionsRespons
 export class RolesService {
   // URL = environment.apiURL + 'Roles/';
   URL = environment.authApi+ 'Roles/';
-  centralizedLoginUrl = environment.authServerUrl;
+  //centralizedLoginUrl = environment.authServerUrl;
 
   constructor(private http: HttpClient) {
   }
