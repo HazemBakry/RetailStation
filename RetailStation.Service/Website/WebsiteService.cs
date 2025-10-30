@@ -193,5 +193,19 @@ namespace RetailStation.Service.Website
         {
             return GetWebsiteItems_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }).FirstOrDefault();
         }
+
+
+        public List<TopPartner> GetTopPartners()
+        {
+
+            var data = Context.TopPartners.Where(x => x.IsActive).ToList() ;
+
+            foreach (var item in data.Where(x => !string.IsNullOrEmpty(x.Image)))
+            {
+                item.Image = _fileService.GetFileDownloadUrl(item.Image);
+            }
+
+            return data;
+        }
     }
 }

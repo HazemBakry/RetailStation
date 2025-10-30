@@ -10,6 +10,7 @@ import { SliderModel } from '../../Admin/models/Operation/SliderModel';
 import { SupplierItemModel } from '../../Shared/models/SupplierItemModel';
 import { PromotionModel } from '../../Shared/models/PromotionModel';
 import { ItemCategoryModel } from '../../Shared/models/ItemCategory';
+import { TopPartner } from '../../Shared/models/TopPartnerModel';
 
 
 @Injectable({
@@ -77,5 +78,9 @@ export class WebsiteService {
   GetOrderDetailsById(orderId: number) {
     return this.http.get<WebsiteOrderModel>(this.URL + 'Order/GetOrderDetailsById?OrderId=' + orderId);
 
+  }
+
+  GetTopPartners() {
+    return this.http.get<TopPartner[]>(this.URL + `Website/GetTopPartners`);
   }
 }

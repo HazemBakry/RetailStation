@@ -169,5 +169,13 @@ namespace RetailStation.API.Controllers.Website
         }
         #endregion
 
+        [HttpGet]
+        [Route("GetTopPartners")]
+        public IActionResult GetTopPartners()
+        {
+            var result = _websiteService.GetTopPartners();
+            return Ok(result);
+        }
+
     }
 }

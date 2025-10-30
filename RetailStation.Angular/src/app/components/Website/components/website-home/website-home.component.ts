@@ -102,6 +102,7 @@ export class WebsiteHomeComponent implements OnInit {
     this.GetFoodTypes();
     this.getWebsiteHomeCategories();
     this.loadFilters();
+    this.getTopPartners();
   }
   getSearchQuery() {
     let itemCategoryId: string = '';
@@ -326,4 +327,18 @@ export class WebsiteHomeComponent implements OnInit {
       logo: 'https://upload.wikimedia.org/wikipedia/en/2/2b/Petrochina_logo.svg',
     },
   ];
+
+  getTopPartners() {
+    this.retailStationLogos = [];
+    this.websiteService.GetTopPartners().subscribe(data => {
+      data?.forEach(partner => {
+        this.retailStationLogos.push({
+          name: partner.displayName,
+          logo: partner.image});
+      });
+
+    }, err => {
+    }, () => {
+    });
+  }
 }
