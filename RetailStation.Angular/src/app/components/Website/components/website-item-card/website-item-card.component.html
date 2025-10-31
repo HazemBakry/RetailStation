@@ -45,8 +45,9 @@
 </div> -->
 
 
-<div class="bg-white position-relative overflow-hidden h-100" [class.is-fav]="item.isFav">
-    <i class="{{ item.isFav ? 'ph-fill ph-heart' : 'ph ph-heart' }} cursor-pointer like-product-icon" (click)="item.isFav = !item.isFav" [style.color]="item.isFav ? '#86ee02d9' : ''"></i>
+<div class="bg-white position-relative overflow-hidden h-100" [class.is-fav]="item.isFavorite">
+    <i *ngIf="isAuthenticated" class="{{ item.isFavorite ? 'ph-fill ph-heart' : 'ph ph-heart' }} cursor-pointer like-product-icon"
+        (click)="toggleFavorite(item)" [style.color]="item.isFavorite ? '#86ee02d9' : ''"></i>
     <div class="main-item-card-content d-flex flex-wrap gap-3 border border-bottom-0 radius-top-10">
         <div class="d-flex flex-column align-items-center gap-2 w-100 px-3 pt-3">
             <div class="more-buy-img-box position-relative">
@@ -61,36 +62,39 @@
                 <div class="d-flex align-items-center gap-2">
                     <i class="ph ph-link-simple text-muted"></i>
                     <a class="text-muted fw-semibold cursor-pointer">
-            {{item.supplierName}}
-          </a>
+                        {{item.supplierName}}
+                    </a>
                 </div>
-                <app-rate></app-rate>
+                <app-rate [value]="item.supplierRate"></app-rate>
             </div>
-            <div class="d-flex align-items-center gap-2">
+            <div  class="d-flex align-items-center gap-2">
                 <div class="d-flex align-items-center gap-2">
                     <i class="ph ph-chart-line-down text-muted"></i>
-                    <div class="d-flex align-items-center gap-1 text-muted">أقل كمية للطلب: <span class="fw-bold">3
-              قطعة</span></div>
+                    <div class="d-flex align-items-center gap-1 text-muted">أقل كمية للطلب:
+                        <span class="fw-bold">{{item.minimumOrderQuantity ?? 1}}</span>
+                    </div>
                 </div>
             </div>
             <div class="d-flex align-items-center justify-content-between gap-3">
                 <div class="d-flex align-items-center gap-3">
                     <div class="d-flex align-items-center gap-2">
-                        <div class="text-danger fw-bold fs-4">{{item.price}}</div>
-                        <img src="{{systemURL}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
+                        <div class="text-danger fw-bold fs-4">{{item.offerPrice?item.offerPrice:item.price}}</div>
+                        <img src="{{systemURL}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon"
+                            loading="lazy" />
                     </div>
-                    <div class="d-flex align-items-center gap-2 line-through">
-                        <div class="text-danger fw-bold fs-4">{{item.price + item.price*20/100}}</div>
-                        <img src="{{systemURL}}assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
+                    <div *ngIf="item.offerPrice" class="d-flex align-items-center gap-2 line-through">
+                        <div class="text-danger fw-bold fs-4">{{item.price}}</div>
+                        <img src="{{systemURL}}assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon"
+                            loading="lazy" />
                     </div>
                 </div>
                 <button (click)="toggleCompare(item)" class="btn btn-add-compare d-flex align-items-center gap-2">
-          <i class="ph ph-git-diff fs-6"></i>
-          <div>
-            <span *ngIf="!item.isCompareAdded">مقارنة</span>
-            <span *ngIf="item.isCompareAdded"> حذف المقارنة</span>
-          </div>
-        </button>
+                    <i class="ph ph-git-diff fs-6"></i>
+                    <div>
+                        <span *ngIf="!item.isCompareAdded">مقارنة</span>
+                        <span *ngIf="item.isCompareAdded"> حذف المقارنة</span>
+                    </div>
+                </button>
             </div>
         </div>
     </div>
@@ -104,9 +108,11 @@
         <ng-container *ngIf="isCounterMode">
             <div class="d-flex align-items-center justify-content-center gap-4">
                 <div class="count-button d-flex align-items-center gap-2">
-                    <i (click)="addToCart()" *ngIf="!isItemInCart" class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
+                    <i (click)="addToCart()" *ngIf="!isItemInCart"
+                        class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
                     <input type="text" value="1" disabled class="form-control border text-center height-30 width-50">
-                    <i (click)="removeItem(); isCounterMode = false" *ngIf="isItemInCart" class="ph ph-trash cursor-pointer text-danger fw-semibold"></i>
+                    <i (click)="removeItem(); isCounterMode = false" *ngIf="isItemInCart"
+                        class="ph ph-trash cursor-pointer text-danger fw-semibold"></i>
                 </div>
                 <div>-</div>
                 <!-- <div class="count-button d-flex align-items-center gap-2">

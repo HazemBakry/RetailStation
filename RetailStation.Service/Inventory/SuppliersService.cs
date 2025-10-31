@@ -112,6 +112,7 @@ namespace RetailStation.Service.Inventory
                 supplier.DeliveryCost = model.DeliveryCost;
                 supplier.DeliveryTime = model.DeliveryTime;
                 supplier.PaymentMethodId = model.PaymentMethodId;
+                supplier.Rate = model.Rate;
                 supplier.BalanceType = model.BalanceType; //model.BalanceTypeId != null ? model.BalanceTypeId.ToString() : string.Empty;
                 supplier.SupplierGroupId = model.SupplierGroupId;
                 supplier.ContactPerson = model.ContactPerson;
@@ -155,6 +156,7 @@ namespace RetailStation.Service.Inventory
                     supplier.DeliveryCost = model.DeliveryCost;
                     supplier.DeliveryTime = model.DeliveryTime;
                     supplier.PaymentMethodId = model.PaymentMethodId;
+                    supplier.Rate = model.Rate;
                     supplier.BalanceType = model.BalanceType; //model.BalanceTypeId != null ? model.BalanceTypeId.ToString() : string.Empty;
                     supplier.SupplierGroupId = model.SupplierGroupId;
                     supplier.ContactPerson = model.ContactPerson;

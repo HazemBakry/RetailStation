@@ -136,12 +136,13 @@ namespace RetailStation.Service.Website
             return result;
         }
 
-        public List<SupplierItemModel> GetWebsiteItems_Data(SearchFilterModel model)
+        public List<SupplierItemModel> GetWebsiteItems_Data(string UserId,SearchFilterModel model)
         {
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
             SqlParameter[] Params = new SqlParameter[]
             {
+                new SqlParameter("@UserId",UserId),
                 new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value),
                 new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value),
                 new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
@@ -191,7 +192,7 @@ namespace RetailStation.Service.Website
 
         public SupplierItemModel GetWebsiteItemDetailsById(int SupplierItemId)
         {
-            return GetWebsiteItems_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }).FirstOrDefault();
+            return GetWebsiteItems_Data("",new SearchFilterModel { PageSize = 25, CurrentPage = 1 }).FirstOrDefault();
         }
 
 
@@ -207,5 +208,46 @@ namespace RetailStation.Service.Website
 
             return data;
         }
+        public ActionsResponseModel ToggleFavorite(string userId, int supplierItemId)
+        {
+            try
+            {
+                var item = Context.UserFavoriteItems
+                    .FirstOrDefault(a => a.SupplierItemId == supplierItemId && a.UserId == userId);
+
+                if (item != null)
+                {
+                    // Remove from favorites
+                    Context.UserFavoriteItems.Remove(item);
+                }
+                else
+                {
+                    // Add to favorites
+                    var newFavorite = new UserFavoriteItem
+                    {
+                        UserId = userId,
+                        SupplierItemId = supplierItemId,
+                    };
+                    Context.UserFavoriteItems.Add(newFavorite);
+                }
+
+                Context.SaveChanges();
+
+                return new ActionsResponseModel
+                {
+                    IsSuccess = true,
+                    Message = item != null ? "تمت إزالة العنصر من المفضلة" : "تمت الإضافة إلى المفضلة بنجاح"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.InnerException?.Message ?? ex.Message
+                };
+            }
+        }
+
     }
 }

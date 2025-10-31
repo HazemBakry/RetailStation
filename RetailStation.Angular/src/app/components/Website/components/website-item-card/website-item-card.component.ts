@@ -7,6 +7,9 @@ import {
   CartService,
 } from 'src/app/components/Shared/services/cart.service';
 import { SupplierItemModel } from 'src/app/components/Shared/models/SupplierItemModel';
+import { WebsiteService } from '../../services/website.service';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/Auth/auth.service';
 
 @Component({
   selector: 'app-website-item-card',
@@ -15,6 +18,7 @@ import { SupplierItemModel } from 'src/app/components/Shared/models/SupplierItem
 })
 export class WebsiteItemCardComponent implements OnInit {
   @Input() item!: SupplierItemModel;
+  @Input() isAuthenticated: boolean = false;
   isItemInCart = false;
   systemURL: string = environment.systemUrl;
 
@@ -26,7 +30,9 @@ export class WebsiteItemCardComponent implements OnInit {
   constructor(
     config: NgbCarouselConfig,
     private compareService: CompareService,
-    private cartService: CartService
+    private cartService: CartService,
+    private websiteService: WebsiteService,
+    private toaster: ToastrService
   ) {
     config.interval = 5000;
     config.wrap = true;
@@ -53,6 +59,18 @@ export class WebsiteItemCardComponent implements OnInit {
       this.compareService.addItem(item.supplierItemId, item.itemId);
     }
     this.checkCompareAdded();
+  }
+  toggleFavorite(item: SupplierItemModel): void {
+    item.isFavorite = !item.isFavorite;
+     this.websiteService.ToggleFavorite(item.supplierItemId).subscribe(data => {
+      if (data.isSuccess) {
+        this.toaster.success(data.message);
+      } else {
+        this.toaster.error(data.message);
+      }
+    }, err => {
+    }, () => {
+    });
   }
 
   checkCartAdded() {

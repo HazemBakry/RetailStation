@@ -9,6 +9,7 @@ using System.Linq;
 using RetailStation.Service.Website;
 using RetailStation.Entities.DTOs.Website;
 using System.Threading.Tasks;
+using RetailStation.Entities.Models.Operation;
 
 namespace RetailStation.API.Controllers.Website
 {
@@ -70,7 +71,8 @@ namespace RetailStation.API.Controllers.Website
         [Route("GetWebsiteItems_Data")]
         public IActionResult GetWebsiteItems_Data(SearchFilterModel SearchModel)
         {
-            var data = _websiteService.GetWebsiteItems_Data(SearchModel);
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value ?? string.Empty;
+            var data = _websiteService.GetWebsiteItems_Data(UserId, SearchModel);
             var result = new PagedResponseModel<SupplierItemModel>
             {
                 Results = data,
@@ -174,6 +176,24 @@ namespace RetailStation.API.Controllers.Website
         public IActionResult GetTopPartners()
         {
             var result = _websiteService.GetTopPartners();
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("ToggleFavorite")]
+        public IActionResult ToggleFavorite(int SupplierItemId)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if (string.IsNullOrEmpty(UserId))
+            {
+                var res = new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = "يرجي تسجيل الدخول لأتمام العمليه"
+                };
+                return Ok(res);
+
+            }
+            var result = _websiteService.ToggleFavorite(UserId, SupplierItemId);
             return Ok(result);
         }
 

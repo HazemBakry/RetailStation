@@ -31,6 +31,7 @@ namespace RetailStation.Entities.Models.Purchases
         public int? PaymentMethodId { get; set; }
         public string BalanceType { get; set; }
         public int? SupplierGroupId { get; set; }
+        public decimal? Rate { get; set; }
         public string ContactPerson { get; set; }
         public string ContactMobile { get; set; }
         public string Notes { get; set; }

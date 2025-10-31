@@ -10,6 +10,7 @@ import { CompareService, ItemCompareModel } from '../../../services/comapre.serv
 import { FieldType } from '../../../Enums/FieldType';
 import { DataField } from '../../../models/DataField';
 import { SupplierItemModel } from '../../../models/SupplierItemModel';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-compare',
@@ -24,6 +25,7 @@ export class CompareComponent implements OnInit {
   @Output() selectedOrder = new EventEmitter<MaterialReceiptModel[]>()
   OrdersList: any[] = [];
   showLoader: boolean;
+  systemURL: string = environment.systemUrl;
 
   selectAll: boolean = false;
   orderNumber: string = '';
@@ -139,12 +141,12 @@ export class CompareComponent implements OnInit {
       fieldType: FieldType.Text,
       displayName: 'اسم المورد',
     }
-    ,
-    {
-      fieldName: 'manufacturingCountry',
-      fieldType: FieldType.Text,
-      displayName: 'بلد المنشأ',
-    }
+    // ,
+    // {
+    //   fieldName: 'manufacturingCountry',
+    //   fieldType: FieldType.Text,
+    //   displayName: 'بلد المنشأ',
+    // }
     ,
     {
       fieldName: 'supplierRate',
@@ -157,30 +159,30 @@ export class CompareComponent implements OnInit {
       fieldType: FieldType.Text,
       displayName: 'مدة الشحن المتوقعة',
     }
-    ,
-    {
-      fieldName: 'dimensions',
-      fieldType: FieldType.Text,
-      displayName: 'الأبعاد',
-    }
-    ,
-    {
-      fieldName: 'weight',
-      fieldType: FieldType.Text,
-      displayName: 'الوزن',
-    }
+    // ,
+    // {
+    //   fieldName: 'dimensions',
+    //   fieldType: FieldType.Text,
+    //   displayName: 'الأبعاد',
+    // }
+    // ,
+    // {
+    //   fieldName: 'weight',
+    //   fieldType: FieldType.Text,
+    //   displayName: 'الوزن',
+    // }
     ,
     {
       fieldName: 'minOrderQuantity',
       fieldType: FieldType.Text,
       displayName: 'الحد الأدنى للكمية',
     }
-    ,
-    {
-      fieldName: 'returnPolicy',
-      fieldType: FieldType.Text,
-      displayName: 'سياسة الإرجاع',
-    }
+    // ,
+    // {
+    //   fieldName: 'returnPolicy',
+    //   fieldType: FieldType.Text,
+    //   displayName: 'سياسة الإرجاع',
+    // }
     ,
     {
       fieldName: 'paymentMethods',

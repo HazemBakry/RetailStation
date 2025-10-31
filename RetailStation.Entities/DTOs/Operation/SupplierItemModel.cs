@@ -24,13 +24,17 @@ namespace RetailStation.Entities.DTOs.Operation
         public int? ItemCategoryId { get; set; }
         public string ItemCategoryName { get; set; }
         public decimal? Quantity { get; set; }
+        public decimal? MinimumOrderQuantity { get; set; }
         public decimal? Price { get; set; }
+        public decimal? OfferPrice { get; set; }
         public decimal? Price10 { get; set; }
         public decimal? Price100 { get; set; }
         public decimal? Price1000 { get; set; }
         public bool IsActive { get; set; }
+        public bool IsFavorite { get; set; }
         public int? ItemTypeId { get; set; }
         public int? SupplierId { get; set; }
+        public decimal? SupplierRate { get; set; }
         public double? DeliveryTime { get; set; }
         public decimal? DeliveryCost { get; set; }
         public int? PaymentMethodId { get; set; }

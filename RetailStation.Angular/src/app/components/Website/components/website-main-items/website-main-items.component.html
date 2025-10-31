@@ -22,7 +22,7 @@
       }">
         <ng-container *ngFor="let item of bestSellerData;let i =index">
             <ng-template swiperSlide>
-                <app-website-item-card [item]="item"></app-website-item-card>
+                <app-website-item-card [item]="item" [isAuthenticated]="isAuthenticated"></app-website-item-card>
             </ng-template>
         </ng-container>
     </swiper>
@@ -46,7 +46,7 @@
             <div class="row">
 
                 <div *ngFor="let item of suppliersData;let i =index" class="col-md-6 col-xl-3">
-                    <app-website-item-card [item]="item"></app-website-item-card>
+                    <app-website-item-card [item]="item" [isAuthenticated]="isAuthenticated"></app-website-item-card>
                 </div>
             </div>
 

@@ -98,6 +98,7 @@ namespace RetailStation.Entities.Models
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<Promotion> Promotions { get; set; }
         public DbSet<TopPartner> TopPartners { get; set; }
+        public DbSet<UserFavoriteItem> UserFavoriteItems { get; set; }
         public DbSet<ItemCategory> ItemCategories { get; set; }
         public DbSet<MaterialReceipt> MaterialReceipts { get; set; }
         public DbSet<MaterialReceiptDetails> MaterialReceiptDetails { get; set; }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RetailStation.Entities.Models.Global;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -18,10 +19,12 @@ namespace RetailStation.Entities.Models.Operation
         public string NameAR { get; set; }
         public string NameEN { get; set; }
         public decimal Price { get; set; }
+        public decimal? OfferPrice { get; set; }
         public decimal? Price10 { get; set; }
         public decimal? Price100 { get; set; }
         public decimal? Price1000 { get; set; }
         public decimal Quantity { get; set; }
+        public decimal? MinimumOrderQuantity { get; set; }
         public int? ItemId { get; set; }
         public int? UnitId { get; set; }
         public int? ItemCategoryId { get; set; }

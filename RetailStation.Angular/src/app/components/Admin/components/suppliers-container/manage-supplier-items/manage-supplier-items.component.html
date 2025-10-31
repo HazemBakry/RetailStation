@@ -1,9 +1,11 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-2 table-card-title bg-light">
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-2 table-card-title bg-light">
         <div class="d-flex align-items-center gap-2 p-2">
-            <app-erp-filters [FilterList]="filterList" [showSearchText]="true" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'بحث بإسم الصنف ...'"></app-erp-filters>
+            <app-erp-filters [FilterList]="filterList" [showSearchText]="true" (filterChanged)="filterChecked($event)"
+                [searchPlaceholder]="'بحث بإسم الصنف ...'"></app-erp-filters>
         </div>
         <!-- <div class="d-flex justify-content-between align-items-center gap-2 p-2">
             <div class="d-flex flex-wrap gap-2">
@@ -27,10 +29,12 @@
                         <th>الصنف</th>
                         <th>الوحدة</th>
                         <th>سعر الوحدة</th>
+                        <th>سعر العرض</th>
                         <th>سعر 10 الوحدة</th>
                         <th>سعر 100 الوحدة</th>
                         <th>سعر 1000 الوحدة</th>
-                        <th>Quantity</th>
+                        <th>الكميه</th>
+                        <th>أقل كميه للطلب</th>
                         <th class="text-center"></th>
                     </tr>
                 </thead>
@@ -52,18 +56,23 @@
                         </td>
                         <td>{{item.unitName}}</td>
                         <td>{{item.price}}</td>
+                        <td>{{item.offerPrice}}</td>
                         <td>{{item.price10}}</td>
                         <td>{{item.price100}}</td>
                         <td>{{item.price1000}}</td>
                         <td>{{item.quantity}}</td>
+                        <td>{{item.minimumOrderQuantity}}</td>
                         <td class="width-300 min-width-300">
-                            <app-general-selector [(ngModel)]="item.itemId" [data]="itemsSelectorData" [disabled]="itemsSelectorData?.length==0" [showSearch]="true" [placeholder]="'Item Map'" (valueChanged)="mapSupplierItem(item.supplierItemId,$event)">
+                            <app-general-selector [(ngModel)]="item.itemId" [data]="itemsSelectorData"
+                                [disabled]="itemsSelectorData?.length==0" [showSearch]="true" [placeholder]="'Item Map'"
+                                (valueChanged)="mapSupplierItem(item.supplierItemId,$event)">
                             </app-general-selector>
                         </td>
                     </tr>
                     <tr *ngIf="!pagedResponseModel.results.length">
                         <td colspan="8" class="text-right">
-                            <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+                            <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length&&!showLoader"
+                                [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>

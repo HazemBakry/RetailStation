@@ -10,7 +10,7 @@ export interface PromotionModel extends SupplierItemModel {
     startDate: string;
     endDate: string;
     isActive: boolean;
-    offerPrice?: number;
+    //offerPrice?: number|null;
     minQty?: number;
     maxQty?: number;
     totalCount?: number;

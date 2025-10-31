@@ -15,6 +15,7 @@ import { SalesReturnsComponent } from './components/sales-returns/sales-returns.
 import { AddSalesReturnsComponent } from './components/add-sales-returns/add-sales-returns.component';
 import { CustomersStatementComponent } from './components/customers-statement/customers-statement.component';
 import { MySuppliersComponent } from './components/my-suppliers/my-suppliers.component';
+import { SupplierItemsComponent } from '../Main/components/supplier/supplier-items/supplier-items.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { MySuppliersComponent } from './components/my-suppliers/my-suppliers.com
     SalesDashboardComponent,
     OrdersComponent,
     ItemsComponent,
+    SupplierItemsComponent,
     PromotionsComponent,
     SalesReturnsComponent,
     AddSalesReturnsComponent,

@@ -39,6 +39,7 @@ namespace RetailStation.Entities.DTOs.Operation
         public string Notes { get; set; }
         public string SubscriberId { get; set; }
         public bool IsActive { get; set; }
+        public decimal? Rate { get; set; }
         public int? TotalCount { get; set; }
     }
 }

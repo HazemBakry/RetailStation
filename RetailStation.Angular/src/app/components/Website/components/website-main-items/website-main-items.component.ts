@@ -8,6 +8,7 @@ import { FilterItem, FilterModel } from 'src/app/components/Shared/models/Filter
 import { CompareService } from 'src/app/components/Shared/services/comapre.service';
 import { WebsiteService } from '../../services/website.service';
 import { SupplierItemModel } from 'src/app/components/Shared/models/SupplierItemModel';
+import { AuthService } from 'src/app/Auth/auth.service';
 
 @Component({
   selector: 'app-website-main-items',
@@ -17,6 +18,7 @@ import { SupplierItemModel } from 'src/app/components/Shared/models/SupplierItem
 export class WebsiteMainItemsComponent implements OnInit, OnChanges {
   @Input() selectedCategoryId: number;
   @Input() selectedCategoryName: number;
+  isAuthenticated: boolean = false;
   searchText: string = '';
   itemCategoryId: string = '';
   systemURL: string = environment.systemUrl;
@@ -49,6 +51,7 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
   constructor(config: NgbCarouselConfig,
     private websiteService: WebsiteService,
     private route: ActivatedRoute,
+    private authService: AuthService,
     private datePipe: DatePipe, private compareService: CompareService) {
     config.interval = 5000;
     config.wrap = true;
@@ -59,6 +62,7 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
       if (params['tabName']) {
       }
     });
+    this.isAuthenticated = this.authService.isAuthenticated();
   }
 
   ngOnInit(): void {

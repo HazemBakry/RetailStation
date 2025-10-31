@@ -83,4 +83,7 @@ export class WebsiteService {
   GetTopPartners() {
     return this.http.get<TopPartner[]>(this.URL + `Website/GetTopPartners`);
   }
+  ToggleFavorite(supplierItemId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Website/ToggleFavorite?SupplierItemId=' + supplierItemId);
+  }
 }

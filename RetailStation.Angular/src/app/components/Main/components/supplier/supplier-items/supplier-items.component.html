@@ -72,10 +72,12 @@
                                     <th>الصنف</th>
                                     <th>الوحدة</th>
                                     <th>سعر الوحدة</th>
+                                    <th>سعر العرض</th>
                                     <th>سعر 10 الوحدة</th>
                                     <th>سعر 100 الوحدة</th>
                                     <th>سعر 1000 الوحدة</th>
-                                    <th>Quantity</th>
+                                    <th>الكميه</th>
+                                    <th>أقل كميه للطلب</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -95,10 +97,12 @@
                                     </td>
                                     <td>{{item.unitName}}</td>
                                     <td>{{item.price}}</td>
+                                    <td>{{item.offerPrice}}</td>
                                     <td>{{item.price10}}</td>
                                     <td>{{item.price100}}</td>
                                     <td>{{item.price1000}}</td>
                                     <td>{{item.quantity}}</td>
+                                    <td>{{item.minimumOrderQuantity}}</td>
                                     <td class="text-center">
                                         <div class="d-flex align-items-center gap-2">
                                             <label class="switch me-2">
@@ -184,6 +188,17 @@
                         </td>
                     </tr>
                     <tr>
+                        <td class="table-feature">سعر العرض</td>
+                        <td class="table-value">
+                            <input type="text" formControlName="offerPrice" class="form-control form-control-lg"
+                                placeholder="سعر العرض">
+                            <div *ngIf="formErrors.offerPrice" class="text-danger  font-small-3 m-03">
+                                {{formErrors.offerPrice}}
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="table-feature">التكلفة 10</td>
                         <td class="table-value">
                             <input type="text" formControlName="price10" class="form-control form-control-lg"
@@ -212,6 +227,28 @@
                                 placeholder="التكلفة 1000">
                             <div *ngIf="formErrors.price1000" class="text-danger  font-small-3 m-03">
                                 {{formErrors.price1000}}
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">Quantity</td>
+                        <td class="table-value">
+                            <input type="text" formControlName="quantity" class="form-control form-control-lg"
+                                placeholder="Quantity">
+                            <div *ngIf="formErrors.quantity" class="text-danger  font-small-3 m-03">
+                                {{formErrors.quantity}}
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">Minimum Order Quantity</td>
+                        <td class="table-value">
+                            <input type="text" formControlName="minimumOrderQuantity" class="form-control form-control-lg"
+                                placeholder="Minimum Order Quantity">
+                            <div *ngIf="formErrors.minimumOrderQuantity" class="text-danger  font-small-3 m-03">
+                                {{formErrors.minimumOrderQuantity}}
                             </div>
 
                         </td>

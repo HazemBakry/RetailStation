@@ -11,10 +11,10 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { SupplierModel } from 'src/app/components/Purchases/models/SupplierModel';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
-import { SupplierItemModel } from '../../../models/SupplierItemModel';
 import { SupplierService } from '../../../services/supplier.service';
 import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 import { ImporterName } from 'src/app/components/SystemSettings/models/DataImporter';
+import { SupplierItemModel } from 'src/app/components/Shared/models/SupplierItemModel';
 
 @Component({
   selector: 'app-supplier-items',
@@ -53,10 +53,12 @@ export class SupplierItemsComponent implements OnInit {
     purchaseUnitId: '',
     itemCategoryId: '',
     price: '',
+    offerPrice: '',
     price10: '',
     price100: '',
     price1000: '',
     quantity: '',
+    minimumOrderQuantity: '',
     convertRatio: '',
     isActive: '',
     yield: '',
@@ -163,10 +165,12 @@ export class SupplierItemsComponent implements OnInit {
       purchaseUnitId: [null],
       itemCategoryId: [null],
       price: [null, [Validators.required, CustomValidators.regexPattern(RegexType.currency)]],
+      offerPrice: [null, [CustomValidators.regexPattern(RegexType.currency)]],
       price10: [null, [CustomValidators.regexPattern(RegexType.currency)]],
       price100: [null, [CustomValidators.regexPattern(RegexType.currency)]],
       price1000: [null, [CustomValidators.regexPattern(RegexType.currency)]],
       quantity: [null, [Validators.required, CustomValidators.regexPattern(RegexType.numeric)]],
+      minimumOrderQuantity: [null, [CustomValidators.regexPattern(RegexType.numeric)]],
       convertRatio: [null],
       isActive: [true],
       yield: [null],
@@ -283,10 +287,12 @@ export class SupplierItemsComponent implements OnInit {
       purchaseUnitId: supplierItemModel.purchaseUnitId,
       itemCategoryId: supplierItemModel.itemCategoryId,
       price: supplierItemModel.price,
+      offerPrice: supplierItemModel.offerPrice,
       price10: supplierItemModel.price10,
       price100: supplierItemModel.price100,
       price1000: supplierItemModel.price1000,
       quantity: supplierItemModel.quantity,
+      minimumOrderQuantity: supplierItemModel.minimumOrderQuantity,
       isActive: supplierItemModel.isActive,
       purchasePrice: supplierItemModel.purchasePrice,
       itemTypeId: supplierItemModel.itemTypeId

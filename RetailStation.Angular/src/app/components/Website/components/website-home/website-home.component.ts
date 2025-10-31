@@ -286,46 +286,46 @@ export class WebsiteHomeComponent implements OnInit {
   }
 
   retailStationLogos: RetailStationLogos[] = [
-    {
-      name: 'Shell',
-      logo: 'https://1000logos.net/wp-content/uploads/2024/08/Shell-Logo.png',
-    },
-    {
-      name: 'TotalEnergies',
-      logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/5/54/TotalEnergies_logo.svg/1200px-TotalEnergies_logo.svg.png',
-    },
-    {
-      name: 'ExxonMobil',
-      logo: 'https://download.logo.wine/logo/ExxonMobil/ExxonMobil-Logo.wine.png',
-    },
-    {
-      name: 'BP',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c0/Bp_logo1961.png',
-    },
-    {
-      name: 'Caltex',
-      logo: 'https://images.seeklogo.com/logo-png/2/2/caltex-logo-png_seeklogo-25055.png',
-    },
-    {
-      name: 'Esso',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Esso-Logo.svg/1200px-Esso-Logo.svg.png',
-    },
-    {
-      name: 'Emarat',
-      logo: 'https://logos-world.net/wp-content/uploads/2020/03/Emirates-Logo.png',
-    },
-    {
-      name: 'ENOC',
-      logo: 'https://autostarcompany.com/en/assets/uploads/2021/11/enoc-products.png',
-    },
-    {
-      name: 'ADNOC',
-      logo: 'https://arda.africa/wp-content/uploads/2022/08/Arda_Sponsor_Logos_Gold_Adnoc.png',
-    },
-    {
-      name: 'PetroChina',
-      logo: 'https://upload.wikimedia.org/wikipedia/en/2/2b/Petrochina_logo.svg',
-    },
+    // {
+    //   name: 'Shell',
+    //   logo: 'https://1000logos.net/wp-content/uploads/2024/08/Shell-Logo.png',
+    // },
+    // {
+    //   name: 'TotalEnergies',
+    //   logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/5/54/TotalEnergies_logo.svg/1200px-TotalEnergies_logo.svg.png',
+    // },
+    // {
+    //   name: 'ExxonMobil',
+    //   logo: 'https://download.logo.wine/logo/ExxonMobil/ExxonMobil-Logo.wine.png',
+    // },
+    // {
+    //   name: 'BP',
+    //   logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c0/Bp_logo1961.png',
+    // },
+    // {
+    //   name: 'Caltex',
+    //   logo: 'https://images.seeklogo.com/logo-png/2/2/caltex-logo-png_seeklogo-25055.png',
+    // },
+    // {
+    //   name: 'Esso',
+    //   logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Esso-Logo.svg/1200px-Esso-Logo.svg.png',
+    // },
+    // {
+    //   name: 'Emarat',
+    //   logo: 'https://logos-world.net/wp-content/uploads/2020/03/Emirates-Logo.png',
+    // },
+    // {
+    //   name: 'ENOC',
+    //   logo: 'https://autostarcompany.com/en/assets/uploads/2021/11/enoc-products.png',
+    // },
+    // {
+    //   name: 'ADNOC',
+    //   logo: 'https://arda.africa/wp-content/uploads/2022/08/Arda_Sponsor_Logos_Gold_Adnoc.png',
+    // },
+    // {
+    //   name: 'PetroChina',
+    //   logo: 'https://upload.wikimedia.org/wikipedia/en/2/2b/Petrochina_logo.svg',
+    // },
   ];
 
   getTopPartners() {

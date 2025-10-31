@@ -91,7 +91,9 @@ namespace RetailStation.Service.SupplierManagement
                     NameEN = model.NameEN,
                     NameAR = model.NameAR,
                     Price = (decimal)model.Price,
+                    OfferPrice = (decimal)model.OfferPrice,
                     Quantity = (decimal)model.Quantity,
+                    MinimumOrderQuantity = (decimal)model.MinimumOrderQuantity,
                     UnitId = model.UnitId,
                     ItemCategoryId = model.ItemCategoryId,
                     ItemTypeId = model.ItemTypeId,
@@ -127,10 +129,12 @@ namespace RetailStation.Service.SupplierManagement
                     item.NameEN = model.NameEN;
                     item.NameAR = model.NameAR;
                     item.Price = (decimal)model.Price;
+                    item.OfferPrice = (decimal)model.OfferPrice;
                     item.Price10 = (decimal)model.Price10;
                     item.Price100 = (decimal)model.Price100;
                     item.Price1000 = (decimal)model.Price1000;
                     item.Quantity = (decimal)model.Quantity;
+                    item.MinimumOrderQuantity = (decimal)model.MinimumOrderQuantity;
                     item.UnitId = model.UnitId;
                     item.ItemCategoryId = model.ItemCategoryId;
                     item.ItemTypeId = model.ItemTypeId;
