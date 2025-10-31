@@ -195,6 +195,14 @@ namespace RetailStation.API.Controllers.Website
             }
             var result = _websiteService.ToggleFavorite(UserId, SupplierItemId);
             return Ok(result);
+        }        
+        [HttpGet]
+        [Route("SearchAutoComplete")]
+        public IActionResult SearchAutoComplete(string SearchText)
+        {
+           
+            var result = _websiteService.SearchAutoComplete(SearchText);
+            return Ok(result);
         }
 
     }

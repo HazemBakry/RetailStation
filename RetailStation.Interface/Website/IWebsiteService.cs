@@ -21,6 +21,7 @@ namespace RetailStation.Interface.Website
         List<PromotionModel> GetWebsitePromotionItems(SearchFilterModel model);
         List<TopPartner> GetTopPartners();
         ActionsResponseModel ToggleFavorite(string userId, int supplierItemId);
+        List<SearchAutoCompleteModel> SearchAutoComplete(string SearchText);
 
     }
 }

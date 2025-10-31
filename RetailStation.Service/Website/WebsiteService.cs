@@ -249,5 +249,21 @@ namespace RetailStation.Service.Website
             }
         }
 
+        public List<SearchAutoCompleteModel> SearchAutoComplete(string SearchText)
+        {
+
+            SqlParameter[] Params = new SqlParameter[]
+            {
+                new SqlParameter("@SearchText", SearchText)
+            };
+            var result = SQLHelper.SQLQuery<SearchAutoCompleteModel>("[Website].[SP_GetSearchAutoComplete]", ConnectionString, Params);
+
+            foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
+            {
+                item.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine("ItemsImages", item.ImageUrl));
+            }
+            return result;
+        }
+
     }
 }
