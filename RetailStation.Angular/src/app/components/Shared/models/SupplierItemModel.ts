@@ -27,6 +27,7 @@ export interface SupplierItemModel extends CreatorModel {
     isFavorite: boolean | null;
     isCompareAdded: boolean | null;
     isItemInCart: boolean | null;
+    isBestSellerItem: boolean | null;
     image: File | null;
     imageUrl: string;
     deliveryCost: number | null;

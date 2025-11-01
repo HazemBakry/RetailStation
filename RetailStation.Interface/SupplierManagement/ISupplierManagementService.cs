@@ -22,6 +22,7 @@ namespace RetailStation.Interface.SupplierManagement
         ActionsResponseModel ChangeSupplierItemActiveStatus(int SupplierId, int SupplierItemId);
         ActionsResponseModel ItemQuickUpdate(int SupplierId, int SupplierItemId, decimal Price, int UnitId);
         Task<ActionsResponseModel> MapSupplierItem(int SupplierId, int SupplierItemId, int? ItemId);
+        Task<ActionsResponseModel> MarkItemAsBestSeller(int SupplierItemId);
         Task<ActionsResponseModel> ImportSupplierItemsFile(int SupplierId,string ImporterName, IFormFile file);
 
     }

@@ -20,7 +20,7 @@ export class ManageSupplierItemsComponent implements OnInit {
   selectedItemId: number;
   itemModel: SupplierItemModel = {} as SupplierItemModel;
   filterList: FilterItem[] = [];
-  
+
   pagedResponseModel: PagedResponseModel<SupplierItemModel[]> = {
     results: [],
     filterList: [],
@@ -87,5 +87,19 @@ export class ManageSupplierItemsComponent implements OnInit {
       this.showLoader = false;
     });
   }
-
+  MarkItemAsBestSeller(supplierItemId: any) {
+    this.salesService.MarkItemAsBestSeller(supplierItemId).subscribe(data => {
+      if (data.isSuccess) {
+        this.toaster.success(data.message);
+        this.loadData();
+      } else {
+        this.toaster.error(data.message);
+      }
+      this.showAddLoader = false;
+    }, err => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
+    });
+  }
 }

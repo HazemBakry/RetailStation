@@ -176,5 +176,13 @@ export class SalesService {
     return this.http.get<ActionsResponseModel>(this.URL + `SupplierManagement/MapSupplierItem?${queryString}`);
 
   }
+  MarkItemAsBestSeller(supplierItemId: number) {
+    const params = new URLSearchParams();
+    params.append('SupplierItemId', supplierItemId.toString());
+
+    const queryString = params.toString();
+    return this.http.get<ActionsResponseModel>(this.URL + `SupplierManagement/MarkItemAsBestSeller?${queryString}`);
+
+  }
 
 }
