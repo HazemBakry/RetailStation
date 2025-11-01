@@ -224,16 +224,16 @@ namespace RetailStation.Service.Website
                     var serialNumber = DalHelper.GenerateSerialNumber(SerialType.PurchaseOrder, newOrderNumber);
                     var order = new Order
                     {
-                        SupplierId = supplierGroup.Key,
+                        SupplierId = (int)supplierGroup.Key,
                         OrderNumber = newOrderNumber,
                         SerialNumber = serialNumber,
                         SubscriberId = SubscriberId,
                         WorkflowStatusId = (int)WorkflowStatus.Pending,
-                        SubTotal = Math.Round(supplierGroup.Sum(x => x.SubTotal), 2),
+                        SubTotal = Math.Round((decimal)supplierGroup.Sum(x => x.SubTotal), 2),
                         DeliveryValue = 0,
                         DiscountAmount = 0,
                         Tax = 0,
-                        TotalValue = Math.Round(supplierGroup.Sum(x => x.TotalValue), 2),
+                        TotalValue = Math.Round((decimal)supplierGroup.Sum(x => x.TotalValue), 2),
                         OrderDate = DateTime.Now,
                         NetValue = Math.Round(supplierGroup.Sum(x => x.NetValue.GetValueOrDefault()), 2),
                         Notes = model.Notes,
@@ -257,10 +257,10 @@ namespace RetailStation.Service.Website
                             UnitId = requestedItem.UnitId,
                             Quantity = requestedItem.Quantity,
                             Price = requestedItem.Price.GetValueOrDefault(),
-                            SubTotal = requestedItem.SubTotal,
+                            SubTotal = (decimal)requestedItem.SubTotal,
                             Discount = requestedItem.Discount.GetValueOrDefault(),
                             DiscountPercent = requestedItem.DiscountPercent.GetValueOrDefault(),
-                            TotalValue = requestedItem.TotalValue,
+                            TotalValue = (decimal)requestedItem.TotalValue,
                             Notes = requestedItem.Notes
                         };
                         orderDetails.Add(orderDetail);

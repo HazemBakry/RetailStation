@@ -65,6 +65,7 @@ import { HomeComponent } from './components/home/home.component';
 import { AppPaginationComponent } from './components/app-pagination/app-pagination.component';
 import { AppFiltersComponent } from './components/app-filters/app-filters.component';
 import { FloatLoginComponent } from 'src/app/Auth/float-login/float-login.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { FloatLoginComponent } from 'src/app/Auth/float-login/float-login.compon
     SidebarComponent,
     HeaderComponent,
     HomeComponent,
+    UserProfileComponent,
     AccountsTreeComponent,
     StatsCardComponent,
     SearchArryPipe,
@@ -153,6 +155,7 @@ import { FloatLoginComponent } from 'src/app/Auth/float-login/float-login.compon
     SidebarComponent,
     HeaderComponent,
     HomeComponent,
+    UserProfileComponent,
     AccountsTreeComponent,
     CostCentersTreeComponent,
     NgxLoadingModule,

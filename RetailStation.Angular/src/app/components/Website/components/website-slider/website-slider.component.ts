@@ -28,16 +28,16 @@ export class WebsiteSliderComponent implements OnInit {
   mostPopular = ['الأكثر شهرة', 'الأعلى تقييماً', 'الأسرع في التوصيل'];
 
   showLoader: boolean = false;
-  pageResponseModel: PagedResponseModel<SliderModel[]> = {
+  pageResponseModel: PagedResponseModel<SupplierItemModel[]> = {
     results: [],
     filterList: [],
     pageSize: 20,
     currentPage: 1,
     searchText: ''
   };
-  //sliderData: SliderModel[] = [];
+  sliderData: SliderModel[] = [];
 
-  constructor(config: NgbCarouselConfig, 
+  constructor(config: NgbCarouselConfig,
     private websiteService: WebsiteService,
     private route: ActivatedRoute
   ) {
@@ -58,7 +58,7 @@ export class WebsiteSliderComponent implements OnInit {
   loadData() {
     this.showLoader = true;
     this.websiteService.GetWebsiteMainSlider().subscribe(data => {
-      this.pageResponseModel.results = data;
+      this.sliderData = data;
       this.showLoader = false;
     }, err => {
       this.showLoader = false;

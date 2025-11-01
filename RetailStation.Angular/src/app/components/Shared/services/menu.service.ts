@@ -764,7 +764,7 @@ export class MenuService {
         [
           {
             menuItemId: MenuType.PurchasesHome,
-            displayName: 'المشتريات',
+            displayName: 'إدارة طلباتى',
             menuItem: '1',
             route: '/purchases/home/1',
             icon: 'fa fa-shopping-cart',
@@ -773,14 +773,14 @@ export class MenuService {
                 displayName: 'لوحة التحكم',
                 menuItem: 'dashboard',
                 description: 'متابعة احصائيات المشتريات',
-                icon: 'fa fa-clipboard-list',
+                icon: 'fa-th-large fas',
                 route: '/purchases/dashboard'
               },
               {
                 displayName: 'قائمة الطلبات',
                 menuItem: 'purchase-orders',
                 description: 'متابعة وإدارة قائمة طلبات المشتريات',
-                icon: 'fa fa-clipboard-list',
+                icon: 'ph ph-shopping-cart',
                 route: '/purchases/purchase-orders'
               },
               // {
@@ -804,13 +804,13 @@ export class MenuService {
               //   icon: 'fa fa-undo-alt',
               //   route: '/purchases/purchase-returns'
               // },
-              {
-                displayName: 'كشف حساب مورد',
-                menuItem: 'suppliers-account-statement',
-                description: 'عرض جميع العمليات الخاصة بالموردين',
-                icon: 'fa fa-file-alt',
-                route: '/purchases/suppliers-account-statement'
-              },
+              // {
+              //   displayName: 'كشف حساب مورد',
+              //   menuItem: 'suppliers-account-statement',
+              //   description: 'عرض جميع العمليات الخاصة بالموردين',
+              //   icon: 'fa fa-file-alt',
+              //   route: '/purchases/suppliers-account-statement'
+              // },
               // {
               //   displayName: 'عروض الاسعار',
               //   menuItem: 'purchase-quotations',

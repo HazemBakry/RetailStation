@@ -53,6 +53,7 @@ export class WebsiteService {
   /////////////// order
   //-------------------------------------  Order ----------------------------------
   CreateNewOrder(order: CreateOrderModel) {
+    debugger
     return this.http.post<ActionsResponseModel>(this.URL + 'Order/CreateNewOrder', order);
   }
 

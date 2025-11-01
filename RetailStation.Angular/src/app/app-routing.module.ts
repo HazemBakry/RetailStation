@@ -7,6 +7,7 @@ import { HomeComponent } from './components/Shared/components/home/home.componen
 import { WebsiteComponent } from './components/Website/components/website.component';
 import { WebsiteHomeComponent } from './components/Website/components/website-home/website-home.component';
 import { WebsiteCartComponent } from './components/Website/components/website-cart/website-cart.component';
+import { UserProfileComponent } from './components/Shared/components/user-profile/user-profile.component';
 
 
 const routes: Routes = [
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
   // {
   //   path: 'purchases',
   //   canActivate: [AuthGuard],

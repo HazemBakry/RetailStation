@@ -34,16 +34,16 @@ namespace RetailStation.Entities.DTOs.Website
     public class CreateOrderItemModel
     {
         public int SupplierItemId { get; set; }
-        public int ItemId { get; set; }
+        public int? ItemId { get; set; }
         public int? UnitId { get; set; }
         public int Quantity { get; set; }
         public decimal? Price { get; set; }
-        public decimal SubTotal { get; set; }
+        public decimal? SubTotal { get; set; }
         public decimal? Discount { get; set; }
         public decimal? DiscountPercent { get; set; }
-        public decimal TotalValue { get; set; }
+        public decimal? TotalValue { get; set; }
         public decimal? NetValue { get; set; }
         public string Notes { get; set; }
-        public int SupplierId { get; set; }
+        public int? SupplierId { get; set; }
     }
 }

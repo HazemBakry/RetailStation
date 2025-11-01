@@ -17,14 +17,14 @@ import Swal from 'sweetalert2';
   styleUrls: ['./website-cart.component.css']
 })
 export class WebsiteCartComponent implements OnInit {
-  TitleList = ['انشاء طلبية'];
-  OrdersList: any[] = [];
   showLoader: boolean;
-
-  selectAll: boolean = false;
   orderNumber: string = '';
   orderDate: string;
   cartList: CartModel[] = [];
+  totalValue = 0.0;
+  tax = 0.0;
+  discount = 0.0;
+  netValue = 0.0;
   pageResponseModel: PagedResponseModel<SupplierItemModel[]> = {
     results: [],
     filterList: [],
@@ -33,7 +33,6 @@ export class WebsiteCartComponent implements OnInit {
     searchText: ''
   };
   cartItems: SupplierItemModel[] = [];
-  suppliersSelectorData: GeneralSelectorModel[] = [];
   compareCount$: number = 0;
 
   constructor(private offcanvasService: NgbOffcanvas,
@@ -53,20 +52,15 @@ export class WebsiteCartComponent implements OnInit {
 
   loadData() {
     this.mapFilters();
-    // if (this.pageResponseModel.filterList.length == 0) {
-    //   this.toaster.warning('لا يوجد أصناف ');
-    //   return;
-    // }
-
     this.showLoader = true;
     this.websiteService.GetWebsiteItems_Data(this.pageResponseModel).subscribe(data => {
       this.pageResponseModel.results = data.results;
       this.cartItems = this.pageResponseModel.results;
       // this.suppliersData = this.suppliersData.concat([...data.results]);
-      this.pageResponseModel.totalCount = data.totalCount;
+      //this.pageResponseModel.totalCount = data.totalCount;
 
       this.setQuantity();
-
+      this.calculateCartSummary();
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
@@ -74,10 +68,7 @@ export class WebsiteCartComponent implements OnInit {
       this.showLoader = false;
     });
   }
-  pageChanged(obj: any) {
-    this.pageResponseModel.currentPage = obj.page;
-    this.loadData();
-  }
+
   mapFilters() {
     this.cartList = this.cartService.getCurrentCartItems();
     this.pageResponseModel.pageSize = this.cartList.length;
@@ -89,6 +80,7 @@ export class WebsiteCartComponent implements OnInit {
       }
     });
   }
+
   setQuantity() {
     this.cartList.forEach(item => {
       const found = this.pageResponseModel.results.find(i => i.supplierItemId === item.supplierItemId);
@@ -98,15 +90,37 @@ export class WebsiteCartComponent implements OnInit {
       }
     });
   }
-  remove(item: SupplierItemModel): void {
+
+  // remove(item: SupplierItemModel): void {
+  //   this.cartService.removeItem(item.supplierItemId);
+  //   this.loadData();
+  // }
+
+  changeQuantity(item: SupplierItemModel, newQuantity: number): void {
+    // item.quantity = newQuantity;
+    // item.cost = newQuantity * item.price;
+    this.cartService.changeItemQuantity(item.supplierItemId, item.quantity + newQuantity);
+    this.loadData();
+  }
+
+
+  removeItem(item: any) {
     this.cartService.removeItem(item.supplierItemId);
     this.loadData();
   }
 
-  onQuantityChange(item: SupplierItemModel, newQuantity: number): void {
-    item.quantity = newQuantity;
-    item.cost = newQuantity * item.price;
-    this.cartService.changeItemQuantity(item.supplierItemId, newQuantity);
+  calculateCartSummary() {
+    this.totalValue = 0.0;
+    this.tax = 0.0;
+    this.discount = 0.0;
+    this.netValue = 0.0;
+    this.cartItems.forEach((item) => {
+      let itemTotal = (item.price ?? 0) * (item.quantity);
+      this.totalValue += itemTotal;
+    });
+
+    this.netValue = (this.totalValue / (1.15));
+    this.tax = this.totalValue - this.netValue;
   }
 
   clearCart(): void {
@@ -132,7 +146,6 @@ export class WebsiteCartComponent implements OnInit {
   orderItems: CreateOrderItemModel[] = [];
 
   createOrder() {
-
     this.orderItems = [];
     this.orderModel = {} as CreateOrderModel;
 
@@ -178,10 +191,10 @@ export class WebsiteCartComponent implements OnInit {
         localStorage.removeItem('cartItems');
         this.cartItems = [];
 
-        this.alertConfirmation('Order Submitted Successfully', 'Success', 2);
+        this.alertConfirmation('Order Submitted Successfully', 'Success', response?.number);
       }
       else {
-        this.alertConfirmation('Order Not Submitted', 'Error', 0);
+        this.alertConfirmation('Order Not Submitted', 'Error', -1);
         //this.toaster.error(response.message);
       }
       this.showLoader = false;
