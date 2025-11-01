@@ -21,6 +21,7 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
   isAuthenticated: boolean = false;
   searchText: string = '';
   itemCategoryId: string = '';
+  cityId: string = '';
   systemURL: string = environment.systemUrl;
   UserModel: any;
   activeOrderFilter: number;
@@ -77,7 +78,6 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedCategoryId'] && !changes['selectedCategoryId'].firstChange) {
-      console.log("🚀 ~ WebsiteMainItemsComponent ~ ngOnChanges ~ this.selectedCategoryId:", this.selectedCategoryId)
       this.itemCategoryId = this.selectedCategoryId ? this.selectedCategoryId.toString() : '';
       this.applySearch();
     }
@@ -94,6 +94,7 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
     this.route.queryParamMap.subscribe(params => {
       this.searchText = params.get('q') || '';
       this.itemCategoryId = params.get('catId') || '';
+      this.cityId = params.get('cityId') || '';
       this.applySearch();
       // this.pageResponseModel.filterList = [];
       // if (searchText) {
@@ -118,6 +119,10 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
     }
     if (this.itemCategoryId) {
       let searchFilter: FilterItem = { categoryName: 'CategoryId', itemFlag: this.itemCategoryId }
+      this.pageResponseModel.filterList.push(searchFilter);
+    }
+    if (this.cityId) {
+      let searchFilter: FilterItem = { categoryName: 'CityId', itemFlag: this.cityId }
       this.pageResponseModel.filterList.push(searchFilter);
     }
     this.pageResponseModel.results = [];

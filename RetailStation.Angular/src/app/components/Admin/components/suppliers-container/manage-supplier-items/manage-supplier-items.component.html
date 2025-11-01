@@ -36,6 +36,7 @@
                         <th>الكميه</th>
                         <th>أقل كميه للطلب</th>
                         <th class="text-center"></th>
+                        <th class="text-center"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,6 +63,13 @@
                         <td>{{item.price1000}}</td>
                         <td>{{item.quantity}}</td>
                         <td>{{item.minimumOrderQuantity}}</td>
+                        <td> <label class="switch me-2">
+                                <input type="checkbox" [(ngModel)]="item.isBestSellerItem"
+                                    (change)="MarkItemAsBestSeller(item.supplierItemId)"
+                                    class="ng-valid ng-dirty ng-touched">
+                                <span class="slider round"></span>
+                            </label>
+                        </td>
                         <td class="width-300 min-width-300">
                             <app-general-selector [(ngModel)]="item.itemId" [data]="itemsSelectorData"
                                 [disabled]="itemsSelectorData?.length==0" [showSearch]="true" [placeholder]="'Item Map'"

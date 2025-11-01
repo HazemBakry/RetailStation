@@ -162,6 +162,14 @@ namespace RetailStation.API.Controllers.SupplierManagement
             var results = await _supplierManagementService.MapSupplierItem(SupplierId, SupplierItemId, ItemId);
             return Ok(results);
         }
+        
+        [HttpGet]
+        [Route("MarkItemAsBestSeller")]
+        public async Task<IActionResult> MarkItemAsBestSeller(int SupplierItemId)
+        {
+            var results = await _supplierManagementService.MarkItemAsBestSeller(SupplierItemId);
+            return Ok(results);
+        }
 
 
         [HttpPost]

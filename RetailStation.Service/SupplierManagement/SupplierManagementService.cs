@@ -286,6 +286,25 @@ namespace RetailStation.Service.SupplierManagement
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
         }
+        public async Task<ActionsResponseModel> MarkItemAsBestSeller(int SupplierItemId)
+        {
+            try
+            {
+                var item = Context.SupplierItems.Where(i => i.SupplierItemId == SupplierItemId).FirstOrDefault();
+                if (item != null)
+                {
+                    item.IsBestSellerItem = !item.IsBestSellerItem;
+                    await Context.SaveChangesAsync();
+                    return new ActionsResponseModel { Message = "Item Updated Successfully !" };
+                }
+                else
+                    return new ActionsResponseModel { IsSuccess = false, Message = "can't find this item" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
 
         public async Task<ActionsResponseModel> ImportSupplierItemsFile(int SupplierId, string ImporterName, IFormFile file)
         {
