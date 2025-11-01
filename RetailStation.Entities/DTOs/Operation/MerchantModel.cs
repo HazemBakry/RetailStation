@@ -15,6 +15,7 @@ namespace RetailStation.Entities.DTOs.Operation
         public string NameAR { get; set; }
         public string NameEN { get; set; }
         public string Phone { get; set; }
+        public string Email { get; set; }
         public string Mobile { get; set; }
         public int? CountryId { get; set; }
         public string CountryName { get; set; }

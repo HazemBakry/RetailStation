@@ -8,8 +8,8 @@ import { SubscriberApplicationModel, SubscriberModel } from '../models/Subscribe
 import { AddUserRoleModel, RoleModel } from '../../Shared/models/RoleModel';
 import { UserModel } from '../../Shared/models/UserModel';
 import { BranchModel } from '../../Shared/models/BranchModel';
-import { MerchantRequestModel } from '../models/MerchantRequestModel';
 import { MerchantRegistrationModel } from '../../Shared/models/LoginResponseModel';
+import { MerchantRequestModel } from '../models/MerchantRequestModel';
 
 
 @Injectable({
@@ -117,7 +117,7 @@ export class SubscriptionsService {
   DeleteMerchantRequest(MerchantRequestId: string) {
     return this.http.get<ActionsResponseModel>(this.URL + 'ManageSubscribers/DeleteMerchantRequest?MerchantRequestId=' + MerchantRequestId);
   }
-  ApproveMerchantRequest(MerchantRequestId: string,model:MerchantRegistrationModel) {
+  ApproveMerchantRequest(MerchantRequestId: string,model:MerchantRequestModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'ManageSubscribers/ApproveMerchantRequest?MerchantRequestId=' + MerchantRequestId,model);
   }
 }

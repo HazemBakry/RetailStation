@@ -25,7 +25,7 @@ import { WebsiteAdminComponent } from './components/website-admin.component';
 import { ManageSupplierItemsComponent } from './components/suppliers-container/manage-supplier-items/manage-supplier-items.component';
 import { SuppliersContainerComponent } from './components/suppliers-container/suppliers-container.component';
 import { SuppliersComponent } from './components/suppliers-container/suppliers/suppliers.component';
-import { SubscriptionRequestsComponent } from './components/ManageSubscriptions/subscription-requests/subscription-requests.component';
+import { MerchantRequestsComponent } from './components/ManageSubscriptions/merchant-requests/merchant-requests.component';
 import { ItemsCategoriesComponent } from './components/items-categories/items-categories.component';
 import { ItemUnitsComponent } from './components/item-units/item-units.component';
 
@@ -44,7 +44,7 @@ import { ItemUnitsComponent } from './components/item-units/item-units.component
     SubscriberProfileComponent,
     AddSubscriberComponent,
     SubscriberBranchesComponent,
-    SubscriptionRequestsComponent,
+    MerchantRequestsComponent,
     SuppliersContainerComponent,
     ManageSupplierItemsComponent,
     SuppliersComponent,

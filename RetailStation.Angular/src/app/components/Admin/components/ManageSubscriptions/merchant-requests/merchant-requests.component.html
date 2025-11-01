@@ -2,9 +2,11 @@
 
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-2 table-card-title bg-light">
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-2 table-card-title bg-light">
         <div class="d-flex align-items-center gap-2 p-2">
-            <app-erp-filters [FilterList]="filterList" [showSearchText]="true" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'بحث برقم الطلب ...'"></app-erp-filters>
+            <app-erp-filters [FilterList]="filterList" [showSearchText]="true" (filterChanged)="filterChecked($event)"
+                [searchPlaceholder]="'بحث برقم الطلب ...'"></app-erp-filters>
         </div>
         <div class="d-flex justify-content-between align-items-center gap-2 p-2">
             <div class="d-flex flex-wrap gap-2">
@@ -12,10 +14,11 @@
                     <i class="ph ph-download-simple"></i>
                     <span>تصدير CSV</span>
                 </button>
-                <button class="btn btn-blue d-flex align-items-center gap-2 px-3" routerLink="/admin/manage-subscriptions/add-subscriber">
+                <!-- <button class="btn btn-blue d-flex align-items-center gap-2 px-3"
+                    routerLink="/admin/manage-subscriptions/add-merchant">
                     <i class="ph ph-plus"></i>
                     <span>إضافة طلب اشنراك</span>
-                </button>
+                </button> -->
             </div>
         </div>
     </div>
@@ -39,13 +42,12 @@
                         </td>
                         <td>{{item?.email ?? '-'}}</td>
                         <td>
-                            <span *ngIf="item.merchantTypeId == SubscriberType.Admin">Admin</span>
-                            <span *ngIf="item.merchantTypeId == SubscriberType.Customer">Individual</span>
-                            <span *ngIf="item.merchantTypeId == SubscriberType.Supplier">Company</span>
+                            Merchant
                         </td>
                         <td>{{item?.requestDate | date}}</td>
                         <td>
-                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
+                            <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN"
+                                [nameAR]="item?.workflowStatusNameAR">
                             </span>
                         </td>
                         <td class="text-center">
@@ -54,14 +56,16 @@
                                     <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle>
                                         <i class="fas fa-ellipsis-h"></i>
                                     </button>
-                                    <div *ngIf="item.workflowStatusId == wfStatus.Pending && !item.merchantId" ngbDropdownMenu class="border">
+                                    <div *ngIf="item.workflowStatusId == wfStatus.Pending && !item.merchantId"
+                                        ngbDropdownMenu class="border">
                                         <button ngbDropdownItem (click)="openAddModal(addNewModal,item)">
                                             <!-- <i class="uil uil-trash-alt"></i> -->
                                             قبول
                                         </button>
                                     </div>
                                     <div ngbDropdownMenu class="border">
-                                        <button ngbDropdownItem (click)="openDeleteModal(deleteModal,item.merchantRequestId)">
+                                        <button ngbDropdownItem
+                                            (click)="openDeleteModal(deleteModal,item.merchantRequestId)">
                                             <!-- <i class="uil uil-trash-alt"></i> -->
                                             حذف
                                         </button>
@@ -84,7 +88,8 @@
                     </tr>
                     <tr *ngIf="!pagedResponseModel.results.length || showLoader">
                         <td colspan="14" class="text-right">
-                            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+                            <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader"
+                                [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>
@@ -141,28 +146,70 @@
 
 
                     <form [formGroup]="formGroup" autocomplete="off">
+                        <div class="col-xl-12 mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                اسم التاجر
+                            </label>
+                            <input type="text" class="form-control nw-form-input" formControlName="merchantName"
+                                autocomplete="off" />
 
-
-                        <div class="row">
-                            <div class="col-xl-6 mb-3">
-                                <label class="form-label d-flex align-items-center gap-2">
-                                    الاسم الأول (First Name)
-                                </label>
-                                <input type="text" class="form-control nw-form-input" formControlName="firstName" autocomplete="off" />
-
-                                <div *ngIf="formErrors.firstName" class="text-danger  font-small-3 m-03">
-                                    {{formErrors.firstName}}
-                                </div>
+                            <div *ngIf="formErrors.merchantName" class="text-danger  font-small-3 m-03">
+                                {{formErrors.merchantName}}
                             </div>
-                            <div class="col-xl-6 mb-3">
-                                <label class="form-label d-flex align-items-center gap-2">
-                                    اسم العائلة (Last Name)
-                                </label>
-                                <input type="text" class="form-control nw-form-input" formControlName="lastName" autocomplete="off" />
+                        </div>
+                        <div class="col-xl-12 mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                السجل التجاري
+                            </label>
+                            <input type="text" class="form-control nw-form-input" formControlName="commercialRegister"
+                                autocomplete="off" />
 
-                                <div *ngIf="formErrors.lastName" class="text-danger  font-small-3 m-03">
-                                    {{formErrors.lastName}}
-                                </div>
+                            <div *ngIf="formErrors.commercialRegister" class="text-danger  font-small-3 m-03">
+                                {{formErrors.commercialRegister}}
+                            </div>
+                        </div>
+                        <div class="col-xl-12 mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                رقم البطاقة الضريبية (Tax Number)
+                            </label>
+                            <input type="text" class="form-control nw-form-input" formControlName="taxNumber"
+                                autocomplete="off" />
+
+                            <div *ngIf="formErrors.taxNumber" class="text-danger  font-small-3 m-03">
+                                {{formErrors.taxNumber}}
+                            </div>
+                        </div>
+                        <div class="col-xl-12 mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                رقم الحساب البنكي (Bank Account Number)
+                            </label>
+                            <input type="text" class="form-control nw-form-input" formControlName="bankAccountNumber"
+                                autocomplete="off" />
+
+                            <div *ngIf="formErrors.bankAccountNumber" class="text-danger  font-small-3 m-03">
+                                {{formErrors.bankAccountNumber}}
+                            </div>
+                        </div>
+                        <div class="col-xl-12 mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                اسم العلامة التجارية (Brand Name)
+                            </label>
+                            <input type="text" class="form-control nw-form-input" formControlName="brandName"
+                                autocomplete="off" />
+
+                            <div *ngIf="formErrors.brandName" class="text-danger  font-small-3 m-03">
+                                {{formErrors.brandName}}
+                            </div>
+                        </div>
+                        <div class="col-xl-12 mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                البريد الألكتروني (Email)
+                            </label>
+                            <input type="text" class="form-control nw-form-input" formControlName="email"
+                                autocomplete="off" />
+
+                            <div *ngIf="formErrors.email" class="text-danger  font-small-3 m-03">
+                                {{formErrors.email}}
                             </div>
                         </div>
                         <div class="row">
@@ -170,7 +217,8 @@
                                 <label class="form-label d-flex align-items-center gap-2">
                                     اسم المستخدم (User Name)
                                 </label>
-                                <input type="text" class="form-control nw-form-input" formControlName="userName" autocomplete="off" />
+                                <input type="text" class="form-control nw-form-input" formControlName="userName"
+                                    autocomplete="off" />
 
                                 <div *ngIf="formErrors.userName" class="text-danger  font-small-3 m-03">
                                     {{formErrors.userName}}
@@ -180,7 +228,8 @@
                                 <label class="form-label d-flex align-items-center gap-2">
                                     الرقم السري (Password)
                                 </label>
-                                <input type="text" class="form-control nw-form-input" formControlName="password" autocomplete="off" />
+                                <input type="text" class="form-control nw-form-input" formControlName="password"
+                                    autocomplete="off" />
 
                                 <div *ngIf="formErrors.password" class="text-danger  font-small-3 m-03">
                                     {{formErrors.password}}
@@ -188,77 +237,21 @@
                             </div>
 
                         </div>
-                        <div class="row">
-                            <div class="col-xl-6 mb-3">
-                                <label class="form-label d-flex align-items-center gap-2">
-                                    البريد الألكتروني (Email)
-                                </label>
-                                <input type="text" class="form-control nw-form-input" formControlName="email" autocomplete="off" />
 
-                                <div *ngIf="formErrors.email" class="text-danger  font-small-3 m-03">
-                                    {{formErrors.email}}
-                                </div>
-                            </div>
-                            <div class="col-xl-6 mb-3">
-                                <label class="form-label d-flex align-items-center gap-2">
-                                    رقم الهاتف (Phone Number)
-                                    <span class="text-danger">*</span>
+                        <div class="col-xl-6 mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                رقم الهاتف (Phone Number)
+                                <span class="text-danger">*</span>
 
-                                </label>
-                                <input type="text" class="form-control nw-form-input" formControlName="phoneNumber" autocomplete="off" />
+                            </label>
+                            <input type="text" class="form-control nw-form-input" formControlName="phoneNumber"
+                                autocomplete="off" />
 
-                                <div *ngIf="formErrors.phoneNumber" class="text-danger  font-small-3 m-03">
-                                    {{formErrors.phoneNumber}}
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-6 mb-3">
-                                <label class="form-label d-flex align-items-center gap-2">
-                                    اسم المشترك
-                                </label>
-                                <input type="text" class="form-control nw-form-input" formControlName="merchantName" autocomplete="off" />
-
-                                <div *ngIf="formErrors.merchantName" class="text-danger  font-small-3 m-03">
-                                    {{formErrors.merchantName}}
-                                </div>
-                            </div>
-                            <div class="col-xl-6 mb-3">
-                                <label class="form-label d-flex align-items-center gap-2">
-                                    البريد الألكتروني
-                                    للشركة
-                                </label>
-                                <input type="text" class="form-control nw-form-input" formControlName="subscriberEmail" autocomplete="off" />
-
-                                <div *ngIf="formErrors.subscriberEmail" class="text-danger  font-small-3 m-03">
-                                    {{formErrors.subscriberEmail}}
-                                </div>
-                            </div>
-
-
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="mb-2">
-                                <label class="form-label d-flex align-items-center gap-2">
-                                    نوع الاشتراك (Subscriber Type)
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <div class="d-flex flex-wrap gap-3">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" formControlName="merchantTypeId" id="customerRadio" [value]="SubscriberType.Customer">
-                                        <label class="form-check-label" for="customerRadio">أفراد</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" formControlName="merchantTypeId" id="supplierRadio" [value]="SubscriberType.Supplier">
-                                        <label class="form-check-label" for="supplierRadio">شركات</label>
-                                    </div>
-                                </div>
-                                <div *ngIf="formErrors.merchantTypeId" class="text-danger font-small-3 m-3">
-                                    {{formErrors.merchantTypeId}}
-                                </div>
+                            <div *ngIf="formErrors.phoneNumber" class="text-danger  font-small-3 m-03">
+                                {{formErrors.phoneNumber}}
                             </div>
                         </div>
+
                         <div class="row mb-3">
                             <label class="form-label d-flex align-items-center gap-2">
                                 العنوان (Address)
@@ -295,12 +288,14 @@
         </div>
     </div>
     <div class="modal-footer flex-nowrap gap-2">
-        <button [disabled]="showAddLoader" (click)="saveRecord()" type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
+        <button [disabled]="showAddLoader" (click)="saveRecord()" type="button"
+            class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
             <i class="uil uil-save fs-3"></i>
             <span>حفظ</span>
         </button>
 
-        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="formGroup?.reset();modal.close()">
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2"
+            (click)="formGroup?.reset();modal.close()">
             <i class="uil uil-times-circle fs-3"></i>
             <span>الغاء</span>
         </button>

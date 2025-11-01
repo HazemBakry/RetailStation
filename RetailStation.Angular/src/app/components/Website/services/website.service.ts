@@ -4,7 +4,6 @@ import { environment } from 'src/environments/environment';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
 import { FilterItem, FilterModel } from '../../Shared/models/FilterModel';
-import { MerchantRequestModel } from '../../Admin/models/MerchantRequestModel';
 import { CreateOrderModel, WebsiteOrderModel } from '../models/WebsiteOrderModel ';
 import { SliderModel } from '../../Admin/models/Operation/SliderModel';
 import { SupplierItemModel } from '../../Shared/models/SupplierItemModel';
@@ -12,6 +11,7 @@ import { PromotionModel } from '../../Shared/models/PromotionModel';
 import { ItemCategoryModel } from '../../Shared/models/ItemCategory';
 import { TopPartner } from '../../Shared/models/TopPartnerModel';
 import { SearchAutoCompleteModel } from '../models/SearchAutoCompleteModel';
+import { MerchantRequestModel } from '../../Admin/models/MerchantRequestModel';
 
 
 @Injectable({
@@ -57,7 +57,7 @@ export class WebsiteService {
 
   //////////////////////  MerchantRequest
   SaveNewMerchantRequest(model: MerchantRequestModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Auth/MerchantRequest', model);
+    return this.http.post<ActionsResponseModel>(this.URL + 'Auth/ApplyMerchantRequest', model);
   }
 
 

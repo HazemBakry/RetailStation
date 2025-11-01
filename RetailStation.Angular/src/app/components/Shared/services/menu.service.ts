@@ -81,10 +81,10 @@ export class MenuService {
               },
               {
                 displayName: 'طلبات الاشتراك',
-                menuItem: 'subscription-requests',
+                menuItem: 'merchant-requests',
                 description: 'طلبات الاشتراك',
                 icon: 'fas fa-th-large',
-                route: '/admin/subscription-requests'
+                route: '/admin/merchant-requests'
               },
               {
                 displayName: 'صلاحيات المشتركين',

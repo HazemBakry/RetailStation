@@ -20,6 +20,8 @@ using RetailStation.Entities.DTOs.Website;
 using RetailStation.Interface.Auth;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RetailStation.Entities.Common.Lookups;
+using RetailStation.Entities.DTOs.Operation;
+using RetailStation.Interface.Operation;
 
 namespace RetailStation.Services.Subscription
 {
@@ -32,9 +34,10 @@ namespace RetailStation.Services.Subscription
         private readonly IAuthService AuthService;
         private readonly IFileService FileService;
         private readonly LookupsDbContext LookupsContext;
+        private readonly IMerchantsService MerchantsService;
         private readonly string ConnectionString;
         public readonly string SubscribersFolderName;
-        public SubscribersService(ISQLHelper sQLHelper, IConfiguration configuration, IFileService fileService, ISharedFilterService sharedFilterService, DBContext context, IAuthService authService, LookupsDbContext lookupsContext)
+        public SubscribersService(ISQLHelper sQLHelper, IConfiguration configuration, IFileService fileService, ISharedFilterService sharedFilterService, DBContext context, IAuthService authService, LookupsDbContext lookupsContext, IMerchantsService merchantsService)
         {
             _sQLHelper = sQLHelper;
             _configuration = configuration;
@@ -45,6 +48,7 @@ namespace RetailStation.Services.Subscription
             Context = context;
             AuthService = authService;
             LookupsContext = lookupsContext;
+            MerchantsService = merchantsService;
         }
         public async Task<ActionsResponseModel> CreateNewSubscriber(SubscriberDto model)
         {
@@ -299,6 +303,7 @@ namespace RetailStation.Services.Subscription
                             RequestDate = sub.RequestDate,
                             WorkflowStatusId = sub.WorkflowStatusId,
                             CommercialRegister = sub.CommercialRegister,
+                            BankAccountNumber = sub.BankAccountNumber,
                             TaxNumber = sub.TaxNumber,
                             Address = sub.Address,
                             UserName = sub.UserName,
@@ -332,16 +337,34 @@ namespace RetailStation.Services.Subscription
             
             if (request != null)
             {
-                var reqisterModel = new SubscriberRegistrationModel
+                var response = new ActionsResponseModel();
+                var merchantModel = new MerchantModel
                 {
-                    FirstName = model.MerchantName,
-                    LastName = string.Empty,
-                    UserName = model.UserName,
-                    Password = model.Password,
+                    NameAR = model.MerchantName,
+                    NameEN = model.MerchantName,
+                    Phone = model.PhoneNumber,
                     Email = model.Email,
-                    PhoneNumber = model.PhoneNumber,
+                    CommercialRegister = model.CommercialRegister,
+                    TaxNumber = model.TaxNumber,
+                    BankAccountNumber = model.BankAccountNumber,
+                    BrandName = model.BrandName
                 };
-                var response = AuthService.RegisterAsync(reqisterModel).Result;
+                response = MerchantsService.AddNewMerchant(merchantModel);
+                if(response.IsSuccess && response.Id > 0)
+                {
+                    var reqisterModel = new SubscriberRegistrationModel
+                    {
+                        FirstName = model.MerchantName,
+                        LastName = string.Empty,
+                        UserName = model.UserName,
+                        Password = model.Password,
+                        Email = model.Email,
+                        PhoneNumber = model.PhoneNumber,
+                        MerchantId = response.Id
+                    };
+                    response = AuthService.RegisterAsync(reqisterModel).Result;
+                }
+                
                 //return new ActionsResponseModel
                 //{
                 //    Status = 1,

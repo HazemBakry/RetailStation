@@ -16,7 +16,7 @@ import { SlidersComponent } from './components/sliders/sliders.component';
 import { SuppliersContainerComponent } from './components/suppliers-container/suppliers-container.component';
 import { SuppliersComponent } from './components/suppliers-container/suppliers/suppliers.component';
 import { ManageSupplierItemsComponent } from './components/suppliers-container/manage-supplier-items/manage-supplier-items.component';
-import { SubscriptionRequestsComponent } from './components/ManageSubscriptions/subscription-requests/subscription-requests.component';
+import { MerchantRequestsComponent } from './components/ManageSubscriptions/merchant-requests/merchant-requests.component';
 import { ItemsCategoriesComponent } from './components/items-categories/items-categories.component';
 import { ItemUnitsComponent } from './components/item-units/item-units.component';
 import { SocialMediaPixelsComponent } from './components/social-media-pixels/social-media-pixels.component';
@@ -68,7 +68,7 @@ const routes: Routes = [
       { path: 'items-units', component: ItemUnitsComponent },
       { path: 'roles', component: RolesComponent },
       { path: 'manage-role-pages/:roleId', component: ManageRolePagesComponent },
-      { path: 'subscription-requests', component: SubscriptionRequestsComponent },
+      { path: 'merchant-requests', component: MerchantRequestsComponent },
       { path: 'sliders', component: SlidersComponent },
       { path: 'social-media', component: SocialMediaPixelsComponent },
       { path: 'notifications-manager', component: NotificationManagerComponent },

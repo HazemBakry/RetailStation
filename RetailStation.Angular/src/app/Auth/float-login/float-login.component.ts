@@ -33,8 +33,8 @@ export class FloatLoginComponent implements OnInit {
   subscriberImageFile: File;
   formData: FormData = new FormData();
   public formGroup: FormGroup;
-  public SubscriberType = SubscriberType;
   systemURL: string = environment.systemUrl;
+  public SubscriberType = SubscriberType;
   constructor(private authService: AuthService,
     private router: Router,
     private toaster: ToastrService,

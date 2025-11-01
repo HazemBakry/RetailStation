@@ -13,13 +13,14 @@ import { FormService } from 'src/app/components/Shared/services/form.service';
 import { MerchantRegistrationModel } from 'src/app/components/Shared/models/LoginResponseModel';
 import { environment } from 'src/environments/environment';
 import { MerchantRequestModel } from '../../../models/MerchantRequestModel';
+import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 
 @Component({
-  selector: 'app-subscription-requests',
-  templateUrl: './subscription-requests.component.html',
-  styleUrls: ['./subscription-requests.component.css']
+  selector: 'app-merchant-requests',
+  templateUrl: './merchant-requests.component.html',
+  styleUrls: ['./merchant-requests.component.css']
 })
-export class SubscriptionRequestsComponent implements OnInit {
+export class MerchantRequestsComponent implements OnInit {
   TitleList = ['وحدة التحكم', 'طلبات الاشتراك'];
   public wfStatus = WorkflowStatus;
   public SubscriberType = SubscriberType;
@@ -35,8 +36,8 @@ export class SubscriptionRequestsComponent implements OnInit {
     results: []
   }
   showLoader: boolean = false;
-  subscriberModel: MerchantRegistrationModel = {} as MerchantRegistrationModel;
-  subscriberImageFile: File;
+  merchantRequestModel: MerchantRequestModel = {} as MerchantRequestModel;
+  merchantImageFile: File;
   formData: FormData = new FormData();
   constructor(private subscriptionsService: SubscriptionsService,
     private form: FormBuilder, private _FormService: FormService, private offcanvasService: NgbOffcanvas, private modalService: NgbModal,
@@ -113,21 +114,24 @@ export class SubscriptionRequestsComponent implements OnInit {
     if (merchantRequestModel)
       this.fillEditForm(merchantRequestModel);
 
-    this.modalService.open(content, { centered: true, size: 'xl', fullscreen: 'xl' });
+    this.modalService.open(content, { centered: true, size: 'lg', fullscreen: 'lg' });
   }
   buildForm() {
     this.formGroup = this.form.group({
-      firstName: [null, Validators.required],
-      lastName: [null, Validators.required],
-      userName: [null, Validators.required],
+      merchantRequestId: [null],
+      merchantId: [null],
+      merchantName: [null, [Validators.required]],
+      email: [null, [Validators.required, CustomValidators.regexPattern(RegexType.email)]],
+      phoneNumber: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
+      // merchantTypeId: [SubscriberType.Supplier, [Validators.required]],
+      userName: [null, [Validators.required]],
       password: [environment.defaultUserPassword, Validators.required],
-      email: [null, [Validators.required, Validators.email]],
-      phoneNumber: [null, Validators.required],
-      merchantTypeId: [SubscriberType.Customer, Validators.required],
+
+      brandName: [null, [Validators.required]],
+      commercialRegister: [null],
+      taxNumber: [null],
+      bankAccountNumber: [null],
       address: [null],
-      merchantName: [null, Validators.required],
-      subscriberEmail: [null, [Validators.required, Validators.email]],
-      // number: [null, [CustomValidators.regexPattern(RegexType.number)]],
     },
       {
         validators: [
@@ -144,22 +148,30 @@ export class SubscriptionRequestsComponent implements OnInit {
     this.isUpdate = true;
 
     this.formGroup.patchValue({
+      merchantRequestId: merchantRequestModel.merchantRequestId,
       merchantName: merchantRequestModel.merchantName,
       merchantId: merchantRequestModel.merchantId,
-      subscriberEmail: merchantRequestModel.email,
+      email: merchantRequestModel.email,
       phoneNumber: merchantRequestModel.phoneNumber,
-      merchantTypeId: merchantRequestModel.merchantTypeId
+      merchantTypeId: merchantRequestModel.merchantTypeId,
+      isApproved: merchantRequestModel.isApproved,
+      commercialRegister: merchantRequestModel.commercialRegister,
+      userName: merchantRequestModel.userName,
+      taxNumber: merchantRequestModel.taxNumber,
+      bankAccountNumber: merchantRequestModel.bankAccountNumber,
+      address: merchantRequestModel.address,
+      brandName: merchantRequestModel.brandName,
     });
   }
   saveRecord() {
     if (!this.validateForm()) {
       return;
     }
-    this.subscriberModel = this.formGroup.value;
+    this.merchantRequestModel = this.formGroup.value;
 
     this.formData = new FormData();
-    if (this.subscriberImageFile != null) {
-      this.formData.append('imageFile', this.subscriberImageFile);
+    if (this.merchantImageFile != null) {
+      this.formData.append('imageFile', this.merchantImageFile);
     }
 
 
@@ -174,10 +186,12 @@ export class SubscriptionRequestsComponent implements OnInit {
   register() {
 
     this.showAddLoader = true;
-    this.subscriptionsService.ApproveMerchantRequest(this.selectedMerchantRequestId, this.subscriberModel).subscribe((data: ActionsResponseModel) => {
+    this.subscriptionsService.ApproveMerchantRequest(this.selectedMerchantRequestId, this.merchantRequestModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
+        this.modalService?.dismissAll();
         this.toaster.success(data?.message);
+        this.GetAllMerchantRequests();
       }
       else {
         this.toaster.error(data?.message);
@@ -201,7 +215,7 @@ export class SubscriptionRequestsComponent implements OnInit {
     }
   }
   onFileChange(event: any) {
-    this.subscriberImageFile = event.target.files[0];
+    this.merchantImageFile = event.target.files[0];
     //this.imageFileName = event.target.files[0].name;
   }
 
@@ -215,7 +229,7 @@ export class SubscriptionRequestsComponent implements OnInit {
     merchantTypeId: '',
     address: '',
     merchantName: '',
-    subscriberEmail: '',
+    merchantEmail: '',
     merchantId: ''
 
   };

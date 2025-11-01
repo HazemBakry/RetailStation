@@ -17,5 +17,6 @@ export interface MerchantRequestModel {
     bankAccountNumber: string;
     address: string;
     userName: string;
+    password: string;
     totalCount: number | null;
 }

@@ -64,7 +64,6 @@ namespace RetailStation.Service.Auth
         {
             var authModel = new AuthModel();
             ApplicationUser user = null;
-
             // Check if Email or Username is provided
             if (!string.IsNullOrEmpty(model.Email))
             {
