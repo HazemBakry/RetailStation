@@ -19,7 +19,7 @@
                     class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
                     ngbDropdownItem>
                     <div class="drop-image-box">
-                        <img src="{{systemUrl}}assets/meat.svg" alt="drop-icon" loading="lazy" />
+                        <img [src]="cat.imageUrl" alt="drop-icon" loading="lazy" />
                     </div>
                     <div>{{cat?.nameAR}}</div>
                 </div>

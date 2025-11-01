@@ -147,17 +147,17 @@ namespace RetailStation.API.Controllers.Operation
 
         [HttpPost]
         [Route("AddNewItemCategory")]
-        public IActionResult AddNewItemCategory(ItemCategoryModel model)
+        public async Task<IActionResult> AddNewItemCategory([FromForm] ItemCategoryModel model)
         {
-            var results = _itemService.AddNewItemCategory(model);
+            var results = await _itemService.AddNewItemCategory(model);
             return Ok(results);
         }
 
         [HttpPost]
         [Route("EditItemCategory")]
-        public IActionResult EditItemCategory(int ItemCategoryId, ItemCategoryModel model)
+        public async Task<IActionResult> EditItemCategory(int ItemCategoryId, [FromForm] ItemCategoryModel model)
         {
-            var results = _itemService.EditItemCategory(ItemCategoryId, model);
+            var results = await _itemService.EditItemCategory(ItemCategoryId, model);
             return Ok(results);
         }
 

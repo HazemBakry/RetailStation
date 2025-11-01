@@ -32,11 +32,11 @@ export class SalesService {
 
   //----------------------------------------------- Item Categories ---------------------------------------------//
 
-  AddNewItemCategory(model: ItemCategoryModel) {
+  AddNewItemCategory(model: FormData) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Items/AddNewItemCategory', model);
   }
 
-  EditItemCategory(categoryId: number, model: ItemCategoryModel) {
+  EditItemCategory(categoryId: number, model: FormData) {
     return this.http.post<ActionsResponseModel>(this.URL + `Items/EditItemCategory?ItemCategoryId=${categoryId}`, model)
   }
 

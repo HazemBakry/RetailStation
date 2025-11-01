@@ -30,6 +30,7 @@ namespace RetailStation.Service.Operation
         private readonly IExportService ExportService;
         private readonly IFileService _fileService;
         public readonly string ItemsImagesFolder;
+        public readonly string CategoriesImagesFolder;
 
         public ItemsService(DBContext Context, ISQLHelper SQLHelper,
             IConfiguration Configuration, IExportService ExportService,
@@ -43,6 +44,7 @@ namespace RetailStation.Service.Operation
             SharedFilterService = sharedFilterService;
             _fileService = fileService;
             ItemsImagesFolder = "ItemsImages";
+            CategoriesImagesFolder = "CategoriesImages";
 
         }
 
@@ -448,6 +450,7 @@ namespace RetailStation.Service.Operation
                               NameEN = cat.NameEN,
                               DisplayOrder = cat.DisplayOrder,
                               Description = cat.Description,
+                              ImageUrl = cat.ImageUrl,
                               IsActive = cat.IsActive,
                               IsDeleted = cat.IsDeleted,
                               CreatedBy = cat.CreatedBy,
@@ -464,7 +467,10 @@ namespace RetailStation.Service.Operation
 
             //var results = query.ToList();
             //results.ForEach(x => x.TotalCount = totalCount);
-
+            foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
+            {
+                item.ImageUrl = _fileService.GetFileDownloadUrl(item.ImageUrl);
+            }
             return result;
         }
         public ItemCategoryModel GetItemCategoryDetails(int CategoryId)
@@ -473,7 +479,7 @@ namespace RetailStation.Service.Operation
 
         }
 
-        public ActionsResponseModel AddNewItemCategory(ItemCategoryModel model)
+        public async Task<ActionsResponseModel> AddNewItemCategory(ItemCategoryModel model)
         {
             try
             {
@@ -489,7 +495,14 @@ namespace RetailStation.Service.Operation
                     CreatedBy = string.Empty,
                     CreatedDate = DateTime.Now,
                 };
-
+                if (model.Image != null)
+                {
+                    var uploadResponse = await _fileService.UploadFileAsync(model.Image, CategoriesImagesFolder, FileType.Image);
+                    if (uploadResponse.IsUploaded)
+                        Item.ImageUrl = uploadResponse.FilePath;
+                    else
+                        return new ActionsResponseModel { Message = uploadResponse.Message, IsSuccess = false };
+                }
                 Context.ItemCategories.Add(Item);
                 Context.SaveChanges();
 
@@ -502,7 +515,7 @@ namespace RetailStation.Service.Operation
             }
         }
 
-        public ActionsResponseModel EditItemCategory(int CategoryId, ItemCategoryModel model)
+        public async Task<ActionsResponseModel> EditItemCategory(int CategoryId, ItemCategoryModel model)
         {
             try
             {
@@ -518,6 +531,19 @@ namespace RetailStation.Service.Operation
                     itemCategory.IsGroup = model.ParentCategoryId != null ? true : false;
                     itemCategory.ModifiedBy = "";
                     itemCategory.ModifiedDate = DateTime.Now;
+                    if (model.Image != null)
+                    {
+                        var uploadResponse = await _fileService.UploadFileAsync(model.Image, CategoriesImagesFolder, FileType.Image);
+                        if (uploadResponse.IsUploaded)
+                        {
+                            itemCategory.ImageUrl = uploadResponse.FilePath;
+                        }
+                        else
+                        {
+                            return new ActionsResponseModel { Message = uploadResponse.Message, IsSuccess = false };
+                        }
+
+                    }
                     Context.SaveChanges();
 
                     return new ActionsResponseModel { Message = "Item Category Updated Successfly !" };

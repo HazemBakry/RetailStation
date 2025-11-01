@@ -45,6 +45,8 @@ export class ItemsCategoriesComponent implements OnInit {
 
   };
   selectedItemCategoryId?: number | null;
+  imageFile: File;
+  formData: FormData = new FormData();
 
   public formGroup: FormGroup;
   public formErrors = {
@@ -55,6 +57,8 @@ export class ItemsCategoriesComponent implements OnInit {
     isActive: '',
     isGroup: '',
     parentGroupId: '',
+    image: '',
+
 
   };
 
@@ -75,6 +79,7 @@ export class ItemsCategoriesComponent implements OnInit {
       nameAR: [null, [Validators.required]],
       nameEN: [null, [Validators.required]],
       isGroup: [null],
+      image: [null],
       parentCategoryId: [null],
       description: [null],
       isActive: [true]
@@ -86,7 +91,10 @@ export class ItemsCategoriesComponent implements OnInit {
 
 
   }
-
+  onFileChange(event: any) {
+    this.imageFile = event.target.files[0];
+    //this.imageFileName = event.target.files[0].name;
+  }
   getItemCategories() {
     this.showLoader = true;
     this.salesService.GetItemCategories().subscribe((data: PagedResponseDTO<ItemCategoryModel[]>) => {
@@ -173,7 +181,14 @@ export class ItemsCategoriesComponent implements OnInit {
       return;
     }
     this.categoryModel = this.formGroup.value;
-
+    this.formData = new FormData();
+    if (this.imageFile != null) {
+      this.formData.append('image', this.imageFile);
+    }
+    Object.keys(this.formGroup.value).forEach(key => {
+      if (key != 'image' && this.formGroup.value[key] != undefined)
+        this.formData.append(key, this.formGroup.value[key]);
+    });
     if (this.categoryModel.itemCategoryId)
       this.editCategory();
     else
@@ -182,7 +197,7 @@ export class ItemsCategoriesComponent implements OnInit {
 
   addNewCategory() {
     this.showAddLoader = true;
-    this.salesService.AddNewItemCategory(this.categoryModel).subscribe((data: ActionsResponseModel) => {
+    this.salesService.AddNewItemCategory(this.formData).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.toaster.success(data?.message);
@@ -206,7 +221,7 @@ export class ItemsCategoriesComponent implements OnInit {
   editCategory() {
 
     this.showAddLoader = true;
-    this.salesService.EditItemCategory(this.categoryModel.itemCategoryId, this.categoryModel).subscribe((data: ActionsResponseModel) => {
+    this.salesService.EditItemCategory(this.categoryModel.itemCategoryId, this.formData).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         // this.initNewForm();
