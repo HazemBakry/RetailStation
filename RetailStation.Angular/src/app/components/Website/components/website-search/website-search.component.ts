@@ -126,7 +126,7 @@ export class WebsiteSearchComponent implements OnInit {
   GetCitiesSelector() {
     this.lookupService.GetCitiesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.citiesSelectorData = data;
-      if (this.selectedCity)
+      if (this.cityId)
         this.selectedCity = this.citiesSelectorData.find(c => c.value == this.cityId);
 
     });
