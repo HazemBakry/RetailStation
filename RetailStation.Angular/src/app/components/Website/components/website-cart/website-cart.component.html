@@ -1,6 +1,7 @@
 <section class="marketing-category-section d-flex flex-column gap-3 mt-4 mb-5">
     <div class="d-flex align-items-center gap-2 position-relative">
-        <img src="../../../../../assets/strong-offet-icon-2.svg" class="header-offer-icon" alt="offer-icon" loading="lazy" />
+        <img src="../../../../../assets/strong-offet-icon-2.svg" class="header-offer-icon" alt="offer-icon"
+            loading="lazy" />
         <div class="fw-semibold fs-18">عربة التسوق</div>
     </div>
     <div class="row p-3">
@@ -28,7 +29,8 @@
                         <div class="d-flex align-items-center gap-2">
                             <div class="d-flex align-items-center gap-2">
                                 <i class="ph ph-chart-line-down text-muted"></i>
-                                <div class="d-flex align-items-center gap-1 text-muted">أقل كمية للطلب: <span class="fw-bold">3
+                                <div class="d-flex align-items-center gap-1 text-muted">أقل كمية للطلب: <span
+                                        class="fw-bold">3
                                         قطعة</span></div>
                             </div>
                         </div>
@@ -36,11 +38,13 @@
                             <div class="d-flex align-items-center gap-3">
                                 <div class="d-flex align-items-center gap-2">
                                     <div class="text-danger fw-bold fs-4">{{item.price}}</div>
-                                    <img src="{{systemURL}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
+                                    <img src="{{systemURL}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon"
+                                        loading="lazy" />
                                 </div>
                                 <div class="d-flex align-items-center gap-2 line-through">
                                     <div class="text-danger fw-bold fs-4">{{item.price + item.price*20/100}}</div>
-                                    <img src="{{systemURL}}assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
+                                    <img src="{{systemURL}}assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon"
+                                        loading="lazy" />
                                 </div>
                             </div>
                             <div class="d-flex">
@@ -48,9 +52,14 @@
                                     الصنف</a>
 
                                 <div class="count-button d-flex align-items-center gap-2">
-                                    <i (click)="changeQuantity(item, 1)" class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
-                                    <input type="text" disabled [(ngModel)]="item.quantity" class="form-control border text-center height-30 width-50">
-                                    <i (click)="changeQuantity(item, -1)" class="ph ph-minus cursor-pointer text-danger fw-semibold"></i>
+                                    <i (click)="changeQuantity(item,1)"
+                                        class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
+                                    <input type="text" disabled [(ngModel)]="item.quantity"
+                                        class="form-control border text-center height-30 width-50">
+                                    <i *ngIf="item.quantity>1" (click)="changeQuantity(item,-1)"
+                                        class="ph ph-minus cursor-pointer text-danger fw-semibold"></i>
+                                    <i *ngIf="item.quantity==1" (click)="removeItem(item)"
+                                        class="ph ph-trash cursor-pointer text-danger fw-semibold"></i>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +68,8 @@
             </div>
 
             <div *ngIf="!cartItems.length">
-                <div class="d-flex align-items0-center justify-content-center bg-white radius-10 flex-column text-center w-100 height-300">
+                <div
+                    class="d-flex align-items0-center justify-content-center bg-white radius-10 flex-column text-center w-100 height-300">
                     <img src="{{systemUrl}}assets/table-action-start.svg" width="60px" alt="" class="table-action-img">
                     <div class="mt-2 fs-16">عربة التسوق فارغة</div>
                 </div>

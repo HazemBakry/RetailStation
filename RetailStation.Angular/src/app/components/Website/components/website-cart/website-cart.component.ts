@@ -46,6 +46,7 @@ export class WebsiteCartComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.getCurrentCartItems();
     this.loadData();
   }
 
@@ -68,9 +69,13 @@ export class WebsiteCartComponent implements OnInit {
       this.showLoader = false;
     });
   }
-
+  getCurrentCartItems() {
+    this.cartService.cartItems$.subscribe(items => {
+      this.cartList = items;
+    });
+  }
   mapFilters() {
-    this.cartList = this.cartService.getCurrentCartItems();
+    // this.cartList = this.cartService.getCurrentCartItems();
     this.pageResponseModel.pageSize = this.cartList.length;
     this.pageResponseModel.results = [];
     this.pageResponseModel.filterList = [];
@@ -86,10 +91,11 @@ export class WebsiteCartComponent implements OnInit {
       const found = this.pageResponseModel.results.find(i => i.supplierItemId === item.supplierItemId);
       if (found) {
         found.quantity = item.quantity;
-        found.cost = item.quantity * found.price;
+        found.cost = item.quantity * (found.offerPrice ?? found.price);
       }
     });
     this.updateTotalCost();
+    this.calculateCartSummary();
   }
 
   // remove(item: SupplierItemModel): void {
@@ -97,13 +103,14 @@ export class WebsiteCartComponent implements OnInit {
   //   this.loadData();
   // }
 
-  changeQuantity(item: SupplierItemModel, newQuantity: number): void {
-    // item.quantity = newQuantity;
-    // item.cost = newQuantity * item.price;
-    this.cartService.changeItemQuantity(item.supplierItemId, item.quantity + newQuantity);
-    this.loadData();
-  }
 
+  changeQuantity(item: SupplierItemModel, newQuantity: number): void {
+    if (item.quantity + newQuantity > 0) {
+      // this.itemQuantity = this.itemQuantity + qty;
+      this.cartService.changeItemQuantity(item.supplierItemId, item.quantity + newQuantity);
+      this.setQuantity();
+    }
+  }
 
   removeItem(item: any) {
     this.cartService.removeItem(item.supplierItemId);
@@ -116,7 +123,7 @@ export class WebsiteCartComponent implements OnInit {
     this.discount = 0.0;
     this.netValue = 0.0;
     this.cartItems.forEach((item) => {
-      let itemTotal = (item.price ?? 0) * (item.quantity);
+      let itemTotal = (item.offerPrice ?? item.price ?? 0) * (item.quantity);
       this.totalValue += itemTotal;
     });
 
