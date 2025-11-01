@@ -20,6 +20,8 @@ import { FormGroup } from '@angular/forms';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { ToastrService } from 'ngx-toastr';
 import { FormService } from 'src/app/components/Shared/services/form.service';
+import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 
 @Component({
   selector: 'app-website-header',
@@ -51,12 +53,11 @@ export class WebsiteHeaderComponent implements OnInit {
   public formGroup: FormGroup;
 
   isAuthenticatedSubject = new BehaviorSubject<boolean>(this.authService.isAuthenticated());
-  
+
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
   private readonly USER_MODEL = 'USER_MODEL';
   public readonly VIEW_ACTION_NAME: string = 'View';
-
 
   constructor(
     private authService: AuthService,

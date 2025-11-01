@@ -7,6 +7,8 @@ import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponse
 import { environment } from 'src/environments/environment';
 import { WebsiteService } from '../../services/website.service';
 import { SearchAutoCompleteModel } from '../../models/SearchAutoCompleteModel';
+import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 
 @Component({
   selector: 'app-website-search',
@@ -21,13 +23,17 @@ export class WebsiteSearchComponent implements OnInit {
   searchText: string = '';
   searchResults: SearchAutoCompleteModel[] = [];
   catId: number;
+  cityId: number;
   systemUrl: string = environment.systemUrl;
   categories: ItemCategoryModel[] = [];
-  selectedCategory: ItemCategoryModel
+  selectedCategory: ItemCategoryModel;
+  selectedCity: GeneralSelectorModel;
+  citiesSelectorData: GeneralSelectorModel[] = [];
 
   constructor(
     private router: Router,
     private acRoute: ActivatedRoute,
+    private lookupService: LookupService,
     private websiteService: WebsiteService) {
   }
 
@@ -35,8 +41,11 @@ export class WebsiteSearchComponent implements OnInit {
     this.acRoute.queryParamMap.subscribe(params => {
       this.searchText = params.get('q') || '';
       this.catId = params.get('catId') ? Number(params.get('catId')) : null;
+      this.cityId = params.get('cityId') ? Number(params.get('cityId')) : null;
     });
     this.getItemCategories();
+    this.GetCitiesSelector();
+
   }
 
   getItemCategories() {
@@ -64,6 +73,8 @@ export class WebsiteSearchComponent implements OnInit {
       queryParams.q = this.searchText;
       if (this.selectedCategory)
         queryParams.catId = this.selectedCategory.itemCategoryId;
+      if (this.selectedCity)
+        queryParams.cityId = this.selectedCity.value;
     }
 
     let path = '/';
@@ -94,7 +105,7 @@ export class WebsiteSearchComponent implements OnInit {
 
   getSearchAutoComplete(event: any) {
     this.searchResults = [];
-    if(!this.searchText||this.searchText?.length < 2)
+    if (!this.searchText || this.searchText?.length < 2)
       return;
 
     this.websiteService.SearchAutoComplete(this.searchText).subscribe((data: SearchAutoCompleteModel[]) => {
@@ -108,5 +119,16 @@ export class WebsiteSearchComponent implements OnInit {
   navigateToSearchPage(item: SearchAutoCompleteModel) {
     this.searchText = item.nameEN;
     this.search();
+  }
+  onCitySelected(city) {
+    this.selectedCity = city;
+  }
+  GetCitiesSelector() {
+    this.lookupService.GetCitiesSelector().subscribe((data: GeneralSelectorModel[]) => {
+      this.citiesSelectorData = data;
+      if (this.selectedCity)
+        this.selectedCity = this.citiesSelectorData.find(c => c.value == this.cityId);
+
+    });
   }
 }
