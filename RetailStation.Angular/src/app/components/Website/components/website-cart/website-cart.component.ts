@@ -97,6 +97,7 @@ export class WebsiteCartComponent implements OnInit {
         found.cost = item.quantity * found.price;
       }
     });
+    this.updateTotalCost();
   }
   remove(item: SupplierItemModel): void {
     this.cartService.removeItem(item.supplierItemId);
@@ -117,7 +118,14 @@ export class WebsiteCartComponent implements OnInit {
     this.cartList = [];
     //this.toaster.success('Cart has been cleared.');
   }
-
+  totalCost: number = 0
+  withoutVatTotal: number = 0
+  vatAmount: number = 0
+  updateTotalCost(): void {
+    this.totalCost = parseFloat(this.pageResponseModel.results.reduce((sum, item) => sum + ((item.cost ?? 0)), 0).toFixed(2));
+    this.withoutVatTotal = parseFloat((this.totalCost / 1.15).toFixed(2));
+    this.vatAmount = parseFloat((this.totalCost - this.withoutVatTotal).toFixed(2));
+  }
 
   // openSaveModal(content: any) {
   //   if (this.pageResponseModel.results.length == 0) {
