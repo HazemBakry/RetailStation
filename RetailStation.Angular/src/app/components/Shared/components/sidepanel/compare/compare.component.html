@@ -26,7 +26,41 @@
                 <tr>
                     <th class="border bg-white text-muted fw-semibold">المعلومات</th>
                     <ng-container *ngFor="let item of pageResponseModel.results">
-                        <th class="border bg-white text-muted fw-semibold">{{item.nameAR ?? item.nameEN}}</th>
+                        <th class="border bg-white text-muted fw-semibold">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="cursor-pointer" (click)="removeFromCompare(item)"> <i
+                                        class="ph ph-x-circle text-danger fs-5"></i></span>
+                                <span> {{item.nameAR ?? item.nameEN}}</span>
+                                <button (click)="toggleAddToCart(item)"
+                                    class="btn btn-add-compare d-flex align-items-center gap-2">
+                                    <i class="ph ph-shopping-cart fs-6"></i>
+                                    <div>
+                                        <span *ngIf="!item.isItemInCart">أضف للعربه</span>
+                                        <span *ngIf="item.isItemInCart"> حذف من العربه</span>
+                                    </div>
+                                </button>
+                            </div>
+                            <!-- <ng-container *ngIf="!item.isItemInCart">
+                                <div class="d-flex align-items-center justify-content-center gap-2"
+                                    (click)="addToCart(item)">
+                                    <i class="ph ph-shopping-cart fs-4"></i>
+                                    <div class="fw-bold">أضف للعربه</div>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="item.isItemInCart">
+                                <div class="d-flex align-items-center justify-content-center gap-4">
+                                    <div class="count-button d-flex align-items-center gap-2">
+                                        <i (click)="addToCart(item)" *ngIf="!item.isItemInCart"
+                                            class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
+                                        <input type="text" value="1" disabled
+                                            class="form-control border text-center height-30 width-50">
+                                        <i (click)="removeFromCart(item)" *ngIf="item.isItemInCart"
+                                            class="ph ph-trash cursor-pointer text-danger fw-semibold"></i>
+                                    </div>
+                                    <div>-</div>
+                                </div>
+                            </ng-container> -->
+                        </th>
                     </ng-container>
                 </tr>
             </thead>
@@ -73,7 +107,7 @@
                         </td>
                         <td *ngIf="field.fieldName == 'manufacturingCountry'" class="bg-white fw-semibold">مصر</td>
                         <td *ngIf="['supplierRate'].includes(field.fieldName)" class="bg-white fw-semibold">
-                             <app-rate [value]="item.supplierRate"></app-rate>
+                            <app-rate [value]="item.supplierRate"></app-rate>
                         </td>
                         <td *ngIf="field.fieldName == 'deliveryTime'" class="bg-white fw-semibold">
                             {{item.deliveryTime}}

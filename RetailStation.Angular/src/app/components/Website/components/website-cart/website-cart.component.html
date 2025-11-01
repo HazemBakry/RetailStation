@@ -34,13 +34,16 @@
                         </div>
                         <div class="d-flex align-items-center justify-content-between gap-3">
                             <div class="d-flex align-items-center gap-3">
-                                <div class="d-flex align-items-center gap-2">
-                                    <div class="text-danger fw-bold fs-4">{{item.price}}</div>
-                                    <img src="{{systemURL}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
+                               <div class="d-flex align-items-center gap-2">
+                                    <div class="text-danger fw-bold fs-4">{{item.offerPrice?item.offerPrice:item.price}}
+                                    </div>
+                                    <img src="{{systemURL}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon"
+                                        loading="lazy" />
                                 </div>
-                                <div class="d-flex align-items-center gap-2 line-through">
-                                    <div class="text-danger fw-bold fs-4">{{item.price + item.price*20/100}}</div>
-                                    <img src="{{systemURL}}assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
+                                <div *ngIf="item.offerPrice" class="d-flex align-items-center gap-2 line-through">
+                                    <div class="text-danger fw-bold fs-4">{{item.price}}</div>
+                                    <img src="{{systemURL}}assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon"
+                                        loading="lazy" />
                                 </div>
                             </div>
                             <div class="count-button d-flex align-items-center gap-2">

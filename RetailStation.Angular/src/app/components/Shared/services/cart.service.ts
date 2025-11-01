@@ -206,6 +206,9 @@ export class CartService {
   isItemInList(itemId: number): boolean {
     return this._cartItemsSource.value.some(item => item.supplierItemId === itemId);
   }
+  getItemQuantity(itemId: number): number {
+    return this._cartItemsSource.value.find(item => item.supplierItemId === itemId)?.quantity;
+  }
 
   changeItemQuantity(supplierItemId: number, newQuantity: number): void {
     if (newQuantity <= 0) {

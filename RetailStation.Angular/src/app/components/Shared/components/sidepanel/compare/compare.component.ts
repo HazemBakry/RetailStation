@@ -11,6 +11,7 @@ import { FieldType } from '../../../Enums/FieldType';
 import { DataField } from '../../../models/DataField';
 import { SupplierItemModel } from '../../../models/SupplierItemModel';
 import { environment } from 'src/environments/environment';
+import { CartModel, CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-compare',
@@ -45,6 +46,8 @@ export class CompareComponent implements OnInit {
     private compareService: CompareService,
     private modalService: NgbModal,
     private toaster: ToastrService, private websiteService: WebsiteService,
+    private cartService: CartService,
+
   ) { }
 
 
@@ -58,7 +61,7 @@ export class CompareComponent implements OnInit {
   loadData() {
     this.mapFilters();
     if (this.pageResponseModel.filterList.length == 0) {
-      this.toaster.warning('لا يوجد أصناف ');
+      // this.toaster.warning('لا يوجد أصناف ');
       return;
     }
 
@@ -67,7 +70,7 @@ export class CompareComponent implements OnInit {
       this.pageResponseModel.results = data.results;
       // this.suppliersData = this.suppliersData.concat([...data.results]);
       this.pageResponseModel.totalCount = data.totalCount;
-
+      this.checkCartAdded();
       this.showLoader = false;
     }, err => {
       this.showLoader = false;
@@ -102,9 +105,29 @@ export class CompareComponent implements OnInit {
   }
 
 
-  remove(item: SupplierItemModel): void {
+  removeFromCompare(item: SupplierItemModel): void {
     this.compareService.removeItem(item.supplierItemId, item.itemId);
     this.loadData();
+  }
+  checkCartAdded() {
+    this.pageResponseModel.results.map(item => {
+      item.isItemInCart = this.cartService.isItemInList(item.supplierItemId);
+    });
+  }
+  toggleAddToCart(item: SupplierItemModel): void {
+    if (item.isItemInCart) {
+      this.cartService.removeItem(item.supplierItemId);
+    }
+    else {
+
+      const cartItem: CartModel = {
+        supplierItemId: item.supplierItemId,
+        quantity: 1,
+        userId: '',
+      };
+      this.cartService.addItem(cartItem);
+    }
+    this.checkCartAdded();
   }
 
 
