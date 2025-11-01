@@ -1,4 +1,5 @@
-﻿using RetailStation.Entities.Models;
+﻿using Microsoft.AspNetCore.Http;
+using RetailStation.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,5 +24,7 @@ namespace RetailStation.Entities.DTOs.Operation
         public int? ParentCategoryId { get; set; }
         public string ParentCategoryNameAR { get; set; }
         public string ParentCategoryNameEN { get; set; }
+        public IFormFile Image { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

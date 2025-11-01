@@ -46,7 +46,9 @@
 
 
 <div class="bg-white position-relative overflow-hidden h-100" [class.is-fav]="item.isFavorite">
-    <i *ngIf="isAuthenticated" class="{{ item.isFavorite ? 'ph-fill ph-heart' : 'ph ph-heart' }} cursor-pointer like-product-icon" (click)="toggleFavorite(item)" [style.color]="item.isFavorite ? '#86ee02d9' : ''"></i>
+    <i *ngIf="isAuthenticated"
+        class="{{ item.isFavorite ? 'ph-fill ph-heart' : 'ph ph-heart' }} cursor-pointer like-product-icon"
+        (click)="toggleFavorite(item)" [style.color]="item.isFavorite ? '#86ee02d9' : ''"></i>
     <div class="main-item-card-content d-flex flex-wrap gap-3 border border-bottom-0 radius-top-10">
         <div class="d-flex flex-column align-items-center gap-2 w-100 px-3 pt-3">
             <div class="more-buy-img-box position-relative">
@@ -69,7 +71,7 @@
             <div class="d-flex align-items-center gap-2">
                 <div class="d-flex align-items-center gap-2">
                     <i class="ph ph-chart-line-down text-muted"></i>
-                    <div class="d-flex align-items-center gap-1 text-muted">أقل كمية للطلب:
+                    <div class="d-flex align-items-center gap-1 text-muted">الحد الأدني للطلب:
                         <span class="fw-bold">{{item.minimumOrderQuantity ?? 1}}</span>
                     </div>
                 </div>
@@ -78,11 +80,13 @@
                 <div class="d-flex align-items-center gap-3">
                     <div class="d-flex align-items-center gap-2">
                         <div class="text-danger fw-bold fs-4">{{item.offerPrice?item.offerPrice:item.price}}</div>
-                        <img src="{{systemURL}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
+                        <img src="{{systemURL}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon"
+                            loading="lazy" />
                     </div>
                     <div *ngIf="item.offerPrice" class="d-flex align-items-center gap-2 line-through">
                         <div class="text-danger fw-bold fs-4">{{item.price}}</div>
-                        <img src="{{systemURL}}assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
+                        <img src="{{systemURL}}assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon"
+                            loading="lazy" />
                     </div>
                 </div>
                 <button (click)="toggleCompare(item)" class="btn btn-add-compare d-flex align-items-center gap-2">
@@ -96,26 +100,22 @@
         </div>
     </div>
     <div class="main-item-card-action light-green-hover border p-3 w-100 cursor-pointer radius-bottom-10">
-        <ng-container *ngIf="!isCounterMode">
-            <div class="d-flex align-items-center justify-content-center gap-2" (click)="isCounterMode = true">
+        <ng-container *ngIf="!isItemInCart">
+            <div class="d-flex align-items-center justify-content-center gap-2" (click)="addToCart()">
                 <i class="ph ph-shopping-cart fs-4"></i>
                 <div class="fw-bold">أضف للعربه</div>
             </div>
         </ng-container>
-        <ng-container *ngIf="isCounterMode">
+        <ng-container *ngIf="isItemInCart">
             <div class="d-flex align-items-center justify-content-center gap-4">
                 <div class="count-button d-flex align-items-center gap-2">
-                    <i (click)="addToCart()" *ngIf="!isItemInCart" class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
-                    <input type="text" value="1" disabled class="form-control border text-center height-30 width-50">
-                    <i (click)="removeItem(); isCounterMode = false" *ngIf="isItemInCart" class="ph ph-trash cursor-pointer text-danger fw-semibold"></i>
+                    <i (click)="addQuantity(1)" class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
+                    <input type="text" disabled [(ngModel)]="itemQuantity"
+                        class="form-control border text-center height-30 width-50">
+                    <i *ngIf="itemQuantity>1" (click)="addQuantity(-1)" class="ph ph-minus cursor-pointer text-danger fw-semibold"></i>
+                    <i *ngIf="itemQuantity==1" (click)="removeItem()"
+                        class="ph ph-trash cursor-pointer text-danger fw-semibold"></i>
                 </div>
-                <!-- <div>-</div> -->
-                <!-- <div class="count-button d-flex align-items-center gap-2">
-          <i (click)="addQuantity(1)" class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
-          <input type="text" disabled [(ngModel)]="itemQuantity"
-            class="form-control border text-center height-30 width-50">
-          <i (click)="addQuantity(-1)" class="ph ph-minus cursor-pointer text-danger fw-semibold"></i>
-        </div> -->
             </div>
         </ng-container>
 

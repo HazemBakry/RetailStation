@@ -15,5 +15,7 @@ export interface ItemCategoryModel extends CreatorModel {
     displayOrder: number | null;
     parentCategoryNameAR: string;
     parentCategoryNameEN: string;
+    image: File | null;
+    imageUrl: string;
 
 }

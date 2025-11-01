@@ -6,6 +6,7 @@ import { ItemCategoryModel } from 'src/app/components/Shared/models/ItemCategory
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { environment } from 'src/environments/environment';
 import { WebsiteService } from '../../services/website.service';
+import { SearchAutoCompleteModel } from '../../models/SearchAutoCompleteModel';
 
 @Component({
   selector: 'app-website-search',
@@ -18,6 +19,7 @@ export class WebsiteSearchComponent implements OnInit {
   @Input() placeholder: string = 'search'
   @Input() searchPage: string = ''
   searchText: string = '';
+  searchResults: SearchAutoCompleteModel[] = [];
   catId: number;
   systemUrl: string = environment.systemUrl;
   categories: ItemCategoryModel[] = [];
@@ -88,5 +90,23 @@ export class WebsiteSearchComponent implements OnInit {
         queryParamsHandling: 'merge'
       });
     }
+  }
+
+  getSearchAutoComplete(event: any) {
+    this.searchResults = [];
+    if(!this.searchText||this.searchText?.length < 2)
+      return;
+
+    this.websiteService.SearchAutoComplete(this.searchText).subscribe((data: SearchAutoCompleteModel[]) => {
+      this.searchResults = data;
+    }, err => {
+
+    }, () => {
+
+    });
+  }
+  navigateToSearchPage(item: SearchAutoCompleteModel) {
+    this.searchText = item.nameEN;
+    this.search();
   }
 }

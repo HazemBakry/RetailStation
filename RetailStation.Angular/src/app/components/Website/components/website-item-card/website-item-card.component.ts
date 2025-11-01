@@ -78,6 +78,10 @@ export class WebsiteItemCardComponent implements OnInit {
     //   this.isItemInCart = items.some(cartItem => cartItem.supplierItemId === this.item.supplierItemId);
     // });
     this.isItemInCart = this.cartService.isItemInList(this.item.supplierItemId);
+    if(this.isItemInCart)
+    {
+      this.itemQuantity = this.cartService.getItemQuantity(this.item.supplierItemId) ?? 1;
+    }
   }
   addToCart(): void {
     const cartItem: CartModel = {
@@ -98,6 +102,7 @@ export class WebsiteItemCardComponent implements OnInit {
   addQuantity(qty: number) {
     if (this.itemQuantity + qty > 0) {
       this.itemQuantity = this.itemQuantity + qty;
+      this.cartService.changeItemQuantity(this.item.supplierItemId,this.itemQuantity);
     }
   }
 }

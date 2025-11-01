@@ -11,6 +11,7 @@ import { SupplierItemModel } from '../../Shared/models/SupplierItemModel';
 import { PromotionModel } from '../../Shared/models/PromotionModel';
 import { ItemCategoryModel } from '../../Shared/models/ItemCategory';
 import { TopPartner } from '../../Shared/models/TopPartnerModel';
+import { SearchAutoCompleteModel } from '../models/SearchAutoCompleteModel';
 
 
 @Injectable({
@@ -85,5 +86,8 @@ export class WebsiteService {
   }
   ToggleFavorite(supplierItemId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'Website/ToggleFavorite?SupplierItemId=' + supplierItemId);
+  }
+  SearchAutoComplete(searchText: string) {
+    return this.http.get<SearchAutoCompleteModel[]>(this.URL + 'Website/SearchAutoComplete?SearchText=' + searchText);
   }
 }

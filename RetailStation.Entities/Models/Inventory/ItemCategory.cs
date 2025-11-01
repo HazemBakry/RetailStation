@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -20,5 +21,6 @@ namespace RetailStation.Entities.Models.Operation
         public int? DisplayOrder { get; set; }
         public bool? IsGroup { get; set; }
         public int? ParentCategoryId { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

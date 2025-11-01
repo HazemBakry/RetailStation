@@ -95,11 +95,16 @@ namespace RetailStation.Service.Website
                               CreatedDate = cat.CreatedDate,
                               ModifiedBy = cat.ModifiedBy,
                               ModifiedDate = cat.ModifiedDate,
+                              ImageUrl = cat.ImageUrl,
                               IsGroup = cat.IsGroup,
                               ParentCategoryId = cat.ParentCategoryId,
                               ParentCategoryNameAR = parentGroup.NameAR,
                               ParentCategoryNameEN = parentGroup.NameEN
                           }).OrderBy(c => c.DisplayOrder).ToList();
+            foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
+            {
+                item.ImageUrl = _fileService.GetFileDownloadUrl(item.ImageUrl);
+            }
             return result;
         }
 
@@ -247,6 +252,22 @@ namespace RetailStation.Service.Website
                     Message = ex.InnerException?.Message ?? ex.Message
                 };
             }
+        }
+
+        public List<SearchAutoCompleteModel> SearchAutoComplete(string SearchText)
+        {
+
+            SqlParameter[] Params = new SqlParameter[]
+            {
+                new SqlParameter("@SearchText", SearchText)
+            };
+            var result = SQLHelper.SQLQuery<SearchAutoCompleteModel>("[Website].[SP_GetSearchAutoComplete]", ConnectionString, Params);
+
+            foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
+            {
+                item.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine("ItemsImages", item.ImageUrl));
+            }
+            return result;
         }
 
     }

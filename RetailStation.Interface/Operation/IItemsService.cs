@@ -35,8 +35,8 @@ namespace RetailStation.Interface.Operation
         #region Item Categories
         List<ItemCategoryModel> GetItemCategories(int? CategoryId = null);
         ItemCategoryModel GetItemCategoryDetails(int CategoryId);
-        ActionsResponseModel AddNewItemCategory(ItemCategoryModel model);
-        ActionsResponseModel EditItemCategory(int CategoryId, ItemCategoryModel model);
+        Task<ActionsResponseModel> AddNewItemCategory(ItemCategoryModel model);
+        Task<ActionsResponseModel> EditItemCategory(int CategoryId, ItemCategoryModel model);
         ActionsResponseModel DeleteItemCategory(int CategoryId);
         ActionsResponseModel ChangeItemCategoryActiveStatus(int CategoryId);
         ActionsResponseModel ChangeCategoriesDisplayOrder(List<CategorySortModel> Categories);
