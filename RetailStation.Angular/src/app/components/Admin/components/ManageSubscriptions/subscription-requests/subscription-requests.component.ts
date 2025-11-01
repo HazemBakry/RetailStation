@@ -6,13 +6,13 @@ import { FilterItem } from 'src/app/components/Shared/models/FilterModel';
 import { WorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
 import { ToastrService } from 'ngx-toastr';
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
-import { SubscribeRequestModel } from '../../../models/SubscribeRequestModel';
 import { SubscriberType } from 'src/app/components/Shared/Enums/SubscriptionTypeEnum';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { FormService } from 'src/app/components/Shared/services/form.service';
-import { SubscriberRegistrationModel } from 'src/app/components/Shared/models/LoginResponseModel';
+import { MerchantRegistrationModel } from 'src/app/components/Shared/models/LoginResponseModel';
 import { environment } from 'src/environments/environment';
+import { MerchantRequestModel } from '../../../models/MerchantRequestModel';
 
 @Component({
   selector: 'app-subscription-requests',
@@ -27,15 +27,15 @@ export class SubscriptionRequestsComponent implements OnInit {
 
   mainFilter: FilterItem = { categoryName: 'DueStatus', itemFlag: '4' }
   showAddLoader: boolean = false;
-  selectedSubscribeRequestId: string;
-  pagedResponseModel: PagedResponseModel<SubscribeRequestModel[]> = {
+  selectedMerchantRequestId: string;
+  pagedResponseModel: PagedResponseModel<MerchantRequestModel[]> = {
     currentPage: 1,
     pageSize: 25,
     searchText: '',
     results: []
   }
   showLoader: boolean = false;
-  subscriberModel: SubscriberRegistrationModel = {} as SubscriberRegistrationModel;
+  subscriberModel: MerchantRegistrationModel = {} as MerchantRegistrationModel;
   subscriberImageFile: File;
   formData: FormData = new FormData();
   constructor(private subscriptionsService: SubscriptionsService,
@@ -43,13 +43,13 @@ export class SubscriptionRequestsComponent implements OnInit {
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
-    this.GetAllSubscribeRequests();
+    this.GetAllMerchantRequests();
   }
 
-  GetAllSubscribeRequests() {
+  GetAllMerchantRequests() {
     this.showLoader = true;
 
-    this.subscriptionsService.GetSubscribeRequests_Data(this.pagedResponseModel).subscribe(data => {
+    this.subscriptionsService.GetMerchantRequests_Data(this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
 
@@ -65,28 +65,28 @@ export class SubscriptionRequestsComponent implements OnInit {
 
   pageChanged(obj: any) {
     this.pagedResponseModel.currentPage = obj.page;
-    this.GetAllSubscribeRequests();
+    this.GetAllMerchantRequests();
   }
 
   filterChecked(filterItems: FilterItem[]) {
     this.pagedResponseModel.filterList = filterItems;
     this.pagedResponseModel.filterList.push(this.mainFilter);
-    this.GetAllSubscribeRequests();
+    this.GetAllMerchantRequests();
   }
 
 
-  openDeleteModal(content: any, selectedSubscribeRequestId: string) {
-    this.selectedSubscribeRequestId = selectedSubscribeRequestId;
+  openDeleteModal(content: any, selectedMerchantRequestId: string) {
+    this.selectedMerchantRequestId = selectedMerchantRequestId;
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
-  deleteSubscribeRequest() {
+  deleteMerchantRequest() {
     this.showAddLoader = true;
-    this.subscriptionsService.DeleteSubscribeRequest(this.selectedSubscribeRequestId).subscribe(data => {
+    this.subscriptionsService.DeleteMerchantRequest(this.selectedMerchantRequestId).subscribe(data => {
 
       if (data?.isSuccess) {
         this.modalService?.dismissAll();
-        this.GetAllSubscribeRequests();
+        this.GetAllMerchantRequests();
         this.toaster.success(data?.message);
       }
       else {
@@ -106,12 +106,12 @@ export class SubscriptionRequestsComponent implements OnInit {
 
   isUpdate: boolean = false;
   public formGroup: FormGroup;
-  openAddModal(content: any, subscribeRequestModel: SubscribeRequestModel = null) {
+  openAddModal(content: any, merchantRequestModel: MerchantRequestModel = null) {
     this.isUpdate = false;
-    this.selectedSubscribeRequestId = subscribeRequestModel.subscribeRequestId;
+    this.selectedMerchantRequestId = merchantRequestModel.merchantRequestId;
     this.buildForm();
-    if (subscribeRequestModel)
-      this.fillEditForm(subscribeRequestModel);
+    if (merchantRequestModel)
+      this.fillEditForm(merchantRequestModel);
 
     this.modalService.open(content, { centered: true, size: 'xl', fullscreen: 'xl' });
   }
@@ -123,9 +123,9 @@ export class SubscriptionRequestsComponent implements OnInit {
       password: [environment.defaultUserPassword, Validators.required],
       email: [null, [Validators.required, Validators.email]],
       phoneNumber: [null, Validators.required],
-      subscriberTypeId: [SubscriberType.Customer, Validators.required],
+      merchantTypeId: [SubscriberType.Customer, Validators.required],
       address: [null],
-      subscriberName: [null, Validators.required],
+      merchantName: [null, Validators.required],
       subscriberEmail: [null, [Validators.required, Validators.email]],
       // number: [null, [CustomValidators.regexPattern(RegexType.number)]],
     },
@@ -140,15 +140,15 @@ export class SubscriptionRequestsComponent implements OnInit {
 
     });
   }
-  fillEditForm(subscribeRequestModel: SubscribeRequestModel) {
+  fillEditForm(merchantRequestModel: MerchantRequestModel) {
     this.isUpdate = true;
 
     this.formGroup.patchValue({
-      subscriberName: subscribeRequestModel.subscriberName,
-      subscriberId: subscribeRequestModel.subscriberId,
-      subscriberEmail: subscribeRequestModel.email,
-      phoneNumber: subscribeRequestModel.phoneNumber,
-      subscriberTypeId: subscribeRequestModel.subscriberTypeId
+      merchantName: merchantRequestModel.merchantName,
+      merchantId: merchantRequestModel.merchantId,
+      subscriberEmail: merchantRequestModel.email,
+      phoneNumber: merchantRequestModel.phoneNumber,
+      merchantTypeId: merchantRequestModel.merchantTypeId
     });
   }
   saveRecord() {
@@ -174,7 +174,7 @@ export class SubscriptionRequestsComponent implements OnInit {
   register() {
 
     this.showAddLoader = true;
-    this.subscriptionsService.ApproveSubscribeRequest(this.selectedSubscribeRequestId, this.subscriberModel).subscribe((data: ActionsResponseModel) => {
+    this.subscriptionsService.ApproveMerchantRequest(this.selectedMerchantRequestId, this.subscriberModel).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.toaster.success(data?.message);
@@ -212,11 +212,11 @@ export class SubscriptionRequestsComponent implements OnInit {
     password: '',
     email: '',
     phoneNumber: '',
-    subscriberTypeId: '',
+    merchantTypeId: '',
     address: '',
-    subscriberName: '',
+    merchantName: '',
     subscriberEmail: '',
-    subscriberId: ''
+    merchantId: ''
 
   };
 

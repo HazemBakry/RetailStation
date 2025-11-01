@@ -22,11 +22,11 @@ namespace RetailStation.Interfaces.Subscription
         ActionsResponseModel EditSubscriberApplications(string SubscriberId, List<SubscriberApplicationDto> ApplicationList);
 
 
-        #region SubscribeRequests
-        ActionsResponseModel EditSubscribeRequest(string SubscribeRequestId, SubscribeRequestModel model);
-        ActionsResponseModel DeleteSubscribeRequest(string SubscribeRequestId);
-        List<SubscribeRequestModel> GetSubscribeRequests_Data(SearchFilterModel FilterModel);
-        ActionsResponseModel ApproveSubscribeRequest(string SubscribeRequestId, SubscriberRegistrationModel model);
+        #region MerchantRequests
+        ActionsResponseModel EditMerchantRequest(string MerchantRequestId, MerchantRequestModel model);
+        ActionsResponseModel DeleteMerchantRequest(string MerchantRequestId);
+        List<MerchantRequestModel> GetMerchantRequests_Data(SearchFilterModel FilterModel);
+        ActionsResponseModel ApproveMerchantRequest(string MerchantRequestId, MerchantRequestModel model);
         #endregion
     }
 }

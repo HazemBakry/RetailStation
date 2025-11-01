@@ -43,7 +43,7 @@ namespace RetailStation.Entities.Models
         public DbSet<ApplicationModel> Applications { get; set; }
         public DbSet<SubscriberApplicationModel> SubscriberApplications { get; set; }
         public DbSet<SubscriberModel> Subscribers { get; set; }
-        public DbSet<SubscribeRequest> SubscribeRequests { get; set; }
+        public DbSet<MerchantRequest> MerchantRequests { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Cart> Carts { get; set; }
@@ -79,6 +79,7 @@ namespace RetailStation.Entities.Models
         public DbSet<SalesInvoice> SalesInvoices { get; set; }
         public DbSet<SalesInvoiceDetails> SalesInvoiceDetails { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Merchant> Merchants { get; set; }
         public DbSet<SupplierGroup> SupplierGroups { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<Store> Stores { get; set; }

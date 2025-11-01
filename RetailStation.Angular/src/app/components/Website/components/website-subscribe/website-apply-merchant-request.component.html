@@ -1,0 +1,139 @@
+<a class="nav-link d-flex align-items-center">
+    <button (click)="openModal(requestModal)" type="button" class="btn btn-phosphor radius-4">انضم
+        إلينا</button>
+</a>
+
+<ng-template #requestModal let-modal>
+    <div class="modal-header login-register-bg d-block">
+        <i class="ph ph-x fs-4 cursor-pointer text-dark" (click)="modal.dismiss()"></i>
+        <div class="d-flex align-items-center justify-content-center" style="margin-top: -10px;">
+            <img src="{{systemURL}}assets/login-register-modal-logo.svg" class="width-100" alt="login-register-logo"
+                loading="lazy" />
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="position-relative overflow-auto small-scroll" [style.min-height]="'calc(100vh - 190px)'">
+
+            <form class="lr-form register-form" [formGroup]="formGroup" (ngSubmit)="saveMerchantRequestData()">
+                <div class="d-flex flex-column gap-4">
+
+                    <div class="form-input-group">
+                        <div class="form-input-group w-100">
+                            <label for="merchantName" class="form-label">
+                                اسم التاجر
+                            </label>
+                            <input type="text" class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                id="merchantName" placeholder="" formControlName="merchantName" autocomplete="off" />
+                            <div *ngIf="formErrors.merchantName" class="text-danger font-small-3 m-03">
+                                {{formErrors.merchantName}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-input-group">
+                        <div class="form-input-group w-100">
+                            <label for="commercialRegister" class="form-label">
+                                السجل التجاري
+                            </label>
+                            <input type="text" class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                id="commercialRegister" placeholder="" formControlName="commercialRegister"
+                                autocomplete="off" />
+                            <div *ngIf="formErrors.commercialRegister" class="text-danger font-small-3 m-03">
+                                {{formErrors.commercialRegister}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-input-group">
+                        <div class="form-input-group w-100">
+                            <label for="taxNumber" class="form-label">
+                                رقم البطاقة الضريبية (Tax Card Number)
+                            </label>
+                            <input type="text" class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                id="taxNumber" placeholder="" formControlName="taxNumber" autocomplete="off" />
+                            <div *ngIf="formErrors.taxNumber" class="text-danger font-small-3 m-03">
+                                {{formErrors.taxNumber}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-input-group">
+                        <div class="form-input-group w-100">
+                            <label for="bankAccountNumber" class="form-label">
+                                رقم الحساب البنكي (Bank Account Number)
+                            </label>
+                            <input type="text" class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                id="bankAccountNumber" placeholder="" formControlName="bankAccountNumber"
+                                autocomplete="off" />
+                            <div *ngIf="formErrors.bankAccountNumber" class="text-danger font-small-3 m-03">
+                                {{formErrors.bankAccountNumber}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-input-group">
+                        <div class="form-input-group w-100">
+                            <label for="brandName" class="form-label">
+                                اسم العلامة التجارية (Brand Name)
+                            </label>
+                            <input type="text" class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                id="brandName" placeholder="" formControlName="brandName" autocomplete="off" />
+                            <div *ngIf="formErrors.brandName" class="text-danger font-small-3 m-03">
+                                {{formErrors.brandName}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-input-group">
+                        <div class="form-input-group w-100">
+                            <label for="email" class="form-label">
+                                البريد الألكتروني (Email)
+                            </label>
+                            <input type="text" class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                id="email" placeholder="" formControlName="email" autocomplete="off" />
+                            <div *ngIf="formErrors.email" class="text-danger font-small-3 m-03">
+                                {{formErrors.email}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-input-group">
+                        <div class="form-input-group w-100">
+                            <label for="userName" class="form-label">
+                                اسم المستخدم (User Name)
+                            </label>
+                            <input type="text" class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                id="userName" placeholder="" formControlName="userName" autocomplete="off" />
+                            <div *ngIf="formErrors.userName" class="text-danger font-small-3 m-03">
+                                {{formErrors.userName}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-input-group">
+                        <div class="form-input-group w-100">
+                            <label for="phoneNumber" class="form-label">
+                                رقم الهاتف (Phone Number)
+                            </label>
+                            <input type="text" class="form-control form-control-lg text-start main-input-focus mh-xl"
+                                id="phoneNumber" placeholder="" formControlName="phoneNumber" autocomplete="off" />
+                            <div *ngIf="formErrors.phoneNumber" class="text-danger font-small-3 m-03">
+                                {{formErrors.phoneNumber}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-input-group">
+                        <label for="address" class="form-label">
+                            العنوان (Address)
+                        </label>
+                        <input type="text" class="form-control form-control-lg text-start main-input-focus mh-xl"
+                            id="address" placeholder="" formControlName="address" autocomplete="off" />
+                        <div *ngIf="formErrors.address" class="text-danger font-small-3 m-03">
+                            {{formErrors.address}}
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-dark-green w-100 mh-xl" [disabled]="showLoader">
+                        <span *ngIf="!showLoader">التسجيل</span>
+                        <span *ngIf="showLoader">جاري التسجيل ...</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</ng-template>

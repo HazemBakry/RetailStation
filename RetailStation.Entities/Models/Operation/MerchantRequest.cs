@@ -9,26 +9,32 @@ using System.Threading.Tasks;
 
 namespace RetailStation.Entities.Models.Operation
 {
-    [Table("SubscribeRequests", Schema = "Website")]
+    [Table("MerchantRequests", Schema = "Website")]
 
-    public class SubscribeRequest
+    public class MerchantRequest
     {
         [Key]
         [MaxLength(128)]
-        public string SubscribeRequestId { get; set; }
+        public string MerchantRequestId { get; set; }
         [MaxLength(128)]
-        public string SubscriberId { get; set; }
+        public string MerchantId { get; set; }
 
         [MaxLength(50)]
-        public string SubscriberName { get; set; }
+        public string MerchantName { get; set; }
 
         [MaxLength(50)]
         public string Email { get; set; }
         [MaxLength(50)]
         public string PhoneNumber { get; set; }
 
-        public SubscriberType? SubscriberTypeId { get; set; }
+        public SubscriberType? MerchantTypeId { get; set; }
         public int? WorkflowStatusId { get; set; }
         public DateTime RequestDate { get; set; } = DateTime.Now;
+        public string CommercialRegister { get; set; }
+        public string TaxNumber { get; set; }
+        public string BankAccountNumber { get; set; }
+        public string Address { get; set; }
+        public string UserName { get; set; }
+        public string BrandName { get; set; }
     }
 }

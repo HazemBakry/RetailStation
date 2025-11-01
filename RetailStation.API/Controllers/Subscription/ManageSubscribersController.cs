@@ -213,32 +213,32 @@ namespace RetailStation.API.Controllers.Subscription
         }
         #endregion
 
-        #region SubscribeRequests
+        #region MerchantRequests
 
         [HttpPost]
-        [Route("EditSubscribeRequest")]
-        public IActionResult EditSubscribeRequest(string SubscribeRequestId, [FromForm] SubscribeRequestModel model)
+        [Route("EditMerchantRequest")]
+        public IActionResult EditMerchantRequest(string MerchantRequestId, [FromForm] MerchantRequestModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = _subscribersService.EditSubscribeRequest(SubscribeRequestId, model);
+            var result = _subscribersService.EditMerchantRequest(MerchantRequestId, model);
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("DeleteSubscribeRequest")]
-        public IActionResult DeleteSubscribeRequest(string SubscribeRequestId)
+        [Route("DeleteMerchantRequest")]
+        public IActionResult DeleteMerchantRequest(string MerchantRequestId)
         {
-            var result = _subscribersService.DeleteSubscribeRequest(SubscribeRequestId);
+            var result = _subscribersService.DeleteMerchantRequest(MerchantRequestId);
             return Ok(result);
         }
 
-        [HttpPost("GetSubscribeRequests_Data")]
-        public IActionResult GetSubscribeRequests_Data(SearchFilterModel Model)
+        [HttpPost("GetMerchantRequests_Data")]
+        public IActionResult GetMerchantRequests_Data(SearchFilterModel Model)
         {
-            var data = _subscribersService.GetSubscribeRequests_Data(Model);
-            var result = new PagedResponseModel<SubscribeRequestModel>
+            var data = _subscribersService.GetMerchantRequests_Data(Model);
+            var result = new PagedResponseModel<MerchantRequestModel>
             {
                 Results = data,
                 TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
@@ -248,12 +248,12 @@ namespace RetailStation.API.Controllers.Subscription
             return Ok(result);
         }
         [HttpPost]
-        [Route("ApproveSubscribeRequest")]
-        public IActionResult ApproveSubscribeRequest(string SubscribeRequestId, SubscriberRegistrationModel model)
+        [Route("ApproveMerchantRequest")]
+        public IActionResult ApproveMerchantRequest(string MerchantRequestId, MerchantRequestModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var result = _subscribersService.ApproveSubscribeRequest(SubscribeRequestId, model);
+            var result = _subscribersService.ApproveMerchantRequest(MerchantRequestId, model);
             return Ok(result);
         }
         #endregion

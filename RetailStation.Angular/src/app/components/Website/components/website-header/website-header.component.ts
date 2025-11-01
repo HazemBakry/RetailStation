@@ -12,7 +12,7 @@ import { BehaviorSubject, filter } from 'rxjs';
 import { AuthService } from 'src/app/Auth/auth.service';
 import { environment } from 'src/environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { LoginUserModel, SubscriberRegistrationModel } from 'src/app/components/Shared/models/LoginResponseModel';
+import { LoginUserModel, MerchantRegistrationModel } from 'src/app/components/Shared/models/LoginResponseModel';
 import { MenuSidebarItem } from 'src/app/components/Shared/models/MenuSidebarItem';
 import { MenuService, MenuType } from 'src/app/components/Shared/services/menu.service';
 import { CartService } from 'src/app/components/Shared/services/cart.service';
@@ -48,7 +48,7 @@ export class WebsiteHeaderComponent implements OnInit {
   isLoginMode = true;
 
   showLoader: boolean = false;
-  subscriberModel: SubscriberRegistrationModel = {} as SubscriberRegistrationModel;
+  subscriberModel: MerchantRegistrationModel = {} as MerchantRegistrationModel;
   formData: FormData = new FormData();
   public formGroup: FormGroup;
 

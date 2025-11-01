@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/Auth/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from 'src/environments/environment';
-import { LoginUserModel, SubscriberRegistrationModel } from 'src/app/components/Shared/models/LoginResponseModel';
+import { LoginUserModel, MerchantRegistrationModel } from 'src/app/components/Shared/models/LoginResponseModel';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SubscriberModel } from 'src/app/components/Admin/models/Subscriber';
 import { SubscriberType } from 'src/app/components/Shared/Enums/SubscriptionTypeEnum';
@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
   showLoader: boolean = false;
   systemURL: string = environment.systemUrl;
 
-  subscriberModel: SubscriberRegistrationModel = {} as SubscriberRegistrationModel;
+  subscriberModel: MerchantRegistrationModel = {} as MerchantRegistrationModel;
   subscriberImageFile: File;
   formData: FormData = new FormData();
   public formGroup: FormGroup;

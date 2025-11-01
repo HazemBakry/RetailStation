@@ -8,8 +8,8 @@ import { SubscriberApplicationModel, SubscriberModel } from '../models/Subscribe
 import { AddUserRoleModel, RoleModel } from '../../Shared/models/RoleModel';
 import { UserModel } from '../../Shared/models/UserModel';
 import { BranchModel } from '../../Shared/models/BranchModel';
-import { SubscribeRequestModel } from '../models/SubscribeRequestModel';
-import { SubscriberRegistrationModel } from '../../Shared/models/LoginResponseModel';
+import { MerchantRequestModel } from '../models/MerchantRequestModel';
+import { MerchantRegistrationModel } from '../../Shared/models/LoginResponseModel';
 
 
 @Injectable({
@@ -99,25 +99,25 @@ export class SubscriptionsService {
 
 
 
-  ////////////////////// SubscribeRequest
+  ////////////////////// MerchantRequest
 
-  GetSubscribeRequests_Data(model: PagedResponseModel<SubscribeRequestModel[]>) {
-    return this.http.post<PagedResponseModel<SubscribeRequestModel[]>>(this.URL + 'ManageSubscribers/GetSubscribeRequests_Data', model);
+  GetMerchantRequests_Data(model: PagedResponseModel<MerchantRequestModel[]>) {
+    return this.http.post<PagedResponseModel<MerchantRequestModel[]>>(this.URL + 'ManageSubscribers/GetMerchantRequests_Data', model);
   }
 
-  GetSubscribeRequestDetailsById(SubscribeRequestId: string) {
-    return this.http.get<SubscribeRequestModel>(this.URL + `ManageSubscribers/GetSubscribeRequestDetailsById?SubscribeRequestId=${SubscribeRequestId}`);
+  GetMerchantRequestDetailsById(MerchantRequestId: string) {
+    return this.http.get<MerchantRequestModel>(this.URL + `ManageSubscribers/GetMerchantRequestDetailsById?MerchantRequestId=${MerchantRequestId}`);
   }
-  SaveNewSubscribeRequest(model: SubscribeRequestModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'ManageSubscribers/SubscribeRequest', model);
+  SaveNewMerchantRequest(model: MerchantRequestModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'ManageSubscribers/MerchantRequest', model);
   }
-  EditSubscribeRequest(SubscribeRequestId: string, model: SubscribeRequestModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + `ManageSubscribers/EditSubscribeRequest?SubscribeRequestId=${SubscribeRequestId}`, model);
+  EditMerchantRequest(MerchantRequestId: string, model: MerchantRequestModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `ManageSubscribers/EditMerchantRequest?MerchantRequestId=${MerchantRequestId}`, model);
   }
-  DeleteSubscribeRequest(SubscribeRequestId: string) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'ManageSubscribers/DeleteSubscribeRequest?SubscribeRequestId=' + SubscribeRequestId);
+  DeleteMerchantRequest(MerchantRequestId: string) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'ManageSubscribers/DeleteMerchantRequest?MerchantRequestId=' + MerchantRequestId);
   }
-  ApproveSubscribeRequest(SubscribeRequestId: string,model:SubscriberRegistrationModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'ManageSubscribers/ApproveSubscribeRequest?SubscribeRequestId=' + SubscribeRequestId,model);
+  ApproveMerchantRequest(MerchantRequestId: string,model:MerchantRegistrationModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'ManageSubscribers/ApproveMerchantRequest?MerchantRequestId=' + MerchantRequestId,model);
   }
 }

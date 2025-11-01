@@ -87,18 +87,18 @@ namespace RetailStation.Service.Auth
         }
         public async Task<ActionsResponseModel> RegisterAsync(SubscriberRegistrationModel model)
         {
-            if (model.SubscriberTypeId == SubscriberType.Customer)
-            {
-                model.SubscriberName = string.Concat([model.FirstName, " ", model.LastName, " ", model.UserName]);
-                model.SubscriberEmail = model.Email;
-            }
-            if (await Context.Subscribers.AnyAsync(t => t.SubscriberName == model.SubscriberName || t.Email == model.SubscriberEmail))
-            {
-                if (await Context.Subscribers.AnyAsync(t => t.SubscriberName == model.SubscriberName))
-                    return new ActionsResponseModel { IsSuccess = false, Message = "Subscriber name already exists." };
-                if (await Context.Subscribers.AnyAsync(t => t.Email == model.SubscriberEmail))
-                    return new ActionsResponseModel { IsSuccess = false, Message = "Email already exists." };
-            }
+            //if (model.SubscriberTypeId == SubscriberType.Customer)
+            //{
+            //    model.SubscriberName = string.Concat([model.FirstName, " ", model.LastName, " ", model.UserName]);
+            //    model.SubscriberEmail = model.Email;
+            //}
+            //if (await Context.Subscribers.AnyAsync(t => t.SubscriberName == model.SubscriberName || t.Email == model.SubscriberEmail))
+            //{
+            //    if (await Context.Subscribers.AnyAsync(t => t.SubscriberName == model.SubscriberName))
+            //        return new ActionsResponseModel { IsSuccess = false, Message = "Subscriber name already exists." };
+            //    if (await Context.Subscribers.AnyAsync(t => t.Email == model.SubscriberEmail))
+            //        return new ActionsResponseModel { IsSuccess = false, Message = "Email already exists." };
+            //}
 
             if (await _userManager.Users.AnyAsync(u => u.Email == model.Email || u.UserName == model.UserName))
             {
@@ -117,19 +117,19 @@ namespace RetailStation.Service.Auth
             }
 
             // Create and save the new subscriber
-            var subscriber = new SubscriberModel
-            {
-                SubscriberId = Guid.NewGuid().ToString(),
-                SubscriberName = model.SubscriberName,
-                Email = model.SubscriberEmail,
-                DomainName = string.Empty,
-                SubscriberTypeId = (SubscriberType)model.SubscriberTypeId,
-                CreatedDate = DateTime.Now,
-                IsActive = false,
-                IsApproved = false
-            };
-            Context.Subscribers.Add(subscriber);
-            await Context.SaveChangesAsync();
+            //var subscriber = new SubscriberModel
+            //{
+            //    SubscriberId = Guid.NewGuid().ToString(),
+            //    SubscriberName = model.SubscriberName,
+            //    Email = model.SubscriberEmail,
+            //    DomainName = string.Empty,
+            //    SubscriberTypeId = (SubscriberType)model.SubscriberTypeId,
+            //    CreatedDate = DateTime.Now,
+            //    IsActive = false,
+            //    IsApproved = false
+            //};
+            //Context.Subscribers.Add(subscriber);
+            //await Context.SaveChangesAsync();
 
             // Create and save the new user
             var user = new ApplicationUser
@@ -138,7 +138,8 @@ namespace RetailStation.Service.Auth
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                SubscriberId = subscriber.SubscriberId,
+                //SubscriberId = subscriber.SubscriberId,
+                MerchantId = model.MerchantId,
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddYears(1),
                 IsActive = true
@@ -154,17 +155,17 @@ namespace RetailStation.Service.Auth
             if(model.SubscriberTypeId == SubscriberType.Supplier)
             {
                 //defaultRole = "SupplierAdmin";
-                defaultRole = "Supplier";
-                var supplier = new SupplierDto
-                {
-                    Code = model.UserName,
-                    NameAR = model.SubscriberName,
-                    NameEN = model.SubscriberName,
-                    BeginningBalance = 0,
-                    BalanceType = string.Empty,
-                    SubscriberId = subscriber.SubscriberId,
-                };
-                _supplierService.AddNewSupplier(supplier);
+                defaultRole = "Merchant";
+                //var supplier = new SupplierDto
+                //{
+                //    Code = model.UserName,
+                //    NameAR = model.SubscriberName,
+                //    NameEN = model.SubscriberName,
+                //    BeginningBalance = 0,
+                //    BalanceType = string.Empty,
+                //    SubscriberId = subscriber.SubscriberId,
+                //};
+                //_supplierService.AddNewSupplier(supplier);
 
             }
             else if(model.SubscriberTypeId == SubscriberType.Customer)
@@ -422,18 +423,24 @@ namespace RetailStation.Service.Auth
         }
 
 
-        public ActionsResponseModel SubscribeRequest(SubscribeRequestModel model)
+        public ActionsResponseModel ApplyMerchantRequest(MerchantRequestModel model)
         {
             try
             {
 
-                Context.Add(new SubscribeRequest
+                Context.Add(new MerchantRequest
                 {
-                    SubscribeRequestId = Guid.NewGuid().ToString(),
-                    SubscriberName = model.SubscriberName,
+                    MerchantRequestId = Guid.NewGuid().ToString(),
+                    MerchantName = model.MerchantName,
                     Email = model.Email,
+                    UserName = model.UserName,
+                    CommercialRegister = model.CommercialRegister,
+                    TaxNumber = model.TaxNumber,
+                    BankAccountNumber = model.BankAccountNumber,
                     PhoneNumber = model.PhoneNumber,
-                    SubscriberTypeId = model.SubscriberTypeId,
+                    Address = model.Address,
+                    BrandName = model.BrandName,
+                    MerchantTypeId = model.MerchantTypeId,
                     WorkflowStatusId = (int)WorkflowStatus.Pending
                 });
 

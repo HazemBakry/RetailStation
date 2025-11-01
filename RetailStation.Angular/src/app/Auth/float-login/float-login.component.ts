@@ -7,7 +7,7 @@ import { FormService } from 'src/app/components/Shared/services/form.service';
 import { MenuService } from 'src/app/components/Shared/services/menu.service';
 import { AuthService } from '../auth.service';
 import { environment } from 'src/environments/environment';
-import { LoginUserModel, SubscriberRegistrationModel } from 'src/app/components/Shared/models/LoginResponseModel';
+import { LoginUserModel, MerchantRegistrationModel } from 'src/app/components/Shared/models/LoginResponseModel';
 import { SubscriberType } from 'src/app/components/Shared/Enums/SubscriptionTypeEnum';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
@@ -29,7 +29,7 @@ export class FloatLoginComponent implements OnInit {
   logout: boolean = false;
   showLoader: boolean = false;
   isLoginMode = true;
-  subscriberModel: SubscriberRegistrationModel = {} as SubscriberRegistrationModel;
+  subscriberModel: MerchantRegistrationModel = {} as MerchantRegistrationModel;
   subscriberImageFile: File;
   formData: FormData = new FormData();
   public formGroup: FormGroup;

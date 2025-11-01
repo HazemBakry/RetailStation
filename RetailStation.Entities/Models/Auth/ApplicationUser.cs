@@ -18,6 +18,7 @@ namespace RetailStation.Entities.Models.Auth
         public string ImageUrl { get; set; }
         [MaxLength(128)]
         public string SubscriberId { get; set; }
+        public int? MerchantId { get; set; }
         public int BranchId { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

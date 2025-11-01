@@ -66,10 +66,12 @@ import { AppPaginationComponent } from './components/app-pagination/app-paginati
 import { AppFiltersComponent } from './components/app-filters/app-filters.component';
 import { FloatLoginComponent } from 'src/app/Auth/float-login/float-login.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { WebsiteApplyMerchantRequestComponent } from '../Website/components/website-subscribe/website-apply-merchant-request.component';
 
 @NgModule({
   declarations: [
     FloatLoginComponent,
+    WebsiteApplyMerchantRequestComponent,
     SidebarComponent,
     HeaderComponent,
     HomeComponent,
@@ -162,6 +164,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     NgbModule,
     SearchArryPipe,
     FloatLoginComponent,
+    WebsiteApplyMerchantRequestComponent,
     ErpSpinnerComponentComponent,
     ErpSelectorComponent,
     ErpSelectorWithSearchComponent,

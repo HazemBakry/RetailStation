@@ -10,13 +10,13 @@ import { WebsitePromotionItemsComponent } from './components/website-promotion-i
 import { WebsiteMainItemsComponent } from './components/website-main-items/website-main-items.component';
 import { WebsiteMainCategoriesComponent } from './components/website-main-categories/website-main-categories.component';
 import { WebsiteFiltersComponent } from './components/website-filters/website-filters.component';
-import { WebsiteSubscribeComponent } from './components/website-subscribe/website-subscribe.component';
 import { WebsiteItemCardComponent } from './components/website-item-card/website-item-card.component';
 import { WebsiteCartComponent } from './components/website-cart/website-cart.component';
 import { WebsiteOrdersComponent } from './components/website-orders/website-orders.component';
 import { WebsiteHeaderComponent } from './components/website-header/website-header.component';
 import { WebsiteSearchComponent } from './components/website-search/website-search.component';
 import { MainRoutingModule } from './website-routing.module';
+import { WebsiteApplyMerchantRequestComponent } from './components/website-subscribe/website-apply-merchant-request.component';
 
 
 
@@ -29,7 +29,6 @@ import { MainRoutingModule } from './website-routing.module';
     WebsiteMainItemsComponent,
     WebsiteMainCategoriesComponent,
     WebsiteFiltersComponent,
-    WebsiteSubscribeComponent,
     WebsiteItemCardComponent,
     WebsiteCartComponent,
     WebsiteOrdersComponent,

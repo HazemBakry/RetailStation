@@ -35,13 +35,13 @@
                 <tbody>
                     <tr *ngFor="let item of pagedResponseModel.results">
                         <td>
-                            {{item.subscriberName}}
+                            {{item.merchantName}}
                         </td>
                         <td>{{item?.email ?? '-'}}</td>
                         <td>
-                            <span *ngIf="item.subscriberTypeId == SubscriberType.Admin">Admin</span>
-                            <span *ngIf="item.subscriberTypeId == SubscriberType.Customer">Individual</span>
-                            <span *ngIf="item.subscriberTypeId == SubscriberType.Supplier">Company</span>
+                            <span *ngIf="item.merchantTypeId == SubscriberType.Admin">Admin</span>
+                            <span *ngIf="item.merchantTypeId == SubscriberType.Customer">Individual</span>
+                            <span *ngIf="item.merchantTypeId == SubscriberType.Supplier">Company</span>
                         </td>
                         <td>{{item?.requestDate | date}}</td>
                         <td>
@@ -54,14 +54,14 @@
                                     <button class="btn-sm-action sm-action-dropdown" ngbDropdownToggle>
                                         <i class="fas fa-ellipsis-h"></i>
                                     </button>
-                                    <div *ngIf="item.workflowStatusId == wfStatus.Pending && !item.subscriberId" ngbDropdownMenu class="border">
+                                    <div *ngIf="item.workflowStatusId == wfStatus.Pending && !item.merchantId" ngbDropdownMenu class="border">
                                         <button ngbDropdownItem (click)="openAddModal(addNewModal,item)">
                                             <!-- <i class="uil uil-trash-alt"></i> -->
                                             قبول
                                         </button>
                                     </div>
                                     <div ngbDropdownMenu class="border">
-                                        <button ngbDropdownItem (click)="openDeleteModal(deleteModal,item.subscribeRequestId)">
+                                        <button ngbDropdownItem (click)="openDeleteModal(deleteModal,item.merchantRequestId)">
                                             <!-- <i class="uil uil-trash-alt"></i> -->
                                             حذف
                                         </button>
@@ -103,7 +103,7 @@
         <p class="fs-5 m-0">هل أنت متأكد من الالغاء ؟</p>
     </div>
     <div class="modal-footer justify-content-start">
-        <button type="button" class="btn btn-success" (click)="modal.close('Save click');deleteSubscribeRequest()">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click');deleteMerchantRequest()">
             <i class="fas fa-check"></i>
             <span class="ms-2">نعم</span>
         </button>
@@ -218,10 +218,10 @@
                                 <label class="form-label d-flex align-items-center gap-2">
                                     اسم المشترك
                                 </label>
-                                <input type="text" class="form-control nw-form-input" formControlName="subscriberName" autocomplete="off" />
+                                <input type="text" class="form-control nw-form-input" formControlName="merchantName" autocomplete="off" />
 
-                                <div *ngIf="formErrors.subscriberName" class="text-danger  font-small-3 m-03">
-                                    {{formErrors.subscriberName}}
+                                <div *ngIf="formErrors.merchantName" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.merchantName}}
                                 </div>
                             </div>
                             <div class="col-xl-6 mb-3">
@@ -246,16 +246,16 @@
                                 </label>
                                 <div class="d-flex flex-wrap gap-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" formControlName="subscriberTypeId" id="customerRadio" [value]="SubscriberType.Customer">
+                                        <input class="form-check-input" type="radio" formControlName="merchantTypeId" id="customerRadio" [value]="SubscriberType.Customer">
                                         <label class="form-check-label" for="customerRadio">أفراد</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" formControlName="subscriberTypeId" id="supplierRadio" [value]="SubscriberType.Supplier">
+                                        <input class="form-check-input" type="radio" formControlName="merchantTypeId" id="supplierRadio" [value]="SubscriberType.Supplier">
                                         <label class="form-check-label" for="supplierRadio">شركات</label>
                                     </div>
                                 </div>
-                                <div *ngIf="formErrors.subscriberTypeId" class="text-danger font-small-3 m-3">
-                                    {{formErrors.subscriberTypeId}}
+                                <div *ngIf="formErrors.merchantTypeId" class="text-danger font-small-3 m-3">
+                                    {{formErrors.merchantTypeId}}
                                 </div>
                             </div>
                         </div>

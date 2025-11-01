@@ -1,16 +1,21 @@
-export interface SubscribeRequestModel {
-    subscribeRequestId: string;
-    subscriberId: string;
-    subscriberName: string;
+export interface MerchantRequestModel {
+    merchantRequestId: string;
+    merchantId: string;
+    merchantName: string;
+    brandName: string;
     email: string;
     phoneNumber: string;
     isApproved: boolean | null;
     subscriptionUsersType: number | null;
-    subscriberTypeId: number;
+    merchantTypeId: number;
     workflowStatusId: number;
     workflowStatusNameEN: string;
     workflowStatusNameAR: string;
     requestDate: string;
     commercialRegister: string;
+    taxNumber: string;
+    bankAccountNumber: string;
+    address: string;
+    userName: string;
     totalCount: number | null;
 }

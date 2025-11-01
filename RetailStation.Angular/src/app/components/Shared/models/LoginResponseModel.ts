@@ -32,7 +32,7 @@ export interface LoginUserModel {
     authorizedPages?: PagePermissionModel[];
 }
 
-export interface SubscriberRegistrationModel {
+export interface MerchantRegistrationModel {
     firstName: string;
     lastName: string;
     userName: string;

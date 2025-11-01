@@ -80,7 +80,7 @@ namespace RetailStation.Entities.Models
         public DbSet<PurchaseQuotationDetails> PurchaseQuotationDetails { get; set; }
         public DbSet<SalesInvoice> SalesInvoices { get; set; }
         public DbSet<SalesInvoiceDetails> SalesInvoiceDetails { get; set; }
-        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Merchant> Suppliers { get; set; }
         public DbSet<SupplierGroup> SupplierGroups { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<Store> Stores { get; set; }

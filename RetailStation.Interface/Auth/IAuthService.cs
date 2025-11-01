@@ -21,6 +21,6 @@ namespace RetailStation.Interface.Auth
         Task<List<RoleDto>> GetRolesAsync(SearchFilterModel model);
         Task<ActionsResponseModel> AddRoleAsync(string roleName);
 
-        ActionsResponseModel SubscribeRequest(SubscribeRequestModel model);
+        ActionsResponseModel ApplyMerchantRequest(MerchantRequestModel model);
     }
 }

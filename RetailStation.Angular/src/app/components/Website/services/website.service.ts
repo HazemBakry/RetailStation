@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
 import { FilterItem, FilterModel } from '../../Shared/models/FilterModel';
-import { SubscribeRequestModel } from '../../Admin/models/SubscribeRequestModel';
+import { MerchantRequestModel } from '../../Admin/models/MerchantRequestModel';
 import { CreateOrderModel, WebsiteOrderModel } from '../models/WebsiteOrderModel ';
 import { SliderModel } from '../../Admin/models/Operation/SliderModel';
 import { SupplierItemModel } from '../../Shared/models/SupplierItemModel';
@@ -55,9 +55,9 @@ export class WebsiteService {
 
 
 
-  //////////////////////  SubscribeRequest
-  SaveNewSubscribeRequest(model: SubscribeRequestModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Auth/SubscribeRequest', model);
+  //////////////////////  MerchantRequest
+  SaveNewMerchantRequest(model: MerchantRequestModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Auth/MerchantRequest', model);
   }
 
 

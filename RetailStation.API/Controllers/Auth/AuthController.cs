@@ -71,12 +71,12 @@ namespace RetailStation.API.Controllers.Auth
         }
 
 
-        [HttpPost("SubscribeRequest")]
-        public IActionResult SubscribeRequest([FromBody] SubscribeRequestModel model)
+        [HttpPost("ApplyMerchantRequest")]
+        public IActionResult ApplyMerchantRequest([FromBody] MerchantRequestModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var result =  _authService.SubscribeRequest(model);
+            var result =  _authService.ApplyMerchantRequest(model);
 
             return Ok(result);
 

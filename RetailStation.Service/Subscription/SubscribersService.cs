@@ -229,17 +229,23 @@ namespace RetailStation.Services.Subscription
         }
 
 
-        #region SubscribeRequests
-        public ActionsResponseModel EditSubscribeRequest(string SubscribeRequestId, SubscribeRequestModel model)
+        #region MerchantRequests
+        public ActionsResponseModel EditMerchantRequest(string MerchantRequestId, MerchantRequestModel model)
         {
-            var Item = Context.SubscribeRequests.Where(x => x.SubscribeRequestId == SubscribeRequestId).FirstOrDefault();
+            var Item = Context.MerchantRequests.Where(x => x.MerchantRequestId == MerchantRequestId).FirstOrDefault();
 
             if (Item != null)
             {
-                Item.SubscriberName = model.SubscriberName;
+                Item.MerchantName = model.MerchantName;
                 Item.Email = model.Email;
                 Item.PhoneNumber = model.PhoneNumber;
-                Item.SubscriberTypeId = model.SubscriberTypeId;
+                Item.MerchantTypeId = model.MerchantTypeId;
+                Item.CommercialRegister = model.CommercialRegister;
+                Item.TaxNumber = model.TaxNumber;
+                Item.BankAccountNumber = model.BankAccountNumber;
+                Item.Address = model.Address;
+                Item.UserName = model.UserName;
+                Item.BrandName = model.BrandName;
                 Context.SaveChanges();
                 return new ActionsResponseModel
                 {
@@ -255,9 +261,9 @@ namespace RetailStation.Services.Subscription
                 };
             }
         }
-        public ActionsResponseModel DeleteSubscribeRequest(string SubscribeRequestId)
+        public ActionsResponseModel DeleteMerchantRequest(string MerchantRequestId)
         {
-            var item = Context.SubscribeRequests.FirstOrDefault(m => m.SubscribeRequestId == SubscribeRequestId);
+            var item = Context.MerchantRequests.FirstOrDefault(m => m.MerchantRequestId == MerchantRequestId);
 
             if (item != null)
             {
@@ -279,19 +285,24 @@ namespace RetailStation.Services.Subscription
                 };
             }
         }
-        public List<SubscribeRequestModel> GetSubscribeRequests_Data(SearchFilterModel FilterModel)
+        public List<MerchantRequestModel> GetMerchantRequests_Data(SearchFilterModel FilterModel)
         {
-            var query = from sub in Context.SubscribeRequests
-                        select new SubscribeRequestModel
+            var query = from sub in Context.MerchantRequests
+                        select new MerchantRequestModel
                         {
-                            SubscribeRequestId = sub.SubscribeRequestId,
-                            SubscriberName = sub.SubscriberName,
-                            SubscriberId = sub.SubscriberId,
+                            MerchantRequestId = sub.MerchantRequestId,
+                            MerchantName = sub.MerchantName,
+                            MerchantId = sub.MerchantId,
                             Email = sub.Email,
                             PhoneNumber = sub.PhoneNumber,
-                            SubscriberTypeId = sub.SubscriberTypeId,
+                            MerchantTypeId = sub.MerchantTypeId,
                             RequestDate = sub.RequestDate,
                             WorkflowStatusId = sub.WorkflowStatusId,
+                            CommercialRegister = sub.CommercialRegister,
+                            TaxNumber = sub.TaxNumber,
+                            Address = sub.Address,
+                            UserName = sub.UserName,
+                            BrandName = sub.BrandName,
 
                         };
             //var WorkflowStatus = LookupsContext.WorkflowStatus.ToList();
@@ -315,13 +326,22 @@ namespace RetailStation.Services.Subscription
             }).ToList();
             return results;
         }
-        public ActionsResponseModel ApproveSubscribeRequest(string SubscribeRequestId, SubscriberRegistrationModel model)
+        public ActionsResponseModel ApproveMerchantRequest(string MerchantRequestId, MerchantRequestModel model)
         {
-            var request = Context.SubscribeRequests.FirstOrDefault(m => m.SubscribeRequestId == SubscribeRequestId);
+            var request = Context.MerchantRequests.FirstOrDefault(m => m.MerchantRequestId == MerchantRequestId);
             
             if (request != null)
             {
-                var response = AuthService.RegisterAsync(model).Result;
+                var reqisterModel = new SubscriberRegistrationModel
+                {
+                    FirstName = model.MerchantName,
+                    LastName = string.Empty,
+                    UserName = model.UserName,
+                    Password = model.Password,
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
+                };
+                var response = AuthService.RegisterAsync(reqisterModel).Result;
                 //return new ActionsResponseModel
                 //{
                 //    Status = 1,
