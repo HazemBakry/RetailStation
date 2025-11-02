@@ -55,7 +55,7 @@ export class WebsiteHomeComponent implements OnInit {
   menuItem: MenuSidebarItem;
   CategoriesList: ItemCategoryModel[] = [];
   filterList: FilterModel[] = [];
-
+  searchText: string = '';
   pageResponseModel: PagedResponseModel<SupplierItemModel[]> = {
     results: [],
     filterList: [],
@@ -108,9 +108,10 @@ export class WebsiteHomeComponent implements OnInit {
     let itemCategoryId: string = '';
     this.route.queryParamMap.subscribe(params => {
       itemCategoryId = params.get('catId') || '';
-      if(itemCategoryId){
+      this.searchText = params.get('q') || '';
+      if (itemCategoryId) {
         this.activeCategoryId = Number(itemCategoryId);
-        this.activeCategoryName = this.CategoriesList.find(c=>c.itemCategoryId==this.activeCategoryId)?.nameAR;
+        this.activeCategoryName = this.CategoriesList.find(c => c.itemCategoryId == this.activeCategoryId)?.nameAR;
       }
     });
   }
@@ -334,7 +335,8 @@ export class WebsiteHomeComponent implements OnInit {
       data?.forEach(partner => {
         this.retailStationLogos.push({
           name: partner.displayName,
-          logo: partner.image});
+          logo: partner.image
+        });
       });
 
     }, err => {
