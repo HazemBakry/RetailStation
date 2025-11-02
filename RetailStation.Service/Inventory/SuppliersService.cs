@@ -23,9 +23,9 @@ namespace RetailStation.Service.Inventory
 
         public List<SupplierDto> GetSuppliers_Data(SearchFilterModel model, int? SupplierId = null)
         {
-            var cities = LookupsDbContext.Cities.ToList();
-            var contries = LookupsDbContext.Countries.ToList();
-            var regions = LookupsDbContext.Regions.ToList();
+            var cities = Context.Cities.ToList();
+            var contries = Context.Countries.ToList();
+            var regions = Context.Regions.ToList();
             var payments = LookupsDbContext.PaymentMethods.ToList();
             var query = from supplier in Context.Suppliers
                         where !SupplierId.HasValue || supplier.SupplierId == SupplierId

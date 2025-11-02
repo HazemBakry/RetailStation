@@ -81,30 +81,7 @@ namespace RetailStation.Service.Shared
             return result;
         }
 
-        public List<SelectorDataModel> GetRegionIdSelector(int? CountryId = null, int? CityId = null)
-        {
-            return LookupsContext.Regions.Where(x=>(!CountryId.HasValue || CountryId == x.CountryId)&& (!CityId.HasValue || CityId == x.CityId)).Select(x => new SelectorDataModel
-            {
-                Id = x.RegionId,
-                Name = x.NameAR ?? x.NameEN
-            }).ToList();
-        }
-        public List<SelectorDataModel> GetCitiesSelector(int? CountryId =null)
-        {
-            SqlParameter[] Params = new SqlParameter[1];
-            Params[0] = new SqlParameter("@CountryId", CountryId);
-            var result = SQLHelper.SQLQuery<SelectorDataModel>("[Global].[SP_GetCities]", ConnectionString, Params);
-            return result;
-        }
-        public List<SelectorDataModel> GetCountriesSelector()
-        {
-            var results = LookupsContext.Countries.Select(b => new SelectorDataModel
-            {
-                Id = b.CountryId,
-                Name = b.NameAR,
-            }).ToList();
-            return results;
-        }
+
         #endregion
 
         #region Finance Lookups

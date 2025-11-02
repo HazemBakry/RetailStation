@@ -15,6 +15,8 @@ using System.Text;
 using System.Threading.Tasks;
 using RetailStation.Entities.Models.Subscription;
 using RetailStation.Entities.DTOs.Lookups;
+using RetailStation.Service.Common;
+using RetailStation.Entities.Models.SystemAdmin;
 
 namespace RetailStation.Service.Shared
 {
@@ -136,7 +138,31 @@ namespace RetailStation.Service.Shared
             return results;
 
         }
-
+        public List<SelectorDataModel> GetRegionIdSelector(int? CountryId = null, int? CityId = null)
+        {
+            return Context.Regions.Where(x => (!CountryId.HasValue || CountryId == x.CountryId) && (!CityId.HasValue || CityId == x.CityId)).Select(x => new SelectorDataModel
+            {
+                Id = x.RegionId,
+                Name = x.NameAR ?? x.NameEN
+            }).ToList();
+        }
+        public List<SelectorDataModel> GetCitiesSelector(int? CountryId = null)
+        {
+            return Context.Cities.Where(x => (!CountryId.HasValue || CountryId == x.CountryId)).Select(x => new SelectorDataModel
+            {
+                Id = x.CityId,
+                Name = x.NameAR ?? x.NameEN
+            }).ToList();
+        }
+        public List<SelectorDataModel> GetCountriesSelector()
+        {
+            var results = Context.Countries.Select(b => new SelectorDataModel
+            {
+                Id = b.CountryId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
         #endregion
 
     }

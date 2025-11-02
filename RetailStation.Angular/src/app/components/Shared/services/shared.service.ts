@@ -245,4 +245,25 @@ export class SharedService {
   GetSubscribersSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetSubscribersSelector');
   }
+
+  GetCountriesSelector() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetCountriesSelector');
+  }
+
+  GetCitiesSelector(countryId: number = null) {
+    const param = countryId !== null ? `?CountryId=${countryId}` : '';
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetCitiesSelector' + param);
+  }
+  GetRegionIdSelector(countryId: number = null, cityId: number = null) {
+    const params = new URLSearchParams();
+    if (countryId !== null) {
+      params.append('CountryId', countryId.toString());
+    }
+    if (cityId !== null) {
+      params.append('CityId', cityId.toString());
+    }
+    const queryString = params.toString();
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetRegionIdSelector' + (queryString ? `?${queryString}` : ''));
+
+  }
 }

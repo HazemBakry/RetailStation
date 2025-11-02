@@ -15,9 +15,6 @@ namespace RetailStation.Interface.Shared
         List<SelectorDataModel> GetBanksSelector();
         List<SelectorDataModel> GetIqamaIssuePlacesSelector();
         List<SelectorDataModel> GetCurrencySelector();
-        List<SelectorDataModel> GetRegionIdSelector(int? CountryId = null, int? CityId = null);
-        List<SelectorDataModel> GetCitiesSelector(int? CountryId = null);
-        List<SelectorDataModel> GetCountriesSelector();
 
         #endregion
 

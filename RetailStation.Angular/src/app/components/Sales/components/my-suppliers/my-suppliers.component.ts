@@ -110,7 +110,7 @@ export class MySuppliersComponent implements OnInit {
   }
 
   loadSelectors() {
-    this.lookupService.GetCountriesSelector().subscribe((data: GeneralSelectorModel[]) => {
+    this.sharedService.GetCountriesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.countriesSelectorData = data;
     });
     this.sharedService.GetSubscribersSelector().subscribe((data: GeneralSelectorModel[]) => {
@@ -122,14 +122,14 @@ export class MySuppliersComponent implements OnInit {
   }
 
   loadCitiesByCountryId(countryId: number) {
-    this.lookupService.GetCitiesSelector(countryId).subscribe((data: GeneralSelectorModel[]) => {
+    this.sharedService.GetCitiesSelector(countryId).subscribe((data: GeneralSelectorModel[]) => {
       this.citiesSelectorData = data;
     });
   }
 
   loadRegions(countryId = null, cityId: number = null) {
 
-    this.lookupService.GetRegionIdSelector(countryId, cityId).subscribe((data: GeneralSelectorModel[]) => {
+    this.sharedService.GetRegionIdSelector(countryId, cityId).subscribe((data: GeneralSelectorModel[]) => {
       this.regionsSelectorData = data;
     });
   }

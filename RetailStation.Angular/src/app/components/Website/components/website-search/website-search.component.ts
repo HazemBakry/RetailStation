@@ -9,6 +9,7 @@ import { WebsiteService } from '../../services/website.service';
 import { SearchAutoCompleteModel } from '../../models/SearchAutoCompleteModel';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { LookupService } from 'src/app/components/Shared/services/lookup.service';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
 
 @Component({
   selector: 'app-website-search',
@@ -34,6 +35,7 @@ export class WebsiteSearchComponent implements OnInit {
     private router: Router,
     private acRoute: ActivatedRoute,
     private lookupService: LookupService,
+    private sharedService: SharedService,
     private websiteService: WebsiteService) {
   }
 
@@ -124,7 +126,7 @@ export class WebsiteSearchComponent implements OnInit {
     this.selectedCity = city;
   }
   GetCitiesSelector() {
-    this.lookupService.GetCitiesSelector().subscribe((data: GeneralSelectorModel[]) => {
+    this.sharedService.GetCitiesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.citiesSelectorData = data;
       if (this.cityId)
         this.selectedCity = this.citiesSelectorData.find(c => c.value == this.cityId);

@@ -180,7 +180,7 @@ export class AddSupplierComponent implements OnInit {
   }
 
   loadSelectors() {
-    this.lookupService.GetCountriesSelector().subscribe((data: FormDropdownModel[]) => {
+    this.sharedService.GetCountriesSelector().subscribe((data: FormDropdownModel[]) => {
       this.countriesSelectorData = data;
     });
     this.loadCities();
@@ -192,7 +192,7 @@ export class AddSupplierComponent implements OnInit {
     });
   }
   loadCities(countryId: number = null) {
-    this.lookupService.GetCitiesSelector(countryId).subscribe((data: FormDropdownModel[]) => {
+    this.sharedService.GetCitiesSelector(countryId).subscribe((data: FormDropdownModel[]) => {
       this.citiesSelectorData = data;
     });
   }

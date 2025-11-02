@@ -121,6 +121,24 @@ export class MenuService {
                 icon: 'fa fa-users',
                 route: '/admin/suppliers'
               },
+              {
+                displayName: 'قائمة الدول',
+                menuItem: 'countries',
+                icon: 'fa fa-users',
+                route: '/admin/countries'
+              },
+              {
+                displayName: 'قائمة المدن',
+                menuItem: 'cities',
+                icon: 'fa fa-users',
+                route: '/admin/cities'
+              },
+              {
+                displayName: 'قائمة المناطق',
+                menuItem: 'regions',
+                icon: 'fa fa-users',
+                route: '/admin/regions'
+              },
             ]
           },
           {

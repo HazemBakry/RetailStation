@@ -22,6 +22,9 @@ import { ItemUnitsComponent } from './components/item-units/item-units.component
 import { SocialMediaPixelsComponent } from './components/social-media-pixels/social-media-pixels.component';
 import { NotificationManagerComponent } from './components/notification-manager/notification-manager.component';
 import { TagsManagerComponent } from './components/tags-manager/tags-manager.component';
+import { RegionsComponent } from './components/regions/regions.component';
+import { CitiesComponent } from './components/cities/cities.component';
+import { CountriesComponent } from './components/countries/countries.component';
 
 
 const routes: Routes = [
@@ -73,6 +76,9 @@ const routes: Routes = [
       { path: 'social-media', component: SocialMediaPixelsComponent },
       { path: 'notifications-manager', component: NotificationManagerComponent },
       { path: 'tags-manager', component: TagsManagerComponent },
+      { path: 'countries', component: CountriesComponent },
+      { path: 'cities', component: CitiesComponent },
+      { path: 'regions', component: RegionsComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]
   }

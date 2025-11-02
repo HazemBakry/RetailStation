@@ -27,7 +27,9 @@ namespace RetailStation.Interface.Shared
         List<SelectorDataModel> GetUnitsSelector();
         List<SelectorDataModel> GetItemLookupsSelector();
         List<SelectorDataModel_Str> GetSubscribersSelector();
-
+        List<SelectorDataModel> GetRegionIdSelector(int? CountryId = null, int? CityId = null);
+        List<SelectorDataModel> GetCitiesSelector(int? CountryId = null);
+        List<SelectorDataModel> GetCountriesSelector();
         #endregion
     }
 }

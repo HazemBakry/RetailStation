@@ -101,13 +101,13 @@ export class CustomersComponent implements OnInit {
   }
 
   GetCountriesSelector() {
-    this.lookupService.GetCountriesSelector().subscribe(data => {
+    this.sharedService.GetCountriesSelector().subscribe(data => {
       this.Countries = data;
     });
   }
 
   GetCitiesSelector() {
-    this.lookupService.GetCitiesSelector().subscribe(data => {
+    this.sharedService.GetCitiesSelector().subscribe(data => {
       this.Cities = data;
     });
   }

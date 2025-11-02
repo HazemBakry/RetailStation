@@ -24,9 +24,9 @@ namespace RetailStation.Service.Inventory
 
         public List<MerchantModel> GetMerchants_Data(SearchFilterModel model, int? MerchantId = null)
         {
-            var cities = LookupsDbContext.Cities.ToList();
-            var contries = LookupsDbContext.Countries.ToList();
-            var regions = LookupsDbContext.Regions.ToList();
+            var cities = Context.Cities.ToList();
+            var contries = Context.Countries.ToList();
+            var regions = Context.Regions.ToList();
             var payments = LookupsDbContext.PaymentMethods.ToList();
             var query = from merchant in Context.Merchants
                         where !MerchantId.HasValue || merchant.MerchantId == MerchantId

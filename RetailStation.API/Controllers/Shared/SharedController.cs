@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using RetailStation.Service.Shared;
 
 namespace RetailStation.API.Controllers.Shared
 {
@@ -103,8 +104,28 @@ namespace RetailStation.API.Controllers.Shared
             var result = _sharedService.GetSubscribersSelector();
             return Ok(result);
         }
+        [HttpGet]
+        [Route("GetRegionIdSelector")]
+        public IActionResult GetRegionIdSelector(int? CountryId = null, int? CityId = null)
+        {
+            var results = _sharedService.GetRegionIdSelector(CountryId, CityId);
+            return Ok(results);
+        }
+        [HttpGet]
+        [Route("GetCitiesSelector")]
+        public IActionResult GetCitiesSelector(int? CountryId = null)
+        {
+            var results = _sharedService.GetCitiesSelector(CountryId);
+            return Ok(results);
+        }
+        [HttpGet]
+        [Route("GetCountriesSelector")]
+        public IActionResult GetCountriesSelector()
+        {
+            var result = _sharedService.GetCountriesSelector();
+            return Ok(result);
+        }
 
-        
         #endregion
     }
 }

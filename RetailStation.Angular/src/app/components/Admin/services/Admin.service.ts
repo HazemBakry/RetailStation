@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { FilterModel } from '../../Shared/models/FilterModel';
 import { Tag } from '../models/TagsManagerModels';
 import { PromotionModel } from '../../Shared/models/PromotionModel';
+import { CityModel, CountryModel, RegionModel } from '../models/Operation/CountryModel';
 
 
 @Injectable({
@@ -172,4 +173,63 @@ export class AdminService {
       return this.http.post<any>(this.URL + 'TagsManager/updateIsActive?id=' + id, isActive)
     }
   
+
+
+
+
+
+
+
+  GetCountries_Data(model: PagedResponseModel<CountryModel[]>) {
+    return this.http.post<PagedResponseModel<CountryModel[]>>(this.URL + 'SystemSetting/GetCountries_Data', model);
+  }
+
+  CreateNewCountry(model: CountryModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'SystemSetting/AddCountry', model);
+  }
+
+  EditCountry(unitId: number, model: CountryModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `SystemSetting/EditCountry?CountryId=${unitId}`, model);
+  }
+
+  DeleteCountry(unitId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `SystemSetting/DeleteCountry?CountryId=${unitId}`);
+  }
+
+
+  GetCities_Data(model: PagedResponseModel<CityModel[]>) {
+    return this.http.post<PagedResponseModel<CityModel[]>>(this.URL + 'SystemSetting/GetCities_Data', model);
+  }
+
+  CreateNewCity(model: CityModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'SystemSetting/AddCity', model);
+  }
+
+  EditCity(unitId: number, model: CityModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `SystemSetting/EditCity?CityId=${unitId}`, model);
+  }
+
+  DeleteCity(unitId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `SystemSetting/DeleteCity?CityId=${unitId}`);
+  }
+
+
+  GetRegions_Data(model: PagedResponseModel<RegionModel[]>) {
+    return this.http.post<PagedResponseModel<RegionModel[]>>(this.URL + 'SystemSetting/GetRegions_Data', model);
+  }
+
+  CreateNewRegion(model: RegionModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'SystemSetting/AddRegion', model);
+  }
+
+  EditRegion(unitId: number, model: RegionModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `SystemSetting/EditRegion?RegionId=${unitId}`, model);
+  }
+
+  DeleteRegion(unitId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `SystemSetting/DeleteRegion?RegionId=${unitId}`);
+  }
+
+
+
 }

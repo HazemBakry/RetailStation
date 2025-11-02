@@ -45,27 +45,7 @@ namespace RetailStation.API.Controllers.Shared
             return Ok(results);
         }
 
-        [HttpGet]
-        [Route("GetRegionIdSelector")]
-        public IActionResult GetRegionIdSelector(int? CountryId = null, int? CityId = null)
-        {
-            var results = lookupService.GetRegionIdSelector(CountryId, CityId);
-            return Ok(results);
-        }
-        [HttpGet]
-        [Route("GetCitiesSelector")]
-        public IActionResult GetCitiesSelector(int? CountryId = null)
-        {
-            var results = lookupService.GetCitiesSelector(CountryId);
-            return Ok(results);
-        }
-        [HttpGet]
-        [Route("GetCountriesSelector")]
-        public IActionResult GetCountriesSelector()
-        {
-            var result = lookupService.GetCountriesSelector();
-            return Ok(result);
-        }
+       
         #endregion
 
         #region Finance Lookups

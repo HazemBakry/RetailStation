@@ -44,13 +44,10 @@ namespace RetailStation.Entities.Models
         public DbSet<Bank> Banks { get; set; }
         public DbSet<EmployeeDueType> EmployeeDueTypes { get; set; }
         public DbSet<IqamaIssuePlace> IqamaIssuePlaces { get; set; }
-        public DbSet<Country> Countries { get; set; }
-        public DbSet<City> Cities { get; set; }
         public DbSet<SponsorType> SponsorTypes { get; set; }
         public DbSet<VacationType> VacationTypes { get; set; }
         public DbSet<FinancialCustodyType> FinancialCustodyTypes { get; set; }
         //public DbSet<EmployeeStatus> EmployeeStatus { get; set; }
-        public DbSet<Region> Regions { get; set; }
 
     }
 }

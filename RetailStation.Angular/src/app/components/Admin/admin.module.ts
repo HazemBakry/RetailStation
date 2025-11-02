@@ -28,6 +28,9 @@ import { SuppliersComponent } from './components/suppliers-container/suppliers/s
 import { MerchantRequestsComponent } from './components/ManageSubscriptions/merchant-requests/merchant-requests.component';
 import { ItemsCategoriesComponent } from './components/items-categories/items-categories.component';
 import { ItemUnitsComponent } from './components/item-units/item-units.component';
+import { CitiesComponent } from './components/cities/cities.component';
+import { CountriesComponent } from './components/countries/countries.component';
+import { RegionsComponent } from './components/regions/regions.component';
 
 
 @NgModule({
@@ -54,7 +57,10 @@ import { ItemUnitsComponent } from './components/item-units/item-units.component
     NotificationManagerComponent,
     TagsManagerComponent,
     ItemsCategoriesComponent,
-    ItemUnitsComponent
+    ItemUnitsComponent,
+    CitiesComponent,
+    CountriesComponent,
+    RegionsComponent
   ],
   imports: [
     CommonModule,
