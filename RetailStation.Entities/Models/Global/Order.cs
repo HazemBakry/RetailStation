@@ -15,7 +15,7 @@ namespace RetailStation.Entities.Models.Global
         public int OrderId { get; set; }
         public int OrderNumber { get; set; }
         public string SerialNumber { get; set; }
-        public string  SubscriberId { get; set; }
+        public string UserId { get; set; }
         public int WorkflowStatusId { get; set; }
         public decimal SubTotal { get; set; }
         public decimal? DeliveryValue { get; set; }
@@ -25,7 +25,7 @@ namespace RetailStation.Entities.Models.Global
         public DateTime? OrderDate { get; set; }
         public decimal NetValue { get; set; }
         public bool IsDeleted { get; set; }
-        public int SupplierId { get; set; }
+        public int MerchantId { get; set; }
         public string Notes { get; set; }
         public int PaymentTypeId { get; set; }
     }

@@ -44,6 +44,6 @@ namespace RetailStation.Entities.DTOs.Website
         public decimal? TotalValue { get; set; }
         public decimal? NetValue { get; set; }
         public string Notes { get; set; }
-        public int? SupplierId { get; set; }
+        public int? MerchantId { get; set; }
     }
 }

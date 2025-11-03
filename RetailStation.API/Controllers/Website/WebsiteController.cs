@@ -127,7 +127,7 @@ namespace RetailStation.API.Controllers.Website
             if (string.IsNullOrEmpty(SubscriberId))
                 return BadRequest("No Subscriber assigned");
             order.CreatedBy = UserId;
-            return Ok(_orderService.CreateNewOrder(SubscriberId, order));
+            return Ok(_orderService.CreateNewOrder(UserId, order));
         }
 
 

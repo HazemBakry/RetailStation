@@ -24,10 +24,10 @@ namespace RetailStation.Entities.DTOs.Website
         public int? OrderTypeId { get; set; }
         public string OrderTypeAR { get; set; }
         public string OrderTypeEN { get; set; }
-        public int? SupplierId { get; set; }
+        public int? MerchantId { get; set; }
         public int? PaymentTypeId { get; set; }
-        public string SupplierNameAR { get; set; }
-        public string SupplierNameEN { get; set; }
+        public string MerchantNameAR { get; set; }
+        public string MerchantNameEN { get; set; }
         public int? BranchId { get; set; }
         public string BranchNameAR { get; set; }
         public string BranchNameEN { get; set; }
@@ -74,8 +74,8 @@ namespace RetailStation.Entities.DTOs.Website
         public string ItemCategoryName { get; set; }
         public bool IsActive { get; set; }
         public int? ItemTypeId { get; set; }
-        public int? SupplierId { get; set; }
-        public string SupplierName { get; set; }
+        public int? MerchantId { get; set; }
+        public string MerchantName { get; set; }
         public string ImageUrl { get; set; }
         public int? TotalCount { get; set; }
     }

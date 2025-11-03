@@ -14,7 +14,7 @@ namespace RetailStation.Interface.Website
         List<WebsiteOrderItemModel> GetOrder_Items(int OrderId);
         List<FilterModel> GetOrders_Filters(SearchFilterModel PagingFilter);
         WebsiteOrderModel GetOrderDetailsById(int OrderId);
-        ActionsResponseModel CreateNewOrder(string SubscriberId, CreateOrderModel model);
+        ActionsResponseModel CreateNewOrder(string UserId, CreateOrderModel model);
         ActionsResponseModel EditOrder(int OrderId, WebsiteOrderModel model);
         ActionsResponseModel CancelOrder(int OrderId);
     }

@@ -15,7 +15,6 @@ using System.Linq;
 using RetailStation.Interface.Operation;
 using RetailStation.Entities.Models.Operation;
 using RetailStation.Entities.DTOs.Operation;
-using RetailStation.Interface.SupplierManagement;
 using System.Threading.Tasks;
 using RetailStation.Interface.Website;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts;
@@ -127,7 +126,7 @@ namespace RetailStation.Service.Website
                     OrderDate = DateTime.Now,
                     NetValue = model.NetValue.GetValueOrDefault(),
                     Notes = model.Notes,
-                    SupplierId = model.SupplierId.GetValueOrDefault(),
+                    MerchantId = model.MerchantId.GetValueOrDefault(),
                     PaymentTypeId = model.PaymentTypeId.GetValueOrDefault(),
                     CreatedBy = model.CreatedBy,
                     CreatedDate = DateTime.Now
@@ -172,14 +171,14 @@ namespace RetailStation.Service.Website
                 };
             }
         }
-        public ActionsResponseModel CreateNewOrder(string SubscriberId, CreateOrderModel model)
+        public ActionsResponseModel CreateNewOrder(string UserId, CreateOrderModel model)
         {
             using var transaction = Context.Database.BeginTransaction();
 
             try
             {
                 var requestedItemIds = model.Items.Select(x => x.MerchantItemId).ToList();
-                var supplierItems = Context.SupplierItems
+                var supplierItems = Context.MerchantItems
                     .Where(x => requestedItemIds.Contains(x.MerchantItemId))
                     .AsNoTracking()
                     .ToList();
@@ -215,19 +214,19 @@ namespace RetailStation.Service.Website
                 // Get the new order number synchronously.
                 var newOrderNumber = Context.Orders.Count() > 0 ? Context.Orders.Max(x => x.OrderNumber) + 1 : 1;
 
-                var requestedItemsBySupplier = model.Items.GroupBy(x => x.SupplierId);
+                var requestedItemsByMerchant = model.Items.GroupBy(x => x.MerchantId);
 
                 var createdOrderIds = new List<int>();
 
-                foreach (var supplierGroup in requestedItemsBySupplier)
+                foreach (var supplierGroup in requestedItemsByMerchant)
                 {
                     var serialNumber = DalHelper.GenerateSerialNumber(SerialType.PurchaseOrder, newOrderNumber);
                     var order = new Order
                     {
-                        SupplierId = (int)supplierGroup.Key,
+                        MerchantId = (int)supplierGroup.Key,
                         OrderNumber = newOrderNumber,
                         SerialNumber = serialNumber,
-                        SubscriberId = SubscriberId,
+                        UserId = UserId,
                         WorkflowStatusId = (int)WorkflowStatus.Pending,
                         SubTotal = Math.Round((decimal)supplierGroup.Sum(x => x.SubTotal), 2),
                         DeliveryValue = 0,
@@ -303,7 +302,7 @@ namespace RetailStation.Service.Website
 
                     order_tbl.OrderDate = model?.OrderDate ?? DateTime.Now;
                     order_tbl.Notes = model.Notes;
-                    order_tbl.SupplierId = model.SupplierId.GetValueOrDefault();
+                    order_tbl.MerchantId = model.MerchantId.GetValueOrDefault();
                     order_tbl.DeliveryValue = model.DeliveryValue;
                     order_tbl.DiscountAmount = model.Discount.GetValueOrDefault();
                     order_tbl.Tax = Math.Round(model.Tax.GetValueOrDefault(), 2);

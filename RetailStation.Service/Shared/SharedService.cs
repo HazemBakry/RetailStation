@@ -72,6 +72,16 @@ namespace RetailStation.Service.Shared
 
             return new List<SelectorDataModel>();
         }
+        
+        public List<SelectorDataModel> GetMerchantsSelector()
+        {
+            var results = Context.Merchants.Select(b => new SelectorDataModel
+            {
+                Id = b.MerchantId,
+                Name = b.NameAR,
+            }).ToList();
+            return results;
+        }
 
         public List<SelectorDataModel> GetCustomersSelector()
         {
