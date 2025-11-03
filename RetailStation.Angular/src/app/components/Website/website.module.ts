@@ -15,9 +15,13 @@ import { WebsiteCartComponent } from './components/website-cart/website-cart.com
 import { WebsiteOrdersComponent } from './components/website-orders/website-orders.component';
 import { WebsiteHeaderComponent } from './components/website-header/website-header.component';
 import { WebsiteSearchComponent } from './components/website-search/website-search.component';
-import { MainRoutingModule } from './website-routing.module';
-import { WebsiteApplyMerchantRequestComponent } from './components/website-subscribe/website-apply-merchant-request.component';
+import { WebsiteRoutingModule } from './website-routing.module';
 import { websiteProductDetailsComponent } from './components/website-product-details/website-product-details.component';
+import { WebsiteAboutUsComponent } from './components/website-about-us/website-about-us.component';
+import { WebsiteContactComponent } from './components/website-contact/website-contact.component';
+import { WebsiteBlogComponent } from './components/website-blog/website-blog.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { BlogDetailsComponent } from './components/blog-details/blog-details.component';
 
 
 
@@ -35,11 +39,16 @@ import { websiteProductDetailsComponent } from './components/website-product-det
     WebsiteOrdersComponent,
     WebsiteHeaderComponent,
     WebsiteSearchComponent,
-    websiteProductDetailsComponent
+    websiteProductDetailsComponent,
+    WebsiteAboutUsComponent,
+    WebsiteContactComponent,
+    WebsiteBlogComponent,
+    BlogDetailsComponent,
+    PrivacyPolicyComponent
   ],
   imports: [
     CommonModule,
-    MainRoutingModule,
+    WebsiteRoutingModule,
     FormsModule,
     NgbModule,
     SharedModule,

@@ -12,18 +12,24 @@ import { websiteProductDetailsComponent } from './components/Website/components/
 
 
 const routes: Routes = [
-  // { path: '', component: RetailHomeComponent },
+  //{ path: '', component: RetailHomeComponent },
+  // {
+  //   path: '',
+  //   component: WebsiteComponent,
+  //   children: [
+  //     { path: '', component: WebsiteHomeComponent },
+  //     { path: 'cart', component: WebsiteCartComponent },
+  //     { path: 'product-details', component: websiteProductDetailsComponent },
+  //   ],
+  // },
+  // { path: 'home', component: WelcomePageComponent, canActivate: [AuthGuard] },
+  // { path: '', component: WebsiteHomeComponent },
   {
     path: '',
-    component: WebsiteComponent,
-    children: [
-      { path: '', component: WebsiteHomeComponent },
-      { path: 'cart', component: WebsiteCartComponent },
-      { path: 'product-details', component: websiteProductDetailsComponent },
-    ],
+    loadChildren: () =>
+      import('./components/Website/website.module').then((x) => x.WebsiteModule)
   },
-  // { path: 'home', component: WelcomePageComponent, canActivate: [AuthGuard] },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  // { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
@@ -44,9 +50,7 @@ const routes: Routes = [
   {
     path: 'website',
     loadChildren: () =>
-      import('./components/Website/website.module').then((x) => x.WebsiteModule),
-    canActivate: [AuthGuard],
-    data: { roles: ['Supplier'] },
+      import('./components/Website/website.module').then((x) => x.WebsiteModule)
   },
   {
     path: 'purchases',

@@ -1,24 +1,37 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { WebsiteComponent } from './components/website.component';
+import { websiteProductDetailsComponent } from './components/website-product-details/website-product-details.component';
+import { WebsiteCartComponent } from './components/website-cart/website-cart.component';
+import { WebsiteHomeComponent } from './components/website-home/website-home.component';
+import { WebsiteAboutUsComponent } from './components/website-about-us/website-about-us.component';
+import { WebsiteContactComponent } from './components/website-contact/website-contact.component';
+import { WebsiteBlogComponent } from './components/website-blog/website-blog.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { BlogDetailsComponent } from './components/blog-details/blog-details.component';
 
 
 const routes: Routes = [
   {
-    // path: '',
-    // component: MainLayoutComponent,
-    // children: [
-    //   { path: 'home', component: MainHomeComponent },
-    //   { path: 'home/:tabName', component: MainHomeComponent },
-    //   { path: 'merchant-items', component: SupplierItemsComponent },
-    //   { path: 'merchant-orders', component: SupplierOrdersComponent },
-    //   { path: 'merchant-invoices', component: SupplierInvoicesComponent },
-    //   { path: '', redirectTo: 'home', pathMatch: 'full' },
-    // ]
-  }
+    path: '',
+    component: WebsiteComponent,
+    children: [
+      { path: '', component: WebsiteHomeComponent },
+      { path: 'home', component: WebsiteHomeComponent },
+      { path: 'cart', component: WebsiteCartComponent },
+      { path: 'product-details', component: websiteProductDetailsComponent },
+      { path: 'contact-us', component: WebsiteContactComponent },
+      { path: 'about-us', component: WebsiteAboutUsComponent },
+      { path: 'blogs', component: WebsiteBlogComponent },
+      { path: 'blog-details', component: BlogDetailsComponent },
+      { path: 'privacy-policy', component: PrivacyPolicyComponent },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class MainRoutingModule { }
+export class WebsiteRoutingModule { }

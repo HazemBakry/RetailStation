@@ -33,8 +33,7 @@ namespace RetailStation.Service.Operation
         private readonly IExportService ExportService;
         private readonly IFileService _fileService;
         private readonly IDataImportService _dataImportService;
-        public readonly string ItemsImagesFolder;
-        public readonly string ApiUrl;
+        private const string ItemsImagesFolder = "ItemsImages";
 
         public MerchantManagementService(DBContext Context, ISQLHelper SQLHelper,
             IConfiguration Configuration, IExportService ExportService,
@@ -48,9 +47,8 @@ namespace RetailStation.Service.Operation
             SharedFilterService = sharedFilterService;
             LookupsDbContext = lookupsDbContext;
             _fileService = fileService;
-            ItemsImagesFolder = "ItemsImages";
+            //ItemsImagesFolder = "ItemsImages";
             _dataImportService = dataImportService;
-            ApiUrl = Configuration.GetSection("ApiUrl").Value;
 
         }
 
@@ -70,7 +68,7 @@ namespace RetailStation.Service.Operation
             var result = SQLHelper.SQLQuery<MerchantItemModel>("[Operation].[SP_GetMerchantItems_Data]", ConnectionString, Params);
             foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
             {
-                item.ImageUrl = item.ImageUrl != null ? Path.Combine(ApiUrl, "ItemsImages", item.ImageUrl) : ""; //_fileService.GetFileDownloadUrl(item.ImageUrl);
+                item.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine(ItemsImagesFolder, item.ImageUrl));
             }
             return result;
         }

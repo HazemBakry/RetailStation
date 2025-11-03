@@ -926,6 +926,13 @@ export class MenuService {
                 icon: 'fa fa-clipboard-list',
                 route: '/sales/items'
               },
+              {
+                displayName: 'بيانات التاجر',
+                menuItem: 'merchant-profile',
+                description: 'تعديل بيانات التاجر ',
+                icon: 'fa fa-file-alt',
+                route: '/sales/merchant-profile'
+              },
               // {
               //   displayName: 'كشف حساب العملاء',
               //   menuItem: 'customers-statement',

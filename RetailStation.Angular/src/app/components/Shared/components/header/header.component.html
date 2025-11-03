@@ -24,33 +24,33 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
                 <li class="nav-item">
                     <a class="nav-link justify-content-md-start" routerLink="/home">
-                        <img src="{{systemUrl}}assets/home.svg" class="nw-header-icon-link-img" alt="LanguageImage" loading="lazy" />
+                        <img src="{{systemUrl}}assets/home.svg" class="nw-header-icon-link-img" alt="Home" loading="lazy" />
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link gap-2">
-                        <img src="{{systemUrl}}assets/date.svg" class="nw-header-icon-link-img max-width-30" alt="LanguageImage" loading="lazy" />
+                        <img src="{{systemUrl}}assets/date.svg" class="nw-header-icon-link-img max-width-30" alt="Current Date" loading="lazy" />
                         <span class="nav-link-text">{{ CurrentDate | date }}</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link gap-2">
-                        <img src="{{systemUrl}}assets/time.svg" class="nw-header-icon-link-img max-width-30" alt="LanguageImage" loading="lazy" />
+                        <img src="{{systemUrl}}assets/time.svg" class="nw-header-icon-link-img max-width-30" alt="Current Time" loading="lazy" />
                         <span class="nav-link-text">{{CurrentTime}}</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link gap-2">
                         <img src="{{systemUrl}}assets/branch.svg" class="nw-header-icon-link-img max-width-30" alt="LanguageImage" loading="lazy" />
                         <span class="nav-link-text">{{this.UserModel?.branchNameAR}}</span>
                     </a>
-                </li>
+                </li> -->
             </ul>
             <ul class="navbar-nav mb-2 mb-lg-0 gap-2">
                 <li class="nav-item">
-                    <a class="nav-link gap-2">
-                        <img src="{{systemUrl}}assets/lang.svg" class="nw-header-icon-link-img" alt="LanguageImage" loading="lazy" />
-                        <span class="nav-link-text">Ar</span>
+                    <a class="nav-link gap-2" routerLink="/">
+                        <img src="{{systemUrl}}assets/lang.svg" class="nw-header-icon-link-img" alt="Website Home" loading="lazy" />
+                        <!-- <span class="nav-link-text">Ar</span> -->
                     </a>
                 </li>
                 <li class="nav-item">
