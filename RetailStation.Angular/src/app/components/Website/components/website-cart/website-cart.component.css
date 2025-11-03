@@ -9,3 +9,126 @@ select {
     background-color: #176440;
     color: #fff;
 }
+
+
+/* ----------------------------------- Amazon Cart Design ------------------------------------ */
+
+
+/* body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #fafafa;
+    margin: 0;
+    padding: 0;
+    direction: rtl;
+} */
+
+.cart-container {
+    /* width: 95%;
+    margin: 30px auto; */
+    background: #fff;
+    border-radius: 10px;
+    padding: 25px 30px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cart-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #222;
+}
+
+.cart-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    /* margin-bottom: 25px; */
+    gap: 20px;
+}
+
+.item-image img {
+    width: 140px;
+    border-radius: 6px;
+    border: 1px solid #eee;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-name {
+    font-size: 15px;
+    color: #333;
+    margin: 0 0 5px;
+    line-height: 1.6;
+}
+
+.item-delivery {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0 10px;
+}
+
+.item-delivery strong {
+    color: #111;
+}
+
+.item-actions {
+    font-size: 13px;
+    color: #555;
+}
+
+.item-actions a {
+    color: #007185;
+    text-decoration: none;
+    margin: 0 3px;
+}
+
+.item-price {
+    text-align: center;
+    min-width: 120px;
+}
+
+.item-price span {
+    font-size: 13px !important;
+    line-height: 24px !important;
+    font-weight: bold;
+    color: #5d2929;
+    margin-bottom: 10px;
+}
+
+.quantity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid #ddd; */
+    border-radius: 25px;
+    width: 90px;
+    /* padding: 3px; */
+    background: #fff;
+    border-color: #ffd814;
+    border-style: solid;
+    border-width: 2px;
+}
+
+.quantity button {
+    border: none;
+    background: transparent;
+    font-size: 18px;
+    font-weight: bold;
+    width: 30px;
+    cursor: pointer;
+    color: #222;
+}
+
+.quantity span {
+    width: 30px;
+    text-align: center;
+    font-weight: 500;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 20px 0;
+}
