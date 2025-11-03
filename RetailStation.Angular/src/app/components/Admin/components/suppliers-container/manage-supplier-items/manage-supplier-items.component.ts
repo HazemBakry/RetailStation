@@ -6,7 +6,7 @@ import { SalesService } from 'src/app/components/Sales/services/sales.service';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { FilterItem } from 'src/app/components/Shared/models/FilterModel';
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
-import { SupplierItemModel } from 'src/app/components/Shared/models/SupplierItemModel';
+import { MerchantItemModel } from 'src/app/components/Shared/models/MerchantItemModel';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 
 @Component({
@@ -18,10 +18,10 @@ export class ManageSupplierItemsComponent implements OnInit {
   TitleList = ['التشغيل', 'بيانات الأصناف'];
   itemsSelectorData: GeneralSelectorModel[] = [];
   selectedItemId: number;
-  itemModel: SupplierItemModel = {} as SupplierItemModel;
+  itemModel: MerchantItemModel = {} as MerchantItemModel;
   filterList: FilterItem[] = [];
 
-  pagedResponseModel: PagedResponseModel<SupplierItemModel[]> = {
+  pagedResponseModel: PagedResponseModel<MerchantItemModel[]> = {
     results: [],
     filterList: [],
     pageSize: 20,
@@ -76,9 +76,9 @@ export class ManageSupplierItemsComponent implements OnInit {
     this.loadData();
   }
 
-  mapSupplierItem(supplierItemId: number, itemId: number) {
+  mapSupplierItem(merchantItemId: number, itemId: number) {
     this.showLoader = true;
-    this.salesService.MapSupplierItem(this.supplierId, supplierItemId, itemId).subscribe(data => {
+    this.salesService.MapSupplierItem(this.supplierId, merchantItemId, itemId).subscribe(data => {
       this.loadData();
       this.showLoader = false;
     }, err => {
@@ -87,8 +87,8 @@ export class ManageSupplierItemsComponent implements OnInit {
       this.showLoader = false;
     });
   }
-  MarkItemAsBestSeller(supplierItemId: any) {
-    this.salesService.MarkItemAsBestSeller(supplierItemId).subscribe(data => {
+  MarkItemAsBestSeller(merchantItemId: any) {
+    this.salesService.MarkItemAsBestSeller(merchantItemId).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message);
         this.loadData();

@@ -58,6 +58,14 @@ namespace RetailStation.API.Controllers.Shared
             var result = _sharedService.GetSuppliersSelector();
             return Ok(result);
         }
+        
+        [HttpGet]
+        [Route("GetMerchantsSelector")]
+        public IActionResult GetMerchantsSelector()
+        {
+            var result = _sharedService.GetMerchantsSelector();
+            return Ok(result);
+        }
 
         [HttpGet]
         [Route("GetCustomersSelector")]

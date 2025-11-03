@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { CompareService } from 'src/app/components/Shared/services/comapre.service';
 import { WebsiteService } from '../../services/website.service';
-import { SupplierItemModel } from 'src/app/components/Shared/models/SupplierItemModel';
+import { MerchantItemModel } from 'src/app/components/Shared/models/MerchantItemModel';
 import { AuthService } from 'src/app/Auth/auth.service';
 
 @Component({
@@ -37,15 +37,15 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
 
   showLoader: boolean = false;
   filterList: FilterModel[] = [];
-  pageResponseModel: PagedResponseModel<SupplierItemModel[]> = {
+  pageResponseModel: PagedResponseModel<MerchantItemModel[]> = {
     results: [],
     filterList: [],
     pageSize: 20,
     currentPage: 1,
     searchText: ''
   };
-  bestSellerData: SupplierItemModel[] = [];
-  suppliersData: SupplierItemModel[] = [];
+  bestSellerData: MerchantItemModel[] = [];
+  suppliersData: MerchantItemModel[] = [];
   supplierLogo: string = 'https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg'
   defaultItemImage = `${this.systemURL}assets/images/13.png`;
 
@@ -130,7 +130,7 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
     this.loadData();
   }
   loadBestSellersData() {
-    let pageResponseModel: PagedResponseModel<SupplierItemModel[]> = {
+    let pageResponseModel: PagedResponseModel<MerchantItemModel[]> = {
       results: [],
       filterList: [],
       pageSize: 20,
@@ -175,19 +175,19 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
   }
   checkCompareAdded() {
     this.suppliersData.forEach(item => {
-      item.isCompareAdded = this.compareService.isItemInList(item.supplierItemId);
-      // item.isCompareAdded  = list.some(i => i.supplierItemId === item.supplierItemId);
+      item.isCompareAdded = this.compareService.isItemInList(item.merchantItemId);
+      // item.isCompareAdded  = list.some(i => i.merchantItemId === item.merchantItemId);
     });
     this.bestSellerData.forEach(item => {
-      item.isCompareAdded = this.compareService.isItemInList(item.supplierItemId);
+      item.isCompareAdded = this.compareService.isItemInList(item.merchantItemId);
     });
 
   }
-  toggleCompare(item: SupplierItemModel): void {
+  toggleCompare(item: MerchantItemModel): void {
     if (item.isCompareAdded) {
-      this.compareService.removeItem(item.supplierItemId, item.itemId);
+      this.compareService.removeItem(item.merchantItemId, item.itemId);
     } else {
-      this.compareService.addItem(item.supplierItemId, item.itemId);
+      this.compareService.addItem(item.merchantItemId, item.itemId);
     }
   }
   pageChanged(obj: any) {

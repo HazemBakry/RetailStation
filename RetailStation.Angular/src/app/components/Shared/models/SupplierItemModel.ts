@@ -1,7 +1,7 @@
 import { CreatorModel } from "src/app/components/Shared/models/CreatorModel";
 
-export interface SupplierItemModel extends CreatorModel {
-    supplierItemId?: number | null;
+export interface merchantItemModel extends CreatorModel {
+    merchantItemId?: number | null;
     itemId?: number | null;
     nameAR: string;
     nameEN: string;

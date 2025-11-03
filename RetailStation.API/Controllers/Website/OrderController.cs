@@ -70,22 +70,22 @@ namespace RetailStation.API.Controllers.Website
         [Route("CreateNewOrder")]
         public IActionResult CreateNewOrder([FromBody] CreateOrderModel order)
         {
-            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
+            
             string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
-            if (string.IsNullOrEmpty(SubscriberId))
-                return BadRequest("No Subscriber assigned");
+            if (string.IsNullOrEmpty(UserId))
+                return BadRequest("No User assigned");
             order.CreatedBy = UserId;
-            return Ok(_orderService.CreateNewOrder(SubscriberId,order));
+            return Ok(_orderService.CreateNewOrder(UserId,order));
         }
         
         [HttpPost]
         [Route("EditOrder")]
         public IActionResult EditOrder(int OrderId, [FromBody] WebsiteOrderModel order)
         {
-            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
+            
             string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
-            if (string.IsNullOrEmpty(SubscriberId))
-                return BadRequest("No Subscriber assigned");
+            if (string.IsNullOrEmpty(UserId))
+                return BadRequest("No User assigned");
             return Ok(_orderService.EditOrder(OrderId,order));
         }
 

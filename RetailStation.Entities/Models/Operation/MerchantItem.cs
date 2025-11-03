@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace RetailStation.Entities.Models.Operation
 {
-    [Table("SupplierItems", Schema = "Supplier")]
+    [Table("MerchantItems", Schema = "Operation")]
 
-    public class SupplierItem : CreatorModel
+    public class MerchantItem : CreatorModel
     {
-        public int SupplierItemId { get; set; }
-        public int SupplierId { get; set; }
+        public int MerchantItemId { get; set; }
+        public int MerchantId { get; set; }
         public string Barcode { get; set; }
         public string Code { get; set; }
         public string NameAR { get; set; }

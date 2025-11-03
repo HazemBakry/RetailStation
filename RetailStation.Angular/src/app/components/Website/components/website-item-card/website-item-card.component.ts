@@ -6,7 +6,7 @@ import {
   CartModel,
   CartService,
 } from 'src/app/components/Shared/services/cart.service';
-import { SupplierItemModel } from 'src/app/components/Shared/models/SupplierItemModel';
+import { MerchantItemModel } from 'src/app/components/Shared/models/MerchantItemModel';
 import { WebsiteService } from '../../services/website.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/Auth/auth.service';
@@ -17,14 +17,14 @@ import { AuthService } from 'src/app/Auth/auth.service';
   styleUrls: ['./website-item-card.component.css'],
 })
 export class WebsiteItemCardComponent implements OnInit {
-  @Input() item!: SupplierItemModel;
+  @Input() item!: MerchantItemModel;
   @Input() isAuthenticated: boolean = false;
   isItemInCart = false;
   systemURL: string = environment.systemUrl;
 
   isCounterMode = false;
 
-  supplierLogo: string =
+  merchantLogo: string =
     'https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg';
   defaultItemImage = `${this.systemURL}assets/images/13.png`;
   constructor(
@@ -48,21 +48,21 @@ export class WebsiteItemCardComponent implements OnInit {
   }
   checkCompareAdded() {
     this.item.isCompareAdded = this.compareService.isItemInList(
-      this.item.supplierItemId
+      this.item.merchantItemId
     );
   }
 
-  toggleCompare(item: SupplierItemModel): void {
+  toggleCompare(item: MerchantItemModel): void {
     if (item.isCompareAdded) {
-      this.compareService.removeItem(item.supplierItemId, item.itemId);
+      this.compareService.removeItem(item.merchantItemId, item.itemId);
     } else {
-      this.compareService.addItem(item.supplierItemId, item.itemId);
+      this.compareService.addItem(item.merchantItemId, item.itemId);
     }
     this.checkCompareAdded();
   }
-  toggleFavorite(item: SupplierItemModel): void {
+  toggleFavorite(item: MerchantItemModel): void {
     item.isFavorite = !item.isFavorite;
-     this.websiteService.ToggleFavorite(item.supplierItemId).subscribe(data => {
+     this.websiteService.ToggleFavorite(item.merchantItemId).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message);
       } else {
@@ -75,17 +75,17 @@ export class WebsiteItemCardComponent implements OnInit {
 
   checkCartAdded() {
     // this.cartService.cartItems$.subscribe(items => {
-    //   this.isItemInCart = items.some(cartItem => cartItem.supplierItemId === this.item.supplierItemId);
+    //   this.isItemInCart = items.some(cartItem => cartItem.merchantItemId === this.item.merchantItemId);
     // });
-    this.isItemInCart = this.cartService.isItemInList(this.item.supplierItemId);
+    this.isItemInCart = this.cartService.isItemInList(this.item.merchantItemId);
     if(this.isItemInCart)
     {
-      this.itemQuantity = this.cartService.getItemQuantity(this.item.supplierItemId) ?? 1;
+      this.itemQuantity = this.cartService.getItemQuantity(this.item.merchantItemId) ?? 1;
     }
   }
   addToCart(): void {
     const cartItem: CartModel = {
-      supplierItemId: this.item.supplierItemId,
+      merchantItemId: this.item.merchantItemId,
       quantity: 1,
       userId: '',
     };
@@ -94,7 +94,7 @@ export class WebsiteItemCardComponent implements OnInit {
   }
 
   removeItem(): void {
-    this.cartService.removeItem(this.item.supplierItemId);
+    this.cartService.removeItem(this.item.merchantItemId);
     this.checkCartAdded();
   }
 
@@ -102,7 +102,7 @@ export class WebsiteItemCardComponent implements OnInit {
   addQuantity(qty: number) {
     if (this.itemQuantity + qty > 0) {
       this.itemQuantity = this.itemQuantity + qty;
-      this.cartService.changeItemQuantity(this.item.supplierItemId,this.itemQuantity);
+      this.cartService.changeItemQuantity(this.item.merchantItemId,this.itemQuantity);
     }
   }
 }

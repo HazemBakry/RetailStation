@@ -6,16 +6,17 @@ import { SearchReportModel } from 'src/app/components/Reports/Models/ReportParam
 import { CreateReportsService } from 'src/app/components/Reports/Services/create-reports.service';
 import { FinanceWorkflowStatus } from 'src/app/components/Shared/Enums/FinanceWorkflowStatus';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { PaymentReceiptModel } from '../../../models/PaymentReceiptModel';
-import { SupplierService } from '../../../services/supplier.service';
+import { MerchantService } from 'src/app/components/Website/services/merchant.service';
+import { PaymentReceiptModel } from 'src/app/components/Shared/models/PaymentReceiptModel';
+
 
 @Component({
-  selector: 'app-supplier-invoices',
-  templateUrl: './supplier-invoices.component.html',
-  styleUrls: ['./supplier-invoices.component.css']
+  selector: 'app-merchant-invoices',
+  templateUrl: './merchant-invoices.component.html',
+  styleUrls: ['./merchant-invoices.component.css']
 })
-export class SupplierInvoicesComponent implements OnInit {
-  TitleList = ['Supplier','Payment Receipts'];
+export class MerchantInvoicesComponent implements OnInit {
+  TitleList = ['Merchant','Payment Receipts'];
   showLoader: boolean;
   pageResponseModel: PagedResponseModel<PaymentReceiptModel[]> = {
     results: [],
@@ -25,7 +26,7 @@ export class SupplierInvoicesComponent implements OnInit {
     searchText: ''
   };
   public wfStatus = FinanceWorkflowStatus;
-  constructor(private supplierService: SupplierService,
+  constructor(private merchantService: MerchantService,
     private offcanvasService: NgbOffcanvas,
     private toaster: ToastrService) { }
 
@@ -35,7 +36,7 @@ export class SupplierInvoicesComponent implements OnInit {
 
   GetPaymentReceipts_Data() {
     this.showLoader = true;
-    this.supplierService.GetPaymentReceipts_Data(this.pageResponseModel).subscribe(data => {
+    this.merchantService.GetPaymentReceipts_Data(this.pageResponseModel).subscribe(data => {
       this.pageResponseModel.results = data.results;
       this.pageResponseModel.totalCount = data.totalCount;
       this.showLoader = false;
@@ -52,7 +53,7 @@ export class SupplierInvoicesComponent implements OnInit {
   }
 
   cancelPaymentReceipt(receiptId: number) {
-    this.supplierService.CancelPaymentReceipt(receiptId).subscribe(data => {
+    this.merchantService.CancelPaymentReceipt(receiptId).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message);
         this.GetPaymentReceipts_Data();

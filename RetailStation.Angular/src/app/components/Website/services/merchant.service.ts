@@ -1,0 +1,116 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
+import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
+import { PaymentReceiptModel } from '../../Shared/models/PaymentReceiptModel';
+import { FilterItem, FilterModel } from '../../Shared/models/FilterModel';
+import { WebsiteOrderItemModel, WebsiteOrderModel } from '../models/WebsiteOrderModel ';
+import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
+import { MerchantModel } from '../../Admin/models/Operation/MerchantModel';
+import { MerchantItemModel } from '../../Shared/models/MerchantItemModel';
+
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MerchantService {
+  URL = environment.apiURL;
+
+  constructor(private http: HttpClient) { }
+
+
+  //--------------------------------------- Merchants ---------------------------------------
+
+  GetMerchants_Data(model: PagedResponseModel<MerchantModel[]>) {
+    return this.http.post<PagedResponseModel<MerchantModel[]>>(this.URL + 'Merchants/GetMerchants_Data', model);
+  }
+
+  GetMerchantDetailsById(merchantId: number) {
+    return this.http.get<MerchantModel>(this.URL + 'Merchants/GetMerchantDetailsById?MerchantId=' + merchantId);
+  }
+
+  CreateNewMerchant(model: MerchantModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Merchants/AddNewMerchant', model);
+  }
+
+  EditMerchant(merchantId: number, model: MerchantModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Merchants/EditMerchant?MerchantId=' + merchantId, model);
+  }
+
+  DeleteMerchant(merchantId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Merchants/DeleteMerchant?MerchantId=' + merchantId);
+  }
+
+
+
+  /////////////////////////////// MerchantItems ////////////////////////
+
+  GetMerchantItemsData(searchModel: PagedResponseModel<MerchantItemModel[]>) {
+    return this.http.post<PagedResponseModel<MerchantItemModel[]>>(this.URL + 'MerchantManagement/GetMerchantItemsData', searchModel);
+  }
+
+  GetMerchantItemDetailsById(itemId: number) {
+    return this.http.get<MerchantItemModel>(this.URL + `MerchantManagement/GetMerchantItemDetailsById?MerchantItemId=${itemId}`);
+  }
+
+  AddNewMerchantItem(model: FormData) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'MerchantManagement/AddNewMerchantItem', model);
+  }
+  ImportMerchantItemsFile(importerName:string,file: FormData) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'MerchantManagement/ImportMerchantItemsFile?ImporterName='+importerName, file);
+  }
+
+  EditMerchantItem(itemId: number, model: FormData) {
+    return this.http.post<ActionsResponseModel>(this.URL + `MerchantManagement/EditMerchantItem?MerchantItemId=${itemId}`, model)
+  }
+
+  DeleteMerchantItem(itemId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `MerchantManagement/DeleteMerchantItem?MerchantItemId=${itemId}`);
+  }
+  ChangeMerchantItemActiveStatus(MerchantItemId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'MerchantManagement/ChangeMerchantItemActiveStatus?MerchantItemId=' + MerchantItemId);
+  }
+  MerchantItemQuickUpdate(MerchantItemId: number, Price: number, UnitId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `MerchantManagement/MerchantItemQuickUpdate?MerchantItemId=${MerchantItemId}&Price=${Price}&UnitId=${UnitId}`);
+  }
+  ExportMerchantItems(searchModel: PagedResponseModel, categoryId: number) {
+    return this.http.post<ActionsResponseModel>(this.URL + `MerchantManagement/ExportMerchantItems?CategoryId=${categoryId} `, searchModel);
+  }
+
+
+
+
+  //----------------------------------- Payment Receipt ------------------------------------------//
+
+  GetPaymentReceipts_Data(model: PagedResponseModel<PaymentReceiptModel[]>) {
+    return this.http.post<PagedResponseModel<PaymentReceiptModel[]>>(this.URL + 'PaymentReceipt/GetPaymentReceipts_Data', model);
+  }
+
+  GetPaymentReceipts_Filters(model: PagedResponseModel<PaymentReceiptModel[]>) {
+    return this.http.post<FilterModel[]>(this.URL + 'PaymentReceipt/GetPaymentReceipts_Filters', model);
+  }
+  GetPaymentReceiptDetailsById(paymentReceiptId: number) {
+    return this.http.get<PaymentReceiptModel>(this.URL + `PaymentReceipt/GetPaymentReceiptDetailsById?PaymentReceiptId=${paymentReceiptId}`);
+  }
+  SaveNewPaymentReceipt(model: PaymentReceiptModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'PaymentReceipt/SaveNewPaymentReceipt', model);
+  }
+  EditPaymentReceipt(paymentReceiptId: number, model: PaymentReceiptModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `PaymentReceipt/EditPaymentReceipt?PaymentReceiptId=${paymentReceiptId}`, model);
+  }
+  CancelPaymentReceipt(paymentReceiptId: any) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'PaymentReceipt/CancelPaymentReceipt?PaymentReceiptId=' + paymentReceiptId);
+  }
+
+
+
+   //-------------------------------------  Order ----------------------------------
+    GetOrders_Data(model: PagedResponseModel) {
+      return this.http.post<PagedResponseModel<WebsiteOrderModel[]>>(this.URL + 'MerchantManagement/GetOrders_Data', model);
+    }
+    GetOrders_Filters(model: PagedResponseModel<any[]>) {
+      return this.http.post<FilterItem[]>(this.URL + 'MerchantManagement/GetOrders_Filters', model);
+    }
+
+}

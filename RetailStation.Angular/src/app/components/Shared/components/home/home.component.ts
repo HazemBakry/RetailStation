@@ -10,7 +10,7 @@ import { PagedResponseModel } from 'src/app/components/Shared/models/PagedRespon
 import { MenuSidebarItem } from 'src/app/components/Shared/models/MenuSidebarItem';
 import { AuthService } from 'src/app/Auth/auth.service';
 import { WebsiteService } from 'src/app/components/Main/services/website.service';
-import { SupplierItemModel } from '../../models/SupplierItemModel';
+import { MerchantItemModel } from '../../models/MerchantItemModel';
 
 // install Swiper modules
 SwiperCore.use([Autoplay, Navigation, Pagination, Scrollbar, A11y]);
@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   showLoader: boolean = false;
   selectedTabName: string;
   menuItem: MenuSidebarItem;
-  pageResponseModel: PagedResponseModel<SupplierItemModel[]> = {
+  pageResponseModel: PagedResponseModel<MerchantItemModel[]> = {
     results: [],
     filterList: [],
     pageSize: 20,

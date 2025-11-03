@@ -7,9 +7,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../Shared/shared.module';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { MainHomeComponent } from './components/main-home/main-home.component';
-import { SupplierInvoicesComponent } from './components/supplier/supplier-invoices/supplier-invoices.component';
-// import { SupplierItemsComponent } from './components/supplier/supplier-items/supplier-items.component';
-import { SupplierOrdersComponent } from './components/supplier/supplier-orders/supplier-orders.component';
+import { MerchantInvoicesComponent } from './components/merchant/merchant-invoices/merchant-invoices.component';
+import { MerchantOrdersComponent } from './components/merchant/merchant-orders/merchant-orders.component';
 
 
 
@@ -18,8 +17,8 @@ import { SupplierOrdersComponent } from './components/supplier/supplier-orders/s
     MainLayoutComponent,
     MainHomeComponent,
     // SupplierItemsComponent,
-    SupplierOrdersComponent,
-    SupplierInvoicesComponent
+    MerchantOrdersComponent,
+    MerchantInvoicesComponent
   ],
   imports: [
     CommonModule,

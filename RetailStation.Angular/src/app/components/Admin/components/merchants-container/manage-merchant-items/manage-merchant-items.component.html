@@ -1,0 +1,92 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-2 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2 p-2">
+            <app-erp-filters [FilterList]="filterList" [showSearchText]="true" (filterChanged)="filterChecked($event)"
+                [searchPlaceholder]="'بحث بإسم الصنف ...'"></app-erp-filters>
+        </div>
+        <!-- <div class="d-flex justify-content-between align-items-center gap-2 p-2">
+            <div class="d-flex flex-wrap gap-2">
+                <button class="btn btn-outline-success d-flex align-items-center gap-2 border rounded px-3">
+                    <i class="ph ph-download-simple"></i>
+                    <span>تصدير CSV</span>
+                </button>
+                <button class="btn btn-blue d-flex align-items-center gap-2 px-3" (click)="openAddModal(addNewModal)">
+                    <i class="ph ph-plus"></i>
+                    <span>إضافة وحدة</span>
+                </button>
+            </div>
+        </div> -->
+    </div>
+    <div class="p-3 bg-white">
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-hover bg-transparent m-0">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>الصنف</th>
+                        <th>الوحدة</th>
+                        <th>سعر الوحدة</th>
+                        <th>سعر العرض</th>
+                        <th>سعر 10 الوحدة</th>
+                        <th>سعر 100 الوحدة</th>
+                        <th>سعر 1000 الوحدة</th>
+                        <th>الكميه</th>
+                        <th>أقل كميه للطلب</th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of pagedResponseModel.results">
+                        <td>
+                            <div class="file-table-ele d-flex align-items-center gap-3">
+                                <div class="file-table-ele-icon warning">
+                                    <i *ngIf="!item.imageUrl" class="far fa-file-pdf"></i>
+                                    <img *ngIf="item.imageUrl" [src]="item.imageUrl">
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="file-table-ele-text">
+                                <div class="fw-bold fs-5">{{item.nameAR}}</div>
+                                <div class="text-muted fs-6">{{item.nameEN}}</div>
+                            </div>
+                        </td>
+                        <td>{{item.unitName}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.offerPrice}}</td>
+                        <td>{{item.price10}}</td>
+                        <td>{{item.price100}}</td>
+                        <td>{{item.price1000}}</td>
+                        <td>{{item.quantity}}</td>
+                        <td>{{item.minimumOrderQuantity}}</td>
+                        <td> <label class="switch me-2">
+                                <input type="checkbox" [(ngModel)]="item.isBestSellerItem"
+                                    (change)="MarkItemAsBestSeller(item.merchantItemId)"
+                                    class="ng-valid ng-dirty ng-touched">
+                                <span class="slider round"></span>
+                            </label>
+                        </td>
+                        <td class="width-300 min-width-300">
+                            <app-general-selector [(ngModel)]="item.itemId" [data]="itemsSelectorData"
+                                [disabled]="itemsSelectorData?.length==0" [showSearch]="true" [placeholder]="'Item Map'"
+                                (valueChanged)="mapMerchantItem(item.merchantItemId,$event)">
+                            </app-general-selector>
+                        </td>
+                    </tr>
+                    <tr *ngIf="!pagedResponseModel.results.length">
+                        <td colspan="8" class="text-right">
+                            <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length&&!showLoader"
+                                [showLoader]="showLoader"></app-empty-data>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ngx-loading [show]="showLoader"></ngx-loading>

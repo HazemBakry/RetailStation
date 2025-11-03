@@ -56,7 +56,7 @@ namespace RetailStation.Service.SupplierManagement
         }
 
 
-        public List<SupplierItemModel> GetSupplierItemsData(int SupplierId, SearchFilterModel model, int? SupplierItemId = null)
+        public List<MerchantItemModel> GetSupplierItemsData(int SupplierId, SearchFilterModel model, int? SupplierItemId = null)
         {
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
@@ -69,7 +69,7 @@ namespace RetailStation.Service.SupplierManagement
                 new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
             };
 
-            var result = SQLHelper.SQLQuery<SupplierItemModel>("[dbo].[SP_GetSupplierItemsData]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<MerchantItemModel>("[dbo].[SP_GetSupplierItemsData]", ConnectionString, Params);
             foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
             {
                 item.ImageUrl = item.ImageUrl != null ? Path.Combine(ApiUrl, "ItemsImages", item.ImageUrl) : ""; //_fileService.GetFileDownloadUrl(item.ImageUrl);
@@ -77,17 +77,17 @@ namespace RetailStation.Service.SupplierManagement
             return result;
 
         }
-        public SupplierItemModel GetSupplierItemDetailsById(int SupplierId, int SupplierItemId)
+        public MerchantItemModel GetSupplierItemDetailsById(int SupplierId, int SupplierItemId)
         {
             return GetSupplierItemsData(SupplierId, new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, SupplierItemId).FirstOrDefault();
         }
-        public async Task<ActionsResponseModel> AddNewSupplierItem(int SupplierId, SupplierItemModel model)
+        public async Task<ActionsResponseModel> AddNewSupplierItem(int SupplierId, MerchantItemModel model)
         {
             try
             {
-                SupplierItem Item = new SupplierItem
+                MerchantItem Item = new MerchantItem
                 {
-                    SupplierId = SupplierId,
+                    MerchantId = SupplierId,
                     NameEN = model.NameEN,
                     NameAR = model.NameAR,
                     Price = (decimal)model.Price,
@@ -118,12 +118,12 @@ namespace RetailStation.Service.SupplierManagement
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
         }
-        public async Task<ActionsResponseModel> EditSupplierItem(int SupplierId, int SupplierItemId, SupplierItemModel model)
+        public async Task<ActionsResponseModel> EditSupplierItem(int SupplierId, int SupplierItemId, MerchantItemModel model)
         {
 
             try
             {
-                var item = Context.SupplierItems.Where(i => i.SupplierItemId == SupplierItemId && i.SupplierId == SupplierId).FirstOrDefault();
+                var item = Context.SupplierItems.Where(i => i.MerchantItemId == SupplierItemId && i.MerchantId == SupplierId).FirstOrDefault();
                 if (item != null)
                 {
                     item.NameEN = model.NameEN;
@@ -172,7 +172,7 @@ namespace RetailStation.Service.SupplierManagement
         {
             try
             {
-                var item = Context.SupplierItems.FirstOrDefault(m => m.SupplierItemId == SupplierItemId && m.SupplierId == SupplierId);
+                var item = Context.SupplierItems.FirstOrDefault(m => m.MerchantItemId == SupplierItemId && m.MerchantId == SupplierId);
                 if (item != null)
                 {
                     Context.Remove(item);
@@ -197,7 +197,7 @@ namespace RetailStation.Service.SupplierManagement
                 var Data = GetSupplierItemsData(SupplierId, SearchModel);
 
                 var result = Data.Select(res =>
-                                new SupplierItemExportModel
+                                new MerchantItemExportModel
                                 {
                                     NameEN = res.NameEN,
                                     NameAR = res.NameAR,
@@ -211,7 +211,7 @@ namespace RetailStation.Service.SupplierManagement
 
                 if (!result.Any())
                 {
-                    result.Add(new SupplierItemExportModel());
+                    result.Add(new MerchantItemExportModel());
 
                 }
 
@@ -247,7 +247,7 @@ namespace RetailStation.Service.SupplierManagement
         {
             try
             {
-                var item = Context.SupplierItems.Where(a => a.SupplierItemId == SupplierItemId && a.SupplierId == SupplierId).FirstOrDefault();
+                var item = Context.SupplierItems.Where(a => a.MerchantItemId == SupplierItemId && a.MerchantId == SupplierId).FirstOrDefault();
 
                 item.IsActive = !item.IsActive;
                 Context.SaveChanges();
@@ -271,7 +271,7 @@ namespace RetailStation.Service.SupplierManagement
         {
             try
             {
-                var item = Context.SupplierItems.Where(i => i.SupplierItemId == SupplierItemId && i.SupplierId == SupplierId).FirstOrDefault();
+                var item = Context.SupplierItems.Where(i => i.MerchantItemId == SupplierItemId && i.MerchantId == SupplierId).FirstOrDefault();
                 if (item != null)
                 {
                     item.ItemId = ItemId;
@@ -290,7 +290,7 @@ namespace RetailStation.Service.SupplierManagement
         {
             try
             {
-                var item = Context.SupplierItems.Where(i => i.SupplierItemId == SupplierItemId).FirstOrDefault();
+                var item = Context.SupplierItems.Where(i => i.MerchantItemId == SupplierItemId).FirstOrDefault();
                 if (item != null)
                 {
                     item.IsBestSellerItem = !item.IsBestSellerItem;
@@ -331,7 +331,7 @@ namespace RetailStation.Service.SupplierManagement
         {
             try
             {
-                var item = Context.SupplierItems.Where(a => a.SupplierItemId == SupplierItemId && a.SupplierId == SupplierId).FirstOrDefault();
+                var item = Context.SupplierItems.Where(a => a.MerchantItemId == SupplierItemId && a.MerchantId == SupplierId).FirstOrDefault();
 
                 item.Price = Price;
                 item.UnitId = UnitId;

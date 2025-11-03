@@ -6,7 +6,7 @@ import { PagedResponseModel } from 'src/app/components/Shared/models/PagedRespon
 import { environment } from 'src/environments/environment';
 import { SliderModel } from 'src/app/components/Admin/models/Operation/SliderModel';
 import { WebsiteService } from '../../services/website.service';
-import { SupplierItemModel } from 'src/app/components/Shared/models/SupplierItemModel';
+import { MerchantItemModel } from 'src/app/components/Shared/models/MerchantItemModel';
 
 @Component({
   selector: 'app-website-slider',
@@ -28,7 +28,7 @@ export class WebsiteSliderComponent implements OnInit {
   mostPopular = ['الأكثر شهرة', 'الأعلى تقييماً', 'الأسرع في التوصيل'];
 
   showLoader: boolean = false;
-  pageResponseModel: PagedResponseModel<SupplierItemModel[]> = {
+  pageResponseModel: PagedResponseModel<MerchantItemModel[]> = {
     results: [],
     filterList: [],
     pageSize: 20,

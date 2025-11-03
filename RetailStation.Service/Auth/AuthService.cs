@@ -240,13 +240,13 @@ namespace RetailStation.Service.Auth
         {
             var authModel = new AuthModel();
 
-            if (user.SubscriberId is not null)
+            if (user.MerchantId is not null)
             {
-                var subscriber = Context.Subscribers.FirstOrDefault(x => x.SubscriberId == user.SubscriberId);
-                var supplier = Context.Suppliers.FirstOrDefault(x => x.SubscriberId == user.SubscriberId);
-                authModel.SubscriberName = subscriber?.SubscriberName;
-                authModel.SupplierId = supplier?.SupplierId;
-                user.SupplierId = authModel.SupplierId.GetValueOrDefault();
+                //var subscriber = Context.Subscribers.FirstOrDefault(x => x.SubscriberId == user.SubscriberId);
+                // authModel.SubscriberName = subscriber?.SubscriberName;
+                var merchant = Context.Merchants.FirstOrDefault(x => x.MerchantId == user.MerchantId);
+                authModel.MerchantId = user.MerchantId;
+                authModel.MerchantName = merchant?.NameAR;
             }
             // Generate JWT Token
             var jwtSecurityToken = await CreateJwtToken(user);
@@ -287,11 +287,13 @@ namespace RetailStation.Service.Auth
                 authModel.Message = "Invalid email or password";
                 return authModel;
             }
-            if (User.SubscriberId is not null)
+            if (User.MerchantId is not null)
             {
-                var supplier = Context.Suppliers.FirstOrDefault(x => x.SubscriberId == User.SubscriberId);
-                authModel.SupplierId = supplier?.SupplierId;
-                User.SupplierId = authModel.SupplierId.GetValueOrDefault();
+                //var subscriber = Context.Subscribers.FirstOrDefault(x => x.SubscriberId == user.SubscriberId);
+                // authModel.SubscriberName = subscriber?.SubscriberName;
+                var merchant = Context.Merchants.FirstOrDefault(x => x.MerchantId == User.MerchantId);
+                authModel.MerchantId = User.MerchantId;
+                authModel.MerchantName = merchant?.NameAR;
             }
             var jwtSecurityToken = await CreateJwtToken(User);
             var roleList = await _userManager.GetRolesAsync(User);
@@ -321,11 +323,13 @@ namespace RetailStation.Service.Auth
                 authModel.Message = "Invalid email or password";
                 return authModel;
             }
-            if (User.SubscriberId is not null)
+            if (User.MerchantId is not null)
             {
-                var supplier = Context.Suppliers.FirstOrDefault(x => x.SubscriberId == User.SubscriberId);
-                authModel.SupplierId = supplier?.SupplierId;
-                User.SupplierId = authModel.SupplierId.GetValueOrDefault();
+                //var subscriber = Context.Subscribers.FirstOrDefault(x => x.SubscriberId == user.SubscriberId);
+                // authModel.SubscriberName = subscriber?.SubscriberName;
+                var merchant = Context.Merchants.FirstOrDefault(x => x.MerchantId == User.MerchantId);
+                authModel.MerchantId = User.MerchantId;
+                authModel.MerchantName = merchant?.NameAR;
             }
             var jwtSecurityToken = await CreateJwtToken(User);
             var roleList = await _userManager.GetRolesAsync(User);
@@ -359,9 +363,9 @@ namespace RetailStation.Service.Auth
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Email,user.Email),
                 new Claim("UserId",user.Id),
-                new Claim("SubscriberId",user.SubscriberId),
-                new Claim("BranchId",user.BranchId.ToString()),
-                new Claim("SupplierId",user.SupplierId.ToString()),
+                //new Claim("SubscriberId",user.SubscriberId),
+                //new Claim("BranchId",user.BranchId.ToString()),
+                new Claim("MerchantId",user.MerchantId > 0 ? user.MerchantId.ToString():string.Empty),
             }.Union(userClaims).Union(roleClaims);
 
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key));

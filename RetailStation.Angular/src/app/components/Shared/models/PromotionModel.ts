@@ -1,6 +1,6 @@
-import { SupplierItemModel } from "./SupplierItemModel";
+import { MerchantItemModel } from "./MerchantItemModel";
 
-export interface PromotionModel extends SupplierItemModel {
+export interface PromotionModel extends MerchantItemModel {
     promotionId: number | null;
     itemId: number | null;
     title: string;

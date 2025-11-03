@@ -69,6 +69,7 @@ namespace RetailStation.API
             services.AddScoped<ISystemSettingService, SystemSettingService>();
             services.AddScoped<ISuppliersService, SuppliersService>();
             services.AddScoped<ISupplierManagementService, SupplierManagementService>();
+            services.AddScoped<IMerchantManagementService, MerchantManagementService>();
             services.AddScoped<IWebsiteService, WebsiteService>();
             services.AddScoped<IPaymentTermService, PaymentTermService>();
             services.AddScoped<ITaxCalculationService, TaxCalculationService>();

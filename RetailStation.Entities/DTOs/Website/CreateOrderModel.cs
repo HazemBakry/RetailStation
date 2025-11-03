@@ -33,7 +33,7 @@ namespace RetailStation.Entities.DTOs.Website
 
     public class CreateOrderItemModel
     {
-        public int SupplierItemId { get; set; }
+        public int MerchantItemId { get; set; }
         public int? ItemId { get; set; }
         public int? UnitId { get; set; }
         public int Quantity { get; set; }
@@ -44,6 +44,6 @@ namespace RetailStation.Entities.DTOs.Website
         public decimal? TotalValue { get; set; }
         public decimal? NetValue { get; set; }
         public string Notes { get; set; }
-        public int? SupplierId { get; set; }
+        public int? MerchantId { get; set; }
     }
 }

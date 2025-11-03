@@ -13,10 +13,10 @@ export interface WebsiteOrderModel extends CreatorModel {
     orderTypeId: number | null;
     orderTypeAR: string;
     orderTypeEN: string;
-    supplierId: number | null;
+    merchantId: number | null;
     paymentTypeId: number | null;
-    supplierNameAR: string;
-    supplierNameEN: string;
+    merchantNameAR: string;
+    merchantNameEN: string;
     branchId: number | null;
     branchNameAR: string;
     branchNameEN: string;
@@ -40,7 +40,7 @@ export interface WebsiteOrderModel extends CreatorModel {
 export interface WebsiteOrderItemModel {
     orderDetailsId?: number | null;
     orderId?: number | null;
-    supplierItemId: number | null;
+    merchantItemId: number | null;
     nameAR?: string;
     nameEN?: string;
     image: string;
@@ -62,8 +62,8 @@ export interface WebsiteOrderItemModel {
     itemCategoryName?: string;
     isActive?: boolean;
     itemTypeId?: number | null;
-    supplierId: number | null;
-    supplierName?: string;
+    merchantId: number | null;
+    merchantName?: string;
     imageUrl?: string;
     totalCount?: number | null;
 }
@@ -90,7 +90,7 @@ export interface CreateOrderModel extends CreatorModel {
 }
 
 export interface CreateOrderItemModel {
-    supplierItemId: number | null;
+    merchantItemId: number | null;
     itemId?: number;
     unitId?: number | null;
     quantity: number;
@@ -100,5 +100,5 @@ export interface CreateOrderItemModel {
     discountPercent: number | null;
     totalValue: number;
     notes?: string;
-    supplierId: number | null;
+    merchantId: number | null;
 }

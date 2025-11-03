@@ -10,7 +10,7 @@ import { ItemModel } from '../../Shared/models/ItemModel';
 import { UnitModel } from '../../Shared/models/UnitModel';
 import { ItemCategoryModel } from '../../Shared/models/ItemCategory';
 import { CategorySortModel } from '../../Shared/models/CategorySort';
-import { SupplierItemModel } from '../../Shared/models/SupplierItemModel';
+import { MerchantItemModel } from '../../Shared/models/MerchantItemModel';
 import { PurchaseReturnsModel } from '../../Purchases/models/PurchaseReturns';
 import { GeneralOrderDetailsModel } from '../../Inventory/models/GeneralOrderModel ';
 
@@ -133,8 +133,8 @@ export class SalesService {
     return this.http.get<PagedResponseModel<SupplierModel[]>>(this.URL + `Suppliers/GetSuppliersByItemId?ItemId=${itemId} `);
   }
 
-  GetSupplierItems_Data(supplierId: number, searchModel: PagedResponseModel<SupplierItemModel[]>) {
-    return this.http.post<PagedResponseModel<SupplierItemModel[]>>(this.URL + `SupplierManagement/GetSupplierItems_Data?SupplierId=${supplierId}`, searchModel);
+  GetSupplierItems_Data(supplierId: number, searchModel: PagedResponseModel<MerchantItemModel[]>) {
+    return this.http.post<PagedResponseModel<MerchantItemModel[]>>(this.URL + `SupplierManagement/GetSupplierItems_Data?SupplierId=${supplierId}`, searchModel);
   }
 
 
@@ -164,10 +164,10 @@ export class SalesService {
 
 
 
-  MapSupplierItem(supplierId: number, supplierItemId: number, itemId: number) {
+  MapSupplierItem(supplierId: number, merchantItemId: number, itemId: number) {
     const params = new URLSearchParams();
     params.append('SupplierId', supplierId.toString());
-    params.append('SupplierItemId', supplierItemId.toString());
+    params.append('merchantItemId', merchantItemId.toString());
     if (itemId !== null) {
       params.append('ItemId', itemId.toString());
     }
@@ -176,9 +176,9 @@ export class SalesService {
     return this.http.get<ActionsResponseModel>(this.URL + `SupplierManagement/MapSupplierItem?${queryString}`);
 
   }
-  MarkItemAsBestSeller(supplierItemId: number) {
+  MarkItemAsBestSeller(merchantItemId: number) {
     const params = new URLSearchParams();
-    params.append('SupplierItemId', supplierItemId.toString());
+    params.append('merchantItemId', merchantItemId.toString());
 
     const queryString = params.toString();
     return this.http.get<ActionsResponseModel>(this.URL + `SupplierManagement/MarkItemAsBestSeller?${queryString}`);
