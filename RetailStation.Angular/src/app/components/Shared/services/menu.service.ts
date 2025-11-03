@@ -184,6 +184,13 @@ export class MenuService {
                 route: '/admin/sliders'
               },
               {
+                displayName: 'Top Partners',
+                menuItem: 'Top Partners',
+                description: 'إدارة بيانات الموردين وتفاصيل الاتصال',
+                icon: 'fa fa-users',
+                route: '/admin/top-partners'
+              },
+              {
                 displayName: 'مجموعات الأصناف',
                 menuItem: 'items-categories',
                 description: 'تعريف وتصنيف مجموعات الأصناف داخل المخازن',

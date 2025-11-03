@@ -37,6 +37,14 @@ namespace RetailStation.Interface.Operation
         ActionsResponseModel DeletePromotion(int promotionId);
         ActionsResponseModel ChangePromotionActiveStatus(int promotionId);
         #endregion
+        #region TopPartners
+        List<TopPartnerModel> GetTopPartners_Data(SearchFilterModel filterModel, int? promotionId = null);
+        TopPartnerModel GetTopPartnerById(int promotionId);
+        Task<ActionsResponseModel> AddTopPartner(TopPartnerModel model);
+        Task<ActionsResponseModel> EditTopPartner(int promotionId, TopPartnerModel model);
+        ActionsResponseModel DeleteTopPartner(int promotionId);
+        ActionsResponseModel ChangeTopPartnerActiveStatus(int promotionId);
+        #endregion
 
     }
 }

@@ -1,8 +1,10 @@
-export interface TopPartner {
+export interface TopPartnerModel {
     topPartnerId: number;
     name: string;
     displayName: string;
-    image: string;
+    imageURL: string;
+    description: string;
     isActive: boolean;
     displayOrder: number;
+    image: File;
 }

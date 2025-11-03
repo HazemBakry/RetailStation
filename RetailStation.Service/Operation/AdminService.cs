@@ -16,6 +16,7 @@ using RetailStation.Interface.Operation;
 using RetailStation.Entities.Models.Operation;
 using RetailStation.Entities.DTOs.Operation;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace RetailStation.Service.Operation
 {
@@ -31,6 +32,7 @@ namespace RetailStation.Service.Operation
         private readonly IFileService _fileService;
         private readonly string SliderImagesFolder = "SliderImages";
         private readonly string PromotionImagesFolder = "PromotionsImages";
+        private readonly string PartnerImagesFolder = "TopPartnersImages";
 
 
         public AdminService(DBContext Context, ISQLHelper SQLHelper,
@@ -80,7 +82,7 @@ namespace RetailStation.Service.Operation
 
             foreach (var item in results.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
             {
-                item.ImageURL = _fileService.GetFileDownloadUrl(item.ImageURL);
+                item.ImageURL = _fileService.GetFileDownloadUrl(Path.Combine(SliderImagesFolder, item.ImageURL));
             }
 
             results.ForEach(x => x.TotalCount = totalCount);
@@ -235,7 +237,7 @@ namespace RetailStation.Service.Operation
 
             foreach (var item in results.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
             {
-                item.ImageURL = _fileService.GetFileDownloadUrl(item.ImageURL);
+                item.ImageURL = _fileService.GetFileDownloadUrl(Path.Combine(PromotionImagesFolder, item.ImageURL));
             }
 
             results.ForEach(x => x.TotalCount = totalCount);
@@ -355,6 +357,160 @@ namespace RetailStation.Service.Operation
                 Context.SaveChanges();
 
                 return new ActionsResponseModel { Message = "Promotion status changed successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+        #endregion
+        #region TopPartners
+
+        public List<TopPartnerModel> GetTopPartners_Data(SearchFilterModel filter, int? topPartnerId = null)
+        {
+            var query = Context.TopPartners.AsNoTracking()
+                .Where(p => (!topPartnerId.HasValue || p.TopPartnerId == topPartnerId));
+
+            int totalCount = query.Count();
+
+            if (filter.CurrentPage > 0 && filter.PageSize > 0)
+            {
+                int skip = (filter.CurrentPage - 1) * filter.PageSize;
+                query = query.Skip(skip).Take(filter.PageSize);
+            }
+
+            var results = query
+                .Select(p => new TopPartnerModel
+                {
+                    TopPartnerId = p.TopPartnerId,
+                    Name = p.Name,
+                    DisplayName = p.DisplayName,
+                    IsActive = p.IsActive,
+                    ImageURL = p.Image,
+                    Description = p.Description,
+                    DisplayOrder = p.DisplayOrder,
+                    CreatedBy = p.CreatedBy,
+                    CreatedDate = p.CreatedDate,
+                    ModifiedBy = p.ModifiedBy,
+                    ModifiedDate = p.ModifiedDate
+                })
+                .ToList();
+
+            foreach (var item in results.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
+            {
+                item.ImageURL = _fileService.GetFileDownloadUrl(Path.Combine(PartnerImagesFolder, item.ImageURL));
+            }
+
+            results.ForEach(x => x.TotalCount = totalCount);
+            return results;
+        }
+
+
+        public TopPartnerModel GetTopPartnerById(int topPartnerId)
+        {
+            return GetTopPartners_Data(new SearchFilterModel { PageSize = 1, CurrentPage = 1 }, topPartnerId).FirstOrDefault();
+        }
+
+        public async Task<ActionsResponseModel> AddTopPartner(TopPartnerModel model)
+        {
+            try
+            {
+                int maxDisplayOrder = Context.TopPartners.Max(x => x.DisplayOrder);
+                var topPartner = new TopPartner
+                {
+                    Name = model.Name,
+                    DisplayName = model.DisplayName,
+                    Description = model.Description,
+                    DisplayOrder = maxDisplayOrder + 1,
+                    IsActive = model.IsActive,
+                    CreatedBy = model.CreatedBy,
+                    CreatedDate = DateTime.Now
+                };
+
+                if (model.Image != null)
+                {
+                    var upload = await _fileService.UploadFileAsync(model.Image, PartnerImagesFolder, FileType.Image);
+                    if (upload.IsUploaded)
+                        topPartner.Image = upload.FilePath;
+                    else
+                        return new ActionsResponseModel { IsSuccess = false, Message = upload.Message };
+                }
+
+                Context.TopPartners.Add(topPartner);
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "TopPartner added successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public async Task<ActionsResponseModel> EditTopPartner(int topPartnerId, TopPartnerModel model)
+        {
+            try
+            {
+                var topPartner = Context.TopPartners.FirstOrDefault(p => p.TopPartnerId == topPartnerId);
+                if (topPartner == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "TopPartner not found." };
+
+                topPartner.Name = model.Name;
+                topPartner.Description = model.Description;
+                topPartner.DisplayName = model.DisplayName;
+                topPartner.DisplayOrder = model.DisplayOrder ?? topPartner.DisplayOrder;
+                topPartner.IsActive = model.IsActive;
+                topPartner.ModifiedBy = model.ModifiedBy;
+                topPartner.ModifiedDate = DateTime.Now;
+
+                if (model.Image != null)
+                {
+                    var upload = await _fileService.UploadFileAsync(model.Image, PartnerImagesFolder, FileType.Image);
+                    if (upload.IsUploaded)
+                        topPartner.Image = upload.FilePath;
+                    else
+                        return new ActionsResponseModel { IsSuccess = false, Message = upload.Message };
+                }
+
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "TopPartner updated successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel DeleteTopPartner(int topPartnerId)
+        {
+            try
+            {
+                var topPartner = Context.TopPartners.FirstOrDefault(p => p.TopPartnerId == topPartnerId);
+                if (topPartner == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "TopPartner not found." };
+
+                Context.TopPartners.Remove(topPartner);
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "TopPartner deleted successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel ChangeTopPartnerActiveStatus(int topPartnerId)
+        {
+            try
+            {
+                var topPartner = Context.TopPartners.FirstOrDefault(p => p.TopPartnerId == topPartnerId);
+                if (topPartner == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "TopPartner not found." };
+
+                topPartner.IsActive = !topPartner.IsActive;
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "TopPartner status changed successfully!" };
             }
             catch (Exception ex)
             {

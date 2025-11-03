@@ -140,5 +140,64 @@ namespace RetailStation.API.Controllers.Operation
             return _adminService.ChangePromotionActiveStatus(PromotionId);
         }
         #endregion
+
+
+        #region TopPartners
+
+
+        [HttpPost]
+        [Route("GetTopPartners_Data")]
+        public IActionResult GetTopPartners_Data(SearchFilterModel SearchModel)
+        {
+            var data = _adminService.GetTopPartners_Data(SearchModel);
+            var result = new PagedResponseModel<TopPartnerModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+            };
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("GetTopPartnerDetailsById")]
+        public IActionResult GetTopPartnerDetailsById(int TopPartnerId)
+        {
+            var results = _adminService.GetTopPartnerById(TopPartnerId);
+            return Ok(results);
+        }
+
+        [HttpPost]
+        [Route("AddNewTopPartner")]
+        public async Task<IActionResult> AddNewTopPartner([FromForm] TopPartnerModel model)
+        {
+            var results = await _adminService.AddTopPartner(model);
+            return Ok(results);
+        }
+
+        [HttpPost]
+        [Route("EditTopPartner")]
+        public async Task<IActionResult> EditTopPartner(int TopPartnerId, [FromForm] TopPartnerModel model)
+        {
+            var results = await _adminService.EditTopPartner(TopPartnerId, model);
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("DeleteTopPartner")]
+        public IActionResult DeleteTopPartner(int TopPartnerId)
+        {
+            var results = _adminService.DeleteTopPartner(TopPartnerId);
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("ChangeTopPartnerActiveStatus")]
+        public ActionsResponseModel ChangeTopPartnerActiveStatus(int TopPartnerId)
+        {
+            return _adminService.ChangeTopPartnerActiveStatus(TopPartnerId);
+        }
+        #endregion
     }
 }

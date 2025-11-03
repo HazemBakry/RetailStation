@@ -34,6 +34,8 @@ import { RegionsComponent } from './components/regions/regions.component';
 import { ManageMerchantItemsComponent } from './components/merchants-container/manage-merchant-items/manage-merchant-items.component';
 import { MerchantsContainerComponent } from './components/merchants-container/merchants-container.component';
 import { MerchantsComponent } from './components/merchants-container/merchants/merchants.component';
+import { TopPartnersComponent } from './components/top-partner/top-partners.component';
+import { BestSellerItemsComponent } from './components/best-seller-items/best-seller-items.component';
 
 
 @NgModule({
@@ -66,7 +68,9 @@ import { MerchantsComponent } from './components/merchants-container/merchants/m
     ItemUnitsComponent,
     CitiesComponent,
     CountriesComponent,
-    RegionsComponent
+    RegionsComponent,
+    TopPartnersComponent,
+    BestSellerItemsComponent
   ],
   imports: [
     CommonModule,

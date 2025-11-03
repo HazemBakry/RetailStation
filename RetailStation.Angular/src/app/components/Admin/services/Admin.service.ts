@@ -9,6 +9,7 @@ import { FilterModel } from '../../Shared/models/FilterModel';
 import { Tag } from '../models/TagsManagerModels';
 import { PromotionModel } from '../../Shared/models/PromotionModel';
 import { CityModel, CountryModel, RegionModel } from '../models/Operation/CountryModel';
+import { TopPartnerModel } from '../../Shared/models/TopPartnerModel';
 
 
 @Injectable({
@@ -103,76 +104,76 @@ export class AdminService {
   }
 
 
-  
-    // ================================== Notifications Manager ==================================
-  
-    GetNotifications(model: FilterModel) {
-      return this.http.post<any>(this.URL + 'Notification/GetNotificationsBySubscriberID', model);
-    }
-  
-    GetRecipientsByNotificationID(notificationID: number) {
-      return this.http.get<any[]>(this.URL + 'Notification/GetRecipientsByNotificationID?notificationID=' + notificationID);
-    }
-  
-    getCustomers(params: { search?: string, take?: number }): Observable<any[]> {
-      const httpParams = new HttpParams({ fromObject: { ...params } });
-      return this.http.get<any[]>(this.URL + 'Notification/GetCustomers', { params: httpParams });
-    }
-  
-    SaveNotification(model: any) {
-      return this.http.post<any>(this.URL + 'Notification/SaveNotification', model)
-    }
-  
-    UpdateNotification(model: any) {
-      return this.http.post<any>(this.URL + 'Notification/UpdateNotification', model)
-    }
-  
-    UpdateNotificationIsActive(id: any, isActive: any) {
-      return this.http.post<any>(this.URL + 'Notification/UpdateNotificationStatus?id=' + id, isActive)
-    }
-  
-  
-  
-    // ================================== Tags Manager ==================================
-  
-  
-    getTags() {
-      return this.http.get<Tag[]>(this.URL + 'TagsManager/GetTags');
-    }
-  
-    createTag(tag: Partial<Tag>) {
-      const { name } = tag;
-      return this.http.post<Tag>(this.URL + 'TagsManager/CreateTag', tag);
-    }
-  
-    updateTag(tag: Tag) {
-      return this.http.post(this.URL + `TagsManager/tags/${tag.tagId}`, tag);
-    }
-  
-    deleteTag(tagId: number) {
-      return this.http.post(this.URL + `TagsManager/DeleteTag/${tagId}`, {});
-    }
-  
-    getAllItems() {
-      return this.http.get<any[]>(this.URL + 'ItemTags/GetAllItems');
-    }
-  
-    getItemsForTag(tagId: number) {
-      return this.http.get<any[]>(this.URL + `ItemTags/tags/${tagId}/items`);
-    }
-  
-    assignItemToTag(tagId: number, itemId: number) {
-      return this.http.post(this.URL + `ItemTags/assign/${itemId}/${tagId}`, {});
-    }
-  
-    unassignItemFromTag(tagId: number, itemId: number) {
-      return this.http.post(this.URL + `ItemTags/unassign/${itemId}/${tagId}`, {});
-    }
-  
-    updateIsActive(id: any, isActive: any) {
-      return this.http.post<any>(this.URL + 'TagsManager/updateIsActive?id=' + id, isActive)
-    }
-  
+
+  // ================================== Notifications Manager ==================================
+
+  GetNotifications(model: FilterModel) {
+    return this.http.post<any>(this.URL + 'Notification/GetNotificationsBySubscriberID', model);
+  }
+
+  GetRecipientsByNotificationID(notificationID: number) {
+    return this.http.get<any[]>(this.URL + 'Notification/GetRecipientsByNotificationID?notificationID=' + notificationID);
+  }
+
+  getCustomers(params: { search?: string, take?: number }): Observable<any[]> {
+    const httpParams = new HttpParams({ fromObject: { ...params } });
+    return this.http.get<any[]>(this.URL + 'Notification/GetCustomers', { params: httpParams });
+  }
+
+  SaveNotification(model: any) {
+    return this.http.post<any>(this.URL + 'Notification/SaveNotification', model)
+  }
+
+  UpdateNotification(model: any) {
+    return this.http.post<any>(this.URL + 'Notification/UpdateNotification', model)
+  }
+
+  UpdateNotificationIsActive(id: any, isActive: any) {
+    return this.http.post<any>(this.URL + 'Notification/UpdateNotificationStatus?id=' + id, isActive)
+  }
+
+
+
+  // ================================== Tags Manager ==================================
+
+
+  getTags() {
+    return this.http.get<Tag[]>(this.URL + 'TagsManager/GetTags');
+  }
+
+  createTag(tag: Partial<Tag>) {
+    const { name } = tag;
+    return this.http.post<Tag>(this.URL + 'TagsManager/CreateTag', tag);
+  }
+
+  updateTag(tag: Tag) {
+    return this.http.post(this.URL + `TagsManager/tags/${tag.tagId}`, tag);
+  }
+
+  deleteTag(tagId: number) {
+    return this.http.post(this.URL + `TagsManager/DeleteTag/${tagId}`, {});
+  }
+
+  getAllItems() {
+    return this.http.get<any[]>(this.URL + 'ItemTags/GetAllItems');
+  }
+
+  getItemsForTag(tagId: number) {
+    return this.http.get<any[]>(this.URL + `ItemTags/tags/${tagId}/items`);
+  }
+
+  assignItemToTag(tagId: number, itemId: number) {
+    return this.http.post(this.URL + `ItemTags/assign/${itemId}/${tagId}`, {});
+  }
+
+  unassignItemFromTag(tagId: number, itemId: number) {
+    return this.http.post(this.URL + `ItemTags/unassign/${itemId}/${tagId}`, {});
+  }
+
+  updateIsActive(id: any, isActive: any) {
+    return this.http.post<any>(this.URL + 'TagsManager/updateIsActive?id=' + id, isActive)
+  }
+
 
 
 
@@ -231,5 +232,25 @@ export class AdminService {
   }
 
 
+  //////////////////////////////// TopPartners ////////////////////////////////
+
+  GetTopPartners_Data(model: PagedResponseModel<TopPartnerModel[]>) {
+    return this.http.post<PagedResponseModel<TopPartnerModel[]>>(this.URL + 'Admin/GetTopPartners_Data', model);
+  }
+
+  CreateNewTopPartner(model: FormData) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Admin/AddNewTopPartner', model);
+  }
+
+  EditTopPartner(unitId: number, model: FormData) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Admin/EditTopPartner?TopPartnerId=${unitId}`, model);
+  }
+
+  DeleteTopPartner(unitId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `Admin/DeleteTopPartner?TopPartnerId=${unitId}`);
+  }
+  ChangeTopPartnerActiveStatus(unitId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `Admin/ChangeTopPartnerActiveStatus?TopPartnerId=${unitId}`);
+  }
 
 }

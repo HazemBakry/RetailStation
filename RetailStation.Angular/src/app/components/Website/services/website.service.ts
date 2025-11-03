@@ -9,7 +9,7 @@ import { SliderModel } from '../../Admin/models/Operation/SliderModel';
 import { MerchantItemModel } from '../../Shared/models/MerchantItemModel';
 import { PromotionModel } from '../../Shared/models/PromotionModel';
 import { ItemCategoryModel } from '../../Shared/models/ItemCategory';
-import { TopPartner } from '../../Shared/models/TopPartnerModel';
+import { TopPartnerModel } from '../../Shared/models/TopPartnerModel';
 import { SearchAutoCompleteModel } from '../models/SearchAutoCompleteModel';
 import { MerchantRequestModel } from '../../Admin/models/MerchantRequestModel';
 
@@ -82,7 +82,7 @@ export class WebsiteService {
   }
 
   GetTopPartners() {
-    return this.http.get<TopPartner[]>(this.URL + `Website/GetTopPartners`);
+    return this.http.get<TopPartnerModel[]>(this.URL + `Website/GetTopPartners`);
   }
   ToggleFavorite(merchantItemId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'Website/ToggleFavorite?merchantItemId=' + merchantItemId);

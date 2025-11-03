@@ -57,7 +57,7 @@ namespace RetailStation.Service.Common
 
             string sanitizedFileName = SanitizeFileName(Path.GetFileNameWithoutExtension(file.FileName));
             string safeFileName = $"{sanitizedFileName}{extension}"; //_{Guid.NewGuid()}{extension}";
-            string filePath = safeFileName; //Path.Combine(uploadDirectory, safeFileName);
+            string filePath = Path.Combine(uploadDirectory, safeFileName);
             string uploadPath = Path.Combine("wwwroot", filePath);
 
             try
@@ -72,7 +72,7 @@ namespace RetailStation.Service.Common
                     IsUploaded = true,
                     Message = "File uploaded successfully.",
                     FileName = $"{sanitizedFileName}{extension}",//safeFileName,
-                    FilePath = filePath,
+                    FilePath = safeFileName,//filePath,
                     FileSize = file.Length,
                     Extention = extension,
                     FileUrl = GetFileDownloadUrl(filePath)

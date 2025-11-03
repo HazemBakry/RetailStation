@@ -28,6 +28,7 @@ import { CountriesComponent } from './components/countries/countries.component';
 import { MerchantsContainerComponent } from './components/merchants-container/merchants-container.component';
 import { MerchantsComponent } from './components/merchants-container/merchants/merchants.component';
 import { ManageMerchantItemsComponent } from './components/merchants-container/manage-merchant-items/manage-merchant-items.component';
+import { TopPartnersComponent } from './components/top-partner/top-partners.component';
 
 
 const routes: Routes = [
@@ -92,6 +93,7 @@ const routes: Routes = [
       { path: 'countries', component: CountriesComponent },
       { path: 'cities', component: CitiesComponent },
       { path: 'regions', component: RegionsComponent },
+      { path: 'top-partners', component: TopPartnersComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]
   }

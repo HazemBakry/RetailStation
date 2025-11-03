@@ -335,7 +335,7 @@ export class WebsiteHomeComponent implements OnInit {
       data?.forEach(partner => {
         this.retailStationLogos.push({
           name: partner.displayName,
-          logo: partner.image
+          logo: partner.imageURL
         });
       });
 
