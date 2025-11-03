@@ -20,7 +20,7 @@ import { CustomValidators } from 'src/app/components/Shared/services/custom-vali
   styleUrls: ['./top-partners.component.css']
 })
 export class TopPartnersComponent implements OnInit {
-  TitleList = ['التشغيل', 'المناطق'];
+  TitleList = ['Top Partners'];
   showLoader: boolean = false;
   showAddLoader: boolean = false;
   topPartnerModel: TopPartnerModel = {} as TopPartnerModel;
