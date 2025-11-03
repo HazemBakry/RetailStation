@@ -22,6 +22,7 @@ export class MerchantManagementService {
   GetMerchantItems_Data(merchantId: number, searchModel: PagedResponseModel<MerchantItemModel[]>) {
     return this.http.post<PagedResponseModel<MerchantItemModel[]>>(this.URL + `MerchantManagement/GetMerchantItems_Data?MerchantId=${merchantId}`, searchModel);
   }
+  
   MapMerchantItem(merchantId: number, merchantItemId: number, itemId: number) {
     const params = new URLSearchParams();
     params.append('MerchantId', merchantId.toString());

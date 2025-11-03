@@ -920,58 +920,65 @@ export class MenuService {
                 route: '/sales/promotions'
               },
               {
-                displayName: 'كشف حساب العملاء',
-                menuItem: 'customers-statement',
-                description: 'عرض جميع العمليات الخاصة بالموردين',
-                icon: 'fa fa-file-alt',
-                route: '/sales/customers-statement'
-              },
-              {
-                displayName: 'اشعارات خصم للعملاء',
-                menuItem: 'customer-returns-voucher',
-                description: 'إصدار إشعارات الخصم لمشتريات العملاء',
-                icon: 'fa fa-receipt',
-                route: '/sales/customer-returns-voucher'
-              }
-            ]
-          },
-          {
-            menuItemId: MenuType.InventoryHome,
-            displayName: 'التهيئة والاعدادات',
-            menuItem: '2',
-            route: '/purchases/home/2',
-            icon: 'fa fa-database',
-            subMenus: [
-              {
                 displayName: 'بيانات الأصناف',
                 menuItem: 'items',
                 description: 'إضافة و تعديل بيانات الأصناف',
                 icon: 'fa fa-clipboard-list',
                 route: '/sales/items'
               },
-              {
-                displayName: 'مجموعات الأصناف',
-                menuItem: 'items-categories',
-                description: 'إدارة بيانات الموردين وتفاصيل الاتصال',
-                icon: 'fa fa-clipboard-list',
-                route: '/sales/items-categories'
-              },
-              {
-                displayName: 'فائمة الموردين',
-                menuItem: 'my-suppliers',
-                description: 'إدارة بيانات الموردين',
-                icon: 'fa fa-clipboard-list',
-                route: '/sales/my-suppliers'
-              },
               // {
-              //   displayName: 'أنواع فواتير المشتريات',
-              //   menuItem: 'purchase-invoice-types',
-              //   description: 'إدارة بيانات أنواع الفواتير وتفاصيل الحسابات',
-              //   icon: 'fa fa-users',
-              //   route: '/purchases/purchase-invoice-types'
+              //   displayName: 'كشف حساب العملاء',
+              //   menuItem: 'customers-statement',
+              //   description: 'عرض جميع العمليات الخاصة بالموردين',
+              //   icon: 'fa fa-file-alt',
+              //   route: '/sales/customers-statement'
+              // },
+              // {
+              //   displayName: 'اشعارات خصم للعملاء',
+              //   menuItem: 'customer-returns-voucher',
+              //   description: 'إصدار إشعارات الخصم لمشتريات العملاء',
+              //   icon: 'fa fa-receipt',
+              //   route: '/sales/customer-returns-voucher'
               // }
             ]
-          }
+          },
+          // {
+          //   menuItemId: MenuType.InventoryHome,
+          //   displayName: 'التهيئة والاعدادات',
+          //   menuItem: '2',
+          //   route: '/purchases/home/2',
+          //   icon: 'fa fa-database',
+          //   subMenus: [
+          //     {
+          //       displayName: 'بيانات الأصناف',
+          //       menuItem: 'items',
+          //       description: 'إضافة و تعديل بيانات الأصناف',
+          //       icon: 'fa fa-clipboard-list',
+          //       route: '/sales/items'
+          //     },
+          //     {
+          //       displayName: 'مجموعات الأصناف',
+          //       menuItem: 'items-categories',
+          //       description: 'إدارة بيانات الموردين وتفاصيل الاتصال',
+          //       icon: 'fa fa-clipboard-list',
+          //       route: '/sales/items-categories'
+          //     },
+          //     {
+          //       displayName: 'فائمة الموردين',
+          //       menuItem: 'my-suppliers',
+          //       description: 'إدارة بيانات الموردين',
+          //       icon: 'fa fa-clipboard-list',
+          //       route: '/sales/my-suppliers'
+          //     },
+          //     {
+          //       displayName: 'أنواع فواتير المشتريات',
+          //       menuItem: 'purchase-invoice-types',
+          //       description: 'إدارة بيانات أنواع الفواتير وتفاصيل الحسابات',
+          //       icon: 'fa fa-users',
+          //       route: '/purchases/purchase-invoice-types'
+          //     }
+          //   ]
+          // }
         ]
     },
     {

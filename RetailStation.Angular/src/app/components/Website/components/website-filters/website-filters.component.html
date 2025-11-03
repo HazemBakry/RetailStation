@@ -1,21 +1,17 @@
 <ng-container *ngFor="let filter of FilterList;let i = index">
 
     <div class="order-filter-box card">
-        <div class="card-header main-bg text-white py-3 d-flex align-items-center">
+        <div class="card-header py-3 d-flex align-items-center">
             <!-- <i class="fas fa-sort-amount-down fs-18 ms-2"></i> -->
             <h5 class="m-0">{{filter.categoryDisplayName}}</h5>
         </div>
         <div class="card-body p-0">
             <div class="filter-wrapper form-check d-flex align-items-center gap-2">
-                <input type="text" [(ngModel)]="filter.searchText" class="form-control form-control-sm w-100"
-                    placeholder="Search..." />
+                <input type="text" [(ngModel)]="filter.searchText" class="form-control form-control-sm w-100" placeholder="Search..." />
             </div>
-            <div *ngFor="let filterItem of filter.filterItems | searchArry: filter.searchText:['itemKey'];let x = index"
-                class="filter-wrapper form-check d-flex align-items-center gap-2">
-                <input [(ngModel)]="filterItem.isChecked" (change)="filterChecked(filterItem)" type="checkbox"
-                    id="filter-input_{{i}}_{{x}}">
-                <label for="filter-input_{{i}}_{{x}}"
-                    class="m-0 d-flex align-items-center justify-content-between w-100 pe-2">
+            <div *ngFor="let filterItem of filter.filterItems | searchArry: filter.searchText:['itemKey'];let x = index" class="filter-wrapper form-check d-flex align-items-center gap-2">
+                <input [(ngModel)]="filterItem.isChecked" (change)="filterChecked(filterItem)" type="checkbox" id="filter-input_{{i}}_{{x}}">
+                <label for="filter-input_{{i}}_{{x}}" class="m-0 d-flex align-items-center justify-content-between w-100 pe-2">
                     <span>{{filterItem.itemKey}}</span>
                     <span>{{filterItem.itemValue}}</span>
                 </label>

@@ -3,8 +3,7 @@
     <i class="fa-solid fa-code-compare"></i>
 </div> -->
 
-<a class="nav-link d-flex align-items-center position-relative py-0 fs-2 cursor-pointer h-100"
-    (click)="OpenSidePanel(CompareSidePanel)">
+<a class="nav-link d-flex align-items-center position-relative py-0 fs-2 cursor-pointer h-100" (click)="OpenSidePanel(CompareSidePanel)">
     <i class="ph ph-git-diff"></i>
     <div class="circle-order-count-box">{{compareCount$ }}</div>
 </a>
@@ -20,8 +19,7 @@
         <i class="ph ph-x fs-4 cursor-pointer" (click)="modal.dismiss()"></i>
     </div>
     <div class="modal-body bg-light">
-        <table *ngIf="pageResponseModel.results.length"
-            class="table table-bordered table-light align-middle table-hover text-center m-0">
+        <table *ngIf="pageResponseModel.results.length" class="table table-bordered table-light align-middle table-hover text-center m-0">
             <thead>
                 <tr>
                     <th class="border bg-white text-muted fw-semibold">المعلومات</th>
@@ -31,8 +29,7 @@
                                 <span class="cursor-pointer" (click)="removeFromCompare(item)"> <i
                                         class="ph ph-x-circle text-danger fs-5"></i></span>
                                 <span> {{item.nameAR ?? item.nameEN}}</span>
-                                <button (click)="toggleAddToCart(item)"
-                                    class="btn btn-add-compare d-flex align-items-center gap-2">
+                                <button (click)="toggleAddToCart(item)" class="btn btn-add-compare d-flex align-items-center gap-2">
                                     <i class="ph ph-shopping-cart fs-6"></i>
                                     <div>
                                         <span *ngIf="!item.isItemInCart">أضف للعربه</span>
@@ -80,13 +77,11 @@
                                 <div class="d-flex align-items-center gap-2">
                                     <div class="text-danger fw-bold fs-4">{{item.offerPrice?item.offerPrice:item.price}}
                                     </div>
-                                    <img src="{{systemURL}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon"
-                                        loading="lazy" />
+                                    <img src="{{systemURL}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
                                 </div>
                                 <div *ngIf="item.offerPrice" class="d-flex align-items-center gap-2 line-through">
                                     <div class="text-danger fw-bold fs-4">{{item.price}}</div>
-                                    <img src="{{systemURL}}assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon"
-                                        loading="lazy" />
+                                    <img src="{{systemURL}}assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
                                 </div>
                                 <!-- <button class="btn btn-danger py-1 px-3">Sale 20%</button> -->
                             </div>
@@ -99,7 +94,7 @@
                             </div>
                         </td>
                         <td *ngIf="['productUrl'].includes(field.fieldName)" class="bg-white fw-semibold">
-                            <a class="text-underline">شاهد تفاصيل المنتج</a>
+                            <a routerLink="./product-details" [queryParams]="{ItemId:item?.merchantItemId}" class="text-underline">شاهد تفاصيل المنتج</a>
                         </td>
                         <td *ngIf="field.fieldName == 'supplierName'" class="bg-white fw-semibold">
 
@@ -112,15 +107,15 @@
                         <td *ngIf="field.fieldName == 'deliveryTime'" class="bg-white fw-semibold">
                             {{item.deliveryTime}}
                         </td>
-                        <td *ngIf="field.fieldName == 'dimensions'" class="bg-white fw-semibold">حجم متوسط (متوسط 250
-                            جرام/برتقالة)</td>
+                        <td *ngIf="field.fieldName == 'dimensions'" class="bg-white fw-semibold">حجم متوسط (متوسط 250 جرام/برتقالة)
+                        </td>
                         <td *ngIf="field.fieldName == 'weight'" class="bg-white fw-semibold">الوزن الصافي: 15 كيلو/صندوق
                         </td>
                         <td *ngIf="field.fieldName == 'minOrderQuantity'" class="bg-white fw-semibold">
                             {{item.minimumOrderQuantity ?? 1}}
                         </td>
-                        <td *ngIf="field.fieldName == 'returnPolicy'" class="bg-white fw-semibold">متاح خلال 24 ساعة من
-                            الاستلام</td>
+                        <td *ngIf="field.fieldName == 'returnPolicy'" class="bg-white fw-semibold">متاح خلال 24 ساعة من الاستلام
+                        </td>
                         <td *ngIf="field.fieldName == 'paymentMethods'" class="bg-white fw-semibold">
                             {{item.paymentMethod}}
                         </td>
@@ -130,7 +125,6 @@
                 </tr>
             </tbody>
         </table>
-        <app-empty-data [showEmptyData]="!pageResponseModel.results?.length&&!showLoader"
-            [showLoader]="showLoader"></app-empty-data>
+        <app-empty-data [showEmptyData]="!pageResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
     </div>
 </ng-template>

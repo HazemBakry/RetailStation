@@ -46,8 +46,12 @@ export class MerchantService {
 
   /////////////////////////////// MerchantItems ////////////////////////
 
-  GetMerchantItemsData(searchModel: PagedResponseModel<MerchantItemModel[]>) {
-    return this.http.post<PagedResponseModel<MerchantItemModel[]>>(this.URL + 'MerchantManagement/GetMerchantItemsData', searchModel);
+  GetMerchantItems_Data(searchModel: PagedResponseModel<MerchantItemModel[]>) {
+    return this.http.post<PagedResponseModel<MerchantItemModel[]>>(this.URL + 'MerchantManagement/GetMerchantItems_Data', searchModel);
+  }
+
+  GetMerchantItems_Filters(model: PagedResponseModel<any[]>) {
+    return this.http.post<FilterItem[]>(this.URL + 'MerchantManagement/GetMerchantItems_Filters', model);
   }
 
   GetMerchantItemDetailsById(itemId: number) {
@@ -57,8 +61,8 @@ export class MerchantService {
   AddNewMerchantItem(model: FormData) {
     return this.http.post<ActionsResponseModel>(this.URL + 'MerchantManagement/AddNewMerchantItem', model);
   }
-  ImportMerchantItemsFile(importerName:string,file: FormData) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'MerchantManagement/ImportMerchantItemsFile?ImporterName='+importerName, file);
+  ImportMerchantItemsFile(importerName: string, file: FormData) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'MerchantManagement/ImportMerchantItemsFile?ImporterName=' + importerName, file);
   }
 
   EditMerchantItem(itemId: number, model: FormData) {
@@ -105,12 +109,12 @@ export class MerchantService {
 
 
 
-   //-------------------------------------  Order ----------------------------------
-    GetOrders_Data(model: PagedResponseModel) {
-      return this.http.post<PagedResponseModel<WebsiteOrderModel[]>>(this.URL + 'MerchantManagement/GetOrders_Data', model);
-    }
-    GetOrders_Filters(model: PagedResponseModel<any[]>) {
-      return this.http.post<FilterItem[]>(this.URL + 'MerchantManagement/GetOrders_Filters', model);
-    }
+  //-------------------------------------  Order ----------------------------------
+  GetOrders_Data(model: PagedResponseModel) {
+    return this.http.post<PagedResponseModel<WebsiteOrderModel[]>>(this.URL + 'MerchantManagement/GetOrders_Data', model);
+  }
+  GetOrders_Filters(model: PagedResponseModel<any[]>) {
+    return this.http.post<FilterItem[]>(this.URL + 'MerchantManagement/GetOrders_Filters', model);
+  }
 
 }

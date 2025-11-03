@@ -13,7 +13,8 @@ namespace RetailStation.Interface.Operation
 {
     public interface IMerchantManagementService
     {
-        List<MerchantItemModel> GetMerchantItemsData(int MerchantId, SearchFilterModel FilterModel, int? MerchantItemId = null);
+        List<MerchantItemModel> GetMerchantItems_Data(int MerchantId, SearchFilterModel FilterModel, int? MerchantItemId = null);
+        List<FilterModel> GetMerchantItems_Filters(int MerchantId, SearchFilterModel PagingFilter);
         MerchantItemModel GetMerchantItemDetailsById(int MerchantId, int MerchantItemId);
         Task<ActionsResponseModel> AddNewMerchantItem(int MerchantId, MerchantItemModel model);
         Task<ActionsResponseModel> EditMerchantItem(int MerchantId, int MerchantItemId, MerchantItemModel model);

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { FilterItem } from 'src/app/components/Shared/models/FilterModel';
+import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { ToastrService } from 'ngx-toastr';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
@@ -30,7 +30,8 @@ export class MerchantItemsComponent implements OnInit {
   selectedmerchantItemId: number;
 
   MerchantItemModel: MerchantItemModel = {} as MerchantItemModel;
-  itemResponseModel: PagedResponseModel<MerchantItemModel[]> = {
+  filterList: FilterModel[] = [];
+  pagedResponseModel: PagedResponseModel<MerchantItemModel[]> = {
     results: [],
     filterList: [],
     pageSize: 20,
@@ -81,13 +82,14 @@ export class MerchantItemsComponent implements OnInit {
       this.categoriesData = data;
     });
     this.loadData();
+    this.loadFilters();
   }
 
   loadData() {
     this.showLoader = true;
-    this.merchantService.GetMerchantItemsData(this.itemResponseModel).subscribe(data => {
-      this.itemResponseModel.results = data.results;
-      this.itemResponseModel.totalCount = data.totalCount;
+    this.merchantService.GetMerchantItems_Data(this.pagedResponseModel).subscribe(data => {
+      this.pagedResponseModel.results = data.results;
+      this.pagedResponseModel.totalCount = data.totalCount;
 
       this.showLoader = false;
     }, err => {
@@ -95,13 +97,24 @@ export class MerchantItemsComponent implements OnInit {
     }, () => {
       this.showLoader = false;
     });
+  }
 
+  loadFilters() {
+    // this.showLoader = true;
+    this.merchantService.GetMerchantItems_Filters(this.pagedResponseModel).subscribe(data => {
+      this.filterList = data;
 
+      // this.showLoader = false;
+    }, err => {
+      // this.showLoader = false;
+    }, () => {
+      // this.showLoader = false;
+    });
   }
 
   exportData(categoryId: number = 0) {
     this.showExportLoader = true;
-    this.merchantService.ExportMerchantItems(this.itemResponseModel, categoryId).subscribe((data: ActionsResponseModel) => {
+    this.merchantService.ExportMerchantItems(this.pagedResponseModel, categoryId).subscribe((data: ActionsResponseModel) => {
       if (data.isSuccess) {
         this.sharedService.urlDownloadOrOpen(data.url);
         this.toaster.success(data.message);
@@ -109,19 +122,27 @@ export class MerchantItemsComponent implements OnInit {
         this.toaster.error(data.message);
       }
 
-
       this.showExportLoader = false;
     }, err => {
       this.showExportLoader = false;
     }, () => {
       this.showExportLoader = false;
     });
-
-
   }
 
+  filterChecked(filterItems: FilterItem[]) {
+    this.pagedResponseModel.filterList = filterItems;
+    this.loadData();
+  }
+
+  pageChanged(obj: any) {
+    this.pagedResponseModel.currentPage = obj.page;
+    this.loadData();
+  }
+
+
   filterCategory(catId) {
-    this.itemResponseModel.filterList = [];
+    this.pagedResponseModel.filterList = [];
     this.selectedCategoryId = catId;
     if (catId > 0) {
       let catFilter: FilterItem = {
@@ -130,7 +151,7 @@ export class MerchantItemsComponent implements OnInit {
         itemKey: catId,
         itemValue: catId,
       }
-      this.itemResponseModel.filterList = [catFilter];
+      this.pagedResponseModel.filterList = [catFilter];
     }
 
     this.loadData();
@@ -315,17 +336,6 @@ export class MerchantItemsComponent implements OnInit {
       this.unitsSelectorData = data;
     });
   }
-
-  filterChecked(filterItems: FilterItem[]) {
-    this.itemResponseModel.filterList = filterItems;
-    this.loadData();
-  }
-
-  pageChanged(obj: any) {
-    this.itemResponseModel.currentPage = obj.page;
-    this.loadData();
-  }
-
 
   deleteItem() {
     this.showAddLoader = true;

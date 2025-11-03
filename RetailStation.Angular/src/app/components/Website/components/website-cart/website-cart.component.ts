@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
-import { WebsiteService } from 'src/app/components/Main/services/website.service';
-import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { CartModel, CartService } from 'src/app/components/Shared/services/cart.service';
 import { CreateOrderItemModel, CreateOrderModel } from '../../models/WebsiteOrderModel ';
 import { MerchantItemModel } from 'src/app/components/Shared/models/MerchantItemModel';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { WebsiteService } from '../../services/website.service';
 
 @Component({
   selector: 'app-website-cart',
@@ -105,6 +103,7 @@ export class WebsiteCartComponent implements OnInit {
 
 
   changeQuantity(item: MerchantItemModel, newQuantity: number): void {
+    debugger
     if (item.quantity + newQuantity > 0) {
       // this.itemQuantity = this.itemQuantity + qty;
       this.cartService.changeItemQuantity(item.merchantItemId, item.quantity + newQuantity);
@@ -113,6 +112,7 @@ export class WebsiteCartComponent implements OnInit {
   }
 
   removeItem(item: any) {
+    debugger
     this.cartService.removeItem(item.merchantItemId);
     this.loadData();
   }

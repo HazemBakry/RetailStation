@@ -195,7 +195,7 @@ namespace RetailStation.Service.Website
             return result;
         }
 
-        public MerchantItemModel GetWebsiteItemDetailsById(int SupplierItemId)
+        public MerchantItemModel GetWebsiteItemDetailsById(int MerchantItemId)
         {
             return GetWebsiteItems_Data("",new SearchFilterModel { PageSize = 25, CurrentPage = 1 }).FirstOrDefault();
         }

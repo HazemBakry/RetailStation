@@ -92,8 +92,8 @@ namespace RetailStation.API.Controllers.Website
         }
 
         [HttpGet]
-        [Route("GetSupplierItemDetailsById")]
-        public IActionResult GetSupplierItemDetailsById(int MerchantItemId)
+        [Route("GetWebsiteItemDetailsById")]
+        public IActionResult GetWebsiteItemDetailsById(int MerchantItemId)
         {
             var results = _websiteService.GetWebsiteItemDetailsById(MerchantItemId);
             return Ok(results);

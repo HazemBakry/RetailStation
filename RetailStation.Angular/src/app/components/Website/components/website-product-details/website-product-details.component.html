@@ -1,0 +1,71 @@
+<div class="container">
+
+    <div class="product-page">
+
+        <!-- Images Section -->
+        <div class="product-images">
+            <div class="thumbnails">
+                <img [src]="itemModel?.imageUrl" alt="">
+                <img [src]="itemModel?.imageUrl" alt="">
+                <img [src]="itemModel?.imageUrl" alt="">
+                <img [src]="itemModel?.imageUrl" alt="">
+                <img [src]="itemModel?.imageUrl" alt="">
+            </div>
+            <div class="main-image">
+                <img [src]="itemModel?.imageUrl" alt="Samsung Odyssey G5">
+            </div>
+        </div>
+
+        <!-- Details Section -->
+        <div class="product-details">
+            <h2 class="product-title">
+                {{itemModel?.nameAR}}
+                <!-- شاشة العاب منحنية اوديسي G5 LC27G55TQBMXEG 27 بوصة من سامسونج - لون اسود -->
+            </h2>
+
+            <p class="store-name"> متجر <a href="#">{{itemModel?.merchantName}} </a></p>
+
+            <div class="rating">
+                ⭐⭐⭐⭐☆ <span>4.1</span> <a href="#">(169 تقييم)</a>
+            </div>
+
+            <hr>
+
+            <div class="price">
+                <span class="currency">SR</span>
+                <span class="amount">{{itemModel?.price}}</span>
+            </div>
+
+            <p class="tax-info">الأسعار تشمل ضريبة القيمة المضافة.</p>
+            <p class="return-info">إرجاع مجاني خلال 15 يومًا من الاستلام</p>
+
+            <div class="offer">
+                <span class="offer-badge">10% خصم</span>
+                <p>خصم باستخدام بطاقة NBE Visa Platinum Credit Card عند إدخال الرمز <strong>NBENOV250</strong></p>
+            </div>
+
+            <!-- <div class="offer">
+                <span class="offer-badge">10% خصم</span>
+                <p>خصم باستخدام بطاقة NBE Visa Signature Credit Card عند إدخال الرمز <strong>NBENOV500</strong></p>
+            </div> -->
+
+            <!-- <p class="installment">
+                يمكنك الشراء بالتقسيط لمدة <strong>48 شهرًا</strong> ودفع <strong>372.48 جنيه</strong> شهريًا
+            </p> -->
+
+
+
+            <div class="buttons">
+                <button class="btn-add cursor-pointer" (click)="addToCart()">أضف إلى العربة</button>
+                <!-- <button class="btn-buy">اشترِ الآن</button> -->
+            </div>
+
+            <div class="policies">
+                <p>🚚 <strong>توصيل مجاني</strong> الأربعاء، 5 نوفمبر</p>
+                <p>💳 الدفع الإلكتروني فقط</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-loading [show]="showLoader"></ngx-loading>

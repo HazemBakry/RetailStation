@@ -26,25 +26,70 @@ namespace RetailStation.API.Controllers.Operation
         }
 
 
+        //[HttpPost]
+        //[Route("GetMerchantItemsData")]
+        //public IActionResult GetMerchantItemsData(SearchFilterModel SearchModel)
+        //{
+        //    string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+        //    int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
+        //    if (MerchantId <= 0)
+        //        return BadRequest("No Merchant assigned");
+        //    var data = _merchantManagementService.GetMerchantItems_Data(MerchantId, SearchModel);
+        //    var result = new PagedResponseModel<MerchantItemModel>
+        //    {
+        //        Results = data,
+        //        TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+        //        PageSize = SearchModel.PageSize,
+        //        CurrentPage = SearchModel.CurrentPage
+        //    };
+        //    return Ok(result);
+        //}
 
         [HttpPost]
-        [Route("GetMerchantItemsData")]
-        public IActionResult GetMerchantItemsData(SearchFilterModel SearchModel)
+        [Route("GetMerchantItems_Data")]
+        public IActionResult GetMerchantItems_Data([FromBody] SearchFilterModel searchModel, int? MerchantId = null)
         {
-            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
-            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
-            if (MerchantId <= 0)
-                return BadRequest("No Merchant assigned");
-            var data = _merchantManagementService.GetMerchantItemsData(MerchantId, SearchModel);
+            int finalMerchantId;
+            if (MerchantId.HasValue)
+            {
+                finalMerchantId = MerchantId.Value;
+            }
+            else
+            {
+                var userMerchant = User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value;
+
+                if (string.IsNullOrWhiteSpace(userMerchant) || !int.TryParse(userMerchant, out finalMerchantId))
+                    return BadRequest("No merchant assigned to the this user.");
+            }
+
+            var data = _merchantManagementService.GetMerchantItems_Data(finalMerchantId, searchModel);
             var result = new PagedResponseModel<MerchantItemModel>
             {
                 Results = data,
                 TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
-                PageSize = SearchModel.PageSize,
-                CurrentPage = SearchModel.CurrentPage
+                PageSize = searchModel.PageSize,
+                CurrentPage = searchModel.CurrentPage
             };
+
             return Ok(result);
         }
+
+
+        [HttpPost]
+        [Route("GetMerchantItems_Filters")]
+        public IActionResult GetMerchantItems_Filters(SearchFilterModel PagingFilter)
+        {
+            int MerchantId;
+            var userMerchant = User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value;
+
+            if (string.IsNullOrWhiteSpace(userMerchant) || !int.TryParse(userMerchant, out MerchantId))
+                return BadRequest("No merchant assigned to the this user.");
+
+            var result = _merchantManagementService.GetMerchantItems_Filters(MerchantId, PagingFilter);
+
+            return Ok(result);
+        }
+
 
         [HttpGet]
         [Route("GetMerchantItemDetailsById")]
@@ -126,26 +171,6 @@ namespace RetailStation.API.Controllers.Operation
             return Ok(results);
         }
 
-
-
-
-        [HttpPost]
-        [Route("GetMerchantItems_Data")]
-        public IActionResult GetMerchantItems_Data(int MerchantId, SearchFilterModel SearchModel)
-        {
-            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
-            var data = _merchantManagementService.GetMerchantItemsData(MerchantId, SearchModel);
-            var result = new PagedResponseModel<MerchantItemModel>
-            {
-                Results = data,
-                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
-                PageSize = SearchModel.PageSize,
-                CurrentPage = SearchModel.CurrentPage
-            };
-            return Ok(result);
-        }
-
-
         [HttpGet]
         [Route("MapMerchantItem")]
         public async Task<IActionResult> MapMerchantItem(int MerchantId, int MerchantItemId, int? ItemId)
@@ -161,7 +186,6 @@ namespace RetailStation.API.Controllers.Operation
             var results = await _merchantManagementService.MarkItemAsBestSeller(MerchantItemId);
             return Ok(results);
         }
-
 
         [HttpPost]
         [Route("ImportMerchantItemsFile")]

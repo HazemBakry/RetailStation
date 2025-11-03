@@ -54,8 +54,7 @@ namespace RetailStation.Service.Operation
 
         }
 
-
-        public List<MerchantItemModel> GetMerchantItemsData(int MerchantId, SearchFilterModel model, int? MerchantItemId = null)
+        public List<MerchantItemModel> GetMerchantItems_Data(int MerchantId, SearchFilterModel model, int? MerchantItemId = null)
         {
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
@@ -68,17 +67,31 @@ namespace RetailStation.Service.Operation
                 new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
             };
 
-            var result = SQLHelper.SQLQuery<MerchantItemModel>("[Operation].[SP_GetMerchantItemsData]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<MerchantItemModel>("[Operation].[SP_GetMerchantItems_Data]", ConnectionString, Params);
             foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
             {
                 item.ImageUrl = item.ImageUrl != null ? Path.Combine(ApiUrl, "ItemsImages", item.ImageUrl) : ""; //_fileService.GetFileDownloadUrl(item.ImageUrl);
             }
             return result;
-
         }
+
+        public List<FilterModel> GetMerchantItems_Filters(int MerchantId, SearchFilterModel PagingFilter)
+        {
+            var dt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
+            
+            SqlParameter[] Params = new SqlParameter[]
+            {
+                new SqlParameter("@MerchantId", (object)MerchantId ?? DBNull.Value),
+                new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
+            };
+
+            var results = SQLHelper.SQLQuery<FilterItem>("[Operation].[SP_GetMerchantItems_Filters]", ConnectionString, Params);
+            return SharedFilterService.GroupedFilterItems(results);
+        }
+
         public MerchantItemModel GetMerchantItemDetailsById(int MerchantId, int MerchantItemId)
         {
-            return GetMerchantItemsData(MerchantId, new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, MerchantItemId).FirstOrDefault();
+            return GetMerchantItems_Data(MerchantId, new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, MerchantItemId).FirstOrDefault();
         }
         public async Task<ActionsResponseModel> AddNewMerchantItem(int MerchantId, MerchantItemModel model)
         {
@@ -186,6 +199,7 @@ namespace RetailStation.Service.Operation
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
         }
+
         public ActionsResponseModel ExportMerchantItem(int MerchantId, string UserName, SearchFilterModel SearchModel)
         {
             string url = string.Empty;
@@ -193,7 +207,7 @@ namespace RetailStation.Service.Operation
             {
                 SearchModel.CurrentPage = 1;
                 SearchModel.PageSize = 990000;
-                var Data = GetMerchantItemsData(MerchantId, SearchModel);
+                var Data = GetMerchantItems_Data(MerchantId, SearchModel);
 
                 var result = Data.Select(res =>
                                 new MerchantItemExportModel

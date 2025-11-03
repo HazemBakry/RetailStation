@@ -26,44 +26,46 @@
                         <p class="item-delivery">توصيل مجاني <strong>الأربعاء، 5 نوفمبر</strong> على طلبك الأول.</p>
                         <div class="item-actions d-flex">
                             <div class="quantity me-2">
-                                <button (click)="changeQuantity(item, 1)">+</button>
+                                <button class="cursor-pointer" (click)="changeQuantity(item, 1)">+</button>
                                 <span>{{item?.quantity}}</span>
-                                <button (click)="changeQuantity(item, -1)">-</button>
+                                <button class="cursor-pointer" (click)="changeQuantity(item, -1)">-</button>
                             </div>
                             <!-- <a href="#">مشاركة</a> |
                             <a href="#">احفظ لاحقًا</a> | -->
-                            <a class="mt-2" (click)="removeItem(item)">احذف</a>
+                            <a class="mt-2 cursor-pointer" (click)="removeItem(item)">احذف</a>
                         </div>
                     </div>
                     <div class="item-price">
                         <span><strong>{{item.price * item?.quantity | number : '1.2-2'}}</strong> ر.س </span>
-                        <span>{{item.supplierName}}</span>
+                        <div>
+                            <span style="font-size: 12px !important">{{item.merchantName}}</span>
+                        </div>
                     </div>
                 </div>
 
 
 
                 <!-- Item 2 -->
-                <!-- <div class="cart-item mt-2 border-bottom">
-                    <div class="item-image">
-                        <img src="https://m.media-amazon.com/images/I/81X1+4nEwJL._AC_SL1500_.jpg" alt="Samsung Monitor">
+                <!-- <div class="cart-item mt-2 border-bottom ">
+                    <div class="item-image ">
+                        <img src="https://m.media-amazon.com/images/I/81X1+4nEwJL._AC_SL1500_.jpg " alt="Samsung Monitor ">
                     </div>
-                    <div class="item-details mb-2">
-                        <p class="item-name">
+                    <div class="item-details mb-2 ">
+                        <p class="item-name ">
                             شاشة العاب منحنية اوديسي G5 LC27G55TQBMXEG 27 بوصة من سامسونج - لون اسود
                         </p>
-                        <p class="item-delivery">
+                        <p class="item-delivery ">
                             توصيل مجاني <strong>الأربعاء، 5 نوفمبر</strong> متوفر عند إتمام الشراء
                         </p>
-                        <div class="item-actions">
-                            <a href="#">مشاركة</a> |
-                            <a href="#">احفظ لاحقًا</a> |
-                            <a href="#">احذف</a>
+                        <div class="item-actions ">
+                            <a href="# ">مشاركة</a> |
+                            <a href="# ">احفظ لاحقًا</a> |
+                            <a href="# ">احذف</a>
                         </div>
                     </div>
-                    <div class="item-price">
+                    <div class="item-price ">
                         <p><strong>9,499.00 جنيه</strong></p>
-                        <div class="quantity">
+                        <div class="quantity ">
                             <button>-</button>
                             <span>1</span>
                             <button>+</button>
@@ -75,66 +77,64 @@
 
 
 
-            <!-- <div *ngFor="let item of cartItems" class="position-relative overflow-hidden mb-3">
-                <div class="main-item-card-content bg-white d-flex flex-wrap gap-3 border radius-10 p-3">
-                    <div class="d-flex flex-column align-items-center gap-2 px-3 pt-3">
-                        <div class="more-buy-img-box position-relative">
-                            <img [src]="item.imageUrl" class="more-buy-image" alt="more-buy-image" loading="lazy" />
+            <!-- <div *ngFor="let item of cartItems " class="position-relative overflow-hidden mb-3 ">
+                <div class="main-item-card-content bg-white d-flex flex-wrap gap-3 border radius-10 p-3 ">
+                    <div class="d-flex flex-column align-items-center gap-2 px-3 pt-3 ">
+                        <div class="more-buy-img-box position-relative ">
+                            <img [src]="item.imageUrl " class="more-buy-image " alt="more-buy-image " loading="lazy " />
                         </div>
                     </div>
-                    <div class="d-flex flex-column gap-3 position-relative w-100 px-3 pb-3">
-                        <div class="fs-16 fw-semibold">
+                    <div class="d-flex flex-column gap-3 position-relative w-100 px-3 pb-3 ">
+                        <div class="fs-16 fw-semibold ">
                             {{item.nameAR}}
                         </div>
-                        <div class="d-flex align-items-center justify-content-between gap-2">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="ph ph-link-simple text-muted"></i>
-                                <a class="text-muted fw-semibold cursor-pointer">
+                        <div class="d-flex align-items-center justify-content-between gap-2 ">
+                            <div class="d-flex align-items-center gap-2 ">
+                                <i class="ph ph-link-simple text-muted "></i>
+                                <a class="text-muted fw-semibold cursor-pointer ">
                                     {{item.merchantName}}
                                 </a>
                             </div>
                             <app-rate></app-rate>
                         </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="ph ph-chart-line-down text-muted"></i>
-                                <div class="d-flex align-items-center gap-1 text-muted">أقل كمية للطلب: <span
-                                        class="fw-bold">3
+                        <div class="d-flex align-items-center gap-2 ">
+                            <div class="d-flex align-items-center gap-2 ">
+                                <i class="ph ph-chart-line-down text-muted "></i>
+                                <div class="d-flex align-items-center gap-1 text-muted ">أقل كمية للطلب: <span
+                                        class="fw-bold ">3
                                         قطعة</span></div>
                             </div>
                         </div>
-                        <div class="d-flex align-items-center justify-content-between gap-3">
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="d-flex align-items-center gap-2">
-                                    <div class="text-danger fw-bold fs-4">{{item.price}}</div>
-                                    <img src="{{systemURL}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon"
-                                        loading="lazy" />
+                        <div class="d-flex align-items-center justify-content-between gap-3 ">
+                            <div class="d-flex align-items-center gap-3 ">
+                                <div class="d-flex align-items-center gap-2 ">
+                                    <div class="text-danger fw-bold fs-4 ">{{item.price}}</div>
+                                    <img src="{{systemURL}}assets/ryal-black-icon.svg " class="ryial-img " alt="ryal-icon "
+                                        loading="lazy " />
                                 </div>
-                                <div class="d-flex align-items-center gap-2 line-through">
-                                    <div class="text-danger fw-bold fs-4">{{item.price + item.price*20/100}}</div>
-                                    <img src="{{systemURL}}assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon"
-                                        loading="lazy" />
+                                <div class="d-flex align-items-center gap-2 line-through ">
+                                    <div class="text-danger fw-bold fs-4 ">{{item.price + item.price*20/100}}</div>
+                                    <img src="{{systemURL}}assets/ryal-gray-icon.svg " class="ryial-img " alt="ryal-icon "
+                                        loading="lazy " />
                                 </div>
                             </div>
-                            <div class="d-flex">
-                                <a (click)="removeItem(item)" class="text-muted fw-semibold cursor-pointer p-3">حذف
+                            <div class="d-flex ">
+                                <a (click)="removeItem(item) " class="text-muted fw-semibold cursor-pointer p-3 ">حذف
                                     الصنف</a>
 
-                                <div class="count-button d-flex align-items-center gap-2">
-                                    <i (click)="changeQuantity(item,1)"
-                                        class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
-                                    <input type="text" disabled [(ngModel)]="item.quantity"
-                                        class="form-control border text-center height-30 width-50">
-                                    <i *ngIf="item.quantity>1" (click)="changeQuantity(item,-1)"
-                                        class="ph ph-minus cursor-pointer text-danger fw-semibold"></i>
-                                    <i *ngIf="item.quantity==1" (click)="removeItem(item)"
-                                        class="ph ph-trash cursor-pointer text-danger fw-semibold"></i>
-                                </div>
-                            </div>
+                                <div class="count-button d-flex align-items-center gap-2 ">
+                                    <i (click)="changeQuantity(item,1) "
+                                        class="ph ph-plus cursor-pointer text-danger fw-semibold "></i>
+                                    <input type="text " disabled [(ngModel)]="item.quantity "
+                                        class="form-control border text-center height-30 width-50 ">
+                                    <i *ngIf="item.quantity>1" (click)="changeQuantity(item,-1)" class="ph ph-minus cursor-pointer text-danger fw-semibold"></i>
+                            <i *ngIf="item.quantity==1" (click)="removeItem(item)" class="ph ph-trash cursor-pointer text-danger fw-semibold"></i>
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
+        </div>
+    </div> -->
 
             <div *ngIf="!cartItems.length">
                 <div class="d-flex align-items0-center justify-content-center bg-white radius-10 flex-column text-center w-100 height-300">

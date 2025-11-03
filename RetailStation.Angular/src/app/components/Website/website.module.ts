@@ -17,6 +17,7 @@ import { WebsiteHeaderComponent } from './components/website-header/website-head
 import { WebsiteSearchComponent } from './components/website-search/website-search.component';
 import { MainRoutingModule } from './website-routing.module';
 import { WebsiteApplyMerchantRequestComponent } from './components/website-subscribe/website-apply-merchant-request.component';
+import { websiteProductDetailsComponent } from './components/website-product-details/website-product-details.component';
 
 
 
@@ -33,7 +34,8 @@ import { WebsiteApplyMerchantRequestComponent } from './components/website-subsc
     WebsiteCartComponent,
     WebsiteOrdersComponent,
     WebsiteHeaderComponent,
-    WebsiteSearchComponent
+    WebsiteSearchComponent,
+    websiteProductDetailsComponent
   ],
   imports: [
     CommonModule,

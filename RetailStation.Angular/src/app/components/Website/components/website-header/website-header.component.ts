@@ -26,10 +26,7 @@ import { LookupService } from 'src/app/components/Shared/services/lookup.service
 @Component({
   selector: 'app-website-header',
   templateUrl: './website-header.component.html',
-  styleUrls: [
-    './website-header.component.css',
-    '../../../../../styles-website.css',
-  ],
+  styleUrls: ['./website-header.component.css', '../../../../../styles-website.css'],
 })
 export class WebsiteHeaderComponent implements OnInit {
   @Input() showToggler: boolean = true;

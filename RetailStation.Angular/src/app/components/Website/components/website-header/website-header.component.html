@@ -25,7 +25,7 @@
 </div> -->
 
 
-<div class="main-offer-wrapper d-flex align-items-center justify-content-between gap-3">
+<!-- <div class="main-offer-wrapper d-flex align-items-center justify-content-between gap-3">
     <div class="d-flex align-items-center gap-3">
         <a class="text-white text-underline-none cursor-pointer">العربية</a>
         <div class="text-white">|</div>
@@ -38,17 +38,14 @@
             <i class="ph ph-caret-left"></i>
         </div>
     </div>
-</div>
+</div> -->
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-3">
     <div class="container-fluid">
         <a class="navbar-brand me-4 cursor-pointer">
-            <img src="{{systemUrl}}assets/images/retail-station-logo.svg" routerLink="/" class="retail-station-logo"
-                alt="Retail-station-logo" loading="lazy" />
+            <img src="{{systemUrl}}assets/images/retail-station-logo.svg" routerLink="/" class="retail-station-logo" alt="Retail-station-logo" loading="lazy" />
         </a>
-        <button class="navbar-toggler hamburger nw-hamburger hamburger--elastic rounded-1 toggle-phosphor my-2"
-            [class.is-active]="!collapsed" type="button" aria-controls="navbar-content"
-            [attr.aria-expanded]="!collapsed" aria-label="Toggle navigation" (click)="collapsed = !collapsed">
+        <button class="navbar-toggler hamburger nw-hamburger hamburger--elastic rounded-1 toggle-phosphor my-2" [class.is-active]="!collapsed" type="button" aria-controls="navbar-content" [attr.aria-expanded]="!collapsed" aria-label="Toggle navigation" (click)="collapsed = !collapsed">
             <span class="hamburger-box">
                 <span class="hamburger-inner"></span>
             </span>
@@ -117,23 +114,19 @@
 
                 <ng-container *ngIf="isAuthenticated">
                     <div ngbDropdown class="dropdown-search px-3" placement="auto">
-                        <a class="sm-action-dropdown d-flex align-items-center gap-2 text-dark text-underline-none cursor-pointer"
-                            ngbDropdownToggle style="height: 45px">
+                        <a class="sm-action-dropdown d-flex align-items-center gap-2 text-dark text-underline-none cursor-pointer" ngbDropdownToggle style="height: 45px">
                             <i class="ph ph-user-circle fs-3"></i>
                             <i class="ph ph-caret-down dropdown-arrow m-0"></i> {{UserModel?.fullName}}
                         </a>
-                        <div class="dropdown-search-menu with-triangle overflow-unset p-2 pb-0 mt-3"
-                            style="max-height: 350px; right: -100px;" ngbDropdownMenu>
+                        <div class="dropdown-search-menu with-triangle overflow-unset p-2 pb-0 mt-3" style="max-height: 350px; right: -100px;" ngbDropdownMenu>
                             <div class="d-flex flex-column align-items-center gap-3 bg-dark-light p-3 radius-10">
-                                <img src="../../../../../assets/user-image-profile.svg" class="user-image-profile"
-                                    alt="user profile" loading="lazy" />
+                                <img src="../../../../../assets/user-image-profile.svg" class="user-image-profile" alt="user profile" loading="lazy" />
                                 <div class="d-flex align-items-center gap-2">
                                     <div>مرحبا</div>
                                     <div class="fw-bold">{{UserModel.userName}}</div>
                                 </div>
                             </div>
-                            <div  routerLink="/user-profile" routerLinkActive="active" class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
-                                ngbDropdownItem>
+                            <div routerLink="/user-profile" routerLinkActive="active" class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
                                 <!-- <div class="drop-image-box">
                   <img src="{{systemUrl}}assets/images/admin.png" alt="drop-icon" loading="lazy" />
                 </div>
@@ -141,8 +134,7 @@
                                 <i class="ph ph-user"></i>
                                 <div>حسابى</div>
                             </div>
-                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
-                                ngbDropdownItem>
+                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
                                 <!-- <div class="drop-image-box">
                   <img src="{{systemUrl}}assets/vegitables.svg" alt="drop-icon" loading="lazy" />
                   <i class="fas fa-check-circle"></i>
@@ -150,8 +142,7 @@
                                 <i class="ph ph-squares-four"></i>
                                 <div routerLink="/home">لوحة التحكم</div>
                             </div>
-                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
-                                ngbDropdownItem>
+                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
                                 <!-- <div class="drop-image-box">
                   <img src="{{systemUrl}}assets/vegitables.svg" alt="drop-icon" loading="lazy" />
                   <i class="fas fa-check-circle"></i>
@@ -159,14 +150,13 @@
                                 <i class="ph ph-question"></i>
                                 <div routerLink="/purchases/my-orders">تحتاج مساعده؟</div>
                             </div>
-                            <div (click)="logout()" class="d-flex align-items-center justify-content-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
-                                ngbDropdownItem>
+                            <div (click)="logout()" class="d-flex align-items-center justify-content-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
                                 <!-- <div class="drop-image-box">
                   <img src="{{systemUrl}}assets/chesse.svg" alt="drop-icon" loading="lazy" />
                   <i class="fas fa-power-off"></i>
                 </div> -->
                                 <i class="ph ph-sign-out"></i>
-                                <div >تسجيل الخروج</div>
+                                <div>تسجيل الخروج</div>
                             </div>
                         </div>
                     </div>
@@ -181,8 +171,7 @@
                     </a>
                 </li> -->
                 <li class="nav-item me-4">
-                    <a class="nav-link d-flex align-items-center py-0 fs-2 cursor-pointer h-100 position-relative"
-                        routerLink="/cart">
+                    <a class="nav-link d-flex align-items-center py-0 fs-2 cursor-pointer h-100 position-relative" routerLink="/cart">
                         <i class="ph ph-shopping-cart-simple"></i>
                         <div class="circle-order-count-box">{{cartItemsCount$}}</div>
                     </a>

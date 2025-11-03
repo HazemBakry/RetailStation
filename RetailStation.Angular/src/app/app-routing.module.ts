@@ -8,6 +8,7 @@ import { WebsiteComponent } from './components/Website/components/website.compon
 import { WebsiteHomeComponent } from './components/Website/components/website-home/website-home.component';
 import { WebsiteCartComponent } from './components/Website/components/website-cart/website-cart.component';
 import { UserProfileComponent } from './components/Shared/components/user-profile/user-profile.component';
+import { websiteProductDetailsComponent } from './components/Website/components/website-product-details/website-product-details.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
     children: [
       { path: '', component: WebsiteHomeComponent },
       { path: 'cart', component: WebsiteCartComponent },
+      { path: 'product-details', component: websiteProductDetailsComponent },
     ],
   },
   // { path: 'home', component: WelcomePageComponent, canActivate: [AuthGuard] },
