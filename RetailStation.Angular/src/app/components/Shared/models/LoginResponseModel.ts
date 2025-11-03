@@ -16,7 +16,8 @@ export interface LoginUserModel {
     fullNameAr: string;
     fullNameEn: string;
     branchId: number;
-    supplierId: number;
+    merchantId: number;
+    merchantName: string;
     branchNameAR: string;
     branchNameEN: string;
     phoneNumber: string;

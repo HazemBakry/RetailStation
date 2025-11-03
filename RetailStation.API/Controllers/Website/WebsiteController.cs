@@ -73,7 +73,7 @@ namespace RetailStation.API.Controllers.Website
         {
             string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value ?? string.Empty;
             var data = _websiteService.GetWebsiteItems_Data(UserId, SearchModel);
-            var result = new PagedResponseModel<SupplierItemModel>
+            var result = new PagedResponseModel<MerchantItemModel>
             {
                 Results = data,
                 TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
@@ -93,9 +93,9 @@ namespace RetailStation.API.Controllers.Website
 
         [HttpGet]
         [Route("GetSupplierItemDetailsById")]
-        public IActionResult GetSupplierItemDetailsById(int SupplierItemId)
+        public IActionResult GetSupplierItemDetailsById(int MerchantItemId)
         {
-            var results = _websiteService.GetWebsiteItemDetailsById(SupplierItemId);
+            var results = _websiteService.GetWebsiteItemDetailsById(MerchantItemId);
             return Ok(results);
         }
 
@@ -180,7 +180,7 @@ namespace RetailStation.API.Controllers.Website
         }
         [HttpGet]
         [Route("ToggleFavorite")]
-        public IActionResult ToggleFavorite(int SupplierItemId)
+        public IActionResult ToggleFavorite(int MerchantItemId)
         {
             string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
             if (string.IsNullOrEmpty(UserId))
@@ -193,7 +193,7 @@ namespace RetailStation.API.Controllers.Website
                 return Ok(res);
 
             }
-            var result = _websiteService.ToggleFavorite(UserId, SupplierItemId);
+            var result = _websiteService.ToggleFavorite(UserId, MerchantItemId);
             return Ok(result);
         }        
         [HttpGet]

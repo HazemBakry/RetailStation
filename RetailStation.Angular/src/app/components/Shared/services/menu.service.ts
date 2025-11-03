@@ -38,14 +38,14 @@ export class MenuService {
         // {
         //   menuItemId: MenuType.Supplier,
         //   displayName: 'الفواتير',
-        //   menuItem: 'supplier-invoices',
+        //   menuItem: 'merchant-invoices',
         //   description: 'عرض وإدارة فواتير الشراء للموردين',
         //   icon: 'fa fa-file-invoice',
         //   route: '/sales/supplier-invoices'
         // },
         {
           displayName: 'قائمة الطلبات',
-          menuItem: 'supplier-orders',
+          menuItem: 'merchant-orders',
           description: 'إدارة أوامر الشراء الصادرة للموردين',
           icon: 'fa fa-clipboard-list',
           route: '/sales/supplier-orders'
@@ -114,12 +114,19 @@ export class MenuService {
                 icon: 'fa fa-layer-group',
                 route: '/admin/items'
               },
+              // {
+              //   displayName: 'قائمة الموردين',
+              //   menuItem: 'suppliers',
+              //   description: 'إدارة بيانات الموردين وتفاصيل الاتصال',
+              //   icon: 'fa fa-users',
+              //   route: '/admin/suppliers'
+              // },
               {
-                displayName: 'قائمة الموردين',
-                menuItem: 'suppliers',
-                description: 'إدارة بيانات الموردين وتفاصيل الاتصال',
+                displayName: 'قائمة التجار',
+                menuItem: 'merchants',
+                description: 'إدارة بيانات التجار وتفاصيل الاتصال',
                 icon: 'fa fa-users',
-                route: '/admin/suppliers'
+                route: '/admin/merchants'
               },
               {
                 displayName: 'قائمة الدول',

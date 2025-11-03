@@ -12,7 +12,7 @@ namespace RetailStation.Entities.Models.Operation
     public class UserFavoriteItem
     {
         public int UserFavoriteItemId { get; set; }
-        public int SupplierItemId { get; set; }
+        public int MerchantItemId { get; set; }
         public string UserId { get; set; }
     }
 }

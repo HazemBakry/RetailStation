@@ -95,7 +95,8 @@ namespace RetailStation.Entities.Models
 
         public DbSet<ItemSupplier> ItemSuppliers { get; set; }
         public DbSet<Item> Items { get; set; }
-        public DbSet<SupplierItem> SupplierItems { get; set; }
+        public DbSet<MerchantItem> SupplierItems { get; set; }
+        public DbSet<MerchantItem> MerchantItems { get; set; }
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<Promotion> Promotions { get; set; }
         public DbSet<TopPartner> TopPartners { get; set; }

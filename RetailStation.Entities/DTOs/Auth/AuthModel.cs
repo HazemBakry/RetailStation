@@ -14,7 +14,8 @@ namespace RetailStation.Entities.DTOs.Auth
         public string UserId { get; set; }
         public string FullName { get; set; }
         public int? BranchId { get; set; }
-        public int? SupplierId { get; set; }
+        public int? MerchantId { get; set; }
+        public string MerchantName { get; set; }
         public string BranchNameAR { get; set; }
         public string BranchNameEN { get; set; }
         public bool IsAdminBranch { get; set; } = false;

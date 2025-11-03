@@ -65,7 +65,7 @@
                         <td>{{item.minimumOrderQuantity}}</td>
                         <td> <label class="switch me-2">
                                 <input type="checkbox" [(ngModel)]="item.isBestSellerItem"
-                                    (change)="MarkItemAsBestSeller(item.supplierItemId)"
+                                    (change)="MarkItemAsBestSeller(item.merchantItemId)"
                                     class="ng-valid ng-dirty ng-touched">
                                 <span class="slider round"></span>
                             </label>
@@ -73,7 +73,7 @@
                         <td class="width-300 min-width-300">
                             <app-general-selector [(ngModel)]="item.itemId" [data]="itemsSelectorData"
                                 [disabled]="itemsSelectorData?.length==0" [showSearch]="true" [placeholder]="'Item Map'"
-                                (valueChanged)="mapSupplierItem(item.supplierItemId,$event)">
+                                (valueChanged)="mapSupplierItem(item.merchantItemId,$event)">
                             </app-general-selector>
                         </td>
                     </tr>

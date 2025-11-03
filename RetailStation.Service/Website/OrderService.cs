@@ -141,7 +141,7 @@ namespace RetailStation.Service.Website
                     OrderDetail Invoice_Details = new OrderDetail();
 
                     Invoice_Details.OrderId = tbl_Order.OrderId;
-                    Invoice_Details.ItemId = row.SupplierItemId.GetValueOrDefault();
+                    Invoice_Details.ItemId = row.MerchantItemId.GetValueOrDefault();
                     Invoice_Details.UnitId = row.UnitId;
                     Invoice_Details.Quantity = row.Quantity;
                     Invoice_Details.Price = row.Price.GetValueOrDefault();
@@ -178,13 +178,13 @@ namespace RetailStation.Service.Website
 
             try
             {
-                var requestedItemIds = model.Items.Select(x => x.SupplierItemId).ToList();
+                var requestedItemIds = model.Items.Select(x => x.MerchantItemId).ToList();
                 var supplierItems = Context.SupplierItems
-                    .Where(x => requestedItemIds.Contains(x.SupplierItemId))
+                    .Where(x => requestedItemIds.Contains(x.MerchantItemId))
                     .AsNoTracking()
                     .ToList();
 
-                var notFoundItems = requestedItemIds.Except(supplierItems.Select(x => x.SupplierItemId));
+                var notFoundItems = requestedItemIds.Except(supplierItems.Select(x => x.MerchantItemId));
                 if (notFoundItems.Any())
                 {
                     return new ActionsResponseModel
@@ -196,7 +196,7 @@ namespace RetailStation.Service.Website
 
                 foreach (var requestedItem in model.Items)
                 {
-                    var item = supplierItems.FirstOrDefault(x => x.SupplierItemId == requestedItem.SupplierItemId);
+                    var item = supplierItems.FirstOrDefault(x => x.MerchantItemId == requestedItem.MerchantItemId);
                     if (item == null)
                     {
                         continue;
@@ -206,7 +206,7 @@ namespace RetailStation.Service.Website
                     {
                         return new ActionsResponseModel
                         {
-                            Message = $"Insufficient stock for item: {item.SupplierItemId}. Available: {item.Quantity}, Requested: {requestedItem.Quantity}",
+                            Message = $"Insufficient stock for item: {item.MerchantItemId}. Available: {item.Quantity}, Requested: {requestedItem.Quantity}",
                             IsSuccess = false
                         };
                     }
@@ -253,7 +253,7 @@ namespace RetailStation.Service.Website
                         var orderDetail = new OrderDetail
                         {
                             OrderId = order.OrderId,
-                            ItemId = requestedItem.SupplierItemId,
+                            ItemId = requestedItem.MerchantItemId,
                             UnitId = requestedItem.UnitId,
                             Quantity = requestedItem.Quantity,
                             Price = requestedItem.Price.GetValueOrDefault(),
@@ -326,7 +326,7 @@ namespace RetailStation.Service.Website
                         OrderDetail Invoice_Details = new OrderDetail();
 
                         Invoice_Details.OrderId = OrderId;
-                        Invoice_Details.ItemId = row.SupplierItemId.GetValueOrDefault();
+                        Invoice_Details.ItemId = row.MerchantItemId.GetValueOrDefault();
                         Invoice_Details.UnitId = row.UnitId;
                         Invoice_Details.Quantity = row.Quantity;
                         Invoice_Details.Price = row.Price.GetValueOrDefault();

@@ -6,7 +6,7 @@ import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
 import { FilterItem, FilterModel } from '../../Shared/models/FilterModel';
 import { CreateOrderModel, WebsiteOrderModel } from '../models/WebsiteOrderModel ';
 import { SliderModel } from '../../Admin/models/Operation/SliderModel';
-import { SupplierItemModel } from '../../Shared/models/SupplierItemModel';
+import { MerchantItemModel } from '../../Shared/models/MerchantItemModel';
 import { PromotionModel } from '../../Shared/models/PromotionModel';
 import { ItemCategoryModel } from '../../Shared/models/ItemCategory';
 import { TopPartner } from '../../Shared/models/TopPartnerModel';
@@ -29,16 +29,16 @@ export class WebsiteService {
 
   /////////////////////////////// SupplierItems ////////////////////////
 
-  GetWebsiteItems_Data(searchModel: PagedResponseModel<SupplierItemModel[]>) {
-    return this.http.post<PagedResponseModel<SupplierItemModel[]>>(this.URL + 'Website/GetWebsiteItems_Data', searchModel);
+  GetWebsiteItems_Data(searchModel: PagedResponseModel<MerchantItemModel[]>) {
+    return this.http.post<PagedResponseModel<MerchantItemModel[]>>(this.URL + 'Website/GetWebsiteItems_Data', searchModel);
   }
 
-  GetWebsiteItems_Filters(searchModel: PagedResponseModel<SupplierItemModel[]>) {
+  GetWebsiteItems_Filters(searchModel: PagedResponseModel<MerchantItemModel[]>) {
     return this.http.post<FilterModel[]>(this.URL + 'Website/GetWebsiteItems_Filters', searchModel);
   }
 
-  GetItemsByCategoryId(categoryId: number, searchModel: PagedResponseModel<SupplierItemModel[]>) {
-    return this.http.post<PagedResponseModel<SupplierItemModel[]>>(this.URL + `Website/GetItemsByCategoryId?CategoryId=${categoryId}`, searchModel);
+  GetItemsByCategoryId(categoryId: number, searchModel: PagedResponseModel<MerchantItemModel[]>) {
+    return this.http.post<PagedResponseModel<MerchantItemModel[]>>(this.URL + `Website/GetItemsByCategoryId?CategoryId=${categoryId}`, searchModel);
   }
 
   GetWebsitePromotionItems(searchModel: PagedResponseModel<PromotionModel[]>) {
@@ -49,7 +49,7 @@ export class WebsiteService {
   }
 
   GetWebsiteItemDetailsById(itemId: number) {
-    return this.http.get<SupplierItemModel>(this.URL + `Website/GetWebsiteItemDetailsById?SupplierItemId=${itemId}`);
+    return this.http.get<MerchantItemModel>(this.URL + `Website/GetWebsiteItemDetailsById?merchantItemId=${itemId}`);
   }
 
 
@@ -84,8 +84,8 @@ export class WebsiteService {
   GetTopPartners() {
     return this.http.get<TopPartner[]>(this.URL + `Website/GetTopPartners`);
   }
-  ToggleFavorite(supplierItemId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'Website/ToggleFavorite?SupplierItemId=' + supplierItemId);
+  ToggleFavorite(merchantItemId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Website/ToggleFavorite?merchantItemId=' + merchantItemId);
   }
   SearchAutoComplete(searchText: string) {
     return this.http.get<SearchAutoCompleteModel[]>(this.URL + 'Website/SearchAutoComplete?SearchText=' + searchText);

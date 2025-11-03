@@ -7,7 +7,7 @@ import { WebsiteService } from 'src/app/components/Main/services/website.service
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { CartModel, CartService } from 'src/app/components/Shared/services/cart.service';
 import { CreateOrderItemModel, CreateOrderModel } from '../../models/WebsiteOrderModel ';
-import { SupplierItemModel } from 'src/app/components/Shared/models/SupplierItemModel';
+import { MerchantItemModel } from 'src/app/components/Shared/models/MerchantItemModel';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
@@ -25,14 +25,14 @@ export class WebsiteCartComponent implements OnInit {
   tax = 0.0;
   discount = 0.0;
   netValue = 0.0;
-  pageResponseModel: PagedResponseModel<SupplierItemModel[]> = {
+  pageResponseModel: PagedResponseModel<MerchantItemModel[]> = {
     results: [],
     filterList: [],
     pageSize: 20,
     currentPage: 1,
     searchText: ''
   };
-  cartItems: SupplierItemModel[] = [];
+  cartItems: MerchantItemModel[] = [];
   compareCount$: number = 0;
 
   constructor(private offcanvasService: NgbOffcanvas,
@@ -57,7 +57,7 @@ export class WebsiteCartComponent implements OnInit {
     this.websiteService.GetWebsiteItems_Data(this.pageResponseModel).subscribe(data => {
       this.pageResponseModel.results = data.results;
       this.cartItems = this.pageResponseModel.results;
-      // this.suppliersData = this.suppliersData.concat([...data.results]);
+      // this.merchantsData = this.merchantsData.concat([...data.results]);
       //this.pageResponseModel.totalCount = data.totalCount;
 
       this.setQuantity();
@@ -80,15 +80,15 @@ export class WebsiteCartComponent implements OnInit {
     this.pageResponseModel.results = [];
     this.pageResponseModel.filterList = [];
     this.cartList.forEach(item => {
-      if (item.supplierItemId) {
-        this.pageResponseModel.filterList.push({ categoryName: 'SupplierItemId', itemFlag: item.supplierItemId.toString() })
+      if (item.merchantItemId) {
+        this.pageResponseModel.filterList.push({ categoryName: 'merchantItemId', itemFlag: item.merchantItemId.toString() })
       }
     });
   }
 
   setQuantity() {
     this.cartList.forEach(item => {
-      const found = this.pageResponseModel.results.find(i => i.supplierItemId === item.supplierItemId);
+      const found = this.pageResponseModel.results.find(i => i.merchantItemId === item.merchantItemId);
       if (found) {
         found.quantity = item.quantity;
         found.cost = item.quantity * (found.offerPrice ?? found.price);
@@ -98,22 +98,22 @@ export class WebsiteCartComponent implements OnInit {
     this.calculateCartSummary();
   }
 
-  // remove(item: SupplierItemModel): void {
-  //   this.cartService.removeItem(item.supplierItemId);
+  // remove(item: MerchantItemModel): void {
+  //   this.cartService.removeItem(item.merchantItemId);
   //   this.loadData();
   // }
 
 
-  changeQuantity(item: SupplierItemModel, newQuantity: number): void {
+  changeQuantity(item: MerchantItemModel, newQuantity: number): void {
     if (item.quantity + newQuantity > 0) {
       // this.itemQuantity = this.itemQuantity + qty;
-      this.cartService.changeItemQuantity(item.supplierItemId, item.quantity + newQuantity);
+      this.cartService.changeItemQuantity(item.merchantItemId, item.quantity + newQuantity);
       this.setQuantity();
     }
   }
 
   removeItem(item: any) {
-    this.cartService.removeItem(item.supplierItemId);
+    this.cartService.removeItem(item.merchantItemId);
     this.loadData();
   }
 
@@ -173,8 +173,8 @@ export class WebsiteCartComponent implements OnInit {
     this.cartItems.forEach(item => {
       let OrderItem: CreateOrderItemModel = {} as CreateOrderItemModel;
       OrderItem.itemId = item.itemId;
-      OrderItem.supplierItemId = item.supplierItemId;
-      OrderItem.supplierId = item.supplierId;
+      OrderItem.merchantItemId = item.merchantItemId;
+      OrderItem.merchantId = item.merchantId;
       OrderItem.price = item.price;
       OrderItem.quantity = item.quantity;
       OrderItem.subTotal = 0;

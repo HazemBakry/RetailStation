@@ -11,7 +11,7 @@
         <div class="card-content mt-3">
             <div class="card-content-info d-flex mb-3">
                 <div class="card-content-img">
-                    <img [src]="supplierLogo" alt="restaurant-logo" />
+                    <img [src]="merchantLogo" alt="restaurant-logo" />
                 </div>
                 <div class="me-2 w-100">
                     <div class="foods-title d-flex align-items-center justify-content-between">
@@ -21,7 +21,7 @@
                         </div>
                     </div>
                     <div class="foods-title">
-                        {{item.supplierName}}
+                        {{item.merchantName}}
                     </div>
                 </div>
             </div>
@@ -65,10 +65,10 @@
                 <div class="d-flex align-items-center gap-2">
                     <i class="ph ph-link-simple text-muted"></i>
                     <a class="text-muted fw-semibold cursor-pointer">
-                        {{item.supplierName}}
+                        {{item.merchantName}}
                     </a>
                 </div>
-                <app-rate [value]="item.supplierRate"></app-rate>
+                <app-rate [value]="item.merchantRate"></app-rate>
             </div>
             <div class="d-flex align-items-center gap-2">
                 <div class="d-flex align-items-center gap-2">

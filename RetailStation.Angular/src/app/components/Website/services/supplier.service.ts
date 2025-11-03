@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
-import { SupplierItemModel } from '../models/SupplierItemModel';
 import { PaymentReceiptModel } from '../../Shared/models/PaymentReceiptModel';
 import { FilterItem, FilterModel } from '../../Shared/models/FilterModel';
 import { WebsiteOrderItemModel, WebsiteOrderModel } from '../models/WebsiteOrderModel ';
 import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
+import { MerchantItemModel } from '../../Shared/models/MerchantItemModel';
 
 
 @Injectable({
@@ -22,12 +22,12 @@ export class SupplierService {
 
   /////////////////////////////// SupplierItems ////////////////////////
 
-  GetSupplierItemsData(searchModel: PagedResponseModel<SupplierItemModel[]>) {
-    return this.http.post<PagedResponseModel<SupplierItemModel[]>>(this.URL + 'SupplierManagement/GetSupplierItemsData', searchModel);
+  GetSupplierItemsData(searchModel: PagedResponseModel<MerchantItemModel[]>) {
+    return this.http.post<PagedResponseModel<MerchantItemModel[]>>(this.URL + 'SupplierManagement/GetSupplierItemsData', searchModel);
   }
 
   GetSupplierItemDetailsById(itemId: number) {
-    return this.http.get<SupplierItemModel>(this.URL + `SupplierManagement/GetSupplierItemDetailsById?SupplierItemId=${itemId}`);
+    return this.http.get<MerchantItemModel>(this.URL + `SupplierManagement/GetSupplierItemDetailsById?merchantItemId=${itemId}`);
   }
 
   AddNewSupplierItem(model: FormData) {
@@ -38,17 +38,17 @@ export class SupplierService {
   }
 
   EditSupplierItem(itemId: number, model: FormData) {
-    return this.http.post<ActionsResponseModel>(this.URL + `SupplierManagement/EditSupplierItem?SupplierItemId=${itemId}`, model)
+    return this.http.post<ActionsResponseModel>(this.URL + `SupplierManagement/EditSupplierItem?merchantItemId=${itemId}`, model)
   }
 
   DeleteSupplierItem(itemId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + `SupplierManagement/DeleteSupplierItem?SupplierItemId=${itemId}`);
+    return this.http.get<ActionsResponseModel>(this.URL + `SupplierManagement/DeleteSupplierItem?merchantItemId=${itemId}`);
   }
-  ChangeSupplierItemActiveStatus(SupplierItemId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + 'SupplierManagement/ChangeSupplierItemActiveStatus?SupplierItemId=' + SupplierItemId);
+  ChangeSupplierItemActiveStatus(merchantItemId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'SupplierManagement/ChangeSupplierItemActiveStatus?merchantItemId=' + merchantItemId);
   }
-  SupplierItemQuickUpdate(SupplierItemId: number, Price: number, UnitId: number) {
-    return this.http.get<ActionsResponseModel>(this.URL + `SupplierManagement/SupplierItemQuickUpdate?SupplierItemId=${SupplierItemId}&Price=${Price}&UnitId=${UnitId}`);
+  SupplierItemQuickUpdate(merchantItemId: number, Price: number, UnitId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `SupplierManagement/SupplierItemQuickUpdate?merchantItemId=${merchantItemId}&Price=${Price}&UnitId=${UnitId}`);
   }
   ExportSupplierItems(searchModel: PagedResponseModel, categoryId: number) {
     return this.http.post<ActionsResponseModel>(this.URL + `SupplierManagement/ExportSupplierItems?CategoryId=${categoryId} `, searchModel);

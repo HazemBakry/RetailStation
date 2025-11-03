@@ -25,6 +25,9 @@ import { TagsManagerComponent } from './components/tags-manager/tags-manager.com
 import { RegionsComponent } from './components/regions/regions.component';
 import { CitiesComponent } from './components/cities/cities.component';
 import { CountriesComponent } from './components/countries/countries.component';
+import { MerchantsContainerComponent } from './components/merchants-container/merchants-container.component';
+import { MerchantsComponent } from './components/merchants-container/merchants/merchants.component';
+import { ManageMerchantItemsComponent } from './components/merchants-container/manage-merchant-items/manage-merchant-items.component';
 
 
 const routes: Routes = [
@@ -43,6 +46,16 @@ const routes: Routes = [
           { path: '', component: SuppliersComponent },
           { path: 'add-subscriber', component: AddSubscriberComponent },
           { path: 'manage-supplier-items/:SupplierId', component: ManageSupplierItemsComponent }
+        ],
+      },
+      {
+        path: 'merchants',
+        canActivate: [AuthGuard],
+        data: { roles: ['SuperAdmin'] },
+        component: MerchantsContainerComponent,
+        children: [
+          { path: '', component: MerchantsComponent },
+          { path: 'manage-merchant-items/:MerchantId', component: ManageMerchantItemsComponent }
         ],
       },
       {

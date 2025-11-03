@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/Auth/auth.service';
 
 export interface CartModel {
   cartId?: number;
-  supplierItemId: number;
+  merchantItemId: number;
   quantity: number;
   userId: string;
 }
@@ -65,14 +65,14 @@ export class CartService {
    */
   addItem(cartItem: CartModel): void {
     const currentList = this.getCurrentCartItems();
-    const existingItem = currentList.find(item => item.supplierItemId === cartItem.supplierItemId);
+    const existingItem = currentList.find(item => item.merchantItemId === cartItem.merchantItemId);
 
     let updatedList: CartModel[];
 
     if (existingItem) {
       // Update quantity of existing item
       updatedList = currentList.map(item =>
-        item.supplierItemId === cartItem.supplierItemId
+        item.merchantItemId === cartItem.merchantItemId
           ? { ...item, quantity: item.quantity + cartItem.quantity }
           : item
       );
@@ -98,13 +98,13 @@ export class CartService {
     }
   }
 
-  removeItem(supplierItemId: number): void {
-    const updatedList = this.getCurrentCartItems().filter(item => item.supplierItemId !== supplierItemId);
+  removeItem(merchantItemId: number): void {
+    const updatedList = this.getCurrentCartItems().filter(item => item.merchantItemId !== merchantItemId);
 
     this._cartItemsSource.next(updatedList);
     this.saveToLocalStorage(updatedList);
     if (this.authService.isAuthenticated()) {
-      this.removeItemFromCart(supplierItemId).pipe(
+      this.removeItemFromCart(merchantItemId).pipe(
         catchError(error => {
           console.error('Failed to remove item from database.', error);
           return throwError(error);
@@ -151,8 +151,8 @@ export class CartService {
     return of({ isSuccess: true, message: 'Cart cleared successfully (temp response).' } as ActionsResponseModel);
 
   }
-  private changeItemQuantityInDB(supplierItemId: number, quantity: number): Observable<ActionsResponseModel> {
-    // return this.http.put<ActionsResponseModel>(`${this.apiUrl}/Cart/${supplierItemId}`, { quantity });
+  private changeItemQuantityInDB(merchantItemId: number, quantity: number): Observable<ActionsResponseModel> {
+    // return this.http.put<ActionsResponseModel>(`${this.apiUrl}/Cart/${merchantItemId}`, { quantity });
     return of({ isSuccess: true, message: 'Item quantity updated successfully (temp response).' } as ActionsResponseModel);
   }
   // --- Local Storage Sync Methods ---
@@ -204,23 +204,23 @@ export class CartService {
   }
 
   isItemInList(itemId: number): boolean {
-    return this._cartItemsSource.value.some(item => item.supplierItemId === itemId);
+    return this._cartItemsSource.value.some(item => item.merchantItemId === itemId);
   }
   getItemQuantity(itemId: number): number {
-    return this._cartItemsSource.value.find(item => item.supplierItemId === itemId)?.quantity;
+    return this._cartItemsSource.value.find(item => item.merchantItemId === itemId)?.quantity;
   }
 
-  changeItemQuantity(supplierItemId: number, newQuantity: number): void {
+  changeItemQuantity(merchantItemId: number, newQuantity: number): void {
     if (newQuantity <= 0) {
-      const itemToRemove = this.getCurrentCartItems().find(item => item.supplierItemId === supplierItemId);
+      const itemToRemove = this.getCurrentCartItems().find(item => item.merchantItemId === merchantItemId);
       if (itemToRemove) {
-        this.removeItem(supplierItemId);
+        this.removeItem(merchantItemId);
       }
       return;
     }
 
     const updatedList = this.getCurrentCartItems().map(item =>
-      item.supplierItemId === supplierItemId
+      item.merchantItemId === merchantItemId
         ? { ...item, quantity: newQuantity }
         : item
     );
@@ -228,7 +228,7 @@ export class CartService {
     this._cartItemsSource.next(updatedList);
     this.saveToLocalStorage(updatedList);
     if (this.authService.isAuthenticated()) {
-      this.changeItemQuantityInDB(supplierItemId, newQuantity).pipe(
+      this.changeItemQuantityInDB(merchantItemId, newQuantity).pipe(
         catchError(error => {
           console.error('Failed to update item quantity in database.', error);
           return throwError(error);

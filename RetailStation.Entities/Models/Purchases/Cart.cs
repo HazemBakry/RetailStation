@@ -9,7 +9,7 @@ namespace RetailStation.Entities.Models.Purchases
     public class Cart
     {
         public int CartId { get; set; }
-        public int SupplierItemId { get; set; }
+        public int MerchantItemId { get; set; }
         public float Quantity { get; set; }
         public string UserId { get; set; }
     }

@@ -32,5 +32,5 @@ export interface FileImportModel
 
 
 export enum ImporterName {
-  SupplierItems = 'SupplierItems'
+  MerchantItems = 'MerchantItems'
 }

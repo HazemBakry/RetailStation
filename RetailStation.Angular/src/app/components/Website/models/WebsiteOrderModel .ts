@@ -40,7 +40,7 @@ export interface WebsiteOrderModel extends CreatorModel {
 export interface WebsiteOrderItemModel {
     orderDetailsId?: number | null;
     orderId?: number | null;
-    supplierItemId: number | null;
+    merchantItemId: number | null;
     nameAR?: string;
     nameEN?: string;
     image: string;
@@ -90,7 +90,7 @@ export interface CreateOrderModel extends CreatorModel {
 }
 
 export interface CreateOrderItemModel {
-    supplierItemId: number | null;
+    merchantItemId: number | null;
     itemId?: number;
     unitId?: number | null;
     quantity: number;
@@ -100,5 +100,5 @@ export interface CreateOrderItemModel {
     discountPercent: number | null;
     totalValue: number;
     notes?: string;
-    supplierId: number | null;
+    merchantId: number | null;
 }

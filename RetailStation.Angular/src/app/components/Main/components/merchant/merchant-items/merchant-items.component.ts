@@ -1,37 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { DatePipe } from '@angular/common';
 import { FilterItem } from 'src/app/components/Shared/models/FilterModel';
 import { ToastrService } from 'ngx-toastr';
 import { FormDropdownModel } from 'src/app/components/Shared/components/drop-down-form-control/drop-down-form-control.component';
-import { PagedResponseDTO, PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
-import { SupplierModel } from 'src/app/components/Purchases/models/SupplierModel';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
-import { SupplierService } from '../../../services/supplier.service';
 import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 import { ImporterName } from 'src/app/components/SystemSettings/models/DataImporter';
-import { SupplierItemModel } from 'src/app/components/Shared/models/SupplierItemModel';
+import { MerchantItemModel } from 'src/app/components/Shared/models/MerchantItemModel';
+import { MerchantService } from 'src/app/components/Website/services/merchant.service';
+import { MerchantModel } from 'src/app/components/Admin/models/Operation/MerchantModel';
 
 @Component({
-  selector: 'app-supplier-items',
-  templateUrl: './supplier-items.component.html',
-  styleUrls: ['./supplier-items.component.css']
+  selector: 'app-merchant-items',
+  templateUrl: './merchant-items.component.html',
+  styleUrls: ['./merchant-items.component.css']
 })
-export class SupplierItemsComponent implements OnInit {
+export class MerchantItemsComponent implements OnInit {
   TitleList = ['الموردين', 'بيانات الأصناف'];
   unitsSelectorData: GeneralSelectorModel[] = [];
-  suppliersSelectorData: GeneralSelectorModel[] = [];
+  merchantsSelectorData: GeneralSelectorModel[] = [];
   itemCategoriesSelectorData: GeneralSelectorModel[] = [];
   categoriesData: GeneralSelectorModel[] = [];
 
-  selectedSupplierItemId: number;
+  selectedmerchantItemId: number;
 
-  supplierItemModel: SupplierItemModel = {} as SupplierItemModel;
-  itemResponseModel: PagedResponseModel<SupplierItemModel[]> = {
+  MerchantItemModel: MerchantItemModel = {} as MerchantItemModel;
+  itemResponseModel: PagedResponseModel<MerchantItemModel[]> = {
     results: [],
     filterList: [],
     pageSize: 20,
@@ -41,12 +40,12 @@ export class SupplierItemsComponent implements OnInit {
   showLoader: boolean = false;
   showAddLoader: boolean = false;
   showExportLoader: boolean = false;
-  importerName: string = ImporterName.SupplierItems;
+  importerName: string = ImporterName.MerchantItems;
   public formGroup: FormGroup;
   public formErrors = {
-    supplierItemId: '',
+    merchantItemId: '',
     itemId: '',
-    supplierId: '',
+    merchantId: '',
     nameAR: '',
     nameEN: '',
     unitId: '',
@@ -72,7 +71,7 @@ export class SupplierItemsComponent implements OnInit {
 
   imageFile: File;
   formData: FormData = new FormData();
-  constructor(private modalService: NgbModal, private supplierService: SupplierService,
+  constructor(private modalService: NgbModal, private merchantService: MerchantService,
     private sharedService: SharedService, private form: FormBuilder, private _FormService: FormService,
     private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
 
@@ -86,7 +85,7 @@ export class SupplierItemsComponent implements OnInit {
 
   loadData() {
     this.showLoader = true;
-    this.supplierService.GetSupplierItemsData(this.itemResponseModel).subscribe(data => {
+    this.merchantService.GetMerchantItemsData(this.itemResponseModel).subscribe(data => {
       this.itemResponseModel.results = data.results;
       this.itemResponseModel.totalCount = data.totalCount;
 
@@ -102,7 +101,7 @@ export class SupplierItemsComponent implements OnInit {
 
   exportData(categoryId: number = 0) {
     this.showExportLoader = true;
-    this.supplierService.ExportSupplierItems(this.itemResponseModel, categoryId).subscribe((data: ActionsResponseModel) => {
+    this.merchantService.ExportMerchantItems(this.itemResponseModel, categoryId).subscribe((data: ActionsResponseModel) => {
       if (data.isSuccess) {
         this.sharedService.urlDownloadOrOpen(data.url);
         this.toaster.success(data.message);
@@ -141,14 +140,14 @@ export class SupplierItemsComponent implements OnInit {
     this.modalService.open(content, { size: 'lg', centered: true, scrollable: true });
   }
 
-  openNewItemSidePanel(content: any, supplierItemModel: SupplierItemModel = null) {
+  openNewItemSidePanel(content: any, MerchantItemModel: MerchantItemModel = null) {
 
     this.loadSelectors();
 
     this.isUpdate = false;
     this.buildForm();
-    if (supplierItemModel)
-      this.fillEditForm(supplierItemModel);
+    if (MerchantItemModel)
+      this.fillEditForm(MerchantItemModel);
 
     this.formGroup.patchValue({ employeeId: this.selectedCategoryId });
     this.modalService.open(content, { centered: true, size: 'lg', fullscreen: 'lg' });
@@ -158,7 +157,7 @@ export class SupplierItemsComponent implements OnInit {
 
   buildForm() {
     this.formGroup = this.form.group({
-      supplierItemId: [null],
+      merchantItemId: [null],
       nameAR: [null, [Validators.required]],
       nameEN: [null, [Validators.required]],
       unitId: [null, [Validators.required]],
@@ -190,7 +189,7 @@ export class SupplierItemsComponent implements OnInit {
     if (!this.validateForm()) {
       return;
     }
-    this.supplierItemModel = this.formGroup.value;
+    this.MerchantItemModel = this.formGroup.value;
     this.formData = new FormData();
     if (this.imageFile != null) {
       this.formData.append('image', this.imageFile);
@@ -199,7 +198,7 @@ export class SupplierItemsComponent implements OnInit {
       if (key != 'image' && this.formGroup.value[key] != undefined)
         this.formData.append(key, this.formGroup.value[key]);
     });
-    if (this.supplierItemModel.supplierItemId)
+    if (this.MerchantItemModel.merchantItemId)
       this.editItem();
     else
       this.addNewItem();
@@ -207,7 +206,7 @@ export class SupplierItemsComponent implements OnInit {
 
   addNewItem() {
     this.showAddLoader = true;
-    this.supplierService.AddNewSupplierItem(this.formData).subscribe((data: ActionsResponseModel) => {
+    this.merchantService.AddNewMerchantItem(this.formData).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.toaster.success(data?.message);
@@ -230,7 +229,7 @@ export class SupplierItemsComponent implements OnInit {
 
   editItem() {
     this.showAddLoader = true;
-    this.supplierService.EditSupplierItem(this.supplierItemModel.supplierItemId, this.formData).subscribe((data: ActionsResponseModel) => {
+    this.merchantService.EditMerchantItem(this.MerchantItemModel.merchantItemId, this.formData).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         // this.initNewForm();
@@ -249,7 +248,7 @@ export class SupplierItemsComponent implements OnInit {
     });
   }
   changeItemStatus(ItemId: number) {
-    this.supplierService.ChangeSupplierItemActiveStatus(ItemId).subscribe(data => {
+    this.merchantService.ChangeMerchantItemActiveStatus(ItemId).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message);
         this.loadData();
@@ -275,41 +274,41 @@ export class SupplierItemsComponent implements OnInit {
   }
 
 
-  fillEditForm(supplierItemModel: SupplierItemModel) {
+  fillEditForm(MerchantItemModel: MerchantItemModel) {
     this.isUpdate = true;
     this.formGroup.patchValue({
-      supplierItemId: supplierItemModel.supplierItemId,
-      itemId: supplierItemModel.itemId,
-      supplierId: supplierItemModel.supplierId,
-      nameAR: supplierItemModel.nameAR,
-      nameEN: supplierItemModel.nameEN,
-      unitId: supplierItemModel.unitId,
-      purchaseUnitId: supplierItemModel.purchaseUnitId,
-      itemCategoryId: supplierItemModel.itemCategoryId,
-      price: supplierItemModel.price,
-      offerPrice: supplierItemModel.offerPrice,
-      price10: supplierItemModel.price10,
-      price100: supplierItemModel.price100,
-      price1000: supplierItemModel.price1000,
-      quantity: supplierItemModel.quantity,
-      minimumOrderQuantity: supplierItemModel.minimumOrderQuantity,
-      isActive: supplierItemModel.isActive,
-      purchasePrice: supplierItemModel.purchasePrice,
-      itemTypeId: supplierItemModel.itemTypeId
+      merchantItemId: MerchantItemModel.merchantItemId,
+      itemId: MerchantItemModel.itemId,
+      merchantId: MerchantItemModel.merchantId,
+      nameAR: MerchantItemModel.nameAR,
+      nameEN: MerchantItemModel.nameEN,
+      unitId: MerchantItemModel.unitId,
+      purchaseUnitId: MerchantItemModel.purchaseUnitId,
+      itemCategoryId: MerchantItemModel.itemCategoryId,
+      price: MerchantItemModel.price,
+      offerPrice: MerchantItemModel.offerPrice,
+      price10: MerchantItemModel.price10,
+      price100: MerchantItemModel.price100,
+      price1000: MerchantItemModel.price1000,
+      quantity: MerchantItemModel.quantity,
+      minimumOrderQuantity: MerchantItemModel.minimumOrderQuantity,
+      isActive: MerchantItemModel.isActive,
+      purchasePrice: MerchantItemModel.purchasePrice,
+      itemTypeId: MerchantItemModel.itemTypeId
 
     });
   }
 
 
-  openDeleteModal(content: any, supplierItemId: number) {
-    this.selectedSupplierItemId = supplierItemId;
+  openDeleteModal(content: any, merchantItemId: number) {
+    this.selectedmerchantItemId = merchantItemId;
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
   loadSelectors() {
 
-    this.sharedService.GetSuppliersSelector().subscribe((data: FormDropdownModel[]) => {
-      this.suppliersSelectorData = data;
+    this.sharedService.GetMerchantsSelector().subscribe((data: FormDropdownModel[]) => {
+      this.merchantsSelectorData = data;
     });
 
     this.sharedService.GetUnitsSelector().subscribe((data: FormDropdownModel[]) => {
@@ -330,7 +329,7 @@ export class SupplierItemsComponent implements OnInit {
 
   deleteItem() {
     this.showAddLoader = true;
-    this.supplierService.DeleteSupplierItem(this.selectedSupplierItemId).subscribe(data => {
+    this.merchantService.DeleteMerchantItem(this.selectedmerchantItemId).subscribe(data => {
 
       if (data?.isSuccess) {
         this.modalService?.dismissAll();
@@ -347,16 +346,12 @@ export class SupplierItemsComponent implements OnInit {
       this.showAddLoader = false;
     });
   }
-  itemSuppliers: SupplierModel[] = [];
-
-
-
   importerFileChanged(file: File) {
     if (file) {
       this.showAddLoader = true;
       var formData = new FormData();
       formData.append('importFile', file);
-      this.supplierService.ImportSupplierItemsFile(this.importerName, formData).subscribe((data: ActionsResponseModel) => {
+      this.merchantService.ImportMerchantItemsFile(this.importerName, formData).subscribe((data: ActionsResponseModel) => {
         if (data?.isSuccess) {
           if (data.url) {
             this.sharedService.urlDownloadOrOpen(data.url);

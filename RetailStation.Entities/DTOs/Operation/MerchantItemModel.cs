@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace RetailStation.Entities.DTOs.Operation
 {
-    public class SupplierItemModel:CreatorModel
+    public class MerchantItemModel:CreatorModel
     {
-        public int? SupplierItemId { get; set; }
+        public int? MerchantItemId { get; set; }
         public int? ItemId { get; set; }
         public string NameAR { get; set; }
         public string NameEN { get; set; }
@@ -34,12 +34,12 @@ namespace RetailStation.Entities.DTOs.Operation
         public bool IsFavorite { get; set; }
         public bool IsBestSellerItem { get; set; }
         public int? ItemTypeId { get; set; }
-        public int? SupplierId { get; set; }
-        public decimal? SupplierRate { get; set; }
+        public int? MerchantId { get; set; }
+        public decimal? MerchantRate { get; set; }
         public double? DeliveryTime { get; set; }
         public decimal? DeliveryCost { get; set; }
         public int? PaymentMethodId { get; set; }
-        public string SupplierName { get; set; }
+        public string MerchantName { get; set; }
         public string PaymentMethod { get; set; }
         public IFormFile Image { get; set; }
         public string ImageUrl { get; set; }
@@ -48,7 +48,7 @@ namespace RetailStation.Entities.DTOs.Operation
 
     }
 
-    public class SupplierItemExportModel
+    public class MerchantItemExportModel
     {
         [JsonProperty("Name (AR)")]
         public string NameAR { get; set; }

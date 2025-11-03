@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RetailStation.Entities.DTOs.Operation
 {
-    public class PromotionModel :  SupplierItemModel
+    public class PromotionModel :  MerchantItemModel
     {
         public int? PromotionId { get; set; }
         public string Title { get; set; }

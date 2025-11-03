@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { MainHomeComponent } from './components/main-home/main-home.component';
-import { SupplierItemsComponent } from './components/supplier/supplier-items/supplier-items.component';
-import { SupplierOrdersComponent } from './components/supplier/supplier-orders/supplier-orders.component';
-import { SupplierInvoicesComponent } from './components/supplier/supplier-invoices/supplier-invoices.component';
+import { MerchantItemsComponent } from './components/merchant/merchant-items/merchant-items.component';
+import { MerchantInvoicesComponent } from './components/merchant/merchant-invoices/merchant-invoices.component';
+import { MerchantOrdersComponent } from './components/merchant/merchant-orders/merchant-orders.component';
 
 const routes: Routes = [
   {
@@ -13,9 +13,9 @@ const routes: Routes = [
     children: [
       { path: 'home', component: MainHomeComponent },
       { path: 'home/:tabName', component: MainHomeComponent },
-      { path: 'supplier-items', component: SupplierItemsComponent },
-      { path: 'supplier-orders', component: SupplierOrdersComponent },
-      { path: 'supplier-invoices', component: SupplierInvoicesComponent },
+      { path: 'merchant-items', component: MerchantItemsComponent },
+      { path: 'merchant-orders', component: MerchantOrdersComponent },
+      { path: 'merchant-invoices', component: MerchantInvoicesComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]
   }

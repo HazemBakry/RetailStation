@@ -54,7 +54,7 @@ namespace RetailStation.Service.Website
             {
                 // Check if the item already exists in the cart for this user
                 var existingCartItem = Context.Carts.FirstOrDefault(c =>
-                    c.SupplierItemId == model.SupplierItemId && c.UserId == model.UserId);
+                    c.MerchantItemId == model.MerchantItemId && c.UserId == model.UserId);
 
                 if (existingCartItem != null)
                 {
@@ -67,7 +67,7 @@ namespace RetailStation.Service.Website
                     // If item doesn't exist, add a new one
                     var newCartItem = new Cart
                     {
-                        SupplierItemId = model.SupplierItemId,
+                        MerchantItemId = model.MerchantItemId,
                         Quantity = model.Quantity,
                         UserId = model.UserId
                     };

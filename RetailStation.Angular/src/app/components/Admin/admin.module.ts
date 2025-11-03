@@ -31,6 +31,9 @@ import { ItemUnitsComponent } from './components/item-units/item-units.component
 import { CitiesComponent } from './components/cities/cities.component';
 import { CountriesComponent } from './components/countries/countries.component';
 import { RegionsComponent } from './components/regions/regions.component';
+import { ManageMerchantItemsComponent } from './components/merchants-container/manage-merchant-items/manage-merchant-items.component';
+import { MerchantsContainerComponent } from './components/merchants-container/merchants-container.component';
+import { MerchantsComponent } from './components/merchants-container/merchants/merchants.component';
 
 
 @NgModule({
@@ -51,6 +54,9 @@ import { RegionsComponent } from './components/regions/regions.component';
     SuppliersContainerComponent,
     ManageSupplierItemsComponent,
     SuppliersComponent,
+    MerchantsContainerComponent,
+    ManageMerchantItemsComponent,
+    MerchantsComponent,
     WebsiteAdminComponent,
     SlidersComponent,
     SocialMediaPixelsComponent,

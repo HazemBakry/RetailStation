@@ -1,10 +1,10 @@
 export interface SearchAutoCompleteModel {
-    supplierItemId: number | null;
+    merchantItemId: number | null;
     searchText: string;
     nameAR: string;
     nameEN: string;
     price: number | null;
     offerPrice: number | null;
-    supplierName: string;
+    merchantName: string;
     imageUrl: string;
 }

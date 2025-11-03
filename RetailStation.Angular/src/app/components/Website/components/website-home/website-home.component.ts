@@ -13,7 +13,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { WebsiteService } from '../../services/website.service';
-import { SupplierItemModel } from 'src/app/components/Shared/models/SupplierItemModel';
+import { MerchantItemModel } from 'src/app/components/Shared/models/MerchantItemModel';
 import { ItemCategoryModel } from 'src/app/components/Shared/models/ItemCategory';
 import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 
@@ -56,14 +56,14 @@ export class WebsiteHomeComponent implements OnInit {
   CategoriesList: ItemCategoryModel[] = [];
   filterList: FilterModel[] = [];
   searchText: string = '';
-  pageResponseModel: PagedResponseModel<SupplierItemModel[]> = {
+  pageResponseModel: PagedResponseModel<MerchantItemModel[]> = {
     results: [],
     filterList: [],
     pageSize: 12,
     currentPage: 1,
     searchText: '',
   };
-  //ItemsList: SupplierItemModel[] = [];
+  //ItemsList: MerchantItemModel[] = [];
 
   constructor(
     config: NgbCarouselConfig,

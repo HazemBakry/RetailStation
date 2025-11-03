@@ -5,11 +5,11 @@ using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using RetailStation.Interface.Operation;
 using RetailStation.Entities.DTOs.Operation;
 using RetailStation.Entities.Models.Operation;
+using RetailStation.Interface.Operation;
 
-namespace RetailStation.Service.Inventory
+namespace RetailStation.Service.Operation
 {
     public class MerchantsService : IMerchantsService
     {
@@ -69,10 +69,10 @@ namespace RetailStation.Service.Inventory
             results.ForEach(x => x.TotalCount = totalCount);
             foreach (var item in results)
             {
-                var city = cities.FirstOrDefault(x=>x.CityId == item.CityId); 
-                var country = contries.FirstOrDefault(x=>x.CountryId == item.CountryId); 
-                var reigon = regions.FirstOrDefault(x=>x.RegionId == item.RegionId);
-                var payment = payments.FirstOrDefault(x=>x.PaymentMethodId == item.PaymentMethodId);
+                var city = cities.FirstOrDefault(x => x.CityId == item.CityId);
+                var country = contries.FirstOrDefault(x => x.CountryId == item.CountryId);
+                var reigon = regions.FirstOrDefault(x => x.RegionId == item.RegionId);
+                var payment = payments.FirstOrDefault(x => x.PaymentMethodId == item.PaymentMethodId);
 
                 item.CountryName = country?.NameAR;
                 item.CityName = reigon?.NameAR;
@@ -121,7 +121,7 @@ namespace RetailStation.Service.Inventory
                 Context.Merchants.Add(merchant);
                 var result = Context.SaveChanges();
 
-                return new ActionsResponseModel { Message = "Merchant Added Successfly !" ,Id = merchant.MerchantId};
+                return new ActionsResponseModel { Message = "Merchant Added Successfly !", Id = merchant.MerchantId };
             }
             catch (Exception ex)
             {

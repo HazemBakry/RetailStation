@@ -15,12 +15,12 @@ namespace RetailStation.Interface.Website
         List<SliderModel> GetWebsiteMainSlider();
         List<ItemCategoryModel> GetWebsiteHomeCategories(int? CategoryId = null);
         List<ItemDto> GetItemsByCategoryId(int CategoryId, SearchFilterModel model);
-        List<SupplierItemModel> GetWebsiteItems_Data(string UserId, SearchFilterModel FilterModel);
+        List<MerchantItemModel> GetWebsiteItems_Data(string UserId, SearchFilterModel FilterModel);
         List<FilterModel> GetWebsiteItems_Filters(SearchFilterModel FilterModel);
-        SupplierItemModel GetWebsiteItemDetailsById(int SupplierItemId);
+        MerchantItemModel GetWebsiteItemDetailsById(int MerchantItemId);
         List<PromotionModel> GetWebsitePromotionItems(SearchFilterModel model);
         List<TopPartner> GetTopPartners();
-        ActionsResponseModel ToggleFavorite(string userId, int supplierItemId);
+        ActionsResponseModel ToggleFavorite(string userId, int MerchantItemId);
         List<SearchAutoCompleteModel> SearchAutoComplete(string SearchText);
 
     }

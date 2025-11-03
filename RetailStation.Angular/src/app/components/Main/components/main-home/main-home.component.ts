@@ -9,7 +9,7 @@ import { MenuSidebarItem } from 'src/app/components/Shared/models/MenuSidebarIte
 import { MenuService, MenuType } from 'src/app/components/Shared/services/menu.service';
 import { WebsiteService } from '../../services/website.service';
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
-import { SupplierItemModel } from '../../models/SupplierItemModel';
+import { MerchantItemModel } from '../../models/MerchantItemModel';
 
 @Component({
   selector: 'app-main-home',
@@ -20,7 +20,7 @@ export class MainHomeComponent implements OnInit {
   showLoader: boolean = false;
   selectedTabName: string;
   menuItem: MenuSidebarItem;
-  pageResponseModel: PagedResponseModel<SupplierItemModel[]> = {
+  pageResponseModel: PagedResponseModel<MerchantItemModel[]> = {
     results: [],
     filterList: [],
     pageSize: 20,

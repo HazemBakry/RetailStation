@@ -6,7 +6,7 @@ import {
   CartModel,
   CartService,
 } from 'src/app/components/Shared/services/cart.service';
-import { SupplierItemModel } from 'src/app/components/Shared/models/SupplierItemModel';
+import { MerchantItemModel } from 'src/app/components/Shared/models/MerchantItemModel';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/Auth/auth.service';
 

@@ -9,9 +9,9 @@ const routes: Routes = [
     // children: [
     //   { path: 'home', component: MainHomeComponent },
     //   { path: 'home/:tabName', component: MainHomeComponent },
-    //   { path: 'supplier-items', component: SupplierItemsComponent },
-    //   { path: 'supplier-orders', component: SupplierOrdersComponent },
-    //   { path: 'supplier-invoices', component: SupplierInvoicesComponent },
+    //   { path: 'merchant-items', component: SupplierItemsComponent },
+    //   { path: 'merchant-orders', component: SupplierOrdersComponent },
+    //   { path: 'merchant-invoices', component: SupplierInvoicesComponent },
     //   { path: '', redirectTo: 'home', pathMatch: 'full' },
     // ]
   }

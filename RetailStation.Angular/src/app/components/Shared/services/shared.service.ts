@@ -176,6 +176,9 @@ export class SharedService {
   GetSuppliersSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetSuppliersSelector');
   }
+  GetMerchantsSelector() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetMerchantsSelector');
+  }
 
   GetSupplierGroupsSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetSupplierGroupsSelector');

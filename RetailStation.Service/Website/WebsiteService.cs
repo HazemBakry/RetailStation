@@ -141,7 +141,7 @@ namespace RetailStation.Service.Website
             return result;
         }
 
-        public List<SupplierItemModel> GetWebsiteItems_Data(string UserId,SearchFilterModel model)
+        public List<MerchantItemModel> GetWebsiteItems_Data(string UserId,SearchFilterModel model)
         {
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
@@ -153,7 +153,7 @@ namespace RetailStation.Service.Website
                 new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
             };
 
-            var result = SQLHelper.SQLQuery<SupplierItemModel>("[Website].[SP_GetWebsiteItems_Data]", ConnectionString, Params);
+            var result = SQLHelper.SQLQuery<MerchantItemModel>("[Website].[SP_GetWebsiteItems_Data]", ConnectionString, Params);
             foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
             {
                 item.ImageUrl = item.ImageUrl != null ? Path.Combine(ApiUrl, "ItemsImages", item.ImageUrl) : "";//_fileService.GetFileDownloadUrl(item.ImageUrl);
@@ -195,7 +195,7 @@ namespace RetailStation.Service.Website
             return result;
         }
 
-        public SupplierItemModel GetWebsiteItemDetailsById(int SupplierItemId)
+        public MerchantItemModel GetWebsiteItemDetailsById(int SupplierItemId)
         {
             return GetWebsiteItems_Data("",new SearchFilterModel { PageSize = 25, CurrentPage = 1 }).FirstOrDefault();
         }
@@ -213,12 +213,12 @@ namespace RetailStation.Service.Website
 
             return data;
         }
-        public ActionsResponseModel ToggleFavorite(string userId, int supplierItemId)
+        public ActionsResponseModel ToggleFavorite(string userId, int MerchantItemId)
         {
             try
             {
                 var item = Context.UserFavoriteItems
-                    .FirstOrDefault(a => a.SupplierItemId == supplierItemId && a.UserId == userId);
+                    .FirstOrDefault(a => a.MerchantItemId == MerchantItemId && a.UserId == userId);
 
                 if (item != null)
                 {
@@ -231,7 +231,7 @@ namespace RetailStation.Service.Website
                     var newFavorite = new UserFavoriteItem
                     {
                         UserId = userId,
-                        SupplierItemId = supplierItemId,
+                        MerchantItemId = MerchantItemId,
                     };
                     Context.UserFavoriteItems.Add(newFavorite);
                 }

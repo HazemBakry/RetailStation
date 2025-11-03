@@ -38,7 +38,7 @@ namespace RetailStation.API.Controllers.SupplierManagement
             if (SupplierId <= 0)
                 return BadRequest("No Supplier assigned");
             var data = _supplierManagementService.GetSupplierItemsData(SupplierId, SearchModel);
-            var result = new PagedResponseModel<SupplierItemModel>
+            var result = new PagedResponseModel<MerchantItemModel>
             {
                 Results = data,
                 TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
@@ -63,7 +63,7 @@ namespace RetailStation.API.Controllers.SupplierManagement
 
         [HttpPost]
         [Route("AddNewSupplierItem")]
-        public async Task<IActionResult> AddNewSupplierItem([FromForm] SupplierItemModel model)
+        public async Task<IActionResult> AddNewSupplierItem([FromForm] MerchantItemModel model)
         {
             string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
             string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
@@ -76,7 +76,7 @@ namespace RetailStation.API.Controllers.SupplierManagement
 
         [HttpPost]
         [Route("EditSupplierItem")]
-        public async Task<IActionResult> EditSupplierItem(int SupplierItemId, [FromForm] SupplierItemModel model)
+        public async Task<IActionResult> EditSupplierItem(int SupplierItemId, [FromForm] MerchantItemModel model)
         {
             string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
             string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
@@ -144,7 +144,7 @@ namespace RetailStation.API.Controllers.SupplierManagement
         {
             string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
             var data = _supplierManagementService.GetSupplierItemsData(SupplierId, SearchModel);
-            var result = new PagedResponseModel<SupplierItemModel>
+            var result = new PagedResponseModel<MerchantItemModel>
             {
                 Results = data,
                 TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,

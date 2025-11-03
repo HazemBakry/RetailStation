@@ -51,7 +51,7 @@ namespace RetailStation.Entities.DTOs.Website
     {
         public int? OrderDetailId { get; set; }
         public int? OrderId { get; set; }
-        public int? SupplierItemId { get; set; }
+        public int? MerchantItemId { get; set; }
 
         public string NameAR { get; set; }
         public string NameEN { get; set; }

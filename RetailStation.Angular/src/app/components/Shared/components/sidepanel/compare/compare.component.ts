@@ -9,7 +9,7 @@ import { WebsiteService } from 'src/app/components/Main/services/website.service
 import { CompareService, ItemCompareModel } from '../../../services/comapre.service';
 import { FieldType } from '../../../Enums/FieldType';
 import { DataField } from '../../../models/DataField';
-import { SupplierItemModel } from '../../../models/SupplierItemModel';
+import { MerchantItemModel } from '../../../models/MerchantItemModel';
 import { environment } from 'src/environments/environment';
 import { CartModel, CartService } from '../../../services/cart.service';
 
@@ -31,7 +31,7 @@ export class CompareComponent implements OnInit {
   selectAll: boolean = false;
   orderNumber: string = '';
   orderDate: string;
-  pageResponseModel: PagedResponseModel<SupplierItemModel[]> = {
+  pageResponseModel: PagedResponseModel<MerchantItemModel[]> = {
     results: [],
     filterList: [],
     pageSize: 20,
@@ -88,8 +88,8 @@ export class CompareComponent implements OnInit {
     this.pageResponseModel.results = [];
     this.pageResponseModel.filterList = [];
     compareList.forEach(item => {
-      if (item.supplierItemId) {
-        this.pageResponseModel.filterList.push({ categoryName: 'SupplierItemId', itemFlag: item.supplierItemId.toString() })
+      if (item.merchantItemId) {
+        this.pageResponseModel.filterList.push({ categoryName: 'merchantItemId', itemFlag: item.merchantItemId.toString() })
       }
     });
   }
@@ -105,23 +105,23 @@ export class CompareComponent implements OnInit {
   }
 
 
-  removeFromCompare(item: SupplierItemModel): void {
-    this.compareService.removeItem(item.supplierItemId, item.itemId);
+  removeFromCompare(item: MerchantItemModel): void {
+    this.compareService.removeItem(item.merchantItemId, item.itemId);
     this.loadData();
   }
   checkCartAdded() {
     this.pageResponseModel.results.map(item => {
-      item.isItemInCart = this.cartService.isItemInList(item.supplierItemId);
+      item.isItemInCart = this.cartService.isItemInList(item.merchantItemId);
     });
   }
-  toggleAddToCart(item: SupplierItemModel): void {
+  toggleAddToCart(item: MerchantItemModel): void {
     if (item.isItemInCart) {
-      this.cartService.removeItem(item.supplierItemId);
+      this.cartService.removeItem(item.merchantItemId);
     }
     else {
 
       const cartItem: CartModel = {
-        supplierItemId: item.supplierItemId,
+        merchantItemId: item.merchantItemId,
         quantity: 1,
         userId: '',
       };

@@ -7,18 +7,18 @@ import { ComponentHostDirective } from 'src/app/components/Shared/directives/com
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
-import { SupplierService } from '../../../services/supplier.service';
 import { OrderService } from '../../../services/order.service';
 import { WebsiteOrderModel } from 'src/app/components/Website/models/WebsiteOrderModel ';
+import { MerchantService } from 'src/app/components/Website/services/merchant.service';
 
 
 @Component({
-  selector: 'app-supplier-orders',
-  templateUrl: './supplier-orders.component.html',
-  styleUrls: ['./supplier-orders.component.css']
+  selector: 'app-merchant-orders',
+  templateUrl: './merchant-orders.component.html',
+  styleUrls: ['./merchant-orders.component.css']
 })
-export class SupplierOrdersComponent implements OnInit {
-  TitleList = ['Supplier', 'Orders'];
+export class MerchantOrdersComponent implements OnInit {
+  TitleList = ['Merchant', 'Orders'];
   showLoader: boolean;
   TotalCount: any;
   TotalPages: any;
@@ -33,7 +33,7 @@ export class SupplierOrdersComponent implements OnInit {
   };
   selectedOrderId: number;
   @ViewChild(ComponentHostDirective, { static: true }) detailsComponentHost!: ComponentHostDirective;
-  constructor(private supplierService: SupplierService,
+  constructor(private merchantService: MerchantService,
     private orderService: OrderService,
     private modalService: NgbModal,
     private toaster: ToastrService, private dynamicComponentService: DynamicComponentLoaderService) { }
@@ -45,7 +45,7 @@ export class SupplierOrdersComponent implements OnInit {
 
   getsOrdersData() {
     this.showLoader = true;
-    this.supplierService.GetOrders_Data(this.pagedResponseModel).subscribe(data => {
+    this.merchantService.GetOrders_Data(this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
       this.showLoader = false;
@@ -57,7 +57,7 @@ export class SupplierOrdersComponent implements OnInit {
   }
   loadFilters() {
     // this.showLoader = true;
-    this.supplierService.GetOrders_Filters(this.pagedResponseModel).subscribe(data => {
+    this.merchantService.GetOrders_Filters(this.pagedResponseModel).subscribe(data => {
       this.filterList = data;
 
       // this.showLoader = false;

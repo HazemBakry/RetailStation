@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export interface ItemCompareModel {
-    supplierItemId: number;
+    merchantItemId: number;
     itemId: number;
 }
 
@@ -30,16 +30,16 @@ export class CompareService {
     }
 
     // Add an item to the compare list
-    addItem(supplierItemId: number, itemId: number): void {
+    addItem(merchantItemId: number, itemId: number): void {
         let item: ItemCompareModel = {
-            supplierItemId: supplierItemId,
+            merchantItemId: merchantItemId,
             itemId: itemId
         }
         const currentList = this._compareListSource.value;
 
         // Check if the item already exists to prevent duplicates
         const isExist = currentList.some(
-            i => i.supplierItemId === item.supplierItemId
+            i => i.merchantItemId === item.merchantItemId
         );
 
         if (!isExist) {
@@ -50,14 +50,14 @@ export class CompareService {
     }
 
     // Remove an item from the compare list
-    removeItem(supplierItemId: number, itemId: number): void {
+    removeItem(merchantItemId: number, itemId: number): void {
         let item: ItemCompareModel = {
-            supplierItemId: supplierItemId,
+            merchantItemId: merchantItemId,
             itemId: itemId
         }
         const currentList = this._compareListSource.value;
         const updatedList = currentList.filter(
-            i => i.supplierItemId !== item.supplierItemId
+            i => i.merchantItemId !== item.merchantItemId
         );
         this._compareListSource.next(updatedList);
         this.saveToLocalStorage(updatedList);
@@ -65,7 +65,7 @@ export class CompareService {
 
     // Check if a specific item is in the list
     isItemInList(itemId: number): boolean {
-        return this._compareListSource.value.some(item => item.supplierItemId === itemId);
+        return this._compareListSource.value.some(item => item.merchantItemId === itemId);
     }
 
     // Clear the entire compare list
