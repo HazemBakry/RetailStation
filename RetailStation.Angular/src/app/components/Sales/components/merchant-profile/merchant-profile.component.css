@@ -1,0 +1,37 @@
+.card {
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.btn-primary {
+    background-color: #2ab7ca;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #2095a0;
+}
+
+.btn-outline-primary:hover {
+    background-color: #2ab7ca;
+    color: white;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(42, 183, 202, 0.25);
+    border-color: #2ab7ca;
+}
+
+.badge.bg-success {
+    background-color: #4caf50 !important;
+}
+
+.user_image {
+    width: 150px;
+    height: 150px;
+}

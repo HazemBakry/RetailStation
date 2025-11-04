@@ -14,7 +14,7 @@ namespace RetailStation.Interface.Operation
     public interface IMerchantsService
     {
         List<MerchantModel> GetMerchants_Data(SearchFilterModel model, int? MerchantId = null);
-        MerchantModel GetMerchantDetailsById(SearchFilterModel model, int MerchantId);
+        MerchantModel GetMerchantDetailsById(int MerchantId);
         ActionsResponseModel AddNewMerchant(MerchantModel model);
         ActionsResponseModel EditMerchant(int MerchantId, MerchantModel model);
         ActionsResponseModel DeleteMerchant(int MerchantId);

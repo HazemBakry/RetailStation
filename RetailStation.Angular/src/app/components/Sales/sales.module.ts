@@ -16,6 +16,7 @@ import { AddSalesReturnsComponent } from './components/add-sales-returns/add-sal
 import { CustomersStatementComponent } from './components/customers-statement/customers-statement.component';
 import { MySuppliersComponent } from './components/my-suppliers/my-suppliers.component';
 import { MerchantItemsComponent } from '../Main/components/merchant/merchant-items/merchant-items.component';
+import { MerchantProfileComponent } from './components/merchant-profile/merchant-profile.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { MerchantItemsComponent } from '../Main/components/merchant/merchant-ite
     SalesReturnsComponent,
     AddSalesReturnsComponent,
     CustomersStatementComponent,
-    MySuppliersComponent
+    MySuppliersComponent,
+    MerchantProfileComponent
   ],
   imports: [
     CommonModule,

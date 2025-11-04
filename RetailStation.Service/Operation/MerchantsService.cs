@@ -82,9 +82,9 @@ namespace RetailStation.Service.Operation
             return results;
         }
 
-        public MerchantModel GetMerchantDetailsById(SearchFilterModel model, int MerchantId)
+        public MerchantModel GetMerchantDetailsById(int MerchantId)
         {
-            var results = GetMerchants_Data(model, MerchantId).FirstOrDefault();
+            var results = GetMerchants_Data(new SearchFilterModel(), MerchantId).FirstOrDefault();
 
             return results;
         }

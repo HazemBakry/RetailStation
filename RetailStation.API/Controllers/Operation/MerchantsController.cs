@@ -44,9 +44,24 @@ namespace RetailStation.API.Controllers.Operation
 
         [HttpPost]
         [Route("GetMerchantDetailsById")]
-        public IActionResult GetMerchantDetailsById(SearchFilterModel model, int MerchantId)
+        public IActionResult GetMerchantDetailsById(int MerchantId)
         {
-            var result = _merchantsService.GetMerchantDetailsById(model, MerchantId);
+            var result = _merchantsService.GetMerchantDetailsById(MerchantId);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("GetLoggedMerchantDetails")]
+        public IActionResult GetLoggedMerchantDetails()
+        {
+            int finalMerchantId;
+
+            var userMerchant = User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value;
+
+            if (string.IsNullOrWhiteSpace(userMerchant) || !int.TryParse(userMerchant, out finalMerchantId))
+                return BadRequest("No merchant assigned to the this user.");
+
+            var result = _merchantsService.GetMerchantDetailsById(finalMerchantId);
             return Ok(result);
         }
 

@@ -9,7 +9,8 @@ import { MenuSidebarItem } from 'src/app/components/Shared/models/MenuSidebarIte
 import { MenuService, MenuType } from 'src/app/components/Shared/services/menu.service';
 import { WebsiteService } from '../../services/website.service';
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
-import { MerchantItemModel } from '../../models/MerchantItemModel';
+import { MerchantItemModel } from 'src/app/components/Shared/models/MerchantItemModel';
+
 
 @Component({
   selector: 'app-main-home',

@@ -30,6 +30,10 @@ export class MerchantService {
     return this.http.get<MerchantModel>(this.URL + 'Merchants/GetMerchantDetailsById?MerchantId=' + merchantId);
   }
 
+  GetLoggedMerchantDetails() {
+    return this.http.get<MerchantModel>(this.URL + 'Merchants/GetLoggedMerchantDetails');
+  }
+
   CreateNewMerchant(model: MerchantModel) {
     return this.http.post<ActionsResponseModel>(this.URL + 'Merchants/AddNewMerchant', model);
   }

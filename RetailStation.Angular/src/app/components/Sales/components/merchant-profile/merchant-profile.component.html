@@ -1,0 +1,368 @@
+<div class="p-4 gradient-nw-wrraper-bg">
+
+    <div class="main-general-account-content p-3" style="width: 100% !important;">
+
+        <div class="row g-4">
+
+            <!-- Left Column -->
+            <div class="col-lg-8">
+                <!-- Personal Info Card -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-3 text-primary">بيانات التاجر</h5>
+                        <!-- <div class="d-flex align-items-center mb-4">
+                            <img src="./../../../../../assets/images/user-img.png" class="rounded-circle border user_image" alt="avatar">
+                            <button class="btn btn-outline-primary ms-3"><i class="fas fa-edit"></i> تغيير
+                                الصورة</button>
+                        </div> -->
+
+                        <hr>
+
+                        <form [formGroup]="formGroup" autocomplete="off">
+
+
+                            <div class="row">
+                                <div class="col-xl-6 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    Name (AR)
+                                </label>
+                                    <input type="text" class="form-control nw-form-input" formControlName="nameAR" autocomplete="off" />
+
+                                    <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.nameAR}}
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    Name (EN)
+                                </label>
+                                    <input type="text" class="form-control nw-form-input" formControlName="nameEN" autocomplete="off" />
+
+                                    <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.nameEN}}
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    Code
+                                </label>
+                                    <input type="text" class="form-control nw-form-input" formControlName="code" autocomplete="off" />
+
+                                    <div *ngIf="formErrors.code" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.code}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-xl-4 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    Email
+                                </label>
+                                    <input type="text" class="form-control nw-form-input" formControlName="email" autocomplete="off" />
+
+                                    <div *ngIf="formErrors.email" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.email}}
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    Phone
+                                </label>
+                                    <input type="text" class="form-control nw-form-input" formControlName="phone" autocomplete="off" />
+
+                                    <div *ngIf="formErrors.phone" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.phone}}
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    Mobile
+                                </label>
+                                    <input type="text" class="form-control nw-form-input" formControlName="mobile" autocomplete="off" />
+
+                                    <div *ngIf="formErrors.mobile" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.mobile}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-4 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    Country
+                                    <span class="text-danger">*</span>
+                                </label>
+                                    <app-general-selector formControlName="countryId" [data]="countriesSelectorData" [disabled]="countriesSelectorData?.length==0" [showSearch]="true" [placeholder]="'Country'">
+
+                                    </app-general-selector>
+
+                                    <div *ngIf="formErrors.countryId" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.countryId}}
+                                    </div>
+
+                                </div>
+                                <div class="col-xl-4 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    City
+                                    <span class="text-danger">*</span>
+                                </label>
+                                    <app-general-selector formControlName="cityId" [data]="citiesSelectorData" [disabled]="citiesSelectorData?.length==0" [showSearch]="true" [placeholder]="'City'">
+
+                                    </app-general-selector>
+
+                                    <div *ngIf="formErrors.cityId" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.cityId}}
+                                    </div>
+
+                                </div>
+                                <div class="col-xl-4 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    Region
+                                    <span class="text-danger">*</span>
+                                </label>
+                                    <app-general-selector formControlName="regionId" [data]="regionsSelectorData" [disabled]="regionsSelectorData?.length==0" [showSearch]="true" [placeholder]="'Region'">
+
+                                    </app-general-selector>
+
+                                    <div *ngIf="formErrors.regionId" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.regionId}}
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-xl-4 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    Payment Method
+                                    <span class="text-danger">*</span>
+                                </label>
+                                    <app-general-selector formControlName="paymentMethodId" [data]="paymentMethodsSelectorData" [disabled]="paymentMethodsSelectorData?.length==0" [showSearch]="true" [placeholder]="'Region'">
+
+                                    </app-general-selector>
+
+                                    <div *ngIf="formErrors.paymentMethodId" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.paymentMethodId}}
+                                    </div>
+
+                                </div>
+                                <div class="col-xl-4 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    Delivery Cost
+                                </label>
+                                    <input type="text" class="form-control nw-form-input" formControlName="deliveryCost" autocomplete="off" />
+
+                                    <div *ngIf="formErrors.deliveryCost" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.deliveryCost}}
+                                    </div>
+
+                                </div>
+                                <div class="col-xl-4 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    Delivery Time
+                                </label>
+                                    <input type="text" class="form-control nw-form-input" formControlName="deliveryTime" autocomplete="off" />
+
+                                    <div *ngIf="formErrors.deliveryTime" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.deliveryTime}}
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    Rate
+                                </label>
+                                    <input type="text" class="form-control nw-form-input" formControlName="rate" autocomplete="off" />
+
+                                    <div *ngIf="formErrors.rate" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.rate}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    Commercial Register
+                                </label>
+                                    <input type="text" class="form-control nw-form-input" formControlName="commercialRegister" autocomplete="off" />
+
+                                    <div *ngIf="formErrors.commercialRegister" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.commercialRegister}}
+                                    </div>
+
+                                </div>
+                                <div class="col-xl-6 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    Tax Number
+                                </label>
+                                    <input type="text" class="form-control nw-form-input" formControlName="taxNumber" autocomplete="off" />
+
+                                    <div *ngIf="formErrors.taxNumber" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.taxNumber}}
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    Bank Account Number
+                                </label>
+                                    <input type="text" class="form-control nw-form-input" formControlName="bankAccountNumber" autocomplete="off" />
+
+                                    <div *ngIf="formErrors.bankAccountNumber" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.bankAccountNumber}}
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    Brand Name
+                                </label>
+                                    <input type="text" class="form-control nw-form-input" formControlName="brandName" autocomplete="off" />
+
+                                    <div *ngIf="formErrors.brandName" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.brandName}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    Contact Person
+                                </label>
+                                    <input type="text" class="form-control nw-form-input" formControlName="contactPerson" autocomplete="off" />
+
+                                    <div *ngIf="formErrors.contactPerson" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.contactPerson}}
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                    ContactMobile
+                                </label>
+                                    <input type="text" class="form-control nw-form-input" formControlName="contactMobile" autocomplete="off" />
+
+                                    <div *ngIf="formErrors.contactMobile" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.contactMobile}}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                Address
+                            </label>
+
+                                <textarea formControlName="address" class="form-control"></textarea>
+                                <div *ngIf="formErrors.address" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.address}}
+                                </div>
+
+                            </div>
+                            <div class="row mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                Notes
+                            </label>
+                                <textarea formControlName="notes" class="form-control"></textarea>
+                                <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.notes}}
+                                </div>
+                            </div>
+
+                            <hr class="my-4" />
+                            <div class="row">
+                                <!-- <div class="col-xl-6 mb-3">
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                        Subscriber
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <app-general-selector formControlName="subscriberId" [data]="subscribersSelectorData" [disabled]="subscribersSelectorData?.length==0" [showSearch]="true" [placeholder]="'Subscriber'">
+                                    </app-general-selector>
+
+                                    <div *ngIf="formErrors.merchantId" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.merchantId}}
+                                    </div>
+                                </div> -->
+                                <div class="col-xl-6 mb-3">
+                                    <div class="col-sm-4">
+                                        <label class="form-label d-flex align-items-center gap-2">
+                                        Active
+                                    </label>
+                                        <input class="big-checkbox" formControlName="isActive" type="checkbox">
+
+                                        <div *ngIf="formErrors.isActive" class="text-danger  font-small-3 m-03">
+                                            {{formErrors.isActive}}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                        <div class="text-end mt-4">
+                            <button class="btn btn-primary px-4" (click)="updateMerchantData()">تعديل البيانات</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Settings -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-3 text-primary">الإعدادات الأمنية</h5>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">كلمة المرور الحالية</label>
+                            <input type="password" class="form-control" placeholder="********">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">كلمة مرور جديدة</label>
+                            <input type="password" class="form-control" placeholder="********">
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="twoFactor">
+                            <label class="form-check-label" for="twoFactor">تفعيل المصادقة الثنائية</label>
+                        </div>
+                        <div class="text-end">
+                            <button class="btn btn-outline-primary px-4">حفظ التغييرات</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-lg-4">
+                <!-- Profile Summary -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body text-center">
+                        <img src="../../../../../assets/images/av-7.png" class="rounded-circle border mb-3" alt="Logo">
+                        <h5 class="fw-bold text-dark mb-1">Mishwar Restaurants</h5>
+                        <!-- <p class="text-muted mb-2">مدير النظام</p> -->
+                        <span class="badge bg-success mb-3 px-3 py-2">نشط</span>
+
+                        <div class="progress mb-3" style="height: 8px;">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 100%"></div>
+                        </div>
+                        <!-- <small class="text-muted">اكتمل الملف الشخصي بنسبة 80%</small> -->
+                    </div>
+                </div>
+
+                <!-- Notifications -->
+                <!-- <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="fw-bold text-primary mb-3">الإشعارات الأخيرة</h6>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-3 d-flex align-items-start">
+                                <i class="fas fa-bell text-primary me-2 mt-1"></i>
+                                <span>تم تحديث بياناتك الشخصية بنجاح</span>
+                            </li>
+                            <li class="mb-3 d-flex align-items-start">
+                                <i class="fas fa-lock text-success me-2 mt-1"></i>
+                                <span>تم تفعيل المصادقة الثنائية</span>
+                            </li>
+                            <li class="d-flex align-items-start">
+                                <i class="fas fa-credit-card text-warning me-2 mt-1"></i>
+                                <span>تمت إضافة وسيلة دفع جديدة</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div> -->
+            </div>
+
+        </div>
+
+    </div>
