@@ -43,11 +43,11 @@
                             <img *ngIf="item.imageURL" [src]="item.imageURL" class="rounded"
                                 style="width: 100px;height:100px" width="30" height="20">
                         </td>
-                                                <td>{{item.description}}</td>
+                        <td>{{item.description}}</td>
 
                         <td class="text-center">
                             <div class="d-flex align-items-center justify-content-center">
-                                
+
                                 <label class="switch me-2">
                                     <input type="checkbox" [(ngModel)]="item.isActive"
                                         (change)="changeStatus(item.topPartnerId)">
@@ -79,8 +79,9 @@
             </table>
         </div>
         <div class="p-3 border-top mt-3" style="direction: ltr;">
-                <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-pagination>
-            </div>
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
+                [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-pagination>
+        </div>
     </div>
 </div>
 

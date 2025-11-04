@@ -191,6 +191,13 @@ export class MenuService {
                 route: '/admin/top-partners'
               },
               {
+                displayName: 'Best Seller Items',
+                menuItem: 'best-seller-items',
+                description: 'إدارة بيانات الأصناف الأكثر مبيعاً',
+                icon: 'fa fa-users',
+                route: '/admin/best-seller-items'
+              },
+              {
                 displayName: 'مجموعات الأصناف',
                 menuItem: 'items-categories',
                 description: 'تعريف وتصنيف مجموعات الأصناف داخل المخازن',

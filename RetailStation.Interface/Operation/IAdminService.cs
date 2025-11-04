@@ -46,5 +46,10 @@ namespace RetailStation.Interface.Operation
         ActionsResponseModel ChangeTopPartnerActiveStatus(int promotionId);
         #endregion
 
+        #region BestSellerItems
+        List<BestSellerItemModel> GetBestSellerItems_Data();
+        ActionsResponseModel UpdateBestSellerItems(List<BestSellerItemModel> BestSellerItems);
+        #endregion
+
     }
 }

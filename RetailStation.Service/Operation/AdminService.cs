@@ -519,5 +519,168 @@ namespace RetailStation.Service.Operation
         }
         #endregion
 
+        #region BestSellerItems
+        public List<BestSellerItemModel> GetBestSellerItems_Data()
+        {
+            var results = (from bestSellerItem in Context.BestSellerItems
+                           join merchantItem in Context.MerchantItems
+                            on bestSellerItem.MerchantItemId equals  merchantItem.MerchantItemId
+                           join merchant in Context.Merchants
+                            on merchantItem.MerchantId equals merchant.MerchantId
+                           select new BestSellerItemModel
+                           {
+                               BestSellerItemId = bestSellerItem.BestSellerItemId,
+                               MerchantItemId = bestSellerItem.MerchantItemId,
+                               IsActive = bestSellerItem.IsActive,
+                               DisplayOrder = bestSellerItem.DisplayOrder,
+                               MerchantName = merchant.NameAR,
+                               MerchantItemName = merchantItem.NameAR
+                           }).OrderBy(bsi => bsi.DisplayOrder).ToList();
+            return results;
+        }
+        public ActionsResponseModel UpdateBestSellerItems(List<BestSellerItemModel> BestSellerItems)
+        {
+            if (BestSellerItems == null)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = "Input list cannot be null." };
+            }
+
+            try
+            {
+                var itemsToUpdate = BestSellerItems
+                    .Where(x => x.BestSellerItemId.HasValue && x.BestSellerItemId.Value > 0)
+                    .ToList();
+
+                var itemsToAdd = BestSellerItems
+                    .Where(x => !x.BestSellerItemId.HasValue || x.BestSellerItemId.Value == 0)
+                    .ToList();
+
+                // --- DELETION LOGIC ---
+
+                var submittedIds = itemsToUpdate
+                    .Select(x => x.BestSellerItemId.Value)
+                    .ToList();
+
+                bool itemsRemoved = false;
+
+                // Only run deletion logic if there are items in the database to compare against.
+                if (Context.BestSellerItems.Any())
+                {
+                    var itemsToRemove = Context.BestSellerItems
+                        .Where(dbItem => !submittedIds.Contains(dbItem.BestSellerItemId))
+                        .ToList();
+
+                    if (itemsToRemove.Any())
+                    {
+                        Context.BestSellerItems.RemoveRange(itemsToRemove);
+                        itemsRemoved = true;
+                    }
+                }
+
+                // --- UPDATE LOGIC ---
+
+                if (itemsToUpdate.Any())
+                {
+                    var inputItemsMap = itemsToUpdate.ToDictionary(k => k.BestSellerItemId.Value, v => v);
+                    var idsToUpdate = submittedIds; // Use the list prepared earlier
+
+                    var existingDbItems = Context.BestSellerItems
+                        .Where(dbi => idsToUpdate.Contains(dbi.BestSellerItemId))
+                        .ToList();
+
+                    foreach (var dbItem in existingDbItems)
+                    {
+                        if (inputItemsMap.TryGetValue(dbItem.BestSellerItemId, out BestSellerItemModel updatedData))
+                        {
+                            dbItem.DisplayOrder = updatedData.DisplayOrder;
+                            dbItem.IsActive = updatedData.IsActive;
+                        }
+                    }
+                }
+
+                // --- ADD LOGIC ---
+
+                if (itemsToAdd.Any())
+                {
+                    var newEntities = itemsToAdd.Select(item => new BestSellerItem
+                    {
+                        MerchantItemId = item.MerchantItemId,
+                        IsActive = item.IsActive,
+                        DisplayOrder = item.DisplayOrder
+                    }).ToList();
+
+                    Context.BestSellerItems.AddRange(newEntities);
+                }
+
+                // --- SAVE CHANGES ---
+
+                if (itemsToUpdate.Any() || itemsToAdd.Any() || itemsRemoved)
+                {
+                    Context.SaveChanges();
+                    return new ActionsResponseModel { IsSuccess = true, Message = "Best Seller items updated successfully." };
+                }
+                else if (!BestSellerItems.Any())
+                {
+                    return new ActionsResponseModel { IsSuccess = true, Message = "No items submitted and no existing items were found to remove." };
+                }
+                else
+                {
+                    return new ActionsResponseModel { IsSuccess = true, Message = "No items provided for update or addition." };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = "An unexpected error occurred while processing the best seller items."
+                };
+            }
+        }
+        public ActionsResponseModel AddUpdateBestSellerItems_Old(List<BestSellerItemModel> BestSellerItems)
+        {
+
+            try
+            {
+                var itemsToUpdate = (from item in BestSellerItems
+                                     join bestSellerItem in Context.BestSellerItems
+                                     on item.BestSellerItemId equals bestSellerItem.BestSellerItemId
+                                     select bestSellerItem).ToList();
+
+                var itemsToAdd = BestSellerItems.Where(x => x.BestSellerItemId == null).ToList();
+
+                foreach (var item in itemsToUpdate)
+                {
+                    var updatedCategory = BestSellerItems.FirstOrDefault(c => c.BestSellerItemId == item.BestSellerItemId);
+                    if (updatedCategory != null)
+                    {
+                        item.DisplayOrder = updatedCategory.DisplayOrder;
+                    }
+                }
+                foreach (var item in itemsToAdd)
+                {
+                    var newBestSellerItem = new BestSellerItem
+                    {
+                        MerchantItemId = item.MerchantItemId,
+                        IsActive = item.IsActive,
+                        DisplayOrder = item.DisplayOrder
+                    };
+                }
+
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "BestSeller updated successfully." };
+            }
+            catch (Exception ex)
+            {
+
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+
+            };
+        }
+
+        #endregion
+
+
     }
 }

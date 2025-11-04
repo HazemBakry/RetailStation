@@ -10,6 +10,7 @@ import { Tag } from '../models/TagsManagerModels';
 import { PromotionModel } from '../../Shared/models/PromotionModel';
 import { CityModel, CountryModel, RegionModel } from '../models/Operation/CountryModel';
 import { TopPartnerModel } from '../../Shared/models/TopPartnerModel';
+import { BestSellerItemsModel } from '../../Shared/models/BestSellerItemsModel';
 
 
 @Injectable({
@@ -253,4 +254,12 @@ export class AdminService {
     return this.http.get<ActionsResponseModel>(this.URL + `Admin/ChangeTopPartnerActiveStatus?TopPartnerId=${unitId}`);
   }
 
+
+
+  GetBestSellerItems_Data() {
+    return this.http.get<BestSellerItemsModel[]>(this.URL + `Admin/GetBestSellerItems_Data`);
+  }
+  UpdateBestSellerItems(model: BestSellerItemsModel[]) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Admin/UpdateBestSellerItems`, model);
+  }
 }

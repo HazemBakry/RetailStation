@@ -29,6 +29,7 @@ import { MerchantsContainerComponent } from './components/merchants-container/me
 import { MerchantsComponent } from './components/merchants-container/merchants/merchants.component';
 import { ManageMerchantItemsComponent } from './components/merchants-container/manage-merchant-items/manage-merchant-items.component';
 import { TopPartnersComponent } from './components/top-partner/top-partners.component';
+import { BestSellerItemsComponent } from './components/best-seller-items/best-seller-items.component';
 
 
 const routes: Routes = [
@@ -94,6 +95,7 @@ const routes: Routes = [
       { path: 'cities', component: CitiesComponent },
       { path: 'regions', component: RegionsComponent },
       { path: 'top-partners', component: TopPartnersComponent },
+      { path: 'best-seller-items', component: BestSellerItemsComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]
   }

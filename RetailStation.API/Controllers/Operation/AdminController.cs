@@ -199,5 +199,24 @@ namespace RetailStation.API.Controllers.Operation
             return _adminService.ChangeTopPartnerActiveStatus(TopPartnerId);
         }
         #endregion
+
+        #region BestSellerItems
+
+        [HttpGet]
+        [Route("GetBestSellerItems_Data")]
+        public IActionResult GetBestSellerItems_Data()
+        {
+            var data = _adminService.GetBestSellerItems_Data();
+            return Ok(data);
+        }
+
+
+        [HttpPost]
+        [Route("UpdateBestSellerItems")]
+        public ActionsResponseModel UpdateBestSellerItems(List<BestSellerItemModel> BestSellerItems)
+        {
+            return _adminService.UpdateBestSellerItems(BestSellerItems);
+        }
+        #endregion
     }
 }
