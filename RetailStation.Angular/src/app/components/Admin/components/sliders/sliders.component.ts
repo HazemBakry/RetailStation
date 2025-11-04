@@ -52,7 +52,7 @@ export class SlidersComponent implements OnInit {
     private form: FormBuilder,
     private _FormService: FormService,
     private toaster: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -82,8 +82,8 @@ export class SlidersComponent implements OnInit {
     this.formGroup = this.form.group({
       sliderId: [null],
       title: [null, [Validators.required]],
-      description: [null,[Validators.required]],
-      image: [null,[Validators.required,CustomValidators.extensionValidator(['png','jpg','jpeg'])]],
+      description: [null, [Validators.required]],
+      image: [null, [Validators.required, CustomValidators.extensionValidator(['png', 'jpg', 'jpeg'])], [CustomValidators.imageDimensionValidator(1920, 1080)]],
       isActive: [true]
     });
     this.formGroup.valueChanges.subscribe(() => {
@@ -93,6 +93,10 @@ export class SlidersComponent implements OnInit {
 
   onFileChange(event: any) {
     this.imageFile = event.target.files[0];
+    // if (this.imageFile) {
+    //   this.formGroup.patchValue({ image: this.imageFile });
+    //   this.formGroup.get('image')?.updateValueAndValidity();
+    // }
   }
 
   saveSlider() {
