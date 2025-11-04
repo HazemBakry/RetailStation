@@ -19,6 +19,7 @@ using RetailStation.Interface.SupplierManagement;
 using RetailStation.Interface.Website;
 using RetailStation.Entities.DTOs.Website;
 using System.IO;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace RetailStation.Service.Website
 {
@@ -30,9 +31,13 @@ namespace RetailStation.Service.Website
         private readonly IConfiguration Configuration;
         private readonly ISharedFilterService SharedFilterService;
         private readonly string ConnectionString;
-        private readonly string ApiUrl;
+        //private readonly string ApiUrl;
         private readonly IExportService ExportService;
         private readonly IFileService _fileService;
+        private readonly string PartnerImagesFolder = "TopPartnersImages";
+        private readonly string SliderImagesFolder = "SliderImages";
+        private readonly string ItemsImagesFolder = "ItemsImages";
+        private readonly string CategoriesImagesFolder = "CategoriesImages";
 
         public WebsiteService(DBContext Context, ISQLHelper SQLHelper,
             IConfiguration Configuration, IExportService ExportService,
@@ -42,7 +47,7 @@ namespace RetailStation.Service.Website
             this.SQLHelper = SQLHelper;
             this.Configuration = Configuration;
             this.ConnectionString = Configuration.GetConnectionString("DBConnection");
-            this.ApiUrl = Configuration.GetSection("ApiUrl").Value;
+            //this.ApiUrl = Configuration.GetSection("ApiUrl").Value;
             this.ExportService = ExportService;
             SharedFilterService = sharedFilterService;
             LookupsDbContext = lookupsDbContext;
@@ -72,7 +77,8 @@ namespace RetailStation.Service.Website
 
             foreach (var item in results.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
             {
-                item.ImageURL = item.ImageURL != null ? Path.Combine(ApiUrl, "SliderImages", item.ImageURL) : "";  //_fileService.GetFileDownloadUrl(item.ImageURL);
+                item.ImageURL = _fileService.GetFileDownloadUrl(Path.Combine(SliderImagesFolder, item.ImageURL));
+
             }
             return results;
         }
@@ -103,7 +109,8 @@ namespace RetailStation.Service.Website
                           }).OrderBy(c => c.DisplayOrder).ToList();
             foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
             {
-                item.ImageUrl = _fileService.GetFileDownloadUrl(item.ImageUrl);
+                item.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine(CategoriesImagesFolder, item.ImageUrl));
+
             }
             return result;
         }
@@ -156,7 +163,7 @@ namespace RetailStation.Service.Website
             var result = SQLHelper.SQLQuery<MerchantItemModel>("[Website].[SP_GetWebsiteItems_Data]", ConnectionString, Params);
             foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
             {
-                item.ImageUrl = item.ImageUrl != null ? Path.Combine(ApiUrl, "ItemsImages", item.ImageUrl) : "";//_fileService.GetFileDownloadUrl(item.ImageUrl);
+                item.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine(ItemsImagesFolder, item.ImageUrl));
             }
             return result;
 
@@ -190,7 +197,7 @@ namespace RetailStation.Service.Website
             var result = SQLHelper.SQLQuery<PromotionModel>("[Website].[SP_GetWebsitePromotionItems]", ConnectionString, Params);
             foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
             {
-                item.ImageURL = item.ImageURL != null ? Path.Combine(ApiUrl, "SliderImages", item.ImageURL) : ""; //_fileService.GetFileDownloadUrl(item.ImageURL);
+                item.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine(SliderImagesFolder, item.ImageUrl));
             }
             return result;
         }
@@ -200,15 +207,50 @@ namespace RetailStation.Service.Website
             return GetWebsiteItems_Data("",new SearchFilterModel { PageSize = 25, CurrentPage = 1 }).FirstOrDefault();
         }
 
+        public List<MerchantItemModel> GetWebsiteBestSellerItems_Data(string UserId, SearchFilterModel model)
+        {
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
-        public List<TopPartner> GetTopPartners()
+            SqlParameter[] Params = new SqlParameter[]
+            {
+                new SqlParameter("@UserId",UserId),
+                new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value),
+                new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value),
+                new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
+            };
+
+            var result = SQLHelper.SQLQuery<MerchantItemModel>("[Website].[GetWebsiteBestSellerItems_Data]", ConnectionString, Params);
+            foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
+            {
+                item.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine(ItemsImagesFolder, item.ImageUrl));
+
+            }
+            return result;
+
+        }
+
+        public List<TopPartnerModel> GetTopPartners()
         {
 
-            var data = Context.TopPartners.Where(x => x.IsActive).ToList() ;
-
-            foreach (var item in data.Where(x => !string.IsNullOrEmpty(x.Image)))
+            var data = Context.TopPartners.AsNoTracking().Where(x => x.IsActive)
+              .Select(p => new TopPartnerModel
+              {
+                  TopPartnerId = p.TopPartnerId,
+                  Name = p.Name,
+                  DisplayName = p.DisplayName,
+                  IsActive = p.IsActive,
+                  ImageURL = p.Image,
+                  Description = p.Description,
+                  DisplayOrder = p.DisplayOrder,
+                  CreatedBy = p.CreatedBy,
+                  CreatedDate = p.CreatedDate,
+                  ModifiedBy = p.ModifiedBy,
+                  ModifiedDate = p.ModifiedDate
+              })
+              .ToList();
+            foreach (var item in data.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
             {
-                item.Image = _fileService.GetFileDownloadUrl(item.Image);
+                item.ImageURL = _fileService.GetFileDownloadUrl(Path.Combine(PartnerImagesFolder, item.ImageURL));
             }
 
             return data;

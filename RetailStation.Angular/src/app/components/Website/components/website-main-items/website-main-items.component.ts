@@ -142,7 +142,7 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
       searchText: ''
     };
     // this.showLoader = true;
-    this.websiteService.GetWebsiteItems_Data(pageResponseModel).subscribe(data => {
+    this.websiteService.GetWebsiteBestSellerItems_Data(pageResponseModel).subscribe(data => {
       this.bestSellerData = data.results;
       this.checkCompareAdded();
       // this.showLoader = false;

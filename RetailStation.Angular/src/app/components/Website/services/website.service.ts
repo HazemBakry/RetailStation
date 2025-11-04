@@ -41,6 +41,9 @@ export class WebsiteService {
   GetItemsByCategoryId(categoryId: number, searchModel: PagedResponseModel<MerchantItemModel[]>) {
     return this.http.post<PagedResponseModel<MerchantItemModel[]>>(this.URL + `Website/GetItemsByCategoryId?CategoryId=${categoryId}`, searchModel);
   }
+  GetWebsiteBestSellerItems_Data(searchModel: PagedResponseModel<MerchantItemModel[]>) {
+    return this.http.post<PagedResponseModel<MerchantItemModel[]>>(this.URL + 'Website/GetWebsiteBestSellerItems_Data', searchModel);
+  }
 
   GetWebsitePromotionItems(searchModel: PagedResponseModel<PromotionModel[]>) {
     return this.http.post<PagedResponseModel<PromotionModel[]>>(this.URL + 'Website/GetWebsitePromotionItems', searchModel);

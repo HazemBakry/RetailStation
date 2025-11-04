@@ -16,6 +16,7 @@ using RetailStation.Interface.Operation;
 using RetailStation.Entities.Models.Operation;
 using RetailStation.Entities.DTOs.Operation;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace RetailStation.Service.Operation
 {
@@ -29,8 +30,8 @@ namespace RetailStation.Service.Operation
         private readonly string ConnectionString;
         private readonly IExportService ExportService;
         private readonly IFileService _fileService;
-        public readonly string ItemsImagesFolder;
-        public readonly string CategoriesImagesFolder;
+        private readonly string ItemsImagesFolder = "ItemsImages";
+        private readonly string CategoriesImagesFolder = "CategoriesImages";
 
         public ItemsService(DBContext Context, ISQLHelper SQLHelper,
             IConfiguration Configuration, IExportService ExportService,
@@ -43,8 +44,6 @@ namespace RetailStation.Service.Operation
             this.ExportService = ExportService;
             SharedFilterService = sharedFilterService;
             _fileService = fileService;
-            ItemsImagesFolder = "ItemsImages";
-            CategoriesImagesFolder = "CategoriesImages";
 
         }
 
@@ -64,7 +63,8 @@ namespace RetailStation.Service.Operation
             var result = SQLHelper.SQLQuery<ItemDto>("[dbo].[SP_GetItemsData]", ConnectionString, Params);
             foreach (var item in result.Where(x=>!string.IsNullOrEmpty(x.ImageUrl)))
             {
-                item.ImageUrl = _fileService.GetFileDownloadUrl(item.ImageUrl);
+                item.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine(ItemsImagesFolder, item.ImageUrl));
+
             }
             return result;
 
@@ -469,7 +469,8 @@ namespace RetailStation.Service.Operation
             //results.ForEach(x => x.TotalCount = totalCount);
             foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
             {
-                item.ImageUrl = _fileService.GetFileDownloadUrl(item.ImageUrl);
+                item.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine(CategoriesImagesFolder, item.ImageUrl));
+
             }
             return result;
         }

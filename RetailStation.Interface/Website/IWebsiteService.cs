@@ -18,8 +18,9 @@ namespace RetailStation.Interface.Website
         List<MerchantItemModel> GetWebsiteItems_Data(string UserId, SearchFilterModel FilterModel);
         List<FilterModel> GetWebsiteItems_Filters(SearchFilterModel FilterModel);
         MerchantItemModel GetWebsiteItemDetailsById(int MerchantItemId);
+        List<MerchantItemModel> GetWebsiteBestSellerItems_Data(string UserId, SearchFilterModel FilterModel);
         List<PromotionModel> GetWebsitePromotionItems(SearchFilterModel model);
-        List<TopPartner> GetTopPartners();
+        List<TopPartnerModel> GetTopPartners();
         ActionsResponseModel ToggleFavorite(string userId, int MerchantItemId);
         List<SearchAutoCompleteModel> SearchAutoComplete(string SearchText);
 
