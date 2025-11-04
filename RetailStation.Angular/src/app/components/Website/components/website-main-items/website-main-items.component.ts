@@ -37,6 +37,7 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
 
   showLoader: boolean = false;
   filterList: FilterModel[] = [];
+  searchFList: FilterItem[] = [];
   pageResponseModel: PagedResponseModel<MerchantItemModel[]> = {
     results: [],
     filterList: [],
@@ -45,7 +46,7 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
     searchText: ''
   };
   bestSellerData: MerchantItemModel[] = [];
-  suppliersData: MerchantItemModel[] = [];
+  merchantsData: MerchantItemModel[] = [];
   supplierLogo: string = 'https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg'
   defaultItemImage = `${this.systemURL}assets/images/13.png`;
 
@@ -106,13 +107,14 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
       //   this.pageResponseModel.filterList.push(searchFilter);
       // }
       // this.pageResponseModel.results = [];
-      // this.suppliersData = [];
+      // this.merchantsData = [];
       // this.loadData();
     });
   }
 
   applySearch() {
     this.pageResponseModel.filterList = [];
+    this.searchFList = [];
     if (this.searchText) {
       let searchFilter: FilterItem = { categoryName: 'SearchText', itemFlag: this.searchText }
       this.pageResponseModel.filterList.push(searchFilter);
@@ -125,9 +127,11 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
       let searchFilter: FilterItem = { categoryName: 'CityId', itemFlag: this.cityId }
       this.pageResponseModel.filterList.push(searchFilter);
     }
-    this.pageResponseModel.results = [];
-    this.suppliersData = [];
+    this.searchFList = [...this.pageResponseModel.filterList];
+    // this.pageResponseModel.results = [];
+    //this.merchantsData = [];
     this.loadData();
+    this.loadFilters();
   }
   loadBestSellersData() {
     let pageResponseModel: PagedResponseModel<MerchantItemModel[]> = {
@@ -138,7 +142,7 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
       searchText: ''
     };
     // this.showLoader = true;
-    this.websiteService.GetWebsiteItems_Data(pageResponseModel).subscribe(data => {
+    this.websiteService.GetWebsiteBestSellerItems_Data(pageResponseModel).subscribe(data => {
       this.bestSellerData = data.results;
       this.checkCompareAdded();
       // this.showLoader = false;
@@ -152,8 +156,8 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
     this.showLoader = true;
     this.websiteService.GetWebsiteItems_Data(this.pageResponseModel).subscribe(data => {
       this.pageResponseModel.results = data.results;
-      // this.suppliersData = this.suppliersData.concat([...data.results]);
-      this.suppliersData = data.results;
+      // this.merchantsData = this.merchantsData.concat([...data.results]);
+      this.merchantsData = data.results;
       this.pageResponseModel.totalCount = data.totalCount;
       this.checkCompareAdded();
       this.showLoader = false;
@@ -174,7 +178,7 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
     });
   }
   checkCompareAdded() {
-    this.suppliersData.forEach(item => {
+    this.merchantsData.forEach(item => {
       item.isCompareAdded = this.compareService.isItemInList(item.merchantItemId);
       // item.isCompareAdded  = list.some(i => i.merchantItemId === item.merchantItemId);
     });
@@ -196,8 +200,12 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
   }
   filterChecked(filterItems: FilterItem[]) {
     this.pageResponseModel.filterList = filterItems;
+    if(this.searchFList?.length)
+    {
+      this.pageResponseModel.filterList = this.pageResponseModel.filterList.concat(this.searchFList);
+    }
     // this.pageResponseModel.filterList.push(this.mainFilter);
-    this.suppliersData = [];
+    //this.merchantsData = [];
     this.loadData();
   }
 }

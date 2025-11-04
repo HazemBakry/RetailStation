@@ -1,4 +1,4 @@
-<section *ngIf="!searchText&&!itemCategoryId" class="marketing-category-section">
+<section *ngIf="!searchText&&!itemCategoryId&&bestSellerData?.length" class="marketing-category-section">
     <div class="carousel-title d-flex align-items-center gap-2 position-relative mb-3">
         <img src="../../../../../assets/strong-offet-icon-2.svg" class="header-offer-icon" alt="offer-icon" loading="lazy" />
         <div class="fw-semibold fs-18">الأكثر مبيعا</div>
@@ -44,7 +44,7 @@
             </h3>
             <div class="row">
 
-                <div *ngFor="let item of suppliersData;let i =index" class="col-md-6 col-xl-3 mb-2">
+                <div *ngFor="let item of merchantsData;let i =index" class="col-md-6 col-xl-3 mb-2">
                     <app-website-item-card [item]="item" [isAuthenticated]="isAuthenticated"></app-website-item-card>
                 </div>
             </div>

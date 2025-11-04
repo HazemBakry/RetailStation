@@ -34,6 +34,7 @@ export class FormService {
       dateGreaterThan: (error: string) => error || 'Date must be greater than the specific date',
       dateLessThan: (error: string) => error || 'Date must be less than the specific date',
       arrayLength: (error: string) => error || 'Data must be less than or grater than ',
+      invalidDimensions: (error: string) => error || 'invalid image dimensions',
 
       // invalidExtension:'Invalid Extension , choose from jpg,jpeg,png',
       invalidExtension: (matches: any[]) => {
@@ -107,7 +108,8 @@ export class FormService {
     return formErrors;
   }
 
-  public updateFieldsRequiredValidation(formGroup: FormGroup, field: string, isRequired: boolean) {
+  public updateFieldsRequiredValidation(formGroup: FormGroup, field: string,
+    isRequired: boolean) {
     const control = formGroup.get(field);
     if (!control) return;
 

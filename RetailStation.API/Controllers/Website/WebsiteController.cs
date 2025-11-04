@@ -10,6 +10,7 @@ using RetailStation.Service.Website;
 using RetailStation.Entities.DTOs.Website;
 using System.Threading.Tasks;
 using RetailStation.Entities.Models.Operation;
+using RetailStation.Interface.Shared;
 
 namespace RetailStation.API.Controllers.Website
 {
@@ -21,11 +22,13 @@ namespace RetailStation.API.Controllers.Website
         private readonly IWebsiteService _websiteService;
         private readonly IOrderService _orderService;
         public const int SupplierId = 1;
+        private readonly ISharedService _sharedService;
 
-        public WebsiteController(IWebsiteService websiteService, IOrderService orderService)
+        public WebsiteController(IWebsiteService websiteService, IOrderService orderService, ISharedService sharedService)
         {
             _websiteService = websiteService;
             _orderService = orderService;
+            _sharedService = sharedService;
         }
 
         [HttpGet]
@@ -99,7 +102,21 @@ namespace RetailStation.API.Controllers.Website
             return Ok(results);
         }
 
-
+        [HttpPost]
+        [Route("GetWebsiteBestSellerItems_Data")]
+        public IActionResult GetWebsiteBestSellerItems_Data(SearchFilterModel SearchModel)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value ?? string.Empty;
+            var data = _websiteService.GetWebsiteBestSellerItems_Data(UserId, SearchModel);
+            var result = new PagedResponseModel<MerchantItemModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+            };
+            return Ok(result);
+        }
         [HttpPost]
         [Route("GetWebsitePromotionItems")]
         public IActionResult GetWebsitePromotionItems(SearchFilterModel SearchModel)
@@ -204,6 +221,12 @@ namespace RetailStation.API.Controllers.Website
             var result = _websiteService.SearchAutoComplete(SearchText);
             return Ok(result);
         }
-
+        [HttpGet]
+        [Route("GetCitiesSelector")]
+        public IActionResult GetCitiesSelector(int? CountryId = null)
+        {
+            var results = _sharedService.GetCitiesSelector(CountryId);
+            return Ok(results);
+        }
     }
 }

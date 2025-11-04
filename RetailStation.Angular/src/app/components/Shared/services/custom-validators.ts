@@ -5,62 +5,96 @@ import { Subscription, catchError, map, of } from "rxjs";
 const validCharacters = /[^\s\w,.:&\/()+%'`@-]/;
 const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
 
-export class CustomValidators extends Validators{
+export class CustomValidators extends Validators {
 
-  
+
   static validateCharacters(control: FormControl) {
-    
-      // first check if the control has a value
-      if (control.value && control.value.length > 0) {
-          
-        // match the control value against the regular expression
-        const matches = control.value.match(validCharacters);
-        
-        // if there are matches return an object, else return null.
-        return matches && matches.length ? { invalid_characters: matches } : null;
-      } else {
-        return null;
-      }
-  }
 
-  static validateURL(control: FormControl) {
+    // first check if the control has a value
     if (control.value && control.value.length > 0) {
-      const isValid = urlPattern.test(control.value);
-      return isValid ? null : { invalid_URL: {value :control.value}   };
+
+      // match the control value against the regular expression
+      const matches = control.value.match(validCharacters);
+
+      // if there are matches return an object, else return null.
+      return matches && matches.length ? { invalid_characters: matches } : null;
     } else {
       return null;
     }
   }
 
-  static extensionValidator(allowedExtensions:string[]=['jpg', 'jpeg', 'png']) {
+  static validateURL(control: FormControl) {
+    if (control.value && control.value.length > 0) {
+      const isValid = urlPattern.test(control.value);
+      return isValid ? null : { invalid_URL: { value: control.value } };
+    } else {
+      return null;
+    }
+  }
+
+  static extensionValidator(allowedExtensions: string[] = ['jpg', 'jpeg', 'png']) {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      if (control.value ) {
+      if (control.value) {
         const fileExtension = control.value.split('.').pop().toLowerCase();
         if (!allowedExtensions.includes(fileExtension)) {
           return { invalidExtension: allowedExtensions };
         }
-        
+
       }
       return null;
     };
 
   }
-  
-  static endDateGreaterThanStartDate(startDateCName: string, endDateCName: string,message=null): ValidatorFn {
+  static imageDimensionValidator(maxWidth: number, maxHeight: number) {
+    return (control: AbstractControl): Promise<{ [key: string]: any } | null> | null => {
+      const file = control.value;
+      // ✅ Skip if no file or not a File object
+      if (!(file instanceof File)) return Promise.resolve(null);
+
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        const img = new Image();
+
+        reader.onload = (event: any) => {
+          img.src = event.target.result;
+          img.onload = () => {
+            if (img.width > maxWidth || img.height > maxHeight) {
+              resolve({
+                invalidDimensions: {
+                  actualWidth: img.width,
+                  actualHeight: img.height,
+                  maxWidth,
+                  maxHeight,
+                },
+              });
+            } else {
+              resolve(null);
+            }
+          };
+          img.onerror = () => resolve({ invalidDimensions: true });
+        };
+
+        reader.readAsDataURL(file);
+      });
+    };
+  }
+
+
+  static endDateGreaterThanStartDate(startDateCName: string, endDateCName: string, message = null): ValidatorFn {
     return (formGroup: AbstractControl) => {
-      
+
       const startDate_C = formGroup.get(startDateCName);
       const endDate_C = formGroup.get(endDateCName);
-      
+
       if (startDate_C?.value && endDate_C?.value) {
         const startDate = new Date(startDate_C?.value);
         const endDate = new Date(endDate_C?.value);
-        
+
 
         if (startDate >= endDate) {
           // startDate_C.setErrors({ endDateLessThanStartDate: true });
           endDate_C.setErrors({ endDateLessThanStartDate: message });
-          
+
           // return { endDateLessThanStartDate: true}
         } else {
           // startDate_C.setErrors(null);
@@ -130,12 +164,12 @@ export class CustomValidators extends Validators{
       return null;
     };
   }
-  static regexPattern(type: RegexType, message: string =null): ValidatorFn {
+  static regexPattern(type: RegexType, message: string = null): ValidatorFn {
     const regex = regexList.find(x => x.type === type);
     if (!regex) {
       return (control: AbstractControl) => null;  // Return a validator that always passes if no regex is found
     }
-  
+
     return (control: AbstractControl) => {
       if (control.value && !regex.pattern.test(control.value)) {
         return { regexPattern: message ? message : regex.message };
@@ -153,14 +187,14 @@ export class CustomValidators extends Validators{
         return null;
       } else {
         // Invalid HTML content
-        return { invalid_Html: {value :control.value}};
+        return { invalid_Html: { value: control.value } };
       }
     } catch (error) {
       // Parsing error (invalid HTML)
-      return { invalid_Html: {value :control.value}};
+      return { invalid_Html: { value: control.value } };
     }
   }
-  static customRequiredValidator(control: FormControl,basedOnControl: FormControl) {
+  static customRequiredValidator(control: FormControl, basedOnControl: FormControl) {
     if (basedOnControl.value && basedOnControl.value) {
       return { required: true };
     } else {
@@ -170,13 +204,13 @@ export class CustomValidators extends Validators{
   }
 }
 
-export interface RegexModel{
+export interface RegexModel {
   pattern: RegExp;
   message: string;
   type: RegexType;
 }
 export enum RegexType {
-  text=1,
+  text = 1,
   email,
   url,
   number,

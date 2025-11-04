@@ -30,7 +30,7 @@ namespace RetailStation.Entities.Models.Operation
         public int? ItemCategoryId { get; set; }
         public int? ItemTypeId { get; set; }
         public bool IsActive { get; set; }
-        public bool IsBestSellerItem { get; set; }
+        //public bool IsBestSellerItem { get; set; }
         public string ImageUrl { get; set; }
 
 
