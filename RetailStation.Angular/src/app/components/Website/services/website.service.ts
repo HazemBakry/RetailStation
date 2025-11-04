@@ -12,6 +12,7 @@ import { ItemCategoryModel } from '../../Shared/models/ItemCategory';
 import { TopPartnerModel } from '../../Shared/models/TopPartnerModel';
 import { SearchAutoCompleteModel } from '../models/SearchAutoCompleteModel';
 import { MerchantRequestModel } from '../../Admin/models/MerchantRequestModel';
+import { GeneralSelectorModel } from '../../Shared/components/general-selector/general-selector.component';
 
 
 @Injectable({
@@ -89,5 +90,9 @@ export class WebsiteService {
   }
   SearchAutoComplete(searchText: string) {
     return this.http.get<SearchAutoCompleteModel[]>(this.URL + 'Website/SearchAutoComplete?SearchText=' + searchText);
+  }
+  GetCitiesSelector(countryId: number = null) {
+    const param = countryId !== null ? `?CountryId=${countryId}` : '';
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetCitiesSelector' + param);
   }
 }

@@ -4,5 +4,6 @@ export interface BestSellerItemsModel {
     merchantItemName: string;
     merchantName: string;
     isActive: boolean;
+    isBestSellerAdded: boolean;
     displayOrder: number;
 }

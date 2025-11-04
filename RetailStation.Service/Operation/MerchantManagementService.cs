@@ -304,7 +304,7 @@ namespace RetailStation.Service.Operation
                 var item = Context.MerchantItems.Where(i => i.MerchantItemId == MerchantItemId).FirstOrDefault();
                 if (item != null)
                 {
-                    item.IsBestSellerItem = !item.IsBestSellerItem;
+                    //item.IsBestSellerItem = !item.IsBestSellerItem;
                     await Context.SaveChangesAsync();
                     return new ActionsResponseModel { Message = "Item Updated Successfully !" };
                 }
