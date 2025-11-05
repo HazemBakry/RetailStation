@@ -17,7 +17,8 @@
                 </div>
             </div>
 
-            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pageResponseModel.currentPage" [pageSize]="pageResponseModel.pageSize" [totalCount]="pageResponseModel.totalCount" style="direction: ltr; margin: 15px;">
+            <app-pagination *ngIf="pageResponseModel.currentPage > 1||pageResponseModel.totalCount > pageResponseModel.pageSize"
+             (pageChanged)="pageChanged($event)" [currentPage]="pageResponseModel.currentPage" [pageSize]="pageResponseModel.pageSize" [totalCount]="pageResponseModel.totalCount" style="direction: ltr; margin: 15px;">
             </app-pagination>
 
         </div>
