@@ -38,6 +38,7 @@ namespace RetailStation.Service.Website
         private readonly string SliderImagesFolder = "SliderImages";
         private readonly string ItemsImagesFolder = "ItemsImages";
         private readonly string CategoriesImagesFolder = "CategoriesImages";
+        private readonly string PromotionImagesFolder = "PromotionsImages";
 
         public WebsiteService(DBContext Context, ISQLHelper SQLHelper,
             IConfiguration Configuration, IExportService ExportService,
@@ -197,7 +198,8 @@ namespace RetailStation.Service.Website
             var result = SQLHelper.SQLQuery<PromotionModel>("[Website].[SP_GetWebsitePromotionItems]", ConnectionString, Params);
             foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
             {
-                item.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine(SliderImagesFolder, item.ImageUrl));
+                item.ImageURL = _fileService.GetFileDownloadUrl(Path.Combine(PromotionImagesFolder, item.ImageURL));
+
             }
             return result;
         }

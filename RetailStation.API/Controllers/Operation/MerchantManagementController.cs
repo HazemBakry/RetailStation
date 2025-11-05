@@ -322,5 +322,89 @@ namespace RetailStation.API.Controllers.Operation
             return Ok(_merchantManagementService.ChangeBranchActiveStatus(MerchantId,branchId));
         }
         #endregion
+
+
+        #region Promotions
+
+
+        [HttpPost]
+        [Route("GetPromotionsData")]
+        public IActionResult GetPromotionsData(SearchFilterModel SearchModel)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
+            if (MerchantId <= 0)
+                return BadRequest("No Merchant assigned");
+            var data = _merchantManagementService.GetPromotionsData(MerchantId,SearchModel);
+            var result = new PagedResponseModel<PromotionModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+            };
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("GetPromotionDetailsById")]
+        public IActionResult GetPromotionDetailsById(int PromotionId)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
+            if (MerchantId <= 0)
+                return BadRequest("No Merchant assigned");
+            var results = _merchantManagementService.GetPromotionById(MerchantId, PromotionId);
+            return Ok(results);
+        }
+
+        [HttpPost]
+        [Route("AddNewPromotion")]
+        public async Task<IActionResult> AddNewPromotion([FromForm] PromotionModel model)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
+            if (MerchantId <= 0)
+                return BadRequest("No Merchant assigned");
+            var results = await _merchantManagementService.AddPromotion(MerchantId, model);
+            return Ok(results);
+        }
+
+        [HttpPost]
+        [Route("EditPromotion")]
+        public async Task<IActionResult> EditPromotion(int PromotionId, [FromForm] PromotionModel model)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
+            if (MerchantId <= 0)
+                return BadRequest("No Merchant assigned");
+            var results = await _merchantManagementService.EditPromotion(MerchantId, PromotionId, model);
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("DeletePromotion")]
+        public IActionResult DeletePromotion(int PromotionId)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
+            if (MerchantId <= 0)
+                return BadRequest("No Merchant assigned");
+            var results = _merchantManagementService.DeletePromotion(MerchantId, PromotionId);
+            return Ok(results);
+        }
+
+        [HttpGet]
+        [Route("ChangePromotionActiveStatus")]
+        public IActionResult ChangePromotionActiveStatus(int PromotionId)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
+            if (MerchantId <= 0)
+                return BadRequest("No Merchant assigned");
+            return Ok(_merchantManagementService.ChangePromotionActiveStatus(MerchantId, PromotionId));
+        }
+        #endregion
+
     }
 }

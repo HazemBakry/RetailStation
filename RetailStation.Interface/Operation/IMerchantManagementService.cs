@@ -41,5 +41,14 @@ namespace RetailStation.Interface.Operation
 
         #endregion
 
+        #region Promotions
+        List<PromotionModel> GetPromotionsData(int merchantId, SearchFilterModel filterModel, int? promotionId = null);
+        PromotionModel GetPromotionById(int merchantId, int promotionId);
+        Task<ActionsResponseModel> AddPromotion(int merchantId, PromotionModel model);
+        Task<ActionsResponseModel> EditPromotion(int merchantId, int promotionId, PromotionModel model);
+        ActionsResponseModel DeletePromotion(int merchantId, int promotionId);
+        ActionsResponseModel ChangePromotionActiveStatus(int merchantId, int promotionId);
+        #endregion
+
     }
 }

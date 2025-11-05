@@ -73,21 +73,21 @@ export class WebsitePromotionItemsComponent implements OnInit {
           this.promotionItems = data.results;
           this.pageResponseModel.totalCount = data.totalCount;
 
-          let updatedResults = data.results.map((result) => {
-            let imagePath = '../../../../../assets/main-banner_1.svg';
-            if (result.itemId === 2) {
-              imagePath = '../../../../../assets/main_banner_01.svg';
-            } else if (result.itemId === 4) {
-              imagePath = '../../../../../assets/main_banner_02.svg';
-            } else if (result.itemId === 1) {
-              imagePath = '../../../../../assets/main_banner_03.svg';
-            }
-            return {
-              ...result,
-              imagePath,
-            };
-          });
-          this.promotionItems = updatedResults;
+          // let updatedResults = data.results.map((result) => {
+          //   let imagePath = '../../../../../assets/main-banner_1.svg';
+          //   if (result.itemId === 2) {
+          //     imagePath = '../../../../../assets/main_banner_01.svg';
+          //   } else if (result.itemId === 4) {
+          //     imagePath = '../../../../../assets/main_banner_02.svg';
+          //   } else if (result.itemId === 1) {
+          //     imagePath = '../../../../../assets/main_banner_03.svg';
+          //   }
+          //   return {
+          //     ...result,
+          //     imagePath,
+          //   };
+          // });
+          // this.promotionItems = updatedResults;
           this.showLoader = false;
         },
         (err) => {

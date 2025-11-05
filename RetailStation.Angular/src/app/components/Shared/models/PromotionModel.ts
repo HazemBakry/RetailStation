@@ -2,7 +2,8 @@ import { MerchantItemModel } from "./MerchantItemModel";
 
 export interface PromotionModel extends MerchantItemModel {
     promotionId: number | null;
-    itemId: number | null;
+    merchantItemId: number | null;
+    merchantId: number | null;
     title: string;
     description: string | null;
     image: File | null;

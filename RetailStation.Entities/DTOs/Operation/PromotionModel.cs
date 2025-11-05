@@ -11,6 +11,8 @@ namespace RetailStation.Entities.DTOs.Operation
     public class PromotionModel :  MerchantItemModel
     {
         public int? PromotionId { get; set; }
+        public int? MerchantId { get; set; }
+        public int? MerchantItemId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string ImageURL { get; set; }

@@ -36,6 +36,7 @@ namespace RetailStation.Service.Operation
         private readonly IDataImportService _dataImportService;
         private const string ItemsImagesFolder = "ItemsImages";
         private const string BranchImagesFolder = "BranchImages";
+        private readonly string PromotionImagesFolder = "PromotionsImages";
 
         public MerchantManagementService(DBContext Context, ISQLHelper SQLHelper,
             IConfiguration Configuration, IExportService ExportService,
@@ -556,5 +557,173 @@ namespace RetailStation.Service.Operation
         }
         #endregion
 
+
+
+        #region Promotions
+
+        public List<PromotionModel> GetPromotionsData(int merchantId, SearchFilterModel filter, int? promotionId = null)
+        {
+            var query = Context.Promotions.AsNoTracking()
+                .Where(p => p.MerchantId == merchantId && (!promotionId.HasValue || p.PromotionId == promotionId));
+
+            int totalCount = query.Count();
+
+            if (filter.CurrentPage > 0 && filter.PageSize > 0)
+            {
+                int skip = (filter.CurrentPage - 1) * filter.PageSize;
+                query = query.Skip(skip).Take(filter.PageSize);
+            }
+
+            var results = query
+                .Select(p => new PromotionModel
+                {
+                    PromotionId = p.PromotionId,
+                    MerchantItemId = p.MerchantItemId,
+                    Title = p.Title,
+                    Description = p.Description,
+                    ImageURL = p.Image,
+                    OfferPrice = p.OfferPrice,
+                    StartDate = p.StartDate,
+                    EndDate = p.EndDate,
+                    MinQty = p.MinQty,
+                    MaxQty = p.MaxQty,
+                    IsActive = p.IsActive,
+                    CreatedBy = p.CreatedBy,
+                    CreatedDate = p.CreatedDate,
+                    ModifiedBy = p.ModifiedBy,
+                    ModifiedDate = p.ModifiedDate
+                })
+                .ToList();
+
+            foreach (var item in results.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
+            {
+                item.ImageURL = _fileService.GetFileDownloadUrl(Path.Combine(PromotionImagesFolder, item.ImageURL));
+            }
+
+            results.ForEach(x => x.TotalCount = totalCount);
+            return results;
+        }
+
+
+        public PromotionModel GetPromotionById(int merchantId, int promotionId)
+        {
+            return GetPromotionsData(merchantId, new SearchFilterModel { PageSize = 1, CurrentPage = 1 }, promotionId).FirstOrDefault();
+        }
+
+        public async Task<ActionsResponseModel> AddPromotion(int merchantId, PromotionModel model)
+        {
+            try
+            {
+                var promotion = new Promotion
+                {
+                    MerchantItemId = model.MerchantItemId.GetValueOrDefault(),
+                    MerchantId = merchantId,
+                    Title = model.Title,
+                    Description = model.Description,
+                    OfferPrice = model.OfferPrice,
+                    StartDate = model.StartDate,
+                    EndDate = model.EndDate,
+                    MinQty = model.MinQty,
+                    MaxQty = model.MaxQty,
+                    IsActive = model.IsActive,
+                    CreatedBy = model.CreatedBy,
+                    CreatedDate = DateTime.Now
+                };
+
+                if (model.Image != null)
+                {
+                    var upload = await _fileService.UploadFileAsync(model.Image, PromotionImagesFolder, FileType.Image);
+                    if (upload.IsUploaded)
+                        promotion.Image = upload.FilePath;
+                    else
+                        return new ActionsResponseModel { IsSuccess = false, Message = upload.Message };
+                }
+
+                Context.Promotions.Add(promotion);
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "Promotion added successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public async Task<ActionsResponseModel> EditPromotion(int merchantId, int promotionId, PromotionModel model)
+        {
+            try
+            {
+                var promotion = Context.Promotions.FirstOrDefault(p => p.MerchantId == merchantId && p.PromotionId == promotionId);
+                if (promotion == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Promotion not found." };
+
+                promotion.MerchantItemId = model.MerchantItemId.GetValueOrDefault();
+                promotion.Title = model.Title;
+                promotion.Description = model.Description;
+                promotion.OfferPrice = model.OfferPrice;
+                promotion.StartDate = model.StartDate;
+                promotion.EndDate = model.EndDate;
+                promotion.MinQty = model.MinQty;
+                promotion.MaxQty = model.MaxQty;
+                promotion.IsActive = model.IsActive;
+                promotion.ModifiedBy = model.ModifiedBy;
+                promotion.ModifiedDate = DateTime.Now;
+
+                if (model.Image != null)
+                {
+                    var upload = await _fileService.UploadFileAsync(model.Image, PromotionImagesFolder, FileType.Image);
+                    if (upload.IsUploaded)
+                        promotion.Image = upload.FilePath;
+                    else
+                        return new ActionsResponseModel { IsSuccess = false, Message = upload.Message };
+                }
+
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "Promotion updated successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel DeletePromotion(int merchantId, int promotionId)
+        {
+            try
+            {
+                var promotion = Context.Promotions.FirstOrDefault(p => p.MerchantId == merchantId && p.PromotionId == promotionId);
+                if (promotion == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Promotion not found." };
+
+                Context.Promotions.Remove(promotion);
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "Promotion deleted successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel ChangePromotionActiveStatus(int merchantId, int promotionId)
+        {
+            try
+            {
+                var promotion = Context.Promotions.FirstOrDefault(p => p.MerchantId == merchantId && p.PromotionId == promotionId);
+                if (promotion == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Promotion not found." };
+
+                promotion.IsActive = !promotion.IsActive;
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "Promotion status changed successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+        #endregion
     }
 }

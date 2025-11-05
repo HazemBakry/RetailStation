@@ -43,11 +43,11 @@
                         <td>{{ promo.description }}</td>
                         <!-- <td>{{promo.itemNameEN ?? promo.itemNameAR}}</td> -->
                         <td>
-                            <app-drop-down-form-control [(ngModel)]="promo.itemId" [placeholder]="'الصنف'"
-                                [disabled]="true" [data]="itemsSelectorData"></app-drop-down-form-control>
-                            <!-- <app-general-selector [value]="promo.itemId" [data]="itemsSelectorData"
-                                [showSearch]="true" [placeholder]="'الصنف'">
-                            </app-general-selector> -->
+                            <!-- <app-drop-down-form-control [(ngModel)]="promo.merchantItemId" [placeholder]="'الصنف'"
+                                [disabled]="true" [data]="itemsSelectorData"></app-drop-down-form-control> -->
+                            <app-general-selector [disabled]="true" [(ngModel)]="promo.merchantItemId"
+                                [data]="itemsSelectorData" [showSearch]="true" [placeholder]="'الصنف'">
+                            </app-general-selector>
                         </td>
                         <td>{{promo.offerPrice}}</td>
                         <td>{{promo.startDate | date:'dd/MM/yyyy'}}</td>
@@ -136,10 +136,14 @@
                         <td class="table-value">
                             <div class="row">
                                 <div class="col-xl-12">
-                                    <app-drop-down-form-control formControlName="itemId" [placeholder]="'الصنف'"
-                                        [showSearch]="true" [data]="itemsSelectorData"></app-drop-down-form-control>
-                                    <div *ngIf="formErrors.itemId" class="text-danger  font-small-3 m-03">
-                                        {{formErrors.itemId}}
+                                    <!-- <app-drop-down-form-control formControlName="merchantItemId" [placeholder]="'الصنف'"
+                                        [showSearch]="true" [data]="itemsSelectorData"></app-drop-down-form-control> -->
+
+                                    <app-general-selector formControlName="merchantItemId" [data]="itemsSelectorData"
+                                        [showSearch]="true" [placeholder]="'الصنف'">
+                                    </app-general-selector>
+                                    <div *ngIf="formErrors.merchantItemId" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.merchantItemId}}
                                     </div>
 
                                 </div>

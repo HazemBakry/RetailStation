@@ -105,6 +105,18 @@ namespace RetailStation.Service.Shared
             return results;
 
         }
+        
+        public List<SelectorDataModel> GetCurrentMerchantItemsSelector(int merchantId)
+        {
+            var results = Context.MerchantItems.Where(i=>i.MerchantId==merchantId&&i.IsActive).Select(b => new SelectorDataModel
+            {
+                Id = b.MerchantItemId,
+                Name = b.NameAR ?? b.NameEN,
+                Code = b.Code
+            }).ToList();
+            return results;
+
+        }
 
         public List<SelectorDataModel> GetItemCategoriesSelector()
         {
