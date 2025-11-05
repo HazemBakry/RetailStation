@@ -12,6 +12,7 @@ import { CustomersStatementComponent } from './components/customers-statement/cu
 import { MySuppliersComponent } from './components/my-suppliers/my-suppliers.component';
 import { MerchantItemsComponent } from '../Main/components/merchant/merchant-items/merchant-items.component';
 import { MerchantProfileComponent } from './components/merchant-profile/merchant-profile.component';
+import { BranchesComponent } from './components/branches/branches.component';
 
 
 
@@ -31,6 +32,7 @@ const routes: Routes = [
       { path: 'customers-statement', component: CustomersStatementComponent, canActivate: [AuthPageGuard], data: { pageName: 'customers-statement' } },
       // { path: 'my-suppliers', component: MySuppliersComponent, canActivate: [AuthPageGuard], data: { pageName: 'my-suppliers' } },
       { path: 'merchant-profile', component: MerchantProfileComponent, canActivate: [AuthPageGuard], data: { pageName: 'my-suppliers' } },
+      { path: 'branches', component: BranchesComponent, canActivate: [AuthPageGuard], data: { pageName: 'branches' } },
 
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],

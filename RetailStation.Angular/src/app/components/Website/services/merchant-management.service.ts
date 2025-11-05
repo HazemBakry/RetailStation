@@ -9,6 +9,7 @@ import { WebsiteOrderItemModel, WebsiteOrderModel } from '../models/WebsiteOrder
 import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
 import { MerchantModel } from '../../Admin/models/Operation/MerchantModel';
 import { MerchantItemModel } from '../../Shared/models/MerchantItemModel';
+import { BranchModel } from '../../Shared/models/BranchModel';
 
 
 @Injectable({
@@ -44,4 +45,45 @@ export class MerchantManagementService {
 
   }
 
+
+  /////////////////////////// Branches ////////////////////////
+
+  GetBranches_Data(searchModel: any) {
+    return this.http.post<PagedResponseModel<BranchModel[]>>(
+      this.URL + 'MerchantManagement/GetBranches_Data',
+      searchModel
+    );
+  }
+
+  GetBranchById(branchId: number) {
+    return this.http.get<BranchModel>(
+      this.URL + `MerchantManagement/GetBranchById?BranchId=${branchId}`
+    );
+  }
+
+  AddBranch(model: FormData) {
+    return this.http.post<ActionsResponseModel>(
+      this.URL + 'MerchantManagement/AddBranch',
+      model
+    );
+  }
+
+  EditBranch(branchId: number, model: FormData) {
+    return this.http.post<ActionsResponseModel>(
+      this.URL + `MerchantManagement/EditBranch?BranchId=${branchId}`,
+      model
+    );
+  }
+
+  DeleteBranch(branchId: number) {
+    return this.http.get<ActionsResponseModel>(
+      this.URL + `MerchantManagement/DeleteBranch?BranchId=${branchId}`
+    );
+  }
+
+  ChangeBranchActiveStatus(branchId: number) {
+    return this.http.get<ActionsResponseModel>(
+      this.URL + `MerchantManagement/ChangeBranchActiveStatus?BranchId=${branchId}`
+    );
+  }
 }

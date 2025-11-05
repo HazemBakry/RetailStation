@@ -34,6 +34,7 @@ namespace RetailStation.Entities.Models
 
 
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Branch> Branches { get; set; }
 
         public DbSet<Page> Pages { get; set; }
         public DbSet<RoleAction> RoleActions { get; set; }
