@@ -6,11 +6,7 @@
             <i class="ph ph-caret-down dropdown-arrow m-0"></i>
         </a>
         <div class="dropdown-search-menu p-0" ngbDropdownMenu>
-            <div *ngFor="let city of citiesSelectorData"
-                class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
-                (click)="onCitySelected(city)"
-                [class.active]="selectedCity?.value == city.value"
-                ngbDropdownItem>
+            <div *ngFor="let city of citiesSelectorData" class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" (click)="onCitySelected(city)" [class.active]="selectedCity?.value == city.value" ngbDropdownItem>
                 <i class="ph ph-map-pin"></i>
                 <div>{{city.name}}</div>
             </div>
@@ -24,19 +20,14 @@
                 <i class="ph ph-caret-down dropdown-arrow m-0"></i>
             </a>
             <div class="dropdown-search-menu p-0" ngbDropdownMenu>
-                <div (click)="onCategorySelected(null)" [class.active]="!selectedCategory"
-                    class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
-                    ngbDropdownItem>
+                <div (click)="onCategorySelected(null)" [class.active]="!selectedCategory" class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
                     <div class="drop-image-box">
                         <img src="{{systemUrl}}assets/meat.svg" alt="drop-icon" loading="lazy" />
                     </div>
                     <div>كل الفئات</div>
                 </div>
                 <ng-container *ngFor="let cat of categories">
-                    <div (click)="onCategorySelected(cat)"
-                        [class.active]="selectedCategory?.itemCategoryId == cat.itemCategoryId"
-                        class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
-                        ngbDropdownItem>
+                    <div (click)="onCategorySelected(cat)" [class.active]="selectedCategory?.itemCategoryId == cat.itemCategoryId" class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
                         <div class="drop-image-box">
                             <img [src]="cat.imageUrl" alt="drop-icon" loading="lazy" />
                         </div>
@@ -60,12 +51,9 @@
         <div class="dropdown-search-input-box position-relative">
             <i class="ph ph-magnifying-glass dropdown-search-input-icon" (click)="search()"></i>
             <div ngbDropdown>
-                <input (keydown.enter)="search()" type="search" [(ngModel)]="searchText"
-                    (input)="getSearchAutoComplete($event)" class="dropdown-search-input form-control"
-                    [placeholder]="placeholder" aria-label="Search" ngbDropdownToggle />
+                <input (keydown.enter)="search()" type="search" [(ngModel)]="searchText" (input)="getSearchAutoComplete($event)" class="dropdown-search-input form-control" [placeholder]="placeholder" aria-label="Search" ngbDropdownToggle />
                 <div *ngIf="searchResults.length>0" class="dropdown-search-menu w-100 p-0" ngbDropdownMenu>
-                    <div *ngFor="let item of searchResults" (click)="navigateToSearchPage(item)"
-                        class="d-flex align-items-center gap-2 cursor-pointer border-bottom-not-last" ngbDropdownItem>
+                    <div *ngFor="let item of searchResults" (click)="navigateToSearchPage(item)" class="d-flex align-items-center gap-2 cursor-pointer border-bottom-not-last" ngbDropdownItem>
                         <img [src]="item.imageUrl" class="search-img" alt="search-image" loading="lazy" />
                         <div class="d-flex flex-column gap-1">
                             <div class="fw-semibold">{{item.nameAR ?? item.nameEN}}</div>
@@ -73,13 +61,11 @@
                                 <div class="d-flex align-items-center gap-2">
                                     <div class="text-danger fw-bold fs-4">{{item.offerPrice?item.offerPrice:item.price}}
                                     </div>
-                                    <img src="{{systemURL}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon"
-                                        loading="lazy" />
+                                    <img src="{{systemURL}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
                                 </div>
                                 <div *ngIf="item.offerPrice" class="d-flex align-items-center gap-2 line-through">
                                     <div class="text-danger fw-bold fs-4">{{item.price}}</div>
-                                    <img src="{{systemURL}}assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon"
-                                        loading="lazy" />
+                                    <img src="{{systemURL}}assets/ryal-gray-icon.svg" class="ryial-img" alt="ryal-icon" loading="lazy" />
                                 </div>
                                 <!-- <button class="btn btn-bdage-danger py-1 px-3">Sale 20%</button> -->
                             </div>

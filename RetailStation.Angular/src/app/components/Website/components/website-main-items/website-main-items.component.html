@@ -1,9 +1,64 @@
-<section *ngIf="!searchText&&!itemCategoryId&&bestSellerData?.length" class="marketing-category-section">
+<section class="vertical-product-section container-fluid py-4">
+    <div class="carousel-title d-flex align-items-center gap-2 position-relative mb-3">
+        <img src="../../../../../assets/strong-offet-icon-2.svg" class="header-offer-icon" alt="offer-icon" loading="lazy" />
+        <div class="fw-semibold fs-18">الأكثر مبيعاً</div>
+    </div>
+
+    <div class="vertical-scroll-container">
+        <div *ngFor="let item of bestSellerData" class="vertical-scroll-card">
+            <app-website-item-card [item]="item" [isAuthenticated]="isAuthenticated"></app-website-item-card>
+        </div>
+    </div>
+</section>
+
+<div class="items-container container-fluid py-4">
+    <div class="row g-4">
+        <aside class="col-12 col-lg-3 col-xl-2">
+            <app-website-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث  ...'">
+            </app-website-filters>
+        </aside>
+
+        <main class="col-12 col-lg-9 col-xl-10 pe-lg-4">
+            <h3 class="section-heading mb-4">
+                <span *ngIf="!searchText && !itemCategoryId">الأصناف</span>
+                <span *ngIf="searchText || itemCategoryId">
+          {{selectedCategoryName || 'نتائج البحث'}}
+        </span>
+            </h3>
+
+
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                <div class="col" *ngFor="let item of merchantsData">
+                    <app-website-item-card [item]="item" [isAuthenticated]="isAuthenticated">
+                    </app-website-item-card>
+                </div>
+            </div>
+
+            <!-- <div class="product-grid">
+        <div *ngFor="let item of merchantsData" class="product-card">
+          <app-website-item-card [item]="item" [isAuthenticated]="isAuthenticated">
+          </app-website-item-card>
+        </div>
+      </div> -->
+
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pageResponseModel.currentPage" [pageSize]="pageResponseModel.pageSize" [totalCount]="pageResponseModel.totalCount" style="direction: ltr; margin: 15px 0;">
+            </app-pagination>
+        </main>
+    </div>
+</div>
+
+
+
+
+
+
+
+<!-- <section *ngIf="!searchText&&!itemCategoryId&&bestSellerData?.length" class="marketing-category-section">
     <div class="carousel-title d-flex align-items-center gap-2 position-relative mb-3">
         <img src="../../../../../assets/strong-offet-icon-2.svg" class="header-offer-icon" alt="offer-icon" loading="lazy" />
         <div class="fw-semibold fs-18">الأكثر مبيعا</div>
     </div>
-    <swiper class="medium-carousel-swiper navigator-with-head h-auto" [slidesPerView]="1" [spaceBetween]="10" [navigation]="true" [pagination]="false" [slidesPerGroup]="1" [autoplay]="{ delay: 350000000000, disableOnInteraction: false }" [loop]="true" [breakpoints]="{
+    <swiper class="medium-carousel-swiper navigator-with-head h-auto" [slidesPerView]="1" [spaceBetween]="10" [navigation]="true" [pagination]="false" [slidesPerGroup]="1" [autoplay]="{ delay: 35000, disableOnInteraction: false }" [loop]="true" [breakpoints]="{
         '0': {
           slidesPerView: 1
         },
@@ -33,7 +88,6 @@
     <div class="row">
         <div class="col-xl-2">
 
-
             <app-website-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث  ...'"></app-website-filters>
 
         </div>
@@ -54,4 +108,4 @@
 
         </div>
     </div>
-</div>
+</div> -->

@@ -1,0 +1,11 @@
+<section *ngIf="!searchText&&!activeCategoryId" class="marketing-category-section d-flex flex-column gap-3 mt-4 mb-5">
+    <div class="d-flex align-items-center gap-2 position-relative">
+        <img src="../../../../../assets/strong-offet-icon-2.svg" class="header-offer-icon" alt="offer-icon" loading="lazy" />
+        <div class="fw-semibold fs-18">أشهر العلامات</div>
+    </div>
+    <div class="logos-container">
+        <div class="logos-box" *ngFor="let item of retailStationLogos">
+            <img [src]="item.logo" alt="{{ item.name }}" loading="lazy" />
+        </div>
+    </div>
+</section>

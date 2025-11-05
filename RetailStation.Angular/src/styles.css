@@ -1602,10 +1602,10 @@ th.td-img {
 }
 
 .btn-add-compare {
-    color: #0ca363;
+    color: #000;
     padding: 6px 8px;
-    background-color: #ecf9f3;
-    border: 1px solid #0ca363;
+    background-color: #ffed94;
+    border: 1px solid #d7e11d;
     border-radius: 20px;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
@@ -1616,8 +1616,8 @@ th.td-img {
 .btn-add-compare:hover {
     color: #fff;
     padding: 6px 8px;
-    background-color: #0ca363;
-    border: 1px solid #0ca363;
+    background-color: #ffd000;
+    border: 1px solid #fff;
 }
 
 .btn-outline-primary {

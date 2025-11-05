@@ -10,17 +10,8 @@
         <!-- <app-website-promotion-items></app-website-promotion-items> -->
     </div>
 
-    <section *ngIf="!searchText&&!activeCategoryId"  class="marketing-category-section d-flex flex-column gap-3 mt-4 mb-5">
-        <div class="d-flex align-items-center gap-2 position-relative">
-            <img src="../../../../../assets/strong-offet-icon-2.svg" class="header-offer-icon" alt="offer-icon" loading="lazy" />
-            <div class="fw-semibold fs-18">أشهر العلامات</div>
-        </div>
-        <div class="d-flex gap-3 flex-wrap px-3">
-            <div class="logos-box border radius-10 overflow-hidden bg-white" *ngFor="let item of retailStationLogos">
-                <img [src]="item.logo" alt="{{ item.name }}" loading="lazy" />
-            </div>
-        </div>
-    </section>
+    <app-website-top-partners [searchText]="searchText" [activeCategoryId]="activeCategoryId"></app-website-top-partners>
+
     <!-- <app-website-main-categories></app-website-main-categories> -->
 
 
@@ -37,12 +28,12 @@
              '1200': { slidesPerView: 6 }
 
           }">
-             <ng-template swiperSlide>
-                    <div class="market-cat-card d-flex flex-column gap-2 align-items-center bg-white p-3" [class.active]="!activeCategoryId" (click)="activeCategoryId=null;activeCategoryName=''">
-                        <img src="../../../../../assets/marketing-cat-1.svg" class="marketing-cat-carousel-image" alt="offer-image" loading="lazy" />
-                        <div class="fs-16 fw-semibold"> كل الفئات </div>
-                    </div>
-                </ng-template>
+            <ng-template swiperSlide>
+                <div class="market-cat-card d-flex flex-column gap-2 align-items-center bg-white p-3" [class.active]="!activeCategoryId" (click)="activeCategoryId=null;activeCategoryName=''">
+                    <img src="../../../../../assets/marketing-cat-1.svg" class="marketing-cat-carousel-image" alt="offer-image" loading="lazy" />
+                    <div class="fs-16 fw-semibold"> كل الفئات </div>
+                </div>
+            </ng-template>
             <ng-container *ngFor="let category of CategoriesList; let i = index">
                 <ng-template swiperSlide>
                     <div class="market-cat-card d-flex flex-column gap-2 align-items-center bg-white p-3" [class.active]="activeCategoryId === CategoriesList[i].itemCategoryId" (click)="onActiveItem(i)">
@@ -56,50 +47,6 @@
 
     <app-website-main-items [selectedCategoryId]="activeCategoryId" [selectedCategoryName]="activeCategoryName"></app-website-main-items>
 
-
-    <!-- <div class="row" *ngIf="activeCategoryId">
-        <div class="col-xl-2">
-
-            <app-website-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث  ...'"></app-website-filters>
-            
-        </div>
-        <div class="col-xl-10 pe-4">
-            <h3 class="d-flex align-items-end mb-4">
-                <span class="ms-2">{{activeCategoryName}}</span>
-            </h3>
-            <div class="row overflow-auto mb-4">
-                <div class="col-md-6 col-md-4 col-xl-3 mb-3" *ngFor="let item of pageResponseModel?.results">
-                   
-
-                    <div class="swiper-slide swiper-slide-duplicate swiper-slide-next">
-                        <app-website-item-card [item]="item"></app-website-item-card>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mb-4">
-                <app-pagination (pageChanged)="pageChanged($event)" style="direction: ltr; margin-bottom: 15px;" [currentPage]="pageResponseModel.currentPage" [pageSize]="pageResponseModel.pageSize" [totalCount]="pageResponseModel.totalCount"></app-pagination>
-            </div>
-        </div>
-    </div>
-
-
-    <div *ngIf="!activeCategoryId">
-        <section class="marketing-category-section">
-            <div class="carousel-title d-flex align-items-center gap-2 position-relative mb-3">
-                <img src="../../../../../assets/strong-offet-icon-2.svg" class="header-offer-icon" alt="offer-icon" loading="lazy" />
-                <div class="fw-semibold fs-18">{{activeCategoryName}}</div>
-            </div>
-
-            <div class="row g-3">
-                <div *ngFor="let item of pageResponseModel?.results; let i =index" class="col-md-3">
-                    <div class="swiper-slide swiper-slide-duplicate swiper-slide-next">
-                        <app-website-item-card [item]="item"></app-website-item-card>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div> -->
 </ng-container>
 
 

@@ -1,4 +1,48 @@
-<div *ngIf="!newPagination" class="pagination-container d-flex align-items-center justify-content-end flex-wrap">
+<div class="pagination-wrapper d-flex align-items-center justify-content-between flex-wrap mt-4">
+    <!-- Showing Info -->
+    <div class="showing-info text-muted small">
+        عرض <strong>{{ showingStr }}</strong> من <strong>{{ totalCount }}</strong> منتج
+    </div>
+
+    <!-- Pagination Controls -->
+    <nav class="custom-pagination d-flex align-items-center justify-content-center flex-wrap gap-2">
+        <!-- First -->
+        <button class="page-btn" [disabled]="currentPage === 1" (click)="setPage(1)">
+      <i class="ph ph-caret-double-left"></i>
+    </button>
+
+        <!-- Previous -->
+        <button class="page-btn" [disabled]="currentPage === 1" (click)="setPage(currentPage - 1)">
+      <i class="ph ph-caret-left"></i>
+    </button>
+
+        <!-- Page Numbers -->
+        <ng-container *ngFor="let page of pages">
+            <button class="page-btn" [class.active]="page === currentPage" (click)="setPage(page)">
+        {{ page }}
+      </button>
+        </ng-container>
+
+        <!-- Next -->
+        <button class="page-btn" [disabled]="currentPage === totalPages" (click)="setPage(currentPage + 1)">
+      <i class="ph ph-caret-right"></i>
+    </button>
+
+        <!-- Last -->
+        <button class="page-btn" [disabled]="currentPage === totalPages" (click)="setPage(totalPages)">
+      <i class="ph ph-caret-double-right"></i>
+    </button>
+    </nav>
+</div>
+
+
+
+
+
+
+
+
+<!-- <div *ngIf="!newPagination" class="pagination-container d-flex align-items-center justify-content-end flex-wrap">
   <span class="me-2">
     <span class="CrossRef_2_Info">{{'Showing'}} {{showingStr}} {{'of'}} </span>
     <span class="CrossRef_2_InfoTotal">{{totalCount}}</span>
@@ -63,4 +107,4 @@
       </div>
     </nav>
   </div>
-</div>
+</div> -->

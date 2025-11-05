@@ -17,7 +17,7 @@ import { AuthService } from 'src/app/Auth/auth.service';
   styleUrls: ['./website-item-card.component.css'],
 })
 export class WebsiteItemCardComponent implements OnInit {
-  @Input() item!: MerchantItemModel;
+  @Input() item!: any;
   @Input() isAuthenticated: boolean = false;
   isItemInCart = false;
   systemURL: string = environment.systemUrl;

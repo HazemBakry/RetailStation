@@ -1047,6 +1047,10 @@ tr {
     border-color: #1f201f !important;
 }
 
+.btn-outline-warning {
+    border-color: #f8f400 !important;
+}
+
 .button-table-action {
     background-color: #e3e3e3;
     border: 0;
