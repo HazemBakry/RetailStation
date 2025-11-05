@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using RetailStation.Entities.Models.Purchases;
 using System.IO;
+using RetailStation.Entities.Models.Finance;
 
 namespace RetailStation.Service.Operation
 {
@@ -34,6 +35,8 @@ namespace RetailStation.Service.Operation
         private readonly IFileService _fileService;
         private readonly IDataImportService _dataImportService;
         private const string ItemsImagesFolder = "ItemsImages";
+        private const string BranchImagesFolder = "BranchImages";
+        private readonly string PromotionImagesFolder = "PromotionsImages";
 
         public MerchantManagementService(DBContext Context, ISQLHelper SQLHelper,
             IConfiguration Configuration, IExportService ExportService,
@@ -380,5 +383,347 @@ namespace RetailStation.Service.Operation
             return filePath;
 
         }
+
+
+
+
+        #region Branch
+        public List<BranchModel> GetBranches_Data(int merchantId, SearchFilterModel filter, int? branchId = null)
+        {
+            var query = Context.Branches.AsNoTracking()
+              .Where(s => s.MerchantId == merchantId && (!branchId.HasValue || s.BranchId == branchId));
+
+            int totalCount = query.Count();
+
+            if (filter.CurrentPage > 0 && filter.PageSize > 0)
+            {
+                int skip = (filter.CurrentPage - 1) * filter.PageSize;
+                query = query.Skip(skip).Take(filter.PageSize);
+            }
+
+            var results = query
+              .Select(s => new BranchModel
+              {
+                  BranchId = s.BranchId,
+                  NameAR = s.NameAR,
+                  NameEN = s.NameEN,
+                  Phone = s.Phone,
+                  Address = s.Address,
+                  RegionId = s.RegionId,
+                  OpeningTimeFrom = s.OpeningTimeFrom,
+                  OpeningTimeTo = s.OpeningTimeTo,
+                  WorkingTimeAR = s.WorkingTimeAR,
+                  WorkingTimeEN = s.WorkingTimeEN,
+                  MerchantId = s.MerchantId,
+                  ImageURL = s.ImageURL,
+                  IsActive = s.IsActive,
+                  CreatedBy = s.CreatedBy,
+                  CreatedDate = s.CreatedDate,
+                  ModifiedBy = s.ModifiedBy,
+                  ModifiedDate = s.ModifiedDate
+              })
+              .ToList();
+
+            foreach (var item in results.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
+            {
+                item.ImageURL = _fileService.GetFileDownloadUrl(Path.Combine(BranchImagesFolder, item.ImageURL));
+            }
+
+            results.ForEach(x => x.TotalCount = totalCount);
+            return results;
+        }
+
+        public BranchModel GetBranchById(int merchantId, int branchId)
+        {
+            return GetBranches_Data(merchantId, new SearchFilterModel { PageSize = 1, CurrentPage = 1 }, branchId).FirstOrDefault();
+        }
+
+        public async Task<ActionsResponseModel> AddBranch(int merchantId, BranchModel model)
+        {
+            try
+            {
+                var branch = new Branch
+                {
+                    NameAR = model.NameAR,
+                    NameEN = model.NameEN,
+                    Phone = model.Phone,
+                    Address = model.Address,
+                    RegionId = model.RegionId,
+                    IsActive = model.IsActive,
+                    OpeningTimeFrom = model.OpeningTimeFrom,
+                    OpeningTimeTo = model.OpeningTimeTo,
+                    WorkingTimeAR = model.WorkingTimeAR,
+                    WorkingTimeEN = model.WorkingTimeEN,
+                    MerchantId = merchantId,
+                    CreatedBy = model.CreatedBy,
+                    CreatedDate = DateTime.Now
+                };
+
+                if (model.Image != null)
+                {
+                    var upload = await _fileService.UploadFileAsync(model.Image, BranchImagesFolder, FileType.Image);
+                    if (upload.IsUploaded)
+                        branch.ImageURL = upload.FilePath;
+                    else
+                        return new ActionsResponseModel { IsSuccess = false, Message = upload.Message };
+                }
+
+                Context.Branches.Add(branch);
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "Branch added successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public async Task<ActionsResponseModel> EditBranch(int merchantId, int branchId, BranchModel model)
+        {
+            try
+            {
+                var branch = Context.Branches.FirstOrDefault(s => s.BranchId == branchId && s.MerchantId == merchantId);
+                if (branch == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Branch not found." };
+
+                branch.NameAR = model.NameAR;
+                branch.NameEN = model.NameEN;
+                branch.Phone = model.Phone;
+                branch.Address = model.Address;
+                branch.RegionId = model.RegionId;
+                branch.IsActive = model.IsActive;
+                branch.OpeningTimeFrom = model.OpeningTimeFrom;
+                branch.OpeningTimeTo = model.OpeningTimeTo;
+                branch.WorkingTimeAR = model.WorkingTimeAR;
+                branch.WorkingTimeEN = model.WorkingTimeEN;
+                branch.ModifiedBy = model.ModifiedBy;
+                branch.ModifiedDate = DateTime.Now;
+
+                if (model.Image != null)
+                {
+                    var upload = await _fileService.UploadFileAsync(model.Image, BranchImagesFolder, FileType.Image);
+                    if (upload.IsUploaded)
+                        branch.ImageURL = upload.FilePath;
+                    else
+                        return new ActionsResponseModel { IsSuccess = false, Message = upload.Message };
+                }
+
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "Branch updated successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel DeleteBranch(int merchantId, int branchId)
+        {
+            try
+            {
+                var branch = Context.Branches.FirstOrDefault(s => s.BranchId == branchId && s.MerchantId == merchantId);
+                if (branch == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Branch not found." };
+
+                Context.Branches.Remove(branch);
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "Branch deleted successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel ChangeBranchActiveStatus(int merchantId, int branchId)
+        {
+            try
+            {
+                var branch = Context.Branches.FirstOrDefault(s => s.BranchId == branchId && s.MerchantId == merchantId);
+                if (branch == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Branch not found." };
+
+                branch.IsActive = !branch.IsActive;
+                branch.ModifiedDate = DateTime.Now;
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "Branch status changed successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+        #endregion
+
+
+
+        #region Promotions
+
+        public List<PromotionModel> GetPromotionsData(int merchantId, SearchFilterModel filter, int? promotionId = null)
+        {
+            var query = Context.Promotions.AsNoTracking()
+                .Where(p => p.MerchantId == merchantId && (!promotionId.HasValue || p.PromotionId == promotionId));
+
+            int totalCount = query.Count();
+
+            if (filter.CurrentPage > 0 && filter.PageSize > 0)
+            {
+                int skip = (filter.CurrentPage - 1) * filter.PageSize;
+                query = query.Skip(skip).Take(filter.PageSize);
+            }
+
+            var results = query
+                .Select(p => new PromotionModel
+                {
+                    PromotionId = p.PromotionId,
+                    MerchantItemId = p.MerchantItemId,
+                    Title = p.Title,
+                    Description = p.Description,
+                    ImageURL = p.Image,
+                    OfferPrice = p.OfferPrice,
+                    StartDate = p.StartDate,
+                    EndDate = p.EndDate,
+                    MinQty = p.MinQty,
+                    MaxQty = p.MaxQty,
+                    IsActive = p.IsActive,
+                    CreatedBy = p.CreatedBy,
+                    CreatedDate = p.CreatedDate,
+                    ModifiedBy = p.ModifiedBy,
+                    ModifiedDate = p.ModifiedDate
+                })
+                .ToList();
+
+            foreach (var item in results.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
+            {
+                item.ImageURL = _fileService.GetFileDownloadUrl(Path.Combine(PromotionImagesFolder, item.ImageURL));
+            }
+
+            results.ForEach(x => x.TotalCount = totalCount);
+            return results;
+        }
+
+
+        public PromotionModel GetPromotionById(int merchantId, int promotionId)
+        {
+            return GetPromotionsData(merchantId, new SearchFilterModel { PageSize = 1, CurrentPage = 1 }, promotionId).FirstOrDefault();
+        }
+
+        public async Task<ActionsResponseModel> AddPromotion(int merchantId, PromotionModel model)
+        {
+            try
+            {
+                var promotion = new Promotion
+                {
+                    MerchantItemId = model.MerchantItemId.GetValueOrDefault(),
+                    MerchantId = merchantId,
+                    Title = model.Title,
+                    Description = model.Description,
+                    OfferPrice = model.OfferPrice,
+                    StartDate = model.StartDate,
+                    EndDate = model.EndDate,
+                    MinQty = model.MinQty,
+                    MaxQty = model.MaxQty,
+                    IsActive = model.IsActive,
+                    CreatedBy = model.CreatedBy,
+                    CreatedDate = DateTime.Now
+                };
+
+                if (model.Image != null)
+                {
+                    var upload = await _fileService.UploadFileAsync(model.Image, PromotionImagesFolder, FileType.Image);
+                    if (upload.IsUploaded)
+                        promotion.Image = upload.FilePath;
+                    else
+                        return new ActionsResponseModel { IsSuccess = false, Message = upload.Message };
+                }
+
+                Context.Promotions.Add(promotion);
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "Promotion added successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public async Task<ActionsResponseModel> EditPromotion(int merchantId, int promotionId, PromotionModel model)
+        {
+            try
+            {
+                var promotion = Context.Promotions.FirstOrDefault(p => p.MerchantId == merchantId && p.PromotionId == promotionId);
+                if (promotion == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Promotion not found." };
+
+                promotion.MerchantItemId = model.MerchantItemId.GetValueOrDefault();
+                promotion.Title = model.Title;
+                promotion.Description = model.Description;
+                promotion.OfferPrice = model.OfferPrice;
+                promotion.StartDate = model.StartDate;
+                promotion.EndDate = model.EndDate;
+                promotion.MinQty = model.MinQty;
+                promotion.MaxQty = model.MaxQty;
+                promotion.IsActive = model.IsActive;
+                promotion.ModifiedBy = model.ModifiedBy;
+                promotion.ModifiedDate = DateTime.Now;
+
+                if (model.Image != null)
+                {
+                    var upload = await _fileService.UploadFileAsync(model.Image, PromotionImagesFolder, FileType.Image);
+                    if (upload.IsUploaded)
+                        promotion.Image = upload.FilePath;
+                    else
+                        return new ActionsResponseModel { IsSuccess = false, Message = upload.Message };
+                }
+
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "Promotion updated successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel DeletePromotion(int merchantId, int promotionId)
+        {
+            try
+            {
+                var promotion = Context.Promotions.FirstOrDefault(p => p.MerchantId == merchantId && p.PromotionId == promotionId);
+                if (promotion == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Promotion not found." };
+
+                Context.Promotions.Remove(promotion);
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "Promotion deleted successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel ChangePromotionActiveStatus(int merchantId, int promotionId)
+        {
+            try
+            {
+                var promotion = Context.Promotions.FirstOrDefault(p => p.MerchantId == merchantId && p.PromotionId == promotionId);
+                if (promotion == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Promotion not found." };
+
+                promotion.IsActive = !promotion.IsActive;
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "Promotion status changed successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+        #endregion
     }
 }

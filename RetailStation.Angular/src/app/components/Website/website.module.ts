@@ -46,7 +46,8 @@ import { WebsiteTopPartnersComponent } from './components/website-top-partners/w
     WebsiteBlogComponent,
     BlogDetailsComponent,
     PrivacyPolicyComponent,
-    WebsiteTopPartnersComponent
+    WebsiteTopPartnersComponent,
+    WebsiteFavoritesComponent
   ],
   imports: [
     CommonModule,

@@ -29,14 +29,7 @@ namespace RetailStation.Interface.Operation
 
         #endregion
 
-        #region Promotions
-        List<PromotionModel> GetPromotionsData(SearchFilterModel filterModel, int? promotionId = null);
-        PromotionModel GetPromotionById(int promotionId);
-        Task<ActionsResponseModel> AddPromotion(PromotionModel model);
-        Task<ActionsResponseModel> EditPromotion(int promotionId, PromotionModel model);
-        ActionsResponseModel DeletePromotion(int promotionId);
-        ActionsResponseModel ChangePromotionActiveStatus(int promotionId);
-        #endregion
+      
         #region TopPartners
         List<TopPartnerModel> GetTopPartners_Data(SearchFilterModel filterModel, int? promotionId = null);
         TopPartnerModel GetTopPartnerById(int promotionId);

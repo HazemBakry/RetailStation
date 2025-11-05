@@ -12,7 +12,8 @@ namespace RetailStation.Entities.Models.Operation
     public class Promotion : CreatorModel
     {
         public int PromotionId { get; set; }
-        public int ItemId { get; set; }
+        public int MerchantId { get; set; }
+        public int MerchantItemId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }

@@ -11,6 +11,7 @@ import { GeneralSelectorModel } from 'src/app/components/Shared/components/gener
 import { DatePipe } from '@angular/common';
 import { PromotionModel } from 'src/app/components/Shared/models/PromotionModel';
 import { AdminService } from 'src/app/components/Admin/services/Admin.service';
+import { MerchantManagementService } from 'src/app/components/Website/services/merchant-management.service';
 
 @Component({
   selector: 'app-promotions',
@@ -38,7 +39,7 @@ export class PromotionsComponent implements OnInit {
   public formGroup: FormGroup;
   public formErrors = {
     promotionId: '',
-    itemId: '',
+    merchantItemId: '',
     title: '',
     description: '',
     startDate: '',
@@ -56,7 +57,7 @@ export class PromotionsComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private adminService: AdminService,
+    private merchantManagementService: MerchantManagementService,
     private sharedService: SharedService,
     private fb: FormBuilder,
     private _formService: FormService,
@@ -72,7 +73,7 @@ export class PromotionsComponent implements OnInit {
 
   loadData() {
     this.showLoader = true;
-    this.adminService.GetPromotionsData(this.pagedResponseModel).subscribe(data => {
+    this.merchantManagementService.GetPromotionsData(this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
       this.showLoader = false;
@@ -83,7 +84,7 @@ export class PromotionsComponent implements OnInit {
     this.formGroup = this.fb.group({
       promotionId: [null],
       title: [null, [Validators.required]],
-      itemId: [null, [Validators.required]],
+      merchantItemId: [null, [Validators.required]],
       description: [null],
       startDate: [null, [Validators.required]],
       endDate: [null, [Validators.required]],
@@ -112,7 +113,7 @@ export class PromotionsComponent implements OnInit {
   }
   loadSelectors() {
 
-    this.sharedService.GetItemsSelector().subscribe((data: GeneralSelectorModel[]) => {
+    this.sharedService.GetCurrentMerchantItemsSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.itemsSelectorData = data;
     });
   }
@@ -143,7 +144,7 @@ export class PromotionsComponent implements OnInit {
 
   addNewPromotion() {
     this.showAddLoader = true;
-    this.adminService.AddNewPromotion(this.formData).subscribe((data: ActionsResponseModel) => {
+    this.merchantManagementService.AddNewPromotion(this.formData).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup.reset();
         this.toaster.success(data.message);
@@ -156,7 +157,7 @@ export class PromotionsComponent implements OnInit {
 
   editPromotion() {
     this.showAddLoader = true;
-    this.adminService.EditPromotion(this.promotionModel.promotionId, this.formData).subscribe((data: ActionsResponseModel) => {
+    this.merchantManagementService.EditPromotion(this.promotionModel.promotionId, this.formData).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup.reset();
         this.toaster.success(data.message);
@@ -168,7 +169,7 @@ export class PromotionsComponent implements OnInit {
   }
 
   changeStatus(id: number) {
-    this.adminService.ChangePromotionActiveStatus(id).subscribe(data => {
+    this.merchantManagementService.ChangePromotionActiveStatus(id).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message);
         this.loadData();
@@ -183,7 +184,7 @@ export class PromotionsComponent implements OnInit {
 
   deletePromotion() {
     this.showAddLoader = true;
-    this.adminService.DeletePromotion(this.selectedPromotionId).subscribe(data => {
+    this.merchantManagementService.DeletePromotion(this.selectedPromotionId).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message);
         this.modalService.dismissAll();
@@ -204,7 +205,7 @@ export class PromotionsComponent implements OnInit {
     this.formGroup.patchValue({
       promotionId: model.promotionId,
       title: model.title,
-      itemId: model.itemId,
+      merchantItemId: model.merchantItemId,
       description: model.description,
       startDate: this.datePipe.transform(model.startDate, 'yyyy-MM-dd'),
       endDate: this.datePipe.transform(model.endDate, 'yyyy-MM-dd'),

@@ -24,6 +24,7 @@ namespace RetailStation.Interface.Shared
         List<SelectorDataModel> GetMerchantsSelector();
         List<SelectorDataModel> GetCustomersSelector();  
         List<SelectorDataModel> GetItemsSelector();
+        List<SelectorDataModel> GetCurrentMerchantItemsSelector(int merchantId);
         List<SelectorDataModel> GetItemCategoriesSelector();
         List<SelectorDataModel> GetUnitsSelector();
         List<SelectorDataModel> GetItemLookupsSelector();

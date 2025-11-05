@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using RetailStation.Service.Shared;
+using System.Linq;
 
 namespace RetailStation.API.Controllers.Shared
 {
@@ -80,6 +81,16 @@ namespace RetailStation.API.Controllers.Shared
         public IActionResult GetItemsSelector()
         {
             var result = _sharedService.GetItemsSelector();
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("GetCurrentMerchantItemsSelector")]
+        public IActionResult GetCurrentMerchantItemsSelector()
+        {
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
+            if (MerchantId <= 0)
+                return BadRequest("No Merchant assigned");
+            var result = _sharedService.GetCurrentMerchantItemsSelector(MerchantId);
             return Ok(result);
         }
         [HttpGet]

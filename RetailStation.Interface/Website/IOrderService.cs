@@ -17,5 +17,6 @@ namespace RetailStation.Interface.Website
         ActionsResponseModel CreateNewOrder(string UserId, CreateOrderModel model);
         ActionsResponseModel EditOrder(int OrderId, WebsiteOrderModel model);
         ActionsResponseModel CancelOrder(int OrderId);
+
     }
 }

@@ -26,5 +26,29 @@ namespace RetailStation.Interface.Operation
         Task<ActionsResponseModel> MarkItemAsBestSeller(int MerchantItemId);
         Task<ActionsResponseModel> ImportMerchantItemsFile(int MerchantId, string ImporterName, IFormFile file);
 
+
+
+        #region Branch
+
+        List<BranchModel> GetBranches_Data(int merchantId, SearchFilterModel filterModel, int? branchId = null);
+        BranchModel GetBranchById(int merchantId, int branchId);
+        Task<ActionsResponseModel> AddBranch(int merchantId, BranchModel model);
+        Task<ActionsResponseModel> EditBranch(int merchantId, int branchId, BranchModel model);
+        ActionsResponseModel DeleteBranch(int merchantId, int branchId);
+        ActionsResponseModel ChangeBranchActiveStatus(int merchantId, int branchId);
+
+
+
+        #endregion
+
+        #region Promotions
+        List<PromotionModel> GetPromotionsData(int merchantId, SearchFilterModel filterModel, int? promotionId = null);
+        PromotionModel GetPromotionById(int merchantId, int promotionId);
+        Task<ActionsResponseModel> AddPromotion(int merchantId, PromotionModel model);
+        Task<ActionsResponseModel> EditPromotion(int merchantId, int promotionId, PromotionModel model);
+        ActionsResponseModel DeletePromotion(int merchantId, int promotionId);
+        ActionsResponseModel ChangePromotionActiveStatus(int merchantId, int promotionId);
+        #endregion
+
     }
 }

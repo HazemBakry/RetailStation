@@ -1,0 +1,272 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3"
+                (click)="openNewBranchModal(AddNewDialog)">
+                <i class="fas fa-plus-circle"></i>
+                <span>إنشاء</span>
+            </button>
+
+            <!-- <button [disabled]="showExportLoader"
+                class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3" (click)="exportData()">
+                <i class="fas fa-file-download"></i>
+                <span>تصدير</span>
+            </button> -->
+        </div>
+        <div class="justify-content-end">
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="branchResponseModel.currentPage"
+                [pageSize]="branchResponseModel.pageSize"
+                [totalCount]="branchResponseModel.totalCount"></app-pagination>
+        </div>
+    </div>
+
+    <div class="p-3 bg-white">
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+                <thead>
+                    <tr>
+                        <th>الاسم (عربي)</th>
+                        <th>الاسم (انجليزي)</th>
+                        <th>الهاتف</th>
+                        <th>العنوان</th>
+                        <th>وقت العمل (انجليزي)</th>
+                        <th>الصورة</th>
+                        <th class="text-center">الحالة</th>
+                        <th class="text-center">الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr *ngFor="let branch of branchResponseModel.results">
+                        <td>{{ branch.nameAR }}</td>
+                        <td>{{ branch.nameEN }}</td>
+                        <td>{{ branch.phone }}</td>
+                        <td>{{ branch.address }}</td>
+                        <td>{{ branch.workingTimeEN }}</td>
+                        <td>
+                            <img *ngIf="branch.imageURL" [src]="branch.imageURL" class="rounded"
+                                style="width: 100px;height:100px" width="30" height="20">
+                        </td>
+                        <td class="text-center">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <label class="switch me-2">
+                                    <input type="checkbox" [ngModel]="branch.isActive"
+                                        (change)="changeBranchStatus(branch.branchId)">
+                                    <span class="branch round"></span>
+                                </label>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div class="d-flex align-items-center justify-content-center gap-2">
+                                <button
+                                    class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2"
+                                    (click)="openNewBranchModal(AddNewDialog, branch)">
+                                    <i class="uil uil-pen"></i>
+                                    <span>تعديل</span>
+                                </button>
+                                <button
+                                    class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
+                                    (click)="openDeleteModal(deleteModal, branch.branchId)">
+                                    <i class="uil uil-trash-alt"></i>
+                                    <span>حذف</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <app-empty-data [showEmptyData]="!branchResponseModel.results?.length && !showLoader"
+                [showLoader]="showLoader"></app-empty-data>
+        </div>
+    </div>
+</div>
+
+<ng-template #AddNewDialog let-modal>
+    <div class="modal-header modal-header-bg justify-content-between">
+        <h2 class="d-flex align-items-center gap-2">
+            <i class="uil uil-plus"></i>
+            <span>املأ البيانات الأتية</span>
+            <span *ngIf="!isUpdate" class="ms-3">(إنشاء)</span>
+            <span *ngIf="isUpdate" class="ms-3">(تعديل)</span>
+        </h2>
+        <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formGroup" autocomplete="off">
+            <table class="table table-bordered table-feature-value align-middle border m-0">
+                <tbody>
+                    <tr>
+                        <td class="table-feature">الاسم (عربي)</td>
+                        <td class="table-value">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <input type="text" formControlName="nameAR" class="form-control form-control-lg"
+                                        placeholder="الاسم بالعربية">
+                                    <div *ngIf="formErrors.nameAR" class="text-danger font-small-3 m-03">
+                                        {{formErrors.nameAR}}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">الاسم (انجليزي)</td>
+                        <td class="table-value">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <input type="text" formControlName="nameEN" class="form-control form-control-lg"
+                                        placeholder="الاسم بالإنجليزية">
+                                    <div *ngIf="formErrors.nameEN" class="text-danger font-small-3 m-03">
+                                        {{formErrors.nameEN}}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">رقم الهاتف</td>
+                        <td class="table-value">
+                            <input type="text" formControlName="phone" class="form-control form-control-lg"
+                                placeholder="رقم الهاتف">
+                            <div *ngIf="formErrors.phone" class="text-danger font-small-3 m-03">
+                                {{formErrors.phone}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">العنوان</td>
+                        <td class="table-value">
+                            <textarea formControlName="address" class="form-control form-control-lg"
+                                placeholder="العنوان"></textarea>
+                            <div *ngIf="formErrors.address" class="text-danger font-small-3 m-03">
+                                {{formErrors.address}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">رقم المنطقة (Region ID)</td>
+                        <td class="table-value">
+                           
+                            <!-- <div class="col-xl-4 mb-3">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    Region
+                                    <span class="text-danger">*</span>
+                                </label> -->
+                            <app-general-selector formControlName="regionId" [data]="regionsSelectorData"
+                                [disabled]="regionsSelectorData?.length==0" [showSearch]="true"
+                                [placeholder]="'Region'">
+
+                            </app-general-selector>
+
+                            <div *ngIf="formErrors.regionId" class="text-danger  font-small-3 m-03">
+                                {{formErrors.regionId}}
+                            </div>
+
+                            <!-- </div> -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">وقت العمل (عربي)</td>
+                        <td class="table-value">
+                            <input type="text" formControlName="workingTimeAR" class="form-control form-control-lg"
+                                placeholder="وقت العمل بالعربية">
+                            <div *ngIf="formErrors.workingTimeAR" class="text-danger font-small-3 m-03">
+                                {{formErrors.workingTimeAR}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">وقت العمل (انجليزي)</td>
+                        <td class="table-value">
+                            <input type="text" formControlName="workingTimeEN" class="form-control form-control-lg"
+                                placeholder="وقت العمل بالإنجليزية">
+                            <div *ngIf="formErrors.workingTimeEN" class="text-danger font-small-3 m-03">
+                                {{formErrors.workingTimeEN}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">وقت الافتتاح</td>
+                        <td class="table-value">
+                            <input type="time" formControlName="openingTimeFrom" class="form-control form-control-lg">
+                            <div *ngIf="formErrors.openingTimeFrom" class="text-danger font-small-3 m-03">
+                                {{formErrors.openingTimeFrom}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">وقت الإغلاق</td>
+                        <td class="table-value">
+                            <input type="time" formControlName="openingTimeTo" class="form-control form-control-lg">
+                            <div *ngIf="formErrors.openingTimeTo" class="text-danger font-small-3 m-03">
+                                {{formErrors.openingTimeTo}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">صورة</td>
+                        <td class="table-value">
+                            <div class="form-floating mb-3">
+                                <input formControlName="image" (change)="onFileChange($event)" type="file"
+                                    class="cursor-pointer" placeholder="الصورة">
+                                <div *ngIf="formErrors.image" class="text-danger font-small-3 m-03">
+                                    {{formErrors.image}}
+                                </div>
+                            </div>
+                            <div *ngIf="isUpdate && branchModel.imageURL" class="mt-2">
+                                <img [src]="branchModel.imageURL" alt="Current Image" class="rounded"
+                                    style="max-width: 100px; max-height: 100px;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">نشط</td>
+                        <td class="table-value">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" formControlName="isActive"
+                                    id="isActive">
+                                <label class="form-check-label" for="isActive">نشط</label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="modal-footer flex-nowrap gap-2">
+        <button [disabled]="showAddLoader" (click)="saveBranch()" type="button"
+            class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
+            <i class="uil uil-save fs-3"></i>
+            <span *ngIf="!isUpdate">إنشاء</span>
+            <span *ngIf="isUpdate">تعديل</span> </button>
+
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="modal.close()">
+            <i class="uil uil-times-circle fs-3"></i>
+            <span>الغاء</span>
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد الحذف</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل أنت متأكد من الحذف؟</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" (click)="modal.close(); deleteBranch()">
+            <i class="fas fa-check"></i>
+            <span>نعم</span>
+        </button>
+        <button class="btn btn-danger" (click)="modal.close()">
+            <i class="fas fa-times"></i>
+            <span>إلغاء</span>
+        </button>
+    </div>
+</ng-template>

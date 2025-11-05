@@ -63,46 +63,6 @@ export class AdminService {
     );
   }
 
-  //////////////////////////// Promotions /////////////////////////////////////
-
-  GetPromotionsData(searchModel: PagedResponseModel<PromotionModel[]>) {
-    return this.http.post<PagedResponseModel<PromotionModel[]>>(
-      this.URL + 'Admin/GetPromotionsData',
-      searchModel
-    );
-  }
-
-  GetPromotionDetailsById(promotionId: number) {
-    return this.http.get<PromotionModel>(
-      this.URL + `Admin/GetPromotionDetailsById?PromotionId=${promotionId}`
-    );
-  }
-
-  AddNewPromotion(model: FormData) {
-    return this.http.post<ActionsResponseModel>(
-      this.URL + 'Admin/AddNewPromotion',
-      model
-    );
-  }
-
-  EditPromotion(promotionId: number, model: FormData) {
-    return this.http.post<ActionsResponseModel>(
-      this.URL + `Admin/EditPromotion?PromotionId=${promotionId}`,
-      model
-    );
-  }
-
-  DeletePromotion(promotionId: number) {
-    return this.http.get<ActionsResponseModel>(
-      this.URL + `Admin/DeletePromotion?PromotionId=${promotionId}`
-    );
-  }
-
-  ChangePromotionActiveStatus(promotionId: number) {
-    return this.http.get<ActionsResponseModel>(
-      this.URL + `Admin/ChangePromotionActiveStatus?PromotionId=${promotionId}`
-    );
-  }
 
 
 

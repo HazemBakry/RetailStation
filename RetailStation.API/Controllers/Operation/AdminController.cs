@@ -83,63 +83,6 @@ namespace RetailStation.API.Controllers.Operation
             return _adminService.ChangeSliderActiveStatus(sliderId);
         }
         #endregion
-        #region Promotions
-
-
-        [HttpPost]
-        [Route("GetPromotionsData")]
-        public IActionResult GetPromotionsData(SearchFilterModel SearchModel)
-        {
-            var data = _adminService.GetPromotionsData(SearchModel);
-            var result = new PagedResponseModel<PromotionModel>
-            {
-                Results = data,
-                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
-                PageSize = SearchModel.PageSize,
-                CurrentPage = SearchModel.CurrentPage
-            };
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route("GetPromotionDetailsById")]
-        public IActionResult GetPromotionDetailsById(int PromotionId)
-        {
-            var results = _adminService.GetPromotionById(PromotionId);
-            return Ok(results);
-        }
-
-        [HttpPost]
-        [Route("AddNewPromotion")]
-        public async Task<IActionResult> AddNewPromotion([FromForm] PromotionModel model)
-        {
-            var results = await _adminService.AddPromotion(model);
-            return Ok(results);
-        }
-
-        [HttpPost]
-        [Route("EditPromotion")]
-        public async Task<IActionResult> EditPromotion(int PromotionId, [FromForm] PromotionModel model)
-        {
-            var results = await _adminService.EditPromotion(PromotionId, model);
-            return Ok(results);
-        }
-
-        [HttpGet]
-        [Route("DeletePromotion")]
-        public IActionResult DeletePromotion(int PromotionId)
-        {
-            var results = _adminService.DeletePromotion(PromotionId);
-            return Ok(results);
-        }
-
-        [HttpGet]
-        [Route("ChangePromotionActiveStatus")]
-        public ActionsResponseModel ChangePromotionActiveStatus(int PromotionId)
-        {
-            return _adminService.ChangePromotionActiveStatus(PromotionId);
-        }
-        #endregion
 
 
         #region TopPartners

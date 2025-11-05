@@ -947,6 +947,13 @@ export class MenuService {
                 icon: 'fa fa-file-alt',
                 route: '/sales/merchant-profile'
               },
+              {
+                displayName: 'قائمة الفروع',
+                menuItem: 'branches',
+                description: 'تعديل بيانات الفروع ',
+                icon: 'fa fa-file-alt',
+                route: '/sales/branches'
+              },
               // {
               //   displayName: 'كشف حساب العملاء',
               //   menuItem: 'customers-statement',

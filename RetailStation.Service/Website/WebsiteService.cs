@@ -38,6 +38,7 @@ namespace RetailStation.Service.Website
         private readonly string SliderImagesFolder = "SliderImages";
         private readonly string ItemsImagesFolder = "ItemsImages";
         private readonly string CategoriesImagesFolder = "CategoriesImages";
+        private readonly string PromotionImagesFolder = "PromotionsImages";
 
         public WebsiteService(DBContext Context, ISQLHelper SQLHelper,
             IConfiguration Configuration, IExportService ExportService,
@@ -197,7 +198,8 @@ namespace RetailStation.Service.Website
             var result = SQLHelper.SQLQuery<PromotionModel>("[Website].[SP_GetWebsitePromotionItems]", ConnectionString, Params);
             foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
             {
-                item.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine(SliderImagesFolder, item.ImageUrl));
+                item.ImageURL = _fileService.GetFileDownloadUrl(Path.Combine(PromotionImagesFolder, item.ImageURL));
+
             }
             return result;
         }
@@ -220,6 +222,28 @@ namespace RetailStation.Service.Website
             };
 
             var result = SQLHelper.SQLQuery<MerchantItemModel>("[Website].[GetWebsiteBestSellerItems_Data]", ConnectionString, Params);
+            foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
+            {
+                item.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine(ItemsImagesFolder, item.ImageUrl));
+
+            }
+            return result;
+
+        }
+        
+        public List<MerchantItemModel> GetWebsiteFavoriteItems_Data(string UserId, SearchFilterModel model)
+        {
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
+
+            SqlParameter[] Params = new SqlParameter[]
+            {
+                new SqlParameter("@UserId",UserId),
+                new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value),
+                new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value),
+                new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
+            };
+
+            var result = SQLHelper.SQLQuery<MerchantItemModel>("[Website].[GetWebsiteFavoriteItems_Data]", ConnectionString, Params);
             foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
             {
                 item.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine(ItemsImagesFolder, item.ImageUrl));

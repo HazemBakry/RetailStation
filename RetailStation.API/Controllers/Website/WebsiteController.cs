@@ -118,6 +118,21 @@ namespace RetailStation.API.Controllers.Website
             return Ok(result);
         }
         [HttpPost]
+        [Route("GetWebsiteFavoriteItems_Data")]
+        public IActionResult GetWebsiteFavoriteItems_Data(SearchFilterModel SearchModel)
+        {
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value ?? string.Empty;
+            var data = _websiteService.GetWebsiteFavoriteItems_Data(UserId, SearchModel);
+            var result = new PagedResponseModel<MerchantItemModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+            };
+            return Ok(result);
+        }
+        [HttpPost]
         [Route("GetWebsitePromotionItems")]
         public IActionResult GetWebsitePromotionItems(SearchFilterModel SearchModel)
         {
