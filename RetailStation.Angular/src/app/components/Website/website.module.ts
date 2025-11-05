@@ -23,6 +23,7 @@ import { WebsiteBlogComponent } from './components/website-blog/website-blog.com
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { BlogDetailsComponent } from './components/blog-details/blog-details.component';
 import { WebsiteTopPartnersComponent } from './components/website-top-partners/website-top-partners.component';
+import { WebsiteFavoritesComponent } from './components/website-favorites/website-favorites.component';
 
 
 
