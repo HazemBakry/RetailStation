@@ -126,7 +126,7 @@ namespace RetailStation.Service.Website
                     OrderDate = DateTime.Now,
                     NetValue = model.NetValue.GetValueOrDefault(),
                     Notes = model.Notes,
-                    MerchantId = model.MerchantId.GetValueOrDefault(),
+                    //MerchantId = model.MerchantId.GetValueOrDefault(),
                     PaymentTypeId = model.PaymentTypeId.GetValueOrDefault(),
                     CreatedBy = model.CreatedBy,
                     CreatedDate = DateTime.Now
@@ -223,7 +223,7 @@ namespace RetailStation.Service.Website
                     var serialNumber = DalHelper.GenerateSerialNumber(SerialType.PurchaseOrder, newOrderNumber);
                     var order = new Order
                     {
-                        MerchantId = (int)supplierGroup.Key,
+                        //MerchantId = (int)supplierGroup.Key,
                         OrderNumber = newOrderNumber,
                         SerialNumber = serialNumber,
                         UserId = UserId,
@@ -302,7 +302,7 @@ namespace RetailStation.Service.Website
 
                     order_tbl.OrderDate = model?.OrderDate ?? DateTime.Now;
                     order_tbl.Notes = model.Notes;
-                    order_tbl.MerchantId = model.MerchantId.GetValueOrDefault();
+                    //order_tbl.MerchantId = model.MerchantId.GetValueOrDefault();
                     order_tbl.DeliveryValue = model.DeliveryValue;
                     order_tbl.DiscountAmount = model.Discount.GetValueOrDefault();
                     order_tbl.Tax = Math.Round(model.Tax.GetValueOrDefault(), 2);
