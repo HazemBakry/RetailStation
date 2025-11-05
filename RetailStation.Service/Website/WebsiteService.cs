@@ -228,6 +228,28 @@ namespace RetailStation.Service.Website
             return result;
 
         }
+        
+        public List<MerchantItemModel> GetWebsiteFavoriteItems_Data(string UserId, SearchFilterModel model)
+        {
+            DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
+
+            SqlParameter[] Params = new SqlParameter[]
+            {
+                new SqlParameter("@UserId",UserId),
+                new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value),
+                new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value),
+                new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
+            };
+
+            var result = SQLHelper.SQLQuery<MerchantItemModel>("[Website].[GetWebsiteFavoriteItems_Data]", ConnectionString, Params);
+            foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
+            {
+                item.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine(ItemsImagesFolder, item.ImageUrl));
+
+            }
+            return result;
+
+        }
 
         public List<TopPartnerModel> GetTopPartners()
         {

@@ -19,6 +19,7 @@ namespace RetailStation.Interface.Website
         List<FilterModel> GetWebsiteItems_Filters(SearchFilterModel FilterModel);
         MerchantItemModel GetWebsiteItemDetailsById(int MerchantItemId);
         List<MerchantItemModel> GetWebsiteBestSellerItems_Data(string UserId, SearchFilterModel FilterModel);
+        List<MerchantItemModel> GetWebsiteFavoriteItems_Data(string UserId, SearchFilterModel FilterModel);
         List<PromotionModel> GetWebsitePromotionItems(SearchFilterModel model);
         List<TopPartnerModel> GetTopPartners();
         ActionsResponseModel ToggleFavorite(string userId, int MerchantItemId);

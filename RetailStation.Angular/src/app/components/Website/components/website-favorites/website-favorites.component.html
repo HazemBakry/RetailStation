@@ -1,0 +1,25 @@
+<div class="container-fluid py-3">
+    <div class="row">
+        <!-- <div class="col-xl-2">
+
+
+            <app-website-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث  ...'"></app-website-filters>
+
+        </div> -->
+        <div class="col-xl-12 pe-4">
+            <h3 class="d-flex align-items-end mb-4">
+                <span class="ms-2"> المفضلةالأصناف</span>
+            </h3>
+            <div class="row">
+
+                <div *ngFor="let item of favoritesData;let i =index" class="col-md-6 col-xl-3 mb-2">
+                    <app-website-item-card [item]="item" [isAuthenticated]="isAuthenticated"></app-website-item-card>
+                </div>
+            </div>
+
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pageResponseModel.currentPage" [pageSize]="pageResponseModel.pageSize" [totalCount]="pageResponseModel.totalCount" style="direction: ltr; margin: 15px;">
+            </app-pagination>
+
+        </div>
+    </div>
+</div>

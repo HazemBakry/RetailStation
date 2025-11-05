@@ -22,6 +22,7 @@ import { WebsiteContactComponent } from './components/website-contact/website-co
 import { WebsiteBlogComponent } from './components/website-blog/website-blog.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { BlogDetailsComponent } from './components/blog-details/blog-details.component';
+import { WebsiteFavoritesComponent } from './components/website-favorites/website-favorites.component';
 
 
 
@@ -44,7 +45,8 @@ import { BlogDetailsComponent } from './components/blog-details/blog-details.com
     WebsiteContactComponent,
     WebsiteBlogComponent,
     BlogDetailsComponent,
-    PrivacyPolicyComponent
+    PrivacyPolicyComponent,
+    WebsiteFavoritesComponent
   ],
   imports: [
     CommonModule,

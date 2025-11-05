@@ -9,6 +9,7 @@ import { WebsiteContactComponent } from './components/website-contact/website-co
 import { WebsiteBlogComponent } from './components/website-blog/website-blog.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { BlogDetailsComponent } from './components/blog-details/blog-details.component';
+import { WebsiteFavoritesComponent } from './components/website-favorites/website-favorites.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
       { path: '', component: WebsiteHomeComponent },
       { path: 'home', component: WebsiteHomeComponent },
       { path: 'cart', component: WebsiteCartComponent },
+      { path: 'favorites', component: WebsiteFavoritesComponent },
       { path: 'product-details', component: websiteProductDetailsComponent },
       { path: 'contact-us', component: WebsiteContactComponent },
       { path: 'about-us', component: WebsiteAboutUsComponent },
