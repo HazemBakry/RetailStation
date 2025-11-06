@@ -25,7 +25,7 @@ namespace RetailStation.Entities.Models.Global
         public DateTime? OrderDate { get; set; }
         public decimal NetValue { get; set; }
         public bool IsDeleted { get; set; }
-        public int MerchantId { get; set; }
+        //public int MerchantId { get; set; }
         public string Notes { get; set; }
         public int PaymentTypeId { get; set; }
     }
