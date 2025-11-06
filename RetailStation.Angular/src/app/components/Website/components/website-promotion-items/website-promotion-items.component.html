@@ -1,49 +1,15 @@
-<!-- أقوي العروض -->
-<!-- <section class="strong-offer-section mt-3">
-    <div class="carousel-title d-flex align-items-center gap-2 position-relative mb-3">
-        <img src="{{systemURL}}assets/strong-offet-icon.svg" class="header-offer-icon" alt="offer-icon" loading="lazy" />
-        <div class="fw-semibold fs-18">أقوي العروض</div>
-    </div>
-    <swiper class="big-offer-carousel medium-carousel-swiper navigator-with-head h-auto" [slidesPerView]="1" [spaceBetween]="20" [navigation]="true" [pagination]="false" [slidesPerGroup]="1" [autoplay]="{ delay: 4000, disableOnInteraction: false }" [loop]="true"
-        [breakpoints]="{
-            '0': {
-              slidesPerView: 1
-            },
-            '575': {
-              slidesPerView: 2
-            },
-            '767': {
-              slidesPerView: 2
-            },
-            '1024': {
-              slidesPerView: 2
-            },
-            '1200': {
-              slidesPerView: 2
-            }
-          }">
-        <ng-container *ngFor="let promo of promotionItems">
-            <ng-template swiperSlide>
-                <img [src]="promo.imageURL" alt="offer-image" (error)="$event.target.src = defaultItemImage" class="offer-carousel-image" loading="lazy" />
-            </ng-template>
-        </ng-container>
-    </swiper>
-</section> -->
-
-
-
 <div class="home-slider">
-  <ngb-carousel *ngIf="promotionItems && promotionItems.length>0" [interval]="5000">
-    <ng-template ngbSlide *ngFor="let promo of promotionItems">
-      <div class="slider-img-wrapper">
-        <img [src]="promo?.imageURL" alt="Random first slide" />
-      </div>
-      <div class="carousel-caption">
-        <h3>{{promo?.supplierName}}</h3>
-        <p>{{promo?.description}}</p>
-      </div>
-    </ng-template>
-  </ngb-carousel>
+    <ngb-carousel *ngIf="promotionItems && promotionItems.length>0" [interval]="5000">
+        <ng-template ngbSlide *ngFor="let promo of promotionItems">
+            <div class="slider-img-wrapper">
+                <img [src]="promo?.imageURL" alt="Random first slide" />
+            </div>
+            <div class="carousel-caption">
+                <h3>{{promo?.supplierName}}</h3>
+                <p>{{promo?.description}}</p>
+            </div>
+        </ng-template>
+    </ngb-carousel>
 </div>
 
 

@@ -37,7 +37,6 @@ import { NextPreviousComponent } from './components/tools/next-previous/next-pre
 import { ERPSidebarComponent } from './components/erp-sidebar/erp-sidebar.component';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { StatusSelectorComponent } from './components/status-selector/status-selector.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { RetailHomeComponent } from './components/retail-home/retail-home.component';
 import { RegisterComponent } from 'src/app/Auth/register/register.component';
@@ -53,7 +52,6 @@ import { WebsiteApplyMerchantRequestComponent } from '../Website/components/webs
   declarations: [
     FloatLoginComponent,
     WebsiteApplyMerchantRequestComponent,
-    SidebarComponent,
     HeaderComponent,
     StatsCardComponent,
     SearchArryPipe,
@@ -115,7 +113,6 @@ import { WebsiteApplyMerchantRequestComponent } from '../Website/components/webs
   exports: [
     RouterModule,
     SwiperModule,
-    SidebarComponent,
     HeaderComponent,
     NgxLoadingModule,
     NgbModule,

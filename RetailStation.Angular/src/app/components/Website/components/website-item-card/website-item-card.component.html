@@ -117,7 +117,10 @@
 
 
 
-<div class="product-card bg-white border rounded-3 shadow-sm p-3 h-100 d-flex flex-column justify-content-between">
+<div class="product-card bg-white border rounded-3 shadow-sm p-3 h-100 d-flex flex-column justify-content-between" [class.is-fav]="item.isFavorite">
+
+    <i *ngIf="isAuthenticated" class="{{ item.isFavorite ? 'ph-fill ph-heart' : 'ph ph-heart' }} cursor-pointer like-product-icon" (click)="toggleFavorite(item)" [style.color]="item.isFavorite ? '#86ee02d9' : ''"></i>
+
     <!-- Top Section: Image + Info -->
     <div class="d-flex gap-3">
         <!-- Product Image -->

@@ -12,7 +12,7 @@ export class UserLayoutComponent implements OnInit {
   menuItem: MenuSidebarItem;
 
   constructor(private menuService: MenuService,) {
-    this.menuItem = this.menuService.getMenuById(MenuType.SalesHome);
+    this.menuItem = this.menuService.getMenuById(MenuType.UserHome);
 
   }
 
