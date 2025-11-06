@@ -1,0 +1,106 @@
+<div id="page-wrapper" class="container-fluid position-relative min-vh-100">
+
+    <div class="row g-4">
+
+        <!-- Left Column -->
+        <div class="col-lg-8">
+            <!-- Personal Info Card -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold mb-3 text-primary">المعلومات الشخصية</h5>
+                    <div class="d-flex align-items-center mb-4">
+                        <img src="./../../../../../assets/images/user-img.png" class="rounded-circle border user_image" alt="avatar">
+                        <button class="btn btn-outline-primary ms-3"><i class="fas fa-edit"></i> تغيير
+                            الصورة</button>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">الاسم الكامل</label>
+                            <input type="text" class="form-control" value="Hazem Bakry">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">البريد الإلكتروني</label>
+                            <input type="email" class="form-control" value="hazem@example.com">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">رقم الهاتف</label>
+                            <input type="text" class="form-control" value="+20100xxxxxxx">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">العنوان</label>
+                            <input type="text" class="form-control" value="القاهرة، مصر">
+                        </div>
+                    </div>
+
+                    <div class="text-end mt-4">
+                        <button class="btn btn-primary px-4">تعديل المعلومات</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Settings -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold mb-3 text-primary">الإعدادات الأمنية</h5>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">كلمة المرور الحالية</label>
+                        <input type="password" class="form-control" placeholder="********">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">كلمة مرور جديدة</label>
+                        <input type="password" class="form-control" placeholder="********">
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="twoFactor">
+                        <label class="form-check-label" for="twoFactor">تفعيل المصادقة الثنائية</label>
+                    </div>
+                    <div class="text-end">
+                        <button class="btn btn-outline-primary px-4">حفظ التغييرات</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-lg-4">
+            <!-- Profile Summary -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <img src="../../../../../assets/images/av-7.png" class="rounded-circle border mb-3" width="120" height="120" alt="avatar">
+                    <h5 class="fw-bold text-dark mb-1">Hazem Bakry</h5>
+                    <p class="text-muted mb-2">مدير النظام</p>
+                    <span class="badge bg-success mb-3 px-3 py-2">نشط</span>
+
+                    <div class="progress mb-3" style="height: 8px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 80%"></div>
+                    </div>
+                    <small class="text-muted">اكتمل الملف الشخصي بنسبة 80%</small>
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h6 class="fw-bold text-primary mb-3">الإشعارات الأخيرة</h6>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-3 d-flex align-items-start">
+                            <i class="fas fa-bell text-primary me-2 mt-1"></i>
+                            <span>تم تحديث بياناتك الشخصية بنجاح</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <i class="fas fa-lock text-success me-2 mt-1"></i>
+                            <span>تم تفعيل المصادقة الثنائية</span>
+                        </li>
+                        <li class="d-flex align-items-start">
+                            <i class="fas fa-credit-card text-warning me-2 mt-1"></i>
+                            <span>تمت إضافة وسيلة دفع جديدة</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

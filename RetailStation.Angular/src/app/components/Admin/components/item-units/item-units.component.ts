@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SharedService } from 'src/app/components/Shared/services/shared.service';
-import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from 'src/app/components/Shared/services/form.service';
-import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { UnitModel } from 'src/app/components/Shared/models/UnitModel';
-import { SalesService } from 'src/app/components/Sales/services/sales.service';
 import { FilterItem } from 'src/app/components/Shared/models/FilterModel';
+import { AdminService } from '../../services/Admin.service';
 
 @Component({
   selector: 'app-item-units',
@@ -31,7 +28,7 @@ export class ItemUnitsComponent implements OnInit {
     searchText: ''
   }
 
-  constructor(private salesService: SalesService,
+  constructor(private adminService: AdminService,
     private toaster: ToastrService,
     private modalService: NgbModal,
     private form: FormBuilder,
@@ -44,7 +41,7 @@ export class ItemUnitsComponent implements OnInit {
 
   loadData() {
     this.showLoader = true;
-    this.salesService.GetUnits_Data(this.pagedResponseModel).subscribe((data: any) => {
+    this.adminService.GetUnits_Data(this.pagedResponseModel).subscribe((data: any) => {
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
       this.showLoader = false;
@@ -122,7 +119,7 @@ export class ItemUnitsComponent implements OnInit {
   addNewUnit() {
 
     this.showAddLoader = true;
-    this.salesService.CreateNewUnit(this.unitModel).subscribe(data => {
+    this.adminService.CreateNewUnit(this.unitModel).subscribe(data => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.modalService?.dismissAll();
@@ -145,7 +142,7 @@ export class ItemUnitsComponent implements OnInit {
 
   editNewUnit() {
     this.showAddLoader = true;
-    this.salesService.EditUnit(this.unitModel.unitId, this.unitModel).subscribe(data => {
+    this.adminService.EditUnit(this.unitModel.unitId, this.unitModel).subscribe(data => {
 
       if (data?.isSuccess) {
         // this.formGroup?.reset();
@@ -198,7 +195,7 @@ export class ItemUnitsComponent implements OnInit {
 
   deleteUnit() {
     this.showAddLoader = true;
-    this.salesService.DeleteUnit(this.selectedUnitId).subscribe(data => {
+    this.adminService.DeleteUnit(this.selectedUnitId).subscribe(data => {
       if (data?.isSuccess) {
         this.modalService?.dismissAll();
         this.loadData();

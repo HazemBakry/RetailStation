@@ -12,7 +12,6 @@ import { WebsiteMainCategoriesComponent } from './components/website-main-catego
 import { WebsiteFiltersComponent } from './components/website-filters/website-filters.component';
 import { WebsiteItemCardComponent } from './components/website-item-card/website-item-card.component';
 import { WebsiteCartComponent } from './components/website-cart/website-cart.component';
-import { WebsiteOrdersComponent } from './components/website-orders/website-orders.component';
 import { WebsiteHeaderComponent } from './components/website-header/website-header.component';
 import { WebsiteSearchComponent } from './components/website-search/website-search.component';
 import { WebsiteRoutingModule } from './website-routing.module';
@@ -38,7 +37,6 @@ import { WebsiteFavoritesComponent } from './components/website-favorites/websit
     WebsiteFiltersComponent,
     WebsiteItemCardComponent,
     WebsiteCartComponent,
-    WebsiteOrdersComponent,
     WebsiteHeaderComponent,
     WebsiteSearchComponent,
     websiteProductDetailsComponent,

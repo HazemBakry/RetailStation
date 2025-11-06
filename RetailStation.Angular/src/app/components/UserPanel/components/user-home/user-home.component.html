@@ -1,0 +1,146 @@
+<div id="page-wrapper" class="container-fluid position-relative min-vh-100">
+
+    <div class="page-header p-3">
+        <h4>Welcome back, Hazem 👋</h4>
+        <p>Here’s what’s happening in your store today.</p>
+    </div>
+
+    <div class="row mt-3">
+        <!-- <div class="col-md-3 mb-2">
+                <div class="module-card card p-4 text-center bg-light">
+                    <i class="fa-solid fa-cart-shopping fa-2x mb-2 text-primary"></i>
+                    <h4 class="fw-bold mb-0">طلباتى</h4>
+                    <p class="text-muted small mb-2">متابعة وإدارة الطلبات التى تمت من خلالنا</p>
+                    <a routerLink="/purchases/dashboard" class="stretched-link small fw-semibold text-primary">Go to Sales</a>
+                </div>
+            </div> -->
+        <div class="col-md-3 mb-2" routerLink="/merchant">
+            <div class="module-card card p-4 text-center  bg-light">
+                <i class="fa-solid fa-truck-fast fa-2x mb-2 text-success"></i>
+                <h4 class="fw-bold mb-0">لوحة تحكم التاجر</h4>
+                <p class="text-muted small mb-2">إدارة طلبات الشراء المطلوب توريدها</p>
+                <a class="stretched-link small fw-semibold text-success">Go to Merchant Panel</a>
+            </div>
+        </div>
+        <div class="col-md-3 mb-2">
+            <div class="module-card card p-4 text-center  bg-light">
+                <i class="fa-solid fa-warehouse fa-2x mb-2 text-warning"></i>
+                <h4 class="fw-bold mb-0">إدارة المخازن</h4>
+                <p class="text-muted small mb-2">إضافة وتعديل الأصناف الخاصة بى</p>
+                <a routerLink="/inventory/dashboard" class="stretched-link small fw-semibold text-warning">Go to
+                    Inventory</a>
+            </div>
+        </div>
+        <!-- <div class="col-md-4 mb-2">
+                <div class="module-card card p-4 text-center  bg-light">
+                    <i class="fa-solid fa-comments fa-2x mb-2 text-info"></i>
+                    <h4 class="fw-bold mb-0">Conversations</h4>
+                    <p class="text-muted small mb-2">Stay in touch with clients</p>
+                    <a href="#" class="stretched-link small fw-semibold text-info">View Messages</a>
+                </div>
+            </div> -->
+        <div class="col-md-3 mb-2">
+            <div class="module-card card p-4 text-center bg-light">
+                <i class="fa-solid fa-sliders fa-2x mb-2 text-secondary"></i>
+                <h4 class="fw-bold mb-0">التهيئة والإعدادات</h4>
+                <p class="text-muted small mb-2">ضبط التهئية والإعدادات </p>
+                <a routerLink="/general-settings" class="stretched-link small fw-semibold text-secondary">Open
+                    Settings</a>
+            </div>
+        </div>
+        <!-- <div class="col-md-4 mb-2">
+                <div class="module-card card p-4 text-center bg-light">
+                    <i class="fa-solid fa-diagram-project fa-2x mb-2 text-danger"></i>
+                    <h4 class="fw-bold mb-0">Projects</h4>
+                    <p class="text-muted small mb-2">Track your current initiatives</p>
+                    <a href="#" class="stretched-link small fw-semibold text-danger">View Projects</a>
+                </div>
+            </div> -->
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-xl-6">
+            <div class="card card-shadow border-0 h-100 overflow-hidden card-radius">
+                <div class="card-header bg-transparent py-4 border-bottom">
+                    <h3>أخر الأنشطة</h3>
+                </div>
+                <div class="card-body h-100 small-scroll px-3 overflow-auto d-flex flex-column gap-3 justify-content-between">
+                    <div class="d-flex flex-column gap-3">
+                        <div class="activity-item d-flex align-items-center justify-content-between">
+                            <div class="d-flex flex-column gap-1">
+                                <div class="fw-semibold">Van Lam</div>
+                                <div class="status-badge-position">Product Manager</div>
+                            </div>
+                            <div class="status-badge d-flex align-items-center justify-content-center gap-1 pending">
+                                <i class="ph ph-seal-question"></i>
+                                <span>Pending</span>
+                            </div>
+                        </div>
+                        <div class="activity-item d-flex align-items-center justify-content-between">
+                            <div class="d-flex flex-column gap-1">
+                                <div class="fw-semibold">John Doe</div>
+                                <div class="status-badge-position">General Manager</div>
+                            </div>
+                            <div class="status-badge d-flex align-items-center justify-content-center gap-1 approved">
+                                <i class="ph ph-seal-check"></i>
+                                <span>Approved</span>
+                            </div>
+                        </div>
+                        <div class="activity-item d-flex align-items-center justify-content-between">
+                            <div class="d-flex flex-column gap-1">
+                                <div class="fw-semibold">Sarah Djan</div>
+                                <div class="status-badge-position">CO Manager</div>
+                            </div>
+                            <div class="status-badge d-flex align-items-center justify-content-center gap-1 rejected">
+                                <i class="ph ph-seal-warning"></i>
+                                <span>Rejected</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-white justify-content-center">
+                        <span>See All</span>
+                        <i class="ph ph-caret-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-xl-6">
+            <div class="card card-shadow border-0 h-100 overflow-hidden card-radius">
+                <div class="card-header bg-transparent py-4 border-bottom">
+                    <h3>حالة الطلبات</h3>
+                </div>
+                <div class="card-body h-100 small-scroll px-3 overflow-auto d-flex flex-column gap-3 justify-content-between">
+                    <div class="d-flex flex-column gap-3">
+                        <div class="project-card">
+                            <strong>Website Redesign</strong>
+                            <div class="progress mt-2">
+                                <div class="progress-bar bg-info" style="width: 60%"></div>
+                            </div>
+                            <small>60% completed</small>
+                        </div>
+
+                        <div class="project-card">
+                            <strong>New Mobile App</strong>
+                            <div class="progress mt-2">
+                                <div class="progress-bar bg-success" style="width: 80%"></div>
+                            </div>
+                            <small>80% completed</small>
+                        </div>
+
+                        <div class="project-card">
+                            <strong>Marketing Campaign</strong>
+                            <div class="progress mt-2">
+                                <div class="progress-bar bg-warning" style="width: 45%"></div>
+                            </div>
+                            <small>45% completed</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

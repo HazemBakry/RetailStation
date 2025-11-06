@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbCarouselConfig, NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { environment } from 'src/environments/environment';
-import { SliderModel } from 'src/app/components/Admin/models/Operation/SliderModel';
+import { SliderModel } from 'src/app/components/Admin/models/SliderModel';
 import { WebsiteService } from '../../services/website.service';
 import { MerchantItemModel } from 'src/app/components/Shared/models/MerchantItemModel';
 

@@ -1,0 +1,62 @@
+<div class="p-4 gradient-nw-wrraper-bg">
+
+    <app-header></app-header>
+
+    <main class="main-design-wrapper pt-3">
+        <div class="d-flex">
+
+            <aside id="main-sidebar" class="p-3 mt-3">
+                <div class="d-flex justify-content-center p-3 border-bottom">
+                    <img src="../../../../../assets/images/av-7.png" class="tour-logo-image" loading="lazy" alt="tour-package" />
+                </div>
+
+                <ul class="list-unstyled sidebar-list d-flex flex-column gap-2 m-0 overflow-auto">
+                    <li class="tour-package-item">
+                        <a class="sidebar-link d-flex align-items-center gap-3" routerLink="/user-panel">
+                            <i class="ph ph-house"></i>
+                            <span class="sidebar-link-text"> الرئيسية </span>
+                        </a>
+                    </li>
+                    <li class="tour-package-item">
+                        <a class="sidebar-link d-flex align-items-center gap-3" routerLink="/user-panel/dashboard">
+                            <i class="fa-th-large fas"></i>
+                            <span class="sidebar-link-text"> لوحة التحكم </span>
+                        </a>
+                    </li>
+                    <li class="tour-package-item">
+                        <a class="sidebar-link d-flex align-items-center gap-3" routerLink="/user-panel/my-orders">
+                            <i class="ph ph-list-bullets"></i>
+                            <span class="sidebar-link-text"> طلباتى </span>
+                        </a>
+                    </li>
+                    <li class="tour-package-item">
+                        <a class="sidebar-link d-flex align-items-center gap-3" routerLink="/">
+                            <i class="ph ph-shopping-cart"></i>
+                            <span class="sidebar-link-text"> تصفح الموقع </span>
+                        </a>
+                    </li>
+                    <li class="tour-package-item">
+                        <a class="sidebar-link d-flex align-items-center gap-3" routerLink="/user-panel/user-profile">
+                            <i class="ph ph-user"></i>
+                            <span class="sidebar-link-text"> الحساب الشخصى </span>
+                        </a>
+                    </li>
+                    <!-- <li class="tour-package-item">
+                <a class="sidebar-link d-flex align-items-center gap-3" routerLink="/admin/home">
+                    <i class="ph ph-gear-six"></i>
+                    <span class="sidebar-link-text">الإعدادات</span>
+                </a>
+            </li> -->
+                </ul>
+            </aside>
+
+            <div class="main-general-account-content py-3">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+
+        <div id="overlaying-element" class="cursor-pointer" [class.show]="isToggle" (click)="onOverlayClicked()">
+        </div>
+    </main>
+
+</div>

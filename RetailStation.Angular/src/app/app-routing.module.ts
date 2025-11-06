@@ -3,68 +3,36 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './Auth/auth.guard';
 import { LoginComponent } from './Auth/login/login.component';
 import { RegisterComponent } from './Auth/register/register.component';
-import { HomeComponent } from './components/Shared/components/home/home.component';
-import { WebsiteComponent } from './components/Website/components/website.component';
-import { WebsiteHomeComponent } from './components/Website/components/website-home/website-home.component';
-import { WebsiteCartComponent } from './components/Website/components/website-cart/website-cart.component';
-import { UserProfileComponent } from './components/Shared/components/user-profile/user-profile.component';
-import { websiteProductDetailsComponent } from './components/Website/components/website-product-details/website-product-details.component';
 
 
 const routes: Routes = [
-  //{ path: '', component: RetailHomeComponent },
-  // {
-  //   path: '',
-  //   component: WebsiteComponent,
-  //   children: [
-  //     { path: '', component: WebsiteHomeComponent },
-  //     { path: 'cart', component: WebsiteCartComponent },
-  //     { path: 'product-details', component: websiteProductDetailsComponent },
-  //   ],
-  // },
-  // { path: 'home', component: WelcomePageComponent, canActivate: [AuthGuard] },
-  // { path: '', component: WebsiteHomeComponent },
   {
     path: '',
     loadChildren: () =>
       import('./components/Website/website.module').then((x) => x.WebsiteModule)
   },
-  { path: 'panel-home', component: HomeComponent, canActivate: [AuthGuard] },
+  //{ path: 'panel-home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
-  // {
-  //   path: 'purchases',
-  //   canActivate: [AuthGuard],
-  //   data: { roles: ['Customer', 'Supplier'] },
-  //   component: WebsiteComponent,
-  //   children: [
-  //     { path: '', component: WebsiteHomeComponent },
-  //     { path: 'dashboard', component: PurchaseDashboardComponent },
-  //     //{ path: 'subscribe', component: WebsiteSubscribeComponent },
-  //     { path: 'cart', component: WebsiteCartComponent },
-  //     { path: 'my-orders', component: WebsiteOrdersComponent },
-  //     { path: '', redirectTo: '', pathMatch: 'full' },
-  //   ],
-  // },
+  //{ path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
   {
     path: 'website',
     loadChildren: () =>
       import('./components/Website/website.module').then((x) => x.WebsiteModule)
   },
   {
-    path: 'purchases',
+    path: 'user-panel',
     loadChildren: () =>
-      import('./components/Purchases/purchases.module').then((x) => x.PurchasesModule),
+      import('./components/UserPanel/user.module').then((x) => x.UserModule),
     canActivate: [AuthGuard],
-    data: { roles: ['Supplier'] },
+    data: { roles: ['User'] },
   },
   {
-    path: 'sales',
+    path: 'merchant',
     loadChildren: () =>
-      import('./components/Sales/sales.module').then((e) => e.SalesModule),
+      import('./components/Merchant/merchant.module').then((e) => e.MerchantModule),
     canActivate: [AuthGuard],
-    data: { roles: ['Supplier'] },
+    data: { roles: ['Merchant'] },
   },
   {
     path: 'admin',

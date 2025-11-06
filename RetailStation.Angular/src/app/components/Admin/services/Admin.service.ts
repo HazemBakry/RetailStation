@@ -3,14 +3,18 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
-import { SliderModel } from '../models/Operation/SliderModel';
+import { SliderModel } from '../models/SliderModel';
 import { Observable } from 'rxjs';
 import { FilterModel } from '../../Shared/models/FilterModel';
 import { Tag } from '../models/TagsManagerModels';
-import { PromotionModel } from '../../Shared/models/PromotionModel';
-import { CityModel, CountryModel, RegionModel } from '../models/Operation/CountryModel';
+import { CityModel, CountryModel, RegionModel } from '../models/CountryModel';
 import { TopPartnerModel } from '../../Shared/models/TopPartnerModel';
 import { BestSellerItemsModel } from '../../Shared/models/BestSellerItemsModel';
+import { ItemModel } from '../../Shared/models/ItemModel';
+import { UnitModel } from '../../Shared/models/UnitModel';
+import { CategorySortModel } from '../../Shared/models/CategorySort';
+import { ItemCategoryModel } from '../../Shared/models/ItemCategory';
+import { MerchantItemModel } from '../../Shared/models/MerchantItemModel';
 
 
 @Injectable({
@@ -136,11 +140,7 @@ export class AdminService {
   }
 
 
-
-
-
-
-
+  //----------------------------------- Countries & Cities & Regions -------------------------------//
 
   GetCountries_Data(model: PagedResponseModel<CountryModel[]>) {
     return this.http.post<PagedResponseModel<CountryModel[]>>(this.URL + 'SystemSetting/GetCountries_Data', model);
@@ -214,12 +214,96 @@ export class AdminService {
     return this.http.get<ActionsResponseModel>(this.URL + `Admin/ChangeTopPartnerActiveStatus?TopPartnerId=${unitId}`);
   }
 
-
-
   GetBestSellerItems_Data() {
     return this.http.get<BestSellerItemsModel[]>(this.URL + `Admin/GetBestSellerItems_Data`);
   }
   UpdateBestSellerItems(model: BestSellerItemsModel[]) {
     return this.http.post<ActionsResponseModel>(this.URL + `Admin/UpdateBestSellerItems`, model);
   }
+
+
+  //--------------------------------- Items ------------------------------------//
+
+
+  GetItemsData(searchModel: PagedResponseModel<ItemModel[]>) {
+    return this.http.post<PagedResponseModel<ItemModel[]>>(this.URL + 'Items/GetItemsData', searchModel);
+  }
+
+  GetItemDetailsById(itemId: number) {
+    return this.http.get<ItemModel>(this.URL + `Items/GetItemDetailsById?ItemId=${itemId}`);
+  }
+
+  AddNewItem(model: FormData) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Items/AddNewItem', model);
+  }
+
+  EditItem(itemId: number, model: FormData) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Items/EditItem?ItemId=${itemId}`, model)
+  }
+
+  DeleteItem(itemId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `Items/DeleteItem?ItemId=${itemId}`);
+  }
+
+  ChangeItemActiveStatus(ItemId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Items/ChangeItemActiveStatus?ItemId=' + ItemId);
+  }
+
+  ItemQuickUpdate(ItemId: number, Price: number, UnitId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `Items/ItemQuickUpdate?ItemId=${ItemId}&Price=${Price}&UnitId=${UnitId}`);
+  }
+
+  ExportItems(searchModel: PagedResponseModel, categoryId: number) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Items/ExportItems?CategoryId=${categoryId} `, searchModel);
+  }
+
+  GetMerchantItems_Data(merchantId: number, searchModel: PagedResponseModel<MerchantItemModel[]>) {
+    return this.http.post<PagedResponseModel<MerchantItemModel[]>>(this.URL + `MerchantManagement/GetMerchantItems_Data?MerchantId=${merchantId}`, searchModel);
+  }
+
+  //----------------------------------------------- Item Categories ---------------------------------------------//
+
+
+  AddNewItemCategory(model: FormData) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Items/AddNewItemCategory', model);
+  }
+
+  EditItemCategory(categoryId: number, model: FormData) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Items/EditItemCategory?ItemCategoryId=${categoryId}`, model)
+  }
+
+  DeleteItemCategory(categoryId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `Items/DeleteItemCategory?ItemCategoryId=${categoryId}`);
+  }
+
+  GetItemCategories() {
+    return this.http.get<PagedResponseModel<ItemCategoryModel[]>>(this.URL + 'Items/GetItemCategories');
+  }
+
+  ChangeItemCategoryActiveStatus(CategoryId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'Items/ChangeItemCategoryActiveStatus?CategoryId=' + CategoryId);
+  }
+
+  ChangeCategoriesDisplayOrder(SortedItems: CategorySortModel[]) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Items/ChangeCategoriesDisplayOrder', SortedItems);
+  }
+
+  //------------------------------------------------------- Units ------------------------------------------------------//
+
+  GetUnits_Data(model: PagedResponseModel<UnitModel[]>) {
+    return this.http.post<PagedResponseModel<UnitModel[]>>(this.URL + 'Items/GetUnits_Data', model);
+  }
+
+  CreateNewUnit(model: UnitModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Items/AddUnit', model);
+  }
+
+  EditUnit(unitId: number, model: UnitModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + `Items/EditUnit?UnitId=${unitId}`, model);
+  }
+
+  DeleteUnit(unitId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + `Items/DeleteUnit?UnitId=${unitId}`);
+  }
+
 }

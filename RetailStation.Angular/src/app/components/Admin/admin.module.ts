@@ -22,9 +22,6 @@ import { NotificationManagerComponent } from './components/notification-manager/
 import { TagsManagerComponent } from './components/tags-manager/tags-manager.component';
 import { SlidersComponent } from './components/sliders/sliders.component';
 import { WebsiteAdminComponent } from './components/website-admin.component';
-import { ManageSupplierItemsComponent } from './components/suppliers-container/manage-supplier-items/manage-supplier-items.component';
-import { SuppliersContainerComponent } from './components/suppliers-container/suppliers-container.component';
-import { SuppliersComponent } from './components/suppliers-container/suppliers/suppliers.component';
 import { MerchantRequestsComponent } from './components/ManageSubscriptions/merchant-requests/merchant-requests.component';
 import { ItemsCategoriesComponent } from './components/items-categories/items-categories.component';
 import { ItemUnitsComponent } from './components/item-units/item-units.component';
@@ -33,9 +30,10 @@ import { CountriesComponent } from './components/countries/countries.component';
 import { RegionsComponent } from './components/regions/regions.component';
 import { ManageMerchantItemsComponent } from './components/merchants-container/manage-merchant-items/manage-merchant-items.component';
 import { MerchantsContainerComponent } from './components/merchants-container/merchants-container.component';
-import { MerchantsComponent } from './components/merchants-container/merchants/merchants.component';
 import { TopPartnersComponent } from './components/top-partner/top-partners.component';
 import { BestSellerItemsComponent } from './components/best-seller-items/best-seller-items.component';
+import { MerchantListComponent } from './components/merchants-container/merchant-list/merchant-list.component';
+import { ItemsComponent } from './components/items/items.component';
 
 
 @NgModule({
@@ -53,12 +51,11 @@ import { BestSellerItemsComponent } from './components/best-seller-items/best-se
     AddSubscriberComponent,
     SubscriberBranchesComponent,
     MerchantRequestsComponent,
-    SuppliersContainerComponent,
-    ManageSupplierItemsComponent,
-    SuppliersComponent,
     MerchantsContainerComponent,
     ManageMerchantItemsComponent,
-    MerchantsComponent,
+    MerchantListComponent,
+    MerchantsContainerComponent,
+    ManageMerchantItemsComponent,
     WebsiteAdminComponent,
     SlidersComponent,
     SocialMediaPixelsComponent,
@@ -70,7 +67,8 @@ import { BestSellerItemsComponent } from './components/best-seller-items/best-se
     CountriesComponent,
     RegionsComponent,
     TopPartnersComponent,
-    BestSellerItemsComponent
+    BestSellerItemsComponent,
+    ItemsComponent
   ],
   imports: [
     CommonModule,

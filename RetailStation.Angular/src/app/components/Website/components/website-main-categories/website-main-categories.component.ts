@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ItemCategoryModel } from 'src/app/components/Shared/models/ItemCategory';
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { WebsiteService } from '../../services/website.service';
-import { SalesService } from 'src/app/components/Sales/services/sales.service';
 
 @Component({
   selector: 'app-website-main-categories',

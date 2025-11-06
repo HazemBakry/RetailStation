@@ -1,0 +1,371 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3" (click)="openNewItemSidePanel(AddNewItemDialog)">
+                <i class="fas fa-plus-circle"></i>
+                <span>إنشاء صنف</span>
+            </button>
+            <button [disabled]="showExportLoader" class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3" (click)="exportData()">
+                <i class="fas fa-file-download"></i>
+                <span>تصدير</span>
+            </button>
+
+            <button class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3">
+                <i class="fas fa-filter"></i>
+                <span>إنشاء فلتر</span>
+            </button>
+        </div>
+        <!-- <div class="justify-content-end">
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="itemResponseModel.currentPage"
+                [pageSize]="itemResponseModel.pageSize" [totalCount]="itemResponseModel.totalCount"></app-pagination>
+        </div> -->
+    </div>
+    <div class="p-3 bg-white">
+        <!--  <div class="card-body table-responsive p-0">
+            <div class="row">
+                 <div class="col-md-2">
+                    <div class="table-responsive shadow-sm radius-10">
+                        <table
+                            class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+
+                            <thead>
+                                <tr>
+                                    <th class="cursor-pointer" title="reset" (click)="filterCategory(0)">
+                                        <i class="fas fa-history  main-color me-2"></i> المجموعات
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="cursor-pointer" (click)="filterCategory(0)"
+                                        [class]="selectedCategoryId == 0 ? 'bg-secondary':''">
+                                        كل الاصناف
+                                    </td>
+                                </tr>
+                                <tr *ngFor="let cat of categoriesData">
+                                    <td class="cursor-pointer" (click)="filterCategory(cat.value)"
+                                        [class]="cat.value == selectedCategoryId ? 'bg-secondary':''">
+                                        {{cat.name}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div> 
+
+                <div class="col-md-10">-->
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-hover bg-transparent m-0">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>الصنف</th>
+                        <th>الوحدة</th>
+                        <th>وحدة المشتريات</th>
+                        <th>سعر الوحدة</th>
+                        <!-- <th>الموردين</th> -->
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="text-justify">
+                    <tr *ngFor="let item of pagedResponseModel.results">
+                        <td>
+                            <div class="file-table-ele d-flex align-items-center gap-3">
+                                <div class="file-table-ele-icon warning">
+                                    <i *ngIf="!item.imageUrl" class="far fa-file-pdf"></i>
+                                    <img *ngIf="item.imageUrl" [src]="item.imageUrl">
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="file-table-ele-text">
+                                <div class="fw-bold fs-5">{{item.nameAR}}</div>
+                                <div class="text-muted fs-6">{{item.nameEN}}</div>
+                            </div>
+                        </td>
+                        <td>{{item.unitName}}</td>
+                        <td>{{item.purchaseUnitName}}</td>
+                        <td>{{item.cost}}</td>
+                        <td class="text-center">
+                            <div class="d-flex align-items-center gap-2">
+                                <label class="switch me-2">
+                                    <input type="checkbox" [(ngModel)]="item.isActive"
+                                        (change)="changeItemStatus(item.itemId)" class="ng-valid ng-dirty ng-touched">
+                                    <span class="slider round"></span>
+                                </label>
+                                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="openNewItemSidePanel(AddNewItemDialog,item)">
+                                    <i class="uil uil-pen"></i>
+                                    <span>تعديل</span>
+                                </button>
+                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteModal,item.itemId)">
+                                    <i class="uil uil-trash-alt"></i>
+                                    <span>حذف</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+        </div>
+
+        <div class="p-3 border-top mt-3" style="direction: ltr;">
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-pagination>
+        </div>
+    </div>
+</div>
+
+<ng-template #AddNewItemDialog let-modal>
+    <div class="modal-header modal-header-bg justify-content-between">
+        <h4 class="d-flex align-items-center gap-2">
+            <i class="uil uil-plus"></i>
+            <span>املأ البيانات الأتية</span>
+            <span *ngIf="!isUpdate" class="ms-3">(إنشاء)</span>
+            <span *ngIf="isUpdate" class="ms-3">(تعديل)</span>
+        </h4>
+        <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formGroup" autocomplete="off">
+            <table class="table table-bordered table-feature-value align-middle border m-0">
+                <tbody>
+                    <tr>
+                        <td class="table-feature">الاسم</td>
+                        <td class="table-value">
+                            <!-- <input type="text" class="form-control form-control-lg" placeholder="أدخل الاسم..."> -->
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <input type="text" formControlName="nameAR" class="form-control form-control-lg" placeholder="الاسم عربي">
+                                    <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.nameAR}}
+                                    </div>
+                                </div>
+                                <div class="col-xl-6"><input type="text" formControlName="nameEN" class="form-control form-control-lg" placeholder="الاسم انجليزي">
+                                    <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.nameEN}}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">التكلفة</td>
+                        <td class="table-value">
+                            <input type="text" formControlName="cost" class="form-control form-control-lg" placeholder="التكلفة">
+                            <div *ngIf="formErrors.cost" class="text-danger  font-small-3 m-03">
+                                {{formErrors.cost}}
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">نسية الانتاجية</td>
+                        <td class="table-value">
+                            <input type="text" formControlName="yield" class="form-control form-control-lg" placeholder="نسية الانتاجية">
+                            <div *ngIf="formErrors.yield" class="text-danger  font-small-3 m-03">
+                                {{formErrors.yield}}
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">عدد الوحدات</td>
+                        <td class="table-value">
+                            <input type="text" formControlName="convertRatio" class="form-control form-control-lg" placeholder="عدد الوحدات">
+                            <div *ngIf="formErrors.convertRatio" class="text-danger  font-small-3 m-03">
+                                {{formErrors.convertRatio}}
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">الوحدة</td>
+                        <td class="table-value">
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <app-drop-down-form-control formControlName="unitId" [placeholder]="'الوحدة'" [showSearch]="true" [data]="unitsSelectorData"></app-drop-down-form-control>
+                                    <div *ngIf="formErrors.unitId" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.unitId}}
+                                    </div>
+
+                                </div>
+                                <div class="col-xl-6">
+                                    <app-drop-down-form-control formControlName="purchaseUnitId" [placeholder]="'وحدة الشراء'" [showSearch]="true" [data]="unitsSelectorData"></app-drop-down-form-control>
+                                    <div *ngIf="formErrors.purchaseUnitId" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.purchaseUnitId}}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">فئة الصنف</td>
+                        <td class="table-value">
+                            <app-drop-down-form-control formControlName="itemCategoryId" [placeholder]="'فئة الصنف'" [showSearch]="true" [data]="itemCategoriesSelectorData"></app-drop-down-form-control>
+                            <div *ngIf="formErrors.itemCategoryId" class="text-danger  font-small-3 m-03">
+                                {{formErrors.itemCategoryId}}
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">صورة</td>
+                        <td class="table-value">
+
+                            <div class="form-floating mb-3">
+                                <input formControlName="image" (change)="onFileChange($event)" type="file" class="cursor-pointer" placeholder="الصورة الشخصية">
+
+                                <div *ngIf="formErrors.image" class="text-danger  font-small-3 m-03">
+                                    {{formErrors.image}}
+                                </div>
+                            </div>
+
+
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="modal-footer flex-nowrap gap-2">
+        <button [disabled]="showAddLoader" (click)="saveItem()" type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
+            <i class="uil uil-save fs-3"></i>
+            <span *ngIf="!isUpdate">إنشاء</span>
+            <span *ngIf="isUpdate">تعديل</span> </button>
+
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="modal.close()">
+            <i class="uil uil-times-circle fs-3"></i>
+            <span>الغاء</span>
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #ItemMerchantsDialog let-modal>
+    <div class="modal-header">
+        <div class="d-flex">
+            <h4 class="modal-title" id="modal-basic-title">
+                الموردين
+            </h4>
+            <!-- <button type="button" class="btn btn-danger py-0 px-3 rounded fs-4 fw-bold" (click)="modal.dismiss()">
+                <i class="uil uil-times"></i>
+            </button> -->
+        </div>
+
+    </div>
+    <div class="modal-body">
+
+        <div class="table-responsive table-vp-height">
+            <table class="table table-borderless table-middle table-hover  m-0">
+                <thead>
+                    <tr>
+                        <th>الاسم (AR)</th>
+                        <th>الاسم (EN)</th>
+                        <th>التليفون</th>
+                        <th>الدوله</th>
+                        <th>المدينه</th>
+                        <th>المنطقة</th>
+                        <th>السجل التجاري</th>
+                        <th>السجل الضريبي</th>
+                        <th> العنوان</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of itemMerchants">
+                        <td>{{item.nameEN}}</td>
+                        <td>{{item.nameAR}}</td>
+                        <td>{{item.phone}}</td>
+                        <td>{{item.countryName}}</td>
+                        <td>{{item.cityName}}</td>
+                        <td>{{item.regionName}}</td>
+                        <td>{{item.commercialRegister}}</td>
+                        <td>{{item.taxNumber}}</td>
+                        <td>{{item.address}}</td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <app-empty-data [showEmptyData]="!itemMerchants?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+
+        </div>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">إلغاء</span>
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد العملية</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل انت متأكد من الحذف ؟</p>
+    </div>
+    <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click');deleteItem()">
+            <i class="fas fa-check"></i>
+            <span class="ms-2">نعم</span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+            <i class="fas fa-times"></i>
+            <span class="ms-2">الغاء</span>
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #ItemMerchantsSidePanel let-offcanvas class="details-panel">
+    <div class="offcanvas-header gap-3 fs-4 border-bottom py-4">
+        <!-- <i class="fas fa-user-plus offcanvas-header-icon"></i> -->
+        <span>الموردين</span>
+    </div>
+
+    <div class="offcanvas-body  pt-4 bg-light">
+
+        <!-- <div class="d-flex justify-content-center border-top pt-3 mt-3">
+
+        </div> -->
+        <div class="table-responsive sidepanel-table-h large-scroll">
+            <table class="table table-borderless table-middle table-hover  m-0">
+                <thead>
+                    <tr>
+                        <th>الاسم (AR)</th>
+                        <th>الاسم (EN)</th>
+                        <th>التليفون</th>
+                        <th>الدوله</th>
+                        <th>المدينه</th>
+                        <th>المنطقة</th>
+                        <th>السجل التجاري</th>
+                        <th>السجل الضريبي</th>
+                        <th> العنوان</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of itemMerchants">
+                        <td>{{item.nameEN}}</td>
+                        <td>{{item.nameAR}}</td>
+                        <td>{{item.phone}}</td>
+                        <td>{{item.countryName}}</td>
+                        <td>{{item.cityName}}</td>
+                        <td>{{item.regionName}}</td>
+                        <td>{{item.commercialRegister}}</td>
+                        <td>{{item.taxNumber}}</td>
+                        <td>{{item.address}}</td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <app-empty-data [showEmptyData]="!itemMerchants?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+
+        </div>
+    </div>
+</ng-template>

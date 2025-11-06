@@ -9,7 +9,7 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { ItemCategoryModel } from 'src/app/components/Shared/models/ItemCategory';
 import { CategorySortModel } from 'src/app/components/Shared/models/CategorySort';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
-import { SalesService } from 'src/app/components/Sales/services/sales.service';
+import { AdminService } from '../../services/Admin.service';
 
 
 @Component({
@@ -62,7 +62,7 @@ export class ItemsCategoriesComponent implements OnInit {
 
   };
 
-  constructor(private salesService: SalesService,
+  constructor(private adminService: AdminService,
     private toaster: ToastrService,
     private modalService: NgbModal,
     private form: FormBuilder,
@@ -97,7 +97,7 @@ export class ItemsCategoriesComponent implements OnInit {
   }
   getItemCategories() {
     this.showLoader = true;
-    this.salesService.GetItemCategories().subscribe((data: PagedResponseDTO<ItemCategoryModel[]>) => {
+    this.adminService.GetItemCategories().subscribe((data: PagedResponseDTO<ItemCategoryModel[]>) => {
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
       this.showLoader = false;
@@ -132,7 +132,7 @@ export class ItemsCategoriesComponent implements OnInit {
   }
 
   changeCategoryStatus(CategoryId: any) {
-    this.salesService.ChangeItemCategoryActiveStatus(CategoryId).subscribe(data => {
+    this.adminService.ChangeItemCategoryActiveStatus(CategoryId).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message);
         this.getItemCategories();
@@ -197,7 +197,7 @@ export class ItemsCategoriesComponent implements OnInit {
 
   addNewCategory() {
     this.showAddLoader = true;
-    this.salesService.AddNewItemCategory(this.formData).subscribe((data: ActionsResponseModel) => {
+    this.adminService.AddNewItemCategory(this.formData).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         this.toaster.success(data?.message);
@@ -221,7 +221,7 @@ export class ItemsCategoriesComponent implements OnInit {
   editCategory() {
 
     this.showAddLoader = true;
-    this.salesService.EditItemCategory(this.categoryModel.itemCategoryId, this.formData).subscribe((data: ActionsResponseModel) => {
+    this.adminService.EditItemCategory(this.categoryModel.itemCategoryId, this.formData).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.formGroup?.reset();
         // this.initNewForm();
@@ -273,7 +273,7 @@ export class ItemsCategoriesComponent implements OnInit {
   }
 
   submitDeleteAction() {
-    this.salesService.DeleteItemCategory(this.selectedItemCategoryId).subscribe(data => {
+    this.adminService.DeleteItemCategory(this.selectedItemCategoryId).subscribe(data => {
       if (data?.isSuccess) {
         this.modalService?.dismissAll();
         this.getItemCategories();
@@ -340,7 +340,7 @@ export class ItemsCategoriesComponent implements OnInit {
   changeCategoriesDisplayOrder(SortedItems: CategorySortModel[]) {
     if (SortedItems.length == 0) return
     this.showAddLoader = true;
-    this.salesService.ChangeCategoriesDisplayOrder(SortedItems).subscribe(data => {
+    this.adminService.ChangeCategoriesDisplayOrder(SortedItems).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message);
         this.getItemCategories();

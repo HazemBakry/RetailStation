@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
 import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
-import { PaymentReceiptModel } from '../../Shared/models/PaymentReceiptModel';
-import { FilterItem, FilterModel } from '../../Shared/models/FilterModel';
-import { WebsiteOrderItemModel, WebsiteOrderModel } from '../models/WebsiteOrderModel ';
 import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
-import { MerchantModel } from '../../Admin/models/Operation/MerchantModel';
+import { MerchantModel } from '../../Admin/models/MerchantModel';
 import { MerchantItemModel } from '../../Shared/models/MerchantItemModel';
 import { BranchModel } from '../../Shared/models/BranchModel';
 import { PromotionModel } from '../../Shared/models/PromotionModel';

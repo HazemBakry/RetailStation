@@ -5,7 +5,7 @@ import { ActionsResponseModel } from '../../Shared/models/ActionsResponseModel';
 import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
 import { FilterItem, FilterModel } from '../../Shared/models/FilterModel';
 import { CreateOrderModel, WebsiteOrderModel } from '../models/WebsiteOrderModel ';
-import { SliderModel } from '../../Admin/models/Operation/SliderModel';
+import { SliderModel } from '../../Admin/models/SliderModel';
 import { MerchantItemModel } from '../../Shared/models/MerchantItemModel';
 import { PromotionModel } from '../../Shared/models/PromotionModel';
 import { ItemCategoryModel } from '../../Shared/models/ItemCategory';

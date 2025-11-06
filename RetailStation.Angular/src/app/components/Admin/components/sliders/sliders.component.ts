@@ -7,7 +7,7 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
-import { SliderModel } from '../../models/Operation/SliderModel';
+import { SliderModel } from '../../models/SliderModel';
 import { AdminService } from '../../services/Admin.service';
 
 @Component({

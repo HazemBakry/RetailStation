@@ -108,20 +108,6 @@ export class MenuService {
                 route: '/admin/items'
               },
               {
-                displayName: 'إدارة بيانات الأصناف',
-                menuItem: 'items',
-                description: 'الأصناف داخل المخازن',
-                icon: 'fa fa-layer-group',
-                route: '/admin/items'
-              },
-              // {
-              //   displayName: 'قائمة الموردين',
-              //   menuItem: 'suppliers',
-              //   description: 'إدارة بيانات الموردين وتفاصيل الاتصال',
-              //   icon: 'fa fa-users',
-              //   route: '/admin/suppliers'
-              // },
-              {
                 displayName: 'قائمة التجار',
                 menuItem: 'merchants',
                 description: 'إدارة بيانات التجار وتفاصيل الاتصال',
@@ -1009,66 +995,43 @@ export class MenuService {
           // }
         ]
     },
-    {
-      menuItemId: MenuType.AdminHome,
-      displayName: 'اعدادات النظام',
-      menuItem: 'Admin Settings',
-      subMenus: [
-        {
-          menuItemId: MenuType.AdminHome,
-          displayName: 'الاعدادات',
-          menuItem: '1',
-          route: '/system-settings/home/1',
-          icon: 'fa fa-warehouse',
-          subMenus: [
-            {
-              displayName: 'لوحة التحكم',
-              menuItem: 'dashboard',
-              description: 'إنشاء وتتبع طلبات شراء المواد من المخازن',
-              icon: 'fa fa-file-signature',
-              route: '/system-settings/dashboard'
-            },
-            {
-              displayName: 'بيانات الفروع',
-              menuItem: 'branches',
-              description: 'تعريف وتصنيف بيانات الفروع',
-              icon: 'fa fa-layer-group',
-              route: '/system-settings/branches'
-            },
-            {
-              displayName: 'بيانات المستخدمين',
-              menuItem: 'system-users',
-              description: 'تعريف وتصنيف بيانات المستخدمين',
-              icon: 'fa fa-layer-group',
-              route: '/system-settings/system-users'
-            },
-            {
-              displayName: 'صلاحيات المستخدمين',
-              menuItem: 'roles',
-              description: 'إدارة صلاحيات المستخدمين',
-              icon: 'fa fa-cogs',
-              route: '/system-settings/roles'
-            },
-          ]
-        },
-        // {
-        //   menuItemId: MenuType.AdminHome,
-        //   displayName: 'التقارير',
-        //   menuItem: '2',
-        //   route: '/inventory/home/2',
-        //   icon: 'fa fa-cogs',
-        //   subMenus: [
-        //     {
-        //       displayName: 'وحدات الأصناف',
-        //       menuItem: 'units',
-        //       description: 'description',
-        //       icon: 'fa fa-balance-scale',
-        //       route: '/inventory/units'
-        //     }
-        //   ]
-        // }
-      ]
-    }
+    // {
+    //   menuItemId: MenuType.AdminHome,
+    //   displayName: 'الاعدادات',
+    //   menuItem: '1',
+    //   route: '/system-settings/home/1',
+    //   icon: 'fa fa-warehouse',
+    //   subMenus: [
+    //     {
+    //       displayName: 'لوحة التحكم',
+    //       menuItem: 'dashboard',
+    //       description: 'إنشاء وتتبع طلبات شراء المواد من المخازن',
+    //       icon: 'fa fa-file-signature',
+    //       route: '/system-settings/dashboard'
+    //     },
+    //     {
+    //       displayName: 'بيانات الفروع',
+    //       menuItem: 'branches',
+    //       description: 'تعريف وتصنيف بيانات الفروع',
+    //       icon: 'fa fa-layer-group',
+    //       route: '/system-settings/branches'
+    //     },
+    //     {
+    //       displayName: 'بيانات المستخدمين',
+    //       menuItem: 'system-users',
+    //       description: 'تعريف وتصنيف بيانات المستخدمين',
+    //       icon: 'fa fa-layer-group',
+    //       route: '/system-settings/system-users'
+    //     },
+    //     {
+    //       displayName: 'صلاحيات المستخدمين',
+    //       menuItem: 'roles',
+    //       description: 'إدارة صلاحيات المستخدمين',
+    //       icon: 'fa fa-cogs',
+    //       route: '/system-settings/roles'
+    //     },
+    //   ]
+    // }
   ];
 }
 export enum MenuType {

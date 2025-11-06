@@ -1,7 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from 'src/app/Auth/auth.service';
-import { SalesService } from 'src/app/components/Sales/services/sales.service';
 import { ItemCategoryModel } from 'src/app/components/Shared/models/ItemCategory';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { environment } from 'src/environments/environment';

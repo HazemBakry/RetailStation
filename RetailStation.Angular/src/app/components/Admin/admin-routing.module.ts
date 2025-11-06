@@ -13,9 +13,6 @@ import { RolesComponent } from './components/ManageSubscriptions/roles/roles.com
 import { ManageRolePagesComponent } from './components/ManageSubscriptions/manage-role-pages/manage-role-pages.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { SlidersComponent } from './components/sliders/sliders.component';
-import { SuppliersContainerComponent } from './components/suppliers-container/suppliers-container.component';
-import { SuppliersComponent } from './components/suppliers-container/suppliers/suppliers.component';
-import { ManageSupplierItemsComponent } from './components/suppliers-container/manage-supplier-items/manage-supplier-items.component';
 import { MerchantRequestsComponent } from './components/ManageSubscriptions/merchant-requests/merchant-requests.component';
 import { ItemsCategoriesComponent } from './components/items-categories/items-categories.component';
 import { ItemUnitsComponent } from './components/item-units/item-units.component';
@@ -26,10 +23,11 @@ import { RegionsComponent } from './components/regions/regions.component';
 import { CitiesComponent } from './components/cities/cities.component';
 import { CountriesComponent } from './components/countries/countries.component';
 import { MerchantsContainerComponent } from './components/merchants-container/merchants-container.component';
-import { MerchantsComponent } from './components/merchants-container/merchants/merchants.component';
 import { ManageMerchantItemsComponent } from './components/merchants-container/manage-merchant-items/manage-merchant-items.component';
 import { TopPartnersComponent } from './components/top-partner/top-partners.component';
 import { BestSellerItemsComponent } from './components/best-seller-items/best-seller-items.component';
+import { MerchantListComponent } from './components/merchants-container/merchant-list/merchant-list.component';
+import { ItemsComponent } from './components/items/items.component';
 
 
 const routes: Routes = [
@@ -40,23 +38,12 @@ const routes: Routes = [
       { path: 'home', component: AdminDashboardComponent },
       { path: 'home/:tabName', component: AdminDashboardComponent },
       {
-        path: 'suppliers',
-        canActivate: [AuthGuard],
-        data: { roles: ['SuperAdmin'] },
-        component: SuppliersContainerComponent,
-        children: [
-          { path: '', component: SuppliersComponent },
-          { path: 'add-subscriber', component: AddSubscriberComponent },
-          { path: 'manage-supplier-items/:SupplierId', component: ManageSupplierItemsComponent }
-        ],
-      },
-      {
         path: 'merchants',
         canActivate: [AuthGuard],
         data: { roles: ['SuperAdmin'] },
         component: MerchantsContainerComponent,
         children: [
-          { path: '', component: MerchantsComponent },
+          { path: '', component: MerchantListComponent },
           { path: 'manage-merchant-items/:MerchantId', component: ManageMerchantItemsComponent }
         ],
       },
@@ -82,6 +69,7 @@ const routes: Routes = [
           { path: '', redirectTo: 'subscribers', pathMatch: 'full' },
         ],
       },
+      { path: 'items', component: ItemsComponent },
       { path: 'items-categories', component: ItemsCategoriesComponent },
       { path: 'items-units', component: ItemUnitsComponent },
       { path: 'roles', component: RolesComponent },

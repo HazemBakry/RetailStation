@@ -7,7 +7,7 @@ import { PaymentReceiptModel } from '../../Shared/models/PaymentReceiptModel';
 import { FilterItem, FilterModel } from '../../Shared/models/FilterModel';
 import { WebsiteOrderItemModel, WebsiteOrderModel } from '../models/WebsiteOrderModel ';
 import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
-import { MerchantModel } from '../../Admin/models/Operation/MerchantModel';
+import { MerchantModel } from '../../Admin/models/MerchantModel';
 import { MerchantItemModel } from '../../Shared/models/MerchantItemModel';
 import { BranchModel } from '../../Shared/models/BranchModel';
 

@@ -4,14 +4,13 @@ import { ToastrService } from 'ngx-toastr';
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { GeneralSelectorModel } from '../../general-selector/general-selector.component';
-import { MaterialReceiptModel } from 'src/app/components/Inventory/models/MaterialReceiptModel';
-import { WebsiteService } from 'src/app/components/Main/services/website.service';
 import { CompareService, ItemCompareModel } from '../../../services/comapre.service';
 import { FieldType } from '../../../Enums/FieldType';
 import { DataField } from '../../../models/DataField';
 import { MerchantItemModel } from '../../../models/MerchantItemModel';
 import { environment } from 'src/environments/environment';
 import { CartModel, CartService } from '../../../services/cart.service';
+import { WebsiteService } from 'src/app/components/Website/services/website.service';
 
 @Component({
   selector: 'app-compare',
@@ -22,8 +21,6 @@ import { CartModel, CartService } from '../../../services/cart.service';
 })
 export class CompareComponent implements OnInit {
   @Input() selectedSupplierId: any;
-
-  @Output() selectedOrder = new EventEmitter<MaterialReceiptModel[]>()
   OrdersList: any[] = [];
   showLoader: boolean;
   systemURL: string = environment.systemUrl;

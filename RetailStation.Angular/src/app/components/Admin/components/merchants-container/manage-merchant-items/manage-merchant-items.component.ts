@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { SalesService } from 'src/app/components/Sales/services/sales.service';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { FilterItem } from 'src/app/components/Shared/models/FilterModel';
 import { MerchantItemModel } from 'src/app/components/Shared/models/MerchantItemModel';
@@ -34,7 +33,9 @@ export class ManageMerchantItemsComponent implements OnInit {
   showExportLoader: boolean = false;
 
   merchantId: number;
-  constructor(private modalService: NgbModal, private acRoute: ActivatedRoute, private merchantManagementService: MerchantManagementService,
+  constructor(private modalService: NgbModal, 
+    private acRoute: ActivatedRoute, 
+    private merchantManagementService: MerchantManagementService,
     private sharedService: SharedService,
     private toaster: ToastrService, private offcanvasService: NgbOffcanvas,) { }
 
