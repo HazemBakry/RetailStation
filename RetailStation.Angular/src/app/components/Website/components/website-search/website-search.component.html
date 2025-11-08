@@ -1,10 +1,10 @@
 <div class="d-flex align-items-center justify-content-between gap-3">
     <div *ngIf="citiesSelectorData.length > 0" ngbDropdown class="dropdown-search input-search-with-dropdown border-0 px-3 h-100 d-flex align-items-center">
-        <a class="dropdown-search-link sm-action-dropdown border-0" ngbDropdownToggle>
+        <!-- <a class="dropdown-search-link sm-action-dropdown border-0" ngbDropdownToggle>
             <i class="ph ph-map-pin fs-5"></i>
             <span>{{selectedCity?.name ?? 'كل المدن'}}</span>
             <i class="ph ph-caret-down dropdown-arrow m-0"></i>
-        </a>
+        </a> -->
         <div class="dropdown-search-menu p-0" ngbDropdownMenu>
             <div *ngFor="let city of citiesSelectorData" class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" (click)="onCitySelected(city)" [class.active]="selectedCity?.value == city.value" ngbDropdownItem>
                 <i class="ph ph-map-pin"></i>

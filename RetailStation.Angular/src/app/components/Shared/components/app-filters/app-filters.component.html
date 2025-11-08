@@ -1,5 +1,5 @@
 <div class="d-flex align-items-center flex-wrap gap-2">
-    <div class="input-group max-width-300 min-width-300">
+    <div *ngIf="showSearchText" class="input-group max-width-300 min-width-300">
         <span class="input-group-text bg-light">
       <button (click)="filterChecked()" class="border-0 bg-transparent">
         <i class="fas fa-search"></i>
@@ -14,7 +14,7 @@
     </button>
         <div ngbDropdownMenu aria-labelledby="filterInput1" class="dropdown-filter p-0 overflow-hidden" container="body">
             <div class="d-flex flex-column gap-2">
-                <div class="position-relative">
+                <div *ngIf="showSearchText" class="position-relative">
                     <input type="text" [(ngModel)]="filterSearch" class="form-control form-control-sm main-border-2 radius-8 height-35" placeholder="Search..." />
                     <i class="ph ph-magnifying-glass cursor-pointer search-icon-button"></i>
                 </div>

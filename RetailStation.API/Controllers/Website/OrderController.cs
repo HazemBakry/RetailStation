@@ -31,7 +31,9 @@ namespace RetailStation.API.Controllers.Website
         [Route("GetOrders_Data")]
         public IActionResult GetOrders_Data(SearchFilterModel model)
         {
-            var data = _orderService.GetOrders_Data(model);
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            var data = _orderService.GetOrders_Data(model, UserId);
             var result = new PagedResponseModel<WebsiteOrderModel>
             {
                 Results = data,
@@ -41,12 +43,13 @@ namespace RetailStation.API.Controllers.Website
             };
             return Ok(result);
         }
+
         [HttpGet]
         [Route("GetOrder_Items")]
         public IActionResult GetOrder_Items(int OrderId)
         {
             var result = _orderService.GetOrder_Items(OrderId);
-           
+
             return Ok(result);
         }
 
@@ -54,14 +57,18 @@ namespace RetailStation.API.Controllers.Website
         [Route("GetOrders_Filters")]
         public IActionResult GetOrders_Filters(SearchFilterModel model)
         {
-            return Ok(_orderService.GetOrders_Filters(model));
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            return Ok(_orderService.GetOrders_Filters(model, UserId));
         }
 
         [HttpGet]
         [Route("GetOrderDetailsById")]
         public IActionResult GetOrderDetailsById(int OrderId)
         {
-            var result = _orderService.GetOrderDetailsById(OrderId);
+            string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            var result = _orderService.GetOrderDetailsById(UserId, OrderId);
 
             return Ok(result);
         }
@@ -70,23 +77,23 @@ namespace RetailStation.API.Controllers.Website
         [Route("CreateNewOrder")]
         public IActionResult CreateNewOrder([FromBody] CreateOrderModel order)
         {
-            
+
             string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
             if (string.IsNullOrEmpty(UserId))
                 return BadRequest("No User assigned");
             order.CreatedBy = UserId;
-            return Ok(_orderService.CreateNewOrder(UserId,order));
+            return Ok(_orderService.CreateNewOrder(UserId, order));
         }
-        
+
         [HttpPost]
         [Route("EditOrder")]
         public IActionResult EditOrder(int OrderId, [FromBody] WebsiteOrderModel order)
         {
-            
+
             string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
             if (string.IsNullOrEmpty(UserId))
                 return BadRequest("No User assigned");
-            return Ok(_orderService.EditOrder(OrderId,order));
+            return Ok(_orderService.EditOrder(OrderId, order));
         }
 
         [HttpGet]

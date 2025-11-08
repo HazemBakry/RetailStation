@@ -1,8 +1,6 @@
 ﻿using RetailStation.Entities.Common.Lookups;
-using RetailStation.Entities.Models.Lookups;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using RetailStation.Entities.Models.Global;
 
 namespace RetailStation.Entities.Models
 {
@@ -33,21 +31,14 @@ namespace RetailStation.Entities.Models
             }
         }
 
-
-
         public DbSet<JournalType> JournalTypes { get; set; }
         public DbSet<LedgerType> LedgerTypes { get; set; }
         public DbSet<PaymentType> PaymentTypes { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<ReceiptType> ReceiptTypes { get; set; }
-        public DbSet<TaxLookup> TaxLookups { get; set; }
         public DbSet<Bank> Banks { get; set; }
-        public DbSet<EmployeeDueType> EmployeeDueTypes { get; set; }
         public DbSet<IqamaIssuePlace> IqamaIssuePlaces { get; set; }
-        public DbSet<SponsorType> SponsorTypes { get; set; }
         public DbSet<VacationType> VacationTypes { get; set; }
-        public DbSet<FinancialCustodyType> FinancialCustodyTypes { get; set; }
-        //public DbSet<EmployeeStatus> EmployeeStatus { get; set; }
 
     }
 }

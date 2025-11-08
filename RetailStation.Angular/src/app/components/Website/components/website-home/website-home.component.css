@@ -362,5 +362,11 @@
     cursor: pointer;
 }
 
+.header-offer-icon {
+    --dim: 25px;
+    width: var(--dim);
+    height: var(--dim);
+}
+
 
 /* End Home Style */

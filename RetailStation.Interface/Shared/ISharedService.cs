@@ -1,7 +1,5 @@
 ﻿using RetailStation.Entities.Common;
 using RetailStation.Entities.Common.Enums;
-using RetailStation.Entities.DTOs.Lookups;
-using RetailStation.Entities.Models.Finance;
 using RetailStation.Entities.Models.Subscription;
 using System;
 using System.Collections.Generic;

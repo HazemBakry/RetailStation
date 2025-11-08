@@ -40,74 +40,64 @@
     </div>
 </div> -->
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-3">
-    <div class="container-fluid">
-        <a class="navbar-brand me-4 cursor-pointer">
-            <img src="{{systemUrl}}assets/images/retail-station-logo.svg" routerLink="/" class="retail-station-logo" alt="Retail-station-logo" loading="lazy" />
-        </a>
-        <button class="navbar-toggler hamburger nw-hamburger hamburger--elastic rounded-1 toggle-phosphor my-2" [class.is-active]="!collapsed" type="button" aria-controls="navbar-content" [attr.aria-expanded]="!collapsed" aria-label="Toggle navigation" (click)="collapsed = !collapsed">
-            <span class="hamburger-box">
-                <span class="hamburger-inner"></span>
-            </span>
-        </button>
 
-        <div class="collapse navbar-collapse" [class.collapse]="collapsed">
-            <ul class="navbar-nav me-auto ms-0">
-                <!-- <li>
-                    <div ngbDropdown
-                        class="dropdown-search input-search-with-dropdown border-0 px-3 h-100 d-flex align-items-center">
-                        <a class="dropdown-search-link sm-action-dropdown border-0" ngbDropdownToggle>
-                            <i class="ph ph-map-pin fs-5"></i>
-                            <span>الرياض</span>
-                            <i class="ph ph-caret-down dropdown-arrow m-0"></i>
-                        </a>
-                        <div class="dropdown-search-menu p-0" ngbDropdownMenu>
-                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
-                                ngbDropdownItem>
-                                <i class="ph ph-map-pin"></i>
-                                <div>الرياض 1</div>
-                            </div>
-                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
-                                ngbDropdownItem>
-                                <i class="ph ph-map-pin"></i>
-                                <div>الرياض 2</div>
-                            </div>
-                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
-                                ngbDropdownItem>
-                                <i class="ph ph-map-pin"></i>
-                                <div>3 الرياض</div>
-                            </div>
-                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
-                                ngbDropdownItem>
-                                <i class="ph ph-map-pin"></i>
-                                <div>الرياض 4</div>
-                            </div>
-                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last"
-                                ngbDropdownItem>
-                                <i class="ph ph-map-pin"></i>
-                                <div>الرياض 5</div>
-                            </div>
-                        </div>
-                    </div>
-                </li> -->
-                <li>
-                    <app-website-search [placeholder]="'بحث في المنتجات'"></app-website-search>
-                </li>
-            </ul>
-            <ul class="navbar-nav pt-3 pt-lg-0 align-items-center gap-3">
 
+
+
+
+<header class="top-header">
+    <!-- 🔹 Row 1: Logo + Menu + Icons -->
+    <div class="header-row">
+        <!-- Burger menu for mobile -->
+        <div class="burger-menu d-lg-none" (click)="toggleBurger()">☰</div>
+
+        <!-- Logo -->
+        <div class="logo d-flex align-items-center">
+            <img src="assets/retail_logo2.png" alt="Logo" />
+        </div>
+
+        <!-- Desktop Menu -->
+        <ul class="nav-links d-none d-lg-flex">
+            <li>
+                <a href="/ar/myorders" class="header-item-btn">
+                    <span class="icon"><i class="ph ph-list"></i></span>
+                    <span class="text">الأقسام</span>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/website/privacy-policy" class="header-item-btn">
+                    <span class="icon"><i class="ph ph-seal-percent"></i></span>
+                    <span class="text">سياسة الخصوصية</span>
+                </a>
+            </li>
+            <li>
+                <a href="/website/blogs" class="header-item-btn">
+                    <span class="icon"><i class="ph ph-note"></i></span>
+                    <span class="text">المدونة</span>
+                </a>
+            </li>
+            <li>
+                <a href="/website/about-us" class="header-item-btn">
+                    <span class="icon"><i class="ph ph-phone"></i></span>
+                    <span class="text">عن الموقع</span>
+                </a>
+            </li>
+            <li>
+                <a href="/website/contact-us" class="header-item-btn">
+                    <span class="icon"><i class="ph ph-phone"></i></span>
+                    <span class="text">اتصل بنا</span>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Icons: Compare, Favorites, Cart -->
+        <ul class="header-icons d-flex align-items-center gap-3">
+            <div class="d-none d-lg-flex align-items-center">
                 <ng-container *ngIf="!isAuthenticated">
-
                     <li class="nav-item">
-                        <!-- <a (click)="login()" class="nav-link d-flex align-items-center">
-              <button type="button" class="btn btn-outline-muted radius-4">تسجيل الدخول</button>
-            </a> -->
                         <app-float-login></app-float-login>
                     </li>
                     <li class="nav-item">
-                        <!-- <a class="nav-link d-flex align-items-center">
-                            <button type="button" class="btn btn-phosphor radius-4">انضم إلينا</button>
-                        </a> -->
                         <app-website-apply-merchant-request></app-website-apply-merchant-request>
                     </li>
                 </ng-container>
@@ -127,34 +117,143 @@
                                 </div>
                             </div>
                             <div routerLink="/user-profile" routerLinkActive="active" class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
-                                <!-- <div class="drop-image-box">
-                  <img src="{{systemUrl}}assets/images/admin.png" alt="drop-icon" loading="lazy" />
-                </div>
-                <div>{{UserModel.userName}}</div> -->
                                 <i class="ph ph-user"></i>
                                 <div>حسابى</div>
                             </div>
                             <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
-                                <!-- <div class="drop-image-box">
-                  <img src="{{systemUrl}}assets/vegitables.svg" alt="drop-icon" loading="lazy" />
-                  <i class="fas fa-check-circle"></i>
-                </div> -->
                                 <i class="ph ph-squares-four"></i>
                                 <div routerLink="/user-panel">لوحة التحكم</div>
                             </div>
                             <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
-                                <!-- <div class="drop-image-box">
-                  <img src="{{systemUrl}}assets/vegitables.svg" alt="drop-icon" loading="lazy" />
-                  <i class="fas fa-check-circle"></i>
-                </div> -->
                                 <i class="ph ph-question"></i>
                                 <div routerLink="/">تحتاج مساعده؟</div>
                             </div>
                             <div (click)="logout()" class="d-flex align-items-center justify-content-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
-                                <!-- <div class="drop-image-box">
-                  <img src="{{systemUrl}}assets/chesse.svg" alt="drop-icon" loading="lazy" />
-                  <i class="fas fa-power-off"></i>
-                </div> -->
+                                <i class="ph ph-sign-out"></i>
+                                <div>تسجيل الخروج</div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+            <li *ngIf="!isBurgerOpen">
+                <app-compare></app-compare>
+            </li>
+            <!-- <li *ngIf="!isBurgerOpen">
+                <a routerLink="/favorites" class="icon-btn me-2">
+                    <i class="ph ph-heart"></i>
+                </a>
+            </li> -->
+            <li>
+                <a routerLink="/cart" class="icon-btn position-relative me-2">
+                    <i class="ph ph-shopping-cart-simple"></i>
+                    <span class="cart-count">{{ cartItemsCount$ }}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 🔹 Row 2: City Selector + Search -->
+    <div class="main-header">
+        <app-website-search [placeholder]="'بحث في المنتجات'"></app-website-search>
+
+        <!-- <select class="city-selector" [(ngModel)]="selectedCity">
+                <option *ngFor="let city of cities">{{ city }}</option>
+            </select>
+
+            <input type="text" class="search-box" placeholder="ابحث عن منتج..." [(ngModel)]="searchText" /> -->
+    </div>
+
+    <!-- 🔹 Mobile Burger Menu -->
+    <div class="burger-overlay" *ngIf="isBurgerOpen" (click)="closeBurger()"></div>
+
+    <nav class="burger-dropdown" [class.open]="isBurgerOpen">
+        <div class="burger-header">
+            <span class="close-btn" (click)="closeBurger()">×</span>
+            <h3>القائمة</h3>
+        </div>
+        <ul>
+            <li><a href="#">المفضلة</a></li>
+
+            <li class="dropdown-parent">
+                <a href="#" (click)="toggleSubmenu('help')">المساعدة</a>
+            </li>
+
+            <li class="dropdown-parent">
+                <a href="#" (click)="toggleSubmenu('country')">البلد: {{ selectedCountry }}</a>
+            </li>
+
+            <li><a href="#">English 🌐</a></li>
+
+            <li class="dropdown-parent">
+                <a href="#" (click)="toggleSubmenu('account')">الحساب 👤</a>
+                <ul class="dropdown-menu" *ngIf="openSubmenu === 'account'">
+                    <li><a href="#">تسجيل الدخول</a></li>
+                    <li><a href="#">حسابي</a></li>
+                    <li><a href="#">تسجيل الخروج</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+
+
+<!-- <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-3">
+    <div class="container-fluid">
+        <a class="navbar-brand me- cursor-pointer">
+            <img src="{{systemUrl}}assets/images/retail-station-logo.svg" routerLink="/" class="retail-station-logo" alt="Retail-station-logo" loading="lazy" />
+        </a>
+        <button class="navbar-toggler hamburger nw-hamburger hamburger--elastic rounded-1 toggle-phosphor my-2" [class.is-active]="!collapsed" type="button" aria-controls="navbar-content" [attr.aria-expanded]="!collapsed" aria-label="Toggle navigation" (click)="collapsed = !collapsed">
+            <span class="hamburger-box">
+                <span class="hamburger-inner"></span>
+            </span>
+        </button>
+
+        <div class="collapse navbar-collapse" [class.collapse]="collapsed">
+            <ul class="navbar-nav me-auto ms-0">
+                <li>
+                    <app-website-search [placeholder]="'بحث في المنتجات'"></app-website-search>
+                </li>
+            </ul>
+            <ul class="navbar-nav pt-3 pt-lg-0 align-items-center gap-3">
+                <ng-container *ngIf="!isAuthenticated">
+                    <li class="nav-item">
+                        <app-float-login></app-float-login>
+                    </li>
+                    <li class="nav-item">
+                        <app-website-apply-merchant-request></app-website-apply-merchant-request>
+                    </li>
+                </ng-container>
+
+                <ng-container *ngIf="isAuthenticated">
+                    <div ngbDropdown class="dropdown-search px-3" placement="auto">
+                        <a class="sm-action-dropdown d-flex align-items-center gap-2 text-dark text-underline-none cursor-pointer" ngbDropdownToggle style="height: 45px">
+                            <i class="ph ph-user-circle fs-3"></i>
+                            <i class="ph ph-caret-down dropdown-arrow m-0"></i> {{UserModel?.fullName}}
+                        </a>
+                        <div class="dropdown-search-menu with-triangle overflow-unset p-2 pb-0 mt-3" style="max-height: 350px; right: -100px;" ngbDropdownMenu>
+                            <div class="d-flex flex-column align-items-center gap-3 bg-dark-light p-3 radius-10">
+                                <img src="../../../../../assets/user-image-profile.svg" class="user-image-profile" alt="user profile" loading="lazy" />
+                                <div class="d-flex align-items-center gap-2">
+                                    <div>مرحبا</div>
+                                    <div class="fw-bold">{{UserModel.userName}}</div>
+                                </div>
+                            </div>
+                            <div routerLink="/user-profile" routerLinkActive="active" class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
+                                <i class="ph ph-user"></i>
+                                <div>حسابى</div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
+                                <i class="ph ph-squares-four"></i>
+                                <div routerLink="/user-panel">لوحة التحكم</div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
+                                <i class="ph ph-question"></i>
+                                <div routerLink="/">تحتاج مساعده؟</div>
+                            </div>
+                            <div (click)="logout()" class="d-flex align-items-center justify-content-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
                                 <i class="ph ph-sign-out"></i>
                                 <div>تسجيل الخروج</div>
                             </div>
@@ -164,12 +263,6 @@
                 <li class="nav-item">
                     <app-compare></app-compare>
                 </li>
-                <!-- <li class="nav-item me-4">
-                    <a class="nav-link d-flex align-items-center py-0 fs-2 cursor-pointer h-100 position-relative"
-                        routerLink="/home">
-                        <i class="ph ph-user-circle-gear"></i>
-                    </a>
-                </li> -->
                 <li class="nav-item me-2">
                     <a class="nav-link d-flex align-items-center py-0 fs-2 cursor-pointer h-100 position-relative" routerLink="/favorites">
                         <i class="ph ph-heart cursor-pointer" routerLinkActive="ph-fill text-danger"></i>
@@ -184,4 +277,4 @@
             </ul>
         </div>
     </div>
-</nav>
+</nav> -->

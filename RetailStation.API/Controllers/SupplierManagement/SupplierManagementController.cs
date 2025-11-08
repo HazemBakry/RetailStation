@@ -185,45 +185,5 @@ namespace RetailStation.API.Controllers.SupplierManagement
 
 
 
-
-        #region Orders
-        [HttpPost]
-        [Route("GetOrders_Data")]
-        public IActionResult GetOrders_Data(SearchFilterModel model)
-        {
-            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "SupplierId")?.Value, out int SupplierId);
-            if (SupplierId <= 0)
-                return BadRequest("No Supplier assigned");
-
-            model.FilterList.Add(new FilterItem
-            {
-                CategoryName = "SupplierId",
-                ItemFlag = SupplierId.ToString(),
-            });
-            var data = _orderService.GetOrders_Data(model);
-            var result = new PagedResponseModel<WebsiteOrderModel>
-            {
-                Results = data,
-                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
-                PageSize = model.PageSize,
-                CurrentPage = model.CurrentPage
-            };
-            return Ok(result);
-        }
-        [HttpPost]
-        [Route("GetOrders_Filters")]
-        public IActionResult GetOrders_Filters(SearchFilterModel model)
-        {
-            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "SupplierId")?.Value, out int SupplierId);
-            if (SupplierId <= 0)
-                return BadRequest("No Supplier assigned");
-            model.FilterList.Add(new FilterItem
-            {
-                CategoryName = "SupplierId",
-                ItemFlag = SupplierId.ToString(),
-            });
-            return Ok(_orderService.GetOrders_Filters(model));
-        }
-        #endregion
     }
 }

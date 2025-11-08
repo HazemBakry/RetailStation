@@ -835,7 +835,7 @@ select::after {
 
 @media (max-width: 710px) {
     .dropdown-search-input {
-        min-width: 400px !important;
+        min-width: 220px !important;
     }
 }
 
@@ -1230,7 +1230,8 @@ select::after {
 }
 
 .toggle-phosphor {
-    border: 2px solid #86ee02 !important;
+    /* border: 2px solid #86ee02 !important; */
+    border: 2px solid #5e5f5d !important;
     background-color: #f3f6f0 !important;
 }
 
@@ -1240,7 +1241,7 @@ select::after {
 .toggle-phosphor.is-active .hamburger-inner,
 .toggle-phosphor.is-active .hamburger-inner::before,
 .toggle-phosphor.is-active .hamburger-inner::after {
-    background-color: #86ee02 !important;
+    background-color: #a6a7a4 !important;
 }
 
 

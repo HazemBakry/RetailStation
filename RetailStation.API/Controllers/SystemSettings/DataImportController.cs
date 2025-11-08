@@ -1,8 +1,6 @@
 ﻿using RetailStation.Entities.Common;
 using RetailStation.Entities.DTOs.DataImport;
-using RetailStation.Entities.DTOs.HR;
 using RetailStation.Interface.Common;
-using RetailStation.Interface.Purchase;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

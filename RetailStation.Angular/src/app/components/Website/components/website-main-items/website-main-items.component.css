@@ -148,19 +148,20 @@ app-website-filters {
     }
 }
 
-
-/* .header-offer-icon {
-  --dim: 25px;
-  width: var(--dim);
-  height: var(--dim);
+.header-offer-icon {
+    --dim: 25px;
+    width: var(--dim);
+    height: var(--dim);
 }
+
 ::ng-deep .big-offer-carousel .swiper-container,
 ::ng-deep .big-offer-carousel .swiper-slide {
-  width: 100%;
-  height: 300px;
+    width: 100%;
+    height: 300px;
 }
 
-.offer-carousel-image {
+
+/* .offer-carousel-image {
   object-fit: cover;
 }
 .market-cat-card {

@@ -216,7 +216,7 @@ namespace RetailStation.API.Controllers.Operation
                 CategoryName = "MerchantId",
                 ItemFlag = MerchantId.ToString(),
             });
-            var data = _orderService.GetOrders_Data(model);
+            var data = _orderService.GetOrders_Data(model, "");
             var result = new PagedResponseModel<WebsiteOrderModel>
             {
                 Results = data,
@@ -238,7 +238,7 @@ namespace RetailStation.API.Controllers.Operation
                 CategoryName = "MerchantId",
                 ItemFlag = MerchantId.ToString(),
             });
-            return Ok(_orderService.GetOrders_Filters(model));
+            return Ok(_orderService.GetOrders_Filters(model, ""));
         }
         #endregion
 

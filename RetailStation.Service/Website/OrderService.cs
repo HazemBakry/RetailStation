@@ -29,7 +29,7 @@ using RetailStation.Entities.Models.Global;
 
 namespace RetailStation.Service.Website
 {
-    public class OrderService: IOrderService
+    public class OrderService : IOrderService
     {
         private readonly DBContext Context;
         private readonly LookupsDbContext LookupsDbContext;
@@ -56,15 +56,14 @@ namespace RetailStation.Service.Website
 
         }
 
-
-
-        public List<WebsiteOrderModel> GetOrders_Data(SearchFilterModel model, int? OrderId = null)
+        public List<WebsiteOrderModel> GetOrders_Data(SearchFilterModel model, string UserId, int? OrderId = null)
         {
             DataTable FilterList = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
             SqlParameter[] Params = new SqlParameter[]
             {
                 new SqlParameter("@OrderId", (object)OrderId ?? DBNull.Value),
+                new SqlParameter("@UserId", (object)UserId ?? DBNull.Value),
                 new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value),
                 new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value),
                 new SqlParameter("@FilterList", SqlDbType.Structured) { Value = FilterList },
@@ -87,25 +86,26 @@ namespace RetailStation.Service.Website
             return result;
         }
 
-        public List<FilterModel> GetOrders_Filters(SearchFilterModel PagingFilter)
+        public List<FilterModel> GetOrders_Filters(SearchFilterModel PagingFilter, string UserId)
         {
             var FilterListDt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
 
-            SqlParameter[] Params = new SqlParameter[1];
+            SqlParameter[] Params = new SqlParameter[2];
 
-
-            Params[0] = new SqlParameter("@FilterList", SqlDbType.Structured);
-            Params[0].Value = FilterListDt;
+            Params[0] = new SqlParameter("@UserId", (object)UserId ?? DBNull.Value);
+            Params[1] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[1].Value = FilterListDt;
 
             var results = SQLHelper.SQLQuery<FilterItem>("[dbo].[SP_GetOrders_Filters]", ConnectionString, Params);
             return SharedFilterService.GroupedFilterItems(results);
         }
 
-        public WebsiteOrderModel GetOrderDetailsById(int OrderId)
+        public WebsiteOrderModel GetOrderDetailsById(string UserId, int OrderId)
         {
-            return GetOrders_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, OrderId)?.FirstOrDefault();
+            return GetOrders_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, UserId, OrderId)?.FirstOrDefault();
 
         }
+
         public ActionsResponseModel CreateNewOrder(WebsiteOrderModel model)
         {
             int count = Context.Orders.Select(x => x.OrderNumber).ToList().Count;
@@ -171,12 +171,32 @@ namespace RetailStation.Service.Website
                 };
             }
         }
+
         public ActionsResponseModel CreateNewOrder(string UserId, CreateOrderModel model)
         {
             using var transaction = Context.Database.BeginTransaction();
 
             try
             {
+                Order tbl_ord = new Order
+                {
+                    OrderNumber = Context.Orders.Count() == 0 ? 1 : Context.Orders.Select(x => x.OrderNumber).Max() + 1,
+                    PaymentTypeId = model.PaymentTypeId ?? 1,
+                    SubTotal = model.SubTotal ?? 0,
+                    Tax = model.Tax ?? 0,
+                    TotalValue = model.TotalValue,
+                    NetValue = model.NetValue ?? 0,
+                    WorkflowStatusId = (int)WorkflowStatus.Pending,
+                    OrderDate = DateTime.Now,
+                    Notes = model.Notes,
+                    DiscountAmount = 0,
+                    DeliveryValue = 0,
+                    CreatedBy = UserId,
+                    CreatedDate = DateTime.Now
+                };
+                Context.Orders.Add(tbl_ord);
+                Context.SaveChanges();
+
                 var requestedItemIds = model.Items.Select(x => x.MerchantItemId).ToList();
                 var supplierItems = Context.MerchantItems
                     .Where(x => requestedItemIds.Contains(x.MerchantItemId))
@@ -212,7 +232,7 @@ namespace RetailStation.Service.Website
                 }
 
                 // Get the new order number synchronously.
-                var newOrderNumber = Context.Orders.Count() > 0 ? Context.Orders.Max(x => x.OrderNumber) + 1 : 1;
+                var newOrderNumber = Context.MerchantOrders.Count() > 0 ? Context.MerchantOrders.Max(x => x.OrderNumber) + 1 : 1;
 
                 var requestedItemsByMerchant = model.Items.GroupBy(x => x.MerchantId);
 
@@ -221,9 +241,9 @@ namespace RetailStation.Service.Website
                 foreach (var supplierGroup in requestedItemsByMerchant)
                 {
                     var serialNumber = DalHelper.GenerateSerialNumber(SerialType.PurchaseOrder, newOrderNumber);
-                    var order = new Order
+                    var order = new MerchantOrder
                     {
-                        //MerchantId = (int)supplierGroup.Key,
+                        MerchantId = (int)supplierGroup.Key,
                         OrderNumber = newOrderNumber,
                         SerialNumber = serialNumber,
                         UserId = UserId,
@@ -241,17 +261,17 @@ namespace RetailStation.Service.Website
                         CreatedDate = DateTime.Now
                     };
 
-                    Context.Orders.Add(order);
+                    Context.MerchantOrders.Add(order);
                     Context.SaveChanges(); // Synchronous SaveChanges()
 
-                    createdOrderIds.Add(order.OrderId);
+                    createdOrderIds.Add(order.MerchantOrderId);
 
-                    var orderDetails = new List<OrderDetail>();
+                    var orderDetails = new List<MerchantOrderDetail>();
                     foreach (var requestedItem in supplierGroup)
                     {
-                        var orderDetail = new OrderDetail
+                        var orderDetail = new MerchantOrderDetail
                         {
-                            OrderId = order.OrderId,
+                            MerchantOrderId = order.MerchantOrderId,
                             ItemId = requestedItem.MerchantItemId,
                             UnitId = requestedItem.UnitId,
                             Quantity = requestedItem.Quantity,
@@ -265,7 +285,7 @@ namespace RetailStation.Service.Website
                         orderDetails.Add(orderDetail);
                     }
 
-                    Context.OrderDetails.AddRange(orderDetails);
+                    Context.MerchantOrderDetails.AddRange(orderDetails);
                     Context.SaveChanges(); // Synchronous SaveChanges()
                     newOrderNumber++;
                 }
@@ -275,8 +295,8 @@ namespace RetailStation.Service.Website
                 return new ActionsResponseModel
                 {
                     Message = "Orders created successfully.",
-                    Id = createdOrderIds.FirstOrDefault(),
-                    Number = newOrderNumber.ToString(),
+                    Id = tbl_ord.OrderId,
+                    Number = tbl_ord.OrderNumber.ToString(),
                     IsSuccess = true
                 };
             }
@@ -291,6 +311,7 @@ namespace RetailStation.Service.Website
                 };
             }
         }
+
         public ActionsResponseModel EditOrder(int OrderId, WebsiteOrderModel model)
         {
             try
@@ -320,7 +341,7 @@ namespace RetailStation.Service.Website
                     Context.OrderDetails.RemoveRange(OrderDetails);
                     Context.SaveChanges();
 
-                    foreach(WebsiteOrderItemModel row in model.Items)
+                    foreach (WebsiteOrderItemModel row in model.Items)
                     {
                         OrderDetail Invoice_Details = new OrderDetail();
 

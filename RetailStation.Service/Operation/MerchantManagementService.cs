@@ -17,9 +17,7 @@ using RetailStation.Entities.Models.Operation;
 using RetailStation.Entities.DTOs.Operation;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using RetailStation.Entities.Models.Purchases;
 using System.IO;
-using RetailStation.Entities.Models.Finance;
 
 namespace RetailStation.Service.Operation
 {

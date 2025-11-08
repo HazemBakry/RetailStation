@@ -1,12 +1,7 @@
-﻿using RetailStation.Entities.Common;
-using RetailStation.Entities.Common.Enums;
-using RetailStation.Entities.Models.Finance;
+﻿using RetailStation.Entities.Common.Enums;
 using RetailStation.Interface.Shared;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using RetailStation.Service.Shared;
 using System.Linq;
 
 namespace RetailStation.API.Controllers.Shared

@@ -215,4 +215,43 @@ export class WebsiteHeaderComponent implements OnInit {
     subscriberEmail: '',
     subscriberId: ''
   };
+
+
+
+
+
+
+
+
+  isBurgerOpen = false;
+  openSubmenu: string | null = null;
+  hoveredMenu: string | null = null;
+  selectedCity = 'القاهرة';
+  selectedCountry = 'مصر 🇪🇬';
+  searchText = '';
+
+  cities = ['القاهرة', 'الرياض', 'دبي'];
+  countries = ['مصر 🇪🇬', 'الكويت 🇰🇼', 'قطر 🇶🇦', 'الإمارات 🇦🇪'];
+
+  toggleBurger() {
+    this.isBurgerOpen = !this.isBurgerOpen;
+  }
+
+  closeBurger() {
+    this.isBurgerOpen = false;
+    this.openSubmenu = null;
+  }
+
+  toggleSubmenu(menu: string) {
+    this.openSubmenu = this.openSubmenu === menu ? null : menu;
+  }
+
+  hoverSubmenu(menu: string | null) {
+    this.hoveredMenu = menu;
+  }
+
+  selectCountry(country: string) {
+    this.selectedCountry = country;
+    this.openSubmenu = null;
+  }
 }
