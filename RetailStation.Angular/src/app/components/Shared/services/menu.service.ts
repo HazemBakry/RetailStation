@@ -94,6 +94,18 @@ export class MenuService {
                 icon: 'fa fa-users',
                 route: '/admin/regions'
               },
+              {
+                displayName: 'أفضل الأصناف مبيعاً',
+                menuItem: 'best-seller-items',
+                icon: 'fa fa-users',
+                route: '/admin/best-seller-items'
+              },
+              {
+                displayName: 'أفضل الشركاء',
+                menuItem: 'top-partners',
+                icon: 'fa fa-users',
+                route: '/admin/top-partners'
+              },
             ]
           },
 
