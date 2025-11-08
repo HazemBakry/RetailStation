@@ -15,6 +15,8 @@ export interface WebsiteOrderModel extends CreatorModel {
     orderTypeEN: string;
     merchantId: number | null;
     paymentTypeId: number | null;
+    paymentTypeNameEN: string;
+    paymentTypeNameAR: string;
     merchantNameAR: string;
     merchantNameEN: string;
     branchId: number | null;
@@ -63,7 +65,8 @@ export interface WebsiteOrderItemModel {
     isActive?: boolean;
     itemTypeId?: number | null;
     merchantId: number | null;
-    merchantName?: string;
+    merchantNameEN?: string;
+    merchantNameAR?: string;
     imageUrl?: string;
     totalCount?: number | null;
 }

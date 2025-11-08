@@ -115,37 +115,43 @@ export class MyOrdersComponent implements OnInit {
 
 
   }
-  orderDetailsDataFields: DataField[] = [
-    {
-      fieldName: 'nameAR',
-      fieldType: FieldType.Text,
-      displayName: 'Name (AR)',
-    },
-    {
-      fieldName: 'nameEN',
-      fieldType: FieldType.Text,
-      displayName: 'Name (EN)',
-    },
-    {
-      fieldName: 'unitName',
-      fieldType: FieldType.Text,
-      displayName: 'Unit',
-    },
-    {
-      fieldName: 'price',
-      fieldType: FieldType.Text,
-      displayName: 'Price',
-    },
-    {
-      fieldName: 'quantity',
-      fieldType: FieldType.Text,
-      displayName: 'Quantity',
-    },
-    {
-      fieldName: 'totalValue',
-      fieldType: FieldType.Text,
-      displayName: 'TotalValue',
-    }
-  ];
+orderDetailsDataFields: DataField[] = [
+  {
+    fieldName: 'nameAR',
+    fieldType: FieldType.Text,
+    displayName: 'الاسم (عربي)',
+  },
+  {
+    fieldName: 'nameEN',
+    fieldType: FieldType.Text,
+    displayName: 'الاسم (إنجليزي)',
+  },
+  {
+    fieldName: 'merchantNameAR',
+    fieldType: FieldType.Text,
+    displayName: 'اسم التاجر',
+  },
+  {
+    fieldName: 'unitName',
+    fieldType: FieldType.Text,
+    displayName: 'الوحدة',
+  },
+  {
+    fieldName: 'price',
+    fieldType: FieldType.Text,
+    displayName: 'السعر',
+  },
+  {
+    fieldName: 'quantity',
+    fieldType: FieldType.Text,
+    displayName: 'الكمية',
+  },
+  {
+    fieldName: 'totalValue',
+    fieldType: FieldType.Text,
+    displayName: 'القيمة الإجمالية',
+  }
+];
+
 
 }

@@ -11,6 +11,8 @@ import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-poli
 import { BlogDetailsComponent } from './components/blog-details/blog-details.component';
 import { WebsiteFavoritesComponent } from './components/website-favorites/website-favorites.component';
 import { WebsiteCategoriesComponent } from './components/website-categories/website-categories.component';
+import { MyOrdersComponent } from '../UserPanel/components/my-orders/my-orders.component';
+import { UserProfileComponent } from '../UserPanel/components/user-profile/user-profile.component';
 
 
 const routes: Routes = [
@@ -29,6 +31,8 @@ const routes: Routes = [
       { path: 'blogs', component: WebsiteBlogComponent },
       { path: 'blog-details', component: BlogDetailsComponent },
       { path: 'privacy-policy', component: PrivacyPolicyComponent },
+      { path: 'my-orders', component: MyOrdersComponent },
+      { path: 'user-profile', component: UserProfileComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ],
   },

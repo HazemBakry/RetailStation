@@ -62,10 +62,10 @@ namespace RetailStation.Service.Website
 
             SqlParameter[] Params = new SqlParameter[]
             {
-                new SqlParameter("@OrderId", (object)OrderId ?? DBNull.Value),
-                new SqlParameter("@UserId", (object)UserId ?? DBNull.Value),
-                new SqlParameter("@CurrentPage", (object)model.CurrentPage ?? DBNull.Value),
-                new SqlParameter("@PageSize", (object)model.PageSize ?? DBNull.Value),
+                new SqlParameter("@OrderId", OrderId ),
+                new SqlParameter("@UserId", UserId ),
+                new SqlParameter("@CurrentPage", model.CurrentPage ),
+                new SqlParameter("@PageSize", model.PageSize ),
                 new SqlParameter("@FilterList", SqlDbType.Structured) { Value = FilterList },
             };
             var result = SQLHelper.SQLQuery<WebsiteOrderModel>("[dbo].[SP_GetOrders_Data]", ConnectionString, Params);
@@ -92,7 +92,7 @@ namespace RetailStation.Service.Website
 
             SqlParameter[] Params = new SqlParameter[2];
 
-            Params[0] = new SqlParameter("@UserId", (object)UserId ?? DBNull.Value);
+            Params[0] = new SqlParameter("@UserId", UserId );
             Params[1] = new SqlParameter("@FilterList", SqlDbType.Structured);
             Params[1].Value = FilterListDt;
 

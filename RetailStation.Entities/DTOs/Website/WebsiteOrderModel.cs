@@ -25,7 +25,6 @@ namespace RetailStation.Entities.DTOs.Website
         public string OrderTypeAR { get; set; }
         public string OrderTypeEN { get; set; }
         public int? MerchantId { get; set; }
-        public int? PaymentTypeId { get; set; }
         public string MerchantNameAR { get; set; }
         public string MerchantNameEN { get; set; }
         public int? BranchId { get; set; }
@@ -34,6 +33,9 @@ namespace RetailStation.Entities.DTOs.Website
         public int? StoreId { get; set; }
         public string StoreNameAR { get; set; }
         public string StoreNameEN { get; set; }
+        public int? PaymentTypeId { get; set; }
+        public string PaymentTypeNameAR { get; set; }
+        public string PaymentTypeNameEN { get; set; }
         public decimal? DeliveryValue { get; set; }
         public decimal? SubTotal { get; set; }
         public decimal? Tax { get; set; }
@@ -75,7 +77,8 @@ namespace RetailStation.Entities.DTOs.Website
         public bool IsActive { get; set; }
         public int? ItemTypeId { get; set; }
         public int? MerchantId { get; set; }
-        public string MerchantName { get; set; }
+        public string MerchantNameAR { get; set; }
+        public string MerchantNameEN { get; set; }
         public string ImageUrl { get; set; }
         public int? TotalCount { get; set; }
     }
