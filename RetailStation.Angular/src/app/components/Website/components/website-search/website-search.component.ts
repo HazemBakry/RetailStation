@@ -104,6 +104,7 @@ export class WebsiteSearchComponent implements OnInit {
   }
 
   getSearchAutoComplete(event: any) {
+    this.searchText = this.searchText?.trim();
     this.searchResults = [];
     if (!this.searchText || this.searchText?.length < 2)
       return;

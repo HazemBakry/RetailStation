@@ -52,38 +52,38 @@
         <div class="burger-menu d-lg-none" (click)="toggleBurger()">☰</div>
 
         <!-- Logo -->
-        <div class="logo d-flex align-items-center">
+        <a routerLink="/" class="logo d-flex align-items-center">
             <img src="assets/retail_logo2.png" alt="Logo" />
-        </div>
+        </a>
 
         <!-- Desktop Menu -->
         <ul class="nav-links d-none d-lg-flex">
             <li>
-                <a routerLink="/website/categories" class="header-item-btn">
+                <a routerLink="/website/categories" routerLinkActive="active" class="header-item-btn">
                     <span class="icon"><i class="ph ph-list"></i></span>
                     <span class="text">الأقسام</span>
                 </a>
             </li>
             <li>
-                <a routerLink="/website/privacy-policy" class="header-item-btn">
+                <a routerLink="/website/privacy-policy" routerLinkActive="active" class="header-item-btn">
                     <span class="icon"><i class="ph ph-seal-percent"></i></span>
                     <span class="text">سياسة الخصوصية</span>
                 </a>
             </li>
             <li>
-                <a href="/website/blogs" class="header-item-btn">
+                <a routerLink="/website/blogs" routerLinkActive="active" class="header-item-btn">
                     <span class="icon"><i class="ph ph-note"></i></span>
                     <span class="text">المدونة</span>
                 </a>
             </li>
             <li>
-                <a href="/website/about-us" class="header-item-btn">
+                <a routerLink="/website/about-us" routerLinkActive="active"  class="header-item-btn">
                     <span class="icon"><i class="ph ph-phone"></i></span>
                     <span class="text">عن الموقع</span>
                 </a>
             </li>
             <li>
-                <a href="/website/contact-us" class="header-item-btn">
+                <a routerLink="/website/contact-us" routerLinkActive="active" class="header-item-btn">
                     <span class="icon"><i class="ph ph-phone"></i></span>
                     <span class="text">اتصل بنا</span>
                 </a>

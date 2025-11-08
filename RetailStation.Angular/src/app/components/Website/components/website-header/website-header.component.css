@@ -381,6 +381,8 @@
     transition: 0.2s;
 }
 
+.nav-links li a.header-item-btn:active,
+.nav-links li a.header-item-btn.active ,
 .nav-links li a.header-item-btn:hover {
     background: #a2f38c;
 }
