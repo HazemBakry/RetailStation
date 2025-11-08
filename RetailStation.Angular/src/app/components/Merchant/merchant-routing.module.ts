@@ -8,6 +8,7 @@ import { MerchantDashboardComponent } from './components/merchant-dashboard/merc
 import { MerchantLayoutComponent } from './merchant-layout/merchant-layout.component';
 import { MerchantItemsComponent } from './components/merchant-items/merchant-items.component';
 import { MerchantPromotionsComponent } from './components/merchant-promotions/merchant-promotions.component';
+import { MerchantOrdersComponent } from './components/merchant-orders/merchant-orders.component';
 
 
 
@@ -19,7 +20,7 @@ const routes: Routes = [
       { path: 'dashboard', component: MerchantDashboardComponent, canActivate: [AuthPageGuard], data: { pageName: 'SalesDashboard' } },
       // { path: 'home', component: SalesHomeComponent, canActivate: [AuthPageGuard], data: { pageName: 'SalesDashboard' } },
       // { path: 'home/:tabName', component: SalesHomeComponent },
-      { path: 'merchant-orders', component: OrdersComponent, canActivate: [AuthPageGuard], data: { pageName: 'Orders' } },
+      { path: 'merchant-orders', component: MerchantOrdersComponent, canActivate: [AuthPageGuard], data: { pageName: 'Orders' } },
       { path: 'merchant-items', component: MerchantItemsComponent, },//canActivate: [AuthPageGuard], data: { pageName: 'Items' } },
       { path: 'merchant-promotions', component: MerchantPromotionsComponent, canActivate: [AuthPageGuard], data: { pageName: 'promotions' } },
       { path: 'merchant-profile', component: MerchantProfileComponent, canActivate: [AuthPageGuard], data: { pageName: 'merchant-profile' } },

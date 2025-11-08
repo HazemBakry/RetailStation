@@ -114,14 +114,5 @@ export class MerchantService {
 
 
 
-  //-------------------------------------  Order ----------------------------------
-  GetOrders_Data(model: PagedResponseModel) {
-    return this.http.post<PagedResponseModel<WebsiteOrderModel[]>>(this.URL + 'MerchantManagement/GetOrders_Data', model);
-  }
-  GetOrders_Filters(model: PagedResponseModel<any[]>) {
-    return this.http.post<FilterItem[]>(this.URL + 'MerchantManagement/GetOrders_Filters', model);
-  }
-
-
 
 }

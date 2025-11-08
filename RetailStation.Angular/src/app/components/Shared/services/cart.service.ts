@@ -99,7 +99,7 @@ export class CartService {
   }
 
   removeItem(merchantItemId: number): void {
-    const updatedList = this.getCurrentCartItems().filter(item => item.merchantItemId !== merchantItemId);
+    const updatedList = this.getCurrentCartItems().filter(item => item.merchantItemId != merchantItemId);
 
     this._cartItemsSource.next(updatedList);
     this.saveToLocalStorage(updatedList);

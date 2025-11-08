@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace RetailStation.Entities.Models.Operation
 {
+    [Table("MerchantOrders", Schema = "dbo")]
     public class MerchantOrder : CreatorModel
     {
         public int MerchantOrderId { get; set; }
+        public int OrderId { get; set; }
         public int OrderNumber { get; set; }
         public string SerialNumber { get; set; }
         public string UserId { get; set; }

@@ -11,6 +11,7 @@ import { MerchantItemsComponent } from './components/merchant-items/merchant-ite
 import { OrdersComponent } from './components/orders/orders.component';
 import { SalesRoutingModule } from './merchant-routing.module';
 import { MerchantPromotionsComponent } from './components/merchant-promotions/merchant-promotions.component';
+import { MerchantOrdersComponent } from './components/merchant-orders/merchant-orders.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { MerchantPromotionsComponent } from './components/merchant-promotions/me
     MerchantItemsComponent,
     MerchantPromotionsComponent,
     MerchantProfileComponent,
-    BranchesComponent
+    BranchesComponent,
+    MerchantOrdersComponent
   ],
   imports: [
     CommonModule,

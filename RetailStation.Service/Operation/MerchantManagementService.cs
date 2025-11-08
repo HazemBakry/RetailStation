@@ -18,6 +18,8 @@ using RetailStation.Entities.DTOs.Operation;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using RetailStation.Entities.DTOs.Website;
+using RetailStation.Entities.Models.Global;
 
 namespace RetailStation.Service.Operation
 {
@@ -384,7 +386,90 @@ namespace RetailStation.Service.Operation
 
 
 
+        #region Orders
+        public List<WebsiteOrderModel> GetOrders_Data(SearchFilterModel model, int MerchantId, int? OrderId = null)
+        {
+            DataTable FilterList = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
+            SqlParameter[] Params = new SqlParameter[]
+            {
+                new SqlParameter("@OrderId", OrderId ),
+                new SqlParameter("@MerchantId", MerchantId ),
+                new SqlParameter("@CurrentPage", model.CurrentPage ),
+                new SqlParameter("@PageSize", model.PageSize ),
+                new SqlParameter("@FilterList", SqlDbType.Structured) { Value = FilterList },
+            };
+            var result = SQLHelper.SQLQuery<WebsiteOrderModel>("[dbo].[SP_GetMerchantOrders_Data]", ConnectionString, Params);
+            return result;
+        }
+        public List<WebsiteOrderItemModel> GetOrder_Items(int MerchantId,int OrderId)
+        {
+
+            SqlParameter[] Params = new SqlParameter[]
+            {
+                new SqlParameter("@OrderId",OrderId),
+                new SqlParameter("@MerchantId",MerchantId),
+            };
+            var result = SQLHelper.SQLQuery<WebsiteOrderItemModel>("[Operation].[SP_GetMerchantOrder_Items]", ConnectionString, Params);
+            foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
+            {
+                item.ImageUrl = _fileService.GetFileDownloadUrl(item.ImageUrl);
+            }
+            return result;
+        }
+
+        public List<FilterModel> GetOrders_Filters(SearchFilterModel PagingFilter, int MerchantId)
+        {
+            var FilterListDt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
+
+            SqlParameter[] Params = new SqlParameter[2];
+
+            Params[0] = new SqlParameter("@MerchantId", MerchantId);
+            Params[1] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[1].Value = FilterListDt;
+
+            var results = SQLHelper.SQLQuery<FilterItem>("[dbo].[SP_GetMerchantOrders_Filters]", ConnectionString, Params);
+            return SharedFilterService.GroupedFilterItems(results);
+        }
+
+        public WebsiteOrderModel GetOrderDetailsById(int MerchantId, int OrderId)
+        {
+            return GetOrders_Data(new SearchFilterModel { PageSize = 25, CurrentPage = 1 }, MerchantId, OrderId)?.FirstOrDefault();
+
+        }
+
+
+        public ActionsResponseModel CancelOrder(int MerchantId, int OrderId)
+        {
+            var Invoice = Context.MerchantOrders.FirstOrDefault(x => x.MerchantOrderId == OrderId);
+            if (Invoice != null && Invoice.WorkflowStatusId != (int)WorkflowStatus.Cancelled)
+            {
+                Invoice.WorkflowStatusId = (int)WorkflowStatus.Cancelled;
+                Invoice.ModifiedDate = DateTime.Now;
+
+                Context.SaveChanges();
+                return new ActionsResponseModel
+                {
+                    Id = OrderId,
+                    IsSuccess = true,
+                    Message = "Order Cancelled Successfly ",
+                    Number = Invoice.SerialNumber.ToString()
+                };
+            }
+            else
+            {
+                return new ActionsResponseModel
+                {
+                    Id = OrderId,
+                    IsSuccess = false,
+                    Message = "can't cancel this order",
+                    Number = Invoice.SerialNumber.ToString()
+                };
+            }
+
+        }
+
+        #endregion
         #region Branch
         public List<BranchModel> GetBranches_Data(int merchantId, SearchFilterModel filter, int? branchId = null)
         {

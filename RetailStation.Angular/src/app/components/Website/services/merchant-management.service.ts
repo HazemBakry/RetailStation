@@ -7,6 +7,8 @@ import { MerchantModel } from '../../Admin/models/MerchantModel';
 import { MerchantItemModel } from '../../Shared/models/MerchantItemModel';
 import { BranchModel } from '../../Shared/models/BranchModel';
 import { PromotionModel } from '../../Shared/models/PromotionModel';
+import { WebsiteOrderItemModel, WebsiteOrderModel } from '../models/WebsiteOrderModel ';
+import { FilterItem } from '../../Shared/models/FilterModel';
 
 
 @Injectable({
@@ -127,5 +129,21 @@ export class MerchantManagementService {
       this.URL + `MerchantManagement/ChangePromotionActiveStatus?PromotionId=${promotionId}`
     );
   }
+//-------------------------------------  Order ----------------------------------
 
+  GetOrders_Data(model: PagedResponseModel) {
+    return this.http.post<PagedResponseModel<WebsiteOrderModel[]>>(this.URL + 'MerchantManagement/GetOrders_Data', model);
+  }
+  GetOrders_Filters(model: PagedResponseModel<any[]>) {
+    return this.http.post<FilterItem[]>(this.URL + 'MerchantManagement/GetOrders_Filters', model);
+  }
+  GetOrderDetailsById(OrderId: number) {
+    return this.http.get<WebsiteOrderModel>(this.URL + 'MerchantManagement/GetOrderDetailsById?OrderId=' + OrderId);
+  }
+  GetOrder_Items(OrderId: number) {
+    return this.http.get<WebsiteOrderItemModel[]>(this.URL + `MerchantManagement/GetOrder_Items?OrderId=${OrderId}`);
+  }
+  CancelOrder(OrderId: number) {
+    return this.http.get<ActionsResponseModel>(this.URL + 'MerchantManagement/CancelOrder?OrderId=' + OrderId);
+  }
 }

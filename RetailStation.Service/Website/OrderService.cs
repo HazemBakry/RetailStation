@@ -106,106 +106,57 @@ namespace RetailStation.Service.Website
 
         }
 
-        public ActionsResponseModel CreateNewOrder(WebsiteOrderModel model)
-        {
-            int count = Context.Orders.Select(x => x.OrderNumber).ToList().Count;
-            try
-            {
-                int code = Context.Orders.Count() > 0 ? Context.Orders.Max(x => x.OrderNumber) + 1 : 1;
-                string serialNumber = DalHelper.GenerateSerialNumber(SerialType.PurchaseOrder, code);
-                Order tbl_Order = new Order
-                {
-                    OrderNumber = code,
-                    SerialNumber = serialNumber,
-                    WorkflowStatusId = (int)WorkflowStatus.Pending,
-                    SubTotal = Math.Round(model.TotalValue, 2),
-                    DeliveryValue = model.DeliveryValue,
-                    DiscountAmount = model.Discount.GetValueOrDefault(),
-                    Tax = Math.Round(model.Tax.GetValueOrDefault(), 2),
-                    TotalValue = Math.Round(model.TotalValue, 2),
-                    OrderDate = DateTime.Now,
-                    NetValue = model.NetValue.GetValueOrDefault(),
-                    Notes = model.Notes,
-                    //MerchantId = model.MerchantId.GetValueOrDefault(),
-                    PaymentTypeId = model.PaymentTypeId.GetValueOrDefault(),
-                    CreatedBy = model.CreatedBy,
-                    CreatedDate = DateTime.Now
-                };
-
-                Context.Orders.Add(tbl_Order);
-                var result = Context.SaveChanges();
-
-                foreach (WebsiteOrderItemModel row in model.Items)
-                {
-                    OrderDetail Invoice_Details = new OrderDetail();
-
-                    Invoice_Details.OrderId = tbl_Order.OrderId;
-                    Invoice_Details.ItemId = row.MerchantItemId.GetValueOrDefault();
-                    Invoice_Details.UnitId = row.UnitId;
-                    Invoice_Details.Quantity = row.Quantity;
-                    Invoice_Details.Price = row.Price.GetValueOrDefault();
-                    Invoice_Details.SubTotal = row.SubTotal;
-                    Invoice_Details.Discount = 0;
-                    Invoice_Details.DiscountPercent = 0;
-                    Invoice_Details.TotalValue = row.TotalValue;
-                    Invoice_Details.Notes = "";
-
-                    Context.OrderDetails.Add(Invoice_Details);
-                    Context.SaveChanges();
-                }
-
-                return new ActionsResponseModel
-                {
-                    Message = result > 0 ? "Data saved successfully." : "Failed to record the order details.",
-                    Id = tbl_Order.OrderId,
-                    Number = tbl_Order.OrderNumber.ToString(),
-                    IsSuccess = result > 0
-                };
-            }
-            catch (Exception)
-            {
-                return new ActionsResponseModel
-                {
-                    Message = "An Error Occured During Saving Order",
-                    IsSuccess = false
-                };
-            }
-        }
-
+        
         public ActionsResponseModel CreateNewOrder(string UserId, CreateOrderModel model)
         {
             using var transaction = Context.Database.BeginTransaction();
 
             try
             {
+                var lastOrder = Context.Orders
+                           .OrderByDescending(x => x.OrderNumber)
+                           .Select(x => x.OrderNumber)
+                           .FirstOrDefault();
+                var orderNumber = lastOrder + 1;
+                var serialNumber = DalHelper.GenerateSerialNumber(SerialType.PurchaseOrder, orderNumber);
+                var now = DateTime.UtcNow;
+
                 Order tbl_ord = new Order
                 {
-                    OrderNumber = Context.Orders.Count() == 0 ? 1 : Context.Orders.Select(x => x.OrderNumber).Max() + 1,
-                    PaymentTypeId = model.PaymentTypeId ?? 1,
-                    SubTotal = model.SubTotal ?? 0,
-                    Tax = model.Tax ?? 0,
-                    TotalValue = model.TotalValue,
-                    NetValue = model.NetValue ?? 0,
+                    OrderNumber = orderNumber,
+                    SerialNumber = serialNumber,
+
+                    PaymentTypeId = model.PaymentTypeId.GetValueOrDefault(),
+                    UserId = UserId,
                     WorkflowStatusId = (int)WorkflowStatus.Pending,
-                    OrderDate = DateTime.Now,
-                    Notes = model.Notes,
+                    SubTotal = Math.Round((decimal)model.Items.Sum(x => x.SubTotal), 2),
+                    //SubTotal = model.SubTotal ?? 0,
+                    TotalValue = Math.Round((decimal)model.Items.Sum(x => x.TotalValue), 2),
+                    //TotalValue = model.TotalValue,
+                    NetValue = Math.Round((decimal)model.Items.Sum(x => x.NetValue.GetValueOrDefault()), 2),
+                    //NetValue = model.NetValue ?? 0,
                     DiscountAmount = 0,
                     DeliveryValue = 0,
+                    Tax = model.Tax ?? 0,
+                    OrderDate = now,
+                    Notes = model.Notes,
                     CreatedBy = UserId,
-                    CreatedDate = DateTime.Now
+                    CreatedDate = now,
                 };
                 Context.Orders.Add(tbl_ord);
                 Context.SaveChanges();
 
                 var requestedItemIds = model.Items.Select(x => x.MerchantItemId).ToList();
-                var supplierItems = Context.MerchantItems
+                var merchantItems = Context.MerchantItems
                     .Where(x => requestedItemIds.Contains(x.MerchantItemId))
                     .AsNoTracking()
                     .ToList();
 
-                var notFoundItems = requestedItemIds.Except(supplierItems.Select(x => x.MerchantItemId));
+                var notFoundItems = requestedItemIds.Except(merchantItems.Select(x => x.MerchantItemId));
                 if (notFoundItems.Any())
                 {
+                    transaction.RollbackAsync();
+
                     return new ActionsResponseModel
                     {
                         Message = "One or more requested items were not found.",
@@ -215,7 +166,7 @@ namespace RetailStation.Service.Website
 
                 foreach (var requestedItem in model.Items)
                 {
-                    var item = supplierItems.FirstOrDefault(x => x.MerchantItemId == requestedItem.MerchantItemId);
+                    var item = merchantItems.FirstOrDefault(x => x.MerchantItemId == requestedItem.MerchantItemId);
                     if (item == null)
                     {
                         continue;
@@ -223,73 +174,96 @@ namespace RetailStation.Service.Website
 
                     if (item.Quantity < requestedItem.Quantity)
                     {
+                        transaction.RollbackAsync();
                         return new ActionsResponseModel
                         {
                             Message = $"Insufficient stock for item: {item.MerchantItemId}. Available: {item.Quantity}, Requested: {requestedItem.Quantity}",
                             IsSuccess = false
                         };
                     }
+
                 }
+                
+                var orderDetails = model.Items.Select(requestedItem => new OrderDetail
+                {
+                    OrderId = tbl_ord.OrderId,
+                    MerchantId = requestedItem.MerchantId.GetValueOrDefault(),
+                    ItemId = requestedItem.MerchantItemId,
+                    UnitId = requestedItem.UnitId,
+                    Quantity = requestedItem.Quantity,
+                    Price = requestedItem.Price.GetValueOrDefault(),
+                    SubTotal = (decimal)requestedItem.SubTotal,
+                    Discount = requestedItem.Discount.GetValueOrDefault(),
+                    DiscountPercent = requestedItem.DiscountPercent.GetValueOrDefault(),
+                    TotalValue = (decimal)requestedItem.TotalValue,
+                    Notes = requestedItem.Notes
+                }).ToList();
+                Context.OrderDetails.AddRange(orderDetails);
+                Context.SaveChanges();
 
                 // Get the new order number synchronously.
-                var newOrderNumber = Context.MerchantOrders.Count() > 0 ? Context.MerchantOrders.Max(x => x.OrderNumber) + 1 : 1;
-
+                var lastMerchantOrder = Context.MerchantOrders
+                           .OrderByDescending(x => x.OrderNumber)
+                           .Select(x => x.OrderNumber)
+                           .FirstOrDefault();
+                var newOrderNumber = lastOrder + 1;
                 var requestedItemsByMerchant = model.Items.GroupBy(x => x.MerchantId);
 
                 var createdOrderIds = new List<int>();
 
-                foreach (var supplierGroup in requestedItemsByMerchant)
+                foreach (var merchantGroup in requestedItemsByMerchant)
                 {
-                    var serialNumber = DalHelper.GenerateSerialNumber(SerialType.PurchaseOrder, newOrderNumber);
+                    serialNumber = DalHelper.GenerateSerialNumber(SerialType.PurchaseOrder, newOrderNumber);
                     var order = new MerchantOrder
                     {
-                        MerchantId = (int)supplierGroup.Key,
+                        MerchantId = (int)merchantGroup.Key,
+                        OrderId = tbl_ord.OrderId,
                         OrderNumber = newOrderNumber,
                         SerialNumber = serialNumber,
                         UserId = UserId,
                         WorkflowStatusId = (int)WorkflowStatus.Pending,
-                        SubTotal = Math.Round((decimal)supplierGroup.Sum(x => x.SubTotal), 2),
+                        SubTotal = Math.Round((decimal)merchantGroup.Sum(x => x.SubTotal), 2),
                         DeliveryValue = 0,
                         DiscountAmount = 0,
                         Tax = 0,
-                        TotalValue = Math.Round((decimal)supplierGroup.Sum(x => x.TotalValue), 2),
-                        OrderDate = DateTime.Now,
-                        NetValue = Math.Round(supplierGroup.Sum(x => x.NetValue.GetValueOrDefault()), 2),
+                        TotalValue = Math.Round((decimal)merchantGroup.Sum(x => x.TotalValue), 2),
+                        OrderDate = now,
+                        NetValue = Math.Round(merchantGroup.Sum(x => x.NetValue.GetValueOrDefault()), 2),
                         Notes = model.Notes,
                         PaymentTypeId = model.PaymentTypeId.GetValueOrDefault(),
-                        CreatedBy = model.CreatedBy,
-                        CreatedDate = DateTime.Now
+                        CreatedBy = UserId,
+                        CreatedDate = now
                     };
 
                     Context.MerchantOrders.Add(order);
-                    Context.SaveChanges(); // Synchronous SaveChanges()
+                    //Context.SaveChanges(); // Synchronous SaveChanges()
 
                     createdOrderIds.Add(order.MerchantOrderId);
 
-                    var orderDetails = new List<MerchantOrderDetail>();
-                    foreach (var requestedItem in supplierGroup)
-                    {
-                        var orderDetail = new MerchantOrderDetail
-                        {
-                            MerchantOrderId = order.MerchantOrderId,
-                            ItemId = requestedItem.MerchantItemId,
-                            UnitId = requestedItem.UnitId,
-                            Quantity = requestedItem.Quantity,
-                            Price = requestedItem.Price.GetValueOrDefault(),
-                            SubTotal = (decimal)requestedItem.SubTotal,
-                            Discount = requestedItem.Discount.GetValueOrDefault(),
-                            DiscountPercent = requestedItem.DiscountPercent.GetValueOrDefault(),
-                            TotalValue = (decimal)requestedItem.TotalValue,
-                            Notes = requestedItem.Notes
-                        };
-                        orderDetails.Add(orderDetail);
-                    }
+                    //var orderDetails = new List<MerchantOrderDetail>();
+                    //foreach (var requestedItem in merchantGroup)
+                    //{
+                    //    var orderDetail = new MerchantOrderDetail
+                    //    {
+                    //        MerchantOrderId = order.MerchantOrderId,
+                    //        ItemId = requestedItem.MerchantItemId,
+                    //        UnitId = requestedItem.UnitId,
+                    //        Quantity = requestedItem.Quantity,
+                    //        Price = requestedItem.Price.GetValueOrDefault(),
+                    //        SubTotal = (decimal)requestedItem.SubTotal,
+                    //        Discount = requestedItem.Discount.GetValueOrDefault(),
+                    //        DiscountPercent = requestedItem.DiscountPercent.GetValueOrDefault(),
+                    //        TotalValue = (decimal)requestedItem.TotalValue,
+                    //        Notes = requestedItem.Notes
+                    //    };
+                    //    orderDetails.Add(orderDetail);
+                    //}
 
-                    Context.MerchantOrderDetails.AddRange(orderDetails);
-                    Context.SaveChanges(); // Synchronous SaveChanges()
+                    //Context.MerchantOrderDetails.AddRange(orderDetails);
+                    //Context.SaveChanges(); // Synchronous SaveChanges()
                     newOrderNumber++;
                 }
-
+                Context.SaveChanges(); // Synchronous SaveChanges()
                 transaction.Commit();
 
                 return new ActionsResponseModel

@@ -14,6 +14,7 @@ namespace RetailStation.Entities.Models.Global
     {
         public int OrderDetailId { get; set; }
         public int OrderId { get; set; }
+        public int MerchantId { get; set; }
         public int ItemId { get; set; }
         public int? UnitId { get; set; }
         public double Quantity { get; set; }

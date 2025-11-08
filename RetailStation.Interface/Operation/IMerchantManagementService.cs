@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RetailStation.Entities.Common;
 using RetailStation.Entities.DTOs.Operation;
+using RetailStation.Entities.DTOs.Website;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -27,7 +28,14 @@ namespace RetailStation.Interface.Operation
         Task<ActionsResponseModel> ImportMerchantItemsFile(int MerchantId, string ImporterName, IFormFile file);
 
 
+        #region Orders
 
+        List<WebsiteOrderModel> GetOrders_Data(SearchFilterModel model, int MerchantId, int? OrderId = null);
+        List<WebsiteOrderItemModel> GetOrder_Items(int MerchantId,int OrderId);
+        List<FilterModel> GetOrders_Filters(SearchFilterModel PagingFilter, int MerchantId);
+        WebsiteOrderModel GetOrderDetailsById(int MerchantId, int OrderId);
+        ActionsResponseModel CancelOrder(int MerchantId,int OrderId);
+        #endregion
         #region Branch
 
         List<BranchModel> GetBranches_Data(int merchantId, SearchFilterModel filterModel, int? branchId = null);

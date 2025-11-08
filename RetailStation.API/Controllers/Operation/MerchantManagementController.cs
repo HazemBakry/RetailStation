@@ -203,6 +203,7 @@ namespace RetailStation.API.Controllers.Operation
 
 
         #region Orders
+
         [HttpPost]
         [Route("GetOrders_Data")]
         public IActionResult GetOrders_Data(SearchFilterModel model)
@@ -210,13 +211,7 @@ namespace RetailStation.API.Controllers.Operation
             int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
             if (MerchantId <= 0)
                 return BadRequest("No Merchant assigned");
-
-            model.FilterList.Add(new FilterItem
-            {
-                CategoryName = "MerchantId",
-                ItemFlag = MerchantId.ToString(),
-            });
-            var data = _orderService.GetOrders_Data(model, "");
+            var data = _merchantManagementService.GetOrders_Data(model, MerchantId);
             var result = new PagedResponseModel<WebsiteOrderModel>
             {
                 Results = data,
@@ -226,6 +221,19 @@ namespace RetailStation.API.Controllers.Operation
             };
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("GetOrder_Items")]
+        public IActionResult GetOrder_Items(int OrderId)
+        {
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
+            if (MerchantId <= 0)
+                return BadRequest("No Merchant assigned");
+            var result = _merchantManagementService.GetOrder_Items(MerchantId,OrderId);
+
+            return Ok(result);
+        }
+
         [HttpPost]
         [Route("GetOrders_Filters")]
         public IActionResult GetOrders_Filters(SearchFilterModel model)
@@ -233,12 +241,29 @@ namespace RetailStation.API.Controllers.Operation
             int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
             if (MerchantId <= 0)
                 return BadRequest("No Merchant assigned");
-            model.FilterList.Add(new FilterItem
-            {
-                CategoryName = "MerchantId",
-                ItemFlag = MerchantId.ToString(),
-            });
-            return Ok(_orderService.GetOrders_Filters(model, ""));
+            return Ok(_merchantManagementService.GetOrders_Filters(model, MerchantId));
+        }
+
+        [HttpGet]
+        [Route("GetOrderDetailsById")]
+        public IActionResult GetOrderDetailsById(int OrderId)
+        {
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
+            if (MerchantId <= 0)
+                return BadRequest("No Merchant assigned");
+            var result = _merchantManagementService.GetOrderDetailsById(MerchantId, OrderId);
+
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("CancelOrder")]
+        public IActionResult CancelOrder(int OrderId)
+        {
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
+            if (MerchantId <= 0)
+                return BadRequest("No Merchant assigned");
+            return Ok(_merchantManagementService.CancelOrder(MerchantId,OrderId));
+
         }
         #endregion
 

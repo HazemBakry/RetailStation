@@ -8,8 +8,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FilterItem, FilterModel } from 'src/app/components/Shared/models/FilterModel';
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { WebsiteOrderModel } from 'src/app/components/Website/models/WebsiteOrderModel ';
-import { MerchantService } from 'src/app/components/Website/services/merchant.service';
 import { OrderService } from 'src/app/components/Website/services/order.service';
+import { WebsiteService } from 'src/app/components/Website/services/website.service';
+import { MerchantManagementService } from 'src/app/components/Website/services/merchant-management.service';
+
 
 
 @Component({
@@ -33,8 +35,8 @@ export class MerchantOrdersComponent implements OnInit {
   };
   selectedOrderId: number;
   @ViewChild(ComponentHostDirective, { static: true }) detailsComponentHost!: ComponentHostDirective;
-  constructor(private merchantService: MerchantService,
-    private orderService: OrderService,
+  constructor(
+    private merchantManagementService: MerchantManagementService,
     private modalService: NgbModal,
     private toaster: ToastrService, private dynamicComponentService: DynamicComponentLoaderService) { }
 
@@ -45,7 +47,7 @@ export class MerchantOrdersComponent implements OnInit {
 
   getsOrdersData() {
     this.showLoader = true;
-    this.merchantService.GetOrders_Data(this.pagedResponseModel).subscribe(data => {
+    this.merchantManagementService.GetOrders_Data(this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
       this.showLoader = false;
@@ -57,7 +59,7 @@ export class MerchantOrdersComponent implements OnInit {
   }
   loadFilters() {
     // this.showLoader = true;
-    this.merchantService.GetOrders_Filters(this.pagedResponseModel).subscribe(data => {
+    this.merchantManagementService.GetOrders_Filters(this.pagedResponseModel).subscribe(data => {
       this.filterList = data;
 
       // this.showLoader = false;
@@ -80,7 +82,7 @@ export class MerchantOrdersComponent implements OnInit {
     this.modalService.open(content, { centered: true, size: 'md' });
   }
   cancelOrder() {
-    this.orderService.CancelOrder(this.selectedOrderId).subscribe(data => {
+    this.merchantManagementService.CancelOrder(this.selectedOrderId).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message);
         this.getsOrdersData();
@@ -96,7 +98,7 @@ export class MerchantOrdersComponent implements OnInit {
   showOrderDetails(detailsModel: any) {
 
     // this.showLoader = true;
-    this.orderService.GetOrder_Items(detailsModel.orderId).subscribe((data: any[]) => {
+    this.merchantManagementService.GetOrder_Items(detailsModel.orderId).subscribe((data: any[]) => {
       this.dynamicComponentService.loadProductDetailsSidePanel(
         this.detailsComponentHost.viewContainerRef,
         detailsModel,
@@ -114,37 +116,43 @@ export class MerchantOrdersComponent implements OnInit {
 
 
   }
-  orderDetailsDataFields: DataField[] = [
-    {
-      fieldName: 'nameAR',
-      fieldType: FieldType.Text,
-      displayName: 'Name (AR)',
-    },
-    {
-      fieldName: 'nameEN',
-      fieldType: FieldType.Text,
-      displayName: 'Name (EN)',
-    },
-    {
-      fieldName: 'unitName',
-      fieldType: FieldType.Text,
-      displayName: 'Unit',
-    },
-    {
-      fieldName: 'price',
-      fieldType: FieldType.Text,
-      displayName: 'Price',
-    },
-    {
-      fieldName: 'quantity',
-      fieldType: FieldType.Text,
-      displayName: 'Quantity',
-    },
-    {
-      fieldName: 'totalValue',
-      fieldType: FieldType.Text,
-      displayName: 'TotalValue',
-    }
-  ];
+orderDetailsDataFields: DataField[] = [
+  {
+    fieldName: 'nameAR',
+    fieldType: FieldType.Text,
+    displayName: 'الاسم (عربي)',
+  },
+  {
+    fieldName: 'nameEN',
+    fieldType: FieldType.Text,
+    displayName: 'الاسم (إنجليزي)',
+  },
+  {
+    fieldName: 'merchantNameAR',
+    fieldType: FieldType.Text,
+    displayName: 'اسم التاجر',
+  },
+  {
+    fieldName: 'unitName',
+    fieldType: FieldType.Text,
+    displayName: 'الوحدة',
+  },
+  {
+    fieldName: 'price',
+    fieldType: FieldType.Text,
+    displayName: 'السعر',
+  },
+  {
+    fieldName: 'quantity',
+    fieldType: FieldType.Text,
+    displayName: 'الكمية',
+  },
+  {
+    fieldName: 'totalValue',
+    fieldType: FieldType.Text,
+    displayName: 'القيمة الإجمالية',
+  }
+];
+
 
 }
