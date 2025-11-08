@@ -10,6 +10,7 @@ import { WebsiteBlogComponent } from './components/website-blog/website-blog.com
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { BlogDetailsComponent } from './components/blog-details/blog-details.component';
 import { WebsiteFavoritesComponent } from './components/website-favorites/website-favorites.component';
+import { WebsiteCategoriesComponent } from './components/website-categories/website-categories.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
     children: [
       { path: '', component: WebsiteHomeComponent },
       { path: 'home', component: WebsiteHomeComponent },
+      { path: 'categories', component: WebsiteCategoriesComponent },
       { path: 'cart', component: WebsiteCartComponent },
       { path: 'favorites', component: WebsiteFavoritesComponent },
       { path: 'product-details', component: websiteProductDetailsComponent },

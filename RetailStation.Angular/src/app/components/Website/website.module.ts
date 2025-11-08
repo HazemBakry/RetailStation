@@ -23,6 +23,7 @@ import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-poli
 import { BlogDetailsComponent } from './components/blog-details/blog-details.component';
 import { WebsiteTopPartnersComponent } from './components/website-top-partners/website-top-partners.component';
 import { WebsiteFavoritesComponent } from './components/website-favorites/website-favorites.component';
+import { WebsiteCategoriesComponent } from './components/website-categories/website-categories.component';
 
 
 
@@ -46,7 +47,9 @@ import { WebsiteFavoritesComponent } from './components/website-favorites/websit
     BlogDetailsComponent,
     PrivacyPolicyComponent,
     WebsiteTopPartnersComponent,
-    WebsiteFavoritesComponent
+    WebsiteFavoritesComponent,
+    WebsiteMainCategoriesComponent,
+    WebsiteCategoriesComponent
   ],
   imports: [
     CommonModule,

@@ -18,6 +18,7 @@ import { AuthService } from 'src/app/Auth/auth.service';
 export class WebsiteMainItemsComponent implements OnInit, OnChanges {
   @Input() selectedCategoryId: number;
   @Input() selectedCategoryName: number;
+  @Input() displayBestSellers: boolean = true;
   isAuthenticated: boolean = false;
   searchText: string = '';
   itemCategoryId: string = '';
@@ -72,7 +73,8 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
       this.checkCompareAdded();
     });
     this.getSearchQuery();
-    this.loadBestSellersData();
+    if (this.displayBestSellers)
+      this.loadBestSellersData();
     this.loadData();
     this.loadFilters();
   }
@@ -200,8 +202,7 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
   }
   filterChecked(filterItems: FilterItem[]) {
     this.pageResponseModel.filterList = filterItems;
-    if(this.searchFList?.length)
-    {
+    if (this.searchFList?.length) {
       this.pageResponseModel.filterList = this.pageResponseModel.filterList.concat(this.searchFList);
     }
     // this.pageResponseModel.filterList.push(this.mainFilter);
