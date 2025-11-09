@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RetailStation.Entities.DTOs.Website;
+using Entities.DTOs.Auth;
 
 namespace RetailStation.Interface.Auth
 {
@@ -22,5 +23,10 @@ namespace RetailStation.Interface.Auth
         Task<ActionsResponseModel> AddRoleAsync(string roleName);
 
         ActionsResponseModel ApplyMerchantRequest(MerchantRequestModel model);
+
+        #region UserProfile
+        Task<UserDto> GetUserByIdAsync(string userId);
+        Task<ActionsResponseModel> EditUserAsync(string userId, AddUserModel model);
+        #endregion
     }
 }

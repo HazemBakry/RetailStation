@@ -31,6 +31,7 @@ using ICU4N.Util;
 using RetailStation.Entities.DTOs.Operation;
 using static Azure.Core.HttpHeader;
 using RetailStation.Interface.Operation;
+using Entities.DTOs.Auth;
 
 namespace RetailStation.Service.Auth
 {
@@ -462,5 +463,77 @@ namespace RetailStation.Service.Auth
                 };
             }
         }
+
+
+
+        #region UserProfile
+
+        public async Task<UserDto> GetUserByIdAsync(string userId)
+        {
+
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user is not null)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                return new UserDto
+                {
+                    FullName = $"{user.FirstName} {user.LastName}",
+                    UserId = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    SubscriberId = user.SubscriberId,
+                    StartDate = user.StartDate,
+                    EndDate = user.EndDate,
+                    IsActive = user.IsActive ?? false,
+                    ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine(UserImagesFolder,user.ImageUrl)),
+                    Roles = roles.ToList(),
+
+                };
+            }
+
+            return null;
+        }
+
+        public async Task<ActionsResponseModel> EditUserAsync(string UserId, AddUserModel model)
+        {
+            var user = await _userManager.FindByIdAsync(UserId);
+            if (user == null)
+            {
+                return new ActionsResponseModel { Message = "user not found", IsSuccess = false };
+            }
+            //if (await _userManager.FindByEmailAsync(model.Email) is not null && user.Id != model.UserId)
+            //    return new ActionsResponseModel { Message = "invalid email", IsSuccess = false };
+            if (await _userManager.FindByNameAsync(model.UserName) is not null && user.Id != model.UserId)
+                return new ActionsResponseModel { Message = "invalid username", IsSuccess = false };
+
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            //user.UserName = model.UserName;
+            user.Email = model.Email;
+            user.PhoneNumber = model.PhoneNumber;
+            if (model.Image != null)
+            {
+                var uploadResponse = await _fileService.UploadFileAsync(model.Image, UserImagesFolder, FileType.Image);
+                if (uploadResponse.IsUploaded)
+                {
+                    user.ImageUrl = uploadResponse.FilePath;
+                }
+                else
+                {
+                    return new ActionsResponseModel { Message = uploadResponse.Message, IsSuccess = false };
+                }
+
+            }
+
+            var result = await _userManager.UpdateAsync(user);
+
+            return new ActionsResponseModel { Message = "user updated successfully !" };
+        }
+
+        #endregion
     }
 }

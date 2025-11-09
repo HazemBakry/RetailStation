@@ -9,6 +9,7 @@ import { LoginUserModel, PagePermissionModel } from '../components/Shared/models
 import { UserModel } from '../components/Shared/models/UserModel';
 import { ActionsResponseModel } from '../components/Shared/models/ActionsResponseModel';
 import { RolesService } from './roles.service';
+import { ChangePasswordModel } from '../components/Shared/models/ChangePasswordModel';
 @Injectable({
   providedIn: 'root'
 })
@@ -192,4 +193,17 @@ export class AuthService {
       return false;
     });
   }
+
+  
+  changePassword(model: ChangePasswordModel) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Auth/ChangePassword', model);
+  }
+  editUser(model: FormData) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Auth/EditUser', model);
+  }
+
+  getUser() {
+    return this.http.get<UserModel>(this.URL + 'Auth/GetUser');
+  }
+
 }

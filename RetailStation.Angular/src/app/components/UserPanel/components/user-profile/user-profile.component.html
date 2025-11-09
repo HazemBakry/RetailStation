@@ -6,37 +6,91 @@
         <div class="col-lg-12">
             <!-- Personal Info Card -->
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-body">
-                    <h5 class="card-title fw-bold mb-3 text-primary">المعلومات الشخصية</h5>
-                    <div class="d-flex align-items-center mb-4">
-                        <img src="./../../../../../assets/images/user-img.png" class="rounded-circle border user_image" alt="avatar">
-                        <button class="btn btn-outline-primary ms-3"><i class="fas fa-edit"></i> تغيير
-                            الصورة</button>
-                    </div>
+                <form [formGroup]="formGroup" (ngSubmit)="editUser()">
 
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold">الاسم الكامل</label>
-                            <input type="text" class="form-control" value="Hazem Bakry">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-3 text-primary">المعلومات الشخصية</h5>
+                        <div class="d-flex align-items-center mb-4">
+                            <img [src]="userModel?.imageUrl || '{{systemURL}}assets/images/default-image.png'"
+                                class="rounded-circle border user_image" alt="صورة المستخدم" width="80" height="80" />
+                            <div class="position-relative ms-3">
+                                <button type="button"
+                                    class="btn btn-outline-primary d-flex align-items-center gap-2 cursor-pointer"
+                                    (click)="fileInput.click()">
+                                    <i class="fas fa-edit"></i>
+                                    تغيير الصورة
+                                </button>
+                                <span>
+                                    {{imageFile ? imageFile.name : ''}}
+                                </span>
+                                <input type="file" #fileInput accept="image/*" class="d-none"
+                                    (change)="onFileChange($event)" />
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold">البريد الإلكتروني</label>
-                            <input type="email" class="form-control" value="hazem@example.com">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold">رقم الهاتف</label>
-                            <input type="text" class="form-control" value="+20100xxxxxxx">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold">العنوان</label>
-                            <input type="text" class="form-control" value="القاهرة، مصر">
-                        </div>
-                    </div>
 
-                    <div class="text-end mt-4">
-                        <button class="btn btn-primary px-4">تعديل المعلومات</button>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">
+                                    الاسم الأول (First Name)
+
+                                </label>
+                                <input type="text" formControlName="firstName" class="form-control">
+                                <div *ngIf="formErrors.firstName" class="text-danger font-small-3 m-03">
+                                    {{formErrors.firstName}}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">
+                                    اسم العائلة (Last Name)
+
+                                </label>
+                                <input type="text" formControlName="lastName" class="form-control">
+                                <div *ngIf="formErrors.lastName" class="text-danger font-small-3 m-03">
+                                    {{formErrors.lastName}}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">
+                                    البريد الألكتروني (Email)
+
+                                </label>
+                                <input type="email" class="form-control" formControlName="email">
+                                <div *ngIf="formErrors.email" class="text-danger font-small-3 m-03">
+                                    {{formErrors.email}}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">
+                                    رقم الهاتف (Phone Number)
+
+                                </label>
+                                <input type="text" class="form-control" formControlName="phoneNumber">
+                                <div *ngIf="formErrors.phoneNumber" class="text-danger font-small-3 m-03">
+                                    {{formErrors.phoneNumber}}
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-6">
+                            <label class="form-label fw-semibold">
+                                                                    العنوان (Address)
+
+                            </label>
+                            <input type="text" class="form-control" formControlName="address">
+                              <div *ngIf="formErrors.address" class="text-danger font-small-3 m-03">
+                                    {{formErrors.address}}
+                                </div>
+                        </div> -->
+                        </div>
+
+                        <div class="text-end mt-4">
+                            <button type="submit" [disabled]="showAddLoader" class="btn btn-primary px-4">
+                                <span *ngIf="!showAddLoader"> تعديل المعلومات </span>
+                                <span *ngIf="showAddLoader">جاري التعديل ...</span>
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
+
             </div>
 
             <!-- Security Settings -->
@@ -44,19 +98,30 @@
                 <div class="card-body">
                     <h5 class="card-title fw-bold mb-3 text-primary">الإعدادات الأمنية</h5>
                     <div class="mb-3">
+                        <label class="form-label fw-semibold">اسم المستخدم</label>
+                        <input [(ngModel)]="userName" type="text" class="form-control">
+                    </div>
+                    <div class="mb-3">
                         <label class="form-label fw-semibold">كلمة المرور الحالية</label>
-                        <input type="password" class="form-control" placeholder="********">
+                        <input [(ngModel)]="password" type="password" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-semibold">كلمة مرور جديدة</label>
-                        <input type="password" class="form-control" placeholder="********">
+                        <input [(ngModel)]="newPassword" type="password" class="form-control">
                     </div>
-                    <div class="form-check form-switch mb-3">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">تاكيد كلمة المرور</label>
+                        <input [(ngModel)]="confirmPassword" type="password" class="form-control">
+                    </div>
+                    <!-- <div class="form-check form-switch mb-3">
                         <input class="form-check-input" type="checkbox" id="twoFactor">
                         <label class="form-check-label" for="twoFactor">تفعيل المصادقة الثنائية</label>
-                    </div>
+                    </div> -->
                     <div class="text-end">
-                        <button class="btn btn-outline-primary px-4">حفظ التغييرات</button>
+                        <button (click)="changePassword()" class="btn btn-primary px-4">
+                            <span *ngIf="!showAddLoader"> حفظ التغييرات </span>
+                            <span *ngIf="showAddLoader">جاري التعديل ...</span>
+                        </button>
                     </div>
                 </div>
             </div>

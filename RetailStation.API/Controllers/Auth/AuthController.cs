@@ -5,6 +5,8 @@ using RetailStation.Entities.DTOs.Auth;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq;
 using RetailStation.Entities.DTOs.Website;
+using Entities.DTOs.Auth;
+using System;
 
 namespace RetailStation.API.Controllers.Auth
 {
@@ -81,6 +83,42 @@ namespace RetailStation.API.Controllers.Auth
             return Ok(result);
 
         }
+
+
+        #region UserProfile
+        [HttpGet("GetUser")]
+        [Authorize]
+        public async Task<IActionResult> GetUserById()
+        {
+            string userId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            var user = await _authService.GetUserByIdAsync(userId);
+            if (user == null)
+                return NotFound();
+            return Ok(user);
+
+        }
+        [HttpPost("EditUser")]
+        [Authorize]
+        public async Task<IActionResult> EditUser([FromForm] AddUserModel model)
+        {
+
+            string userId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            try
+            {
+                var result = await _authService.EditUserAsync(userId, model);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex?.Message);
+            }
+
+
+        }
+        #endregion
     }
 
 }
