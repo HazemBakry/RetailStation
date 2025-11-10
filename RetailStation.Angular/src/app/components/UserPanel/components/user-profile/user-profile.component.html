@@ -1,4 +1,4 @@
-<div id="page-wrapper" class="container-fluid position-relative min-vh-100">
+<div id="page-wrapper" class="container position-relative p-5 bg-light">
 
     <div class="row g-4">
 
@@ -11,20 +11,16 @@
                     <div class="card-body">
                         <h5 class="card-title fw-bold mb-3 text-primary">المعلومات الشخصية</h5>
                         <div class="d-flex align-items-center mb-4">
-                            <img [src]="userModel?.imageUrl || '{{systemURL}}assets/images/default-image.png'"
-                                class="rounded-circle border user_image" alt="صورة المستخدم" width="80" height="80" />
+                            <img [src]="userModel?.imageUrl || '{{systemURL}}assets/images/default-image.png'" class="rounded-circle border user_image" alt="صورة المستخدم" width="80" height="80" />
                             <div class="position-relative ms-3">
-                                <button type="button"
-                                    class="btn btn-outline-primary d-flex align-items-center gap-2 cursor-pointer"
-                                    (click)="fileInput.click()">
+                                <button type="button" class="btn btn-outline-primary d-flex align-items-center gap-2 cursor-pointer" (click)="fileInput.click()">
                                     <i class="fas fa-edit"></i>
                                     تغيير الصورة
                                 </button>
                                 <span>
                                     {{imageFile ? imageFile.name : ''}}
                                 </span>
-                                <input type="file" #fileInput accept="image/*" class="d-none"
-                                    (change)="onFileChange($event)" />
+                                <input type="file" #fileInput accept="image/*" class="d-none" (change)="onFileChange($event)" />
                             </div>
                         </div>
 

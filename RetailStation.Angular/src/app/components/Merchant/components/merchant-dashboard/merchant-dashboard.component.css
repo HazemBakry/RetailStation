@@ -21,6 +21,17 @@
 /* End Layout Style */
 
 
+/* Header Welcome Message*/
+
+.page-header {
+    background: linear-gradient(90deg, #00bcd4, #009688);
+    color: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+
 /* Start Statistics Card */
 
 .static-card .card-body,

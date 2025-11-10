@@ -252,7 +252,7 @@ export class MenuService {
                 menuItem: 'branches',
                 description: 'تعديل بيانات الفروع ',
                 icon: 'fa fa-file-alt',
-                route: '/merchant/branches'
+                route: '/merchant/merchant-branches'
               },
               // {
               //   displayName: 'كشف حساب العملاء',

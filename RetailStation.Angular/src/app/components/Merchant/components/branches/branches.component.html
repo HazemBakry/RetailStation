@@ -1,11 +1,9 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div
-        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
         <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3"
-                (click)="openNewBranchModal(AddNewDialog)">
+            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3" (click)="openNewBranchModal(AddNewDialog)">
                 <i class="fas fa-plus-circle"></i>
                 <span>إنشاء</span>
             </button>
@@ -16,11 +14,11 @@
                 <span>تصدير</span>
             </button> -->
         </div>
-        <div class="justify-content-end">
+        <!-- <div class="justify-content-end">
             <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="branchResponseModel.currentPage"
                 [pageSize]="branchResponseModel.pageSize"
                 [totalCount]="branchResponseModel.totalCount"></app-pagination>
-        </div>
+        </div> -->
     </div>
 
     <div class="p-3 bg-white">
@@ -39,7 +37,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    
+
                     <tr *ngFor="let branch of branchResponseModel.results">
                         <td>{{ branch.nameAR }}</td>
                         <td>{{ branch.nameEN }}</td>
@@ -47,8 +45,7 @@
                         <td>{{ branch.address }}</td>
                         <td>{{ branch.workingTimeEN }}</td>
                         <td>
-                            <img *ngIf="branch.imageURL" [src]="branch.imageURL" class="rounded"
-                                style="width: 100px;height:100px" width="30" height="20">
+                            <img *ngIf="branch.imageURL" [src]="branch.imageURL" class="rounded" style="width: 100px;height:100px" width="30" height="20">
                         </td>
                         <td class="text-center">
                             <div class="d-flex align-items-center justify-content-center">
@@ -61,15 +58,11 @@
                         </td>
                         <td class="text-center">
                             <div class="d-flex align-items-center justify-content-center gap-2">
-                                <button
-                                    class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2"
-                                    (click)="openNewBranchModal(AddNewDialog, branch)">
+                                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="openNewBranchModal(AddNewDialog, branch)">
                                     <i class="uil uil-pen"></i>
                                     <span>تعديل</span>
                                 </button>
-                                <button
-                                    class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
-                                    (click)="openDeleteModal(deleteModal, branch.branchId)">
+                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteModal, branch.branchId)">
                                     <i class="uil uil-trash-alt"></i>
                                     <span>حذف</span>
                                 </button>
@@ -78,8 +71,10 @@
                     </tr>
                 </tbody>
             </table>
-            <app-empty-data [showEmptyData]="!branchResponseModel.results?.length && !showLoader"
-                [showLoader]="showLoader"></app-empty-data>
+            <app-empty-data [showEmptyData]="!branchResponseModel.results?.length && !showLoader" [showLoader]="showLoader"></app-empty-data>
+        </div>
+        <div class="p-3 border-top mt-3">
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="branchResponseModel.currentPage" [pageSize]="branchResponseModel.pageSize" [totalCount]="branchResponseModel.totalCount"></app-pagination>
         </div>
     </div>
 </div>
@@ -105,8 +100,7 @@
                         <td class="table-value">
                             <div class="row">
                                 <div class="col-xl-12">
-                                    <input type="text" formControlName="nameAR" class="form-control form-control-lg"
-                                        placeholder="الاسم بالعربية">
+                                    <input type="text" formControlName="nameAR" class="form-control form-control-lg" placeholder="الاسم بالعربية">
                                     <div *ngIf="formErrors.nameAR" class="text-danger font-small-3 m-03">
                                         {{formErrors.nameAR}}
                                     </div>
@@ -119,8 +113,7 @@
                         <td class="table-value">
                             <div class="row">
                                 <div class="col-xl-12">
-                                    <input type="text" formControlName="nameEN" class="form-control form-control-lg"
-                                        placeholder="الاسم بالإنجليزية">
+                                    <input type="text" formControlName="nameEN" class="form-control form-control-lg" placeholder="الاسم بالإنجليزية">
                                     <div *ngIf="formErrors.nameEN" class="text-danger font-small-3 m-03">
                                         {{formErrors.nameEN}}
                                     </div>
@@ -131,8 +124,7 @@
                     <tr>
                         <td class="table-feature">رقم الهاتف</td>
                         <td class="table-value">
-                            <input type="text" formControlName="phone" class="form-control form-control-lg"
-                                placeholder="رقم الهاتف">
+                            <input type="text" formControlName="phone" class="form-control form-control-lg" placeholder="رقم الهاتف">
                             <div *ngIf="formErrors.phone" class="text-danger font-small-3 m-03">
                                 {{formErrors.phone}}
                             </div>
@@ -141,8 +133,7 @@
                     <tr>
                         <td class="table-feature">العنوان</td>
                         <td class="table-value">
-                            <textarea formControlName="address" class="form-control form-control-lg"
-                                placeholder="العنوان"></textarea>
+                            <textarea formControlName="address" class="form-control form-control-lg" placeholder="العنوان"></textarea>
                             <div *ngIf="formErrors.address" class="text-danger font-small-3 m-03">
                                 {{formErrors.address}}
                             </div>
@@ -151,15 +142,13 @@
                     <tr>
                         <td class="table-feature">رقم المنطقة (Region ID)</td>
                         <td class="table-value">
-                           
+
                             <!-- <div class="col-xl-4 mb-3">
                                 <label class="form-label d-flex align-items-center gap-2">
                                     Region
                                     <span class="text-danger">*</span>
                                 </label> -->
-                            <app-general-selector formControlName="regionId" [data]="regionsSelectorData"
-                                [disabled]="regionsSelectorData?.length==0" [showSearch]="true"
-                                [placeholder]="'Region'">
+                            <app-general-selector formControlName="regionId" [data]="regionsSelectorData" [disabled]="regionsSelectorData?.length==0" [showSearch]="true" [placeholder]="'Region'">
 
                             </app-general-selector>
 
@@ -173,8 +162,7 @@
                     <tr>
                         <td class="table-feature">وقت العمل (عربي)</td>
                         <td class="table-value">
-                            <input type="text" formControlName="workingTimeAR" class="form-control form-control-lg"
-                                placeholder="وقت العمل بالعربية">
+                            <input type="text" formControlName="workingTimeAR" class="form-control form-control-lg" placeholder="وقت العمل بالعربية">
                             <div *ngIf="formErrors.workingTimeAR" class="text-danger font-small-3 m-03">
                                 {{formErrors.workingTimeAR}}
                             </div>
@@ -183,8 +171,7 @@
                     <tr>
                         <td class="table-feature">وقت العمل (انجليزي)</td>
                         <td class="table-value">
-                            <input type="text" formControlName="workingTimeEN" class="form-control form-control-lg"
-                                placeholder="وقت العمل بالإنجليزية">
+                            <input type="text" formControlName="workingTimeEN" class="form-control form-control-lg" placeholder="وقت العمل بالإنجليزية">
                             <div *ngIf="formErrors.workingTimeEN" class="text-danger font-small-3 m-03">
                                 {{formErrors.workingTimeEN}}
                             </div>
@@ -212,15 +199,13 @@
                         <td class="table-feature">صورة</td>
                         <td class="table-value">
                             <div class="form-floating mb-3">
-                                <input formControlName="image" (change)="onFileChange($event)" type="file"
-                                    class="cursor-pointer" placeholder="الصورة">
+                                <input formControlName="image" (change)="onFileChange($event)" type="file" class="cursor-pointer" placeholder="الصورة">
                                 <div *ngIf="formErrors.image" class="text-danger font-small-3 m-03">
                                     {{formErrors.image}}
                                 </div>
                             </div>
                             <div *ngIf="isUpdate && branchModel.imageURL" class="mt-2">
-                                <img [src]="branchModel.imageURL" alt="Current Image" class="rounded"
-                                    style="max-width: 100px; max-height: 100px;">
+                                <img [src]="branchModel.imageURL" alt="Current Image" class="rounded" style="max-width: 100px; max-height: 100px;">
                             </div>
                         </td>
                     </tr>
@@ -228,8 +213,7 @@
                         <td class="table-feature">نشط</td>
                         <td class="table-value">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" formControlName="isActive"
-                                    id="isActive">
+                                <input class="form-check-input" type="checkbox" formControlName="isActive" id="isActive">
                                 <label class="form-check-label" for="isActive">نشط</label>
                             </div>
                         </td>
@@ -239,8 +223,7 @@
         </form>
     </div>
     <div class="modal-footer flex-nowrap gap-2">
-        <button [disabled]="showAddLoader" (click)="saveBranch()" type="button"
-            class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
+        <button [disabled]="showAddLoader" (click)="saveBranch()" type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
             <i class="uil uil-save fs-3"></i>
             <span *ngIf="!isUpdate">إنشاء</span>
             <span *ngIf="isUpdate">تعديل</span> </button>
