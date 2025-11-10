@@ -53,14 +53,15 @@
                         <td>{{promo.startDate | date:'dd/MM/yyyy'}}</td>
                         <td>{{promo.endDate | date:'dd/MM/yyyy'}}</td>
                         <td>
-                            <img *ngIf="promo.imageURL" [src]="promo.imageURL" (error)="$event.target.src = defaultImage" class="rounded"
+                            <img *ngIf="promo.imageURL" [src]="promo.imageURL"
+                                (error)="$event.target.src = defaultImage" class="rounded"
                                 style="width: 100px;height:100px" width="30" height="20">
                         </td>
                         <td class="text-center">
                             <div class="d-flex align-items-center gap-2">
                                 <label class="switch me-2">
                                     <input type="checkbox" [(ngModel)]="promo.isActive"
-                                        (change)="changeStatus(promo.promoId)">
+                                        (change)="changeStatus(promo.promotionId)">
                                     <span class="promo round"></span>
                                 </label>
                                 <button
@@ -71,7 +72,7 @@
                                 </button>
                                 <button
                                     class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
-                                    (click)="openDeleteModal(deleteModal, promo.promoId)">
+                                    (click)="openDeleteModal(deleteModal, promo.promotionId)">
                                     <i class="uil uil-trash-alt"></i>
                                     <span>حذف</span>
                                 </button>
@@ -103,35 +104,6 @@
             <table class="table table-bordered table-feature-value align-middle border m-0">
                 <tbody>
                     <tr>
-                        <td class="table-feature">الاسم</td>
-                        <td class="table-value">
-                            <!-- <input type="text" class="form-control form-control-lg" placeholder="أدخل الاسم..."> -->
-                            <div class="row">
-                                <div class="col-xl-12">
-                                    <input type="text" formControlName="title" class="form-control form-control-lg"
-                                        placeholder="الاسم">
-                                    <div *ngIf="formErrors.title" class="text-danger  font-small-3 m-03">
-                                        {{formErrors.title}}
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="table-feature">الوصف</td>
-                        <td class="table-value">
-                            <textarea type="text" formControlName="description" class="form-control form-control-lg"
-                                placeholder="الوصف">
-                            </textarea>
-                            <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
-                                {{formErrors.description}}
-                            </div>
-
-                        </td>
-                    </tr>
-                    <tr>
                         <td class="table-feature">الصنف</td>
                         <td class="table-value">
                             <div class="row">
@@ -153,6 +125,36 @@
                         </td>
                     </tr>
                     <tr>
+                        <td class="table-feature">اسم العرض</td>
+                        <td class="table-value">
+                            <!-- <input type="text" class="form-control form-control-lg" placeholder="أدخل اسم العرض..."> -->
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <input type="text" formControlName="title" class="form-control form-control-lg"
+                                        placeholder="اسم العرض">
+                                    <div *ngIf="formErrors.title" class="text-danger  font-small-3 m-03">
+                                        {{formErrors.title}}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">الوصف</td>
+                        <td class="table-value">
+                            <textarea type="text" formControlName="description" class="form-control form-control-lg"
+                                placeholder="الوصف">
+                            </textarea>
+                            <div *ngIf="formErrors.description" class="text-danger  font-small-3 m-03">
+                                {{formErrors.description}}
+                            </div>
+
+                        </td>
+                    </tr>
+
+                    <!-- <tr>
                         <td class="table-feature">من تاريخ</td>
                         <td class="table-value">
                             <input type="date" formControlName="startDate" autocomplete="off"
@@ -173,14 +175,14 @@
                             </div>
 
                         </td>
-                    </tr>
+                    </tr> -->
                     <tr>
-                        <td class="table-feature">السعر</td>
+                        <td class="table-feature">سعر العرض</td>
                         <td class="table-value">
                             <div class="row">
                                 <div class="col-xl-12">
                                     <input type="text" formControlName="offerPrice" class="form-control form-control-lg"
-                                        placeholder="السعر">
+                                        placeholder="سعر العرض">
                                     <div *ngIf="formErrors.offerPrice" class="text-danger  font-small-3 m-03">
                                         {{formErrors.offerPrice}}
                                     </div>
@@ -191,12 +193,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="table-feature">اقل قيمة</td>
+                        <td class="table-feature">اقل كمية للطلب</td>
                         <td class="table-value">
                             <div class="row">
                                 <div class="col-xl-12">
                                     <input type="text" formControlName="minQty" class="form-control form-control-lg"
-                                        placeholder="اقل قيمة">
+                                        placeholder="اقل كمية للطلب">
                                     <div *ngIf="formErrors.minQty" class="text-danger  font-small-3 m-03">
                                         {{formErrors.minQty}}
                                     </div>
@@ -207,12 +209,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="table-feature">أعلي قيمة</td>
+                        <td class="table-feature">أعلي كمية للطلب</td>
                         <td class="table-value">
                             <div class="row">
                                 <div class="col-xl-12">
                                     <input type="text" formControlName="maxQty" class="form-control form-control-lg"
-                                        placeholder="أعلي قيمة">
+                                        placeholder="أعلي كمية للطلب">
                                     <div *ngIf="formErrors.maxQty" class="text-danger  font-small-3 m-03">
                                         {{formErrors.maxQty}}
                                     </div>
@@ -240,7 +242,7 @@
 
                         </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td class="table-feature">نشط</td>
                         <td class="table-value">
                             <div class="form-check form-switch">
@@ -249,7 +251,7 @@
                                 <label class="form-check-label" for="isActive">نشط</label>
                             </div>
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </form>

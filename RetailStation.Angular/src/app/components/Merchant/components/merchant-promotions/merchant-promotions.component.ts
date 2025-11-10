@@ -88,12 +88,12 @@ export class MerchantPromotionsComponent implements OnInit {
       title: [null, [Validators.required]],
       merchantItemId: [null, [Validators.required]],
       description: [null],
-      startDate: [null, [Validators.required]],
-      endDate: [null, [Validators.required]],
+      startDate: [null],
+      endDate: [null],
       offerPrice: [null, [Validators.required, CustomValidators.regexPattern(RegexType.number)]],
       minQty: [null, [CustomValidators.regexPattern(RegexType.number)]],
       maxQty: [null, [CustomValidators.regexPattern(RegexType.number)]],
-      image: [null, [Validators.required, CustomValidators.extensionValidator(['png', 'jpg', 'jpeg'])]],
+      image: [null, [this.isUpdate ? Validators.nullValidator : Validators.required, CustomValidators.extensionValidator(['png', 'jpg', 'jpeg'])]],
       isActive: [true]
     });
 
@@ -212,7 +212,7 @@ export class MerchantPromotionsComponent implements OnInit {
       startDate: this.datePipe.transform(model.startDate, 'yyyy-MM-dd'),
       endDate: this.datePipe.transform(model.endDate, 'yyyy-MM-dd'),
       offerPrice: model.offerPrice,
-      minQTY: model.minQty,
+      minQty: model.minQty,
       maxQty: model.maxQty,
       isActive: model.isActive
     });
