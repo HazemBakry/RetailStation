@@ -91,9 +91,9 @@ export class MerchantManagementService {
 
   //////////////////////////// Promotions /////////////////////////////////////
 
-  GetPromotionsData(searchModel: PagedResponseModel<PromotionModel[]>) {
+  GetPromotions_Data(searchModel: PagedResponseModel<PromotionModel[]>) {
     return this.http.post<PagedResponseModel<PromotionModel[]>>(
-      this.URL + 'MerchantManagement/GetPromotionsData',
+      this.URL + 'MerchantManagement/GetPromotions_Data',
       searchModel
     );
   }

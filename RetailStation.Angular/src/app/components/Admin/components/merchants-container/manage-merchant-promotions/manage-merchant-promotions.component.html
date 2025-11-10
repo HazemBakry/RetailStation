@@ -1,0 +1,81 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2">
+
+        </div>
+        <div class="justify-content-end">
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
+                [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-pagination>
+        </div>
+    </div>
+
+    <div class="p-3 bg-white">
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+                <thead>
+                    <tr>
+                        <th>الاسم</th>
+                        <th>الوصف</th>
+                        <th>المنتج</th>
+                        <th>السعر</th>
+                        <th>من</th>
+                        <th>إلى</th>
+                        <th>الصورة</th>
+                        <th class="text-center">حالة العرض</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let promo of pagedResponseModel.results">
+                        <td>{{ promo.title }}</td>
+                        <td>{{ promo.description }}</td>
+                        <!-- <td>{{promo.itemNameEN ?? promo.itemNameAR}}</td> -->
+                        <td>
+                            <app-general-selector [disabled]="true" [(ngModel)]="promo.merchantItemId"
+                                [data]="itemsSelectorData" [showSearch]="true" [placeholder]="'الصنف'">
+                            </app-general-selector>
+                        </td>
+                        <td>{{promo.offerPrice}}</td>
+                        <td>{{promo.startDate | date:'dd/MM/yyyy'}}</td>
+                        <td>{{promo.endDate | date:'dd/MM/yyyy'}}</td>
+                        <td>
+                            <img *ngIf="promo.imageURL" [src]="promo.imageURL"
+                                (error)="$event.target.src = defaultImage" class="rounded"
+                                style="width: 100px;height:100px" width="30" height="20">
+                        </td>
+                        <td class="text-center">
+                            <div class="d-flex align-items-center gap-2">
+                                <label class="switch me-2">
+                                    <input type="checkbox" [(ngModel)]="promo.isAdminApproved"
+                                        (change)="approvePromotionToDisplay(promo.promotionId)">
+                                    <span class="promo round"></span>
+                                </label>
+
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length && !showLoader"
+                [showLoader]="showLoader"></app-empty-data>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Delete Modal -->
+<ng-template #approveModal let-modal>
+    <div class="modal-header">
+        <h4>تأكيد الحذف</h4>
+    </div>
+    <div class="modal-body">
+        <p>هل أنت متأكد من حذف هذا العرض؟</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" (click)="approvePromotion(); modal.close()">نعم</button>
+        <button class="btn btn-danger" (click)="modal.dismiss()">إلغاء</button>
+    </div>
+</ng-template>

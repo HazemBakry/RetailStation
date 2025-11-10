@@ -75,7 +75,7 @@ export class MerchantPromotionsComponent implements OnInit {
 
   loadData() {
     this.showLoader = true;
-    this.merchantManagementService.GetPromotionsData(this.pagedResponseModel).subscribe(data => {
+    this.merchantManagementService.GetPromotions_Data(this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data.results;
       this.pagedResponseModel.totalCount = data.totalCount;
       this.showLoader = false;

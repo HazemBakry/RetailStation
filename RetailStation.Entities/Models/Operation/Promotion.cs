@@ -23,6 +23,7 @@ namespace RetailStation.Entities.Models.Operation
         public decimal? MinQty { get; set; }
         public decimal? MaxQty { get; set; }
         public bool IsActive { get; set; } = true;
+        public bool IsAdminApproved { get; set; } = false;
 
     }
 }

@@ -1,0 +1,22 @@
+<div>
+    <div class="rounded bg-white d-flex justify-content-between px-4">
+        <ul ngbNav #widgetNav="ngbNav" class="nav-tabs border-0 with-bb">
+            <li ngbNavItem>
+                <a ngbNavLink>الاصناف</a>
+                <ng-template ngbNavContent>
+                    <app-manage-merchant-items></app-manage-merchant-items>
+                </ng-template>
+            </li>
+            <li ngbNavItem>
+                <a ngbNavLink>العروض</a>
+                <ng-template ngbNavContent>
+                    <app-manage-merchant-promotions></app-manage-merchant-promotions>
+                </ng-template>
+            </li>
+        </ul>
+    </div>
+    <div class="container m-3">
+
+        <div [ngbNavOutlet]="widgetNav"></div>
+    </div>
+</div>

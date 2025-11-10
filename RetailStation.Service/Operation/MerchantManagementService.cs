@@ -657,7 +657,7 @@ namespace RetailStation.Service.Operation
 
         #region Promotions
 
-        public List<PromotionModel> GetPromotionsData(int merchantId, SearchFilterModel filter, int? promotionId = null)
+        public List<PromotionModel> GetPromotions_Data(int merchantId, SearchFilterModel filter, int? promotionId = null)
         {
             var query = Context.Promotions.AsNoTracking()
                 .Where(p => p.MerchantId == merchantId && (!promotionId.HasValue || p.PromotionId == promotionId));
@@ -684,6 +684,7 @@ namespace RetailStation.Service.Operation
                     MinQty = p.MinQty,
                     MaxQty = p.MaxQty,
                     IsActive = p.IsActive,
+                    IsAdminApproved = p.IsAdminApproved,
                     CreatedBy = p.CreatedBy,
                     CreatedDate = p.CreatedDate,
                     ModifiedBy = p.ModifiedBy,
@@ -703,7 +704,7 @@ namespace RetailStation.Service.Operation
 
         public PromotionModel GetPromotionById(int merchantId, int promotionId)
         {
-            return GetPromotionsData(merchantId, new SearchFilterModel { PageSize = 1, CurrentPage = 1 }, promotionId).FirstOrDefault();
+            return GetPromotions_Data(merchantId, new SearchFilterModel { PageSize = 1, CurrentPage = 1 }, promotionId).FirstOrDefault();
         }
 
         public async Task<ActionsResponseModel> AddPromotion(int merchantId, PromotionModel model)
@@ -820,6 +821,25 @@ namespace RetailStation.Service.Operation
                 return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
             }
         }
+        public async Task<ActionsResponseModel> ApprovePromotionToDisplay(int merchantId, int promotionId)
+        {
+            try
+            {
+                var promotion = Context.Promotions.FirstOrDefault(p => p.MerchantId == merchantId && p.PromotionId == promotionId);
+                if (promotion == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Promotion not found." };
+
+                promotion.IsAdminApproved = !promotion.IsAdminApproved;
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "Promotion display status changed successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
         #endregion
     }
 }

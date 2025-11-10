@@ -34,7 +34,7 @@
                 <tbody>
                     <tr *ngFor="let item of pagedResponseModel.results">
                         <td>
-                            <a routerLink="/admin/merchants/manage-merchant-items/{{item.merchantId}}">
+                            <a routerLink="/admin/merchants/{{item.merchantId}}">
                                 {{item.nameAR}}</a>
                         </td>
                         <td>{{item.nameEN}}</td>

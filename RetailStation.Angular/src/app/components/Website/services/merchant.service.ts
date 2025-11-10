@@ -10,6 +10,7 @@ import { PagedResponseModel } from '../../Shared/models/PagedResponseDTO';
 import { MerchantModel } from '../../Admin/models/MerchantModel';
 import { MerchantItemModel } from '../../Shared/models/MerchantItemModel';
 import { BranchModel } from '../../Shared/models/BranchModel';
+import { PromotionModel } from '../../Shared/models/PromotionModel';
 
 
 @Injectable({
@@ -113,6 +114,18 @@ export class MerchantService {
   }
 
 
+  GetPromotions_Data(merchantId:number,searchModel: PagedResponseModel<PromotionModel[]>) {
+    return this.http.post<PagedResponseModel<PromotionModel[]>>(
+      this.URL + 'Merchants/GetPromotions_Data?MerchantId=' + merchantId,
+      searchModel
+    );
+  }
+  ApprovePromotionToDisplay(merchantId:number,PromotionId: number) {
+    const params = new URLSearchParams();
+    params.append('PromotionId', PromotionId.toString());
+    params.append('MerchantId', merchantId.toString());
+    const queryString = params.toString();
+    return this.http.get<ActionsResponseModel>(this.URL + `Merchants/ApprovePromotionToDisplay?${queryString}`);
 
-
+  }
 }

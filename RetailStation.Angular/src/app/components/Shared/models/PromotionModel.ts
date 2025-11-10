@@ -11,6 +11,7 @@ export interface PromotionModel extends MerchantItemModel {
     startDate: string;
     endDate: string;
     isActive: boolean;
+    isAdminApproved: boolean;
     //offerPrice?: number|null;
     minQty?: number;
     maxQty?: number;

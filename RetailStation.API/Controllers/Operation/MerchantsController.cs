@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using RetailStation.Entities.DTOs.Operation;
 using RetailStation.Interface.Operation;
+using RetailStation.Service.Operation;
 
 namespace RetailStation.API.Controllers.Operation
 {
@@ -21,10 +22,12 @@ namespace RetailStation.API.Controllers.Operation
     public class MerchantsController : Controller
     {
         private readonly IMerchantsService _merchantsService;
+        private readonly IMerchantManagementService _merchantManagementService;
 
-        public MerchantsController(IMerchantsService merchantsService)
+        public MerchantsController(IMerchantsService merchantsService, IMerchantManagementService merchantManagementService)
         {
             _merchantsService = merchantsService;
+            _merchantManagementService = merchantManagementService;
         }
 
         [HttpPost]
@@ -91,6 +94,32 @@ namespace RetailStation.API.Controllers.Operation
         }
 
 
+
+
+
+
+        [HttpPost]
+        [Route("GetPromotions_Data")]
+        public IActionResult GetPromotions_Data(int MerchantId,SearchFilterModel SearchModel)
+        {
+            var data = _merchantManagementService.GetPromotions_Data(MerchantId, SearchModel);
+            var result = new PagedResponseModel<PromotionModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+            };
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("ApprovePromotionToDisplay")]
+        public async Task<IActionResult> ApprovePromotionToDisplay(int MerchantId,int PromotionId)
+        {
+            var results = await _merchantManagementService.ApprovePromotionToDisplay(MerchantId,PromotionId);
+            return Ok(results);
+        }
 
     }
 }

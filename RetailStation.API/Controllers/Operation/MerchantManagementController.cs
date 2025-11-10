@@ -353,14 +353,14 @@ namespace RetailStation.API.Controllers.Operation
 
 
         [HttpPost]
-        [Route("GetPromotionsData")]
-        public IActionResult GetPromotionsData(SearchFilterModel SearchModel)
+        [Route("GetPromotions_Data")]
+        public IActionResult GetPromotions_Data(SearchFilterModel SearchModel)
         {
             string UserId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
             int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
             if (MerchantId <= 0)
                 return BadRequest("No Merchant assigned");
-            var data = _merchantManagementService.GetPromotionsData(MerchantId,SearchModel);
+            var data = _merchantManagementService.GetPromotions_Data(MerchantId,SearchModel);
             var result = new PagedResponseModel<PromotionModel>
             {
                 Results = data,

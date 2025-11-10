@@ -34,6 +34,8 @@ import { TopPartnersComponent } from './components/top-partner/top-partners.comp
 import { BestSellerItemsComponent } from './components/best-seller-items/best-seller-items.component';
 import { MerchantListComponent } from './components/merchants-container/merchant-list/merchant-list.component';
 import { ItemsComponent } from './components/items/items.component';
+import { ManageMerchantPromotionsComponent } from './components/merchants-container/manage-merchant-promotions/manage-merchant-promotions.component';
+import { ManageMerchantLayoutComponent } from './components/merchants-container/manage-merchant-layout/manage-merchant-layout.component';
 
 
 @NgModule({
@@ -68,7 +70,9 @@ import { ItemsComponent } from './components/items/items.component';
     RegionsComponent,
     TopPartnersComponent,
     BestSellerItemsComponent,
-    ItemsComponent
+    ItemsComponent,
+    ManageMerchantPromotionsComponent,
+    ManageMerchantLayoutComponent
   ],
   imports: [
     CommonModule,

@@ -28,6 +28,8 @@ import { TopPartnersComponent } from './components/top-partner/top-partners.comp
 import { BestSellerItemsComponent } from './components/best-seller-items/best-seller-items.component';
 import { MerchantListComponent } from './components/merchants-container/merchant-list/merchant-list.component';
 import { ItemsComponent } from './components/items/items.component';
+import { ManageMerchantPromotionsComponent } from './components/merchants-container/manage-merchant-promotions/manage-merchant-promotions.component';
+import { ManageMerchantLayoutComponent } from './components/merchants-container/manage-merchant-layout/manage-merchant-layout.component';
 
 
 const routes: Routes = [
@@ -44,7 +46,14 @@ const routes: Routes = [
         component: MerchantsContainerComponent,
         children: [
           { path: '', component: MerchantListComponent },
-          { path: 'manage-merchant-items/:MerchantId', component: ManageMerchantItemsComponent }
+          {
+            path: ':MerchantId', component: ManageMerchantLayoutComponent,
+            // children: [
+            //   { path: 'manage-merchant-items', component: ManageMerchantItemsComponent },
+            //   { path: 'manage-merchant-promotions', component: ManageMerchantPromotionsComponent },
+            //   { path: '', redirectTo: 'manage-merchant-items', pathMatch: 'full' },
+            // ],
+          },
         ],
       },
       {

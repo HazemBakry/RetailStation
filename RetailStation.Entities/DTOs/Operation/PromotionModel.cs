@@ -22,6 +22,8 @@ namespace RetailStation.Entities.DTOs.Operation
         public decimal? MinQty { get; set; }
         public decimal? MaxQty { get; set; }
         public IFormFile ImageFile { get; set; }
+        public bool IsAdminApproved { get; set; }
+
 
     }
 }
