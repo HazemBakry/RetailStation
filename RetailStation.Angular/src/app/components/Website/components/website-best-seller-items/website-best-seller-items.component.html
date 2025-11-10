@@ -1,0 +1,13 @@
+<section class="vertical-product-section container-fluid py-4">
+    <div class="carousel-title d-flex align-items-center gap-2 position-relative mb-3">
+        <img src="../../../../../assets/strong-offet-icon-2.svg" class="header-offer-icon" alt="offer-icon" loading="lazy" />
+        <div class="fw-semibold fs-18">الأكثر مبيعاً</div>
+    </div>
+
+    <div class="vertical-scroll-container">
+        <div *ngFor="let item of bestSellerData" class="vertical-scroll-card">
+            <app-website-item-card [item]="item" [isAuthenticated]="isAuthenticated"></app-website-item-card>
+        </div>
+    </div>
+</section>
+

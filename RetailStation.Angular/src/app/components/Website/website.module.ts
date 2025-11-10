@@ -24,6 +24,7 @@ import { BlogDetailsComponent } from './components/blog-details/blog-details.com
 import { WebsiteTopPartnersComponent } from './components/website-top-partners/website-top-partners.component';
 import { WebsiteFavoritesComponent } from './components/website-favorites/website-favorites.component';
 import { WebsiteCategoriesComponent } from './components/website-categories/website-categories.component';
+import { WebsiteBestSellerItemsComponent } from './components/website-best-seller-items/website-best-seller-items.component';
 
 
 
@@ -49,7 +50,8 @@ import { WebsiteCategoriesComponent } from './components/website-categories/webs
     WebsiteTopPartnersComponent,
     WebsiteFavoritesComponent,
     WebsiteMainCategoriesComponent,
-    WebsiteCategoriesComponent
+    WebsiteCategoriesComponent,
+    WebsiteBestSellerItemsComponent
   ],
   imports: [
     CommonModule,

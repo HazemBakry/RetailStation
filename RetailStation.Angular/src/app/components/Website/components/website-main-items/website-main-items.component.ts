@@ -18,7 +18,6 @@ import { AuthService } from 'src/app/Auth/auth.service';
 export class WebsiteMainItemsComponent implements OnInit, OnChanges {
   @Input() selectedCategoryId: number;
   @Input() selectedCategoryName: number;
-  @Input() displayBestSellers: boolean = true;
   isAuthenticated: boolean = false;
   searchText: string = '';
   itemCategoryId: string = '';
@@ -46,7 +45,6 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
     currentPage: 1,
     searchText: ''
   };
-  bestSellerData: MerchantItemModel[] = [];
   merchantsData: MerchantItemModel[] = [];
   supplierLogo: string = 'https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg'
   defaultItemImage = `${this.systemURL}assets/images/13.png`;
@@ -73,8 +71,6 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
       this.checkCompareAdded();
     });
     this.getSearchQuery();
-    if (this.displayBestSellers)
-      this.loadBestSellersData();
     this.loadData();
     this.loadFilters();
   }
@@ -135,25 +131,7 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
     this.loadData();
     this.loadFilters();
   }
-  loadBestSellersData() {
-    let pageResponseModel: PagedResponseModel<MerchantItemModel[]> = {
-      results: [],
-      filterList: [],
-      pageSize: 20,
-      currentPage: 1,
-      searchText: ''
-    };
-    // this.showLoader = true;
-    this.websiteService.GetWebsiteBestSellerItems_Data(pageResponseModel).subscribe(data => {
-      this.bestSellerData = data.results;
-      this.checkCompareAdded();
-      // this.showLoader = false;
-    }, err => {
-      // this.showLoader = false;
-    }, () => {
-      // this.showLoader = false;
-    });
-  }
+
   loadData() {
     this.showLoader = true;
     this.websiteService.GetWebsiteItems_Data(this.pageResponseModel).subscribe(data => {
@@ -183,9 +161,6 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
     this.merchantsData.forEach(item => {
       item.isCompareAdded = this.compareService.isItemInList(item.merchantItemId);
       // item.isCompareAdded  = list.some(i => i.merchantItemId === item.merchantItemId);
-    });
-    this.bestSellerData.forEach(item => {
-      item.isCompareAdded = this.compareService.isItemInList(item.merchantItemId);
     });
 
   }
