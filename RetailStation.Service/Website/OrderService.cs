@@ -351,11 +351,18 @@ namespace RetailStation.Service.Website
 
         public ActionsResponseModel CancelOrder(int OrderId)
         {
-            var Invoice = Context.Orders.FirstOrDefault(x => x.OrderId == OrderId);
-            if (Invoice != null && Invoice.WorkflowStatusId != (int)WorkflowStatus.Cancelled)
+            var order = Context.Orders.FirstOrDefault(x => x.OrderId == OrderId);
+            if (order != null && order.WorkflowStatusId != (int)WorkflowStatus.Cancelled)
             {
-                Invoice.WorkflowStatusId = (int)WorkflowStatus.Cancelled;
-                Invoice.ModifiedDate = DateTime.Now;
+                order.WorkflowStatusId = (int)WorkflowStatus.Cancelled;
+                order.ModifiedDate = DateTime.Now;
+                var merchantOrder = Context.MerchantOrders.FirstOrDefault(x => x.OrderId == OrderId);
+                if (merchantOrder != null && merchantOrder.WorkflowStatusId != (int)WorkflowStatus.Cancelled)
+                {
+                    merchantOrder.WorkflowStatusId = (int)WorkflowStatus.Cancelled;
+                    merchantOrder.Notes = "order cancelled by customer";
+                    merchantOrder.ModifiedDate = DateTime.Now;
+                }
 
                 Context.SaveChanges();
                 return new ActionsResponseModel
@@ -363,7 +370,7 @@ namespace RetailStation.Service.Website
                     Id = OrderId,
                     IsSuccess = true,
                     Message = "Order Cancelled Successfly ",
-                    Number = Invoice.SerialNumber.ToString()
+                    Number = order.SerialNumber.ToString()
                 };
             }
             else
@@ -373,7 +380,7 @@ namespace RetailStation.Service.Website
                     Id = OrderId,
                     IsSuccess = false,
                     Message = "can't cancel this order",
-                    Number = Invoice.SerialNumber.ToString()
+                    Number = order.SerialNumber.ToString()
                 };
             }
 

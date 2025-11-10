@@ -439,31 +439,44 @@ namespace RetailStation.Service.Operation
         }
 
 
-        public ActionsResponseModel CancelOrder(int MerchantId, int OrderId)
+        public ActionsResponseModel CancelOrder(int MerchantId, int MerchantOrderId)
         {
-            var Invoice = Context.MerchantOrders.FirstOrDefault(x => x.MerchantOrderId == OrderId);
-            if (Invoice != null && Invoice.WorkflowStatusId != (int)WorkflowStatus.Cancelled)
+
+
+            var merchantOrder = Context.MerchantOrders.FirstOrDefault(x => x.MerchantOrderId == MerchantOrderId && x.MerchantId == MerchantId);
+
+
+            if (merchantOrder != null )
             {
-                Invoice.WorkflowStatusId = (int)WorkflowStatus.Cancelled;
-                Invoice.ModifiedDate = DateTime.Now;
+
+                var order = Context.Orders.FirstOrDefault(x => x.OrderId == merchantOrder.OrderId);
+                merchantOrder.WorkflowStatusId = (int)WorkflowStatus.Cancelled;
+                merchantOrder.ModifiedDate = DateTime.Now;
+                if (order != null )
+                {
+                    
+                    order.WorkflowStatusId = (int)WorkflowStatus.Cancelled;
+                    order.Notes = "Order cancelled by merchant";
+                    order.ModifiedDate = DateTime.Now;
+                }
 
                 Context.SaveChanges();
                 return new ActionsResponseModel
                 {
-                    Id = OrderId,
+                    Id = MerchantOrderId,
                     IsSuccess = true,
                     Message = "Order Cancelled Successfly ",
-                    Number = Invoice.SerialNumber.ToString()
+                    Number = merchantOrder.SerialNumber.ToString()
                 };
             }
             else
             {
                 return new ActionsResponseModel
                 {
-                    Id = OrderId,
+                    Id = MerchantOrderId,
                     IsSuccess = false,
                     Message = "can't cancel this order",
-                    Number = Invoice.SerialNumber.ToString()
+                    Number = merchantOrder.SerialNumber.ToString()
                 };
             }
 

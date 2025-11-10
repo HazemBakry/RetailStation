@@ -24,7 +24,14 @@
                             <div class="mb-2">
                                 <label class="form-label d-flex align-items-center gap-2">رقم الطلب</label>
                                 <input type="text" disabled class="form-control nw-form-input"
-                                    [value]="detailsModel?.serialNumber??detailsModel?.orderNumber" />
+                                    [value]="detailsModel?.orderNumber" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-2">
+                                <label class="form-label d-flex align-items-center gap-2">رقم السيريال</label>
+                                <input type="text" disabled class="form-control nw-form-input"
+                                    [value]="detailsModel?.serialNumber" />
                             </div>
                         </div>
                         <div *ngIf="detailsModel?.orderDate" class="col-lg-6">
@@ -34,21 +41,7 @@
                                     [value]="detailsModel?.orderDate | date" />
                             </div>
                         </div>
-                        <div *ngIf="detailsModel?.supplierNameAR" class="col-lg-6">
-                            <div class="mb-2">
-                                <label class="form-label d-flex align-items-center gap-2">المورد</label>
-                                <input type="text" disabled class="form-control nw-form-input"
-                                    [value]="detailsModel?.supplierNameAR" />
-                            </div>
-                        </div>
-                        <div *ngIf="detailsModel?.storeNameAR" class="col-lg-6">
-                            <div class="mb-2">
-                                <label class="form-label d-flex align-items-center gap-2">المخزن</label>
-                                <input type="text" disabled class="form-control nw-form-input"
-                                    [value]="detailsModel?.storeNameAR" />
-                            </div>
-                        </div>
-                        <div *ngIf="detailsModel?.totalValue" class="col-lg-12">
+                        <div *ngIf="detailsModel?.totalValue" class="col-lg-6">
                             <div class="mb-2">
                                 <label class="form-label d-flex align-items-center gap-2">
                                     الاجمالي

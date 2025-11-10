@@ -86,6 +86,7 @@ export class MerchantOrdersComponent implements OnInit {
       if (data.isSuccess) {
         this.toaster.success(data.message);
         this.getsOrdersData();
+        this.loadFilters();
       }
       else {
         this.toaster.error(data.message);
@@ -104,7 +105,7 @@ export class MerchantOrdersComponent implements OnInit {
         detailsModel,
         data,
         this.orderDetailsDataFields,
-        `Order #${detailsModel.serialNumber} Details`
+        ` طلب رقم ${detailsModel.orderNumber}`
       );
 
       this.showLoader = false;
@@ -116,43 +117,43 @@ export class MerchantOrdersComponent implements OnInit {
 
 
   }
-orderDetailsDataFields: DataField[] = [
-  {
-    fieldName: 'nameAR',
-    fieldType: FieldType.Text,
-    displayName: 'الاسم (عربي)',
-  },
-  {
-    fieldName: 'nameEN',
-    fieldType: FieldType.Text,
-    displayName: 'الاسم (إنجليزي)',
-  },
-  {
-    fieldName: 'merchantNameAR',
-    fieldType: FieldType.Text,
-    displayName: 'اسم التاجر',
-  },
-  {
-    fieldName: 'unitName',
-    fieldType: FieldType.Text,
-    displayName: 'الوحدة',
-  },
-  {
-    fieldName: 'price',
-    fieldType: FieldType.Text,
-    displayName: 'السعر',
-  },
-  {
-    fieldName: 'quantity',
-    fieldType: FieldType.Text,
-    displayName: 'الكمية',
-  },
-  {
-    fieldName: 'totalValue',
-    fieldType: FieldType.Text,
-    displayName: 'القيمة الإجمالية',
-  }
-];
+  orderDetailsDataFields: DataField[] = [
+    {
+      fieldName: 'nameAR',
+      fieldType: FieldType.Text,
+      displayName: 'اسم الصنف',
+    },
+    // {
+    //   fieldName: 'nameEN',
+    //   fieldType: FieldType.Text,
+    //   displayName: 'الاسم (إنجليزي)',
+    // },
+    {
+      fieldName: 'merchantNameAR',
+      fieldType: FieldType.Text,
+      displayName: 'اسم التاجر',
+    },
+    {
+      fieldName: 'unitName',
+      fieldType: FieldType.Text,
+      displayName: 'الوحدة',
+    },
+    {
+      fieldName: 'price',
+      fieldType: FieldType.Text,
+      displayName: 'السعر',
+    },
+    {
+      fieldName: 'quantity',
+      fieldType: FieldType.Text,
+      displayName: 'الكمية',
+    },
+    {
+      fieldName: 'totalValue',
+      fieldType: FieldType.Text,
+      displayName: 'القيمة الإجمالية',
+    }
+  ];
 
 
 }

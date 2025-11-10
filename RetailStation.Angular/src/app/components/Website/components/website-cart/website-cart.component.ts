@@ -206,10 +206,10 @@ export class WebsiteCartComponent implements OnInit {
         localStorage.removeItem('cartItems');
         this.cartItems = [];
 
-        this.alertConfirmation('Order Submitted Successfully', 'Success', response?.number);
+        this.alertConfirmation('تم تاكيد الطلب بنجاح', 'Success', response?.number);
       }
       else {
-        this.alertConfirmation('Order Not Submitted', 'Error', -1);
+        this.alertConfirmation('حدث خطأ عند تاكيد الطلب', 'Error', -1);
         //this.toaster.error(response.message);
       }
       this.showLoader = false;
