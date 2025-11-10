@@ -21,7 +21,8 @@ import { MerchantManagementService } from 'src/app/components/Website/services/m
 })
 export class MerchantOrdersComponent implements OnInit {
   TitleList = ['Merchant', 'Orders'];
-  showLoader: boolean;
+  showLoader: boolean=false;
+  showCancelLoader: boolean=false;
   TotalCount: any;
   TotalPages: any;
   filterList: FilterModel[] = [];
@@ -81,21 +82,25 @@ export class MerchantOrdersComponent implements OnInit {
     this.selectedOrderId = itemId;
     this.modalService.open(content, { centered: true, size: 'md' });
   }
+
   cancelOrder() {
+    this.showCancelLoader = true;
     this.merchantManagementService.CancelOrder(this.selectedOrderId).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message);
         this.getsOrdersData();
         this.loadFilters();
+        this.modalService?.dismissAll();
       }
       else {
         this.toaster.error(data.message);
       }
+      this.showCancelLoader = false;
     }, (error) => {
+      this.showCancelLoader = false;
       this.toaster.error('error');
     })
   }
-
   showOrderDetails(detailsModel: any) {
 
     // this.showLoader = true;

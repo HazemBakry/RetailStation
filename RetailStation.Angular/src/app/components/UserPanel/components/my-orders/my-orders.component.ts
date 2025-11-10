@@ -20,7 +20,8 @@ import { WebsiteService } from 'src/app/components/Website/services/website.serv
 })
 export class MyOrdersComponent implements OnInit {
   TitleList = ['Purchases', 'MY Orders'];
-  showLoader: boolean;
+  showLoader: boolean=false;
+  showCancelLoader: boolean=false;
   TotalCount: any;
   TotalPages: any;
   filterList: FilterModel[] = [];
@@ -81,16 +82,20 @@ export class MyOrdersComponent implements OnInit {
     this.modalService.open(content, { centered: true, size: 'md' });
   }
   cancelOrder() {
+    this.showCancelLoader = true;
     this.orderService.CancelOrder(this.selectedOrderId).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success(data.message);
         this.getsOrdersData();
         this.loadFilters();
+        this.modalService?.dismissAll();
       }
       else {
         this.toaster.error(data.message);
       }
+      this.showCancelLoader = false;
     }, (error) => {
+      this.showCancelLoader = false;
       this.toaster.error('error');
     })
   }

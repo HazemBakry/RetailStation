@@ -116,9 +116,10 @@
         <p class="fs-5 m-0">هل انت متأكد من الحذف ؟</p>
     </div>
     <div class="modal-footer justify-content-start">
-        <button type="button" class="btn btn-success" (click)="modal.close('Save click'); cancelOrder()">
+        <button [disabled]="showCancelLoader" type="button" class="btn btn-success" (click)="cancelOrder()">
             <i class="fas fa-check"></i>
-            <span class="ms-2">نعم</span>
+            <span class="ms-2">نعم</span><span *ngIf="showCancelLoader" class="spinner-border spinner-border-sm"
+                role="status" aria-hidden="true"> جاري الالغاء</span>
         </button>
         <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
             <i class="fas fa-times"></i>
