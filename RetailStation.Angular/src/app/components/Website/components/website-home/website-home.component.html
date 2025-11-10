@@ -5,7 +5,20 @@
 
 <ng-container>
     <div class="py-4">
+
+        <div class="main-header">
+            <app-website-search [placeholder]="'بحث في المنتجات'"></app-website-search>
+
+            <!-- <select class="city-selector" [(ngModel)]="selectedCity">
+                <option *ngFor="let city of cities">{{ city }}</option>
+            </select>
+
+            <input type="text" class="search-box" placeholder="ابحث عن منتج..." [(ngModel)]="searchText" /> -->
+        </div>
+
         <app-website-slider></app-website-slider>
+
+
 
     </div>
     <!-- <app-website-promotion-items></app-website-promotion-items> -->
@@ -86,14 +99,14 @@
                 <p>{{FoodItem?.descriptionAr}}</p>
                 <div class="counter big-counter d-flex justify-content-between align-items-center shadow-sm mt-5">
                     <button class="counter-plus counter-action cursor-pointer" (click)="counter('plus',null)">
-            <i class="fas fa-plus"></i>
-          </button>
+                        <i class="fas fa-plus"></i>
+                    </button>
                     <div class="counter-value">
                         <input type="text" class="form-control border-0 bg-transparent px-1" min="1" [value]="counterValue" />
                     </div>
                     <button class="counter-minus counter-action cursor-pointer" (click)="counter('minus',null)" [disabled]="counterValue === 1">
-            <i class="fas fa-minus"></i>
-          </button>
+                        <i class="fas fa-minus"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -118,8 +131,8 @@
             <h4 class="offcanvas-title">سله مشتريات</h4>
         </div>
         <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss()">
-      <i class="fas fa-times"></i>
-    </button>
+            <i class="fas fa-times"></i>
+        </button>
     </div>
     <div class="d-flex align-items-center flex-wrap px-3 py-2 border-bottom">
         <span class="fw-bold">{{CartItemsList[0].subscriberNameAr}}</span>
@@ -200,7 +213,7 @@
         </div>
         <div class="mx-2 mt-3">
             <button type="button" class="btn btn-success w-100" routerLink="/Cart" (click)="offcanvas.close()">تنفيذ
-        الطلب</button>
+                الطلب</button>
         </div>
     </div>
 </ng-template>

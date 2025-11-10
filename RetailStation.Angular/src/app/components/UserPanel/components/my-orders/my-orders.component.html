@@ -2,8 +2,7 @@
     <!-- <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb> -->
 
     <div class="table-card border radius-10 overflow-hidden shadow-sm">
-        <div
-            class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+        <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
             <div class="d-flex align-items-center gap-2">
                 <!-- <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3"
                 routerLink="/">
@@ -14,8 +13,7 @@
             <div class="col-md-12 mt-3">
                 <div class="d-flex align-items-center">
                     <ng-container>
-                        <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"
-                            [searchPlaceholder]="'بحث  ...'"></app-erp-filters>
+                        <app-erp-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'بحث  ...'"></app-erp-filters>
                     </ng-container>
                 </div>
             </div>
@@ -43,8 +41,7 @@
                             <td>{{item.totalValue}}</td>
                             <td>{{item.paymentTypeNameAR ?? item.paymentTypeNameEN }}</td>
                             <td>
-                                <span appWorkflowStatus [id]="item.workflowStatusId"
-                                    [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
+                                <span appWorkflowStatus [id]="item.workflowStatusId" [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
                                 </span>
                             </td>
                             <td>{{item.notes}}</td>
@@ -74,14 +71,11 @@
                                 </div> -->
 
                                 <div class="d-flex align-items-center justify-content-center">
-                                    <button (click)="showOrderDetails(item)"
-                                        class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
+                                    <button (click)="showOrderDetails(item)" class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2">
                                         <i class="ph ph-eye"></i>
                                         <!-- <span>تفاصيل</span> -->
                                     </button>
-                                    <button
-                                        class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2 me-2"
-                                        (click)="openDeleteModal(deleteDialog,item.orderId)">
+                                    <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2 me-2" (click)="openDeleteModal(deleteDialog,item.orderId)">
                                         <i class="uil uil-trash-alt"></i>
                                         <!-- <span>حذف</span> -->
                                     </button>
@@ -91,8 +85,7 @@
                         </tr>
                         <tr *ngIf="!pagedResponseModel.results.length || showLoader">
                             <td colspan="8" class="text-right">
-                                <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader"
-                                    [showLoader]="showLoader"></app-empty-data>
+                                <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
                             </td>
                         </tr>
                     </tbody>
@@ -101,13 +94,13 @@
                 <!-- <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data> -->
             </div>
             <div class="justify-content-end">
-                <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
-                    [pageSize]="pagedResponseModel.pageSize"
-                    [totalCount]="pagedResponseModel.totalCount"></app-pagination>
+                <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage" [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-pagination>
             </div>
         </div>
     </div>
 </div>
+
+
 <ng-template #deleteDialog let-modal>
     <div class="modal-header">
         <h4 class="modal-title">تأكيد العملية</h4>

@@ -368,5 +368,13 @@
     height: var(--dim);
 }
 
+.main-header {
+    display: flex;
+    gap: 12px;
+    padding: 10px 20px;
+    background: #fafafa;
+    border-top: 1px solid #eee;
+}
+
 
 /* End Home Style */

@@ -60,31 +60,31 @@
         <ul class="nav-links d-none d-lg-flex">
             <li>
                 <a routerLink="/website/categories" routerLinkActive="active" class="header-item-btn">
-                    <span class="icon"><i class="ph ph-list"></i></span>
+                    <span class="icon"><i class="ph ph-list fs-5"></i></span>
                     <span class="text">الأقسام</span>
                 </a>
             </li>
             <li>
                 <a routerLink="/website/privacy-policy" routerLinkActive="active" class="header-item-btn">
-                    <span class="icon"><i class="ph ph-seal-percent"></i></span>
+                    <span class="icon"><i class="ph ph-keyhole fs-5"></i></span>
                     <span class="text">سياسة الخصوصية</span>
                 </a>
             </li>
             <li>
                 <a routerLink="/website/blogs" routerLinkActive="active" class="header-item-btn">
-                    <span class="icon"><i class="ph ph-note"></i></span>
+                    <span class="icon"><i class="ph ph-note fs-5"></i></span>
                     <span class="text">المدونة</span>
                 </a>
             </li>
             <li>
-                <a routerLink="/website/about-us" routerLinkActive="active"  class="header-item-btn">
-                    <span class="icon"><i class="ph ph-phone"></i></span>
+                <a routerLink="/website/about-us" routerLinkActive="active" class="header-item-btn">
+                    <span class="icon"><i class="ph ph-info fs-5"></i></span>
                     <span class="text">عن الموقع</span>
                 </a>
             </li>
             <li>
                 <a routerLink="/website/contact-us" routerLinkActive="active" class="header-item-btn">
-                    <span class="icon"><i class="ph ph-phone"></i></span>
+                    <span class="icon"><i class="ph ph-phone fs-5"></i></span>
                     <span class="text">اتصل بنا</span>
                 </a>
             </li>
@@ -94,10 +94,10 @@
         <ul class="header-icons d-flex align-items-center gap-3">
             <div class="d-none d-lg-flex align-items-center">
                 <ng-container *ngIf="!isAuthenticated">
-                    <li class="nav-item">
+                    <li class="nav-item me-2">
                         <app-float-login></app-float-login>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item me-2">
                         <app-website-apply-merchant-request></app-website-apply-merchant-request>
                     </li>
                 </ng-container>
@@ -128,7 +128,7 @@
                                 <i class="ph ph-squares-four"></i>
                                 <div routerLink="/user-panel">لوحة التحكم</div>
                             </div> -->
-                             <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
+                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
                                 <i class="ph ph-squares-four"></i>
                                 <div routerLink="/merchant">لوحة تحكم التاجر</div>
                             </div>
@@ -162,15 +162,15 @@
     </div>
 
     <!-- 🔹 Row 2: City Selector + Search -->
-    <div class="main-header">
+    <!-- <div class="main-header">
         <app-website-search [placeholder]="'بحث في المنتجات'"></app-website-search>
 
-        <!-- <select class="city-selector" [(ngModel)]="selectedCity">
+        <select class="city-selector" [(ngModel)]="selectedCity">
                 <option *ngFor="let city of cities">{{ city }}</option>
             </select>
 
-            <input type="text" class="search-box" placeholder="ابحث عن منتج..." [(ngModel)]="searchText" /> -->
-    </div>
+            <input type="text" class="search-box" placeholder="ابحث عن منتج..." [(ngModel)]="searchText" /> 
+    </div> -->
 
     <!-- 🔹 Mobile Burger Menu -->
     <div class="burger-overlay" *ngIf="isBurgerOpen" (click)="closeBurger()"></div>

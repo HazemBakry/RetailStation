@@ -26,9 +26,9 @@ export class ProductsDetailsSidePanelComponent implements OnInit {
   }
   openSidePanel(content: any = null) {
     if (content == null)
-      this.offcanvasService.open(this.DetailsSidePanel, { panelClass: 'details-panel', position: 'end' });
+      this.offcanvasService.open(this.DetailsSidePanel, { panelClass: 'details-panel', position: 'start' });
     else
-      this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'end' });
+      this.offcanvasService.open(content, { panelClass: 'details-panel', position: 'start' });
   }
   getFieldValue(product: OrderDetailModel, field: DataField): any {
     // Check if the field exists in the product and return its value
