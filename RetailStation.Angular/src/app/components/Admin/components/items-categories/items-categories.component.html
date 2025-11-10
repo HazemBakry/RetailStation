@@ -53,7 +53,7 @@
                             <div class="file-table-ele d-flex align-items-center gap-3">
                                 <div class="file-table-ele-icon">
                                     <!-- <i *ngIf="!category.imageUrl" class="far fa-file-pdf"></i> -->
-                                    <img *ngIf="category.imageUrl" [src]="category.imageUrl">
+                                    <img *ngIf="category.imageUrl" [src]="category.imageUrl" (error)="$event.target.src = defaultImage">
                                 </div>
                             </div>
                         </td>

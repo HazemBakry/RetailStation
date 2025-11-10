@@ -21,7 +21,7 @@
         <ng-container *ngFor="let category of CategoriesList; let i = index">
             <ng-template swiperSlide>
                 <div class="market-cat-card d-flex flex-column gap-2 align-items-center bg-white p-3" [class.active]="activeCategoryId === CategoriesList[i].itemCategoryId" (click)="onActiveItem(i)">
-                    <img [src]="category.imageUrl" class="marketing-cat-carousel-image" alt="offer-image" loading="lazy" />
+                    <img [src]="category.imageUrl" (error)="$event.target.src = defaultImage" class="marketing-cat-carousel-image" alt="offer-image" loading="lazy" />
                     <div class="fs-16 fw-semibold"> {{category.nameAR ?? category.nameEN }} </div>
                 </div>
             </ng-template>

@@ -265,7 +265,7 @@ namespace RetailStation.Service.Auth
             authModel.SubscriberId = user.SubscriberId;
             authModel.Roles = roleList.ToList();
             authModel.BranchId = user.BranchId;
-            authModel.ImageUrl = _fileService.GetFileDownloadUrl(user.ImageUrl);
+            authModel.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine(UserImagesFolder, user.ImageUrl));
 
             //var userBranch = _sharedService.GetBranchById(user.SubscriberId, user.BranchId);
             //if (userBranch is not null)
@@ -308,7 +308,7 @@ namespace RetailStation.Service.Auth
             authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             authModel.UserName = User.UserName;
             authModel.SubscriberId = User.SubscriberId;
-            authModel.ImageUrl = _fileService.GetFileDownloadUrl(User.ImageUrl);
+            authModel.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine(UserImagesFolder,User.ImageUrl));
             authModel.Roles = roleList.ToList();
 
             return authModel;

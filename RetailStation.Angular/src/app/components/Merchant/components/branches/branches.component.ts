@@ -11,6 +11,7 @@ import { CustomValidators, RegexType } from 'src/app/components/Shared/services/
 import { BranchModel } from 'src/app/components/Shared/models/BranchModel';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { MerchantManagementService } from 'src/app/components/Website/services/merchant-management.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-branches',
@@ -19,6 +20,8 @@ import { MerchantManagementService } from 'src/app/components/Website/services/m
 })
 export class BranchesComponent implements OnInit {
   TitleList = ['التشغيل', 'الفروع '];
+  defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
+
   branchModel: BranchModel = {} as BranchModel;
   branchResponseModel: PagedResponseModel<BranchModel[]> = {
     results: [],

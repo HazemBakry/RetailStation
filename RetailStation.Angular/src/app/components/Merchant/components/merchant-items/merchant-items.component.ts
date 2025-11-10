@@ -13,6 +13,7 @@ import { CustomValidators, RegexType } from 'src/app/components/Shared/services/
 import { ImporterName } from 'src/app/components/SystemSettings/models/DataImporter';
 import { MerchantItemModel } from 'src/app/components/Shared/models/MerchantItemModel';
 import { MerchantService } from 'src/app/components/Website/services/merchant.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-merchant-items',
@@ -25,6 +26,7 @@ export class MerchantItemsComponent implements OnInit {
   merchantsSelectorData: GeneralSelectorModel[] = [];
   itemCategoriesSelectorData: GeneralSelectorModel[] = [];
   categoriesData: GeneralSelectorModel[] = [];
+  defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
 
   selectedmerchantItemId: number;
 

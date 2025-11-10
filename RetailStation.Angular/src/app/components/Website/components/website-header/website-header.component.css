@@ -305,6 +305,10 @@
 .user-image-profile {
     width: 100px;
 }
+.user_image {
+    width: 75px;
+    height: 75px;
+}
 
 .dropdown-search-menu.with-triangle::before,
 .dropdown-search-menu.with-triangle::after {

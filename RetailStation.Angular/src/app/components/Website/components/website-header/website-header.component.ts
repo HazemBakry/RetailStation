@@ -34,6 +34,7 @@ export class WebsiteHeaderComponent implements OnInit {
   collapsed = true;
   showMenu: boolean = false;
   systemUrl: string = environment.systemUrl;
+  defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
   //productSystemUrl: string = environment.authServerUrl + '/products';
   UserModel: LoginUserModel;
   selectedModuleName: string = 'الأنظمة';
@@ -72,7 +73,6 @@ export class WebsiteHeaderComponent implements OnInit {
     this.isAuthenticated = this.authService.isAuthenticated();
     this.routerSubscriber();
     this.getCartItemsNumber();
-    this.getUserModel();
     this.cartService.itemCount$.subscribe((count) => {
       this.cartItemsCount$ = count || 0;
     });
@@ -111,12 +111,7 @@ export class WebsiteHeaderComponent implements OnInit {
     // });
   }
 
-  getUserModel() {
-    // this.sharedService.CurrentUserModel.subscribe(data => {
-    //   this.UserModel = data;
-    //   this.isUserDropdown = false;
-    // });
-  }
+
 
   onClickedOutside() {
     this.isUserDropdown = false;

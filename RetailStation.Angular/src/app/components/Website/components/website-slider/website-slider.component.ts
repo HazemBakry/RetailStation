@@ -15,6 +15,8 @@ import { MerchantItemModel } from 'src/app/components/Shared/models/MerchantItem
 })
 export class WebsiteSliderComponent implements OnInit {
   systemURL: string = environment.systemUrl;
+  defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
+
   UserModel: any;
   activeOrderFilter: number;
   activeSectionsFilter: number;

@@ -67,7 +67,7 @@
                     <ng-container *ngFor="let item of pageResponseModel.results">
 
                         <td *ngIf="['productImage'].includes(field.fieldName)" class="bg-white">
-                            <img [src]="item.imageUrl" class="more-buy-image" alt="more-buy-image" loading="lazy" />
+                            <img [src]="item.imageUrl" (error)="$event.target.src = defaultImage" class="more-buy-image" alt="more-buy-image" loading="lazy" />
                         </td>
                         <td *ngIf="['productName'].includes(field.fieldName)" class="bg-white fw-semibold">
                             {{item.nameAR ?? item.nameEN}}

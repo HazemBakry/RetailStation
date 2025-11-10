@@ -15,6 +15,7 @@ import { SharedService } from 'src/app/components/Shared/services/shared.service
   styleUrls: ['./website-search.component.css', '../../../../../styles-website.css']
 })
 export class WebsiteSearchComponent implements OnInit {
+  defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
 
   isSearchDropdown: boolean = false;
   @Input() placeholder: string = 'search'

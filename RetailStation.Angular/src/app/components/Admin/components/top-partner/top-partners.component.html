@@ -40,7 +40,7 @@
                         <td>{{item.displayOrder}}</td>
 
                         <td>
-                            <img *ngIf="item.imageURL" [src]="item.imageURL" class="rounded"
+                            <img *ngIf="item.imageURL" [src]="item.imageURL" (error)="$event.target.src = defaultImage" class="rounded"
                                 style="width: 100px;height:100px" width="30" height="20">
                         </td>
                         <td>{{item.description}}</td>

@@ -129,7 +129,7 @@
     <div class="d-flex gap-3">
         <!-- Product Image -->
         <div class="product-image flex-shrink-0">
-            <img [src]="item.imageUrl" alt="product" class="rounded-3 img-fluid" />
+            <img [src]="item.imageUrl" (error)="$event.target.src = defaultImage" alt="product" class="rounded-3 img-fluid" />
         </div>
 
         <!-- Product Info -->

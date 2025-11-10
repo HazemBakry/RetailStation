@@ -53,7 +53,7 @@
                         <td>{{promo.startDate | date:'dd/MM/yyyy'}}</td>
                         <td>{{promo.endDate | date:'dd/MM/yyyy'}}</td>
                         <td>
-                            <img *ngIf="promo.imageURL" [src]="promo.imageURL" class="rounded"
+                            <img *ngIf="promo.imageURL" [src]="promo.imageURL" (error)="$event.target.src = defaultImage" class="rounded"
                                 style="width: 100px;height:100px" width="30" height="20">
                         </td>
                         <td class="text-center">

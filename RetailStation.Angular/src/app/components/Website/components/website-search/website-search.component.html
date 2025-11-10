@@ -29,7 +29,7 @@
                 <ng-container *ngFor="let cat of categories">
                     <div (click)="onCategorySelected(cat)" [class.active]="selectedCategory?.itemCategoryId == cat.itemCategoryId" class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
                         <div class="drop-image-box">
-                            <img [src]="cat.imageUrl" alt="drop-icon" loading="lazy" />
+                            <img [src]="cat.imageUrl" (error)="$event.target.src = defaultImage" alt="drop-icon" loading="lazy" />
                         </div>
                         <div>{{cat?.nameAR}}</div>
                     </div>
@@ -60,7 +60,7 @@
                     </ng-container>
                      <ng-container *ngIf="searchResults.length>0">
                         <div *ngFor="let item of searchResults" (click)="navigateToSearchPage(item)" class="d-flex align-items-center gap-2 cursor-pointer border-bottom-not-last" ngbDropdownItem>
-                            <img [src]="item.imageUrl" class="search-img" alt="search-image" loading="lazy" />
+                            <img [src]="item.imageUrl" (error)="$event.target.src = defaultImage" class="search-img" alt="search-image" loading="lazy" />
                             <div class="d-flex flex-column gap-1">
                                 <div class="fw-semibold">{{item.nameAR ?? item.nameEN}}</div>
                                 <div class="d-flex align-items-center gap-3">

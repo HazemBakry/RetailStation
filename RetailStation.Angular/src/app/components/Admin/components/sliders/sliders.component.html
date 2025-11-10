@@ -39,7 +39,7 @@
                         <td>{{ slider.title }}</td>
                         <td>{{ slider.description }}</td>
                         <td>
-                            <img *ngIf="slider.imageURL" [src]="slider.imageURL" class="rounded" style="width: 100px;height:100px" width="30" height="20">
+                            <img *ngIf="slider.imageURL" [src]="slider.imageURL" (error)="$event.target.src = defaultImage"class="rounded" style="width: 100px;height:100px" width="30" height="20">
                         </td>
                         <td class="text-center">
                             <div class="d-flex align-items-center gap-2">

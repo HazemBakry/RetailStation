@@ -24,6 +24,7 @@ export class CompareComponent implements OnInit {
   OrdersList: any[] = [];
   showLoader: boolean;
   systemURL: string = environment.systemUrl;
+  defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
 
   selectAll: boolean = false;
   orderNumber: string = '';

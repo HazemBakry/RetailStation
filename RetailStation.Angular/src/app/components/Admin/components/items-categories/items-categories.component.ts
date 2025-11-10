@@ -10,6 +10,7 @@ import { ItemCategoryModel } from 'src/app/components/Shared/models/ItemCategory
 import { CategorySortModel } from 'src/app/components/Shared/models/CategorySort';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { AdminService } from '../../services/Admin.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class ItemsCategoriesComponent implements OnInit {
   pageSize: any = 20;
   currentPage: any = 1;
   StartIndex = 0;
-  defaultImage = '../../../../assets/defaultimg.jpeg'
+  defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
   printerName: string;
   lang = 'en';
   showLoader: boolean = false;

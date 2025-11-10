@@ -2,7 +2,7 @@
     <ngb-carousel *ngIf="pageResponseModel.results && pageResponseModel.results.length > 0" [interval]="5000">
         <ng-template ngbSlide *ngFor="let slider of pageResponseModel.results">
             <div class="slider-img-wrapper">
-                <img [src]="slider?.imageURL" />
+                <img [src]="slider?.imageURL" (error)="$event.target.src = defaultImage"/>
             </div>
             <div class="carousel-caption">
                 <h3>{{slider?.title}}</h3>
@@ -37,19 +37,6 @@
               slidesPerView: 1
             }
           }">
-
-        <!-- <ng-container *ngFor="let slide of sliderData">
-      <ng-template swiperSlide>
-        <div class="slider-img-wrapper">
-          <img [src]="slide.imageURL" alt="Random first slide" />
-        </div>
-        <div class="carousel-caption">
-          <h3>{{slide.title}}</h3>
-          <p>{{slide.description}}</p>
-        </div>
-      </ng-template>
-    </ng-container> -->
-
         <ng-container *ngFor="let slide of sliderData">
             <ng-template swiperSlide>
                 <div class="slider-img-wrapper">
@@ -61,23 +48,5 @@
                 </div> -->
             </ng-template>
         </ng-container>
-        <!-- <ng-template swiperSlide>
-            <div class="slider-img-wrapper">
-                <img src="../../../../../assets/images/homePage1.jpeg" alt="Random first slide" />
-            </div>
-            <div class="carousel-caption">
-                <h3>أبو أنس الدمشقى</h3>
-                <p>هنا بعض النصوص عن كل مطعم من التوب عندنا</p>
-            </div>
-        </ng-template>
-        <ng-template swiperSlide>
-            <div class="slider-img-wrapper">
-                <img src="../../../../../assets/images/lock-user.png" alt="Random first slide" />
-            </div>
-            <div class="carousel-caption">
-                <h3>أبو أنس الدمشقى</h3>
-                <p>هنا بعض النصوص عن كل مطعم من التوب عندنا</p>
-            </div>
-        </ng-template> -->
     </swiper>
 </div>

@@ -4,6 +4,7 @@ import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';;
 import { WebsiteService } from '../../services/website.service';
 import { MerchantItemModel } from 'src/app/components/Shared/models/MerchantItemModel';
 import { RetailStationLogos } from '../website-home/website-home.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-website-top-partners',
@@ -12,7 +13,9 @@ import { RetailStationLogos } from '../website-home/website-home.component';
 })
 export class WebsiteTopPartnersComponent implements OnInit {
   @Input() searchText: string
-  @Input() activeCategoryId: number 
+  @Input() activeCategoryId: number;
+  defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
+
   retailStationLogos: RetailStationLogos[] = [
     // {
     //   name: 'Shell',

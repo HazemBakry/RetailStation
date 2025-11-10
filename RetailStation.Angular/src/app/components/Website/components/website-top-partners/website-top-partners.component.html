@@ -5,7 +5,7 @@
     </div>
     <div class="logos-container">
         <div class="logos-box" *ngFor="let item of retailStationLogos">
-            <img [src]="item.logo" alt="{{ item.name }}" loading="lazy" />
+            <img [src]="item.logo" (error)="$event.target.src = defaultImage" alt="{{ item.name }}" loading="lazy" />
         </div>
     </div>
 </section>

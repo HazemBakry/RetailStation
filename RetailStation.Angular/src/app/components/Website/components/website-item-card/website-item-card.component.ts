@@ -21,6 +21,7 @@ export class WebsiteItemCardComponent implements OnInit {
   @Input() isAuthenticated: boolean = false;
   isItemInCart = false;
   systemURL: string = environment.systemUrl;
+  defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
 
   isCounterMode = false;
 

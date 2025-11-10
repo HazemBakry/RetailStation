@@ -8,6 +8,7 @@ import { MerchantItemModel } from 'src/app/components/Shared/models/MerchantItem
 import { PagedResponseModel } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { SharedService } from 'src/app/components/Shared/services/shared.service';
 import { MerchantManagementService } from 'src/app/components/Website/services/merchant-management.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-manage-merchant-items',
@@ -20,6 +21,7 @@ export class ManageMerchantItemsComponent implements OnInit {
   selectedItemId: number;
   itemModel: MerchantItemModel = {} as MerchantItemModel;
   filterList: FilterItem[] = [];
+  defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
 
   pagedResponseModel: PagedResponseModel<MerchantItemModel[]> = {
     results: [],

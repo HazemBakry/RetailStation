@@ -10,6 +10,7 @@ import { AdminService } from '../../services/Admin.service';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { TopPartnerModel } from 'src/app/components/Shared/models/TopPartnerModel';
 import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-top-partners',
@@ -18,6 +19,8 @@ import { CustomValidators } from 'src/app/components/Shared/services/custom-vali
 })
 export class TopPartnersComponent implements OnInit {
   TitleList = ['Top Partners'];
+  defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
+
   showLoader: boolean = false;
   showAddLoader: boolean = false;
   topPartnerModel: TopPartnerModel = {} as TopPartnerModel;

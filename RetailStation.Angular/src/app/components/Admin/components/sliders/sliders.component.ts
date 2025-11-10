@@ -9,6 +9,7 @@ import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsRe
 import { CustomValidators } from 'src/app/components/Shared/services/custom-validators';
 import { SliderModel } from '../../models/SliderModel';
 import { AdminService } from '../../services/Admin.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-sliders',
@@ -18,6 +19,8 @@ import { AdminService } from '../../services/Admin.service';
 export class SlidersComponent implements OnInit {
   TitleList = ['التشغيل', 'العروض الترويجية'];
   sliderModel: SliderModel = {} as SliderModel;
+    defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
+
   sliderResponseModel: PagedResponseModel<SliderModel[]> = {
     results: [],
     filterList: [],

@@ -18,6 +18,8 @@ import { FilterModel } from 'src/app/components/Shared/models/FilterModel';
 })
 export class WebsiteCategoriesComponent implements OnInit {
   systemURL: string = environment.systemUrl;
+  defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
+
   showLoader: boolean = false;
   CategoriesList: ItemCategoryModel[] = [];
   filterList: FilterModel[] = [];

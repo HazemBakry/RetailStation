@@ -19,6 +19,8 @@ import { PromotionModel } from 'src/app/components/Shared/models/PromotionModel'
 })
 export class WebsitePromotionItemsComponent implements OnInit {
   systemURL: string = environment.systemUrl;
+  defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
+
   UserModel: any;
   activeOrderFilter: number;
   activeSectionsFilter: number;

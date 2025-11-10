@@ -110,7 +110,7 @@
                         </a>
                         <div class="dropdown-search-menu with-triangle overflow-unset p-2 pb-0 mt-3" style="max-height: 350px; right: -100px;" ngbDropdownMenu>
                             <div class="d-flex flex-column align-items-center gap-3 bg-dark-light p-3 radius-10">
-                                <img src="../../../../../assets/user-image-profile.svg" class="user-image-profile" alt="user profile" loading="lazy" />
+                                <img [src]="UserModel?.imageUrl" (error)="$event.target.src = defaultImage" class="rounded-circle border user_image" alt="user profile" loading="lazy" />
                                 <div class="d-flex align-items-center gap-2">
                                     <div>مرحبا</div>
                                     <div class="fw-bold">{{UserModel.userName}}</div>

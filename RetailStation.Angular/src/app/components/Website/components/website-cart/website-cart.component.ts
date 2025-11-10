@@ -8,6 +8,7 @@ import { MerchantItemModel } from 'src/app/components/Shared/models/MerchantItem
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { WebsiteService } from '../../services/website.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-website-cart',
@@ -15,6 +16,8 @@ import { WebsiteService } from '../../services/website.service';
   styleUrls: ['./website-cart.component.css']
 })
 export class WebsiteCartComponent implements OnInit {
+  defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
+
   showLoader: boolean;
   orderNumber: string = '';
   orderDate: string;

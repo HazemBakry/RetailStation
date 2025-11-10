@@ -29,6 +29,7 @@ export interface RetailStationLogos {
 })
 export class WebsiteHomeComponent implements OnInit {
   systemURL: string = environment.systemUrl;
+  defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
 
   moreFilters = false;
   SubscribersData: any[] = [];

@@ -12,6 +12,7 @@ import { DatePipe } from '@angular/common';
 import { PromotionModel } from 'src/app/components/Shared/models/PromotionModel';
 import { AdminService } from 'src/app/components/Admin/services/Admin.service';
 import { MerchantManagementService } from 'src/app/components/Website/services/merchant-management.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-merchant-promotions',
@@ -21,6 +22,7 @@ import { MerchantManagementService } from 'src/app/components/Website/services/m
 export class MerchantPromotionsComponent implements OnInit {
   TitleList = ['التشغيل', 'العروض الترويجية'];
   promotionModel: PromotionModel = {} as PromotionModel;
+  defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
 
   pagedResponseModel: PagedResponseModel<PromotionModel[]> = {
     results: [],
