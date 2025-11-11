@@ -45,7 +45,8 @@
                             <div class="card-text">Orders Count</div>
                         </div>
                         <!-- <a class="card-number fs-6" routerLink="./../packages" [queryParams]="{CompanyId:com.companyID}" style="color: black;">{{com?.packagesCount}} Packages</a> -->
-                        <a class="card-number fs-6 cursor-pointer" style="color: black;">{{orderStatsInfo?.totalCount}} Order</a>
+                        <a class="card-number fs-6 cursor-pointer" style="color: black;">{{orderStatsInfo?.totalCount}}
+                            Order</a>
                     </div>
                 </div>
                 <div class="card-footer border-0 py-3">
@@ -71,7 +72,8 @@
                             <div class="card-text">Orders Count</div>
                         </div>
                         <!-- <a class="card-number fs-6" routerLink="./../packages" [queryParams]="{CompanyId:com.companyID}" style="color: black;">{{com?.packagesCount}} Packages</a> -->
-                        <a class="card-number fs-6 cursor-pointer" style="color: black;">{{orderStatsInfo?.totalCount}} Order</a>
+                        <a class="card-number fs-6 cursor-pointer" style="color: black;">{{orderStatsInfo?.totalCount}}
+                            Order</a>
                     </div>
                 </div>
                 <div class="card-footer border-0 py-3">
@@ -97,7 +99,8 @@
                             <div class="card-text">Orders Count</div>
                         </div>
                         <!-- <a class="card-number fs-6" routerLink="./../packages" [queryParams]="{CompanyId:com.companyID}" style="color: black;">{{com?.packagesCount}} Packages</a> -->
-                        <a class="card-number fs-6 cursor-pointer" style="color: black;">{{orderStatsInfo?.totalCount}} Order</a>
+                        <a class="card-number fs-6 cursor-pointer" style="color: black;">{{orderStatsInfo?.totalCount}}
+                            Order</a>
                     </div>
                 </div>
                 <div class="card-footer border-0 py-3">
@@ -120,7 +123,8 @@
                 <div class="card-header bg-transparent py-4 border-bottom">
                     <h3>أخر الأنشطة</h3>
                 </div>
-                <div class="card-body h-100 small-scroll px-3 overflow-auto d-flex flex-column gap-3 justify-content-between">
+                <div
+                    class="card-body h-100 small-scroll px-3 overflow-auto d-flex flex-column gap-3 justify-content-between">
                     <div class="d-flex flex-column gap-3">
                         <div class="activity-item d-flex align-items-center justify-content-between">
                             <div class="d-flex flex-column gap-1">
@@ -168,7 +172,8 @@
                 <div class="card-header bg-transparent py-4 border-bottom">
                     <h3>حالة الطلبات</h3>
                 </div>
-                <div class="card-body h-100 small-scroll px-3 overflow-auto d-flex flex-column gap-3 justify-content-between">
+                <div
+                    class="card-body h-100 small-scroll px-3 overflow-auto d-flex flex-column gap-3 justify-content-between">
                     <div class="d-flex flex-column gap-3">
                         <div class="project-card">
                             <strong>Website Redesign</strong>
@@ -274,11 +279,12 @@
                                 <div class="badge-box blue">{{pagedResponseModel?.totalCount}} طلب</div>
                             </div>
                             <div class="d-flex flex-wrap gap-2">
-                                <button class="btn btn-white d-flex align-items-center gap-2 px-3">
+                                <!-- <button class="btn btn-white d-flex align-items-center gap-2 px-3">
                                     <i class="ph ph-download-simple"></i>
                                     <span>تصدير</span>
-                                </button>
-                                <button class="btn btn-blue d-flex align-items-center gap-2 px-3" routerLink="./../create-package">
+                                </button> -->
+                                <button class="btn btn-blue d-flex align-items-center gap-2 px-3"
+                                    routerLink="/merchant/merchant-orders">
                                     <i class="ph ph-plus"></i>
                                     <span>قائمة الطلبات </span>
                                 </button>
@@ -290,51 +296,37 @@
                             <table class="table table-rounded align-middle table-hover m-0">
                                 <thead>
                                     <tr>
-                                        <th style="width: 650px;">اسم المورد</th>
-                                        <th>الشركة</th>
                                         <th>رقم الطلب</th>
                                         <th>تاريخ الطلب</th>
-                                        <th>تم الإنشاء بواسطة</th>
-                                        <th>إجمالى القيمة</th>
-                                        <th class="text-center"></th>
+                                        <th>القيمة الإجمالية</th>
+                                        <th> طريقة الدفع</th>
+                                        <th> الحالة</th>
+                                        <th>ملاحظات</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <ng-container *ngFor="let item of pagedResponseModel.results">
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <img class="table-image" alt="{{item.supplierName}}" loading="lazy" [src]="item.image" />
-                                                    <div class="d-flex flex-column gap-1">
-                                                        <div class="fw-semibold lh-1 m-0">{{item.supplierName}} - {{item.packageName}}
-                                                        </div>
-                                                        <span class="red lh-1">{{item.createdByName}}</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>{{ item.companyName }}</td>
-                                            <td>{{ item.orderNumber }}</td>
-                                            <td class="text-muted">{{ item.createdByName }}</td>
-                                            <td class="text-muted">{{ item.createdDate | date: 'yyyy-MM-dd' }}</td>
-                                            <td>
-                                                <a (click)="goBookingTab(item.packageId)" class="link-color text-underline-none fw-semi-semibold cursor-pointer">
-                                                    {{item.bookingsCount}} Bookings
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <div class="min-width-100 d-flex align-items-center justify-content-center gap-3">
-                                                    <i class="ph ph-eye table-icon-action cursor-pointer fs-5" (click)="openSidePanel(item?.packageId);"></i>
-                                                    <i class="ph ph-pencil-simple table-icon-action cursor-pointer fs-5" routerLink="./../create-package" [queryParams]="{PackageId:item?.packageId}"></i>
-                                                    <i class="ph ph-trash table-icon-action delete-cell cursor-pointer fs-5" (click)="openDeleteModal(deleteModal, item?.packageId)"></i>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr *ngIf="!pagedResponseModel.results.length">
-                                            <td colspan="6" class="text-right">
-                                                <app-empty-data [showEmptyData]="!pagedResponseModel.results.length"></app-empty-data>
-                                            </td>
-                                        </tr>
-                                    </ng-container>
+                                    <tr *ngFor="let item of pagedResponseModel.results">
+                                        <td>
+                                            {{item.serialNumber}}
+                                        </td>
+                                        <td>{{item.orderDate | date:'dd/MM/yyyy HH:mm'}}</td>
+                                        <td>{{item.totalValue}}</td>
+                                        <td>{{item.paymentTypeNameAR ?? item.paymentTypeNameEN }}</td>
+                                        <td>
+                                            <span appWorkflowStatus [id]="item.workflowStatusId"
+                                                [nameEN]="item?.workflowStatusNameEN"
+                                                [nameAR]="item?.workflowStatusNameAR">
+                                            </span>
+                                        </td>
+                                        <td>{{item.notes}}</td>
+                                    </tr>
+                                    <tr *ngIf="!pagedResponseModel.results.length || showLoader">
+                                        <td colspan="8" class="text-right">
+                                            <app-empty-data
+                                                [showEmptyData]="!pagedResponseModel.results.length&&!showLoader"
+                                                [showLoader]="showLoader"></app-empty-data>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

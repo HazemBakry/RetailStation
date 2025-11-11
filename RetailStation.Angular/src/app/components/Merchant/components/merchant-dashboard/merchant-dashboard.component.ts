@@ -27,7 +27,7 @@ export class MerchantDashboardComponent implements OnInit {
   pagedResponseModel: PagedResponseDTO<any[]> = {
     results: [],
     filterList: [],
-    pageSize: 15,
+    pageSize: 5,
     currentPage: 1,
     searchText: ''
   };
@@ -72,6 +72,7 @@ export class MerchantDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.UserModel = this.authService.getCurrentUser();
     this.loadOrderStatus_Statistics();
+    this.getsOrdersData();
     //this.getBookingsData();
     //this.getBookingFilters();
     //this.getCompanyPackagesStatistics();
@@ -87,6 +88,18 @@ export class MerchantDashboardComponent implements OnInit {
       // this.showLoader = false;
     }, () => {
       // this.showLoader = false;
+    });
+  }
+    getsOrdersData() {
+    this.showLoader = true;
+    this.merchantManagementService.GetOrders_Data(this.pagedResponseModel).subscribe(data => {
+      this.pagedResponseModel.results = data.results;
+      this.pagedResponseModel.totalCount = data.totalCount;
+      this.showLoader = false;
+    }, (err) => {
+      this.showLoader = false;
+    }, () => {
+      this.showLoader = false;
     });
   }
   onToggleContent() {
