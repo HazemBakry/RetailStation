@@ -3,6 +3,8 @@ import { FilterItem, FilterModel } from 'src/app/components/Shared/models/Filter
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Auth/auth.service';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
+import { MerchantManagementService } from 'src/app/components/Website/services/merchant-management.service';
+import { OrderStatusStatisticModel } from 'src/app/components/Shared/models/OrderStatusStatisticModel';
 
 @Component({
   selector: 'app-merchant-dashboard',
@@ -60,20 +62,33 @@ export class MerchantDashboardComponent implements OnInit {
   isToggling = false;
   isCollapsing = true;
 
-  
+  orderStatsInfo:OrderStatusStatisticModel;
 
   constructor(
     private authService: AuthService,
+    private merchantManagementService: MerchantManagementService,
     public router: Router) { }
 
   ngOnInit(): void {
     this.UserModel = this.authService.getCurrentUser();
+    this.loadOrderStatus_Statistics();
     //this.getBookingsData();
     //this.getBookingFilters();
     //this.getCompanyPackagesStatistics();
 
   }
+  loadOrderStatus_Statistics() {
+    // this.showLoader = true;
+    this.merchantManagementService.GetOrderStatus_Statistics(this.pagedResponseModel).subscribe(data => {
+      this.orderStatsInfo = data;
 
+      // this.showLoader = false;
+    }, err => {
+      // this.showLoader = false;
+    }, () => {
+      // this.showLoader = false;
+    });
+  }
   onToggleContent() {
     this.isToggling = !this.isToggling;
   }
@@ -183,7 +198,7 @@ export class MerchantDashboardComponent implements OnInit {
   }
 
   goToPackageTab(companyId: number) {
-    if(!companyId)return;
+    if (!companyId) return;
     const filterList = [];
     filterList.push({
       categoryDisplayName: 'Company',
@@ -201,7 +216,7 @@ export class MerchantDashboardComponent implements OnInit {
 
   }
   goBookingTab(companyId: number) {
-    if(!companyId)return;
+    if (!companyId) return;
     const filterList = [];
     filterList.push({
       categoryDisplayName: 'Company',

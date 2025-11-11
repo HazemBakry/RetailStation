@@ -33,6 +33,7 @@ namespace RetailStation.Interface.Operation
         List<WebsiteOrderModel> GetOrders_Data(SearchFilterModel model, int MerchantId, int? OrderId = null);
         List<WebsiteOrderItemModel> GetOrder_Items(int MerchantId,int OrderId);
         List<FilterModel> GetOrders_Filters(SearchFilterModel PagingFilter, int MerchantId);
+        OrderStatusStatisticModel GetOrderStatus_Statistics(SearchFilterModel PagingFilter, int MerchantId);
         WebsiteOrderModel GetOrderDetailsById(int MerchantId, int OrderId);
         ActionsResponseModel CancelOrder(int MerchantId,int OrderId);
         #endregion

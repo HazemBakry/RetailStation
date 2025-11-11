@@ -431,6 +431,20 @@ namespace RetailStation.Service.Operation
             var results = SQLHelper.SQLQuery<FilterItem>("[dbo].[SP_GetMerchantOrders_Filters]", ConnectionString, Params);
             return SharedFilterService.GroupedFilterItems(results);
         }
+        
+        public OrderStatusStatisticModel GetOrderStatus_Statistics(SearchFilterModel PagingFilter, int MerchantId)
+        {
+            var FilterListDt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
+
+            SqlParameter[] Params = new SqlParameter[2];
+
+            Params[0] = new SqlParameter("@MerchantId", MerchantId);
+            Params[1] = new SqlParameter("@FilterList", SqlDbType.Structured);
+            Params[1].Value = FilterListDt;
+
+            var results = SQLHelper.SQLQuery<OrderStatusStatisticModel>("[dbo].[SP_GetOrderStatus_Statistics]", ConnectionString, Params)?.FirstOrDefault();
+            return results;
+        }
 
         public WebsiteOrderModel GetOrderDetailsById(int MerchantId, int OrderId)
         {

@@ -18,13 +18,14 @@
                             <div class="card-text">Orders Count</div>
                         </div>
                         <!-- <a class="card-number fs-6" routerLink="./../packages" [queryParams]="{CompanyId:com.companyID}" style="color: black;">{{com?.packagesCount}} Packages</a> -->
-                        <a class="card-number fs-6 cursor-pointer" style="color: black;">5 Order</a>
+                        <a class="card-number fs-6 cursor-pointer" style="color: black;">
+                            {{orderStatsInfo?.totalCount}} Order</a>
                     </div>
                 </div>
                 <div class="card-footer border-0 py-3">
                     <div class="d-flex align-items-center justify-content-between fs-14">
                         <!-- <a class="footer-text" routerLink="./../bookings" [queryParams]="{CompanyId:com.companyID}">{{com?.bookingsCount}} Bookings</a> -->
-                        <a class="footer-text cursor-pointer">2 Completed</a>
+                        <a class="footer-text cursor-pointer">{{orderStatsInfo?.cancelled}} Cancelled</a>
                         <div class="footer-icon">
                             <i class="fa-solid fa-caret-down"></i>
                         </div>
@@ -44,13 +45,13 @@
                             <div class="card-text">Orders Count</div>
                         </div>
                         <!-- <a class="card-number fs-6" routerLink="./../packages" [queryParams]="{CompanyId:com.companyID}" style="color: black;">{{com?.packagesCount}} Packages</a> -->
-                        <a class="card-number fs-6 cursor-pointer" style="color: black;">5 Order</a>
+                        <a class="card-number fs-6 cursor-pointer" style="color: black;">{{orderStatsInfo?.totalCount}} Order</a>
                     </div>
                 </div>
                 <div class="card-footer border-0 py-3">
                     <div class="d-flex align-items-center justify-content-between fs-14">
                         <!-- <a class="footer-text" routerLink="./../bookings" [queryParams]="{CompanyId:com.companyID}">{{com?.bookingsCount}} Bookings</a> -->
-                        <a class="footer-text cursor-pointer">2 Completed</a>
+                        <a class="footer-text cursor-pointer">{{orderStatsInfo?.rejected}} Rejected</a>
                         <div class="footer-icon">
                             <i class="fa-solid fa-caret-down"></i>
                         </div>
@@ -70,13 +71,13 @@
                             <div class="card-text">Orders Count</div>
                         </div>
                         <!-- <a class="card-number fs-6" routerLink="./../packages" [queryParams]="{CompanyId:com.companyID}" style="color: black;">{{com?.packagesCount}} Packages</a> -->
-                        <a class="card-number fs-6 cursor-pointer" style="color: black;">5 Order</a>
+                        <a class="card-number fs-6 cursor-pointer" style="color: black;">{{orderStatsInfo?.totalCount}} Order</a>
                     </div>
                 </div>
                 <div class="card-footer border-0 py-3">
                     <div class="d-flex align-items-center justify-content-between fs-14">
                         <!-- <a class="footer-text" routerLink="./../bookings" [queryParams]="{CompanyId:com.companyID}">{{com?.bookingsCount}} Bookings</a> -->
-                        <a class="footer-text cursor-pointer">2 Completed</a>
+                        <a class="footer-text cursor-pointer">{{orderStatsInfo?.completed}} Completed</a>
                         <div class="footer-icon">
                             <i class="fa-solid fa-caret-down"></i>
                         </div>
@@ -96,13 +97,13 @@
                             <div class="card-text">Orders Count</div>
                         </div>
                         <!-- <a class="card-number fs-6" routerLink="./../packages" [queryParams]="{CompanyId:com.companyID}" style="color: black;">{{com?.packagesCount}} Packages</a> -->
-                        <a class="card-number fs-6 cursor-pointer" style="color: black;">5 Order</a>
+                        <a class="card-number fs-6 cursor-pointer" style="color: black;">{{orderStatsInfo?.totalCount}} Order</a>
                     </div>
                 </div>
                 <div class="card-footer border-0 py-3">
                     <div class="d-flex align-items-center justify-content-between fs-14">
                         <!-- <a class="footer-text" routerLink="./../bookings" [queryParams]="{CompanyId:com.companyID}">{{com?.bookingsCount}} Bookings</a> -->
-                        <a class="footer-text cursor-pointer">2 Completed</a>
+                        <a class="footer-text cursor-pointer">{{orderStatsInfo?.pending}} Pending</a>
                         <div class="footer-icon">
                             <i class="fa-solid fa-caret-down"></i>
                         </div>

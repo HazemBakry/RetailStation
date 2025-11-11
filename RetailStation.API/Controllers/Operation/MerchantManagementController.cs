@@ -243,6 +243,15 @@ namespace RetailStation.API.Controllers.Operation
                 return BadRequest("No Merchant assigned");
             return Ok(_merchantManagementService.GetOrders_Filters(model, MerchantId));
         }
+        [HttpPost]
+        [Route("GetOrderStatus_Statistics")]
+        public IActionResult GetOrderStatus_Statistics(SearchFilterModel model)
+        {
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
+            if (MerchantId <= 0)
+                return BadRequest("No Merchant assigned");
+            return Ok(_merchantManagementService.GetOrderStatus_Statistics(model, MerchantId));
+        }
 
         [HttpGet]
         [Route("GetOrderDetailsById")]

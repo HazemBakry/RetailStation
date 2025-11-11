@@ -9,6 +9,7 @@ import { BranchModel } from '../../Shared/models/BranchModel';
 import { PromotionModel } from '../../Shared/models/PromotionModel';
 import { WebsiteOrderItemModel, WebsiteOrderModel } from '../models/WebsiteOrderModel ';
 import { FilterItem } from '../../Shared/models/FilterModel';
+import { OrderStatusStatisticModel } from '../../Shared/models/OrderStatusStatisticModel';
 
 
 @Injectable({
@@ -136,6 +137,9 @@ export class MerchantManagementService {
   }
   GetOrders_Filters(model: PagedResponseModel<any[]>) {
     return this.http.post<FilterItem[]>(this.URL + 'MerchantManagement/GetOrders_Filters', model);
+  }
+  GetOrderStatus_Statistics(model: PagedResponseModel<any[]>) {
+    return this.http.post<OrderStatusStatisticModel>(this.URL + 'MerchantManagement/GetOrderStatus_Statistics', model);
   }
   GetOrderDetailsById(OrderId: number) {
     return this.http.get<WebsiteOrderModel>(this.URL + 'MerchantManagement/GetOrderDetailsById?OrderId=' + OrderId);
