@@ -25,6 +25,8 @@ import { WebsiteTopPartnersComponent } from './components/website-top-partners/w
 import { WebsiteFavoritesComponent } from './components/website-favorites/website-favorites.component';
 import { WebsiteCategoriesComponent } from './components/website-categories/website-categories.component';
 import { WebsiteBestSellerItemsComponent } from './components/website-best-seller-items/website-best-seller-items.component';
+import { MyOrdersComponent } from './components/my-orders/my-orders.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 
 
@@ -51,7 +53,9 @@ import { WebsiteBestSellerItemsComponent } from './components/website-best-selle
     WebsiteFavoritesComponent,
     WebsiteMainCategoriesComponent,
     WebsiteCategoriesComponent,
-    WebsiteBestSellerItemsComponent
+    WebsiteBestSellerItemsComponent,
+    MyOrdersComponent,
+    UserProfileComponent
   ],
   imports: [
     CommonModule,

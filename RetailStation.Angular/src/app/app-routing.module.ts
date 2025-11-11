@@ -20,13 +20,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./components/Website/website.module').then((x) => x.WebsiteModule)
   },
-  {
-    path: 'user-panel',
-    loadChildren: () =>
-      import('./components/UserPanel/user.module').then((x) => x.UserModule),
-    canActivate: [AuthGuard],
-    data: { roles: ['User'] },
-  },
+  // {
+  //   path: 'user-panel',
+  //   loadChildren: () =>
+  //     import('./components/UserPanel/user.module').then((x) => x.UserModule),
+  //   canActivate: [AuthGuard],
+  //   data: { roles: ['User'] },
+  // },
   {
     path: 'merchant',
     loadChildren: () =>

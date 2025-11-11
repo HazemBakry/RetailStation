@@ -11,8 +11,8 @@ import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-poli
 import { BlogDetailsComponent } from './components/blog-details/blog-details.component';
 import { WebsiteFavoritesComponent } from './components/website-favorites/website-favorites.component';
 import { WebsiteCategoriesComponent } from './components/website-categories/website-categories.component';
-import { MyOrdersComponent } from '../UserPanel/components/my-orders/my-orders.component';
-import { UserProfileComponent } from '../UserPanel/components/user-profile/user-profile.component';
+import { MyOrdersComponent } from './components/my-orders/my-orders.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 
 const routes: Routes = [
