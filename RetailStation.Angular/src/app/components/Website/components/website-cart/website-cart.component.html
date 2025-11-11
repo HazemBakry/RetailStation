@@ -171,12 +171,17 @@
                 </table>
 
 
-                <div class="complete-purchase-action border p-3 w-100 cursor-pointer radius-10" (click)="createOrder()">
+                <div *ngIf="isAuthenticated" class="complete-purchase-action border p-3 w-100 cursor-pointer radius-10" (click)="createOrder()">
                     <div class="d-flex align-items-center justify-content-center gap-2">
                         <i class="ph ph ph-credit-card fs-4"></i>
                         <div class="fw-bold">إتمام عملية الشراء</div>
                     </div>
                 </div>
+                <div  class="w-100" *ngIf="!isAuthenticated">
+
+                    <app-float-login [accessFrom]="'cart'"></app-float-login>
+                </div>
+                
             </div>
         </div>
 

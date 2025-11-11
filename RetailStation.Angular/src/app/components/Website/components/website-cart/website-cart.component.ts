@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { WebsiteService } from '../../services/website.service';
 import { environment } from 'src/environments/environment';
+import { AuthService } from 'src/app/Auth/auth.service';
 
 @Component({
   selector: 'app-website-cart',
@@ -35,15 +36,18 @@ export class WebsiteCartComponent implements OnInit {
   };
   cartItems: MerchantItemModel[] = [];
   compareCount$: number = 0;
-
+  isAuthenticated: boolean = false;
   constructor(private offcanvasService: NgbOffcanvas,
     private sharedService: SharedService,
     private router: Router,
     private cartService: CartService,
     private modalService: NgbModal,
+    private authService: AuthService,
     // private toaster: ToastrService, 
     private websiteService: WebsiteService,
-  ) { }
+  ) {
+    this.isAuthenticated = this.authService.isAuthenticated();
+   }
 
 
   ngOnInit(): void {

@@ -1,4 +1,5 @@
-<a class="sm-action-dropdown d-flex align-items-center gap-2 text-dark text-underline-none cursor-pointer"
+<a *ngIf="accessFrom == 'header'"
+    class="sm-action-dropdown d-flex align-items-center gap-2 text-dark text-underline-none cursor-pointer"
     style="height: 45px" (click)="openLoginRegisterModal(loginRegisterModal)">
     <div class="d-flex align-items-center gap-2">
         <i class="ph ph-user-circle-gear fs-3"></i>
@@ -6,7 +7,13 @@
     </div>
     <i class="ph ph-caret-down dropdown-arrow m-0"></i>
 </a>
-
+<div *ngIf="accessFrom == 'cart'" (click)="openLoginRegisterModal(loginRegisterModal)"
+    class="complete-purchase-action border p-3 w-100 cursor-pointer radius-10">
+    <div class="d-flex align-items-center justify-content-center gap-2">
+        <i class="ph ph ph-credit-card fs-4"></i>
+        <div class="fw-bold">يرجي تسجيل الدخول لأتمام عمليه الشراء </div>
+    </div>
+</div>
 
 <ng-template #loginRegisterModal let-modal>
     <div class="modal-header login-register-bg d-block">
