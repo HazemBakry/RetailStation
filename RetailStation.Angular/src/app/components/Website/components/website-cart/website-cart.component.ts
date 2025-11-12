@@ -210,10 +210,12 @@ export class WebsiteCartComponent implements OnInit {
     this.orderModel.notes = '';
     this.orderModel.deliveryValue = 0;
     this.orderModel.subTotal = 0;
-    this.orderModel.tax = 0;
-    this.orderModel.totalValue = this.orderItems.reduce((sum, item) => (sum + item.totalValue), 0);
+    this.orderModel.tax = this.tax ?? 0;
+    //this.orderModel.totalValue = this.orderItems.reduce((sum, item) => (sum + item.totalValue), 0);
+    //this.orderModel.netValue = this.orderModel.totalValue - (this.orderModel.discount ?? 0) + (this.orderModel.tax ?? 0) + (this.orderModel.deliveryValue ?? 0);
+    this.orderModel.totalValue = this.totalValue;
+    this.orderModel.netValue = this.netValue;
     this.orderModel.paymentTypeId = 1;
-    this.orderModel.netValue = this.orderModel.totalValue - (this.orderModel.discount ?? 0) + (this.orderModel.tax ?? 0) + (this.orderModel.deliveryValue ?? 0);
     this.orderModel.items = this.orderItems;
     this.showLoader = true;
     this.websiteService.CreateNewOrder(this.orderModel).subscribe(response => {

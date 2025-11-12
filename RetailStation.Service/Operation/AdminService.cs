@@ -17,6 +17,8 @@ using RetailStation.Entities.Models.Operation;
 using RetailStation.Entities.DTOs.Operation;
 using System.Threading.Tasks;
 using System.IO;
+using RetailStation.Entities.DTOs.SystemSettings;
+using RetailStation.Entities.Models.SystemAdmin;
 
 namespace RetailStation.Service.Operation
 {
@@ -32,6 +34,7 @@ namespace RetailStation.Service.Operation
         private readonly IFileService _fileService;
         private readonly string SliderImagesFolder = "SliderImages";
         private readonly string PartnerImagesFolder = "TopPartnersImages";
+        private readonly string TotalValuePromotionImagesFolder = "TotalValuePromotionImages";
 
 
         public AdminService(DBContext Context, ISQLHelper SQLHelper,
@@ -516,6 +519,179 @@ namespace RetailStation.Service.Operation
 
         #endregion
 
+        #region TotalValuePromotions
 
+        public List<TotalValuePromotionModel> GetTotalValuePromotions_Data(SearchFilterModel filter, int? promotionId = null)
+        {
+            var query = Context.TotalValuePromotions.AsNoTracking()
+                .Where(p => (!promotionId.HasValue || p.TotalValuePromotionId == promotionId));
+
+            int totalCount = query.Count();
+
+            if (filter.CurrentPage > 0 && filter.PageSize > 0)
+            {
+                int skip = (filter.CurrentPage - 1) * filter.PageSize;
+                query = query.OrderByDescending(p => p.CreatedDate).Skip(skip).Take(filter.PageSize);
+            }
+
+            var results = query
+                .Select(p => new TotalValuePromotionModel
+                {
+                    TotalValuePromotionId = p.TotalValuePromotionId,
+                    Code = p.Code,
+                    Title = p.Title,
+                    Description = p.Description,
+                    ImageURL = p.Image,
+                    DiscountValue = p.DiscountValue,
+                    IsPercentage = p.IsPercentage,
+                    ValueType = p.ValueType,
+                    MaxUsesGlobal = p.MaxUsesGlobal,
+                    MaxUsesPerCustomer = p.MaxUsesPerCustomer,
+                    MinValue = p.MinValue,
+                    StartDate = p.StartDate,
+                    EndDate = p.EndDate,
+                    IsActive = p.IsActive,
+                    CreatedBy = p.CreatedBy,
+                    CreatedDate = p.CreatedDate,
+                    ModifiedBy = p.ModifiedBy,
+                    ModifiedDate = p.ModifiedDate
+                })
+                .ToList();
+
+            foreach (var item in results.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
+            {
+                item.ImageURL = _fileService.GetFileDownloadUrl(Path.Combine(TotalValuePromotionImagesFolder, item.ImageURL));
+            }
+
+            results.ForEach(x => x.TotalCount = totalCount);
+            return results;
+        }
+
+        public TotalValuePromotionModel GetTotalValuePromotionById(int promotionId)
+        {
+            return GetTotalValuePromotions_Data(new SearchFilterModel { PageSize = 1, CurrentPage = 1 }, promotionId).FirstOrDefault();
+        }
+
+        public async Task<ActionsResponseModel> AddTotalValuePromotion(TotalValuePromotionModel model)
+        {
+            try
+            {
+                var promotion = new TotalValuePromotion
+                {
+                    Code = model.Code,
+                    Title = model.Title,
+                    Description = model.Description,
+                    DiscountValue = model.DiscountValue,
+                    IsPercentage = model.IsPercentage,
+                    ValueType = model.ValueType,
+                    MaxUsesGlobal = model.MaxUsesGlobal,
+                    MaxUsesPerCustomer = model.MaxUsesPerCustomer,
+                    MinValue = model.MinValue,
+                    StartDate = model.StartDate,
+                    EndDate = model.EndDate,
+                    IsActive = model.IsActive,
+                    CreatedBy = model.CreatedBy,
+                    CreatedDate = DateTime.Now
+                };
+
+                if (model.Image != null)
+                {
+                    var upload = await _fileService.UploadFileAsync(model.Image, TotalValuePromotionImagesFolder, FileType.Image);
+                    if (upload.IsUploaded)
+                        promotion.Image = upload.FilePath;
+                    else
+                        return new ActionsResponseModel { IsSuccess = false, Message = upload.Message };
+                }
+
+                Context.TotalValuePromotions.Add(promotion);
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "TotalValuePromotion added successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public async Task<ActionsResponseModel> EditTotalValuePromotion(int promotionId, TotalValuePromotionModel model)
+        {
+            try
+            {
+                var promotion = Context.TotalValuePromotions.FirstOrDefault(p => p.TotalValuePromotionId == promotionId);
+                if (promotion == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "TotalValuePromotion not found." };
+
+                promotion.Code = model.Code;
+                promotion.Title = model.Title;
+                promotion.Description = model.Description;
+                promotion.DiscountValue = model.DiscountValue;
+                promotion.IsPercentage = model.IsPercentage;
+                promotion.ValueType = model.ValueType;
+                promotion.MaxUsesGlobal = model.MaxUsesGlobal;
+                promotion.MaxUsesPerCustomer = model.MaxUsesPerCustomer;
+                promotion.MinValue = model.MinValue;
+                promotion.StartDate = model.StartDate;
+                promotion.EndDate = model.EndDate;
+                promotion.IsActive = model.IsActive;
+                promotion.ModifiedBy = model.ModifiedBy;
+                promotion.ModifiedDate = DateTime.Now;
+
+                if (model.Image != null)
+                {
+                    var upload = await _fileService.UploadFileAsync(model.Image, TotalValuePromotionImagesFolder, FileType.Image);
+                    if (upload.IsUploaded)
+                        promotion.Image = upload.FilePath;
+                    else
+                        return new ActionsResponseModel { IsSuccess = false, Message = upload.Message };
+                }
+
+                Context.SaveChanges();
+                return new ActionsResponseModel { Message = "TotalValuePromotion updated successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel DeleteTotalValuePromotion(int promotionId)
+        {
+            try
+            {
+                var promotion = Context.TotalValuePromotions.FirstOrDefault(p => p.TotalValuePromotionId == promotionId);
+                if (promotion == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "TotalValuePromotion not found." };
+
+                Context.TotalValuePromotions.Remove(promotion);
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "TotalValuePromotion deleted successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel ChangeTotalValuePromotionActiveStatus(int promotionId)
+        {
+            try
+            {
+                var promotion = Context.TotalValuePromotions.FirstOrDefault(p => p.TotalValuePromotionId == promotionId);
+                if (promotion == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "TotalValuePromotion not found." };
+
+                promotion.IsActive = !promotion.IsActive;
+                promotion.ModifiedDate = DateTime.Now; 
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "TotalValuePromotion status changed successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+        #endregion
     }
 }

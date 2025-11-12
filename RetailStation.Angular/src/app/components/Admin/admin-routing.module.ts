@@ -30,6 +30,7 @@ import { MerchantListComponent } from './components/merchants-container/merchant
 import { ItemsComponent } from './components/items/items.component';
 import { ManageMerchantPromotionsComponent } from './components/merchants-container/manage-merchant-promotions/manage-merchant-promotions.component';
 import { ManageMerchantLayoutComponent } from './components/merchants-container/manage-merchant-layout/manage-merchant-layout.component';
+import { AdminTotalValuePromotionsComponent } from './components/admin-total-value-promotions/admin-total-value-promotions.component';
 
 
 const routes: Routes = [
@@ -93,6 +94,7 @@ const routes: Routes = [
       { path: 'regions', component: RegionsComponent },
       { path: 'top-partners', component: TopPartnersComponent },
       { path: 'best-seller-items', component: BestSellerItemsComponent },
+      { path: 'promotions', component: AdminTotalValuePromotionsComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]
   }

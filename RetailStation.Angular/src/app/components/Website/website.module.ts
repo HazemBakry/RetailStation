@@ -27,6 +27,7 @@ import { WebsiteCategoriesComponent } from './components/website-categories/webs
 import { WebsiteBestSellerItemsComponent } from './components/website-best-seller-items/website-best-seller-items.component';
 import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { WebsiteTotalValuePromotionsComponent } from './components/website-total-value-promotions/website-total-value-promotions.component';
 
 
 
@@ -55,7 +56,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     WebsiteCategoriesComponent,
     WebsiteBestSellerItemsComponent,
     MyOrdersComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    WebsiteTotalValuePromotionsComponent
   ],
   imports: [
     CommonModule,

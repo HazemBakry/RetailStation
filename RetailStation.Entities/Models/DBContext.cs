@@ -8,6 +8,7 @@ using RetailStation.Entities.Models.Purchases;
 using RetailStation.Entities.Models.Operation;
 using System.Collections.Generic;
 using RetailStation.Entities.Models.SystemAdmin;
+using RetailStation.Entities.DTOs.SystemSettings;
 
 namespace RetailStation.Entities.Models
 {
@@ -74,6 +75,7 @@ namespace RetailStation.Entities.Models
         public DbSet<MerchantItem> SupplierItems { get; set; }
         public DbSet<MerchantItem> MerchantItems { get; set; }
         public DbSet<Slider> Sliders { get; set; }
+        public DbSet<TotalValuePromotion> TotalValuePromotions { get; set; }
         public DbSet<Promotion> Promotions { get; set; }
         public DbSet<TopPartner> TopPartners { get; set; }
         public DbSet<UserFavoriteItem> UserFavoriteItems { get; set; }

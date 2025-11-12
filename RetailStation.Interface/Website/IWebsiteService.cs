@@ -1,5 +1,6 @@
 ﻿using RetailStation.Entities.Common;
 using RetailStation.Entities.DTOs.Operation;
+using RetailStation.Entities.DTOs.SystemSettings;
 using RetailStation.Entities.DTOs.Website;
 using RetailStation.Entities.Models.Operation;
 using System;
@@ -21,6 +22,7 @@ namespace RetailStation.Interface.Website
         List<MerchantItemModel> GetWebsiteBestSellerItems_Data(string UserId, SearchFilterModel FilterModel);
         List<MerchantItemModel> GetWebsiteFavoriteItems_Data(string UserId, SearchFilterModel FilterModel);
         List<MerchantItemModel> GetWebsitePromotionItems(SearchFilterModel model);
+        List<TotalValuePromotionModel> GetWebsiteTotalValuePromotions(SearchFilterModel model);
         List<TopPartnerModel> GetTopPartners();
         ActionsResponseModel ToggleFavorite(string userId, int MerchantItemId);
         List<SearchAutoCompleteModel> SearchAutoComplete(string SearchText);

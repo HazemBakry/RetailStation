@@ -1,0 +1,243 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3"
+                (click)="openNewPromotionModal(AddNewDialog)">
+                <i class="fas fa-plus-circle"></i>
+                <span>إنشاء</span>
+            </button>
+
+        </div>
+        <div class="justify-content-end">
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
+                [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-pagination>
+        </div>
+    </div>
+
+    <div class="p-3 bg-white">
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+                <thead>
+                    <tr>
+                        <th>الاسم</th>
+                        <th>نوع الخصم</th>
+                        <th>القيمة</th>
+                        <th>من التاريخ</th>
+                        <th>الي التاريخ</th>
+                        <th>الصورة</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let promotion of pagedResponseModel.results">
+                        <td>{{ promotion.title }}</td>
+                        <td>
+                            {{ promotion.valueType }}
+                        </td>
+                        <td>
+                            {{ promotion.discountValue }}
+                            <span *ngIf="promotion.valueType === 'PERCENT'">%</span>
+                        </td>
+                        <td>
+                            {{ promotion.startDate | date: 'yyyy-MM-dd HH:mm' }}
+                        </td>
+                        <td>
+                            {{ promotion.endDate | date: 'yyyy-MM-dd HH:mm' }}
+                        </td>
+                        <td>
+                            <img *ngIf="promotion.imageURL" [src]="promotion.imageURL"
+                                (error)="$event.target.src = defaultImage" class="rounded"
+                                style="width: 100px;height:100px" width="30" height="20">
+                        </td>
+                        <td class="text-center">
+                            <div class="d-flex align-items-center gap-2">
+                                <label class="switch me-2">
+                                    <input type="checkbox" [(ngModel)]="promotion.isActive"
+                                        (change)="changePromotionStatus(promotion.totalValuePromotionId)">
+                                    <span class="slider round"></span>
+                                </label>
+                                <button
+                                    class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2"
+                                    (click)="openNewPromotionModal(AddNewDialog, promotion)">
+                                    <i class="uil uil-pen"></i>
+                                    <span>تعديل</span>
+                                </button>
+                                <button
+                                    class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
+                                    (click)="openDeleteModal(deleteModal, promotion.totalValuePromotionId)">
+                                    <i class="uil uil-trash-alt"></i>
+                                    <span>حذف</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length && !showLoader"
+                [showLoader]="showLoader"></app-empty-data>
+        </div>
+    </div>
+</div>
+
+<ng-template #AddNewDialog let-modal>
+    <div class="modal-header modal-header-bg justify-content-between">
+        <h2 class="d-flex align-items-center gap-2">
+            <i class="uil uil-plus"></i>
+            <span>املأ البيانات الأتية</span>
+            <span *ngIf="!isUpdate" class="ms-3">(إنشاء)</span>
+            <span *ngIf="isUpdate" class="ms-3">(تعديل)</span>
+        </h2>
+        <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formGroup" autocomplete="off">
+            <table class="table table-bordered table-feature-value align-middle border m-0">
+                <tbody>
+                    <tr>
+                        <td class="table-feature">الاسم</td>
+                        <td class="table-value">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <input type="text" formControlName="title" class="form-control form-control-lg"
+                                        placeholder="الاسم">
+                                    <div *ngIf="formErrors.title" class="text-danger font-small-3 m-03">
+                                        {{formErrors.title}}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">كود الترويج</td>
+                        <td class="table-value">
+                            <input type="text" formControlName="code" class="form-control form-control-lg"
+                                placeholder="الكود (اختياري)">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">القيمة</td>
+                        <td class="table-value">
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <input type="text" formControlName="discountValue"
+                                        class="form-control form-control-lg" placeholder="قيمة الخصم">
+                                    <div *ngIf="formErrors.discountValue" class="text-danger font-small-3 m-03">
+                                        {{formErrors.discountValue}}
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <select formControlName="valueType" class="form-select form-select-lg">
+                                        <option value="FIXED_AMOUNT">مبلغ ثابت</option>
+                                        <option value="PERCENT">نسبة مئوية</option>
+                                    </select>
+                                    <div *ngIf="formErrors.valueType" class="text-danger font-small-3 m-03">
+                                        {{formErrors.valueType}}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">الحد الأدنى للطلب</td>
+                        <td class="table-value">
+                            <input type="te" formControlName="minValue" class="form-control form-control-lg"
+                                placeholder="الحد الأدنى للمبلغ للتطبيق">
+                            <div *ngIf="formErrors.minValue" class="text-danger font-small-3 m-03">
+                                {{formErrors.minValue}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">تاريخ البدء</td>
+                        <td class="table-value">
+                            <input type="datetime-local" formControlName="startDate"
+                                class="form-control form-control-lg">
+                            <div *ngIf="formErrors.startDate" class="text-danger font-small-3 m-03">
+                                {{formErrors.startDate}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">تاريخ الانتهاء</td>
+                        <td class="table-value">
+                            <input type="datetime-local" formControlName="endDate" class="form-control form-control-lg">
+                            <div *ngIf="formErrors.endDate" class="text-danger font-small-3 m-03">
+                                {{formErrors.endDate}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">الوصف</td>
+                        <td class="table-value">
+                            <textarea type="text" formControlName="description" class="form-control form-control-lg"
+                                placeholder="الوصف">
+                            </textarea>
+                            <div *ngIf="formErrors.description" class="text-danger font-small-3 m-03">
+                                {{formErrors.description}}
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="table-feature">صورة</td>
+                        <td class="table-value">
+                            <div class="form-floating mb-3">
+                                <input formControlName="image" (change)="onFileChange($event)" type="file"
+                                    class="cursor-pointer" placeholder="الصورة">
+                                <div *ngIf="formErrors.image" class="text-danger font-small-3 m-03">
+                                    {{formErrors.image}}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-feature">نشط</td>
+                        <td class="table-value">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" formControlName="isActive"
+                                    id="isActive">
+                                <label class="form-check-label" for="isActive">نشط</label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="modal-footer flex-nowrap gap-2">
+        <button [disabled]="showAddLoader" (click)="savePromotion()" type="button"
+            class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
+            <i class="uil uil-save fs-3"></i>
+            <span *ngIf="!isUpdate">إنشاء</span>
+            <span *ngIf="isUpdate">تعديل</span> </button>
+
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="modal.close()">
+            <i class="uil uil-times-circle fs-3"></i>
+            <span>الغاء</span>
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">تأكيد الحذف</h4>
+    </div>
+    <div class="modal-body">
+        <p class="fs-5 m-0">هل أنت متأكد من الحذف؟</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" (click)="modal.close(); deletePromotion()">
+            <i class="fas fa-check"></i>
+            <span>نعم</span>
+        </button>
+        <button class="btn btn-danger" (click)="modal.close()">
+            <i class="fas fa-times"></i>
+            <span>إلغاء</span>
+        </button>
+    </div>
+</ng-template>

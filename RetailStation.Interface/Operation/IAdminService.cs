@@ -4,6 +4,7 @@ using RetailStation.Entities.Common.Inventory.ReceiveOrder;
 using RetailStation.Entities.DTOs.Inventory;
 using RetailStation.Entities.DTOs.Operation;
 using RetailStation.Entities.DTOs.Purchases;
+using RetailStation.Entities.DTOs.SystemSettings;
 using RetailStation.Entities.Models.Operation;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,16 @@ namespace RetailStation.Interface.Operation
         #region BestSellerItems
         List<BestSellerItemModel> GetBestSellerItems_Data();
         ActionsResponseModel UpdateBestSellerItems(List<BestSellerItemModel> BestSellerItems);
+        #endregion
+
+        #region TotalValuePromotions
+        List<TotalValuePromotionModel> GetTotalValuePromotions_Data(SearchFilterModel filterModel, int? promotionId = null);
+
+        TotalValuePromotionModel GetTotalValuePromotionById(int promotionId);
+        Task<ActionsResponseModel> AddTotalValuePromotion(TotalValuePromotionModel model);
+        Task<ActionsResponseModel> EditTotalValuePromotion(int promotionId, TotalValuePromotionModel model);
+        ActionsResponseModel DeleteTotalValuePromotion(int promotionId);
+        ActionsResponseModel ChangeTotalValuePromotionActiveStatus(int promotionId);
         #endregion
 
     }

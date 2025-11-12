@@ -106,6 +106,12 @@ export class MenuService {
                 icon: 'fa fa-users',
                 route: '/admin/top-partners'
               },
+              {
+                displayName: 'قائمة الخصومات',
+                menuItem: 'promotions',
+                icon: 'fa fa-users',
+                route: '/admin/promotions'
+              },
             ]
           },
 

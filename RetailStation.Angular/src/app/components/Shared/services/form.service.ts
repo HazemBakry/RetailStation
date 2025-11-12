@@ -30,6 +30,7 @@ export class FormService {
       invalid_Html: 'Invalid HTML',
       //endDateLessThanStartDate:'End Date Must Be Greater Than Start Date',
       endDateLessThanStartDate: (error: string) => error || 'End Date Must Be Greater Than Start Date',
+      discountValueLimitCheck: (error: string) => error || 'Value Must be less than 50%',
       regexPattern: (error: string) => error || 'Invalid pattern',
       dateGreaterThan: (error: string) => error || 'Date must be greater than the specific date',
       dateLessThan: (error: string) => error || 'Date must be less than the specific date',

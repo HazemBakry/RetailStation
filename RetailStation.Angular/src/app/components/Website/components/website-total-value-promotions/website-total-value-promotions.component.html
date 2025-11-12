@@ -1,0 +1,56 @@
+<div class="promotions-list-page-container">
+    <h1 class="page-title">كوبونات و عروض الخصم</h1>
+
+    <div class="loader-container" *ngIf="showLoader">
+        <div class="spinner"></div>
+        <p>جارٍ تحميل العروض... رجاء الانتظار</p>
+    </div>
+
+    <div class="empty-state" *ngIf="!showLoader && promotions.length === 0">
+        <p>لا توجد عروض متاحة حاليًا. يرجى التحقق لاحقًا.</p>
+    </div>
+
+    <div class="promotions-grid" *ngIf="!showLoader && promotions.length > 0">
+
+        <div class="promo-card" *ngFor="let promo of promotions" [class.is-inactive]="!promo.isActive">
+
+            <div class="promo-tag">
+                <span class="tag-label" [style.background-color]="promo.isActive ? '#fbc02d' : '#bdbdbd'">
+                    {{ promo.isActive ? 'عرض فعال' : 'منتهي' }}
+                </span>
+            </div>
+
+            <div class="promo-image-wrapper">
+                <img [src]="promo.imageURL" [alt]="promo.title" class="promo-image">
+            </div>
+
+            <div class="promo-content">
+                <h3 class="promo-title">{{ promo.title }}</h3>
+
+                <div class="promo-discount-details">
+                    <span class="discount-label">الخصم:</span>
+                    <span class="discount-value is-highlight">{{ formatDiscountValue(promo) }}</span>
+                    <span class="discount-type">({{ formatDiscountText(promo) }})</span>
+                </div>
+
+                <div class="promo-condition">
+                    <p class="condition-text">{{ formatMinValue(promo.minValue) }}</p>
+                </div>
+            </div>
+
+            <div class="promo-footer">
+                <ng-container *ngIf="promo.code">
+                    <div class="code-info">
+                        <span>الكود:</span>
+                        <span class="promo-code">{{ promo.code }}</span>
+                    </div>
+                    <button class="cta-button" (click)="copyCode(promo.code)" [disabled]="!promo.isActive">
+                        نسخ الكود
+                    </button>
+                </ng-container>
+                <span class="expiry-date">ينتهي: {{ formatEndDate(promo.endDate) }}</span>
+            </div>
+
+        </div>
+    </div>
+</div>

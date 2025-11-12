@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using RetailStation.Interface.Operation;
 using RetailStation.Entities.DTOs.Operation;
+using RetailStation.Entities.DTOs.SystemSettings;
 
 namespace RetailStation.API.Controllers.Operation
 {
@@ -159,6 +160,70 @@ namespace RetailStation.API.Controllers.Operation
         public ActionsResponseModel UpdateBestSellerItems(List<BestSellerItemModel> BestSellerItems)
         {
             return _adminService.UpdateBestSellerItems(BestSellerItems);
+        }
+        #endregion
+
+
+        #region TotalValuePromotions
+        [HttpPost]
+        [Route("GetTotalValuePromotions_Data")]
+        public IActionResult GetTotalValuePromotions_Data(SearchFilterModel searchModel)
+        {
+            var data = _adminService.GetTotalValuePromotions_Data(searchModel);
+
+            var result = new PagedResponseModel<TotalValuePromotionModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = searchModel.PageSize,
+                CurrentPage = searchModel.CurrentPage
+            };
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("GetTotalValuePromotionById")]
+        public IActionResult GetTotalValuePromotionById(int promotionId)
+        {
+            var result = _adminService.GetTotalValuePromotionById(promotionId);
+            if (result == null)
+            {
+                return NotFound(new ActionsResponseModel { IsSuccess = false, Message = "TotalValuePromotion not found." });
+            }
+            return Ok(result);
+        }
+
+
+        [HttpPost]
+        [Route("AddTotalValuePromotion")]
+        public async Task<IActionResult> AddTotalValuePromotion([FromForm] TotalValuePromotionModel model)
+        {
+            var result = await _adminService.AddTotalValuePromotion(model);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("EditTotalValuePromotion")]
+        public async Task<IActionResult> EditTotalValuePromotion(int promotionId, [FromForm] TotalValuePromotionModel model)
+        {
+            var result = await _adminService.EditTotalValuePromotion(promotionId, model);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("DeleteTotalValuePromotion")]
+        public IActionResult DeleteTotalValuePromotion(int promotionId)
+        {
+            var result = _adminService.DeleteTotalValuePromotion(promotionId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("ChangeTotalValuePromotionActiveStatus")]
+        public IActionResult ChangeTotalValuePromotionActiveStatus(int promotionId)
+        {
+            var result = _adminService.ChangeTotalValuePromotionActiveStatus(promotionId);
+            return Ok(result);
         }
         #endregion
     }

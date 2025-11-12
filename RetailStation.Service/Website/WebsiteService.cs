@@ -20,6 +20,7 @@ using RetailStation.Interface.Website;
 using RetailStation.Entities.DTOs.Website;
 using System.IO;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using RetailStation.Entities.DTOs.SystemSettings;
 
 namespace RetailStation.Service.Website
 {
@@ -39,6 +40,7 @@ namespace RetailStation.Service.Website
         private readonly string ItemsImagesFolder = "ItemsImages";
         private readonly string CategoriesImagesFolder = "CategoriesImages";
         private readonly string PromotionImagesFolder = "PromotionsImages";
+        private readonly string TotalValuePromotionImagesFolder = "TotalValuePromotionImages";
 
         public WebsiteService(DBContext Context, ISQLHelper SQLHelper,
             IConfiguration Configuration, IExportService ExportService,
@@ -203,7 +205,52 @@ namespace RetailStation.Service.Website
             }
             return result;
         }
+        public List<TotalValuePromotionModel> GetWebsiteTotalValuePromotions(SearchFilterModel filter)
+        {
+            var now = DateTime.Now;
+            var query = Context.TotalValuePromotions.AsNoTracking()
+                .Where(p => p.IsActive && p.StartDate <= now && p.EndDate >= now);
 
+            int totalCount = query.Count();
+
+            if (filter.CurrentPage > 0 && filter.PageSize > 0)
+            {
+                int skip = (filter.CurrentPage - 1) * filter.PageSize;
+                query = query.OrderByDescending(p => p.CreatedDate).Skip(skip).Take(filter.PageSize);
+            }
+
+            var results = query
+                .Select(p => new TotalValuePromotionModel
+                {
+                    TotalValuePromotionId = p.TotalValuePromotionId,
+                    Code = p.Code,
+                    Title = p.Title,
+                    Description = p.Description,
+                    ImageURL = p.Image,
+                    DiscountValue = p.DiscountValue,
+                    IsPercentage = p.IsPercentage,
+                    ValueType = p.ValueType,
+                    MaxUsesGlobal = p.MaxUsesGlobal,
+                    MaxUsesPerCustomer = p.MaxUsesPerCustomer,
+                    MinValue = p.MinValue,
+                    StartDate = p.StartDate,
+                    EndDate = p.EndDate,
+                    IsActive = p.IsActive,
+                    CreatedBy = p.CreatedBy,
+                    CreatedDate = p.CreatedDate,
+                    ModifiedBy = p.ModifiedBy,
+                    ModifiedDate = p.ModifiedDate
+                })
+                .ToList();
+
+            foreach (var item in results.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
+            {
+                item.ImageURL = _fileService.GetFileDownloadUrl(Path.Combine(TotalValuePromotionImagesFolder, item.ImageURL));
+            }
+
+            results.ForEach(x => x.TotalCount = totalCount);
+            return results;
+        }
         public MerchantItemModel GetWebsiteItemDetailsById(int MerchantItemId)
         {
             return GetWebsiteItems_Data("",new SearchFilterModel { PageSize = 25, CurrentPage = 1 }).FirstOrDefault();

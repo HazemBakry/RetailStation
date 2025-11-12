@@ -51,6 +51,9 @@ export class WebsiteService {
   GetWebsitePromotionItems(searchModel: PagedResponseModel<MerchantItemModel[]>) {
     return this.http.post<PagedResponseModel<MerchantItemModel[]>>(this.URL + 'Website/GetWebsitePromotionItems', searchModel);
   }
+  GetWebsiteTotalValuePromotions(searchModel: PagedResponseModel<any[]>) {
+    return this.http.post<PagedResponseModel<any[]>>(this.URL + 'Website/GetWebsiteTotalValuePromotions', searchModel);
+  }
   GetWebsiteMainSlider() {
     return this.http.get<SliderModel[]>(this.URL + 'Website/GetWebsiteMainSlider');
   }

@@ -202,6 +202,41 @@ export class CustomValidators extends Validators {
     }
 
   }
+  static discountValueLimitCheck(valueTypeCName: string, discountValueCName: string, limit: number = 50, message = null): ValidatorFn {
+    return (formGroup: AbstractControl) => {debugger
+      // Cast to FormGroup to ensure .get() is available, though AbstractControl has it
+      const group = formGroup as FormGroup;
+
+      const valueType_C = group.get(valueTypeCName);
+      const discountValue_C = group.get(discountValueCName);
+
+      // Ensure both controls exist and have values
+      if (valueType_C?.value && discountValue_C?.value) {
+        const valueType = valueType_C.value;
+        const discountValue = parseFloat(discountValue_C.value);
+
+        // Check if the type is 'PERCENT' and the value exceeds the limit
+        if (valueType === 'PERCENT') {
+          if (discountValue > limit) {
+            // Set error on the discountValue control
+            discountValue_C.setErrors({ percentageLimitExceeded: message });
+            return { percentageLimitExceeded: true }; // Return error at group level too (optional but common)
+          }
+        }
+      }
+
+      // If the condition is not met (not 'PERCENT' or no values), 
+      // ensure the error is cleared if it was previously set by this validator
+      if (discountValue_C?.hasError('percentageLimitExceeded')) {
+        discountValue_C.setErrors(null);
+        // Re-run other validators if needed (optional)
+      }
+
+      return null;
+    };
+  }
+
+  
 }
 
 export interface RegexModel {

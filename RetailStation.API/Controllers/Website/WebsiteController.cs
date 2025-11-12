@@ -11,6 +11,7 @@ using RetailStation.Entities.DTOs.Website;
 using System.Threading.Tasks;
 using RetailStation.Entities.Models.Operation;
 using RetailStation.Interface.Shared;
+using RetailStation.Entities.DTOs.SystemSettings;
 
 namespace RetailStation.API.Controllers.Website
 {
@@ -138,6 +139,20 @@ namespace RetailStation.API.Controllers.Website
         {
             var data = _websiteService.GetWebsitePromotionItems(SearchModel);
             var result = new PagedResponseModel<MerchantItemModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+            };
+            return Ok(result);
+        }  
+        [HttpPost]
+        [Route("GetWebsiteTotalValuePromotions")]
+        public IActionResult GetWebsiteTotalValuePromotions(SearchFilterModel SearchModel)
+        {
+            var data = _websiteService.GetWebsiteTotalValuePromotions(SearchModel);
+            var result = new PagedResponseModel<TotalValuePromotionModel>
             {
                 Results = data,
                 TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,

@@ -15,6 +15,7 @@ import { UnitModel } from '../../Shared/models/UnitModel';
 import { CategorySortModel } from '../../Shared/models/CategorySort';
 import { ItemCategoryModel } from '../../Shared/models/ItemCategory';
 import { MerchantItemModel } from '../../Shared/models/MerchantItemModel';
+import { TotalValuePromotionModel } from '../models/TotalValuePromotion';
 
 
 @Injectable({
@@ -304,6 +305,47 @@ export class AdminService {
 
   DeleteUnit(unitId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + `Items/DeleteUnit?UnitId=${unitId}`);
+  }
+
+
+  ////////////////////////////////// TotalValuePromotion //////////////////////////
+  GetTotalValuePromotions_Data(searchModel: any) {
+    return this.http.post<PagedResponseModel<TotalValuePromotionModel[]>>(
+      this.URL + 'Admin/GetTotalValuePromotions_Data',
+      searchModel
+    );
+  }
+
+  GetTotalValuePromotionById(promotionId: number) {
+    return this.http.get<TotalValuePromotionModel>(
+      this.URL + `Admin/GetTotalValuePromotionById?promotionId=${promotionId}`
+    );
+  }
+
+  AddTotalValuePromotion(model: FormData) {
+    return this.http.post<ActionsResponseModel>(
+      this.URL + 'Admin/AddTotalValuePromotion',
+      model
+    );
+  }
+
+  EditTotalValuePromotion(promotionId: number, model: FormData) {
+    return this.http.post<ActionsResponseModel>(
+      this.URL + `Admin/EditTotalValuePromotion?promotionId=${promotionId}`,
+      model
+    );
+  }
+
+  DeleteTotalValuePromotion(promotionId: number) {
+    return this.http.get<ActionsResponseModel>(
+      this.URL + `Admin/DeleteTotalValuePromotion?promotionId=${promotionId}`
+    );
+  }
+
+  ChangeTotalValuePromotionActiveStatus(promotionId: number) {
+    return this.http.get<ActionsResponseModel>(
+      this.URL + `Admin/ChangeTotalValuePromotionActiveStatus?promotionId=${promotionId}`
+    );
   }
 
 }

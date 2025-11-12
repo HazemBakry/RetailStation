@@ -36,6 +36,7 @@ import { MerchantListComponent } from './components/merchants-container/merchant
 import { ItemsComponent } from './components/items/items.component';
 import { ManageMerchantPromotionsComponent } from './components/merchants-container/manage-merchant-promotions/manage-merchant-promotions.component';
 import { ManageMerchantLayoutComponent } from './components/merchants-container/manage-merchant-layout/manage-merchant-layout.component';
+import { AdminTotalValuePromotionsComponent } from './components/admin-total-value-promotions/admin-total-value-promotions.component';
 
 
 @NgModule({
@@ -72,7 +73,8 @@ import { ManageMerchantLayoutComponent } from './components/merchants-container/
     BestSellerItemsComponent,
     ItemsComponent,
     ManageMerchantPromotionsComponent,
-    ManageMerchantLayoutComponent
+    ManageMerchantLayoutComponent,
+    AdminTotalValuePromotionsComponent
   ],
   imports: [
     CommonModule,
