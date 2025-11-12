@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -18,7 +18,8 @@ import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsRe
   styleUrls: ['./float-login.component.css']
 })
 export class FloatLoginComponent implements OnInit {
-  loggingMode = true;
+  @Input() accessFrom: 'header'|'cart' = 'header';
+  @Input() loggingMode : boolean= true;
   email: string = '';
   userName: string = '';
   password: string = '';

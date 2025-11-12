@@ -25,6 +25,7 @@ namespace RetailStation.Entities.DTOs.Operation
         public string ItemCategoryName { get; set; }
         public decimal? Quantity { get; set; }
         public decimal? MinimumOrderQuantity { get; set; }
+        public decimal? OldPrice { get; set; }
         public decimal? Price { get; set; }
         public decimal? OfferPrice { get; set; }
         public decimal? Price10 { get; set; }
@@ -33,6 +34,7 @@ namespace RetailStation.Entities.DTOs.Operation
         public bool IsActive { get; set; }
         public bool IsFavorite { get; set; }
         public bool IsBestSellerItem { get; set; }
+        public bool IsPromotion { get; set; }
         public int? ItemTypeId { get; set; }
         public int? MerchantId { get; set; }
         public decimal? MerchantRate { get; set; }
@@ -40,6 +42,8 @@ namespace RetailStation.Entities.DTOs.Operation
         public decimal? DeliveryCost { get; set; }
         public int? PaymentMethodId { get; set; }
         public string MerchantName { get; set; }
+        public string PromotionTitle { get; set; }
+        public string PromotionDescription { get; set; }
         public string PaymentMethod { get; set; }
         public IFormFile Image { get; set; }
         public string ImageUrl { get; set; }

@@ -48,8 +48,8 @@ export class WebsiteService {
     return this.http.post<PagedResponseModel<MerchantItemModel[]>>(this.URL + 'Website/GetWebsiteFavoriteItems_Data', searchModel);
   }
 
-  GetWebsitePromotionItems(searchModel: PagedResponseModel<PromotionModel[]>) {
-    return this.http.post<PagedResponseModel<PromotionModel[]>>(this.URL + 'Website/GetWebsitePromotionItems', searchModel);
+  GetWebsitePromotionItems(searchModel: PagedResponseModel<MerchantItemModel[]>) {
+    return this.http.post<PagedResponseModel<MerchantItemModel[]>>(this.URL + 'Website/GetWebsitePromotionItems', searchModel);
   }
   GetWebsiteMainSlider() {
     return this.http.get<SliderModel[]>(this.URL + 'Website/GetWebsiteMainSlider');

@@ -11,6 +11,7 @@ import { PagedResponseModel } from 'src/app/components/Shared/models/PagedRespon
 import { environment } from 'src/environments/environment';
 import { WebsiteService } from '../../services/website.service';
 import { PromotionModel } from 'src/app/components/Shared/models/PromotionModel';
+import { MerchantItemModel } from 'src/app/components/Shared/models/MerchantItemModel';
 
 @Component({
   selector: 'app-website-promotion-items',
@@ -38,14 +39,14 @@ export class WebsitePromotionItemsComponent implements OnInit {
     'https://s3-eu-west-1.amazonaws.com/elmenusv5-stg/Thumbnail/fa4f0bed-7ae1-4381-a81c-455259a981bf.jpg';
   defaultItemImage = `${this.systemURL}assets/images/13.png`;
 
-  pageResponseModel: PagedResponseModel<PromotionModel[]> = {
+  pageResponseModel: PagedResponseModel<MerchantItemModel[]> = {
     results: [],
     filterList: [],
     pageSize: 20,
     currentPage: 1,
     searchText: '',
   };
-  promotionItems: PromotionModel[] = [];
+  promotionItems: MerchantItemModel[] = [];
   constructor(
     config: NgbCarouselConfig,
     private websiteService: WebsiteService,

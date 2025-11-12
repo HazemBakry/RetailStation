@@ -117,19 +117,27 @@
 
 
 
-<div class="product-card bg-white border rounded-3 shadow-sm p-3 h-100 d-flex flex-column justify-content-between" [class.is-fav]="item.isFavorite">
+<div class="product-card bg-white border rounded-3 shadow-sm p-3 h-100 d-flex flex-column justify-content-between"
+    [class.is-fav]="item.isFavorite">
 
     <div *ngIf="item.isBestSellerItem" class="best-seller-tag">
-        Best Seller
+        <i class="ph ph-star-fill"></i>
+        <span>Best Seller</span>
+    </div>
+
+    <div *ngIf="item.isPromotion" class="hot-offer">
+        <i class="ph ph-fire"></i>
+        <span>Hot Offer</span>
     </div>
 
     <!-- <i *ngIf="isAuthenticated" class="{{ item.isFavorite ? 'ph-fill ph-heart' : 'ph ph-heart' }} cursor-pointer like-product-icon" (click)="toggleFavorite(item)" [style.color]="item.isFavorite ? '#86ee02d9' : ''"></i> -->
 
     <!-- Top Section: Image + Info -->
-    <div class="d-flex gap-3">
+    <div class="d-flex gap-3" [ngClass]="{'mt-3':item.isPromotion}">
         <!-- Product Image -->
         <div class="product-image flex-shrink-0">
-            <img [src]="item.imageUrl" (error)="$event.target.src = defaultImage" alt="product" class="rounded-3 img-fluid" />
+            <img [src]="item.imageUrl" (error)="$event.target.src = defaultImage" alt="product"
+                class="rounded-3 img-fluid" />
         </div>
 
         <!-- Product Info -->
@@ -157,10 +165,10 @@
             <!-- Price -->
             <div class="mt-2">
                 <div class="d-flex align-items-center gap-2">
-                    <div class="fw-bold fs-5 text-danger">{{ item.offerPrice ? item.offerPrice : item.price }}</div>
+                    <div class="fw-bold fs-5 text-danger">{{ item.price }}</div>
                     <img src="{{systemURL}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon" />
-                    <div *ngIf="item.offerPrice" class="text-decoration-line-through text-muted small">
-                        {{ item.price }}
+                    <div *ngIf="item.oldPrice" class="text-decoration-line-through text-muted small">
+                        {{ item.oldPrice }}
                     </div>
                 </div>
             </div>
@@ -169,7 +177,8 @@
 
     <!-- Bottom Section: Actions -->
     <div class="mt-3 d-flex align-items-center justify-content-between">
-        <button (click)="addToCart()" class="btn btn-success d-flex align-items-center gap-2 flex-fill justify-content-center">
+        <button (click)="addToCart()"
+            class="btn btn-success d-flex align-items-center gap-2 flex-fill justify-content-center">
             <i class="ph ph-shopping-cart"></i>
             <span>أضف للعربة</span>
         </button>

@@ -8,7 +8,8 @@
 
             <div class="cart-container">
                 <div class="d-flex align-items-center gap-2 position-relative border-bottom">
-                    <img src="../../../../../assets/strong-offet-icon-2.svg" class="header-offer-icon" alt="offer-icon" loading="lazy" />
+                    <img src="../../../../../assets/strong-offet-icon-2.svg" class="header-offer-icon" alt="offer-icon"
+                        loading="lazy" />
 
                     <h2 class="cart-title">عربة التسوق</h2>
                 </div>
@@ -24,19 +25,37 @@
                             قاعدة بسطح مزخرف خاص وحواف مخيطة للاحتراف من أوكي - أسود مطاط
                         </p>
                         <p class="item-delivery">توصيل مجاني <strong>الأربعاء، 5 نوفمبر</strong> على طلبك الأول.</p>
-                        <div class="item-actions d-flex">
-                            <div class="quantity me-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="ph ph-chart-line-down text-muted"></i>
+                            <div class="d-flex align-items-center gap-1 text-muted">الحد الأدني للطلب:
+                                <span class="fw-bold">{{item.minimumOrderQuantity ?? 1}}</span>
+                            </div>
+                        </div>
+                        <div class="item-actions d-flex mt-2">
+                            <app-change-quantity [style]="'cart'" [value]="item.quantity"
+                                [minValue]="item.minimumOrderQuantity ?? 1"
+                                (valueChange)="changeQuantity_New(item, $event)"></app-change-quantity>
+                            <!-- <div class="quantity me-2">
                                 <button class="cursor-pointer" (click)="changeQuantity(item, 1)">+</button>
                                 <span>{{item?.quantity}}</span>
                                 <button class="cursor-pointer" (click)="changeQuantity(item, -1)">-</button>
-                            </div>
+                            </div> -->
                             <!-- <a href="#">مشاركة</a> |
                             <a href="#">احفظ لاحقًا</a> | -->
                             <a class="mt-2 cursor-pointer" (click)="removeItem(item)">احذف</a>
                         </div>
                     </div>
                     <div class="item-price">
-                        <span><strong>{{item.price * item?.quantity | number : '1.2-2'}}</strong> ر.س </span>
+                        <div class="d-flex align-items-center justify-content-center gap-2">
+                            <div class="fw-bold fs-5 text-danger">
+                                {{  item.price}}
+                            </div>
+                            <img src="{{systemURL}}assets/ryal-black-icon.svg" class="ryial-img" alt="ryal-icon" />
+                            <div *ngIf="item.oldPrice" class="text-decoration-line-through text-muted small">
+                                {{ item.oldPrice }}
+                            </div>
+                        </div>
+                        <span ><strong>{{ item.price * item?.quantity | number : '1.2-2'}}</strong> ر.س </span>
                         <div>
                             <span style="font-size: 12px !important">{{item.merchantName}}</span>
                         </div>
@@ -137,7 +156,8 @@
     </div> -->
 
             <div *ngIf="!cartItems.length">
-                <div class="d-flex align-items0-center justify-content-center bg-white radius-10 flex-column text-center w-100 height-300">
+                <div
+                    class="d-flex align-items0-center justify-content-center bg-white radius-10 flex-column text-center w-100 height-300">
                     <img src="{{systemUrl}}assets/table-action-start.svg" width="60px" alt="" class="table-action-img">
                     <div class="mt-2 fs-16">عربة التسوق فارغة</div>
                 </div>
@@ -171,12 +191,18 @@
                 </table>
 
 
-                <div class="complete-purchase-action border p-3 w-100 cursor-pointer radius-10" (click)="createOrder()">
+                <div *ngIf="isAuthenticated" class="complete-purchase-action border p-3 w-100 cursor-pointer radius-10"
+                    (click)="createOrder()">
                     <div class="d-flex align-items-center justify-content-center gap-2">
                         <i class="ph ph ph-credit-card fs-4"></i>
                         <div class="fw-bold">إتمام عملية الشراء</div>
                     </div>
                 </div>
+                <div class="w-100" *ngIf="!isAuthenticated">
+
+                    <app-float-login [accessFrom]="'cart'"></app-float-login>
+                </div>
+
             </div>
         </div>
 

@@ -1,16 +1,17 @@
-<div class="home-slider">
-    <ngb-carousel *ngIf="promotionItems && promotionItems.length>0" [interval]="5000">
-        <ng-template ngbSlide *ngFor="let promo of promotionItems">
-            <div class="slider-img-wrapper">
-                <img [src]="promo?.imageURL"(error)="$event.target.src = defaultImage" alt="Random first slide" />
-            </div>
-            <div class="carousel-caption">
-                <h3>{{promo?.supplierName}}</h3>
-                <p>{{promo?.description}}</p>
-            </div>
-        </ng-template>
-    </ngb-carousel>
-</div>
+<section *ngIf="promotionItems && promotionItems.length>0" class="vertical-product-section container-fluid py-4">
+  <div class="carousel-title d-flex align-items-center gap-2 position-relative mb-3">
+    <img src="{{systemURL}}assets/strong-offet-icon-2.svg" class="header-offer-icon" alt="offer-icon"
+      loading="lazy" />
+    <div class="fw-semibold fs-18">العروض</div>
+  </div>
+
+  <div class="vertical-scroll-container">
+    <div *ngFor="let item of promotionItems" class="vertical-scroll-card">
+      <app-website-item-card [item]="item" [isAuthenticated]="isAuthenticated"></app-website-item-card>
+    </div>
+  </div>
+</section>
+
 
 
 

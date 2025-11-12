@@ -7,7 +7,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class ChangeQuantityComponent implements OnInit {
 
+  @Input() style: 'default'|'cart' = 'default';
   @Input() value!: number;
+  @Input() minValue: number=1;
   @Output() valueChange = new EventEmitter<number>();
 
   ngOnInit(): void {
@@ -27,7 +29,7 @@ export class ChangeQuantityComponent implements OnInit {
     const inputElement = event.target as HTMLInputElement;
     const newQuantity = parseInt(inputElement.value, 10);
 
-    if (isNaN(newQuantity) || newQuantity < 1) {
+    if (isNaN(newQuantity) || newQuantity < this.minValue) {
       console.error('Invalid quantity entered. Quantity must be a positive number.');
       inputElement.value = this.value.toString();
       return;
