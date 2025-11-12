@@ -30,7 +30,7 @@
                             <th>الصنف</th>
                             <th>الوحدة</th>
                             <th>سعر الوحدة</th>
-                            <th>سعر العرض</th>
+                            <!-- <th>سعر العرض</th> -->
                             <th>سعر 10 الوحدة</th>
                             <th>سعر 100 الوحدة</th>
                             <th>سعر 1000 الوحدة</th>
@@ -55,7 +55,7 @@
                             </td>
                             <td>{{item.unitName}}</td>
                             <td>{{item.price}}</td>
-                            <td>{{item.offerPrice}}</td>
+                            <!-- <td>{{item.offerPrice}}</td> -->
                             <td>{{item.price10}}</td>
                             <td>{{item.price100}}</td>
                             <td>{{item.price1000}}</td>
@@ -127,16 +127,16 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="table-feature">التكلفة</td>
+                        <td class="table-feature">سعر الوحدة</td>
                         <td class="table-value">
-                            <input type="text" formControlName="price" class="form-control form-control-lg" placeholder="التكلفة">
+                            <input type="text" formControlName="price" class="form-control form-control-lg" placeholder="سعر الوحدة">
                             <div *ngIf="formErrors.price" class="text-danger  font-small-3 m-03">
                                 {{formErrors.price}}
                             </div>
 
                         </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td class="table-feature">سعر العرض</td>
                         <td class="table-value">
                             <input type="text" formControlName="offerPrice" class="form-control form-control-lg" placeholder="سعر العرض">
@@ -145,11 +145,11 @@
                             </div>
 
                         </td>
-                    </tr>
+                    </tr> -->
                     <tr>
-                        <td class="table-feature">التكلفة 10</td>
+                        <td class="table-feature">سعر الوحدة في الجملة 10</td>
                         <td class="table-value">
-                            <input type="text" formControlName="price10" class="form-control form-control-lg" placeholder="التكلفة 10">
+                            <input type="text" formControlName="price10" class="form-control form-control-lg" placeholder="سعر الوحدة في الجملة 10">
                             <div *ngIf="formErrors.price10" class="text-danger  font-small-3 m-03">
                                 {{formErrors.price10}}
                             </div>
@@ -157,9 +157,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="table-feature">التكلفة 100</td>
+                        <td class="table-feature">سعر الوحدة في الجملة 100</td>
                         <td class="table-value">
-                            <input type="text" formControlName="price100" class="form-control form-control-lg" placeholder="التكلفة 100">
+                            <input type="text" formControlName="price100" class="form-control form-control-lg" placeholder="سعر الوحدة في الجملة 100">
                             <div *ngIf="formErrors.price100" class="text-danger  font-small-3 m-03">
                                 {{formErrors.price100}}
                             </div>
@@ -167,16 +167,16 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="table-feature">التكلفة 1000</td>
+                        <td class="table-feature">سعر الوحدة في الجملة 1000</td>
                         <td class="table-value">
-                            <input type="text" formControlName="price1000" class="form-control form-control-lg" placeholder="التكلفة 1000">
+                            <input type="text" formControlName="price1000" class="form-control form-control-lg" placeholder="سعر الوحدة في الجملة 1000">
                             <div *ngIf="formErrors.price1000" class="text-danger  font-small-3 m-03">
                                 {{formErrors.price1000}}
                             </div>
 
                         </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td class="table-feature">Quantity</td>
                         <td class="table-value">
                             <input type="text" formControlName="quantity" class="form-control form-control-lg" placeholder="Quantity">
@@ -185,9 +185,9 @@
                             </div>
 
                         </td>
-                    </tr>
+                    </tr> -->
                     <tr>
-                        <td class="table-feature">Minimum Order Quantity</td>
+                        <td class="table-feature">الحد الادنى للطلب</td>
                         <td class="table-value">
                             <input type="text" formControlName="minimumOrderQuantity" class="form-control form-control-lg" placeholder="Minimum Order Quantity">
                             <div *ngIf="formErrors.minimumOrderQuantity" class="text-danger  font-small-3 m-03">
@@ -196,16 +196,7 @@
 
                         </td>
                     </tr>
-                    <tr>
-                        <td class="table-feature">Quantity</td>
-                        <td class="table-value">
-                            <input type="text" formControlName="quantity" class="form-control form-control-lg" placeholder="Quantity">
-                            <div *ngIf="formErrors.quantity" class="text-danger  font-small-3 m-03">
-                                {{formErrors.quantity}}
-                            </div>
-
-                        </td>
-                    </tr>
+                   
 
                     <tr>
                         <td class="table-feature">الوحدة</td>

@@ -17,7 +17,7 @@ import { AuthService } from 'src/app/Auth/auth.service';
   styleUrls: ['./website-item-card.component.css'],
 })
 export class WebsiteItemCardComponent implements OnInit {
-  @Input() item!: any;
+  @Input() item!: MerchantItemModel; //any;
   @Input() isAuthenticated: boolean = false;
   isItemInCart = false;
   systemURL: string = environment.systemUrl;
@@ -87,7 +87,7 @@ export class WebsiteItemCardComponent implements OnInit {
   addToCart(): void {
     const cartItem: CartModel = {
       merchantItemId: this.item.merchantItemId,
-      quantity: 1,
+      quantity: this.item.minimumOrderQuantity ?? 1,
       userId: '',
     };
     this.cartService.addItem(cartItem);

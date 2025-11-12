@@ -77,14 +77,5 @@ export class websiteProductDetailsComponent implements OnInit {
     //this.loadData();
   }
 
-  // setQuantity() {
-  //   this.cartList.forEach(item => {
-  //     const found = this.pageResponseModel.results.find(i => i.merchantItemId === item.merchantItemId);
-  //     if (found) {
-  //       found.quantity = item.quantity;
-  //       found.cost = item.quantity * (found.offerPrice ?? found.price);
-  //     }
-  //   });
-  // }
 
 }

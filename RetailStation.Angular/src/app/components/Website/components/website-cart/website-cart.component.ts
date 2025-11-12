@@ -96,7 +96,7 @@ export class WebsiteCartComponent implements OnInit {
       const found = this.pageResponseModel.results.find(i => i.merchantItemId === item.merchantItemId);
       if (found) {
         found.quantity = item.quantity;
-        found.cost = item.quantity * (found.offerPrice ?? found.price);
+        found.cost = item.quantity * (found.price);
       }
     });
     this.updateTotalCost();
@@ -108,7 +108,17 @@ export class WebsiteCartComponent implements OnInit {
   //   this.loadData();
   // }
 
-
+  changeQuantity_New(item: MerchantItemModel, newQuantity: number): void {
+    var minimumOrderQuantity = item.minimumOrderQuantity ?? 1;
+    if (newQuantity > 0 && newQuantity >= minimumOrderQuantity) {
+      item.quantity = newQuantity;
+      this.cartService.changeItemQuantity(item.merchantItemId, newQuantity);
+    } else {
+      item.quantity = minimumOrderQuantity;
+      this.cartService.changeItemQuantity(item.merchantItemId, minimumOrderQuantity);
+    }
+    this.setQuantity();
+  }
   changeQuantity(item: MerchantItemModel, newQuantity: number): void {
     debugger
     if (item.quantity + newQuantity > 0) {
@@ -130,11 +140,11 @@ export class WebsiteCartComponent implements OnInit {
     this.discount = 0.0;
     this.netValue = 0.0;
     this.cartItems.forEach((item) => {
-      let itemTotal = (item.offerPrice ?? item.price ?? 0) * (item.quantity);
-      this.totalValue += itemTotal;
+      let itemTotal = (item.price ?? 0) * (item.quantity);
+      this.netValue += itemTotal;
     });
 
-    this.netValue = (this.totalValue / (1.15));
+    this.totalValue  = (this.netValue * (1.15));
     this.tax = this.totalValue - this.netValue;
   }
 
@@ -150,9 +160,12 @@ export class WebsiteCartComponent implements OnInit {
   withoutVatTotal: number = 0
   vatAmount: number = 0
   updateTotalCost(): void {
-    this.totalCost = parseFloat(this.pageResponseModel.results.reduce((sum, item) => sum + ((item.cost ?? 0)), 0).toFixed(2));
-    this.withoutVatTotal = parseFloat((this.totalCost / 1.15).toFixed(2));
+    this.withoutVatTotal  = parseFloat(this.pageResponseModel.results.reduce((sum, item) => sum + ((item.cost ?? 0)), 0).toFixed(2));
+    this.totalCost = parseFloat((this.totalCost * 1.15).toFixed(2));
     this.vatAmount = parseFloat((this.totalCost - this.withoutVatTotal).toFixed(2));
+    // this.totalCost = parseFloat(this.pageResponseModel.results.reduce((sum, item) => sum + ((item.cost ?? 0)), 0).toFixed(2));
+    // this.withoutVatTotal = parseFloat((this.totalCost / 1.15).toFixed(2));
+    // this.vatAmount = parseFloat((this.totalCost - this.withoutVatTotal).toFixed(2));
   }
 
   // openSaveModal(content: any) {

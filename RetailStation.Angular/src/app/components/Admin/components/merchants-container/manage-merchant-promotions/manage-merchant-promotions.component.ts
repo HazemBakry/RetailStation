@@ -47,13 +47,13 @@ export class ManageMerchantPromotionsComponent implements OnInit {
       if (params.MerchantId) {
         this.merchantId = Number(params.MerchantId);
         this.loadData();
+        this.loadItemsSelector();
       }
     });
-    this.loadItemsSelector();
   }
 
   loadItemsSelector() {
-    this.sharedService.GetItemsSelector().subscribe((data: GeneralSelectorModel[]) => {
+    this.sharedService.GetMerchantItemsSelector(this.merchantId).subscribe((data: GeneralSelectorModel[]) => {
       this.itemsSelectorData = data;
     });
   }

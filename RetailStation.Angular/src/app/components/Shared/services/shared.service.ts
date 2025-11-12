@@ -84,6 +84,9 @@ export class SharedService {
   GetCurrentMerchantItemsSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetCurrentMerchantItemsSelector');
   }
+  GetMerchantItemsSelector(merchantId: number) {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetMerchantItemsSelector?MerchantId=' + merchantId);
+  }
 
   GetItemCategoriesSelector() {
     return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetItemCategoriesSelector');

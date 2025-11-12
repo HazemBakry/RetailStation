@@ -1,5 +1,6 @@
 .quantity-container {
-  border-radius: 1.5rem; /* rounded pill-like */
+  border-radius: 1.5rem;
+  /* rounded pill-like */
   width: fit-content;
 }
 
@@ -24,4 +25,56 @@
   width: 60px;
   font-weight: 600;
   font-size: 1.1rem;
+}
+
+
+
+.quantity {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  width: 90px;
+  background: #fff;
+  border: 2px solid #ffd814;
+}
+
+/* الأزرار */
+.quantity button {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  font-weight: bold;
+  width: 30px;
+  cursor: pointer;
+  color: #222;
+  transition: 0.2s;
+}
+
+.quantity button:hover {
+  color: #000;
+  transform: scale(1.1);
+}
+
+/* حقل الإدخال */
+.quantity-input {
+  width: 30px;
+  text-align: center;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  color: #222;
+}
+
+/* إخفاء الأسهم من input[type=number] */
+.quantity-input::-webkit-inner-spin-button,
+.quantity-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quantity-input {
+  -moz-appearance: textfield; /* لإزالة الأسهم في Firefox */
 }

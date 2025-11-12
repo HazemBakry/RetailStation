@@ -184,7 +184,7 @@ namespace RetailStation.Service.Website
             return grouped;
         }
 
-        public List<PromotionModel> GetWebsitePromotionItems(SearchFilterModel model)
+        public List<MerchantItemModel> GetWebsitePromotionItems(SearchFilterModel model)
         {
             DataTable dt = SharedFilterService.MapFilterModelToDataTable(model.FilterList);
 
@@ -195,10 +195,10 @@ namespace RetailStation.Service.Website
                 new SqlParameter("@FilterList", SqlDbType.Structured) { Value = dt },
             };
 
-            var result = SQLHelper.SQLQuery<PromotionModel>("[Website].[SP_GetWebsitePromotionItems]", ConnectionString, Params);
-            foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageURL)))
+            var result = SQLHelper.SQLQuery<MerchantItemModel>("[Website].[SP_GetWebsitePromotionItems]", ConnectionString, Params);
+            foreach (var item in result.Where(x => !string.IsNullOrEmpty(x.ImageUrl)))
             {
-                item.ImageURL = _fileService.GetFileDownloadUrl(Path.Combine(PromotionImagesFolder, item.ImageURL));
+                item.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine(PromotionImagesFolder, item.ImageUrl));
 
             }
             return result;

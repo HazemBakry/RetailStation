@@ -87,6 +87,13 @@ namespace RetailStation.API.Controllers.Shared
                 return BadRequest("No Merchant assigned");
             var result = _sharedService.GetCurrentMerchantItemsSelector(MerchantId);
             return Ok(result);
+        }   
+        [HttpGet]
+        [Route("GetMerchantItemsSelector")]
+        public IActionResult GetMerchantItemsSelector(int MerchantId)
+        {
+            var result = _sharedService.GetCurrentMerchantItemsSelector(MerchantId);
+            return Ok(result);
         }
         [HttpGet]
         [Route("GetItemCategoriesSelector")]

@@ -12,6 +12,7 @@ export interface MerchantItemModel extends CreatorModel {
     itemCategoryId: number | null;
     itemCategoryName: string;
     cost: number | null;
+    oldPrice: number | null;
     price: number | null;
     price10: number | null;
     price100: number | null;
@@ -25,6 +26,9 @@ export interface MerchantItemModel extends CreatorModel {
     description: string;
     disabled: boolean | null;
     isFavorite: boolean | null;
+    isPromotion: boolean | null;
+    promotionTitle: string;
+    promotionDescription: string | null;
     isCompareAdded: boolean | null;
     isItemInCart: boolean | null;
     isBestSellerItem: boolean | null;

@@ -12,6 +12,7 @@ namespace RetailStation.Entities.DTOs.Operation
         public string SearchText { get; set; }
         public string NameAR { get; set; }
         public string NameEN { get; set; }
+        public decimal? OldPrice { get; set; }
         public decimal? Price { get; set; }
         public decimal? OfferPrice { get; set; }
         public string MerchantName { get; set; }

@@ -56,11 +56,11 @@ export class MenuService {
                 route: '/admin/roles'
               },
               {
-                displayName: 'العروض',
-                menuItem: 'promotions',
-                description: 'إدارة العروض والخصومات',
+                displayName: 'الاقسام',
+                menuItem: 'items-categories',
+                description: 'إدارة الاقسام',
                 icon: 'fa fa-tags',
-                route: '/admin/promotions'
+                route: '/admin/items-categories'
               },
               {
                 displayName: 'إدارة بيانات الأصناف',

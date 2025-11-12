@@ -190,7 +190,7 @@ export class MerchantItemsComponent implements OnInit {
       price10: [null, [CustomValidators.regexPattern(RegexType.currency)]],
       price100: [null, [CustomValidators.regexPattern(RegexType.currency)]],
       price1000: [null, [CustomValidators.regexPattern(RegexType.currency)]],
-      quantity: [null, [Validators.required, CustomValidators.regexPattern(RegexType.numeric)]],
+      quantity: [0, [ CustomValidators.regexPattern(RegexType.numeric)]],
       minimumOrderQuantity: [null, [CustomValidators.regexPattern(RegexType.numeric)]],
       convertRatio: [null],
       isActive: [true],

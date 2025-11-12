@@ -4,6 +4,7 @@ export interface SearchAutoCompleteModel {
     nameAR: string;
     nameEN: string;
     price: number | null;
+    oldPrice: number | null;
     offerPrice: number | null;
     merchantName: string;
     imageUrl: string;
