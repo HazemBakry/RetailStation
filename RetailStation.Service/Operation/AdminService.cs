@@ -582,7 +582,7 @@ namespace RetailStation.Service.Operation
                     Title = model.Title,
                     Description = model.Description,
                     DiscountValue = model.DiscountValue,
-                    IsPercentage = model.IsPercentage,
+                    IsPercentage = model.ValueType == "PERCENT",//model.IsPercentage ,
                     ValueType = model.ValueType,
                     MaxUsesGlobal = model.MaxUsesGlobal,
                     MaxUsesPerCustomer = model.MaxUsesPerCustomer,
@@ -625,7 +625,7 @@ namespace RetailStation.Service.Operation
                 promotion.Title = model.Title;
                 promotion.Description = model.Description;
                 promotion.DiscountValue = model.DiscountValue;
-                promotion.IsPercentage = model.IsPercentage;
+                promotion.IsPercentage = model.ValueType == "PERCENT";//model.IsPercentage;
                 promotion.ValueType = model.ValueType;
                 promotion.MaxUsesGlobal = model.MaxUsesGlobal;
                 promotion.MaxUsesPerCustomer = model.MaxUsesPerCustomer;

@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import { WebsiteService } from '../../services/website.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/Auth/auth.service';
+import { TotalValuePromotionModel } from 'src/app/components/Admin/models/TotalValuePromotion';
 
 @Component({
   selector: 'app-website-cart',
@@ -37,6 +38,7 @@ export class WebsiteCartComponent implements OnInit {
   cartItems: MerchantItemModel[] = [];
   compareCount$: number = 0;
   isAuthenticated: boolean = false;
+  activePromotion: TotalValuePromotionModel;
   constructor(private offcanvasService: NgbOffcanvas,
     private sharedService: SharedService,
     private router: Router,
@@ -47,10 +49,11 @@ export class WebsiteCartComponent implements OnInit {
     private websiteService: WebsiteService,
   ) {
     this.isAuthenticated = this.authService.isAuthenticated();
-   }
+  }
 
 
   ngOnInit(): void {
+    this.loadCartPromotion() ;
     this.getCurrentCartItems();
     this.loadData();
   }
@@ -90,7 +93,21 @@ export class WebsiteCartComponent implements OnInit {
       }
     });
   }
+  loadCartPromotion() {
+    this.websiteService
+      .GetWebsiteTotalValuePromotions(this.pageResponseModel)
+      .subscribe(
+        (data) => {
+          this.activePromotion = data.results.length > 0 ? data.results[0] : null;
 
+          this.calculateCartSummary();
+        },
+        (err) => {
+        },
+        () => {
+        }
+      );
+  }
   setQuantity() {
     this.cartList.forEach(item => {
       const found = this.pageResponseModel.results.find(i => i.merchantItemId === item.merchantItemId);
@@ -139,12 +156,27 @@ export class WebsiteCartComponent implements OnInit {
     this.tax = 0.0;
     this.discount = 0.0;
     this.netValue = 0.0;
+    let discountPercent = 0;
+
     this.cartItems.forEach((item) => {
       let itemTotal = (item.price ?? 0) * (item.quantity);
       this.netValue += itemTotal;
     });
+    if(this.activePromotion && this.netValue >=this.activePromotion.minValue) {
+   
+      if(this.activePromotion.isPercentage)
+      {
+        this.discount = this.netValue * (this.activePromotion.discountValue / 100);
+        this.netValue = this.netValue - this.discount;
+      }
+      else
+      {
+        this.discount = this.activePromotion.discountValue;
+        this.netValue = this.netValue - this.discount;
+      }
+    }
 
-    this.totalValue  = (this.netValue * (1.15));
+    this.totalValue = (this.netValue * (1.15));
     this.tax = this.totalValue - this.netValue;
   }
 
@@ -160,7 +192,7 @@ export class WebsiteCartComponent implements OnInit {
   withoutVatTotal: number = 0
   vatAmount: number = 0
   updateTotalCost(): void {
-    this.withoutVatTotal  = parseFloat(this.pageResponseModel.results.reduce((sum, item) => sum + ((item.cost ?? 0)), 0).toFixed(2));
+    this.withoutVatTotal = parseFloat(this.pageResponseModel.results.reduce((sum, item) => sum + ((item.cost ?? 0)), 0).toFixed(2));
     this.totalCost = parseFloat((this.totalCost * 1.15).toFixed(2));
     this.vatAmount = parseFloat((this.totalCost - this.withoutVatTotal).toFixed(2));
     // this.totalCost = parseFloat(this.pageResponseModel.results.reduce((sum, item) => sum + ((item.cost ?? 0)), 0).toFixed(2));
