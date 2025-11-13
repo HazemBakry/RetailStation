@@ -36,6 +36,16 @@ export interface WebsiteOrderModel extends CreatorModel {
     notes: string;
     totalCount: number | null;
     paymentOrderId: number | null;
+
+    countryId: number | null;
+    countryNameAR: string;
+    countryNameEN: string;
+    cityId: number | null;
+    cityNameAR: string;
+    cityNameEN: string;
+    fullAddress: string;
+    receiverName: string;
+    phoneNumber: string;
     items: WebsiteOrderItemModel[];
 }
 

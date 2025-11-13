@@ -106,7 +106,7 @@
                             </td>
                         </tr>
                         <tr *ngIf="!pagedResponseModel.results.length || showLoader">
-                            <td colspan="8" class="text-right">
+                            <td colspan="9" class="text-right">
                                 <app-empty-data [showEmptyData]="!pagedResponseModel.results.length&&!showLoader"
                                     [showLoader]="showLoader"></app-empty-data>
                             </td>

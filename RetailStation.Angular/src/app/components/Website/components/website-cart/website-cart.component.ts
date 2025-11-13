@@ -22,7 +22,8 @@ import { LookupService } from 'src/app/components/Shared/services/lookup.service
 export class WebsiteCartComponent implements OnInit {
   defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
 
-  showLoader: boolean;
+  showLoader: boolean=false;
+  showCreateOrderLoader: boolean=false;
   orderNumber: string = '';
   orderDate: string;
   cartList: CartModel[] = [];
@@ -275,9 +276,8 @@ export class WebsiteCartComponent implements OnInit {
     this.orderModel.paymentTypeId = 1;
     this.orderModel.items = this.orderItems;
     this.setSelectorsNames(); // to fill shipping and payment data
-    this.showLoader = true;
+    this.showCreateOrderLoader = true;
     this.websiteService.CreateNewOrder(this.orderModel).subscribe(response => {
-      this.showLoader = false;
 
       if (response.isSuccess) {
         //this.toaster.success(response.message);
@@ -290,12 +290,12 @@ export class WebsiteCartComponent implements OnInit {
         this.alertConfirmation('حدث خطأ عند تاكيد الطلب', 'Error', -1);
         //this.toaster.error(response.message);
       }
-      this.showLoader = false;
       this.modalService?.dismissAll();
+      this.showCreateOrderLoader = false;
     }, (error) => {
-      this.showLoader = false;
+      this.showCreateOrderLoader = false;
     }, () => {
-      this.showLoader = false;
+      this.showCreateOrderLoader = false;
     });
   }
 

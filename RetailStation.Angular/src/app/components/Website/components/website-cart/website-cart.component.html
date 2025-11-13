@@ -114,14 +114,15 @@
                     </table>
 
 
-                    <div *ngIf="isAuthenticated"
+                    <button *ngIf="isAuthenticated" [disabled]="!cartItems.length || totalValue <= 0"
                         class="complete-purchase-action border p-3 w-100 cursor-pointer radius-10" (click)="nextStep()">
                         <!-- (click)="createOrder()" -->
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <i class="ph ph ph-credit-card fs-4"></i>
-                            <div class="fw-bold">إتمام عملية الشراء</div>
+                            <div class="fw-bold" *ngIf="cartItems.length">إتمام عملية الشراء</div>
+                            <div class="fw-bold" *ngIf="!cartItems.length">عربة التسوق فارغة</div>
                         </div>
-                    </div>
+                    </button>
                     <div class="w-100" *ngIf="!isAuthenticated">
 
                         <app-float-login [accessFrom]="'cart'"></app-float-login>
@@ -165,8 +166,9 @@
                                 <label for="city" class="form-label">المدينة</label>
                                 <!-- <input type="text" class="form-control" id="city" name="city"
                                     [(ngModel)]="shippingData.city" required> -->
-                                <select [disabled]="!shippingData.countryId" (change)="setSelectorsNames()" class="form-select" id="city" name="city"
-                                    [(ngModel)]="shippingData.cityId" required>
+                                <select [disabled]="!shippingData.countryId" (change)="setSelectorsNames()"
+                                    class="form-select" id="city" name="city" [(ngModel)]="shippingData.cityId"
+                                    required>
                                     <option value="" disabled>اختر المدينة...</option>
                                     <option *ngFor="let city of citiesSelectorData" [value]="city.value">
                                         {{city.name}}</option>
@@ -293,10 +295,21 @@
                     <button class="btn btn-outline-secondary" (click)="prevStep()">
                         <i class="ph ph-arrow-right me-2"></i> العودة للعنوان
                     </button>
-                    <button [disabled]="showLoader" class="btn complete-purchase-action p-3"
+                    <button [disabled]="showCreateOrderLoader" class="btn complete-purchase-action p-3"
                         (click)="createOrder()">
-                        تأكيد الطلب والدفع <i class="ph ph-lock-key ms-2"></i>
+                        <span *ngIf="!showCreateOrderLoader">
+                            تأكيد الطلب والدفع
+                        </span>
+                        <span *ngIf="showCreateOrderLoader">
+                            جاري الحفظ
+                        </span>
+
+                        <i class="ph ph-lock-key ms-2"></i>
+                        <span *ngIf="showCreateOrderLoader" class="spinner-border spinner-border-sm" role="status"
+                            aria-hidden="true">
+                        </span>
                     </button>
+
                 </div>
             </div>
         </div>
