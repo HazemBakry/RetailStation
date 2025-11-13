@@ -89,6 +89,12 @@ export interface CreateOrderModel extends CreatorModel {
     totalValue: number;
     netValue: number | null;
     notes: string;
+    countryId: number | null;
+    cityId: number | null;
+    fullAddress: string;
+    receiverName: string;
+    phoneNumber: string;
+
     items: CreateOrderItemModel[];
 }
 

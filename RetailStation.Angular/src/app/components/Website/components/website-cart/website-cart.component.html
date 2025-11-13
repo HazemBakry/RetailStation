@@ -155,7 +155,7 @@
                             <div class="col-md-6">
                                 <label for="country" class="form-label">البلد</label>
                                 <select (change)="onCountryChange($event.target.value)" class="form-select" id="country"
-                                    name="country" [(ngModel)]="shippingData.country" required>
+                                    name="country" [(ngModel)]="shippingData.countryId" required>
                                     <option value="" disabled>اختر البلد...</option>
                                     <option *ngFor="let country of countriesSelectorData" [value]="country.value">
                                         {{country.name}}</option>
@@ -165,8 +165,8 @@
                                 <label for="city" class="form-label">المدينة</label>
                                 <!-- <input type="text" class="form-control" id="city" name="city"
                                     [(ngModel)]="shippingData.city" required> -->
-                                <select (change)="onCountryChange($event.target.value)" class="form-select" id="city"
-                                    name="city" [(ngModel)]="shippingData.city" required>
+                                <select [disabled]="!shippingData.countryId" (change)="setSelectorsNames()" class="form-select" id="city" name="city"
+                                    [(ngModel)]="shippingData.cityId" required>
                                     <option value="" disabled>اختر المدينة...</option>
                                     <option *ngFor="let city of citiesSelectorData" [value]="city.value">
                                         {{city.name}}</option>
@@ -235,23 +235,24 @@
 
                     <div class="payment-methods d-flex flex-column gap-3">
                         <div class="form-check payment-option p-3 border radius-10"
-                            [class.active]="paymentData.selectedMethod === 'cod'">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="cod" value="cod"
-                                [(ngModel)]="paymentData.selectedMethod">
-                            <label class="form-check-label fw-bold me-4" for="cod">
+                            [class.active]="paymentData.paymentMethodId ==1">
+                            <input (click)="setSelectorsNames()" class="form-check-input" type="radio"
+                                name="paymentMethodId" id="cash" [value]="1" [(ngModel)]="paymentData.paymentMethodId">
+                            <label class="form-check-label fw-bold me-4" for="cash">
                                 الدفع عند الاستلام (COD)
                             </label>
                             <p class="text-muted small me-4 mb-0">رسوم إضافية قد تطبق.</p>
                         </div>
 
                         <div class="form-check payment-option p-3 border radius-10"
-                            [class.active]="paymentData.selectedMethod === 'card'">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="card" value="card"
-                                [(ngModel)]="paymentData.selectedMethod">
-                            <label class="form-check-label fw-bold me-4" for="card">
+                            [class.active]="paymentData.paymentMethodId == 2">
+                            <input (click)="setSelectorsNames()" class="form-check-input" type="radio"
+                                name="paymentMethodId" id="Credit" [value]="2"
+                                [(ngModel)]="paymentData.paymentMethodId">
+                            <label class="form-check-label fw-bold me-4" for="Credit">
                                 بطاقة ائتمان / مدى
                             </label>
-                            <div *ngIf="paymentData.selectedMethod === 'card'" class="card-form mt-2 me-4">
+                            <div *ngIf="paymentData.paymentMethodId == 2" class="card-form mt-2 me-4">
                                 <small class="text-danger">سيتم تحويلك لصفحة الدفع الآمنة بعد التأكيد.</small>
                             </div>
                         </div>
@@ -292,7 +293,8 @@
                     <button class="btn btn-outline-secondary" (click)="prevStep()">
                         <i class="ph ph-arrow-right me-2"></i> العودة للعنوان
                     </button>
-                    <button class="btn complete-purchase-action p-3" (click)="createOrder()">
+                    <button [disabled]="showLoader" class="btn complete-purchase-action p-3"
+                        (click)="createOrder()">
                         تأكيد الطلب والدفع <i class="ph ph-lock-key ms-2"></i>
                     </button>
                 </div>

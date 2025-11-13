@@ -27,6 +27,11 @@ namespace RetailStation.Entities.Models.Global
         public bool IsDeleted { get; set; }
         //public int MerchantId { get; set; }
         public string Notes { get; set; }
+        public int? CountryId { get; set; }
+        public int? CityId { get; set; }
+        public string FullAddress { get; set; }
+        public string ReceiverName { get; set; }
+        public string PhoneNumber { get; set; }
         public int PaymentTypeId { get; set; }
     }
 }

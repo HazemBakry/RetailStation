@@ -30,6 +30,8 @@
                             <th>القيمة الإجمالية</th>
                             <th> طريقة الدفع</th>
                             <th> الحالة</th>
+                               <th>المستلم</th>
+                            <th>العنوان</th>
                             <th>ملاحظات</th>
                             <th class="text-center"></th>
                         </tr>
@@ -46,6 +48,20 @@
                                 <span appWorkflowStatus [id]="item.workflowStatusId"
                                     [nameEN]="item?.workflowStatusNameEN" [nameAR]="item?.workflowStatusNameAR">
                                 </span>
+                            </td>
+                             <td>
+                                <div>{{item.receiverName}}</div>
+                                <div>{{item.phoneNumber}}</div>
+                            </td>
+                            <td>
+                                <div>
+                                    <span> {{item.countryNameAR ?? item.countryNameEN}}</span>
+                                   
+                                    <span *ngIf="item.countryNameAR || item.countryNameEN">,</span>
+                                    <span>{{item.cityNameAR ?? item.cityNameEN}}</span>
+                                    
+                                </div>
+                                <div>{{item.fullAddress}}</div>
                             </td>
                             <td>{{item.notes}}</td>
                             <td>

@@ -18,7 +18,18 @@ export class SharedService {
   constructor(private http: HttpClient) {
 
   }
-
+  paymentMethodsSelectorData: GeneralSelectorModel[] = [
+    { value: 1, name: 'نقدي' },
+    { value: 2, name: '	بطاقة ائتمان' },
+    { value: 3, name: '	تحويل بنكي' },
+    { value: 4, name: 'مدى' },
+    { value: 5, name: 'أبل باي' },
+    // Cash
+    // Credit 
+    // Bank Transfer
+    // Mada
+    // Apple Pay
+  ];
   urlDownloadOrOpen(url?: string) {
     try {
       if (url !== null && url !== ' ' && url !== '') {

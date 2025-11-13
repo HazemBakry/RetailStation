@@ -45,6 +45,25 @@ export class WebsiteCartComponent implements OnInit {
   countriesSelectorData: GeneralSelectorModel[] = [];
   paymentMethodsSelectorData: GeneralSelectorModel[] = [];
   citiesSelectorData: GeneralSelectorModel[] = [];
+  shippingData = {
+    fullName: '',
+    email: '',
+    phoneNumber: '',
+    country: '',
+    countryId: null,
+    city: '',
+    cityId: null,
+    fullAddress: '',
+    notes: ''
+  };
+
+  // Step 3 Data model
+  paymentData = {
+    paymentMethodId: 1,
+    paymentMethod: '',
+    shippingCost: 0.0
+  };
+
   constructor(private offcanvasService: NgbOffcanvas,
     private sharedService: SharedService,
     private router: Router,
@@ -255,6 +274,7 @@ export class WebsiteCartComponent implements OnInit {
     this.orderModel.netValue = this.netValue;
     this.orderModel.paymentTypeId = 1;
     this.orderModel.items = this.orderItems;
+    this.setSelectorsNames(); // to fill shipping and payment data
     this.showLoader = true;
     this.websiteService.CreateNewOrder(this.orderModel).subscribe(response => {
       this.showLoader = false;
@@ -262,10 +282,8 @@ export class WebsiteCartComponent implements OnInit {
       if (response.isSuccess) {
         //this.toaster.success(response.message);
         this.clearCart();
-
-        localStorage.removeItem('cartItems');
         this.cartItems = [];
-
+        this.orderModel = {} as CreateOrderModel;
         this.alertConfirmation('تم تاكيد الطلب بنجاح', 'Success', response?.number);
       }
       else {
@@ -300,13 +318,15 @@ export class WebsiteCartComponent implements OnInit {
     this.sharedService.GetCountriesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.countriesSelectorData = data;
     });
+    this.paymentMethodsSelectorData = this.sharedService.paymentMethodsSelectorData;
 
-    this.lookupService.GetPaymentMethods().subscribe((data: GeneralSelectorModel[]) => {
-      this.paymentMethodsSelectorData = data;
-    });
+    // this.lookupService.GetPaymentMethods().subscribe((data: GeneralSelectorModel[]) => {
+    //   this.paymentMethodsSelectorData = data;
+    // });
   }
   onCountryChange(value) {
     this.citiesSelectorData = [];
+    this.shippingData.cityId = null;
     if (value)
       this.loadCitiesByCountryId(value);
   }
@@ -319,21 +339,6 @@ export class WebsiteCartComponent implements OnInit {
 
   ////////////////////////// stepper
   currentStep: number = 1;
-  shippingData = {
-    fullName: '',
-    email: '',
-    phoneNumber: '',
-    country: '',
-    city: '',
-    fullAddress: '',
-    notes: ''
-  };
-
-  // Step 3 Data model
-  paymentData = {
-    selectedMethod: 'cod',
-    shippingCost: 20.00
-  };
 
   nextStep() {
     if (this.currentStep < 3) {
@@ -344,6 +349,25 @@ export class WebsiteCartComponent implements OnInit {
     if (this.currentStep > 1) {
       this.currentStep--;
     }
+  }
+
+  setSelectorsNames() {
+    if (this.shippingData?.countryId) {
+      this.shippingData.country = this.countriesSelectorData.find(c => c.value == this.shippingData.countryId)?.name;
+    }
+    if (this.shippingData?.cityId) {
+      this.shippingData.city = this.citiesSelectorData.find(c => c.value == this.shippingData.cityId)?.name;
+    }
+    if (this.paymentData?.paymentMethodId) {
+      this.paymentData.paymentMethod = this.paymentMethodsSelectorData.find(c => c.value == this.paymentData.paymentMethodId)?.name;
+    }
+    this.orderModel.cityId = this.shippingData.cityId;
+    this.orderModel.countryId = this.shippingData.countryId;
+    this.orderModel.fullAddress = this.shippingData.fullAddress;
+    this.orderModel.receiverName = this.shippingData.fullName;
+    this.orderModel.notes = this.shippingData.notes;
+    this.orderModel.paymentTypeId = this.paymentData.paymentMethodId;
+    this.orderModel.phoneNumber = this.shippingData.phoneNumber;
   }
 }
 

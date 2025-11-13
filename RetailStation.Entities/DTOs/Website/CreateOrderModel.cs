@@ -28,6 +28,14 @@ namespace RetailStation.Entities.DTOs.Website
         public decimal TotalValue { get; set; }
         public decimal? NetValue { get; set; }
         public string Notes { get; set; }
+
+        public int? CountryId { get; set; }
+        public int? CityId { get; set; }
+        public string FullAddress { get; set; }
+        public string ReceiverName { get; set; }
+        public string PhoneNumber { get; set; }
+
+
         public List<CreateOrderItemModel> Items { get; set; }
     }
 

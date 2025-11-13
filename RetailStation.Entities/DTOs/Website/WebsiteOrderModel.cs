@@ -47,6 +47,16 @@ namespace RetailStation.Entities.DTOs.Website
         public string Notes { get; set; }
         public int? TotalCount { get; set; }
         public int? PaymentOrderId { get; set; }
+
+        public int? CountryId { get; set; }
+        public string CountryNameAR { get; set; }
+        public string CountryNameEN { get; set; }
+        public int? CityId { get; set; }
+        public string CityNameAR { get; set; }
+        public string CityNameEN { get; set; }
+        public string FullAddress { get; set; }
+        public string ReceiverName { get; set; }
+        public string PhoneNumber { get; set; }
         public List<WebsiteOrderItemModel> Items { get; set; }
     }
     public class WebsiteOrderItemModel

@@ -26,6 +26,7 @@ using OpenQA.Selenium.BiDi.Modules.Script;
 using RetailStation.Entities.Common.Lookups;
 using iText.Layout.Borders;
 using RetailStation.Entities.Models.Global;
+using RetailStation.Entities.Models.SystemAdmin;
 
 namespace RetailStation.Service.Website
 {
@@ -140,6 +141,11 @@ namespace RetailStation.Service.Website
                     Tax = model.Tax ?? 0,
                     OrderDate = now,
                     Notes = model.Notes,
+                    CountryId = model.CountryId,
+                    CityId = model.CityId,
+                    FullAddress = model.FullAddress,
+                    ReceiverName = model.ReceiverName,
+                    PhoneNumber = model.PhoneNumber,
                     CreatedBy = UserId,
                     CreatedDate = now,
                 };
@@ -304,7 +310,11 @@ namespace RetailStation.Service.Website
                     order_tbl.PaymentTypeId = model.PaymentTypeId.GetValueOrDefault();
                     order_tbl.TotalValue = model.Items?.Sum(x => x.TotalValue) ?? 0;
                     order_tbl.NetValue = model.Items?.Sum(x => x.TotalValue) ?? 0;
-
+                    //order_tbl.CountryId = model.CountryId;
+                    //order_tbl.CityId = model.CityId;
+                    //order_tbl.FullAddress = model.FullAddress;
+                    //order_tbl.ReceiverName = model.ReceiverName;
+                    //order_tbl.PhoneNumber = model.PhoneNumber;
 
                     order_tbl.ModifiedBy = model.ModifiedBy;
                     order_tbl.ModifiedDate = DateTime.Now;
