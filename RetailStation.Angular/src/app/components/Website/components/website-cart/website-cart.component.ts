@@ -11,11 +11,13 @@ import { WebsiteService } from '../../services/website.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/Auth/auth.service';
 import { TotalValuePromotionModel } from 'src/app/components/Admin/models/TotalValuePromotion';
+import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
 
 @Component({
   selector: 'app-website-cart',
   templateUrl: './website-cart.component.html',
-  styleUrls: ['./website-cart.component.css']
+  styleUrls: ['./website-cart.component.scss']
 })
 export class WebsiteCartComponent implements OnInit {
   defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
@@ -28,6 +30,7 @@ export class WebsiteCartComponent implements OnInit {
   tax = 0.0;
   discount = 0.0;
   netValue = 0.0;
+  taxRate = 0.15;
   pageResponseModel: PagedResponseModel<MerchantItemModel[]> = {
     results: [],
     filterList: [],
@@ -39,6 +42,9 @@ export class WebsiteCartComponent implements OnInit {
   compareCount$: number = 0;
   isAuthenticated: boolean = false;
   activePromotion: TotalValuePromotionModel;
+  countriesSelectorData: GeneralSelectorModel[] = [];
+  paymentMethodsSelectorData: GeneralSelectorModel[] = [];
+  citiesSelectorData: GeneralSelectorModel[] = [];
   constructor(private offcanvasService: NgbOffcanvas,
     private sharedService: SharedService,
     private router: Router,
@@ -47,13 +53,15 @@ export class WebsiteCartComponent implements OnInit {
     private authService: AuthService,
     // private toaster: ToastrService, 
     private websiteService: WebsiteService,
+    private lookupService: LookupService,
   ) {
     this.isAuthenticated = this.authService.isAuthenticated();
   }
 
 
   ngOnInit(): void {
-    this.loadCartPromotion() ;
+    this.loadSelectors();
+    this.loadCartPromotion();
     this.getCurrentCartItems();
     this.loadData();
   }
@@ -162,21 +170,19 @@ export class WebsiteCartComponent implements OnInit {
       let itemTotal = (item.price ?? 0) * (item.quantity);
       this.netValue += itemTotal;
     });
-    if(this.activePromotion && this.netValue >=this.activePromotion.minValue) {
-   
-      if(this.activePromotion.isPercentage)
-      {
+    if (this.activePromotion && this.netValue >= this.activePromotion.minValue) {
+
+      if (this.activePromotion.isPercentage) {
         this.discount = this.netValue * (this.activePromotion.discountValue / 100);
         this.netValue = this.netValue - this.discount;
       }
-      else
-      {
+      else {
         this.discount = this.activePromotion.discountValue;
         this.netValue = this.netValue - this.discount;
       }
     }
 
-    this.totalValue = (this.netValue * (1.15));
+    this.totalValue = (this.netValue * (1 + this.taxRate));
     this.tax = this.totalValue - this.netValue;
   }
 
@@ -193,10 +199,10 @@ export class WebsiteCartComponent implements OnInit {
   vatAmount: number = 0
   updateTotalCost(): void {
     this.withoutVatTotal = parseFloat(this.pageResponseModel.results.reduce((sum, item) => sum + ((item.cost ?? 0)), 0).toFixed(2));
-    this.totalCost = parseFloat((this.totalCost * 1.15).toFixed(2));
+    this.totalCost = parseFloat((this.totalCost * (1 + this.taxRate)).toFixed(2));
     this.vatAmount = parseFloat((this.totalCost - this.withoutVatTotal).toFixed(2));
     // this.totalCost = parseFloat(this.pageResponseModel.results.reduce((sum, item) => sum + ((item.cost ?? 0)), 0).toFixed(2));
-    // this.withoutVatTotal = parseFloat((this.totalCost / 1.15).toFixed(2));
+    // this.withoutVatTotal = parseFloat((this.totalCost /(1+this.taxRate)).toFixed(2));
     // this.vatAmount = parseFloat((this.totalCost - this.withoutVatTotal).toFixed(2));
   }
 
@@ -289,6 +295,55 @@ export class WebsiteCartComponent implements OnInit {
         this.router.navigateByUrl('/');
       }
     });
+  }
+  loadSelectors() {
+    this.sharedService.GetCountriesSelector().subscribe((data: GeneralSelectorModel[]) => {
+      this.countriesSelectorData = data;
+    });
+
+    this.lookupService.GetPaymentMethods().subscribe((data: GeneralSelectorModel[]) => {
+      this.paymentMethodsSelectorData = data;
+    });
+  }
+  onCountryChange(value) {
+    this.citiesSelectorData = [];
+    if (value)
+      this.loadCitiesByCountryId(value);
+  }
+  loadCitiesByCountryId(countryId: number) {
+    this.sharedService.GetCitiesSelector(countryId).subscribe((data: GeneralSelectorModel[]) => {
+      this.citiesSelectorData = data;
+    });
+  }
+
+
+  ////////////////////////// stepper
+  currentStep: number = 1;
+  shippingData = {
+    fullName: '',
+    email: '',
+    phoneNumber: '',
+    country: '',
+    city: '',
+    fullAddress: '',
+    notes: ''
+  };
+
+  // Step 3 Data model
+  paymentData = {
+    selectedMethod: 'cod',
+    shippingCost: 20.00
+  };
+
+  nextStep() {
+    if (this.currentStep < 3) {
+      this.currentStep++;
+    }
+  }
+  prevStep() {
+    if (this.currentStep > 1) {
+      this.currentStep--;
+    }
   }
 }
 

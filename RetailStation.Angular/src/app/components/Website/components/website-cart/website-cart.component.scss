@@ -132,3 +132,100 @@ hr {
     border-top: 1px solid #eee;
     margin: 20px 0;
 }
+
+
+
+
+
+
+
+
+$primary-green: #388e3c;
+$text-dark: #333;
+$text-muted: #999;
+
+.checkout-stepper-container {
+    direction: rtl;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.stepper-steps {
+    position: relative;
+    padding-top: 10px;
+}
+
+.step-item {
+    flex: 1;
+    position: relative;
+    cursor: default;
+    z-index: 10;
+    
+    .step-icon-wrapper {
+        width: 30px;
+        height: 30px;
+        line-height: 28px;
+        border-radius: 50%;
+        background-color: #f0f0f0;
+        color: $text-muted;
+        font-weight: bold;
+        border: 1px solid #ccc;
+        transition: all 0.3s;
+    }
+    
+    .step-label {
+        margin-top: 5px;
+        font-size: 0.9em;
+        color: $text-muted;
+        transition: color 0.3s;
+    }
+
+    &.active {
+        .step-icon-wrapper {
+            background-color: $primary-green;
+            color: white;
+            border-color: $primary-green;
+        }
+        .step-label {
+            color: $text-dark;
+            font-weight: 600;
+        }
+    }
+}
+
+.stepper-line {
+    position: absolute;
+    top: 25px; 
+    left: 10%; /* Adjusted for RTL */
+    right: 10%;
+    height: 2px;
+    background-color: #eee;
+    z-index: 5;
+    transform: translateY(-50%);
+    
+    &.active {
+        background-color: $primary-green;
+        height: 3px;
+    }
+}
+
+/* General Styling for Step 2/3 Buttons */
+.complete-purchase-action {
+    background-color: $primary-green;
+    color: white;
+    border: 1px solid $primary-green;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+    
+    &:hover {
+        background-color: darken($primary-green, 8%);
+    }
+}
+
+/* Step 3 Payment Options */
+.payment-option.active {
+    border-color: $primary-green !important;
+    background-color: #f7fff7;
+}
