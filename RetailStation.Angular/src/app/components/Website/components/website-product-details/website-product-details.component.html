@@ -1,71 +1,144 @@
-<div class="container">
+<div class="product-details-page-container mt-4 mb-5">
 
-    <div class="product-page">
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb" dir="rtl">
+            <li class="breadcrumb-item"><a href="#">الرئيسية</a></li>
+            <li class="breadcrumb-item"><a href="#">{{ product.categoryName }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ product.title }}</li>
+        </ol>
+    </nav>
 
-        <!-- Images Section -->
-        <div class="product-images">
-            <div class="thumbnails">
-                <img [src]="itemModel?.imageUrl" alt="">
-                <img [src]="itemModel?.imageUrl" alt="">
-                <img [src]="itemModel?.imageUrl" alt="">
-                <img [src]="itemModel?.imageUrl" alt="">
-                <img [src]="itemModel?.imageUrl" alt="">
-            </div>
-            <div class="main-image">
-                <img [src]="itemModel?.imageUrl" alt="Samsung Odyssey G5">
+    <div class="row">
+
+        <div class="col-md-5">
+            <div class="product-buy-box bg-white p-4 border radius-10 shadow-sm">
+
+                <h1 class="product-title">{{ product.title }}</h1>
+                <p class="vendor-name text-muted mb-3">البائع: <span class="fw-bold">{{ product.vendorName }}</span></p>
+
+                <div *ngIf="product.isBestSeller" class="best-seller-tag mb-3">
+                    BEST SELLER
+                </div>
+
+                <div class="price-section mb-4 d-flex align-items-baseline gap-3">
+                    <span *ngIf="product.oldPrice" class="old-price text-decoration-line-through text-muted small">
+                        {{ product.oldPrice | number : '1.2-2' }} ر.س
+                    </span>
+                    <span class="current-price fw-bold text-danger fs-3">
+                        {{ product.price | number : '1.2-2' }} ر.س
+                    </span>
+                </div>
+
+                <div *ngIf="product.hasVariations" class="variation-selectors mb-4">
+                    <label class="form-label fw-bold d-block">اللون: <span class="selected-value">{{ selectedColor
+                            }}</span></label>
+                    <div class="d-flex gap-2">
+                        <div class="color-swatch border rounded-circle" *ngFor="let color of product.colors"
+                            [style.background-color]="color.hex" [class.selected]="selectedColor === color.name"
+                            (click)="selectColor(color.name)">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quantity-box d-flex align-items-center mb-4 gap-3">
+                    <label class="form-label fw-bold mb-0">الكمية:</label>
+                    <app-change-quantity [value]="quantity" [minValue]="product.minimumOrderQuantity || 1"
+                        (valueChange)="updateQuantity($event)">
+                    </app-change-quantity>
+                    <span class="text-muted small">الحد الأدنى للطلب: {{ product.minimumOrderQuantity || 1 }}</span>
+                </div>
+
+                <button class="cta-add-to-cart w-100 p-3 fw-bold radius-10" (click)="addToCart()"
+                    [disabled]="!product.inStock">
+                    <i class="ph ph-shopping-cart-simple me-2"></i> أضف للعربة
+                </button>
+
+                <div class="d-flex justify-content-center gap-4 mt-3">
+                    <a href="#" class="quick-action text-muted small"><i class="ph ph-heart me-1"></i> أضف للمفضلة</a>
+                    <a href="#" class="quick-action text-muted small"><i class="ph ph-share-network me-1"></i>
+                        مشاركة</a>
+                </div>
+
             </div>
         </div>
 
-        <!-- Details Section -->
-        <div class="product-details">
-            <h2 class="product-title">
-                {{itemModel?.nameAR}}
-                <!-- شاشة العاب منحنية اوديسي G5 LC27G55TQBMXEG 27 بوصة من سامسونج - لون اسود -->
-            </h2>
+        <div class="col-md-7">
 
-            <p class="store-name"> متجر <a href="#">{{itemModel?.merchantName}} </a></p>
+            <div class="product-gallery mb-4 bg-white p-3 border radius-10 shadow-sm">
+                <img [src]="mainImage" alt="{{ product.title }}" class="img-fluid main-product-image mb-3">
 
-            <div class="rating">
-                ⭐⭐⭐⭐☆ <span>4.1</span> <a href="#">(169 تقييم)</a>
+                <div class="thumbnail-strip d-flex gap-2 justify-content-start" dir="rtl">
+                    <img *ngFor="let img of product.images" [src]="img.url" (click)="setMainImage(img.url)"
+                        [class.active]="img.url === mainImage" class="product-thumbnail border radius-5 cursor-pointer">
+                </div>
             </div>
 
-            <hr>
+            <div class="product-description-tabs bg-white p-4 border radius-10 shadow-sm">
 
-            <div class="price">
-                <span class="currency">SR</span>
-                <span class="amount">{{itemModel?.price}}</span>
+                <ul class="nav nav-tabs mb-3" id="pdpTabs" role="tablist" dir="rtl">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="desc-tab" data-bs-toggle="tab" data-bs-target="#description"
+                            type="button" role="tab" aria-controls="description" aria-selected="true">الوصف</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="specs-tab" data-bs-toggle="tab" data-bs-target="#specifications"
+                            type="button" role="tab" aria-controls="specifications"
+                            aria-selected="false">المواصفات</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews"
+                            type="button" role="tab" aria-controls="reviews" aria-selected="false">التقييمات</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="pdpTabsContent">
+                    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="desc-tab">
+                        <h2 class="fw-bold mb-3">تفاصيل المنتج</h2>
+                        <p>{{ product.description }}</p>
+                        <ul>
+                            <li>مادة الصنع: الألومنيوم المقاوم للصدأ</li>
+                            <li>الكفالة: سنتان من المصنع</li>
+                            <li>التوصيل: مجاني للطلبات فوق 200 ر.س</li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-pane fade" id="specifications" role="tabpanel" aria-labelledby="specs-tab">
+                        <h2 class="fw-bold mb-3">الخصائص التقنية</h2>
+                        <table class="table table-striped table-bordered" dir="rtl">
+                            <tbody>
+                                <tr>
+                                    <th>الذاكرة</th>
+                                    <td>128GB</td>
+                                </tr>
+                                <tr>
+                                    <th>المعالج</th>
+                                    <td>A15 Bionic</td>
+                                </tr>
+                                <tr>
+                                    <th>الوزن</th>
+                                    <td>500 جرام</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                        <h2 class="fw-bold mb-3">تقييمات العملاء ({{ product.reviews.length }})</h2>
+                        <p class="text-muted">لا توجد تقييمات حاليًا.</p>
+                    </div>
+                </div>
             </div>
 
-            <p class="tax-info">الأسعار تشمل ضريبة القيمة المضافة.</p>
-            <p class="return-info">إرجاع مجاني خلال 15 يومًا من الاستلام</p>
-
-            <div class="offer">
-                <span class="offer-badge">10% خصم</span>
-                <p>خصم باستخدام بطاقة NBE Visa Platinum Credit Card عند إدخال الرمز <strong>NBENOV250</strong></p>
-            </div>
-
-            <!-- <div class="offer">
-                <span class="offer-badge">10% خصم</span>
-                <p>خصم باستخدام بطاقة NBE Visa Signature Credit Card عند إدخال الرمز <strong>NBENOV500</strong></p>
-            </div> -->
-
-            <!-- <p class="installment">
-                يمكنك الشراء بالتقسيط لمدة <strong>48 شهرًا</strong> ودفع <strong>372.48 جنيه</strong> شهريًا
-            </p> -->
-
-
-
-            <div class="buttons">
-                <button class="btn-add cursor-pointer" (click)="addToCart()">أضف إلى العربة</button>
-                <!-- <button class="btn-buy">اشترِ الآن</button> -->
-            </div>
-
-            <div class="policies">
-                <p>🚚 <strong>توصيل مجاني</strong> الأربعاء، 5 نوفمبر</p>
-                <p>💳 الدفع الإلكتروني فقط</p>
-            </div>
         </div>
     </div>
+
+    <!-- <div class="related-products mt-5">
+        <h2 class="fw-bold border-bottom pb-2 mb-4" dir="rtl">منتجات ذات صلة</h2>
+        <div class="row">
+            <div class="col-md-3" *ngFor="let related of relatedProducts">
+            </div>
+        </div>
+    </div> -->
 </div>
 
 <ngx-loading [show]="showLoader"></ngx-loading>
