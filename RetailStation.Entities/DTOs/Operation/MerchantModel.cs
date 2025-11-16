@@ -1,4 +1,5 @@
-﻿using RetailStation.Entities.Common.Enums;
+﻿using Microsoft.AspNetCore.Http;
+using RetailStation.Entities.Common.Enums;
 using RetailStation.Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -35,9 +36,11 @@ namespace RetailStation.Entities.DTOs.Operation
         public string PaymentMethod { get; set; }
         public string ContactPerson { get; set; }
         public string ContactMobile { get; set; }
+        public string ImageUrl { get; set; }
         public string Notes { get; set; }
         public bool IsActive { get; set; }
         public decimal? Rate { get; set; }
+        public IFormFile Image { get; set; }
         public int? TotalCount { get; set; }
     }
 }

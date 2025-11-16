@@ -1,13 +1,17 @@
-﻿using RetailStation.Entities.Common;
+﻿using Microsoft.CodeAnalysis;
+using RetailStation.Entities.Common;
+using RetailStation.Entities.DTOs.Operation;
 using RetailStation.Entities.Models;
+using RetailStation.Entities.Models.Operation;
 using RetailStation.Entities.Models.Purchases;
-using Microsoft.CodeAnalysis;
+using RetailStation.Interface.Common;
+using RetailStation.Interface.Operation;
+using RetailStation.Service.Common;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using RetailStation.Entities.DTOs.Operation;
-using RetailStation.Entities.Models.Operation;
-using RetailStation.Interface.Operation;
+using System.Threading.Tasks;
 
 namespace RetailStation.Service.Operation
 {
@@ -15,11 +19,16 @@ namespace RetailStation.Service.Operation
     {
         private readonly DBContext Context;
         private readonly LookupsDbContext LookupsDbContext;
+        private readonly IFileService FileService;
+        public readonly string UserImagesFolder;
 
-        public MerchantsService(DBContext context, LookupsDbContext lookupsDbContext)
+
+        public MerchantsService(DBContext context, LookupsDbContext lookupsDbContext, IFileService fileService)
         {
             Context = context;
             LookupsDbContext = lookupsDbContext;
+            this.FileService = fileService;
+            UserImagesFolder = "UserImages";
         }
 
         public List<MerchantModel> GetMerchants_Data(SearchFilterModel model, int? MerchantId = null)
@@ -52,6 +61,7 @@ namespace RetailStation.Service.Operation
                             ContactMobile = merchant.ContactMobile,
                             Notes = merchant.Notes,
                             IsActive = merchant.IsActive,
+                            ImageUrl = FileService.GetFileDownloadUrl(Path.Combine(UserImagesFolder, merchant.ImageUrl ?? "")),
                             CreatedBy = merchant.CreatedBy,
                             CreatedDate = merchant.CreatedDate,
                             ModifiedBy = merchant.ModifiedBy,
@@ -129,11 +139,11 @@ namespace RetailStation.Service.Operation
             }
         }
 
-        public ActionsResponseModel EditMerchant(int MerchantId, MerchantModel model)
+        public async Task<ActionsResponseModel> EditMerchantAsync(int MerchantId, MerchantModel model)
         {
             try
             {
-                var merchant = Context.Merchants.FirstOrDefault(i => i.MerchantId == model.MerchantId);
+                var merchant = Context.Merchants.FirstOrDefault(i => i.MerchantId == MerchantId);
                 if (merchant != null)
                 {
                     merchant.Code = model.Code;
@@ -158,6 +168,19 @@ namespace RetailStation.Service.Operation
                     merchant.IsActive = merchant.IsActive;
                     merchant.ModifiedBy = model.ModifiedBy;
                     merchant.ModifiedDate = DateTime.Now;
+
+                    if (model.Image != null)
+                    {
+                        var uploadResponse = await FileService.UploadFileAsync(model.Image, UserImagesFolder, FileType.Image);
+                        if (uploadResponse.IsUploaded)
+                        {
+                            merchant.ImageUrl = uploadResponse.FilePath;
+                        }
+                        else
+                        {
+                            return new ActionsResponseModel { Message = uploadResponse.Message, IsSuccess = false };
+                        }
+                    }
 
                     Context.SaveChanges();
 

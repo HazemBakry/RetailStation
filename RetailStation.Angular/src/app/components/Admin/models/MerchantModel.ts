@@ -29,5 +29,6 @@ export interface MerchantModel extends CreatorModel {
     notes: string;
     isActive: boolean;
     rate: number | null;
+    imageUrl: string;
     totalCount: number | null;
 }

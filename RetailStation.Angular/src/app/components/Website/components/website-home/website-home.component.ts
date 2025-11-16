@@ -202,7 +202,6 @@ export class WebsiteHomeComponent implements OnInit {
   }
 
   openModal(content: any, FoodItem: any) {
-    debugger;
     this.FoodItem = FoodItem;
     this.counterValue = 1;
     this.modalService.open(content, {

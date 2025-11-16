@@ -32,7 +32,8 @@ const routes: Routes = [
     loadChildren: () =>
       import('./components/Merchant/merchant.module').then((e) => e.MerchantModule),
     canActivate: [AuthGuard],
-    data: { roles: ['Merchant'] },
+    // data: { roles: ['Merchant'] },
+    data: { roles: ['SuperAdmin'] },
   },
   {
     path: 'admin',

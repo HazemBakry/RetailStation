@@ -133,17 +133,9 @@ hr {
     margin: 20px 0;
 }
 
-
-
-
-
-
-
-
 $primary-green: #388e3c;
 $text-dark: #333;
 $text-muted: #999;
-
 .checkout-stepper-container {
     direction: rtl;
     max-width: 1000px;
@@ -160,7 +152,6 @@ $text-muted: #999;
     position: relative;
     cursor: default;
     z-index: 10;
-    
     .step-icon-wrapper {
         width: 30px;
         height: 30px;
@@ -172,14 +163,12 @@ $text-muted: #999;
         border: 1px solid #ccc;
         transition: all 0.3s;
     }
-    
     .step-label {
         margin-top: 5px;
         font-size: 0.9em;
         color: $text-muted;
         transition: color 0.3s;
     }
-
     &.active {
         .step-icon-wrapper {
             background-color: $primary-green;
@@ -195,21 +184,23 @@ $text-muted: #999;
 
 .stepper-line {
     position: absolute;
-    top: 25px; 
-    left: 10%; /* Adjusted for RTL */
+    top: 25px;
+    left: 10%;
+    /* Adjusted for RTL */
     right: 10%;
     height: 2px;
     background-color: #eee;
     z-index: 5;
     transform: translateY(-50%);
-    
     &.active {
         background-color: $primary-green;
         height: 3px;
     }
 }
 
+
 /* General Styling for Step 2/3 Buttons */
+
 .complete-purchase-action {
     background-color: $primary-green;
     color: white;
@@ -218,14 +209,120 @@ $text-muted: #999;
     font-weight: bold;
     border-radius: 6px;
     transition: background-color 0.3s;
-    
     &:hover {
         background-color: darken($primary-green, 8%);
     }
 }
 
+
 /* Step 3 Payment Options */
+
 .payment-option.active {
     border-color: $primary-green !important;
     background-color: #f7fff7;
+}
+
+
+/* 📌 عام: تحسين الترتيب في الشاشات الصغيرة */
+
+@media (max-width: 767px) {
+    /* --- Stepper --- */
+    .checkout-stepper-container {
+        padding: 10px !important;
+    }
+    .stepper-steps {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .stepper-line {
+        display: none;
+    }
+    /* --- الكارت --- */
+    .cart-container {
+        padding: 0 !important;
+    }
+    .cart-item {
+        display: flex !important;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 15px !important;
+    }
+    /* الصورة */
+    .item-image img {
+        width: 110px;
+        height: auto;
+        border-radius: 10px;
+    }
+    /* تفاصيل المنتج */
+    .item-details h4 {
+        font-size: 15px;
+        line-height: 1.4;
+    }
+    .item-details .item-name {
+        font-size: 13px !important;
+    }
+    .item-delivery {
+        font-size: 13px !important;
+    }
+    /* أزرار العدد وحذف المنتج */
+    .item-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+    /* --- السعر --- */
+    .item-price {
+        width: 100%;
+        text-align: center;
+        border-top: 1px solid #eee;
+        padding-top: 10px;
+    }
+    .item-price .fw-bold {
+        font-size: 18px !important;
+    }
+    /* --- Sidebar (ملخص الطلب) --- */
+    .col-md-3 {
+        margin-top: 20px !important;
+    }
+    .main-item-card-content {
+        width: 100% !important;
+    }
+    table.table td {
+        font-size: 14px !important;
+    }
+    /* نموذج الشحن */
+    form .form-label {
+        font-size: 14px;
+    }
+    form .form-control,
+    form .form-select {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+    /* Payment section */
+    .payment-option {
+        padding: 12px !important;
+    }
+    .payment-option label {
+        font-size: 14px !important;
+    }
+}
+
+
+/* --- Extra Small Phones (max-width: 420px) --- */
+
+@media (max-width: 420px) {
+    .item-image img {
+        width: 90px !important;
+    }
+    .item-details h4 {
+        font-size: 14px !important;
+    }
+    .item-price span {
+        font-size: 13px !important;
+    }
+    .complete-purchase-action {
+        padding: 10px !important;
+        font-size: 14px !important;
+    }
 }

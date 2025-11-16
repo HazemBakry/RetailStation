@@ -182,42 +182,6 @@ export class UserDashboardComponent implements OnInit {
     //this.getBookingsData();
   }
 
-  goToPackageTab(companyId: number) {
-    if(!companyId)return;
-    const filterList = [];
-    filterList.push({
-      categoryDisplayName: 'Company',
-      categoryId: 55,
-      categoryName: 'CompanyId',
-      isChecked: true,
-      itemFlag: companyId?.toString(),
-      itemKey: companyId?.toString(),
-      itemValue: '0',
-    });
-    this.router.navigate(['/operation/packages'], {
-      queryParamsHandling: 'merge',
-      state: { filterList }
-    });
-
-  }
-  goBookingTab(companyId: number) {
-    if(!companyId)return;
-    const filterList = [];
-    filterList.push({
-      categoryDisplayName: 'Company',
-      categoryId: 55,
-      categoryName: 'CompanyId',
-      isChecked: true,
-      itemFlag: companyId?.toString(),
-      itemKey: companyId?.toString(),
-      itemValue: '0',
-    });
-    this.router.navigate(['/operation/bookings'], {
-      queryParamsHandling: 'merge',
-      state: { filterList }
-    });
-
-  }
 }
 
 

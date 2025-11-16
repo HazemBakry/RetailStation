@@ -101,7 +101,7 @@ namespace RetailStation.Service.Shared
         {
             var results = Context.MerchantItems.Where(i=>i.MerchantId==merchantId&&i.IsActive).Select(b => new SelectorDataModel
             {
-                Id = b.MerchantItemId,
+                Id = (int)b.MerchantItemId,
                 Name = b.NameAR ?? b.NameEN,
                 Code = b.Code
             }).ToList();

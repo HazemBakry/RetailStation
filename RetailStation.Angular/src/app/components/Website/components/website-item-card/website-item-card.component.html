@@ -117,8 +117,7 @@
 
 
 
-<div class="product-card bg-white border rounded-3 shadow-sm p-3 h-100 d-flex flex-column justify-content-between"
-    [class.is-fav]="item.isFavorite">
+<div class="product-card bg-white border rounded-3 shadow-sm p-3 h-100 d-flex flex-column justify-content-between" [class.is-fav]="item.isFavorite">
 
     <div *ngIf="item.isBestSellerItem" class="best-seller-tag">
         <i class="ph ph-star-fill"></i>
@@ -136,8 +135,7 @@
     <div class="d-flex gap-3" [ngClass]="{'mt-3':item.isPromotion}">
         <!-- Product Image -->
         <div class="product-image flex-shrink-0">
-            <img [src]="item.imageUrl" (error)="$event.target.src = defaultImage" alt="product"
-                class="rounded-3 img-fluid" />
+            <img [src]="item.imageUrl" (error)="$event.target.src = defaultImage" alt="product" class="rounded-3 img-fluid" />
         </div>
 
         <!-- Product Info -->
@@ -177,11 +175,38 @@
 
     <!-- Bottom Section: Actions -->
     <div class="mt-3 d-flex align-items-center justify-content-between">
-        <button (click)="addToCart()"
+        <!-- <button (click)="addToCart()"
             class="btn btn-success d-flex align-items-center gap-2 flex-fill justify-content-center">
             <i class="ph ph-shopping-cart"></i>
             <span>أضف للعربة</span>
-        </button>
+        </button> -->
+        <ng-container *ngIf="!isItemInCart">
+            <div class="btn btn-success d-flex align-items-center gap-2 flex-fill justify-content-center" (click)="addToCart()">
+                <i class="ph ph-shopping-cart fs-4"></i>
+                <div class="fw-bold">أضف للعربه</div>
+            </div>
+        </ng-container>
+        <!-- <ng-container *ngIf="isItemInCart">
+            <div class="d-flex align-items-center justify-content-center gap-4">
+                <div class="count-button d-flex align-items-center gap-2">
+                    <i (click)="addQuantity(1)" class="ph ph-plus cursor-pointer text-danger fw-semibold"></i>
+                    <input type="text" disabled [(ngModel)]="itemQuantity"
+                        class="form-control border text-center height-30 width-50">
+                    <i *ngIf="itemQuantity>1" (click)="addQuantity(-1)"
+                        class="ph ph-minus cursor-pointer text-danger fw-semibold"></i>
+                    <i *ngIf="itemQuantity==1" (click)="removeItem()"
+                        class="ph ph-trash cursor-pointer text-danger fw-semibold"></i>
+                </div>
+            </div>
+        </ng-container> -->
+
+        <ng-container *ngIf="isItemInCart">
+            <div class="item-actions d-flex mt-2">
+                <app-change-quantity [style]="'cart'" [value]="item.quantity" [minValue]="item.minimumOrderQuantity ?? 1" (valueChange)="changeQuantity_New(item, $event)"></app-change-quantity>
+                <a class="mt-2 cursor-pointer" (click)="removeItem(item)">احذف</a>
+            </div>
+        </ng-container>
+
 
         <!-- <button (click)="toggleCompare(item)"
             class="btn d-flex align-items-center gap-2 flex-fill justify-content-center ms-2">

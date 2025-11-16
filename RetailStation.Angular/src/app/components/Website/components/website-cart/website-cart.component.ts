@@ -165,7 +165,6 @@ export class WebsiteCartComponent implements OnInit {
     this.setQuantity();
   }
   changeQuantity(item: MerchantItemModel, newQuantity: number): void {
-    debugger
     if (item.quantity + newQuantity > 0) {
       // this.itemQuantity = this.itemQuantity + qty;
       this.cartService.changeItemQuantity(item.merchantItemId, item.quantity + newQuantity);
@@ -174,7 +173,6 @@ export class WebsiteCartComponent implements OnInit {
   }
 
   removeItem(item: any) {
-    debugger
     this.cartService.removeItem(item.merchantItemId);
     this.loadData();
   }

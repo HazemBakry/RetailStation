@@ -1,17 +1,18 @@
-﻿using RetailStation.Entities.Common;
-using RetailStation.Entities.Common.Finance.Purchases;
-using RetailStation.Entities.Models;
+﻿using Entities.DTOs.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RetailStation.Entities.Common;
+using RetailStation.Entities.Common.Finance.Purchases;
+using RetailStation.Entities.DTOs.Operation;
+using RetailStation.Entities.Models;
+using RetailStation.Interface.Operation;
+using RetailStation.Service.Operation;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using RetailStation.Entities.DTOs.Operation;
-using RetailStation.Interface.Operation;
-using RetailStation.Service.Operation;
 
 namespace RetailStation.API.Controllers.Operation
 {
@@ -53,7 +54,7 @@ namespace RetailStation.API.Controllers.Operation
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("GetLoggedMerchantDetails")]
         public IActionResult GetLoggedMerchantDetails()
         {
@@ -79,10 +80,20 @@ namespace RetailStation.API.Controllers.Operation
 
         [HttpPost]
         [Route("EditMerchant")]
-        public IActionResult EditMerchant(int MerchantId, MerchantModel model)
+        public async Task<IActionResult> EditMerchant([FromForm] MerchantModel model)
         {
-            var results = _merchantsService.EditMerchant(MerchantId, model);
-            return Ok(results);
+            int finalMerchantId;
+
+            var userMerchant = User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value;
+
+            if (string.IsNullOrWhiteSpace(userMerchant) || !int.TryParse(userMerchant, out finalMerchantId))
+                return BadRequest("No merchant assigned to the this user.");
+
+            var result = await _merchantsService.EditMerchantAsync(finalMerchantId, model);
+            return Ok(result);
+
+            //var results = _merchantsService.EditMerchant(model);
+            //return Ok(results);
         }
 
         [HttpGet]

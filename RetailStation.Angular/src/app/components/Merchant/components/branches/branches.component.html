@@ -1,83 +1,91 @@
-<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+<div class="px-3 gradient-nw-wrraper-bg">
 
-<div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
-        <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3" (click)="openNewBranchModal(AddNewDialog)">
-                <i class="fas fa-plus-circle"></i>
-                <span>إنشاء</span>
-            </button>
+    <div class="main-general-account-content" style="width: 100% !important;">
 
-            <!-- <button [disabled]="showExportLoader"
+
+        <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+        <div class="table-card border radius-10 overflow-hidden shadow-sm">
+            <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3" (click)="openNewBranchModal(AddNewDialog)">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>إضافة فرع</span>
+                    </button>
+
+                    <!-- <button [disabled]="showExportLoader"
                 class="btn btn-table-action d-flex align-items-center gap-2 border rounded px-3" (click)="exportData()">
                 <i class="fas fa-file-download"></i>
                 <span>تصدير</span>
             </button> -->
-        </div>
-        <!-- <div class="justify-content-end">
+                </div>
+                <!-- <div class="justify-content-end">
             <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="branchResponseModel.currentPage"
                 [pageSize]="branchResponseModel.pageSize"
                 [totalCount]="branchResponseModel.totalCount"></app-pagination>
         </div> -->
-    </div>
+            </div>
 
-    <div class="p-3 bg-white">
-        <div class="table-responsive shadow-sm radius-10">
-            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
-                <thead>
-                    <tr>
-                        <th>الاسم (عربي)</th>
-                        <th>الاسم (انجليزي)</th>
-                        <th>الهاتف</th>
-                        <th>العنوان</th>
-                        <th>وقت العمل (انجليزي)</th>
-                        <th>الصورة</th>
-                        <th class="text-center">الحالة</th>
-                        <th class="text-center">الإجراءات</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div class="p-3 bg-white">
+                <div class="table-responsive shadow-sm radius-10">
+                    <table class="table table-card-table table-borderless table-middle bg-transparent m-0">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>الاسم (عربي)</th>
+                                <th>الاسم (انجليزي)</th>
+                                <th>الهاتف</th>
+                                <th>العنوان</th>
+                                <th>وقت العمل (انجليزي)</th>
+                                <th class="text-center">الحالة</th>
+                                <th class="text-center">الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                    <tr *ngFor="let branch of branchResponseModel.results">
-                        <td>{{ branch.nameAR }}</td>
-                        <td>{{ branch.nameEN }}</td>
-                        <td>{{ branch.phone }}</td>
-                        <td>{{ branch.address }}</td>
-                        <td>{{ branch.workingTimeEN }}</td>
-                        <td>
-                            <img *ngIf="branch.imageURL" [src]="branch.imageURL" (error)="$event.target.src = defaultImage" class="rounded" style="width: 100px;height:100px" width="30" height="20">
-                        </td>
-                        <td class="text-center">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <label class="switch me-2">
-                                    <input type="checkbox" [ngModel]="branch.isActive"
-                                        (change)="changeBranchStatus(branch.branchId)">
-                                    <span class="branch round"></span>
-                                </label>
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            <div class="d-flex align-items-center justify-content-center gap-2">
-                                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="openNewBranchModal(AddNewDialog, branch)">
-                                    <i class="uil uil-pen"></i>
-                                    <span>تعديل</span>
-                                </button>
-                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteModal, branch.branchId)">
-                                    <i class="uil uil-trash-alt"></i>
-                                    <span>حذف</span>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <app-empty-data [showEmptyData]="!branchResponseModel.results?.length && !showLoader" [showLoader]="showLoader"></app-empty-data>
-        </div>
-        <div class="p-3 border-top mt-3">
-            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="branchResponseModel.currentPage" [pageSize]="branchResponseModel.pageSize" [totalCount]="branchResponseModel.totalCount"></app-pagination>
+                            <tr *ngFor="let branch of branchResponseModel.results">
+                                <td>
+                                    <img *ngIf="branch.imageURL" [src]="branch.imageURL" (error)="$event.target.src = defaultImage" class="rounded" style="width: 100px;height:100px" width="30" height="20">
+                                </td>
+                                <td>{{ branch.nameAR }}</td>
+                                <td>{{ branch.nameEN }}</td>
+                                <td>{{ branch.phone }}</td>
+                                <td>{{ branch.address }}</td>
+                                <td>{{ branch.workingTimeEN }}</td>
+                                <td class="text-center">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <label class="switch me-2">
+                                            <input type="checkbox" [ngModel]="branch.isActive"
+                                                (change)="changeBranchStatus(branch.branchId)">
+                                            <span class="branch round"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex align-items-center justify-content-center gap-2">
+                                        <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2" (click)="openNewBranchModal(AddNewDialog, branch)">
+                                            <i class="uil uil-pen"></i>
+                                            <span>تعديل</span>
+                                        </button>
+                                        <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteModal, branch.branchId)">
+                                            <i class="uil uil-trash-alt"></i>
+                                            <span>حذف</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <app-empty-data [showEmptyData]="!branchResponseModel.results?.length && !showLoader" [showLoader]="showLoader"></app-empty-data>
+                </div>
+                <div class="p-3 border-top mt-3">
+                    <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="branchResponseModel.currentPage" [pageSize]="branchResponseModel.pageSize" [totalCount]="branchResponseModel.totalCount"></app-pagination>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
 
 <ng-template #AddNewDialog let-modal>
     <div class="modal-header modal-header-bg justify-content-between">

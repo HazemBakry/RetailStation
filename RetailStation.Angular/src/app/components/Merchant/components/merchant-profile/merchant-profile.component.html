@@ -1,6 +1,6 @@
-<div class="p-4 gradient-nw-wrraper-bg">
+<div class="px-3 gradient-nw-wrraper-bg">
 
-    <div class="main-general-account-content p-3" style="width: 100% !important;">
+    <div class="main-general-account-content" style="width: 100% !important;">
 
         <div class="row g-4">
 
@@ -10,32 +10,36 @@
                 <div class="card border-0 shadow-sm mb-4">
                     <div class="card-body">
                         <h5 class="card-title fw-bold mb-3 text-primary">بيانات التاجر</h5>
-                        <!-- <div class="d-flex align-items-center mb-4">
-                            <img src="./../../../../../assets/images/user-img.png" class="rounded-circle border user_image" alt="avatar">
-                            <button class="btn btn-outline-primary ms-3"><i class="fas fa-edit"></i> تغيير
-                                الصورة</button>
-                        </div> -->
-
+                        <div class="d-flex align-items-center mb-4">
+                            <img [src]="merchantModel?.imageUrl || '{{systemURL}}assets/images/default-image.png'" class="rounded-circle border user_image" alt="صورة المستخدم" width="80" height="80" />
+                            <div class="position-relative ms-3">
+                                <button type="button" class="btn btn-outline-primary d-flex align-items-center gap-2 cursor-pointer" (click)="fileInput.click()">
+                                    <i class="fas fa-edit"></i>
+                                    تغيير الصورة
+                                </button>
+                                <span>
+                                    {{imageFile ? imageFile.name : ''}}
+                                </span>
+                                <input type="file" #fileInput accept="image/*" class="d-none" (change)="onFileChange($event)" />
+                            </div>
+                        </div>
                         <hr>
 
                         <form [formGroup]="formGroup" autocomplete="off">
-
-
                             <div class="row">
                                 <div class="col-xl-6 mb-3">
                                     <label class="form-label d-flex align-items-center gap-2">
-                                    Name (AR)
-                                </label>
+                                        اسم التاجر (AR)
+                                    </label>
                                     <input type="text" class="form-control nw-form-input" formControlName="nameAR" autocomplete="off" />
-
                                     <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
                                         {{formErrors.nameAR}}
                                     </div>
                                 </div>
                                 <div class="col-xl-6 mb-3">
                                     <label class="form-label d-flex align-items-center gap-2">
-                                    Name (EN)
-                                </label>
+                                        اسم التاجر (EN)
+                                    </label>
                                     <input type="text" class="form-control nw-form-input" formControlName="nameEN" autocomplete="off" />
 
                                     <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
@@ -44,8 +48,8 @@
                                 </div>
                                 <div class="col-xl-4 mb-3">
                                     <label class="form-label d-flex align-items-center gap-2">
-                                    Code
-                                </label>
+                                        كود التاجر
+                                    </label>
                                     <input type="text" class="form-control nw-form-input" formControlName="code" autocomplete="off" />
 
                                     <div *ngIf="formErrors.code" class="text-danger  font-small-3 m-03">
@@ -54,46 +58,34 @@
                                 </div>
                             </div>
                             <div class="row">
-
-                                <div class="col-xl-4 mb-3">
+                                <div class="col-xl-6 mb-3">
                                     <label class="form-label d-flex align-items-center gap-2">
-                                    Email
-                                </label>
+                                        البريد الالكترونى
+                                    </label>
                                     <input type="text" class="form-control nw-form-input" formControlName="email" autocomplete="off" />
 
                                     <div *ngIf="formErrors.email" class="text-danger  font-small-3 m-03">
                                         {{formErrors.email}}
                                     </div>
                                 </div>
-                                <div class="col-xl-4 mb-3">
+                                <div class="col-xl-6 mb-3">
                                     <label class="form-label d-flex align-items-center gap-2">
-                                    Phone
-                                </label>
+                                        رقم الهاتف
+                                    </label>
                                     <input type="text" class="form-control nw-form-input" formControlName="phone" autocomplete="off" />
 
                                     <div *ngIf="formErrors.phone" class="text-danger  font-small-3 m-03">
                                         {{formErrors.phone}}
                                     </div>
                                 </div>
-                                <div class="col-xl-4 mb-3">
-                                    <label class="form-label d-flex align-items-center gap-2">
-                                    Mobile
-                                </label>
-                                    <input type="text" class="form-control nw-form-input" formControlName="mobile" autocomplete="off" />
-
-                                    <div *ngIf="formErrors.mobile" class="text-danger  font-small-3 m-03">
-                                        {{formErrors.mobile}}
-                                    </div>
-                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-xl-4 mb-3">
                                     <label class="form-label d-flex align-items-center gap-2">
-                                    Country
-                                    <span class="text-danger">*</span>
-                                </label>
+                                        البلد
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <app-general-selector formControlName="countryId" [data]="countriesSelectorData" [disabled]="countriesSelectorData?.length==0" [showSearch]="true" [placeholder]="'Country'">
-
                                     </app-general-selector>
 
                                     <div *ngIf="formErrors.countryId" class="text-danger  font-small-3 m-03">
@@ -103,9 +95,9 @@
                                 </div>
                                 <div class="col-xl-4 mb-3">
                                     <label class="form-label d-flex align-items-center gap-2">
-                                    City
-                                    <span class="text-danger">*</span>
-                                </label>
+                                        المدينة
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <app-general-selector formControlName="cityId" [data]="citiesSelectorData" [disabled]="citiesSelectorData?.length==0" [showSearch]="true" [placeholder]="'City'">
 
                                     </app-general-selector>
@@ -117,9 +109,9 @@
                                 </div>
                                 <div class="col-xl-4 mb-3">
                                     <label class="form-label d-flex align-items-center gap-2">
-                                    Region
-                                    <span class="text-danger">*</span>
-                                </label>
+                                        المنطقة
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <app-general-selector formControlName="regionId" [data]="regionsSelectorData" [disabled]="regionsSelectorData?.length==0" [showSearch]="true" [placeholder]="'Region'">
 
                                     </app-general-selector>
@@ -134,9 +126,9 @@
 
                                 <div class="col-xl-4 mb-3">
                                     <label class="form-label d-flex align-items-center gap-2">
-                                    Payment Method
-                                    <span class="text-danger">*</span>
-                                </label>
+                                        Payment Method
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <app-general-selector formControlName="paymentMethodId" [data]="paymentMethodsSelectorData" [disabled]="paymentMethodsSelectorData?.length==0" [showSearch]="true" [placeholder]="'Region'">
 
                                     </app-general-selector>
@@ -148,8 +140,8 @@
                                 </div>
                                 <div class="col-xl-4 mb-3">
                                     <label class="form-label d-flex align-items-center gap-2">
-                                    Delivery Cost
-                                </label>
+                                        Delivery Cost
+                                    </label>
                                     <input type="text" class="form-control nw-form-input" formControlName="deliveryCost" autocomplete="off" />
 
                                     <div *ngIf="formErrors.deliveryCost" class="text-danger  font-small-3 m-03">
@@ -159,8 +151,8 @@
                                 </div>
                                 <div class="col-xl-4 mb-3">
                                     <label class="form-label d-flex align-items-center gap-2">
-                                    Delivery Time
-                                </label>
+                                        Delivery Time
+                                    </label>
                                     <input type="text" class="form-control nw-form-input" formControlName="deliveryTime" autocomplete="off" />
 
                                     <div *ngIf="formErrors.deliveryTime" class="text-danger  font-small-3 m-03">
@@ -169,8 +161,8 @@
                                 </div>
                                 <div class="col-xl-4 mb-3">
                                     <label class="form-label d-flex align-items-center gap-2">
-                                    Rate
-                                </label>
+                                        Rate
+                                    </label>
                                     <input type="text" class="form-control nw-form-input" formControlName="rate" autocomplete="off" />
 
                                     <div *ngIf="formErrors.rate" class="text-danger  font-small-3 m-03">
@@ -181,8 +173,8 @@
                             <div class="row">
                                 <div class="col-xl-6 mb-3">
                                     <label class="form-label d-flex align-items-center gap-2">
-                                    Commercial Register
-                                </label>
+                                        Commercial Register
+                                    </label>
                                     <input type="text" class="form-control nw-form-input" formControlName="commercialRegister" autocomplete="off" />
 
                                     <div *ngIf="formErrors.commercialRegister" class="text-danger  font-small-3 m-03">
@@ -192,8 +184,8 @@
                                 </div>
                                 <div class="col-xl-6 mb-3">
                                     <label class="form-label d-flex align-items-center gap-2">
-                                    Tax Number
-                                </label>
+                                        Tax Number
+                                    </label>
                                     <input type="text" class="form-control nw-form-input" formControlName="taxNumber" autocomplete="off" />
 
                                     <div *ngIf="formErrors.taxNumber" class="text-danger  font-small-3 m-03">
@@ -202,8 +194,8 @@
                                 </div>
                                 <div class="col-xl-6 mb-3">
                                     <label class="form-label d-flex align-items-center gap-2">
-                                    Bank Account Number
-                                </label>
+                                        Bank Account Number
+                                    </label>
                                     <input type="text" class="form-control nw-form-input" formControlName="bankAccountNumber" autocomplete="off" />
 
                                     <div *ngIf="formErrors.bankAccountNumber" class="text-danger  font-small-3 m-03">
@@ -212,8 +204,8 @@
                                 </div>
                                 <div class="col-xl-6 mb-3">
                                     <label class="form-label d-flex align-items-center gap-2">
-                                    Brand Name
-                                </label>
+                                        Brand Name
+                                    </label>
                                     <input type="text" class="form-control nw-form-input" formControlName="brandName" autocomplete="off" />
 
                                     <div *ngIf="formErrors.brandName" class="text-danger  font-small-3 m-03">
@@ -224,8 +216,8 @@
                             <div class="row">
                                 <div class="col-xl-6 mb-3">
                                     <label class="form-label d-flex align-items-center gap-2">
-                                    Contact Person
-                                </label>
+                                        Contact Person
+                                    </label>
                                     <input type="text" class="form-control nw-form-input" formControlName="contactPerson" autocomplete="off" />
 
                                     <div *ngIf="formErrors.contactPerson" class="text-danger  font-small-3 m-03">
@@ -234,8 +226,8 @@
                                 </div>
                                 <div class="col-xl-6 mb-3">
                                     <label class="form-label d-flex align-items-center gap-2">
-                                    ContactMobile
-                                </label>
+                                        ContactMobile
+                                    </label>
                                     <input type="text" class="form-control nw-form-input" formControlName="contactMobile" autocomplete="off" />
 
                                     <div *ngIf="formErrors.contactMobile" class="text-danger  font-small-3 m-03">
@@ -247,8 +239,8 @@
 
                             <div class="row mb-3">
                                 <label class="form-label d-flex align-items-center gap-2">
-                                Address
-                            </label>
+                                    Address
+                                </label>
 
                                 <textarea formControlName="address" class="form-control"></textarea>
                                 <div *ngIf="formErrors.address" class="text-danger  font-small-3 m-03">
@@ -258,8 +250,8 @@
                             </div>
                             <div class="row mb-3">
                                 <label class="form-label d-flex align-items-center gap-2">
-                                Notes
-                            </label>
+                                    Notes
+                                </label>
                                 <textarea formControlName="notes" class="form-control"></textarea>
                                 <div *ngIf="formErrors.notes" class="text-danger  font-small-3 m-03">
                                     {{formErrors.notes}}
@@ -283,8 +275,8 @@
                                 <div class="col-xl-6 mb-3">
                                     <div class="col-sm-4">
                                         <label class="form-label d-flex align-items-center gap-2">
-                                        Active
-                                    </label>
+                                            Active
+                                        </label>
                                         <input class="big-checkbox" formControlName="isActive" type="checkbox">
 
                                         <div *ngIf="formErrors.isActive" class="text-danger  font-small-3 m-03">
@@ -302,7 +294,7 @@
                 </div>
 
                 <!-- Security Settings -->
-                <div class="card border-0 shadow-sm">
+                <!-- <div class="card border-0 shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title fw-bold mb-3 text-primary">الإعدادات الأمنية</h5>
                         <div class="mb-3">
@@ -321,23 +313,30 @@
                             <button class="btn btn-outline-primary px-4">حفظ التغييرات</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <!-- Right Column -->
             <div class="col-lg-4">
                 <!-- Profile Summary -->
-                <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-body text-center">
-                        <img src="../../../../../assets/images/av-7.png" class="rounded-circle border mb-3" alt="Logo">
-                        <h5 class="fw-bold text-dark mb-1">Mishwar Restaurants</h5>
-                        <!-- <p class="text-muted mb-2">مدير النظام</p> -->
-                        <span class="badge bg-success mb-3 px-3 py-2">نشط</span>
-
-                        <div class="progress mb-3" style="height: 8px;">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 100%"></div>
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-3 text-primary">الإعدادات الأمنية</h5>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">كلمة المرور الحالية</label>
+                            <input type="password" class="form-control" placeholder="********">
                         </div>
-                        <!-- <small class="text-muted">اكتمل الملف الشخصي بنسبة 80%</small> -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">كلمة مرور جديدة</label>
+                            <input type="password" class="form-control" placeholder="********">
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="twoFactor">
+                            <label class="form-check-label" for="twoFactor">تفعيل المصادقة الثنائية</label>
+                        </div>
+                        <div class="text-end">
+                            <button class="btn btn-outline-primary px-4">حفظ التغييرات</button>
+                        </div>
                     </div>
                 </div>
 

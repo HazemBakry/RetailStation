@@ -79,7 +79,7 @@ namespace RetailStation.Service.Operation
         public List<FilterModel> GetMerchantItems_Filters(int MerchantId, SearchFilterModel PagingFilter)
         {
             var dt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
-            
+
             SqlParameter[] Params = new SqlParameter[]
             {
                 new SqlParameter("@MerchantId", (object)MerchantId ?? DBNull.Value),
@@ -101,16 +101,21 @@ namespace RetailStation.Service.Operation
                 MerchantItem Item = new MerchantItem
                 {
                     MerchantId = MerchantId,
+                    Barcode = model.Barcode,
+                    Code = model.Code,
                     NameEN = model.NameEN,
                     NameAR = model.NameAR,
-                    Price = (decimal)model.Price,
-                    OfferPrice = (decimal)model.OfferPrice,
-                    Quantity = (decimal)model.Quantity,
-                    MinimumOrderQuantity = (decimal)model.MinimumOrderQuantity,
+                    Price = model.Price ?? 0,
+                    Price10 = model.Price10,
+                    Price100 = model.Price100,
+                    Price1000 = model.Price1000,
+                    OfferPrice = model.OfferPrice,
+                    Quantity = model.Quantity,
+                    MinimumOrderQuantity = model.MinimumOrderQuantity,
                     UnitId = model.UnitId,
                     ItemCategoryId = model.ItemCategoryId,
                     ItemTypeId = model.ItemTypeId,
-                    IsActive = model.IsActive,
+                    IsActive = true,
                     CreatedBy = model.CreatedBy,
                     CreatedDate = DateTime.Now
                 };
@@ -141,17 +146,17 @@ namespace RetailStation.Service.Operation
                 {
                     item.NameEN = model.NameEN;
                     item.NameAR = model.NameAR;
-                    item.Price = (decimal)model.Price;
-                    item.OfferPrice = (decimal)model.OfferPrice;
-                    item.Price10 = (decimal)model.Price10;
-                    item.Price100 = (decimal)model.Price100;
-                    item.Price1000 = (decimal)model.Price1000;
-                    item.Quantity = (decimal)model.Quantity;
-                    item.MinimumOrderQuantity = (decimal)model.MinimumOrderQuantity;
+                    item.Price = model.Price ?? 0;
+                    item.OfferPrice = model.OfferPrice;
+                    item.Price10 = model.Price10;
+                    item.Price100 = model.Price100;
+                    item.Price1000 = model.Price1000;
+                    item.Quantity = model.Quantity;
+                    item.MinimumOrderQuantity = model.MinimumOrderQuantity;
                     item.UnitId = model.UnitId;
                     item.ItemCategoryId = model.ItemCategoryId;
                     item.ItemTypeId = model.ItemTypeId;
-                    item.IsActive = model.IsActive;
+                    item.IsActive = model.IsActive ?? true;
                     item.ModifiedBy = model.ModifiedBy;
                     item.ModifiedDate = DateTime.Now;
                     if (model.Image != null)
@@ -402,7 +407,7 @@ namespace RetailStation.Service.Operation
             var result = SQLHelper.SQLQuery<WebsiteOrderModel>("[dbo].[SP_GetMerchantOrders_Data]", ConnectionString, Params);
             return result;
         }
-        public List<WebsiteOrderItemModel> GetOrder_Items(int MerchantId,int OrderId)
+        public List<WebsiteOrderItemModel> GetOrder_Items(int MerchantId, int OrderId)
         {
 
             SqlParameter[] Params = new SqlParameter[]
@@ -431,7 +436,7 @@ namespace RetailStation.Service.Operation
             var results = SQLHelper.SQLQuery<FilterItem>("[dbo].[SP_GetMerchantOrders_Filters]", ConnectionString, Params);
             return SharedFilterService.GroupedFilterItems(results);
         }
-        
+
         public OrderStatusStatisticModel GetOrderStatus_Statistics(SearchFilterModel PagingFilter, int MerchantId)
         {
             var FilterListDt = SharedFilterService.MapFilterModelToDataTable(PagingFilter.FilterList);
@@ -460,15 +465,15 @@ namespace RetailStation.Service.Operation
             var merchantOrder = Context.MerchantOrders.FirstOrDefault(x => x.MerchantOrderId == MerchantOrderId && x.MerchantId == MerchantId);
 
 
-            if (merchantOrder != null )
+            if (merchantOrder != null)
             {
 
                 var order = Context.Orders.FirstOrDefault(x => x.OrderId == merchantOrder.OrderId);
                 merchantOrder.WorkflowStatusId = (int)WorkflowStatus.Cancelled;
                 merchantOrder.ModifiedDate = DateTime.Now;
-                if (order != null )
+                if (order != null)
                 {
-                    
+
                     order.WorkflowStatusId = (int)WorkflowStatus.Cancelled;
                     order.Notes = "Order cancelled by merchant";
                     order.ModifiedDate = DateTime.Now;
@@ -736,7 +741,7 @@ namespace RetailStation.Service.Operation
                     EndDate = model.EndDate,
                     MinQty = model.MinQty,
                     MaxQty = model.MaxQty,
-                    IsActive = model.IsActive,
+                    IsActive = true,
                     CreatedBy = model.CreatedBy,
                     CreatedDate = DateTime.Now
                 };
@@ -776,7 +781,7 @@ namespace RetailStation.Service.Operation
                 promotion.EndDate = model.EndDate;
                 promotion.MinQty = model.MinQty;
                 promotion.MaxQty = model.MaxQty;
-                promotion.IsActive = model.IsActive;
+                promotion.IsActive = model.IsActive ?? true;
                 promotion.ModifiedBy = model.ModifiedBy;
                 promotion.ModifiedDate = DateTime.Now;
 

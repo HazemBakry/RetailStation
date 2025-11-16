@@ -58,13 +58,13 @@
 
         <!-- Desktop Menu -->
         <ul class="nav-links d-none d-lg-flex">
-            <li>
+            <!-- <li>
                 <a routerLink="/website/categories" routerLinkActive="active" class="header-item-btn">
                     <span class="icon"><i class="ph ph-list fs-5"></i></span>
                     <span class="text">الأقسام</span>
                 </a>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
                 <a routerLink="/website/privacy-policy" routerLinkActive="active" class="header-item-btn">
                     <span class="icon"><i class="ph ph-keyhole fs-5"></i></span>
                     <span class="text">سياسة الخصوصية</span>
@@ -87,7 +87,7 @@
                     <span class="icon"><i class="ph ph-phone fs-5"></i></span>
                     <span class="text">اتصل بنا</span>
                 </a>
-            </li>
+            </li> -->
         </ul>
 
         <!-- Icons: Compare, Favorites, Cart -->
@@ -192,15 +192,22 @@
             </li>
 
             <li><a href="#">English 🌐</a></li>
+            <li *ngIf="isAuthenticated">
+                <a (click)="logout()"> <i class="ph ph-sign-out"></i> تسجيل الخروج</a>
+            </li>
+            <li *ngIf="!isAuthenticated">
+                <app-float-login></app-float-login>
+                <!-- <a (click)="logout()"> <i class="ph ph-sign-out"></i> تسجيل دخول</a> -->
+            </li>
 
-            <li class="dropdown-parent">
+            <!-- <li class="dropdown-parent">
                 <a href="#" (click)="toggleSubmenu('account')">الحساب 👤</a>
                 <ul class="dropdown-menu" *ngIf="openSubmenu === 'account'">
                     <li><a href="#">تسجيل الدخول</a></li>
                     <li><a href="#">حسابي</a></li>
                     <li><a href="#">تسجيل الخروج</a></li>
                 </ul>
-            </li>
+            </li> -->
         </ul>
     </nav>
 </header>

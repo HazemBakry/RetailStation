@@ -12,6 +12,8 @@ namespace RetailStation.Entities.DTOs.Operation
     public class MerchantItemModel:CreatorModel
     {
         public int? MerchantItemId { get; set; }
+        public string Barcode { get; set; }
+        public string Code { get; set; }
         public int? ItemId { get; set; }
         public string NameAR { get; set; }
         public string NameEN { get; set; }
@@ -31,10 +33,10 @@ namespace RetailStation.Entities.DTOs.Operation
         public decimal? Price10 { get; set; }
         public decimal? Price100 { get; set; }
         public decimal? Price1000 { get; set; }
-        public bool IsActive { get; set; }
-        public bool IsFavorite { get; set; }
-        public bool IsBestSellerItem { get; set; }
-        public bool IsPromotion { get; set; }
+        public bool? IsActive { get; set; }
+        public bool? IsFavorite { get; set; }
+        public bool? IsBestSellerItem { get; set; }
+        public bool? IsPromotion { get; set; }
         public int? ItemTypeId { get; set; }
         public int? MerchantId { get; set; }
         public decimal? MerchantRate { get; set; }

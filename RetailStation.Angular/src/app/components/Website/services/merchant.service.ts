@@ -40,8 +40,12 @@ export class MerchantService {
     return this.http.post<ActionsResponseModel>(this.URL + 'Merchants/AddNewMerchant', model);
   }
 
-  EditMerchant(merchantId: number, model: MerchantModel) {
-    return this.http.post<ActionsResponseModel>(this.URL + 'Merchants/EditMerchant?MerchantId=' + merchantId, model);
+  // EditMerchant(merchantId: number, model: MerchantModel) {
+  //   return this.http.post<ActionsResponseModel>(this.URL + 'Merchants/EditMerchant?MerchantId=' + merchantId, model);
+  // }
+
+  EditMerchant(model: FormData) {
+    return this.http.post<ActionsResponseModel>(this.URL + 'Merchants/EditMerchant', model);
   }
 
   DeleteMerchant(merchantId: number) {

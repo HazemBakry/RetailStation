@@ -154,11 +154,11 @@ namespace RetailStation.Service.Website
 
                 var requestedItemIds = model.Items.Select(x => x.MerchantItemId).ToList();
                 var merchantItems = Context.MerchantItems
-                    .Where(x => requestedItemIds.Contains(x.MerchantItemId))
+                    .Where(x => requestedItemIds.Contains((int)x.MerchantItemId))
                     .AsNoTracking()
                     .ToList();
 
-                var notFoundItems = requestedItemIds.Except(merchantItems.Select(x => x.MerchantItemId));
+                var notFoundItems = requestedItemIds.Except(merchantItems.Select(x => (int)x.MerchantItemId));
                 if (notFoundItems.Any())
                 {
                     transaction.RollbackAsync();
@@ -178,15 +178,15 @@ namespace RetailStation.Service.Website
                         continue;
                     }
 
-                    if (item.Quantity < requestedItem.Quantity)
-                    {
-                        transaction.RollbackAsync();
-                        return new ActionsResponseModel
-                        {
-                            Message = $"Insufficient stock for item: {item.MerchantItemId}. Available: {item.Quantity}, Requested: {requestedItem.Quantity}",
-                            IsSuccess = false
-                        };
-                    }
+                    //if (item.Quantity < requestedItem.Quantity)
+                    //{
+                    //    transaction.RollbackAsync();
+                    //    return new ActionsResponseModel
+                    //    {
+                    //        Message = $"Insufficient stock for item: {item.MerchantItemId}. Available: {item.Quantity}, Requested: {requestedItem.Quantity}",
+                    //        IsSuccess = false
+                    //    };
+                    //}
 
                 }
                 

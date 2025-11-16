@@ -97,7 +97,7 @@ namespace RetailStation.Service.SupplierManagement
                     UnitId = model.UnitId,
                     ItemCategoryId = model.ItemCategoryId,
                     ItemTypeId = model.ItemTypeId,
-                    IsActive = model.IsActive,
+                    IsActive = true,
                     CreatedBy = model.CreatedBy,
                     CreatedDate = DateTime.Now
                 };
@@ -138,7 +138,7 @@ namespace RetailStation.Service.SupplierManagement
                     item.UnitId = model.UnitId;
                     item.ItemCategoryId = model.ItemCategoryId;
                     item.ItemTypeId = model.ItemTypeId;
-                    item.IsActive = model.IsActive;
+                    item.IsActive = model.IsActive ?? true;
                     item.ModifiedBy = model.ModifiedBy;
                     item.ModifiedDate = DateTime.Now;
                     if (model.Image != null)

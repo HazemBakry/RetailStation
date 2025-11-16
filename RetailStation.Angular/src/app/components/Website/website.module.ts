@@ -28,6 +28,7 @@ import { WebsiteBestSellerItemsComponent } from './components/website-best-selle
 import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { WebsiteTotalValuePromotionsComponent } from './components/website-total-value-promotions/website-total-value-promotions.component';
+import { WebsiteFooterComponent } from './components/website-footer/website-footer.component';
 
 
 
@@ -43,6 +44,7 @@ import { WebsiteTotalValuePromotionsComponent } from './components/website-total
     WebsiteItemCardComponent,
     WebsiteCartComponent,
     WebsiteHeaderComponent,
+    WebsiteFooterComponent,
     WebsiteSearchComponent,
     websiteProductDetailsComponent,
     WebsiteAboutUsComponent,

@@ -33,6 +33,7 @@ namespace RetailStation.Entities.Models.Operation
         public string ContactPerson { get; set; }
         public string ContactMobile { get; set; }
         public string Notes { get; set; }
+        public string ImageUrl { get; set; }
         public bool IsActive { get; set; }
     }
 }

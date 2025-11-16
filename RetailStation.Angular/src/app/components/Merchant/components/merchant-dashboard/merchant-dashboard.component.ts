@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/Auth/auth.service';
 import { PagedResponseDTO } from 'src/app/components/Shared/models/PagedResponseDTO';
 import { MerchantManagementService } from 'src/app/components/Website/services/merchant-management.service';
 import { OrderStatusStatisticModel } from 'src/app/components/Shared/models/OrderStatusStatisticModel';
+import { AdminService } from 'src/app/components/Admin/services/Admin.service';
 
 @Component({
   selector: 'app-merchant-dashboard',
@@ -24,6 +25,7 @@ export class MerchantDashboardComponent implements OnInit {
   companyStatistics: any[] = [];
   totalPackages: number = 0;
   bookingPercentage: number = 0;
+  NotificationData: any[] = [];
   pagedResponseModel: PagedResponseDTO<any[]> = {
     results: [],
     filterList: [],
@@ -62,10 +64,11 @@ export class MerchantDashboardComponent implements OnInit {
   isToggling = false;
   isCollapsing = true;
 
-  orderStatsInfo:OrderStatusStatisticModel;
+  orderStatsInfo: OrderStatusStatisticModel;
 
   constructor(
     private authService: AuthService,
+    private adminService: AdminService,
     private merchantManagementService: MerchantManagementService,
     public router: Router) { }
 
@@ -73,11 +76,13 @@ export class MerchantDashboardComponent implements OnInit {
     this.UserModel = this.authService.getCurrentUser();
     this.loadOrderStatus_Statistics();
     this.getsOrdersData();
+    this.getNotifications();
     //this.getBookingsData();
     //this.getBookingFilters();
     //this.getCompanyPackagesStatistics();
 
   }
+
   loadOrderStatus_Statistics() {
     // this.showLoader = true;
     this.merchantManagementService.GetOrderStatus_Statistics(this.pagedResponseModel).subscribe(data => {
@@ -90,7 +95,8 @@ export class MerchantDashboardComponent implements OnInit {
       // this.showLoader = false;
     });
   }
-    getsOrdersData() {
+
+  getsOrdersData() {
     this.showLoader = true;
     this.merchantManagementService.GetOrders_Data(this.pagedResponseModel).subscribe(data => {
       this.pagedResponseModel.results = data.results;
@@ -210,41 +216,37 @@ export class MerchantDashboardComponent implements OnInit {
     //this.getBookingsData();
   }
 
-  goToPackageTab(companyId: number) {
-    if (!companyId) return;
+  goToOrders(statusId: number) {
     const filterList = [];
-    filterList.push({
-      categoryDisplayName: 'Company',
-      categoryId: 55,
-      categoryName: 'CompanyId',
-      isChecked: true,
-      itemFlag: companyId?.toString(),
-      itemKey: companyId?.toString(),
-      itemValue: '0',
-    });
-    this.router.navigate(['/operation/packages'], {
+    if (statusId && statusId > 0) {
+      filterList.push({
+        categoryDisplayName: 'الحالة',
+        categoryId: 55,
+        categoryName: 'WorkflowStatusId',
+        isChecked: true,
+        itemFlag: statusId?.toString(),
+        itemKey: statusId?.toString(),
+        itemValue: '0',
+      });
+    }
+    this.router.navigate(['/merchant/merchant-orders'], {
       queryParamsHandling: 'merge',
       state: { filterList }
     });
-
   }
-  goBookingTab(companyId: number) {
-    if (!companyId) return;
-    const filterList = [];
-    filterList.push({
-      categoryDisplayName: 'Company',
-      categoryId: 55,
-      categoryName: 'CompanyId',
-      isChecked: true,
-      itemFlag: companyId?.toString(),
-      itemKey: companyId?.toString(),
-      itemValue: '0',
-    });
-    this.router.navigate(['/operation/bookings'], {
-      queryParamsHandling: 'merge',
-      state: { filterList }
-    });
 
+  getNotifications() {
+    this.showLoader = true;
+    this.adminService.GetNotifications(this.FilterModel).subscribe((data) => {
+      this.NotificationData = data;
+      this.totalCount =
+        data &&
+          data.length > 0 &&
+          (data[0].matchCount != null || data[0].matchCount != undefined)
+          ? data[0].matchCount
+          : 0;
+      this.showLoader = false;
+    });
   }
 }
 

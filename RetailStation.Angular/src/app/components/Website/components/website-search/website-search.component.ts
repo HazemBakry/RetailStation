@@ -67,7 +67,6 @@ export class WebsiteSearchComponent implements OnInit {
   }
 
   search() {
-    debugger
     // if (!this.searchText) return;
     let queryParams: any = {};
     if (this.searchText) {

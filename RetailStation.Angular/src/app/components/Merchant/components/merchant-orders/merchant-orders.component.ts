@@ -11,6 +11,8 @@ import { WebsiteOrderModel } from 'src/app/components/Website/models/WebsiteOrde
 import { OrderService } from 'src/app/components/Website/services/order.service';
 import { WebsiteService } from 'src/app/components/Website/services/website.service';
 import { MerchantManagementService } from 'src/app/components/Website/services/merchant-management.service';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 
 
@@ -21,12 +23,12 @@ import { MerchantManagementService } from 'src/app/components/Website/services/m
 })
 export class MerchantOrdersComponent implements OnInit {
   TitleList = ['Merchant', 'Orders'];
-  showLoader: boolean=false;
-  showCancelLoader: boolean=false;
+  showLoader: boolean = false;
+  showCancelLoader: boolean = false;
   TotalCount: any;
   TotalPages: any;
   filterList: FilterModel[] = [];
-
+  WorkflowStatusId: number;
   pagedResponseModel: PagedResponseModel<WebsiteOrderModel[]> = {
     results: [],
     filterList: [],
@@ -39,11 +41,32 @@ export class MerchantOrdersComponent implements OnInit {
   constructor(
     private merchantManagementService: MerchantManagementService,
     private modalService: NgbModal,
-    private toaster: ToastrService, private dynamicComponentService: DynamicComponentLoaderService) { }
+    private acRoute: ActivatedRoute,
+    private toaster: ToastrService,
+    private location: Location,
+    private dynamicComponentService: DynamicComponentLoaderService) { }
 
   ngOnInit(): void {
+    // this.acRoute.queryParams.subscribe((params: any) => {
+    //   if (params.WorkflowStatusId) {
+    //     this.WorkflowStatusId = params.WorkflowStatusId;
+    //   }
+    // });
+    this.checkEnteralFilters();
     this.getsOrdersData();
     this.loadFilters();
+  }
+
+    checkEnteralFilters() {
+    const locationHis = this.location.getState() as any;
+    if (locationHis?.filterList) {
+      locationHis?.filterList.map(c => {
+        c.isChecked = true;
+        if (!this.pagedResponseModel.filterList.find(fl => fl === c)) {
+          this.pagedResponseModel.filterList.push(c);
+        }
+      });
+    }
   }
 
   getsOrdersData() {

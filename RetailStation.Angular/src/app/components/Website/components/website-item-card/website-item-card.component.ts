@@ -106,4 +106,27 @@ export class WebsiteItemCardComponent implements OnInit {
       this.cartService.changeItemQuantity(this.item.merchantItemId,this.itemQuantity);
     }
   }
+
+  
+  changeQuantity_New(item: MerchantItemModel, newQuantity: number): void {
+    var minimumOrderQuantity = item.minimumOrderQuantity ?? 1;
+    if (newQuantity > 0 && newQuantity >= minimumOrderQuantity) {
+      item.quantity = newQuantity;
+      this.cartService.changeItemQuantity(item.merchantItemId, newQuantity);
+    } else {
+      item.quantity = minimumOrderQuantity;
+      this.cartService.changeItemQuantity(item.merchantItemId, minimumOrderQuantity);
+    }
+    //this.setQuantity();
+  }
+
+  //   setQuantity() {
+  //   this.cartList.forEach(item => {
+  //     const found = this.pageResponseModel.results.find(i => i.merchantItemId === item.merchantItemId);
+  //     if (found) {
+  //       found.quantity = item.quantity;
+  //       found.cost = item.quantity * (found.price);
+  //     }
+  //   });
+  // }
 }

@@ -63,7 +63,6 @@ export class UserProfileComponent implements OnInit {
     })
   }
   editUser() {
-    debugger
     if (!this.validateForm()) {
       return;
     }

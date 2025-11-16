@@ -1,4 +1,5 @@
-﻿using RetailStation.Entities.Common;
+﻿using Entities.DTOs.Auth;
+using RetailStation.Entities.Common;
 using RetailStation.Entities.Common.Finance.Purchases;
 using RetailStation.Entities.DTOs.Operation;
 using RetailStation.Entities.Models;
@@ -16,7 +17,7 @@ namespace RetailStation.Interface.Operation
         List<MerchantModel> GetMerchants_Data(SearchFilterModel model, int? MerchantId = null);
         MerchantModel GetMerchantDetailsById(int MerchantId);
         ActionsResponseModel AddNewMerchant(MerchantModel model);
-        ActionsResponseModel EditMerchant(int MerchantId, MerchantModel model);
+        Task<ActionsResponseModel> EditMerchantAsync(int MerchantId, MerchantModel model);
         ActionsResponseModel DeleteMerchant(int MerchantId);
     }
 }

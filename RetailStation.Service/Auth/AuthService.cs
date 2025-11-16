@@ -265,7 +265,7 @@ namespace RetailStation.Service.Auth
             authModel.SubscriberId = user.SubscriberId;
             authModel.Roles = roleList.ToList();
             authModel.BranchId = user.BranchId;
-            authModel.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine(UserImagesFolder, user.ImageUrl));
+            authModel.ImageUrl = _fileService.GetFileDownloadUrl(Path.Combine(UserImagesFolder, user.ImageUrl ?? ""));
 
             //var userBranch = _sharedService.GetBranchById(user.SubscriberId, user.BranchId);
             //if (userBranch is not null)
