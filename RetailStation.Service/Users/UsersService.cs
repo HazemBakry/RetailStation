@@ -65,9 +65,9 @@ namespace RetailStation.Service.Users
 
 
 
-        public async Task<List<UserDto>> GetUsersAsync(string SubscriberId, SearchFilterModel model)
+        public async Task<List<UserDto>> GetUsersAsync(SearchFilterModel model)
         {
-            Expression<Func<ApplicationUser, bool>> criteria = c => c.SubscriberId == SubscriberId && (c.UserName.Contains(model.SearchText) || c.FirstName.Contains(model.SearchText) || string.IsNullOrEmpty(model.SearchText));
+            Expression<Func<ApplicationUser, bool>> criteria = c => (c.UserName.Contains(model.SearchText) || c.FirstName.Contains(model.SearchText) || string.IsNullOrEmpty(model.SearchText));
 
             int totalCount = await _userManager.Users.Where(criteria).CountAsync();
 
@@ -101,20 +101,20 @@ namespace RetailStation.Service.Users
             return results;
 
         }
-        public List<UserDto> GetUsers(string SubscriberId, SearchFilterModel Model)
+        public List<UserDto> GetUsers(SearchFilterModel Model)
         {
             var Params = new SqlParameter[4];
             Params[0] = new SqlParameter("@PageSize", Model.PageSize);
             Params[1] = new SqlParameter("@CurrentPage", Model.CurrentPage);
             Params[2] = new SqlParameter("@SearchText", Model.SearchText);
-            Params[3] = new SqlParameter("@SubscriberId", SubscriberId);
+            Params[3] = new SqlParameter("@SubscriberId", DBNull.Value);
             var results = _sQLHelper.SQLQuery<UserDto>("dbo.SP_GetUsersForSubscriber", ConnectionString, Params);
             return results;
         }
-        public async Task<UserDto> GetUserByIdAsync(string SubscriberId, string userId)
+        public async Task<UserDto> GetUserByIdAsync(string userId)
         {
 
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId && u.SubscriberId == SubscriberId);
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user is not null)
             {
@@ -141,7 +141,7 @@ namespace RetailStation.Service.Users
             return null;
         }
 
-        public async Task<ActionsResponseModel> AddNewUserAsync(string SubscriberId, AddUserModel model)
+        public async Task<ActionsResponseModel> AddNewUserAsync(AddUserModel model)
         {
             if (await _userManager.FindByEmailAsync(model.Email) is not null)
                 return new ActionsResponseModel { Message = "Email already exists", IsSuccess = false };
@@ -196,16 +196,16 @@ namespace RetailStation.Service.Users
 
 
         }
-        public async Task<ActionsResponseModel> EditUserAsync(string SubscriberId, AddUserModel model)
+        public async Task<ActionsResponseModel> EditUserAsync(string userId, AddUserModel model)
         {
-            var user = await _userManager.FindByIdAsync(model.UserId);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 return new ActionsResponseModel { Message = "user not found", IsSuccess = false };
             }
-            if (await _userManager.FindByEmailAsync(model.Email) is not null && user.Id != model.UserId)
+            if (await _userManager.FindByEmailAsync(model.Email) is not null && user.Id != userId)
                 return new ActionsResponseModel { Message = "invalid email", IsSuccess = false };
-            if (await _userManager.FindByNameAsync(model.UserName) is not null && user.Id != model.UserId)
+            if (await _userManager.FindByNameAsync(model.UserName) is not null && user.Id != userId)
                 return new ActionsResponseModel { Message = "invalid username", IsSuccess = false };
             //if (model.EmployeeId != null && await _userManager.Users.FirstOrDefaultAsync(x => x.EmployeeId == model.EmployeeId&&x.Id!=model.UserId) is not null)
             //    return new ActionsResponseModel { Message = "employee already has account", IsSuccess = false };
@@ -237,7 +237,7 @@ namespace RetailStation.Service.Users
             return new ActionsResponseModel { Message = "user updated successfully !" };
         }
 
-        public async Task<ActionsResponseModel> DeleteUserAsync(string SubscriberId, string userId)
+        public async Task<ActionsResponseModel> DeleteUserAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
@@ -254,7 +254,7 @@ namespace RetailStation.Service.Users
             return new ActionsResponseModel { Message = "user deleted" };
         }
 
-        public async Task<ActionsResponseModel> AssignUserRoleAsync(string SubscriberId, string userId, AddUserRoleModel model)
+        public async Task<ActionsResponseModel> AssignUserRoleAsync(string userId, AddUserRoleModel model)
         {
             var user = await _userManager.FindByIdAsync(model.UserId);
 
@@ -264,8 +264,12 @@ namespace RetailStation.Service.Users
             }
 
             var userRoles = await _userManager.GetRolesAsync(user);
-            var rolesToAdd = model.Roles.Select(r => r.RoleName).Except(userRoles);
-            var rolesToRemove = userRoles.Except(model.Roles.Select(r => r.RoleName));
+            var rolesToAdd = model.Roles.Select(r => r.RoleName).Except(userRoles)
+                    .Except(new[] { "SuperAdmin" }, StringComparer.OrdinalIgnoreCase);
+
+            var rolesToRemove = userRoles.Except(model.Roles.Select(r => r.RoleName))
+                    .Except(new[] { "SuperAdmin" }, StringComparer.OrdinalIgnoreCase);
+
 
             // Remove roles that are no longer assigned
             foreach (var role in rolesToRemove)

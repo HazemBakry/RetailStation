@@ -39,7 +39,7 @@ namespace RetailStation.API.Controllers.AccountManager
             string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
             if (string.IsNullOrEmpty(SubscriberId))
                 return BadRequest("can't find SubscriberId");
-            var result = await _subscribersService.EditSubscriber(SubscriberId, model);
+            var result = await _subscribersService.EditSubscriber(SubscriberId,model);
             return Ok(result);
         }
         [HttpGet("GetMySubscriberData")]
@@ -58,14 +58,9 @@ namespace RetailStation.API.Controllers.AccountManager
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
-            if (string.IsNullOrEmpty(SubscriberId))
-                return BadRequest("can't find SubscriberId");
-
-            model.SubscriberId = SubscriberId;
             try
             {
-                var result = await _usersService.AddNewUserAsync(SubscriberId,model);
+                var result = await _usersService.AddNewUserAsync(model);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -76,18 +71,14 @@ namespace RetailStation.API.Controllers.AccountManager
 
         }
         [HttpPost("EditUser")]
-        public async Task<IActionResult> EditUser([FromForm] AddUserModel model)
+        public async Task<IActionResult> EditUser(string UserId,[FromForm] AddUserModel model)
         {
             if (!ModelState.IsValid || string.IsNullOrEmpty(model.UserId))
                 return BadRequest(ModelState);
 
-            string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
-            if (string.IsNullOrEmpty(SubscriberId))
-                return BadRequest("can't find SubscriberId");
-            model.SubscriberId = SubscriberId;
             try
             {
-                var result = await _usersService.EditUserAsync(SubscriberId, model);
+                var result = await _usersService.EditUserAsync(UserId, model);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -107,7 +98,7 @@ namespace RetailStation.API.Controllers.AccountManager
             if (string.IsNullOrEmpty(SubscriberId))
                 return BadRequest("can't find SubscriberId");
 
-            var users = await _usersService.GetUsersAsync(SubscriberId, model);
+            var users = await _usersService.GetUsersAsync(model);
             var result = new PagedResponseModel<UserDto>
             {
                 Results = users,
@@ -125,7 +116,7 @@ namespace RetailStation.API.Controllers.AccountManager
             if (string.IsNullOrEmpty(SubscriberId))
                 return BadRequest("can't find SubscriberId");
 
-            var user = await _usersService.GetUserByIdAsync(SubscriberId, userId);
+            var user = await _usersService.GetUserByIdAsync(userId);
             if (user == null)
                 return NotFound();
             return Ok(user);
@@ -158,7 +149,7 @@ namespace RetailStation.API.Controllers.AccountManager
             if (string.IsNullOrEmpty(SubscriberId))
                 return BadRequest("can't find SubscriberId");
 
-            var result = await _usersService.AssignUserRoleAsync(SubscriberId, UserId, model);
+            var result = await _usersService.AssignUserRoleAsync(UserId, model);
 
             return Ok(result);
 
@@ -180,7 +171,7 @@ namespace RetailStation.API.Controllers.AccountManager
             string SubscriberId = User.Claims.FirstOrDefault(c => c.Type == "SubscriberId")?.Value;
             if (string.IsNullOrEmpty(SubscriberId))
                 return BadRequest("can't find SubscriberId");
-            var result = await _usersService.DeleteUserAsync(SubscriberId, userId);
+            var result = await _usersService.DeleteUserAsync(userId);
             if (result is null)
             {
                 return BadRequest("user not found");

@@ -11,13 +11,13 @@ namespace RetailStation.Interface.Users
 {
     public interface IUsersService
     {
-        Task<List<UserDto>> GetUsersAsync(string SubscriberId, SearchFilterModel model);
-        List<UserDto> GetUsers(string SubscriberId, SearchFilterModel model);
-        Task<UserDto> GetUserByIdAsync(string SubscriberId, string userId);
-        Task<ActionsResponseModel> AddNewUserAsync(string SubscriberId, AddUserModel model);
-        Task<ActionsResponseModel> EditUserAsync(string SubscriberId, AddUserModel model);
-        Task<ActionsResponseModel> AssignUserRoleAsync(string SubscriberId, string userId, AddUserRoleModel model);
-        Task<ActionsResponseModel> DeleteUserAsync(string SubscriberId, string userId);
+        Task<List<UserDto>> GetUsersAsync(SearchFilterModel model);
+        List<UserDto> GetUsers(SearchFilterModel model);
+        Task<UserDto> GetUserByIdAsync(string userId);
+        Task<ActionsResponseModel> AddNewUserAsync(AddUserModel model);
+        Task<ActionsResponseModel> EditUserAsync(string userId, AddUserModel model);
+        Task<ActionsResponseModel> AssignUserRoleAsync(string userId, AddUserRoleModel model);
+        Task<ActionsResponseModel> DeleteUserAsync(string userId);
 
     }
 }

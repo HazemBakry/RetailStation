@@ -25,7 +25,7 @@ import { SubscriptionsService } from "../../../services/subscriptions.service";
   styleUrls: ['./subscriber-users.component.css']
 })
 export class SubscriberUsersComponent implements OnInit {
-  @Input() subscriberId: string;
+  //@Input() subscriberId: string;
 
   usersData: UserModel[] = [];
   UsersRoles: any[] = [];
@@ -75,22 +75,24 @@ export class SubscriberUsersComponent implements OnInit {
     password: '',
     startDate: '',
     endDate: '',
-    isActive:''
+    isActive: ''
   }
   showLoader: boolean = false;
   showAddLoader: boolean = false;
-  constructor(private acRoute: ActivatedRoute,private datePipe:DatePipe, private modalService: NgbModal, private toaster: ToastrService,
+  constructor(private acRoute: ActivatedRoute, private datePipe: DatePipe, private modalService: NgbModal, private toaster: ToastrService,
     private subscriptionsService: SubscriptionsService, private form: FormBuilder, private _FormService: FormService,
     private sharedService: SharedService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.acRoute.parent.params.subscribe((params: any) => {
-      if (params.SubscriberId) {
-        this.subscriberId = params.SubscriberId;
-        this.GetUsersData();
-        this.loadSelectors();
-      }
-    });
+    this.GetUsersData();
+    this.loadSelectors();
+    // this.acRoute.parent.params.subscribe((params: any) => {
+    //   if (params.SubscriberId) {
+    //     this.subscriberId = params.SubscriberId;
+    //     this.GetUsersData();
+    //     this.loadSelectors();
+    //   }
+    // });
 
   }
 
@@ -135,8 +137,8 @@ export class SubscriberUsersComponent implements OnInit {
       firstName: user.firstName,
       lastName: user.lastName,
       userName: user.userName,
-      startDate: this.datePipe.transform(user.startDate, 'yyyy-MM-dd') ,
-      endDate:this.datePipe.transform(user.endDate, 'yyyy-MM-dd') ,
+      startDate: this.datePipe.transform(user.startDate, 'yyyy-MM-dd'),
+      endDate: this.datePipe.transform(user.endDate, 'yyyy-MM-dd'),
       isActive: user.isActive,
       email: user.email,
       phoneNumber: user.phoneNumber,
@@ -180,7 +182,7 @@ export class SubscriberUsersComponent implements OnInit {
   }
 
   addNewUser() {
-    this.subscriptionsService.addNewUser(this.subscriberId,this.formData).subscribe(data => {
+    this.subscriptionsService.addNewUser(this.formData).subscribe(data => {
       if (data) {
         if (this.lang == 'en') {
           this.toaster.success("Data Saved Successfully");
@@ -204,7 +206,7 @@ export class SubscriberUsersComponent implements OnInit {
     });
   }
   editUser() {
-    this.subscriptionsService.editUser(this.subscriberId,this.userModel.userId,this.formData).subscribe((data: ActionsResponseModel) => {
+    this.subscriptionsService.editUser(this.userModel.userId, this.formData).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         if (this.lang == 'en') {
           this.toaster.success("Data Saved Successfully");
@@ -231,7 +233,7 @@ export class SubscriberUsersComponent implements OnInit {
     this.modalService.open(content, { size: 'md', centered: true });
   }
   deleteUser() {
-    this.subscriptionsService.deleteUser(this.subscriberId,this.userModel.userId).subscribe((data: ActionsResponseModel) => {
+    this.subscriptionsService.deleteUser(this.userModel.userId).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         if (this.lang == 'en') {
           this.toaster.success("user deleted");
@@ -276,7 +278,7 @@ export class SubscriberUsersComponent implements OnInit {
   GetUsersData() {
     this.showLoader = true;
     // this.searchFilterModel.searchText = this.searchText;
-    this.subscriptionsService.getUsers(this.subscriberId,this.pagedResponse).subscribe(response => {
+    this.subscriptionsService.getUsers(this.pagedResponse).subscribe(response => {
       this.pagedResponse.results = response.results;
       this.pagedResponse.totalCount = response.totalCount;
       this.usersData = response.results;
@@ -342,7 +344,7 @@ export class SubscriberUsersComponent implements OnInit {
 
 
     this.showAddLoader = true;
-    this.subscriptionsService.assignUserRole(this.subscriberId,this.userModel.userId, model).subscribe(data => {
+    this.subscriptionsService.assignUserRole(this.userModel.userId, model).subscribe(data => {
       if (data.isSuccess) {
         this.toaster.success('Assign New Role Successfully');
         this.modalService?.dismissAll();

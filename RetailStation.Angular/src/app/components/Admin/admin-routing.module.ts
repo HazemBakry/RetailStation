@@ -57,28 +57,28 @@ const routes: Routes = [
           },
         ],
       },
-      {
-        path: 'manage-subscriptions',
-        canActivate: [AuthGuard],
-        data: { roles: ['SuperAdmin'] },
-        component: ManageSubscriptionsComponent,
-        children: [
-          { path: 'subscribers', component: SubscribersComponent },
-          { path: 'add-subscriber', component: AddSubscriberComponent },
-          {
-            path: 'subscriber-profile/:SubscriberId',
-            component: SubscriberProfileComponent,
-            children: [
-              { path: 'subscriber-info', component: AddSubscriberComponent },
-              { path: 'subscriber-applications', component: SubscriberApplicationsComponent },
-              { path: 'subscriber-users', component: SubscriberUsersComponent },
-              { path: 'subscriber-branches', component: SubscriberBranchesComponent },
-              { path: '', redirectTo: 'subscriber-info', pathMatch: 'full' },
-            ],
-          },
-          { path: '', redirectTo: 'subscribers', pathMatch: 'full' },
-        ],
-      },
+      // {
+      //   path: 'manage-subscriptions',
+      //   canActivate: [AuthGuard],
+      //   data: { roles: ['SuperAdmin'] },
+      //   component: ManageSubscriptionsComponent,
+      //   children: [
+      //     { path: 'subscribers', component: SubscribersComponent },
+      //     { path: 'add-subscriber', component: AddSubscriberComponent },
+      //     {
+      //       path: 'subscriber-profile/:SubscriberId',
+      //       component: SubscriberProfileComponent,
+      //       children: [
+      //         { path: 'subscriber-info', component: AddSubscriberComponent },
+      //         { path: 'subscriber-applications', component: SubscriberApplicationsComponent },
+      //         { path: 'subscriber-users', component: SubscriberUsersComponent },
+      //         { path: 'subscriber-branches', component: SubscriberBranchesComponent },
+      //         { path: '', redirectTo: 'subscriber-info', pathMatch: 'full' },
+      //       ],
+      //     },
+      //     { path: '', redirectTo: 'subscribers', pathMatch: 'full' },
+      //   ],
+      // },
       { path: 'items', component: ItemsComponent },
       { path: 'items-categories', component: ItemsCategoriesComponent },
       { path: 'items-units', component: ItemUnitsComponent },
@@ -95,6 +95,7 @@ const routes: Routes = [
       { path: 'top-partners', component: TopPartnersComponent },
       { path: 'best-seller-items', component: BestSellerItemsComponent },
       { path: 'promotions', component: AdminTotalValuePromotionsComponent },
+       { path: 'users', component: SubscriberUsersComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ]
   }

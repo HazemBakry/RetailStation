@@ -36,10 +36,10 @@ export class MenuService {
               },
               {
                 displayName: 'المشتركين',
-                menuItem: 'manage-subscriptions',
+                menuItem: 'users',
                 description: 'بيانات المشتركين',
                 icon: 'fas fa-th-large',
-                route: '/admin/manage-subscriptions'
+                route: '/admin/users'
               },
               {
                 displayName: 'طلبات الاشتراك',
@@ -48,13 +48,13 @@ export class MenuService {
                 icon: 'fas fa-th-large',
                 route: '/admin/merchant-requests'
               },
-              {
-                displayName: 'صلاحيات المشتركين',
-                menuItem: '',
-                description: 'صلاحيات المشتركين والمستخدمين',
-                icon: 'fas fa-th-large',
-                route: '/admin/roles'
-              },
+              // {
+              //   displayName: 'صلاحيات المشتركين',
+              //   menuItem: '',
+              //   description: 'صلاحيات المشتركين والمستخدمين',
+              //   icon: 'fas fa-th-large',
+              //   route: '/admin/roles'
+              // },
               {
                 displayName: 'الاقسام',
                 menuItem: 'items-categories',

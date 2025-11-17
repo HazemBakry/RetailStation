@@ -15,18 +15,19 @@ using RetailStation.Interface.Users;
 using RetailStation.Entities.DTOs.Lookups;
 using Entities.DTOs.Auth;
 using RetailStation.Entities.DTOs.Website;
+using RetailStation.Entities.Models.Subscription;
 
 namespace RetailStation.API.Controllers.Subscription
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class ManageSubscribersController : ControllerBase
+    public class ManageUsersController : ControllerBase
     {
         private readonly ISubscribersService _subscribersService;
         private readonly IAuthService _authService;
         private readonly IUsersService _usersService;
-        public ManageSubscribersController(ISubscribersService subscribersService, 
+        public ManageUsersController(ISubscribersService subscribersService,
             IAuthService authService, IUsersService usersService)
         {
             _subscribersService = subscribersService;
@@ -53,7 +54,7 @@ namespace RetailStation.API.Controllers.Subscription
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _subscribersService.EditSubscriber(SubscriberId, model);
+            var result = await _subscribersService.EditSubscriber(SubscriberId,model);
             return Ok(result);
         }
 
@@ -84,9 +85,9 @@ namespace RetailStation.API.Controllers.Subscription
             return Ok(data);
         }
         [HttpPost("EditSubscriberApplications")]
-        public IActionResult EditSubscriberApplications(string SubscriberId, List<SubscriberApplicationDto> ApplicationList)
+        public IActionResult EditSubscriberApplications( List<SubscriberApplicationDto> ApplicationList)
         {
-            var data = _subscribersService.EditSubscriberApplications(SubscriberId, ApplicationList);
+            var data = _subscribersService.EditSubscriberApplications("",ApplicationList);
             return Ok(data);
         }
 
@@ -94,7 +95,7 @@ namespace RetailStation.API.Controllers.Subscription
         [HttpPost("GetSubscriberUsers")]
         public IActionResult GetUsersForSubscriber(SearchFilterModel Model, string SubscriberId)
         {
-            var data = _usersService.GetUsers(SubscriberId,Model);
+            var data = _usersService.GetUsers(Model);
             var result = new PagedResponseModel<UserDto>
             {
                 Results = data,
@@ -107,9 +108,9 @@ namespace RetailStation.API.Controllers.Subscription
 
         #region Users
         [HttpPost("GetUsers")]
-        public async Task<IActionResult> GetUsers(string SubscriberId,[FromBody] SearchFilterModel Model)
+        public async Task<IActionResult> GetUsers([FromBody] SearchFilterModel Model)
         {
-            var users = await _usersService.GetUsersAsync(SubscriberId, Model);
+            var users = await _usersService.GetUsersAsync(Model);
             var result = new PagedResponseModel<UserDto>
             {
                 Results = users,
@@ -122,25 +123,24 @@ namespace RetailStation.API.Controllers.Subscription
 
         }
         [HttpPost("GetUserById")]
-        public async Task<IActionResult> GetUserById(string SubscriberId, string userId)
+        public async Task<IActionResult> GetUserById( string userId)
         {
 
-            var user = await _usersService.GetUserByIdAsync(SubscriberId, userId);
+            var user = await _usersService.GetUserByIdAsync(userId);
             if (user == null)
                 return NotFound();
             return Ok(user);
 
         }
         [HttpPost("AddUser")]
-        public async Task<IActionResult> AddNewUserAsync(string SubscriberId,[FromForm] AddUserModel model)
+        public async Task<IActionResult> AddNewUserAsync([FromForm] AddUserModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            model.SubscriberId = SubscriberId;
             try
             {
-                var result = await _usersService.AddNewUserAsync(SubscriberId,model);
+                var result = await _usersService.AddNewUserAsync(model);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -151,15 +151,14 @@ namespace RetailStation.API.Controllers.Subscription
 
         }
         [HttpPost("EditUser")]
-        public async Task<IActionResult> EditUser(string SubscriberId,string UserId, [FromForm] AddUserModel model)
+        public async Task<IActionResult> EditUser(string UserId, [FromForm] AddUserModel model)
         {
 
             if (!ModelState.IsValid || string.IsNullOrEmpty(model.UserId))
                 return BadRequest(ModelState);
-            model.SubscriberId = SubscriberId;
             try
             {
-                var result = await _usersService.EditUserAsync(SubscriberId, model);
+                var result = await _usersService.EditUserAsync(UserId,model);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -185,11 +184,11 @@ namespace RetailStation.API.Controllers.Subscription
 
         }
         [HttpPost("AssignUserRole")]
-        public async Task<IActionResult> AssignUserRoleAsync(string SubscriberId, string UserId,[FromBody] AddUserRoleModel model)
+        public async Task<IActionResult> AssignUserRoleAsync( string UserId,[FromBody] AddUserRoleModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var result = await _usersService.AssignUserRoleAsync(SubscriberId, UserId, model);
+            var result = await _usersService.AssignUserRoleAsync(UserId, model);
 
             return Ok(result);
 
@@ -204,7 +203,7 @@ namespace RetailStation.API.Controllers.Subscription
         [HttpGet("DeleteUser")]
         public async Task<IActionResult> DeleteUser(string userId,string SubscriberId)
         {
-            var result = await _usersService.DeleteUserAsync(SubscriberId, userId);
+            var result = await _usersService.DeleteUserAsync(userId);
             if (result is null)
             {
                 return BadRequest("user not found");
