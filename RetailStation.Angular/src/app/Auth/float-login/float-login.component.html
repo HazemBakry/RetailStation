@@ -25,7 +25,7 @@
     </div>
     <div class="modal-body">
         <div class="position-relative overflow-auto small-scroll"
-            [style.min-height]="isLoginMode ? 'calc(100vh - 430px)' : 'calc(100vh - 190px)'">
+            [style.min-height]="isLoginMode ? 'calc(100vh - 500px)' : 'calc(100vh - 200px)'">
 
             <ng-container *ngIf="isLoginMode" class="lr-form login-form">
                 <div class="d-flex flex-column gap-4">
@@ -141,7 +141,7 @@
                             </div>
                         </div>
 
-                        <div class="d-flex flex-column gap-2">
+                        <!-- <div class="d-flex flex-column gap-2">
                             <div>
                                 نوع الاشتراك (Subscriber Type)
 
@@ -213,7 +213,7 @@
                                     {{formErrors.address}}
                                 </div>
                             </div>
-                        </ng-container>
+                        </ng-container> -->
                         <button type="submit" class="btn btn-dark-green w-100 mh-xl" [disabled]="showLoader">
                             <span *ngIf="!showLoader">التسجيل</span>
                             <span *ngIf="showLoader">جاري التسجيل ...</span>

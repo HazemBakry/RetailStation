@@ -1,7 +1,8 @@
 <div *ngIf="style == 'cart'" class="quantity me-2">
     <button (click)="increment()">+</button>
     <input type="number" [value]="value" (change)="onQuantityChange($event)" [min]="minValue" class="quantity-input" />
-    <button [disabled]="value == minValue" (click)="decrement()">-</button>
+    <!-- [disabled]="value == minValue" -->
+    <button  (click)="decrement()">-</button>
 </div>
 <div *ngIf="style == 'default'" class="quantity-container d-flex align-items-center p-2 rounded shadow-sm bg-white border">
 

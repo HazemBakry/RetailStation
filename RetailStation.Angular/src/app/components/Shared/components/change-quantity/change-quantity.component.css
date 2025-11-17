@@ -34,7 +34,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 25px;
-  width: 90px;
+  width: 100px;
   background: #fff;
   border: 2px solid #ffd814;
 }
@@ -58,7 +58,7 @@
 
 /* حقل الإدخال */
 .quantity-input {
-  width: 30px;
+  width: 40px;
   text-align: center;
   font-weight: 500;
   border: none;

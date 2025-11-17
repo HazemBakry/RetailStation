@@ -1,61 +1,61 @@
-/* 
+/* ========================= Switcher =============================== */
 
 .switch {
-  position: relative;
-  display: inline-block;
-  width: 40px;
-  height: 18px;
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 18px;
 }
 
 .switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
 input[type="checkbox"] {
-  box-sizing: border-box;
-  padding: 0;
+    box-sizing: border-box;
+    padding: 0;
 }
 
 input:checked+.slider {
-  background-color: #cff6c1;
-  border: 2px solid #205616;
+    background-color: #cff6c1;
+    border: 2px solid #205616;
 }
 
 .slider.round {
-  border-radius: 34px;
+    border-radius: 34px;
 }
 
 .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #dedede;
-  border: 2px solid #575757;
-  transition: 0.4s;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #dedede;
+    border: 2px solid #575757;
+    transition: .4s;
 }
 
 input:checked+.slider:before {
-  -ms-transform: translateX(20px);
-  transform: translate(20px);
-  background-color: #097a0e;
+    -ms-transform: translateX(20px);
+    transform: translate(20px);
+    background-color: #097a0e;
 }
 
 .slider.round:before {
-  border-radius: 50%;
+    border-radius: 50%;
 }
 
 .slider:before {
-  position: absolute;
-  content: "";
-  height: 12px;
-  width: 12px;
-  left: 2px;
-  bottom: 1px;
-  background-color: #747474;
-  transition: 0.4s;
-} */
+    position: absolute;
+    content: "";
+    height: 12px;
+    width: 12px;
+    left: 2px;
+    bottom: 1px;
+    background-color: #747474;
+    transition: .4s;
+}

@@ -360,7 +360,8 @@ namespace RetailStation.Services.Subscription
                         Password = model.Password,
                         Email = model.Email,
                         PhoneNumber = model.PhoneNumber,
-                        MerchantId = response.Id
+                        MerchantId = response.Id,
+                        SubscriberTypeId = SubscriberType.Supplier
                     };
                     response = AuthService.RegisterAsync(reqisterModel).Result;
                 }

@@ -43,7 +43,7 @@
                 </li> -->
             </ul>
             <ul class="navbar-nav mb-2 mb-lg-0 gap-2">
-                <li class="nav-item">
+                <li appRole [roles]="'Merchant'"  class="nav-item">
                     <a class="nav-link justify-content-md-start" routerLink="/merchant">
                         <img src="{{systemUrl}}assets/home.svg" class="nw-header-icon-link-img" alt="Home" loading="lazy" />
                     </a>
@@ -54,8 +54,8 @@
                         <!-- <span class="nav-link-text">Ar</span> -->
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link justify-content-md-start" routerLink="/admin/home">
+                <li appRole [roles]="'SuperAdmin'" class="nav-item">
+                    <a  class="nav-link justify-content-md-start" routerLink="/admin/home">
                         <img src="{{systemUrl}}assets/settings.svg" class="nw-header-icon-link-img" alt="SettingsImage" loading="lazy" />
                     </a>
                 </li>

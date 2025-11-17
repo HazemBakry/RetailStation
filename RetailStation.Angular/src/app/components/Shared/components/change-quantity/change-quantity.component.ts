@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-change-quantity',
@@ -7,11 +8,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class ChangeQuantityComponent implements OnInit {
 
-  @Input() style: 'default'|'cart' = 'default';
+  @Input() style: 'default' | 'cart' = 'default';
   @Input() value!: number;
-  @Input() minValue: number=1;
+  @Input() minValue: number = 1;
   @Output() valueChange = new EventEmitter<number>();
 
+  constructor(private toaster: ToastrService
+  ) { }
   ngOnInit(): void {
   }
   increment(): void {
@@ -20,9 +23,13 @@ export class ChangeQuantityComponent implements OnInit {
   }
 
   decrement(): void {
-    if (this.value > 1) {
+    if (this.value > 1 && this.value > this.minValue) {
       const newQuantity = this.value - 1;
       this.valueChange.emit(newQuantity);
+    }
+    else
+    {
+      this.toaster.warning('أقل عدد للكمية هو ' + this.minValue, 'تحذير');
     }
   }
   onQuantityChange(event: Event): void {
@@ -32,6 +39,9 @@ export class ChangeQuantityComponent implements OnInit {
     if (isNaN(newQuantity) || newQuantity < this.minValue) {
       console.error('Invalid quantity entered. Quantity must be a positive number.');
       inputElement.value = this.value.toString();
+      if (newQuantity < this.minValue) {
+        this.toaster.warning('أقل عدد للكمية هو ' + this.minValue, 'تحذير');
+      }
       return;
     }
 

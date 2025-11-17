@@ -23,7 +23,7 @@ export class AuthPageGuard implements CanActivate {
       this.authService.loginRedirect();
       return false;
     }
-
+    return true; // hashed till we work on register pages
     const pageName: string = route.data["pageName"];
     if (!pageName || !this.authService.haveActionPermission(this.authService.VIEW_ACTION_NAME, pageName)) {
       this.router.navigateByUrl('/unauthorized');

@@ -29,7 +29,8 @@
 
                 <div class="cart-container">
                     <div class="d-flex align-items-center gap-2 position-relative border-bottom">
-                        <img src="../../../../../assets/strong-offet-icon-2.svg" class="header-offer-icon" alt="offer-icon" loading="lazy" />
+                        <img src="../../../../../assets/strong-offet-icon-2.svg" class="header-offer-icon"
+                            alt="offer-icon" loading="lazy" />
 
                         <h2 class="cart-title">عربة التسوق</h2>
                     </div>
@@ -50,7 +51,9 @@
                                 </div>
                             </div>
                             <div class="item-actions d-flex mt-2">
-                                <app-change-quantity [style]="'cart'" [value]="item.quantity" [minValue]="item.minimumOrderQuantity ?? 1" (valueChange)="changeQuantity_New(item, $event)"></app-change-quantity>
+                                <app-change-quantity [style]="'cart'" [value]="item.quantity"
+                                    [minValue]="item.minimumOrderQuantity ?? 1"
+                                    (valueChange)="changeQuantity_New(item, $event)"></app-change-quantity>
                                 <a class="mt-2 cursor-pointer" (click)="removeItem(item)">احذف</a>
                             </div>
                         </div>
@@ -74,8 +77,10 @@
 
 
                 <div *ngIf="!cartItems.length">
-                    <div class="d-flex align-items0-center justify-content-center bg-white radius-10 flex-column text-center w-100 height-300">
-                        <img src="{{systemUrl}}assets/table-action-start.svg" width="60px" alt="" class="table-action-img">
+                    <div
+                        class="d-flex align-items0-center justify-content-center bg-white radius-10 flex-column text-center w-100 height-300">
+                        <img src="{{systemUrl}}assets/table-action-start.svg" width="60px" alt=""
+                            class="table-action-img">
                         <div class="mt-2 fs-16">عربة التسوق فارغة</div>
                     </div>
                 </div>
@@ -83,6 +88,57 @@
 
             <div class="col-md-3 gap-3 flex-wrap">
                 <div class="main-item-card-content bg-white d-flex flex-wrap gap-3 border radius-10 p-3">
+
+                    <!-- ================= ENHANCED VALID COUPONS LIST ================= -->
+                    <div class="w-100 mt-3" *ngIf="couponsList?.length">
+                        <div class="fw-bold mb-2 fs-5">الكوبونات المتاحة</div>
+
+                        <div class="d-flex flex-column gap-2">
+                            <div *ngFor="let promo of couponsList"
+                                class="d-flex flex-column p-3 border shadow-sm radius-10 bg-light">
+
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="fw-bold fs-6">{{ promo.code }}</span>
+                                    <span class="fw-bold text-white px-2 py-1 radius-5"
+                                        [ngClass]="promo.isPercentage ? 'bg-primary' : 'bg-success'">
+                                        {{ promo.isPercentage ? promo.discountValue + '%' : promo.discountValue + ' ر.س'}}
+                                    </span>
+                                </div>
+
+                                <div *ngIf="promo.minValue" class="text-muted small">
+                                    صالح للطلبات بقيمة اكبر من {{ promo.minValue }} ر.س
+                                </div>
+
+                                <!-- <div class="text-muted small fst-italic mt-1">
+                                    كوبون صالح للاستخدام مرة واحدة لكل طلب
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ================= END ENHANCED DISPLAY ================= -->
+
+                    <!-- ================= ADD THIS STYLISH COUPON SECTION ================= -->
+                    <div class="w-100 mt-3">
+                        <div class="d-flex gap-2">
+                            <!-- Coupon input -->
+                            <input type="text" class="form-control border radius-10 p-2" placeholder="أدخل الكوبون"
+                                [(ngModel)]="couponCode" />
+
+                            <!-- Apply button -->
+                            <button class="btn btn-success flex-shrink-0 radius-10 px-4" (click)="applyCoupon()">
+                                تطبيق
+                            </button>
+                        </div>
+
+                        <!-- Message -->
+                        <div *ngIf="couponMessage"
+                            [ngClass]="{'text-success': couponValid, 'text-danger': !couponValid}"
+                            class="fw-bold mt-2 small">
+                            {{ couponMessage }}
+                        </div>
+                    </div>
+                    <!-- ================= END ADDITION ================= -->
+
                     <table class="table table-borderless text-right bg-white" style="line-height:30px">
                         <tbody>
                             <tr>
@@ -109,7 +165,8 @@
                     </table>
 
 
-                    <button *ngIf="isAuthenticated" [disabled]="!cartItems.length || totalValue <= 0" class="complete-purchase-action border p-3 w-100 cursor-pointer radius-10" (click)="nextStep()">
+                    <button *ngIf="isAuthenticated" [disabled]="!cartItems.length || totalValue <= 0"
+                        class="complete-purchase-action border p-3 w-100 cursor-pointer radius-10" (click)="nextStep()">
                         <!-- (click)="createOrder()" -->
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <i class="ph ph ph-credit-card fs-4"></i>
@@ -138,16 +195,19 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="fullName" class="form-label">الاسم الكامل</label>
-                                <input type="text" class="form-control" id="fullName" name="fullName" [(ngModel)]="shippingData.fullName" required>
+                                <input type="text" class="form-control" id="fullName" name="fullName"
+                                    [(ngModel)]="shippingData.fullName" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="phoneNumber" class="form-label">رقم الهاتف</label>
-                                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" [(ngModel)]="shippingData.phoneNumber" required>
+                                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber"
+                                    [(ngModel)]="shippingData.phoneNumber" required>
                             </div>
 
                             <div class="col-md-6">
                                 <label for="country" class="form-label">البلد</label>
-                                <select (change)="onCountryChange($event.target.value)" class="form-select" id="country" name="country" [(ngModel)]="shippingData.countryId" required>
+                                <select (change)="onCountryChange($event.target.value)" class="form-select" id="country"
+                                    name="country" [(ngModel)]="shippingData.countryId" required>
                                     <option value="" disabled>اختر البلد...</option>
                                     <option *ngFor="let country of countriesSelectorData" [value]="country.value">
                                         {{country.name}}</option>
@@ -157,7 +217,9 @@
                                 <label for="city" class="form-label">المدينة</label>
                                 <!-- <input type="text" class="form-control" id="city" name="city"
                                     [(ngModel)]="shippingData.city" required> -->
-                                <select [disabled]="!shippingData.countryId" (change)="setSelectorsNames()" class="form-select" id="city" name="city" [(ngModel)]="shippingData.cityId" required>
+                                <select [disabled]="!shippingData.countryId" (change)="setSelectorsNames()"
+                                    class="form-select" id="city" name="city" [(ngModel)]="shippingData.cityId"
+                                    required>
                                     <option value="" disabled>اختر المدينة...</option>
                                     <option *ngFor="let city of citiesSelectorData" [value]="city.value">
                                         {{city.name}}</option>
@@ -166,12 +228,14 @@
 
                             <div class="col-12">
                                 <label for="fullAddress" class="form-label">العنوان الكامل (الشارع، رقم المبنى)</label>
-                                <textarea class="form-control" id="fullAddress" name="fullAddress" [(ngModel)]="shippingData.fullAddress" rows="3" required></textarea>
+                                <textarea class="form-control" id="fullAddress" name="fullAddress"
+                                    [(ngModel)]="shippingData.fullAddress" rows="3" required></textarea>
                             </div>
 
                             <div class="col-12">
                                 <label for="notes" class="form-label">ملاحظات إضافية للتوصيل</label>
-                                <textarea class="form-control" id="notes" name="notes" [(ngModel)]="shippingData.notes" rows="2"></textarea>
+                                <textarea class="form-control" id="notes" name="notes" [(ngModel)]="shippingData.notes"
+                                    rows="2"></textarea>
                             </div>
                         </div>
                     </form>
@@ -180,7 +244,8 @@
                         <button class="btn btn-outline-secondary" (click)="prevStep()">
                             <i class="ph ph-arrow-right me-2"></i> العودة للسلة
                         </button>
-                        <button class="btn complete-purchase-action" (click)="nextStep()" [disabled]="shippingForm.invalid">
+                        <button class="btn complete-purchase-action" (click)="nextStep()"
+                            [disabled]="shippingForm.invalid">
                             متابعة إلى الدفع <i class="ph ph-arrow-left ms-2"></i>
                         </button>
                     </div>
@@ -197,7 +262,8 @@
                         ملخص الطلب
                     </h3>
 
-                    <div *ngFor="let item of cartItems" class="d-flex justify-content-between align-items-center border-bottom py-2">
+                    <div *ngFor="let item of cartItems"
+                        class="d-flex justify-content-between align-items-center border-bottom py-2">
                         <div class="d-flex align-items-center">
                             <span class="badge bg-secondary me-2">{{item.quantity}}x</span>
                             <span class="text-truncate" style="max-width: 250px;">{{item.nameAR}}</span>
@@ -221,16 +287,21 @@
                     <h3 class="border-bottom pb-2 mb-3">اختيار طريقة الدفع</h3>
 
                     <div class="payment-methods d-flex flex-column gap-3">
-                        <div class="form-check payment-option p-3 border radius-10" [class.active]="paymentData.paymentMethodId ==1">
-                            <input (click)="setSelectorsNames()" class="form-check-input" type="radio" name="paymentMethodId" id="cash" [value]="1" [(ngModel)]="paymentData.paymentMethodId">
+                        <div class="form-check payment-option p-3 border radius-10"
+                            [class.active]="paymentData.paymentMethodId ==1">
+                            <input (click)="setSelectorsNames()" class="form-check-input" type="radio"
+                                name="paymentMethodId" id="cash" [value]="1" [(ngModel)]="paymentData.paymentMethodId">
                             <label class="form-check-label fw-bold me-4" for="cash">
                                 الدفع عند الاستلام (COD)
                             </label>
                             <p class="text-muted small me-4 mb-0">رسوم إضافية قد تطبق.</p>
                         </div>
 
-                        <div class="form-check payment-option p-3 border radius-10" [class.active]="paymentData.paymentMethodId == 2">
-                            <input (click)="setSelectorsNames()" class="form-check-input" type="radio" name="paymentMethodId" id="Credit" [value]="2" [(ngModel)]="paymentData.paymentMethodId">
+                        <div class="form-check payment-option p-3 border radius-10"
+                            [class.active]="paymentData.paymentMethodId == 2">
+                            <input (click)="setSelectorsNames()" class="form-check-input" type="radio"
+                                name="paymentMethodId" id="Credit" [value]="2"
+                                [(ngModel)]="paymentData.paymentMethodId">
                             <label class="form-check-label fw-bold me-4" for="Credit">
                                 بطاقة ائتمان / مدى
                             </label>
@@ -239,18 +310,24 @@
                             </div>
                         </div>
 
-                        <div class="form-check payment-option p-3 border radius-10" [class.active]="paymentData.paymentMethodId == 3">
-                            <input (click)="setSelectorsNames()" class="form-check-input" type="radio" name="paymentMethodId" id="Credit" [value]="3" [(ngModel)]="paymentData.paymentMethodId">
+                        <div class="form-check payment-option p-3 border radius-10"
+                            [class.active]="paymentData.paymentMethodId == 3">
+                            <input (click)="setSelectorsNames()" class="form-check-input" type="radio"
+                                name="paymentMethodId" id="Credit" [value]="3"
+                                [(ngModel)]="paymentData.paymentMethodId">
                             <label class="form-check-label fw-bold me-4" for="Credit">
-                               تابى
+                                تابى
                             </label>
                             <div *ngIf="paymentData.paymentMethodId == 3" class="card-form mt-2 me-4">
                                 <small class="text-danger">سيتم تحويلك لصفحة الدفع الآمنة بعد التأكيد.</small>
                             </div>
                         </div>
 
-                        <div class="form-check payment-option p-3 border radius-10" [class.active]="paymentData.paymentMethodId == 4">
-                            <input (click)="setSelectorsNames()" class="form-check-input" type="radio" name="paymentMethodId" id="Credit" [value]="4" [(ngModel)]="paymentData.paymentMethodId">
+                        <div class="form-check payment-option p-3 border radius-10"
+                            [class.active]="paymentData.paymentMethodId == 4">
+                            <input (click)="setSelectorsNames()" class="form-check-input" type="radio"
+                                name="paymentMethodId" id="Credit" [value]="4"
+                                [(ngModel)]="paymentData.paymentMethodId">
                             <label class="form-check-label fw-bold me-4" for="Credit">
                                 تمويل مشتريات
                             </label>
@@ -294,7 +371,8 @@
                     <button class="btn btn-outline-secondary" (click)="prevStep()">
                         <i class="ph ph-arrow-right me-2"></i> العودة للعنوان
                     </button>
-                    <button [disabled]="showCreateOrderLoader" class="btn complete-purchase-action p-3" (click)="createOrder()">
+                    <button [disabled]="showCreateOrderLoader" class="btn complete-purchase-action p-3"
+                        (click)="createOrder()">
                         <span *ngIf="!showCreateOrderLoader">
                             تأكيد الطلب والدفع
                         </span>

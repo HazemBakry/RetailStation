@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/Auth/auth.service';
 import { TotalValuePromotionModel } from 'src/app/components/Admin/models/TotalValuePromotion';
 import { GeneralSelectorModel } from 'src/app/components/Shared/components/general-selector/general-selector.component';
 import { LookupService } from 'src/app/components/Shared/services/lookup.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-website-cart',
@@ -22,8 +23,8 @@ import { LookupService } from 'src/app/components/Shared/services/lookup.service
 export class WebsiteCartComponent implements OnInit {
   defaultImage: string = `${environment.systemUrl}${environment.defaultImage}`;
 
-  showLoader: boolean=false;
-  showCreateOrderLoader: boolean=false;
+  showLoader: boolean = false;
+  showCreateOrderLoader: boolean = false;
   orderNumber: string = '';
   orderDate: string;
   cartList: CartModel[] = [];
@@ -42,6 +43,7 @@ export class WebsiteCartComponent implements OnInit {
   cartItems: MerchantItemModel[] = [];
   compareCount$: number = 0;
   isAuthenticated: boolean = false;
+  couponsList: TotalValuePromotionModel[] = [];
   activePromotion: TotalValuePromotionModel;
   countriesSelectorData: GeneralSelectorModel[] = [];
   paymentMethodsSelectorData: GeneralSelectorModel[] = [];
@@ -68,6 +70,7 @@ export class WebsiteCartComponent implements OnInit {
   constructor(private offcanvasService: NgbOffcanvas,
     private sharedService: SharedService,
     private router: Router,
+    private toaster: ToastrService,
     private cartService: CartService,
     private modalService: NgbModal,
     private authService: AuthService,
@@ -126,9 +129,9 @@ export class WebsiteCartComponent implements OnInit {
       .GetWebsiteTotalValuePromotions(this.pageResponseModel)
       .subscribe(
         (data) => {
-          this.activePromotion = data.results.length > 0 ? data.results[0] : null;
-
-          this.calculateCartSummary();
+          this.couponsList = data.results;
+          //this.activePromotion = data.results.length > 0 ? data.results[0] : null;
+          //this.calculateCartSummary();
         },
         (err) => {
         },
@@ -161,6 +164,7 @@ export class WebsiteCartComponent implements OnInit {
     } else {
       item.quantity = minimumOrderQuantity;
       this.cartService.changeItemQuantity(item.merchantItemId, minimumOrderQuantity);
+      this.toaster.warning('أقل عدد للطلبات هو ' + minimumOrderQuantity, 'تحذير');
     }
     this.setQuantity();
   }
@@ -366,6 +370,46 @@ export class WebsiteCartComponent implements OnInit {
     this.orderModel.notes = this.shippingData.notes;
     this.orderModel.paymentTypeId = this.paymentData.paymentMethodId;
     this.orderModel.phoneNumber = this.shippingData.phoneNumber;
+  }
+
+
+
+  couponCode: string = '';
+  couponMessage: string = '';
+  couponValid: boolean = false;
+
+  applyCoupon() {
+    if (!this.couponCode) {
+      this.couponMessage = 'الرجاء إدخال الكوبون';
+      this.couponValid = false;
+      return;
+    }
+    this.activePromotion = this.couponsList.find(c => c.code == this.couponCode);
+    if (this.activePromotion) {
+      const discountText = this.activePromotion.isPercentage
+        ? `${this.activePromotion.discountValue}%`
+        : `${this.activePromotion.discountValue} ر.س`;
+
+      const minValueText = this.activePromotion.minValue
+        ? ` على الطلبات أكثر من ${this.activePromotion.minValue} ر.س`
+        : '';
+
+      this.couponMessage = `تم تطبيق الكوبون بنجاح! خصم ${discountText}${minValueText}`;
+      this.couponValid = true;
+      // Update totalValue based on promotion
+      // if (this.activePromotion.isPercentage) {
+      //   this.discount += this.totalValue * (this.activePromotion.discountValue / 100);
+      // } else {
+      //   this.discount += this.activePromotion.discountValue;
+      // }
+      // this.totalValue -= this.discount;
+    } else {
+      this.couponMessage = 'الكوبون غير صالح';
+      this.couponValid = false;
+    }
+        this.calculateCartSummary();
+
+
   }
 }
 

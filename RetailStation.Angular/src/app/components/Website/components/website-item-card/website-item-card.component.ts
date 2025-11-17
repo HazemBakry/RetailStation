@@ -117,7 +117,7 @@ export class WebsiteItemCardComponent implements OnInit {
       item.quantity = minimumOrderQuantity;
       this.cartService.changeItemQuantity(item.merchantItemId, minimumOrderQuantity);
     }
-    //this.setQuantity();
+    this.checkCartAdded();
   }
 
   //   setQuantity() {

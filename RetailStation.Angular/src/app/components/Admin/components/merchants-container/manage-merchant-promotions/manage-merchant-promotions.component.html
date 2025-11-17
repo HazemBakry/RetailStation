@@ -2,19 +2,19 @@
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
     <div
-        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
-        <div class="d-flex align-items-center gap-2">
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-2 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2 p-2">
 
         </div>
-        <div class="justify-content-end">
+        <!-- <div class="justify-content-end">
             <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
                 [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-pagination>
-        </div>
+        </div> -->
     </div>
 
     <div class="p-3 bg-white">
         <div class="table-responsive shadow-sm radius-10">
-            <table class="table table-card-table table-borderless table-middle table-hover bg-transparent m-0">
+            <table class="table table-card-table table-borderless table-hover bg-transparent m-0">
                 <thead>
                     <tr>
                         <th>الاسم</th>
@@ -45,21 +45,23 @@
                                 (error)="$event.target.src = defaultImage" class="rounded"
                                 style="width: 100px;height:100px" width="30" height="20">
                         </td>
-                        <td class="text-center">
-                            <div class="d-flex align-items-center gap-2">
-                                <label class="switch me-2">
-                                    <input type="checkbox" [(ngModel)]="promo.isAdminApproved"
-                                        (change)="approvePromotionToDisplay(promo.promotionId)">
-                                    <span class="promo round"></span>
-                                </label>
-
-                            </div>
+                        <td>
+                            <label class="switch me-2">
+                                <input type="checkbox" [(ngModel)]="promo.isAdminApproved"
+                                    (change)="approvePromotionToDisplay(promo.promotionId)"
+                                    class="ng-valid ng-dirty ng-touched">
+                                <span class="slider round"></span>
+                            </label>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length && !showLoader"
                 [showLoader]="showLoader"></app-empty-data>
+        </div>
+        <div class="p-3 border-top mt-3" style="direction: ltr;">
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
+                [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-pagination>
         </div>
     </div>
 </div>

@@ -128,7 +128,7 @@
                                 <i class="ph ph-squares-four"></i>
                                 <div routerLink="/user-panel">لوحة التحكم</div>
                             </div> -->
-                            <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
+                            <div appRole [roles]="'Merchant'" class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" ngbDropdownItem>
                                 <i class="ph ph-squares-four"></i>
                                 <div routerLink="/merchant">لوحة تحكم التاجر</div>
                             </div>

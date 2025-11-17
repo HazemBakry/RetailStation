@@ -174,7 +174,7 @@
     </div>
 
     <!-- Bottom Section: Actions -->
-    <div class="mt-3 d-flex align-items-center justify-content-between">
+    <div class="mt-3 d-flex align-items-center justify-content-between gap-2">
         <!-- <button (click)="addToCart()"
             class="btn btn-success d-flex align-items-center gap-2 flex-fill justify-content-center">
             <i class="ph ph-shopping-cart"></i>
@@ -202,7 +202,7 @@
 
         <ng-container *ngIf="isItemInCart">
             <div class="item-actions d-flex mt-2">
-                <app-change-quantity [style]="'cart'" [value]="item.quantity" [minValue]="item.minimumOrderQuantity ?? 1" (valueChange)="changeQuantity_New(item, $event)"></app-change-quantity>
+                <app-change-quantity [style]="'cart'" [value]="itemQuantity" [minValue]="item.minimumOrderQuantity ?? 1" (valueChange)="changeQuantity_New(item, $event)"></app-change-quantity>
                 <a class="mt-2 cursor-pointer" (click)="removeItem(item)">احذف</a>
             </div>
         </ng-container>
