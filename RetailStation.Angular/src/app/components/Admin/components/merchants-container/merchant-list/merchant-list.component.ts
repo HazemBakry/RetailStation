@@ -73,6 +73,7 @@ export class MerchantListComponent implements OnInit {
   }
 
   filterChecked(filterItems: FilterItem[]) {
+    this.pagedResponseModel.currentPage = 1;
     this.pagedResponseModel.filterList = filterItems;
     this.loadData();
   }

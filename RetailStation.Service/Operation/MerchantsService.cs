@@ -9,6 +9,7 @@ using RetailStation.Interface.Operation;
 using RetailStation.Service.Common;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,12 +34,14 @@ namespace RetailStation.Service.Operation
 
         public List<MerchantModel> GetMerchants_Data(SearchFilterModel model, int? MerchantId = null)
         {
-            var cities = Context.Cities.ToList();
-            var contries = Context.Countries.ToList();
-            var regions = Context.Regions.ToList();
-            var payments = LookupsDbContext.PaymentMethods.ToList();
+            string searchText = model.FilterList.FirstOrDefault(x => x.CategoryName == "SearchText")?.ItemFlag;
+            var cities = Context.Cities.AsNoTracking();
+            var contries = Context.Countries.AsNoTracking();
+            var regions = Context.Regions.AsNoTracking();
+            var payments = LookupsDbContext.PaymentMethods.AsNoTracking();
             var query = from merchant in Context.Merchants
-                        where !MerchantId.HasValue || merchant.MerchantId == MerchantId
+                        where (!MerchantId.HasValue || merchant.MerchantId == MerchantId)
+                        && (string.IsNullOrEmpty(searchText) || merchant.NameAR == searchText || merchant.NameEN == searchText)
                         select new MerchantModel
                         {
                             MerchantId = merchant.MerchantId,
