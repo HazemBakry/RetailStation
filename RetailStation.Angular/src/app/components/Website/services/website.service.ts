@@ -100,8 +100,11 @@ export class WebsiteService {
   SearchAutoComplete(searchText: string) {
     return this.http.get<SearchAutoCompleteModel[]>(this.URL + 'Website/SearchAutoComplete?SearchText=' + searchText);
   }
+  GetCountriesSelector() {
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Website/GetCountriesSelector');
+  }
   GetCitiesSelector(countryId: number = null) {
     const param = countryId !== null ? `?CountryId=${countryId}` : '';
-    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Shared/GetCitiesSelector' + param);
+    return this.http.get<GeneralSelectorModel[]>(this.URL + 'Website/GetCitiesSelector' + param);
   }
 }

@@ -253,6 +253,14 @@ namespace RetailStation.API.Controllers.Website
             var result = _websiteService.SearchAutoComplete(SearchText);
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("GetCountriesSelector")]
+        public IActionResult GetCountriesSelector()
+        {
+            var result = _sharedService.GetCountriesSelector();
+            return Ok(result);
+        }
         [HttpGet]
         [Route("GetCitiesSelector")]
         public IActionResult GetCitiesSelector(int? CountryId = null)
@@ -260,5 +268,6 @@ namespace RetailStation.API.Controllers.Website
             var results = _sharedService.GetCitiesSelector(CountryId);
             return Ok(results);
         }
+
     }
 }

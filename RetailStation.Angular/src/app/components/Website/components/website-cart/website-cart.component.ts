@@ -317,7 +317,7 @@ export class WebsiteCartComponent implements OnInit {
     });
   }
   loadSelectors() {
-    this.sharedService.GetCountriesSelector().subscribe((data: GeneralSelectorModel[]) => {
+    this.websiteService.GetCountriesSelector().subscribe((data: GeneralSelectorModel[]) => {
       this.countriesSelectorData = data;
     });
     this.paymentMethodsSelectorData = this.sharedService.paymentMethodsSelectorData;
@@ -333,7 +333,7 @@ export class WebsiteCartComponent implements OnInit {
       this.loadCitiesByCountryId(value);
   }
   loadCitiesByCountryId(countryId: number) {
-    this.sharedService.GetCitiesSelector(countryId).subscribe((data: GeneralSelectorModel[]) => {
+    this.websiteService.GetCitiesSelector(countryId).subscribe((data: GeneralSelectorModel[]) => {
       this.citiesSelectorData = data;
     });
   }
